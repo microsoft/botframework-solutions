@@ -22,8 +22,8 @@ These events are then processed by the Custom Assistant which can react immediat
 
 At the time of writing the following events are supported out of the box and persist values into a User State concept. These are used by the Skills currently in-place.
 
-- Name: `IPA.Location`, Value: TimeZoneInfo Identifier (e.g. Pacific Standard Time)
-- Name: `IPA.Timezone`, Value: `latitude`,`latitude`
+- Name: `IPA.Location`, Value: `latitude`,`latitude`
+- Name: `IPA.Timezone`, Value: TimeZoneInfo Identifier (e.g. Pacific Standard Time)
 
 > The mechanism for sharing User information between the Custom Assistant and Skills is expected to change in a future release. 
 > 
