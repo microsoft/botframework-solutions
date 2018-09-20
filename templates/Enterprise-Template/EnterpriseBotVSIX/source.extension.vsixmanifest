@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="EnterpriseBotTemplate.82cb8299-0d0d-4299-a08d-83ef19b3a60b" Version="1.0" Language="en-US" Publisher="Lauren Mills" />
+        <Identity Id="EnterpriseBotTemplate.82cb8299-0d0d-4299-a08d-83ef19b3a60b" Version="1.0" Language="en-US" Publisher="Microsoft" />
         <DisplayName>Enterprise Bot Template</DisplayName>
         <Description xml:space="preserve">Project template for advanced bot scenarios using the Bot Builder SDK V4.</Description>
     </Metadata>
