@@ -1,15 +1,4 @@
----
-title: Custom Assistant Testing | Microsoft Docs
-description: Learn about how to test your Custom Assistant
-author: darrenj
-ms.author: darrenj
-manager: kamrani
-ms.topic: article
-ms.prod: bot-framework
-ms.date: 13/12/2018
-monikerRange: 'azure-bot-service-3.0'
----
-# Custom Assistant Testing 
+# Custom Assistant Testing
 
 ## Overview
 
