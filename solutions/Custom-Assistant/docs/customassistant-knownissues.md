@@ -1,14 +1,4 @@
----
-title: Custom Assistant and Skills Known Issues | Microsoft Docs
-description: Known Issues with the Custom Assistant and Skills
-author: darrenj
-ms.author: darrenj
-manager: kamrani
-ms.topic: article
-ms.prod: bot-framework
-ms.date: 13/12/2018
-monikerRange: 'azure-bot-service-3.0'
----
+# Custom Assistant Known Issues
 
 ## Overview
 
