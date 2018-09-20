@@ -67,35 +67,28 @@ The Custom Assistant extends across a broad number of industry scenarios, exampl
 
 - Hospitality: Voice enabled Personal Assistant integrated into a hotel-room device providing a broad range of Hospitality focused scenarios (e.g. extend your stay, request late checkout, room service) including concierge and the ability to find local restuarants and attractions. Optional linking to your Productivity accounts open up more personalised experiences such as suggested alarm calls, Weather warnings and learning of patterns across stays. An evolution of the current TV personalisation experienced in room today.
 
-- Enterprise: Voice and Text enabled branded Employee Assistant experiences integrated into enterprise devices and existing conversation canvases (e.g. Teams, WebChat, Slack) enabling employees to manage their calendars, find available meeting rooms, find people with specific skills or perform HR related operations. 
+- Enterprise: Voice and Text enabled branded Employee Assistant experiences integrated into enterprise devices and existing conversation canvases (e.g. Teams, WebChat, Slack) enabling employees to manage their calendars, find available meeting rooms, find people with specific skills or perform HR related operations.
 
 ## Documentation
 
 - Custom Assistant
-    - Overview
-    - [Detailed Overview](./detailedoverview.md)
-    - Device Integration
-    - Events
-    - Known Issues
-    - Linked Accounts
-    - Responses
-    - Testing
-
-    | Skills
-        | Overview
-        | Adding a Skill
-        | Creating a Skill
-        | Productivity - Calendar Skill
-        | Productivity - Email Skill
-        | Productivity - Tasks Skill
-        | Point of Interest Skill
-        
-
-
-- [Create your Custom Assistant](./customassistant-createcustomassistant.md)
-- [Testing your Custom Assistant](./customassistant-testing.md)
-- [Add a Skill](./customassistant-addingaskill.md)
-- [Integrate into a device](./customassistant-deviceintegration.md)
+    - [Detailed Overview](./customassistant/detailedoverview.md)
+    - [Create your Custom Assistant](./customassistant-createcustomassistant.md)
+    - [Testing your Custom Assistant](./customassistant-testing.md)
+    - [Integrate into a device](./customassistant-deviceintegration.md)
+    - [Events](./customassistant-events.md)
+    - [Linked Accounts](./customassistant-linkedaccounts.md)
+    - [Responses](./customassistant-responses.md)
+    - [Language Support](./customassistant-languagesupport.md)
+    - [Known Issues](./customassistant-knownissues.md)
+- Skills
+    - [Overview](./customassistant-skills.md)
+    - [Adding a Skill](./customassistant-addingskill.md)
+    - [Creating a Skill](./customassistant-skillenablement.md)
+    - [Productivity - Calendar Skill](./customassistant-skills-productivity-calendar.md)
+    - [Productivity - Email Skill](./customassistant-skills-productivity-email.md)
+    - [Productivity - Tasks Skill](./customassistant-skills-productivity-tasks.md)
+    - [Point of Interest Skill](./customassistant-skills-pointofinterest.md)
 
 # Contributing
 
