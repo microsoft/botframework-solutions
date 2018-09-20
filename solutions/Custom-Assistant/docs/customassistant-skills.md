@@ -17,7 +17,7 @@ The design goals for the Custom Assistant Skills are to provide a way to plug-in
 
 Therefore a Skill, looks and feels just like a regular Bot apart from some additional code to handle the different invocation pattern. The same Bot protocol is maintained between the Custom Assistant and Skills ensuring a consistent approach and providing additional deployment options in the future - e.g. Out of Process invocation using HTTP.
 
-This enables delivery of Skills for common scenarios such as Productivity (Calender, Email and Tasks) and Points of Interest which can then be used as-is or customised in any way as the accompanying lanugage model, dialog and integration code is provided.
+This enables delivery of Skills for common scenarios such as Productivity (Calender, Email and Tasks) and Points of Interest which can then be used as-is or customised in any way as the accompanying language model, dialog and integration code is provided.
 
 > The Skill functionality for Custom Assistants will inform the broader Azure Bot Service skill approach moving forward.
 
