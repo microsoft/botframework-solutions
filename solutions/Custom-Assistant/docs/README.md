@@ -1,4 +1,4 @@
-# Custom Assistant Overview
+# Custom Assistant Solution Overview
 
 ## Overview
 
@@ -69,7 +69,28 @@ The Custom Assistant extends across a broad number of industry scenarios, exampl
 
 - Enterprise: Voice and Text enabled branded Employee Assistant experiences integrated into enterprise devices and existing conversation canvases (e.g. Teams, WebChat, Slack) enabling employees to manage their calendars, find available meeting rooms, find people with specific skills or perform HR related operations. 
 
-## Getting Started
+## Documentation
+
+- Custom Assistant
+    - Overview
+    - [Detailed Overview](./detailedoverview.md)
+    - Device Integration
+    - Events
+    - Known Issues
+    - Linked Accounts
+    - Responses
+    - Testing
+
+    | Skills
+        | Overview
+        | Adding a Skill
+        | Creating a Skill
+        | Productivity - Calendar Skill
+        | Productivity - Email Skill
+        | Productivity - Tasks Skill
+        | Point of Interest Skill
+        
+
 
 - [Create your Custom Assistant](./customassistant-createcustomassistant.md)
 - [Testing your Custom Assistant](./customassistant-testing.md)
