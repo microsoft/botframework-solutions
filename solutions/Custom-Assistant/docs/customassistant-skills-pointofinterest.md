@@ -17,11 +17,19 @@ The Point of Interest Skill provides PoI related capabilities to a Custom Assist
 ## Supported Scenarios
 The following scenarios are currently supported by the Skill:
 
-- ABC
-    - Example utterance 1
-    - Example utterance 2
-- DEF
-    - ..
+- NAVIGATION_ROUTE_FROM_X_TO_Y
+    - What's the fastest way to get to 221B Baker Street?
+    - How do I get to the grocery store?
+    - I need directions to a cafe
+- NAVIGATION_FIND_POINTOFINTEREST
+    - What's nearby?
+    - Are there any pharmacies in town?
+    - Can you recommend an affordable restaurant in Seattle?
+- NAVIGATION_CANCEL_ROUTE
+    - I don't want to go to the shop anymore
+    - Would you cancel my route?
+    - On second thought, forget going to the airport
+
 
 ## Supported Sources
 
@@ -66,17 +74,20 @@ The following Configuration entries are required to be passed to the Skill and a
 ```
 
 ## LUIS Model Intents and Entities
-LUIS models for the Skill are provided in .LU file format as part of the Skill. These are currently avaialble in English, French, Italian, German and Spanish languages. Further languages are being prioritised.
+LUIS models for the Skill are provided in .LU file format as part of the Skill. These are currently available in English, French, Italian, German and Spanish languages. Further languages are being prioritised.
 
 The following Top Level intents are available:
 
-- NAVIGATION_CANCEL_ROUTE
+
 - NAVIGATION_ROUTE_FROM_X_TO_Y
+- NAVIGATION_FIND_POINTOFINTEREST
+- NAVIGATION_CANCEL_ROUTE
 
 The following entities are provided:
 
 - ADDRESS
 - KEYWORDS
+- DESCRIPTOR
 
 ## Event Responses
 
