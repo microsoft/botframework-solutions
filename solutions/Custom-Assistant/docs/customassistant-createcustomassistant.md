@@ -61,7 +61,7 @@ The Custom Assistant require the following dependencies for end to end operation
 - Azure Cognitive Services - QnAMaker (including Azure Search, Azure Web App)
 - Azure Cognitive Services - Content Moderator (optional manual step)
 
-> Once deployed, review the Pricing Tiers for the created services and adjust to suit your scenario.
+> Review the pricing and terms for the services and adjust to suit your scenario
 
 If you have multiple Azure subscriptions and want to ensure the deployment selects the correct one, run the following commands before continuing.
 
