@@ -1,16 +1,4 @@
----
-title: Custom Assistant Overview | Microsoft Docs
-description: Learn about creating your own Custom Assistant
-author: darrenj
-ms.author: darrenj
-manager: kamrani
-ms.topic: article
-ms.prod: bot-framework
-ms.date: 13/12/2018
-monikerRange: 'azure-bot-service-3.0'
----
-
-## Custom Assistant Overview
+# Custom Assistant Overview
 
 ## Overview
 
@@ -22,7 +10,7 @@ The scope of Custom Personal Assistant functionality is broad, typically offerin
 
 At this time we are running an initial preview and working closely with initial customers and partners in an open-source repository to bring to life the first experiences and make it available more broadly in the coming months. 
 
-![Custom Assistant Diagram](/media/customassistantdiagram.png)
+![Custom Assistant Diagram](./media/customassistantdiagram.png)
 
 ## Complete control of the user experience
 
