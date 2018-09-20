@@ -1,0 +1,149 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>Enterprise Bot Template</Name>
+    <Description>
+      Project template for advanced bot scenarios using the Bot Builder SDK V4.
+    </Description>
+    <ProjectType>CSharp</ProjectType>
+    <ProjectSubType>
+    </ProjectSubType>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>EnterpriseBot</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <CreateInPlace>true</CreateInPlace>
+    <Icon>__TemplateIcon.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <Project TargetFileName="$safeprojectname$.csproj" File="EnterpriseBot.csproj" ReplaceParameters="true">
+      <Folder Name="Connected Services" TargetFolderName="Connected Services">
+        <Folder Name="Application Insights" TargetFolderName="Application Insights">
+          <ProjectItem ReplaceParameters="true" TargetFileName="ConnectedService.json">ConnectedService.json</ProjectItem>
+        </Folder>
+      </Folder>
+      <Folder Name="Properties" TargetFolderName="Properties">
+        <ProjectItem ReplaceParameters="true" TargetFileName="launchSettings.json">launchSettings.json</ProjectItem>
+      </Folder>
+      <Folder Name="wwwroot" TargetFolderName="wwwroot">
+        <ProjectItem ReplaceParameters="true" TargetFileName="default.htm">default.htm</ProjectItem>
+      </Folder>
+      <Folder Name="CognitiveModels" TargetFolderName="CognitiveModels">
+        <Folder Name="LUIS" TargetFolderName="LUIS">
+          <Folder Name="de" TargetFolderName="de">
+            <ProjectItem ReplaceParameters="true" TargetFileName="EnterpriseBot_general.json">EnterpriseBot_general.json</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="general.lu">general.lu</ProjectItem>
+          </Folder>
+          <Folder Name="en" TargetFolderName="en">
+            <ProjectItem ReplaceParameters="true" TargetFileName="EnterpriseBot_General.json">EnterpriseBot_General.json</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="General.lu">General.lu</ProjectItem>
+          </Folder>
+          <Folder Name="es" TargetFolderName="es">
+            <ProjectItem ReplaceParameters="true" TargetFileName="EnterpriseBot_general.json">EnterpriseBot_general.json</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="general.lu">general.lu</ProjectItem>
+          </Folder>
+          <Folder Name="fr" TargetFolderName="fr">
+            <ProjectItem ReplaceParameters="true" TargetFileName="EnterpriseBot_general.json">EnterpriseBot_general.json</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="general.lu">general.lu</ProjectItem>
+          </Folder>
+          <Folder Name="it" TargetFolderName="it">
+            <ProjectItem ReplaceParameters="true" TargetFileName="EnterpriseBot_general.json">EnterpriseBot_general.json</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="general.lu">general.lu</ProjectItem>
+          </Folder>
+        </Folder>
+        <Folder Name="QnA" TargetFolderName="QnA">
+          <ProjectItem ReplaceParameters="false" TargetFileName="faq.lu">faq.lu</ProjectItem>
+        </Folder>
+      </Folder>
+      <Folder Name="DeploymentScripts" TargetFolderName="DeploymentScripts">
+        <Folder Name="msbotClone" TargetFolderName="msbotClone">
+          <ProjectItem ReplaceParameters="false" TargetFileName="120.luis">120.luis</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="152.luis">152.luis</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="85.qna">85.qna</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
+        </Folder>
+      </Folder>
+      <Folder Name="Dialogs" TargetFolderName="Dialogs">
+        <Folder Name="Cancel" TargetFolderName="Cancel">
+          <Folder Name="Resources" TargetFolderName="Resources">
+            <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.resx">CancelStrings.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.Designer.cs">CancelStrings.Designer.cs</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="true" TargetFileName="CancelDialog.cs">CancelDialog.cs</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="CancelResponses.cs">CancelResponses.cs</ProjectItem>
+        </Folder>
+        <Folder Name="Escalate" TargetFolderName="Escalate">
+          <Folder Name="Resources" TargetFolderName="Resources">
+            <ProjectItem ReplaceParameters="true" TargetFileName="EscalateStrings.resx">EscalateStrings.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="EscalateStrings.Designer.cs">EscalateStrings.Designer.cs</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="true" TargetFileName="EscalateDialog.cs">EscalateDialog.cs</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="EscalateResponses.cs">EscalateResponses.cs</ProjectItem>
+        </Folder>
+        <Folder Name="Main" TargetFolderName="Main">
+          <Folder Name="Resources" TargetFolderName="Resources">
+            <ProjectItem ReplaceParameters="true" TargetFileName="Intro.json">Intro.json</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="MainStrings.resx">MainStrings.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="MainStrings.Designer.cs">MainStrings.Designer.cs</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="true" TargetFileName="MainDialog.cs">MainDialog.cs</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="MainResponses.cs">MainResponses.cs</ProjectItem>
+        </Folder>
+        <Folder Name="Onboarding" TargetFolderName="Onboarding">
+          <Folder Name="Resources" TargetFolderName="Resources">
+            <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingStrings.resx">OnboardingStrings.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingStrings.Designer.cs">OnboardingStrings.Designer.cs</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingDialog.cs">OnboardingDialog.cs</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingResponses.cs">OnboardingResponses.cs</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingState.cs">OnboardingState.cs</ProjectItem>
+        </Folder>
+        <Folder Name="Shared" TargetFolderName="Shared">
+          <Folder Name="Resources" TargetFolderName="Resources">
+            <ProjectItem ReplaceParameters="true" TargetFileName="Dispatch.cs">Dispatch.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="General.cs">General.cs</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="true" TargetFileName="EnterpriseDialog.cs">EnterpriseDialog.cs</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="InterruptableDialog.cs">InterruptableDialog.cs</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="InterruptableStatus.cs">InterruptableStatus.cs</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="RouterDialog.cs">RouterDialog.cs</ProjectItem>
+        </Folder>
+        <Folder Name="SignIn" TargetFolderName="SignIn">
+          <Folder Name="Resources" TargetFolderName="Resources">
+            <ProjectItem ReplaceParameters="true" TargetFileName="SignInStrings.resx">SignInStrings.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="SignInStrings.Designer.cs">SignInStrings.Designer.cs</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="true" TargetFileName="SignInDialog.cs">SignInDialog.cs</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="SignInResponses.cs">SignInResponses.cs</ProjectItem>
+        </Folder>
+      </Folder>
+      <Folder Name="Middleware" TargetFolderName="Middleware">
+        <Folder Name="Telemetry" TargetFolderName="Telemetry">
+          <ProjectItem ReplaceParameters="true" TargetFileName="LuisTelemetryConstants.cs">LuisTelemetryConstants.cs</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="QnATelemetryConstants.cs">QnATelemetryConstants.cs</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="TelemetryConstants.cs">TelemetryConstants.cs</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="TelemetryLoggerMiddleware.cs">TelemetryLoggerMiddleware.cs</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="TelemetryLuisRecognizer.cs">TelemetryLuisRecognizer.cs</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="TelemetryQnAMaker.cs">TelemetryQnAMaker.cs</ProjectItem>
+        </Folder>
+        <ProjectItem ReplaceParameters="true" TargetFileName="ContentModeratorMiddleware.cs">ContentModeratorMiddleware.cs</ProjectItem>
+      </Folder>
+      <Folder Name="PowerBI" TargetFolderName="PowerBI">
+        <ProjectItem ReplaceParameters="false" TargetFileName="Example PowerBI Dashboard.pbit">Example PowerBI Dashboard.pbit</ProjectItem>
+      </Folder>
+      <Folder Name="ServiceClients" TargetFolderName="ServiceClients">
+        <ProjectItem ReplaceParameters="true" TargetFileName="GraphClient.cs">GraphClient.cs</ProjectItem>
+      </Folder>
+      <ProjectItem ReplaceParameters="true" TargetFileName="appsettings.json">appsettings.json</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="BotServices.cs">BotServices.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.bot">EnterpriseBot.bot</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.cs">EnterpriseBot.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$Accessors.cs">EnterpriseBotAccessors.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$State.cs">EnterpriseBotState.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Program.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="readme.md">readme.md</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Startup.cs">Startup.cs</ProjectItem>
+    </Project>
+  </TemplateContent>
+</VSTemplate>
