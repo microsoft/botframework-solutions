@@ -1,14 +1,3 @@
----
-title: Custom Assistant Point of Interest Skill | Microsoft Docs
-description: Learn about the Point of Interest Skill
-author: darrenj
-ms.author: darrenj
-manager: kamrani
-ms.topic: article
-ms.prod: bot-framework
-ms.date: 13/12/2018
-monikerRange: 'azure-bot-service-3.0'
----
 # Custom Assistant Skills - Point of Interest
 
 ## Overview

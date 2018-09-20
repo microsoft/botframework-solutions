@@ -1,15 +1,4 @@
----
-title: Custom Assistant Skills | Microsoft Docs
-description: Learn about the Skills available for use in your Custom Assistant
-author: darrenj
-ms.author: darrenj
-manager: kamrani
-ms.topic: article
-ms.prod: bot-framework
-ms.date: 13/12/2018
-monikerRange: 'azure-bot-service-3.0'
----
-# Custom Assistant Skills 
+# Custom Assistant Skills
 
 ## Overview
 

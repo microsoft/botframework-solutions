@@ -1,15 +1,4 @@
----
-title: Adding Skills to your Custom Assistant | Microsoft Docs
-description: Learn about how to add skills to your Custom Assistant
-author: darrenj
-ms.author: darrenj
-manager: kamrani
-ms.topic: article
-ms.prod: bot-framework
-ms.date: 13/12/2018
-monikerRange: 'azure-bot-service-3.0'
----
-# Adding Skills to your Custom Assistant 
+# Adding Skills to your Custom Assistant
 
 ## Overview
 

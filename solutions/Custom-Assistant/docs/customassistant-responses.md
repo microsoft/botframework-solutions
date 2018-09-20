@@ -1,15 +1,3 @@
----
-title: Custom Assistant Responses | Microsoft Docs
-description: Learn about how the Custom Assistant responds to an end user
-author: darrenj
-ms.author: darrenj
-manager: kamrani
-ms.topic: article
-ms.prod: bot-framework
-ms.date: 13/12/2018
-monikerRange: 'azure-bot-service-3.0'
----
-
 # Custom Assistant Responses
 
 ## Overview

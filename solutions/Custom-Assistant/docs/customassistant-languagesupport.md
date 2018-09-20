@@ -1,15 +1,3 @@
----
-title: Language Support | Microsoft Docs
-description: Learn about language support for the Custom Assistant and Skills 
-author: darrenj
-ms.author: darrenj
-manager: kamrani
-ms.topic: article
-ms.prod: bot-framework
-ms.date: 13/12/2018
-monikerRange: 'azure-bot-service-3.0'
----
-
 # Custom Assistant Language Support
 
 ## Overview

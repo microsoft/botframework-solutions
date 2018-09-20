@@ -1,15 +1,4 @@
----
-title: Custom Assistant Event Architecture | Microsoft Docs
-description: Learn how Events enable a device to exchange end user and status information with the Assistant to provide more contextual awareness
-author: darrenj
-ms.author: darrenj
-manager: kamrani
-ms.topic: article
-ms.prod: bot-framework
-ms.date: 13/12/2018
-monikerRange: 'azure-bot-service-3.0'
----
-# Custom Assistant Event Architecture 
+# Custom Assistant Event Architecture
 
 ## Overview
 

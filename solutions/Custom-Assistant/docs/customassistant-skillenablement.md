@@ -1,14 +1,3 @@
----
-title: Creating a Skill | Microsoft Docs
-description: Learn how to create a Bot and enable it to behave like a Skill
-author: darrenj
-ms.author: darrenj
-manager: kamrani
-ms.topic: article
-ms.prod: bot-framework
-ms.date: 13/12/2018
-monikerRange: 'azure-bot-service-3.0'
----
 # Creating a Skill
 
 ## Overview
