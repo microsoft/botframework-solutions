@@ -51,7 +51,7 @@ namespace $safeprojectname$
                         {
                             var luis = service as LuisService;
                             var luisApp = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.GetEndpoint());
-                            LuisServices.Add(service.Name, new TelemetryLuisRecognizer(luisApp));
+                            LuisServices.Add(service.Id, new TelemetryLuisRecognizer(luisApp));
                             break;
                         }
 
@@ -65,7 +65,7 @@ namespace $safeprojectname$
                                 Host = qna.Hostname,
                             };
                             var qnaMaker = new TelemetryQnAMaker(qnaEndpoint);
-                            QnAServices.Add(qna.Name, qnaMaker);
+                            QnAServices.Add(qna.Id, qnaMaker);
                             break;
                         }
 

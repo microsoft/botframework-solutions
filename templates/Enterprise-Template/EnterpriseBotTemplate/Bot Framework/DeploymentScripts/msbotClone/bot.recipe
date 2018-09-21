@@ -57,21 +57,21 @@
     },
     {
       "type": "luis",
-      "id": "120",
+      "id": "general",
       "name": "General"
     },
     {
       "type": "qna",
-      "id": "85",
+      "id": "faq",
       "name": "FAQ"
     },
     {
       "type": "dispatch",
-      "id": "152",
+      "id": "dispatch",
       "name": "Dispatch",
       "serviceIds": [
-        "120",
-        "85"
+        "general",
+        "faq"
       ]
     }
   ]
