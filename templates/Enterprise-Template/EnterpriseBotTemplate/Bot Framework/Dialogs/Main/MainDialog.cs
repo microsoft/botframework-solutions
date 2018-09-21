@@ -12,48 +12,55 @@ using Microsoft.Bot.Builder.Dialogs;
 namespace $safeprojectname$
 {
     public class MainDialog : RouterDialog
+{
+    private BotServices _services;
+    private UserState _userState;
+    private ConversationState _conversationState;
+    private MainResponses _responder = new MainResponses();
+
+    public MainDialog(BotServices services, ConversationState conversationState, UserState userState)
+        : base(nameof(MainDialog))
     {
-        private BotServices _services;
-        private UserState _userState;
-        private ConversationState _conversationState;
-        private MainResponses _responder = new MainResponses();
+        _services = services ?? throw new ArgumentNullException(nameof(services));
+        _conversationState = conversationState;
+        _userState = userState;
 
-        public MainDialog(BotServices services, ConversationState conversationState, UserState userState)
-            : base(nameof(MainDialog))
+        AddDialog(new OnboardingDialog(_services, _userState.CreateProperty<OnboardingState>(nameof(OnboardingState))));
+        AddDialog(new EscalateDialog(_services));
+    }
+
+    protected override async Task OnStartAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
+    {
+        var onboardingAccessor = _userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
+        var onboardingState = await onboardingAccessor.GetAsync(innerDc.Context, () => new OnboardingState());
+
+        var view = new MainResponses();
+        await view.ReplyWith(innerDc.Context, MainResponses.Intro);
+
+        if (string.IsNullOrEmpty(onboardingState.Name))
         {
-            _services = services ?? throw new ArgumentNullException(nameof(services));
-            _conversationState = conversationState;
-            _userState = userState;
-
-            AddDialog(new OnboardingDialog(_services, _userState.CreateProperty<OnboardingState>(nameof(OnboardingState))));
-            AddDialog(new EscalateDialog(_services));
+            // This is the first time the user is interacting with the bot, so gather onboarding information.
+            await innerDc.BeginDialogAsync(nameof(OnboardingDialog));
         }
+    }
 
-        protected override async Task OnStartAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
+    protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+    {
+        // Check dispatch result
+        var dispatchResult = await _services.DispatchRecognizer.RecognizeAsync<Dispatch>(dc.Context, CancellationToken.None);
+        var intent = dispatchResult.TopIntent().intent;
+
+        if (intent == Dispatch.Intent.l_General)
         {
-            var onboardingAccessor = _userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
-            var onboardingState = await onboardingAccessor.GetAsync(innerDc.Context, () => new OnboardingState());
+            // If dispatch result is general luis model
+            _services.LuisServices.TryGetValue("general", out var luisService);
 
-            var view = new MainResponses();
-            await view.ReplyWith(innerDc.Context, MainResponses.Intro);
-
-            if (string.IsNullOrEmpty(onboardingState.Name))
+            if (luisService == null)
             {
-                // This is the first time the user is interacting with the bot, so gather onboarding information.
-                await innerDc.BeginDialogAsync(nameof(OnboardingDialog));
+                throw new Exception("The specified LUIS Model could not be found in your Bot Services configuration.");
             }
-        }
-
-        protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            // Check dispatch result
-            var dispatchResult = await _services.DispatchRecognizer.RecognizeAsync<Dispatch>(dc.Context, CancellationToken.None);
-            var intent = dispatchResult.TopIntent().intent;
-
-            if (intent == Dispatch.Intent.l_General)
+            else
             {
-                // If dispatch result is general luis model
-                var luisService = _services.LuisServices["$safeprojectname$_General"];
                 var result = await luisService.RecognizeAsync<General>(dc.Context, CancellationToken.None);
 
                 var generalIntent = result?.TopIntent().intent;
@@ -100,10 +107,18 @@ namespace $safeprojectname$
                             break;
                         }
                 }
-            }
-            else if (intent == Dispatch.Intent.q_FAQ)
+            }         
+        }
+        else if (intent == Dispatch.Intent.q_FAQ)
+        {
+            _services.QnAServices.TryGetValue("faq", out var qnaService);
+
+            if(qnaService == null)
             {
-                var qnaService = _services.QnAServices["FAQ"];
+                throw new Exception("The specified QnAMaker Service could not be found in your Bot Services configuration.");
+            }
+            else
+            {
                 var answers = await qnaService.GetAnswersAsync(dc.Context);
 
                 if (answers != null && answers.Count() > 0)
@@ -112,11 +127,12 @@ namespace $safeprojectname$
                 }
             }
         }
-
-        protected override async Task CompleteAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            // The active dialog's stack ended with a complete status
-            await _responder.ReplyWith(innerDc.Context, MainResponses.Completed);
-        }
     }
+
+    protected override async Task CompleteAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
+    {
+        // The active dialog's stack ended with a complete status
+        await _responder.ReplyWith(innerDc.Context, MainResponses.Completed);
+    }
+}
 }

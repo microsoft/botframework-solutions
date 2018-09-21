@@ -52,7 +52,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="EnterpriseBotTemplate.vsix" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>

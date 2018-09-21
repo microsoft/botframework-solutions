@@ -84,7 +84,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DeploymentScripts\msbotClone\" />
     <Folder Include="Dialogs\Shared\Resources\" />
   </ItemGroup>
 
