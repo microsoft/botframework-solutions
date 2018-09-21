@@ -24,7 +24,6 @@
         </Folder>
       </Folder>
       <Folder Name="Properties" TargetFolderName="Properties">
-        <ProjectItem ReplaceParameters="true" TargetFileName="launchSettings.json">launchSettings.json</ProjectItem>
       </Folder>
       <Folder Name="wwwroot" TargetFolderName="wwwroot">
         <ProjectItem ReplaceParameters="true" TargetFileName="default.htm">default.htm</ProjectItem>
@@ -58,9 +57,9 @@
       </Folder>
       <Folder Name="DeploymentScripts" TargetFolderName="DeploymentScripts">
         <Folder Name="msbotClone" TargetFolderName="msbotClone">
-          <ProjectItem ReplaceParameters="false" TargetFileName="120.luis">120.luis</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="152.luis">152.luis</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="85.qna">85.qna</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="dispatch.luis">dispatch.luis</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="general.luis">general.luis</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="faq.qna">faq.qna</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
         </Folder>
       </Folder>
@@ -137,7 +136,6 @@
       </Folder>
       <ProjectItem ReplaceParameters="true" TargetFileName="appsettings.json">appsettings.json</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="BotServices.cs">BotServices.cs</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.bot">EnterpriseBot.bot</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.cs">EnterpriseBot.cs</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$Accessors.cs">EnterpriseBotAccessors.cs</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$State.cs">EnterpriseBotState.cs</ProjectItem>
