@@ -14,7 +14,7 @@ namespace CustomAssistant
     /// <summary>
     /// Main entry point and orchestration for bot.
     /// </summary>
-    public class CustomAssistant : IBot
+    public class VirtualAssistant : IBot
     {
         private readonly BotServices _services;
         private readonly ConversationState _conversationState;
@@ -22,18 +22,18 @@ namespace CustomAssistant
         private DialogSet _dialogs;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CustomAssistant"/> class.
+        /// Initializes a new instance of the <see cref="VirtualAssistant"/> class.
         /// </summary>
         /// <param name="botServices">Bot services.</param>
         /// <param name="conversationState">Bot conversation state.</param>
         /// <param name="userState">Bot user state.</param>
-        public CustomAssistant(BotServices botServices, ConversationState conversationState, UserState userState)
+        public VirtualAssistant(BotServices botServices, ConversationState conversationState, UserState userState)
         {
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
             _services = botServices ?? throw new ArgumentNullException(nameof(botServices));
 
-            _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(CustomAssistant)));
+            _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(VirtualAssistant)));
             _dialogs.Add(new MainDialog(_services, _conversationState, _userState));
         }
 

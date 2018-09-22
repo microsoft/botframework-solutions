@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <ApplicationInsightsResourceId>/subscriptions/4c0d07e4-5490-4784-8d89-d8c504ba2a75/resourcegroups/LamillsBot/providers/microsoft.insights/components/LamillsBot-insights</ApplicationInsightsResourceId>
-    <ApplicationInsightsAnnotationResourceId>/subscriptions/4c0d07e4-5490-4784-8d89-d8c504ba2a75/resourcegroups/LamillsBot/providers/microsoft.insights/components/LamillsBot-insights</ApplicationInsightsAnnotationResourceId>
+      <AssemblyName>VirtualAssistant</AssemblyName>
+    <RootNamespace>VirtualAssistant</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -109,12 +109,6 @@
     <Reference Include="ToDoSkill">
       <HintPath>..\skills\bin\Debug\netcoreapp2.1\ToDoSkill.dll</HintPath>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="LamilCustomAssistant.bot">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
