@@ -1,0 +1,133 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <CodeAnalysisRuleSet>..\..\samples.ruleset</CodeAnalysisRuleSet>
+    <OutputPath>..\bin\$(Configuration)\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <CodeAnalysisRuleSet>..\..\samples.ruleset</CodeAnalysisRuleSet>
+    <OutputPath>..\bin\$(Configuration)\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Dialogs\CreateEvent\Resources\**" />
+    <Compile Remove="Dialogs\DeleteEvent\Resources\**" />
+    <Compile Remove="Dialogs\Summary\Resources\**" />
+    <Compile Remove="Dialogs\UpdateEventTime\Resources\**" />
+    <Content Remove="Dialogs\CreateEvent\Resources\**" />
+    <Content Remove="Dialogs\DeleteEvent\Resources\**" />
+    <Content Remove="Dialogs\Summary\Resources\**" />
+    <Content Remove="Dialogs\UpdateEventTime\Resources\**" />
+    <EmbeddedResource Remove="Dialogs\CreateEvent\Resources\**" />
+    <EmbeddedResource Remove="Dialogs\DeleteEvent\Resources\**" />
+    <EmbeddedResource Remove="Dialogs\Summary\Resources\**" />
+    <EmbeddedResource Remove="Dialogs\UpdateEventTime\Resources\**" />
+    <None Remove="Dialogs\CreateEvent\Resources\**" />
+    <None Remove="Dialogs\DeleteEvent\Resources\**" />
+    <None Remove="Dialogs\Summary\Resources\**" />
+    <None Remove="Dialogs\UpdateEventTime\Resources\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="ContextConstants.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Dialogs\Shared\Resources\Cards\CalendarCard.json" />
+    <Content Remove="Dialogs\Shared\Resources\Cards\CalendarCardNoJoinButton.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AdaptiveCards" Version="1.0.3" />
+    <PackageReference Include="Google.Apis.Calendar.v3" Version="1.35.2.1354" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.4" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Language.TextAnalytics" Version="2.1.0-preview" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.0.6" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.0.6" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.0.6" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.0.6" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.0.6" />
+    <PackageReference Include="Microsoft.Graph" Version="1.11.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta009">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Dialogs\Shared\Resources\Cards\CalendarCard.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Dialogs\Shared\Resources\Cards\CalendarCardNoJoinButton.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Dialogs\Shared\Resources\BotImages.Designer.cs">
+      <DependentUpon>BotImages.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Dialogs\Shared\Resources\BotStrings.Designer.cs">
+      <DependentUpon>BotStrings.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Dialogs\Shared\Resources\CalendarBotResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CalendarBotResponses.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Dialogs\Shared\Resources\CalendarBotResponses.en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\Shared\Resources\CalendarBotResponses.zh.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Dialogs\Shared\Resources\CalendarBotResponses.tt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LastGenOutput>CalendarBotResponses.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Dialogs\Shared\Resources\WindowsIanaMapping">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Dialogs\Shared\Resources\BotImages.resx">
+      <LastGenOutput>BotImages.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Dialogs\Shared\Resources\BotStrings.resx">
+      <LastGenOutput>BotStrings.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DeploymentScripts\" />
+  </ItemGroup>
+
+</Project>

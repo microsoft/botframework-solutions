@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2005
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinkedAccounts.Web", "LinkedAccounts.Web\LinkedAccounts.Web.csproj", "{C2C15C6D-720B-46B7-B1B1-F1B015487A9E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C2C15C6D-720B-46B7-B1B1-F1B015487A9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2C15C6D-720B-46B7-B1B1-F1B015487A9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2C15C6D-720B-46B7-B1B1-F1B015487A9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2C15C6D-720B-46B7-B1B1-F1B015487A9E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A781834D-DC50-470B-92E1-A5CF12F07365}
+	EndGlobalSection
+EndGlobal

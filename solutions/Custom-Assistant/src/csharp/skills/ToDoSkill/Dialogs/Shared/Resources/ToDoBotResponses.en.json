@@ -1,0 +1,290 @@
+﻿{
+  "DidntUnderstandMessage": {
+    "replies": [
+      {
+        "text": "Sorry, didn't get what you mean.",
+        "speak": "Sorry, didn't get what you mean."
+      },
+      {
+        "text": "I don't understand. Can you try in a different way.",
+        "speak": "I don't understand. Can you try in a different way."
+      },
+      {
+        "text": "Can you try to ask me in a different way.",
+        "speak": "Can you try to ask me in a different way."
+      },
+      {
+        "text": "Can you try to ask me again? I didn't get what you mean.",
+        "speak": "Can you try to ask me again? I didn't get what you mean."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoAuth": {
+    "replies": [
+      {
+        "text": "Please log in before taking further action.",
+        "speak": "Please log in before taking further action."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AuthFailed": {
+    "replies": [
+      {
+        "text": "Auth Failed. Please Try again.",
+        "speak": "Auth Failed. Please Try again."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "GoodbyeMessage": {
+    "replies": [
+      {
+        "text": "Goodbye!",
+        "speak": "Goodbye!"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "CancellingMessage": {
+    "replies": [
+      {
+        "text": "Sure. We can do this later.",
+        "speak": "Sure. We can do this later."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "AskToDoContentText": {
+    "replies": [
+      {
+        "text": "Sure. What do you want to put on the list?",
+        "speak": "Sure. What do you want to put on the list?"
+      },
+      {
+        "text": "Ok, what can I add to the list?",
+        "speak": "Ok, what can I add to the list?"
+      },
+      {
+        "text": "Alright, what do you want to put on the list?",
+        "speak": "Alright, what do you want to put on the list?"
+      },
+      {
+        "text": "What do you want to add to the list?",
+        "speak": "What do you want to add to the list?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AfterToDoTaskAdded": {
+    "replies": [
+      {
+        "text": "I have added the task {taskContent} to you list.",
+        "speak": "I have added the task {taskContent} to you list."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AskToDoTaskIndex": {
+    "replies": [
+      {
+        "text": "Which task do you want to select for this action?",
+        "speak": "Which task do you want to select for this action?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ShowToDoTasks": {
+    "replies": [
+      {
+        "text": "You have {taskCount} items on your To Do list:",
+        "speak": "You have {taskCount} items on your To Do list:"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ReadToDoTasks": {
+    "replies": [
+      {
+        "text": "the first {taskCount} are:",
+        "speak": "the first {taskCount} are:"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ShowNextToDoTasks": {
+    "replies": [
+      {
+        "text": "Here's something you can do:",
+        "speak": "Here's something you can do:"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ShowPreviousToDoTasks": {
+    "replies": [
+      {
+        "text": "Showing your To Do list:",
+        "speak": "Showing your To Do list:"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoToDoTasksPrompt": {
+    "replies": [
+      {
+        "text": "Your To Do list is empty. Do you want to add a first To Do?",
+        "speak": "Your To Do list is empty. Do you want to add a first To Do?"
+      },
+      {
+        "text": "Your To Do list has no tasks. Want to add a new one?",
+        "speak": "Your To Do list has no tasks. Want to add a new one?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AfterToDoTaskCompleted": {
+    "replies": [
+      {
+        "text": "I have completed the task {taskContent} for you.",
+        "speak": "I have completed the task {taskContent} for you."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AfterAllToDoTasksCompleted": {
+    "replies": [
+      {
+        "text": "I have completed all the tasks for you.",
+        "speak": "I have completed all the tasks for you."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AskDeletionConfirmation": {
+    "replies": [
+      {
+        "text": "Are you sure you want to delete To Do: {toDoTask}?",
+        "speak": "Are you sure you want to delete To Do: {toDoTask}?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AskDeletionAllConfirmation": {
+    "replies": [
+      {
+        "text": "Are you sure you want to delete all your tasks?",
+        "speak": "Are you sure you want to delete all your tasks?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AfterTaskDeleted": {
+    "replies": [
+      {
+        "text": "I have deleted the task {taskContent} for you.",
+        "speak": "I have deleted the task {taskContent} for you."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AfterAllTasksDeleted": {
+    "replies": [
+      {
+        "text": "I have cleared out your To Do list.",
+        "speak": "I have cleared out your To Do list."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AnythingElseCanDo": {
+    "replies": [
+      {
+        "text": "Let me know if you need my help with something else.",
+        "speak": "Let me know if you need my help with something else."
+      },
+      {
+        "text": "I'm here if you need me.",
+        "speak": "I'm here if you need me."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ToDoHelpMessage": {
+    "replies": [
+      {
+        "text": "I can read out your To Do's, create a new To Do, or complete and delete a To Do for you.",
+        "speak": "I can read out your To Do's, create a new To Do, or complete and delete a To Do for you."
+      }
+    ],
+    "suggestedActions": [
+      "Read out To Do's",
+      "Create a todo task for me",
+      "Mark the second To Do task as complete",
+      "Delete the third task"
+    ],
+    "inputHint": "expectingInput"
+  },
+  "GreetingMessage": {
+    "replies": [
+      {
+        "text": "Hi!",
+        "speak": "Hi!"
+      },
+      {
+        "text": "I'm here.",
+        "speak": "I'm here."
+      },
+      {
+        "text": "Hi there!",
+        "speak": "Hi there!"
+      },
+      {
+        "text": "Hello!",
+        "speak": "Hello!"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "LogOut": {
+    "replies": [
+      {
+        "text": "Log out complete.",
+        "speak": "Log out complete."
+      },
+      {
+        "text": "You have successfully signed out.",
+        "speak": "You have successfully signed out."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ToDoWelcomeMessage": {
+    "replies": [
+      {
+        "text": "Hi. I'm To Do bot. I can help you manage your To Do list in your OneNote.",
+        "speak": "Hi. I'm To Do bot. I can help you manage your To Do list in your OneNote."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "SettingUpOneNoteMessage": {
+    "replies": [
+      {
+        "text": "I am setting up your OneNote To Do list, this won't take long.",
+        "speak": "I am setting up your OneNote To Do list, this won't take long."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowingMoreTasks": {
+    "replies": [
+      {
+        "text": "You have more tasks on the list, if you want to know the rest please ask me for \"next\" or \"more\" tasks.",
+        "speak": "You have more tasks on the list, if you want to know the rest please ask me for \"next\" or \"more\" tasks."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}

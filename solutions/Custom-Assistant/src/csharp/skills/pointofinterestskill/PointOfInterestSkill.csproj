@@ -1,0 +1,99 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <CodeAnalysisRuleSet>..\..\samples.ruleset</CodeAnalysisRuleSet>
+    <OutputPath>..\bin\$(Configuration)\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <CodeAnalysisRuleSet>..\..\samples.ruleset</CodeAnalysisRuleSet>
+    <OutputPath>..\bin\$(Configuration)\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Dialogs\Shared\Resources\Cards\PointOfInterestViewCard.json" />
+    <Content Remove="Dialogs\Shared\Resources\Cards\PointOfInterestViewNoDrivingButtonCard.json" />
+    <Content Remove="Dialogs\Shared\Resources\Cards\RouteDirectionsViewCard.json" />
+    <Content Remove="Dialogs\Shared\Resources\Cards\RouteDirectionsViewCardNoGetStartedButton.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Dialogs\Shared\Resources\Cards\PointOfInterestViewCard.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Dialogs\Shared\Resources\Cards\PointOfInterestViewNoDrivingButtonCard.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Dialogs\Shared\Resources\Cards\RouteDirectionsViewCard.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Dialogs\Shared\Resources\Cards\RouteDirectionsViewCardNoGetStartedButton.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Apis.Calendar.v3" Version="1.35.2.1354" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.4" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Language.TextAnalytics" Version="2.1.0-preview" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.0.6" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.0.6" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.0.6" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.0.6" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.0.6" />
+    <PackageReference Include="Microsoft.Graph" Version="1.11.0" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.Drawing.Common" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Dialogs\Shared\Resources\BotStrings.Designer.cs">
+      <DependentUpon>BotStrings.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Dialogs\Shared\Resources\PointOfInterestBotResponses.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>PointOfInterestBotResponses.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Dialogs\Shared\Resources\PointOfInterestBotResponses.en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Dialogs\Shared\Resources\BotStrings.resx">
+      <LastGenOutput>BotStrings.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Dialogs\Shared\Resources\PointOfInterestBotResponses.tt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LastGenOutput>PointOfInterestBotResponses.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+</Project>

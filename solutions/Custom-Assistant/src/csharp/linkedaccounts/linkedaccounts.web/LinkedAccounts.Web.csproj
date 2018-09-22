@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <UserSecretsId>aspnet-projects-2DBAF904-BA99-4B92-AC4E-82793D8EFF4F</UserSecretsId>
+    <WebProject_DirectoryAccessLevelKey>0</WebProject_DirectoryAccessLevelKey>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Rewrite" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.0.0.39259" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.0.0.39259" />
+    <PackageReference Include="Microsoft.Bot.Connector" Version="4.0.0.39259" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.0.0.39259" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Bot.Builder">
+      <HintPath>..\..\..\botbuilder-dotnet\libraries\integration\Microsoft.Bot.Builder.Integration.AspNet.Core\bin\Debug - NuGet Packages\netstandard2.0\Microsoft.Bot.Builder.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bot.Builder.Integration.AspNet.Core">
+      <HintPath>..\..\..\botbuilder-dotnet\libraries\integration\Microsoft.Bot.Builder.Integration.AspNet.Core\bin\Debug - NuGet Packages\netstandard2.0\Microsoft.Bot.Builder.Integration.AspNet.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bot.Connector">
+      <HintPath>..\..\..\botbuilder-dotnet\libraries\integration\Microsoft.Bot.Builder.Integration.AspNet.Core\bin\Debug - NuGet Packages\netstandard2.0\Microsoft.Bot.Connector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bot.Schema">
+      <HintPath>..\..\..\botbuilder-dotnet\libraries\integration\Microsoft.Bot.Builder.Integration.AspNet.Core\bin\Debug - NuGet Packages\netstandard2.0\Microsoft.Bot.Schema.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
