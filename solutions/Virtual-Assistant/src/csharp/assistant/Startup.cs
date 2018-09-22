@@ -68,7 +68,7 @@ namespace CustomAssistant
             services.AddSingleton(new BotStateSet(userState, conversationState));
 
             // Add the bot with options
-            services.AddBot<CustomAssistant>(options =>
+            services.AddBot<VirtualAssistant>(options =>
             {
                 // Load the connected services from .bot file.
                 var environment = _isProduction ? "production" : "development";

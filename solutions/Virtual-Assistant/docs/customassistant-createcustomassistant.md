@@ -1,4 +1,4 @@
-# Virtual Assistant Creation
+# Virtual Assistant Deployment
 
 ## Overview
 
@@ -7,9 +7,9 @@
 
 The Virtual Assistant Solution provides everything you need to get started with building your own Assistant. Base Assistant capabilities are provided within the solution including language models for you to build upon along with Conversational Skill support enabling you to plug-in additional capabilities through configuration. See the [Overview](./readme.md) for more information.
 
-The Virtual Assistant solution is under ongoing development within an open-source GitHub repo enabling you to participate with our ongoing work.
+The Virtual Assistant solution is under ongoing development within an open-source GitHub repo enabling you to participate with our ongoing work. 
 
-The Virtual Assistant Solution is available for .NET, targeting **V4** versions of the SDK.
+Follow the instructions below to build, deploy and configure your Assistant.
 
 ### Prerequisites
 - Install the Azure Bot Service command line (CLI) tools. It's important to do this even if you have earlier versions as the Virtual Assistant makes use of new deployment capabilities.
@@ -26,7 +26,7 @@ az extension add -n botservice
 
 ### Clone the Repo
 
-The first step is to clone the [Microsoft Conversational AI GitHub Repo](https://github.com/Microsoft/AI). You'll find the Virtual Assistant solution within the `solutions\Custom-Assistant` folder.
+The first step is to clone the [Microsoft Conversational AI GitHub Repo](https://github.com/Microsoft/AI). You'll find the Virtual Assistant solution within the `solutions\Virtual-Assistant` folder.
 
 Once the Solution has been cloned you will see the following folder structure.
 
@@ -43,12 +43,12 @@ Once the Solution has been cloned you will see the following folder structure.
             | - Assistant-ConsoleDirectLineSample
             | - Assistant-WebTest
         | - Microsoft.Bot.Solutions
-    | - CustomAssistant.sln
+    | - VirtualAssitant.sln
     | - Skills.sln
 
 ### Build the Solution
 
-Once cloned the next step it to build the CustomAssistant and Skills solutions within Visual Studio. The Virtual Assistant and Skills solutions are separated for clarity with the Skills solution pushing binaries into a shared output folder enabling easy referencing from the Virtual Assistant.
+Once cloned the next step it to build the VirtualAssistant and Skills solutions within Visual Studio. The Virtual Assistant and Skills solutions are separated for clarity with the Skills solution pushing binaries into a shared output folder enabling easy referencing from the Virtual Assistant.
 
 > Build the Skills project before the Virtual Assistant project.
 
@@ -106,17 +106,16 @@ The Virtual Assistant Solution is fully integrated with all available skills out
 
 > An automated script leveraging the configuration held in your .bot file is planned for a future release which will automate this step.
 
-For each of the Skills (Calendar, Email, ToDo and PoIntOfInterest) run the following command line to retrieve the configuration information. You can make use of `msbot list` instead if you prefer.
+For **each** of the Skills (Calendar, Email, ToDo and PointOfInterest) run the following command line to retrieve the configuration information. You can make use of `msbot list` instead if you prefer.
 
-> Note the BotName and SKillName are case sensitive, please ensure you use the correct capitalisation for your Bot name and each Skill.
+> Note the BotName and SKillName are case sensitive, please ensure you use the correct capitalisation for your Bot name and each Skill.  e.g. MyCustomAssistant_Calendar. The `msbot list` CLI will help confirm the capitalisation.
 
 ```shell
 msbot get YourBotName_Calendar --bot YOURBOTNAME.bot --secret YOUR_BOT_SECRET
 ```
 
-Then in the corresponding entry in `appSettings.config` update the `LuisAppId`, `LuisSubscriptionKey` and `LuisEndPoint`.
+Then in the corresponding Skill entry in `appSettings.config` update the `LuisAppId`, `LuisSubscriptionKey` and `LuisEndPoint`.
 ```
-"Skills": [
     {
       "Name": "Calendar",
       "DispatcherModelName": "l_Calendar",
@@ -131,19 +130,46 @@ Then in the corresponding entry in `appSettings.config` update the `LuisAppId`, 
         "LuisSubscriptionKey": "",
         "LuisEndpoint": ""
       }
-    },
+    }
 ```
 
 ## Skill Authentication
 
-If you wish to make use of the Calendar, Email and Task Skills.
-The final step is to 
+If you wish to make use of the Calendar, Email and Task Skills you need to configure an Authentication Connection enabling uses of your Assistant to authenticate against services such as Office 365 and securely store a token which can be retrieved by your assistant when a user asks a question such as *"What's my day look like today"* to then use against an API like Microsoft Graph.
+
+The [Add Authentication to your bot](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-authentication?view=azure-bot-service-3.0) section in the Azure Bot Service documentation covers more detail on how to configure Authentication. However in this scenario, the deployment step has already created the Azure AD v2 Application for your Bot. Therefore you only need to perform the following steps from the above documentation page:
+
+- Navigate to https://apps.dev.microsoft.com/
+- Under Platforms, click Add Platform.
+  - In the Add Platform pop-up, click Web.
+  - Leave Allow Implicit Flow checked.
+  - For Redirect URL, enter https://token.botframework.com/.auth/web/redirect.
+  - Leave Logout URL blank.
+- Under Microsoft Graph Permissions, you can need to add additional *delegated* permissions.
+- Each of the Skills require a specific set of Scopes, refer to the documentation for each skill or use the following list of Scopes that contain the scopes needed for all skills. 
+  - `Calendars.ReadWrite`, `Mail.Read`, `Mail.Send`, `Notes.ReadWrite`, `People.Read`, `User.Read`, `People.Read`, `User.Read`
+
+Next you need to create the Authentication Connection for your Bot. Ensure you use the same combination of Scopes that you provided in the above command. The first command shown below will retrieve the appId (ApplicationId) and appPassword (Client Secret) that you need to complete this step. 
+
+The commands shown below assume you have used the deployment process and your resource group name is the same as your bot.  
+
+```shell
+msbot get production --secret AcNuZ0b+6K6SjufUhMFrGbzDhcdLgAdgyErAbmBGQDw=
+
+az bot authsetting create --resource-group YOUR_BOT_NAME --name YOUR_BOT_NAME --setting-name YOU_AUTH_CONNECTION_NAME --client-id YOUR_APPLICATION_ID --client-secret YOUR_APPLICATION_PASSWORD --provider-scope-string "Calendars.ReadWrite Mail.Read Mail.Send Notes.ReadWrite People.Read User.Read People.Read User.Read" --service Aadv2
+```
+
+The final step is to update your .bot file with the Authentication connection name, this is used by the Assistant to enable Authentication prompts or use of Linked Accounts.
+
+```shell
+msbot connect generic --name "Authentication" --keys "{\"Azure Active Directory v2\":\"YOU_AUTH_CONNECTION_NAME\"}" --secret YOUR_BOT_SECRET --url "portal.azure.net"
+```
+
+> Other Authentication Service Providers exist including the ability to create custom oAuth providers. `az bot authsetting list-providers` is a quick way to review the pre-configured ones.
 
 ## Testing
-Once deployment is complete, run your bot project within your development envrironment and open the [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator). Within the Emulator, choose Open Bot from the File menu and navigate to the .bot file in your directory which was created in the previous step.
+Once deployment is complete, run your bot project within your development envrionment and open the [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator). Within the Emulator, choose Open Bot from the File menu and navigate to the .bot file in your directory which was created in the previous step.
 
-You should see an Introduction Adaptive card and the example on-boarding will start. 
+You should see an Introduction Adaptive card and the example on-boarding process will start. 
 
 See the [Testing](./customassistant-testing.md) section for information on how to test your Virtual Assistant.
-
-> Note that the Deployment will deploy your Virtual Assistant but will not configure Skills. These are an optional step which is documented [here](./customassistant-addingskills.md).

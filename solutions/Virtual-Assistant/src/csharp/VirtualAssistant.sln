@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomAssistant", "assistant\CustomAssistant.csproj", "{D207238E-C1C2-4449-9984-1BE1F15B9B35}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistant", "assistant\VirtualAssistant.csproj", "{D207238E-C1C2-4449-9984-1BE1F15B9B35}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Solutions", "Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj", "{0106AD2E-C570-42DF-B54B-3ACA50D58D80}"
 EndProject
