@@ -2,7 +2,7 @@
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "type": "AdaptiveCard",
   "version": "1.0",
-  "speak": "Welcome to your Custom Assistant! Now that you're up and running, let's get started.",
+  "speak": "Welcome to your Virtual Assistant! Now that you're up and running, let's get started.",
   "body": [
     {
       "type": "Image",
@@ -14,8 +14,8 @@
       "spacing": "medium",
       "size": "default",
       "weight": "bolder",
-      "text": "Welcome to **your** Custom Assistant!",
-      "speak": "Welcome to your Custom Assistant",
+      "text": "Welcome to **your** Virtual Assistant!",
+      "speak": "Welcome to your Virtual Assistant",
       "wrap": true,
       "maxLines": 0
     },
@@ -23,7 +23,7 @@
       "type": "TextBlock",
       "size": "default",
       "isSubtle": "yes",
-      "text": "Now that you have successfully run your Custom Assistant, follow the links in this Adaptive Card to explore further.",
+      "text": "Now that you have successfully run your Virtual Assistant, follow the links in this Adaptive Card to explore further.",
       "speak": "Now that your up and running let's get started.",
       "wrap": true,
       "maxLines": 0

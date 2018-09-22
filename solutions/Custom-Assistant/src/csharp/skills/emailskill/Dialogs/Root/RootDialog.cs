@@ -109,6 +109,7 @@ namespace EmailSkill
                         break;
                     }
 
+                case Email.Intent.SearchMessages:
                 case Email.Intent.ShowNext:
                 case Email.Intent.ShowPrevious:
                 case Email.Intent.CheckMessages:

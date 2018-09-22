@@ -75,6 +75,7 @@ namespace CalendarSkill
                         break;
                     }
 
+                case Calendar.Intent.FindMeetingRoom:
                 case Calendar.Intent.CreateCalendarEntry:
                     {
                         await dc.BeginDialogAsync(CreateEventDialog.Name, skillOptions);
@@ -99,6 +100,7 @@ namespace CalendarSkill
                         break;
                     }
 
+                case Calendar.Intent.FindCalendarEntry:
                 case Calendar.Intent.ShowNext:
                 case Calendar.Intent.ShowPrevious:
                 case Calendar.Intent.Summary:

@@ -3,24 +3,24 @@
   "DidntUnderstandMessage": {
     "replies": [
       {
-        "text": "Sorry, didn't get what you mean.",
-        "speak": "Sorry, didn't get what you mean."
+        "text": "Sorry, I didn't understand what you meant.",
+        "speak": "Sorry, I didn't understand what you meant."
       },
       {
-        "text": "I don't understand, try in a different way.",
-        "speak": "I don't understand, try in a different way."
+        "text": "I didn't understand, perhaps try again in a different way.",
+        "speak": "I didn't understand, perhaps try again in a different way."
       },
       {
-        "text": "Can you try to ask me in a different way.",
-        "speak": "Can you try to ask me in a different way."
+        "text": "Can you try to ask in a different way.",
+        "speak": "Can you try to ask in a different way."
       },
       {
         "text": "I didn't get what you mean, can you try in a different way.",
         "speak": "I didn't get what you mean, can you try in a different way."
       },
       {
-        "text": "Could you be more elaborate.",
-        "speak": "Could you be more elaborate."
+        "text": "Could you elaborate?",
+        "speak": "Could you elaborate?"
       },
       {
         "text": "Say that again please in a different way.",
@@ -51,8 +51,8 @@
     "suggestedActions": [
       "What are my meetings today?",
       "What is my next meeting",
-      "I want to set up a meeting ",
-      "Can you update a meeting ",
+      "I want to set up a meeting",
+      "Can you update a meeting",
       "Can you cancel my event"
     ],
     "inputHint": "expectingInput"
@@ -60,8 +60,8 @@
   "CalendarWelcomeMessage": {
     "replies": [
       {
-        "text": "Welcome to Calendar bot! I can provide you an overview of your meetings today, read out your upcoming meeting, or create a new meeting for you.",
-        "speak": "Welcome to Calendar bot! I can provide you an overview of your meetings today, read out your upcoming meeting, or create a new meeting for you."
+        "text": "Welcome to Calendar Skill! I can provide you an overview of your meetings today, read out your upcoming meeting, or create a new meeting for you.",
+        "speak": "Welcome to Calendar Skill! I can provide you an overview of your meetings today, read out your upcoming meeting, or create a new meeting for you."
       }
     ],
     "suggestedActions": [
@@ -118,8 +118,8 @@
         "speak": "Please log in so I can take further action."
       },
       {
-        "text": "Please log in so I can proceed your request.",
-        "speak": "Please log in so I can proceed your request."
+        "text": "Please log in so I can proceed with your request.",
+        "speak": "Please log in so I can proceed with your request."
       },
       {
         "text": "Can you log in so I can help you out further.",
@@ -160,8 +160,8 @@
         "speak": "Your sign out was succesful."
       },
       {
-        "text": "You have successfully sign out.",
-        "speak": "You have successfully sign out."
+        "text": "You have successfully signed out.",
+        "speak": "You have successfully signed out."
       },
       {
         "text": "You have been logged out.",
@@ -184,8 +184,8 @@
     "replies": [
 
       {
-        "text": "What is the meeting content?",
-        "speak": "What is the meeting content?"
+        "text": "What is the meeting title?",
+        "speak": "What is the meeting title?"
       }
     ],
     "inputHint": "expectingInput"
@@ -214,8 +214,8 @@
     "replies": [
 
       {
-        "text": "It is not an email address, please try again. (Please enter Email address like: Alice@example.com)",
-        "speak": "It is not an email address, please try again. (Please enter Email address like: Alice@example.com)"
+        "text": "That doesn't look like an email address, please try again. (Please enter Email address like: Alice@example.com)",
+        "speak": "That doesn't look like an email address, please try again. (Please enter Email address like: Alice@example.com)"
       }
     ],
     "inputHint": "expectingInput"
@@ -223,20 +223,20 @@
   "PromptTooManyPeople": {
     "replies": [
       {
-        "text": "There are too many people named {UserName}, Please re-enter the name.",
-        "speak": "There are too many people named {UserName}, Please re-enter the name."
+        "text": "There are too many people called {UserName}, Please re-enter the name.",
+        "speak": "There are too many people called {UserName}, Please re-enter the name."
       },
       {
-        "text": "I found too many contacts with this name. Can you try to be more elaborate?",
-        "speak": "I found too many contacts with this name. Can you try to be more elaborate?"
+        "text": "I found too many contacts with this name. Can you be a bit more specific?",
+        "speak": "I found too many contacts with this name. Can you be a bit more specific?"
       },
       {
-        "text": "Can you try again by stating out their firstname and surname?",
-        "speak": "Can you try again by stating out their firstname and surname?"
+        "text": "Can you try again by stating their firstname and surname?",
+        "speak": "Can you try again by stating their firstname and surname?"
       },
       {
-        "text": "I have found too many contacts, can you try again by naming out the contact? It helps if you include a surname.",
-        "speak": "I have found too many contacts, can you try again by naming out the contact? It helps if you include a surname."
+        "text": "I have found too many contacts, can you try again by being more specific with the name? It helps if you include a surname.",
+        "speak": "I have found too many contacts, can you try again by being more specific with the name? It helps if you include a surname."
       }
     ],
     "inputHint": "expectingInput"
@@ -261,8 +261,8 @@
   "ConfirmRecipient": {
     "replies": [
       {
-        "text": "Which user you are talking about?",
-        "speak": "Which user you are talking about?"
+        "text": "Who do you want to invite?",
+        "speak": "Who do you want to invite?"
       },
       {
         "text": "What contact do you want to select?",
@@ -305,8 +305,8 @@
     "replies": [
 
       {
-        "text": "Do you want to add a location?",
-        "speak": "Do you want to add a location?"
+        "text": "What location?",
+        "speak": "What location?"
       }
     ],
     "inputHint": "expectingInput"
@@ -361,8 +361,8 @@
     "replies": [
 
       {
-        "text": "No event start at this time or named as this title, please try again.",
-        "speak": "No event start at this time or named as this title, please try again."
+        "text": "No event start at this time or with that title, please try again.",
+        "speak": "No event start at this time or with that title, please try again."
       },
       {
         "text": "I could not find an event you mentioned, please try again.",
@@ -373,8 +373,8 @@
         "speak": "No event can be found with the event time or title, can you try again?"
       },
       {
-        "text": "It seems there is no event with this name, try again please.",
-        "speak": "It seems there is no event with this name, try again please."
+        "text": "It seems there is no event with that name, try again please.",
+        "speak": "It seems there is no event with that name, try again please."
       },
       {
         "text": "It seems there is no event at this time, please try again",
@@ -387,8 +387,8 @@
     "replies": [
 
       {
-        "text": "What event would you like to adjust? By communicating the start time or subject I can retrieve your event.",
-        "speak": "What event would you like to adjust? By communicating the start time or subject I can retrieve your event."
+        "text": "What event would you like to adjust? By communicating the start time or title I can retrieve your event.",
+        "speak": "What event would you like to adjust? By communicating the start time or title I can retrieve your event."
       }
     ],
     "inputHint": "expectingInput"
@@ -397,8 +397,8 @@
     "replies": [
 
       {
-        "text": "What event would you like to delete? By communicating the start time or subject I can retrieve your event.",
-        "speak": "What event would you like to delete? By communicating the start time or subject I can retrieve your event."
+        "text": "What event would you like to delete? By communicating the start time or title I can retrieve your event.",
+        "speak": "What event would you like to delete? By communicating the start time or title I can retrieve your event."
       }
     ],
     "inputHint": "expectingInput"
@@ -407,8 +407,8 @@
     "replies": [
 
       {
-        "text": "Multiple events here, please select the one you need.",
-        "speak": "Multiple events here, please select the one you need."
+        "text": "Multiple events found, please select the one you need.",
+        "speak": "Multiple events found, please select the one you need."
       },
       {
         "text": "I have found multiple events, can you select the event of choice.",
@@ -480,8 +480,8 @@
   "ConfirmCreateFailed": {
     "replies": [
       {
-        "text": "I'm ready to create it. Please confirm the following. Please say 'yes' or 'no' or something like that.",
-        "speak": "I'm ready to create it. Please confirm the following. Please say 'yes' or 'no' or something like that."
+        "text": "I'm ready to create it. Please confirm the following. Please confirm.",
+        "speak": "I'm ready to create it. Please confirm the following. Please confirm."
       }
     ],
     "inputHint": "expectingInput"
@@ -498,8 +498,8 @@
   "ConfirmUpdateFailed": {
     "replies": [
       {
-        "text": "Are you sure you want to update the following? Please say 'yes' or 'no' or something like that.",
-        "speak": "Are you sure you want to update the following? Please say 'yes' or 'no' or something like that."
+        "text": "Are you sure you want to update the following? Please confirm.",
+        "speak": "Are you sure you want to update the following? Please confirm."
       }
     ],
     "inputHint": "expectingInput"
@@ -507,8 +507,8 @@
   "ProviderSelect": {
     "replies": [
       {
-        "text": "Which provider you want, MS or Google?",
-        "speak": "Which provider you want, MS or Google?"
+        "text": "Which provider you want, Microsoft or Google?",
+        "speak": "Which provider you want, Microsoft or Google?"
       }
     ],
     "inputHint": "expectingInput"
@@ -516,8 +516,8 @@
   "NotEventOrganizer": {
     "replies": [
       {
-        "text": "Can not update this event because you are not the organizer.",
-        "speak": "Can not update this event because you are not the organizer."
+        "text": "I can't update this event because you are not the organizer.",
+        "speak": "I can't update this event because you are not the organizer."
       }
     ],
     "inputHint": "expectingInput"
@@ -570,8 +570,8 @@
   "ShowMultipleMeetingSummaryMessage": {
     "replies": [
       {
-        "text": "I found {Count} events for you today:",
-        "speak": "I found {Count} events for you today: the first is {EventName1} for {EventDuration} and the last meeting is {EventName2} at {EventTime}"
+        "text": "I found {Count} meetings for you today:",
+        "speak": "I found {Count} meetings for you today: the first is {EventName1} for {EventDuration} and the last meeting is {EventName2} at {EventTime}"
       }
     ],
     "inputHint": "acceptingInput"
@@ -588,8 +588,8 @@
   "ShowNoMeetingMessage": {
     "replies": [
       {
-        "text": "You don't have any meeting.",
-        "speak": "You don't have any meeting."
+        "text": "You don't have any meetings.",
+        "speak": "You don't have any meetings."
       }
     ],
     "inputHint": "acceptingInput"
@@ -674,36 +674,36 @@
         "speak": "Which one do you want to hear?"
       },
       {
-        "text": "Which event would you like me to read out?",
-        "speak": "Which event would you like me to read out?"
+        "text": "Which meeting would you like me to read out?",
+        "speak": "Which meeting would you like me to read out?"
       },
       {
-        "text": "Any event you would like me to read out?",
-        "speak": "Any event you would like me to read out?"
+        "text": "Any meeting you would like me to read out?",
+        "speak": "Any meeting you would like me to read out?"
       },
       {
-        "text": "Which event do you want more details on?",
-        "speak": "Which event do you want more details on?"
+        "text": "Which meeting do you want more details on?",
+        "speak": "Which meeting do you want more details on?"
       },
       {
         "text": "Which one would you like to know the content of?",
         "speak": "Which one would you like to know the content of?"
       },
       {
-        "text": "Which event do you want me to read out?",
-        "speak": "Which event do you want me to read out?"
+        "text": "Which meeting do you want me to read out?",
+        "speak": "Which meeting do you want me to read out?"
       },
       {
         "text": "Which one do you want to hear about?",
         "speak": "Which one do you want to hear about?"
       },
       {
-        "text": "Which event do you want me to give you the details?",
-        "speak": "Which event do you want me to give you the details?"
+        "text": "Which meeting do you want me to give you the details?",
+        "speak": "Which meeting do you want me to give you the details?"
       },
       {
-        "text": "Which event should I read to you?",
-        "speak": "Which event should I read to you?"
+        "text": "Which meeting should I read to you?",
+        "speak": "Which meeting should I read to you?"
       }
     ],
     "inputHint": "expectingInput"
@@ -720,11 +720,11 @@
   "ReadOutMessage": {
     "replies": [
       {
-        "text": "Details of event:",
+        "text": "Details of meeting:",
         "speak": "Details of event"
       },
       {
-        "text": "Content of event:",
+        "text": "Content of meeting:",
         "speak": "Content of event:"
       }
     ],
