@@ -21,7 +21,7 @@ The following scenarios are currently supported by the Skill:
 
 Your Authentication Connection and corresponding Application Registration should have the following Scopes added:
 
-- User.Read 
+- User.Read
 - Calendars.ReadWrite
 - People.Read
 
