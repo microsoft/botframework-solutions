@@ -133,9 +133,9 @@
     <value>Hey, {0}!</value>
   </data>
   <data name="HELP_TEXT" xml:space="preserve">
-    <value>I'm your Custom Assistant! I can perform a number of tasks through my connected skills. Right now I can help you with the Calendar, Email, Task and Point of Interest skills, or you can help me do more by creating your own!</value>
+    <value>I'm your Virtual Assistant! I can perform a number of tasks through my connected skills. Right now I can help you with Calendar, Email, Task and Point of Interest questions. Or you can help me do more by creating your own!</value>
   </data>
   <data name="HELP_TITLE" xml:space="preserve">
-    <value>Help for Custom Assistant</value>
+    <value>Help for Virtual Assistant</value>
   </data>
 </root>

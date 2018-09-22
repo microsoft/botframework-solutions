@@ -80,8 +80,8 @@
   "AfterToDoTaskAdded": {
     "replies": [
       {
-        "text": "I have added the task {taskContent} to you list.",
-        "speak": "I have added the task {taskContent} to you list."
+        "text": "I have added the task {taskContent} to your list.",
+        "speak": "I have added the task {taskContent} to your list."
       }
     ],
     "inputHint": "expectingInput"
@@ -134,8 +134,8 @@
   "NoToDoTasksPrompt": {
     "replies": [
       {
-        "text": "Your To Do list is empty. Do you want to add a first To Do?",
-        "speak": "Your To Do list is empty. Do you want to add a first To Do?"
+        "text": "Your To Do list is empty. Do you want to add something",
+        "speak": "Your To Do list is empty. Do you want to add something"
       },
       {
         "text": "Your To Do list has no tasks. Want to add a new one?",
@@ -165,8 +165,8 @@
   "AskDeletionConfirmation": {
     "replies": [
       {
-        "text": "Are you sure you want to delete To Do: {toDoTask}?",
-        "speak": "Are you sure you want to delete To Do: {toDoTask}?"
+        "text": "Are you sure you want to delete {toDoTask}?",
+        "speak": "Are you sure you want to delete {toDoTask}?"
       }
     ],
     "inputHint": "expectingInput"

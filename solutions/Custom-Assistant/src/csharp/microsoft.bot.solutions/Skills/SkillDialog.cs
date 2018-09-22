@@ -204,7 +204,6 @@
                         response.Name = TokenResponseEventName;
                         response.Value = tokenResponse;
 
-                        // TODO: lamil - Something about this is preventing the skillDialog from ending... more debugging needed
                         var result = await ForwardActivity(dc, response);
 
                         if (result.Status == DialogTurnStatus.Complete)
