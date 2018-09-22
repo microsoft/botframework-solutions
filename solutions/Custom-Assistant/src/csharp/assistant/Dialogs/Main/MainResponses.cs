@@ -60,20 +60,23 @@ namespace CustomAssistant
         public static IMessageActivity SendHelpCard(ITurnContext turnContext, dynamic data)
         {
             var response = turnContext.Activity.CreateReply();
-            response.Attachments = new List<Attachment>();
-
-            response.Attachments.Add(new HeroCard()
+            response.Attachments = new List<Attachment>()
             {
-                Title = MainStrings.HELP_TITLE,
-                Text = MainStrings.HELP_TEXT,
-                Buttons = new List<CardAction>()
+                new HeroCard()
                 {
-                    new CardAction(type: ActionTypes.ImBack, title: "Test LUIS", value: "Hello"),
-                    new CardAction(type: ActionTypes.ImBack, title: "Test QnAMaker", value: "What is the sdk v4?"),
-                    new CardAction(type: ActionTypes.OpenUrl, title: "Learn More", value: "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"),
-                },
-            }.ToAttachment());
+                    Title = MainStrings.HELP_TITLE,
+                    Text = MainStrings.HELP_TEXT
+                }.ToAttachment()
+            };
 
+            response.SuggestedActions = new SuggestedActions();
+            response.SuggestedActions.Actions = new List<CardAction>()
+            {
+                new CardAction(type: ActionTypes.ImBack, text: "What's my schedule?", value: "What's my schedule?"),
+                new CardAction(type: ActionTypes.ImBack, text: "Send an email", value: "Send an email"),
+                new CardAction(type: ActionTypes.ImBack, text: "Schedule a meeting", value: "Schedule a meeting"),
+                new CardAction(type: ActionTypes.ImBack, text: "Find a coffee shop nearby", value: "Find a coffee shop nearby"),
+            };
             return response;
         }
     }

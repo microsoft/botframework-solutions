@@ -13,7 +13,7 @@ namespace CustomAssistant
         public CustomSkillDialog(BotServices botServices)
             : base(nameof(CustomSkillDialog))
         {
-            AddDialog(new SkillDialog(botServices.CosmosDbOptions));
+            AddDialog(new SkillDialog(botServices.CosmosDbOptions, botServices.TelemetryClient));
         }
 
         protected override Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)

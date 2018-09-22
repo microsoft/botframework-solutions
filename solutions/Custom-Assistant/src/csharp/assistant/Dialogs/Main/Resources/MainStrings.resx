@@ -133,9 +133,9 @@
     <value>Hey, {0}!</value>
   </data>
   <data name="HELP_TEXT" xml:space="preserve">
-    <value>This card can be used to display information to help your user interact with your bot. The buttons below can be used for sample queries or links to external sites.</value>
+    <value>I'm your Custom Assistant! I can perform a number of tasks through my connected skills. Right now I can help you with the Calendar, Email, Task and Point of Interest skills, or you can help me do more by creating your own!</value>
   </data>
   <data name="HELP_TITLE" xml:space="preserve">
-    <value>HELP</value>
+    <value>Help for Custom Assistant</value>
   </data>
 </root>
