@@ -1,0 +1,13 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "speak": "I found a route that will get you to {Location} in {TravelTime}. {TrafficDelay}",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "I found a route that will get you to {Location} in {TravelTime}. {TrafficDelay}",
+      "wrap": true
+    }
+  ]
+}

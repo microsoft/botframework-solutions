@@ -1,0 +1,38 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0",
+  "type": "AdaptiveCard",
+  "speak": "{LocationName} is located at {Address}",
+  "body": [
+    {
+      "type": "Image",
+      "url": "{ImageUrl}",
+      "size": "auto",
+      "horizontalAlignment": "center"
+    },
+    {
+      "type": "TextBlock",
+      "text": "{LocationName}",
+      "size": "medium",
+      "weight": "bolder"
+    },
+    {
+      "type": "TextBlock",
+      "text": "{Address}",
+      "size": "medium"
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "Show me directions",
+      "data": {
+        "event": {
+          "name": "POI.ActiveLocation",
+          "text": "Show me directions",
+          "value": "{LocationName}"
+        }
+      }
+    }
+  ]
+}

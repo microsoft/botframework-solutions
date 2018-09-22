@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<head>
+    <link href="https://cdn.botframework.com/botframework-webchat/0.14.3-master.d1a161a/botchat.css" rel="stylesheet" />
+</head>
+
+<div id="bot" />
+<script src="https://cdn.botframework.com/botframework-webchat/0.14.3-master.d1a161a/botchat.js"></script>
+<script>
+      BotChat.App({
+          directLine: {
+              secret: '@ViewData["DirectLineSecret"]' },
+        user: { id: '@ViewData["UserId"]' },
+        bot: { id: '@ViewData["BotId"]' },
+        resize: 'detect'
+      }, document.getElementById("bot"));
+</script>

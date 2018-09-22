@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <CodeAnalysisRuleSet>..\samples.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <CodeAnalysisRuleSet>..\samples.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AdaptiveCards" Version="1.0.3" />
+    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.7.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.0.6" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.0.6" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.0.6" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.0.6" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.0.6" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.0.6" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\CommonResponses.cs">
+      <DependentUpon>CommonResponses.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\Cards\OnboardInfoCard.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>OnboardInfoCard.cs</LastGenOutput>
+    </None>
+    <None Update="Resources\CommonResponses.en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\CommonResponses.tt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LastGenOutput>CommonResponses.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,48 @@
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.0",
+    "body": [
+        {
+            "type": "Image",
+            "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtB3AwMUeNoq4gUBGe6Ocj8kyh3bXa9ZbV7u1fVKQoyKFHdkqU",
+            "size": "stretch"
+        },
+          {
+            "type": "TextBlock",
+            "spacing":"medium",
+            "size": "default",
+            "weight":"bolder",
+            "text": "Welcome to **your** Custom Assistant!",
+            "speak": "Welcome to your Custom Assistant",
+            "wrap": true,
+            "maxLines": 0
+        },
+        {
+            "type": "TextBlock",
+            "size": "default",
+            "isSubtle": "yes",
+            "text": "Now that you have successfully run your Custom Assistant, follow the links in this Adaptive Card to explore further.",
+            "speak": "Now that your up and running let's get started.",
+            "wrap": true,
+            "maxLines": 0
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.OpenUrl",
+            "title": "Documentation",
+            "url": "https://aka.ms/customassistantdocss"
+        },
+        {
+            "type": "Action.OpenUrl",
+            "title": "Linked Accounts",
+            "url": "https://github.com/Microsoft/AI/blob/master/solutions/Custom-Assistant/docs/customassistant-linkedaccounts.md"
+        },
+      {
+        "type": "Action.OpenUrl",
+        "title": "Skills",
+        "url": "https://github.com/Microsoft/AI/blob/master/solutions/Custom-Assistant/docs/customassistant-skills.md"
+      }
+    ]
+}
