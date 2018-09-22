@@ -27,11 +27,8 @@ Onboarding | An example OnBoarding flow enabling your Assistant to greet the use
 [ToDo Skill](./customassistant-skills-productivity-tasks.md) | The preview ToDo Skill provides a comprehensive language model for common task related activities, The skill is currently integrated into OneNote with Microsoft Graph (outlookTask) support to follow soon.
 [Device Integration](./customassistant-deviceintegration.md) | Our Azure Bot Service SDKs (DirectLine) along with Adaptive Card and Speech SDKs enable easy cross platform integration to devices. Additional device integration examples and platform including Edge are planned.
 [Test Harnesses](./customassistant-testing.md) | In addition to the Bot Framework Emulator, a WebChat based test harness is provided enabling more complex authentication scenarios to be tested. A simple Console based test harness demonstrates the approach to exchange messages to help frame the ease of device integration.
+[Automated Deployment](,/customassistant-createcustomassistant.md) | All the Azure resources required for your Assistant are automatically deployed: Bot registration, Azure App Service, LUIS, QnAMaker, Content Moderator, CosmosDB, Azure Storage, and Application Insights. Additionally, LUIS models for all skills, QnAMaker, and Dispatch models are created, trained, and published to enable immediate testing.
 Automotive Language Model | An Automotive language model covering core domains such as telephone, navigation and control of in-car features is coming soon
-
-In addition, all of the Azure resources required for the Bot are automatically deployed: Bot registration, Azure App Service, LUIS, QnAMaker, Content Moderator, CosmosDB, Azure Storage, and Application Insights. Additionally, base LUIS, QnAMaker, and Dispatch models are created, trained, and published to enable immediate testing of basic intents and routing.
-
-Once the template is created and deployment steps are executed you can hit F5 to test end-to-end. This provides a solid base from which to start your conversational experience, reducing multiple days' worth of effort that each project had to undertake and raises the conversational quality bar.
 
 ## Example Scenarios
 
