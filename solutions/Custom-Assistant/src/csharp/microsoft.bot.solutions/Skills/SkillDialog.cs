@@ -27,15 +27,17 @@
         private const string SkillBeginEventName = "skillBegin";
 
         private static CosmosDbStorageOptions _cosmosDbOptions;
+        private TelemetryClient _telemetryClient;
         private InProcAdapter inProcAdapter;
         private IBot activatedSkill;
         private bool skillInitialized = false;
 
         // We need access to Settings in order to prime the CosmosDb Storage and avoid having to store in local state
-        public SkillDialog(CosmosDbStorageOptions cosmosDbOptions)
+        public SkillDialog(CosmosDbStorageOptions cosmosDbOptions, TelemetryClient telemetryClient)
             : base(nameof(SkillDialog))
         {
             _cosmosDbOptions = cosmosDbOptions;
+            _telemetryClient = telemetryClient;
         }
 
         public override async Task<DialogTurnResult> BeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken)
@@ -126,9 +128,9 @@
                     OnTurnError = async (context, exception) =>
                     {
                         await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: exception.Message));
-                        TelemetryClient tc = new TelemetryClient();
-                        tc.TrackException(exception);
                         await context.SendActivityAsync(context.Activity.CreateReply($"Sorry, something went wrong trying to communicate with the skill. Please try again."));
+                        await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Skill Error: {exception.Message} | {exception.StackTrace}"));
+                        _telemetryClient.TrackException(exception);
                     },
                 };
 

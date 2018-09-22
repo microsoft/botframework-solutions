@@ -27,6 +27,8 @@ namespace CustomAssistant
         private UserState _userState;
         private ConversationState _conversationState;
         private SkillRouter _skillRouter;
+        private IStatePropertyAccessor<OnboardingState> _onboardingState;
+        private IStatePropertyAccessor<Dictionary<string, object>> _userInfoAccessor;
         private MainResponses _responder = new MainResponses();
 
         public MainDialog(BotServices services, ConversationState conversationState, UserState userState)
@@ -35,8 +37,10 @@ namespace CustomAssistant
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _conversationState = conversationState;
             _userState = userState;
+            _onboardingState = _userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
+            _userInfoAccessor = _userState.CreateProperty<Dictionary<string, object>>("userInfo");
 
-            AddDialog(new OnboardingDialog(_services, _userState.CreateProperty<OnboardingState>(nameof(OnboardingState))));
+            AddDialog(new OnboardingDialog(_services, _onboardingState));
             AddDialog(new EscalateDialog(_services));
             AddDialog(new CustomSkillDialog(_services));
 
@@ -46,8 +50,7 @@ namespace CustomAssistant
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var onboardingAccessor = _userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
-            var onboardingState = await onboardingAccessor.GetAsync(dc.Context, () => new OnboardingState());
+            var onboardingState = await _onboardingState.GetAsync(dc.Context, () => new OnboardingState());
 
             var view = new MainResponses();
             await view.ReplyWith(dc.Context, MainResponses.Intro);
@@ -61,7 +64,7 @@ namespace CustomAssistant
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var userInfoAccessor = _userState.CreateProperty<Dictionary<string, object>>("userInfo");
+            var userInformation = await _userInfoAccessor.GetAsync(dc.Context, () => new Dictionary<string, object>());
 
             // No dialog is currently on the stack and we haven't responded to the user
             // Check dispatch result
@@ -125,8 +128,6 @@ namespace CustomAssistant
 
                 case Dispatch.Intent.l_Calendar:
                     {
-                        var userInformation = await userInfoAccessor.GetAsync(dc.Context, () => new Dictionary<string, object>());
-
                         var luisService = _services.LuisServices["calendar"];
                         var luisResult = await luisService.RecognizeAsync<Calendar>(dc.Context, CancellationToken.None);
                         var matchedSkill = _skillRouter.IdentifyRegisteredSkill(intent.ToString());
@@ -143,8 +144,6 @@ namespace CustomAssistant
 
                 case Dispatch.Intent.l_Email:
                     {
-                        var userInfo = await userInfoAccessor.GetAsync(dc.Context, () => new Dictionary<string, object>());
-
                         var luisService = _services.LuisServices["email"];
                         var luisResult = await luisService.RecognizeAsync<Email>(dc.Context, CancellationToken.None);
                         var matchedSkill = _skillRouter.IdentifyRegisteredSkill(intent.ToString());
@@ -153,7 +152,7 @@ namespace CustomAssistant
                         {
                             LuisResult = luisResult,
                             MatchedSkill = matchedSkill,
-                            UserInfo = userInfo,
+                            UserInfo = userInformation,
                         });
 
                         break;
@@ -161,8 +160,6 @@ namespace CustomAssistant
 
                 case Dispatch.Intent.l_ToDo:
                     {
-                        var userInfo = await userInfoAccessor.GetAsync(dc.Context, () => new Dictionary<string, object>());
-
                         var luisService = _services.LuisServices["todo"];
                         var luisResult = await luisService.RecognizeAsync<ToDo>(dc.Context, CancellationToken.None);
                         var matchedSkill = _skillRouter.IdentifyRegisteredSkill(intent.ToString());
@@ -171,7 +168,7 @@ namespace CustomAssistant
                         {
                             LuisResult = luisResult,
                             MatchedSkill = matchedSkill,
-                            UserInfo = userInfo,
+                            UserInfo = userInformation,
                         });
 
                         break;
@@ -179,8 +176,6 @@ namespace CustomAssistant
 
                 case Dispatch.Intent.l_PointOfInterest:
                     {
-                        var userInfo = await userInfoAccessor.GetAsync(dc.Context, () => new Dictionary<string, object>());
-
                         var luisService = _services.LuisServices["pointofinterest"];
                         var luisResult = await luisService.RecognizeAsync<PointOfInterest>(dc.Context, CancellationToken.None);
                         var matchedSkill = _skillRouter.IdentifyRegisteredSkill(intent.ToString());
@@ -189,7 +184,7 @@ namespace CustomAssistant
                         {
                             LuisResult = luisResult,
                             MatchedSkill = matchedSkill,
-                            UserInfo = userInfo,
+                            UserInfo = userInformation,
                         });
 
                         break;
@@ -238,8 +233,7 @@ namespace CustomAssistant
             var ev = dc.Context.Activity.AsEventActivity();
             await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Received event: {ev.Name}"));
 
-            var userInfoAccessor = _userState.CreateProperty<Dictionary<string, object>>("userInfo");
-            var userInfo = await userInfoAccessor.GetAsync(dc.Context, () => new System.Collections.Generic.Dictionary<string, object>());
+            var userInfo = await _userInfoAccessor.GetAsync(dc.Context, () => new Dictionary<string, object>());
 
             switch (ev.Name)
             {

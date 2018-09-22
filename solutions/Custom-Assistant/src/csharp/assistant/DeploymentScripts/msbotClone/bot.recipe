@@ -37,15 +37,6 @@
       "collection": "botstate-collection"
     },
     {
-      "type": "generic",
-      "id": "364",
-      "name": "Authentication",
-      "url": "",
-      "configuration": {
-        "Azure Active Directory v2": ""
-      }
-    },
-    {
       "type": "luis",
       "id": "general",
       "name": "General"

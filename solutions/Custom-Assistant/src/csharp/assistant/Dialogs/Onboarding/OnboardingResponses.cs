@@ -1,8 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using CustomAssistant.Dialogs.Onboarding.Resources;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.TemplateManager;
+using Microsoft.Bot.Schema;
 
 namespace CustomAssistant
 {
@@ -14,6 +19,7 @@ namespace CustomAssistant
         public const string _haveEmail = "haveEmail";
         public const string _locationPrompt = "locationPrompt";
         public const string _haveLocation = "haveLocation";
+        public const string _linkedAccountsInfo = "linkedAccountsInfo";
 
         private static LanguageTemplateDictionary _responseTemplates = new LanguageTemplateDictionary
         {
@@ -24,24 +30,16 @@ namespace CustomAssistant
                     (context, data) => OnboardingStrings.NAME_PROMPT
                 },
                 {
-                    _haveName,
-                    (context, data) => string.Format(OnboardingStrings.HAVE_NAME, data.name)
-                },
-                {
-                    _emailPrompt,
-                    (context, data) => OnboardingStrings.EMAIL_PROMPT
-                },
-                {
-                    _haveEmail,
-                    (context, data) => string.Format(OnboardingStrings.HAVE_EMAIL, data.email)
-                },
-                {
                     _locationPrompt,
-                    (context, data) => OnboardingStrings.LOCATION_PROMPT
+                    (context, data) => string.Format(OnboardingStrings.LOCATION_PROMPT, data.Name)
                 },
                 {
                     _haveLocation,
-                    (context, data) => string.Format(OnboardingStrings.HAVE_LOCATION, data.Name, data.Location)
+                    (context, data) => string.Format(OnboardingStrings.HAVE_LOCATION, data.Location)
+                },
+                {
+                    _linkedAccountsInfo,
+                    (context, data) => ShowLinkedAccountsCard(context, data)
                 },
             },
             ["en"] = new TemplateIdMap { },
@@ -50,7 +48,29 @@ namespace CustomAssistant
 
         public OnboardingResponses()
         {
-            this.Register(new DictionaryRenderer(_responseTemplates));
+            Register(new DictionaryRenderer(_responseTemplates));
+        }
+
+        private static IMessageActivity ShowLinkedAccountsCard(ITurnContext context, dynamic data)
+        {
+            var response = context.Activity.CreateReply();
+            response.Attachments = new List<Attachment>()
+            {
+                new HeroCard()
+                {
+                    Title = "I can do more if you link your accounts!",
+                    Text = "Switch to your companion app to get set up.",
+                    Images = new List<CardImage>()
+                    {
+                        new CardImage(){
+                            Url = "https://github.com/Microsoft/AI/blob/master/solutions/Custom-Assistant/docs/media/customassistant-linkedaccounts.png",
+                            Alt = "Person holding mobile device."
+                        },
+                    },
+                }.ToAttachment()
+            };
+
+            return response;           
         }
     }
 }
