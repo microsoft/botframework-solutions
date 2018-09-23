@@ -1,7 +1,5 @@
 # Custom Assistant Known Issues
 
-## Overview
-
 # Known Issues
 
 We are tracking the following known issues on our backlog:
