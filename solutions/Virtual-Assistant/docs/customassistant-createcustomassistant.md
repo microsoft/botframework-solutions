@@ -21,6 +21,11 @@ npm install -g botdispatch chatdown ludown luis-apis luisgen msbot qnamaker
 az extension add -n botservice
 ```
 
+- Retrieve your LUIS Authoring Key
+   - Review [this](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation page for the correct LUIS portal for the region you plan to deploy to. 
+   - Once signed in click on your name in the top right hand corner.
+   - Choose Settings and make a note of the Authoring Key for the next step.
+
 ### Clone the Repo
 
 The first step is to clone the [Microsoft Conversational AI GitHub Repo](https://github.com/Microsoft/AI). You'll find the Virtual Assistant solution within the `solutions\Virtual-Assistant` folder.
@@ -73,6 +78,8 @@ az account set --subscription "YOUR_SUBSCRIPTION_NAME"
 Your Virtual Assistant project has a deployment recipe enabling the `msbot clone services` command to automate deployment of all the above services into your Azure subscription and ensure the .bot file in your project is updated with all of the services including keys enabling seamless operation of your Virtual Assistant.
 
 To deploy your Virtual Assistant including all dependencies - e.g. CosmosDb, Application Insights, etc. run the following command from a command prompt within your project folder. Ensure you update the authoring key from the previous step and choose the Azure datacenter location you wish to use.
+
+> Ensure the LUIS authoring key retrieved on the previous step is for the region you specify below.
 
 ```shell
 msbot clone services --name "MyCustomAssistantName" --luisAuthoringKey "YOUR_AUTHORING_KEY" --folder "DeploymentScripts\msbotClone" --location "westus"
