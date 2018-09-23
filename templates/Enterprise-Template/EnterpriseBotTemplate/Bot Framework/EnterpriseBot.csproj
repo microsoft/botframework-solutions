@@ -87,4 +87,10 @@
     <Folder Include="Dialogs\Shared\Resources\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="*.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
