@@ -20,10 +20,7 @@ Messages are a specific Type of Activity set through the `ActivityType` property
 
 [Adaptive Cards](https://adaptivecards.io) provide the ability for your Custom Assistant to return User Experience elements (e.g. Cards, Images, Buttons) alongside text base responses. If the device or conversation canvas has a screen these Adaptive Cards can be rendered across a broad range of devices and platforms providing supporting User Experience where appropriate.
 
-Sample Adaptive Cards are available on the Adaptive Cards website with the [Calendar](https://adaptivecards.io/samples/WeatherLarge.html) sample being a good example of what's possible.
-
->TODO Add Adaptive Card links
->TODO Add Adaptive card example
+Sample Adaptive Cards are available on the Adaptive Cards website with the [Calendar](https://adaptivecards.io/samples/WeatherLarge.html) example demonstrating the possibilities.
 
 ## Input Hints
 
