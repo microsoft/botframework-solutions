@@ -1,8 +1,5 @@
 # Custom Assistant - Linked Accounts
 
-> [!NOTE]
-> This topics applies to v4 version of the SDK. 
-
 ## Overview
 
 Speech-led conversational scenarios require a different mindset and approach for certain scenarios, one such example is Authentication. If you take a Productivity scenario, whereby the user wants to access information in their calendar it's important for the IPA Bot to have access to a security token (Office 365 for example). 
