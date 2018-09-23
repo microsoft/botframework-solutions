@@ -6,7 +6,7 @@ This template greatly simplifies the creation of a new bot project. The template
 
 Feature | Description |
 ------------ | -------------
-Introduction Message | Introduction message with an Adaptive Card on conversation start. It explains the bot's capabilities and provides buttons to guide initial questions. Developers can then customize this as appropriate.
+Introduction Message | Introduction message with an Adaptive Card on conversation start. It explains the bots capabilities and provides buttons to guide initial questions. Developers can then customize this as appropriate.
 Automated typing indicators  | Send visual typing indicators during conversations and repeat for long running operations.
 .bot file driven configuration | All configuration information for your Bot e.g. LUIS, Dispatcher Endpoints, Application Insights is wrapped up inside the .bot file and used to drive the Startup of your Bot.
 Basic conversational intents  | Base intents (Greeting, Goodbye, Help, Cancel, etc.) in English, French, Italian, German, Spanish. These are provided in .LU (language understanding) files enabling easy modification.
@@ -24,7 +24,7 @@ Once the template is created and deployment steps are executed you can hit F5 to
 ## Getting Started
 
 - Refer to the [main documentation](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-enterprise-template-create-project?view=azure-bot-service-4.0
-) to get started with the Enterprise Template which is avialable for both Visual Studio and Yeoman.
+) to get started with the Enterprise Template which is currently available for Visual Studio with Yeoman coming soon.
 - This repo contains the Source Code for the template which will continue to be evolved with the latest best practice and capabilities. Feel free to raise Issues or submit Pull Requests.
 
 # Contributing
