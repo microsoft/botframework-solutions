@@ -204,6 +204,7 @@ namespace PointOfInterestSkill
                         if (activeLocation != null)
                         {
                             state.ActiveLocation = activeLocation;
+                            state.FoundLocations = null;
                         }
 
                         // Activity should have text to trigger next intent, update Type & Route again
