@@ -20,7 +20,7 @@ namespace PointOfInterestSkill
             SearchText = string.Empty;
             SearchAddress = string.Empty;
             CurrentCoordinates = new LatLng() { Latitude = 47.640568390488625, Longitude = -122.1293731033802 };
-            FoundLocations = new List<Location>();
+            FoundLocations = null;
             ActiveRoute = null;
             SearchDescriptor = string.Empty;
         }

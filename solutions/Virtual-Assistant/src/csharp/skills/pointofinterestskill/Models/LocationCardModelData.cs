@@ -11,5 +11,9 @@ namespace PointOfInterestSkill
         public string LocationName { get; set; }
 
         public string Address { get; set; }
+
+        public string SpeakAddress { get; set; }
+
+        public string ActionText { get; set; }
     }
 }

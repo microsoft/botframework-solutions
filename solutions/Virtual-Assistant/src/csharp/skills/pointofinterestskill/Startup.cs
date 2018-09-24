@@ -68,6 +68,17 @@ namespace PointOfInterestSkill
                 return accessors;
             });
 
+            services.AddSingleton<PointOfInterestSkillServices>(sp =>
+            {
+                var pointOfInterestSkillService = new PointOfInterestSkillServices();
+
+                // Maluuba Navigation (split intents)
+                LuisApplication luisModel = new LuisApplication("21bd78d5-8699-4e3b-af27-877a005ef7bc", "943d5d283a1443d6a5be6a38a9acff2e", "https://westus.api.cognitive.microsoft.com/");
+
+                pointOfInterestSkillService.LuisRecognizer = new LuisRecognizer(luisModel, null, true);
+                return pointOfInterestSkillService;
+            });
+
             services.AddSingleton<IServiceManager, ServiceManager>();
 
             services.AddBot<PointOfInterestSkill>(options =>
