@@ -9,7 +9,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 
-namespace CustomAssistant
+namespace VirtualAssistant
 {
     /// <summary>
     /// Main entry point and orchestration for bot.

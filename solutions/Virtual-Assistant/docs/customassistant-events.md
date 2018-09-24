@@ -15,7 +15,6 @@ At the time of writing the following events are supported out of the box and per
 - Name: `IPA.Timezone`, Value: TimeZoneInfo Identifier (e.g. Pacific Standard Time)
 
 > The mechanism for sharing User information between the Custom Assistant and Skills is expected to change in a future release. 
-> 
 > An automatic event processing and storage mechanism is being evaluated for a future release.
 
 ## Outbound Events

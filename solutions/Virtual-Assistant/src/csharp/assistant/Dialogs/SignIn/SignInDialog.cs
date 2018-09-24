@@ -3,13 +3,13 @@
 
 using System.Threading;
 using System.Threading.Tasks;
-using CustomAssistant.Dialogs.SignIn.Resources;
+using VirtualAssistant.Dialogs.SignIn.Resources;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Graph;
 
-namespace CustomAssistant
+namespace VirtualAssistant
 {
     public class SignInDialog : ComponentDialog
     {

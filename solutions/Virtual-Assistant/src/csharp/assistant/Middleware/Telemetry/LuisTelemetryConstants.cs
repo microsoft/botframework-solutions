@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace CustomAssistant
+namespace VirtualAssistant
 {
     /// <summary>
     /// The Application Insights property names that we're logging.

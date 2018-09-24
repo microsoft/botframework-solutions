@@ -4,7 +4,7 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace CustomAssistant
+namespace VirtualAssistant
 {
     public class Program
     {

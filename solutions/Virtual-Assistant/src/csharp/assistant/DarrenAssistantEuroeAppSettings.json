@@ -1,0 +1,68 @@
+{
+  "botFilePath": ".\\DarrenAssistantEurope.bot",
+  "botFileSecret": "fkWggaPv9GM0DRYV9E3r8GBn4TJrvm+qWlJUEjJVyvE=",
+  "ApplicationInsights": {
+    "InstrumentationKey": "1233bdea-655a-4515-9372-ea52032255c3"
+  },
+  "Skills": [
+    {
+      "Name": "Calendar",
+      "DispatcherModelName": "l_Calendar",
+      "Description": "The Calendar Skill adds Calendar related capabilities to your Bot.",
+      "Assembly": "CalendarSkill.CalendarSkill, CalendarSkill, Version=1.0.0.0, Culture=neutral",
+      "AuthConnectionName": "AdAuthConnection",
+      "Parameters": [
+        "IPA.Timezone"
+      ],
+      "Configuration": {
+        "LuisAppId": "86dfdf06-c64a-4973-bfca-6edb1ef3ac7e",
+        "LuisSubscriptionKey": "f12154d2bee542a0a505042508871195",
+        "LuisEndpoint": "https://westeurope.api.cognitive.microsoft.com"
+      }
+    },
+    {
+      "Name": "Email",
+      "DispatcherModelName": "l_Email",
+      "Description": "The Email Skill adds Email related capabilities to your Bot.",
+      "Assembly": "EmailSkill.EmailSkill, EmailSkill, Version=1.0.0.0, Culture=neutral",
+      "AuthConnectionName": "AdAuthConnection",
+      "Parameters": [
+        "IPA.Timezone"
+      ],
+      "Configuration": {
+        "LuisAppId": "902c6f13-928c-42f8-ae54-9831eee3f7f6",
+        "LuisSubscriptionKey": "f12154d2bee542a0a505042508871195",
+        "LuisEndpoint": "https://westeurope.api.cognitive.microsoft.com"
+      }
+    },
+    {
+      "Name": "ToDo",
+      "DispatcherModelName": "l_ToDo",
+      "Description": "The ToDo Skill adds Task related capabilities to your Bot.",
+      "Assembly": "ToDoSkill.ToDoSkill, ToDoSkill, Version=1.0.0.0, Culture=neutral",
+      "AuthConnectionName": "AdAuthConnection",
+      "Configuration": {
+        "LuisAppId": "fd84a2ec-21a5-4ced-9e26-8ea43e79fd8c",
+        "LuisSubscriptionKey": "f12154d2bee542a0a505042508871195",
+        "LuisEndpoint": "https://westeurope.api.cognitive.microsoft.com"
+      }
+    },
+    {
+      "Name": "PointOfInterest",
+      "DispatcherModelName": "l_PointOfInterest",
+      "Description": "The Point of Interest skill adds location based intentst to your Bot.",
+      "Assembly": "PointOfInterestSkill.PointOfInterestSkill, PointOfInterestSkill, Version=1.0.0.0, Culture=neutral",
+      "AuthConnectionName": "",
+      "Parameters": [
+        "IPA.Location",
+        "IPA.Timezone"
+      ],
+      "Configuration": {
+        "AzureMapsKey": "y6FikE8gIBUbUvl84ZJf1QaC8K8rDGWLXjGd0oBFjHA",
+        "LuisAppId": "c602aaf8-8db3-4d37-82d3-39b651f9b2ec",
+        "LuisSubscriptionKey": "f12154d2bee542a0a505042508871195",
+        "LuisEndpoint": "https://westeurope.api.cognitive.microsoft.com"
+      }
+    }
+  ]
+}

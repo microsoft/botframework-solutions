@@ -3,13 +3,13 @@
 
 using System.Collections.Generic;
 using System.IO;
-using CustomAssistant.Dialogs.Main.Resources;
+using VirtualAssistant.Dialogs.Main.Resources;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.TemplateManager;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json;
 
-namespace CustomAssistant
+namespace VirtualAssistant
 {
     public class MainResponses : TemplateManager
     {

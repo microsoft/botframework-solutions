@@ -3,7 +3,7 @@
 
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace CustomAssistant
+namespace VirtualAssistant
 {
     public class OnboardingState : DialogState
     {

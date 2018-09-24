@@ -331,3 +331,5 @@ ASALocalRun/
 
 # ZIP Files
 *.zip
+/solutions/Virtual-Assistant/src/csharp/assistant/DarrenAssistantEurope.bot
+/solutions/Virtual-Assistant/src/csharp/assistant/appsettings.sjon

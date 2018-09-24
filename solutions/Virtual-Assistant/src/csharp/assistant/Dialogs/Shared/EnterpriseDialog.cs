@@ -7,7 +7,7 @@ using Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs;
 
-namespace CustomAssistant
+namespace VirtualAssistant
 {
     public class EnterpriseDialog : InterruptableDialog
     {

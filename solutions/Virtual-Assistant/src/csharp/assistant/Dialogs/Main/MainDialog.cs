@@ -13,7 +13,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Skills;
 
-namespace CustomAssistant
+namespace VirtualAssistant
 {
     public class MainDialog : RouterDialog
     {
@@ -55,7 +55,7 @@ namespace CustomAssistant
             var view = new MainResponses();
             await view.ReplyWith(dc.Context, MainResponses.Intro);
 
-            if (string.IsNullOrEmpty(onboardingState.Name))
+            //if (string.IsNullOrEmpty(onboardingState.Name))
             {
                 // This is the first time the user is interacting with the bot, so gather onboarding information.
                 await dc.BeginDialogAsync(nameof(OnboardingDialog));

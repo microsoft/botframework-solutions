@@ -4,12 +4,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CustomAssistant.Dialogs.Onboarding.Resources;
+using VirtualAssistant.Dialogs.Onboarding.Resources;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.TemplateManager;
 using Microsoft.Bot.Schema;
 
-namespace CustomAssistant
+namespace VirtualAssistant
 {
     public class OnboardingResponses : TemplateManager
     {
@@ -63,8 +63,8 @@ namespace CustomAssistant
                     Images = new List<CardImage>()
                     {
                         new CardImage(){
-                            Url = "https://github.com/Microsoft/AI/blob/master/solutions/Custom-Assistant/docs/media/customassistant-linkedaccounts.png",
-                            Alt = "Person holding mobile device."
+                            Url = "https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/media/customassistant-linkedaccounts.png?raw=true",
+                            Alt = "Person holding mobile device.",
                         },
                     },
                 }.ToAttachment()

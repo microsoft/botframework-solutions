@@ -16,7 +16,7 @@ using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CustomAssistant
+namespace VirtualAssistant
 {
     public class Startup
     {
