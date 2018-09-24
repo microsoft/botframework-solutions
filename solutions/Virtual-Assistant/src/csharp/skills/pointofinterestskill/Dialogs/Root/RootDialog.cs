@@ -224,6 +224,7 @@ namespace PointOfInterestSkill
                         if (activeRoute != null)
                         {
                             state.ActiveRoute = activeRoute;
+                            state.FoundRoutes = null;
                         }
 
                         var replyMessage = dc.Context.Activity.CreateReply(PointOfInterestBotResponses.SendingRouteDetails);
