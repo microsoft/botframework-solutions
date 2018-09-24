@@ -83,7 +83,7 @@ Initial previews of the [Email](./customassistant-skills-productivity-email.md),
 ## Documentation
 
 - Virtual Assistant
-    - [Detailed Overview](./customassistant/detailedoverview.md)
+    - [Detailed Overview](./customassistant-detailedoverview.md)
     - [Create your Virtual Assistant](./customassistant-createcustomassistant.md)
     - [Testing your Virtual Assistant](./customassistant-testing.md)
     - [Linked Accounts](./customassistant-linkedaccounts.md)
