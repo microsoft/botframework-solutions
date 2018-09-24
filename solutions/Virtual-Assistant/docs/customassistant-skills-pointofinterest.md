@@ -19,7 +19,6 @@ The following scenarios are currently supported by the Skill:
     - Would you cancel my route?
     - On second thought, forget going to the airport
 
-
 ## Supported Sources
 
 > [Azure Maps](https://azure.microsoft.com/en-gb/services/azure-maps/) is supported at this time. A provider model is planned for a coming release to enable plugin of your own data source.
