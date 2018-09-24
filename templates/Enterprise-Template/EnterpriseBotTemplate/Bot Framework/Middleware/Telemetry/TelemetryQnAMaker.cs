@@ -80,12 +80,13 @@ namespace $safeprojectname$
                     var queryResult = queryResults[0];
                     telemetryProperties.Add(QnATelemetryConstants.QuestionProperty, string.Join(",", queryResult.Questions));
                     telemetryProperties.Add(QnATelemetryConstants.AnswerProperty, queryResult.Answer);
-                    telemetryMetrics.Add(QnATelemetryConstants.ScoreProperty, queryResult.Score);
+                    telemetryProperties.Add(QnATelemetryConstants.ScoreProperty, queryResult.Score.ToString());
+                    telemetryProperties.Add(QnATelemetryConstants.ArticleFoundProperty, "true");
                 }
                 else
                 {
-                    telemetryProperties.Add(QnATelemetryConstants.QuestionProperty, "No Qna Question matched");
-                    telemetryProperties.Add(QnATelemetryConstants.AnswerProperty, "No Qna Question matched");
+                    telemetryProperties.Add(QnATelemetryConstants.QuestionProperty, text);
+                    telemetryProperties.Add(QnATelemetryConstants.ArticleFoundProperty, "false");
                 }
 
                 // Track the event
