@@ -15,12 +15,12 @@
   <ItemGroup>
     <PackageReference Include="AdaptiveCards" Version="1.0.3" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.7.2" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.0.6" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.0.6" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.0.6" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.0.6" />
-    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.0.6" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.0.6" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.0.7" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.0.7" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.0.7" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.0.7" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.0.7" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.0.7" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
