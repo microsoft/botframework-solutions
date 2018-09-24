@@ -13,7 +13,7 @@ At this time we are running an initial preview and working closely with initial 
 
 ## What's in the box
 
-The Virtual Assistant builds on the [Enterprise Template]() capabilities which provide foundational capabilities for conversational experiences including base conversational intents in multiple languages, Dispatching, QnA and conversational insights. The following Assistant related capabilities are provided at this time, further capabilities are planned and we'll be working closely with customers and partners to help inform the roadmap.
+The Virtual Assistant builds on the [Enterprise Template](/templates/Enterprise-Template/README.md) capabilities which provide foundational capabilities for conversational experiences including base conversational intents in multiple languages, Dispatching, QnA and conversational insights. The following Assistant related capabilities are provided at this time, further capabilities are planned and we'll be working closely with customers and partners to help inform the roadmap.
 
 Feature | Description |
 ------------ | -------------
