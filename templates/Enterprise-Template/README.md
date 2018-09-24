@@ -12,7 +12,7 @@ Automated typing indicators  | Send visual typing indicators during conversation
 Basic conversational intents  | Base intents (Greeting, Goodbye, Help, Cancel, etc.) in English, French, Italian, German, Spanish. These are provided in .LU (language understanding) files enabling easy modification.
 Basic conversational responses  | Responses to basic conversational intents abstracted into separate View classes. These will move to the new language generation (LG) files in the future.
 Inappropriate content or PII (personally identifiable information) detection  |Detect inappropriate or PII data in incoming conversations through use of [Content Moderator](https://azure.microsoft.com/en-us/services/cognitive-services/content-moderator/) in a middleware component.
-Transcripts  | Transcripts of all converstartion stored in Azure Storage
+Transcripts  | Transcripts of all conversations stored in Azure Storage
 Dispatcher | An integrated [Dispatch](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-dispatch?view=azure-bot-service-4.0&tabs=csaddref%2Ccsbotconfig) model to identify whether a given utterance should be processed by LUIS + Code or passed to QnAMaker.
 QnAMAker Integration  | Integration with [QnAMaker](https://www.qnamaker.ai) to answer general questions from a Knowledgebase which can be leverage existing data sources (e.g. PDF manuals).
 Conversational Insights  | Integration with [Application Insights](https://azure.microsoft.com/en-gb/services/application-insights/) to collect telemetry for all conversations and an example PowerBI dashboard to get you started with insights into your conversational experiences.
