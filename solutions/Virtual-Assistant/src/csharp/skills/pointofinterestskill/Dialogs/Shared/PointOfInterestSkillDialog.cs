@@ -62,6 +62,39 @@ namespace PointOfInterestSkill
             }
         }
 
+        public async Task<DialogTurnResult> CheckIfFoundLocationExists(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await _accessors.PointOfInterestSkillState.GetAsync(sc.Context);
+                if (state.FoundLocations == null)
+                {
+                    return await sc.ContinueDialogAsync();
+                }
+
+                if (!string.IsNullOrEmpty(state.SearchText))
+                {
+                    // Set ActiveLocation if one w/ matching name is found in FoundLocations
+                    var activeLocation = state.FoundLocations?.FirstOrDefault(x => x.Name.Contains(state.SearchText, StringComparison.InvariantCultureIgnoreCase));
+                    if (activeLocation != null)
+                    {
+                        state.ActiveLocation = activeLocation;
+                        state.FoundLocations = null;
+                    }
+                }
+
+                return await sc.ContinueDialogAsync();
+            }
+            catch
+            {
+                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(PointOfInterestBotResponses.PointOfInterestErrorMessage, _responseBuilder));
+                var state = await _accessors.PointOfInterestSkillState.GetAsync(sc.Context);
+                state.Clear();
+                await _accessors.PointOfInterestSkillState.SetAsync(sc.Context, state);
+                return await sc.CancelAllDialogsAsync();
+            }
+        }
+
         public async Task<DialogTurnResult> CheckIfActiveLocationExists(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -142,19 +175,6 @@ namespace PointOfInterestSkill
             }
         }
 
-        /// <summary>
-        /// TODO: How to check for both text and value from activity?.
-        /// </summary>
-        public Task<bool> CustomPromptValidatorAsync(PromptValidatorContext<string> promptContext, CancellationToken cancellationToken)
-        {
-            var result = promptContext.Recognized.Value;
-
-            return Task.FromResult(true);
-        }
-
-        /// <summary>
-        /// Bot takes ActiveLocation and calls Maps API to get directions from current location.
-        /// </summary>
         public async Task<DialogTurnResult> GetRoutesToActiveLocation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -193,6 +213,15 @@ namespace PointOfInterestSkill
             }
         }
 
+        /// <summary>
+        /// TODO: How to check for both text and value from activity?.
+        /// </summary>
+        public Task<bool> CustomPromptValidatorAsync(PromptValidatorContext<string> promptContext, CancellationToken cancellationToken)
+        {
+            var result = promptContext.Recognized.Value;
+
+            return Task.FromResult(true);
+        }
         public async Task<DialogTurnResult> CancelActiveRoute(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -238,12 +267,23 @@ namespace PointOfInterestSkill
                 foreach (var location in locations)
                 {
                     var imageUrl = service.GetLocationMapImageUrl(location);
+                    var actionText = string.Empty;
+                    if (locations.Count == 1)
+                    {
+                        actionText = BotStrings.PointOfInterestView_Directions;
+                    }
+                    else
+                    {
+                        actionText = string.Format(CultureInfo.InvariantCulture, BotStrings.PointOfInterestView_DirectionsTo, location.Name);
+                    }
 
                     LocationCardModelData locationCardModel = new LocationCardModelData()
                     {
                         ImageUrl = imageUrl,
                         LocationName = location.Name,
                         Address = location.Address.FormattedAddress,
+                        SpeakAddress = location.Address.AddressLine + ", " + location.Address.Locality,
+                        ActionText = actionText,
                     };
 
                     cardsData.Add(locationCardModel);
@@ -268,12 +308,12 @@ namespace PointOfInterestSkill
 
                     if (sc.ActiveDialog.Id.Equals(Action.FindAlongRoute) && state.ActiveRoute != null)
                     {
-                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(PointOfInterestBotResponses.SingleLocationFoundAlongActiveRoute, "Dialogs/Shared/Resources/Cards/PointOfInterestViewCard.json", cardsData.SingleOrDefault(), _responseBuilder);
+                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(PointOfInterestBotResponses.SingleLocationFoundAlongActiveRoute, "Dialogs/Shared/Resources/Cards/PointOfInterestViewNoDrivingButtonCard.json", cardsData.SingleOrDefault(), _responseBuilder);
                         await sc.Context.SendActivityAsync(replyMessage);
                     }
                     else
                     {
-                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(PointOfInterestBotResponses.SingleLocationFound, "Dialogs/Shared/Resources/Cards/PointOfInterestViewCard.json", cardsData.SingleOrDefault(), _responseBuilder);
+                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(PointOfInterestBotResponses.SingleLocationFound, "Dialogs/Shared/Resources/Cards/PointOfInterestViewNoDrivingButtonCard.json", cardsData.SingleOrDefault(), _responseBuilder);
                         await sc.Context.SendActivityAsync(replyMessage);
                     }
                 }

@@ -26,6 +26,7 @@ namespace PointOfInterestSkill
             var checkForActiveRouteAndLocation = new WaterfallStep[]
             {
                 CheckIfActiveRouteExists,
+                CheckIfFoundLocationExists,
                 CheckIfActiveLocationExists,
             };
 
