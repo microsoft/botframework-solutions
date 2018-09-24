@@ -10,7 +10,7 @@ If you wish to create your own Skill from scratch and not use the DemoSkill proj
 
 ## Custom Constructor
 
-A custom constructor is needed in addition to the existing Bot constructor this is due to the direct invocation pattern which doesn't leverage the Asp.Net Core DI infrastruture. This constructor is passed a `BotState" object from the Custom Assistant within which the Skill's state can be stored. Configuration is also passsed, most often for LUIS settings so this can be initialized for subsequent processing.
+A custom constructor is needed in addition to the existing Bot constructor this is due to the direct invocation pattern which doesn't leverage the Asp.Net Core DI infrastructure. This constructor is passed a `BotState" object from the Custom Assistant within which the Skill's state can be stored. Configuration is also passsed, most often for LUIS settings so this can be initialized for subsequent processing.
 
 ```
 public DemoSkill(BotState botState, string stateName = null, Dictionary<string, string> configuration = null)
@@ -121,7 +121,7 @@ In scenarios where your Skill needs access to a Token from the User to perform a
 
 This is performed by sending a `tokens/request` event to the Custom Assistant and then wait for a `tokens/response` event to be returned. If a token is already stored by the Custom Assistant it will be returned immediately otherwise a Prompt to the user will be generated to initiate login. See [Linked Accounts](./customassistant-linkedaccounts.md) on how to ensure Tokens are made available during initial onboarding of the user to the Custom Assistant. 
 
-Register a `SkillAuth` Dialog as part of your overall Dialog registration. Note this uses an EventPrompt class proivded as part of the Custom Assistant.
+Register a `SkillAuth` Dialog as part of your overall Dialog registration. Note this uses an EventPrompt class provided as part of the Custom Assistant.
 ```
 private const string AuthSkillMode = "SkillAuth";
 ...

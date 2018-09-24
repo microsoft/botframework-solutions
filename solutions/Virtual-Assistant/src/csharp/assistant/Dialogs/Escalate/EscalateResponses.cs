@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using CustomAssistant.Dialogs.Escalate.Resources;
+using VirtualAssistant.Dialogs.Escalate.Resources;
 using Microsoft.Bot.Builder.TemplateManager;
 
-namespace CustomAssistant
+namespace VirtualAssistant
 {
     public class EscalateResponses : TemplateManager
     {

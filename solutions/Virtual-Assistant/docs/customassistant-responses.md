@@ -14,7 +14,7 @@ The Activity schema for the Azure Bot Service can be found [here](https://github
 
 ## Messages and Events
 
-Messages are a specific Type of Activity set through the `ActivityType` property and relate to Messages to and from a user that should be shown/spoken. Events are a different `ActivityType` enabling messages to be *whispered* between the client and Bot and provide an elegant mecahnism for the client to trigger events within the Custom Assistant and vice versa to perform an operation on the device. More information is in the [events](./customassistant-events.md) section.
+Messages are a specific Type of Activity set through the `ActivityType` property and relate to Messages to and from a user that should be shown/spoken. Events are a different `ActivityType` enabling messages to be *whispered* between the client and Bot and provide an elegant mechanism for the client to trigger events within the Custom Assistant and vice versa to perform an operation on the device. More information is in the [events](./customassistant-events.md) section.
 
 ## Adaptive Cards
 

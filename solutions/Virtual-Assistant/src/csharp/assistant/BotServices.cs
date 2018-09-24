@@ -11,7 +11,7 @@ using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Solutions.Skills;
 
-namespace CustomAssistant
+namespace VirtualAssistant
 {
     /// <summary>
     /// Represents references to external services.

@@ -10,7 +10,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Newtonsoft.Json.Linq;
 
-namespace CustomAssistant
+namespace VirtualAssistant
 {
     /// <summary>
     /// TelemetryLuisRecognizer invokes the Luis Recognizer and logs some results into Application Insights.

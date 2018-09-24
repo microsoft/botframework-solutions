@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using CustomAssistant.Dialogs.SignIn.Resources;
+using VirtualAssistant.Dialogs.SignIn.Resources;
 using Microsoft.Bot.Builder.TemplateManager;
 
-namespace CustomAssistant
+namespace VirtualAssistant
 {
     public class SignInResponses : TemplateManager
     {

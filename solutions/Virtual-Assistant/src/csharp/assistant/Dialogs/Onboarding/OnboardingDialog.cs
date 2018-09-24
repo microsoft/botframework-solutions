@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace CustomAssistant
+namespace VirtualAssistant
 {
     public class OnboardingDialog : EnterpriseDialog
     {

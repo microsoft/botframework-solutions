@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace CustomAssistant
+namespace VirtualAssistant
 {
     public class EscalateDialog : EnterpriseDialog
     {

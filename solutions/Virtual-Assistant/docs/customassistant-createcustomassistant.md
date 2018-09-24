@@ -92,7 +92,7 @@ The msbot tool will outline the deployment plan including location and SKU. Ensu
 >After deployment is complete, it's **imperative** that you make a note of the .bot file secret provided as this will be required for later steps.
 
 - Update your `appsettings.json` file with the newly created .bot file name and .bot file secret.
-- Run the following command and retrieve the InstrumentationKey for your Application Insights instance and update InstrumentationKey in your `appsettings.json` file.
+- Run the following command and retrieve the InstrumentationKey for your Application Insights instance and update `InstrumentationKey` in your `appsettings.json` file.
 
 `msbot list --bot YOURBOTFILE.bot --secret YOUR_BOT_SECRET`
 
@@ -118,7 +118,7 @@ For **each** of the Skills (Calendar, Email, ToDo and PointOfInterest) run the f
 msbot get YourBotName_Calendar --bot YOURBOTNAME.bot --secret YOUR_BOT_SECRET
 ```
 
-Then in the corresponding Skill entry in `appSettings.config` update the `LuisAppId`, `LuisSubscriptionKey` and `LuisEndPoint`.
+Then in the corresponding Skill entry in `appSettings.config` update the `LuisAppId`, `LuisSubscriptionKey` and [`LuisEndPoint`](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) - for example `https://westus.api.cognitive.microsoft.com`.
 ```
     {
       "Name": "Calendar",
@@ -151,29 +151,31 @@ The [Add Authentication to your bot](https://docs.microsoft.com/en-us/azure/bot-
   - Leave Logout URL blank.
 - Under Microsoft Graph Permissions, you can need to add additional *delegated* permissions.
 - Each of the Skills require a specific set of Scopes, refer to the documentation for each skill or use the following list of Scopes that contain the scopes needed for all skills. 
-  - `Calendars.ReadWrite`, `Mail.Read`, `Mail.Send`, `Notes.ReadWrite`, `People.Read`, `User.Read`, `People.Read`, `User.Read`
+  - `Calendars.ReadWrite`, `Mail.Read`, `Mail.Send`, `Notes.ReadWrite`, `People.Read`, `User.Read`
 
 Next you need to create the Authentication Connection for your Bot. Ensure you use the same combination of Scopes that you provided in the above command. The first command shown below will retrieve the appId (ApplicationId) and appPassword (Client Secret) that you need to complete this step. 
 
-The commands shown below assume you have used the deployment process and your resource group name is the same as your bot.  
+The commands shown below assume you have used the deployment process and your resource group name is the same as your bot. Replace YOUR_AUTH_CONNECTION_NAME with the name of the auth connection you wish to create and use that in the next step.
 
 ```shell
-msbot get production --secret AcNuZ0b+6K6SjufUhMFrGbzDhcdLgAdgyErAbmBGQDw=
+msbot get production --secret YOUR_SECRET
 
-az bot authsetting create --resource-group YOUR_BOT_NAME --name YOUR_BOT_NAME --setting-name YOU_AUTH_CONNECTION_NAME --client-id YOUR_APPLICATION_ID --client-secret YOUR_APPLICATION_PASSWORD --provider-scope-string "Calendars.ReadWrite Mail.Read Mail.Send Notes.ReadWrite People.Read User.Read People.Read User.Read" --service Aadv2
+az bot authsetting create --resource-group YOUR_BOT_NAME --name YOUR_BOT_NAME --setting-name YOU_AUTH_CONNECTION_NAME --client-id YOUR_APPLICATION_ID --client-secret YOUR_APPLICATION_PASSWORD --provider-scope-string "Calendars.ReadWrite Mail.Read Mail.Send Notes.ReadWrite People.Read User.Read" --service Aadv2
 ```
 
 The final step is to update your .bot file with the Authentication connection name, this is used by the Assistant to enable Authentication prompts or use of Linked Accounts.
 
 ```shell
-msbot connect generic --name "Authentication" --keys "{\"Azure Active Directory v2\":\"YOUR_AUTH_CONNECTION_NAME\"}" --secret YOUR_BOT_SECRET --url "portal.azure.net"
+msbot connect generic --name "Authentication" --keys "{\"Azure Active Directory v2\":\"YOUR_AUTH_CONNECTION_NAME\"}" --secret "YOUR_BOT_SECRET" --url "portal.azure.net"
 ```
 
 > Other Authentication Service Providers exist including the ability to create custom oAuth providers. `az bot authsetting list-providers` is a quick way to review the pre-configured ones.
 
 ## Testing
-Once deployment is complete, run your bot project within your development envrionment and open the [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator). Within the Emulator, choose Open Bot from the File menu and navigate to the .bot file in your directory which was created in the previous step. Ensure you have the latest emulator installed.
+Once deployment is complete, run your bot project within your development environment and open the [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator). Within the Emulator, choose Open Bot from the File menu and navigate to the .bot file in your directory which was created in the previous step. 
 
-You should see an Introduction Adaptive card and the example on-boarding process will start. 
+>Ensure you have the latest emulator installed and update the development endpoint to reflect the port number that Visual Studio chooses when you start debugging otherwise you'll receive connection errors.
+
+You should see an Introduction Adaptive card and the example on-boarding process will start.
 
 See the [Testing](./customassistant-testing.md) section for information on how to test your Virtual Assistant.

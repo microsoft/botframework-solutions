@@ -8,7 +8,7 @@ using Microsoft.ApplicationInsights;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.QnA;
 
-namespace CustomAssistant
+namespace VirtualAssistant
 {
     /// <summary>
     /// TelemetryQnaRecognizer invokes the Qna Maker and logs some results into Application Insights.

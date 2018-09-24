@@ -92,7 +92,7 @@ namespace PointOfInterestSkill
         {
             try
             {
-                string country = string.Empty;
+                string country = "US";
 
                 // Defensive for scenarios where locale isn't correctly set
                 try

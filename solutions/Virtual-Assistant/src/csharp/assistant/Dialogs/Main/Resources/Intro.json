@@ -33,17 +33,17 @@
     {
       "type": "Action.OpenUrl",
       "title": "Documentation",
-      "url": "https://aka.ms/customassistantdocss"
+      "url": "https://aka.ms/customassistantdocs"
     },
     {
       "type": "Action.OpenUrl",
       "title": "Linked Accounts",
-      "url": "https://github.com/Microsoft/AI/blob/master/solutions/Custom-Assistant/docs/customassistant-linkedaccounts.md"
+      "url": "https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/customassistant-linkedaccounts.md"
     },
     {
       "type": "Action.OpenUrl",
       "title": "Skills",
-      "url": "https://github.com/Microsoft/AI/blob/master/solutions/Custom-Assistant/docs/customassistant-skills.md"
+      "url": "https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/customassistant-skills.md"
     }
   ]
 }

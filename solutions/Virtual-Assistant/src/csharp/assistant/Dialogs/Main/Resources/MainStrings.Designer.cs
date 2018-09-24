@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CustomAssistant.Dialogs.Main.Resources {
+namespace VirtualAssistant.Dialogs.Main.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace CustomAssistant.Dialogs.Main.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("CustomAssistant.Dialogs.Main.Resources.MainStrings", typeof(MainStrings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("VirtualAssistant.Dialogs.Main.Resources.MainStrings", typeof(MainStrings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
