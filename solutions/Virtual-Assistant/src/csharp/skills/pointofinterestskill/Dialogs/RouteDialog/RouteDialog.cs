@@ -33,6 +33,7 @@ namespace PointOfInterestSkill
             var findRouteToActiveLocation = new WaterfallStep[]
             {
                 GetRoutesToActiveLocation,
+                ResponseToStartRoutePrompt,
             };
 
             var findAlongRoute = new WaterfallStep[]
