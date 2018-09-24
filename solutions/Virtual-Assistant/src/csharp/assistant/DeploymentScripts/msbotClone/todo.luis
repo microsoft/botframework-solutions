@@ -50,8 +50,8 @@
       "roles": []
     }
   ],
-  "closedLists": [],
   "composites": [],
+  "closedLists": [],
   "patternAnyEntities": [],
   "regex_entities": [],
   "prebuiltEntities": [
@@ -60,33 +60,80 @@
       "roles": []
     }
   ],
-  "regex_features": [
-    {
-      "pattern": "[a-z]{3}",
-      "activated": true,
-      "name": "AirportCodeRegex"
-    }
-  ],
   "model_features": [
     {
-      "activated": true,
       "name": "Near",
+      "mode": true,
       "words": "near,around,close,nearby",
-      "mode": true
+      "activated": true
     },
     {
-      "activated": true,
       "name": "Show",
+      "mode": true,
       "words": "show,find,look,search",
-      "mode": true
+      "activated": true
     }
   ],
-  "patterns": [],
+  "regex_features": [
+    {
+      "name": "AirportCodeRegex",
+      "pattern": "[a-z]{3}",
+      "activated": true
+    }
+  ],
+  "patterns": [
+    {
+      "pattern": "add a todo to {ContainsAll}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "remind me to get {ContainsAll}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "i need to remember to {ContainsAll}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "add a task to {ContainsAll}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "remind me to {ContainsAll}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "add a reminder to {ContainsAll}",
+      "intent": "AddToDo"
+    }
+  ],
   "utterances": [
     {
       "text": "add a new task",
       "intent": "AddToDo",
       "entities": []
+    },
+    {
+      "text": "add a task to get cat food",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 14,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "add a task to pickup some cat food",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 14,
+          "endPos": 33
+        }
+      ]
     },
     {
       "text": "add a to do",
@@ -163,9 +210,9 @@
       "intent": "DeleteToDo",
       "entities": [
         {
+          "entity": "ContainsAll",
           "startPos": 23,
-          "endPos": 25,
-          "entity": "ContainsAll"
+          "endPos": 25
         }
       ]
     },
@@ -214,9 +261,9 @@
       "intent": "MarkToDo",
       "entities": [
         {
+          "entity": "ContainsAll",
           "startPos": 9,
-          "endPos": 11,
-          "entity": "ContainsAll"
+          "endPos": 11
         }
       ]
     },
@@ -225,9 +272,9 @@
       "intent": "MarkToDo",
       "entities": [
         {
+          "entity": "ContainsAll",
           "startPos": 9,
-          "endPos": 11,
-          "entity": "ContainsAll"
+          "endPos": 11
         }
       ]
     },
@@ -236,9 +283,9 @@
       "intent": "MarkToDo",
       "entities": [
         {
+          "entity": "ContainsAll",
           "startPos": 9,
-          "endPos": 11,
-          "entity": "ContainsAll"
+          "endPos": 11
         }
       ]
     },
@@ -262,9 +309,9 @@
       "intent": "DeleteToDo",
       "entities": [
         {
+          "entity": "ContainsAll",
           "startPos": 7,
-          "endPos": 9,
-          "entity": "ContainsAll"
+          "endPos": 9
         }
       ]
     },
@@ -273,9 +320,9 @@
       "intent": "DeleteToDo",
       "entities": [
         {
+          "entity": "ContainsAll",
           "startPos": 7,
-          "endPos": 9,
-          "entity": "ContainsAll"
+          "endPos": 9
         }
       ]
     },
@@ -284,9 +331,9 @@
       "intent": "DeleteToDo",
       "entities": [
         {
+          "entity": "ContainsAll",
           "startPos": 7,
-          "endPos": 9,
-          "entity": "ContainsAll"
+          "endPos": 9
         }
       ]
     },
@@ -320,9 +367,9 @@
       "intent": "DeleteToDo",
       "entities": [
         {
+          "entity": "ContainsAll",
           "startPos": 15,
-          "endPos": 17,
-          "entity": "ContainsAll"
+          "endPos": 17
         }
       ]
     },
@@ -351,9 +398,9 @@
       "intent": "DeleteToDo",
       "entities": [
         {
+          "entity": "ContainsAll",
           "startPos": 17,
-          "endPos": 19,
-          "entity": "ContainsAll"
+          "endPos": 19
         }
       ]
     },
@@ -362,9 +409,9 @@
       "intent": "DeleteToDo",
       "entities": [
         {
+          "entity": "ContainsAll",
           "startPos": 17,
-          "endPos": 19,
-          "entity": "ContainsAll"
+          "endPos": 19
         }
       ]
     },
@@ -378,9 +425,9 @@
       "intent": "MarkToDo",
       "entities": [
         {
+          "entity": "ContainsAll",
           "startPos": 15,
-          "endPos": 17,
-          "entity": "ContainsAll"
+          "endPos": 17
         }
       ]
     },
@@ -389,9 +436,9 @@
       "intent": "DeleteToDo",
       "entities": [
         {
+          "entity": "ContainsAll",
           "startPos": 23,
-          "endPos": 25,
-          "entity": "ContainsAll"
+          "endPos": 25
         }
       ]
     },
@@ -400,9 +447,9 @@
       "intent": "MarkToDo",
       "entities": [
         {
+          "entity": "ContainsAll",
           "startPos": 21,
-          "endPos": 23,
-          "entity": "ContainsAll"
+          "endPos": 23
         }
       ]
     },
@@ -411,9 +458,9 @@
       "intent": "MarkToDo",
       "entities": [
         {
+          "entity": "ContainsAll",
           "startPos": 26,
-          "endPos": 28,
-          "entity": "ContainsAll"
+          "endPos": 28
         }
       ]
     },
@@ -437,9 +484,9 @@
       "intent": "MarkToDo",
       "entities": [
         {
+          "entity": "ContainsAll",
           "startPos": 5,
-          "endPos": 7,
-          "entity": "ContainsAll"
+          "endPos": 7
         }
       ]
     },
@@ -523,9 +570,9 @@
       "intent": "DeleteToDo",
       "entities": [
         {
+          "entity": "ContainsAll",
           "startPos": 22,
-          "endPos": 24,
-          "entity": "ContainsAll"
+          "endPos": 24
         }
       ]
     },
@@ -600,13 +647,35 @@
       "entities": []
     },
     {
+      "text": "remind me to get cash",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 13,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "remind me to pickup milk",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 13,
+          "endPos": 23
+        }
+      ]
+    },
+    {
       "text": "remove all",
       "intent": "DeleteToDo",
       "entities": [
         {
+          "entity": "ContainsAll",
           "startPos": 7,
-          "endPos": 9,
-          "entity": "ContainsAll"
+          "endPos": 9
         }
       ]
     },
@@ -615,9 +684,9 @@
       "intent": "DeleteToDo",
       "entities": [
         {
+          "entity": "ContainsAll",
           "startPos": 7,
-          "endPos": 9,
-          "entity": "ContainsAll"
+          "endPos": 9
         }
       ]
     },
@@ -626,9 +695,9 @@
       "intent": "DeleteToDo",
       "entities": [
         {
+          "entity": "ContainsAll",
           "startPos": 7,
-          "endPos": 9,
-          "entity": "ContainsAll"
+          "endPos": 9
         }
       ]
     },
@@ -637,9 +706,9 @@
       "intent": "DeleteToDo",
       "entities": [
         {
+          "entity": "ContainsAll",
           "startPos": 7,
-          "endPos": 9,
-          "entity": "ContainsAll"
+          "endPos": 9
         }
       ]
     },
@@ -733,5 +802,6 @@
       "intent": "ConfirmYes",
       "entities": []
     }
-  ]
+  ],
+  "settings": []
 }

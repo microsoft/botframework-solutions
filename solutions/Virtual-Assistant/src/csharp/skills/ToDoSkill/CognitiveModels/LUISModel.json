@@ -82,12 +82,59 @@
       "activated": true
     }
   ],
-  "patterns": [],
+  "patterns": [
+    {
+      "pattern": "add a todo to {ContainsAll}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "remind me to get {ContainsAll}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "i need to remember to {ContainsAll}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "add a task to {ContainsAll}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "remind me to {ContainsAll}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "add a reminder to {ContainsAll}",
+      "intent": "AddToDo"
+    }
+  ],
   "utterances": [
     {
       "text": "add a new task",
       "intent": "AddToDo",
       "entities": []
+    },
+    {
+      "text": "add a task to get cat food",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 14,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "add a task to pickup some cat food",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 14,
+          "endPos": 33
+        }
+      ]
     },
     {
       "text": "add a to do",
@@ -450,21 +497,6 @@
       "entities": []
     },
     {
-      "text": "more",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "more tasks",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "more to dos",
-      "intent": "Next",
-      "entities": []
-    },
-    {
       "text": "next",
       "intent": "Next",
       "entities": []
@@ -616,6 +648,28 @@
       "entities": []
     },
     {
+      "text": "remind me to get cash",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 13,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "remind me to pickup milk",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 13,
+          "endPos": 23
+        }
+      ]
+    },
+    {
       "text": "remove all",
       "intent": "DeleteToDo",
       "entities": [
@@ -672,21 +726,6 @@
     {
       "text": "show help instructions",
       "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "show more",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "show more tasks",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "show more to dos",
-      "intent": "Next",
       "entities": []
     },
     {
@@ -764,5 +803,6 @@
       "intent": "ConfirmYes",
       "entities": []
     }
-  ]
+  ],
+  "settings": []
 }

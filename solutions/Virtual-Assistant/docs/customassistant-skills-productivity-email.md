@@ -11,6 +11,7 @@ The following scenarios are currently supported by the Skill:
     - Send an email 
 - Find Email
     - Find email from John Smith
+    - What email do I have
 
 ## Supported Sources
 

@@ -6,7 +6,7 @@ The Calendar Skill provides Calendar related capabilities to a Custom Assistant.
 ## Supported Scenarios
 The following scenarios are currently supported by the Skill:
 
-- Show meeting summary - e.g "what meetings do I have today"
+- Show meeting summary - e.g "What's in my calendar"
 - Next Meeting - e.g. "what's my next meeting"
 - Create a meeting - e.g. Book a meeting
 - Update a meeting - e.g. Update meeting
