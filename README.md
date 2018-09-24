@@ -12,7 +12,7 @@ Enterprise Template | Creation of a high quality conversational experience requi
 
 Name | Description | Link 
 ------------ | ------------- | :-----------:
-Virtual Assistant | We have seen significant need from our customers and partners to deliver a conversational assistant tailored to their brand, personalized to their customers and made available across a broad range of conversational canvases and devices. <br /> <br /> Continuing Microsoft open-sourced approach toward Bot Framework SDK, the open source Custom Personal Assistant provides full control over the end user experience built on a set of foundational capabilities. Additionally, the experience can be infused with intelligence about the end-user and any device/ecosystem information for a truly integrated and intelligent experience.  | [Get Started](./solutions/Virtual-Assistant/README.md)
+Virtual Assistant | We have seen significant need from our customers and partners to deliver a conversational assistant tailored to their brand, personalized to their customers and made available across a broad range of conversational canvases and devices. <br /> <br /> Continuing Microsoft open-sourced approach toward Bot Framework SDK, the open source Custom Personal Assistant provides full control over the end user experience built on a set of foundational capabilities. Additionally, the experience can be infused with intelligence about the end-user and any device/ecosystem information for a truly integrated and intelligent experience.  | [Get Started](./solutions/Virtual-Assistant/docs/README.md)
 
 # Contributing
 
