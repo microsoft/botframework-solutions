@@ -25,7 +25,7 @@ All communication between a Custom Assistant and a Skill will be performed throu
 
 The custom SkillDialog bootstraps the Adapter and processes appropriate middleware (currently only State) before invoking the OnTurn method on the Bot for each Activity. A skillBegin event is sent at the beginning of each Skill Dialog and the end of a Skill Dialog is marked by the sending of a `endOfConversation` event.
 
-![Skill Invocation Flow](./customassistant-SkillFlow.png)
+![Skill Invocation Flow](./media/customassistant-SkillFlow.png)
 
  ## Skill Registration
 
