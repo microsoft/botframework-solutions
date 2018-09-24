@@ -288,5 +288,23 @@
       }
     ],
     "inputHint": "ignoringInput"
+  },
+  "PromptToStartRoute": {
+    "replies": [
+      {
+        "text": "Would you like to begin your route now?",
+        "speak": "Would you like to begin your route now?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AskAboutRouteLater": {
+    "replies": [
+      {
+        "text": "Ok, feel free to let me know when you'd like to start your route anytime.",
+        "speak": "Ok, feel free to let me know when you'd like to start your route anytime."
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }
