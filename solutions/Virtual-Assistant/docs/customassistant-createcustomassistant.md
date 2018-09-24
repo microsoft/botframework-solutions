@@ -166,13 +166,13 @@ az bot authsetting create --resource-group YOUR_BOT_NAME --name YOUR_BOT_NAME --
 The final step is to update your .bot file with the Authentication connection name, this is used by the Assistant to enable Authentication prompts or use of Linked Accounts.
 
 ```shell
-msbot connect generic --name "Authentication" --keys "{\"Azure Active Directory v2\":\"YOU_AUTH_CONNECTION_NAME\"}" --secret YOUR_BOT_SECRET --url "portal.azure.net"
+msbot connect generic --name "Authentication" --keys "{\"Azure Active Directory v2\":\"YOUR_AUTH_CONNECTION_NAME\"}" --secret YOUR_BOT_SECRET --url "portal.azure.net"
 ```
 
 > Other Authentication Service Providers exist including the ability to create custom oAuth providers. `az bot authsetting list-providers` is a quick way to review the pre-configured ones.
 
 ## Testing
-Once deployment is complete, run your bot project within your development envrionment and open the [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator). Within the Emulator, choose Open Bot from the File menu and navigate to the .bot file in your directory which was created in the previous step.
+Once deployment is complete, run your bot project within your development envrionment and open the [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator). Within the Emulator, choose Open Bot from the File menu and navigate to the .bot file in your directory which was created in the previous step. Ensure you have the latest emulator installed.
 
 You should see an Introduction Adaptive card and the example on-boarding process will start. 
 

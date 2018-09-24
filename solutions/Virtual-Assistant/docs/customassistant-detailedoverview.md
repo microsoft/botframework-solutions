@@ -1,6 +1,6 @@
-# Custom Assistant Detailed Overview
+# Virtual Assistant Detailed Overview
 
-## Custom Assistant Architecture
+## Virtual Assistant Architecture
 
 An Architecture diagram of the Virtual Assistant is shown below along with a detailed explanation.
 
