@@ -289,6 +289,15 @@
     ],
     "inputHint": "ignoringInput"
   },
+  "PromptToGetRoute": {
+    "replies": [
+      {
+        "text": "Would you like me to find you a route?",
+        "speak": "Would you like me to find you a route?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "PromptToStartRoute": {
     "replies": [
       {
@@ -301,8 +310,17 @@
   "AskAboutRouteLater": {
     "replies": [
       {
-        "text": "Ok, feel free to let me know when you'd like to start your route anytime.",
-        "speak": "Ok, feel free to let me know when you'd like to start your route anytime."
+        "text": "Ok, you can ask me about this route anytime.",
+        "speak": "Ok, you can ask me about this route anytime."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "GetRouteToActiveLocationLater": {
+    "replies": [
+      {
+        "text": "Ok, you can ask me about this location anytime.",
+        "speak": "Ok, you can ask me about this location anytime."
       }
     ],
     "inputHint": "acceptingInput"

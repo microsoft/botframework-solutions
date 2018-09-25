@@ -67,9 +67,13 @@ namespace PointOfInterestSkill.Dialogs.Shared.Resources
 
         public static BotResponse CannotCancelActiveRoute => GetBotResponse();
 
+        public static BotResponse PromptToGetRoute => GetBotResponse();
+
         public static BotResponse PromptToStartRoute => GetBotResponse();
 
         public static BotResponse AskAboutRouteLater => GetBotResponse();
+
+        public static BotResponse GetRouteToActiveLocationLater => GetBotResponse();
 
         private static Dictionary<string, Dictionary<string, BotResponse>> JsonResponses
         {
