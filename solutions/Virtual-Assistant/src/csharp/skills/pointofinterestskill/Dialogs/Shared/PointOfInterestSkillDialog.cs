@@ -163,7 +163,7 @@ namespace PointOfInterestSkill
                     await GetPointOfInterestLocationViewCards(sc, locationSet);
                 }
 
-                if (locationSet != null && locationSet.Locations.ToList().Count == 1)
+                if (locationSet?.Locations?.ToList().Count == 1)
                 {
                     return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(PointOfInterestBotResponses.PromptToGetRoute, _responseBuilder) });
                 }
@@ -189,6 +189,7 @@ namespace PointOfInterestSkill
             {
                 var state = await _accessors.PointOfInterestSkillState.GetAsync(sc.Context);
                 var service = _serviceManager.InitMapsService(_services.AzureMapsKey);
+                var routeDirections = new RouteDirections();
 
                 if (state.ActiveLocation == null)
                 {
@@ -198,20 +199,20 @@ namespace PointOfInterestSkill
 
                 if (!string.IsNullOrEmpty(state.SearchDescriptor))
                 {
-                    var routeDirections = await service.GetRouteDirectionsAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.ActiveLocation.Point.Coordinates[0], state.ActiveLocation.Point.Coordinates[1], state.SearchDescriptor);
+                    routeDirections = await service.GetRouteDirectionsAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.ActiveLocation.Point.Coordinates[0], state.ActiveLocation.Point.Coordinates[1], state.SearchDescriptor);
 
                     await GetRouteDirectionsViewCards(sc, routeDirections);
                 }
                 else
                 {
-                    var routeDirections = await service.GetRouteDirectionsAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.ActiveLocation.Point.Coordinates[0], state.ActiveLocation.Point.Coordinates[1]);
+                    routeDirections = await service.GetRouteDirectionsAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.ActiveLocation.Point.Coordinates[0], state.ActiveLocation.Point.Coordinates[1]);
 
                     await GetRouteDirectionsViewCards(sc, routeDirections);
+                }
 
-                    if (routeDirections.Routes.ToList().Count == 1)
-                    {
-                        return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(PointOfInterestBotResponses.PromptToStartRoute, _responseBuilder) });
-                    }
+                if (routeDirections?.Routes?.ToList().Count == 1)
+                {
+                    return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(PointOfInterestBotResponses.PromptToStartRoute, _responseBuilder) });
                 }
 
                 return await sc.EndDialogAsync();
