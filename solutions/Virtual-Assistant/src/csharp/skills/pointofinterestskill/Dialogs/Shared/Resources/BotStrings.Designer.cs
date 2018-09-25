@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PointOfInterestSkill {
+namespace PointOfInterestSkill.Dialogs.Shared.Resources {
     using System;
     
     
@@ -61,6 +61,15 @@ namespace PointOfInterestSkill {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        internal static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show me a route.
         /// </summary>
         internal static string PointOfInterestView_Directions {
@@ -75,6 +84,15 @@ namespace PointOfInterestSkill {
         internal static string PointOfInterestView_DirectionsTo {
             get {
                 return ResourceManager.GetString("PointOfInterestView_DirectionsTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        internal static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
     }
