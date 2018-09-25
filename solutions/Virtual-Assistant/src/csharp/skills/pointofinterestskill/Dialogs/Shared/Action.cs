@@ -13,7 +13,7 @@ namespace PointOfInterestSkill
         /// </summary>
         public const string Prompt = "prompt";
 
-        public const string ChoicePrompt = "choiceprompt";
+        public const string ConfirmPrompt = "confirmprompt";
 
         /// <summary>
         /// Find Along Route.

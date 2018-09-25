@@ -33,7 +33,7 @@ namespace PointOfInterestSkill
             _serviceManager = serviceManager;
 
             AddDialog(new TextPrompt(Action.Prompt, CustomPromptValidatorAsync));
-            AddDialog(new ChoicePrompt(Action.ChoicePrompt) { Style = ListStyle.Auto, });
+            AddDialog(new ConfirmPrompt(Action.ConfirmPrompt) { Style = ListStyle.Auto, });
         }
 
         // Shared Steps
@@ -165,7 +165,7 @@ namespace PointOfInterestSkill
 
                 if (locationSet != null && locationSet.Locations.ToList().Count == 1)
                 {
-                    return await sc.PromptAsync(Action.ChoicePrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(PointOfInterestBotResponses.PromptToGetRoute, _responseBuilder), Choices = ChoiceFactory.ToChoices(new List<string> { BotStrings.Yes, BotStrings.No }) });
+                    return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(PointOfInterestBotResponses.PromptToGetRoute, _responseBuilder) });
                 }
 
                 return await sc.EndDialogAsync(true);
@@ -210,7 +210,7 @@ namespace PointOfInterestSkill
 
                     if (routeDirections.Routes.ToList().Count == 1)
                     {
-                        return await sc.PromptAsync(Action.ChoicePrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(PointOfInterestBotResponses.PromptToStartRoute, _responseBuilder), Choices = ChoiceFactory.ToChoices(new List<string> { BotStrings.Yes, BotStrings.No }) });
+                        return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(PointOfInterestBotResponses.PromptToStartRoute, _responseBuilder) });
                     }
                 }
 
@@ -233,34 +233,29 @@ namespace PointOfInterestSkill
             {
                 var state = await _accessors.PointOfInterestSkillState.GetAsync(sc.Context);
 
-                var foundChoice = (FoundChoice) sc.Result;
-
-                if (foundChoice != null)
+                if ((bool)sc.Result)
                 {
-                    if (foundChoice.Value.Equals(BotStrings.Yes))
+                    var activeRoute = state.FoundRoutes.Single();
+                    if (activeRoute != null)
                     {
-                        var activeRoute = state.FoundRoutes.Single();
-                        if (activeRoute != null)
-                        {
-                            state.ActiveRoute = activeRoute;
-                            state.FoundRoutes = null;
-                        }
-
-                        var replyMessage = sc.Context.Activity.CreateReply(PointOfInterestBotResponses.SendingRouteDetails);
-                        await sc.Context.SendActivityAsync(replyMessage);
-
-                        // Send event with active route data
-                        var replyEvent = sc.Context.Activity.CreateReply();
-                        replyEvent.Type = ActivityTypes.Event;
-                        replyEvent.Name = "ActiveRoute.Directions";
-                        replyEvent.Value = state.ActiveRoute.Legs;
-                        await sc.Context.SendActivityAsync(replyEvent);
+                        state.ActiveRoute = activeRoute;
+                        state.FoundRoutes = null;
                     }
-                    else
-                    {
-                        var replyMessage = sc.Context.Activity.CreateReply(PointOfInterestBotResponses.AskAboutRouteLater);
-                        await sc.Context.SendActivityAsync(replyMessage);
-                    }
+
+                    var replyMessage = sc.Context.Activity.CreateReply(PointOfInterestBotResponses.SendingRouteDetails);
+                    await sc.Context.SendActivityAsync(replyMessage);
+
+                    // Send event with active route data
+                    var replyEvent = sc.Context.Activity.CreateReply();
+                    replyEvent.Type = ActivityTypes.Event;
+                    replyEvent.Name = "ActiveRoute.Directions";
+                    replyEvent.Value = state.ActiveRoute.Legs;
+                    await sc.Context.SendActivityAsync(replyEvent);
+                }
+                else
+                {
+                    var replyMessage = sc.Context.Activity.CreateReply(PointOfInterestBotResponses.AskAboutRouteLater);
+                    await sc.Context.SendActivityAsync(replyMessage);
                 }
 
                 return await sc.EndDialogAsync();
@@ -281,26 +276,21 @@ namespace PointOfInterestSkill
             {
                 var state = await _accessors.PointOfInterestSkillState.GetAsync(sc.Context);
 
-                var foundChoice = (FoundChoice)sc.Result;
-
-                if (foundChoice != null)
+                if ((bool)sc.Result)
                 {
-                    if (foundChoice.Value.Equals(BotStrings.Yes))
+                    if (state.ActiveLocation != null)
                     {
-                        if (state.ActiveLocation != null)
-                        {
-                            state.ActiveLocation = state.FoundLocations.SingleOrDefault();
-                            state.FoundLocations = null;
-                        }
+                        state.ActiveLocation = state.FoundLocations.SingleOrDefault();
+                        state.FoundLocations = null;
+                    }
 
-                        await sc.EndDialogAsync();
-                        return await sc.BeginDialogAsync(nameof(RouteDialog));
-                    }
-                    else
-                    {
-                        var replyMessage = sc.Context.Activity.CreateReply(PointOfInterestBotResponses.GetRouteToActiveLocationLater);
-                        await sc.Context.SendActivityAsync(replyMessage);
-                    }
+                    await sc.EndDialogAsync();
+                    return await sc.BeginDialogAsync(nameof(RouteDialog));
+                }
+                else
+                {
+                    var replyMessage = sc.Context.Activity.CreateReply(PointOfInterestBotResponses.GetRouteToActiveLocationLater);
+                    await sc.Context.SendActivityAsync(replyMessage);
                 }
 
                 return await sc.EndDialogAsync();
