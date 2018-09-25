@@ -20,6 +20,7 @@
     <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.0.7" />
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.0.7" />
     <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.0.7" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.0.7" />
     <PackageReference Include="Microsoft.Bot.Schema" Version="4.0.7" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
