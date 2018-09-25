@@ -142,24 +142,30 @@ namespace PointOfInterestSkill
 
                 var state = await _accessors.PointOfInterestSkillState.GetAsync(sc.Context);
                 var service = _serviceManager.InitMapsService(_services.AzureMapsKey);
+                var locationSet = new LocationSet();
 
                 if (string.IsNullOrEmpty(state.SearchText) && string.IsNullOrEmpty(state.SearchAddress))
                 {
                     // No entities identified, find nearby locations
-                    var locationSet = await service.GetLocationsNearby(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude);
+                    locationSet = await service.GetLocationsNearby(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude);
                     await GetPointOfInterestLocationViewCards(sc, locationSet);
                 }
                 else if (!string.IsNullOrEmpty(state.SearchText))
                 {
                     // Fuzzy search
-                    var locationSet = await service.GetLocationsByFuzzyQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.SearchText, country);
+                    locationSet = await service.GetLocationsByFuzzyQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.SearchText, country);
                     await GetPointOfInterestLocationViewCards(sc, locationSet);
                 }
                 else if (!string.IsNullOrEmpty(state.SearchAddress))
                 {
                     // Query search
-                    var locationSet = await service.GetLocationsByFuzzyQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.SearchAddress, country);
+                    locationSet = await service.GetLocationsByFuzzyQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.SearchAddress, country);
                     await GetPointOfInterestLocationViewCards(sc, locationSet);
+                }
+
+                if (locationSet != null && locationSet.Locations.ToList().Count == 1)
+                {
+                    return await sc.PromptAsync(Action.ChoicePrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(PointOfInterestBotResponses.PromptToGetRoute, _responseBuilder), Choices = ChoiceFactory.ToChoices(new List<string> { "Yes", "No" }) });
                 }
 
                 return await sc.EndDialogAsync(true);
@@ -253,6 +259,46 @@ namespace PointOfInterestSkill
                     else
                     {
                         var replyMessage = sc.Context.Activity.CreateReply(PointOfInterestBotResponses.AskAboutRouteLater);
+                        await sc.Context.SendActivityAsync(replyMessage);
+                    }
+                }
+
+                return await sc.EndDialogAsync();
+            }
+            catch
+            {
+                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(PointOfInterestBotResponses.PointOfInterestErrorMessage, _responseBuilder));
+                var state = await _accessors.PointOfInterestSkillState.GetAsync(sc.Context);
+                state.Clear();
+                await _accessors.PointOfInterestSkillState.SetAsync(sc.Context, state);
+                return await sc.CancelAllDialogsAsync();
+            }
+        }
+
+        public async Task<DialogTurnResult> ResponseToGetRoutePrompt(WaterfallStepContext sc, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var state = await _accessors.PointOfInterestSkillState.GetAsync(sc.Context);
+
+                var foundChoice = (FoundChoice)sc.Result;
+
+                if (foundChoice != null)
+                {
+                    if (foundChoice.Value.Equals("Yes"))
+                    {
+                        if (state.ActiveLocation != null)
+                        {
+                            state.ActiveLocation = state.FoundLocations.SingleOrDefault();
+                            state.FoundLocations = null;
+                        }
+
+                        await sc.EndDialogAsync();
+                        return await sc.BeginDialogAsync(nameof(RouteDialog));
+                    }
+                    else
+                    {
+                        var replyMessage = sc.Context.Activity.CreateReply(PointOfInterestBotResponses.GetRouteToActiveLocationLater);
                         await sc.Context.SendActivityAsync(replyMessage);
                     }
                 }
@@ -484,8 +530,7 @@ namespace PointOfInterestSkill
                 }
                 else
                 {
-                    // state.ActiveRoute = routes.Single();
-                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(PointOfInterestBotResponses.SingleRouteFound, "Dialogs/Shared/Resources/Cards/RouteDirectionsViewCard.json", cardsData.SingleOrDefault());
+                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(PointOfInterestBotResponses.SingleRouteFound, "Dialogs/Shared/Resources/Cards/RouteDirectionsViewCardNoGetStartedButton.json", cardsData.SingleOrDefault());
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
             }
