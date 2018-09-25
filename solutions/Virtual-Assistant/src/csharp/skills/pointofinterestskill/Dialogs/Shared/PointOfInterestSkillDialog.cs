@@ -95,15 +95,15 @@ namespace PointOfInterestSkill
                 string country = "US";
 
                 // Defensive for scenarios where locale isn't correctly set
-                //try
-                //{
-                //    var cultureInfo = new RegionInfo(sc.Context.Activity.Locale);
-                //    country = cultureInfo.TwoLetterISORegionName;
-                //}
-                //catch (Exception)
-                //{
-                //    // Default to everything if we can't restrict the country
-                //}
+                try
+                {
+                    var cultureInfo = new RegionInfo(sc.Context.Activity.Locale);
+                    country = cultureInfo.TwoLetterISORegionName;
+                }
+                catch (Exception)
+                {
+                    // Default to everything if we can't restrict the country
+                }
 
                 var state = await _accessors.PointOfInterestSkillState.GetAsync(sc.Context);
                 var service = _serviceManager.InitMapsService(_services.AzureMapsKey);
