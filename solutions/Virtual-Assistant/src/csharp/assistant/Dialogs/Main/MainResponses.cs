@@ -47,12 +47,14 @@ namespace VirtualAssistant
 
             var introCard = File.ReadAllText(@".\Dialogs\Main\Resources\Intro.json");
 
-            response.Attachments = new List<Attachment>();
-            response.Attachments.Add(new Attachment()
+            response.Attachments = new List<Attachment>
             {
-                ContentType = "application/vnd.microsoft.card.adaptive",
-                Content = JsonConvert.DeserializeObject(introCard),
-            });
+                new Attachment()
+                {
+                    ContentType = "application/vnd.microsoft.card.adaptive",
+                    Content = JsonConvert.DeserializeObject(introCard),
+                }
+            };
 
             return response;
         }
@@ -69,13 +71,15 @@ namespace VirtualAssistant
                 }.ToAttachment()
             };
 
-            response.SuggestedActions = new SuggestedActions();
-            response.SuggestedActions.Actions = new List<CardAction>()
+            response.SuggestedActions = new SuggestedActions
             {
-                new CardAction(type: ActionTypes.ImBack, text: "What's my schedule?", value: "What's my schedule?"),
-                new CardAction(type: ActionTypes.ImBack, text: "Send an email", value: "Send an email"),
-                new CardAction(type: ActionTypes.ImBack, text: "Schedule a meeting", value: "Schedule a meeting"),
-                new CardAction(type: ActionTypes.ImBack, text: "Find a coffee shop nearby", value: "Find a coffee shop nearby"),
+                Actions = new List<CardAction>()
+            {
+                new CardAction(type: ActionTypes.ImBack, title: "What's my schedule?"),
+                new CardAction(type: ActionTypes.ImBack, title: "Send an email"),
+                new CardAction(type: ActionTypes.ImBack, title: "Schedule a meeting"),
+                new CardAction(type: ActionTypes.ImBack, title: "Find a coffee shop nearby"),
+            }
             };
             return response;
         }

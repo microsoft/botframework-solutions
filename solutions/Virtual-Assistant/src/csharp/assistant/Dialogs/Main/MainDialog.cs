@@ -216,7 +216,12 @@ namespace VirtualAssistant
                 await dc.BeginDialogAsync(nameof(CustomSkillDialog), options);
 
                 // Pass the activity we have
-                await dc.ContinueDialogAsync();
+                var result = await dc.ContinueDialogAsync();
+
+                if(result.Status == DialogTurnStatus.Complete)
+                {
+                    await CompleteAsync(dc);
+                }
             }
         }
 
