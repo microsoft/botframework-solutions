@@ -13,13 +13,13 @@
     {
       "type": "TextBlock",
       "text": "{LocationName}",
-      "size": "medium",
-      "weight": "bolder"
+      "size": "medium"
     },
     {
       "type": "TextBlock",
       "text": "{Address}",
-      "size": "medium"
+      "size": "medium",
+      "weight": "lighter"
     }
   ]
 }

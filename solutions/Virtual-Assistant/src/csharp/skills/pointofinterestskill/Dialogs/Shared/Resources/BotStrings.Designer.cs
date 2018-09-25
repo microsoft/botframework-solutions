@@ -59,23 +59,5 @@ namespace PointOfInterestSkill {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Show me a route.
-        /// </summary>
-        internal static string PointOfInterestView_Directions {
-            get {
-                return ResourceManager.GetString("PointOfInterestView_Directions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Show me a route to {0}.
-        /// </summary>
-        internal static string PointOfInterestView_DirectionsTo {
-            get {
-                return ResourceManager.GetString("PointOfInterestView_DirectionsTo", resourceCulture);
-            }
-        }
     }
 }

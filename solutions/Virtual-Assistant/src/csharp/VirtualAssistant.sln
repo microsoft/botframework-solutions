@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistant", "assista
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Solutions", "Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj", "{0106AD2E-C570-42DF-B54B-3ACA50D58D80}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PointOfInterestSkill", "skills\pointofinterestskill\PointOfInterestSkill.csproj", "{66149E2E-A672-45AA-8C67-BABCC5A87F0C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{0106AD2E-C570-42DF-B54B-3ACA50D58D80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0106AD2E-C570-42DF-B54B-3ACA50D58D80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0106AD2E-C570-42DF-B54B-3ACA50D58D80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66149E2E-A672-45AA-8C67-BABCC5A87F0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66149E2E-A672-45AA-8C67-BABCC5A87F0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66149E2E-A672-45AA-8C67-BABCC5A87F0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66149E2E-A672-45AA-8C67-BABCC5A87F0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

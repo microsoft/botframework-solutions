@@ -13,23 +13,23 @@
     {
       "type": "TextBlock",
       "text": "{LocationName}",
-      "size": "medium",
-      "weight": "bolder"
+      "size": "medium"
     },
     {
       "type": "TextBlock",
       "text": "{Address}",
-      "size": "medium"
+      "size": "medium",
+      "weight": "lighter"
     }
   ],
   "actions": [
     {
       "type": "Action.Submit",
-      "title": "{ActionText}",
+      "title": "Find a route",
       "data": {
         "event": {
           "name": "POI.ActiveLocation",
-          "text": "{ActionText}",
+          "text": "Find a route",
           "value": "{LocationName}"
         }
       }
