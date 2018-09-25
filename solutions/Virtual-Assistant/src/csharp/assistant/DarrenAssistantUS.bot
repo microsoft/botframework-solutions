@@ -1,0 +1,147 @@
+{
+    "name": "DarrenAssistantUS",
+    "description": "",
+    "services": [
+        {
+            "type": "abs",
+            "id": "199",
+            "name": "DarrenAssistantUS",
+            "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+            "subscriptionId": "ea43171e-9efb-45f6-b54a-308e5dd706bc",
+            "resourceGroup": "DarrenAssistantUS",
+            "serviceName": "DarrenAssistantUS",
+            "appId": "1a548bf9-4bc7-4f51-9505-bc360228ad98"
+        },
+        {
+            "type": "endpoint",
+            "id": "1",
+            "name": "development",
+            "appId": "1a548bf9-4bc7-4f51-9505-bc360228ad98",
+            "appPassword": "hhlva9we85IjIj+HUwFmMw==!toPFpjFA5GJT/bgt6zLhc2NiV3TfvZPiJeDFNwjngTw=",
+            "endpoint": "http://localhost:3979/api/messages"
+        },
+        {
+            "type": "endpoint",
+            "id": "108",
+            "name": "production",
+            "appId": "1a548bf9-4bc7-4f51-9505-bc360228ad98",
+            "appPassword": "bwwiXlGWymHb79BIu4IA1A==!hbfFksbVB3zMNRAAbF/TOvI4iCgIYpfo3cvgBTNib8s=",
+            "endpoint": "https://arrenssistantyk64.azurewebsites.net/api/messages"
+        },
+        {
+            "type": "blob",
+            "id": "2",
+            "name": "arrenssibu7z",
+            "serviceName": "arrenssibu7z",
+            "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+            "subscriptionId": "ea43171e-9efb-45f6-b54a-308e5dd706bc",
+            "resourceGroup": "DarrenAssistantUS",
+            "connectionString": "Gk+Mhhjjn+WVgEUWs4Ih+w==!auScFWXjKcysBhQxa6UmnPxIly0v5Te4FfGXaB5bnZcHZWVmIEANYoXrQYewGtw3RzTS55tfJex60tId0lmWFQd7gWByGOUG1eKAmW+dwldKYXoclk9cGaccsb6pc6nm/SzSKX4PWguJecd6VtYIYrcmd6wHyR9tyC7KfMVr4xOUKom8FdGMXotUrkasQJd6q3J8AIg4xqpfF6s7M6o47xnqCohU/2XsMSPT+Sxi0ROmVL2nty+w8kATiuLBAYET",
+            "container": "transcripts"
+        },
+        {
+            "type": "appInsights",
+            "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+            "subscriptionId": "ea43171e-9efb-45f6-b54a-308e5dd706bc",
+            "resourceGroup": "DarrenAssistantUS",
+            "name": "DarrenAssistantUSkgfndt",
+            "serviceName": "DarrenAssistantUSkgfndt",
+            "instrumentationKey": "euhNIiWFIjMn7ZY0fcrOpg==!sGSJfJHJAMzR22rOuLF4ioY5hLS9WNqOoV0OwzPKh4+TA9B7eUfC+H0wPMWx0inF",
+            "applicationId": "75332669-1f9e-428f-8246-713351922e60",
+            "apiKeys": {},
+            "id": "3"
+        },
+        {
+            "type": "cosmosdb",
+            "id": "8",
+            "name": "darrenassistantus",
+            "serviceName": "darrenassistantus",
+            "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+            "subscriptionId": "ea43171e-9efb-45f6-b54a-308e5dd706bc",
+            "resourceGroup": "DarrenAssistantUS",
+            "endpoint": "https://darrenassistantus.documents.azure.com:443/",
+            "key": "BQZmX+JmeYiQlpigtZ5/wg==!pyJW/knyloLMY7aB3sHyXwP03O5H3/tt2ubvY1xXLWTQrqCfSO0ZP+JLKw1ITPVIpFiTMb765HRj0VySYsy4w96RkJ8P3iQuSuiqj6qg43vI6hi2RwGvVzoKlsmZNmDz",
+            "database": "botstate-db",
+            "collection": "botstate-collection"
+        },
+        {
+            "type": "luis",
+            "name": "DarrenAssistantUS_General",
+            "appId": "0f292d5d-8b97-4a4e-843e-6a947c6884d7",
+            "authoringKey": "Eo4trSCqwplxiliyuHL50w==!dfMdaygyGVmYTgrBIAPCHcltS/PUBuVR+wjuqQI4J9y5oa+LvoFlG68SYglKPIAE",
+            "subscriptionKey": "owmQ2pbYRtUY7UsLB2PgLw==!mHUcWTO0CDH3U86ZvDXVkJ6595uPVrUVN5+y7Goa5UCbkNlhTrJSMZOvItGIC0bb",
+            "version": "0.1",
+            "region": "westus",
+            "id": "general"
+        },
+        {
+            "type": "luis",
+            "name": "DarrenAssistantUS_Calendar",
+            "appId": "2cc4018e-deba-47ad-8aea-fbb81c40fd7a",
+            "authoringKey": "TGN3Yhepm2l7ZfKFNTps5w==!OCHNvSCKQ9rFhxTr4bwDemOz+lBJdmbwiMK59slLlHKGa4en8qRG56ydx0eTV1PS",
+            "subscriptionKey": "MX3vL5V5xu1CHjipcG0sZA==!CKN/ZZ195z2oBovOoQD7/UGYRiZsqoUkArJK5jzwuonhw6vRs321sNIZ34XM7gFd",
+            "version": "0.1",
+            "region": "westus",
+            "id": "calendar"
+        },
+        {
+            "type": "luis",
+            "name": "DarrenAssistantUS_Email",
+            "appId": "de49b77a-fb37-45f7-83dc-39bf907cde0a",
+            "authoringKey": "axBIus16k+6AZHy3fAAn9w==!nwYA2FuR0MwhVPn2b2zQ5RQSxD8ZK+dIcSs5gJdwNS9pjhVKn31WXhQA71iHJWJQ",
+            "subscriptionKey": "tQYqkMM6d03hcZP2FCiGxw==!XuDgR4ePOU/sfXANen1NtkrUXLXFGxJx/ObY/eJxMfAzIpxZkZCklmH6Uey+zB0m",
+            "version": "0.1",
+            "region": "westus",
+            "id": "email"
+        },
+        {
+            "type": "luis",
+            "name": "DarrenAssistantUS_ToDo",
+            "appId": "5bc67576-b129-4d6e-a97c-023c763ac2ae",
+            "authoringKey": "01PG2z65S4vaFlrtgaMVyQ==!ugH5B/BB+vl8ovwDGYDnKtC/UpCOivPC5/itaVtB801yZwVY/xIPZhTLf8lwSx0D",
+            "subscriptionKey": "KiZ0aiwXh8JcdR0+wWQIYw==!Q5Sa5sByTCiJE/Ql8WSxkLij4gBUaoi7c6vFf76laZxT70mcYo32N1IzAWJi4bBL",
+            "version": "0.1",
+            "region": "westus",
+            "id": "todo"
+        },
+        {
+            "type": "luis",
+            "name": "DarrenAssistantUS_PointOfInterest",
+            "appId": "bbc1b255-0046-4d48-af6e-28da241cb3d1",
+            "authoringKey": "BIbMExG20JJtLVia5UuMag==!KaKMUd+dzsdITR99qWk8l50EJKqCpOpppCI7yKFKUo4lhCw1SzUhyPv71Y3A9IYW",
+            "subscriptionKey": "cRP/KJcg+A3PLxk9qUNCbA==!LiHQVzst7K9jQ2asOJ0VYJ4SRNFC5qSco5HUGMk5kjkh2T4yKnvFKEofo0RoVjzY",
+            "version": "0.1",
+            "region": "westus",
+            "id": "pointofinterest"
+        },
+        {
+            "type": "qna",
+            "name": "FAQ",
+            "id": "faq",
+            "kbId": "f1006c2f-405f-417a-8f60-24147a5b9967",
+            "subscriptionKey": "xdDQYWzf47T0UB9T3mmRng==!e6gL4BA0V0k1WUodGmUpygfAFESsbeTGQ2ThJS+Ibpg1tHmlMjYcKvLj+RVt+NQ7",
+            "endpointKey": "huQBJPz3WMyryDUgt6IT7g==!A+xA4Bvxag+RayKDdpBvSoGkx2oqxG4XNwuH4aVwEMizvvrRC8qvVRpDJSfZePCp",
+            "hostname": "https://darrenassistantus-qnahost.azurewebsites.net/qnamaker"
+        },
+        {
+            "type": "dispatch",
+            "serviceIds": [
+                "general",
+                "calendar",
+                "email",
+                "todo",
+                "pointofinterest",
+                "faq"
+            ],
+            "name": "DarrenAssistantUS_Dispatch",
+            "appId": "a6149808-d8df-49b1-8552-f874319ea163",
+            "authoringKey": "Fv2o4vJ3cllMZI4aUeXEpQ==!vZ7+IuA7G8/rGQW/y9MugHm8Gprs6NbD5PFyxxU9A6YzP8yl8c2+HmM3ncz3HdbE",
+            "subscriptionKey": "EqJeNABb/ghwqREtUtCS6w==!NqAOj7qGQCCkkNnSn1oO0nJs36wkjQNDMhAAYdXstK7lvZKIrmEPcCces6S4yXtZ",
+            "version": "Dispatch",
+            "region": "westus",
+            "id": "dispatch"
+        }
+    ],
+    "padlock": "/hD2JorsK/DdYHefM3AEWQ==!oHtfLUauDyH3r7uGU7Q3yfrnoyHBhNdp52EXnDrGEm3v9+Ada7Fk93Gi8k2j9DOG",
+    "version": "2.0"
+}
