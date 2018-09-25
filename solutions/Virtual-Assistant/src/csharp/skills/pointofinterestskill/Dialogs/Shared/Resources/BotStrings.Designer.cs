@@ -61,7 +61,7 @@ namespace PointOfInterestSkill {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show me directions.
+        ///   Looks up a localized string similar to Show me a route.
         /// </summary>
         internal static string PointOfInterestView_Directions {
             get {
@@ -70,7 +70,7 @@ namespace PointOfInterestSkill {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show me directions to {0}.
+        ///   Looks up a localized string similar to Show me a route to {0}.
         /// </summary>
         internal static string PointOfInterestView_DirectionsTo {
             get {

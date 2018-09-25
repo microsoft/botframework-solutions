@@ -2,7 +2,7 @@
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.0",
   "type": "AdaptiveCard",
-  "speak": "{Name} is located at {SpeakAddress}",
+  "speak": "{LocationName} is located at {SpeakAddress}",
   "body": [
     {
       "type": "Image",
@@ -12,7 +12,7 @@
     },
     {
       "type": "TextBlock",
-      "text": "{Name}",
+      "text": "{LocationName}",
       "size": "medium",
       "weight": "bolder"
     },
