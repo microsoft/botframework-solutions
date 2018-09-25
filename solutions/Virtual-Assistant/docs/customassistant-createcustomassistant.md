@@ -9,6 +9,8 @@ The Virtual Assistant solution is under ongoing development within an open-sourc
 Follow the instructions below to build, deploy and configure your Assistant.
 
 ### Prerequisites
+- [Node.js](https://nodejs.org/) version 8.5 or higher.
+
 - Install the Azure Bot Service command line (CLI) tools. It's important to do this even if you have earlier versions as the Virtual Assistant makes use of new deployment capabilities.
 
 ```shell
@@ -32,7 +34,8 @@ The first step is to clone the [Microsoft Conversational AI GitHub Repo](https:/
 
 Once the Solution has been cloned you will see the following folder structure.
 
-    | - Assistant
+    | - Virtual-Assistant
+        | - Assistant
         | - LinkedAccounts.Web
         | - Skills
             | - CalendarSkill
@@ -45,8 +48,8 @@ Once the Solution has been cloned you will see the following folder structure.
             | - Assistant-ConsoleDirectLineSample
             | - Assistant-WebTest
         | - Microsoft.Bot.Solutions
-    | - VirtualAssitant.sln
-    | - Skills.sln
+      | - VirtualAssistant.sln
+      | - Skills.sln
 
 ### Build the Solution
 

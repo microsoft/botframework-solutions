@@ -6,7 +6,7 @@ A Custom Assistant can be tested just like any other Bot Framework Bot, the Bot 
 
 ## Bot Framework Emulator
 
-The Bot Framework Emulator can be used by opening the .bot file provided within the Project directory. You must have completed the [deployment steps](./customassistant-createproject.md) first and should ensure you have the [latest](https://github.com/Microsoft/BotFramework-Emulator/releases
+The Bot Framework Emulator can be used by opening the .bot file provided within the Project directory. You must have completed the [deployment steps](./customassistant-createcustomassistant.md) first and should ensure you have the [latest](https://github.com/Microsoft/BotFramework-Emulator/releases
 ) v4 emulator installed.
 
 > Authentication scenarios cannot be fully tested within the Emulator at this time. The Web Test Harness provides a workaround for this.
