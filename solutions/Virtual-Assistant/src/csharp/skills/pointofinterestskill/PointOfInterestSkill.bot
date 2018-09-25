@@ -2,14 +2,14 @@
     "name": "PointOfInterestSkill",
     "description": "",
     "services": [
-        {
-            "type": "endpoint",
-            "appId": "",
-            "appPassword": "",
-            "endpoint": "http://localhost:54215/api/messages",
-            "id": "1",
-            "name": "PointOfInterestSkill"
-        }
+      {
+        "type": "endpoint",
+        "appId": "",
+        "appPassword": "",
+        "endpoint": "http://localhost:52060/api/messages",
+        "id": "1",
+        "name": "PointOfInterestSkill"
+      }
     ],
     "padlock": "",
     "version": "2.0",

@@ -2,11 +2,11 @@
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "type": "AdaptiveCard",
   "version": "1.0",
-  "speak": "This route will get you to {Location} in {TravelTime}. {TrafficDelay}",
+  "speak": "This will get you to {Location} in {TravelTime}. {TrafficDelay}",
   "body": [
     {
       "type": "TextBlock",
-      "text": "This route will get you to {Location} in {TravelTime}. {TrafficDelay}",
+      "text": "This will get you to {Location} in {TravelTime}. {TrafficDelay}",
       "wrap": true
     }
   ],

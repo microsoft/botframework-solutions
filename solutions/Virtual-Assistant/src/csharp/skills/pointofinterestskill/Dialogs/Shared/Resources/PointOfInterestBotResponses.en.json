@@ -191,6 +191,10 @@
       {
         "text": "I found a route to your destination.",
         "speak": "I found a route to your destination."
+      },
+      {
+        "text": "This is the best route to your destination.",
+        "speak": "This is the best route to your destination."
       }
     ],
     "inputHint": "expectingInput"
