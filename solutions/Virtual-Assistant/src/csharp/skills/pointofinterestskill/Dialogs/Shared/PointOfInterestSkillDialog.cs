@@ -165,7 +165,7 @@ namespace PointOfInterestSkill
 
                 if (locationSet != null && locationSet.Locations.ToList().Count == 1)
                 {
-                    return await sc.PromptAsync(Action.ChoicePrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(PointOfInterestBotResponses.PromptToGetRoute, _responseBuilder), Choices = ChoiceFactory.ToChoices(new List<string> { "Yes", "No" }) });
+                    return await sc.PromptAsync(Action.ChoicePrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(PointOfInterestBotResponses.PromptToGetRoute, _responseBuilder), Choices = ChoiceFactory.ToChoices(new List<string> { BotStrings.Yes, BotStrings.No }) });
                 }
 
                 return await sc.EndDialogAsync(true);
@@ -210,7 +210,7 @@ namespace PointOfInterestSkill
 
                     if (routeDirections.Routes.ToList().Count == 1)
                     {
-                        return await sc.PromptAsync(Action.ChoicePrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(PointOfInterestBotResponses.PromptToStartRoute, _responseBuilder), Choices = ChoiceFactory.ToChoices(new List<string> { "Yes", "No" }) });
+                        return await sc.PromptAsync(Action.ChoicePrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(PointOfInterestBotResponses.PromptToStartRoute, _responseBuilder), Choices = ChoiceFactory.ToChoices(new List<string> { BotStrings.Yes, BotStrings.No }) });
                     }
                 }
 
@@ -237,7 +237,7 @@ namespace PointOfInterestSkill
 
                 if (foundChoice != null)
                 {
-                    if (foundChoice.Value.Equals("Yes"))
+                    if (foundChoice.Value.Equals(BotStrings.Yes))
                     {
                         var activeRoute = state.FoundRoutes.Single();
                         if (activeRoute != null)
@@ -285,7 +285,7 @@ namespace PointOfInterestSkill
 
                 if (foundChoice != null)
                 {
-                    if (foundChoice.Value.Equals("Yes"))
+                    if (foundChoice.Value.Equals(BotStrings.Yes))
                     {
                         if (state.ActiveLocation != null)
                         {

@@ -63,11 +63,16 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Update="Dialogs\Shared\Resources\PointOfInterestBotResponses.cs">
+    <Compile Update="Dialogs\Shared\Resources\Cards\PointOfInterestBotResponses.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>PointOfInterestBotResponses.tt</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Dialogs\Shared\Resources\PointOfInterestBotResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PointOfInterestBotResponses.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -85,10 +90,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Dialogs\Shared\Resources\PointOfInterestBotResponses.tt">
+    <None Update="Dialogs\Shared\Resources\Cards\PointOfInterestBotResponses.tt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <LastGenOutput>PointOfInterestBotResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Dialogs\Shared\Resources\PointOfInterestBotResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PointOfInterestBotResponses.cs</LastGenOutput>
     </None>
   </ItemGroup>
 
