@@ -85,6 +85,17 @@ namespace PointOfInterestSkill
                     }
                 }
 
+                if (!string.IsNullOrEmpty(state.SearchAddress) && state.FoundLocations == null)
+                {
+                    // Set ActiveLocation if one w/ matching address is found in FoundLocations
+                    var activeLocation = state.FoundLocations?.FirstOrDefault(x => x.Address.FormattedAddress.Contains(state.SearchAddress, StringComparison.InvariantCultureIgnoreCase));
+                    if (activeLocation != null)
+                    {
+                        state.ActiveLocation = activeLocation;
+                        state.FoundLocations = null;
+                    }
+                }
+
                 return await sc.ContinueDialogAsync();
             }
             catch
@@ -361,15 +372,6 @@ namespace PointOfInterestSkill
                 foreach (var location in locations)
                 {
                     var imageUrl = service.GetLocationMapImageUrl(location);
-                    var actionText = string.Empty;
-                    if (locations.Count == 1)
-                    {
-                        actionText = BotStrings.PointOfInterestView_Directions;
-                    }
-                    else
-                    {
-                        actionText = string.Format(CultureInfo.InvariantCulture, BotStrings.PointOfInterestView_DirectionsTo, location.Name);
-                    }
 
                     LocationCardModelData locationCardModel = new LocationCardModelData()
                     {
@@ -377,7 +379,7 @@ namespace PointOfInterestSkill
                         LocationName = location.Name,
                         Address = location.Address.FormattedAddress,
                         SpeakAddress = location.Address.AddressLine + ", " + location.Address.Locality,
-                        ActionText = actionText,
+
                     };
 
                     cardsData.Add(locationCardModel);

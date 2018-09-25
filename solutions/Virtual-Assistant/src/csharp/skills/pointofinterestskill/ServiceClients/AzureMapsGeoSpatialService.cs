@@ -26,7 +26,7 @@ namespace PointOfInterestSkill
 
     public AzureMapsGeoSpatialService(string key)
     {
-        apiKey = "iv-N2fJNYqTUyJL0IGIKUcczdidXaVrqXTREg7AbVMU";
+        apiKey = key;
     }
 
     public async Task<RouteDirections> GetRouteDirectionsAsync(double currentLatitude, double currentLongitude, double destinationLatitude, double destinationLongitude, string routeType = null)

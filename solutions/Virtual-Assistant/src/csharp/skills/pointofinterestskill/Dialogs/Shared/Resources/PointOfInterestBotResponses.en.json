@@ -262,8 +262,8 @@
         "speak": "Got it. I'm cancelling your route now."
       },
       {
-        "text": "I've erased it from my memory.",
-        "speak": "I've erased it from my memory."
+        "text": "Route cancelled. I've erased it from my memory.",
+        "speak": "Route cancelled. I've erased it from my memory."
       }
     ],
     "inputHint": "acceptingInput"
@@ -273,6 +273,10 @@
       {
         "text": "I'm sorry, I can't cancel a route that doesn't exist.",
         "speak": "I'm sorry, I can't cancel a route that doesn't exist."
+      },
+      {
+        "text": "I don't have a route on record to remove, sorry.",
+        "speak": "I don't have a route on record to remove, sorry."
       }
     ],
     "inputHint": "acceptingInput"
@@ -299,6 +303,10 @@
       {
         "text": "Would you like to begin your route now?",
         "speak": "Would you like to begin your route now?"
+      },
+      {
+        "text": "Shall we get started?",
+        "speak": "Shall we get started?"
       }
     ],
     "inputHint": "expectingInput"
