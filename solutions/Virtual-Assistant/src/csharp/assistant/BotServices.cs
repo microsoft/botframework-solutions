@@ -157,6 +157,6 @@ namespace VirtualAssistant
         /// </value>
         public Dictionary<string, TelemetryQnAMaker> QnAServices { get; } = new Dictionary<string, TelemetryQnAMaker>();
 
-        public SkillRegistration[] RegisteredSkills { get; set; }
+        public List<SkillService> RegisteredSkills { get; set; } = new List<SkillService>();
     }
 }

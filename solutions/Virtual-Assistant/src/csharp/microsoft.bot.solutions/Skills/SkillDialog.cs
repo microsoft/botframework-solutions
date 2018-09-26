@@ -24,7 +24,7 @@ namespace Microsoft.Bot.Solutions.Skills
         private IBot _activatedSkill;
         private CosmosDbStorageOptions _cosmosDbOptions;
         private TelemetryClient _telemetryClient;
-        private SkillRegistration _skill;
+        private SkillService _skill;
         private OAuthPrompt _authPrompt;
         private bool skillInitialized = false;
 
@@ -57,14 +57,16 @@ namespace Microsoft.Bot.Solutions.Skills
             {
                 foreach (var parameter in skillDialogOptions.MatchedSkill.Parameters)
                 {
-                    if (skillDialogOptions.UserInfo.TryGetValue(parameter, out var paramValue))
+                    if (skillDialogOptions.Parameters.TryGetValue(parameter, out var paramValue))
                     {
                         parameters.Add(parameter, paramValue);
                     }
                 }
             }
 
-            var skillMetadata = new SkillMetadata(skillDialogOptions.LuisResult,
+            var skillMetadata = new SkillMetadata(
+                skillDialogOptions.LuisResult,
+                skillDialogOptions.LuisService,
                 skillDialogOptions.MatchedSkill.Configuration,
                 parameters);
 
@@ -89,7 +91,7 @@ namespace Microsoft.Bot.Solutions.Skills
         {
             if (dc.ActiveDialog.State.ContainsKey(ActiveSkillStateKey))
             {
-                var skill = dc.ActiveDialog.State[ActiveSkillStateKey] as SkillRegistration;
+                var skill = dc.ActiveDialog.State[ActiveSkillStateKey] as SkillService;
 
                 var cosmosDbOptions = _cosmosDbOptions;
                 cosmosDbOptions.CollectionId = skill.Name;

@@ -26,6 +26,7 @@ namespace CalendarSkill
             // Flag that can be used for Skill specific behaviour (if needed)
             _skillMode = true;
             _serviceManager = new ServiceManager();
+            _services = new CalendarSkillServices();
 
             // Create the properties and populate the Accessors. It's OK to call it DialogState as Skill mode creates an isolated area for this Skill so it doesn't conflict with Parent or other skills
             _accessors = new CalendarSkillAccessors
@@ -36,24 +37,6 @@ namespace CalendarSkill
 
             // Initialise dialogs
             _dialogs = new DialogSet(_accessors.ConversationDialogState);
-
-            if (configuration != null)
-            {
-                configuration.TryGetValue("LuisAppId", out var luisAppId);
-                configuration.TryGetValue("LuisSubscriptionKey", out var luisSubscriptionKey);
-                configuration.TryGetValue("LuisEndpoint", out var luisEndpoint);
-
-                if (!string.IsNullOrEmpty(luisAppId) && !string.IsNullOrEmpty(luisSubscriptionKey) && !string.IsNullOrEmpty(luisEndpoint))
-                {
-                    var luisApplication = new LuisApplication(luisAppId, luisSubscriptionKey, luisEndpoint);
-
-                    _services = new CalendarSkillServices
-                    {
-                        LuisRecognizer = new LuisRecognizer(luisApplication),
-                    };
-                }
-            }
-
             _dialogs.Add(new RootDialog(_skillMode, _services, _accessors, _serviceManager));
         }
 
