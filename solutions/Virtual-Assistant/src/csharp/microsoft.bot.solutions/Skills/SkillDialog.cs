@@ -164,8 +164,9 @@ namespace Microsoft.Bot.Solutions.Skills
                             text: $"<--Received a Token Request from a skill"
                             ));
 
-                    var a = dc.Context.Adapter as BotFrameworkAdapter;
-                    await a.SignOutUserAsync(dc.Context, _skill.AuthConnectionName, dc.Context.Activity.From.Id, default(CancellationToken));
+                    // Uncomment this line to prompt user for login every time the skill requests a token
+                    // var a = dc.Context.Adapter as BotFrameworkAdapter;
+                    // await a.SignOutUserAsync(dc.Context, _skill.AuthConnectionName, dc.Context.Activity.From.Id, default(CancellationToken));
 
                     var authResult = await _authPrompt.BeginDialogAsync(dc);
                     if (authResult.Result?.GetType() == typeof(TokenResponse))
