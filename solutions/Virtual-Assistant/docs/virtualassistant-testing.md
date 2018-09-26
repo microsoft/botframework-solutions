@@ -6,14 +6,14 @@ A Custom Assistant can be tested just like any other Bot Framework Bot, the Bot 
 
 ## Bot Framework Emulator
 
-The Bot Framework Emulator can be used by opening the .bot file provided within the Project directory. You must have completed the [deployment steps](./customassistant-createcustomassistant.md) first and should ensure you have the [latest](https://github.com/Microsoft/BotFramework-Emulator/releases
+The Bot Framework Emulator can be used by opening the .bot file provided within the Project directory. You must have completed the [deployment steps](./virtualassistant-createvirtualassistant.md) first and should ensure you have the [latest](https://github.com/Microsoft/BotFramework-Emulator/releases
 ) v4 emulator installed.
 
 > Authentication scenarios cannot be fully tested within the Emulator at this time. The Web Test Harness provides a workaround for this.
 
 ## Web Test Harness
 
-The Web Test Harness makes use of the Bot Framework WebChat control to provide an additional test canvas. The Web Test harness is configured against an Identity Provider (e.g. Active Directory) to enable the user to signin and retrieve a unique identifer which is used to ensure all messages sent during testing use this identifier enabling testing of the [Linked Accounts](./customassistant-linkedaccounts) feature. When using the Linked Accounts feature ensure that you signin to the same account, then accounts you link will be automatically made available to you when testing through the Web Test harness removing the need for Authentication prompts which aren't practical in voice scenarios.
+The Web Test Harness makes use of the Bot Framework WebChat control to provide an additional test canvas. The Web Test harness is configured against an Identity Provider (e.g. Active Directory) to enable the user to signin and retrieve a unique identifer which is used to ensure all messages sent during testing use this identifier enabling testing of the [Linked Accounts](./virtualassistant-linkedaccounts) feature. When using the Linked Accounts feature ensure that you signin to the same account, then accounts you link will be automatically made available to you when testing through the Web Test harness removing the need for Authentication prompts which aren't practical in voice scenarios.
 
 Your Custom Assistant needs to be deployed to Azure and have the [Direct-Line channel configured](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-channel-connect-directline?view=azure-bot-service-3.0) as a pre-requisite for use of the Test Harness. Update the appSettings.json file file with the Direct-Line Secret.
 

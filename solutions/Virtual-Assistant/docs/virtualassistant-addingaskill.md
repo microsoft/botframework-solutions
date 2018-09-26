@@ -4,13 +4,13 @@
 
 ## Authentication Connection Name
 
-If the Skill you wish to add requires User Tokens in order to complete a task you will need to add a new Authentication Connection to your Bot through the Settings section of the Azure Bot Service blade in the Azure portal. See the [Auth Connection Settings](./customassistant-skills.md) section of the Skill documentation to ensure this is configured correctly.
+If the Skill you wish to add requires User Tokens in order to complete a task you will need to add a new Authentication Connection to your Bot through the Settings section of the Azure Bot Service blade in the Azure portal. See the [Auth Connection Settings](./virtualassistant-skills.md) section of the Skill documentation to ensure this is configured correctly.
 
 ## Skill Configuration
 
 The first step is to add a Skill Registration entry to your Custom Assistant `appsettings.json` file. This is used by the Custom Assistant to understand what skills are available and how to map a given question to a Skill.
 
-See the [Skills](./customassistant-skills.md) section for a configuration file example for each of the available skills. Modify this to suit your scenario and add a new element under the Skills element, an example is shown below. Ensure you use the Authentication Connection Name created in the previous step.
+See the [Skills](./virtualassistant-skills.md) section for a configuration file example for each of the available skills. Modify this to suit your scenario and add a new element under the Skills element, an example is shown below. Ensure you use the Authentication Connection Name created in the previous step.
 
 ```
 "Skills": [  
@@ -62,4 +62,4 @@ case Dispatch.YOUR_DISPATCH_SKILL:
 ```
 ## Test your Skill
 
-Your Skill is now ready for use, follow the [Test](./customassistant-testing.md) instructions to get started.
+Your Skill is now ready for use, follow the [Test](./virtualassistant-testing.md) instructions to get started.

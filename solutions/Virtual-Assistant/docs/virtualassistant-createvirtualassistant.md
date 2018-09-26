@@ -90,7 +90,7 @@ msbot clone services --name "MyCustomAssistantName" --luisAuthoringKey "YOUR_AUT
 
 The msbot tool will outline the deployment plan including location and SKU. Ensure you review before proceeding.
 
-![Deployment Confirmation](./media/customassistant-deploymentplan.png)
+![Deployment Confirmation](./media/virtualassistant-deploymentplan.png)
 
 >After deployment is complete, it's **imperative** that you make a note of the .bot file secret provided as this will be required for later steps.
 
@@ -109,42 +109,29 @@ The msbot tool will outline the deployment plan including location and SKU. Ensu
 
 ## Skill Configuration
 
-The Virtual Assistant Solution is fully integrated with all available skills out of the box but you need to provide updates to the Skill configuration to reflect the LUIS models required for each skill.
+The Virtual Assistant Solution is fully integrated with all available skills out of the box. Skill configuration can be found in your appSettings.json file. An example of the Skill Configuratin configuration is shown below.
 
-> An automated script leveraging the configuration held in your .bot file is planned for a future release which will automate this step.
-
-For **each** of the Skills (Calendar, Email, ToDo and PointOfInterest) run the following command line to retrieve the configuration information. You can make use of `msbot list` instead if you prefer.
-
-> Note the BotName and SKillName are case sensitive, please ensure you use the correct capitalisation for your Bot name and each Skill.  e.g. MyCustomAssistant_Calendar. The `msbot list` CLI will help confirm the capitalisation.
-
-```shell
-msbot get YourBotName_Calendar --bot YOURBOTNAME.bot --secret YOUR_BOT_SECRET
 ```
-
-Then in the corresponding Skill entry in `appSettings.config` update the `LuisAppId`, `LuisSubscriptionKey` and [`LuisEndPoint`](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) - for example `https://westus.api.cognitive.microsoft.com`.
-```
+"skills": [
     {
-      "Name": "Calendar",
-      "DispatcherModelName": "l_Calendar",
-      "Description": "The Calendar Skill adds Calendar related capabilities to your Bot.",
-      "Assembly": "CalendarSkill.CalendarSkill, CalendarSkill, Version=1.0.0.0, Culture=neutral",
-      "AuthConnectionName": "",
-      "Parameters": [
+      "type": "skill",
+      "id": "calendarSkill",
+      "name": "calendarSkill",
+      "assembly": "CalendarSkill.CalendarSkill, CalendarSkill, Version=1.0.0.0, Culture=neutral",
+      "dispatchIntent": "l_Calendar",
+      "authConnectionName": "",
+      "luisServiceId": "calendar",
+      "parameters": [
         "IPA.Timezone"
-      ],
-      "Configuration": {
-        "LuisAppId": "",
-        "LuisSubscriptionKey": "",
-        "LuisEndpoint": ""
-      }
+      ]
     }
+]
 ```
-
 ## Skill Authentication
 
 If you wish to make use of the Calendar, Email and Task Skills you need to configure an Authentication Connection enabling uses of your Assistant to authenticate against services such as Office 365 and securely store a token which can be retrieved by your assistant when a user asks a question such as *"What's my day look like today"* to then use against an API like Microsoft Graph.
 
-The [Add Authentication to your bot](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-authentication?view=azure-bot-service-3.0) section in the Azure Bot Service documentation covers more detail on how to configure Authentication. However in this scenario, the deployment step has already created the Azure AD v2 Application for your Bot. Therefore you only need to perform the following steps from the above documentation page:
+The [Add Authentication to your bot](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-authentication?view=azure-bot-service-3.0) section in the Azure Bot Service documentation covers more detail on how to configure Authentication. However in this scenario, the automated deployment step has already created the Azure AD v2 Application for your Bot. Therefore you only need to perform the following steps from the above documentation page:
 
 - Navigate to https://apps.dev.microsoft.com/
 - Under Platforms, click Add Platform.
@@ -156,9 +143,9 @@ The [Add Authentication to your bot](https://docs.microsoft.com/en-us/azure/bot-
 - Each of the Skills require a specific set of Scopes, refer to the documentation for each skill or use the following list of Scopes that contain the scopes needed for all skills. 
   - `Calendars.ReadWrite`, `Mail.Read`, `Mail.Send`, `Notes.ReadWrite`, `People.Read`, `User.Read`
 
-Next you need to create the Authentication Connection for your Bot. Ensure you use the same combination of Scopes that you provided in the above command. The first command shown below will retrieve the appId (ApplicationId) and appPassword (Client Secret) that you need to complete this step. 
+Next you need to create the Authentication Connection for your Bot. Ensure you use the same combination of Scopes that you provided in the above command. The first command shown below will retrieve the appId (ApplicationId) and appPassword (Client Secret) that you need to complete this step.
 
-The commands shown below assume you have used the deployment process and your resource group name is the same as your bot. Replace YOUR_AUTH_CONNECTION_NAME with the name of the auth connection you wish to create and use that in the next step.
+The commands shown below assume you have used the deployment process and your resource group name is the same as your bot. Replace `YOUR_AUTH_CONNECTION_NAME` with the name of the auth connection you wish to create and use that in the next step.
 
 ```shell
 msbot get production --secret YOUR_SECRET
@@ -166,11 +153,13 @@ msbot get production --secret YOUR_SECRET
 az bot authsetting create --resource-group YOUR_BOT_NAME --name YOUR_BOT_NAME --setting-name YOU_AUTH_CONNECTION_NAME --client-id YOUR_APPLICATION_ID --client-secret YOUR_APPLICATION_PASSWORD --provider-scope-string "Calendars.ReadWrite Mail.Read Mail.Send Notes.ReadWrite People.Read User.Read" --service Aadv2
 ```
 
-The final step is to update your .bot file with the Authentication connection name, this is used by the Assistant to enable Authentication prompts or use of Linked Accounts.
+The final step is to update your .bot file and associated Skills (in appSettings.config) with the Authentication connection name, this is used by the Assistant to enable Authentication prompts or use of Linked Accounts.
 
 ```shell
 msbot connect generic --name "Authentication" --keys "{\"Azure Active Directory v2\":\"YOUR_AUTH_CONNECTION_NAME\"}" --secret "YOUR_BOT_SECRET" --url "portal.azure.net"
 ```
+
+Then in the appSettings.config updated the `authConnectionName` for each skill as appropriate. 
 
 > Other Authentication Service Providers exist including the ability to create custom oAuth providers. `az bot authsetting list-providers` is a quick way to review the pre-configured ones.
 
@@ -181,4 +170,4 @@ Once deployment is complete, run your bot project within your development enviro
 
 You should see an Introduction Adaptive card and the example on-boarding process will start.
 
-See the [Testing](./customassistant-testing.md) section for information on how to test your Virtual Assistant.
+See the [Testing](./virtualassistant-testing.md) section for information on how to test your Virtual Assistant.

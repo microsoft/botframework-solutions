@@ -16,7 +16,7 @@ A device can take the Adaptive Card response in JSON format and render to the ta
 
 # Events
 
-Events provides a powerful way for a device to send information from the Device (as a result of a button press, or a device start) but also to receive actions that the Custom Assistant wishes to perform (e.g. change the navigation destination, control a device feature, etc.). See the [Events section](./customassistant-events.md) for more information.
+Events provides a powerful way for a device to send information from the Device (as a result of a button press, or a device start) but also to receive actions that the Custom Assistant wishes to perform (e.g. change the navigation destination, control a device feature, etc.). See the [Events section](./virtualassistant-events.md) for more information.
 
 ## DirectLine SDK
 
