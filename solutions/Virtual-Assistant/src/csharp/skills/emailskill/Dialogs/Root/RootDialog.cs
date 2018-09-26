@@ -8,6 +8,7 @@ using EmailSkill.Dialogs.Shared;
 using EmailSkill.Dialogs.Shared.Resources;
 using Luis;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
@@ -182,6 +183,10 @@ namespace EmailSkill
 
                 if (skillMetadata != null)
                 {
+                    var luisService = skillMetadata.LuisService;
+                    var luisApp = new LuisApplication(luisService.AppId, luisService.SubscriptionKey, luisService.GetEndpoint());
+                    _services.LuisRecognizer = new LuisRecognizer(luisApp);
+
                     state.LuisResultPassedFromSkill = skillMetadata.LuisResult;
                     if (state.UserInfo == null)
                     {

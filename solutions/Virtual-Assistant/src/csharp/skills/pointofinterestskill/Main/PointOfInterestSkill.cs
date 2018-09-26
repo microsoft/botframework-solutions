@@ -31,6 +31,7 @@ namespace PointOfInterestSkill
             _skillMode = true;
             _serviceManager = new ServiceManager();
             _configuration = configuration;
+            _services = new PointOfInterestSkillServices();
 
             // Create the properties and populate the Accessors. It's OK to call it DialogState as Skill mode creates an isolated area for this Skill so it doesn't conflict with Parent or other skills
             _accessors = new PointOfInterestSkillAccessors
@@ -44,20 +45,11 @@ namespace PointOfInterestSkill
 
             if (configuration != null)
             {
-                configuration.TryGetValue("LuisAppId", out var luisAppId);
-                configuration.TryGetValue("LuisSubscriptionKey", out var luisSubscriptionKey);
-                configuration.TryGetValue("LuisEndpoint", out var luisEndpoint);
                 configuration.TryGetValue("AzureMapsKey", out var azureMapsKey);
 
-                if (!string.IsNullOrEmpty(luisAppId) && !string.IsNullOrEmpty(luisSubscriptionKey) && !string.IsNullOrEmpty(luisEndpoint) && !string.IsNullOrEmpty(azureMapsKey))
+                if (!string.IsNullOrEmpty(azureMapsKey))
                 {
-                    var luisApplication = new LuisApplication(luisAppId, luisSubscriptionKey, luisEndpoint);
-
-                    _services = new PointOfInterestSkillServices
-                    {
-                        LuisRecognizer = new LuisRecognizer(luisApplication),
-                        AzureMapsKey = azureMapsKey,
-                    };
+                    _services.AzureMapsKey = azureMapsKey;
                 }
             }
 

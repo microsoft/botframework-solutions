@@ -10,7 +10,6 @@ namespace ToDoSkill
     using global::ToDoSkill.Dialogs.Root;
     using global::ToDoSkill.ServiceClients;
     using Microsoft.Bot.Builder;
-    using Microsoft.Bot.Builder.AI.Luis;
     using Microsoft.Bot.Builder.Dialogs;
     using Microsoft.Bot.Schema;
 
@@ -38,36 +37,20 @@ namespace ToDoSkill
         public ToDoSkill(BotState botState, string stateName = null, Dictionary<string, string> configuration = null)
         {
             // Flag that can be used for Skill specific behaviour (if needed)
-            this.skillMode = true;
-            this.toDoService = new ToDoService();
+            skillMode = true;
+            toDoService = new ToDoService();
+            toDoSkillServices = new ToDoSkillServices();
 
             // Create the properties and populate the Accessors. It's OK to call it DialogState as Skill mode creates an isolated area for this Skill so it doesn't conflict with Parent or other skills
-            this.toDoSkillAccessors = new ToDoSkillAccessors
+            toDoSkillAccessors = new ToDoSkillAccessors
             {
                 ToDoSkillState = botState.CreateProperty<ToDoSkillState>(stateName ?? nameof(ToDoSkillState)),
                 ConversationDialogState = botState.CreateProperty<DialogState>("DialogState"),
             };
 
             // Initialise dialogs
-            this.dialogs = new DialogSet(this.toDoSkillAccessors.ConversationDialogState);
-
-            if (configuration != null)
-            {
-                configuration.TryGetValue("LuisAppId", out var luisAppId);
-                configuration.TryGetValue("LuisSubscriptionKey", out var luisSubscriptionKey);
-                configuration.TryGetValue("LuisEndpoint", out var luisEndpoint);
-
-                if (!string.IsNullOrEmpty(luisAppId) && !string.IsNullOrEmpty(luisSubscriptionKey) && !string.IsNullOrEmpty(luisEndpoint))
-                {
-                    var luisApplication = new LuisApplication(luisAppId, luisSubscriptionKey, luisEndpoint);
-                    this.toDoSkillServices = new ToDoSkillServices
-                    {
-                        LuisRecognizer = new LuisRecognizer(luisApplication),
-                    };
-                }
-            }
-
-            this.dialogs.Add(new RootDialog(this.skillMode, this.toDoSkillServices, this.toDoSkillAccessors, this.toDoService));
+            dialogs = new DialogSet(toDoSkillAccessors.ConversationDialogState);
+            dialogs.Add(new RootDialog(skillMode, toDoSkillServices, toDoSkillAccessors, toDoService));
         }
 
         /// <summary>
@@ -80,11 +63,11 @@ namespace ToDoSkill
         {
             this.toDoSkillAccessors = toDoSkillAccessors;
             this.toDoService = toDoService;
-            this.dialogs = new DialogSet(this.toDoSkillAccessors.ConversationDialogState);
+            dialogs = new DialogSet(this.toDoSkillAccessors.ConversationDialogState);
             this.toDoSkillServices = toDoSkillServices;
 
             // Initialise dialogs
-            this.dialogs.Add(new RootDialog(this.skillMode, this.toDoSkillServices, this.toDoSkillAccessors, this.toDoService));
+            dialogs.Add(new RootDialog(skillMode, this.toDoSkillServices, this.toDoSkillAccessors, this.toDoService));
         }
 
         /// <summary>
@@ -95,11 +78,11 @@ namespace ToDoSkill
         /// <returns>Completed Task.</returns>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
-            var dc = await this.dialogs.CreateContextAsync(turnContext);
+            var dc = await dialogs.CreateContextAsync(turnContext);
             var result = await dc.ContinueDialogAsync();
             if (result.Status == DialogTurnStatus.Empty)
             {
-                if (!this.skillMode)
+                if (!skillMode)
                 {
                     // if localMode, check for conversation update from user before starting dialog
                     if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)

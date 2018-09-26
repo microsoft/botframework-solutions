@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CalendarSkill.Dialogs.Shared.Resources;
 using Luis;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
@@ -116,6 +117,7 @@ namespace CalendarSkill
                         {
                             await CompleteAsync(dc);
                         }
+
                         break;
                     }
 
@@ -158,6 +160,10 @@ namespace CalendarSkill
 
                 if (skillMetadata != null)
                 {
+                    var luisService = skillMetadata.LuisService;
+                    var luisApp = new LuisApplication(luisService.AppId, luisService.SubscriptionKey, luisService.GetEndpoint());
+                    _services.LuisRecognizer = new LuisRecognizer(luisApp);
+
                     state.LuisResultPassedFromSkill = skillMetadata.LuisResult;
                     if (state.UserInfo == null)
                     {

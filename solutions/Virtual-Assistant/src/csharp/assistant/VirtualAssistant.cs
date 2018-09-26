@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
 
 namespace VirtualAssistant
@@ -17,6 +18,7 @@ namespace VirtualAssistant
     public class VirtualAssistant : IBot
     {
         private readonly BotServices _services;
+        private readonly BotConfiguration _botConfig;
         private readonly ConversationState _conversationState;
         private readonly UserState _userState;
         private DialogSet _dialogs;
@@ -27,14 +29,15 @@ namespace VirtualAssistant
         /// <param name="botServices">Bot services.</param>
         /// <param name="conversationState">Bot conversation state.</param>
         /// <param name="userState">Bot user state.</param>
-        public VirtualAssistant(BotServices botServices, ConversationState conversationState, UserState userState)
+        public VirtualAssistant(BotServices botServices, BotConfiguration botConfig, ConversationState conversationState, UserState userState)
         {
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
             _services = botServices ?? throw new ArgumentNullException(nameof(botServices));
+            _botConfig = botConfig;
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(VirtualAssistant)));
-            _dialogs.Add(new MainDialog(_services, _conversationState, _userState));
+            _dialogs.Add(new MainDialog(_services, _botConfig, _conversationState, _userState));
         }
 
         /// <summary>

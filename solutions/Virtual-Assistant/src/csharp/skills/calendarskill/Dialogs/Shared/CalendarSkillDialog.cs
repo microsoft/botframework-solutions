@@ -1790,7 +1790,6 @@ namespace CalendarSkill
                     await sc.Context.SendActivityAsync(replyMessage);
 
                     return await sc.PromptAsync(Action.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CalendarBotResponses.ReadOutMorePrompt) });
-
                 }
                 else
                 {

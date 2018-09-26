@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 
@@ -33,36 +32,20 @@ namespace EmailSkill
         public EmailSkill(BotState botState, string stateName = null, Dictionary<string, string> configuration = null)
         {
             // Flag that can be used for Skill specific behaviour (if needed)
-            this._skillMode = true;
-            this._serviceManager = new MailSkillServiceManager();
+            _skillMode = true;
+            _serviceManager = new MailSkillServiceManager();
+            _services = new EmailSkillServices();
 
             // Create the properties and populate the Accessors. It's OK to call it DialogState as Skill mode creates an isolated area for this Skill so it doesn't conflict with Parent or other skills
-            this._accessors = new EmailSkillAccessors
+            _accessors = new EmailSkillAccessors
             {
                 EmailSkillState = botState.CreateProperty<EmailSkillState>(stateName ?? nameof(EmailSkillState)),
                 ConversationDialogState = botState.CreateProperty<DialogState>("DialogState"),
             };
 
             // Initialise dialogs.
-            this._dialogs = new DialogSet(this._accessors.ConversationDialogState);
-            if (configuration != null)
-            {
-                configuration.TryGetValue("LuisAppId", out var luisAppId);
-                configuration.TryGetValue("LuisSubscriptionKey", out var luisSubscriptionKey);
-                configuration.TryGetValue("LuisEndpoint", out var luisEndpoint);
-
-                if (!string.IsNullOrEmpty(luisAppId) && !string.IsNullOrEmpty(luisSubscriptionKey) && !string.IsNullOrEmpty(luisEndpoint))
-                {
-                    var luisApplication = new LuisApplication(luisAppId, luisSubscriptionKey, luisEndpoint);
-
-                    this._services = new EmailSkillServices()
-                    {
-                        LuisRecognizer = new LuisRecognizer(luisApplication),
-                    };
-                }
-            }
-
-            this._dialogs.Add(new RootDialog(this._skillMode, this._services, this._accessors, this._serviceManager));
+            _dialogs = new DialogSet(_accessors.ConversationDialogState);
+            _dialogs.Add(new RootDialog(_skillMode, _services, _accessors, _serviceManager));
         }
 
         /// <summary>
@@ -74,12 +57,12 @@ namespace EmailSkill
         /// <param name="serviceManager">The service manager inject into flow to search user and email, etc.</param>
         public EmailSkill(EmailSkillServices services, EmailSkillAccessors emailSkillStateAccessors, IMailSkillServiceManager serviceManager)
         {
-            this._accessors = emailSkillStateAccessors;
-            this._serviceManager = serviceManager;
-            this._dialogs = new DialogSet(this._accessors.ConversationDialogState);
-            this._services = services;
+            _accessors = emailSkillStateAccessors;
+            _serviceManager = serviceManager;
+            _dialogs = new DialogSet(_accessors.ConversationDialogState);
+            _services = services;
 
-            this._dialogs.Add(new RootDialog(this._skillMode, this._services, this._accessors, this._serviceManager));
+            _dialogs.Add(new RootDialog(_skillMode, _services, _accessors, _serviceManager));
         }
 
         /// <summary>
@@ -90,12 +73,12 @@ namespace EmailSkill
         /// <returns>Completed Task.</returns>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
-            var dc = await this._dialogs.CreateContextAsync(turnContext);
+            var dc = await _dialogs.CreateContextAsync(turnContext);
             var result = await dc.ContinueDialogAsync();
 
             if (result.Status == DialogTurnStatus.Empty)
             {
-                if (!this._skillMode)
+                if (!_skillMode)
                 {
                     // if localMode, check for conversation update from user before starting dialog
                     if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)

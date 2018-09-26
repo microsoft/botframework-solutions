@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -45,7 +46,7 @@ namespace VirtualAssistant
 
             // Initializes your bot service clients and adds a singleton that your Bot can access through dependency injection.
             var connectedServices = new BotServices(botConfig);
-            connectedServices.RegisteredSkills = Configuration.GetSection("Skills").Get<SkillRegistration[]>();
+            connectedServices.RegisteredSkills = Configuration.GetSection("skills").Get<List<SkillService>>();
             services.AddSingleton(sp => connectedServices);
 
             // Initialize Bot State
@@ -102,12 +103,8 @@ namespace VirtualAssistant
                 options.Middleware.Add(transcriptMiddleware);
 
                 // Typing Middleware (automatically shows typing when the bot is responding/working)
-                var typingMiddleware = new ShowTypingMiddleware();
-                options.Middleware.Add(typingMiddleware);
-
-                var eventDebuggerMiddleware = new EventDebuggerMiddleware();
-                options.Middleware.Add(eventDebuggerMiddleware);
-
+                options.Middleware.Add(new ShowTypingMiddleware());
+                options.Middleware.Add(new EventDebuggerMiddleware());
                 options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
             });
         }
