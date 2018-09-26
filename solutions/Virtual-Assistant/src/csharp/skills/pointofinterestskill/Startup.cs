@@ -68,6 +68,16 @@ namespace PointOfInterestSkill
                 return accessors;
             });
 
+            services.AddSingleton<PointOfInterestSkillServices>(sp =>
+            {
+                var pointOfInterestSkillService = new PointOfInterestSkillServices();
+                var luisModels = this.Configuration.GetSection("services").Get<LanguageModel[]>();
+                var luis = luisModels[0];
+                var luisApp = new LuisApplication(luis.Id, luis.SubscriptionKey, "https://westus.api.cognitive.microsoft.com");
+                pointOfInterestSkillService.LuisRecognizer = new LuisRecognizer(luisApp, null, true);
+                return pointOfInterestSkillService;
+            });
+
             services.AddSingleton<IServiceManager, ServiceManager>();
 
             services.AddBot<PointOfInterestSkill>(options =>

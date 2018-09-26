@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.ApplicationInsights;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Extensions;
 using PointOfInterestSkill.Dialogs.Shared.Resources;
@@ -32,6 +33,7 @@ namespace PointOfInterestSkill
             _serviceManager = serviceManager;
 
             AddDialog(new TextPrompt(Action.Prompt, CustomPromptValidatorAsync));
+            AddDialog(new ConfirmPrompt(Action.ConfirmPrompt) { Style = ListStyle.Auto, });
         }
 
         // Shared Steps
@@ -48,6 +50,62 @@ namespace PointOfInterestSkill
                 {
                     await sc.EndDialogAsync(true);
                     return await sc.BeginDialogAsync(Action.FindAlongRoute);
+                }
+
+                return await sc.ContinueDialogAsync();
+            }
+            catch
+            {
+                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(PointOfInterestBotResponses.PointOfInterestErrorMessage, _responseBuilder));
+                var state = await _accessors.PointOfInterestSkillState.GetAsync(sc.Context);
+                state.Clear();
+                await _accessors.PointOfInterestSkillState.SetAsync(sc.Context, state);
+                return await sc.CancelAllDialogsAsync();
+            }
+        }
+
+        public async Task<DialogTurnResult> CheckIfFoundLocationExists(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await _accessors.PointOfInterestSkillState.GetAsync(sc.Context);
+                if (state.FoundLocations == null)
+                {
+                    return await sc.ContinueDialogAsync();
+                }
+
+                if (!string.IsNullOrEmpty(state.SearchText))
+                {
+                    // Set ActiveLocation if one w/ matching name is found in FoundLocations
+                    var activeLocation = state.FoundLocations?.FirstOrDefault(x => x.Name.Contains(state.SearchText, StringComparison.InvariantCultureIgnoreCase));
+                    if (activeLocation != null)
+                    {
+                        state.ActiveLocation = activeLocation;
+                        state.FoundLocations = null;
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(state.SearchAddress) && state.FoundLocations != null)
+                {
+                    // Set ActiveLocation if one w/ matching address is found in FoundLocations
+                    var activeLocation = state.FoundLocations?.FirstOrDefault(x => x.Address.FormattedAddress.Contains(state.SearchAddress, StringComparison.InvariantCultureIgnoreCase));
+                    if (activeLocation != null)
+                    {
+                        state.ActiveLocation = activeLocation;
+                        state.FoundLocations = null;
+                    }
+                }
+
+                if (state.LastUtteredNumber != null && state.FoundLocations != null)
+                {
+                    // Set ActiveLocation if one w/ matching address is found in FoundLocations
+                    var indexNumber = (int) state.LastUtteredNumber[0] - 1;
+                    var activeLocation = state.FoundLocations?[indexNumber];
+                    if (activeLocation != null)
+                    {
+                        state.ActiveLocation = activeLocation;
+                        state.FoundLocations = null;
+                    }
                 }
 
                 return await sc.ContinueDialogAsync();
@@ -107,24 +165,30 @@ namespace PointOfInterestSkill
 
                 var state = await _accessors.PointOfInterestSkillState.GetAsync(sc.Context);
                 var service = _serviceManager.InitMapsService(_services.AzureMapsKey);
+                var locationSet = new LocationSet();
 
                 if (string.IsNullOrEmpty(state.SearchText) && string.IsNullOrEmpty(state.SearchAddress))
                 {
                     // No entities identified, find nearby locations
-                    var locationSet = await service.GetLocationsNearby(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude);
+                    locationSet = await service.GetLocationsNearby(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude);
                     await GetPointOfInterestLocationViewCards(sc, locationSet);
                 }
                 else if (!string.IsNullOrEmpty(state.SearchText))
                 {
                     // Fuzzy search
-                    var locationSet = await service.GetLocationsByFuzzyQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.SearchText, country);
+                    locationSet = await service.GetLocationsByFuzzyQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.SearchText, country);
                     await GetPointOfInterestLocationViewCards(sc, locationSet);
                 }
                 else if (!string.IsNullOrEmpty(state.SearchAddress))
                 {
                     // Query search
-                    var locationSet = await service.GetLocationsByFuzzyQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.SearchAddress, country);
+                    locationSet = await service.GetLocationsByFuzzyQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.SearchAddress, country);
                     await GetPointOfInterestLocationViewCards(sc, locationSet);
+                }
+
+                if (locationSet?.Locations?.ToList().Count == 1)
+                {
+                    return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(PointOfInterestBotResponses.PromptToGetRoute, _responseBuilder) });
                 }
 
                 return await sc.EndDialogAsync(true);
@@ -142,25 +206,13 @@ namespace PointOfInterestSkill
             }
         }
 
-        /// <summary>
-        /// TODO: How to check for both text and value from activity?.
-        /// </summary>
-        public Task<bool> CustomPromptValidatorAsync(PromptValidatorContext<string> promptContext, CancellationToken cancellationToken)
-        {
-            var result = promptContext.Recognized.Value;
-
-            return Task.FromResult(true);
-        }
-
-        /// <summary>
-        /// Bot takes ActiveLocation and calls Maps API to get directions from current location.
-        /// </summary>
         public async Task<DialogTurnResult> GetRoutesToActiveLocation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
                 var state = await _accessors.PointOfInterestSkillState.GetAsync(sc.Context);
                 var service = _serviceManager.InitMapsService(_services.AzureMapsKey);
+                var routeDirections = new RouteDirections();
 
                 if (state.ActiveLocation == null)
                 {
@@ -168,17 +220,22 @@ namespace PointOfInterestSkill
                     return await sc.PromptAsync(Action.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(PointOfInterestBotResponses.MissingActiveLocationErrorMessage, _responseBuilder) });
                 }
 
-                if (state.SearchDescriptor != null)
+                if (!string.IsNullOrEmpty(state.SearchDescriptor))
                 {
-                    var routeDirections = await service.GetRouteDirectionsAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.ActiveLocation.Point.Coordinates[0], state.ActiveLocation.Point.Coordinates[1], state.SearchDescriptor);
+                    routeDirections = await service.GetRouteDirectionsAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.ActiveLocation.Point.Coordinates[0], state.ActiveLocation.Point.Coordinates[1], state.SearchDescriptor);
 
                     await GetRouteDirectionsViewCards(sc, routeDirections);
                 }
                 else
                 {
-                    var routeDirections = await service.GetRouteDirectionsAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.ActiveLocation.Point.Coordinates[0], state.ActiveLocation.Point.Coordinates[1]);
+                    routeDirections = await service.GetRouteDirectionsAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.ActiveLocation.Point.Coordinates[0], state.ActiveLocation.Point.Coordinates[1]);
 
                     await GetRouteDirectionsViewCards(sc, routeDirections);
+                }
+
+                if (routeDirections?.Routes?.ToList().Count == 1)
+                {
+                    return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(PointOfInterestBotResponses.PromptToStartRoute, _responseBuilder) });
                 }
 
                 return await sc.EndDialogAsync();
@@ -191,6 +248,95 @@ namespace PointOfInterestSkill
                 await _accessors.PointOfInterestSkillState.SetAsync(sc.Context, state);
                 return await sc.CancelAllDialogsAsync();
             }
+        }
+
+
+        public async Task<DialogTurnResult> ResponseToStartRoutePrompt(WaterfallStepContext sc, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var state = await _accessors.PointOfInterestSkillState.GetAsync(sc.Context);
+
+                if ((bool)sc.Result)
+                {
+                    var activeRoute = state.FoundRoutes.Single();
+                    if (activeRoute != null)
+                    {
+                        state.ActiveRoute = activeRoute;
+                        state.FoundRoutes = null;
+                    }
+
+                    var replyMessage = sc.Context.Activity.CreateReply(PointOfInterestBotResponses.SendingRouteDetails);
+                    await sc.Context.SendActivityAsync(replyMessage);
+
+                    // Send event with active route data
+                    var replyEvent = sc.Context.Activity.CreateReply();
+                    replyEvent.Type = ActivityTypes.Event;
+                    replyEvent.Name = "ActiveRoute.Directions";
+                    replyEvent.Value = state.ActiveRoute.Legs;
+                    await sc.Context.SendActivityAsync(replyEvent);
+                }
+                else
+                {
+                    var replyMessage = sc.Context.Activity.CreateReply(PointOfInterestBotResponses.AskAboutRouteLater);
+                    await sc.Context.SendActivityAsync(replyMessage);
+                }
+
+                return await sc.EndDialogAsync();
+            }
+            catch
+            {
+                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(PointOfInterestBotResponses.PointOfInterestErrorMessage, _responseBuilder));
+                var state = await _accessors.PointOfInterestSkillState.GetAsync(sc.Context);
+                state.Clear();
+                await _accessors.PointOfInterestSkillState.SetAsync(sc.Context, state);
+                return await sc.CancelAllDialogsAsync();
+            }
+        }
+
+        public async Task<DialogTurnResult> ResponseToGetRoutePrompt(WaterfallStepContext sc, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var state = await _accessors.PointOfInterestSkillState.GetAsync(sc.Context);
+
+                if ((bool)sc.Result)
+                {
+                    if (state.ActiveLocation != null)
+                    {
+                        state.ActiveLocation = state.FoundLocations.SingleOrDefault();
+                        state.FoundLocations = null;
+                    }
+
+                    await sc.EndDialogAsync();
+                    return await sc.BeginDialogAsync(nameof(RouteDialog));
+                }
+                else
+                {
+                    var replyMessage = sc.Context.Activity.CreateReply(PointOfInterestBotResponses.GetRouteToActiveLocationLater);
+                    await sc.Context.SendActivityAsync(replyMessage);
+                }
+
+                return await sc.EndDialogAsync();
+            }
+            catch
+            {
+                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(PointOfInterestBotResponses.PointOfInterestErrorMessage, _responseBuilder));
+                var state = await _accessors.PointOfInterestSkillState.GetAsync(sc.Context);
+                state.Clear();
+                await _accessors.PointOfInterestSkillState.SetAsync(sc.Context, state);
+                return await sc.CancelAllDialogsAsync();
+            }
+        }
+
+        /// <summary>
+        /// TODO: How to check for both text and value from activity?.
+        /// </summary>
+        public Task<bool> CustomPromptValidatorAsync(PromptValidatorContext<string> promptContext, CancellationToken cancellationToken)
+        {
+            var result = promptContext.Recognized.Value;
+
+            return Task.FromResult(true);
         }
 
         public async Task<DialogTurnResult> CancelActiveRoute(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -233,6 +379,7 @@ namespace PointOfInterestSkill
 
             if (locations != null)
             {
+                int optionNumber = 1;
                 state.FoundLocations = locations.ToList();
 
                 foreach (var location in locations)
@@ -244,9 +391,12 @@ namespace PointOfInterestSkill
                         ImageUrl = imageUrl,
                         LocationName = location.Name,
                         Address = location.Address.FormattedAddress,
+                        SpeakAddress = location.Address.AddressLine,
+                        OptionNumber = optionNumber,
                     };
 
                     cardsData.Add(locationCardModel);
+                    optionNumber++;
                 }
 
                 if (cardsData.Count() > 1)
@@ -268,12 +418,12 @@ namespace PointOfInterestSkill
 
                     if (sc.ActiveDialog.Id.Equals(Action.FindAlongRoute) && state.ActiveRoute != null)
                     {
-                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(PointOfInterestBotResponses.SingleLocationFoundAlongActiveRoute, "Dialogs/Shared/Resources/Cards/PointOfInterestViewCard.json", cardsData.SingleOrDefault(), _responseBuilder);
+                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(PointOfInterestBotResponses.SingleLocationFoundAlongActiveRoute, "Dialogs/Shared/Resources/Cards/PointOfInterestViewNoDrivingButtonCard.json", cardsData.SingleOrDefault(), _responseBuilder);
                         await sc.Context.SendActivityAsync(replyMessage);
                     }
                     else
                     {
-                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(PointOfInterestBotResponses.SingleLocationFound, "Dialogs/Shared/Resources/Cards/PointOfInterestViewCard.json", cardsData.SingleOrDefault(), _responseBuilder);
+                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(PointOfInterestBotResponses.SingleLocationFound, "Dialogs/Shared/Resources/Cards/PointOfInterestViewNoDrivingButtonCard.json", cardsData.SingleOrDefault(), _responseBuilder);
                         await sc.Context.SendActivityAsync(replyMessage);
                     }
                 }
@@ -387,8 +537,7 @@ namespace PointOfInterestSkill
                 }
                 else
                 {
-                    // state.ActiveRoute = routes.Single();
-                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(PointOfInterestBotResponses.SingleRouteFound, "Dialogs/Shared/Resources/Cards/RouteDirectionsViewCard.json", cardsData.SingleOrDefault());
+                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(PointOfInterestBotResponses.SingleRouteFound, "Dialogs/Shared/Resources/Cards/RouteDirectionsViewCardNoGetStartedButton.json", cardsData.SingleOrDefault());
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
             }

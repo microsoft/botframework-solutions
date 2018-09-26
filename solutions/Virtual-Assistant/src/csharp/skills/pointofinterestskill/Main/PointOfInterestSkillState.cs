@@ -20,9 +20,10 @@ namespace PointOfInterestSkill
             SearchText = string.Empty;
             SearchAddress = string.Empty;
             CurrentCoordinates = new LatLng() { Latitude = 47.640568390488625, Longitude = -122.1293731033802 };
-            FoundLocations = new List<Location>();
+            FoundLocations = null;
             ActiveRoute = null;
             SearchDescriptor = string.Empty;
+            LastUtteredNumber = null;
         }
 
         public UserInformation UserInfo { get; set; }
@@ -51,6 +52,8 @@ namespace PointOfInterestSkill
 
         public DialogState ConversationDialogState { get; set; }
 
+        public double[] LastUtteredNumber { get; set; }
+
         public void Clear()
         {
             CurrentCoordinates = null;
@@ -61,6 +64,7 @@ namespace PointOfInterestSkill
             SearchAddress = string.Empty;
             SearchDescriptor = string.Empty;
             FoundLocations = null;
+            LastUtteredNumber = null;
         }
     }
 }

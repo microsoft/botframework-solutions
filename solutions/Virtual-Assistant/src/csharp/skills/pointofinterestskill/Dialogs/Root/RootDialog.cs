@@ -204,6 +204,7 @@ namespace PointOfInterestSkill
                         if (activeLocation != null)
                         {
                             state.ActiveLocation = activeLocation;
+                            state.FoundLocations = null;
                         }
 
                         // Activity should have text to trigger next intent, update Type & Route again
@@ -223,6 +224,7 @@ namespace PointOfInterestSkill
                         if (activeRoute != null)
                         {
                             state.ActiveRoute = activeRoute;
+                            state.FoundRoutes = null;
                         }
 
                         var replyMessage = dc.Context.Activity.CreateReply(PointOfInterestBotResponses.SendingRouteDetails);
@@ -311,6 +313,11 @@ namespace PointOfInterestSkill
                     if (entities.DESCRIPTOR != null && entities.DESCRIPTOR.Length != 0)
                     {
                         state.SearchDescriptor = string.Join(" ", entities.DESCRIPTOR);
+                    }
+
+                    if (entities.number != null && entities.number.Length != 0)
+                    {
+                        state.LastUtteredNumber = entities.number;
                     }
                 }
             }

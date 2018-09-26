@@ -26,17 +26,20 @@ namespace PointOfInterestSkill
             var checkForActiveRouteAndLocation = new WaterfallStep[]
             {
                 CheckIfActiveRouteExists,
+                CheckIfFoundLocationExists,
                 CheckIfActiveLocationExists,
             };
 
             var findRouteToActiveLocation = new WaterfallStep[]
             {
                 GetRoutesToActiveLocation,
+                ResponseToStartRoutePrompt,
             };
 
             var findAlongRoute = new WaterfallStep[]
             {
                 GetPointOfInterestLocations,
+                ResponseToGetRoutePrompt
             };
 
             var findPointOfInterest = new WaterfallStep[]

@@ -128,16 +128,6 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "AskForActiveLocation": {
-    "replies": [
-
-      {
-        "text": "Where would you like to go?",
-        "speak": "Where would you like to go?"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
   "MultipleLocationsFound": {
     "replies": [
       {
@@ -188,6 +178,10 @@
       {
         "text": "I found the several routes to your destination.",
         "speak": "I found the several routes to your destination."
+      },
+      {
+        "text": "There are multiple routes you can take to your destination.",
+        "speak": "There are multiple routes you can take to your destination."
       }
     ],
     "inputHint": "expectingInput"
@@ -197,15 +191,10 @@
       {
         "text": "I found a route to your destination.",
         "speak": "I found a route to your destination."
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "SelectARoute": {
-    "replies": [
+      },
       {
-        "text": "Select 'Get started' on the route you'd like to take.",
-        "speak": "Select 'Get started' on the route you'd like to take."
+        "text": "This is the best route to your destination.",
+        "speak": "This is the best route to your destination."
       }
     ],
     "inputHint": "expectingInput"
@@ -253,40 +242,107 @@
     ],
     "inputHint": "expectingInput"
   },
-  "SelectActiveLocation": {
-    "replies": [
-      {
-        "text": "Select 'Show me directions' on the point of interest you'd like to navigate to.",
-        "speak": "Select 'Show me directions' on the point of interest you'd like to navigate to."
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
   "SendingRouteDetails": {
     "replies": [
       {
         "text": "I'm sending you the route details.",
         "speak": "I'm sending you the route details."
+      },
+      {
+        "text": "Here are more detailed directions.",
+        "speak": "Here are more detailed directions."
       }
     ],
-    "inputHint": "ignoringInput"
+    "inputHint": "acceptingInput"
   },
   "CancelActiveRoute": {
     "replies": [
       {
         "text": "Got it. I'm cancelling your route now.",
         "speak": "Got it. I'm cancelling your route now."
+      },
+      {
+        "text": "Route cancelled. I've erased it from my memory.",
+        "speak": "Route cancelled. I've erased it from my memory."
       }
     ],
-    "inputHint": "ignoringInput"
+    "inputHint": "acceptingInput"
   },
   "CannotCancelActiveRoute": {
     "replies": [
       {
-        "text": "I'm sorry, I don't have a route to cancel.",
-        "speak": "I'm sorry, I don't have a route to cancel."
+        "text": "I'm sorry, I can't cancel a route that doesn't exist.",
+        "speak": "I'm sorry, I can't cancel a route that doesn't exist."
+      },
+      {
+        "text": "I don't have a route on record to remove, sorry.",
+        "speak": "I don't have a route on record to remove, sorry."
       }
     ],
-    "inputHint": "ignoringInput"
+    "inputHint": "acceptingInput"
+  },
+  "PromptToGetRoute": {
+    "replies": [
+      {
+        "text": "Would you like me to find you a route?",
+        "speak": "Would you like me to find you a route?"
+      },
+      {
+        "text": "Do you want directions?",
+        "speak": "Do you want directions?"
+      },
+      {
+        "text": "Do you want me to get you directions?",
+        "speak": "Do you want me to get you directions?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "PromptToStartRoute": {
+    "replies": [
+      {
+        "text": "Would you like to begin your route now?",
+        "speak": "Would you like to begin your route now?"
+      },
+      {
+        "text": "Shall we get started?",
+        "speak": "Shall we get started?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AskAboutRouteLater": {
+    "replies": [
+      {
+        "text": "Ok, you can ask me about this route anytime.",
+        "speak": "Ok, you can ask me about this route anytime."
+      },
+      {
+        "text": "Ok, I can help you with this later.",
+        "speak": "Ok, I can help you with this later."
+      },
+      {
+        "text": "Sure, you can come back to this another time.",
+        "speak": "Sure, you can come back to this another time."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "GetRouteToActiveLocationLater": {
+    "replies": [
+      {
+        "text": "Ok, you can ask me about this location anytime.",
+        "speak": "Ok, you can ask me about this location anytime."
+      },
+      {
+        "text": "Ok, I can help you with this later.",
+        "speak": "Ok, I can help you with this later."
+      },
+      {
+        "text": "Sure, I can help you with this later.",
+        "speak": "Sure, I can help you with this later."
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }
