@@ -96,6 +96,18 @@ namespace PointOfInterestSkill
                     }
                 }
 
+                if (state.LastUtteredNumber != null && state.FoundLocations != null)
+                {
+                    // Set ActiveLocation if one w/ matching address is found in FoundLocations
+                    var indexNumber = (int) state.LastUtteredNumber[0] - 1;
+                    var activeLocation = state.FoundLocations?[indexNumber];
+                    if (activeLocation != null)
+                    {
+                        state.ActiveLocation = activeLocation;
+                        state.FoundLocations = null;
+                    }
+                }
+
                 return await sc.ContinueDialogAsync();
             }
             catch
@@ -367,6 +379,7 @@ namespace PointOfInterestSkill
 
             if (locations != null)
             {
+                int optionNumber = 1;
                 state.FoundLocations = locations.ToList();
 
                 foreach (var location in locations)
@@ -379,10 +392,11 @@ namespace PointOfInterestSkill
                         LocationName = location.Name,
                         Address = location.Address.FormattedAddress,
                         SpeakAddress = location.Address.AddressLine,
-
+                        OptionNumber = optionNumber,
                     };
 
                     cardsData.Add(locationCardModel);
+                    optionNumber++;
                 }
 
                 if (cardsData.Count() > 1)

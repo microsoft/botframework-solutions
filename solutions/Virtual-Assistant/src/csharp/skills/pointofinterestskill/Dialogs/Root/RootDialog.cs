@@ -314,6 +314,11 @@ namespace PointOfInterestSkill
                     {
                         state.SearchDescriptor = string.Join(" ", entities.DESCRIPTOR);
                     }
+
+                    if (entities.number != null && entities.number.Length != 0)
+                    {
+                        state.LastUtteredNumber = entities.number;
+                    }
                 }
             }
             catch

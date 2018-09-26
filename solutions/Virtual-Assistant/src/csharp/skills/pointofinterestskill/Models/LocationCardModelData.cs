@@ -15,5 +15,7 @@ namespace PointOfInterestSkill
         public string SpeakAddress { get; set; }
 
         public string ActionText { get; set; }
+
+        public int OptionNumber { get; set; }
     }
 }

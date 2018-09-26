@@ -2,44 +2,77 @@
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.0",
   "type": "AdaptiveCard",
-  "speak": "{LocationName} is located at {SpeakAddress}",
+  "speak": "Option {OptionNumber}, {LocationName} is located at {SpeakAddress}",
   "body": [
     {
-      "type": "Image",
-      "url": "{ImageUrl}",
-      "size": "auto",
-      "horizontalAlignment": "center"
+      "type": "Container",
+      "items": [
+        {
+          "horizontalAlignment": "center",
+          "type": "Image",
+          "url": "{ImageUrl}"
+        },
+        {
+          "size": "medium",
+          "text": "{LocationName}",
+          "type": "TextBlock"
+        },
+        {
+          "size": "medium",
+          "text": "{Address}",
+          "type": "TextBlock",
+          "weight": "lighter",
+          "wrap": true
+        }
+      ]
     },
     {
-      "type": "TextBlock",
-      "text": "{LocationName}",
-      "size": "medium"
-    },
-    {
-      "type": "TextBlock",
-      "text": "{Address}",
-      "size": "medium",
-      "weight": "lighter"
-    },
-    {
-      "text": "Ask me like this:",
-      "type": "TextBlock",
-      "weight": "bolder"
-    },
-    {
-      "text": "*Find the fastest route to {LocationName}*",
-      "type": "TextBlock",
-      "wrap": "true"
-    },
-    {
-      "text": "*How do I get to {LocationName}*",
-      "type": "TextBlock",
-      "wrap": "true"
-    },
-    {
-      "text": "*Show directions to {SpeakAddress}*",
-      "type": "TextBlock",
-      "wrap": "true"
+      "type": "Container",
+      "separator": "true",
+      "style": "emphasis",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": 35,
+              "items": [
+                {
+                  "text": "Ask me like this:",
+                  "type": "TextBlock",
+                  "weight": "default",
+                  "size": "default"
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": 65,
+              "items": [
+                {
+                  "text": "*Find the fastest route to  {LocationName}*",
+                  "type": "TextBlock",
+                  "wrap": true,
+                  "horizontalAlignment": "right"
+                },
+                {
+                  "text": "*How do I get to option {OptionNumber}*",
+                  "type": "TextBlock",
+                  "wrap": true,
+                  "horizontalAlignment": "right"
+                },
+                {
+                  "text": "*Show directions to {SpeakAddress}*",
+                  "type": "TextBlock",
+                  "wrap": true,
+                  "horizontalAlignment": "right"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "actions": [
