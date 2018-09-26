@@ -120,50 +120,6 @@ namespace PointOfInterestSkill
             }
         }
 
-        public async Task<DialogTurnResult> CheckIfFoundLocationExists(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await _accessors.PointOfInterestSkillState.GetAsync(sc.Context);
-                if (state.FoundLocations == null)
-                {
-                    return await sc.ContinueDialogAsync();
-                }
-
-                if (!string.IsNullOrEmpty(state.SearchText))
-                {
-                    // Set ActiveLocation if one w/ matching name is found in FoundLocations
-                    var activeLocation = state.FoundLocations?.FirstOrDefault(x => x.Name.Contains(state.SearchText, StringComparison.InvariantCultureIgnoreCase));
-                    if (activeLocation != null)
-                    {
-                        state.ActiveLocation = activeLocation;
-                        state.FoundLocations = null;
-                    }
-                }
-
-                if (!string.IsNullOrEmpty(state.SearchAddress) && state.FoundLocations == null)
-                {
-                    // Set ActiveLocation if one w/ matching address is found in FoundLocations
-                    var activeLocation = state.FoundLocations?.FirstOrDefault(x => x.Address.FormattedAddress.Contains(state.SearchAddress, StringComparison.InvariantCultureIgnoreCase));
-                    if (activeLocation != null)
-                    {
-                        state.ActiveLocation = activeLocation;
-                        state.FoundLocations = null;
-                    }
-                }
-
-                return await sc.ContinueDialogAsync();
-            }
-            catch
-            {
-                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(PointOfInterestBotResponses.PointOfInterestErrorMessage, _responseBuilder));
-                var state = await _accessors.PointOfInterestSkillState.GetAsync(sc.Context);
-                state.Clear();
-                await _accessors.PointOfInterestSkillState.SetAsync(sc.Context, state);
-                return await sc.CancelAllDialogsAsync();
-            }
-        }
-
         public async Task<DialogTurnResult> CheckIfActiveLocationExists(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
