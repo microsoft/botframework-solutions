@@ -1,4 +1,5 @@
 ﻿using Microsoft.Bot.Builder;
+using Microsoft.Bot.Configuration;
 using System.Collections.Generic;
 
 namespace Microsoft.Bot.Solutions.Skills
@@ -11,15 +12,16 @@ namespace Microsoft.Bot.Solutions.Skills
     /// </summary>
     public class SkillMetadata
     {
-        public SkillMetadata(IRecognizerConvert luisResult, Dictionary<string, string> configuration, Dictionary<string,object> parameters)
+        public SkillMetadata(IRecognizerConvert luisResult, LuisService luisService, Dictionary<string, string> configuration, Dictionary<string,object> parameters)
         {
             LuisResult = luisResult;
-            Configuration = configuration;
+            LuisService = luisService;
             Parameters = parameters;
         }
 
         public Dictionary<string, string> Configuration { get; set; }
         public Dictionary<string, object> Parameters { get; set; }
         public IRecognizerConvert LuisResult { get; set; }
+        public LuisService LuisService { get; set; }
     }
 }

@@ -31,16 +31,16 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.4" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language.TextAnalytics" Version="2.1.0-preview" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.0.6" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.0.6" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.0.6" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.0.6" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.0.6" />
-    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.0.6" />
-    <PackageReference Include="Microsoft.Bot.Connector" Version="4.0.6" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.0.6" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.0.7" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.0.7" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.0.7" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.0.7" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.0.7" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.0.7" />
+    <PackageReference Include="Microsoft.Bot.Connector" Version="4.0.7" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.0.7" />
     <PackageReference Include="Microsoft.Graph" Version="1.11.0" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta009">
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>

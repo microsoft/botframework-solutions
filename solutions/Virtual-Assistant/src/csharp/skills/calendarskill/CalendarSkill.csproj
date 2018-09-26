@@ -15,18 +15,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DeploymentScripts\**" />
     <Compile Remove="Dialogs\CreateEvent\Resources\**" />
     <Compile Remove="Dialogs\DeleteEvent\Resources\**" />
     <Compile Remove="Dialogs\Summary\Resources\**" />
     <Compile Remove="Dialogs\UpdateEventTime\Resources\**" />
+    <Content Remove="DeploymentScripts\**" />
     <Content Remove="Dialogs\CreateEvent\Resources\**" />
     <Content Remove="Dialogs\DeleteEvent\Resources\**" />
     <Content Remove="Dialogs\Summary\Resources\**" />
     <Content Remove="Dialogs\UpdateEventTime\Resources\**" />
+    <EmbeddedResource Remove="DeploymentScripts\**" />
     <EmbeddedResource Remove="Dialogs\CreateEvent\Resources\**" />
     <EmbeddedResource Remove="Dialogs\DeleteEvent\Resources\**" />
     <EmbeddedResource Remove="Dialogs\Summary\Resources\**" />
     <EmbeddedResource Remove="Dialogs\UpdateEventTime\Resources\**" />
+    <None Remove="DeploymentScripts\**" />
     <None Remove="Dialogs\CreateEvent\Resources\**" />
     <None Remove="Dialogs\DeleteEvent\Resources\**" />
     <None Remove="Dialogs\Summary\Resources\**" />
@@ -47,14 +51,14 @@
     <PackageReference Include="Google.Apis.Calendar.v3" Version="1.35.2.1354" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.4" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language.TextAnalytics" Version="2.1.0-preview" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.0.6" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.0.6" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.0.6" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.0.6" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.0.6" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.0.7" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.0.7" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.0.7" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.0.7" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.0.7" />
     <PackageReference Include="Microsoft.Graph" Version="1.11.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta009">
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
@@ -124,10 +128,6 @@
       <LastGenOutput>BotStrings.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="DeploymentScripts\" />
   </ItemGroup>
 
 </Project>
