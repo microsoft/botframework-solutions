@@ -13,10 +13,10 @@ This enables delivery of Skills for common scenarios such as Productivity (Calen
 # Available Skills
 
 The following Skills are available at this time, these represent initial priority scenarios and work is ongoing:
-- [Productivity - Calendar](./customassistant-skills-productivity-calendar.md)
-- [Productivity - Email](./customassistant-skills-productivity-email.md)
-- [Productivity - Tasks](./customassistant-skills-productivity-tasks.md)
-- [Points of Interest](./customassistant-skills-pointofinterest.md)
+- [Productivity - Calendar](./virtualassistant-skills-productivity-calendar.md)
+- [Productivity - Email](./virtualassistant-skills-productivity-email.md)
+- [Productivity - Tasks](./virtualassistant-skills-productivity-tasks.md)
+- [Points of Interest](./virtualassistant-skills-pointofinterest.md)
 - Automotive - Coming Soon 
 
 ## Skill Invocation Flow
@@ -25,7 +25,7 @@ All communication between a Custom Assistant and a Skill will be performed throu
 
 The custom SkillDialog bootstraps the Adapter and processes appropriate middleware (currently only State) before invoking the OnTurn method on the Bot for each Activity. A skillBegin event is sent at the beginning of each Skill Dialog and the end of a Skill Dialog is marked by the sending of a `endOfConversation` event.
 
-![Skill Invocation Flow](./media/customassistant-SkillFlow.png)
+![Skill Invocation Flow](./media/virtualassistant-SkillFlow.png)
 
  ## Skill Registration
 

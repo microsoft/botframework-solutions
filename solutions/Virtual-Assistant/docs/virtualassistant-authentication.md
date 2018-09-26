@@ -14,11 +14,11 @@ When a token isn’t already cached (e.g. first time use) the following flow occ
 - When a Token is retrieved it’s returned to the Bot within a tokens/response message which is used to complete the OAuthPrompt and store the token securely.
 - This same event is then forwarded to the Skill through the existing SkillDialog on the stack and provides the Token for the Skill to use.
 
-![Initial Authentication Flow for Skills](./media/customassistant-SkillAuthInitialFlow.png)
+![Initial Authentication Flow for Skills](./media/virtualassistant-SkillAuthInitialFlow.png)
 
 Subsequent activations benefit from the Azure Bot Service provided cache and enables silent retrieval of a token.
 
-![Subsequent Authentication Flow for Skills](./media/customassistant-SkillAuthSubsequentFlow.png)
+![Subsequent Authentication Flow for Skills](./media/virtualassistant-SkillAuthSubsequentFlow.png)
 
 # Implementing Authentication with your Skill
 

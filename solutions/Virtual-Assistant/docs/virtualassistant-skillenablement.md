@@ -119,7 +119,7 @@ case DialogTurnStatus.Complete:
 
 In scenarios where your Skill needs access to a Token from the User to perform an Action this should be performed by the Custom Assitant ensuring that Tokens are held centrally and can be shared across Skills where appropriate (e.g. a Microsoft Graph token).
 
-This is performed by sending a `tokens/request` event to the Custom Assistant and then wait for a `tokens/response` event to be returned. If a token is already stored by the Custom Assistant it will be returned immediately otherwise a Prompt to the user will be generated to initiate login. See [Linked Accounts](./customassistant-linkedaccounts.md) on how to ensure Tokens are made available during initial onboarding of the user to the Custom Assistant. 
+This is performed by sending a `tokens/request` event to the Custom Assistant and then wait for a `tokens/response` event to be returned. If a token is already stored by the Custom Assistant it will be returned immediately otherwise a Prompt to the user will be generated to initiate login. See [Linked Accounts](./virtualassistant-linkedaccounts.md) on how to ensure Tokens are made available during initial onboarding of the user to the Custom Assistant. 
 
 Register a `SkillAuth` Dialog as part of your overall Dialog registration. Note this uses an EventPrompt class provided as part of the Custom Assistant.
 ```

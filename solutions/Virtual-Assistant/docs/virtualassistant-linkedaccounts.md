@@ -8,11 +8,11 @@ The first time this scenario executes IPA will need to prompt the user for authe
 
 OAuth Card Example:
 
-![Example OAuth Card](./media/customassistant-LinkedAccountsOAuthCard.png)
+![Example OAuth Card](./media/virtualassistant-LinkedAccountsOAuthCard.png)
 
 Signin Page Example
 
-![Example Login Page](./media/customassistant-LinkedAccountsSignin.png)
+![Example Login Page](./media/virtualassistant-LinkedAccountsSignin.png)
 
 In a speech-led scenario it's not acceptable or practical for a user to enter their username and password through voice commands. Therefore a separate companion experience provides an opportunity for the user to signin-in and provide permission for an IPA Bot to retrieve a token for later use. The Linked Accounts feature of the IPA provides a reference example of a Web-Page using a new set of Azure Bot Service APIs to deliver this feature, you can use this example to build an account linking experience within your own Web-Site or Mobile-App.
 
