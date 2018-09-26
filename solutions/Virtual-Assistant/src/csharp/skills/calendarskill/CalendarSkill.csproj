@@ -15,18 +15,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DeploymentScripts\**" />
     <Compile Remove="Dialogs\CreateEvent\Resources\**" />
     <Compile Remove="Dialogs\DeleteEvent\Resources\**" />
     <Compile Remove="Dialogs\Summary\Resources\**" />
     <Compile Remove="Dialogs\UpdateEventTime\Resources\**" />
+    <Content Remove="DeploymentScripts\**" />
     <Content Remove="Dialogs\CreateEvent\Resources\**" />
     <Content Remove="Dialogs\DeleteEvent\Resources\**" />
     <Content Remove="Dialogs\Summary\Resources\**" />
     <Content Remove="Dialogs\UpdateEventTime\Resources\**" />
+    <EmbeddedResource Remove="DeploymentScripts\**" />
     <EmbeddedResource Remove="Dialogs\CreateEvent\Resources\**" />
     <EmbeddedResource Remove="Dialogs\DeleteEvent\Resources\**" />
     <EmbeddedResource Remove="Dialogs\Summary\Resources\**" />
     <EmbeddedResource Remove="Dialogs\UpdateEventTime\Resources\**" />
+    <None Remove="DeploymentScripts\**" />
     <None Remove="Dialogs\CreateEvent\Resources\**" />
     <None Remove="Dialogs\DeleteEvent\Resources\**" />
     <None Remove="Dialogs\Summary\Resources\**" />
@@ -124,10 +128,6 @@
       <LastGenOutput>BotStrings.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="DeploymentScripts\" />
   </ItemGroup>
 
 </Project>

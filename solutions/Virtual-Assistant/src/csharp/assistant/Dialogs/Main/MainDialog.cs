@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Skills;
@@ -24,21 +25,23 @@ namespace VirtualAssistant
 
         // Fields
         private BotServices _services;
+        private BotConfiguration _botConfig;
         private UserState _userState;
         private ConversationState _conversationState;
         private SkillRouter _skillRouter;
         private IStatePropertyAccessor<OnboardingState> _onboardingState;
-        private IStatePropertyAccessor<Dictionary<string, object>> _userInfoAccessor;
+        private IStatePropertyAccessor<Dictionary<string, object>> _parametersAccessor;
         private MainResponses _responder = new MainResponses();
 
-        public MainDialog(BotServices services, ConversationState conversationState, UserState userState)
+        public MainDialog(BotServices services, BotConfiguration botConfig, ConversationState conversationState, UserState userState)
             : base(nameof(MainDialog))
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
+            _botConfig = botConfig;
             _conversationState = conversationState;
             _userState = userState;
             _onboardingState = _userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
-            _userInfoAccessor = _userState.CreateProperty<Dictionary<string, object>>("userInfo");
+            _parametersAccessor = _userState.CreateProperty<Dictionary<string, object>>("userInfo");
 
             AddDialog(new OnboardingDialog(_services, _onboardingState));
             AddDialog(new EscalateDialog(_services));
@@ -55,7 +58,7 @@ namespace VirtualAssistant
             var view = new MainResponses();
             await view.ReplyWith(dc.Context, MainResponses.Intro);
 
-            //if (string.IsNullOrEmpty(onboardingState.Name))
+            if (string.IsNullOrEmpty(onboardingState.Name))
             {
                 // This is the first time the user is interacting with the bot, so gather onboarding information.
                 await dc.BeginDialogAsync(nameof(OnboardingDialog));
@@ -64,7 +67,7 @@ namespace VirtualAssistant
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var userInformation = await _userInfoAccessor.GetAsync(dc.Context, () => new Dictionary<string, object>());
+            var parameters = await _parametersAccessor.GetAsync(dc.Context, () => new Dictionary<string, object>());
 
             // No dialog is currently on the stack and we haven't responded to the user
             // Check dispatch result
@@ -136,7 +139,8 @@ namespace VirtualAssistant
                         {
                             LuisResult = luisResult,
                             MatchedSkill = matchedSkill,
-                            UserInfo = userInformation,
+                            LuisService = _botConfig.FindServiceByNameOrId(matchedSkill.LuisServiceId) as LuisService,
+                            Parameters = parameters,
                         });
 
                         break;
@@ -152,7 +156,8 @@ namespace VirtualAssistant
                         {
                             LuisResult = luisResult,
                             MatchedSkill = matchedSkill,
-                            UserInfo = userInformation,
+                            LuisService = _botConfig.FindServiceByNameOrId(matchedSkill.LuisServiceId) as LuisService,
+                            Parameters = parameters,
                         });
 
                         break;
@@ -168,7 +173,8 @@ namespace VirtualAssistant
                         {
                             LuisResult = luisResult,
                             MatchedSkill = matchedSkill,
-                            UserInfo = userInformation,
+                            LuisService = _botConfig.FindServiceByNameOrId(matchedSkill.LuisServiceId) as LuisService,
+                            Parameters = parameters,
                         });
 
                         break;
@@ -184,7 +190,8 @@ namespace VirtualAssistant
                         {
                             LuisResult = luisResult,
                             MatchedSkill = matchedSkill,
-                            UserInfo = userInformation,
+                            LuisService = _botConfig.FindServiceByNameOrId(matchedSkill.LuisServiceId) as LuisService,
+                            Parameters = parameters,
                         });
 
                         break;
@@ -238,7 +245,7 @@ namespace VirtualAssistant
             var ev = dc.Context.Activity.AsEventActivity();
             await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Received event: {ev.Name}"));
 
-            var userInfo = await _userInfoAccessor.GetAsync(dc.Context, () => new Dictionary<string, object>());
+            var parameters = await _parametersAccessor.GetAsync(dc.Context, () => new Dictionary<string, object>());
 
             switch (ev.Name)
             {
@@ -249,7 +256,7 @@ namespace VirtualAssistant
                             var timezone = ev.Value.ToString();
                             var tz = TimeZoneInfo.FindSystemTimeZoneById(timezone);
 
-                            userInfo[ev.Name] = tz;
+                            parameters[ev.Name] = tz;
                         }
                         catch
                         {
@@ -261,7 +268,7 @@ namespace VirtualAssistant
 
                 case LocationEvent:
                     {
-                        userInfo[ev.Name] = ev.Value;
+                        parameters[ev.Name] = ev.Value;
                         break;
                     }
 
@@ -286,7 +293,8 @@ namespace VirtualAssistant
                         await RouteToSkillAsync(dc, new SkillDialogOptions()
                         {
                             MatchedSkill = matchedSkill,
-                            UserInfo = userInfo
+                            LuisService = _botConfig.FindServiceByNameOrId(matchedSkill.LuisServiceId) as LuisService,
+                            Parameters = parameters,
                         });
 
                         break;

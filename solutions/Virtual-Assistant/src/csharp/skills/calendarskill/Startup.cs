@@ -72,8 +72,8 @@ namespace CalendarSkill
                     var luisApp = new LuisApplication(luis.Id, luis.SubscriptionKey, "https://westus.api.cognitive.microsoft.com");
                     var luisRecognizer = new LuisRecognizer(luisApp);
                     calendarSkillService.LuisRecognizer = luisRecognizer;
-                    var authConnectionNmae = this.Configuration.GetSection("authConnectionName")?.Value;
-                    calendarSkillService.AuthConnectionName = authConnectionNmae;
+                    var authConnectionName = this.Configuration.GetSection("authConnectionName")?.Value;
+                    calendarSkillService.AuthConnectionName = authConnectionName;
                 }
 
                 return calendarSkillService;
