@@ -26,10 +26,12 @@ namespace PointOfInterestSkill
             var findPointOfInterest = new WaterfallStep[]
             {
                 GetPointOfInterestLocations,
+                ResponseToGetRoutePrompt,
             };
 
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Action.FindPointOfInterest, findPointOfInterest));
+            AddDialog(new RouteDialog(services, _accessors, _serviceManager));
 
             // Set starting dialog for component
             InitialDialogId = Action.FindPointOfInterest;

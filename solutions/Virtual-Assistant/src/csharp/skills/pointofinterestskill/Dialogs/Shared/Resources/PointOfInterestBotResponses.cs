@@ -35,8 +35,6 @@ namespace PointOfInterestSkill.Dialogs.Shared.Resources
 
         public static BotResponse GreetingMessage => GetBotResponse();
 
-        public static BotResponse AskForActiveLocation => GetBotResponse();
-
         public static BotResponse MultipleLocationsFound => GetBotResponse();
 
         public static BotResponse SingleLocationFound => GetBotResponse();
@@ -51,21 +49,25 @@ namespace PointOfInterestSkill.Dialogs.Shared.Resources
 
         public static BotResponse SingleRouteFound => GetBotResponse();
 
-        public static BotResponse SelectARoute => GetBotResponse();
-
         public static BotResponse PointOfInterestErrorMessage => GetBotResponse();
 
         public static BotResponse MissingActiveLocationErrorMessage => GetBotResponse();
 
         public static BotResponse MissingActiveRouteErrorMessage => GetBotResponse();
 
-        public static BotResponse SelectActiveLocation => GetBotResponse();
-
         public static BotResponse SendingRouteDetails => GetBotResponse();
 
         public static BotResponse CancelActiveRoute => GetBotResponse();
 
         public static BotResponse CannotCancelActiveRoute => GetBotResponse();
+
+        public static BotResponse PromptToGetRoute => GetBotResponse();
+
+        public static BotResponse PromptToStartRoute => GetBotResponse();
+
+        public static BotResponse AskAboutRouteLater => GetBotResponse();
+
+        public static BotResponse GetRouteToActiveLocationLater => GetBotResponse();
 
         private static Dictionary<string, Dictionary<string, BotResponse>> JsonResponses
         {
