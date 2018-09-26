@@ -85,7 +85,7 @@ namespace PointOfInterestSkill
                     }
                 }
 
-                if (!string.IsNullOrEmpty(state.SearchAddress) && state.FoundLocations == null)
+                if (!string.IsNullOrEmpty(state.SearchAddress) && state.FoundLocations != null)
                 {
                     // Set ActiveLocation if one w/ matching address is found in FoundLocations
                     var activeLocation = state.FoundLocations?.FirstOrDefault(x => x.Address.FormattedAddress.Contains(state.SearchAddress, StringComparison.InvariantCultureIgnoreCase));
@@ -378,7 +378,7 @@ namespace PointOfInterestSkill
                         ImageUrl = imageUrl,
                         LocationName = location.Name,
                         Address = location.Address.FormattedAddress,
-                        SpeakAddress = location.Address.AddressLine + ", " + location.Address.Locality,
+                        SpeakAddress = location.Address.AddressLine,
 
                     };
 

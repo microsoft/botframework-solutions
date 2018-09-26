@@ -113,4 +113,6 @@
     <Exec Command="xcopy &quot;$(SolutionDir)skills\$(OutDir)Dialogs&quot; &quot;$(TargetDir)Dialogs&quot; /s /y /i&#xD;&#xA;xcopy &quot;$(SolutionDir)skills\$(OutDir)Resources&quot; &quot;$(TargetDir)Resources&quot; /s /y /i" />
   </Target>
 
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1development_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
+
 </Project>

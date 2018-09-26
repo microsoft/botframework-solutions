@@ -20,6 +20,26 @@
       "text": "{Address}",
       "size": "medium",
       "weight": "lighter"
+    },
+    {
+      "text": "Ask me like this:",
+      "type": "TextBlock",
+      "weight": "bolder"
+    },
+    {
+      "text": "*Find the fastest route to {LocationName}*",
+      "type": "TextBlock",
+      "wrap": "true"
+    },
+    {
+      "text": "*How do I get to {LocationName}*",
+      "type": "TextBlock",
+      "wrap": "true"
+    },
+    {
+      "text": "*Show directions to {SpeakAddress}*",
+      "type": "TextBlock",
+      "wrap": "true"
     }
   ],
   "actions": [
