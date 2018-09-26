@@ -1,19 +1,14 @@
 {
-    "name": "PointOfInterestSkill",
-    "description": "",
-    "services": [
-      {
-        "type": "endpoint",
-        "appId": "",
-        "appPassword": "",
-        "endpoint": "http://localhost:52060/api/messages",
-        "id": "1",
-        "name": "PointOfInterestSkill"
-      }
-    ],
-    "padlock": "",
-    "version": "2.0",
-    "path": "C:\\Users\\ryanl\\source\\repos\\AI\\solutions\\Virtual-Assistant\\src\\csharp\\skills\\pointofinterestskill\\PointOfInterestSkill.bot",
-    "overrides": null,
-    "secretKey": ""
+  "name": "PointOfInterestSkill",
+  "secretKey": "",
+  "services": [
+    {
+      "appId": "",
+      "id": "1",
+      "type": "endpoint",
+      "appPassword": "",
+      "endpoint": "http://localhost:1205/api/messages",
+      "name": "PointOfInterestSkill"
+    }
+  ]
 }
