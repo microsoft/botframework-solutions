@@ -21,15 +21,17 @@ namespace Assistant_WebTest.Controllers
         {
             // Retrieve the Bot configuration
             directLineSecret = configuration.GetSection("DirectLineSecret").Value;
-            botId = configuration.GetSection("BotId").Value;          
+            speechKey = configuration.GetSection("SpeechKey").Value;
+            voiceName = configuration.GetSection("VoiceName").Value;
         }
 
         public IActionResult Index()
         {
-            // Pass the DirectLine Secret and BotId to the Bot control
+            // Pass the DirectLine Secret, Speech Key and Voice Name
             // Note this approach will require magic code validation
             ViewData["DirectLineSecret"] = directLineSecret;
-            ViewData["BotId"] = botId;
+            ViewData["SpeechKey"] = speechKey;
+            ViewData["VoiceName"] = voiceName;
 
             // Retrieve the object idenitifer for the user which will be the userID (fromID) passed to the Bot
             var claimsIdentity = this.User?.Identity as System.Security.Claims.ClaimsIdentity;
@@ -73,6 +75,7 @@ namespace Assistant_WebTest.Controllers
         }
 
         private string directLineSecret;
-        private string botId;
+        private string speechKey;
+        private string voiceName;
     }
 }

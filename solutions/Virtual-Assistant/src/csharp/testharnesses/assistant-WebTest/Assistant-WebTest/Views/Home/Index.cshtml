@@ -1,18 +1,31 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-<head>
-    <link href="https://cdn.botframework.com/botframework-webchat/preview/botchat.css" rel="stylesheet" />
-</head>
+<body>
+    <div id="webchat"></div>
+    <script src="https://cdn.botframework.com/botframework-webchat/latest/CognitiveServices.js"></script>
+    <script src="https://cdn.botframework.com/botframework-webchat/preview/botchat.js"></script>
+    <script>
 
-<div id="bot" />
-<script src="https://cdn.botframework.com/botframework-webchat/preview/botchat.js"></script>
-<script>
-      BotChat.App({
-          directLine: {
-              secret: '@ViewData["DirectLineSecret"]' },
-        user: { id: '@ViewData["UserId"]' },
-        bot: { id: '@ViewData["BotId"]' },
-        resize: 'detect'
-      }, document.getElementById("bot"));
-</script>
+        const speechOptions = {
+
+            speechRecognizer: new CognitiveServices.SpeechRecognizer({ subscriptionKey: '@ViewData["SpeechKey"]' }),
+            speechSynthesizer: new CognitiveServices.SpeechSynthesizer({
+                gender: CognitiveServices.SynthesisGender.Female,
+                subscriptionKey: '@ViewData["SpeechKey"]',
+                voiceName: '@ViewData["VoiceName"]'
+            })
+        };
+
+        window.WebChat.renderWebChat({
+            directLine: window.WebChat.createDirectLine({
+                secret: '@ViewData["DirectLineSecret"]',
+                user: { id: '@ViewData["UserId"]' },
+                speechOptions: speechOptions,
+                resize: 'detect',
+                botAvatarInitials: 'AS',
+                userAvatarInitials: 'US',                
+            })
+        }, document.getElementById('webchat'));
+    </script>
+</body>

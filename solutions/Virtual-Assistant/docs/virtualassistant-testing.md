@@ -11,13 +11,26 @@ The Bot Framework Emulator can be used by opening the .bot file provided within 
 
 > Authentication scenarios cannot be fully tested within the Emulator at this time. The Web Test Harness provides a workaround for this.
 
+## Direct Line Configuration
+
+For device integration and use of the test harnesses below you need to publish your assistant to your Azure subscription and then configure the [direct line](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-channel-connect-directline?view=azure-bot-service-3.0) channel.
+
+- Start with deploying your assistant to Azure
+- Then use the following CLI tool shown below, the key will be shown in the `key` field. This will not be accessible again so ensure you keep this securely and for the steps below.
+
+```shell
+az bot directline create -g aadV2BotDarrenJ --name aadv2botdarrenj
+```
+
 ## Web Test Harness
 
 The Web Test Harness makes use of the Bot Framework WebChat control to provide an additional test canvas. The Web Test harness is configured against an Identity Provider (e.g. Active Directory) to enable the user to signin and retrieve a unique identifer which is used to ensure all messages sent during testing use this identifier enabling testing of the [Linked Accounts](./virtualassistant-linkedaccounts) feature. When using the Linked Accounts feature ensure that you signin to the same account, then accounts you link will be automatically made available to you when testing through the Web Test harness removing the need for Authentication prompts which aren't practical in voice scenarios.
 
-Your Custom Assistant needs to be deployed to Azure and have the [Direct-Line channel configured](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-channel-connect-directline?view=azure-bot-service-3.0) as a pre-requisite for use of the Test Harness. Update the appSettings.json file file with the Direct-Line Secret.
+See the Authentication Configuration section of the [Linked Accounts](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-channel-connect-directline?view=azure-bot-service-3.0) documentation for how to configure the Authentication section. 
 
-See the Authentication Configuration section of the [Linked Accounts](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-channel-connect-directline?view=azure-bot-service-3.0) documentation for how to configure the Authentication section.
+Update the AzureAd section in appsettings.config with the above authentication information along with the DirectLine secret created previously.
+
+When opening the Assistant-WebTest project for the first time you will be assigned a unique port number for local debugging - you can check this by right clicking your solution in Visual Studio, choosing properties and reviewing the App URL in the Debug section. Ensure this is entered into the Reply-URLs section of the Authentication configuration. e.g. `https://localhost:44320/signin-oidc`.
 
 ## Direct-Line Sample
 
@@ -25,7 +38,8 @@ A simple Console App is provided to demonstrate the base communication interacti
 
 Examples are also provided on how events can be sent (device activation for example) as well as receiving responses to perform an action locally (e.g. change the navigation system or radio station).
 
-Your Custom Assistant needs to be deployed to Azure and have the [Direct-Line channel configured](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-channel-connect-directline?view=azure-bot-service-3.0) as a pre-requisite for use of the Sample. Update the code to reflect the Direct-Line secret.
+Update the code to reflect the Direct-Line secret you created previously.
 
 ## Additional Platforms
+
 > We plan to offer additional test harnesses and integration samples for Linux and Android moving forward.
