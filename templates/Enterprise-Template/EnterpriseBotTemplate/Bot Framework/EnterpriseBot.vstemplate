@@ -24,6 +24,7 @@
         </Folder>
       </Folder>
       <Folder Name="Properties" TargetFolderName="Properties">
+        <ProjectItem ReplaceParameters="true" TargetFileName="launchSettings.json">launchSettings.json</ProjectItem>
       </Folder>
       <Folder Name="wwwroot" TargetFolderName="wwwroot">
         <ProjectItem ReplaceParameters="true" TargetFileName="default.htm">default.htm</ProjectItem>
