@@ -329,9 +329,10 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 
-# ZIP Files
-*.zip
-/solutions/Virtual-Assistant/src/csharp/assistant/DarrenAssistantEurope.bot
+# Bot Files
+*.bot
+
+# AppSettings
 /solutions/Virtual-Assistant/src/csharp/assistant/appsettings.development.json
 /solutions/Virtual-Assistant/src/csharp/assistant/appsettings.production.json
-/solutions/Virtual-Assistant/src/csharp/assistant/LamilCustomAssistant.bot
+
