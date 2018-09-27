@@ -109,7 +109,7 @@ The msbot tool will outline the deployment plan including location and SKU. Ensu
 
 ## Skill Configuration
 
-The Virtual Assistant Solution is fully integrated with all available skills out of the box. Skill configuration can be found in your appSettings.json file. An example of the Skill Configuratin configuration is shown below.
+The Virtual Assistant Solution is fully integrated with all available skills out of the box. Skill configuration can be found in your appSettings.json file. An example of the Skill Configuration entries is shown below for reference.
 
 ```
 "skills": [
