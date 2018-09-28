@@ -1,0 +1,66 @@
+{
+  "name": "News",
+  "versionId": "0.1",
+  "desc": "",
+  "culture": "en-us",
+   "intents": [
+    {
+      "name": "FindNews"
+    },
+    {
+      "name": "None"
+    }
+  ],
+  "entities": [
+    {
+      "name": "topic",
+      "roles": []
+    }
+  ],
+  "composites": [],
+  "closedLists": [],
+  "patternAnyEntities": [],
+  "regex_entities": [],
+  "prebuiltEntities": [],
+  "model_features": [],
+  "regex_features": [],
+  "patterns": [
+    {
+      "pattern": "find news about {topic}",
+      "intent": "FindNews"
+    }
+  ],
+  "utterances": [
+    {
+      "text": "latest news",
+      "intent": "FindNews",
+      "entities": []
+    },
+    {
+      "text": "news about microsoft",
+      "intent": "FindNews",
+      "entities": []
+    },
+    {
+      "text": "news about the stock market",
+      "intent": "FindNews",
+      "entities": []
+    },
+    {
+      "text": "sports news",
+      "intent": "FindNews",
+      "entities": []
+    },
+    {
+      "text": "tell me the news",
+      "intent": "FindNews",
+      "entities": []
+    },
+    {
+      "text": "whats the news",
+      "intent": "FindNews",
+      "entities": []
+    }
+  ],
+  "settings": []
+}
