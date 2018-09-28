@@ -10,10 +10,10 @@ namespace VirtualAssistant
 {
     public class CustomSkillDialog : ComponentDialog
     {
-        public CustomSkillDialog(BotServices botServices)
+        public CustomSkillDialog()
             : base(nameof(CustomSkillDialog))
         {
-            AddDialog(new SkillDialog(botServices.CosmosDbOptions, botServices.TelemetryClient));
+            AddDialog(new SkillDialog());
         }
 
         protected override Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)

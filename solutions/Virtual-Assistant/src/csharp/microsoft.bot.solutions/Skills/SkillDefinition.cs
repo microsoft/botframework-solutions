@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace Microsoft.Bot.Solutions.Skills
 {
-    public class SkillService : ConnectedService
+    public class SkillDefinition : ConnectedService
     {
-        public SkillService() : base("skill")
+        public SkillDefinition() : base("skill")
         {
         }
 
@@ -19,8 +19,8 @@ namespace Microsoft.Bot.Solutions.Skills
         [JsonProperty("authConnectionName")]
         public string AuthConnectionName { get; set; }
 
-        [JsonProperty("luisServiceId")]
-        public string LuisServiceId { get; set; }
+        [JsonProperty("luisServiceIds")]
+        public string[] LuisServiceIds { get; set; }
 
         [JsonProperty("parameters")]
         public string[] Parameters { get; set; }
