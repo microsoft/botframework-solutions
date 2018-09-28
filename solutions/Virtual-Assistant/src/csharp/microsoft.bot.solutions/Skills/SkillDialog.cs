@@ -1,5 +1,4 @@
-﻿using Microsoft.ApplicationInsights;
-using Microsoft.Bot.Builder;
+﻿using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
@@ -14,72 +13,40 @@ namespace Microsoft.Bot.Solutions.Skills
     public class SkillDialog : Dialog
     {
         // Constants
-        private const string ActiveSkillStateKey = "ActiveSkill";
         private const string TokenRequestEventName = "tokens/request";
         private const string TokenResponseEventName = "tokens/response";
-        private const string SkillBeginEventName = "skillBegin";
 
         // Fields
-        private InProcAdapter _inProcAdapter;
-        private IBot _activatedSkill;
-        private CosmosDbStorageOptions _cosmosDbOptions;
-        private TelemetryClient _telemetryClient;
-        private SkillService _skill;
-        private OAuthPrompt _authPrompt;
-        private bool skillInitialized = false;
+        private static OAuthPrompt _authPrompt;
+        private static InProcAdapter _inProcAdapter;
+        private static IBot _activatedSkill;
+        private static SkillConfiguration _skillConfiguration;
+        private static SkillDefinition _skillDefinition;
 
 
-        public SkillDialog(CosmosDbStorageOptions cosmosDbOptions, TelemetryClient telemetryClient)
+        public SkillDialog()
             : base(nameof(SkillDialog))
         {
-            _cosmosDbOptions = cosmosDbOptions;
-            _telemetryClient = telemetryClient;
         }
 
         public override async Task<DialogTurnResult> BeginDialogAsync(DialogContext dc, object options = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var skillDialogOptions = (SkillDialogOptions)options;
+            var skillOptions = (SkillDialogOptions)options;
 
-            _skill = skillDialogOptions.MatchedSkill;
+            _skillConfiguration = skillOptions.SkillConfiguration;
+            _skillDefinition = skillOptions.SkillDefinition;
 
-            // Set our active Skill so later methods know which Skill to use.
-            dc.ActiveDialog.State[ActiveSkillStateKey] = skillDialogOptions.MatchedSkill;
-
+            // Initialize authentication prompt
             _authPrompt = new OAuthPrompt(nameof(OAuthPrompt), new OAuthPromptSettings()
             {
-                ConnectionName = skillDialogOptions.MatchedSkill.AuthConnectionName,
+                ConnectionName = skillOptions.SkillDefinition.AuthConnectionName,
                 Title = "Skill Authentication",
                 Text = $"Please login to access this feature.",
             });
 
-            var parameters = new Dictionary<string, object>();
-            if (skillDialogOptions.MatchedSkill.Parameters != null)
-            {
-                foreach (var parameter in skillDialogOptions.MatchedSkill.Parameters)
-                {
-                    if (skillDialogOptions.Parameters.TryGetValue(parameter, out var paramValue))
-                    {
-                        parameters.Add(parameter, paramValue);
-                    }
-                }
-            }
+            await InitializeSkill(dc);
 
-            var skillMetadata = new SkillMetadata(
-                skillDialogOptions.LuisResult,
-                skillDialogOptions.LuisService,
-                skillDialogOptions.MatchedSkill.Configuration,
-                parameters);
-
-            var dialogBeginEvent = new Activity(
-                type: ActivityTypes.Event,
-                channelId: dc.Context.Activity.ChannelId,
-                from: new ChannelAccount(id: dc.Context.Activity.From.Id, name: dc.Context.Activity.From.Name),
-                recipient: new ChannelAccount(id: dc.Context.Activity.Recipient.Id, name: dc.Context.Activity.Recipient.Name),
-                conversation: new ConversationAccount(id: dc.Context.Activity.Conversation.Id),
-                name: SkillBeginEventName,
-                value: skillMetadata);
-
-            return await ForwardToSkill(dc, dialogBeginEvent);
+            return EndOfTurn;
         }
 
         public override Task<DialogTurnResult> ContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -87,124 +54,136 @@ namespace Microsoft.Bot.Solutions.Skills
             return ForwardToSkill(dc, dc.Context.Activity);
         }
 
-        private bool InitializeSkill(DialogContext dc)
+        private async Task InitializeSkill(DialogContext dc)
         {
-            if (dc.ActiveDialog.State.ContainsKey(ActiveSkillStateKey))
+            try
             {
-                var skill = dc.ActiveDialog.State[ActiveSkillStateKey] as SkillService;
+                var cosmosDbOptions = _skillConfiguration.CosmosDbOptions;
+                cosmosDbOptions.CollectionId = _skillDefinition.Name;
 
-                var cosmosDbOptions = _cosmosDbOptions;
-                cosmosDbOptions.CollectionId = skill.Name;
+                // Initialize skill state
                 var cosmosDbStorage = new CosmosDbStorage(cosmosDbOptions);
+                var userState = new UserState(cosmosDbStorage);
                 var conversationState = new ConversationState(cosmosDbStorage);
 
                 try
                 {
-                    var skillType = Type.GetType(skill.Assembly);
-                    _activatedSkill = (IBot)Activator.CreateInstance(skillType, conversationState, $"{skill.Name}State", skill.Configuration);
+                    var skillType = Type.GetType(_skillDefinition.Assembly);
+                    _activatedSkill = (IBot)Activator.CreateInstance(skillType, _skillConfiguration, conversationState, userState, true);
                 }
                 catch (Exception e)
                 {
-                    var message = $"Skill ({skill.Name}) Type could not be created.";
+                    var message = $"Skill ({_skillDefinition.Name}) could not be created.";
                     throw new InvalidOperationException(message, e);
                 }
 
                 _inProcAdapter = new InProcAdapter
                 {
+                    // set up skill turn error handling
                     OnTurnError = async (context, exception) =>
                     {
-                        await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: exception.Message));
                         await context.SendActivityAsync(context.Activity.CreateReply($"Sorry, something went wrong trying to communicate with the skill. Please try again."));
-                        await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Skill Error: {exception.Message} | {exception.StackTrace}"));
-                        _telemetryClient.TrackException(exception);
+
+                        // Send error trace to emulator
+                        await dc.Context.SendActivityAsync(
+                        new Activity(
+                            type: ActivityTypes.Trace,
+                            text: $"Skill Error: {exception.Message} | {exception.StackTrace}"
+                            ));
+
+                        // Log exception in AppInsights
+                        _skillConfiguration.TelemetryClient.TrackException(exception);
                     },
                 };
 
                 _inProcAdapter.Use(new EventDebuggerMiddleware());
-                _inProcAdapter.Use(new AutoSaveStateMiddleware(conversationState));
-
-                skillInitialized = true;
+                _inProcAdapter.Use(new AutoSaveStateMiddleware(userState, conversationState));
             }
-            else
+            catch
             {
-                // No active skill?
+                // something went wrong initializing the skill, so end dialog cleanly and throw so the error is logged
+                await dc.EndDialogAsync();
+                throw;
             }
-
-            return skillInitialized;
         }
 
         public async Task<DialogTurnResult> ForwardToSkill(DialogContext dc, Activity activity)
         {
-            if (!skillInitialized)
+            try
             {
-                InitializeSkill(dc);
-            }
-
-            _inProcAdapter.ProcessActivity(activity, async (skillContext, ct) =>
-            {
-                await _activatedSkill.OnTurnAsync(skillContext);
-            }).Wait();
-
-            var queue = new List<Activity>();
-            var endOfConversation = false;
-            var skillResponse = _inProcAdapter.GetNextReply();
-
-            while (skillResponse != null)
-            {
-                if (skillResponse.Type == ActivityTypes.EndOfConversation)
+                _inProcAdapter.ProcessActivity(activity, async (skillContext, ct) =>
                 {
-                    endOfConversation = true;
-                }
-                else if (skillResponse?.Name == TokenRequestEventName)
+                    await _activatedSkill.OnTurnAsync(skillContext);
+                }).Wait();
+
+                var queue = new List<Activity>();
+                var endOfConversation = false;
+                var skillResponse = _inProcAdapter.GetNextReply();
+
+                while (skillResponse != null)
                 {
-                    // Send trace to emulator
-                    await dc.Context.SendActivityAsync(
-                        new Activity(
-                            type: ActivityTypes.Trace,
-                            text: $"<--Received a Token Request from a skill"
-                            ));
-
-                    // Uncomment this line to prompt user for login every time the skill requests a token
-                    // var a = dc.Context.Adapter as BotFrameworkAdapter;
-                    // await a.SignOutUserAsync(dc.Context, _skill.AuthConnectionName, dc.Context.Activity.From.Id, default(CancellationToken));
-
-                    var authResult = await _authPrompt.BeginDialogAsync(dc);
-                    if (authResult.Result?.GetType() == typeof(TokenResponse))
+                    if (skillResponse.Type == ActivityTypes.EndOfConversation)
                     {
-                        var tokenEvent = skillResponse.CreateReply();
-                        tokenEvent.Type = ActivityTypes.Event;
-                        tokenEvent.Name = TokenResponseEventName;
-                        tokenEvent.Value = authResult.Result;
+                        endOfConversation = true;
+                    }
+                    else if (skillResponse?.Name == TokenRequestEventName)
+                    {
+                        // Send trace to emulator
+                        await dc.Context.SendActivityAsync(
+                            new Activity(
+                                type: ActivityTypes.Trace,
+                                text: $"<--Received a Token Request from a skill"
+                                ));
 
-                        return await ForwardToSkill(dc, tokenEvent);
+                        // Uncomment this line to prompt user for login every time the skill requests a token
+                        // var a = dc.Context.Adapter as BotFrameworkAdapter;
+                        // await a.SignOutUserAsync(dc.Context, _skill.AuthConnectionName, dc.Context.Activity.From.Id, default(CancellationToken));
+
+                        var authResult = await _authPrompt.BeginDialogAsync(dc);
+                        if (authResult.Result?.GetType() == typeof(TokenResponse))
+                        {
+                            var tokenEvent = skillResponse.CreateReply();
+                            tokenEvent.Type = ActivityTypes.Event;
+                            tokenEvent.Name = TokenResponseEventName;
+                            tokenEvent.Value = authResult.Result;
+
+                            return await ForwardToSkill(dc, tokenEvent);
+                        }
+                        else
+                        {
+                            return authResult;
+                        }
                     }
                     else
                     {
-                        return authResult;
+                        queue.Add(skillResponse);
                     }
+
+                    skillResponse = _inProcAdapter.GetNextReply();
+                }
+
+                // send skill queue to User
+                if (queue.Count > 0)
+                {
+                    await dc.Context.SendActivitiesAsync(queue.ToArray());
+                }
+
+                // handle ending the skill conversation
+                if (endOfConversation)
+                {
+                    return await dc.EndDialogAsync();
                 }
                 else
                 {
-                    queue.Add(skillResponse);
+                    return EndOfTurn;
                 }
-
-                skillResponse = _inProcAdapter.GetNextReply();
             }
-
-            // send skill queue to User
-            if (queue.Count > 0)
+            catch
             {
-                await dc.Context.SendActivitiesAsync(queue.ToArray());
-            }
-
-            // handle ending the skill conversation
-            if (endOfConversation)
-            {
-                return await dc.EndDialogAsync();
-            }
-            else
-            {
-                return EndOfTurn;
+                // something went wrong forwarding to the skill, so end dialog cleanly and throw so the error is logged.
+                // NOTE: errors within the skill itself are handled by the OnTurnError handler on the adapter.
+                await dc.EndDialogAsync();
+                throw;
             }
         }
     }
