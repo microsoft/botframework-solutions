@@ -179,18 +179,30 @@ namespace ToDoSkill.Dialogs.Shared
                 var state = await accessors.ToDoSkillState.GetAsync(context);
                 var luisResult = (ToDo)state.LuisResult;
                 var entities = luisResult.Entities;
-                if (luisResult.Entities.ContainsAll != null)
+                if (entities.ContainsAll != null)
                 {
                     state.MarkOrDeleteAllTasksFlag = true;
                 }
 
-                if (luisResult.Entities.ordinal != null)
+                if (entities.ordinal != null)
                 {
-                    var index = (int)luisResult.Entities.ordinal[0];
+                    var index = (int)entities.ordinal[0];
                     if (index > 0 && index <= 5)
                     {
-                        state.ToDoTaskIndex = index - 1;
+                        if (state.ToDoTaskIndexes.Count > 0)
+                        {
+                            state.ToDoTaskIndexes[0] = index - 1;
+                        }
+                        else
+                        {
+                            state.ToDoTaskIndexes.Add(index - 1);
+                        }
                     }
+                }
+
+                if (entities.TaskContent != null)
+                {
+                    state.ToDoTaskContent = entities.TaskContent[0];
                 }
 
                 if (context.Activity.Text != null)
@@ -230,8 +242,20 @@ namespace ToDoSkill.Dialogs.Shared
                 var index = (int)luisResult.Entities.ordinal[0];
                 if (index > 0 && index <= 5)
                 {
-                    toDoSkillState.ToDoTaskIndex = index - 1;
+                    if (toDoSkillState.ToDoTaskIndexes.Count > 0)
+                    {
+                        toDoSkillState.ToDoTaskIndexes[0] = index - 1;
+                    }
+                    else
+                    {
+                        toDoSkillState.ToDoTaskIndexes.Add(index - 1);
+                    }
                 }
+            }
+
+            if (entities.TaskContent != null)
+            {
+                toDoSkillState.ToDoTaskContent = entities.TaskContent[0];
             }
 
             if (!string.IsNullOrEmpty(userInput))
