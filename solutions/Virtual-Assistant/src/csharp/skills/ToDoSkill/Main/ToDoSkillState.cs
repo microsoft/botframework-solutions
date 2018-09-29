@@ -21,7 +21,7 @@ namespace ToDoSkill
             this.ToDoTaskContent = null;
             this.ToDoTaskActivity = new ToDoTaskActivityModel();
             this.ToDoTaskActivities = new List<ToDoTaskActivityModel>();
-            this.ToDoTaskIndex = -1;
+            this.ToDoTaskIndexes = new List<int>();
             this.MsGraphToken = null;
             this.ShowToDoPageIndex = 0;
             this.ToDoTaskAllActivities = new List<ToDoTaskActivityModel>();
@@ -79,7 +79,7 @@ namespace ToDoSkill
         /// <value>
         /// ToDoTaskIndex.
         /// </value>
-        public int ToDoTaskIndex { get; set; }
+        public List<int> ToDoTaskIndexes { get; set; }
 
         /// <summary>
         /// Gets or sets MsGraphToken.
@@ -161,7 +161,7 @@ namespace ToDoSkill
             this.ToDoTaskContent = null;
             this.ToDoTaskActivity = new ToDoTaskActivityModel();
             this.ToDoTaskActivities = new List<ToDoTaskActivityModel>();
-            this.ToDoTaskIndex = -1;
+            this.ToDoTaskIndexes = new List<int>() { -1 };
             this.MsGraphToken = null;
             this.ShowToDoPageIndex = 0;
             this.ToDoTaskAllActivities = new List<ToDoTaskActivityModel>();

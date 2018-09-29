@@ -37,10 +37,10 @@ namespace ToDoSkill.ServiceClients
         /// <summary>
         /// Mark to do item as completed.
         /// </summary>
-        /// <param name="toDoActivity">To Do activity.</param>
+        /// <param name="toDoTaskActivities">To Do activities.</param>
         /// <param name="pageContentUrl">page content url.</param>
         /// <returns>True if succeed.</returns>
-        Task<bool> MarkToDoItemCompleted(ToDoTaskActivityModel toDoActivity, string pageContentUrl);
+        Task<bool> MarkToDoItemsCompleted(List<ToDoTaskActivityModel> toDoTaskActivities, string pageContentUrl);
 
         /// <summary>
         /// Mark all to do items as completed.
@@ -53,10 +53,10 @@ namespace ToDoSkill.ServiceClients
         /// <summary>
         /// Delete To Do.
         /// </summary>
-        /// <param name="toDoActivity">To Do activity.</param>
+        /// <param name="toDoTaskActivities">To Do task activities.</param>
         /// <param name="pageContentUrl">page content url.</param>
         /// <returns>True if succeed.</returns>
-        Task<bool> DeleteToDo(ToDoTaskActivityModel toDoActivity, string pageContentUrl);
+        Task<bool> DeleteToDos(List<ToDoTaskActivityModel> toDoTaskActivities, string pageContentUrl);
 
         /// <summary>
         /// Delete all To Dos.

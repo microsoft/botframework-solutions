@@ -6,6 +6,7 @@ namespace ToDoSkill.Dialogs.Shared
     using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using global::ToDoSkill.Dialogs.AddToDoTask;
@@ -178,11 +179,13 @@ namespace ToDoSkill.Dialogs.Shared
             else if (topIntent == ToDo.Intent.AddToDo)
             {
                 state.ToDoTaskContent = null;
+                await ToDoHelper.DigestLuisResultAsync(sc.Context, this.accessors);
             }
             else if (topIntent == ToDo.Intent.MarkToDo || topIntent == ToDo.Intent.DeleteToDo)
             {
-                state.ToDoTaskIndex = -1;
+                state.ToDoTaskIndexes = new List<int>();
                 state.MarkOrDeleteAllTasksFlag = false;
+                state.ToDoTaskContent = null;
                 await ToDoHelper.DigestLuisResultAsync(sc.Context, this.accessors);
             }
 
@@ -335,8 +338,16 @@ namespace ToDoSkill.Dialogs.Shared
         /// <returns>Task completion.</returns>
         public async Task<DialogTurnResult> AskToDoTaskContent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var prompt = sc.Context.Activity.CreateReply(ToDoBotResponses.AskToDoContentText);
-            return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
+            var state = await this.accessors.ToDoSkillState.GetAsync(sc.Context);
+            if (!string.IsNullOrEmpty(state.ToDoTaskContent))
+            {
+                return await sc.NextAsync();
+            }
+            else
+            {
+                var prompt = sc.Context.Activity.CreateReply(ToDoBotResponses.AskToDoContentText);
+                return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
+            }
         }
 
         /// <summary>
@@ -350,15 +361,22 @@ namespace ToDoSkill.Dialogs.Shared
             try
             {
                 var state = await this.accessors.ToDoSkillState.GetAsync(sc.Context);
-                if (sc.Result != null)
+                if (string.IsNullOrEmpty(state.ToDoTaskContent))
                 {
-                    sc.Context.Activity.Properties.TryGetValue("OriginText", out JToken toDoContent);
-                    state.ToDoTaskContent = toDoContent != null ? toDoContent.ToString() : sc.Context.Activity.Text;
-                    return await sc.EndDialogAsync(true);
+                    if (sc.Result != null)
+                    {
+                        sc.Context.Activity.Properties.TryGetValue("OriginText", out JToken toDoContent);
+                        state.ToDoTaskContent = toDoContent != null ? toDoContent.ToString() : sc.Context.Activity.Text;
+                        return await sc.EndDialogAsync(true);
+                    }
+                    else
+                    {
+                        return await sc.BeginDialogAsync(Action.CollectToDoTaskContent);
+                    }
                 }
                 else
                 {
-                    return await sc.BeginDialogAsync(Action.CollectToDoTaskContent);
+                    return await sc.EndDialogAsync(true);
                 }
             }
             catch (Exception ex)
@@ -435,8 +453,11 @@ namespace ToDoSkill.Dialogs.Shared
         public async Task<DialogTurnResult> AskToDoTaskIndex(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await this.accessors.ToDoSkillState.GetAsync(sc.Context);
-            if (state.MarkOrDeleteAllTasksFlag
-                || (state.ToDoTaskIndex >= 0 && state.ToDoTaskIndex < state.ToDoTaskActivities.Count))
+            if (!string.IsNullOrEmpty(state.ToDoTaskContent)
+                || state.MarkOrDeleteAllTasksFlag
+                || (state.ToDoTaskIndexes.Count == 1
+                    && state.ToDoTaskIndexes[0] >= 0
+                    && state.ToDoTaskIndexes[0] < state.ToDoTaskActivities.Count))
             {
                 return await sc.NextAsync();
             }
@@ -456,20 +477,54 @@ namespace ToDoSkill.Dialogs.Shared
         public async Task<DialogTurnResult> AfterAskToDoTaskIndex(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await this.accessors.ToDoSkillState.GetAsync(sc.Context);
-            if (!state.MarkOrDeleteAllTasksFlag
-                && (state.ToDoTaskIndex < 0 || state.ToDoTaskIndex >= state.ToDoTaskActivities.Count))
+            if (string.IsNullOrEmpty(state.ToDoTaskContent)
+                && !state.MarkOrDeleteAllTasksFlag
+                && (state.ToDoTaskIndexes.Count == 0
+                    || state.ToDoTaskIndexes[0] < 0
+                    || state.ToDoTaskIndexes[0] >= state.ToDoTaskActivities.Count))
             {
                 var luisResult = await this.toDoSkillServices.LuisRecognizer.RecognizeAsync<ToDo>(sc.Context, cancellationToken);
                 ToDoHelper.DigestLuisResult(luisResult, sc.Context.Activity.Text, ref state);
             }
 
-            if (state.MarkOrDeleteAllTasksFlag
-                || (state.ToDoTaskIndex >= 0 && state.ToDoTaskIndex < state.ToDoTaskActivities.Count))
+            var matchedIndexes = Enumerable.Range(0, state.ToDoTaskAllActivities.Count)
+                .Where(i => state.ToDoTaskAllActivities[i].Topic.Equals(state.ToDoTaskContent, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            if (matchedIndexes?.Count > 0)
             {
+                state.ToDoTaskIndexes = matchedIndexes;
                 return await sc.EndDialogAsync(true);
             }
             else
             {
+                var userInput = sc.Context.Activity.Text;
+                matchedIndexes = Enumerable.Range(0, state.ToDoTaskAllActivities.Count)
+                    .Where(i => state.ToDoTaskAllActivities[i].Topic.Equals(userInput, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+
+                if (matchedIndexes?.Count > 0)
+                {
+                    state.ToDoTaskIndexes = matchedIndexes;
+                    return await sc.EndDialogAsync(true);
+                }
+            }
+
+            if (state.MarkOrDeleteAllTasksFlag)
+            {
+                return await sc.EndDialogAsync(true);
+            }
+
+            if (state.ToDoTaskIndexes.Count == 1
+                && state.ToDoTaskIndexes[0] >= 0
+                && state.ToDoTaskIndexes[0] < state.ToDoTaskActivities.Count)
+            {
+                state.ToDoTaskIndexes[0] = (state.PageSize * state.ShowToDoPageIndex) + state.ToDoTaskIndexes[0];
+                return await sc.EndDialogAsync(true);
+            }
+            else
+            {
+                state.ToDoTaskContent = null;
                 return await sc.BeginDialogAsync(Action.CollectToDoTaskIndex);
             }
         }
@@ -503,7 +558,7 @@ namespace ToDoSkill.Dialogs.Shared
                 }
                 else
                 {
-                    var toDoTask = state.ToDoTaskActivities[state.ToDoTaskIndex].Topic;
+                    var toDoTask = state.ToDoTaskAllActivities[state.ToDoTaskIndexes[0]].Topic;
                     var token = new StringDictionary() { { "toDoTask", toDoTask } };
                     var response = ToDoHelper.GenerateResponseWithTokens(ToDoBotResponses.AskDeletionConfirmation, token);
                     var prompt = sc.Context.Activity.CreateReply(response);
@@ -586,25 +641,27 @@ namespace ToDoSkill.Dialogs.Shared
 
                     var service = await this.toDoService.Init(state.MsGraphToken, state.OneNotePageId);
                     var page = await service.GetDefaultToDoPage();
-                    string taskToBeDeleted = null;
+                    string taskTopicToBeDeleted = null;
                     if (state.MarkOrDeleteAllTasksFlag)
                     {
                         await service.DeleteAllToDos(state.ToDoTaskAllActivities, page.ContentUrl);
                         state.ToDoTaskAllActivities = new List<ToDoTaskActivityModel>();
                         state.ToDoTaskActivities = new List<ToDoTaskActivityModel>();
                         state.ShowToDoPageIndex = 0;
-                        state.ToDoTaskIndex = -1;
+                        state.ToDoTaskIndexes = new List<int>();
                     }
                     else
                     {
-                        taskToBeDeleted = state.ToDoTaskActivities[state.ToDoTaskIndex].Topic;
-                        await service.DeleteToDo(state.ToDoTaskActivities[state.ToDoTaskIndex], page.ContentUrl);
+                        taskTopicToBeDeleted = state.ToDoTaskAllActivities[state.ToDoTaskIndexes[0]].Topic;
+                        var tasksToBeDeleted = new List<ToDoTaskActivityModel>();
+                        state.ToDoTaskIndexes.ForEach(i => tasksToBeDeleted.Add(state.ToDoTaskAllActivities[i]));
+                        await service.DeleteToDos(tasksToBeDeleted, page.ContentUrl);
                         var todosAndPageIdTuple = await service.GetMyToDoList();
                         state.OneNotePageId = todosAndPageIdTuple.Item2;
                         state.ToDoTaskAllActivities = todosAndPageIdTuple.Item1;
                         var allTasksCount = state.ToDoTaskAllActivities.Count;
                         var currentTaskIndex = state.ShowToDoPageIndex * state.PageSize;
-                        if (currentTaskIndex >= allTasksCount && currentTaskIndex >= state.PageSize)
+                        while (currentTaskIndex >= allTasksCount && currentTaskIndex >= state.PageSize)
                         {
                             currentTaskIndex -= state.PageSize;
                             state.ShowToDoPageIndex--;
@@ -624,7 +681,7 @@ namespace ToDoSkill.Dialogs.Shared
                             var deletedToDoListAttachment = ToDoHelper.ToAdaptiveCardAttachmentForOtherFlows(
                                 state.ToDoTaskActivities,
                                 state.ToDoTaskAllActivities.Count,
-                                taskToBeDeleted,
+                                taskTopicToBeDeleted,
                                 ToDoBotResponses.AfterTaskDeleted,
                                 ToDoBotResponses.ShowToDoTasks);
 
@@ -634,7 +691,7 @@ namespace ToDoSkill.Dialogs.Shared
                         }
                         else
                         {
-                            var token1 = new StringDictionary() { { "taskContent", taskToBeDeleted } };
+                            var token1 = new StringDictionary() { { "taskContent", taskTopicToBeDeleted } };
                             var response1 = ToDoHelper.GenerateResponseWithTokens(ToDoBotResponses.AfterTaskDeleted, token1);
                             var token2 = new StringDictionary() { { "taskCount", "0" } };
                             var response2 = ToDoHelper.GenerateResponseWithTokens(ToDoBotResponses.ShowToDoTasks, token2);
@@ -679,7 +736,7 @@ namespace ToDoSkill.Dialogs.Shared
                 var service = await this.toDoService.Init(state.MsGraphToken, state.OneNotePageId);
                 var page = await service.GetDefaultToDoPage();
                 BotResponse botResponse;
-                string taskToBeMarked = null;
+                string taskTopicToBeMarked = null;
                 if (state.MarkOrDeleteAllTasksFlag)
                 {
                     await service.MarkAllToDoItemsCompleted(state.ToDoTaskAllActivities, page.ContentUrl);
@@ -687,9 +744,11 @@ namespace ToDoSkill.Dialogs.Shared
                 }
                 else
                 {
-                    await service.MarkToDoItemCompleted(state.ToDoTaskActivities[state.ToDoTaskIndex], page.ContentUrl);
+                    taskTopicToBeMarked = state.ToDoTaskAllActivities[state.ToDoTaskIndexes[0]].Topic;
+                    var tasksToBeMarked = new List<ToDoTaskActivityModel>();
+                    state.ToDoTaskIndexes.ForEach(i => tasksToBeMarked.Add(state.ToDoTaskAllActivities[i]));
+                    await service.MarkToDoItemsCompleted(tasksToBeMarked, page.ContentUrl);
                     botResponse = ToDoBotResponses.AfterToDoTaskCompleted;
-                    taskToBeMarked = state.ToDoTaskActivities[state.ToDoTaskIndex].Topic;
                 }
 
                 var todosAndPageIdTuple = await service.GetMyToDoList();
@@ -701,7 +760,7 @@ namespace ToDoSkill.Dialogs.Shared
                 var markToDoAttachment = ToDoHelper.ToAdaptiveCardAttachmentForOtherFlows(
                     state.ToDoTaskActivities,
                     state.ToDoTaskAllActivities.Count,
-                    taskToBeMarked,
+                    taskTopicToBeMarked,
                     botResponse,
                     ToDoBotResponses.ShowToDoTasks);
                 var markToDoReply = sc.Context.Activity.CreateReply();
