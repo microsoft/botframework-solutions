@@ -3,6 +3,8 @@
 
 using VirtualAssistant.Dialogs.Cancel.Resources;
 using Microsoft.Bot.Builder.TemplateManager;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Schema;
 
 namespace VirtualAssistant
 {
@@ -19,8 +21,8 @@ namespace VirtualAssistant
             ["default"] = new TemplateIdMap
             {
                 { _confirmPrompt, (context, data) => CancelStrings.CANCEL_PROMPT },
-                { _cancelConfirmed, (context, data) => CancelStrings.CANCEL_CONFIRMED },
-                { _cancelDenied, (context, data) => CancelStrings.CANCEL_DENIED },
+                { _cancelConfirmed, (context, data) => SendAcceptingInputReply(context, CancelStrings.CANCEL_CONFIRMED) },
+                { _cancelDenied, (context, data) => SendAcceptingInputReply(context, CancelStrings.CANCEL_DENIED) },
             },
             ["en"] = new TemplateIdMap { },
             ["fr"] = new TemplateIdMap { },
@@ -29,6 +31,15 @@ namespace VirtualAssistant
         public CancelResponses()
         {
             Register(new DictionaryRenderer(_responseTemplates));
+        }
+
+        public static IMessageActivity SendAcceptingInputReply(ITurnContext turnContext, string text)
+        {
+            var reply = turnContext.Activity.CreateReply();
+            reply.InputHint = InputHints.AcceptingInput;
+            reply.Text = text;
+
+            return reply;
         }
     }
 }
