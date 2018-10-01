@@ -45,8 +45,8 @@ namespace VirtualAssistant
             services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded."));
 
             // Initializes your bot service clients and adds a singleton that your Bot can access through dependency injection.
-            var connectedServices = new BotServices(botConfig);
-            connectedServices.RegisteredSkills = Configuration.GetSection("skills").Get<List<SkillDefinition>>();
+            var skills = Configuration.GetSection("skills").Get<List<SkillDefinition>>();
+            var connectedServices = new BotServices(botConfig, skills);
             services.AddSingleton(sp => connectedServices);
 
             // Initialize Bot State
