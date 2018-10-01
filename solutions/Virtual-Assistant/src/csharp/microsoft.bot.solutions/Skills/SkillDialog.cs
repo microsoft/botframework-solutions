@@ -13,40 +13,50 @@ namespace Microsoft.Bot.Solutions.Skills
     public class SkillDialog : Dialog
     {
         // Constants
+        private const string ActiveSkillStateKey = "ActiveSkill";
         private const string TokenRequestEventName = "tokens/request";
         private const string TokenResponseEventName = "tokens/response";
 
         // Fields
+        private static Dictionary<string, SkillConfiguration> _skills;
         private static OAuthPrompt _authPrompt;
-        private static InProcAdapter _inProcAdapter;
-        private static IBot _activatedSkill;
-        private static SkillConfiguration _skillConfiguration;
-        private static SkillDefinition _skillDefinition;
+        private InProcAdapter _inProcAdapter;
+        private IBot _activatedSkill;
+        private bool _skillInitialized;
 
-
-        public SkillDialog()
+        public SkillDialog(Dictionary<string, SkillConfiguration> skills)
             : base(nameof(SkillDialog))
         {
+            _skills = skills;
         }
 
-        public override async Task<DialogTurnResult> BeginDialogAsync(DialogContext dc, object options = null, CancellationToken cancellationToken = default(CancellationToken))
+        public override Task<DialogTurnResult> BeginDialogAsync(DialogContext dc, object options = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var skillOptions = (SkillDialogOptions)options;
 
-            _skillConfiguration = skillOptions.SkillConfiguration;
-            _skillDefinition = skillOptions.SkillDefinition;
+            // Save the active skill in state
+            var skillDefinition = skillOptions.SkillDefinition;
+            dc.ActiveDialog.State[ActiveSkillStateKey] = skillDefinition;
+
+            // Set parameters
+            var skillConfiguration = _skills[skillDefinition.Id];
+            foreach (var parameter in skillDefinition.Parameters)
+            {
+                if (skillOptions.Parameters.TryGetValue(parameter, out var paramValue))
+                {
+                    skillConfiguration.Properties.Add(parameter, paramValue);
+                }
+            }
 
             // Initialize authentication prompt
             _authPrompt = new OAuthPrompt(nameof(OAuthPrompt), new OAuthPromptSettings()
             {
-                ConnectionName = skillOptions.SkillDefinition.AuthConnectionName,
+                ConnectionName = skillDefinition.AuthConnectionName,
                 Title = "Skill Authentication",
                 Text = $"Please login to access this feature.",
             });
 
-            await InitializeSkill(dc);
-
-            return EndOfTurn;
+            return Task.FromResult(EndOfTurn);
         }
 
         public override Task<DialogTurnResult> ContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -58,22 +68,26 @@ namespace Microsoft.Bot.Solutions.Skills
         {
             try
             {
-                var cosmosDbOptions = _skillConfiguration.CosmosDbOptions;
-                cosmosDbOptions.CollectionId = _skillDefinition.Name;
+                var skillDefinition = dc.ActiveDialog.State[ActiveSkillStateKey] as SkillDefinition;
+                var skillConfiguration = _skills[skillDefinition.Id];
+
+                var cosmosDbOptions = skillConfiguration.CosmosDbOptions;
+                cosmosDbOptions.CollectionId = skillDefinition.Name;
 
                 // Initialize skill state
                 var cosmosDbStorage = new CosmosDbStorage(cosmosDbOptions);
                 var userState = new UserState(cosmosDbStorage);
                 var conversationState = new ConversationState(cosmosDbStorage);
 
+                // Create skill instance
                 try
                 {
-                    var skillType = Type.GetType(_skillDefinition.Assembly);
-                    _activatedSkill = (IBot)Activator.CreateInstance(skillType, _skillConfiguration, conversationState, userState, true);
+                    var skillType = Type.GetType(skillDefinition.Assembly);
+                    _activatedSkill = (IBot)Activator.CreateInstance(skillType, skillConfiguration, conversationState, userState, true);
                 }
                 catch (Exception e)
                 {
-                    var message = $"Skill ({_skillDefinition.Name}) could not be created.";
+                    var message = $"Skill ({skillDefinition.Name}) could not be created.";
                     throw new InvalidOperationException(message, e);
                 }
 
@@ -86,22 +100,24 @@ namespace Microsoft.Bot.Solutions.Skills
 
                         // Send error trace to emulator
                         await dc.Context.SendActivityAsync(
-                        new Activity(
-                            type: ActivityTypes.Trace,
-                            text: $"Skill Error: {exception.Message} | {exception.StackTrace}"
-                            ));
+                            new Activity(
+                                type: ActivityTypes.Trace,
+                                text: $"Skill Error: {exception.Message} | {exception.StackTrace}"
+                                ));
 
                         // Log exception in AppInsights
-                        _skillConfiguration.TelemetryClient.TrackException(exception);
+                        skillConfiguration.TelemetryClient.TrackException(exception);
                     },
                 };
 
                 _inProcAdapter.Use(new EventDebuggerMiddleware());
                 _inProcAdapter.Use(new AutoSaveStateMiddleware(userState, conversationState));
+                _skillInitialized = true;
             }
             catch
             {
                 // something went wrong initializing the skill, so end dialog cleanly and throw so the error is logged
+                _skillInitialized = false;
                 await dc.EndDialogAsync();
                 throw;
             }
@@ -111,6 +127,11 @@ namespace Microsoft.Bot.Solutions.Skills
         {
             try
             {
+                if (!_skillInitialized)
+                {
+                    await InitializeSkill(dc);
+                }
+
                 _inProcAdapter.ProcessActivity(activity, async (skillContext, ct) =>
                 {
                     await _activatedSkill.OnTurnAsync(skillContext);
@@ -171,6 +192,12 @@ namespace Microsoft.Bot.Solutions.Skills
                 // handle ending the skill conversation
                 if (endOfConversation)
                 {
+                    await dc.Context.SendActivityAsync(
+                        new Activity(
+                            type: ActivityTypes.Trace,
+                            text: $"<--Ending the skill conversation"
+                            ));
+
                     return await dc.EndDialogAsync();
                 }
                 else
