@@ -58,7 +58,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DeploymentScripts\" />
+    <Folder Include="CognitiveModels\" />
     <Folder Include="Dialogs\FindArticles\Resources\" />
   </ItemGroup>
 

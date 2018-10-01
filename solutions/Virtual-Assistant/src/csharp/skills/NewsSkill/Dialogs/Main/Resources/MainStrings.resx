@@ -138,4 +138,10 @@
   <data name="HELP_TITLE" xml:space="preserve">
     <value>HELP</value>
   </data>
+  <data name="INTRO_TEXT" xml:space="preserve">
+    <value>Try typing *tell me news* to search for relevant news articles.</value>
+  </data>
+  <data name="INTRO_TITLE" xml:space="preserve">
+    <value>Welcome to the News Skill!</value>
+  </data>
 </root>

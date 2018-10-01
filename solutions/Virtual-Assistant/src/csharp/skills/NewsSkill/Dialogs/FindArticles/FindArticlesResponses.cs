@@ -48,11 +48,11 @@ namespace NewsSkill
                         Title = item.Name,
                         Subtitle = item.DatePublished,
                         Text = item.Description,
-                        Images = new List<CardImage>()
+                        Images = item?.Image?.Thumbnail?.ContentUrl != null ? new List<CardImage>()
                         {
                             new CardImage(item.Image.Thumbnail.ContentUrl),
-                        },
-                            Buttons = new List<CardAction>()
+                        } : null,
+                        Buttons = new List<CardAction>()
                         {
                             new CardAction(ActionTypes.OpenUrl, title: "Read more", value: item.Url)
                         },

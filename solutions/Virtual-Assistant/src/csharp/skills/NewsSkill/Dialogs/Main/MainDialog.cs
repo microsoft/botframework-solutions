@@ -86,10 +86,17 @@ namespace NewsSkill
 
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response = dc.Context.Activity.CreateReply();
-            response.Type = ActivityTypes.EndOfConversation;
+            if (_skillMode)
+            {
+                var response = dc.Context.Activity.CreateReply();
+                response.Type = ActivityTypes.EndOfConversation;
 
-            await dc.Context.SendActivityAsync(response);
+                await dc.Context.SendActivityAsync(response);
+            }
+            else
+            {
+                await _responder.ReplyWith(dc.Context, MainResponses.Completed);
+            }
 
             // End active dialog
             await dc.EndDialogAsync(result);
