@@ -15,6 +15,5 @@ namespace NewsSkill
         public const string QuestionProperty = "Question";
         public const string AnswerProperty = "Answer";
         public const string ScoreProperty = "Score";
-        public const string ArticleFoundProperty = "QnAItemFound";
     }
 }

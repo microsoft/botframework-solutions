@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace NewsSkill
 {
-    public class FindArticlesDialog : EnterpriseDialog
+    public class FindArticlesDialog : ComponentDialog
     {
         private NewsClient _client;
         private FindArticlesResponses _responder = new FindArticlesResponses();
 
         public FindArticlesDialog(SkillConfiguration botServices) 
-            : base(botServices, nameof(FindArticlesDialog))
+            : base(nameof(FindArticlesDialog))
         {
             var key = botServices.Properties["BingNewsKey"] ?? throw new Exception("The BingNewsKey must be provided to use this dialog. Please provide this key in your Skill Configuration.");
 

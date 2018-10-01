@@ -45,14 +45,14 @@ namespace NewsSkill
         {
             var response = turnContext.Activity.CreateReply();
 
-            var introCard = File.ReadAllText(@".\Dialogs\Main\Resources\Intro.json");
-
-            response.Attachments = new List<Attachment>();
-            response.Attachments.Add(new Attachment()
+            response.Attachments = new List<Attachment>()
             {
-                ContentType = "application/vnd.microsoft.card.adaptive",
-                Content = JsonConvert.DeserializeObject(introCard),
-            });
+                new HeroCard()
+                {
+                    Title = MainStrings.INTRO_TITLE,
+                    Text = MainStrings.INTRO_TEXT
+                }.ToAttachment()
+            };
 
             return response;
         }
@@ -68,8 +68,7 @@ namespace NewsSkill
                 Text = MainStrings.HELP_TEXT,
                 Buttons = new List<CardAction>()
                 {
-                    new CardAction(type: ActionTypes.ImBack, title: "Test LUIS", value: "Hello"),
-                    new CardAction(type: ActionTypes.ImBack, title: "Test QnAMaker", value: "What is the sdk v4?"),
+                    new CardAction(type: ActionTypes.ImBack, title: "Test", value: "Hello"),
                     new CardAction(type: ActionTypes.OpenUrl, title: "Learn More", value: "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"),
                 },
             }.ToAttachment());
