@@ -9,6 +9,6 @@ namespace Microsoft.Bot.Solutions.Skills
     {
         public SkillDefinition SkillDefinition { get; set; }
 
-        public SkillConfiguration SkillConfiguration { get; set; }
+        public Dictionary<string, object> Parameters { get; set; }
     }
 }
