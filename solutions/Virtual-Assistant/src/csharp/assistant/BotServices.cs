@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Bot.Builder.AI.Luis;
@@ -27,7 +28,7 @@ namespace VirtualAssistant
         /// Initializes a new instance of the <see cref="BotServices"/> class.
         /// </summary>
         /// <param name="botConfiguration">The <see cref="BotConfiguration"/> instance for the bot.</param>
-        public BotServices(BotConfiguration botConfiguration)
+        public BotServices(BotConfiguration botConfiguration, List<SkillDefinition> skills)
         {
             foreach (var service in botConfiguration.Services)
             {
@@ -102,6 +103,25 @@ namespace VirtualAssistant
                         }
                 }
             }
+
+            foreach(var skill in skills)
+            {
+                var skillConfig = new SkillConfiguration()
+                {
+                    AuthConnectionName = AuthConnectionName,
+                    CosmosDbOptions = CosmosDbOptions,
+                    TelemetryClient = TelemetryClient,
+                    LuisServices = LuisServices.Where(l => skill.LuisServiceIds.Contains(l.Key) == true).ToDictionary(l => l.Key, l => l.Value as LuisRecognizer),
+                };
+
+                foreach (var set in skill.Configuration)
+                {
+                    skillConfig.Properties.Add(set.Key, set.Value);
+                }
+
+                SkillDefinitions.Add(skill);
+                SkillConfigurations.Add(skill.Id, skillConfig);
+            }
         }
 
         public CosmosDbStorageOptions CosmosDbOptions { get; }
@@ -157,6 +177,9 @@ namespace VirtualAssistant
         /// </value>
         public Dictionary<string, TelemetryQnAMaker> QnAServices { get; } = new Dictionary<string, TelemetryQnAMaker>();
 
-        public List<SkillDefinition> RegisteredSkills { get; set; } = new List<SkillDefinition>();
+        public List<SkillDefinition> SkillDefinitions { get; set; } = new List<SkillDefinition>();
+
+        public Dictionary<string, SkillConfiguration> SkillConfigurations = new Dictionary<string, SkillConfiguration>();
+
     }
 }

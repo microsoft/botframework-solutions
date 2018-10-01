@@ -10,10 +10,10 @@ namespace VirtualAssistant
 {
     public class CustomSkillDialog : ComponentDialog
     {
-        public CustomSkillDialog()
+        public CustomSkillDialog(Dictionary<string, SkillConfiguration> skills)
             : base(nameof(CustomSkillDialog))
         {
-            AddDialog(new SkillDialog());
+            AddDialog(new SkillDialog(skills));
         }
 
         protected override Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)

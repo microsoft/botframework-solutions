@@ -40,10 +40,10 @@ namespace VirtualAssistant
 
             AddDialog(new OnboardingDialog(_services, _onboardingState));
             AddDialog(new EscalateDialog(_services));
-            AddDialog(new CustomSkillDialog());
+            AddDialog(new CustomSkillDialog(_services.SkillConfigurations));
 
             // Initialize skill dispatcher
-            _skillRouter = new SkillRouter(_services.RegisteredSkills);
+            _skillRouter = new SkillRouter(_services.SkillDefinitions);
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -133,7 +133,7 @@ namespace VirtualAssistant
                         await RouteToSkillAsync(dc, new SkillDialogOptions()
                         {
                             SkillDefinition = matchedSkill,
-                            SkillConfiguration = GetSkillConfiguration(matchedSkill, parameters)
+                            Parameters = parameters,
                         });
 
                         break;
@@ -148,7 +148,7 @@ namespace VirtualAssistant
                         await RouteToSkillAsync(dc, new SkillDialogOptions()
                         {
                             SkillDefinition = matchedSkill,
-                            SkillConfiguration = GetSkillConfiguration(matchedSkill, parameters)
+                            Parameters = parameters,
                         });
 
                         break;
@@ -163,7 +163,7 @@ namespace VirtualAssistant
                         await RouteToSkillAsync(dc, new SkillDialogOptions()
                         {
                             SkillDefinition = matchedSkill,
-                            SkillConfiguration = GetSkillConfiguration(matchedSkill, parameters)
+                            Parameters = parameters,
                         });
 
                         break;
@@ -178,7 +178,7 @@ namespace VirtualAssistant
                         await RouteToSkillAsync(dc, new SkillDialogOptions()
                         {
                             SkillDefinition = matchedSkill,
-                            SkillConfiguration = GetSkillConfiguration(matchedSkill, parameters)
+                            Parameters = parameters,
                         });
 
                         break;
@@ -193,7 +193,7 @@ namespace VirtualAssistant
                         await RouteToSkillAsync(dc, new SkillDialogOptions()
                         {
                             SkillDefinition = matchedSkill,
-                            SkillConfiguration = GetSkillConfiguration(matchedSkill, parameters)
+                            Parameters = parameters,
                         });
 
                         break;
@@ -211,39 +211,6 @@ namespace VirtualAssistant
                         break;
                     }
             }
-        }
-
-        private SkillConfiguration GetSkillConfiguration(SkillDefinition matchedSkill, Dictionary<string, object> parameters)
-        {
-            var skillConfig = new SkillConfiguration()
-            {
-                AuthConnectionName = _services.AuthConnectionName,
-                CosmosDbOptions = _services.CosmosDbOptions,
-                TelemetryClient = _services.TelemetryClient,
-            };
-
-            // add the luis models the skill needs to access
-            foreach (var luis in matchedSkill.LuisServiceIds)
-            {
-                skillConfig.LuisServices.Add(luis, _services.LuisServices[luis] ?? throw new Exception($"Luis service with id {luis} does not exist."));
-            }
-
-            // add the parameters the skill needs
-            foreach (var parameter in matchedSkill.Parameters)
-            {
-                if (parameters.TryGetValue(parameter, out var paramValue))
-                {
-                    skillConfig.Properties.Add(parameter, paramValue);
-                }
-            }
-
-            // add the additional keys the skill needs
-            foreach (var set in matchedSkill.Configuration)
-            {
-                skillConfig.Properties.Add(set.Key, set.Value);
-            }
-
-            return skillConfig;
         }
 
         private async Task RouteToSkillAsync(DialogContext dc, SkillDialogOptions options)
@@ -326,8 +293,7 @@ namespace VirtualAssistant
 
                         await RouteToSkillAsync(dc, new SkillDialogOptions()
                         {
-                            SkillDefinition = matchedSkill,
-                            SkillConfiguration = GetSkillConfiguration(matchedSkill, parameters)
+                            SkillDefinition = matchedSkill
                         });
 
                         forward = false;
