@@ -6,7 +6,7 @@ This repository is the home for a set of templates and solutions to help build C
 
 Name | Description | Link
 ------------ | ------------- | :-----------:
-Enterprise Template | Creation of a high quality conversational experience requires a foundational set of capabilities.To help you succeed with building great conversational experiences, we have created an Enterprise Bot Template. <br /> <br />This template brings together all of the best practices and supporting components we've identified through building of conversational experiences and greatly simplifies the creation of a new bot project including basic conversational intents, Dispatcher integration, QnAMaker, Application Insights, PowerBI insights and fully automated deployment | [Get Started](./templates/Enterprise-Template/README.md)
+Enterprise Template | Creation of a high quality conversational experience requires a foundational set of capabilities.To help you succeed with building great conversational experiences, we have created an Enterprise Bot Template. <br /> <br />This template brings together all of the best practices and supporting components we've identified through building of conversational experiences and greatly simplifies the creation of a new bot project including basic conversational intents, Dispatcher integration, QnA Maker, Application Insights, Power BI insights and fully automated deployment. | [Get Started](./templates/Enterprise-Template/README.md)
 
 # Solutions
 
