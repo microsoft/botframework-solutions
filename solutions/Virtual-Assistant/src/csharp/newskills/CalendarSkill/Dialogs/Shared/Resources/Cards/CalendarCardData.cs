@@ -1,6 +1,8 @@
-﻿namespace CalendarSkill
+﻿using Microsoft.Bot.Solutions.Cards;
+
+namespace CalendarSkill
 {
-    public class CalendarCardData
+    public class CalendarCardData : CardDataBase
     {
         public string Title { get; set; }
 

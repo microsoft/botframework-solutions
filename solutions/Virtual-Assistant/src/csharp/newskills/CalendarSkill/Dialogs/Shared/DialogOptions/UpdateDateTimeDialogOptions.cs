@@ -7,12 +7,12 @@ namespace CalendarSkill
     {
         public UpdateDateTimeDialogOptions()
         {
-            this.Reason = UpdateReason.NotFound;
+            Reason = UpdateReason.NotFound;
         }
 
         public UpdateDateTimeDialogOptions(UpdateReason reason)
         {
-            this.Reason = reason;
+            Reason = reason;
         }
 
         public enum UpdateReason

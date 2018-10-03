@@ -4,12 +4,15 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using CalendarSkill.Dialogs.Main.Resources;
+using CalendarSkill.Dialogs.Shared.Resources;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Dialogs;
+using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 
 namespace CalendarSkill
@@ -22,16 +25,21 @@ namespace CalendarSkill
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
         private IStatePropertyAccessor<CalendarSkillState> _stateAccessor;
-        private MainResponses _responder = new MainResponses();
+        private CalendarSkillResponseBuilder _responseBuilder = new CalendarSkillResponseBuilder();
 
-        public MainDialog(SkillConfiguration services, ConversationState conversationState, UserState userState, IServiceManager serviceManager, bool skillMode)
+        public MainDialog(
+            SkillConfiguration services, 
+            ConversationState conversationState, 
+            UserState userState, 
+            IServiceManager serviceManager, 
+            bool skillMode)
             : base(nameof(MainDialog))
         {
             _skillMode = skillMode;
-            _services = services ?? throw new ArgumentNullException(nameof(services));
-            _userState = userState ?? throw new ArgumentNullException(nameof(userState));
-            _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
-            _serviceManager = serviceManager ?? throw new ArgumentNullException(nameof(serviceManager));
+            _services = services;
+            _userState = userState;
+            _conversationState = conversationState;
+            _serviceManager = serviceManager;
 
             // Initialize state accessor
             _stateAccessor = _conversationState.CreateProperty<CalendarSkillState>(nameof(CalendarSkillState));
@@ -45,7 +53,7 @@ namespace CalendarSkill
             if (!_skillMode)
             {
                 // send a greeting if we're in local mode
-                await _responder.ReplyWith(dc.Context, MainResponses.Intro);
+                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(MainResponses.CalendarWelcomeMessage));
             }
         }
 
@@ -109,8 +117,7 @@ namespace CalendarSkill
 
                     case Calendar.Intent.None:
                         {
-                            await _responder.ReplyWith(dc.Context, MainResponses.Confused);
-
+                            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(SharedResponses.DidntUnderstandMessage));
                             if (_skillMode)
                             {
                                 await CompleteAsync(dc);
@@ -121,7 +128,7 @@ namespace CalendarSkill
 
                     default:
                         {
-                            await dc.Context.SendActivityAsync("This feature is not yet available in the Calendar Skill. Please try asking something else.");
+                            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(MainResponses.FeatureNotAvailable));
 
                             if (_skillMode)
                             {
@@ -145,7 +152,7 @@ namespace CalendarSkill
             }
             else
             {
-                await _responder.ReplyWith(dc.Context, MainResponses.Completed);
+                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(SharedResponses.ActionEnded));
             }
 
             // End active dialog
@@ -218,7 +225,7 @@ namespace CalendarSkill
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
-            await _responder.ReplyWith(dc.Context, MainResponses.Help);
+            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(MainResponses.HelpMessage));
             return InterruptionAction.MessageSentToUser;
         }
 
@@ -239,7 +246,7 @@ namespace CalendarSkill
 
             // Sign out user
             await adapter.SignOutUserAsync(dc.Context, _services.AuthConnectionName);
-            await dc.Context.SendActivityAsync("Ok, you're signed out.");
+            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(MainResponses.LogOut));
 
             return InterruptionAction.StartedDialog;
         }
