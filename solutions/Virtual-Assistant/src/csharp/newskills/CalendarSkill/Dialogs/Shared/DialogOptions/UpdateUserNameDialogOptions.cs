@@ -7,12 +7,12 @@ namespace CalendarSkill
     {
         public UpdateUserNameDialogOptions()
         {
-            this.Reason = UpdateReason.NotFound;
+            Reason = UpdateReason.NotFound;
         }
 
         public UpdateUserNameDialogOptions(UpdateReason reason)
         {
-            this.Reason = reason;
+            Reason = reason;
         }
 
         public enum UpdateReason

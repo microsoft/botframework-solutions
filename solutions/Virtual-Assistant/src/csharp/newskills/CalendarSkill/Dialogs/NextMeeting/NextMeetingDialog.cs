@@ -1,5 +1,7 @@
-﻿using Microsoft.Bot.Builder;
+﻿using CalendarSkill.Dialogs.NextMeeting.Resources;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -24,10 +26,10 @@ namespace CalendarSkill
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Action.ShowEventsSummary, nextMeeting));
+            AddDialog(new WaterfallDialog(Actions.ShowEventsSummary, nextMeeting));
 
             // Set starting dialog for component
-            InitialDialogId = Action.ShowEventsSummary;
+            InitialDialogId = Actions.ShowEventsSummary;
         }
 
         public async Task<DialogTurnResult> ShowNextEvent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -54,7 +56,7 @@ namespace CalendarSkill
 
                 if (nextEventList.Count == 0)
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarBotResponses.ShowNoMeetingMessage));
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(NextMeetingResponses.ShowNoMeetingMessage));
                 }
                 else
                 {
@@ -68,17 +70,17 @@ namespace CalendarSkill
                         };
                         if (string.IsNullOrEmpty(nextEventList[0].Location))
                         {
-                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarBotResponses.ShowNextMeetingNoLocationMessage, _responseBuilder, speakParams));
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(NextMeetingResponses.ShowNextMeetingNoLocationMessage, _responseBuilder, speakParams));
                         }
                         else
                         {
                             speakParams.Add("Location", nextEventList[0].Location);
-                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarBotResponses.ShowNextMeetingMessage, _responseBuilder, speakParams));
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(NextMeetingResponses.ShowNextMeetingMessage, _responseBuilder, speakParams));
                         }
                     }
                     else
                     {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarBotResponses.ShowMultipleNextMeetingMessage));
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(NextMeetingResponses.ShowMultipleNextMeetingMessage));
                     }
 
                     await ShowMeetingList(sc, nextEventList, true);
@@ -89,10 +91,8 @@ namespace CalendarSkill
             }
             catch
             {
-                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarBotResponses.CalendarErrorMessage, _responseBuilder));
-                var state = await _accessor.GetAsync(sc.Context);
-                state.Clear();
-                return await sc.CancelAllDialogsAsync();
+                await HandleDialogExceptions(sc);
+                throw;
             }
         }
     }

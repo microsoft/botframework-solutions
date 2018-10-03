@@ -33,7 +33,7 @@ namespace CalendarSkill
 
         private static void LoadData()
         {
-            using (var mappingFile = new FileStream("Helpers/WindowsIanaMapping", FileMode.Open))
+            using (var mappingFile = new FileStream("ServiceClients/WindowsIanaMapping", FileMode.Open))
             using (var sr = new StreamReader(mappingFile))
             {
                 string line;

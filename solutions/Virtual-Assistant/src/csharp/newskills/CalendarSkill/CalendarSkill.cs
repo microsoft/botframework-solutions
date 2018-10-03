@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,17 +19,18 @@ namespace CalendarSkill
     {
         private bool _skillMode;
         private readonly SkillConfiguration _services;
-        private IServiceManager _serviceManager;
-        private readonly ConversationState _conversationState;
         private readonly UserState _userState;
+        private readonly ConversationState _conversationState;
+        private readonly IServiceManager _serviceManager;
         private DialogSet _dialogs;
 
-        public CalendarSkill(SkillConfiguration services, ConversationState conversationState, UserState userState, bool skillMode = false)
+        public CalendarSkill(SkillConfiguration services, ConversationState conversationState, UserState userState, IServiceManager serviceManager = null, bool skillMode = false)
         {
             _skillMode = skillMode;
-            _services = services;
-            _conversationState = conversationState;
-            _userState = userState;
+            _services = services ?? throw new ArgumentNullException(nameof(services));
+            _userState = userState ?? throw new ArgumentNullException(nameof(userState));
+            _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
+            _serviceManager = serviceManager ?? new ServiceManager();
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(DialogState)));
             _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _serviceManager, _skillMode));

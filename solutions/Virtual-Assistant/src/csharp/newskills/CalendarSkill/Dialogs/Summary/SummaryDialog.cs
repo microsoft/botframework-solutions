@@ -1,4 +1,6 @@
-﻿using Luis;
+﻿using CalendarSkill.Dialogs.Shared.Resources;
+using CalendarSkill.Dialogs.Summary.Resources;
+using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
@@ -38,11 +40,11 @@ namespace CalendarSkill
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Action.ShowEventsSummary, showSummary));
-            AddDialog(new WaterfallDialog(Action.Read, readEvent));
+            AddDialog(new WaterfallDialog(Actions.ShowEventsSummary, showSummary));
+            AddDialog(new WaterfallDialog(Actions.Read, readEvent));
 
             // Set starting dialog for component
-            InitialDialogId = Action.ShowEventsSummary;
+            InitialDialogId = Actions.ShowEventsSummary;
         }
 
         public async Task<DialogTurnResult> IfClearContextStep(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -69,7 +71,7 @@ namespace CalendarSkill
                     }
                     else
                     {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarBotResponses.CalendarNoMoreEvent));
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.CalendarNoMoreEvent));
                         return await sc.CancelAllDialogsAsync();
                     }
                 }
@@ -82,7 +84,7 @@ namespace CalendarSkill
                     }
                     else
                     {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarBotResponses.CalendarNoPreviousEvent));
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.CalendarNoPreviousEvent));
                         return await sc.CancelAllDialogsAsync();
                     }
                 }
@@ -91,7 +93,8 @@ namespace CalendarSkill
             }
             catch
             {
-                return await HandleDialogExceptions(sc);
+                await HandleDialogExceptions(sc);
+                throw;
             }
         }
 
@@ -129,7 +132,7 @@ namespace CalendarSkill
 
                     if (todayEvents.Count == 0)
                     {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarBotResponses.ShowNoMeetingMessage));
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowNoMeetingMessage));
                         return await sc.EndDialogAsync(true);
                     }
                     else
@@ -143,13 +146,13 @@ namespace CalendarSkill
 
                         if (todayEvents.Count == 1)
                         {
-                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarBotResponses.ShowOneMeetingSummaryMessage, _responseBuilder, speakParams));
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowOneMeetingSummaryMessage, _responseBuilder, speakParams));
                         }
                         else
                         {
                             speakParams.Add("EventName2", todayEvents[todayEvents.Count - 1].Title);
                             speakParams.Add("EventTime", todayEvents[todayEvents.Count - 1].StartTime.ToString("h:mm tt"));
-                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarBotResponses.ShowOneMeetingSummaryMessage, _responseBuilder, speakParams));
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowOneMeetingSummaryMessage, _responseBuilder, speakParams));
                         }
                     }
 
@@ -165,7 +168,8 @@ namespace CalendarSkill
             }
             catch
             {
-                return await HandleDialogExceptions(sc);
+                await HandleDialogExceptions(sc);
+                throw;
             }
         }
 
@@ -173,11 +177,12 @@ namespace CalendarSkill
         {
             try
             {
-                return await sc.PromptAsync(Action.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CalendarBotResponses.ReadOutPrompt) });
+                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.ReadOutPrompt) });
             }
             catch
             {
-                return await HandleDialogExceptions(sc);
+                await HandleDialogExceptions(sc);
+                throw;
             }
         }
 
@@ -185,11 +190,12 @@ namespace CalendarSkill
         {
             try
             {
-                return await sc.BeginDialogAsync(Action.Read);
+                return await sc.BeginDialogAsync(Actions.Read);
             }
             catch
             {
-                return await HandleDialogExceptions(sc);
+                await HandleDialogExceptions(sc);
+                throw;
             }
         }
 
@@ -209,19 +215,19 @@ namespace CalendarSkill
                 var eventItem = state.ReadOutEvents.FirstOrDefault();
                 if (topIntent == Luis.Calendar.Intent.ConfirmNo || topIntent == Luis.Calendar.Intent.Reject)
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarBotResponses.CancellingMessage));
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SharedResponses.CancellingMessage));
                     return await sc.EndDialogAsync(true);
                 }
                 else if (topIntent == Luis.Calendar.Intent.ReadAloud && eventItem == null)
                 {
-                    return await sc.PromptAsync(Action.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CalendarBotResponses.ReadOutPrompt), });
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.ReadOutPrompt), });
                 }
                 else if (eventItem != null)
                 {
-                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(CalendarBotResponses.ReadOutMessage, eventItem.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", eventItem.ToAdaptiveCardData());
+                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(SummaryResponses.ReadOutMessage, eventItem.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", eventItem.ToAdaptiveCardData());
                     await sc.Context.SendActivityAsync(replyMessage);
 
-                    return await sc.PromptAsync(Action.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CalendarBotResponses.ReadOutMorePrompt) });
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.ReadOutMorePrompt) });
                 }
                 else
                 {
@@ -230,7 +236,8 @@ namespace CalendarSkill
             }
             catch (Exception)
             {
-                return await HandleDialogExceptions(sc);
+                await HandleDialogExceptions(sc);
+                throw;
             }
         }
 
@@ -248,7 +255,7 @@ namespace CalendarSkill
 
                 if (topIntent == Luis.Calendar.Intent.ReadAloud)
                 {
-                    return await sc.BeginDialogAsync(Action.Read);
+                    return await sc.BeginDialogAsync(Actions.Read);
                 }
                 else
                 {
@@ -257,7 +264,8 @@ namespace CalendarSkill
             }
             catch
             {
-                return await HandleDialogExceptions(sc);
+                await HandleDialogExceptions(sc);
+                throw;
             }
         }
     }
