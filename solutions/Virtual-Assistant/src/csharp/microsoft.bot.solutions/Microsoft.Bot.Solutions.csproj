@@ -36,8 +36,6 @@
   <ItemGroup>
     <None Update="Resources\Cards\OnboardInfoCard.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>OnboardInfoCard.cs</LastGenOutput>
     </None>
     <None Update="Resources\CommonResponses.en.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
