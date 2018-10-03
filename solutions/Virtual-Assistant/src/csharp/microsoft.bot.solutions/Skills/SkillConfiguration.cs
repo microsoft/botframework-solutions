@@ -54,17 +54,23 @@ namespace Microsoft.Bot.Solutions.Skills
                 }
             }
 
-            // add the parameters the skill needs
-            foreach (var parameter in parameters)
+            if(parameters != null)
             {
-                // Initialize each parameter to null. Needs to be set later by the bot.
-                Properties.Add(parameter, null);
+                // add the parameters the skill needs
+                foreach (var parameter in parameters)
+                {
+                    // Initialize each parameter to null. Needs to be set later by the bot.
+                    Properties.Add(parameter, null);
+                }
             }
-
-            // add the additional keys the skill needs
-            foreach (var set in configuration)
+            
+            if(configuration != null)
             {
-                Properties.Add(set.Key, set.Value);
+                // add the additional keys the skill needs
+                foreach (var set in configuration)
+                {
+                    Properties.Add(set.Key, set.Value);
+                }
             }
         }
 
