@@ -53,7 +53,7 @@ Once the Solution has been cloned you will see the following folder structure.
 
 ### Build the Solution
 
-Once cloned the next step it to build the VirtualAssistant and Skills solutions within Visual Studio. The Virtual Assistant and Skills solutions are separated for clarity with the Skills solution pushing binaries into a shared output folder enabling easy referencing from the Virtual Assistant.
+Once cloned the next step is to build the VirtualAssistant and Skills solutions within Visual Studio. The Virtual Assistant and Skills solutions are separated for clarity with the Skills solution pushing binaries into a shared output folder enabling easy referencing from the Virtual Assistant.
 
 > Build the Skills project before the Virtual Assistant project.
 
@@ -141,7 +141,7 @@ The [Add Authentication to your bot](https://docs.microsoft.com/en-us/azure/bot-
   - Leave Logout URL blank.
 - Under Microsoft Graph Permissions, you can need to add additional *delegated* permissions.
 - Each of the Skills require a specific set of Scopes, refer to the documentation for each skill or use the following list of Scopes that contain the scopes needed for all skills. 
-  - `Calendars.ReadWrite`, `Mail.Read`, `Mail.Send`, `Notes.ReadWrite`, `People.Read`, `User.Read`
+  - `Calendars.ReadWrite`, `Mail.Read`, `Mail.Send`, `Notes.ReadWrite.All`, `People.Read.All`, `User.Read.All`
 
 Next you need to create the Authentication Connection for your Bot. Ensure you use the same combination of Scopes that you provided in the above command. The first command shown below will retrieve the appId (ApplicationId) and appPassword (Client Secret) that you need to complete this step.
 
@@ -150,7 +150,7 @@ The commands shown below assume you have used the deployment process and your re
 ```shell
 msbot get production --secret YOUR_SECRET
 
-az bot authsetting create --resource-group YOUR_BOT_NAME --name YOUR_BOT_NAME --setting-name YOU_AUTH_CONNECTION_NAME --client-id YOUR_APPLICATION_ID --client-secret YOUR_APPLICATION_PASSWORD --provider-scope-string "Calendars.ReadWrite Mail.Read Mail.Send Notes.ReadWrite People.Read User.Read" --service Aadv2
+az bot authsetting create --resource-group YOUR_BOT_NAME --name YOUR_BOT_NAME --setting-name YOU_AUTH_CONNECTION_NAME --client-id YOUR_APPLICATION_ID --client-secret YOUR_APPLICATION_PASSWORD --provider-scope-string "Calendars.ReadWrite Mail.Read Mail.Send Notes.ReadWrite.All People.Read.All User.Read.All" --service Aadv2
 ```
 
 The final step is to update your .bot file and associated Skills (in appSettings.config) with the Authentication connection name, this is used by the Assistant to enable Authentication prompts or use of Linked Accounts.
