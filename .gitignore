@@ -335,3 +335,11 @@ ASALocalRun/
 /solutions/Virtual-Assistant/src/csharp/assistant/appsettings.development.json
 /solutions/Virtual-Assistant/src/csharp/assistant/appsettings.production.json
 /solutions/Virtual-Assistant/src/csharp/assistant/LamilCustomAssistant.bot
+/solutions/Virtual-Assistant/src/csharp/newskills/CalendarSkill/LamilCalendarSkill.bot
+/solutions/Virtual-Assistant/src/csharp/newskills/CalendarSkill/appsettings.development.json
+/solutions/Virtual-Assistant/src/csharp/newskills/EmailSkill/appsettings.development.json
+/solutions/Virtual-Assistant/src/csharp/newskills/EmailSkill/LamilEmailSkill.bot
+/solutions/Virtual-Assistant/src/csharp/newskills/ToDoSkill/appsettings.development.json
+/solutions/Virtual-Assistant/src/csharp/newskills/ToDoSkill/LamilToDoSkill2.bot
+/solutions/Virtual-Assistant/src/csharp/skills/NewsSkill/appsettings.development.json
+/solutions/Virtual-Assistant/src/csharp/skills/NewsSkill/NewsSkill.bot
