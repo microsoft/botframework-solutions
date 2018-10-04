@@ -1,0 +1,78 @@
+{
+  "EmailNotFound": {
+    "replies": [
+      {
+        "text": "You have no new email.",
+        "speak": "You have no new email."
+      },
+      {
+        "text": "I did not retrieve any new emails at this time. You can try again later.",
+        "speak": "I did not retrieve any new emails at this time. You can try again later."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ReadOutPrompt": {
+    "replies": [
+      {
+        "text": "Which one do you want to hear?",
+        "speak": "Which one do you want to hear?"
+      },
+      {
+        "text": "Which email would you like me to read out?",
+        "speak": "Which email would you like me to read out?"
+      },
+      {
+        "text": "Any email you would like me to read out?",
+        "speak": "Any email you would like me to read out?"
+      },
+      {
+        "text": "Which email do you want more details on?",
+        "speak": "Which email do you want more details on?"
+      },
+      {
+        "text": "Which one would you like to know the content of?",
+        "speak": "Which one would you like to know the content of?"
+      },
+      {
+        "text": "Which email do you want me to read out?",
+        "speak": "Which email do you want me to read out?"
+      },
+      {
+        "text": "Which one do you want to hear about?",
+        "speak": "Which one do you want to hear about?"
+      },
+      {
+        "text": "Which email do you want me to give you the details?",
+        "speak": "Which email do you want me to give you the details?"
+      },
+      {
+        "text": "Which email should I read to you?",
+        "speak": "Which email should I read to you?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ReadOutMessage": {
+    "replies": [
+      {
+        "text": "Details of email:",
+        "speak": "Details of email"
+      },
+      {
+        "text": "Content of email:",
+        "speak": "Content of email:"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ReadOutMorePrompt": {
+    "replies": [
+      {
+        "text": "Do you want to hear more? Which one do you want to hear?",
+        "speak": "Do you want to hear more? Which one do you want to hear?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  }
+}

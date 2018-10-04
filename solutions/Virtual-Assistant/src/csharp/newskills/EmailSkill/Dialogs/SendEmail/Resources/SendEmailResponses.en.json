@@ -1,0 +1,31 @@
+{
+  "RecipientConfirmed": {
+    "replies": [
+      {
+        "text": "Alright, I will send this to {UserName}.",
+        "speak": "Alright, I will send this to {UserName}."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoSubject": {
+    "replies": [
+      {
+        "text": "What is the email subject?",
+        "speak": "What is the email subject?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoMessageBody": {
+    "replies": [
+
+      {
+        "text": "What's the message?",
+        "speak": "What's the message?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  }
+
+}
