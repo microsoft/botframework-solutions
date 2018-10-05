@@ -4,8 +4,24 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.28010.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistant", "assistant\VirtualAssistant.csproj", "{D207238E-C1C2-4449-9984-1BE1F15B9B35}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6BD03130-4931-410F-83EB-03E37E17E2B9} = {6BD03130-4931-410F-83EB-03E37E17E2B9}
+		{2DF1C042-7544-4885-AFE4-E7010369A519} = {2DF1C042-7544-4885-AFE4-E7010369A519}
+		{ACB52D46-6553-44EF-89AE-D3038406FA1E} = {ACB52D46-6553-44EF-89AE-D3038406FA1E}
+		{3DE6A4B2-9241-4605-9E8C-BD17A1F71502} = {3DE6A4B2-9241-4605-9E8C-BD17A1F71502}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Solutions", "Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj", "{0106AD2E-C570-42DF-B54B-3ACA50D58D80}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalendarSkill", "skills\calendarskill\CalendarSkill.csproj", "{2DF1C042-7544-4885-AFE4-E7010369A519}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailSkill", "skills\emailskill\EmailSkill.csproj", "{ACB52D46-6553-44EF-89AE-D3038406FA1E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PointOfInterestSkill", "skills\pointofinterestskill\PointOfInterestSkill.csproj", "{6BD03130-4931-410F-83EB-03E37E17E2B9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoSkill", "skills\ToDoSkill\ToDoSkill.csproj", "{3DE6A4B2-9241-4605-9E8C-BD17A1F71502}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skills", "Skills", "{5613E456-DD6D-4A16-AB48-D2F51CAC0526}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +37,31 @@ Global
 		{0106AD2E-C570-42DF-B54B-3ACA50D58D80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0106AD2E-C570-42DF-B54B-3ACA50D58D80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0106AD2E-C570-42DF-B54B-3ACA50D58D80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DF1C042-7544-4885-AFE4-E7010369A519}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DF1C042-7544-4885-AFE4-E7010369A519}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DF1C042-7544-4885-AFE4-E7010369A519}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DF1C042-7544-4885-AFE4-E7010369A519}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACB52D46-6553-44EF-89AE-D3038406FA1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACB52D46-6553-44EF-89AE-D3038406FA1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACB52D46-6553-44EF-89AE-D3038406FA1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACB52D46-6553-44EF-89AE-D3038406FA1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BD03130-4931-410F-83EB-03E37E17E2B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BD03130-4931-410F-83EB-03E37E17E2B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BD03130-4931-410F-83EB-03E37E17E2B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BD03130-4931-410F-83EB-03E37E17E2B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DE6A4B2-9241-4605-9E8C-BD17A1F71502}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DE6A4B2-9241-4605-9E8C-BD17A1F71502}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DE6A4B2-9241-4605-9E8C-BD17A1F71502}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DE6A4B2-9241-4605-9E8C-BD17A1F71502}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2DF1C042-7544-4885-AFE4-E7010369A519} = {5613E456-DD6D-4A16-AB48-D2F51CAC0526}
+		{ACB52D46-6553-44EF-89AE-D3038406FA1E} = {5613E456-DD6D-4A16-AB48-D2F51CAC0526}
+		{6BD03130-4931-410F-83EB-03E37E17E2B9} = {5613E456-DD6D-4A16-AB48-D2F51CAC0526}
+		{3DE6A4B2-9241-4605-9E8C-BD17A1F71502} = {5613E456-DD6D-4A16-AB48-D2F51CAC0526}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7569C2D0-1323-45B5-8CFF-3ECACD9E0B82}
