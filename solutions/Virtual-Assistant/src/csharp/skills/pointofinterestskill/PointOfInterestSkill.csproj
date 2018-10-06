@@ -77,7 +77,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Dialogs\Shared\Resources\PointOfInterestBotResponses.de.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Dialogs\Shared\Resources\PointOfInterestBotResponses.en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\Shared\Resources\PointOfInterestBotResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

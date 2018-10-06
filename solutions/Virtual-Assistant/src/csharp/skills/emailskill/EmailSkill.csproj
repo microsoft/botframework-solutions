@@ -25,7 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Dialogs\Shared\Resources\EmailBotResponses.zh.json" />
+    <None Include="Dialogs\Shared\Resources\EmailBotResponses.zh.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -66,6 +68,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Shared\Resources\Cards\EmailWithOutButtonCard.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\Shared\Resources\EmailBotResponses.de.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Shared\Resources\EmailBotResponses.en.json">

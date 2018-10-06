@@ -1,0 +1,807 @@
+{
+  "name": "IPABot2_ToDo",
+  "versionId": "0.1",
+  "desc": "",
+  "culture": "en-us",
+  "intents": [
+    {
+      "name": "AddToDo"
+    },
+    {
+      "name": "Cancel"
+    },
+    {
+      "name": "ConfirmNo"
+    },
+    {
+      "name": "ConfirmYes"
+    },
+    {
+      "name": "DeleteToDo"
+    },
+    {
+      "name": "Greeting"
+    },
+    {
+      "name": "Help"
+    },
+    {
+      "name": "Logout"
+    },
+    {
+      "name": "MarkToDo"
+    },
+    {
+      "name": "Next"
+    },
+    {
+      "name": "None"
+    },
+    {
+      "name": "Previous"
+    },
+    {
+      "name": "ShowToDo"
+    }
+  ],
+  "entities": [
+    {
+      "name": "ContainsAll",
+      "roles": []
+    }
+  ],
+  "composites": [],
+  "closedLists": [],
+  "patternAnyEntities": [],
+  "regex_entities": [],
+  "prebuiltEntities": [
+    {
+      "name": "ordinal",
+      "roles": []
+    }
+  ],
+  "model_features": [
+    {
+      "name": "Near",
+      "mode": true,
+      "words": "near,around,close,nearby",
+      "activated": true
+    },
+    {
+      "name": "Show",
+      "mode": true,
+      "words": "show,find,look,search",
+      "activated": true
+    }
+  ],
+  "regex_features": [
+    {
+      "name": "AirportCodeRegex",
+      "pattern": "[a-z]{3}",
+      "activated": true
+    }
+  ],
+  "patterns": [
+    {
+      "pattern": "add a todo to {ContainsAll}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "remind me to get {ContainsAll}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "i need to remember to {ContainsAll}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "add a task to {ContainsAll}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "remind me to {ContainsAll}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "add a reminder to {ContainsAll}",
+      "intent": "AddToDo"
+    }
+  ],
+  "utterances": [
+    {
+      "text": "add a new task",
+      "intent": "AddToDo",
+      "entities": []
+    },
+    {
+      "text": "add a task to get cat food",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 14,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "add a task to pickup some cat food",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 14,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "add a to do",
+      "intent": "AddToDo",
+      "entities": []
+    },
+    {
+      "text": "add a to do for me",
+      "intent": "AddToDo",
+      "entities": []
+    },
+    {
+      "text": "add a to do item",
+      "intent": "AddToDo",
+      "entities": []
+    },
+    {
+      "text": "add a todo",
+      "intent": "AddToDo",
+      "entities": []
+    },
+    {
+      "text": "add a todo for me",
+      "intent": "AddToDo",
+      "entities": []
+    },
+    {
+      "text": "add another task",
+      "intent": "AddToDo",
+      "entities": []
+    },
+    {
+      "text": "add another to do",
+      "intent": "AddToDo",
+      "entities": []
+    },
+    {
+      "text": "all",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "another task",
+      "intent": "AddToDo",
+      "entities": []
+    },
+    {
+      "text": "another to do",
+      "intent": "AddToDo",
+      "entities": []
+    },
+    {
+      "text": "can you add a todo for me",
+      "intent": "AddToDo",
+      "entities": []
+    },
+    {
+      "text": "can you add something to my to do list?",
+      "intent": "AddToDo",
+      "entities": []
+    },
+    {
+      "text": "can you delete the third to do?",
+      "intent": "DeleteToDo",
+      "entities": []
+    },
+    {
+      "text": "can you help to mark the second one",
+      "intent": "MarkToDo",
+      "entities": []
+    },
+    {
+      "text": "can you help to remove all tasks",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 23,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "can you show my to dos?",
+      "intent": "ShowToDo",
+      "entities": []
+    },
+    {
+      "text": "can you show next",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "can you show next to dos?",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "can you show previous",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "can you show previous for me",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel the bot",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel the skill",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "complete all",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 9,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "complete all tasks",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 9,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "complete all to dos",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 9,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "create a new to do",
+      "intent": "AddToDo",
+      "entities": []
+    },
+    {
+      "text": "delete a to do",
+      "intent": "DeleteToDo",
+      "entities": []
+    },
+    {
+      "text": "delete a to do task",
+      "intent": "DeleteToDo",
+      "entities": []
+    },
+    {
+      "text": "delete all",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 7,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "delete all tasks",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 7,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "delete all to dos",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 7,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "delete the first task",
+      "intent": "DeleteToDo",
+      "entities": []
+    },
+    {
+      "text": "delete the fourth to do",
+      "intent": "DeleteToDo",
+      "entities": []
+    },
+    {
+      "text": "hello",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "help me to delete the second one",
+      "intent": "DeleteToDo",
+      "entities": []
+    },
+    {
+      "text": "help to delete all to dos",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 15,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "hi",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hi bot",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "i have completed the third to do",
+      "intent": "MarkToDo",
+      "entities": []
+    },
+    {
+      "text": "i just thought of a to do",
+      "intent": "AddToDo",
+      "entities": []
+    },
+    {
+      "text": "i want to delete all my to do's",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 17,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "i want to delete all to dos",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 17,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "i want to delete third to do task",
+      "intent": "DeleteToDo",
+      "entities": []
+    },
+    {
+      "text": "i want to mark all my to dos as complete",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 15,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "i would like to delete all my to dos",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 23,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "i would like to mark all as complete",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 21,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "i would like to mark them all as complete",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 26,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "just thought of a new todo",
+      "intent": "AddToDo",
+      "entities": []
+    },
+    {
+      "text": "log out",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "logout",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "mark all my to dos completed",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "mark the third one as complete",
+      "intent": "MarkToDo",
+      "entities": []
+    },
+    {
+      "text": "next",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "next todo page",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "no",
+      "intent": "ConfirmNo",
+      "entities": []
+    },
+    {
+      "text": "no thanks",
+      "intent": "ConfirmNo",
+      "entities": []
+    },
+    {
+      "text": "no, don't do that",
+      "intent": "ConfirmNo",
+      "entities": []
+    },
+    {
+      "text": "not",
+      "intent": "ConfirmNo",
+      "entities": []
+    },
+    {
+      "text": "not exactly",
+      "intent": "ConfirmNo",
+      "entities": []
+    },
+    {
+      "text": "not that",
+      "intent": "ConfirmNo",
+      "entities": []
+    },
+    {
+      "text": "of course",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "of course yes",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "please add a todo item",
+      "intent": "AddToDo",
+      "entities": []
+    },
+    {
+      "text": "please complete the fifth task",
+      "intent": "MarkToDo",
+      "entities": []
+    },
+    {
+      "text": "please delete a task",
+      "intent": "DeleteToDo",
+      "entities": []
+    },
+    {
+      "text": "please help me",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "please help to delete all my to dos",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 22,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "please mark the first task as completed",
+      "intent": "MarkToDo",
+      "entities": []
+    },
+    {
+      "text": "please remove a to do",
+      "intent": "DeleteToDo",
+      "entities": []
+    },
+    {
+      "text": "please remove the second task",
+      "intent": "DeleteToDo",
+      "entities": []
+    },
+    {
+      "text": "please show next page to do list",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "pls remove a to do task",
+      "intent": "DeleteToDo",
+      "entities": []
+    },
+    {
+      "text": "pls remove the third task",
+      "intent": "DeleteToDo",
+      "entities": []
+    },
+    {
+      "text": "previous page",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "previous to do page",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "quit",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "quit skill",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "quit the bot",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "read my to do list",
+      "intent": "ShowToDo",
+      "entities": []
+    },
+    {
+      "text": "read out my to dos",
+      "intent": "ShowToDo",
+      "entities": []
+    },
+    {
+      "text": "read out my to do's",
+      "intent": "ShowToDo",
+      "entities": []
+    },
+    {
+      "text": "remind me to get cash",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 13,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "remind me to pickup milk",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 13,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "remove all",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 7,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "remove all taks",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 7,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "remove all tasks",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 7,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "remove all to dos",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 7,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "save a todo",
+      "intent": "AddToDo",
+      "entities": []
+    },
+    {
+      "text": "show help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "show help instructions",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "show my todo items",
+      "intent": "ShowToDo",
+      "entities": []
+    },
+    {
+      "text": "show my todo list",
+      "intent": "ShowToDo",
+      "entities": []
+    },
+    {
+      "text": "show my todos",
+      "intent": "ShowToDo",
+      "entities": []
+    },
+    {
+      "text": "show next",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "show previous",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "show todo items",
+      "intent": "ShowToDo",
+      "entities": []
+    },
+    {
+      "text": "show todo list",
+      "intent": "ShowToDo",
+      "entities": []
+    },
+    {
+      "text": "sign out",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "sure",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "tell me how to use the skill",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what about my todo list",
+      "intent": "ShowToDo",
+      "entities": []
+    },
+    {
+      "text": "what are my to dos",
+      "intent": "ShowToDo",
+      "entities": []
+    },
+    {
+      "text": "yes",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "yes please",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "yes, please",
+      "intent": "ConfirmYes",
+      "entities": []
+    }
+  ],
+  "settings": []
+}

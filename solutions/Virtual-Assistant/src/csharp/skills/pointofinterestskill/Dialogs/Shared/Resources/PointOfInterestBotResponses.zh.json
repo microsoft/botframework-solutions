@@ -1,0 +1,292 @@
+{
+
+  "DidntUnderstandMessage": {
+    "replies": [
+      {
+        "text": "对不起，我没有明白你的意思。",
+        "speak": "对不起，我没有明白你的意思。"
+      },
+      {
+        "text": "我没有明白你的意思，请尝试用不同的方式提问。",
+        "speak": "我没有明白你的意思，请尝试用不同的方式提问。"
+      },
+      {
+        "text": "你能不能试着用另一种方式问我。",
+        "speak": "你能不能试着用另一种方式问我。"
+      },
+      {
+        "text": "我没有明白你的意思，你能以不同的方式尝试吗？",
+        "speak": "我没有明白你的意思，你能以不同的方式尝试吗？"
+      },
+      {
+        "text": "你能说得更详细吗？",
+        "speak": "你能说得更详细吗？"
+      },
+      {
+        "text": "请以不同的方式再说一遍。",
+        "speak": "请以不同的方式再说一遍。"
+      },
+      {
+        "text": "我没有理解你的意思。",
+        "speak": "我没有理解你的意思。"
+      },
+      {
+        "text": "你能尝试用不同的表达方式吗？",
+        "speak": "你能尝试用不同的表达方式吗？"
+      },
+      {
+        "text": "你能再试一次，我没听懂你的意思。",
+        "speak": "你能再试一次，我没听懂你的意思。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "HelpMessage": {
+    "replies": [
+      {
+        "text": "I can help find your local points of interest along with directions.",
+        "speak": "I can help find your local points of interest along with directions."
+      }
+    ],
+    "suggestedActions": [
+      "What are my meetings today?",
+      "What is my next meeting",
+      "I want to set up a meeting ",
+      "Can you update a meeting ",
+      "Can you cancel my event"
+    ],
+    "inputHint": "expectingInput"
+  },
+  "PointOfInterestWelcomeMessage": {
+    "replies": [
+      {
+        "text": "你好！我是Point of Interest bot! 我可以找到兴趣点，展示你去目的地的路线，或者在附近找到有趣的东西。",
+        "speak": "你好！我是Point of Interest bot! 我可以找到兴趣点，展示你去目的地的路线，或者在附近找到有趣的东西。"
+      }
+    ],
+    "suggestedActions": [
+      "到机场的最快线路",
+      "城里有咖啡店吗？",
+      "告诉我到布罗德街400号怎么走",
+      "我想参观太空针塔",
+      "附近有什么？"
+    ],
+    "inputHint": "expectingInput"
+  },
+  "GoodbyeMessage": {
+    "replies": [
+      {
+        "text": "再见！  \r\n  如果您需要任何帮助，都可以按语音按钮和我交流。",
+        "speak": "再见！  \r\n  如果您需要任何帮助，都可以按语音按钮和我交流。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "CancellingMessage": {
+    "replies": [
+      {
+        "text": "当然，我们可以稍后再做。",
+        "speak": "当然，我们可以稍后再做。"
+      },
+      {
+        "text": "当然，我们可以稍后再开始。",
+        "speak": "当然，我们可以稍后再开始。"
+      },
+      {
+        "text": "没问题，你可以换一个时间再试一次。",
+        "speak": "没问题，你可以换一个时间再试一次。"
+      },
+      {
+        "text": "好的，请在需要我帮助时告诉我。",
+        "speak": "好的，请在需要我帮助时告诉我。"
+      },
+      {
+        "text": "当然，如果你需要我的帮助，我就在这里。",
+        "speak": "当然，如果你需要我的帮助，我就在这里。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "GreetingMessage": {
+    "replies": [
+      {
+        "text": "嗨！",
+        "speak": "嗨！"
+      },
+      {
+        "text": "我在这！",
+        "speak": "我在这！"
+      },
+      {
+        "text": "你好！",
+        "speak": "你好！"
+      },
+      {
+        "text": "您好！",
+        "speak": "您好！"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "AskForActiveLocation": {
+    "replies": [
+
+      {
+        "text": "你想去哪里？",
+        "speak": "你想去哪里？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "MultipleLocationsFound": {
+    "replies": [
+      {
+        "text": "我找到下列匹配的地点。",
+        "speak": "我找到下列匹配的地点。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "SingleLocationFound": {
+    "replies": [
+      {
+        "text": "我找到下面匹配的地点。",
+        "speak": "我找到下面匹配的地点。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "MultipleLocationsFoundAlongActiveRoute": {
+    "replies": [
+      {
+        "text": "我在你的活跃线路上找到下列匹配的地点。",
+        "speak": "我在你的活跃线路上找到下列匹配的地点。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "SingleLocationFoundAlongActiveRoute": {
+    "replies": [
+      {
+        "text": "我在你的活跃线路上找到下面匹配的地点。",
+        "speak": "我在你的活跃线路上找到下面匹配的地点。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoLocationsFound": {
+    "replies": [
+      {
+        "text": "抱歉，我没有找到匹配你搜索的兴趣点。",
+        "speak": "抱歉，我没有找到匹配你搜索的兴趣点。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "MultipleRoutesFound": {
+    "replies": [
+      {
+        "text": "我找到到达目的地的几条线路。",
+        "speak": "我找到到达目的地的几条线路。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "SingleRouteFound": {
+    "replies": [
+      {
+        "text": "我找到到达目的地的一条线路。",
+        "speak": "我找到到达目的地的一条线路。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "SelectARoute": {
+    "replies": [
+      {
+        "text": "选择你目标线路上的‘开始’按键。",
+        "speak": "选择你目标线路上的‘开始’按键。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "PointOfInterestErrorMessage": {
+    "replies": [
+      {
+        "text": "抱歉，看起来出了问题！",
+        "speak": "抱歉，看起来出了问题！"
+      },
+      {
+        "text": "发生错误，给我一些时间，稍后再试。",
+        "speak": "发生错误，给我一些时间，稍后再试。"
+      },
+      {
+        "text": "出了点问题，对不起！",
+        "speak": "出了点问题，对不起！"
+      },
+      {
+        "text": "我相信出了点问题。你可以再试一次吗？",
+        "speak": "我相信出了点问题。你可以再试一次吗？"
+      },
+      {
+        "text": "抱歉，我觉得我现在找不到你想要的东西。请稍后再试。",
+        "speak": "抱歉，我觉得我现在找不到你想要的东西。请稍后再试。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "MissingActiveLocationErrorMessage": {
+    "replies": [
+      {
+        "text": "抱歉，我没有找到合适的地点。你想去哪里？",
+        "speak": "抱歉，我没有找到合适的地点。你想去哪里？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "MissingActiveRouteErrorMessage": {
+    "replies": [
+      {
+        "text": "抱歉，我没有找到一条匹配的路线。",
+        "speak": "抱歉，我没有找到一条匹配的路线。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "SelectActiveLocation": {
+    "replies": [
+      {
+        "text": "选择你想去的兴趣点的‘展示路线’按键。",
+        "speak": "选择你想去的兴趣点的‘展示路线’按键。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "SendingRouteDetails": {
+    "replies": [
+      {
+        "text": "我在向你发送路线的详细信息。",
+        "speak": "我在向你发送路线的详细信息。"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "CancelActiveRoute": {
+    "replies": [
+      {
+        "text": "知道了。我正在取消你的路线。",
+        "speak": "知道了。我正在取消你的路线。"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "CannotCancelActiveRoute": {
+    "replies": [
+      {
+        "text": "抱歉，我没有可以取消的路线。",
+        "speak": "抱歉，我没有可以取消的路线。"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  }
+}

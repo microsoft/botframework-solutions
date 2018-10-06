@@ -96,6 +96,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Dialogs\Shared\Resources\CalendarBotResponses.de.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Dialogs\Shared\Resources\CalendarBotResponses.en.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

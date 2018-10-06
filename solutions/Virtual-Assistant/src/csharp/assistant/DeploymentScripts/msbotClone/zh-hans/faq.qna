@@ -1,0 +1,76 @@
+{
+  "qnaDocuments": [
+    {
+      "id": 1,
+      "answer": "This is a placeholder",
+      "source": "Editorial",
+      "questions": [
+        "What is a Custom Assistant?"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 2,
+      "answer": "A Skill is a ...",
+      "source": "Editorial",
+      "questions": [
+        "What is a Skill?"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 3,
+      "answer": "This is a placeholder",
+      "source": "Editorial",
+      "questions": [
+        "What can the Calendar Skill do?"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 4,
+      "answer": "This is a placeholder",
+      "source": "Editorial",
+      "questions": [
+        "What can the To Do Skill do?"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 5,
+      "answer": "This is a placeholder",
+      "source": "Editorial",
+      "questions": [
+        "What can the Email Skill do?"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 6,
+      "answer": "This is a placeholder",
+      "source": "Editorial",
+      "questions": [
+        "what can the Point of Interest Skill do?"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 7,
+      "answer": "This is a placeholder",
+      "source": "Editorial",
+      "questions": [
+        "What services do the skills connect to?"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 8,
+      "answer": "This is a placeholder",
+      "source": "Editorial",
+      "questions": [
+        "How do I create a skill?"
+      ],
+      "metadata": []
+    }
+  ]
+}
