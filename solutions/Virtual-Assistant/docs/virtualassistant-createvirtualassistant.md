@@ -49,13 +49,10 @@ Once the Solution has been cloned you will see the following folder structure.
             | - Assistant-WebTest
         | - Microsoft.Bot.Solutions
       | - VirtualAssistant.sln
-      | - Skills.sln
 
 ### Build the Solution
 
-Once cloned the next step is to build the VirtualAssistant and Skills solutions within Visual Studio. The Virtual Assistant and Skills solutions are separated for clarity with the Skills solution pushing binaries into a shared output folder enabling easy referencing from the Virtual Assistant.
-
-> Build the Skills project before the Virtual Assistant project.
+Once cloned the next step is to build the VirtualAssistant solution within Visual Studio. Deployment must have been completed before you can run the project due to this stage creating key dependencies in Azure along with your configured .bot file.
 
 ### Deployment
 
@@ -133,11 +130,11 @@ If you wish to make use of the Calendar, Email and Task Skills you need to confi
 
 The [Add Authentication to your bot](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-authentication?view=azure-bot-service-3.0) section in the Azure Bot Service documentation covers more detail on how to configure Authentication. However in this scenario, the automated deployment step has already created the Azure AD v2 Application for your Bot. Therefore you only need to perform the following steps from the above documentation page:
 
-- Navigate to https://apps.dev.microsoft.com/
+- Navigate to https://apps.dev.microsoft.com/ and find the application created in the previous step which should match your Bot name.
 - Under Platforms, click Add Platform.
   - In the Add Platform pop-up, click Web.
   - Leave Allow Implicit Flow checked.
-  - For Redirect URL, enter https://token.botframework.com/.auth/web/redirect.
+  - For Redirect URL, enter https://token.botframework.com/.auth/web/redirect
   - Leave Logout URL blank.
 - Under Microsoft Graph Permissions, you can need to add additional *delegated* permissions.
 - Each of the Skills require a specific set of Scopes, refer to the documentation for each skill or use the following list of Scopes that contain the scopes needed for all skills. 
@@ -150,13 +147,13 @@ The commands shown below assume you have used the deployment process and your re
 ```shell
 msbot get production --secret YOUR_SECRET
 
-az bot authsetting create --resource-group YOUR_BOT_NAME --name YOUR_BOT_NAME --setting-name YOU_AUTH_CONNECTION_NAME --client-id YOUR_APPLICATION_ID --client-secret YOUR_APPLICATION_PASSWORD --provider-scope-string "Calendars.ReadWrite Mail.Read Mail.Send Notes.ReadWrite.All People.Read.All User.Read.All" --service Aadv2
+az bot authsetting create --resource-group YOUR_BOT_NAME --name YOUR_BOT_NAME --setting-name "YOUR_AUTH_CONNECTION_NAME" --client-id "YOUR_APPLICATION_ID" --client-secret "YOUR_APPLICATION_PASSWORD" --provider-scope-string "Calendars.ReadWrite Mail.Read Mail.Send Notes.ReadWrite.All People.Read.All User.Read.All" --service Aadv2
 ```
 
 The final step is to update your .bot file and associated Skills (in appSettings.config) with the Authentication connection name, this is used by the Assistant to enable Authentication prompts or use of Linked Accounts.
 
 ```shell
-msbot connect generic --name "Authentication" --keys "{\"Azure Active Directory v2\":\"YOUR_AUTH_CONNECTION_NAME\"}" --secret "YOUR_BOT_SECRET" --url "portal.azure.net"
+msbot connect generic --name "Authentication" --keys "{\"Azure Active Directory v2\":\"YOUR_AUTH_CONNECTION_NAME\"}" --bot YOURBOTFILE.bot --secret "YOUR_BOT_SECRET" --url "portal.azure.net"
 ```
 
 Then in the appSettings.config updated the `authConnectionName` for each skill as appropriate. 
