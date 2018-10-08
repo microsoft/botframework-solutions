@@ -4,6 +4,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.28010.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistant", "assistant\VirtualAssistant.csproj", "{D207238E-C1C2-4449-9984-1BE1F15B9B35}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6BD03130-4931-410F-83EB-03E37E17E2B9} = {6BD03130-4931-410F-83EB-03E37E17E2B9}
+		{2DF1C042-7544-4885-AFE4-E7010369A519} = {2DF1C042-7544-4885-AFE4-E7010369A519}
+		{ACB52D46-6553-44EF-89AE-D3038406FA1E} = {ACB52D46-6553-44EF-89AE-D3038406FA1E}
+		{3DE6A4B2-9241-4605-9E8C-BD17A1F71502} = {3DE6A4B2-9241-4605-9E8C-BD17A1F71502}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Solutions", "Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj", "{0106AD2E-C570-42DF-B54B-3ACA50D58D80}"
 EndProject

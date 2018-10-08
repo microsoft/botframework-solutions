@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Apis.Calendar.v3" Version="1.35.2.1354" />
+    <PackageReference Include="Google.Apis.Calendar.v3" Version="1.35.2.1363" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.4" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="1.0.0" />
@@ -93,6 +93,18 @@
     <ProjectReference Include="..\skills\EmailSkill\EmailSkill.csproj" />
     <ProjectReference Include="..\skills\PointOfInterestSkill\PointOfInterestSkill.csproj" />
     <ProjectReference Include="..\skills\ToDoSkill\ToDoSkill.csproj" />
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy &quot;$(SolutionDir)skills\$(OutDir)Dialogs&quot; &quot;$(TargetDir)Dialogs&quot; /s /y /i&#xD;&#xA;xcopy &quot;$(SolutionDir)skills\$(OutDir)Resources&quot; &quot;$(TargetDir)Resources&quot; /s /y /i" />
+  </Target>
+
+  <ItemGroup>
+    <None Update="*.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
