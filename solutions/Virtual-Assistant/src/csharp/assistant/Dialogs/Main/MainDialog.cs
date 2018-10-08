@@ -185,21 +185,6 @@ namespace VirtualAssistant
                         break;
                     }
 
-                //case Dispatch.Intent.l_News:
-                //    {
-                //        var luisService = _services.LuisServices["news"];
-                //        var luisResult = await luisService.RecognizeAsync<News>(dc.Context, CancellationToken.None);
-                //        var matchedSkill = _skillRouter.IdentifyRegisteredSkill(intent.ToString());
-
-                //        await RouteToSkillAsync(dc, new SkillDialogOptions()
-                //        {
-                //            SkillDefinition = matchedSkill,
-                //            Parameters = parameters,
-                //        });
-
-                //        break;
-                //    }
-
                 case Dispatch.Intent.q_FAQ:
                     {
                         var qnaService = _services.QnAServices["faq"];

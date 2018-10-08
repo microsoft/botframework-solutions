@@ -2,48 +2,97 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <UserSecretsId>667ecb4d-eee5-4eb2-8eee-6a86be1cfd72</UserSecretsId>
+    <UserSecretsId>6a3184c3-074e-45b9-ad93-eceb8268ec01</UserSecretsId>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <CodeAnalysisRuleSet>..\..\samples.ruleset</CodeAnalysisRuleSet>
-    <OutputPath>..\bin\$(Configuration)\</OutputPath>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <CodeAnalysisRuleSet>..\..\samples.ruleset</CodeAnalysisRuleSet>
-    <OutputPath>..\bin\$(Configuration)\</OutputPath>
+  <PropertyGroup>
+    <ApplicationInsightsResourceId>/subscriptions/4c0d07e4-5490-4784-8d89-d8c504ba2a75/resourcegroups/LamillsBot/providers/microsoft.insights/components/LamillsBot-insights</ApplicationInsightsResourceId>
+    <ApplicationInsightsAnnotationResourceId>/subscriptions/4c0d07e4-5490-4784-8d89-d8c504ba2a75/resourcegroups/LamillsBot/providers/microsoft.insights/components/LamillsBot-insights</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Dialogs\Shared\Resources\EmailBotResponses.zh.json" />
-    <Content Remove="stylecop.json" />
+    <None Remove="DeploymentScripts\msbotClone\email.luis" />
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="stylecop.json" />
+    <Content Include="DeploymentScripts\msbotClone\email.luis" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Dialogs\Shared\Resources\EmailBotResponses.zh.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.4" />
-    <PackageReference Include="Microsoft.Azure.CognitiveServices.Language.TextAnalytics" Version="2.1.0-preview" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="0.12.1-preview" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.NewsSearch" Version="1.2.0" />
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.0.7" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.0.7" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.0.7" />
     <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.0.7" />
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.0.7" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.0.7" />
     <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.0.7" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.0.7" />
     <PackageReference Include="Microsoft.Bot.Connector" Version="4.0.7" />
     <PackageReference Include="Microsoft.Bot.Schema" Version="4.0.7" />
-    <PackageReference Include="Microsoft.Graph" Version="1.11.0" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="Microsoft.Graph" Version="1.10.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Dialogs\Cancel\Resources\CancelStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CancelStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Dialogs\ConfirmRecipient\Resources\ConfirmRecipientResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ConfirmRecipientResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ForwardEmailResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Dialogs\Main\Resources\EmailMainResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EmailMainResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Dialogs\ReplyEmail\Resources\ReplyEmailResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ReplyEmailResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Dialogs\SendEmail\Resources\SendEmailResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SendEmailResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Dialogs\Shared\Resources\EmailSharedResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EmailSharedResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Dialogs\ShowEmail\Resources\ShowEmailResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ShowEmailResponses.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Dialogs\Cancel\Resources\CancelStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CancelStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="CognitiveModels\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,33 +100,79 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Dialogs\Shared\Resources\EmailBotResponses.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>EmailBotResponses.tt</DependentUpon>
-    </Compile>
+    <None Update="*.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Dialogs\Shared\Resources\Cards\EmailDetailCard.json">
+    <Content Update="Dialogs\ConfirmRecipient\Resources\ConfirmRecipientResponses.en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\Main\Resources\EmailMainResponses.en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\ReplyEmail\Resources\ReplyEmailResponses.en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\SendEmail\Resources\SendEmailResponses.en.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Shared\Resources\Cards\EmailCard.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="Dialogs\Shared\Resources\Cards\EmailDetailCard.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Dialogs\Shared\Resources\Cards\EmailWithOutButtonCard.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\Shared\Resources\EmailBotResponses.en.json">
+    <Content Update="Dialogs\Shared\Resources\EmailSharedResponses.en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\ShowEmail\Resources\ShowEmailResponses.en.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Dialogs\Shared\Resources\EmailBotResponses.tt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <LastGenOutput>EmailBotResponses.cs</LastGenOutput>
+    <None Update="Dialogs\ConfirmRecipient\Resources\ConfirmRecipientResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ConfirmRecipientResponses.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ForwardEmailResponses.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Dialogs\Main\Resources\EmailMainResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EmailMainResponses.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Dialogs\ReplyEmail\Resources\ReplyEmailResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ReplyEmailResponses.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Dialogs\SendEmail\Resources\SendEmailResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SendEmailResponses.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Dialogs\Shared\Resources\EmailSharedResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EmailSharedResponses.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Dialogs\ShowEmail\Resources\ShowEmailResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ShowEmailResponses.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

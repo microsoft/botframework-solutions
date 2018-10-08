@@ -1,17 +1,87 @@
-﻿# Point of Interest Bot
+﻿
+# Enterprise Bot Template - Deploying your Bot
 
-# LUIS logic
-The Maluuba LUIS model has two intents: NAVIGATION_FROM_X_TO_Y & NAVIGATION_CANCEL_ROUTE, and two entities: KEYWORD & ADDRESS.
-NAVIGATION_FROM_X_TO_Y is used for all scenarios.
-Find POI/FindRoute: NAVIGATION_FROM_X_TO_Y triggers NavigationDialog and looks up POI cards first before getting directions.
-What's Nearby: NAVIGATION_FROM_X_TO_Y triggers NavigationDialog with no keyword or address matched.
-Find Along Route: NAVIGATION_FROM_X_TO_Y triggers NavigationDialog and checks for ActiveRoute.
+> [!NOTE]
+> This topics applies to v4 version of the SDK. 
 
-# Event Input
-Sample event for setting PointOfInterestBotState.CurrentCoordinates (hardcoded):
-User: /event:{ "Name": "IPA.Location", "Value": { "lat": 47.640568390488625, "lon": -122.1293731033802  } }
+## Prerequisites
 
-# Not test
-Button validation on cards (current bug on emulator prevents submit.action buttons from being used)
-For ActiveLocation selection (after POI is displayed): copy/paste the address to match text instead
-For ActiveRoute selection: send any text. Only one route displayed from API in my tests so we're just returning the first in list.'
+- Ensure the [Node Package manager](https://nodejs.org/en/) is installed.
+
+- Install the Azure Bot Service command line (CLI) tools. It's important to do this even if you've used the tools before to ensure you have the latest versions.
+
+```shell
+npm install -g ludown luis-apis qnamaker botdispatch msbot luisgen chatdown
+```
+
+- Install the Azure Command Line Tools (CLI) from [here](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)
+
+- Install the AZ Extension for Bot Service
+```shell
+az extension add -n botservice
+```
+
+## Configuration
+
+1. Retrieve your LUIS Authoring Key
+   - Go to https://www.luis.ai and signin.
+   - Once signed in click on your name in the top right hand corner.
+   - Choose Settings and make a note of the Authoring Key for the next step.
+
+## Deployment
+
+>If you have multiple Azure subscriptions and want to ensure the deployment selects the correct one, run the following commands before continuing.
+
+ Follow the browser login process into your Azure Account
+```shell
+az login
+az account list
+az account set --subscription "YOUR_SUBSCRIPTION_NAME"
+```
+
+Enterprise Template Bots require the following dependencies for end to end operation.
+- Azure Web App
+- Azure Storage Account (Transcripts)
+- Azure Application Insights (Telemetry)
+- Azure CosmosDb (State)
+- Azure Cognitive Services - Language Understanding
+- Azure Cognitive Services - QnAMaker (including Azure Search, Azure Web App)
+- Azure Cognitive Services - Content Moderator (optional manual step)
+
+Your new Bot project has a deployment recipe enabling the `msbot clone services` command to automate deployment of all the above services into your Azure subscription and ensure the .bot file in your project is updated with all of the services including keys enabling seamless operation of your Bot.
+
+> Once deployed, review the Pricing Tiers for the created services and adjust to suit your scenario.
+
+The README.md within your created project contains an example msbot clone services command line updated with your created Bot name and a generic version is shown below. Ensure you update the authoring key from the previous step and choose the Azure datacenter location you wish to use (e.g. westus or westeurope).
+
+```shell
+msbot clone services --name "SkillTemplate" --luisAuthoringKey "YOUR_AUTHORING_KEY" --folder "DeploymentScripts\msbotClone" --location "westus"
+```
+
+Once this is complete ensure that you make a note of the .bot file secret provided as this will be required for later steps. At this time, take the secret and update the `botFileSecret` entry in your `appsettings.json` file. This will ensure your Bot can decrypt the secrets.
+
+Update your appsettings.json file with the .bot file path, .bot file secret, and AppInsights intrumentation key (this can be found in the generated .bot file).
+    
+        {
+          "botFilePath": ".\\SkillTemplate.bot",
+          "botFileSecret": "YOUR_BOT_KEY",
+          "ApplicationInsights": {
+            "InstrumentationKey": "YOUR_INSTRUMENTATION_KEY"
+          }
+        }
+## Testing
+
+Once complete, run your bot project within your development envrionment and open the Bot Framework Emulator. Within the Emulator, choose Open Bot from teh File menu and navigate to the .bot file in your directory.
+
+Then type ```hi``` to verify everything is working.
+
+## Deploy to Azure
+
+Testing can be performed end to end locally, when your ready to deploy your Bot to Azure for additional testing you can use the following command to publish the source code
+
+```shell
+az bot publish --name "SkillTemplate" --resource-group "SkillTemplate"
+```
+
+## Next Steps
+Find more documentation for enabling more scenarios and further customization [here](http://aka.ms/ent_docs).

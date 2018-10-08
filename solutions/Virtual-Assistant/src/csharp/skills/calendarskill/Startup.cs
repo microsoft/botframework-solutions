@@ -1,27 +1,30 @@
-﻿// <copyright file="Startup.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
-// </copyright>
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using CalendarSkill.Models;
+using CalendarSkill.Dialogs.Shared.Resources;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Azure;
-using Microsoft.Bot.Builder.BotFramework;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 
 namespace CalendarSkill
 {
     public class Startup
     {
+        private bool _isProduction = false;
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -37,75 +40,90 @@ namespace CalendarSkill
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton(sp =>
+            // Load the connected services from .bot file.
+            var botFilePath = Configuration.GetSection("botFilePath")?.Value;
+            var botFileSecret = Configuration.GetSection("botFileSecret")?.Value;
+            var botConfig = BotConfiguration.Load(botFilePath ?? @".\CalendarSkill.bot", botFileSecret);
+            services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded."));
+
+            // Initializes your bot service clients and adds a singleton that your Bot can access through dependency injection.
+            var parameters = Configuration.GetSection("Parameters")?.Get<string[]>();
+            var configuration = Configuration.GetSection("Configuration")?.Get<Dictionary<string, object>>();
+            var connectedServices = new SkillConfiguration(botConfig, parameters, configuration);
+            services.AddSingleton(sp => connectedServices);
+
+            // Initialize Bot State
+            var cosmosDbService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.CosmosDB) ?? throw new Exception("Please configure your CosmosDb service in your .bot file.");
+            var cosmosDb = cosmosDbService as CosmosDbService;
+            var cosmosOptions = new CosmosDbStorageOptions()
             {
-                var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
-                if (options == null)
-                {
-                    throw new InvalidOperationException("BotFrameworkOptions must be configured prior to setting up the State Accessors");
-                }
+                CosmosDBEndpoint = new Uri(cosmosDb.Endpoint),
+                AuthKey = cosmosDb.Key,
+                CollectionId = cosmosDb.Collection,
+                DatabaseId = cosmosDb.Database,
+            };
+            var dataStore = new CosmosDbStorage(cosmosOptions);
+            var userState = new UserState(dataStore);
+            var conversationState = new ConversationState(dataStore);
 
-                var conversationState = options.State.OfType<ConversationState>().FirstOrDefault();
-                if (conversationState == null)
-                {
-                    throw new InvalidOperationException("ConversationState must be defined and added before adding conversation-scoped state accessors.");
-                }
+            services.AddSingleton(dataStore);
+            services.AddSingleton(userState);
+            services.AddSingleton(conversationState);
+            services.AddSingleton(new BotStateSet(userState, conversationState));
 
-                var accessors = new CalendarSkillAccessors
-                {
-                    ConversationDialogState = conversationState.CreateProperty<DialogState>("CalendarSkillDialogState"),
-                    CalendarSkillState = conversationState.CreateProperty<CalendarSkillState>("CalendarSkillState"),
-                };
-
-                return accessors;
-            });
-
+            // Initialize calendar service client
             services.AddSingleton<IServiceManager, ServiceManager>();
 
-            services.AddSingleton<CalendarSkillServices>(sp =>
-            {
-                var luisModels = this.Configuration.GetSection("services").Get<LanguageModel[]>();
-
-                var luis = luisModels[0];
-                var calendarSkillService = new CalendarSkillServices();
-                {
-                    var luisApp = new LuisApplication(luis.Id, luis.SubscriptionKey, "https://westus.api.cognitive.microsoft.com");
-                    var luisRecognizer = new LuisRecognizer(luisApp);
-                    calendarSkillService.LuisRecognizer = luisRecognizer;
-                    var authConnectionName = this.Configuration.GetSection("authConnectionName")?.Value;
-                    calendarSkillService.AuthConnectionName = authConnectionName;
-                }
-
-                return calendarSkillService;
-            });
-
+            // Add the bot with options
             services.AddBot<CalendarSkill>(options =>
             {
-                options.CredentialProvider = new ConfigurationCredentialProvider(Configuration);
+                // Load the connected services from .bot file.
+                var environment = _isProduction ? "production" : "development";
+                var service = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.Endpoint && s.Name == environment);
+                if (!(service is EndpointService endpointService))
+                {
+                    throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
+                }
+
+                options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+
+                // Telemetry Middleware (logs activity messages in Application Insights)
+                var appInsightsService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.AppInsights) ?? throw new Exception("Please configure your AppInsights connection in your .bot file.");
+                var instrumentationKey = (appInsightsService as AppInsightsService).InstrumentationKey;
+                var appInsightsLogger = new TelemetryLoggerMiddleware(instrumentationKey, logUserName: true, logOriginalMessage: true);
+                options.Middleware.Add(appInsightsLogger);
 
                 // Catches any errors that occur during a conversation turn and logs them to AppInsights.
                 options.OnTurnError = async (context, exception) =>
                 {
-                    await context.SendActivityAsync($"CalendarSkill: {exception.Message}");
-                    await context.SendActivityAsync(exception.StackTrace);
+                    await context.SendActivityAsync(context.Activity.CreateReply(CalendarSharedResponses.CalendarErrorMessage));
+                    await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Calendar Skill Error: {exception.Message} | {exception.StackTrace}"));
+                    connectedServices.TelemetryClient.TrackException(exception);
                 };
 
-                var transcriptStore = new AzureBlobTranscriptStore(this.Configuration.GetSection("AzureBlobConnectionString")?.Value, this.Configuration.GetSection("transcriptContainer")?.Value);
-                options.Middleware.Add(new TranscriptLoggerMiddleware(transcriptStore));
+                // Transcript Middleware (saves conversation history in a standard format)
+                var storageService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.BlobStorage) ?? throw new Exception("Please configure your Azure Storage service in your .bot file.");
+                var blobStorage = storageService as BlobStorageService;
+                var transcriptStore = new AzureBlobTranscriptStore(blobStorage.ConnectionString, blobStorage.Container);
+                var transcriptMiddleware = new TranscriptLoggerMiddleware(transcriptStore);
+                options.Middleware.Add(transcriptMiddleware);
 
-                IStorage dataStore = new MemoryStorage();
-                options.State.Add(new ConversationState(dataStore));
-                options.Middleware.Add(new AutoSaveStateMiddleware(options.State.ToArray()));
+                // Typing Middleware (automatically shows typing when the bot is responding/working)
+                var typingMiddleware = new ShowTypingMiddleware();
+                options.Middleware.Add(typingMiddleware);
+
+                options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
             });
         }
 
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// </summary>
+        /// <param name="app">Application Builder.</param>
+        /// <param name="env">Hosting Environment.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
+            _isProduction = env.IsProduction();
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();
