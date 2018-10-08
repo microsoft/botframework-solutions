@@ -50,6 +50,7 @@ namespace Microsoft.Bot.Solutions
                                     }
 
                                 case DialogTurnStatus.Complete:
+                                case DialogTurnStatus.Cancelled:
                                     {
                                         await CompleteAsync(innerDc, result);
                                         break;

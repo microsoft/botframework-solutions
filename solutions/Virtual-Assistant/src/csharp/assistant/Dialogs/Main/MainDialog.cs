@@ -37,10 +37,11 @@ namespace VirtualAssistant
             _userState = userState;
             _onboardingState = _userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             _parametersAccessor = _userState.CreateProperty<Dictionary<string, object>>("userInfo");
+            var dialogState = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
 
             AddDialog(new OnboardingDialog(_services, _onboardingState));
             AddDialog(new EscalateDialog(_services));
-            AddDialog(new CustomSkillDialog(_services.SkillConfigurations));
+            AddDialog(new CustomSkillDialog(_services.SkillConfigurations, dialogState));
 
             // Initialize skill dispatcher
             _skillRouter = new SkillRouter(_services.SkillDefinitions);
@@ -184,20 +185,20 @@ namespace VirtualAssistant
                         break;
                     }
 
-                case Dispatch.Intent.l_News:
-                    {
-                        var luisService = _services.LuisServices["news"];
-                        var luisResult = await luisService.RecognizeAsync<News>(dc.Context, CancellationToken.None);
-                        var matchedSkill = _skillRouter.IdentifyRegisteredSkill(intent.ToString());
+                //case Dispatch.Intent.l_News:
+                //    {
+                //        var luisService = _services.LuisServices["news"];
+                //        var luisResult = await luisService.RecognizeAsync<News>(dc.Context, CancellationToken.None);
+                //        var matchedSkill = _skillRouter.IdentifyRegisteredSkill(intent.ToString());
 
-                        await RouteToSkillAsync(dc, new SkillDialogOptions()
-                        {
-                            SkillDefinition = matchedSkill,
-                            Parameters = parameters,
-                        });
+                //        await RouteToSkillAsync(dc, new SkillDialogOptions()
+                //        {
+                //            SkillDefinition = matchedSkill,
+                //            Parameters = parameters,
+                //        });
 
-                        break;
-                    }
+                //        break;
+                //    }
 
                 case Dispatch.Intent.q_FAQ:
                     {

@@ -16,9 +16,6 @@ namespace Microsoft.Bot.Solutions.Skills
         [JsonProperty("assembly")]
         public string Assembly { get; set; }
 
-        [JsonProperty("authConnectionName")]
-        public string AuthConnectionName { get; set; }
-
         [JsonProperty("luisServiceIds")]
         public string[] LuisServiceIds { get; set; }
 

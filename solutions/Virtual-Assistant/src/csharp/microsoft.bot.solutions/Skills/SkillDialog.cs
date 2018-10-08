@@ -19,15 +19,17 @@ namespace Microsoft.Bot.Solutions.Skills
 
         // Fields
         private static Dictionary<string, SkillConfiguration> _skills;
-        private static OAuthPrompt _authPrompt;
+        private IStatePropertyAccessor<DialogState> _accessor;
+        private DialogSet _dialogs;
         private InProcAdapter _inProcAdapter;
         private IBot _activatedSkill;
         private bool _skillInitialized;
 
-        public SkillDialog(Dictionary<string, SkillConfiguration> skills)
+        public SkillDialog(Dictionary<string, SkillConfiguration> skills, IStatePropertyAccessor<DialogState> accessor)
             : base(nameof(SkillDialog))
         {
             _skills = skills;
+            _accessor = accessor;
         }
 
         public override Task<DialogTurnResult> BeginDialogAsync(DialogContext dc, object options = null, CancellationToken cancellationToken = default(CancellationToken))
@@ -40,28 +42,34 @@ namespace Microsoft.Bot.Solutions.Skills
 
             // Set parameters
             var skillConfiguration = _skills[skillDefinition.Id];
-            foreach (var parameter in skillDefinition.Parameters)
+
+            if (skillDefinition.Parameters != null)
             {
-                if (skillOptions.Parameters.TryGetValue(parameter, out var paramValue))
+                foreach (var parameter in skillDefinition.Parameters)
                 {
-                    skillConfiguration.Properties.Add(parameter, paramValue);
+                    if (skillOptions.Parameters.TryGetValue(parameter, out var paramValue))
+                    {
+                        skillConfiguration.Properties.Add(parameter, paramValue);
+                    }
                 }
             }
 
             // Initialize authentication prompt
-            _authPrompt = new OAuthPrompt(nameof(OAuthPrompt), new OAuthPromptSettings()
+            _dialogs = new DialogSet(_accessor);
+            _dialogs.Add(new OAuthPrompt(nameof(OAuthPrompt), new OAuthPromptSettings()
             {
-                ConnectionName = skillDefinition.AuthConnectionName,
+                ConnectionName = skillConfiguration.AuthConnectionName,
                 Title = "Skill Authentication",
                 Text = $"Please login to access this feature.",
-            });
+            }));
 
             return Task.FromResult(EndOfTurn);
         }
 
-        public override Task<DialogTurnResult> ContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        public override async Task<DialogTurnResult> ContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return ForwardToSkill(dc, dc.Context.Activity);
+            var result = await ForwardToSkill(dc, dc.Context.Activity);
+            return result;
         }
 
         private async Task InitializeSkill(DialogContext dc)
@@ -83,7 +91,7 @@ namespace Microsoft.Bot.Solutions.Skills
                 try
                 {
                     var skillType = Type.GetType(skillDefinition.Assembly);
-                    _activatedSkill = (IBot)Activator.CreateInstance(skillType, skillConfiguration, conversationState, userState, true);
+                    _activatedSkill = (IBot)Activator.CreateInstance(skillType, skillConfiguration, conversationState, userState, null, true);
                 }
                 catch (Exception e)
                 {
@@ -157,10 +165,13 @@ namespace Microsoft.Bot.Solutions.Skills
                                 ));
 
                         // Uncomment this line to prompt user for login every time the skill requests a token
-                        // var a = dc.Context.Adapter as BotFrameworkAdapter;
-                        // await a.SignOutUserAsync(dc.Context, _skill.AuthConnectionName, dc.Context.Activity.From.Id, default(CancellationToken));
+                        //var a = dc.Context.Adapter as BotFrameworkAdapter;
+                        //var skillDefinition = dc.ActiveDialog.State[ActiveSkillStateKey] as SkillDefinition;
+                        //var skillConfiguration = _skills[skillDefinition.Id];
+                        //await a.SignOutUserAsync(dc.Context, skillConfiguration.AuthConnectionName, dc.Context.Activity.From.Id, default(CancellationToken));
 
-                        var authResult = await _authPrompt.BeginDialogAsync(dc);
+                        var innerDc = await _dialogs.CreateContextAsync(dc.Context);
+                        var authResult = await innerDc.BeginDialogAsync(nameof(OAuthPrompt));
                         if (authResult.Result?.GetType() == typeof(TokenResponse))
                         {
                             var tokenEvent = skillResponse.CreateReply();
