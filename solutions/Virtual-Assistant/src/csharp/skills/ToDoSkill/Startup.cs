@@ -1,115 +1,117 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using ToDoSkill.Dialogs.Shared.Resources;
+
 namespace ToDoSkill
 {
-    using System;
-    using System.Linq;
-    using global::ToDoSkill.Models;
-    using global::ToDoSkill.ServiceClients;
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Bot.Builder;
-    using Microsoft.Bot.Builder.AI.Luis;
-    using Microsoft.Bot.Builder.Azure;
-    using Microsoft.Bot.Builder.BotFramework;
-    using Microsoft.Bot.Builder.Dialogs;
-    using Microsoft.Bot.Builder.Integration;
-    using Microsoft.Bot.Builder.Integration.AspNet.Core;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Options;
-
-    /// <summary>
-    /// Bot App Startup.
-    /// </summary>
     public class Startup
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Startup"/> class.
-        /// This method gets called by the runtime. Use this method to add services to the container.
-        /// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940.
-        /// </summary>
-        /// <param name="env">Hosting Environment.</param>
+        private bool _isProduction = false;
+
         public Startup(IHostingEnvironment env)
         {
-            IConfigurationBuilder builder = new ConfigurationBuilder()
+            var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
-            this.Configuration = builder.Build();
+            Configuration = builder.Build();
         }
 
-        /// <summary>
-        /// Gets application Configuration.
-        /// </summary>
-        /// <value>
-        /// Application Configuration.
-        /// </value>
         public IConfiguration Configuration { get; }
 
-        /// <summary>
-        /// This method gets called by the runtime. Use this method to add services to the container.
-        /// </summary>
-        /// <param name="services">Service Collection.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton(sp =>
+            // Load the connected services from .bot file.
+            var botFilePath = Configuration.GetSection("botFilePath")?.Value;
+            var botFileSecret = Configuration.GetSection("botFileSecret")?.Value;
+            var botConfig = BotConfiguration.Load(botFilePath ?? @".\ToDoSkill.bot", botFileSecret);
+            services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded."));
+
+            // Initializes your bot service clients and adds a singleton that your Bot can access through dependency injection.
+            var parameters = Configuration.GetSection("Parameters")?.Get<string[]>();
+            var configuration = Configuration.GetSection("Configuration")?.Get<Dictionary<string, object>>();
+            var connectedServices = new SkillConfiguration(botConfig, parameters, configuration);
+            services.AddSingleton(sp => connectedServices);
+
+            // Initialize Bot State
+            var cosmosDbService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.CosmosDB) ?? throw new Exception("Please configure your CosmosDb service in your .bot file.");
+            var cosmosDb = cosmosDbService as CosmosDbService;
+            var cosmosOptions = new CosmosDbStorageOptions()
             {
-                var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
-                if (options == null)
-                {
-                    throw new InvalidOperationException("BotFrameworkOptions must be configured prior to setting up the State Accessors");
-                }
+                CosmosDBEndpoint = new Uri(cosmosDb.Endpoint),
+                AuthKey = cosmosDb.Key,
+                CollectionId = cosmosDb.Collection,
+                DatabaseId = cosmosDb.Database,
+            };
+            var dataStore = new CosmosDbStorage(cosmosOptions);
+            var userState = new UserState(dataStore);
+            var conversationState = new ConversationState(dataStore);
 
-                var conversationState = options.State.OfType<ConversationState>().FirstOrDefault();
-                if (conversationState == null)
-                {
-                    throw new InvalidOperationException("ConversationState must be defined and added before adding conversation-scoped state accessors.");
-                }
-
-                var accessors = new ToDoSkillAccessors
-                {
-                    ConversationDialogState = conversationState.CreateProperty<DialogState>("ToDoSkillDialogState"),
-                    ToDoSkillState = conversationState.CreateProperty<ToDoSkillState>("ToDoSkillState"),
-                };
-
-                return accessors;
-            });
-
-            services.AddSingleton<ToDoSkillServices>(sp =>
-            {
-                var toDoSkillService = new ToDoSkillServices();
-                var luisModels = this.Configuration.GetSection("services").Get<LanguageModel[]>();
-                var luis = luisModels[0];
-                var luisApp = new LuisApplication(luis.Id, luis.SubscriptionKey, "https://westus.api.cognitive.microsoft.com");
-                toDoSkillService.LuisRecognizer = new LuisRecognizer(luisApp, null, true);
-                var authConnectionNmae = this.Configuration.GetSection("authConnectionName")?.Value;
-                toDoSkillService.AuthConnectionName = authConnectionNmae;
-                return toDoSkillService;
-            });
+            services.AddSingleton(dataStore);
+            services.AddSingleton(userState);
+            services.AddSingleton(conversationState);
+            services.AddSingleton(new BotStateSet(userState, conversationState));
 
             services.AddTransient<IToDoService, ToDoService>();
 
+            // Add the bot with options
             services.AddBot<ToDoSkill>(options =>
             {
-                options.CredentialProvider = new ConfigurationCredentialProvider(this.Configuration);
+                // Load the connected services from .bot file.
+                var environment = _isProduction ? "production" : "development";
+                var service = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.Endpoint && s.Name == environment);
+                if (!(service is EndpointService endpointService))
+                {
+                    throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
+                }
+
+                options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+
+                // Telemetry Middleware (logs activity messages in Application Insights)
+                var appInsightsService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.AppInsights) ?? throw new Exception("Please configure your AppInsights connection in your .bot file.");
+                var instrumentationKey = (appInsightsService as AppInsightsService).InstrumentationKey;
+                var appInsightsLogger = new TelemetryLoggerMiddleware(instrumentationKey, logUserName: true, logOriginalMessage: true);
+                options.Middleware.Add(appInsightsLogger);
 
                 // Catches any errors that occur during a conversation turn and logs them to AppInsights.
                 options.OnTurnError = async (context, exception) =>
                 {
-                    await context.SendActivityAsync($"ToDoSkill: {exception.Message}");
-                    await context.SendActivityAsync(exception.StackTrace);
+                    await context.SendActivityAsync(context.Activity.CreateReply(ToDoSharedResponses.ToDoErrorMessage));
+                    await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"To Do Skill Error: {exception.Message} | {exception.StackTrace}"));
+                    connectedServices.TelemetryClient.TrackException(exception);
                 };
 
-                var transcriptStore = new AzureBlobTranscriptStore(this.Configuration.GetSection("AzureBlobConnectionString")?.Value, this.Configuration.GetSection("transcriptContainer")?.Value);
-                options.Middleware.Add(new TranscriptLoggerMiddleware(transcriptStore));
+                // Transcript Middleware (saves conversation history in a standard format)
+                var storageService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.BlobStorage) ?? throw new Exception("Please configure your Azure Storage service in your .bot file.");
+                var blobStorage = storageService as BlobStorageService;
+                var transcriptStore = new AzureBlobTranscriptStore(blobStorage.ConnectionString, blobStorage.Container);
+                var transcriptMiddleware = new TranscriptLoggerMiddleware(transcriptStore);
+                options.Middleware.Add(transcriptMiddleware);
 
-                IStorage memoryDataStore = new MemoryStorage();
-                options.State.Add(new ConversationState(memoryDataStore));
-                options.Middleware.Add(new AutoSaveStateMiddleware(options.State.ToArray()));
+                // Typing Middleware (automatically shows typing when the bot is responding/working)
+                var typingMiddleware = new ShowTypingMiddleware();
+                options.Middleware.Add(typingMiddleware);
+
+                options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
             });
         }
 
@@ -120,11 +122,7 @@ namespace ToDoSkill
         /// <param name="env">Hosting Environment.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
+            _isProduction = env.IsProduction();
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();

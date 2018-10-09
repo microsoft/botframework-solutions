@@ -89,31 +89,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj" />
+    <ProjectReference Include="..\skills\CalendarSkill\CalendarSkill.csproj" />
+    <ProjectReference Include="..\skills\EmailSkill\EmailSkill.csproj" />
+    <ProjectReference Include="..\skills\PointOfInterestSkill\PointOfInterestSkill.csproj" />
+    <ProjectReference Include="..\skills\ToDoSkill\ToDoSkill.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="CalendarSkill">
-      <HintPath>..\skills\bin\Debug\netcoreapp2.1\CalendarSkill.dll</HintPath>
-    </Reference>
-    <Reference Include="DemoSkill">
-      <HintPath>..\skills\bin\Debug\netcoreapp2.1\DemoSkill.dll</HintPath>
-    </Reference>
-    <Reference Include="EmailSkill">
-      <HintPath>..\skills\bin\Debug\netcoreapp2.1\EmailSkill.dll</HintPath>
-    </Reference>
-    <Reference Include="PointOfInterestSkill">
-      <HintPath>..\skills\bin\Debug\netcoreapp2.1\PointOfInterestSkill.dll</HintPath>
-    </Reference>
-    <Reference Include="ToDoSkill">
-      <HintPath>..\skills\bin\Debug\netcoreapp2.1\ToDoSkill.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy &quot;$(SolutionDir)skills\$(OutDir)Dialogs&quot; &quot;$(TargetDir)Dialogs&quot; /s /y /i&#xD;&#xA;xcopy &quot;$(SolutionDir)skills\$(OutDir)Resources&quot; &quot;$(TargetDir)Resources&quot; /s /y /i" />
-  </Target>
 
   <ItemGroup>
     <None Update="*.bot">

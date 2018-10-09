@@ -2,66 +2,86 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <UserSecretsId>6a3184c3-074e-45b9-ad93-eceb8268ec01</UserSecretsId>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <CodeAnalysisRuleSet>..\..\samples.ruleset</CodeAnalysisRuleSet>
-    <OutputPath>..\bin\$(Configuration)\</OutputPath>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <CodeAnalysisRuleSet>..\..\samples.ruleset</CodeAnalysisRuleSet>
-    <OutputPath>..\bin\$(Configuration)\</OutputPath>
+  <PropertyGroup>
+    <ApplicationInsightsResourceId>/subscriptions/4c0d07e4-5490-4784-8d89-d8c504ba2a75/resourcegroups/LamillsBot/providers/microsoft.insights/components/LamillsBot-insights</ApplicationInsightsResourceId>
+    <ApplicationInsightsAnnotationResourceId>/subscriptions/4c0d07e4-5490-4784-8d89-d8c504ba2a75/resourcegroups/LamillsBot/providers/microsoft.insights/components/LamillsBot-insights</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="DeploymentScripts\**" />
-    <Compile Remove="Dialogs\CreateEvent\Resources\**" />
-    <Compile Remove="Dialogs\DeleteEvent\Resources\**" />
-    <Compile Remove="Dialogs\Summary\Resources\**" />
-    <Compile Remove="Dialogs\UpdateEventTime\Resources\**" />
-    <Content Remove="DeploymentScripts\**" />
-    <Content Remove="Dialogs\CreateEvent\Resources\**" />
-    <Content Remove="Dialogs\DeleteEvent\Resources\**" />
-    <Content Remove="Dialogs\Summary\Resources\**" />
-    <Content Remove="Dialogs\UpdateEventTime\Resources\**" />
-    <EmbeddedResource Remove="DeploymentScripts\**" />
-    <EmbeddedResource Remove="Dialogs\CreateEvent\Resources\**" />
-    <EmbeddedResource Remove="Dialogs\DeleteEvent\Resources\**" />
-    <EmbeddedResource Remove="Dialogs\Summary\Resources\**" />
-    <EmbeddedResource Remove="Dialogs\UpdateEventTime\Resources\**" />
-    <None Remove="DeploymentScripts\**" />
-    <None Remove="Dialogs\CreateEvent\Resources\**" />
-    <None Remove="Dialogs\DeleteEvent\Resources\**" />
-    <None Remove="Dialogs\Summary\Resources\**" />
-    <None Remove="Dialogs\UpdateEventTime\Resources\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="ContextConstants.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="Dialogs\Shared\Resources\Cards\CalendarCard.json" />
-    <Content Remove="Dialogs\Shared\Resources\Cards\CalendarCardNoJoinButton.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="AdaptiveCards" Version="1.0.3" />
     <PackageReference Include="Google.Apis.Calendar.v3" Version="1.35.2.1354" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.4" />
-    <PackageReference Include="Microsoft.Azure.CognitiveServices.Language.TextAnalytics" Version="2.1.0-preview" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="0.12.1-preview" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.NewsSearch" Version="1.2.0" />
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.0.7" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.0.7" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.0.7" />
     <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.0.7" />
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.0.7" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.0.7" />
-    <PackageReference Include="Microsoft.Graph" Version="1.11.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.0.7" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.0.7" />
+    <PackageReference Include="Microsoft.Bot.Connector" Version="4.0.7" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.0.7" />
+    <PackageReference Include="Microsoft.Graph" Version="1.10.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Dialogs\Cancel\Resources\CancelStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CancelStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Dialogs\CreateEvent\Resources\CreateEventResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CreateEventResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Dialogs\DeleteEvent\Resources\DeleteEventResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DeleteEventResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Dialogs\Main\Resources\CalendarMainResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CalendarMainResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NextMeetingResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Dialogs\Shared\Resources\CalendarSharedResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CalendarSharedResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Dialogs\Summary\Resources\SummaryResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SummaryResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UpdateEventResponses.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Dialogs\Cancel\Resources\CancelStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CancelStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
   <ItemGroup>
@@ -69,48 +89,45 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Dialogs\Shared\Resources\Cards\CalendarCard.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Dialogs\Shared\Resources\Cards\CalendarCardNoJoinButton.json">
+    <None Update="*.bot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Dialogs\Shared\Resources\BotImages.Designer.cs">
-      <DependentUpon>BotImages.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Dialogs\Shared\Resources\BotStrings.Designer.cs">
-      <DependentUpon>BotStrings.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Dialogs\Shared\Resources\CalendarBotResponses.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>CalendarBotResponses.tt</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="Dialogs\Shared\Resources\CalendarBotResponses.en.json">
+    <None Update="Dialogs\CreateEvent\Resources\CreateEventResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CreateEventResponses.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\CalendarBotResponses.zh.json">
+    </None>
+    <None Update="Dialogs\DeleteEvent\Resources\DeleteEventResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DeleteEventResponses.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Dialogs\Shared\Resources\CalendarBotResponses.tt">
+    </None>
+    <None Update="Dialogs\Main\Resources\CalendarMainResponses.tt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <LastGenOutput>CalendarBotResponses.cs</LastGenOutput>
+      <LastGenOutput>CalendarMainResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
-    <None Update="Dialogs\Shared\Resources\WindowsIanaMapping">
+    <None Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>NextMeetingResponses.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Dialogs\Shared\Resources\CalendarSharedResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CalendarSharedResponses.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Dialogs\Summary\Resources\SummaryResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SummaryResponses.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UpdateEventResponses.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -120,14 +137,32 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Dialogs\Shared\Resources\BotImages.resx">
-      <LastGenOutput>BotImages.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Dialogs\Shared\Resources\BotStrings.resx">
-      <LastGenOutput>BotStrings.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
+    <Content Update="Dialogs\CreateEvent\Resources\CreateEventResponses.en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\DeleteEvent\Resources\DeleteEventResponses.en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\Main\Resources\CalendarMainResponses.en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\Shared\Resources\Cards\CalendarCard.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\Shared\Resources\Cards\CalendarCardNoJoinButton.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\Shared\Resources\CalendarSharedResponses.en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\Summary\Resources\SummaryResponses.en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
-
 </Project>

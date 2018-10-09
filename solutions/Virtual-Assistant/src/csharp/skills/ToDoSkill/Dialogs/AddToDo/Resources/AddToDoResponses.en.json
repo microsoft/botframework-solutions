@@ -1,0 +1,32 @@
+{
+  "AskToDoContentText": {
+    "replies": [
+      {
+        "text": "Sure. What do you want to put on the list?",
+        "speak": "Sure. What do you want to put on the list?"
+      },
+      {
+        "text": "Ok, what can I add to the list?",
+        "speak": "Ok, what can I add to the list?"
+      },
+      {
+        "text": "Alright, what do you want to put on the list?",
+        "speak": "Alright, what do you want to put on the list?"
+      },
+      {
+        "text": "What do you want to add to the list?",
+        "speak": "What do you want to add to the list?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AfterToDoTaskAdded": {
+    "replies": [
+      {
+        "text": "I have added the task {taskContent} to your list.",
+        "speak": "I have added the task {taskContent} to your list."
+      }
+    ],
+    "inputHint": "expectingInput"
+  }
+}
