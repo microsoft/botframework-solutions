@@ -65,9 +65,17 @@ namespace CalendarSkill
                         var speakParams = new StringDictionary()
                         {
                             { "EventName", nextEventList[0].Title },
-                            { "EventTime", nextEventList[0].StartTime.ToString("h:mm tt") },
                             { "PeopleCount", nextEventList[0].Attendees.Count.ToString() },
                         };
+                        if (nextEventList[0].IsAllDay == true)
+                        {
+                            speakParams.Add("EventTime", nextEventList[0].StartTime.ToString("MMMM dd all day"));
+                        }
+                        else
+                        {
+                            speakParams.Add("EventTime", nextEventList[0].StartTime.ToString("h:mm tt"));
+                        }
+
                         if (string.IsNullOrEmpty(nextEventList[0].Location))
                         {
                             await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(NextMeetingResponses.ShowNextMeetingNoLocationMessage, _responseBuilder, speakParams));
