@@ -15,6 +15,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.cs">
+      <DependentUpon>DeleteEmailResponses.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="DeploymentScripts\msbotClone\email.luis" />
   </ItemGroup>
 
@@ -105,6 +113,9 @@
     <Content Update="Dialogs\ConfirmRecipient\Resources\ConfirmRecipientResponses.en.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.en.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -139,6 +150,11 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ConfirmRecipientResponses.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.tt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LastGenOutput>DeleteEmailResponses.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
     </None>
     <None Update="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
