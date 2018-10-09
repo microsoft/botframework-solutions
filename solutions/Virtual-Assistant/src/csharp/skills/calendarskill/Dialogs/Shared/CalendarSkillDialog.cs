@@ -1139,9 +1139,17 @@ namespace CalendarSkill
                         var speakParams = new StringDictionary()
                         {
                             { "EventName", nextEventList[0].Title },
-                            { "EventTime", nextEventList[0].StartTime.ToString("h:mm tt") },
                             { "PeopleCount", nextEventList[0].Attendees.Count.ToString() },
                         };
+                        if (nextEventList[0].IsAllDay == true)
+                        {
+                            speakParams.Add("EventTime", nextEventList[0].StartTime.ToString("MMMM dd all day"));
+                        }
+                        else
+                        {
+                            speakParams.Add("EventTime", nextEventList[0].StartTime.ToString("h:mm tt"));
+                        }
+
                         if (string.IsNullOrEmpty(nextEventList[0].Location))
                         {
                             await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarBotResponses.ShowNextMeetingNoLocationMessage, _responseBuilder, speakParams));
@@ -1278,8 +1286,16 @@ namespace CalendarSkill
                         else
                         {
                             speakParams.Add("EventName2", todayEvents[todayEvents.Count - 1].Title);
-                            speakParams.Add("EventTime", todayEvents[todayEvents.Count - 1].StartTime.ToString("h:mm tt"));
-                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarBotResponses.ShowOneMeetingSummaryMessage, _responseBuilder, speakParams));
+                            if (todayEvents[todayEvents.Count - 1].IsAllDay == true)
+                            {
+                                speakParams.Add("EventTime", todayEvents[todayEvents.Count - 1].StartTime.ToString("MMMM dd all day"));
+                            }
+                            else
+                            {
+                                speakParams.Add("EventTime", todayEvents[todayEvents.Count - 1].StartTime.ToString("h:mm tt"));
+                            }
+
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarBotResponses.ShowMultipleMeetingSummaryMessage, _responseBuilder, speakParams));
                         }
                     }
 
