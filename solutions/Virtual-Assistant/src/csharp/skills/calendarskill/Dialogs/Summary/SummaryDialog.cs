@@ -151,7 +151,15 @@ namespace CalendarSkill
                         else
                         {
                             speakParams.Add("EventName2", todayEvents[todayEvents.Count - 1].Title);
-                            speakParams.Add("EventTime", todayEvents[todayEvents.Count - 1].StartTime.ToString("h:mm tt"));
+                            if (todayEvents[todayEvents.Count - 1].IsAllDay == true)
+                            {
+                                speakParams.Add("EventTime", todayEvents[todayEvents.Count - 1].StartTime.ToString("MMMM dd all day"));
+                            }
+                            else
+                            {
+                                speakParams.Add("EventTime", todayEvents[todayEvents.Count - 1].StartTime.ToString("h:mm tt"));
+                            }
+
                             await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowOneMeetingSummaryMessage, _responseBuilder, speakParams));
                         }
                     }
