@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -150,6 +151,31 @@ namespace PointOfInterestSkill
 
             switch (dc.Context.Activity.Name)
             {
+                case Events.SkillBeginEvent:
+                    {
+                        if (dc.Context.Activity.Value is Dictionary<string, object> userData)
+                        {
+                            if (userData.TryGetValue("IPA.Location", out var location))
+                            {
+                                var coords = ((string)location).Split(',');
+                                if (coords.Length == 2)
+                                {
+                                    if (double.TryParse(coords[0], out var lat) && double.TryParse(coords[1], out var lng))
+                                    {
+                                        var coordinates = new LatLng
+                                        {
+                                            Latitude = lat,
+                                            Longitude = lng,
+                                        };
+                                        state.CurrentCoordinates = coordinates;
+                                    }
+                                }
+                            }
+                        }
+
+                        break;
+                    }
+
                 case Events.Location:
                     {
                         // Test trigger with
@@ -320,6 +346,8 @@ namespace PointOfInterestSkill
             public const string ActiveLocation = "POI.ActiveLocation";
             public const string ActiveRoute = "POI.ActiveRoute";
             public const string Location = "IPA.Location";
+            public const string SkillBeginEvent = "skillBegin";
+
         }
     }
 }

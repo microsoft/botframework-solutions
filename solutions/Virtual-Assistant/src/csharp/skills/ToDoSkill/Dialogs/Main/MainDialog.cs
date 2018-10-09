@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
@@ -143,19 +144,35 @@ namespace ToDoSkill
 
         protected override async Task OnEventAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (dc.Context.Activity.Name == "tokens/response")
+            switch (dc.Context.Activity.Name)
             {
-                // Auth dialog completion
-                var result = await dc.ContinueDialogAsync();
+                case Events.SkillBeginEvent:
+                    {
+                        var state = await _stateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
 
-                // If the dialog completed when we sent the token, end the skill conversation
-                if (result.Status != DialogTurnStatus.Waiting)
-                {
-                    var response = dc.Context.Activity.CreateReply();
-                    response.Type = ActivityTypes.EndOfConversation;
+                        if (dc.Context.Activity.Value is Dictionary<string, object> userData)
+                        {
+                            // Capture user data from event if needed
+                        }
 
-                    await dc.Context.SendActivityAsync(response);
-                }
+                        break;
+                    }
+
+                case Events.TokenResponseEvent:
+                    {
+                        // Auth dialog completion
+                        var result = await dc.ContinueDialogAsync();
+
+                        // If the dialog completed when we sent the token, end the skill conversation
+                        if (result.Status != DialogTurnStatus.Waiting)
+                        {
+                            var response = dc.Context.Activity.CreateReply();
+                            response.Type = ActivityTypes.EndOfConversation;
+
+                            await dc.Context.SendActivityAsync(response);
+                        }
+                        break;
+                    }
             }
         }
 
@@ -250,6 +267,12 @@ namespace ToDoSkill
             AddDialog(new DeleteToDoItemDialog(_services, _stateAccessor, _serviceManager));
             AddDialog(new ShowToDoItemDialog(_services, _stateAccessor, _serviceManager));
             AddDialog(new CancelDialog());
+        }
+
+        private class Events
+        {
+            public const string TokenResponseEvent = "tokens/response";
+            public const string SkillBeginEvent = "skillBegin";
         }
     }
 }

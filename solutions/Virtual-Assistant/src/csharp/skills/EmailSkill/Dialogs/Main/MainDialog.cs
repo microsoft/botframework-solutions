@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.Main.Resources;
@@ -150,19 +151,39 @@ namespace EmailSkill
 
         protected override async Task OnEventAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (dc.Context.Activity.Name == "tokens/response")
+            switch (dc.Context.Activity.Name)
             {
-                // Auth dialog completion
-                var result = await dc.ContinueDialogAsync();
+                case Events.SkillBeginEvent:
+                    {
+                        var state = await _stateAccessor.GetAsync(dc.Context, () => new EmailSkillState());
 
-                // If the dialog completed when we sent the token, end the skill conversation
-                if (result.Status != DialogTurnStatus.Waiting)
-                {
-                    var response = dc.Context.Activity.CreateReply();
-                    response.Type = ActivityTypes.EndOfConversation;
+                        if (dc.Context.Activity.Value is Dictionary<string, object> userData)
+                        {
+                            if (userData.TryGetValue("IPA.Timezone", out var timezone))
+                            {
+                                // we have a timezone
+                                state.UserInfo.Timezone = (TimeZoneInfo)timezone;
+                            }
+                        }
 
-                    await dc.Context.SendActivityAsync(response);
-                }
+                        break;
+                    }
+
+                case Events.TokenResponseEvent:
+                    {
+                        // Auth dialog completion
+                        var result = await dc.ContinueDialogAsync();
+
+                        // If the dialog completed when we sent the token, end the skill conversation
+                        if (result.Status != DialogTurnStatus.Waiting)
+                        {
+                            var response = dc.Context.Activity.CreateReply();
+                            response.Type = ActivityTypes.EndOfConversation;
+
+                            await dc.Context.SendActivityAsync(response);
+                        }
+                        break;
+                    }
             }
         }
 
@@ -257,6 +278,12 @@ namespace EmailSkill
             AddDialog(new ShowEmailDialog(_services, _stateAccessor, _dialogStateAccessor, _serviceManager));
             AddDialog(new ReplyEmailDialog(_services, _stateAccessor, _dialogStateAccessor, _serviceManager));
             AddDialog(new CancelDialog());
+        }
+
+        private class Events
+        {
+            public const string TokenResponseEvent = "tokens/response";
+            public const string SkillBeginEvent = "skillBegin";
         }
     }
 }
