@@ -32,7 +32,8 @@ namespace Luis
             SelectItem, 
             SendEmail, 
             ShowNext, 
-            ShowPrevious
+            ShowPrevious,
+            Delete
         };
         public Dictionary<Intent, IntentScore> Intents;
 

@@ -1,7 +1,4 @@
 ﻿using EmailSkill.Dialogs.Shared.Resources;
-using EmailSkill.Dialogs.ShowEmail.Resources;
-using EmailSkill.Extensions;
-using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
@@ -85,10 +82,19 @@ namespace EmailSkill
         {
             try
             {
-                var state = await _emailStateAccessor.GetAsync(sc.Context);
-                var mailService = this._serviceManager.InitMailService(state.MsGraphToken, state.GetUserTimeZone());
-                var focusMessage = state.Message.FirstOrDefault();
-                await mailService.DeleteMessage(focusMessage.Id);
+                var confirmResult = (bool)sc.Result;
+                if (confirmResult == true)
+                {
+                    var state = await _emailStateAccessor.GetAsync(sc.Context);
+                    var mailService = this._serviceManager.InitMailService(state.MsGraphToken, state.GetUserTimeZone());
+                    var focusMessage = state.Message.FirstOrDefault();
+                    await mailService.DeleteMessage(focusMessage.Id);
+                }
+                else
+                {
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.CancellingMessage));
+                }
+
                 return await sc.EndDialogAsync();
             }
             catch (Exception ex)
