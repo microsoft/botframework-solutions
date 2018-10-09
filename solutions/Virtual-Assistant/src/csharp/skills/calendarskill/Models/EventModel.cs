@@ -571,6 +571,22 @@ namespace CalendarSkill
             }
         }
 
+        public bool? IsAllDay
+        {
+            get
+            {
+                switch (source)
+                {
+                    case EventSource.Microsoft:
+                        return msftEventData.IsAllDay;
+                    case EventSource.Google:
+                        return gmailEventData.Start.Date != null;
+                    default:
+                        throw new Exception("Event Type not Defined");
+                }
+            }
+        }
+
         public EventSource Source
         {
             get => source;
@@ -597,10 +613,28 @@ namespace CalendarSkill
                 textString += $"\n{eventItem.StartTime.ToString("dd-MM-yyyy")}";
             }
 
-            textString += $"\n{eventItem.StartTime.ToString("h:mm tt")} - {eventItem.EndTime.ToString("h:mm tt")}";
+            if (eventItem.IsAllDay == true)
+            {
+                textString += "\nAll Day";
+            }
+            else
+            {
+                textString += $"\n{eventItem.StartTime.ToString("h:mm tt")} - {eventItem.EndTime.ToString("h:mm tt")}";
+            }
+
             if (eventItem.Location != null)
             {
                 textString += $"\n{eventItem.Location}";
+            }
+
+            string speakString = string.Empty;
+            if (eventItem.IsAllDay == true)
+            {
+                speakString = $"{eventItem.Title} at {eventItem.StartTime.ToString("MMMM dd all day")}";
+            }
+            else
+            {
+                speakString = $"{eventItem.Title} at {eventItem.StartTime.ToString("h:mm tt")}";
             }
 
             return new CalendarCardData
