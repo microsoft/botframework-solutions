@@ -5,17 +5,17 @@
 
     public class SkillRouter
     {
-        private List<SkillService> _registeredSkills;
+        private List<SkillDefinition> _registeredSkills;
 
-        public SkillRouter(List<SkillService> registeredSkills)
+        public SkillRouter(List<SkillDefinition> registeredSkills)
         {
             // Retrieve any Skills that have been registered with the Bot
             _registeredSkills = registeredSkills;
         }
 
-        public SkillService IdentifyRegisteredSkill(string skillName)
+        public SkillDefinition IdentifyRegisteredSkill(string skillName)
         {
-            SkillService matchedSkill = null;
+            SkillDefinition matchedSkill = null;
 
             // Did we find any skills?
             if (_registeredSkills != null)

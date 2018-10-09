@@ -47,7 +47,7 @@ namespace VirtualAssistant
 
         public async Task<DialogTurnResult> AskForLocation(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            _state = await _accessor.GetAsync(sc.Context);
+            _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
             _state.Name = (string)sc.Result;
 
             return await sc.PromptAsync(LocationPrompt, new PromptOptions()

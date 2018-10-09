@@ -1,4 +1,4 @@
-﻿<#@ assembly name="$(SolutionDir)Lib\Newtonsoft.Json.dll" #>
+﻿<#@ assembly name="Newtonsoft.Json.dll" #>
 <#@ template debug="false" hostspecific="true" language="C#" #>
 <#@ output extension=".cs" #>
 <#

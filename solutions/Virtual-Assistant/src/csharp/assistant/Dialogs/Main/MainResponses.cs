@@ -25,10 +25,10 @@ namespace VirtualAssistant
         {
             ["default"] = new TemplateIdMap
             {
-                { Cancelled, (context, data) => MainStrings.CANCELLED },
-                { Completed, (context, data) => MainStrings.COMPLETED },
-                { Confused, (context, data) => MainStrings.CONFUSED },
-                { Greeting, (context, data) => MainStrings.GREETING },
+                { Cancelled, (context, data) => SendAcceptingInputReply(context, MainStrings.CANCELLED) },
+                { Completed, (context, data) => SendAcceptingInputReply(context, MainStrings.COMPLETED) },
+                { Confused, (context, data) => SendAcceptingInputReply(context, MainStrings.CONFUSED) },
+                { Greeting, (context, data) => SendAcceptingInputReply(context, MainStrings.GREETING) },
                 { Help, (context, data) => SendHelpCard(context, data) },
                 { Intro, (context, data) => SendIntroCard(context, data) },
             },
@@ -82,6 +82,15 @@ namespace VirtualAssistant
             }
             };
             return response;
+        }
+
+        public static IMessageActivity SendAcceptingInputReply(ITurnContext turnContext, string text)
+        {
+            var reply = turnContext.Activity.CreateReply();
+            reply.InputHint = InputHints.AcceptingInput;
+            reply.Text = text;
+
+            return reply;
         }
     }
 }

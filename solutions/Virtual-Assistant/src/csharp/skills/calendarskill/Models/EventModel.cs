@@ -338,7 +338,7 @@ namespace CalendarSkill
                     case EventSource.Microsoft:
                         return TimeZoneInfo.FindSystemTimeZoneById(msftEventData.Start.TimeZone);
                     case EventSource.Google:
-                        return TimeZoneInfo.FindSystemTimeZoneById(CalendarSkillHelper.TimeZoneConverter.IanaToWindows(gmailEventData.Start.TimeZone));
+                        return TimeZoneInfo.FindSystemTimeZoneById(TimeZoneConverter.IanaToWindows(gmailEventData.Start.TimeZone));
                     default:
                         throw new Exception("Event Type not Defined");
                 }
@@ -373,8 +373,8 @@ namespace CalendarSkill
                             gmailEventData.End = new Google.Apis.Calendar.v3.Data.EventDateTime();
                         }
 
-                        gmailEventData.Start.TimeZone = CalendarSkillHelper.TimeZoneConverter.WindowsToIana(value.Id);
-                        gmailEventData.End.TimeZone = CalendarSkillHelper.TimeZoneConverter.WindowsToIana(value.Id);
+                        gmailEventData.Start.TimeZone = TimeZoneConverter.WindowsToIana(value.Id);
+                        gmailEventData.End.TimeZone = TimeZoneConverter.WindowsToIana(value.Id);
                         break;
                     default:
                         throw new Exception("Event Type not Defined");

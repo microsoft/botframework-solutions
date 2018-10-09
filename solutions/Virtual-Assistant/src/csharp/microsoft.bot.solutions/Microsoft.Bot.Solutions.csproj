@@ -36,8 +36,6 @@
   <ItemGroup>
     <None Update="Resources\Cards\OnboardInfoCard.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>OnboardInfoCard.cs</LastGenOutput>
     </None>
     <None Update="Resources\CommonResponses.en.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -52,5 +50,7 @@
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties Resources_4Cards_4OnboardInfoCard_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

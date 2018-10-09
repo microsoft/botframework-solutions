@@ -1,57 +1,103 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
+﻿using EmailSkill.Dialogs.Shared.Resources;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Graph;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace EmailSkill
 {
-    /// <summary>
-    /// ReplyEmailDialog.
-    /// </summary>
     public class ReplyEmailDialog : EmailSkillDialog
     {
-        /// <summary>
-        /// ReplyEmailDialog Id.
-        /// </summary>
-        public const string Name = "replyEmailDialog";
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReplyEmailDialog"/> class.
-        /// </summary>
-        /// <param name="services">Email skill services.</param>
-        /// <param name="accessors">Email skill accessors.</param>
-        /// <param name="serviceManager">Email skill service manager.</param>
-        public ReplyEmailDialog(EmailSkillServices services, EmailSkillAccessors accessors, IMailSkillServiceManager serviceManager)
-            : base(Name, services, accessors, serviceManager)
+        public ReplyEmailDialog(
+            SkillConfiguration services,
+            IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
+            IStatePropertyAccessor<DialogState> dialogStateAccessor,
+            IMailSkillServiceManager serviceManager)
+            : base(nameof(ReplyEmailDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager)
         {
             var replyEmail = new WaterfallStep[]
             {
-                this.GetAuthToken,
-                this.AfterGetAuthToken,
-                this.CollectSelectedEmail,
-                this.CollectAdditionalText,
-                this.ConfirmBeforeSending,
-                this.ReplyEmail,
+                GetAuthToken,
+                AfterGetAuthToken,
+                CollectSelectedEmail,
+                CollectAdditionalText,
+                ConfirmBeforeSending,
+                ReplyEmail,
             };
 
             var showEmail = new WaterfallStep[]
             {
-                this.ShowEmails,
+                ShowEmails,
             };
 
             var updateSelectMessage = new WaterfallStep[]
             {
-                this.UpdateMessage,
-                this.PromptUpdateMessage,
-                this.AfterUpdateMessage,
+                UpdateMessage,
+                PromptUpdateMessage,
+                AfterUpdateMessage,
             };
-            this.AddDialog(new WaterfallDialog(Action.Reply, replyEmail));
+            AddDialog(new WaterfallDialog(Action.Reply, replyEmail));
 
             // Define the conversation flow using a waterfall model.
-            this.AddDialog(new WaterfallDialog(Action.Show, showEmail));
-            this.AddDialog(new WaterfallDialog(Action.UpdateSelectMessage, updateSelectMessage));
+            AddDialog(new WaterfallDialog(Action.Show, showEmail));
+            AddDialog(new WaterfallDialog(Action.UpdateSelectMessage, updateSelectMessage));
 
-            this.InitialDialogId = Action.Reply;
+            InitialDialogId = Action.Reply;
+        }
+
+        public async Task<DialogTurnResult> ReplyEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var confirmResult = (bool)sc.Result;
+                if (confirmResult)
+                {
+                    var state = await _emailStateAccessor.GetAsync(sc.Context);
+                    var token = state.MsGraphToken;
+                    var message = state.Message.FirstOrDefault();
+                    var content = state.Content;
+
+                    var service = _serviceManager.InitMailService(token, state.GetUserTimeZone());
+
+                    // reply user message.
+                    if (message != null)
+                    {
+                        await service.ReplyToMessage(message.Id, content);
+                    }
+
+                    var nameListString = $"To: {message?.From.EmailAddress.Name}";
+                    if (message?.ToRecipients.Count() > 1)
+                    {
+                        nameListString += $" + {message.ToRecipients.Count() - 1} more";
+                    }
+
+                    var emailCard = new EmailCardData
+                    {
+                        Subject = "RE: " + message?.Subject,
+                        NameList = nameListString,
+                        EmailContent = state.Content,
+                    };
+                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(EmailSharedResponses.SentSuccessfully, "Dialogs/Shared/Resources/Cards/EmailWithOutButtonCard.json", emailCard);
+
+                    await sc.Context.SendActivityAsync(replyMessage);
+                }
+                else
+                {
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.CancellingMessage));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw await HandleDialogExceptions(sc, ex);
+            }
+
+            await ClearConversationState(sc);
+            return await sc.EndDialogAsync(true);
         }
     }
 }
