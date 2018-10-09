@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Dialogs.Main.Resources;
@@ -161,19 +162,40 @@ namespace CalendarSkill
 
         protected override async Task OnEventAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (dc.Context.Activity.Name == "tokens/response")
+            switch (dc.Context.Activity.Name)
             {
-                // Auth dialog completion
-                var result = await dc.ContinueDialogAsync();
+                case Events.SkillBeginEvent:
+                    {
+                        var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
 
-                // If the dialog completed when we sent the token, end the skill conversation
-                if (result.Status != DialogTurnStatus.Waiting)
-                {
-                    var response = dc.Context.Activity.CreateReply();
-                    response.Type = ActivityTypes.EndOfConversation;
+                        if (dc.Context.Activity.Value is Dictionary<string, object> userData)
+                        {
+                            if (userData.TryGetValue("IPA.Timezone", out var timezone))
+                            {
+                                // we have a timezone
+                                state.UserInfo.Timezone = (TimeZoneInfo)timezone;
+                            }
+                        }
 
-                    await dc.Context.SendActivityAsync(response);
-                }
+                        state.EventSource = EventSource.Microsoft;
+                        break;
+                    }
+
+                case Events.TokenResponseEvent:
+                    {
+                        // Auth dialog completion
+                        var result = await dc.ContinueDialogAsync();
+
+                        // If the dialog completed when we sent the token, end the skill conversation
+                        if (result.Status != DialogTurnStatus.Waiting)
+                        {
+                            var response = dc.Context.Activity.CreateReply();
+                            response.Type = ActivityTypes.EndOfConversation;
+
+                            await dc.Context.SendActivityAsync(response);
+                        }
+                        break;
+                    }
             }
         }
 
@@ -269,6 +291,12 @@ namespace CalendarSkill
             AddDialog(new SummaryDialog(_services, _stateAccessor, _serviceManager));
             AddDialog(new UpdateEventDialog(_services, _stateAccessor, _serviceManager));
             AddDialog(new CancelDialog());
+        }
+
+        private class Events
+        {
+            public const string TokenResponseEvent = "tokens/response";
+            public const string SkillBeginEvent = "skillBegin";
         }
     }
 }

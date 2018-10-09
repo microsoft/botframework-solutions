@@ -14,11 +14,9 @@ namespace Microsoft.Bot.Solutions.Skills
     {
         // Constants
         private const string ActiveSkillStateKey = "ActiveSkill";
-        private const string TokenRequestEventName = "tokens/request";
-        private const string TokenResponseEventName = "tokens/response";
 
         // Fields
-        private static Dictionary<string, SkillConfiguration> _skills;
+        private Dictionary<string, SkillConfiguration> _skills;
         private IStatePropertyAccessor<DialogState> _accessor;
         private DialogSet _dialogs;
         private InProcAdapter _inProcAdapter;
@@ -30,9 +28,10 @@ namespace Microsoft.Bot.Solutions.Skills
         {
             _skills = skills;
             _accessor = accessor;
+            _dialogs = new DialogSet(_accessor);
         }
 
-        public override Task<DialogTurnResult> BeginDialogAsync(DialogContext dc, object options = null, CancellationToken cancellationToken = default(CancellationToken))
+        public override async Task<DialogTurnResult> BeginDialogAsync(DialogContext dc, object options = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var skillOptions = (SkillDialogOptions)options;
 
@@ -40,22 +39,10 @@ namespace Microsoft.Bot.Solutions.Skills
             var skillDefinition = skillOptions.SkillDefinition;
             dc.ActiveDialog.State[ActiveSkillStateKey] = skillDefinition;
 
-            // Set parameters
             var skillConfiguration = _skills[skillDefinition.Id];
 
-            if (skillDefinition.Parameters != null)
-            {
-                foreach (var parameter in skillDefinition.Parameters)
-                {
-                    if (skillOptions.Parameters.TryGetValue(parameter, out var paramValue))
-                    {
-                        skillConfiguration.Properties.Add(parameter, paramValue);
-                    }
-                }
-            }
-
             // Initialize authentication prompt
-            _dialogs = new DialogSet(_accessor);
+            _dialogs = _dialogs ?? new DialogSet(_accessor);
             _dialogs.Add(new OAuthPrompt(nameof(OAuthPrompt), new OAuthPromptSettings()
             {
                 ConnectionName = skillConfiguration.AuthConnectionName,
@@ -63,13 +50,38 @@ namespace Microsoft.Bot.Solutions.Skills
                 Text = $"Please login to access this feature.",
             }));
 
-            return Task.FromResult(EndOfTurn);
+            // Send parameters to skill in skillBegin event
+            var userData = new Dictionary<string, object>();
+
+            if (skillDefinition.Parameters != null)
+            {
+                foreach (var parameter in skillDefinition.Parameters)
+                {
+                    if (skillOptions.Parameters.TryGetValue(parameter, out var paramValue))
+                    {
+                        userData.TryAdd(parameter, paramValue);
+                    }
+                }
+            }
+
+            var activity = dc.Context.Activity;
+
+            var skillBeginEvent = new Activity(
+              type: ActivityTypes.Event,
+              channelId: activity.ChannelId,
+              from: new ChannelAccount(id: activity.From.Id, name: activity.From.Name),
+              recipient: new ChannelAccount(id: activity.Recipient.Id, name: activity.Recipient.Name),
+              conversation: new ConversationAccount(id: activity.Conversation.Id),
+              name: Events.SkillBeginEventName,
+              value: userData);
+
+            // Send event to Skill/Bot
+            return await ForwardToSkill(dc, skillBeginEvent);
         }
 
         public override async Task<DialogTurnResult> ContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var result = await ForwardToSkill(dc, dc.Context.Activity);
-            return result;
+            return await ForwardToSkill(dc, dc.Context.Activity);
         }
 
         private async Task InitializeSkill(DialogContext dc)
@@ -155,7 +167,7 @@ namespace Microsoft.Bot.Solutions.Skills
                     {
                         endOfConversation = true;
                     }
-                    else if (skillResponse?.Name == TokenRequestEventName)
+                    else if (skillResponse?.Name == Events.TokenRequestEventName)
                     {
                         // Send trace to emulator
                         await dc.Context.SendActivityAsync(
@@ -176,7 +188,7 @@ namespace Microsoft.Bot.Solutions.Skills
                         {
                             var tokenEvent = skillResponse.CreateReply();
                             tokenEvent.Type = ActivityTypes.Event;
-                            tokenEvent.Name = TokenResponseEventName;
+                            tokenEvent.Name = Events.TokenResponseEventName;
                             tokenEvent.Value = authResult.Result;
 
                             return await ForwardToSkill(dc, tokenEvent);
@@ -223,6 +235,13 @@ namespace Microsoft.Bot.Solutions.Skills
                 await dc.EndDialogAsync();
                 throw;
             }
+        }
+
+        private class Events
+        {
+            public const string SkillBeginEventName = "skillBegin";
+            public const string TokenRequestEventName = "tokens/request";
+            public const string TokenResponseEventName = "tokens/response";
         }
     }
 }

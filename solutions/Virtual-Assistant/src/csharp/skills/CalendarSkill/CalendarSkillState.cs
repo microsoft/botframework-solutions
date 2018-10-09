@@ -11,7 +11,7 @@ namespace CalendarSkill
         public CalendarSkillState()
         {
             User = new User();
-            UserInfo = null;
+            UserInfo = new UserInformation();
             Title = null;
             Content = null;
             StartDate = null;
@@ -35,7 +35,7 @@ namespace CalendarSkill
 
         public User User { get; set; }
 
-        public UserInformation UserInfo { get; set; }
+        public UserInformation UserInfo { get; set; } = new UserInformation();
 
         public Luis.Calendar LuisResult { get; set; }
 
@@ -90,7 +90,6 @@ namespace CalendarSkill
         public void Clear()
         {
             User = new User();
-            UserInfo = null;
             Title = null;
             Content = null;
             StartDate = null;

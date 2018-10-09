@@ -36,7 +36,7 @@ namespace EmailSkill
 
         public User User { get; set; }
 
-        public UserInformation UserInfo { get; set; }
+        public UserInformation UserInfo { get; set; } = new UserInformation();
 
         public List<Message> Message { get; set; }
 
