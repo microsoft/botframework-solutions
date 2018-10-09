@@ -47,7 +47,7 @@ namespace <#= namespaceName #>
 
                 jsonResponses = new Dictionary<string, Dictionary<string, BotResponse>>();
                 var dir = Path.GetDirectoryName(typeof(<#= className #>).Assembly.Location);
-                var resDir = Path.Combine(dir, "Dialogs\\ShowEmail\\Resources");
+                var resDir = Path.Combine(dir, "Dialogs\\DeleteEmail\\Resources");
 
                 var jsonFiles = Directory.GetFiles(resDir, JsonFileName);
                 foreach (var file in jsonFiles)

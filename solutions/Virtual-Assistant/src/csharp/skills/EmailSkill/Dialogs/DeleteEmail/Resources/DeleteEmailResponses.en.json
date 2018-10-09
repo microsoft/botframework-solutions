@@ -24,7 +24,7 @@
     "replies": [
       {
         "text": "Are you sure you want to delete?",
-        "speak": " Are you sure you want to delete?"
+        "speak": "Are you sure you want to delete?"
       }
     ],
     "inputHint": "expectingInput"

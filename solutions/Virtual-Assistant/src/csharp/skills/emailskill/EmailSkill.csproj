@@ -15,14 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.cs">
-      <DependentUpon>DeleteEmailResponses.tt</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="DeploymentScripts\msbotClone\email.luis" />
   </ItemGroup>
 
@@ -85,6 +77,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ShowEmailResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DeleteEmailResponses.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 
