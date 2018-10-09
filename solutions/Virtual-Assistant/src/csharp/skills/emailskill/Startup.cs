@@ -2,115 +2,117 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using EmailSkill.Models;
+using EmailSkill.Dialogs.Shared.Resources;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Azure;
-using Microsoft.Bot.Builder.BotFramework;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 
 namespace EmailSkill
 {
-    /// <summary>
-    /// Bot App Startup.
-    /// </summary>
     public class Startup
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Startup"/> class.
-        /// This method gets called by the runtime. Use this method to add services to the container.
-        /// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940.
-        /// </summary>
-        /// <param name="env">Hosting Environment.</param>
+        private bool _isProduction = false;
+
         public Startup(IHostingEnvironment env)
         {
-            IConfigurationBuilder builder = new ConfigurationBuilder()
+            var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
-            this.Configuration = builder.Build();
+            Configuration = builder.Build();
         }
 
-        /// <summary>
-        /// Gets application Configuration.
-        /// </summary>
-        /// <value>
-        /// Application Configuration.
-        /// </value>
         public IConfiguration Configuration { get; }
 
-        /// <summary>
-        /// This method gets called by the runtime. Use this method to add services to the container.
-        /// </summary>
-        /// <param name="services">Service Collection.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            // var botFilePath = Configuration.GetSection("BotFilePath")?.Value;
-            // var botFileSecret = Configuration.GetSection("BotFileSecret")?.Value;
+            // Load the connected services from .bot file.
+            var botFilePath = Configuration.GetSection("botFilePath")?.Value;
+            var botFileSecret = Configuration.GetSection("botFileSecret")?.Value;
+            var botConfig = BotConfiguration.Load(botFilePath ?? @".\EmailSkill.bot", botFileSecret);
+            services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded."));
 
-            //// Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
-            // var botConfig = BotConfiguration.LoadAsync(botFilePath).GetAwaiter().GetResult();
-            // services.AddSingleton(sp => botConfig);
+            // Initializes your bot service clients and adds a singleton that your Bot can access through dependency injection.
+            var parameters = Configuration.GetSection("Parameters")?.Get<string[]>();
+            var configuration = Configuration.GetSection("Configuration")?.Get<Dictionary<string, object>>();
+            var connectedServices = new SkillConfiguration(botConfig, parameters, configuration);
+            services.AddSingleton(sp => connectedServices);
 
-            //// Initializes your bot service clients and adds a singleton that your Bot can access through dependency injection.
-            // var connectedServices = InitBotServices(botConfig);
-            var luisModels = this.Configuration.GetSection("services").Get<LanguageModel[]>();
-
-            var luis = luisModels[0];
-            var emailSkillServices = new EmailSkillServices();
+            // Initialize Bot State
+            var cosmosDbService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.CosmosDB) ?? throw new Exception("Please configure your CosmosDb service in your .bot file.");
+            var cosmosDb = cosmosDbService as CosmosDbService;
+            var cosmosOptions = new CosmosDbStorageOptions()
             {
-                var luisApp = new LuisApplication(luis.Id, luis.SubscriptionKey, "https://westus.api.cognitive.microsoft.com");
-                var luisRecognizer = new LuisRecognizer(luisApp);
+                CosmosDBEndpoint = new Uri(cosmosDb.Endpoint),
+                AuthKey = cosmosDb.Key,
+                CollectionId = cosmosDb.Collection,
+                DatabaseId = cosmosDb.Database,
+            };
+            var dataStore = new CosmosDbStorage(cosmosOptions);
+            var userState = new UserState(dataStore);
+            var conversationState = new ConversationState(dataStore);
 
-                emailSkillServices.LuisRecognizer = luisRecognizer;
-            }
+            services.AddSingleton(dataStore);
+            services.AddSingleton(userState);
+            services.AddSingleton(conversationState);
+            services.AddSingleton(new BotStateSet(userState, conversationState));
 
-            services.AddSingleton(sp => emailSkillServices);
-
-            services.AddSingleton(sp =>
-            {
-                var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
-                if (options == null)
-                {
-                    throw new InvalidOperationException("BotFrameworkOptions must be configured prior to setting up the State Accessors");
-                }
-
-                var conversationState = options.State.OfType<ConversationState>().FirstOrDefault();
-                if (conversationState == null)
-                {
-                    throw new InvalidOperationException("ConversationState must be defined and added before adding conversation-scoped state accessors.");
-                }
-
-                var accessors = new EmailSkillAccessors
-                {
-                    ConversationDialogState = conversationState.CreateProperty<DialogState>("EmailSkillDialogState"),
-                    EmailSkillState = conversationState.CreateProperty<EmailSkillState>("EmailSkillState"),
-                };
-
-                return accessors;
-            });
-
+            // Initialize Email client
             services.AddSingleton<IMailSkillServiceManager, MailSkillServiceManager>();
 
+            // Add the bot with options
             services.AddBot<EmailSkill>(options =>
             {
-                options.CredentialProvider = new ConfigurationCredentialProvider(this.Configuration);
+                // Load the connected services from .bot file.
+                var environment = _isProduction ? "production" : "development";
+                var service = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.Endpoint && s.Name == environment);
+                if (!(service is EndpointService endpointService))
+                {
+                    throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
+                }
 
-                var transcriptStore = new AzureBlobTranscriptStore(this.Configuration.GetSection("AzureBlobConnectionString")?.Value, this.Configuration.GetSection("transcriptContainer")?.Value);
-                options.Middleware.Add(new TranscriptLoggerMiddleware(transcriptStore));
-                IStorage memoryDataStore = new MemoryStorage();
-                options.State.Add(new ConversationState(memoryDataStore));
-                options.Middleware.Add(new AutoSaveStateMiddleware(options.State.ToArray()));
+                options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+
+                // Telemetry Middleware (logs activity messages in Application Insights)
+                var appInsightsService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.AppInsights) ?? throw new Exception("Please configure your AppInsights connection in your .bot file.");
+                var instrumentationKey = (appInsightsService as AppInsightsService).InstrumentationKey;
+                var appInsightsLogger = new TelemetryLoggerMiddleware(instrumentationKey, logUserName: true, logOriginalMessage: true);
+                options.Middleware.Add(appInsightsLogger);
+
+                // Catches any errors that occur during a conversation turn and logs them to AppInsights.
+                options.OnTurnError = async (context, exception) =>
+                {
+                    await context.SendActivityAsync(context.Activity.CreateReply(EmailSharedResponses.EmailErrorMessage));
+                    await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Email Skill Error: {exception.Message} | {exception.StackTrace}"));
+                    connectedServices.TelemetryClient.TrackException(exception);
+                };
+
+                // Transcript Middleware (saves conversation history in a standard format)
+                var storageService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.BlobStorage) ?? throw new Exception("Please configure your Azure Storage service in your .bot file.");
+                var blobStorage = storageService as BlobStorageService;
+                var transcriptStore = new AzureBlobTranscriptStore(blobStorage.ConnectionString, blobStorage.Container);
+                var transcriptMiddleware = new TranscriptLoggerMiddleware(transcriptStore);
+                options.Middleware.Add(transcriptMiddleware);
+
+                // Typing Middleware (automatically shows typing when the bot is responding/working)
+                var typingMiddleware = new ShowTypingMiddleware();
+                options.Middleware.Add(typingMiddleware);
+
+                options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
             });
         }
 
@@ -121,11 +123,7 @@ namespace EmailSkill
         /// <param name="env">Hosting Environment.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
+            _isProduction = env.IsProduction();
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();

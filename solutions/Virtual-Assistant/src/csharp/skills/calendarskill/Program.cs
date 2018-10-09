@@ -1,8 +1,11 @@
-﻿namespace CalendarSkill
-{
-    using Microsoft.AspNetCore;
-    using Microsoft.AspNetCore.Hosting;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+
+namespace CalendarSkill
+{
     public class Program
     {
         public static void Main(string[] args)
@@ -12,6 +15,7 @@
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseApplicationInsights()
                 .UseStartup<Startup>()
                 .Build();
     }

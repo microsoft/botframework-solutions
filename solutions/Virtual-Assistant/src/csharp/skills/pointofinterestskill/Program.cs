@@ -1,12 +1,11 @@
-﻿// <copyright file="Program.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
-// </copyright>
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
 
 namespace PointOfInterestSkill
 {
-    using Microsoft.AspNetCore;
-    using Microsoft.AspNetCore.Hosting;
-
     public class Program
     {
         public static void Main(string[] args)
@@ -16,6 +15,7 @@ namespace PointOfInterestSkill
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseApplicationInsights()
                 .UseStartup<Startup>()
                 .Build();
     }
