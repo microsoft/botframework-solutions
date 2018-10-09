@@ -92,10 +92,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CognitiveModels\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj" />
   </ItemGroup>
 

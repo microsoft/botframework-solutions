@@ -50,10 +50,9 @@ namespace EmailSkill
                 }
 
                 var recipientConfirmedMessage = sc.Context.Activity.CreateReply(EmailSharedResponses.RecipientConfirmed, null, new StringDictionary() { { "UserName", await GetNameListString(sc) } });
-                var noSubjectMessage =
-                    sc.Context.Activity.CreateReply(SendEmailResponses.NoSubject);
+                var noSubjectMessage = sc.Context.Activity.CreateReply(SendEmailResponses.NoSubject);
                 noSubjectMessage.Text = recipientConfirmedMessage.Text + " " + noSubjectMessage.Text;
-                noSubjectMessage.Speak += recipientConfirmedMessage.Speak + " " + noSubjectMessage.Speak;
+                noSubjectMessage.Speak = recipientConfirmedMessage.Speak + " " + noSubjectMessage.Speak;
 
                 return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = noSubjectMessage, });
             }

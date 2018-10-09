@@ -24,7 +24,7 @@
         "speak": "You don't have any meetings."
       }
     ],
-    "inputHint": "acceptingInput"
+    "inputHint": "ignoringInput"
   },
   "ShowOneMeetingSummaryMessage": {
     "replies": [
@@ -33,7 +33,7 @@
         "speak": "I found {Count} events for you today: It is {EventName1} for {EventDuration}."
       }
     ],
-    "inputHint": "acceptingInput"
+    "inputHint": "ignoringInput"
   },
   "ReadOutPrompt": {
     "replies": [

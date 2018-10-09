@@ -95,12 +95,6 @@
     <ProjectReference Include="..\skills\ToDoSkill\ToDoSkill.csproj" />
   </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy &quot;$(SolutionDir)skills\$(OutDir)Dialogs&quot; &quot;$(TargetDir)Dialogs&quot; /s /y /i&#xD;&#xA;xcopy &quot;$(SolutionDir)skills\$(OutDir)Resources&quot; &quot;$(TargetDir)Resources&quot; /s /y /i" />
-  </Target>
-
   <ItemGroup>
     <None Update="*.bot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
