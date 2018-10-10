@@ -59,8 +59,8 @@ namespace ToDoSkill
                 var service = await _serviceManager.Init(state.MsGraphToken, state.OneNotePageId);
                 var page = await service.GetDefaultToDoPage();
                 state.OneNotePageId = page.Id;
-                await service.AddToDoToOneNote(state.TaskContent, page.ContentUrl);
-                var todosAndPageIdTuple = await service.GetMyToDoList();
+                await service.AddToDo(state.TaskContent, page.ContentUrl);
+                var todosAndPageIdTuple = await service.GetToDos();
                 state.OneNotePageId = todosAndPageIdTuple.Item2;
                 state.AllTasks = todosAndPageIdTuple.Item1;
                 state.ShowToDoPageIndex = 0;
@@ -78,7 +78,7 @@ namespace ToDoSkill
                 await sc.Context.SendActivityAsync(toDoListReply);
                 return await sc.EndDialogAsync(true);
             }
-            catch (Exception ex)
+            catch
             {
                 await HandleDialogExceptions(sc);
                 throw;
@@ -87,8 +87,16 @@ namespace ToDoSkill
 
         public async Task<DialogTurnResult> AskToDoTaskContent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var prompt = sc.Context.Activity.CreateReply(AddToDoResponses.AskToDoContentText);
-            return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
+            var state = await this._accessor.GetAsync(sc.Context);
+            if (!string.IsNullOrEmpty(state.TaskContent))
+            {
+                return await sc.NextAsync();
+            }
+            else
+            {
+                var prompt = sc.Context.Activity.CreateReply(AddToDoResponses.AskToDoContentText);
+                return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
+            }
         }
 
         public async Task<DialogTurnResult> AfterAskToDoTaskContent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -96,23 +104,29 @@ namespace ToDoSkill
             try
             {
                 var state = await _accessor.GetAsync(sc.Context);
-                if (sc.Result != null)
+                if (string.IsNullOrEmpty(state.TaskContent))
                 {
-                    sc.Context.Activity.Properties.TryGetValue("OriginText", out var toDoContent);
-                    state.TaskContent = toDoContent != null ? toDoContent.ToString() : sc.Context.Activity.Text;
-                    return await sc.EndDialogAsync(true);
+                    if (sc.Result != null)
+                    {
+                        sc.Context.Activity.Properties.TryGetValue("OriginText", out var toDoContent);
+                        state.TaskContent = toDoContent != null ? toDoContent.ToString() : sc.Context.Activity.Text;
+                        return await sc.EndDialogAsync(true);
+                    }
+                    else
+                    {
+                        return await sc.BeginDialogAsync(Action.CollectToDoTaskContent);
+                    }
                 }
                 else
                 {
-                    return await sc.BeginDialogAsync(Action.CollectToDoTaskContent);
+                    return await sc.EndDialogAsync(true);
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 await HandleDialogExceptions(sc);
                 throw;
             }
         }
-
     }
 }

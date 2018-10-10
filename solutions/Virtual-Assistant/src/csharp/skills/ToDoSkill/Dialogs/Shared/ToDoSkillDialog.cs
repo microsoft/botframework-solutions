@@ -12,6 +12,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -172,8 +173,9 @@ namespace ToDoSkill
             }
             else if (topIntent == ToDo.Intent.MarkToDo || topIntent == ToDo.Intent.DeleteToDo)
             {
-                state.TaskIndex = -1;
+                state.TaskIndexes = new List<int>();
                 state.MarkOrDeleteAllTasksFlag = false;
+                state.TaskContent = null;
                 await DigestToDoLuisResult(sc, state.LuisResult);
             }
 
@@ -188,8 +190,11 @@ namespace ToDoSkill
         public async Task<DialogTurnResult> AskToDoTaskIndex(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await _accessor.GetAsync(sc.Context);
-            if (state.MarkOrDeleteAllTasksFlag
-                || (state.TaskIndex >= 0 && state.TaskIndex < state.Tasks.Count))
+            if (!string.IsNullOrEmpty(state.TaskContent)
+                || state.MarkOrDeleteAllTasksFlag
+                || (state.TaskIndexes.Count == 1
+                    && state.TaskIndexes[0] >= 0 
+                    && state.TaskIndexes[0] < state.Tasks.Count))
             {
                 return await sc.NextAsync();
             }
@@ -203,19 +208,53 @@ namespace ToDoSkill
         public async Task<DialogTurnResult> AfterAskToDoTaskIndex(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await _accessor.GetAsync(sc.Context);
-            if (!state.MarkOrDeleteAllTasksFlag
-                && (state.TaskIndex < 0 || state.TaskIndex >= state.Tasks.Count))
+            if (string.IsNullOrEmpty(state.TaskContent)
+                && !state.MarkOrDeleteAllTasksFlag
+                && (state.TaskIndexes.Count == 0
+                    || state.TaskIndexes[0] < 0
+                    || state.TaskIndexes[0] >= state.Tasks.Count))
             {
                 await DigestToDoLuisResult(sc, state.LuisResult);
             }
 
-            if (state.MarkOrDeleteAllTasksFlag
-                || (state.TaskIndex >= 0 && state.TaskIndex < state.Tasks.Count))
+            var matchedIndexes = Enumerable.Range(0, state.AllTasks.Count)
+                .Where(i => state.AllTasks[i].Topic.Equals(state.TaskContent, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            if (matchedIndexes?.Count > 0)
             {
+                state.TaskIndexes = matchedIndexes;
                 return await sc.EndDialogAsync(true);
             }
             else
             {
+                var userInput = sc.Context.Activity.Text;
+                matchedIndexes = Enumerable.Range(0, state.AllTasks.Count)
+                    .Where(i => state.AllTasks[i].Topic.Equals(userInput, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+
+                if (matchedIndexes?.Count > 0)
+                {
+                    state.TaskIndexes = matchedIndexes;
+                    return await sc.EndDialogAsync(true);
+                }
+            }
+
+            if (state.MarkOrDeleteAllTasksFlag)
+            {
+                return await sc.EndDialogAsync(true);
+            }
+
+            if (state.TaskIndexes.Count == 1
+                && state.TaskIndexes[0] >= 0
+                && state.TaskIndexes[0] < state.Tasks.Count)
+            {
+                state.TaskIndexes[0] = (state.PageSize * state.ShowToDoPageIndex) + state.TaskIndexes[0];
+                return await sc.EndDialogAsync(true);
+            }
+            else
+            {
+                state.TaskContent = null;
                 return await sc.BeginDialogAsync(Action.CollectToDoTaskIndex);
             }
         }
@@ -246,18 +285,30 @@ namespace ToDoSkill
             {
                 var state = await _accessor.GetAsync(dc.Context);
                 var entities = luisResult.Entities;
-                if (luisResult.Entities.ContainsAll != null)
+                if (entities.ContainsAll != null)
                 {
                     state.MarkOrDeleteAllTasksFlag = true;
                 }
 
-                if (luisResult.Entities.ordinal != null)
+                if (entities.ordinal != null)
                 {
-                    var index = (int)luisResult.Entities.ordinal[0];
+                    var index = (int)entities.ordinal[0];
                     if (index > 0 && index <= 5)
                     {
-                        state.TaskIndex = index - 1;
+                        if (state.TaskIndexes.Count > 0)
+                        {
+                            state.TaskIndexes[0] = index - 1;
+                        }
+                        else
+                        {
+                            state.TaskIndexes.Add(index - 1);
+                        }
                     }
+                }
+
+                if (entities.TaskContent != null)
+                {
+                    state.TaskContent = entities.TaskContent[0];
                 }
 
                 if (dc.Context.Activity.Text != null)
