@@ -58,7 +58,7 @@ namespace ToDoSkill
                 if (topIntent == ToDo.Intent.ShowToDo || topIntent == ToDo.Intent.None)
                 {
                     var service = await _serviceManager.Init(state.MsGraphToken, state.OneNotePageId);
-                    var todosAndPageIdTuple = await service.GetMyToDoList();
+                    var todosAndPageIdTuple = await service.GetToDos();
                     state.OneNotePageId = todosAndPageIdTuple.Item2;
                     state.AllTasks = todosAndPageIdTuple.Item1;
                 }
@@ -110,7 +110,7 @@ namespace ToDoSkill
                     return await sc.EndDialogAsync(true);
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 await HandleDialogExceptions(sc);
                 throw;
@@ -148,7 +148,7 @@ namespace ToDoSkill
                     return await sc.BeginDialogAsync(Action.AddFirstTask);
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 await HandleDialogExceptions(sc);
                 throw;
