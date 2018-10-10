@@ -29,7 +29,7 @@ namespace EmailSkill
                 AfterGetAuthToken,
                 ShowEmailsWithoutEnd,
                 PromptToRead,
-                CallReadEmailDialog,
+                CallReadOrDeleteDialog,
             };
 
             var readEmail = new WaterfallStep[]
@@ -41,6 +41,7 @@ namespace EmailSkill
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Action.Show, showEmail));
             AddDialog(new WaterfallDialog(Action.Read, readEmail));
+            AddDialog(new DeleteEmailDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager));
             InitialDialogId = Action.Show;
         }
 
@@ -114,10 +115,24 @@ namespace EmailSkill
             }
         }
 
-        public async Task<DialogTurnResult> CallReadEmailDialog(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> CallReadOrDeleteDialog(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
+                var state = await _emailStateAccessor.GetAsync(sc.Context);
+                var luisResult = state.LuisResult;
+
+                var topIntent = luisResult?.TopIntent().intent;
+                if (topIntent == null)
+                {
+                    return await sc.EndDialogAsync(true);
+                }
+
+                if (topIntent == Email.Intent.Delete)
+                {
+                    return await sc.BeginDialogAsync(Action.Delete);
+                }
+
                 return await sc.BeginDialogAsync(Action.Read);
             }
             catch (Exception ex)

@@ -78,6 +78,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ShowEmailResponses.tt</DependentUpon>
     </Compile>
+    <Compile Update="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DeleteEmailResponses.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -103,6 +108,9 @@
 
   <ItemGroup>
     <Content Update="Dialogs\ConfirmRecipient\Resources\ConfirmRecipientResponses.en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.en.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.en.json">
@@ -139,6 +147,11 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ConfirmRecipientResponses.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.tt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LastGenOutput>DeleteEmailResponses.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
     </None>
     <None Update="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

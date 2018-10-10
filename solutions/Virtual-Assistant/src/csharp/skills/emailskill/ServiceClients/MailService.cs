@@ -268,5 +268,15 @@ namespace EmailSkill
             // This operation doesn't return anything.
             await this._graphClient.Me.Messages[id].Forward(comment, re).Request().PostAsync();
         }
+
+        /// <summary>
+        /// Delete a specific message.
+        /// </summary>
+        /// <param name="id">Message id.</param>
+        /// <returns></returns>
+        public async Task DeleteMessage(string id)
+        {
+            await this._graphClient.Me.Messages[id].Request().DeleteAsync();
+        }
     }
 }
