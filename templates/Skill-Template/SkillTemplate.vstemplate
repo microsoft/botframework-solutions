@@ -1,0 +1,80 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>Skill Template</Name>
+    <Description>Base template for a Bot Skill project.</Description>
+    <ProjectType>CSharp</ProjectType>
+    <ProjectSubType>
+    </ProjectSubType>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>Skill</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <CreateInPlace>true</CreateInPlace>
+    <Icon>__TemplateIcon.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <Project TargetFileName="$safeprojectname$.csproj" File="SkillTemplate.csproj" ReplaceParameters="true">
+      <Folder Name="Connected Services" TargetFolderName="Connected Services">
+        <Folder Name="Application Insights" TargetFolderName="Application Insights">
+          <ProjectItem ReplaceParameters="true" TargetFileName="ConnectedService.json">ConnectedService.json</ProjectItem>
+        </Folder>
+      </Folder>
+      <Folder Name="Properties" TargetFolderName="Properties">
+        <ProjectItem ReplaceParameters="true" TargetFileName="launchSettings.json">launchSettings.json</ProjectItem>
+      </Folder>
+      <Folder Name="wwwroot" TargetFolderName="wwwroot">
+        <ProjectItem ReplaceParameters="true" TargetFileName="default.htm">default.htm</ProjectItem>
+      </Folder>
+      <Folder Name="DeploymentScripts" TargetFolderName="DeploymentScripts">
+        <Folder Name="msbotClone" TargetFolderName="msbotClone">
+          <ProjectItem ReplaceParameters="false" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="skill.luis">skill.luis</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="general.luis">general.luis</ProjectItem>
+        </Folder>
+      </Folder>
+      <Folder Name="Dialogs" TargetFolderName="Dialogs">
+        <Folder Name="Cancel" TargetFolderName="Cancel">
+          <Folder Name="Resources" TargetFolderName="Resources">
+            <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.resx">CancelStrings.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.Designer.cs">CancelStrings.Designer.cs</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="true" TargetFileName="CancelDialog.cs">CancelDialog.cs</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="CancelResponses.cs">CancelResponses.cs</ProjectItem>
+        </Folder>
+        <Folder Name="Main" TargetFolderName="Main">
+          <Folder Name="Resources" TargetFolderName="Resources">
+            <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$MainResponses.en.json">MainResponses.en.json</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$MainResponses.tt">MainResponses.tt</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$MainResponses.cs">MainResponses.cs</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="true" TargetFileName="MainDialog.cs">MainDialog.cs</ProjectItem>
+        </Folder>
+        <Folder Name="Shared" TargetFolderName="Shared">
+          <Folder Name="DialogOptions" TargetFolderName="DialogOptions">
+            <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$DialogOptions.cs">MySkillDialogOptions.cs</ProjectItem>
+          </Folder>
+          <Folder Name="Resources" TargetFolderName="Resources">
+            <ProjectItem ReplaceParameters="true" TargetFileName="Skill.cs">Skill.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$SharedResponses.en.json">SharedResponses.en.json</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$SharedResponses.tt">SharedResponses.tt</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$SharedResponses.cs">SharedResponses.cs</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$Dialog.cs">MySkillDialog.cs</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$ResponseBuilder.cs">MySkillResponseBuilder.cs</ProjectItem>
+        </Folder>
+      </Folder>
+      <Folder Name="ServiceClients" TargetFolderName="ServiceClients">
+        <ProjectItem ReplaceParameters="true" TargetFileName="IServiceManager.cs">IServiceManager.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="ServiceManager.cs">ServiceManager.cs</ProjectItem>
+      </Folder>
+      <ProjectItem ReplaceParameters="true" TargetFileName="appsettings.json">appsettings.json</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.cs">MySkill.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$State.cs">MySkillState.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Program.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="readme.md">readme.md</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Startup.cs">Startup.cs</ProjectItem>
+    </Project>
+  </TemplateContent>
+</VSTemplate>
