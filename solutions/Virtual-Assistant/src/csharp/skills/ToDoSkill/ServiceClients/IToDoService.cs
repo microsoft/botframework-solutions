@@ -16,8 +16,8 @@ namespace ToDoSkill
         /// <summary>
         /// Get To Do list.
         /// </summary>
-        /// <returns>Tuple of To Do task activities and onenote page id.</returns>
-        Task<Tuple<List<ToDoItem>, string>> GetMyToDoList();
+        /// <returns>Tuple of to dos and onenote page id.</returns>
+        Task<Tuple<List<ToDoItem>, string>> GetToDos();
 
         /// <summary>
         /// Get default To Do page.
@@ -26,39 +26,39 @@ namespace ToDoSkill
         Task<OnenotePage> GetDefaultToDoPage();
 
         /// <summary>
-        /// Add To Do to onenote page.
+        /// Add to do to onenote page.
         /// </summary>
         /// <param name="todoText">To Do text.</param>
         /// <param name="pageContentUrl">page content url.</param>
         /// <returns>Ture if succeed.</returns>
-        Task<bool> AddToDoToOneNote(string todoText, string pageContentUrl);
+        Task<bool> AddToDo(string todoText, string pageContentUrl);
 
         /// <summary>
-        /// Mark to do item as completed.
-        /// </summary>
-        /// <param name="toDoActivity">To Do activity.</param>
-        /// <param name="pageContentUrl">page content url.</param>
-        /// <returns>True if succeed.</returns>
-        Task<bool> MarkToDoItemCompleted(ToDoItem toDoActivity, string pageContentUrl);
-
-        /// <summary>
-        /// Mark all to do items as completed.
+        /// Mark to dos as completed.
         /// </summary>
         /// <param name="toDoActivities">To Do activities.</param>
         /// <param name="pageContentUrl">page content url.</param>
         /// <returns>True if succeed.</returns>
-        Task<bool> MarkAllToDoItemsCompleted(List<ToDoItem> toDoActivities, string pageContentUrl);
+        Task<bool> MarkToDosCompleted(List<ToDoItem> toDoActivities, string pageContentUrl);
 
         /// <summary>
-        /// Delete To Do.
+        /// Mark all to dos as completed.
         /// </summary>
-        /// <param name="toDoActivity">To Do activity.</param>
+        /// <param name="toDoActivities">To Do activities.</param>
         /// <param name="pageContentUrl">page content url.</param>
         /// <returns>True if succeed.</returns>
-        Task<bool> DeleteToDo(ToDoItem toDoActivity, string pageContentUrl);
+        Task<bool> MarkAllToDosCompleted(List<ToDoItem> toDoActivities, string pageContentUrl);
 
         /// <summary>
-        /// Delete all To Dos.
+        /// Delete to dos.
+        /// </summary>
+        /// <param name="toDoActivities">To Do activities.</param>
+        /// <param name="pageContentUrl">page content url.</param>
+        /// <returns>True if succeed.</returns>
+        Task<bool> DeleteToDos(List<ToDoItem> toDoActivities, string pageContentUrl);
+
+        /// <summary>
+        /// Delete all to dos.
         /// </summary>
         /// <param name="toDoActivities">To Do activities.</param>
         /// <param name="pageContentUrl">page content url.</param>

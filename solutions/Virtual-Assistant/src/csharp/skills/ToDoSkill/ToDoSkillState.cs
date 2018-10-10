@@ -15,7 +15,7 @@ namespace ToDoSkill
             TaskContent = null;
             Task = new ToDoItem();
             Tasks = new List<ToDoItem>();
-            TaskIndex = -1;
+            TaskIndexes = new List<int>();
             MsGraphToken = null;
             ShowToDoPageIndex = 0;
             AllTasks = new List<ToDoItem>();
@@ -72,7 +72,7 @@ namespace ToDoSkill
         /// <value>
         /// ToDoTaskIndex.
         /// </value>
-        public int TaskIndex { get; set; }
+        public List<int> TaskIndexes { get; set; }
 
         /// <summary>
         /// Gets or sets MsGraphToken.
@@ -146,7 +146,7 @@ namespace ToDoSkill
             TaskContent = null;
             Task = new ToDoItem();
             Tasks = new List<ToDoItem>();
-            TaskIndex = -1;
+            TaskIndexes = new List<int>();
             MsGraphToken = null;
             ShowToDoPageIndex = 0;
             AllTasks = new List<ToDoItem>();
