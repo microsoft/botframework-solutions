@@ -39,11 +39,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Dialogs\AddToDo\Resources\AddToDoResponses.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>AddToDoResponses.tt</DependentUpon>
-    </Compile>
     <Compile Update="Dialogs\Cancel\Resources\CancelStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -98,9 +93,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Dialogs\AddToDo\Resources\AddToDoResponses.en.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Update="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.en.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -119,11 +111,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Dialogs\AddToDo\Resources\AddToDoResponses.tt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <LastGenOutput>AddToDoResponses.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
     <None Update="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.tt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <LastGenOutput>DeleteToDoResponses.cs</LastGenOutput>
@@ -153,6 +140,10 @@
 
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Dialogs\AddToDo\Resources\" />
   </ItemGroup>
 
 </Project>

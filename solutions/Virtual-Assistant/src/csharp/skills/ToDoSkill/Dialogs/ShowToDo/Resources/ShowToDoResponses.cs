@@ -23,10 +23,6 @@ namespace ToDoSkill.Dialogs.ShowToDo.Resources
 
         // Generated code:
         // This code runs in the text json:
-        public static BotResponse SettingUpOneNoteMessage => GetBotResponse();
-
-        public static BotResponse ShowToDoTasks => GetBotResponse();
-
         public static BotResponse ReadToDoTasks => GetBotResponse();
 
         public static BotResponse ShowNextToDoTasks => GetBotResponse();
