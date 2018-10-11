@@ -127,7 +127,7 @@ namespace ToDoSkill
 
         public async Task<DialogTurnResult> AddFirstTask(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await sc.BeginDialogAsync(Action.AddFirstTask, sc.Options);
+            return await sc.BeginDialogAsync(Action.AddFirstTask);
         }
 
         public async Task<DialogTurnResult> AskAddFirstTaskConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
