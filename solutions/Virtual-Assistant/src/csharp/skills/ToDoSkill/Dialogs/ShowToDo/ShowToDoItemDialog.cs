@@ -33,12 +33,20 @@ namespace ToDoSkill
             {
                 AskAddFirstTaskConfirmation,
                 AfterAskAddFirstTaskConfirmation,
+                CollectToDoTaskContent,
+                AddToDoTask
+            };
+
+            var collectToDoTaskContent = new WaterfallStep[]
+            {
+                AskToDoTaskContent,
+                AfterAskToDoTaskContent,
             };
 
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Action.ShowToDoTasks, showToDoTasks));
             AddDialog(new WaterfallDialog(Action.AddFirstTask, addFirstTask));
-            AddDialog(new AddToDoItemDialog(_services, _accessor, _serviceManager));
+            AddDialog(new WaterfallDialog(Action.CollectToDoTaskContent, collectToDoTaskContent));
 
             // Set starting dialog for component
             InitialDialogId = Action.ShowToDoTasks;
@@ -51,7 +59,7 @@ namespace ToDoSkill
                 var state = await _accessor.GetAsync(sc.Context);
                 if (string.IsNullOrEmpty(state.OneNotePageId))
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ShowToDoResponses.SettingUpOneNoteMessage));
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
                 }
 
                 var topIntent = state.LuisResult?.TopIntent().intent;
@@ -78,7 +86,7 @@ namespace ToDoSkill
                         toDoListAttachment = ToAdaptiveCardAttachmentForShowToDos(
                             state.Tasks,
                             state.AllTasks.Count,
-                            ShowToDoResponses.ShowToDoTasks,
+                            ToDoSharedResponses.ShowToDoTasks,
                             ShowToDoResponses.ReadToDoTasks);
                     }
                     else if (topIntent == ToDo.Intent.Next)
@@ -136,7 +144,8 @@ namespace ToDoSkill
                 var topIntent = state.LuisResult?.TopIntent().intent;
                 if (topIntent == ToDo.Intent.ConfirmYes)
                 {
-                    return await sc.BeginDialogAsync(nameof(AddToDoItemDialog));
+                    state.TaskContent = null;
+                    return await sc.NextAsync();
                 }
                 else if (topIntent == ToDo.Intent.ConfirmNo)
                 {
