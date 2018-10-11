@@ -10,6 +10,14 @@
     <ApplicationInsightsAnnotationResourceId>/subscriptions/4c0d07e4-5490-4784-8d89-d8c504ba2a75/resourcegroups/LamillsBot/providers/microsoft.insights/components/LamillsBot-insights</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <CodeAnalysisRuleSet>..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <CodeAnalysisRuleSet>..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="DeploymentScripts\msbotClone\email.luis" />
   </ItemGroup>
