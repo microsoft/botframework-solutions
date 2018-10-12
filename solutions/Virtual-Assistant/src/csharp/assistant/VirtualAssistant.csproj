@@ -93,7 +93,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DeploymentScripts\msbotClone\" />
+    <Folder Include="DeploymentScripts\en\msbotClone\" />
     <Folder Include="Dialogs\Shared\Resources\" />
   </ItemGroup>
 
