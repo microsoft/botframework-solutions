@@ -1,12 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace ToDoSkill.ServiceClients
+namespace ToDoSkill
 {
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using global::ToDoSkill.Models;
     using Microsoft.Graph;
 
     /// <summary>
@@ -17,8 +16,8 @@ namespace ToDoSkill.ServiceClients
         /// <summary>
         /// Get To Do list.
         /// </summary>
-        /// <returns>Tuple of To Do task activities and onenote page id.</returns>
-        Task<Tuple<List<ToDoTaskActivityModel>, string>> GetMyToDoList();
+        /// <returns>Tuple of to dos and onenote page id.</returns>
+        Task<Tuple<List<ToDoItem>, string>> GetToDos();
 
         /// <summary>
         /// Get default To Do page.
@@ -27,44 +26,44 @@ namespace ToDoSkill.ServiceClients
         Task<OnenotePage> GetDefaultToDoPage();
 
         /// <summary>
-        /// Add To Do to onenote page.
+        /// Add to do to onenote page.
         /// </summary>
         /// <param name="todoText">To Do text.</param>
         /// <param name="pageContentUrl">page content url.</param>
         /// <returns>Ture if succeed.</returns>
-        Task<bool> AddToDoToOneNote(string todoText, string pageContentUrl);
+        Task<bool> AddToDo(string todoText, string pageContentUrl);
 
         /// <summary>
-        /// Mark to do item as completed.
-        /// </summary>
-        /// <param name="toDoTaskActivities">To Do activities.</param>
-        /// <param name="pageContentUrl">page content url.</param>
-        /// <returns>True if succeed.</returns>
-        Task<bool> MarkToDoItemsCompleted(List<ToDoTaskActivityModel> toDoTaskActivities, string pageContentUrl);
-
-        /// <summary>
-        /// Mark all to do items as completed.
+        /// Mark to dos as completed.
         /// </summary>
         /// <param name="toDoActivities">To Do activities.</param>
         /// <param name="pageContentUrl">page content url.</param>
         /// <returns>True if succeed.</returns>
-        Task<bool> MarkAllToDoItemsCompleted(List<ToDoTaskActivityModel> toDoActivities, string pageContentUrl);
+        Task<bool> MarkToDosCompleted(List<ToDoItem> toDoActivities, string pageContentUrl);
 
         /// <summary>
-        /// Delete To Do.
-        /// </summary>
-        /// <param name="toDoTaskActivities">To Do task activities.</param>
-        /// <param name="pageContentUrl">page content url.</param>
-        /// <returns>True if succeed.</returns>
-        Task<bool> DeleteToDos(List<ToDoTaskActivityModel> toDoTaskActivities, string pageContentUrl);
-
-        /// <summary>
-        /// Delete all To Dos.
+        /// Mark all to dos as completed.
         /// </summary>
         /// <param name="toDoActivities">To Do activities.</param>
         /// <param name="pageContentUrl">page content url.</param>
         /// <returns>True if succeed.</returns>
-        Task<bool> DeleteAllToDos(List<ToDoTaskActivityModel> toDoActivities, string pageContentUrl);
+        Task<bool> MarkAllToDosCompleted(List<ToDoItem> toDoActivities, string pageContentUrl);
+
+        /// <summary>
+        /// Delete to dos.
+        /// </summary>
+        /// <param name="toDoActivities">To Do activities.</param>
+        /// <param name="pageContentUrl">page content url.</param>
+        /// <returns>True if succeed.</returns>
+        Task<bool> DeleteToDos(List<ToDoItem> toDoActivities, string pageContentUrl);
+
+        /// <summary>
+        /// Delete all to dos.
+        /// </summary>
+        /// <param name="toDoActivities">To Do activities.</param>
+        /// <param name="pageContentUrl">page content url.</param>
+        /// <returns>True if succeed.</returns>
+        Task<bool> DeleteAllToDos(List<ToDoItem> toDoActivities, string pageContentUrl);
 
         /// <summary>
         /// Init To Do service.

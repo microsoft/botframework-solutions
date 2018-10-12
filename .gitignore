@@ -332,6 +332,5 @@ ASALocalRun/
 *.bot
 
 # AppSettings
-/solutions/Virtual-Assistant/src/csharp/assistant/appsettings.development.json
-/solutions/Virtual-Assistant/src/csharp/assistant/appsettings.production.json
-
+**/appsettings.production.json
+**/appsettings.development.json

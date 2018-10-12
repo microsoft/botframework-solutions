@@ -3,6 +3,8 @@
 
 using VirtualAssistant.Dialogs.Escalate.Resources;
 using Microsoft.Bot.Builder.TemplateManager;
+using Microsoft.Bot.Schema;
+using Microsoft.Bot.Builder;
 
 namespace VirtualAssistant
 {
@@ -14,7 +16,7 @@ namespace VirtualAssistant
         {
             ["default"] = new TemplateIdMap
             {
-                { SendPhone, (context, data) => EscalateStrings.PHONE_INFO },
+                { SendPhone, (context, data) => SendAcceptingInputReply(context, EscalateStrings.PHONE_INFO) },
             },
             ["en"] = new TemplateIdMap { },
             ["fr"] = new TemplateIdMap { },
@@ -23,6 +25,15 @@ namespace VirtualAssistant
         public EscalateResponses()
         {
             Register(new DictionaryRenderer(_responseTemplates));
+        }
+
+        public static IMessageActivity SendAcceptingInputReply(ITurnContext turnContext, string text)
+        {
+            var reply = turnContext.Activity.CreateReply();
+            reply.InputHint = InputHints.AcceptingInput;
+            reply.Text = text;
+
+            return reply;
         }
     }
 }

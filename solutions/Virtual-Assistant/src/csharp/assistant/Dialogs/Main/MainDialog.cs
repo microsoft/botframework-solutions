@@ -18,20 +18,15 @@ namespace VirtualAssistant
 {
     public class MainDialog : RouterDialog
     {
-        // Constants
-        public const string Name = "MainDialog";
-        private const string LocationEvent = "IPA.Location";
-        private const string TimezoneEvent = "IPA.Timezone";
-
         // Fields
         private BotServices _services;
         private BotConfiguration _botConfig;
         private UserState _userState;
         private ConversationState _conversationState;
-        private SkillRouter _skillRouter;
         private IStatePropertyAccessor<OnboardingState> _onboardingState;
         private IStatePropertyAccessor<Dictionary<string, object>> _parametersAccessor;
         private MainResponses _responder = new MainResponses();
+        private SkillRouter _skillRouter;
 
         public MainDialog(BotServices services, BotConfiguration botConfig, ConversationState conversationState, UserState userState)
             : base(nameof(MainDialog))
@@ -42,13 +37,14 @@ namespace VirtualAssistant
             _userState = userState;
             _onboardingState = _userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             _parametersAccessor = _userState.CreateProperty<Dictionary<string, object>>("userInfo");
+            var dialogState = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
 
             AddDialog(new OnboardingDialog(_services, _onboardingState));
             AddDialog(new EscalateDialog(_services));
-            AddDialog(new CustomSkillDialog(_services));
+            AddDialog(new CustomSkillDialog(_services.SkillConfigurations, dialogState));
 
             // Initialize skill dispatcher
-            _skillRouter = new SkillRouter(_services.RegisteredSkills);
+            _skillRouter = new SkillRouter(_services.SkillDefinitions);
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -82,7 +78,7 @@ namespace VirtualAssistant
                         var luisService = _services.LuisServices["general"];
                         var luisResult = await luisService.RecognizeAsync<General>(dc.Context, CancellationToken.None);
                         var luisIntent = luisResult?.TopIntent().intent;
-                    
+
                         // switch on general intents
                         switch (luisIntent)
                         {
@@ -137,9 +133,7 @@ namespace VirtualAssistant
 
                         await RouteToSkillAsync(dc, new SkillDialogOptions()
                         {
-                            LuisResult = luisResult,
-                            MatchedSkill = matchedSkill,
-                            LuisService = _botConfig.FindServiceByNameOrId(matchedSkill.LuisServiceId) as LuisService,
+                            SkillDefinition = matchedSkill,
                             Parameters = parameters,
                         });
 
@@ -154,9 +148,7 @@ namespace VirtualAssistant
 
                         await RouteToSkillAsync(dc, new SkillDialogOptions()
                         {
-                            LuisResult = luisResult,
-                            MatchedSkill = matchedSkill,
-                            LuisService = _botConfig.FindServiceByNameOrId(matchedSkill.LuisServiceId) as LuisService,
+                            SkillDefinition = matchedSkill,
                             Parameters = parameters,
                         });
 
@@ -171,9 +163,7 @@ namespace VirtualAssistant
 
                         await RouteToSkillAsync(dc, new SkillDialogOptions()
                         {
-                            LuisResult = luisResult,
-                            MatchedSkill = matchedSkill,
-                            LuisService = _botConfig.FindServiceByNameOrId(matchedSkill.LuisServiceId) as LuisService,
+                            SkillDefinition = matchedSkill,
                             Parameters = parameters,
                         });
 
@@ -188,9 +178,7 @@ namespace VirtualAssistant
 
                         await RouteToSkillAsync(dc, new SkillDialogOptions()
                         {
-                            LuisResult = luisResult,
-                            MatchedSkill = matchedSkill,
-                            LuisService = _botConfig.FindServiceByNameOrId(matchedSkill.LuisServiceId) as LuisService,
+                            SkillDefinition = matchedSkill,
                             Parameters = parameters,
                         });
 
@@ -214,10 +202,10 @@ namespace VirtualAssistant
         private async Task RouteToSkillAsync(DialogContext dc, SkillDialogOptions options)
         {
             // If we can't handle this within the local Bot it's a skill (prefix of s will make this clearer)
-            if (options.MatchedSkill != null)
+            if (options.SkillDefinition != null)
             {
                 // We have matched to a Skill
-                await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Forwarding your utterance to the {options.MatchedSkill.Name} skill."));
+                await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Forwarding your utterance to the {options.SkillDefinition.Name} skill."));
 
                 // Begin the SkillDialog and pass the arguments in
                 await dc.BeginDialogAsync(nameof(CustomSkillDialog), options);
@@ -225,7 +213,7 @@ namespace VirtualAssistant
                 // Pass the activity we have
                 var result = await dc.ContinueDialogAsync();
 
-                if(result.Status == DialogTurnStatus.Complete)
+                if (result.Status == DialogTurnStatus.Complete)
                 {
                     await CompleteAsync(dc);
                 }
@@ -242,14 +230,18 @@ namespace VirtualAssistant
 
         protected override async Task OnEventAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
+            // Indicates whether the event activity should be sent to the active dialog on the stack
+            var forward = true;
             var ev = dc.Context.Activity.AsEventActivity();
-            await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Received event: {ev.Name}"));
-
             var parameters = await _parametersAccessor.GetAsync(dc.Context, () => new Dictionary<string, object>());
+
+            // Send trace to emulator
+            var trace = new Activity(type: ActivityTypes.Trace, text: $"Received event: {ev.Name}");
+            await dc.Context.SendActivityAsync(trace);
 
             switch (ev.Name)
             {
-                case TimezoneEvent:
+                case Events.TimezoneEvent:
                     {
                         try
                         {
@@ -263,57 +255,56 @@ namespace VirtualAssistant
                             await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Timezone passed could not be mapped to a valid Timezone. Property not set."));
                         }
 
+                        forward = false;
                         break;
                     }
 
-                case LocationEvent:
+                case Events.LocationEvent:
                     {
                         parameters[ev.Name] = ev.Value;
+                        forward = false;
                         break;
                     }
 
-                case "tokens/response":
+                case Events.TokenResponseEvent:
                     {
-                        // Auth dialog completion
-                        var result = await dc.ContinueDialogAsync();
-
-                        if (result.Status == DialogTurnStatus.Complete)
-                        {
-                            await CompleteAsync(dc);
-                        }
-
+                        forward = true;
                         break;
                     }
 
-                case "POI.ActiveLocation":
-                case "POI.ActiveRoute":
+                case Events.ActiveLocationUpdate:
+                case Events.ActiveRouteUpdate:
                     {
                         var matchedSkill = _skillRouter.IdentifyRegisteredSkill(Dispatch.Intent.l_PointOfInterest.ToString());
 
                         await RouteToSkillAsync(dc, new SkillDialogOptions()
                         {
-                            MatchedSkill = matchedSkill,
-                            LuisService = _botConfig.FindServiceByNameOrId(matchedSkill.LuisServiceId) as LuisService,
-                            Parameters = parameters,
+                            SkillDefinition = matchedSkill
                         });
 
-                        break;
-                    }
-
-                default:
-                    {
-                        if (dc.ActiveDialog != null)
-                        {
-                            var result = await dc.ContinueDialogAsync();
-
-                            if (result.Status == DialogTurnStatus.Complete)
-                            {
-                                await CompleteAsync(dc);
-                            }
-                        }
+                        forward = false;
                         break;
                     }
             }
+
+            if (forward)
+            {
+                var result = await dc.ContinueDialogAsync();
+
+                if (result.Status == DialogTurnStatus.Complete)
+                {
+                    await CompleteAsync(dc);
+                }
+            }
         }
+    }
+
+    public static class Events
+    {
+        public const string TokenResponseEvent = "tokens/response";
+        public const string TimezoneEvent = "IPA.Timezone";
+        public const string LocationEvent = "IPA.Location";
+        public const string ActiveLocationUpdate = "POI.ActiveLocation";
+        public const string ActiveRouteUpdate = "POI.ActiveRoute";
     }
 }

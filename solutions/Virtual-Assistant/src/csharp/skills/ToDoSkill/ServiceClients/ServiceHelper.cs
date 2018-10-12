@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace ToDoSkill.ServiceClients
+namespace ToDoSkill
 {
     using System;
     using System.Collections.Generic;
@@ -14,7 +14,6 @@ namespace ToDoSkill.ServiceClients
     using System.Threading.Tasks;
     using System.Xml;
     using AdaptiveCards;
-    using global::ToDoSkill.Models;
     using Microsoft.Azure.CognitiveServices.Language.LUIS.Runtime.Models;
     using Microsoft.Bot.Builder;
     using Microsoft.Bot.Solutions.Dialogs;
@@ -141,7 +140,7 @@ namespace ToDoSkill.ServiceClients
         /// <param name="toDoTaskActivities">To Do task activities.</param>
         /// <param name="pageContentUrl">page content url.</param>
         /// <returns>Generated http request message.</returns>
-        public static HttpRequestMessage GenerateMarkToDosHttpRequest(List<ToDoTaskActivityModel> toDoTaskActivities, string pageContentUrl)
+        public static HttpRequestMessage GenerateMarkToDosHttpRequest(List<ToDoItem> toDoTaskActivities, string pageContentUrl)
         {
             var commands = new List<object>();
             foreach (var toDoTaskActivity in toDoTaskActivities)
@@ -168,7 +167,7 @@ namespace ToDoSkill.ServiceClients
         /// <param name="toDoTaskActivities">To Do task activities.</param>
         /// <param name="pageContentUrl">page content url.</param>
         /// <returns>Generated http request message.</returns>
-        public static HttpRequestMessage GenerateDeleteToDosHttpRequest(List<ToDoTaskActivityModel> toDoTaskActivities, string pageContentUrl)
+        public static HttpRequestMessage GenerateDeleteToDosHttpRequest(List<ToDoItem> toDoTaskActivities, string pageContentUrl)
         {
             var commands = new List<object>();
             foreach (var toDoTaskActivity in toDoTaskActivities)

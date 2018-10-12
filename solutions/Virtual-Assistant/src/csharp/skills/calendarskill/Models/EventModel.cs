@@ -338,7 +338,7 @@ namespace CalendarSkill
                     case EventSource.Microsoft:
                         return TimeZoneInfo.FindSystemTimeZoneById(msftEventData.Start.TimeZone);
                     case EventSource.Google:
-                        return TimeZoneInfo.FindSystemTimeZoneById(CalendarSkillHelper.TimeZoneConverter.IanaToWindows(gmailEventData.Start.TimeZone));
+                        return TimeZoneInfo.FindSystemTimeZoneById(TimeZoneConverter.IanaToWindows(gmailEventData.Start.TimeZone));
                     default:
                         throw new Exception("Event Type not Defined");
                 }
@@ -373,8 +373,8 @@ namespace CalendarSkill
                             gmailEventData.End = new Google.Apis.Calendar.v3.Data.EventDateTime();
                         }
 
-                        gmailEventData.Start.TimeZone = CalendarSkillHelper.TimeZoneConverter.WindowsToIana(value.Id);
-                        gmailEventData.End.TimeZone = CalendarSkillHelper.TimeZoneConverter.WindowsToIana(value.Id);
+                        gmailEventData.Start.TimeZone = TimeZoneConverter.WindowsToIana(value.Id);
+                        gmailEventData.End.TimeZone = TimeZoneConverter.WindowsToIana(value.Id);
                         break;
                     default:
                         throw new Exception("Event Type not Defined");
@@ -571,6 +571,22 @@ namespace CalendarSkill
             }
         }
 
+        public bool? IsAllDay
+        {
+            get
+            {
+                switch (source)
+                {
+                    case EventSource.Microsoft:
+                        return msftEventData.IsAllDay;
+                    case EventSource.Google:
+                        return gmailEventData.Start.Date != null;
+                    default:
+                        throw new Exception("Event Type not Defined");
+                }
+            }
+        }
+
         public EventSource Source
         {
             get => source;
@@ -597,10 +613,28 @@ namespace CalendarSkill
                 textString += $"\n{eventItem.StartTime.ToString("dd-MM-yyyy")}";
             }
 
-            textString += $"\n{eventItem.StartTime.ToString("h:mm tt")} - {eventItem.EndTime.ToString("h:mm tt")}";
+            if (eventItem.IsAllDay == true)
+            {
+                textString += "\nAll Day";
+            }
+            else
+            {
+                textString += $"\n{eventItem.StartTime.ToString("h:mm tt")} - {eventItem.EndTime.ToString("h:mm tt")}";
+            }
+
             if (eventItem.Location != null)
             {
                 textString += $"\n{eventItem.Location}";
+            }
+
+            string speakString = string.Empty;
+            if (eventItem.IsAllDay == true)
+            {
+                speakString = $"{eventItem.Title} at {eventItem.StartTime.ToString("MMMM dd all day")}";
+            }
+            else
+            {
+                speakString = $"{eventItem.Title} at {eventItem.StartTime.ToString("h:mm tt")}";
             }
 
             return new CalendarCardData
