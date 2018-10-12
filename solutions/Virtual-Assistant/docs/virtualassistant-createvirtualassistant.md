@@ -82,7 +82,7 @@ To deploy your Virtual Assistant including all dependencies - e.g. CosmosDb, App
 > Ensure the LUIS authoring key retrieved on the previous step is for the region you specify below.
 
 ```shell
-msbot clone services --name "MyCustomAssistantName" --luisAuthoringKey "YOUR_AUTHORING_KEY" --folder "DeploymentScripts\msbotClone" --location "westus"
+msbot clone services --name "MyCustomAssistantName" --luisAuthoringKey "YOUR_AUTHORING_KEY" --folder "DeploymentScripts\en\msbotClone" --location "westus"
 ```
 
 The msbot tool will outline the deployment plan including location and SKU. Ensure you review before proceeding.
