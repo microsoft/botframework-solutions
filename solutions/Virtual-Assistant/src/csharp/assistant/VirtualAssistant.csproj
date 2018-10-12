@@ -38,12 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Dialogs\Cancel\Resources\CancelStrings - Copy.Designer.cs">
-      <DependentUpon>CancelStrings.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Dialogs\Cancel\Resources\CancelStrings - Copy.Designer.cs">
+    <Compile Update="Dialogs\Cancel\Resources\CancelStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>CancelStrings.resx</DependentUpon>
@@ -68,7 +63,7 @@
   <ItemGroup>
     <EmbeddedResource Update="Dialogs\Cancel\Resources\CancelStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>CancelStrings - Copy.Designer.cs</LastGenOutput>
+      <LastGenOutput>CancelStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Dialogs\Escalate\Resources\EscalateStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
