@@ -1,0 +1,505 @@
+{
+  "DidntUnderstandMessage": {
+    "replies": [
+      {
+        "text": "对不起，我没有明白你的意思。",
+        "speak": "对不起，我没有明白你的意思。"
+      },
+      {
+        "text": "我没有明白你的意思，请尝试用不同的方式提问。",
+        "speak": "我没有明白你的意思，请尝试用不同的方式提问。"
+      },
+      {
+        "text": "你能不能试着用另一种方式问我。",
+        "speak": "你能不能试着用另一种方式问我。"
+      },
+      {
+        "text": "我没有明白你的意思，你能以不同的方式尝试吗？",
+        "speak": "我没有明白你的意思，你能以不同的方式尝试吗？"
+      },
+      {
+        "text": "你能说得更详细吗？",
+        "speak": "你能说得更详细吗？"
+      },
+      {
+        "text": "请以不同的方式再说一遍。",
+        "speak": "请以不同的方式再说一遍。"
+      },
+      {
+        "text": "我没有理解你的意思。",
+        "speak": "我没有理解你的意思。"
+      },
+      {
+        "text": "你能尝试用不同的表达方式吗？",
+        "speak": "你能尝试用不同的表达方式吗？"
+      },
+      {
+        "text": "你能再试一次，我没听懂你的意思。",
+        "speak": "你能再试一次，我没听懂你的意思。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "DidntUnderstandMessageIgnoringInput": {
+    "replies": [
+      {
+        "text": "对不起，我没有明白你的意思。",
+        "speak": "对不起，我没有明白你的意思。"
+      },
+      {
+        "text": "我不明白，请用不同的方式尝试。",
+        "speak": "我不明白，请用不同的方式尝试。"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "CancellingMessage": {
+    "replies": [
+      {
+        "text": "当然，我们可以稍后再做。",
+        "speak": "当然，我们可以稍后再做。"
+      },
+      {
+        "text": "当然，我们可以稍后再开始。",
+        "speak": "当然，我们可以稍后再开始。"
+      },
+      {
+        "text": "没问题，你可以换个时间再试一次。",
+        "speak": "没问题，你可以换个时间再试一次。"
+      },
+      {
+        "text": "好的，请在需要我帮助时告诉我。",
+        "speak": "好的，请在需要我帮助时告诉我。"
+      },
+      {
+        "text": "当然，如果你需要我的帮助，我就在这里。",
+        "speak": "当然，如果你需要我的帮助，我就在这里。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "EmailWelcomeMessage": {
+    "replies": [
+      {
+        "text": "你好！我是Email Bot，我可以帮助你管理Office 365电子邮件，显示你未读的电子邮件，为你回复或转发电子邮件。",
+        "speak": "你好！我是Email Bot，我可以帮助你管理Office 365电子邮件，显示你未读的电子邮件，为你回复或转发电子邮件。"
+      }
+    ],
+    "suggestedActions": [
+      "显示最近的电子邮件",
+      "发送邮件给某人"
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoAuth": {
+    "replies": [
+      {
+        "text": "请登录，以便我采取进一步行动。",
+        "speak": "请登录，以便我采取进一步行动。"
+      },
+      {
+        "text": "请登录，以便我可以继续您的请求。",
+        "speak": "请登录，以便我可以继续您的请求。"
+      },
+      {
+        "text": "你可以登录，这样我可以帮助你。",
+        "speak": "你可以登录，这样我可以帮助你。"
+      },
+      {
+        "text": "您需要登录才能采取进一步行动。",
+        "speak": "您需要登录才能采取进一步行动。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoEmailContent": {
+    "replies": [
+      {
+        "text": "您想要为消息添加什么内容？",
+        "speak": "您想要为消息添加什么内容？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoMessageBody": {
+    "replies": [
+      {
+        "text": "消息的内容是什么？",
+        "speak": "消息的内容是什么？"
+
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoFocusMessage": {
+    "replies": [
+      {
+        "text": "你指的是哪封电子邮件？",
+        "speak": "你指的是哪封电子邮件？"
+      },
+      {
+        "text": "你能确切指出是哪封电子邮件吗？",
+        "speak": "你能确切指出是哪封电子邮件吗？"
+      },
+      {
+        "text": "你说的是哪封电子邮件？",
+        "speak": "你说的是哪封电子邮件？"
+      },
+      {
+        "text": "你能解释一下你在说哪封电子邮件吗？",
+        "speak": "你能解释一下你在说哪封电子邮件吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "EmailErrorMessage": {
+    "replies": [
+      {
+        "text": "对不起，看起来出了问题！",
+        "speak": "对不起，看起来出了问题！"
+      },
+      {
+        "text": "发生错误，给我一些时间，稍后再试。",
+        "speak": "发生错误，给我一些时间，稍后再试。"
+      },
+      {
+        "text": "出了点问题，对不起！",
+        "speak": "出了点问题，对不起！"
+      },
+      {
+        "text": "我相信出了点问题。你稍后可以再试一次吗？",
+        "speak": "我相信出了点问题。你稍后可以再试一次吗？"
+      },
+      {
+        "text": "抱歉，我现在找不到你想要的东西。请稍后再试。",
+        "speak": "抱歉，我现在找不到你想要的东西。请稍后再试。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoSubject": {
+    "replies": [
+      {
+        "text": "电子邮件的主题是什么？",
+        "speak": "电子邮件的主题是什么？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "EmailNotFound": {
+    "replies": [
+      {
+        "text": "你没有新的电子邮件。",
+        "speak": "你没有新的电子邮件。"
+      },
+      {
+        "text": "我此时没有检索到新的电子邮件。您可以稍后再试。",
+        "speak": "我此时没有检索到新的电子邮件。您可以稍后再试。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmRecipient": {
+    "replies": [
+      {
+        "text": "您想通过电子邮件联系哪个联系人？",
+        "speak": "您想通过电子邮件联系哪个联系人？"
+      },
+      {
+        "text": "你想发邮件给哪一个？",
+        "speak": "你想发邮件给哪一个？"
+      },
+      {
+        "text": "您想选择哪种联系方式？",
+        "speak": "您想选择哪种联系方式？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmRecipientNotFirstPage": {
+    "replies": [
+      {
+        "text": "我找到了更多的联系人，你想发邮件给哪一个？",
+        "speak": "我找到了更多的联系人，你想发邮件给哪一个？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmRecipientLastPage": {
+    "replies": [
+      {
+        "text": "现在显示的是您组织内的联系人，您想发邮件给哪一个？",
+        "speak": "现在显示的是您组织内的联系人，您想发邮件给哪一个？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "RecipientConfirmed": {
+    "replies": [
+      {
+        "text": "好的，我会将邮件发送给{UserName}。",
+        "speak": "好的，我会将邮件发送给{UserName}。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmSend": {
+    "replies": [
+      {
+        "text": "我准备发送邮件，请确认以下内容：",
+        "speak": "我准备发送邮件，请确认以下内容："
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmSendFailed": {
+    "replies": [
+      {
+        "text": "请在发送此电子邮件前确认。",
+        "speak": "请在发送此电子邮件前确认。"
+      },
+      {
+        "text": "请确认此电子邮件。",
+        "speak": "请确认此电子邮件。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmDelete": {
+    "replies": [
+      {
+        "text": "请在删除此邮件之前确认。",
+        "speak": "请在删除此邮件之前确认。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "SentSuccessfully": {
+    "replies": [
+      {
+        "text": "邮件已发送。",
+        "speak": "邮件已发送。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "DeleteSuccessfully": {
+    "replies": [
+      {
+        "text": "我已经删除了这个邮件。",
+        "speak": "我已经删除了这个邮件。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "PromptPersonNotFound": {
+    "replies": [
+      {
+        "text": "没有找到名为{UserName}的人，请输入正确的名称。",
+        "speak": "没有找到名为{UserName}的人，请输入正确的名称。"
+      },
+      {
+        "text": "我找不到您正在寻找的联系人“{UserName}”。你能再试一次吗？",
+        "speak": "我找不到您正在寻找的联系人“{UserName}”。你能再试一次吗？"
+      },
+      {
+        "text": "你可以通过陈述名字和姓氏再试一次吗？",
+        "speak": "你可以通过陈述名字和姓氏再试一次吗？"
+      },
+      {
+        "text": "你能说出你要找的联系人的别名吗？",
+        "speak": "你能说出你要找的联系人的别名吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ReadOutPrompt": {
+    "replies": [
+      {
+        "text": "想听听哪一个？",
+        "speak": "想听听哪一个？"
+      },
+      {
+        "text": "你希望我读出哪封电子邮件？",
+        "speak": "你希望我读出哪封电子邮件？"
+      },
+      {
+        "text": "你希望我读出的电子邮件？",
+        "speak": "你希望我读出的电子邮件？"
+      },
+      {
+        "text": "您想要哪封电子邮件的详细内容？",
+        "speak": "您想要哪封电子邮件的详细内容？"
+      },
+      {
+        "text": "您想知道哪一个内容？",
+        "speak": "您想知道哪一个内容？"
+      },
+      {
+        "text": "您想要读出哪封电子邮件？",
+        "speak": "您想要读出哪封电子邮件？"
+      },
+      {
+        "text": "你想听听哪一个？",
+        "speak": "你想听听哪一个？"
+      },
+      {
+        "text": "你想让我给你哪封电子邮件的详细内容？",
+        "speak": "你想让我给你哪封电子邮件的详细内容？"
+      },
+      {
+        "text": "我应该给你读哪封电子邮件？",
+        "speak": "我应该给你读哪封电子邮件？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ReadOutMorePrompt": {
+    "replies": [
+      {
+        "text": "你还想听更多吗? 想听哪一个呢?",
+        "speak": "你还想听更多吗? 想听哪一个呢?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ReadOutMessage": {
+    "replies": [
+      {
+        "text": "电子邮件详情：",
+        "speak": "电子邮件详情："
+      },
+      {
+        "text": "电子邮件内容：",
+        "speak": "电子邮件内容："
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoRecipients": {
+    "replies": [
+      {
+        "text": "这封电子邮件发给谁？",
+        "speak": "这封电子邮件发给谁？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "EmailHelpMessage": {
+    "replies": [
+      {
+        "text": "我可以为您提供最新电子邮件的概述，向您发送重要的电子邮件，或为您创建和转发新电子邮件。",
+        "speak": "我可以为您提供最新电子邮件的概述，向您发送重要的电子邮件，或为您创建和转发新电子邮件。"
+      }
+    ],
+    "suggestedActions": [
+      "显示最近的电子邮件",
+      "给某人发送电子邮件",
+      "转发第二封邮件给某人"
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ActionEnded": {
+    "replies": [
+      {
+        "text": "还有什么需要我的帮助吗？",
+        "speak": "还有什么需要我的帮助吗？"
+      },
+      {
+        "text": "还有什么我可以帮你的吗？",
+        "speak": "还有什么我可以帮你的吗？"
+      },
+      {
+        "text": "还有什么想要采取行动吗？",
+        "speak": "还有什么想要采取行动吗？"
+      },
+      {
+        "text": "如果您需要我的帮助，请告诉我。",
+        "speak": "如果您需要我的帮助，请告诉我。"
+      },
+      {
+        "text": "如果你需要我的帮助，我就在这里。",
+        "speak": "如果你需要我的帮助，我就在这里。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "PromptTooManyPeople": {
+    "replies": [
+      {
+        "text": "名为{UserName}的人太多，请重新输入名称。",
+        "speak": "名为{UserName}的人太多，请重新输入名称。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "GreetingMessage": {
+    "replies": [
+      {
+        "text": "嗨！",
+        "speak": "嗨！"
+      },
+      {
+        "text": "我在这！",
+        "speak": "我在这！"
+      },
+      {
+        "text": "你好！",
+        "speak": "你好！"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "LogOut": {
+    "replies": [
+      {
+        "text": "你已成功退出。",
+        "speak": "你已成功退出。"
+      },
+      {
+        "text": "您已成功退出。",
+        "speak": "您已成功退出。"
+      },
+      {
+        "text": "您已退出。",
+        "speak": "您已退出。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "FindUserErrorMessage": {
+    "replies": [
+      {
+        "text": "我现在找不到名为{UserName}的人。请再试一次或取消。",
+        "speak": "我现在找不到名为{UserName}的人。请再试一次或取消。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowEmailPrompt": {
+    "replies": [
+      {
+        "text": "您有以下{SearchType}电子邮件：",
+        "speak": "您有以下{SearchType}电子邮件："
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "AuthFailed": {
+    "replies": [
+      {
+        "text": "您的身份验证失败，请再试一次。",
+        "speak": "您的身份验证失败，请再试一次。"
+      },
+      {
+        "text": "您的登录失败，请稍后再试。",
+        "speak": "您的登录失败，请稍后再试。"
+      },
+      {
+        "text": "登录失败，让我们再试一次。",
+        "speak": "登录失败，让我们再试一次。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  }
+}
