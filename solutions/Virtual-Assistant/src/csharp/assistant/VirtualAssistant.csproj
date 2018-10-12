@@ -58,11 +58,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>MainStrings.resx</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\Onboarding\Resources\OnboardingStrings.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>OnboardingStrings.resx</DependentUpon>
-    </Compile>
     <Compile Update="Dialogs\SignIn\Resources\SignInStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -71,10 +66,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Dialogs\Cancel\Resources\CancelStrings.zh-cn.resx">
-      <LastGenOutput>CancelStrings.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="Dialogs\Cancel\Resources\CancelStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CancelStrings - Copy.Designer.cs</LastGenOutput>
@@ -82,10 +73,6 @@
     <EmbeddedResource Update="Dialogs\Escalate\Resources\EscalateStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>EscalateStrings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Dialogs\Main\Resources\MainStrings.zh-cn.resx">
-      <LastGenOutput>MainStrings..Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Dialogs\Main\Resources\MainStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
