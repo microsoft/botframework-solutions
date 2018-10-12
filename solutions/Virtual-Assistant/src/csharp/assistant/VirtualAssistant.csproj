@@ -53,11 +53,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>MainStrings.resx</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\Onboarding\Resources\OnboardingStrings.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>OnboardingStrings.resx</DependentUpon>
-    </Compile>
     <Compile Update="Dialogs\SignIn\Resources\SignInStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -93,7 +88,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DeploymentScripts\msbotClone\" />
+    <Folder Include="DeploymentScripts\en\msbotClone\" />
     <Folder Include="Dialogs\Shared\Resources\" />
   </ItemGroup>
 
