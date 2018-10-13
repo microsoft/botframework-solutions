@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="HAVE_LOCATION" xml:space="preserve">
-    <value>I've added {0} as your primary location. You're all set up!</value>
+    <value>He agregado {0} como su ubicación principal. ¡ Ya está todo listo!</value>
     <comment>3</comment>
   </data>
   <data name="LINKEDACCOUNTS_BODY" xml:space="preserve">
@@ -128,11 +128,11 @@
     <value>I can do more if you link your accounts!</value>
   </data>
   <data name="LOCATION_PROMPT" xml:space="preserve">
-    <value>Thanks, {0}. Where are you located?</value>
+    <value>Gracias, {0}. ¿Dónde están ubicados?</value>
     <comment>2</comment>
   </data>
   <data name="NAME_PROMPT" xml:space="preserve">
-    <value>What is your name?</value>
+    <value>¿Cómo te llamas?</value>
     <comment>1</comment>
   </data>
 </root>

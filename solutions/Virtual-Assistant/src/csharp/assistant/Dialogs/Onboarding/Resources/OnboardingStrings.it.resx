@@ -118,21 +118,21 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="HAVE_LOCATION" xml:space="preserve">
-    <value>I've added {0} as your primary location. You're all set up!</value>
+    <value>Ho aggiunto {0} come posizione primaria. Sei tutto a posto!</value>
     <comment>3</comment>
   </data>
   <data name="LINKEDACCOUNTS_BODY" xml:space="preserve">
-    <value>Switch to your companion app to get set up.</value>
+    <value>Passa alla tua app Companion per ottenere l'impostazione.</value>
   </data>
   <data name="LINKEDACCOUNTS_TITLE" xml:space="preserve">
-    <value>I can do more if you link your accounts!</value>
+    <value>Posso fare di più se si collega il tuo account!</value>
   </data>
   <data name="LOCATION_PROMPT" xml:space="preserve">
-    <value>Thanks, {0}. Where are you located?</value>
+    <value>Grazie, {0}. Dove si trova?</value>
     <comment>2</comment>
   </data>
   <data name="NAME_PROMPT" xml:space="preserve">
-    <value>What is your name?</value>
+    <value>Come ti chiami?</value>
     <comment>1</comment>
   </data>
 </root>

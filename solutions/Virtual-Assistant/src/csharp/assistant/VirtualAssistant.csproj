@@ -43,7 +43,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>CancelStrings.resx</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\Escalate\Resources\EscalateStrings.Designer.cs">
+    <Compile Update="Dialogs\Escalate\Resources\EscalateStrings - Copy.Designer.cs">
+      <DependentUpon>EscalateStrings.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Dialogs\Escalate\Resources\EscalateStrings - Copy.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>EscalateStrings.resx</DependentUpon>
@@ -53,6 +58,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>MainStrings.resx</DependentUpon>
     </Compile>
+    <Compile Update="Dialogs\Onboarding\Resources\OnboardingStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>OnboardingStrings.resx</DependentUpon>
+    </Compile>
     <Compile Update="Dialogs\SignIn\Resources\SignInStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -61,17 +71,26 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Dialogs\Cancel\Resources\CancelStrings.fr.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Dialogs\Cancel\Resources\CancelStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CancelStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="Dialogs\Escalate\Resources\EscalateStrings.fr.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Dialogs\Escalate\Resources\EscalateStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>EscalateStrings.Designer.cs</LastGenOutput>
+      <LastGenOutput>EscalateStrings - Copy.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Dialogs\Main\Resources\MainStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>MainStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Dialogs\Onboarding\Resources\OnboardingStrings.fr.resx">
+      <Generator></Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Dialogs\Onboarding\Resources\OnboardingStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

@@ -117,22 +117,41 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="HAVE_LOCATION" xml:space="preserve">
-    <value>I've added {0} as your primary location. You're all set up!</value>
-    <comment>3</comment>
+  <data name="CALENDAR_SUGGESTEDACTION" xml:space="preserve">
+    <value>Qual è il mio programma?</value>
   </data>
-  <data name="LINKEDACCOUNTS_BODY" xml:space="preserve">
-    <value>Switch to your companion app to get set up.</value>
+  <data name="CANCELLED" xml:space="preserve">
+    <value>Ok, ricominciamo da qui.</value>
   </data>
-  <data name="LINKEDACCOUNTS_TITLE" xml:space="preserve">
-    <value>I can do more if you link your accounts!</value>
+  <data name="COMPLETED" xml:space="preserve">
+    <value>Che altro posso aiutarvi?</value>
   </data>
-  <data name="LOCATION_PROMPT" xml:space="preserve">
-    <value>Thanks, {0}. Where are you located?</value>
-    <comment>2</comment>
+  <data name="CONFUSED" xml:space="preserve">
+    <value>Mi dispiace, non sono in grado di aiutarti.</value>
   </data>
-  <data name="NAME_PROMPT" xml:space="preserve">
-    <value>What is your name?</value>
-    <comment>1</comment>
+  <data name="EMAIL_SUGGESTEDACTION" xml:space="preserve">
+    <value>Invia una email</value>
+  </data>
+  <data name="GREETING" xml:space="preserve">
+    <value>Ehilà!</value>
+  </data>
+  <data name="GREETING_WITH_NAME" xml:space="preserve">
+    <value>Ehilà! {0}!</value>
+  </data>
+  <data name="HELP_TEXT" xml:space="preserve">
+    <value>Sono il tuo assistente virtuale! Posso effettuare un certo numero di mansioni con le mie abilità collegate. In questo momento posso aiutarvi con calendario, e-mail, compito e punto di domande di interesse. Oppure puoi aiutarmi a fare di più creando il tuo!</value>
+  </data>
+  <data name="HELP_TITLE" xml:space="preserve">
+    <value>Aiuto per assistente virtuale</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Intro" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Intro.it.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="MEETING_SUGGESTEDACTION" xml:space="preserve">
+    <value>Pianificare una riunione</value>
+  </data>
+  <data name="POI_SUGGESTEDACTION" xml:space="preserve">
+    <value>Trova un coffee shop nelle vicinanze</value>
   </data>
 </root>

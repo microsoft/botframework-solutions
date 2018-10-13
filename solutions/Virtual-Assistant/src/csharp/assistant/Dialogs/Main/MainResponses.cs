@@ -44,8 +44,7 @@ namespace VirtualAssistant
         public static IMessageActivity SendIntroCard(ITurnContext turnContext, dynamic data)
         {
             var response = turnContext.Activity.CreateReply();
-
-            var introCard = File.ReadAllText(@".\Dialogs\Main\Resources\Intro.json");
+            var introCard = MainStrings.ResourceManager.GetObject("Intro").ToString();
 
             response.Attachments = new List<Attachment>
             {
@@ -75,10 +74,10 @@ namespace VirtualAssistant
             {
                 Actions = new List<CardAction>()
             {
-                new CardAction(type: ActionTypes.ImBack, title: "What's my schedule?"),
-                new CardAction(type: ActionTypes.ImBack, title: "Send an email"),
-                new CardAction(type: ActionTypes.ImBack, title: "Schedule a meeting"),
-                new CardAction(type: ActionTypes.ImBack, title: "Find a coffee shop nearby"),
+                new CardAction(type: ActionTypes.ImBack, title: MainStrings.CALENDAR_SUGGESTEDACTION),
+                new CardAction(type: ActionTypes.ImBack, title: MainStrings.EMAIL_SUGGESTEDACTION),
+                new CardAction(type: ActionTypes.ImBack, title: MainStrings.MEETING_SUGGESTEDACTION),
+                new CardAction(type: ActionTypes.ImBack, title: MainStrings.POI_SUGGESTEDACTION),
             }
             };
             return response;
