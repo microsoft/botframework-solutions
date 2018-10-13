@@ -72,6 +72,7 @@ namespace LinkedAccounts.Web.Controllers
                 // Pass the DirectLine Token, Endpont and Token Status to the View model
                 return View(new LinkedAcountViewModel()
                 {
+                    UserId = userId,
                     DirectLineToken = token,
                     Endpoint = endpoint,
                     Status = tokenStatuses
