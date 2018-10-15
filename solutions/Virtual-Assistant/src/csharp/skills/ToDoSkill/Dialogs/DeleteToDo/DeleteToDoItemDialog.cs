@@ -71,25 +71,27 @@ namespace ToDoSkill
 
                     var service = await _serviceManager.Init(state.MsGraphToken, state.OneNotePageId);
                     var page = await service.GetDefaultToDoPage();
-                    string taskToBeDeleted = null;
+                    string taskTopicToBeDeleted = null;
                     if (state.MarkOrDeleteAllTasksFlag)
                     {
                         await service.DeleteAllToDos(state.AllTasks, page.ContentUrl);
                         state.AllTasks = new List<ToDoItem>();
                         state.Tasks = new List<ToDoItem>();
                         state.ShowToDoPageIndex = 0;
-                        state.TaskIndex = -1;
+                        state.TaskIndexes = new List<int>();
                     }
                     else
                     {
-                        taskToBeDeleted = state.Tasks[state.TaskIndex].Topic;
-                        await service.DeleteToDo(state.Tasks[state.TaskIndex], page.ContentUrl);
-                        var todosAndPageIdTuple = await service.GetMyToDoList();
+                        taskTopicToBeDeleted = state.AllTasks[state.TaskIndexes[0]].Topic;
+                        var tasksToBeDeleted = new List<ToDoItem>();
+                        state.TaskIndexes.ForEach(i => tasksToBeDeleted.Add(state.AllTasks[i]));
+                        await service.DeleteToDos(tasksToBeDeleted, page.ContentUrl);
+                        var todosAndPageIdTuple = await service.GetToDos();
                         state.OneNotePageId = todosAndPageIdTuple.Item2;
                         state.AllTasks = todosAndPageIdTuple.Item1;
                         var allTasksCount = state.AllTasks.Count;
                         var currentTaskIndex = state.ShowToDoPageIndex * state.PageSize;
-                        if (currentTaskIndex >= allTasksCount && currentTaskIndex >= state.PageSize)
+                        while (currentTaskIndex >= allTasksCount && currentTaskIndex >= state.PageSize)
                         {
                             currentTaskIndex -= state.PageSize;
                             state.ShowToDoPageIndex--;
@@ -109,7 +111,7 @@ namespace ToDoSkill
                             var deletedToDoListAttachment = ToAdaptiveCardAttachmentForOtherFlows(
                                 state.Tasks,
                                 state.AllTasks.Count,
-                                taskToBeDeleted,
+                                taskTopicToBeDeleted,
                                 DeleteToDoResponses.AfterTaskDeleted,
                                 ToDoSharedResponses.ShowToDoTasks);
 
@@ -119,7 +121,7 @@ namespace ToDoSkill
                         }
                         else
                         {
-                            var token1 = new StringDictionary() { { "taskContent", taskToBeDeleted } };
+                            var token1 = new StringDictionary() { { "taskContent", taskTopicToBeDeleted } };
                             var response1 = GenerateResponseWithTokens(DeleteToDoResponses.AfterTaskDeleted, token1);
                             var token2 = new StringDictionary() { { "taskCount", "0" } };
                             var response2 = GenerateResponseWithTokens(ToDoSharedResponses.ShowToDoTasks, token2);
@@ -137,7 +139,7 @@ namespace ToDoSkill
 
                 return await sc.EndDialogAsync(true);
             }
-            catch (Exception ex)
+            catch
             {
                 await HandleDialogExceptions(sc);
                 throw;
@@ -156,7 +158,7 @@ namespace ToDoSkill
                 }
                 else
                 {
-                    var toDoTask = state.Tasks[state.TaskIndex].Topic;
+                    var toDoTask = state.Tasks[state.TaskIndexes[0]].Topic;
                     var token = new StringDictionary() { { "toDoTask", toDoTask } };
                     var response = GenerateResponseWithTokens(DeleteToDoResponses.AskDeletionConfirmation, token);
                     var prompt = sc.Context.Activity.CreateReply(response);
@@ -164,7 +166,7 @@ namespace ToDoSkill
                     return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 await HandleDialogExceptions(sc);
                 throw;
@@ -193,7 +195,7 @@ namespace ToDoSkill
                     return await sc.BeginDialogAsync(Action.CollectDeleteTaskConfirmation);
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 await HandleDialogExceptions(sc);
                 throw;

@@ -10,6 +10,14 @@
     <RootNamespace>VirtualAssistant</RootNamespace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <CodeAnalysisRuleSet>..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <CodeAnalysisRuleSet>..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Google.Apis.Calendar.v3" Version="1.35.2.1363" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.4.1" />
@@ -25,6 +33,8 @@
     <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.0.7" />
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.0.7" />
     <PackageReference Include="Microsoft.Graph" Version="1.11.0" />
+    <PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003" PrivateAssets="all" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,11 +52,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>MainStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Dialogs\Onboarding\Resources\OnboardingStrings.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>OnboardingStrings.resx</DependentUpon>
     </Compile>
     <Compile Update="Dialogs\SignIn\Resources\SignInStrings.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -83,7 +88,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DeploymentScripts\msbotClone\" />
+    <Folder Include="DeploymentScripts\en\msbotClone\" />
     <Folder Include="Dialogs\Shared\Resources\" />
   </ItemGroup>
 

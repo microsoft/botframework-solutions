@@ -21,6 +21,9 @@
       "name": "ConfirmNo"
     },
     {
+      "name": "Delete"
+    },
+    {
       "name": "Forward"
     },
     {
@@ -486,6 +489,11 @@
       "entities": []
     },
     {
+      "text": "can you help me delete it",
+      "intent": "Delete",
+      "entities": []
+    },
+    {
       "text": "can you help me here",
       "intent": "Help",
       "entities": []
@@ -718,13 +726,13 @@
       "entities": [
         {
           "entity": "ContactName",
-          "startPos": 44,
-          "endPos": 50
+          "startPos": 34,
+          "endPos": 38
         },
         {
           "entity": "ContactName",
-          "startPos": 34,
-          "endPos": 38
+          "startPos": 44,
+          "endPos": 50
         }
       ]
     },
@@ -765,20 +773,46 @@
       "intent": "SendEmail",
       "entities": [
         {
-          "entity": "ContactName",
-          "startPos": 53,
-          "endPos": 55
-        },
-        {
           "entity": "EmailSubject",
           "startPos": 23,
           "endPos": 48
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 53,
+          "endPos": 55
         }
       ]
     },
     {
       "text": "delete",
       "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "delete the first email for me",
+      "intent": "Delete",
+      "entities": []
+    },
+    {
+      "text": "delete the last one",
+      "intent": "Delete",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 11,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "delete the second one",
+      "intent": "Delete",
+      "entities": []
+    },
+    {
+      "text": "delete this email",
+      "intent": "Delete",
       "entities": []
     },
     {
@@ -1043,14 +1077,14 @@
       "intent": "SendEmail",
       "entities": [
         {
-          "entity": "ContactName",
-          "startPos": 18,
-          "endPos": 22
-        },
-        {
           "entity": "Attachment",
           "startPos": 10,
           "endPos": 13
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 18,
+          "endPos": 22
         }
       ]
     },
@@ -2537,6 +2571,11 @@
       "entities": []
     },
     {
+      "text": "put it in the recycle bin",
+      "intent": "Delete",
+      "entities": []
+    },
+    {
       "text": "put some additional lines to this message",
       "intent": "None",
       "entities": []
@@ -3111,6 +3150,11 @@
           "endPos": 10
         }
       ]
+    },
+    {
+      "text": "remove it from my inbox",
+      "intent": "Delete",
+      "entities": []
     },
     {
       "text": "reply",

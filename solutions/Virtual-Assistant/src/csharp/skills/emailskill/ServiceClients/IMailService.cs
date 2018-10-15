@@ -48,5 +48,14 @@ namespace EmailSkill
         /// <param name="skip">Skip message count.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         Task<List<Message>> GetMyMessages(DateTime startDateTime, DateTime endDateTime, bool isRead, bool isImportant, bool directlyToMe, string mailAddress, int skip);
+
+        /// <summary>
+        /// Forward email.
+        /// </summary>
+        /// <param name="id">The message id which need to be forward.</param>
+        /// <param name="content">The additional text when forward.</param>
+        /// <param name="recipients">The recipients.</param>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        Task DeleteMessage(string id);
     }
 }

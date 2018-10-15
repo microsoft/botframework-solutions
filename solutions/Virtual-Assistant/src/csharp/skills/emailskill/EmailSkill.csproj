@@ -10,6 +10,14 @@
     <ApplicationInsightsAnnotationResourceId>/subscriptions/4c0d07e4-5490-4784-8d89-d8c504ba2a75/resourcegroups/LamillsBot/providers/microsoft.insights/components/LamillsBot-insights</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <CodeAnalysisRuleSet>..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <CodeAnalysisRuleSet>..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="DeploymentScripts\msbotClone\email.luis" />
   </ItemGroup>
@@ -35,6 +43,8 @@
     <PackageReference Include="Microsoft.Bot.Connector" Version="4.0.7" />
     <PackageReference Include="Microsoft.Bot.Schema" Version="4.0.7" />
     <PackageReference Include="Microsoft.Graph" Version="1.10.0" />
+    <PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003" PrivateAssets="all" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
@@ -78,6 +88,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ShowEmailResponses.tt</DependentUpon>
     </Compile>
+    <Compile Update="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DeleteEmailResponses.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -105,6 +120,9 @@
     <Content Update="Dialogs\ConfirmRecipient\Resources\ConfirmRecipientResponses.en.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.en.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -126,6 +144,12 @@
     <Content Update="Dialogs\Shared\Resources\Cards\EmailWithOutButtonCard.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="Dialogs\Shared\Resources\EmailSharedResponses.zh.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\Shared\Resources\EmailSharedResponses.de.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Dialogs\Shared\Resources\EmailSharedResponses.en.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -139,6 +163,11 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ConfirmRecipientResponses.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.tt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LastGenOutput>DeleteEmailResponses.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
     </None>
     <None Update="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

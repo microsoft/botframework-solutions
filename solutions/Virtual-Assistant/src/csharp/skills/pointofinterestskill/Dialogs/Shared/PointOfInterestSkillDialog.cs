@@ -104,7 +104,7 @@ namespace PointOfInterestSkill
 
                 return await sc.EndDialogAsync(true);
             }
-            catch (Exception e)
+            catch
             {
                 await HandleDialogException(sc);
                 throw;

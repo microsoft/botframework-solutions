@@ -4,6 +4,7 @@ using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using ToDoSkill.Dialogs.MarkToDo.Resources;
@@ -55,20 +56,22 @@ namespace ToDoSkill
                 var service = await _serviceManager.Init(state.MsGraphToken, state.OneNotePageId);
                 var page = await service.GetDefaultToDoPage();
                 BotResponse botResponse;
-                string taskToBeMarked = null;
+                string taskTopicToBeMarked = null;
                 if (state.MarkOrDeleteAllTasksFlag)
                 {
-                    await service.MarkAllToDoItemsCompleted(state.AllTasks, page.ContentUrl);
+                    await service.MarkAllToDosCompleted(state.AllTasks, page.ContentUrl);
                     botResponse = MarkToDoResponses.AfterAllToDoTasksCompleted;
                 }
                 else
                 {
-                    await service.MarkToDoItemCompleted(state.Tasks[state.TaskIndex], page.ContentUrl);
+                    taskTopicToBeMarked = state.AllTasks[state.TaskIndexes[0]].Topic;
+                    var tasksToBeMarked = new List<ToDoItem>();
+                    state.TaskIndexes.ForEach(i => tasksToBeMarked.Add(state.AllTasks[i]));
+                    await service.MarkToDosCompleted(tasksToBeMarked, page.ContentUrl);
                     botResponse = MarkToDoResponses.AfterToDoTaskCompleted;
-                    taskToBeMarked = state.Tasks[state.TaskIndex].Topic;
                 }
 
-                var todosAndPageIdTuple = await service.GetMyToDoList();
+                var todosAndPageIdTuple = await service.GetToDos();
                 state.OneNotePageId = todosAndPageIdTuple.Item2;
                 state.AllTasks = todosAndPageIdTuple.Item1;
                 var allTasksCount = state.AllTasks.Count;
@@ -77,7 +80,7 @@ namespace ToDoSkill
                 var markToDoAttachment = ToAdaptiveCardAttachmentForOtherFlows(
                     state.Tasks,
                     state.AllTasks.Count,
-                    taskToBeMarked,
+                    taskTopicToBeMarked,
                     botResponse,
                     ToDoSharedResponses.ShowToDoTasks);
                 var markToDoReply = sc.Context.Activity.CreateReply();
@@ -85,7 +88,7 @@ namespace ToDoSkill
                 await sc.Context.SendActivityAsync(markToDoReply);
                 return await sc.EndDialogAsync(true);
             }
-            catch (Exception ex)
+            catch
             {
                 await HandleDialogExceptions(sc);
                 throw;

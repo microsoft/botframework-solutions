@@ -135,27 +135,6 @@ namespace ToDoSkill
         }
 
         /// <summary>
-        /// Generate mark To Do http request.
-        /// </summary>
-        /// <param name="toDoTaskActivity">To Do task activity.</param>
-        /// <param name="pageContentUrl">page content url.</param>
-        /// <returns>Generated http request message.</returns>
-        public static HttpRequestMessage GenerateMarkToDoHttpRequest(ToDoItem toDoTaskActivity, string pageContentUrl)
-        {
-            var patchCommand = new
-            {
-                target = toDoTaskActivity.Id,
-                action = "replace",
-                content = $"<p data-tag='to-do:completed' style='margin-top:0pt;margin-bottom:0pt'>{toDoTaskActivity.Topic}</p>",
-            };
-
-            return new HttpRequestMessage(new HttpMethod("PATCH"), pageContentUrl)
-            {
-                Content = new StringContent(JsonConvert.SerializeObject(new[] { patchCommand }), Encoding.UTF8, "application/json"),
-            };
-        }
-
-        /// <summary>
         /// Generate mark all To Dos http request.
         /// </summary>
         /// <param name="toDoTaskActivities">To Do task activities.</param>
@@ -179,27 +158,6 @@ namespace ToDoSkill
             return new HttpRequestMessage(new HttpMethod("PATCH"), pageContentUrl)
             {
                 Content = new StringContent(JsonConvert.SerializeObject(commands), Encoding.UTF8, "application/json"),
-            };
-        }
-
-        /// <summary>
-        /// Generate delete To Do http request.
-        /// </summary>
-        /// <param name="toDoTaskActivity">To Do task activity.</param>
-        /// <param name="pageContentUrl">page content url.</param>
-        /// <returns>Generated http request message.</returns>
-        public static HttpRequestMessage GenerateDeleteToDoHttpRequest(ToDoItem toDoTaskActivity, string pageContentUrl)
-        {
-            var patchCommand = new
-            {
-                target = toDoTaskActivity.Id,
-                action = "replace",
-                content = "<p></p>",
-            };
-
-            return new HttpRequestMessage(new HttpMethod("PATCH"), pageContentUrl)
-            {
-                Content = new StringContent(JsonConvert.SerializeObject(new[] { patchCommand }), Encoding.UTF8, "application/json"),
             };
         }
 
