@@ -11,6 +11,7 @@ namespace LinkedAccounts.Web.Models
 
     public class LinkedAcountViewModel
     {
+        public string UserId { get; set; }
         public TokenStatus[] Status { get; set; }
 
         public string DirectLineToken { get; set; }
