@@ -101,13 +101,25 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.zh.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\Main\Resources\ToDoMainResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Main\Resources\ToDoMainResponses.en.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="Dialogs\MarkToDo\Resources\MarkToDoResponses.zh.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Dialogs\MarkToDo\Resources\MarkToDoResponses.en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\Shared\Resources\ToDoSharedResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Shared\Resources\ToDoSharedResponses.de.json">
@@ -116,7 +128,10 @@
     <Content Update="Dialogs\Shared\Resources\ToDoSharedResponses.en.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\Shared\Resources\ToDoSharedResponses.zh.json">
+    <Content Update="Dialogs\Shared\Resources\old_ToDoSharedResponses.zh.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\ShowToDo\Resources\ShowToDoResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\ShowToDo\Resources\ShowToDoResponses.en.json">

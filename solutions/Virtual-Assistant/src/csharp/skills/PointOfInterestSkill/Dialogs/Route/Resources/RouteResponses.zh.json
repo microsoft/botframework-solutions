@@ -1,0 +1,38 @@
+﻿{
+  "MissingActiveLocationErrorMessage": {
+    "replies": [
+      {
+        "text": "抱歉，我没有找到合适的地点。你想去哪里？",
+        "speak": "抱歉，我没有找到合适的地点。你想去哪里？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "PromptToStartRoute": {
+    "replies": [
+      {
+        "text": "你想现在开始路线吗？",
+        "speak": "你想现在开始路线吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "SendingRouteDetails": {
+    "replies": [
+      {
+        "text": "我在向你发送路线的详细信息。",
+        "speak": "我在向你发送路线的详细信息。"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "AskAboutRouteLater": {
+    "replies": [
+      {
+        "text": "好的，我可以稍后帮你解决这个问题。",
+        "speak": "好的，我可以稍后帮你解决这个问题。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}

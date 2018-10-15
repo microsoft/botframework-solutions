@@ -1,0 +1,20 @@
+﻿{
+  "CancelActiveRoute": {
+    "replies": [
+      {
+        "text": "知道了。我正在取消你的路线。",
+        "speak": "知道了。我正在取消你的路线。"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "CannotCancelActiveRoute": {
+    "replies": [
+      {
+        "text": "抱歉，我没有可以取消的路线。",
+        "speak": "抱歉，我没有可以取消的路线。"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  }
+}

@@ -1,0 +1,51 @@
+﻿{
+  "ReadToDoTasks": {
+    "replies": [
+      {
+        "text": "第一个 {taskCount} 是：",
+        "speak": "第一个 {taskCount} 是："
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ShowNextToDoTasks": {
+    "replies": [
+      {
+        "text": "您可以选择下列操作：",
+        "speak": "您可以选择下列操作："
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ShowPreviousToDoTasks": {
+    "replies": [
+      {
+        "text": "正在显示您的待办事项表：",
+        "speak": "正在显示您的待办事项表："
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ShowingMoreTasks": {
+    "replies": [
+      {
+        "text": "如果您要浏览其余的待办事项，请问我‘下一页’或‘更多’。",
+        "speak": "如果您要浏览其余的待办事项，请问我‘下一页’或‘更多’。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "NoToDoTasksPrompt": {
+    "replies": [
+      {
+        "text": "您的待办事项表是空的。您需要添加第一个任务吗？",
+        "speak": "您的待办事项表是空的。您需要添加第一个任务吗？"
+      },
+      {
+        "text": "您的待办事项表是空的。需要添加一个新的？",
+        "speak": "您的待办事项表是空的。需要添加一个新的？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  }
+}

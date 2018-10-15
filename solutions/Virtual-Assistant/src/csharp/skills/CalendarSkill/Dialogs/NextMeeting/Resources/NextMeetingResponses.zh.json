@@ -1,0 +1,38 @@
+﻿{
+  "ShowNoMeetingMessage": {
+    "replies": [
+      {
+        "text": "你没有任何会议。",
+        "speak": "你没有任何会议。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowNextMeetingNoLocationMessage": {
+    "replies": [
+      {
+        "text": "您的日程表上有下列会议：",
+        "speak": "您的日程表上有下列会议：你在{EventTime}有个会议{EventName}，与会人数{PeopleCount}"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowNextMeetingMessage": {
+    "replies": [
+      {
+        "text": "您的日程表上有下列会议：",
+        "speak": "您的日程表上有下列会议：你在{EventTime}有个会议{EventName}，与会人数{PeopleCount}，会议地点在{Location}"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowMultipleNextMeetingMessage": {
+    "replies": [
+      {
+        "text": "您的日程表上有下列会议：",
+        "speak": "您的日程表上有下列会议："
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}
