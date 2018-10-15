@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -118,6 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PHONE_INFO" xml:space="preserve">
-    <value>我们的代理商提供24/7 在 1 (800) 555-1234。</value>
+    <value>I nostri agenti sono disponibili 24/7 a 1 (800) 555-1234.</value>
   </data>
 </root>

@@ -49,6 +49,8 @@ namespace VirtualAssistant
             var connectedServices = new BotServices(botConfig, skills);
             services.AddSingleton(sp => connectedServices);
 
+            var defaultLocale = Configuration.GetSection("defaultLocale").Get<string>();
+
             // Initialize Bot State
             var cosmosDbService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.CosmosDB) ?? throw new Exception("Please configure your CosmosDb service in your .bot file.");
             var cosmosDb = cosmosDbService as CosmosDbService;
@@ -100,11 +102,11 @@ namespace VirtualAssistant
                 var blobStorage = storageService as BlobStorageService;
                 var transcriptStore = new AzureBlobTranscriptStore(blobStorage.ConnectionString, blobStorage.Container);
                 var transcriptMiddleware = new TranscriptLoggerMiddleware(transcriptStore);
-                options.Middleware.Add(transcriptMiddleware);
+                options.Middleware.Add(transcriptMiddleware);              
 
                 // Typing Middleware (automatically shows typing when the bot is responding/working)
                 options.Middleware.Add(new ShowTypingMiddleware());
-                options.Middleware.Add(new SetLocaleMiddleware("en"));
+                options.Middleware.Add(new SetLocaleMiddleware(defaultLocale ?? "en"));
                 options.Middleware.Add(new EventDebuggerMiddleware());
                 options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
             });

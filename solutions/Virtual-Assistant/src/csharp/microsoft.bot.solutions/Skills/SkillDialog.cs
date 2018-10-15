@@ -131,7 +131,7 @@ namespace Microsoft.Bot.Solutions.Skills
                 };
 
                 _inProcAdapter.Use(new EventDebuggerMiddleware());
-                _inProcAdapter.Use(new SetLocaleMiddleware("en"));
+                _inProcAdapter.Use(new SetLocaleMiddleware(dc.Context.Activity.Locale));
                 _inProcAdapter.Use(new AutoSaveStateMiddleware(userState, conversationState));
                 _skillInitialized = true;
             }

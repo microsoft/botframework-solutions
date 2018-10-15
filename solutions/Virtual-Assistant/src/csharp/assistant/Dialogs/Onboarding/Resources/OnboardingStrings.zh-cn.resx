@@ -121,6 +121,12 @@
     <value>我已将 {0} 设置为您的主要位置。一切就绪！</value>
     <comment>3</comment>
   </data>
+  <data name="LINKEDACCOUNTS_BODY" xml:space="preserve">
+    <value>切换到您的配套应用以获得设置。</value>
+  </data>
+  <data name="LINKEDACCOUNTS_TITLE" xml:space="preserve">
+    <value>我可以做更多的, 如果你链接你的帐户!</value>
+  </data>
   <data name="LOCATION_PROMPT" xml:space="preserve">
     <value>谢谢, {0}。您的位置在哪里？</value>
     <comment>2</comment>

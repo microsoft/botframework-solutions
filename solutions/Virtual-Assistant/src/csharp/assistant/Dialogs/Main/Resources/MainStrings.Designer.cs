@@ -61,6 +61,15 @@ namespace VirtualAssistant.Dialogs.Main.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to What&apos;s my schedule?.
+        /// </summary>
+        public static string CALENDAR_SUGGESTEDACTION {
+            get {
+                return ResourceManager.GetString("CALENDAR_SUGGESTEDACTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ok, let&apos;s start over..
         /// </summary>
         public static string CANCELLED {
@@ -84,6 +93,15 @@ namespace VirtualAssistant.Dialogs.Main.Resources {
         public static string CONFUSED {
             get {
                 return ResourceManager.GetString("CONFUSED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send an email.
+        /// </summary>
+        public static string EMAIL_SUGGESTEDACTION {
+            get {
+                return ResourceManager.GetString("EMAIL_SUGGESTEDACTION", resourceCulture);
             }
         }
         
@@ -120,6 +138,48 @@ namespace VirtualAssistant.Dialogs.Main.Resources {
         public static string HELP_TITLE {
             get {
                 return ResourceManager.GetString("HELP_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
+        ///  &quot;$schema&quot;: &quot;http://adaptivecards.io/schemas/adaptive-card.json&quot;,
+        ///  &quot;type&quot;: &quot;AdaptiveCard&quot;,
+        ///  &quot;version&quot;: &quot;1.0&quot;,
+        ///  &quot;speak&quot;: &quot;Welcome to your Virtual Assistant! Now that you&apos;re up and running, let&apos;s get started.&quot;,
+        ///  &quot;body&quot;: [
+        ///    {
+        ///      &quot;type&quot;: &quot;Image&quot;,
+        ///      &quot;url&quot;: &quot;https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtB3AwMUeNoq4gUBGe6Ocj8kyh3bXa9ZbV7u1fVKQoyKFHdkqU&quot;,
+        ///      &quot;size&quot;: &quot;stretch&quot;
+        ///    },
+        ///    {
+        ///      &quot;type&quot;: &quot;TextBlock&quot;,
+        ///      &quot;spacing&quot;: &quot;medium&quot;,
+        ///      &quot;size&quot;: &quot;default&quot;,
+        ///     [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string Intro {
+            get {
+                return ResourceManager.GetString("Intro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Schedule a meeting.
+        /// </summary>
+        public static string MEETING_SUGGESTEDACTION {
+            get {
+                return ResourceManager.GetString("MEETING_SUGGESTEDACTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Find a coffee shop nearby.
+        /// </summary>
+        public static string POI_SUGGESTEDACTION {
+            get {
+                return ResourceManager.GetString("POI_SUGGESTEDACTION", resourceCulture);
             }
         }
     }
