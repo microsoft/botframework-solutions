@@ -38,15 +38,6 @@
     ],
     "inputHint": "expectingInput"
   },
-  "GoodbyeMessage": {
-    "replies": [
-      {
-        "text": "再见！",
-        "speak": "再见！"
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
   "CancellingMessage": {
     "replies": [
       {
@@ -55,6 +46,83 @@
       }
     ],
     "inputHint": "acceptingInput"
+  },
+  "ActionEnded": {
+    "replies": [
+      {
+        "text": "还有什么需要我的帮助吗？",
+        "speak": "还有什么需要我的帮助吗？"
+      },
+      {
+        "text": "还有什么我可以帮你的吗？",
+        "speak": "还有什么我可以帮你的吗？"
+      },
+      {
+        "text": "还有什么想要采取行动吗？",
+        "speak": "还有什么想要采取行动吗？"
+      },
+      {
+        "text": "如果您需要我的帮助，请告诉我。",
+        "speak": "如果您需要我的帮助，请告诉我。"
+      },
+      {
+        "text": "如果你需要我的帮助，我就在这里。",
+        "speak": "如果你需要我的帮助，我就在这里。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ToDoErrorMessage": {
+    "replies": [
+      {
+        "text": "对不起，看起来出了问题！",
+        "speak": "对不起，看起来出了问题！"
+      },
+      {
+        "text": "发生错误，给我一些时间，稍后再试。",
+        "speak": "发生错误，给我一些时间，稍后再试。"
+      },
+      {
+        "text": "出了点问题，对不起！",
+        "speak": "出了点问题，对不起！"
+      },
+      {
+        "text": "我相信出了点问题。你稍后可以再试一次吗？",
+        "speak": "我相信出了点问题。你稍后可以再试一次吗？"
+      },
+      {
+        "text": "抱歉，我现在找不到你想要的东西。请稍后再试。",
+        "speak": "抱歉，我现在找不到你想要的东西。请稍后再试。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "SettingUpOneNoteMessage": {
+    "replies": [
+      {
+        "text": "我正在配置您onenote上的待办事项表，这不会占用很长时间。",
+        "speak": "我正在配置您onenote上的待办事项表，这不会占用很长时间。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowToDoTasks": {
+    "replies": [
+      {
+        "text": "您的待办事项表有 {taskCount} 个任务：",
+        "speak": "您的待办事项表有 {taskCount} 个任务："
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AskToDoTaskIndex": {
+    "replies": [
+      {
+        "text": "您想为这个操作选择哪个任务？",
+        "speak": "您想为这个操作选择哪个任务？"
+      }
+    ],
+    "inputHint": "expectingInput"
   },
   "AskToDoContentText": {
     "replies": [
@@ -85,206 +153,5 @@
       }
     ],
     "inputHint": "expectingInput"
-  },
-  "AskToDoTaskIndex": {
-    "replies": [
-      {
-        "text": "您想为这个操作选择哪个任务？",
-        "speak": "您想为这个操作选择哪个任务？"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "ShowToDoTasks": {
-    "replies": [
-      {
-        "text": "您的待办事项表有 {taskCount} 个任务：",
-        "speak": "您的待办事项表有 {taskCount} 个任务："
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "ReadToDoTasks": {
-    "replies": [
-      {
-        "text": "第一个 {taskCount} 是：",
-        "speak": "第一个 {taskCount} 是："
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "ShowNextToDoTasks": {
-    "replies": [
-      {
-        "text": "您可以选择下列操作：",
-        "speak": "您可以选择下列操作："
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "ShowPreviousToDoTasks": {
-    "replies": [
-      {
-        "text": "正在显示您的待办事项表：",
-        "speak": "正在显示您的待办事项表："
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "NoToDoTasksPrompt": {
-    "replies": [
-      {
-        "text": "您的待办事项表是空的。您需要添加第一个任务吗？",
-        "speak": "您的待办事项表是空的。您需要添加第一个任务吗？"
-      },
-      {
-        "text": "您的待办事项表是空的。需要添加一个新的？",
-        "speak": "您的待办事项表是空的。需要添加一个新的？"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "AfterToDoTaskCompleted": {
-    "replies": [
-      {
-        "text": "已经为您完成此任务。",
-        "speak": "已经为您完成此任务。"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "AfterAllToDoTasksCompleted": {
-    "replies": [
-      {
-        "text": "已经为您完成所有任务。",
-        "speak": "已经为您完成所有任务。"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "AskDeletionConfirmation": {
-    "replies": [
-      {
-        "text": "您确定您要删除代办事项：{toDoTask}?",
-        "speak": "您确定您要删除代办事项：{toDoTask}?"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "AskDeletionAllConfirmation": {
-    "replies": [
-      {
-        "text": "您确定您要删除所有代办事项？",
-        "speak": "您确定您要删除所有代办事项？"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "AfterTaskDeleted": {
-    "replies": [
-      {
-        "text": "已经为您删除所有代办事项。",
-        "speak": "已经为您删除所有代办事项。"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "AfterAllTasksDeleted": {
-    "replies": [
-      {
-        "text": "已经为您清空代办事项表。",
-        "speak": "已经为您清空代办事项表。"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "AnythingElseCanDo": {
-    "replies": [
-      {
-        "text": "如果有任何事情需要我帮忙的话， 请不要客气。",
-        "speak": "如果有任何事情需要我帮忙的话， 请不要客气。"
-      },
-      {
-        "text": "如果需要我帮助，我在这里。",
-        "speak": "如果需要我帮助，我在这里。"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "ToDoHelpMessage": {
-    "replies": [
-      {
-        "text": "我可以读出您的待办事项, 创建新的待办事项, 或改变和删除一个待办事项。",
-        "speak": "我可以读出您的待办事项, 创建新的待办事项, 或改变和删除一个待办事项。"
-      }
-    ],
-    "suggestedActions": [
-      "读出我的待办事项",
-      "给我创建一个新的待办事项",
-      "标注第二个待办事项为完成",
-      "删除第三个待办事项"
-    ],
-    "inputHint": "expectingInput"
-  },
-  "GreetingMessage": {
-    "replies": [
-      {
-        "text": "嗨！",
-        "speak": "嗨！"
-      },
-      {
-        "text": "我在这！",
-        "speak": "我在这！"
-      },
-      {
-        "text": "你好！",
-        "speak": "你好！"
-      },
-      {
-        "text": "您好！",
-        "speak": "您好！"
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
-  "LogOut": {
-    "replies": [
-      {
-        "text": "您已成功退出。",
-        "speak": "您已成功退出。"
-      },
-      {
-        "text": "您已退出。",
-        "speak": "您已退出。"
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
-  "ToDoWelcomeMessage": {
-    "replies": [
-      {
-        "text": "你好！我是To Do bot. 我可以帮助你管理onenote上的待办事项。",
-        "speak": "你好！我是To Do bot. 我可以帮助你管理onenote上的待办事项。"
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
-  "SettingUpOneNoteMessage": {
-    "replies": [
-      {
-        "text": "我正在配置您onenote上的待办事项表，这不会占用很长时间。",
-        "speak": "我正在配置您onenote上的待办事项表，这不会占用很长时间。"
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
-  "ShowingMoreTasks": {
-    "replies": [
-      {
-        "text": "如果您要浏览其余的待办事项，请问我‘下一页’或‘更多’。",
-        "speak": "如果您要浏览其余的待办事项，请问我‘下一页’或‘更多’。"
-      }
-    ],
-    "inputHint": "acceptingInput"
   }
 }

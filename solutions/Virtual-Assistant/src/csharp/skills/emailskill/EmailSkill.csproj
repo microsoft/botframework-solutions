@@ -117,19 +117,37 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Dialogs\ConfirmRecipient\Resources\ConfirmRecipientResponses.zh.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Dialogs\ConfirmRecipient\Resources\ConfirmRecipientResponses.en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.en.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.zh.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\Main\Resources\EmailMainResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Main\Resources\EmailMainResponses.en.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="Dialogs\ReplyEmail\Resources\ReplyEmailResponses.zh.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Dialogs\ReplyEmail\Resources\ReplyEmailResponses.en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\SendEmail\Resources\SendEmailResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\SendEmail\Resources\SendEmailResponses.en.json">
@@ -151,6 +169,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Shared\Resources\EmailSharedResponses.en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\ShowEmail\Resources\ShowEmailResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\ShowEmail\Resources\ShowEmailResponses.en.json">
