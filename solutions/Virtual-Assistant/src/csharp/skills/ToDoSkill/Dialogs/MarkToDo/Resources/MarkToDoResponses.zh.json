@@ -1,0 +1,20 @@
+﻿{
+  "AfterToDoTaskCompleted": {
+    "replies": [
+      {
+        "text": "已经为您完成此任务。",
+        "speak": "已经为您完成此任务。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AfterAllToDoTasksCompleted": {
+    "replies": [
+      {
+        "text": "已经为您完成所有任务。",
+        "speak": "已经为您完成所有任务。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  }
+}

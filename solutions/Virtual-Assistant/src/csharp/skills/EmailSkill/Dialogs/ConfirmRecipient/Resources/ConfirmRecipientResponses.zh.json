@@ -1,0 +1,67 @@
+﻿{
+  "PromptTooManyPeople": {
+    "replies": [
+      {
+        "text": "名为{UserName}的人太多，请重新输入名称。",
+        "speak": "名为{UserName}的人太多，请重新输入名称。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "PromptPersonNotFound": {
+    "replies": [
+      {
+        "text": "没有找到名为{UserName}的人，请输入正确的名称。",
+        "speak": "没有找到名为{UserName}的人，请输入正确的名称。"
+      },
+      {
+        "text": "我找不到您正在寻找的联系人“{UserName}”。你能再试一次吗？",
+        "speak": "我找不到您正在寻找的联系人“{UserName}”。你能再试一次吗？"
+      },
+      {
+        "text": "你可以通过陈述名字和姓氏再试一次吗？",
+        "speak": "你可以通过陈述名字和姓氏再试一次吗？"
+      },
+      {
+        "text": "你能说出你要找的联系人的别名吗？",
+        "speak": "你能说出你要找的联系人的别名吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmRecipient": {
+    "replies": [
+      {
+        "text": "您想通过电子邮件联系哪个联系人？",
+        "speak": "您想通过电子邮件联系哪个联系人？"
+      },
+      {
+        "text": "你想发邮件给哪一个？",
+        "speak": "你想发邮件给哪一个？"
+      },
+      {
+        "text": "您想选择哪种联系方式？",
+        "speak": "您想选择哪种联系方式？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmRecipientNotFirstPage": {
+    "replies": [
+      {
+        "text": "我找到了更多的联系人，你想发邮件给哪一个？",
+        "speak": "我找到了更多的联系人，你想发邮件给哪一个？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmRecipientLastPage": {
+    "replies": [
+      {
+        "text": "现在显示的是您组织内的联系人，您想发邮件给哪一个？",
+        "speak": "现在显示的是您组织内的联系人，您想发邮件给哪一个？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  }
+}

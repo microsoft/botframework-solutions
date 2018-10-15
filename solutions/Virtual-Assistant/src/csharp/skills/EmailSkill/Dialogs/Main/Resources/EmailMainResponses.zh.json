@@ -1,0 +1,72 @@
+﻿{
+  "EmailWelcomeMessage": {
+    "replies": [
+      {
+        "text": "你好！我是Email Bot，我可以帮助你管理Office 365电子邮件，显示你未读的电子邮件，为你回复或转发电子邮件。",
+        "speak": "你好！我是Email Bot，我可以帮助你管理Office 365电子邮件，显示你未读的电子邮件，为你回复或转发电子邮件。"
+      }
+    ],
+    "suggestedActions": [
+      "显示最近的电子邮件",
+      "发送邮件给某人"
+    ],
+    "inputHint": "expectingInput"
+  },
+  "HelpMessage": {
+    "replies": [
+      {
+        "text": "我可以为您提供最新电子邮件的概述，向您发送重要的电子邮件，或为您创建和转发新电子邮件。",
+        "speak": "我可以为您提供最新电子邮件的概述，向您发送重要的电子邮件，或为您创建和转发新电子邮件。"
+      }
+    ],
+    "suggestedActions": [
+      "显示最近的电子邮件",
+      "给某人发送电子邮件",
+      "转发第二封邮件给某人"
+    ],
+    "inputHint": "expectingInput"
+  },
+  "GreetingMessage": {
+    "replies": [
+      {
+        "text": "嗨！",
+        "speak": "嗨！"
+      },
+      {
+        "text": "我在这！",
+        "speak": "我在这！"
+      },
+      {
+        "text": "你好！",
+        "speak": "你好！"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "LogOut": {
+    "replies": [
+      {
+        "text": "你已成功退出。",
+        "speak": "你已成功退出。"
+      },
+      {
+        "text": "您已成功退出。",
+        "speak": "您已成功退出。"
+      },
+      {
+        "text": "您已退出。",
+        "speak": "您已退出。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "FeatureNotAvailable": {
+    "replies": [
+      {
+        "text": "此功能尚不可用。",
+        "speak": "此功能尚不可用。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}
