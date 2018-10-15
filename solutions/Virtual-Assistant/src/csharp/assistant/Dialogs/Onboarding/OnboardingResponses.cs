@@ -58,8 +58,8 @@ namespace VirtualAssistant
             {
                 new HeroCard()
                 {
-                    Title = "I can do more if you link your accounts!",
-                    Text = "Switch to your companion app to get set up.",
+                    Title = OnboardingStrings.LINKEDACCOUNTS_TITLE,
+                    Text = OnboardingStrings.LINKEDACCOUNTS_BODY,
                     Images = new List<CardImage>()
                     {
                         new CardImage(){

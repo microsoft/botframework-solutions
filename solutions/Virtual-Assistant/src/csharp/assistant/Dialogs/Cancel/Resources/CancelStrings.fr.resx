@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,7 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="PHONE_INFO" xml:space="preserve">
-    <value>我们的代理商提供24/7 在 1 (800) 555-1234。</value>
+  <data name="CANCEL_CONFIRMED" xml:space="preserve">
+    <value>OK, recommençons.</value>
+  </data>
+  <data name="CANCEL_DENIED" xml:space="preserve">
+    <value>OK, continuons.</value>
+  </data>
+  <data name="CANCEL_PROMPT" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir annuler?</value>
   </data>
 </root>

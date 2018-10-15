@@ -121,6 +121,12 @@
     <value>I've added {0} as your primary location. You're all set up!</value>
     <comment>3</comment>
   </data>
+  <data name="LINKEDACCOUNTS_BODY" xml:space="preserve">
+    <value>Switch to your companion app to get set up.</value>
+  </data>
+  <data name="LINKEDACCOUNTS_TITLE" xml:space="preserve">
+    <value>I can do more if you link your accounts!</value>
+  </data>
   <data name="LOCATION_PROMPT" xml:space="preserve">
     <value>Thanks, {0}. Where are you located?</value>
     <comment>2</comment>

@@ -1,8 +1,8 @@
-﻿{
+{
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "type": "AdaptiveCard",
   "version": "1.0",
-  "speak": "欢迎您来体验智能助理! 现在一切就绪，我们开始吧。",
+  "speak": "� Bienvenido a tu asistente virtual! Ahora que est�s en marcha, empecemos.",
   "body": [
     {
       "type": "Image",
@@ -14,8 +14,8 @@
       "spacing": "medium",
       "size": "default",
       "weight": "bolder",
-      "text": "欢迎您的 ** 智能助理!",
-      "speak": "欢迎您的 智能助理!",
+      "text": "Bienvenido a tu asistente virtual",
+      "speak": "Bienvenido a tu asistente virtual",
       "wrap": true,
       "maxLines": 0
     },
@@ -23,8 +23,8 @@
       "type": "TextBlock",
       "size": "default",
       "isSubtle": "yes",
-      "text": "现在您已经成功地运行了您的智能助理, 请访问卡片上的选项了解更多。",
-      "speak": "现在一切就绪。我们开始吧。",
+      "text": "Ahora que ha ejecutado correctamente su asistente virtual, siga los enlaces de esta tarjeta adaptativa para explorar m�s.",
+      "speak": "Ahora que su funcionamiento vamos a empezar.",
       "wrap": true,
       "maxLines": 0
     }
@@ -32,17 +32,17 @@
   "actions": [
     {
       "type": "Action.OpenUrl",
-      "title": "文档",
+      "title": "Documentaci�n",
       "url": "https://aka.ms/customassistantdocs"
     },
     {
       "type": "Action.OpenUrl",
-      "title": "链接的帐户",
+      "title": "Cuentas vinculadas",
       "url": "https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/customassistant-linkedaccounts.md"
     },
     {
       "type": "Action.OpenUrl",
-      "title": "技能",
+      "title": "Skills",
       "url": "https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/customassistant-skills.md"
     }
   ]

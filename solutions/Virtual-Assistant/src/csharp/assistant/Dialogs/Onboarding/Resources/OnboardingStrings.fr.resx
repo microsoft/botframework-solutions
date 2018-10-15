@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,7 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="PHONE_INFO" xml:space="preserve">
-    <value>我们的代理商提供24/7 在 1 (800) 555-1234。</value>
+  <data name="HAVE_LOCATION" xml:space="preserve">
+    <value>He agregado {0} como su ubicación principal. ¡ Ya está todo listo!</value>
+    <comment>3</comment>
+  </data>
+  <data name="LINKEDACCOUNTS_BODY" xml:space="preserve">
+    <value>Switch to your companion app to get set up.</value>
+  </data>
+  <data name="LINKEDACCOUNTS_TITLE" xml:space="preserve">
+    <value>I can do more if you link your accounts!</value>
+  </data>
+  <data name="LOCATION_PROMPT" xml:space="preserve">
+    <value>Gracias, {0}. ¿Dónde están ubicados?</value>
+    <comment>2</comment>
+  </data>
+  <data name="NAME_PROMPT" xml:space="preserve">
+    <value>¿Cómo te llamas?</value>
+    <comment>1</comment>
   </data>
 </root>
