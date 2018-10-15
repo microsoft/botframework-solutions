@@ -65,7 +65,7 @@ namespace CalendarSkill
 
                 if (topIntent == Calendar.Intent.ShowNext)
                 {
-                    if ((state.ShowEventIndex + 1) * CalendarSkillState.PageSize < state.SummaryEvents.Count)
+                    if (state.SummaryEvents != null && ((state.ShowEventIndex + 1) * CalendarSkillState.PageSize < state.SummaryEvents.Count))
                     {
                         state.ShowEventIndex++;
                     }

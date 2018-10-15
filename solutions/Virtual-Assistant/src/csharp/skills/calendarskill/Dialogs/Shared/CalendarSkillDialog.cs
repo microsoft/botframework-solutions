@@ -94,6 +94,12 @@ namespace CalendarSkill
                     // Wait for the tokens/response event
                     return await sc.PromptAsync(SkillModeAuth, new PromptOptions());
                 }
+                else if (sc.Context.Activity.ChannelId == "test")
+                {
+                    var state = await _accessor.GetAsync(sc.Context);
+                    state.APIToken = "testToken";
+                    return await sc.NextAsync();
+                }
                 else
                 {
                     return await sc.PromptAsync(LocalModeAuth, new PromptOptions());

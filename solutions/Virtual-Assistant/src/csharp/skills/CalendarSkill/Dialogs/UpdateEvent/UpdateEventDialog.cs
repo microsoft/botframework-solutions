@@ -258,20 +258,10 @@ namespace CalendarSkill
                 }
                 else
                 {
-                    if (state.DialogName == "DeleteEvent")
+                    return await sc.PromptAsync(Actions.DateTimePromptForUpdateDelete, new PromptOptions
                     {
-                        return await sc.PromptAsync(Actions.DateTimePromptForUpdateDelete, new PromptOptions
-                        {
-                            Prompt = sc.Context.Activity.CreateReply(UpdateEventResponses.NoDeleteStartTime),
-                        });
-                    }
-                    else
-                    {
-                        return await sc.PromptAsync(Actions.DateTimePromptForUpdateDelete, new PromptOptions
-                        {
-                            Prompt = sc.Context.Activity.CreateReply(UpdateEventResponses.NoUpdateStartTime),
-                        });
-                    }
+                        Prompt = sc.Context.Activity.CreateReply(UpdateEventResponses.NoUpdateStartTime),
+                    });
                 }
             }
             catch
