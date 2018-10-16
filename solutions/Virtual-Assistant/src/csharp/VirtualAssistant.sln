@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailSkill", "skills\email\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PointOfInterestSkill", "skills\pointofinterest\PointOfInterestSkill.csproj", "{ACB52D46-6553-44EF-89AE-D3038406FA1E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoSkill", "skills\ToDoSkill\ToDoSkill.csproj", "{3DE6A4B2-9241-4605-9E8C-BD17A1F71502}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoSkill", "skills\todo\ToDoSkill.csproj", "{3DE6A4B2-9241-4605-9E8C-BD17A1F71502}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

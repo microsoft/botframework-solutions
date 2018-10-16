@@ -111,7 +111,7 @@
     <ProjectReference Include="..\skills\calendar\CalendarSkill.csproj" />
     <ProjectReference Include="..\skills\email\EmailSkill.csproj" />
     <ProjectReference Include="..\skills\pointofinterest\PointOfInterestSkill.csproj" />
-    <ProjectReference Include="..\skills\ToDoSkill\ToDoSkill.csproj" />
+    <ProjectReference Include="..\skills\todo\ToDoSkill.csproj" />
   </ItemGroup>
 
   <ItemGroup>
