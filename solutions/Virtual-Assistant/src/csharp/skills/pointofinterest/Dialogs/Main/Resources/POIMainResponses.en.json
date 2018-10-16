@@ -1,0 +1,86 @@
+{
+  "PointOfInterestWelcomeMessage": {
+    "replies": [
+      {
+        "text": "Welcome to Point of Interest bot! I can find points of interest, show a route to your destination, or find fun things nearby.",
+        "speak": "Welcome to Point of Interest bot! I can find points of interest, show a route to your destination, or find fun things nearby."
+      }
+    ],
+    "suggestedActions": [
+      "What's the fastest way to get to the airport?",
+      "Is there a coffee shop in town?",
+      "Get me directions to 400 Broad St",
+      "I want to visit the Space Needle",
+      "What's nearby?"
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "HelpMessage": {
+    "replies": [
+      {
+        "text": "I can find points of interest, show a route to your destination, or find fun things nearby.",
+        "speak": "I can find points of interest, show a route to your destination, or find fun things nearby."
+      }
+    ],
+    "suggestedActions": [
+      "What's the fastest way to get to the airport?",
+      "Is there a coffee shop in town?",
+      "Get me directions to 400 Broad St",
+      "I want to visit the Space Needle",
+      "What's nearby?"
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "GreetingMessage": {
+    "replies": [
+      {
+        "text": "Hi!",
+        "speak": "Hi!"
+      },
+      {
+        "text": "Hi there!",
+        "speak": "Hi there!"
+      },
+      {
+        "text": "Hello!",
+        "speak": "Hello!"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "GoodbyeMessage": {
+    "replies": [
+      {
+        "text": "Goodbye!",
+        "speak": "Goodbye!"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "LogOut": {
+    "replies": [
+      {
+        "text": "Your sign out was successful.",
+        "speak": "Your sign out was successful."
+      },
+      {
+        "text": "You have successfully signed out.",
+        "speak": "You have successfully signed out."
+      },
+      {
+        "text": "You have been logged out.",
+        "speak": "You have been logged out."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "FeatureNotAvailable": {
+    "replies": [
+      {
+        "text": "This feature is not yet available in the Calendar Skill. Please try asking something else.",
+        "speak": "This feature is not yet available in the Calendar Skill. Please try asking something else."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}
