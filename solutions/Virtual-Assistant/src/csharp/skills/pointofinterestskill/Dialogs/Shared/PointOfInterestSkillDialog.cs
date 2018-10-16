@@ -368,7 +368,7 @@ namespace PointOfInterestSkill
 
         protected string GetAzureMapsKey()
         {
-            _services.Properties.TryGetValue("AzureMapsKey", out var key);
+            _services.Properties.TryGetValue("AzureMaps-Key", out var key);
 
             if (key == null)
             {
