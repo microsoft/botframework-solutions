@@ -15,13 +15,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Solutions", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skills", "Skills", "{1F423A0A-64D9-400C-B2B0-3AC378A5AB02}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalendarSkill", "skills\CalendarSkill\CalendarSkill.csproj", "{6BD03130-4931-410F-83EB-03E37E17E2B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalendarSkill", "skills\calendar\CalendarSkill.csproj", "{6BD03130-4931-410F-83EB-03E37E17E2B9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailSkill", "skills\EmailSkill\EmailSkill.csproj", "{2DF1C042-7544-4885-AFE4-E7010369A519}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailSkill", "skills\email\EmailSkill.csproj", "{2DF1C042-7544-4885-AFE4-E7010369A519}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PointOfInterestSkill", "skills\PointOfInterestSkill\PointOfInterestSkill.csproj", "{ACB52D46-6553-44EF-89AE-D3038406FA1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PointOfInterestSkill", "skills\pointofinterest\PointOfInterestSkill.csproj", "{ACB52D46-6553-44EF-89AE-D3038406FA1E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoSkill", "skills\ToDoSkill\ToDoSkill.csproj", "{3DE6A4B2-9241-4605-9E8C-BD17A1F71502}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoSkill", "skills\todo\ToDoSkill.csproj", "{3DE6A4B2-9241-4605-9E8C-BD17A1F71502}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
