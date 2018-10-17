@@ -233,7 +233,7 @@ namespace CalendarSkill
 
                         case General.Intent.Help:
                             {
-                                result = await OnHelp(dc);
+                                // result = await OnHelp(dc);
                                 break;
                             }
 
