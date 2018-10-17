@@ -43,6 +43,9 @@ namespace Luis
             // Pattern.any
             public string[] TaskContent;
 
+            // Simple entities
+            public string[] TaskType;
+
             // Instance
             public class _Instance
             {
@@ -50,6 +53,7 @@ namespace Luis
                 public InstanceData[] TaskType;
                 public InstanceData[] ordinal;
                 public InstanceData[] TaskContent;
+                public InstanceData[] TaskType;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;

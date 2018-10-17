@@ -12,6 +12,7 @@ namespace ToDoSkill
     using Microsoft.Graph;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
+    using static global::ToDoSkill.ListTypes;
 
     /// <summary>
     /// To Do bot service.
@@ -20,31 +21,52 @@ namespace ToDoSkill
     {
         private const string OneNoteNotebookName = "ToDoNotebook";
         private const string OneNoteSectionName = "ToDoSection";
-        private const string OneNoteToPageName = "To Do";
         private readonly string graphBaseUrl = "https://graph.microsoft.com/v1.0/me";
+        private string toDoPageName = ListType.ToDo.ToString();
+        private string groceryPageName = ListType.Grocery.ToString();
+        private string shoppingPageName = ListType.Shopping.ToString();
         private HttpClient httpClient;
-        private string pageId;
+        private Dictionary<string, string> pageIds;
 
         /// <summary>
         /// Initializes ToDoService using token.
         /// </summary>
         /// <param name="token">the token used for msgraph API call.</param>
-        /// <param name="pageId">the page id.</param>
+        /// <param name="pageIds">the page ids.</param>
         /// <returns>To Do service itself.</returns>
-        public async Task<IToDoService> Init(string token, string pageId)
+        public async Task<IToDoService> Init(string token, Dictionary<string, string> pageIds)
         {
             try
             {
                 httpClient = ServiceHelper.GetHttpClient(token);
-                if (string.IsNullOrEmpty(pageId))
+                if (!pageIds.ContainsKey(toDoPageName)
+                    || !pageIds.ContainsKey(groceryPageName)
+                    || !pageIds.ContainsKey(shoppingPageName))
                 {
                     var notebookId = await GetOrCreateNotebookAsync(OneNoteNotebookName);
                     var sectionId = await GetOrCreateSectionAsync(notebookId, OneNoteSectionName);
-                    this.pageId = await GetOrCreatePageAsync(sectionId, OneNoteToPageName);
+
+                    if (!pageIds.ContainsKey(toDoPageName))
+                    {
+                        var toDoPageId = await GetOrCreatePageAsync(sectionId, toDoPageName);
+                        pageIds.Add(toDoPageName, toDoPageId);
+                    }
+
+                    if (!pageIds.ContainsKey(groceryPageName))
+                    {
+                        var groceryPageId = await GetOrCreatePageAsync(sectionId, groceryPageName);
+                        pageIds.Add(groceryPageName, groceryPageId);
+                    }
+
+                    if (!pageIds.ContainsKey(shoppingPageName))
+                    {
+                        var shoppingPageId = await GetOrCreatePageAsync(sectionId, shoppingPageName);
+                        pageIds.Add(shoppingPageName, shoppingPageId);
+                    }
                 }
                 else
                 {
-                    this.pageId = pageId;
+                    this.pageIds = pageIds;
                 }
 
                 return this;
@@ -58,24 +80,24 @@ namespace ToDoSkill
         /// <summary>
         /// Get To Do list.
         /// </summary>
-        /// <returns>Tuple of To Do task activities and onenote page id.</returns>
-        public async Task<Tuple<List<ToDoItem>, string>> GetToDos()
+        /// <returns>Tuple of To Dos and onenote page ids.</returns>
+        public async Task<Tuple<List<ToDoItem>, string>> GetToDos(string listType)
         {
             try
             {
-                var pages = await GetOneNotePageById(pageId);
+                var pages = await GetOneNotePageById(pageIds[listType]);
 
                 var retryCount = 2;
                 while ((pages == null || pages.Count == 0) && retryCount > 0)
                 {
-                    pages = await GetOneNotePageById(pageId);
+                    pages = await GetOneNotePageById(pageIds[listType]);
                     retryCount--;
                 }
 
                 if (pages != null && pages.Count > 0)
                 {
-                    var todos = await GetToDos(pages.First().ContentUrl);
-                    return new Tuple<List<ToDoItem>, string>(todos, pageId);
+                    var todos = await GetToDoContent(pages.First().ContentUrl);
+                    return new Tuple<List<ToDoItem>, string>(todos, pageIds[listType]);
                 }
                 else
                 {
@@ -92,16 +114,16 @@ namespace ToDoSkill
         /// Get default To Do page.
         /// </summary>
         /// <returns>Default onenote page.</returns>
-        public async Task<OnenotePage> GetDefaultToDoPage()
+        public async Task<OnenotePage> GetDefaultToDoPage(string listType)
         {
             try
             {
-                var pages = await GetOneNotePageById(pageId);
+                var pages = await GetOneNotePageById(pageIds[listType]);
 
                 var retryCount = 2;
                 while ((pages == null || pages.Count == 0) && retryCount > 0)
                 {
-                    pages = await GetOneNotePageById(pageId);
+                    pages = await GetOneNotePageById(pageIds[listType]);
                     retryCount--;
                 }
 
@@ -289,7 +311,7 @@ namespace ToDoSkill
             return await GetOneNotePage(pageByIdUrl);
         }
 
-        private async Task<List<ToDoItem>> GetToDos(string pageContentUrl)
+        private async Task<List<ToDoItem>> GetToDoContent(string pageContentUrl)
         {
             var todoContent = await httpClient.GetStringAsync(pageContentUrl + "?includeIDs=true");
             var doc = new XmlDocument();

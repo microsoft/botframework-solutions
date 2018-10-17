@@ -424,6 +424,11 @@ namespace ToDoSkill
                     state.TaskContent = entities.TaskContent[0];
                 }
 
+                if (entities.TaskType != null)
+                {
+                    state.TaskType = entities.TaskType[0];
+                }
+
                 if (dc.Context.Activity.Text != null)
                 {
                     var words = dc.Context.Activity.Text.Split(' ');

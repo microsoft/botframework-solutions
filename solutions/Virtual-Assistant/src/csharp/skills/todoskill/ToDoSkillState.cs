@@ -1,7 +1,6 @@
-﻿using Luis;
-using Microsoft.Bot.Builder;
+﻿using System.Collections.Generic;
+using Luis;
 using Microsoft.Bot.Builder.Dialogs;
-using System.Collections.Generic;
 
 namespace ToDoSkill
 {
@@ -24,6 +23,7 @@ namespace ToDoSkill
             OneNotePageId = null;
             LuisResult = null;
             ConversationDialogState = null;
+            TaskType = null;
         }
 
         /// <summary>
@@ -139,6 +139,14 @@ namespace ToDoSkill
         public DialogState ConversationDialogState { get; set; }
 
         /// <summary>
+        /// Gets or sets TaskType.
+        /// </summary>
+        /// <value>
+        /// TaskType.
+        /// </value>
+        public string TaskType { get; set; }
+
+        /// <summary>
         /// Clear state.
         /// </summary>
         public void Clear()
@@ -155,6 +163,7 @@ namespace ToDoSkill
             OneNotePageId = null;
             LuisResult = null;
             ConversationDialogState = null;
+            TaskType = null;
         }
     }
 }
