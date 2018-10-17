@@ -283,7 +283,7 @@ namespace PointOfInterestSkill
 
                         case General.Intent.Help:
                             {
-                                result = await OnHelp(dc);
+                                // result = await OnHelp(dc);
                                 break;
                             }
 
