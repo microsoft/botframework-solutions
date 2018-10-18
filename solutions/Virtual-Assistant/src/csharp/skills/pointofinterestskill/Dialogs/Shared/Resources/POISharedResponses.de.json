@@ -22,10 +22,7 @@
         "speak": "Können Sie das bitte etwas mehr ausführen?"
       },
       {
-        "text": "„Formulieren",
-        "Sie" "bitte",
-        "Ihr" "Anliegen",
-        "noch" "einmal.\",",
+        "text": "Formulieren Sie bitte Ihr Anliegen noch einmal.",
         "speak": "Formulieren Sie bitte Ihr Anliegen noch einmal."
       },
       {
@@ -79,7 +76,7 @@
     "replies": [
       {
         "text": "Auf Wiedersehen!  \r\n  Wenn Sie etwas brauchen, können Sie immer die Sprachtaste drücken.",
-        "speak": "Auf Wiedersehen!  \r\n  Wenn Sie etwas brauchen, können Sie immer die Sprachtaste drücken."
+        "speak": "Auf Wiedersehen! Wenn Sie etwas brauchen, können Sie immer die Sprachtaste drücken."
       }
     ],
     "inputHint": "acceptingInput"
