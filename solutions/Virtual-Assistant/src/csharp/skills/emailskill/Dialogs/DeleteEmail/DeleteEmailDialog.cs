@@ -48,7 +48,7 @@ namespace EmailSkill
                 var focusedMessage = state.Message.FirstOrDefault();
                 if (focusedMessage != null)
                 {
-                    return await sc.PromptAsync(Action.ConfirmRecipient, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(DeleteEmailResponses.DeleteConfirm) });
+                    return await sc.PromptAsync(Action.TakeFurtherAction, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(DeleteEmailResponses.DeleteConfirm) });
                 }
 
                 return await sc.BeginDialogAsync(Action.Show);

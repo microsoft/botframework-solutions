@@ -130,7 +130,7 @@ namespace EmailSkill
 
                 if (topIntent == Email.Intent.Delete)
                 {
-                    return await sc.BeginDialogAsync(Action.Delete);
+                    return await sc.BeginDialogAsync(nameof(DeleteEmailDialog));
                 }
 
                 return await sc.BeginDialogAsync(Action.Read);
