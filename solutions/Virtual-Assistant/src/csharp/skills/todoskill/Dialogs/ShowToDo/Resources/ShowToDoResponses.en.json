@@ -38,8 +38,8 @@
   "NoToDoTasksPrompt": {
     "replies": [
       {
-        "text": "Your To Do list is empty. Do you want to add something",
-        "speak": "Your To Do list is empty. Do you want to add something"
+        "text": "Your To Do list is empty. Do you want to add something?",
+        "speak": "Your To Do list is empty. Do you want to add something?"
       },
       {
         "text": "Your To Do list has no tasks. Want to add a new one?",

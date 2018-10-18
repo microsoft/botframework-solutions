@@ -153,5 +153,14 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "NoTasksInList": {
+    "replies": [
+      {
+        "text": "您的待办事项表是空的.",
+        "speak": "您的待办事项表是空的."
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }

@@ -25,6 +25,7 @@ namespace ToDoSkill
                 GetAuthToken,
                 AfterGetAuthToken,
                 ClearContext,
+                InitAllTasks,
                 CollectToDoTaskIndex,
                 this.MarkToDoTaskCompleted,
             };

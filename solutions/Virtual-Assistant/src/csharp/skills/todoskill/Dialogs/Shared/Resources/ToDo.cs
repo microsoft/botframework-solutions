@@ -35,6 +35,7 @@ namespace Luis
         {
             // Simple entities
             public string[] ContainsAll;
+            public string[] TaskType;
 
             // Built-in entities
             public double[] ordinal;
@@ -46,6 +47,7 @@ namespace Luis
             public class _Instance
             {
                 public InstanceData[] ContainsAll;
+                public InstanceData[] TaskType;
                 public InstanceData[] ordinal;
                 public InstanceData[] TaskContent;
             }
