@@ -641,7 +641,7 @@ namespace EmailSkill
                 var token = state.MsGraphToken;
                 var serivce = _serviceManager.InitMailService(token, state.GetUserTimeZone());
 
-                var isRead = state.IsRead;
+                var isUnreadOnly = state.IsUnreadOnly;
                 var isImportant = state.IsImportant;
                 var startDateTime = state.StartDateTime;
                 var endDateTime = state.EndDateTime;
@@ -661,7 +661,7 @@ namespace EmailSkill
                 }
 
                 // Get user message.
-                result = await serivce.GetMyMessages(startDateTime, endDateTime, isRead, isImportant, directlyToMe, mailAddress, skip);
+                result = await serivce.GetMyMessages(startDateTime, endDateTime, isUnreadOnly, isImportant, directlyToMe, mailAddress, skip);
             }
             catch (Exception ex)
             {
@@ -699,7 +699,7 @@ namespace EmailSkill
             }
 
             var searchType = "relevant";
-            if (state.IsRead)
+            if (state.IsUnreadOnly)
             {
                 searchType = " unread";
             }
@@ -768,7 +768,7 @@ namespace EmailSkill
                 state.Recipients.Clear();
                 state.ConfirmRecipientIndex = 0;
                 state.ShowEmailIndex = 0;
-                state.IsRead = false;
+                state.IsUnreadOnly = true;
                 state.IsImportant = false;
                 state.StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
                 state.EndDateTime = DateTime.UtcNow;
@@ -816,7 +816,7 @@ namespace EmailSkill
                                 state.IsImportant = true;
                                 break;
                             case "unread":
-                                state.IsRead = true;
+                                state.IsUnreadOnly = true;
                                 break;
                         }
                     }
