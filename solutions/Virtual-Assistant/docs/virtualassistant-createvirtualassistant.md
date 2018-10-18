@@ -147,7 +147,7 @@ The commands shown below assume you have used the deployment process and your re
 ```shell
 msbot get production --secret YOUR_SECRET
 
-az bot authsetting create --resource-group YOUR_BOT_NAME --name YOUR_BOT_NAME --setting-name "YOUR_AUTH_CONNECTION_NAME" --client-id "YOUR_APPLICATION_ID" --client-secret "YOUR_APPLICATION_PASSWORD" --provider-scope-string "Calendars.ReadWrite Mail.Read Mail.Send Notes.ReadWrite.All People.Read.All User.Read.All" --service Aadv2
+az bot authsetting create --resource-group YOUR_BOT_NAME --name YOUR_BOT_NAME --setting-name "YOUR_AUTH_CONNECTION_NAME" --client-id "YOUR_APPLICATION_ID" --client-secret "YOUR_APPLICATION_PASSWORD" --provider-scope-string "Calendars.ReadWrite Mail.Read Mail.Send Notes.ReadWrite.All People.Read User.Read.Basic" --service Aadv2
 ```
 
 The final step is to update your .bot file and associated Skills (in appSettings.config) with the Authentication connection name, this is used by the Assistant to enable Authentication prompts or use of Linked Accounts.
