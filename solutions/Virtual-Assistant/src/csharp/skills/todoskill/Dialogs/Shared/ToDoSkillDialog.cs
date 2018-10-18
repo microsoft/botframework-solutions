@@ -196,7 +196,15 @@ namespace ToDoSkill
                 state.Tasks = state.AllTasks.GetRange(0, rangeCount);
             }
 
-            return await sc.NextAsync();
+            if (state.AllTasks.Count <= 0)
+            {
+                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.NoTasksInList));
+                return await sc.EndDialogAsync(true);
+            }
+            else
+            {
+                return await sc.NextAsync();
+            }
         }
 
         public async Task<DialogTurnResult> CollectToDoTaskIndex(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))

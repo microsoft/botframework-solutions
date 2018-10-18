@@ -45,6 +45,8 @@ namespace ToDoSkill.Dialogs.Shared.Resources
 
         public static BotResponse AfterToDoTaskAdded => GetBotResponse();
 
+        public static BotResponse NoTasksInList => GetBotResponse();
+
         private static Dictionary<string, Dictionary<string, BotResponse>> JsonResponses
         {
             get
