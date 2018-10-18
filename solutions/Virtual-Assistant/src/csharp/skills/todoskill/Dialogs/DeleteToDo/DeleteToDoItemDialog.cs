@@ -26,6 +26,7 @@ namespace ToDoSkill
                 GetAuthToken,
                 AfterGetAuthToken,
                 ClearContext,
+                InitAllTasks,
                 CollectToDoTaskIndex,
                 CollectAskDeletionConfirmation,
                 DeleteToDoTask,

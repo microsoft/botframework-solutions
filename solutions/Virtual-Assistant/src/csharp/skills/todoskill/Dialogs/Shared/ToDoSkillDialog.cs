@@ -70,7 +70,6 @@ namespace ToDoSkill
             return await base.OnContinueDialogAsync(dc, cancellationToken);
         }
 
-
         // Shared steps
         public async Task<DialogTurnResult> GetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -182,6 +181,24 @@ namespace ToDoSkill
             return await sc.NextAsync();
         }
 
+        public async Task<DialogTurnResult> InitAllTasks(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await _accessor.GetAsync(sc.Context);
+            if (string.IsNullOrEmpty(state.OneNotePageId))
+            {
+                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
+                var service = await _serviceManager.Init(state.MsGraphToken, state.OneNotePageId);
+                var todosAndPageIdTuple = await service.GetToDos();
+                state.OneNotePageId = todosAndPageIdTuple.Item2;
+                state.AllTasks = todosAndPageIdTuple.Item1;
+                state.ShowToDoPageIndex = 0;
+                var rangeCount = Math.Min(state.PageSize, state.AllTasks.Count);
+                state.Tasks = state.AllTasks.GetRange(0, rangeCount);
+            }
+
+            return await sc.NextAsync();
+        }
+
         public async Task<DialogTurnResult> CollectToDoTaskIndex(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             return await sc.BeginDialogAsync(Action.CollectToDoTaskIndex);
@@ -193,7 +210,7 @@ namespace ToDoSkill
             if (!string.IsNullOrEmpty(state.TaskContent)
                 || state.MarkOrDeleteAllTasksFlag
                 || (state.TaskIndexes.Count == 1
-                    && state.TaskIndexes[0] >= 0 
+                    && state.TaskIndexes[0] >= 0
                     && state.TaskIndexes[0] < state.Tasks.Count))
             {
                 return await sc.NextAsync();
