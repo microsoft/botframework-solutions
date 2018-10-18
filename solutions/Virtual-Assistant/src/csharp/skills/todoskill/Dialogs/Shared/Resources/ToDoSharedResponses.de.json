@@ -282,5 +282,14 @@
       }
     ],
     "inputHint": "acceptingInput"
+  },
+  "NoTasksInList": {
+    "replies": [
+      {
+        "text": "Ihre To Do Liste ist leer.",
+        "speak": "Ihre To Do Liste ist leer."
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }
