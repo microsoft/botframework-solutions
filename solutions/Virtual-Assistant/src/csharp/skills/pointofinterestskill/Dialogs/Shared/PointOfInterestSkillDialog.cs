@@ -61,21 +61,21 @@ namespace PointOfInterestSkill
         {
             try
             {
+                //Defensive for scenarios where locale isn't correctly set
                 var country = "US";
 
-                // Defensive for scenarios where locale isn't correctly set
-                //try
-                //{
-                //    var cultureInfo = new RegionInfo(sc.Context.Activity.Locale);
-                //    country = cultureInfo.TwoLetterISORegionName;
-                //}
-                //catch (Exception)
-                //{
-                //    // Default to everything if we can't restrict the country
-                //}
+                try
+                {
+                    var cultureInfo = new RegionInfo(sc.Context.Activity.Locale);
+                    country = cultureInfo.TwoLetterISORegionName;
+                }
+                catch (Exception)
+                {
+                    // Default to everything if we can't restrict the country
+                }
 
                 var state = await _accessor.GetAsync(sc.Context);
-                var service = _serviceManager.InitMapsService(GetAzureMapsKey());
+                var service = _serviceManager.InitMapsService(GetAzureMapsKey(), sc.Context.Activity.Locale ?? "en");
                 var locationSet = new LocationSet();
 
                 if (string.IsNullOrEmpty(state.SearchText) && string.IsNullOrEmpty(state.SearchAddress))
@@ -158,7 +158,7 @@ namespace PointOfInterestSkill
             var cardsData = new List<LocationCardModelData>();
             var service = _serviceManager.InitMapsService(GetAzureMapsKey());
 
-            if (locations != null)
+            if (locations != null && locations.Count > 0)
             {
                 var optionNumber = 1;
                 state.FoundLocations = locations.ToList();
