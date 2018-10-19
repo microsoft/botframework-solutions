@@ -370,13 +370,14 @@ namespace PointOfInterestSkill
         {
             _services.Properties.TryGetValue("AzureMapsKey", out var key);
 
-            if (key == null)
+            var keyStr = (string)key;
+            if (string.IsNullOrWhiteSpace(keyStr))
             {
                 throw new Exception("Could not get the Azure Maps key. Please make sure your settings are correctly configured.");
             }
             else
             {
-                return (string)key;
+                return keyStr;
             }
         }
 

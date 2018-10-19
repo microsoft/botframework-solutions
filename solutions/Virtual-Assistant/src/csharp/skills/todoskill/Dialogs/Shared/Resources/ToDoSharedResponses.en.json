@@ -201,5 +201,14 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "NoTasksInList": {
+    "replies": [
+      {
+        "text": "Your To Do list is empty.",
+        "speak": "Your To Do list is empty."
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }

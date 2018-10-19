@@ -1,7 +1,6 @@
 {
-  "luis_schema_version": "3.1.0",
   "versionId": "0.1",
-  "name": "ToDo Bot2",
+  "name": "ToDo",
   "desc": "",
   "culture": "en-us",
   "intents": [
@@ -49,6 +48,10 @@
     {
       "name": "ContainsAll",
       "roles": []
+    },
+    {
+      "name": "TaskType",
+      "roles": []
     }
   ],
   "composites": [],
@@ -67,7 +70,14 @@
       "roles": []
     }
   ],
-  "model_features": [],
+  "model_features": [
+    {
+      "name": "TaskType",
+      "mode": true,
+      "words": "to do,to dos,todo,to-do,todos,task,tasks,to-dos",
+      "activated": true
+    }
+  ],
   "regex_features": [
     {
       "name": "AirportCodeRegex",
@@ -181,6 +191,10 @@
       "intent": "DeleteToDo"
     },
     {
+      "pattern": "add {TaskContent} to my grocery list",
+      "intent": "AddToDo"
+    },
+    {
       "pattern": "mark the task {TaskContent} as completed",
       "intent": "MarkToDo"
     },
@@ -217,6 +231,10 @@
       "intent": "AddToDo"
     },
     {
+      "pattern": "add {TaskContent} to my shopping list",
+      "intent": "AddToDo"
+    },
+    {
       "pattern": "remove the task {TaskContent}",
       "intent": "DeleteToDo"
     },
@@ -245,7 +263,19 @@
       "intent": "AddToDo"
     },
     {
+      "pattern": "add {TaskContent} to my todo list",
+      "intent": "AddToDo"
+    },
+    {
       "pattern": "create a task that {TaskContent}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "add a {TaskType} item that {TaskContent}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "remind me that {TaskContent}",
       "intent": "AddToDo"
     },
     {
@@ -270,49 +300,156 @@
     },
     {
       "pattern": "delete to do that {TaskContent}",
-      "intent": "DeleteToDo"
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "remind me to {TaskContent}",
+      "intent": "AddToDo"
     }
   ],
   "utterances": [
     {
+      "text": "add a grocery item",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 6,
+          "endPos": 12
+        }
+      ]
+    },
+    {
       "text": "add a new task",
       "intent": "AddToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 10,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "add a task that buy milk",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 6,
+          "endPos": 9
+        }
+      ]
     },
     {
       "text": "add a to do",
       "intent": "AddToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 6,
+          "endPos": 10
+        }
+      ]
     },
     {
       "text": "add a to do for me",
       "intent": "AddToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 6,
+          "endPos": 10
+        }
+      ]
     },
     {
       "text": "add a to do item",
       "intent": "AddToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 6,
+          "endPos": 10
+        }
+      ]
     },
     {
       "text": "add a todo",
       "intent": "AddToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 6,
+          "endPos": 9
+        }
+      ]
     },
     {
       "text": "add a todo for me",
       "intent": "AddToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 6,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "add a to-do for me",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 6,
+          "endPos": 10
+        }
+      ]
     },
     {
       "text": "add another task",
       "intent": "AddToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 12,
+          "endPos": 15
+        }
+      ]
     },
     {
       "text": "add another to do",
       "intent": "AddToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 12,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "add milk to my grocery list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 15,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "add shoes to my shopping list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 16,
+          "endPos": 23
+        }
+      ]
     },
     {
       "text": "all",
@@ -322,17 +459,46 @@
     {
       "text": "another task",
       "intent": "AddToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 8,
+          "endPos": 11
+        }
+      ]
     },
     {
       "text": "another to do",
       "intent": "AddToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 8,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "can you add a shopping item for me?",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 14,
+          "endPos": 21
+        }
+      ]
     },
     {
       "text": "can you add a todo for me",
       "intent": "AddToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 14,
+          "endPos": 17
+        }
+      ]
     },
     {
       "text": "can you delete the third to do?",
@@ -356,9 +522,48 @@
       ]
     },
     {
+      "text": "can you show my grocery list?",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 16,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "can you show my shopping items",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 16,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "can you show my shopping list?",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 16,
+          "endPos": 23
+        }
+      ]
+    },
+    {
       "text": "can you show my to dos?",
       "intent": "ShowToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 16,
+          "endPos": 21
+        }
+      ]
     },
     {
       "text": "can you show next",
@@ -431,7 +636,13 @@
     {
       "text": "create a new to do",
       "intent": "AddToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 13,
+          "endPos": 17
+        }
+      ]
     },
     {
       "text": "delete a to do",
@@ -530,7 +741,13 @@
     {
       "text": "i just thought of a to do",
       "intent": "AddToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 20,
+          "endPos": 24
+        }
+      ]
     },
     {
       "text": "i want to delete all my to do's",
@@ -606,7 +823,13 @@
     {
       "text": "just thought of a new todo",
       "intent": "AddToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 22,
+          "endPos": 25
+        }
+      ]
     },
     {
       "text": "log out",
@@ -702,7 +925,13 @@
     {
       "text": "please add a todo item",
       "intent": "AddToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 13,
+          "endPos": 16
+        }
+      ]
     },
     {
       "text": "please complete the fifth task",
@@ -786,18 +1015,90 @@
       "entities": []
     },
     {
+      "text": "read my grocery list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 8,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "read my shopping list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 8,
+          "endPos": 15
+        }
+      ]
+    },
+    {
       "text": "read my to do list",
       "intent": "ShowToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 8,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "read out my grocery list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 12,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "read out my shopping list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 12,
+          "endPos": 19
+        }
+      ]
     },
     {
       "text": "read out my to dos",
       "intent": "ShowToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 12,
+          "endPos": 17
+        }
+      ]
     },
     {
       "text": "read out my to do's",
       "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 12,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "remind me that {taskcontent}",
+      "intent": "AddToDo",
+      "entities": []
+    },
+    {
+      "text": "remind me to {taskcontent}",
+      "intent": "AddToDo",
       "entities": []
     },
     {
@@ -847,7 +1148,13 @@
     {
       "text": "save a todo",
       "intent": "AddToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 7,
+          "endPos": 10
+        }
+      ]
     },
     {
       "text": "show help",
@@ -875,19 +1182,48 @@
       "entities": []
     },
     {
+      "text": "show my shopping items",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 8,
+          "endPos": 15
+        }
+      ]
+    },
+    {
       "text": "show my todo items",
       "intent": "ShowToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 8,
+          "endPos": 11
+        }
+      ]
     },
     {
       "text": "show my todo list",
       "intent": "ShowToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 8,
+          "endPos": 11
+        }
+      ]
     },
     {
       "text": "show my todos",
       "intent": "ShowToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 8,
+          "endPos": 12
+        }
+      ]
     },
     {
       "text": "show next",
@@ -902,12 +1238,24 @@
     {
       "text": "show todo items",
       "intent": "ShowToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 5,
+          "endPos": 8
+        }
+      ]
     },
     {
       "text": "show todo list",
       "intent": "ShowToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 5,
+          "endPos": 8
+        }
+      ]
     },
     {
       "text": "sign out",
@@ -925,14 +1273,70 @@
       "entities": []
     },
     {
+      "text": "what about my grocery list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 14,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "what about my shopping list?",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 14,
+          "endPos": 21
+        }
+      ]
+    },
+    {
       "text": "what about my todo list",
       "intent": "ShowToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 14,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "what are my grocery list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 12,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "what are my shopping list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 12,
+          "endPos": 19
+        }
+      ]
     },
     {
       "text": "what are my to dos",
       "intent": "ShowToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 12,
+          "endPos": 17
+        }
+      ]
     },
     {
       "text": "yes",

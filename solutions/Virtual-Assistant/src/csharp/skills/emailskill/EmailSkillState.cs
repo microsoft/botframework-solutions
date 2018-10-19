@@ -21,7 +21,7 @@ namespace EmailSkill
             Subject = null;
             Content = null;
             IsFlaged = false;
-            IsRead = false;
+            IsUnreadOnly = true;
             IsImportant = false;
             ConfirmRecipientIndex = 0;
             ShowEmailIndex = 0;
@@ -53,7 +53,8 @@ namespace EmailSkill
         public string Subject { get; set; }
 
         public string Content { get; set; }
-        public bool IsRead { get; set; }
+
+        public bool IsUnreadOnly { get; set; }
 
         public bool IsImportant { get; set; }
 
@@ -96,7 +97,7 @@ namespace EmailSkill
             Recipients.Clear();
             ConfirmRecipientIndex = 0;
             ShowEmailIndex = 0;
-            IsRead = false;
+            IsUnreadOnly = true;
             IsImportant = false;
             StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
             EndDateTime = DateTime.UtcNow;

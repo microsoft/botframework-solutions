@@ -37,7 +37,7 @@ The following Configuration entries are required to be passed to the Skill and a
 - LuisAppId
 - LuisSubscriptionKey
 - LuisEndpoint
-- AzureMaps-Key.
+- AzureMapsKey.
 
 > You can retrieve an [Azure Maps](https://azure.microsoft.com/en-gb/services/azure-maps/) key through the Azure Portal.
 
@@ -56,7 +56,7 @@ The following Configuration entries are required to be passed to the Skill and a
     "LuisAppId": "YOUR_LUIS_APP_ID",
     "LuisSubscriptionKey": "YOUR_LUIS_SUBSCRIPTION_KEY",
     "LuisEndpoint": "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/"
-    "AzureMaps-Key": "YOUR_AZURE_MAPS_KEY"
+    "AzureMapsKey": "YOUR_AZURE_MAPS_KEY"
     }
 }
 ```
