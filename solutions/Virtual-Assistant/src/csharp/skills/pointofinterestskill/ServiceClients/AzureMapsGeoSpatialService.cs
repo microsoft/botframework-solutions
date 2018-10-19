@@ -23,10 +23,12 @@ namespace PointOfInterestSkill
     private static readonly string GetRouteDirectionsWithRouteType = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&query={{0}}&&routeType={{1}}";
     private static readonly string PinImageBase64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAcCAYAAACUJBTQAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4gcMECoy1DRNWQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAACBElEQVRIx+3WzU4TYRTG8f/bmc5HYTq2UiASYoIhLIwu0Iwbw0W4YuE9eAcudevCeA1uJMStSxMTXzZqFS0ilGJbaEttqc5Mh868LgyEBfiRgKs++5Nfztk8RyilFOccHcDzvHMDpJS/EAD/ztMzBzJLiwCk+A8ZIkNkiAyRITJEzqx+j7fY8fxLW540fxjxu0fC87y/gjJLi0gpT9+k+OiuMNWAbMZGWFn6mQLOxDS9IEJKqf4EHQGNCvVvLRH2exQcm/ZaCXvURStcJmXnxxi9NEO1O+DDRhXNyuCHAQdhn9LyYyGlPPUUh0BUfEXt8zthdGvY3Sp6p0oS9SiMX0RPJaRq9Qob21totok7lmO7ssaB3yGb0YiCFtNCnAgdAW+fYzixcNIR+E20oEl5dYVBr0XUaWAlPvrCrevsNBuE/QFpwyII+qy/f0lat9CyaZQBB52H4vjpDoFxQ4hnTxaZdKaYvbEA7gUIEjq7mxRcl53SG0wnh766ts5oziVOmTgjWQT73PbmCYKAdtImFtCLO8zlhWi2lfI8Dyklvf37QtPg6myB8mqF1y+WCcMITflM5vO4VoJjWOw2v6JH5gTVbgKxTq3VZvCjRXakwZWZaSwzDRrEyiVWcO+aQBYVpilEufyABPj08Qvzczf57ofs7e1hGzb1rU3261tMTU6RStv8BGcD7rXwL3cpAAAAAElFTkSuQmCC";
     private readonly string apiKey;
+    private readonly string userLocale;
 
-    public AzureMapsGeoSpatialService(string key)
+    public AzureMapsGeoSpatialService(string key, string locale = "en")
     {
         apiKey = key;
+        userLocale = locale;
     }
 
     public async Task<RouteDirections> GetRouteDirectionsAsync(double currentLatitude, double currentLongitude, double destinationLatitude, double destinationLongitude, string routeType = null)
@@ -162,6 +164,8 @@ namespace PointOfInterestSkill
         {
             using (var client = new HttpClient())
             {
+                url = url + $"&language={userLocale}";
+
                 var response = await client.GetStringAsync(url);
 
                 var apiResponse = JsonConvert.DeserializeObject<SearchResultSet>(response);
