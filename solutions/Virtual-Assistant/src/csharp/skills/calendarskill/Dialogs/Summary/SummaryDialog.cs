@@ -55,12 +55,12 @@ namespace CalendarSkill
                 var state = await _accessor.GetAsync(sc.Context);
 
                 var luisResult = state.LuisResult;
-                    
+
                 var topIntent = luisResult?.TopIntent().intent;
 
                 if (topIntent == Calendar.Intent.Summary)
                 {
-                    state.Clear();
+                    state.SummaryEvents = null;
                 }
 
                 if (topIntent == Calendar.Intent.ShowNext)
@@ -116,56 +116,87 @@ namespace CalendarSkill
 
                     var searchDate = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.Local, state.GetUserTimeZone());
 
-                    var startTime = new DateTime(searchDate.Year, searchDate.Month, searchDate.Day);
-                    var endTime = new DateTime(searchDate.Year, searchDate.Month, searchDate.Day, 23, 59, 59);
-                    var startTimeUtc = TimeZoneInfo.ConvertTimeToUtc(startTime, state.GetUserTimeZone());
-                    var endTimeUtc = TimeZoneInfo.ConvertTimeToUtc(endTime, state.GetUserTimeZone());
-                    var rawEvents = await calendarService.GetEventsByTime(startTimeUtc, endTimeUtc);
-                    var todayEvents = new List<EventModel>();
-                    foreach (var item in rawEvents)
+                    if (state.StartDate != null)
                     {
-                        if (item.StartTime > searchDate && item.StartTime >= startTime && item.IsCancelled != true)
+                        searchDate = state.StartDate.Value;
+                    }
+
+                    var searchedEvents = new List<EventModel>();
+                    if (state.StartTime == null || state.EndDateTime != null)
+                    {
+                        var startTime = new DateTime(searchDate.Year, searchDate.Month, searchDate.Day);
+                        var endTime = new DateTime(searchDate.Year, searchDate.Month, searchDate.Day, 23, 59, 59);
+                        if (state.EndDateTime != null)
                         {
-                            todayEvents.Add(item);
+                            startTime = new DateTime(searchDate.Year, searchDate.Month, searchDate.Day, state.StartTime.Value.Hour, state.StartTime.Value.Minute, state.StartTime.Value.Second);
+                            endTime = state.EndDateTime.Value;
+                        }
+
+                        var startTimeUtc = TimeZoneInfo.ConvertTimeToUtc(startTime, state.GetUserTimeZone());
+                        var endTimeUtc = TimeZoneInfo.ConvertTimeToUtc(endTime, state.GetUserTimeZone());
+                        var rawEvents = await calendarService.GetEventsByTime(startTimeUtc, endTimeUtc);
+
+                        foreach (var item in rawEvents)
+                        {
+                            if (item.StartTime > searchDate && item.StartTime >= startTime && item.IsCancelled != true)
+                            {
+                                searchedEvents.Add(item);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        var searchTime = TimeZoneInfo.ConvertTime(state.StartTime.Value, TimeZoneInfo.Local, state.GetUserTimeZone());
+                        var startTime = new DateTime(searchDate.Year, searchDate.Month, searchDate.Day, searchTime.Hour, searchTime.Minute, 0);
+                        var startTimeUtc = TimeZoneInfo.ConvertTimeToUtc(startTime, state.GetUserTimeZone());
+                        var rawEvents = await calendarService.GetEventsByStartTime(startTimeUtc);
+
+                        foreach (var item in rawEvents)
+                        {
+                            if (item.StartTime > searchDate && item.StartTime >= startTime && item.IsCancelled != true)
+                            {
+                                searchedEvents.Add(item);
+                            }
                         }
                     }
 
-                    if (todayEvents.Count == 0)
+                    if (searchedEvents.Count == 0)
                     {
                         await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowNoMeetingMessage));
                         return await sc.EndDialogAsync(true);
                     }
                     else
                     {
-                        var speakParams = new StringDictionary()
+                        var responseParams = new StringDictionary()
                         {
-                            { "Count", todayEvents.Count.ToString() },
-                            { "EventName1", todayEvents[0].Title },
-                            { "EventDuration", todayEvents[0].ToDurationString() },
+                            { "Count", searchedEvents.Count.ToString() },
+                            { "EventName1", searchedEvents[0].Title },
+                            { "EventDuration", searchedEvents[0].ToDurationString() },
                         };
 
-                        if (todayEvents.Count == 1)
+                        if (searchedEvents.Count == 1)
                         {
-                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowOneMeetingSummaryMessage, _responseBuilder, speakParams));
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowOneMeetingSummaryMessage, _responseBuilder, responseParams));
                         }
                         else
                         {
-                            speakParams.Add("EventName2", todayEvents[todayEvents.Count - 1].Title);
-                            if (todayEvents[todayEvents.Count - 1].IsAllDay == true)
+                            responseParams.Add("EventName2", searchedEvents[searchedEvents.Count - 1].Title);
+                            if (searchedEvents[searchedEvents.Count - 1].IsAllDay == true)
                             {
-                                speakParams.Add("EventTime", todayEvents[todayEvents.Count - 1].StartTime.ToString("MMMM dd all day"));
+                                responseParams.Add("EventTime", searchedEvents[searchedEvents.Count - 1].StartTime.ToString("MMMM dd all day"));
                             }
                             else
                             {
-                                speakParams.Add("EventTime", todayEvents[todayEvents.Count - 1].StartTime.ToString("h:mm tt"));
+                                responseParams.Add("EventTime", searchedEvents[searchedEvents.Count - 1].StartTime.ToString("h:mm tt"));
                             }
 
-                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowOneMeetingSummaryMessage, _responseBuilder, speakParams));
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowMultipleMeetingSummaryMessage, _responseBuilder, responseParams));
                         }
                     }
 
-                    await ShowMeetingList(sc, todayEvents.GetRange(0, Math.Min(CalendarSkillState.PageSize, todayEvents.Count)), false);
-                    state.SummaryEvents = todayEvents;
+                    await ShowMeetingList(sc, searchedEvents.GetRange(0, Math.Min(CalendarSkillState.PageSize, searchedEvents.Count)), false);
+                    state.Clear();
+                    state.SummaryEvents = searchedEvents;
                 }
                 else
                 {

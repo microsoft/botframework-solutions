@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace CalendarSkill
 {
@@ -246,10 +247,183 @@ namespace CalendarSkill
             return false;
         }
 
-        private Task DigestCalendarLuisResult(DialogContext dc, Calendar luisResult)
+        public static bool ContainsTime(string timex)
         {
-            // add luis entities to state
-            return Task.CompletedTask;
+            return timex.Contains("T");
+        }
+
+        private async Task DigestCalendarLuisResult(DialogContext dc, Calendar luisResult)
+        {
+            try
+            {
+                var state = await _accessor.GetAsync(dc.Context);
+
+                var entity = luisResult.Entities;
+                if (entity.Subject != null)
+                {
+                    state.Title = entity.Subject[0];
+                }
+
+                if (entity.ContactName != null)
+                {
+                    foreach (var name in entity.ContactName)
+                    {
+                        if (!state.AttendeesNameList.Contains(name))
+                        {
+                            state.AttendeesNameList.Add(name);
+                        }
+                    }
+                }
+
+                if (entity.ordinal != null)
+                {
+                    try
+                    {
+                        var eventList = state.SummaryEvents;
+                        var value = entity.ordinal[0];
+                        var num = int.Parse(value.ToString());
+                        if (eventList != null && num > 0)
+                        {
+                            var currentList = eventList.GetRange(0, Math.Min(CalendarSkillState.PageSize, eventList.Count));
+                            if (num <= currentList.Count)
+                            {
+                                state.ReadOutEvents.Clear();
+                                state.ReadOutEvents.Add(currentList[num - 1]);
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }
+
+                if (entity.number != null && entity.ordinal != null && entity.ordinal.Length == 0)
+                {
+                    try
+                    {
+                        var eventList = state.SummaryEvents;
+                        var value = entity.ordinal[0];
+                        var num = int.Parse(value.ToString());
+                        if (eventList != null && num > 0)
+                        {
+                            var currentList = eventList.GetRange(0, Math.Min(CalendarSkillState.PageSize, eventList.Count));
+                            if (num <= currentList.Count)
+                            {
+                                state.ReadOutEvents.Clear();
+                                state.ReadOutEvents.Add(currentList[num - 1]);
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }
+
+                if (entity.StartDate != null)
+                {
+                    state.StartDateString = entity.StartDate[0];
+                    foreach (var datetimeItem in entity.datetime)
+                    {
+                        if (entity.datetime[0].Type == "date")
+                        {
+                            var date = DateTime.Parse(entity.datetime[0].Expressions[0]);
+                            state.StartDate = date;
+                        }
+                        else if (entity.datetime[0].Type == "datetime")
+                        {
+                            string[] formats =
+                            {
+                            "yyyy-MM-ddTHH",
+                            "yyyy-MM-ddTHH:mm",
+                            "yyyy-MM-ddTHH:mm:ss",
+                        };
+                            var date = DateTime.ParseExact(entity.datetime[0].Expressions[0], formats, null);
+                            state.StartDate = date;
+                            state.StartTime = date;
+                        }
+                        else if (entity.datetime[0].Type == "datetimerange")
+                        {
+                            var date = DateTime.Parse(entity.datetime[0].Expressions[0].Split("T")[0]);
+                            state.StartDate = date;
+                            var timeRange = entity.datetime[0].Expressions[0].Split("T")[1];
+                            if (timeRange == "MO")
+                            {
+                                state.StartTime = new DateTime(date.Year, date.Month, date.Day, 0, 0, 0);
+                                state.EndDateTime = new DateTime(date.Year, date.Month, date.Day, 11, 59, 59);
+                            }
+                            else if (timeRange == "AF")
+                            {
+                                state.StartTime = new DateTime(date.Year, date.Month, date.Day, 12, 0, 0);
+                                state.EndDateTime = new DateTime(date.Year, date.Month, date.Day, 16, 59, 59);
+                            }
+                            else if (timeRange == "EV")
+                            {
+                                state.StartTime = new DateTime(date.Year, date.Month, date.Day, 17, 0, 0);
+                                state.EndDateTime = new DateTime(date.Year, date.Month, date.Day, 20, 59, 59);
+                            }
+                            else if (timeRange == "NI")
+                            {
+                                state.StartTime = new DateTime(date.Year, date.Month, date.Day, 21, 0, 0);
+                                state.EndDateTime = new DateTime(date.Year, date.Month, date.Day, 23, 59, 59);
+                            }
+                        }
+                    }
+                }
+
+                if (entity.StartTime != null)
+                {
+                    state.StartTimeString = entity.StartTime[0];
+                    if (entity.datetime[0].Type == "time")
+                    {
+                        string[] formats =
+                        {
+                            "THH",
+                            "THH:mm",
+                            "THH:mm:ss",
+                        };
+                        var time = DateTime.ParseExact(entity.datetime[0].Expressions[0], formats, null);
+                        state.StartTime = time;
+                        if (state.StartDate == null)
+                        {
+                            state.StartDate = DateTime.Now;
+                        }
+                    }
+                    else if (entity.datetime[0].Type == "datetime")
+                    {
+                        string[] formats =
+                        {
+                            "yyyy-MM-ddTHH",
+                            "yyyy-MM-ddTHH:mm",
+                            "yyyy-MM-ddTHH:mm:ss",
+                        };
+                        var time = DateTime.ParseExact(entity.datetime[0].Expressions[0], formats, null);
+                        state.StartTime = time;
+                        if (state.StartDate == null)
+                        {
+                            state.StartDate = DateTime.Now;
+                        }
+                    }
+                }
+
+                if (entity.Duration != null)
+                {
+                    foreach (var datetimeItem in entity.datetime)
+                    {
+                        if (datetimeItem.Type == "duration")
+                        {
+                            TimeSpan ts = XmlConvert.ToTimeSpan(entity.datetime[0].Expressions[0]);
+                            state.Duration = (int)ts.TotalSeconds;
+                            break;
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                // put log here
+            }
         }
 
         public async Task HandleDialogExceptions(WaterfallStepContext sc)

@@ -109,9 +109,10 @@ namespace CalendarSkill
                         userNameString += attendee.DisplayName ?? attendee.Address;
                     }
 
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions {
-                            Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoTitle, _responseBuilder, new StringDictionary() { { "UserName", userNameString } })
-                        });
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions
+                    {
+                        Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoTitle, _responseBuilder, new StringDictionary() { { "UserName", userNameString } })
+                    });
                 }
                 else
                 {
@@ -219,15 +220,7 @@ namespace CalendarSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context);
-                if (state.StartTime == null)
-                {
-                    return await sc.BeginDialogAsync(Actions.UpdateStartTimeForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound));
-                }
-                else
-                {
-                    return await sc.NextAsync();
-                }
+                return await sc.BeginDialogAsync(Actions.UpdateStartTimeForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound));
             }
             catch
             {
@@ -381,6 +374,11 @@ namespace CalendarSkill
             try
             {
                 var state = await _accessor.GetAsync(sc.Context);
+                if (state.AttendeesNameList.Count() > 0)
+                {
+                    return await sc.NextAsync();
+                }
+
                 if (state.EventSource == EventSource.Microsoft)
                 {
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions
@@ -418,6 +416,11 @@ namespace CalendarSkill
             try
             {
                 var state = await _accessor.GetAsync(sc.Context);
+                if (state.AttendeesNameList.Count() > 0)
+                {
+                    return await sc.BeginDialogAsync(Actions.ConfirmAttendee);
+                }
+
                 if (sc.Result != null)
                 {
                     sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
@@ -673,6 +676,10 @@ namespace CalendarSkill
                     if (dateTime != null)
                     {
                         bool isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeResolutions.First().Value, dateTimeResolutions.First().Timex);
+                        if (ContainsTime(dateTimeConvertType))
+                        {
+                            state.StartTime = TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone());
+                        }
 
                         // Workaround as DateTimePrompt only return as local time
                         if (isRelativeTime)
@@ -705,19 +712,27 @@ namespace CalendarSkill
         {
             try
             {
-                if (((UpdateDateTimeDialogOptions)sc.Options).Reason == UpdateDateTimeDialogOptions.UpdateReason.NotFound)
+                var state = await _accessor.GetAsync(sc.Context);
+                if (state.StartTime == null)
                 {
-                    return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions
+                    if (((UpdateDateTimeDialogOptions)sc.Options).Reason == UpdateDateTimeDialogOptions.UpdateReason.NotFound)
                     {
-                        Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartTime),
-                    });
+                        return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions
+                        {
+                            Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartTime),
+                        });
+                    }
+                    else
+                    {
+                        return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions
+                        {
+                            Prompt = sc.Context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage),
+                        });
+                    }
                 }
                 else
                 {
-                    return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions
-                    {
-                        Prompt = sc.Context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage),
-                    });
+                    return await sc.NextAsync();
                 }
             }
             catch
@@ -732,7 +747,7 @@ namespace CalendarSkill
             try
             {
                 var state = await _accessor.GetAsync(sc.Context);
-                if (sc.Result != null)
+                if (sc.Result != null && state.StartTime == null)
                 {
                     IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
                     var dateTime = DateTime.Parse(dateTimeResolutions.First().Value);
@@ -742,15 +757,19 @@ namespace CalendarSkill
                     {
                         bool isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeResolutions.First().Value, dateTimeResolutions.First().Timex);
                         state.StartTime = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
-                        state.StartDateTime = new DateTime(
-                            state.StartDate.Value.Year,
-                            state.StartDate.Value.Month,
-                            state.StartDate.Value.Day,
-                            state.StartTime.Value.Hour,
-                            state.StartTime.Value.Minute,
-                            state.StartTime.Value.Second);
-                        return await sc.EndDialogAsync();
                     }
+                }
+
+                if (state.StartTime != null)
+                {
+                    state.StartDateTime = new DateTime(
+                        state.StartDate.Value.Year,
+                        state.StartDate.Value.Month,
+                        state.StartDate.Value.Day,
+                        state.StartTime.Value.Hour,
+                        state.StartTime.Value.Minute,
+                        state.StartTime.Value.Second);
+                    return await sc.EndDialogAsync();
                 }
 
                 return await sc.BeginDialogAsync(Actions.UpdateStartTimeForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotADateTime));
@@ -767,7 +786,12 @@ namespace CalendarSkill
         {
             try
             {
-                if (((UpdateDateTimeDialogOptions)sc.Options).Reason == UpdateDateTimeDialogOptions.UpdateReason.NotFound)
+                var state = await _accessor.GetAsync(sc.Context);
+                if (state.Duration > 0)
+                {
+                    return await sc.NextAsync();
+                }
+                else if (((UpdateDateTimeDialogOptions)sc.Options).Reason == UpdateDateTimeDialogOptions.UpdateReason.NotFound)
                 {
                     return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions
                     {
@@ -794,22 +818,23 @@ namespace CalendarSkill
             try
             {
                 var state = await _accessor.GetAsync(sc.Context);
-                if (sc.Result != null)
+                if (state.Duration <= 0 && sc.Result != null)
                 {
                     sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
 
                     IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
                     int.TryParse(dateTimeResolutions.First().Value, out int duration);
+                    state.Duration = duration;
+                }
 
-                    if (duration > 0)
-                    {
-                        state.EndDateTime = state.StartDateTime.Value.AddSeconds(duration);
-                        return await sc.EndDialogAsync();
-                    }
-                    else
-                    {
-                        // TODO: Handle improper duration
-                    }
+                if (state.Duration > 0)
+                {
+                    state.EndDateTime = state.StartDateTime.Value.AddSeconds(state.Duration);
+                    return await sc.EndDialogAsync();
+                }
+                else
+                {
+                    // TODO: Handle improper duration
                 }
 
                 return await sc.BeginDialogAsync(Actions.UpdateDurationForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotADateTime));
@@ -889,7 +914,7 @@ namespace CalendarSkill
                     Value = $"**{user.DisplayName}: {mailAddress}**",
                     Synonyms = new List<string> { (i + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
                 };
-                var userName = user.UserPrincipalName.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
+                var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
                 if (!string.IsNullOrEmpty(userName))
                 {
                     choice.Synonyms.Add(userName);
@@ -925,7 +950,7 @@ namespace CalendarSkill
                     Value = $"{user.DisplayName}: {mailAddress}",
                     Synonyms = new List<string> { (i + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
                 };
-                var userName = user.UserPrincipalName.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
+                var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
                 if (!string.IsNullOrEmpty(userName))
                 {
                     choice.Synonyms.Add(userName);
