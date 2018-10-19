@@ -121,44 +121,7 @@ namespace CalendarSkill
                         searchDate = state.StartDate.Value;
                     }
 
-                    var searchedEvents = new List<EventModel>();
-                    if (state.StartTime == null || state.EndDateTime != null)
-                    {
-                        var startTime = new DateTime(searchDate.Year, searchDate.Month, searchDate.Day);
-                        var endTime = new DateTime(searchDate.Year, searchDate.Month, searchDate.Day, 23, 59, 59);
-                        if (state.EndDateTime != null)
-                        {
-                            startTime = new DateTime(searchDate.Year, searchDate.Month, searchDate.Day, state.StartTime.Value.Hour, state.StartTime.Value.Minute, state.StartTime.Value.Second);
-                            endTime = state.EndDateTime.Value;
-                        }
-
-                        var startTimeUtc = TimeZoneInfo.ConvertTimeToUtc(startTime, state.GetUserTimeZone());
-                        var endTimeUtc = TimeZoneInfo.ConvertTimeToUtc(endTime, state.GetUserTimeZone());
-                        var rawEvents = await calendarService.GetEventsByTime(startTimeUtc, endTimeUtc);
-
-                        foreach (var item in rawEvents)
-                        {
-                            if (item.StartTime > searchDate && item.StartTime >= startTime && item.IsCancelled != true)
-                            {
-                                searchedEvents.Add(item);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        var searchTime = TimeZoneInfo.ConvertTime(state.StartTime.Value, TimeZoneInfo.Local, state.GetUserTimeZone());
-                        var startTime = new DateTime(searchDate.Year, searchDate.Month, searchDate.Day, searchTime.Hour, searchTime.Minute, 0);
-                        var startTimeUtc = TimeZoneInfo.ConvertTimeToUtc(startTime, state.GetUserTimeZone());
-                        var rawEvents = await calendarService.GetEventsByStartTime(startTimeUtc);
-
-                        foreach (var item in rawEvents)
-                        {
-                            if (item.StartTime > searchDate && item.StartTime >= startTime && item.IsCancelled != true)
-                            {
-                                searchedEvents.Add(item);
-                            }
-                        }
-                    }
+                    var searchedEvents = await GetEventsByTime(searchDate, state.StartTime, state.EndDateTime, state.GetUserTimeZone(), calendarService);
 
                     if (searchedEvents.Count == 0)
                     {

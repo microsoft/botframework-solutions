@@ -186,35 +186,7 @@ namespace CalendarSkill
 
                 if (state.StartDate != null || state.StartTime != null)
                 {
-                    if (state.StartTime == null)
-                    {
-                        var startTime = new DateTime(
-                            state.StartDate.Value.Year,
-                            state.StartDate.Value.Month,
-                            state.StartDate.Value.Day,
-                            0, 0, 0);
-                        var endTime = new DateTime(
-                            state.StartDate.Value.Year,
-                            state.StartDate.Value.Month,
-                            state.StartDate.Value.Day,
-                            23, 59, 59);
-                        startTime = DateTime.SpecifyKind(startTime, DateTimeKind.Local);
-                        endTime = DateTime.SpecifyKind(endTime, DateTimeKind.Local);
-                        events = await calendarService.GetEventsByTime(startTime, endTime);
-                    }
-                    else
-                    {
-                        var startTime = new DateTime(
-                            state.StartDate.Value.Year,
-                            state.StartDate.Value.Month,
-                            state.StartDate.Value.Day,
-                            state.StartTime.Value.Hour,
-                            state.StartTime.Value.Minute,
-                            state.StartTime.Value.Second);
-                        startTime = DateTime.SpecifyKind(startTime, DateTimeKind.Local);
-                        events = await calendarService.GetEventsByStartTime(startTime);
-                    }
-
+                    events = await GetEventsByTime(state.StartDate, state.StartTime, null, state.GetUserTimeZone(), calendarService);
                     state.StartDate = null;
                     state.StartTime = null;
                 }

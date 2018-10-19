@@ -247,9 +247,105 @@ namespace CalendarSkill
             return false;
         }
 
+        public static async Task<List<EventModel>> GetEventsByTime(DateTime? startDate, DateTime? startTime, DateTime? endDateTime, TimeZoneInfo userTimeZone, ICalendar calendarService)
+        {
+            if (startDate == null)
+            {
+                return null;
+            }
+
+            var rawEvents = new List<EventModel>();
+            var resultEvents = new List<EventModel>();
+            DateTime searchStartTime;
+
+            if (startTime == null || endDateTime != null)
+            {
+                searchStartTime = new DateTime(startDate.Value.Year, startDate.Value.Month, startDate.Value.Day);
+                var endTime = new DateTime(startDate.Value.Year, startDate.Value.Month, startDate.Value.Day, 23, 59, 59);
+                if (endDateTime != null)
+                {
+                    searchStartTime = new DateTime(searchStartTime.Year, searchStartTime.Month, searchStartTime.Day, startTime.Value.Hour, startTime.Value.Minute, startTime.Value.Second);
+                    endTime = endDateTime.Value;
+                }
+
+                var startTimeUtc = TimeZoneInfo.ConvertTimeToUtc(searchStartTime, userTimeZone);
+                var endTimeUtc = TimeZoneInfo.ConvertTimeToUtc(endTime, userTimeZone);
+                rawEvents = await calendarService.GetEventsByTime(startTimeUtc, endTimeUtc);
+            }
+            else
+            {
+                var searchTime = TimeZoneInfo.ConvertTime(startTime.Value, TimeZoneInfo.Local, userTimeZone);
+                searchStartTime = new DateTime(startDate.Value.Year, startDate.Value.Month, startDate.Value.Day, searchTime.Hour, searchTime.Minute, 0);
+                rawEvents = await calendarService.GetEventsByStartTime(searchStartTime);
+            }
+
+            foreach (var item in rawEvents)
+            {
+                if (item.StartTime >= startDate && item.StartTime >= searchStartTime && item.IsCancelled != true)
+                {
+                    resultEvents.Add(item);
+                }
+            }
+
+            return resultEvents;
+        }
+
         public static bool ContainsTime(string timex)
         {
             return timex.Contains("T");
+        }
+
+        public static DateTime ParseToDateTime(string dateTimeString)
+        {
+            string[] formats =
+            {
+                "yyyy-MM-ddTHH",
+                "yyyy-MM-ddTHH:mm",
+                "yyyy-MM-ddTHH:mm:ss",
+            };
+            return DateTime.ParseExact(dateTimeString, formats, null);
+        }
+
+        public static DateTime ParseToTime(string timeString)
+        {
+            string[] formats =
+            {
+                "THH",
+                "THH:mm",
+                "THH:mm:ss",
+            };
+            return DateTime.ParseExact(timeString, formats, null);
+        }
+
+        public static void ParseToTimeRange(string dateTimeString, out DateTime? startDateTime, out DateTime? endDateTime)
+        {
+            var timeRange = dateTimeString.Split("T")[1];
+            var date = DateTime.Parse(dateTimeString.Split("T")[0]);
+            if (timeRange == "MO")
+            {
+                startDateTime = new DateTime(date.Year, date.Month, date.Day, 0, 0, 0);
+                endDateTime = new DateTime(date.Year, date.Month, date.Day, 11, 59, 59);
+            }
+            else if (timeRange == "AF")
+            {
+                startDateTime = new DateTime(date.Year, date.Month, date.Day, 12, 0, 0);
+                endDateTime = new DateTime(date.Year, date.Month, date.Day, 16, 59, 59);
+            }
+            else if (timeRange == "EV")
+            {
+                startDateTime = new DateTime(date.Year, date.Month, date.Day, 17, 0, 0);
+                endDateTime = new DateTime(date.Year, date.Month, date.Day, 20, 59, 59);
+            }
+            else if (timeRange == "NI")
+            {
+                startDateTime = new DateTime(date.Year, date.Month, date.Day, 21, 0, 0);
+                endDateTime = new DateTime(date.Year, date.Month, date.Day, 23, 59, 59);
+            }
+            else
+            {
+                startDateTime = null;
+                endDateTime = null;
+            }
         }
 
         private async Task DigestCalendarLuisResult(DialogContext dc, Calendar luisResult)
@@ -326,47 +422,30 @@ namespace CalendarSkill
                     state.StartDateString = entity.StartDate[0];
                     foreach (var datetimeItem in entity.datetime)
                     {
-                        if (entity.datetime[0].Type == "date")
+                        if (datetimeItem.Type == "date")
                         {
                             var date = DateTime.Parse(entity.datetime[0].Expressions[0]);
                             state.StartDate = date;
                         }
-                        else if (entity.datetime[0].Type == "datetime")
+                        else if (datetimeItem.Type == "datetime")
                         {
-                            string[] formats =
-                            {
-                            "yyyy-MM-ddTHH",
-                            "yyyy-MM-ddTHH:mm",
-                            "yyyy-MM-ddTHH:mm:ss",
-                        };
-                            var date = DateTime.ParseExact(entity.datetime[0].Expressions[0], formats, null);
+                            var date = ParseToDateTime(datetimeItem.Expressions[0]);
                             state.StartDate = date;
                             state.StartTime = date;
                         }
                         else if (entity.datetime[0].Type == "datetimerange")
                         {
-                            var date = DateTime.Parse(entity.datetime[0].Expressions[0].Split("T")[0]);
+                            var date = DateTime.Parse(datetimeItem.Expressions[0].Split("T")[0]);
                             state.StartDate = date;
-                            var timeRange = entity.datetime[0].Expressions[0].Split("T")[1];
-                            if (timeRange == "MO")
+                            ParseToTimeRange(datetimeItem.Expressions[0], out var startDateTime, out var endDateTime);
+                            if (startDateTime != null)
                             {
-                                state.StartTime = new DateTime(date.Year, date.Month, date.Day, 0, 0, 0);
-                                state.EndDateTime = new DateTime(date.Year, date.Month, date.Day, 11, 59, 59);
+                                state.StartTime = startDateTime;
                             }
-                            else if (timeRange == "AF")
+
+                            if (endDateTime != null)
                             {
-                                state.StartTime = new DateTime(date.Year, date.Month, date.Day, 12, 0, 0);
-                                state.EndDateTime = new DateTime(date.Year, date.Month, date.Day, 16, 59, 59);
-                            }
-                            else if (timeRange == "EV")
-                            {
-                                state.StartTime = new DateTime(date.Year, date.Month, date.Day, 17, 0, 0);
-                                state.EndDateTime = new DateTime(date.Year, date.Month, date.Day, 20, 59, 59);
-                            }
-                            else if (timeRange == "NI")
-                            {
-                                state.StartTime = new DateTime(date.Year, date.Month, date.Day, 21, 0, 0);
-                                state.EndDateTime = new DateTime(date.Year, date.Month, date.Day, 23, 59, 59);
+                                state.EndDateTime = endDateTime;
                             }
                         }
                     }
@@ -375,34 +454,23 @@ namespace CalendarSkill
                 if (entity.StartTime != null)
                 {
                     state.StartTimeString = entity.StartTime[0];
-                    if (entity.datetime[0].Type == "time")
+                    foreach (var datetimeItem in entity.datetime)
                     {
-                        string[] formats =
+                        if (datetimeItem.Type == "time")
                         {
-                            "THH",
-                            "THH:mm",
-                            "THH:mm:ss",
-                        };
-                        var time = DateTime.ParseExact(entity.datetime[0].Expressions[0], formats, null);
-                        state.StartTime = time;
-                        if (state.StartDate == null)
-                        {
-                            state.StartDate = DateTime.Now;
+                            state.StartTime = ParseToTime(datetimeItem.Expressions[0]);
+                            if (state.StartDate == null)
+                            {
+                                state.StartDate = DateTime.Now;
+                            }
                         }
-                    }
-                    else if (entity.datetime[0].Type == "datetime")
-                    {
-                        string[] formats =
+                        else if (datetimeItem.Type == "datetime")
                         {
-                            "yyyy-MM-ddTHH",
-                            "yyyy-MM-ddTHH:mm",
-                            "yyyy-MM-ddTHH:mm:ss",
-                        };
-                        var time = DateTime.ParseExact(entity.datetime[0].Expressions[0], formats, null);
-                        state.StartTime = time;
-                        if (state.StartDate == null)
-                        {
-                            state.StartDate = DateTime.Now;
+                            state.StartTime = ParseToDateTime(datetimeItem.Expressions[0]);
+                            if (state.StartDate == null)
+                            {
+                                state.StartDate = DateTime.Now;
+                            }
                         }
                     }
                 }
@@ -413,7 +481,7 @@ namespace CalendarSkill
                     {
                         if (datetimeItem.Type == "duration")
                         {
-                            TimeSpan ts = XmlConvert.ToTimeSpan(entity.datetime[0].Expressions[0]);
+                            TimeSpan ts = XmlConvert.ToTimeSpan(datetimeItem.Expressions[0]);
                             state.Duration = (int)ts.TotalSeconds;
                             break;
                         }
