@@ -1,4 +1,11 @@
-﻿using AdaptiveCards;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+using AdaptiveCards;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -9,14 +16,8 @@ using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using ToDoSkill.Dialogs.Shared.Resources;
+using static ToDoSkill.ListTypes;
 
 namespace ToDoSkill
 {
@@ -154,6 +155,7 @@ namespace ToDoSkill
                 state.ShowToDoPageIndex = 0;
                 state.Tasks = new List<ToDoItem>();
                 state.AllTasks = new List<ToDoItem>();
+                await DigestToDoLuisResult(sc, state.LuisResult);
             }
             else if (topIntent == ToDo.Intent.Next)
             {
@@ -184,12 +186,12 @@ namespace ToDoSkill
         public async Task<DialogTurnResult> InitAllTasks(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await _accessor.GetAsync(sc.Context);
-            if (string.IsNullOrEmpty(state.OneNotePageId))
+            if (!state.OneNotePageIds.ContainsKey(state.ListType))
             {
                 await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
-                var service = await _serviceManager.Init(state.MsGraphToken, state.OneNotePageId);
-                var todosAndPageIdTuple = await service.GetToDos();
-                state.OneNotePageId = todosAndPageIdTuple.Item2;
+                var service = await _serviceManager.Init(state.MsGraphToken, state.OneNotePageIds);
+                var todosAndPageIdTuple = await service.GetToDos(state.ListType);
+                state.OneNotePageIds.Add(state.ListType, todosAndPageIdTuple.Item2);
                 state.AllTasks = todosAndPageIdTuple.Item1;
                 state.ShowToDoPageIndex = 0;
                 var rangeCount = Math.Min(state.PageSize, state.AllTasks.Count);
@@ -338,17 +340,20 @@ namespace ToDoSkill
             try
             {
                 var state = await _accessor.GetAsync(sc.Context);
-                if (string.IsNullOrEmpty(state.OneNotePageId))
+                if (!state.OneNotePageIds.ContainsKey(state.ListType))
                 {
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
                 }
 
-                var service = await _serviceManager.Init(state.MsGraphToken, state.OneNotePageId);
-                var page = await service.GetDefaultToDoPage();
-                state.OneNotePageId = page.Id;
+                var service = await _serviceManager.Init(state.MsGraphToken, state.OneNotePageIds);
+                var page = await service.GetDefaultToDoPage(state.ListType);
                 await service.AddToDo(state.TaskContent, page.ContentUrl);
-                var todosAndPageIdTuple = await service.GetToDos();
-                state.OneNotePageId = todosAndPageIdTuple.Item2;
+                var todosAndPageIdTuple = await service.GetToDos(state.ListType);
+                if (!state.OneNotePageIds.ContainsKey(state.ListType))
+                {
+                    state.OneNotePageIds.Add(state.ListType, todosAndPageIdTuple.Item2);
+                }
+
                 state.AllTasks = todosAndPageIdTuple.Item1;
                 state.ShowToDoPageIndex = 0;
                 var rangeCount = Math.Min(state.PageSize, state.AllTasks.Count);
@@ -424,9 +429,20 @@ namespace ToDoSkill
                     state.TaskContent = entities.TaskContent[0];
                 }
 
-                if (entities.TaskType != null)
+                if (entities.ListType != null)
                 {
-                    state.TaskType = entities.TaskType[0];
+                    if (entities.ListType[0].Equals(ListType.Grocery.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        state.ListType = ListType.Grocery.ToString();
+                    }
+                    else if (entities.ListType[0].Equals(ListType.Shopping.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        state.ListType = ListType.Shopping.ToString();
+                    }
+                    else
+                    {
+                        state.ListType = ListType.ToDo.ToString();
+                    }
                 }
 
                 if (dc.Context.Activity.Text != null)

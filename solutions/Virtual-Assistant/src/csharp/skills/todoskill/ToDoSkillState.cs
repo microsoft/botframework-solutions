@@ -20,10 +20,10 @@ namespace ToDoSkill
             AllTasks = new List<ToDoItem>();
             DeleteTaskConfirmation = false;
             MarkOrDeleteAllTasksFlag = false;
-            OneNotePageId = null;
+            OneNotePageIds = new Dictionary<string, string>();
             LuisResult = null;
             ConversationDialogState = null;
-            TaskType = null;
+            ListType = null;
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace ToDoSkill
         /// <value>
         /// OneNotePageId.
         /// </value>
-        public string OneNotePageId { get; set; }
+        public Dictionary<string, string> OneNotePageIds { get; set; }
 
         /// <summary>
         /// Gets or sets LuisResult.
@@ -144,7 +144,7 @@ namespace ToDoSkill
         /// <value>
         /// TaskType.
         /// </value>
-        public string TaskType { get; set; }
+        public string ListType { get; set; }
 
         /// <summary>
         /// Clear state.
@@ -160,10 +160,10 @@ namespace ToDoSkill
             AllTasks = new List<ToDoItem>();
             DeleteTaskConfirmation = false;
             MarkOrDeleteAllTasksFlag = false;
-            OneNotePageId = null;
+            OneNotePageIds = new Dictionary<string, string>();
             LuisResult = null;
             ConversationDialogState = null;
-            TaskType = null;
+            ListType = null;
         }
     }
 }

@@ -50,7 +50,7 @@
       "roles": []
     },
     {
-      "name": "TaskType",
+      "name": "ListType",
       "roles": []
     }
   ],
@@ -72,7 +72,7 @@
   ],
   "model_features": [
     {
-      "name": "TaskType",
+      "name": "ListType",
       "mode": true,
       "words": "to do,to dos,todo,to-do,todos,task,tasks,to-dos",
       "activated": true
@@ -271,7 +271,7 @@
       "intent": "AddToDo"
     },
     {
-      "pattern": "add a {TaskType} item that {TaskContent}",
+      "pattern": "add a {ListType} item that {TaskContent}",
       "intent": "AddToDo"
     },
     {
@@ -313,7 +313,7 @@
       "intent": "AddToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 6,
           "endPos": 12
         }
@@ -324,7 +324,7 @@
       "intent": "AddToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 10,
           "endPos": 13
         }
@@ -335,7 +335,7 @@
       "intent": "AddToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 6,
           "endPos": 9
         }
@@ -346,7 +346,7 @@
       "intent": "AddToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 6,
           "endPos": 10
         }
@@ -357,7 +357,7 @@
       "intent": "AddToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 6,
           "endPos": 10
         }
@@ -368,7 +368,7 @@
       "intent": "AddToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 6,
           "endPos": 10
         }
@@ -379,7 +379,7 @@
       "intent": "AddToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 6,
           "endPos": 9
         }
@@ -390,7 +390,7 @@
       "intent": "AddToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 6,
           "endPos": 9
         }
@@ -401,7 +401,7 @@
       "intent": "AddToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 6,
           "endPos": 10
         }
@@ -412,7 +412,7 @@
       "intent": "AddToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 12,
           "endPos": 15
         }
@@ -423,7 +423,7 @@
       "intent": "AddToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 12,
           "endPos": 16
         }
@@ -434,7 +434,7 @@
       "intent": "AddToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 15,
           "endPos": 21
         }
@@ -445,7 +445,7 @@
       "intent": "AddToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 16,
           "endPos": 23
         }
@@ -461,7 +461,7 @@
       "intent": "AddToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 8,
           "endPos": 11
         }
@@ -472,7 +472,7 @@
       "intent": "AddToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 8,
           "endPos": 12
         }
@@ -483,7 +483,7 @@
       "intent": "AddToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 14,
           "endPos": 21
         }
@@ -494,7 +494,7 @@
       "intent": "AddToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 14,
           "endPos": 17
         }
@@ -526,7 +526,7 @@
       "intent": "ShowToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 16,
           "endPos": 22
         }
@@ -537,7 +537,7 @@
       "intent": "ShowToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 16,
           "endPos": 23
         }
@@ -548,7 +548,7 @@
       "intent": "ShowToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 16,
           "endPos": 23
         }
@@ -559,7 +559,7 @@
       "intent": "ShowToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 16,
           "endPos": 21
         }
@@ -638,7 +638,7 @@
       "intent": "AddToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 13,
           "endPos": 17
         }
@@ -743,7 +743,7 @@
       "intent": "AddToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 20,
           "endPos": 24
         }
@@ -825,7 +825,7 @@
       "intent": "AddToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 22,
           "endPos": 25
         }
@@ -927,7 +927,7 @@
       "intent": "AddToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 13,
           "endPos": 16
         }
@@ -1019,7 +1019,7 @@
       "intent": "ShowToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 8,
           "endPos": 14
         }
@@ -1030,7 +1030,7 @@
       "intent": "ShowToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 8,
           "endPos": 15
         }
@@ -1041,7 +1041,7 @@
       "intent": "ShowToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 8,
           "endPos": 12
         }
@@ -1052,7 +1052,7 @@
       "intent": "ShowToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 12,
           "endPos": 18
         }
@@ -1063,7 +1063,7 @@
       "intent": "ShowToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 12,
           "endPos": 19
         }
@@ -1074,7 +1074,7 @@
       "intent": "ShowToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 12,
           "endPos": 17
         }
@@ -1085,7 +1085,7 @@
       "intent": "ShowToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 12,
           "endPos": 18
         }
@@ -1150,7 +1150,7 @@
       "intent": "AddToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 7,
           "endPos": 10
         }
@@ -1186,7 +1186,7 @@
       "intent": "ShowToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 8,
           "endPos": 15
         }
@@ -1197,7 +1197,7 @@
       "intent": "ShowToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 8,
           "endPos": 11
         }
@@ -1208,7 +1208,7 @@
       "intent": "ShowToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 8,
           "endPos": 11
         }
@@ -1219,7 +1219,7 @@
       "intent": "ShowToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 8,
           "endPos": 12
         }
@@ -1240,7 +1240,7 @@
       "intent": "ShowToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 5,
           "endPos": 8
         }
@@ -1251,7 +1251,7 @@
       "intent": "ShowToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 5,
           "endPos": 8
         }
@@ -1277,7 +1277,7 @@
       "intent": "ShowToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 14,
           "endPos": 20
         }
@@ -1288,7 +1288,7 @@
       "intent": "ShowToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 14,
           "endPos": 21
         }
@@ -1299,7 +1299,7 @@
       "intent": "ShowToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 14,
           "endPos": 17
         }
@@ -1310,7 +1310,7 @@
       "intent": "ShowToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 12,
           "endPos": 18
         }
@@ -1321,7 +1321,7 @@
       "intent": "ShowToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 12,
           "endPos": 19
         }
@@ -1332,7 +1332,7 @@
       "intent": "ShowToDo",
       "entities": [
         {
-          "entity": "TaskType",
+          "entity": "ListType",
           "startPos": 12,
           "endPos": 17
         }

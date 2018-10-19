@@ -49,13 +49,13 @@ namespace ToDoSkill
             try
             {
                 var state = await _accessor.GetAsync(sc.Context);
-                if (string.IsNullOrEmpty(state.OneNotePageId))
+                if (!state.OneNotePageIds.ContainsKey(state.ListType))
                 {
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
                 }
 
-                var service = await _serviceManager.Init(state.MsGraphToken, state.OneNotePageId);
-                var page = await service.GetDefaultToDoPage();
+                var service = await _serviceManager.Init(state.MsGraphToken, state.OneNotePageIds);
+                var page = await service.GetDefaultToDoPage(state.ListType);
                 BotResponse botResponse;
                 string taskTopicToBeMarked = null;
                 if (state.MarkOrDeleteAllTasksFlag)
@@ -72,8 +72,13 @@ namespace ToDoSkill
                     botResponse = MarkToDoResponses.AfterToDoTaskCompleted;
                 }
 
-                var todosAndPageIdTuple = await service.GetToDos();
-                state.OneNotePageId = todosAndPageIdTuple.Item2;
+                var todosAndPageIdTuple = await service.GetToDos(state.ListType);
+
+                if (!state.OneNotePageIds.ContainsKey(state.ListType))
+                {
+                    state.OneNotePageIds.Add(state.ListType, todosAndPageIdTuple.Item2);
+                }
+
                 state.AllTasks = todosAndPageIdTuple.Item1;
                 var allTasksCount = state.AllTasks.Count;
                 var currentTaskIndex = state.ShowToDoPageIndex * state.PageSize;
