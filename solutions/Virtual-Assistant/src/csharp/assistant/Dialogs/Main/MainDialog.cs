@@ -235,13 +235,15 @@ namespace VirtualAssistant
             var ev = dc.Context.Activity.AsEventActivity();
             var parameters = await _parametersAccessor.GetAsync(dc.Context, () => new Dictionary<string, object>());
 
-            // Send trace to emulator
-            var trace = new Activity(type: ActivityTypes.Trace, text: $"Received event: {ev.Name}");
-            await dc.Context.SendActivityAsync(trace);
-
-            switch (ev.Name)
+            if (!string.IsNullOrEmpty(ev.Name))
             {
-                case Events.TimezoneEvent:
+                // Send trace to emulator
+                var trace = new Activity(type: ActivityTypes.Trace, text: $"Received event: {ev.Name}");
+                await dc.Context.SendActivityAsync(trace);
+
+                switch (ev.Name)
+                {
+                    case Events.TimezoneEvent:
                     {
                         try
                         {
@@ -259,21 +261,21 @@ namespace VirtualAssistant
                         break;
                     }
 
-                case Events.LocationEvent:
+                    case Events.LocationEvent:
                     {
                         parameters[ev.Name] = ev.Value;
                         forward = false;
                         break;
                     }
 
-                case Events.TokenResponseEvent:
+                    case Events.TokenResponseEvent:
                     {
                         forward = true;
                         break;
                     }
 
-                case Events.ActiveLocationUpdate:
-                case Events.ActiveRouteUpdate:
+                    case Events.ActiveLocationUpdate:
+                    case Events.ActiveRouteUpdate:
                     {
                         var matchedSkill = _skillRouter.IdentifyRegisteredSkill(Dispatch.Intent.l_PointOfInterest.ToString());
 
@@ -285,15 +287,39 @@ namespace VirtualAssistant
                         forward = false;
                         break;
                     }
-            }
 
-            if (forward)
-            {
-                var result = await dc.ContinueDialogAsync();
+                    case Events.ResetUser:
+                    {
+                        await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Reset User Event received, clearing down State and Tokens."));
 
-                if (result.Status == DialogTurnStatus.Complete)
+                        // Clear State
+                        await _onboardingState.DeleteAsync(dc.Context, cancellationToken);
+
+                        // Clear Tokens
+                        var adapter = dc.Context.Adapter as BotFrameworkAdapter;
+                        await adapter.SignOutUserAsync(dc.Context,null, dc.Context.Activity.From.Id, cancellationToken);
+
+                        forward = false;
+
+                        break;
+                    }
+
+                    default:
+                    {
+                        await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event {ev.Name} was received but not processed."));
+                        forward = false;
+                        break;
+                    }
+                }
+
+                if (forward)
                 {
-                    await CompleteAsync(dc);
+                    var result = await dc.ContinueDialogAsync();
+
+                    if (result.Status == DialogTurnStatus.Complete)
+                    {
+                        await CompleteAsync(dc);
+                    }
                 }
             }
         }
@@ -306,5 +332,6 @@ namespace VirtualAssistant
         public const string LocationEvent = "IPA.Location";
         public const string ActiveLocationUpdate = "POI.ActiveLocation";
         public const string ActiveRouteUpdate = "POI.ActiveRoute";
+        public const string ResetUser = "IPA.ResetUser";
     }
 }

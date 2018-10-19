@@ -5,9 +5,9 @@ namespace PointOfInterestSkill
 {
     public class ServiceManager : IServiceManager
     {
-        public IGeoSpatialService InitMapsService(string key)
+        public IGeoSpatialService InitMapsService(string key, string locale = "en")
         {
-            return new AzureMapsGeoSpatialService(key);
+            return new AzureMapsGeoSpatialService(key, locale);
         }
     }
 }

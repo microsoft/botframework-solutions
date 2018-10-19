@@ -1,0 +1,71 @@
+﻿{
+  "ConfirmUserInfo": {
+    "replies": [
+      {
+        "text": "Ich bin bereit, es als Ihre persönlichen Daten zu speichern, bestätigen Sie bitte Folgendes: ",
+        "speak": "Ich bin bereit, es als Ihre persönlichen Daten zu speichern, bestätigen Sie bitte Folgendes"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+
+  "ConfirmSaveInfoFailed": {
+    "replies": [
+      {
+        "text": "Bitte bestätigen Sie, bevor Sie die Benutzerinformationen speichern.",
+        "speak": "Bitte bestätigen Sie, bevor Sie die Benutzerinformationen speichern."
+      },
+      {
+        "text": "Bitte bestätigen Sie diese Informationen.",
+        "speak": "Bitte bestätigen Sie diese Informationen."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+
+  "ErrorMessage": {
+    "replies": [
+      {
+        "text": "Sorry, es sieht so aus, als ob etwas schief gelaufen ist!",
+        "speak": "Sorry, es sieht so aus, als ob etwas schief gelaufen ist!"
+      },
+      {
+        "text": "Ein Fehler ist aufgetreten, gib mir etwas Zeit und Versuche es später noch einmal.",
+        "speak": "Ein Fehler ist aufgetreten, gib mir etwas Zeit und Versuche es später noch einmal."
+      },
+      {
+        "text": "Irgendetwas ist schief gelaufen, sorry!",
+        "speak": "Irgendetwas ist schief gelaufen, sorry!"
+      },
+      {
+        "text": "Ich glaube, es ist etwas schief gelaufen. Können Sie es später noch einmal versuchen?",
+        "speak": "Ich glaube, es ist etwas schief gelaufen. Können Sie es später noch einmal versuchen?"
+      },
+      {
+        "text": "Sorry, ich denke, ich kann jetzt nicht finden, was Sie wollen. Versuchen Sie es später noch einmal.",
+        "speak": "Sorry, ich denke, ich kann jetzt nicht finden, was Sie wollen. Versuchen Sie es später noch einmal."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+
+  "SkillAuthenticationTitle": {
+    "replies": [
+      {
+        "text": "Skill Authentifizierung",
+        "speak": "Skill Authentifizierung"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+
+  "SkillAuthenticationPrompt": {
+    "replies": [
+      {
+        "text": "Sie haben noch keine Accounts verlinkt, wenn möglich, authentifizieren Sie Ihren Assistenten, um auf diesen Service zuzugreifen oder auf Ihre Begleit Erfahrung umzusteigen.",
+        "speak": "Sie haben noch keine Accounts verlinkt, wenn möglich, authentifizieren Sie Ihren Assistenten, um auf diesen Service zuzugreifen oder auf Ihre Begleit Erfahrung umzusteigen."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }  
+}
