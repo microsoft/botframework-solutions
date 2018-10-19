@@ -64,7 +64,7 @@ namespace PointOfInterestSkill
                     return await sc.BeginDialogAsync(Action.FindAlongRoute);
                 }
 
-                return await sc.ContinueDialogAsync();
+                return await sc.NextAsync();
             }
             catch
             {
@@ -80,7 +80,7 @@ namespace PointOfInterestSkill
                 var state = await _accessor.GetAsync(sc.Context);
                 if (state.FoundLocations == null)
                 {
-                    return await sc.ContinueDialogAsync();
+                    return await sc.NextAsync();
                 }
 
                 if (!string.IsNullOrEmpty(state.SearchText))
@@ -117,7 +117,7 @@ namespace PointOfInterestSkill
                     }
                 }
 
-                return await sc.ContinueDialogAsync();
+                return await sc.NextAsync();
             }
             catch
             {
