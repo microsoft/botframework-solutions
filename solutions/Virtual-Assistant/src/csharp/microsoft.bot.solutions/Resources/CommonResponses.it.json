@@ -1,0 +1,71 @@
+﻿{
+  "ConfirmUserInfo": {
+    "replies": [
+      {
+        "text": "Sono pronto a salvarlo come informazioni personali, si prega di confermare quanto segue: ",
+        "speak": "Sono pronto a salvarlo come informazioni personali, si prega di confermare quanto segue: "
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+
+  "ConfirmSaveInfoFailed": {
+    "replies": [
+      {
+        "text": "Si prega di confermare prima di salvare le informazioni utente.",
+        "speak": "Si prega di confermare prima di salvare le informazioni utente."
+      },
+      {
+        "text": "Si prega di confermare queste informazioni.",
+        "speak": "Si prega di confermare queste informazioni."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+
+  "ErrorMessage": {
+    "replies": [
+      {
+        "text": "Mi dispiace, sembra che qualcosa è andato storto!",
+        "speak": "Mi dispiace, sembra che qualcosa è andato storto!"
+      },
+      {
+        "text": "Si è verificato un errore, dammi un po' di tempo e riprova più tardi.",
+        "speak": "Si è verificato un errore, dammi un po' di tempo e riprova più tardi."
+      },
+      {
+        "text": "Qualcosa è andato storto, mi dispiace!",
+        "speak": "Qualcosa è andato storto, mi dispiace!"
+      },
+      {
+        "text": "Credo che qualcosa sia andato storto. Puoi riprovare più tardi?",
+        "speak": "Credo che qualcosa sia andato storto. Puoi riprovare più tardi?"
+      },
+      {
+        "text": "Mi dispiace che non riesco a trovare quello che vuoi in questo momento. RiProva più tardi per favore.",
+        "speak": "Mi dispiace che non riesco a trovare quello che vuoi in questo momento. RiProva più tardi per favore."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+
+  "SkillAuthenticationTitle": {
+    "replies": [
+      {
+        "text": "Skill Autenticazione",
+        "speak": "Skill Autenticazione"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+
+  "SkillAuthenticationPrompt": {
+    "replies": [
+      {
+        "text": "Non hai ancora collegato alcun account, se possibile per favore autentica il tuo assistente per accedere a questo servizio o passare alla tua esperienza complementare.",
+        "speak": "Non hai ancora collegato alcun account, se possibile per favore autentica il tuo assistente per accedere a questo servizio o passare alla tua esperienza complementare."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }  
+}

@@ -3,7 +3,9 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
+using Newtonsoft.Json.Linq;
 using PointOfInterestSkill.Dialogs.Route.Resources;
+using PointOfInterestSkill.Models;
 using System;
 using System.Linq;
 using System.Threading;
@@ -209,7 +211,12 @@ namespace PointOfInterestSkill
                     var replyEvent = sc.Context.Activity.CreateReply();
                     replyEvent.Type = ActivityTypes.Event;
                     replyEvent.Name = "ActiveRoute.Directions";
-                    replyEvent.Value = state.ActiveRoute.Legs;
+
+                    DirectionsEventResponse eventPayload = new DirectionsEventResponse();
+                    eventPayload.Destination = state.ActiveLocation;
+                    eventPayload.Route = state.ActiveRoute;
+                    replyEvent.Value = eventPayload;
+
                     await sc.Context.SendActivityAsync(replyEvent);
                 }
                 else

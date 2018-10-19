@@ -25,6 +25,10 @@ namespace Microsoft.Bot.Solutions.Resources
 
         public static BotResponse ErrorMessage => GetBotResponse();
 
+        public static BotResponse SkillAuthenticationTitle => GetBotResponse();
+
+        public static BotResponse SkillAuthenticationPrompt => GetBotResponse();
+
         private static Dictionary<string, Dictionary<string, BotResponse>> JsonResponses
         {
             get
