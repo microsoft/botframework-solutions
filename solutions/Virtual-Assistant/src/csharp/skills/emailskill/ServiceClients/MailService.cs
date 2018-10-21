@@ -16,42 +16,20 @@ namespace EmailSkill
     /// </summary>
     public class MailService : IMailService
     {
-        private GraphServiceClient _graphClient;
+        private IGraphServiceClient _graphClient;
         private TimeZoneInfo _timeZoneInfo;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MailService"/> class.
         /// Init service use token.
         /// </summary>
-        /// <param name="token">access token.</param>
+        /// <param name="serviceClient">serviceClient.</param>
         /// <param name="timeZoneInfo">timeZoneInfo.</param>
         /// <returns>User service itself.</returns>
-        public MailService(string token, TimeZoneInfo timeZoneInfo)
+        public MailService(IGraphServiceClient serviceClient, TimeZoneInfo timeZoneInfo)
         {
-            this._graphClient = this.GetAuthenticatedClient(token);
+            this._graphClient = serviceClient;
             this._timeZoneInfo = timeZoneInfo;
-        }
-
-        /// <summary>
-        /// Get an authenticated ms graph client use access token.
-        /// </summary>
-        /// <param name="accessToken">access token.</param>
-        /// <returns>Authenticated graph service client.</returns>
-        public GraphServiceClient GetAuthenticatedClient(string accessToken)
-        {
-            GraphServiceClient graphClient = new GraphServiceClient(
-                new DelegateAuthenticationProvider(
-                    async (requestMessage) =>
-                    {
-                        // Append the access token to the request.
-                        requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
-
-                        // Get event times in the current time zone.
-                        requestMessage.Headers.Add("Prefer", "outlook.timezone=\"" + _timeZoneInfo.Id + "\"");
-
-                        await Task.CompletedTask;
-                    }));
-            return graphClient;
         }
 
         /// <summary>
@@ -102,7 +80,10 @@ namespace EmailSkill
             // some message don't have receiveddatetime. use last modified datetime.
             // optionList.Add(new QueryOption(GraphQueryConstants.Orderby, "lastModifiedDateTime desc"));
             // only get emails from Inbox folder.
-            IMailFolderMessagesCollectionPage messages = optionList.Count != 0 ? await this._graphClient.Me.MailFolders.Inbox.Messages.Request(optionList).GetAsync() : await this._graphClient.Me.MailFolders.Inbox.Messages.Request().GetAsync();
+            IMailFolderMessagesCollectionPage messages =
+                optionList.Count != 0 ?
+                await this._graphClient.Me.MailFolders.Inbox.Messages.Request(optionList).GetAsync()
+                : await this._graphClient.Me.MailFolders.Inbox.Messages.Request().GetAsync();
             List<Message> result = new List<Message>();
 
             var done = false;
@@ -178,10 +159,6 @@ namespace EmailSkill
         /// <returns>Completed Task.</returns>
         public async Task SendMessage(string content, string subject, List<Recipient> recipients)
         {
-            // Create the recipient list. This snippet uses the current user as the recipient.
-            User me = await this._graphClient.Me.Request().Select("Mail, UserPrincipalName").GetAsync();
-            string address = me.Mail ?? me.UserPrincipalName;
-
             // todo: I don't know why but recipient list need to be create again to avoid 400 error
             List<Recipient> re = new List<Recipient>();
             foreach (var recipient in recipients)

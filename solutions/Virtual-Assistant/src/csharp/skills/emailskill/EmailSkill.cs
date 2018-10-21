@@ -36,7 +36,6 @@ namespace EmailSkill
             _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _serviceManager, _skillMode));
         }
 
-
         /// <summary>
         /// Run every turn of the conversation. Handles orchestration of messages.
         /// </summary>
