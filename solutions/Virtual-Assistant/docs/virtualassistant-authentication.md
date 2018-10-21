@@ -1,4 +1,4 @@
-# Custom Assistant Skills Authentication
+# Virtual Assistant Skills Authentication
 
 ## Overview
 
