@@ -82,14 +82,15 @@ namespace EmailSkill
             // only get emails from Inbox folder.
             IMailFolderMessagesCollectionPage messages =
                 optionList.Count != 0 ?
-                await this._graphClient.Me.MailFolders.Inbox.Messages.Request(optionList).GetAsync()
-                : await this._graphClient.Me.MailFolders.Inbox.Messages.Request().GetAsync();
+                await this._graphClient.Me.MailFolders.Inbox.Messages.Request(optionList).GetAsync():
+                await this._graphClient.Me.MailFolders.Inbox.Messages.Request().GetAsync();
             List<Message> result = new List<Message>();
 
             var done = false;
             while (messages?.Count > 0 && !done)
             {
-                foreach (Message message in messages)
+                var messagesList = messages?.OrderByDescending(message => message.ReceivedDateTime).ToList();
+                foreach (Message message in messagesList)
                 {
                     var receivedDateTime = message.ReceivedDateTime;
                     if (receivedDateTime > fromTime && receivedDateTime < toTime)

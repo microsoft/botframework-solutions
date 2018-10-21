@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using EmailSkill;
+    using EmailSkillTest.API.Fakes;
     using Microsoft.Graph;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
@@ -11,53 +12,10 @@
     [TestClass]
     public class MailServiceTests
     {
-        private static MailService mailService;
-        private static string testEmailAddress = "test@test.com";
-
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
-            var mo = new Mock<IGraphServiceClient>();
-            mo.Setup(f => f.Me.Request().GetAsync()).Returns(Task.FromResult(new User()));
-
-            var optionList = new List<QueryOption>();
-            mo.Setup(f => f.Me.MailFolders.Inbox.Messages.Request(optionList).GetAsync()).Returns(new Task<IMailFolderMessagesCollectionPage>(GetMailsbyOption));
-
-            mo.Setup(f => f.Me.MailFolders.Inbox.Messages.Request().GetAsync()).Returns(new Task<IMailFolderMessagesCollectionPage>(GetMailsbyOption));
-
-            Message email = new Message();
-            mo.Setup(f => f.Me.SendMail(email, true).Request(null).PostAsync()).Returns(new Task(Operation));
-            mo.Setup(f => f.Me.Messages["1"].ReplyAll(string.Empty).Request(null).PostAsync()).Returns(new Task(Operation));
-            //mo.Setup(f => f.Me.Messages["1"].Request().UpdateAsync(email)).Returns(new Task(Update));
-
-            IGraphServiceClient serviceClient = mo.Object;
-            mailService = new MailService(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
         }
-
-        private static User GetMe()
-        {
-            var user = new User();
-            user.Mail = "test@test.com";
-
-            return user;
-        }
-
-        private static MailFolderMessagesCollectionPage GetMailsbyOption()
-        {
-            var mails = new MailFolderMessagesCollectionPage();
-
-            return mails;
-        }
-
-        private static void Operation()
-        {
-            return;
-        }
-
-        //private static Message Update()
-        //{
-        //    return new Message();
-        //}
 
         [TestMethod]
         public async Task SendMessageTest()
@@ -67,11 +25,15 @@
             {
                 EmailAddress = new EmailAddress(),
             };
-            recipient.EmailAddress.Address = testEmailAddress;
+            recipient.EmailAddress.Address = "test@test.com";
             recipient.EmailAddress.Name = "Test Test";
 
             List<Recipient> recipientList = new List<Recipient>();
             recipientList.Add(recipient);
+
+            var mockGraphServiceClient = new MockGraphServiceClientGen();
+            IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
+            MailService mailService = new MailService(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
 
             await mailService.SendMessage("test content", "test subject", recipientList);
         }
@@ -79,20 +41,83 @@
         [TestMethod]
         public async Task GetMyMessagesTest()
         {
-            List<Message> messages = await mailService.GetMyMessages(DateTime.Today, DateTime.Today.AddDays(1), getUnRead: false, isImportant: false, directlyToMe: false, fromAddress: testEmailAddress, skip: 0);
-            Assert.IsTrue(messages.Count >= 1);
-            Assert.IsTrue(messages.Count <= 5);
+            IMailFolderMessagesCollectionPage messages = new MailFolderMessagesCollectionPage();
+            for (int i = 0; i < 6; i++)
+            {
+                var message = new Message()
+                {
+                    Subject = "TestSubject" + i,
+                    BodyPreview = "TestBodyPreview" + i,
+                    Body = new ItemBody()
+                    {
+                        Content = "TestBody" + i,
+                        ContentType = BodyType.Text,
+                    },
+                    ReceivedDateTime = DateTime.UtcNow.AddHours(-1),
+                    WebLink = "http://www.test.com",
+                    Sender = new Recipient()
+                    {
+                        EmailAddress = new EmailAddress()
+                        {
+                            Name = "TestSender" + i,
+                        },
+                    },
+                };
+
+                var recipients = new List<Recipient>();
+                var recipient = new Recipient()
+                {
+                    EmailAddress = new EmailAddress(),
+                };
+                recipient.EmailAddress.Address = i + "test@test.com";
+                recipient.EmailAddress.Name = "Test Test";
+                recipients.Add(recipient);
+                message.ToRecipients = recipients;
+
+                messages.Add(message);
+            }
+
+            var mockGraphServiceClient = new MockGraphServiceClientGen();
+            mockGraphServiceClient.MyMessages = messages;
+            mockGraphServiceClient.SetMockBehavior();
+            IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
+            MailService mailService = new MailService(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
+
+            List<Message> result = await mailService.GetMyMessages(DateTime.Today, DateTime.Today.AddDays(1), getUnRead: false, isImportant: false, directlyToMe: false, fromAddress: "test@test.com", skip: 0);
+
+            // Test get 0-5 message per page
+            Assert.IsTrue(result.Count >= 1);
+            Assert.IsTrue(result.Count <= 5);
+
+            // Test ranking correctly by time
+            Assert.IsTrue(result[0].Subject == "TestSubject5");
+
+            result = await mailService.GetMyMessages(DateTime.Today, DateTime.Today.AddDays(1), getUnRead: false, isImportant: false, directlyToMe: false, fromAddress: "test@test.com", skip: 5);
+
+            // Test get 1 message next page
+            Assert.IsTrue(result.Count == 1);
+
+            // Test ranking correctly by time
+            Assert.IsTrue(result[0].Subject == "TestSubject0");
         }
 
         [TestMethod]
         public async Task ReplyToMessageTest()
         {
+            var mockGraphServiceClient = new MockGraphServiceClientGen();
+            IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
+            MailService mailService = new MailService(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
+
             await mailService.ReplyToMessage("1", "test");
         }
 
         [TestMethod]
         public async Task UpdateMessageTest()
         {
+            var mockGraphServiceClient = new MockGraphServiceClientGen();
+            IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
+            MailService mailService = new MailService(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
+
             Message msg = new Message();
             await mailService.UpdateMessage(msg);
         }
@@ -100,6 +125,10 @@
         [TestMethod]
         public async Task ForwardMessageTest()
         {
+            var mockGraphServiceClient = new MockGraphServiceClientGen();
+            IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
+            MailService mailService = new MailService(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
+
             List<Recipient> recipients = new List<Recipient>();
             await mailService.ForwardMessage("1", "Test", recipients);
         }
@@ -107,6 +136,10 @@
         [TestMethod]
         public async Task DeleteMessageTest()
         {
+            var mockGraphServiceClient = new MockGraphServiceClientGen();
+            IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
+            MailService mailService = new MailService(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
+
             await mailService.DeleteMessage("1");
         }
     }

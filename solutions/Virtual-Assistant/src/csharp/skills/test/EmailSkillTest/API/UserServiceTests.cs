@@ -8,33 +8,104 @@ namespace EmailSkillTest.API
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using EmailSkill;
-    //using EmailSkillTest.Fakes;
+    using EmailSkillTest.API.Fakes;
     using Microsoft.Graph;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class UserServiceTests
     {
-        private static UserService userService;
 
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
-            userService = null;//new UserService(string.Empty, timeZoneInfo: TimeZoneInfo.Local);
         }
 
         [TestMethod]
         public async Task GetUserTest()
         {
-            var users = await userService.GetUserAsync("test");
-            Assert.IsTrue(users.Count >= 1);
+            IGraphServiceUsersCollectionPage users = new GraphServiceUsersCollectionPage();
+            for (int i = 0; i < 3; i++)
+            {
+                var user = new User()
+                {
+                    DisplayName = "Conf Room" + i,
+                };
+
+                users.Add(user);
+            }
+
+            for (int i = 0; i < 12; i++)
+            {
+                var user = new User()
+                {
+                    DisplayName = "TestUser" + i,
+                };
+
+                users.Add(user);
+            }
+
+            var mockGraphServiceClient = new MockGraphServiceClientGen();
+            mockGraphServiceClient.Users = users;
+            mockGraphServiceClient.SetMockBehavior();
+
+            IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
+            UserService userService = new UserService(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
+
+            var result = await userService.GetUserAsync("test");
+
+            // Test get 0-10 user per page
+            Assert.IsTrue(result.Count >= 1);
+            Assert.IsTrue(result.Count <= 10);
+
+            // "Conf Room" is filtered
+            foreach (var user in result)
+            {
+                Assert.IsFalse(user.DisplayName.StartsWith("Conf Room"));
+            }
         }
 
         [TestMethod]
         public async Task GetPeopleTest()
         {
-            var people = await userService.GetPeopleAsync("test");
-            Assert.IsTrue(people.Count >= 1);
+            IUserPeopleCollectionPage people = new UserPeopleCollectionPage();
+            for (int i = 0; i < 3; i++)
+            {
+                var person = new Person()
+                {
+                    DisplayName = "Conf Room" + i,
+                };
+
+                people.Add(person);
+            }
+
+            for (int i = 0; i < 12; i++)
+            {
+                var user = new Person()
+                {
+                    DisplayName = "TestUser" + i,
+                };
+
+                people.Add(user);
+            }
+
+            var mockGraphServiceClient = new MockGraphServiceClientGen();
+            mockGraphServiceClient.People = people;
+            mockGraphServiceClient.SetMockBehavior();
+
+            IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
+            UserService userService = new UserService(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
+
+            var result = await userService.GetPeopleAsync("test");
+
+            // Test get > 0 people per page
+            Assert.IsTrue(result.Count == 12);
+
+            // "Conf Room" is filtered
+            foreach (var user in result)
+            {
+                Assert.IsFalse(user.DisplayName.StartsWith("Conf Room"));
+            }
         }
     }
 }
