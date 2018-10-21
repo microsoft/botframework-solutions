@@ -1,15 +1,12 @@
 {
-  "luis_schema_version": "3.0.0",
-  "versionId": "0.2",
-  "name": "Email914",
+  "luis_schema_version": "3.1.0",
+  "versionId": "0.4",
+  "name": "Email",
   "desc": "new communication prebuilt domain",
   "culture": "en-us",
   "intents": [
     {
       "name": "AddFlag"
-    },
-    {
-      "name": "Cancel"
     },
     {
       "name": "CheckMessages"
@@ -25,15 +22,6 @@
     },
     {
       "name": "Forward"
-    },
-    {
-      "name": "Greeting"
-    },
-    {
-      "name": "Help"
-    },
-    {
-      "name": "Logout"
     },
     {
       "name": "None"
@@ -153,7 +141,7 @@
   "utterances": [
     {
       "text": "abort",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
@@ -480,12 +468,12 @@
     },
     {
       "text": "can you cancel it",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "can you help me ?",
-      "intent": "Help",
+      "intent": "None",
       "entities": []
     },
     {
@@ -495,7 +483,7 @@
     },
     {
       "text": "can you help me here",
-      "intent": "Help",
+      "intent": "None",
       "entities": []
     },
     {
@@ -532,32 +520,32 @@
     },
     {
       "text": "cancel",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "cancel all",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "cancel email",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "cancel it",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "cancel message",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "cancel my email to jerry",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": [
         {
           "entity": "ContactName",
@@ -568,7 +556,7 @@
     },
     {
       "text": "cancel text to james robinson",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": [
         {
           "entity": "ContactName",
@@ -579,52 +567,52 @@
     },
     {
       "text": "cancel that",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "cancel that order please",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "cancel the mail",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "cancel the message",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "cancel the text",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "cancel the text message",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "cancel this",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "cancel this message",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "cancel this process",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "cancel this text",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
@@ -691,7 +679,7 @@
     },
     {
       "text": "close",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
@@ -786,7 +774,7 @@
     },
     {
       "text": "delete",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
@@ -950,67 +938,67 @@
     },
     {
       "text": "don ' t read",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "don ' t read it",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "don 't send this text",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "don't",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "don't call",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "don't call her",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "don't email",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "don't read the message",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "don't send",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "don't send it",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "don't send that email",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "don't send this email",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "don't show me",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
@@ -1177,7 +1165,7 @@
     },
     {
       "text": "exit",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
@@ -1255,7 +1243,7 @@
     },
     {
       "text": "forget it",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
@@ -1617,22 +1605,22 @@
     },
     {
       "text": "good morning",
-      "intent": "Greeting",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "hello",
-      "intent": "Greeting",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "help me please",
-      "intent": "Help",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "help me to start",
-      "intent": "Help",
+      "intent": "None",
       "entities": [
         {
           "entity": "ContactName",
@@ -1643,7 +1631,7 @@
     },
     {
       "text": "help me to understand more please",
-      "intent": "Help",
+      "intent": "None",
       "entities": [
         {
           "entity": "ContactName",
@@ -1654,17 +1642,17 @@
     },
     {
       "text": "help me with this",
-      "intent": "Help",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "help with my device please",
-      "intent": "Help",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "hi",
-      "intent": "Greeting",
+      "intent": "None",
       "entities": []
     },
     {
@@ -1785,7 +1773,7 @@
     },
     {
       "text": "i need your help",
-      "intent": "Help",
+      "intent": "None",
       "entities": []
     },
     {
@@ -1826,7 +1814,7 @@
     },
     {
       "text": "i want you to cancel the sms",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
@@ -1929,22 +1917,22 @@
     },
     {
       "text": "log off",
-      "intent": "Logout",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "log off computer",
-      "intent": "Logout",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "log off my phone",
-      "intent": "Logout",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "log out",
-      "intent": "Logout",
+      "intent": "None",
       "entities": []
     },
     {
@@ -2063,32 +2051,32 @@
     },
     {
       "text": "neither",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "neither of them",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "never mind",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "never mind cancel",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "never mind cancel the message",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "nevermind cancel",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
@@ -2167,7 +2155,7 @@
     },
     {
       "text": "nice to meet you",
-      "intent": "Greeting",
+      "intent": "None",
       "entities": []
     },
     {
@@ -2177,42 +2165,42 @@
     },
     {
       "text": "no cancel",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "no cancel it",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "no cancel that",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "no don't send",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "no don't send it",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "no it's not right",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "no just cancel the text message",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "no no cancel",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
@@ -2227,12 +2215,12 @@
     },
     {
       "text": "no that is not right",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "no that's not right",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
@@ -2247,17 +2235,17 @@
     },
     {
       "text": "no, cancel it",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "no, don't do it",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "no, i don't want to send this message",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
@@ -2267,22 +2255,22 @@
     },
     {
       "text": "none of them",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "none of these",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "none of this",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "none of those",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
@@ -2317,7 +2305,7 @@
     },
     {
       "text": "nothing cancel",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
@@ -2357,7 +2345,7 @@
     },
     {
       "text": "okay cancel",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
@@ -2510,12 +2498,12 @@
     },
     {
       "text": "please help me",
-      "intent": "Help",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "please help me i want to finish",
-      "intent": "Help",
+      "intent": "None",
       "entities": []
     },
     {
@@ -2593,7 +2581,7 @@
     },
     {
       "text": "quit",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
@@ -4756,7 +4744,7 @@
     },
     {
       "text": "sign out of facebook please",
-      "intent": "Logout",
+      "intent": "None",
       "entities": []
     },
     {
@@ -4900,32 +4888,32 @@
     },
     {
       "text": "stop",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "stop doing it",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "stop it",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "stop message",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "stop reading",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "stop that",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
@@ -5337,7 +5325,7 @@
     },
     {
       "text": "yes cancel",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
@@ -5392,7 +5380,7 @@
     },
     {
       "text": "yes, cancel it",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
@@ -5415,5 +5403,6 @@
       "intent": "Confirm",
       "entities": []
     }
-  ]
+  ],
+  "settings": []
 }

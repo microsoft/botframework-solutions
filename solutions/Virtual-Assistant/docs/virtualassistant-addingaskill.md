@@ -1,4 +1,4 @@
-# Adding Skills to your Custom Assistant
+# Adding Skills to your Virtual Assistant
 
 ## Overview
 
@@ -8,7 +8,7 @@ If the Skill you wish to add requires User Tokens in order to complete a task yo
 
 ## Skill Configuration
 
-The first step is to add a Skill Registration entry to your Custom Assistant `appsettings.json` file. This is used by the Custom Assistant to understand what skills are available and how to map a given question to a Skill.
+The first step is to add a Skill Registration entry to your Virtual Assistant `appsettings.json` file. This is used by the Virtual Assistant to understand what skills are available and how to map a given question to a Skill.
 
 See the [Skills](./virtualassistant-skills.md) section for a configuration file example for each of the available skills. Modify this to suit your scenario and add a new element under the Skills element, an example is shown below. Ensure you use the Authentication Connection Name created in the previous step.
 
