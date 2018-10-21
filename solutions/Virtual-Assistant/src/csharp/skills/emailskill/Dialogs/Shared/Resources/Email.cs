@@ -16,14 +16,10 @@ namespace Luis
         public string AlteredText;
         public enum Intent {
             AddFlag, 
-            Cancel, 
             CheckMessages, 
             Confirm, 
             ConfirmNo, 
             Forward, 
-            Greeting, 
-            Help, 
-            Logout, 
             None, 
             QueryLastText, 
             ReadAloud, 

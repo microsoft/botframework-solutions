@@ -4,9 +4,6 @@
       "name": "AddFlag"
     },
     {
-      "name": "Cancel"
-    },
-    {
       "name": "CheckMessages"
     },
     {
@@ -17,15 +14,6 @@
     },
     {
       "name": "Forward"
-    },
-    {
-      "name": "Greeting"
-    },
-    {
-      "name": "Help"
-    },
-    {
-      "name": "Logout"
     },
     {
       "name": "None"
@@ -319,42 +307,42 @@
     },
     {
       "text": "中止",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "你能取消它吗？",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "取消",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "全部取消",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "取消电子邮件",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "取消它",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "取消邮件",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "取消我的电子邮件到杰瑞",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": [
         {
           "entity": "ContactName",
@@ -365,7 +353,7 @@
     },
     {
       "text": "取消文本到詹姆斯鲁宾逊",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": [
         {
           "entity": "ContactName",
@@ -376,312 +364,312 @@
     },
     {
       "text": "取消该",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "请取消订单",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "取消邮件",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "取消邮件",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "取消文本",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "取消文本消息",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "取消此",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "取消此邮件",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "取消此过程",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "取消此文本",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "关闭",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "删除",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "不读",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "不要读它",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "不要发送此文本",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "不要",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "不要叫",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "别叫她",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "不要发电子邮件",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "不读邮件",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "不发送",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "不要发送它",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "不要发送电子邮件",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "不要发送此电子邮件",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "不要告诉我",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "退出",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "没关系",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "我要你取消短信",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "也",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "他们都不",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "没关系",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "没关系取消",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "没关系, 取消留言",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "不介意取消",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "无取消",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "不取消",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "没有取消",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "不发送",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "不, 不要发送",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "不, 这是不对的",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "不只是取消文本消息",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "无取消",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "不, 这是不对的",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "不, 这是不对的",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "不, 取消它",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "不, 不要这样做",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "不, 我不想发送此消息",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "他们都没有",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "这些都不是",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "这些",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "这些都不是",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "没有取消",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "好的取消",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "退出",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "停止",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "停止做它",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "停下",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "停止消息",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "停止阅读",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "停下",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "是取消",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "是, 取消它",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
@@ -1614,42 +1602,42 @@
     },
     {
       "text": "早上好",
-      "intent": "Greeting",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "你好",
-      "intent": "Greeting",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "你好",
-      "intent": "Greeting",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "我很高兴认识你",
-      "intent": "Greeting",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "你可以帮我吗？",
-      "intent": "Help",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "你能帮我吗？",
-      "intent": "Help",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "请帮助我",
-      "intent": "Help",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "帮我开始",
-      "intent": "Help",
+      "intent": "None",
       "entities": [
         {
           "entity": "ContactName",
@@ -1660,7 +1648,7 @@
     },
     {
       "text": "帮我理解更多请",
-      "intent": "Help",
+      "intent": "None",
       "entities": [
         {
           "entity": "ContactName",
@@ -1671,52 +1659,52 @@
     },
     {
       "text": "帮我这个",
-      "intent": "Help",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "请帮助我的设备",
-      "intent": "Help",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "我需要你的帮助",
-      "intent": "Help",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "请帮助我",
-      "intent": "Help",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "请帮助我, 我想完成",
-      "intent": "Help",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "注销",
-      "intent": "Logout",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "注销计算机",
-      "intent": "Logout",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "注销我的电话",
-      "intent": "Logout",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "注销",
-      "intent": "Logout",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "请在 facebook 上签名",
-      "intent": "Logout",
+      "intent": "None",
       "entities": []
     },
     {

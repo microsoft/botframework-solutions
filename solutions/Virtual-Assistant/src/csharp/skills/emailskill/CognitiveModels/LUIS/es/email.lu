@@ -44,80 +44,6 @@
 - activar la bandera
 
 
-## Cancel
-- Aborta
-- se puede cancelar
-- Cancelar
-- cancelar todo
-- cancelar correo electrónico
-- cancelarlo
-- Cancelar mensaje
-- cancelar mi correo electrónico a {ContactName=Jerry}
-- cancelar texto a {ContactName = James Robinson}
-- cancelar que
-- cancele esa orden por favor
-- cancelar el correo
-- cancelar el mensaje
-- cancelar el texto
-- cancelar el mensaje de texto
-- cancelar este
-- cancelar este mensaje
-- cancelar este proceso
-- cancelar este texto
-- Cerca
-- Eliminar
-- Don ' t leer
-- no lo leas
-- No envíes este texto
-- No
-- no llame
-- no la llames
-- no enviar correo electrónico
-- no lea el mensaje
-- no enviar
-- no lo envíe
-- no enviar ese correo electrónico
-- no enviar este correo electrónico
-- no me muestres
-- Salida
-- Olvídalo
-- Quiero que canceles el SMS
-- Ni
-- ninguno de ellos
-- Olvídalo
-- no importa cancelar
-- no importa cancelar el mensaje
-- no importa cancelar
-- no cancelar
-- no cancelarlo
-- no cancelar que
-- no no enviar
-- no no enviarlo
-- no, no está bien
-- no acaba de cancelar el mensaje de texto
-- no no cancelar
-- no que no está bien
-- no, eso no está bien
-- no, cancelo
-- no, no lo hagas
-- no, no quiero enviar este mensaje
-- ninguno de ellos
-- ninguno de estos
-- nada de esto
-- ninguno de esos
-- nada cancelar
-- cancelar bien
-- Dejar
-- Parada
-- deja de hacerlo
-- Basta
-- detener mensaje
-- dejar de leer
-- Para eso
-- sí cancelar
-- sí, cancelarlo
-
-
 ## CheckMessages
 - cualquier nuevo correo electrónico
 - cualquier nuevo correo electrónico disponible
@@ -260,34 +186,6 @@
 - por favor, adelante a {ContactName=Helen}
 
 
-## Greeting
-- Buenos días
-- Hola
-- Hola
-- Encantado de conocerte
-
-
-## Help
-- ¿Me puedes ayudar?
-- ¿puedes ayudarme aquí
-- ayúdame por favor
-- Ayúdame a {ContactName=empezar}
-- Ayúdame a {ContactName=entender} más por favor
-- Ayúdame con esto
-- ayuda con mi dispositivo por favor
-- Necesito tu ayuda
-- Por favor, ayúdame
-- por favor ayúdame quiero terminar
-
-
-## Logout
-- cerrar sesión
-- desconectar equipo
-- cerrar sesión de mi teléfono
-- cerrar sesión
-- Regístrate en Facebook por favor
-
-
 ## None
 - Agregar un {Attachment=archivo} al correo electrónico
 - agregar una {Attachment=imagen}
@@ -353,6 +251,96 @@
 - poner algunas líneas adicionales a este mensaje
 - espera, necesito escribir más
 - escribir más
+- Buenos días
+- Hola
+- Hola
+- Encantado de conocerte
+- ¿Me puedes ayudar?
+- ¿puedes ayudarme aquí
+- ayúdame por favor
+- Ayúdame a {ContactName=empezar}
+- Ayúdame a {ContactName=entender} más por favor
+- Ayúdame con esto
+- ayuda con mi dispositivo por favor
+- Necesito tu ayuda
+- Por favor, ayúdame
+- por favor ayúdame quiero terminar
+- cerrar sesión
+- desconectar equipo
+- cerrar sesión de mi teléfono
+- cerrar sesión
+- Regístrate en Facebook por favor
+- Aborta
+- se puede cancelar
+- Cancelar
+- cancelar todo
+- cancelar correo electrónico
+- cancelarlo
+- Cancelar mensaje
+- cancelar mi correo electrónico a {ContactName=Jerry}
+- cancelar texto a {ContactName = James Robinson}
+- cancelar que
+- cancele esa orden por favor
+- cancelar el correo
+- cancelar el mensaje
+- cancelar el texto
+- cancelar el mensaje de texto
+- cancelar este
+- cancelar este mensaje
+- cancelar este proceso
+- cancelar este texto
+- Cerca
+- Eliminar
+- Don ' t leer
+- no lo leas
+- No envíes este texto
+- No
+- no llame
+- no la llames
+- no enviar correo electrónico
+- no lea el mensaje
+- no enviar
+- no lo envíe
+- no enviar ese correo electrónico
+- no enviar este correo electrónico
+- no me muestres
+- Salida
+- Olvídalo
+- Quiero que canceles el SMS
+- Ni
+- ninguno de ellos
+- Olvídalo
+- no importa cancelar
+- no importa cancelar el mensaje
+- no importa cancelar
+- no cancelar
+- no cancelarlo
+- no cancelar que
+- no no enviar
+- no no enviarlo
+- no, no está bien
+- no acaba de cancelar el mensaje de texto
+- no no cancelar
+- no que no está bien
+- no, eso no está bien
+- no, cancelo
+- no, no lo hagas
+- no, no quiero enviar este mensaje
+- ninguno de ellos
+- ninguno de estos
+- nada de esto
+- ninguno de esos
+- nada cancelar
+- cancelar bien
+- Dejar
+- Parada
+- deja de hacerlo
+- Basta
+- detener mensaje
+- dejar de leer
+- Para eso
+- sí cancelar
+- sí, cancelarlo
 
 
 ## QueryLastText
