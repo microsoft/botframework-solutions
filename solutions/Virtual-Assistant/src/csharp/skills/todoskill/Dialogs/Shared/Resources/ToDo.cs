@@ -36,6 +36,9 @@ namespace Luis
             // Simple entities
             public string[] ContainsAll;
             public string[] ListType;
+            public string[] ShopVerb;
+            public string[] Food;
+            public string[] ShopContent;
 
             // Built-in entities
             public double[] ordinal;
@@ -50,6 +53,9 @@ namespace Luis
                 public InstanceData[] ListType;
                 public InstanceData[] ordinal;
                 public InstanceData[] TaskContent;
+                public InstanceData[] ShopVerb;
+                public InstanceData[] Food;
+                public InstanceData[] ShopContent;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;

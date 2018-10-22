@@ -486,7 +486,7 @@ namespace ToDoSkill
             body.Add(textBlock);
             var choiceSet = new AdaptiveChoiceSetInput
             {
-                IsMultiSelect = true
+                IsMultiSelect = true,
             };
             var value = Guid.NewGuid().ToString() + ",";
             var index = 0;
@@ -495,7 +495,7 @@ namespace ToDoSkill
                 var choice = new AdaptiveChoice
                 {
                     Title = todo.Topic,
-                    Value = todo.Id
+                    Value = todo.Id,
                 };
                 choiceSet.Choices.Add(choice);
                 if (todo.IsCompleted)
@@ -540,7 +540,7 @@ namespace ToDoSkill
             body.Add(textBlock);
             var choiceSet = new AdaptiveChoiceSetInput
             {
-                IsMultiSelect = true
+                IsMultiSelect = true,
             };
             var value = Guid.NewGuid().ToString() + ",";
             foreach (var todo in todos)
@@ -548,7 +548,7 @@ namespace ToDoSkill
                 var choice = new AdaptiveChoice
                 {
                     Title = todo.Topic,
-                    Value = todo.Id
+                    Value = todo.Id,
                 };
                 choiceSet.Choices.Add(choice);
                 if (todo.IsCompleted)
