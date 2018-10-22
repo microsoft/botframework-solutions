@@ -11,36 +11,36 @@
 
 ## AddFlag
 - 添加标志
-- 请添加标志
-- 将标志添加到{OrderReference=最后}电子邮件
+- 添加标志请
+- 将标志添加到 {OrderReference=最后} 电子邮件
 - 向此电子邮件添加标志
 - 添加标志
-- 在上面添加标志
+- 在其上添加标志
 - 向其添加标志
-- 向电子邮件添加标志{SenderName=约翰}刚寄给我
+- 向电子邮件添加标志 {SenderName=约翰} 刚刚寄给我
 - 向此电子邮件添加标志
 - 向此邮件添加标志
 - 国旗
 - 标记它
-- 上的标志
+- 标记 on
 - 标记当前电子邮件
 - 标记电子邮件
-- 标记电子邮件从{SenderName=戴维斯}
-- 标记邮件
+- 将电子邮件标记为 {SenderName=戴维斯} 
+- 标记消息
 - 标记此电子邮件
 - 标记此电子邮件对我来说很重要
-- 我要添加一个标志
-- 我想在这封电子邮件上添加一个标志
-- 使其标记为
+- 我想添加一个标志
+- 我想在此电子邮件中添加一个标志
+- 使其标记
 - 标记为标志
 - 标记已标记的邮件
-- 放置标志
+- 把国旗
 - 在新邮件上贴上旗帜
-- 的电子邮件来自{SenderName=托马斯}应标记为
-- 的电子邮件, 以{ContactName=芭芭拉}需要标记
+- 的电子邮件从 {SenderName=托马斯} 应标记
+- 的电子邮件, 以 {ContactName=芭芭拉} 需要标记
 - 此电子邮件需要标记
 - 此电子邮件需要标记
-- 此电子邮件应标记为
+- 应将此电子邮件标记为
 - 打开标志
 
 
@@ -50,471 +50,310 @@
 - 任何新消息现在
 - 检查电子邮件
 - 请查收电子邮件
-- 请检查我的电子邮件
+- 请查收我的电子邮件
 - 查看我的电子邮件
-- 检查我{EmailPlatform=Gmail}
+- 检查我 {EmailPlatform=Gmail} 
 - 检查我的收件箱
-- 选中 "我的邮箱"
+- 查看我的邮件框
 - 查看我的留言
-- 检查{EmailPlatform=前景}请
+- 检查 {EmailPlatform=前景} 请
 - 检查邮件
-- 请您检查一下我的收件箱
-- 你能帮我查一下留言吗？
-- 是否收到新邮件
+- 请检查我的收件箱
+- 你能检查一下我的留言吗？
+- 我是否收到新消息
 - 我有新邮件吗？
-- 我有新邮件吗？
-- 我有新留言吗？
-- 我现在有新留言了吗？
-- 是否收到新电子邮件
-- 是否收到新邮件{EmailPlatform=前景}?
-- 是否收到新邮件
-- 刚才有人给我发信息吗？
-- 我的{EmailPlatform=前景}有新的电子邮件
-- 我要检查我的收件箱
-- 我想查看我的留言
-- 我想检查一下我的收件箱
-- 有新的电子邮件
+- 我是否有新的电子邮件
+- 我是否有新消息
+- 我现在有新消息了吗
+- 我是否收到新电子邮件
+- 我是否收到新邮件 {EmailPlatform=前景} ?
+- 我是否收到新消息
+- 刚才有人给我发消息吗？
+- 做我 {EmailPlatform=前景} 有新的电子邮件
+- 我想检查我的收件箱
+- 我想检查我的留言
+- 我想检查我的收件箱
+- 是否有新的电子邮件
 - 是否有新消息
 - 请检查我的电子邮件
 - 请检查我的收件箱
 - 请检查我的留言
-- 请检查我{EmailPlatform=前景}
+- 请检查我 {EmailPlatform=前景} 
 - 显示最新电子邮件
 - 显示我的电子邮件
+- 是否收到新消息
+- 是否有新消息
 - 是否收到新邮件
-- 是否有新邮件
-- 是否收到新邮件
-
-
-## Confirm
-- 好
-- 正确
-- 更正是
-- 做吧
-- 我确认
-- 我确认我想发送这封电子邮件
-- 没关系
-- 答案是肯定的
-- 还行
-- 确定发送
-- 好
-- 好的, 我很高兴
-- 好
-- 好吧, 把它
-- 好的, 把它
-- 好了, 现在就发吧
-- 完美谢谢你
-- 对
-- 听上去很好
-- 确定
-- 当然, 去吧
-- 这是正确的
-- 没错
-- 就是这样
-- 没错
-- 是的
-- 是伙计
-- 对
-- 是的
-- 是的
-- 是的
-- 是的，它是
-- 是的, 这是正确的
-- 是的, 请
-- 是发送它
-- 是的谢谢你
-- 是的, 这是正确的
-- 是的, 这是正确的
-- 是的, 这是正确的
-- 是的, 这是正确的
-- 是的
-- 是的, 你可以
-- 是的
-
-
-## ConfirmNo
-- 绝非
-- N
-- 关闭
-- 负
-- 不
-- 不，谢谢
-- 没有什么改变
-- 不可能
-- 不, 没关系
-- 不
-- 一点也不
-- 不在所有
-- 不完全 \
-- 没有
-- 现在不行谢谢
-- 你当然没有
-- 你没
-
 
 ## Forward
-- 请将此消息转发给{ContactName=苏珊}和{ContactName=杰西卡}
-- 请你把这封电子邮件转发给{RelationshipName=我姐姐}
-- 转发所有{Attachment=文件}从{SenderName=莎莉}自{ContactName=吉姆}
-- 向前说{Message=如果您感兴趣}自{ContactName=保罗}
-- 转发电子邮件到{ContactName=贝丝}
-- 转发邮件
-- 转发消息到{RelationshipName=女朋友}
-- 转发电子邮件从{ContactName=约翰·史密斯}自{ContactName=大卫. 米勒}通过说{Message=fyi}
-- 转发电子邮件从{SenderName=梅丽莎}自{ContactName=吉 米}
-- 将电子邮件转发到{RelationshipName=爸爸}
-- 转发该{OrderReference=最后}电子邮件到{ContactName=克里斯威廉斯}
+- 您能否将此消息转发到 {ContactName=苏珊} 和 {ContactName=杰西卡} 
+- 请你把这封电子邮件转发给 {RelationshipName=我妹妹} 
+- 转发所有 {Attachment=文件} 从 {SenderName=莎莉} 自 {ContactName=吉姆} 
+- 向前说 {Message=如果您感兴趣} 自 {ContactName=保罗} 
+- 转发电子邮件到 {ContactName=贝丝} 
+- 转发消息
+- 将消息转发到 {RelationshipName=女朋友} 
+- 转发电子邮件从 {ContactName=约翰·史密斯} 自 {ContactName=大卫·米勒} 通过说 {Message=仅供参考} 
+- 转发电子邮件从 {SenderName=梅丽莎} 自 {ContactName=吉 米} 
+- 将电子邮件转发到 {RelationshipName=爸爸} 
+- 转发该 {OrderReference=最后} 电邮至 {ContactName=克里斯. 威廉姆斯} 
 - 转发此电子邮件
-- 将此电子邮件转发到{ContactName=安东尼}通过键入{Message=你觉得怎么样}
-- 将此电子邮件转发到{ContactName=丹尼尔}
-- 将此电子邮件转发到{ContactName=加里. 布朗}请
-- 将此电子邮件转发到{ContactName=格雷格}
-- 将此电子邮件转发到{EmailAddress=partone 点 parttwo 在 gmail 点 com}
-- 将此按摩转到{ContactName=彼得}
-- 转发到{ContactName=布赖恩波特} {Time=今晚}
-- 转发到{ContactName=哈利}通过键入{Message=我同意这一点。}
-- 转发到{ContactName=嫁给}有消息说,{Message=我不想那样}
-- 转发到{RelationshipName=妈妈}
-- 转发到{RelationshipName=我的老板}并附上{Attachment=schedual 文件}
-- 转发到{EmailAddress=partoneparttwo@gmail.com partoneparttwo@gmail} {Date=下星期一}
-- 转发到{ContactName=沙龙}请
-- 转发到{RelationshipName=妻子}通过说{Message=我爱你}
-- 请将此电子邮件转发到{EmailAddress=partoneparttwo@163.com partoneparttwo@163}
-- 请将此电子邮件转发到{EmailAddress=partoneparttwo@outlook.com partoneparttwo@outlook}
-- 请转发此邮件
-- 请将此消息转发到{ContactName=Jc}通过键入{Message=一切都会好起来的}
-- 请向{ContactName=海伦}
+- 将此电子邮件转发到 {ContactName=安东尼} 通过键入 {Message=你觉得怎么样} 
+- 将此电子邮件转发到 {ContactName=丹尼尔} 
+- 将此电子邮件转发到 {ContactName=加里. 布朗} 请
+- 将此电子邮件转发到 {ContactName=格雷格} 
+- 将此电子邮件转发到 {EmailAddress=partone 点第二在 gmail 点 com} 
+- 将此按摩转到 {ContactName=皮特} 
+- 转发到 {ContactName=布莱恩. 波特}   {Time=今晚} 
+- 转发到 {ContactName=哈利} 通过键入 {Message=我同意} 
+- 转发到 {ContactName=嫁给} 有消息说 {Message=我不想那样} 
+- 转发到 {RelationshipName=妈妈} 
+- 转发到 {RelationshipName=我的老板} 并附上 {Attachment=游览文件} 
+- 转发到 {EmailAddress=partoneparttwo@gmail.com partoneparttwo@gmail}   {Date=下星期一} 
+- 转发到 {ContactName=沙龙} 请
+- 转发到 {RelationshipName=妻子} 通过说 {Message=我爱你} 
+- 请将此电子邮件转发到 {EmailAddress=partoneparttwo@163.com partoneparttwo@163} 
+- 请将此电子邮件转发到 {EmailAddress=partoneparttwo@outlook.com partoneparttwo@outlook} 
+- 请转发此消息
+- 请将此消息转发到 {ContactName=Jc} 通过键入 {Message=一切都会好起来的} 
+- 请转到 {ContactName=海伦} 
 
 
 ## None
-- 添加一个{Attachment=文件}到电子邮件
-- 添加一个{Attachment=图片}
+- 添加一个 {Attachment=文件} 到电子邮件
+- 添加一个 {Attachment=图片} 
 - 添加主题
-- 向邮件中添加另一行
-- 添加{Message=你喜欢整个节目吗？}
+- 向邮件添加其他行
+- 添加 {Message=你喜欢整个节目吗？} 
 - 添加更多
-- 添加更多信息并更改邮件
+- 添加更多内容并更改邮件
 - 向其添加更多详细信息
-- 添加更多{Message=别忘了带啤酒来}
-- 添加更多信息
+- 添加更多 {Message=别忘了带啤酒来} 
+- 添加更多消息
 - 添加更多请
 - 添加更多文本
-- 请添加更多文字
-- 添加更多到{ContactName=艾希礼}的电子邮件
-- 添加更多邮件
-- 将更多邮件添加到电子邮件正文中
+- 请添加更多文本
+- 添加更多到 {ContactName=艾希礼} 的电子邮件
+- 添加更多电子邮件
+- 添加更多到电子邮件正文
 - 添加更多到它
-- 添加到邮件中
-- 将更多内容添加到文本中
-- 添加到文本消息中
-- 将更多邮件添加到电子邮件中
-- 将更多添加到{OrderReference=最后}电子邮件
-- 向邮件中添加更多信息
-- 添加{Attachment=照片}
+- 向邮件添加更多信息
+- 向文本添加更多内容
+- 向文本消息添加更多内容
+- 向电子邮件添加更多
+- 将更多添加到 {OrderReference=最后} 电子邮件
+- 向邮件添加更多内容
+- 添加 {Attachment=照片} 
 - 添加更多
 - 添加内容
-- 添加到电子邮件正文中
+- 添加到电子邮件正文
 - 添加到邮件
-- 添加{Message=顺便一步, 下一步计划是什么？}
-- 添加：{Message=下班后给我打电话}
-- 将附件附加到此电子邮件中
-- 附加{Attachment=文件}
-- 是否可以向邮件中添加更多信息
+- 添加 {Message=顺便一想, 下一步计划是什么？} 
+- 添加： {Message=下班后给我打电话} 
+- 将附件附加到此电子邮件
+- 附加 {Attachment=文件} 
+- 我可以向邮件添加更多信息吗？
 - 编辑电子邮件, 以便我可以键入其他消息
-- 我还没做完呢。我需要添加一些细节
-- 我忘了添加一个重要的部分, 该电子邮件{ContactName=詹姆斯·卡梅隆}.请将其设置为编辑
+- 我还没做完呢。我需要添加更多的细节
+- 我忘了添加一个重要的部分, 电子邮件 {ContactName=詹姆斯·卡梅隆} .请将其设置为编辑
 - 我需要添加其他行
 - 我需要添加更多内容
-- 我需要添加更多的信息
-- 我需要添加更多的文本
+- 我需要添加更多信息
+- 我需要添加更多文本
 - 我需要添加更多的电子邮件
-- 我需要添加更多的电子邮件, 我发送到{ContactName=在}
-- 我需要添加其他东西到我的电子邮件{ContactName=安东尼}
-- 我需要添加一些其他的电子邮件到{ContactName=卡伦. 史密斯}在发送之前
+- 我需要添加更多的电子邮件消息, 我发送到 {ContactName=在} 
+- 我需要添加其他东西到我的电子邮件 {ContactName=安东尼} 
+- 我需要添加其他东西到该电子邮件 {ContactName=凯伦. 史密斯} 在发送之前
 - 我想添加更多的电子邮件
-- 我想添加更多的信息
+- 我希望在邮件中添加更多信息
 - 我想添加更多的电子邮件
-- 我想添加更多的电子邮件
+- 我想添加更多的电子邮件消息
 - 我想开一条新线
 - 我想增加一点的消息
 - 我想添加更多的信息
-- 请为我插入更多的线条
-- 在电子邮件中插入更多文本
-- 我可以添加更多的电子邮件吗？
-- 它是不完整的, 需要更多的内容
+- 请为我插入更多行
+- 在我的电子邮件中插入更多文本
+- 是否可以添加更多的电子邮件？
+- 它不完整, 需要更多的内容
 - 更多文本
-- 需要向上一个邮件中添加信息
+- 需要向前一条消息添加信息
 - 好的, 我需要添加一些东西,
-- 请添加{Message=这是可怕的}
+- 请添加 {Message=这是可怕的} 
 - 请添加更多
-- 请添加,{Message=请让我知道我能带来什么。我很乐意做一个小菜或甜点}
-- 在该邮件中添加一些附加行
-- 等等, 我需要写更多
-- 写更多
-- 中止
-- 你能取消它吗？
-- 取消
-- 全部取消
-- 取消电子邮件
-- 取消它
-- 取消邮件
-- 取消我的电子邮件到{ContactName=杰瑞}
-- 取消文本到{ContactName=詹姆斯鲁宾逊}
-- 取消该
-- 请取消订单
-- 取消邮件
-- 取消邮件
-- 取消文本
-- 取消文本消息
-- 取消此
-- 取消此邮件
-- 取消此过程
-- 取消此文本
-- 关闭
-- 删除
-- 不读
-- 不要读它
-- 不要发送此文本
-- 不要
-- 不要叫
-- 别叫她
-- 不要发电子邮件
-- 不读邮件
-- 不发送
-- 不要发送它
-- 不要发送电子邮件
-- 不要发送此电子邮件
-- 不要告诉我
-- 退出
-- 没关系
-- 我要你取消短信
-- 也
-- 他们都不
-- 没关系
-- 没关系取消
-- 没关系, 取消留言
-- 不介意取消
-- 无取消
-- 不取消
-- 没有取消
-- 不发送
-- 不, 不要发送
-- 不, 这是不对的
-- 不只是取消文本消息
-- 无取消
-- 不, 这是不对的
-- 不, 这是不对的
-- 不, 取消它
-- 不, 不要这样做
-- 不, 我不想发送此消息
-- 他们都没有
-- 这些都不是
-- 这些
-- 这些都不是
-- 没有取消
-- 好的取消
-- 退出
-- 停止
-- 停止做它
-- 停下
-- 停止消息
-- 停止阅读
-- 停下
-- 是取消
-- 是, 取消它
-- 早上好
-- 你好
-- 你好
-- 我很高兴认识你
-- 你可以帮我吗？
-- 你能帮我吗？
-- 请帮助我
-- 帮我{ContactName=开始}
-- 帮我{ContactName=理解}更多请
-- 帮我这个
-- 请帮助我的设备
-- 我需要你的帮助
-- 请帮助我
-- 请帮助我, 我想完成
-- 注销
-- 注销计算机
-- 注销我的电话
-- 注销
-- 请在 facebook 上签名
-
+- 请添加, {Message=请让我知道我能带来什么。我很乐意做小菜或甜点} 
 
 ## QueryLastText
-- 你能告诉我{OrderReference=最后}我收到的电子邮件
-- 我想看看{OrderReference=最后}电子邮件
-- {OrderReference=最后}电子邮件
-- 打开 "{OrderReference=最后}电子邮件
+- 你能告诉我 {OrderReference=最后} 我收到的电子邮件
+- 我想看看 {OrderReference=最后} 电子邮件
+-  {OrderReference=最后} 电子邮件
+- 打开该 {OrderReference=最后} 电子邮件
 - 打开最新的电子邮件, 我得到了
-- 请告诉我是谁给我发电子邮件的{OrderReference=最后}
-- 让我看看{OrderReference=最后}电子邮件
+- 请告诉我谁发了电子邮件给我 {OrderReference=最后} 
+- 给我看看 {OrderReference=最后} 电子邮件
 - 给我看最新的电子邮件
-- 显示最新的电子邮件
-- 显示该{OrderReference=最后}电子邮件
-- 的{OrderReference=最后}电子邮件
-- 什么{RelationshipName=妈妈}就说
-- 什么{ContactName=埃里克}刚说
-- 哈利{OrderReference=最后}电子邮件说
-- 什么是{OrderReference=最后}今天收到的电子邮件
-- 什么是我收到的最新电子邮件{FromRelationshipName=爸爸}
-- 什么是{OrderReference=最后}电子邮件
-- 什么是{OrderReference=最后}我从爸爸那里收到的电子邮件
-- 什么是{OrderReference=最后}电子邮件, 我得到了从海伦爱德华兹
-- 刚才给我发电子邮件的人
+- 给我看最新的电子邮件
+- 显示该 {OrderReference=最后} 电子邮件
+- 的 {OrderReference=最后} 电子邮件
+- 是什么 {RelationshipName=妈妈} 只是说
+- 什么 {ContactName=埃里克} 刚才说
+- 什么哈利 {OrderReference=最后} 电子邮件说
+- 什么是 {OrderReference=最后} 今天收到的电子邮件
+- 我收到的最新电子邮件是什么？ {FromRelationshipName=爸爸} 
+- 什么是 {OrderReference=最后} 电子邮件
+- 什么是 {OrderReference=最后} 我从爸爸那里得到的电子邮件
+- 什么是 {OrderReference=最后} 我从海伦爱德华兹收到的电子邮件
+- 我刚才给我发电子邮件
 - 谁给我发电子邮件
-- 刚才给我发电子邮件的人
-- 谁给我发电子邮件{OrderReference=最后}
-- 最近给我发电子邮件的人
+- 我刚才给我发电子邮件
+- 谁给我发电子邮件 {OrderReference=最后} 
+- 最近发邮件给我
 - 谁发短信给我
-- 刚才给我发短信的人
-- 刚才谁的邮件？
+- 刚才给我发短信了
+- 刚才是谁的电子邮件？
 - 现在谁的电子邮件？
 
 
 ## ReadAloud
 - 你能读我的电子邮件吗？
-- 你能读我{OrderReference=最后}电子邮件
-- 请阅读我的{OrderReference=最后}电子邮件
-- 朗读我{OrderReference=新增功能}电子邮件
+- 你能读懂我 {OrderReference=最后} 电子邮件
+- 请阅读我 {OrderReference=最后} 电子邮件
+- 大声朗读我 {OrderReference=新增功能} 电子邮件
 - 阅读电子邮件
-- 阅读电子邮件{SenderName=黎明}
-- 阅读电子邮件{SenderName=凯特}
-- 阅读电子邮件{FromRelationshipName=妈妈}
+- 阅读电子邮件从 {SenderName=黎明} 
+- 阅读电子邮件从 {SenderName=凯特} 
+- 阅读电子邮件从 {FromRelationshipName=妈妈} 
 - 阅读电子邮件给我
 - 阅读电子邮件
-- 阅读来自粘土的电子邮件
-- 读{PositionReference=第一}在链接框中发送电子邮件
-- 读{PositionReference=第一}在链接的收件箱中发送电子邮件
-- 读{Line=谷歌}邮件
+- 阅读粘土的电子邮件
+- 读 {PositionReference=第一} "链接" 框中的电子邮件
+- 读 {PositionReference=第一} 在链接的收件箱中发送电子邮件
+- 读 {Line=谷歌} 邮件
 - 读它
-- 读{OrderReference=最后}收到的电子邮件
-- 阅读最近收到的电子邮件
-- 读{OrderReference=最后}邮件
+- 读 {OrderReference=最后} 收到的电子邮件
+- 阅读最后收到的电子邮件
+- 读 {OrderReference=最后} 邮件
 - 阅读最新电子邮件
-- 读{SenderName=玛丽格蕾 verduguez}电子邮件
-- 读我的{OrderReference=最后} {Line=Hotmail}电子邮件
-- 读我的{OrderReference=最新}电子邮件
-- 阅读我的电子邮件
-- 读我的电子邮件从{SenderName=阿加莎}
-- 读我的{OrderReference=最后}电子邮件{SenderName=克劳德}送
-- 读我的{OrderReference=最后}电子邮件的{Time=五分钟}
-- 读我的{OrderReference=最新}电子邮件
+- 读 {SenderName=玛丽格蕾 verduguez} 电子邮件
+- 读我的 {OrderReference=最后}   {Line=Hotmail} 电子邮件
+- 读我的 {OrderReference=最新} 电子邮件
+- 给我读电子邮件
+- 读我的电子邮件从 {SenderName=阿加莎} 
+- 读我的 {OrderReference=最后} 电子邮件 {SenderName=克劳德} 送
+- 读我的 {OrderReference=最后} 电子邮件的 {Time=五分钟} 
+- 读我的 {OrderReference=最新} 电子邮件
 - 阅读最近的电子邮件
-- 阅读我的电子邮件从婴儿
-- 阅读我的电子邮件从{SenderName=老公}
-- 读我的电子邮件从泰勒莫菲特
+- 阅读我的电子邮件从婴孩
+- 阅读我的电子邮件从 {SenderName=老公} 
+- 阅读我的电子邮件从泰勒莫菲特
 - 阅读我的电子邮件信息
 - 请阅读我的电子邮件
-- 读我的电子邮件给我
+- 阅读我的电子邮件给我
 - 阅读我的电子邮件
-- 阅读我的电子邮件从{SenderName=脂肪}
+- 阅读我的电子邮件从 {SenderName=脂肪} 
 - 阅读我的收件箱
-- 读我{OrderReference=最后}电子邮件
-- 读我{OrderReference=最后}发电子邮件给我
-- 读我{OrderReference=最后}短信
+- 读我 {OrderReference=最后} 电子邮件
+- 读我 {OrderReference=最后} 给我发电子邮件
+- 读我 {OrderReference=最后} 短信
 - 阅读我最近的电子邮件
 - 阅读我的新电子邮件
-- 读我{Category=新增功能}电子邮件
+- 读我 {Category=新增功能} 电子邮件
 - 阅读我的通知
-- 读我{Line=前景}电子邮件
-- 读我{Time=最近}电子邮件
+- 读我 {Line=前景} 电子邮件
+- 读我 {Time=最近} 电子邮件
 - 请阅读我最近的电子邮件信息
 - 阅读我最近的电子邮件信息
-- 读我{Time=最近}给我发电子邮件
+- 读我 {Time=最近} 电邮给我
 - 阅读我的第二封电子邮件
-- 阅读新邮件
-- 读{Category=新增功能}电子邮件来自{SenderName=大卫, 但}
-- 读{Category=新增功能}消息
+- 阅读新电子邮件
+- 读 {Category=新增功能} 电子邮件从 {SenderName=大卫, 但} 
+- 读 {Category=新增功能} 消息
 - 请阅读
 - 阅读最近的电子邮件
 - 阅读电子邮件
-- 读了{PositionReference=第一}电子邮件
-- 读了{PositionReference=第一}电子邮件在{Line=Hotmail}
-- 读了{OrderReference=最后}电子邮件
-- 读了{OrderReference=最后}电子邮件信息
-- 读了{OrderReference=最新}电子邮件来自{FromRelationshipName=妈妈}
-- 读了{OrderReference=最新}电子邮件来自{SenderName=史蒂夫嘴唇}
+- 阅读该 {PositionReference=第一} 电子邮件
+- 阅读该 {PositionReference=第一} 电子邮件在 {Line=Hotmail} 
+- 阅读该 {OrderReference=最后} 电子邮件
+- 阅读该 {OrderReference=最后} 电子邮件消息
+- 阅读该 {OrderReference=最新} 电子邮件从 {FromRelationshipName=妈妈} 
+- 阅读该 {OrderReference=最新} 电子邮件从 {SenderName=史蒂夫唇} 
 - 阅读我发送的最新电子邮件
-- 读{Date=今天}邮件
-- 读{Category=读}电子邮件
+- 读 {Date=今天} 邮件
+- 读 {Category=未读} 电子邮件
 
 
 ## Reply
-- 创建对电子邮件的响应, 说{Message=请再把照片寄给我。}
-- 回邮
-- 回邮{Message=我会给你回电的}
+- 通过以下方法创建对电子邮件的响应: {Message=请再给我一张照片} 
+- 电子邮件回
+- 电子邮件回 {Message=我会给你回电的} 
 - 如何回复电子邮件
-- 作出回应{Message=谢谢}
+- 作出响应与 {Message=谢谢} 
 - 答复
-- 电子邮件回复{Message=非常感谢你最好的问候君}
-- 答复说{Message=我爱你}
-- 答复说{Message=是的}
-- 键入时答复{Message=你好}
-- 键入时答复{Message=我在路上}
-- 电子邮件要求的回复
-- 答复,{Message=我很忙}
-- 答复{ContactName=安 迪}
-- 答复{ContactName=布雷特}
-- 回复电子邮件{Message=我现在很忙}
-- 答复我{OrderReference=最后}电子邮件
+- 通过电子邮件回复 {Message=非常感谢您的问候琼} 
+- 答复说 {Message=我爱你} 
+- 答复说 {Message=是的} 
+- 通过键入答复 {Message=你好} 
+- 通过键入答复 {Message=我在路上} 
+- 电子邮件所需的答复
+- 答复说, {Message=我很忙} 
+- 回复至 {ContactName=安 迪} 
+- 回复至 {ContactName=布雷特} 
+- 回复电子邮件 {Message=我现在很忙} 
+- 回复我 {OrderReference=最后} 电子邮件
 - 回复电子邮件
-- 答复该{PositionReference=第一}一个
-- 答复{Message=你好}
-- 答复{Message=怡哈哈}
-- 答复{Message=是老大}
-- 响应{Message=我生病了, 我不能这样做}
-- 响应{ContactName=知识猎犬}
-- 回复电子邮件, 说{Message=我今天很忙}
-- 返回{ContactName=西伯利亚爱斯基摩} {Line=移动}
+- 答复该 {PositionReference=第一} 一个
+- 答复与 {Message=你好} 
+- 答复 {Message=怡哈} 
+- 答复 {Message=是老大} 
+- 响应 {Message=我病了, 我做不到} 
+- 回应 {ContactName=传说猎犬} 
+- 回复电子邮件通过说 {Message=我今天很忙} 
+- 返回 {ContactName=西伯利亚哈士奇}   {Line=移动} 
 - 发送电子邮件回
-- 发送响应{Message=我已经知道}
+- 发送响应与 {Message=我已经知道} 
 
 
 ## SearchMessages
-- 你能搜索我的电子邮件吗？
-- 检测电子邮件来自{SenderName=贝蒂}
-- 检测包含关键字的电子邮件{SearchTexts=美}
-- 检测电子邮件来自{SenderName=丽莎}
-- 我收到任何电子邮件{SenderName=汤姆}
-- 我收到的电子邮件{SenderName=汤姆}
-- 我得到的电子邮件包含关键字{SearchTexts=午餐}
-- 电子邮件发送自{SenderName=九}
-- 电子邮件包含{SearchTexts=银行}
-- 枚举电子邮件与{SearchTexts=algroithm}
-- 查找电子邮件{FromRelationshipName=妈妈}
-- 查找电子邮件与{SearchTexts=恢复}
-- 列出电子邮件包含{SearchTexts=滑稽的图片}
-- 查询电子邮件与{SearchTexts=条例 草案}
-- 搜索{SearchTexts=等等}在我的电子邮件
-- 搜索电子邮件包含{SearchTexts=前景}
-- 用关键词搜索电子邮件{SearchTexts=午餐}
-- 搜索电子邮件包含{SearchTexts=工作项}
-- 搜索电子邮件包含{SearchTexts=优惠 券}
-- 搜索电子邮件从{SenderName=迈克}
-- 搜索关键词{SearchTexts=keywordone keywordtwo}在我的电子邮件
-- 搜索{SearchTexts=keywordsone keywordstwo}从收件箱
+- 你能搜索我的电子邮件
+- 检测电子邮件从 {SenderName=贝蒂} 
+- 检测包含关键字的电子邮件 {SearchTexts=美} 
+- 检测电子邮件从 {SenderName=丽莎} 
+- 我有没有收到任何电子邮件从 {SenderName=汤姆} 
+- 我收到电子邮件从 {SenderName=汤姆} 
+- 我有没有收到包含关键字的电子邮件 {SearchTexts=午餐} 
+- 电子邮件发送自 {SenderName=九} 
+- 电子邮件包含 {SearchTexts=银行} 
+- 枚举电子邮件与 {SearchTexts=拼接} 
+- 查找电子邮件从 {FromRelationshipName=妈妈} 
+- 查找电子邮件与 {SearchTexts=恢复} 
+- 列出的电子邮件包含 {SearchTexts=滑稽的图片} 
+- 查询电子邮件与 {SearchTexts=条例 草案} 
+- 搜索 {SearchTexts=等等等等} 在我的电子邮件
+- 搜索电子邮件包含 {SearchTexts=前景} 
+- 用关键词搜索电子邮件 {SearchTexts=午餐} 
+- 搜索电子邮件包含 {SearchTexts=工作项} 
+- 搜索电子邮件包含 {SearchTexts=优惠 券} 
+- 搜索电子邮件从 {SenderName=迈克} 
+- 搜索关键字 {SearchTexts=keywordone keywordtwo} 在我的电子邮件
+- 搜索 {SearchTexts=keywordsone keywordstwo} 从收件箱
 - 搜索我的电子邮件
-- 用单词搜索文本{SearchTexts=一起吃午餐}
-- 使用关键词搜索电子邮件{SearchTexts=你好}
-- 搜索电子邮件包含{SearchTexts=微软}
-- 搜索电子邮件包含{SearchTexts=钱}
-- 显示电子邮件包含单词 "{SearchTexts=未来计划}"
-- 显示电子邮件 "{SearchTexts=信用卡}"
-- 显示电子邮件从{FromRelationshipName=女朋友}
-- 显示电子邮件从{SenderName=汤姆}并使用 word 进行筛选{SearchTexts=午餐}
-- 告诉我发送的电子邮件{FromRelationshipName=妈妈}
+- 用文字搜索文字 {SearchTexts=一起吃午餐} 
+- 使用关键字搜索电子邮件 {SearchTexts=你好} 
+- 搜索电子邮件包含 {SearchTexts=微软} 
+- 搜索电子邮件包含 {SearchTexts=钱} 
+- 显示电子邮件包含单词 " {SearchTexts=未来计划} "
+- 显示电子邮件与 " {SearchTexts=信用卡} "
+- 显示我的电子邮件从 {FromRelationshipName=女朋友} 
+- 向我显示电子邮件从 {SenderName=汤姆} 和使用 word 进行筛选 {SearchTexts=午餐} 
+- 向我显示发送的电子邮件 {FromRelationshipName=妈妈} 
 
 
 ## SelectItem
-- 我选择丰田{ContactName=访问}
+- 我选择丰田 {ContactName=访问} 
 - 我选择了第二个地方
-- {Message=我将选择第一个餐馆结果}
+-  {Message=我会选择第一家餐馆的结果} 
 - 麦当劳的
-- 打开这张
-- 选择项目编号十
+- 打开这个
+- 选择物料编号十
 - 选择第五项
 - 第五个
 - 第一个搜索结果请
@@ -524,157 +363,110 @@
 
 
 ## SendEmail
-- 撰写新的电子邮件关于{EmailSubject=西班牙家庭作业}
-- 创建标题为的新邮件{EmailSubject=紧急会议信息}自{ContactName=吉姆}
+- 撰写新电子邮件关于 {EmailSubject=西班牙家庭作业} 
+- 创建新邮件, 标题为 {EmailSubject=紧急会议信息} 自 {ContactName=吉姆} 
 - 电子邮件亨利马修
-- 电子邮件我{RelationshipName=哥哥}
-- 电子邮件我{Attachment=表示}
-- 电子邮件的{Attachment=文件}自{ContactName=南 希}
-- 电子邮件到{ContactName=艾希礼}关于{EmailSubject=开幕问题}
-- 电子邮件到{ContactName=麦克水}:{Message=麦克, 上周的晚餐很精彩。}
-- 电子邮件到{EmailAddress=partone parttwo partthree 一个在 hotmail 点 com}
-- 电子邮件到{EmailAddress=partoneparttwo@gmail.com partoneparttwo@gmail}
-- 电子邮件到{EmailAddress=肖恩帕克 9 5 在谷歌点 com}
-- 我需要发送电子邮件约{EmailSubject=歌曲的歌词}
-- 邮件{EmailAddress=partone parttwo 在 gmail 点 com}
-- 制作新的电子邮件关于{EmailSubject=天气预报}
-- 标记电子邮件{Category=跟进}并发送到{ContactName=艾玛}
-- 新电子邮件关于{EmailSubject=真的很好的谈话}自{ContactName=西蒙}
-- 新电子邮件关于{EmailSubject=编写文档}
-- 新电子邮件到{ContactName=mieky}关于{EmailSubject=僚机}
-- 发送电子邮件到{EmailAddress=partone 点 parttwo 在雅虎点 com}
-- 发送邮件到{ContactName=凯文}
-- 发送新电子邮件关于{EmailSubject=Facebook}
-- 发送新电子邮件关于{EmailSubject=曲棍球锦标赛}自{ContactName=安德里亚},{ContactName=条例 草案}和{ContactName=罗恩}
-- 发送新电子邮件到{ContactName=唐}和{ContactName=拉里}关于{EmailSubject=优惠 券}
-- 发送新电子邮件到{ContactName=杰瑞琼斯}用一个{Category=爆炸} {Attachment=附加}
-- 发送新电子邮件到{EmailAddress=partonepartwopartthree@yahoo.com partonepartwopartthree@yahoo}
-- 发送新{Category=高度重视}电子邮件到{ContactName=万斯}
-- 发送一个{Category=读取回执}电子邮件到{ContactName=伊丽莎白}
+- 电邮我 {RelationshipName=哥哥} 
+- 电邮我 {Attachment=表示} 
+- 电子邮件的 {Attachment=文件} 自 {ContactName=南 希} 
+- 电邮至 {ContactName=艾希礼} 有关 {EmailSubject=开幕问题} 
+- 电邮至 {ContactName=迈克水域} : {Message=迈克, 上周的晚餐很精彩。} 
+- 电邮至 {EmailAddress=partone 第二 partthree 一个在 hotmail 点 com} 
+- 电邮至 {EmailAddress=partoneparttwo@gmail.com partoneparttwo@gmail} 
+- 电邮至 {EmailAddress=肖恩帕克 9 5 在谷歌点 com} 
+- 我需要发送电子邮件关于 {EmailSubject=歌曲的歌词} 
+- 邮件 {EmailAddress=partone 第二在 gmail 点 com} 
+- 制作新的电子邮件关于 {EmailSubject=天气预报} 
+- 标记电子邮件的 {Category=跟进} 并发送到 {ContactName=艾玛} 
+- 有关的新电子邮件 {EmailSubject=真的很好的谈话} 自 {ContactName=西蒙} 
+- 有关的新电子邮件 {EmailSubject=编写文档} 
+- 新电子邮件到 {ContactName=mieky} 有关 {EmailSubject=僚机} 
+- 发送电子邮件至 {EmailAddress=partone 点第二在雅虎点 com} 
+- 发送邮件到 {ContactName=凯文} 
+- 发送新电子邮件关于 {EmailSubject=Facebook} 
+- 发送新电子邮件关于 {EmailSubject=曲棍球锦标赛} 自 {ContactName=安德里亚} , {ContactName=条例 草案} 和 {ContactName=罗恩} 
+- 发送新电子邮件至 {ContactName=唐} 和 {ContactName=拉里} 有关 {EmailSubject=优惠 券} 
+- 发送新电子邮件至 {ContactName=杰瑞琼斯} 用一个 {Category=爆炸}   {Attachment=附加} 
+- 发送新电子邮件至 {EmailAddress=partonepartwopartthree@yahoo.com partonepartwopartthree@yahoo} 
+- 发送新 {Category=高重要性} 电邮至 {ContactName=万斯} 
+- 发送一个 {Category=已读回执} 电邮至 {ContactName=伊丽莎白} 
 - 发送电子邮件
-- 发送电子邮件关于{EmailSubject=测试状态}自{ContactName=j 测试 k 测试}
-- 发送电子邮件关于{EmailSubject=破碎的窗户}
-- 给我发电子邮件
-- 发送已标记的电子邮件{Category=跟进}自{ContactName=蒂姆}
-- 发送一封标记为{Category=跟进}自{ContactName=丽 贝卡}
-- 发送一封标有{Category=爆炸}自{ContactName=加里 horrisberger}
-- 发送电子邮件到{ContactName=美丽}标记{Category=红砰}
-- 发送电子邮件到{ContactName=戴夫}有关该{EmailSubject=徒步旅行}
-- 发送电子邮件到{ContactName=多莉}和{ContactName=路易莎}
-- 发送电子邮件到{ContactName=伊丽莎白}用一个{Category=红砰}
-- 发送电子邮件到{ContactName=格雷厄姆},{ContactName=丹尼尔}和{ContactName=梅根}
-- 发送电子邮件到{ContactName=杰森马克思}
-- 发送电子邮件到{ContactName=麦克斯}关于{EmailSubject=我们可以计划的事情, 让我们去远足}
-- 发送电子邮件到{ContactName=麦克斯}关于{EmailSubject=周末计划}
-- 发送电子邮件到{ContactName=Melle Kappus} {Message=测试}
-- 发送电子邮件到{RelationshipName=妈妈}
-- 发送电子邮件到我的{RelationshipName=哥哥}
-- 发送电子邮件到{EmailAddress=partone 点 parttwo 在微软点 com}
-- 发送电子邮件到{EmailAddress=partone 点 parttwo 在 outlook 网点网}
-- 发送电子邮件到{EmailAddress=partone parttwo partthree 在 outlook 点 com 上}说{Message=这是我的新手机很酷}
-- 发送电子邮件到{EmailAddress=partone parttwo 二六四九在 gmail 点 com}
-- 发送电子邮件到{EmailAddress=partone_parttwo@microsoft.com partone_parttwo@microsoft}
-- 发送电子邮件到{ContactName=朗达}关于{EmailSubject=的计划}这{Date=周末}
-- 发送电子邮件到{ContactName=抢}说{Message=这是关于周末计划的信息}
-- 发送电子邮件到{ContactName=莎拉}标记为{Category=重要}
-- 发送电子邮件到{ContactName=扎克}和{ContactName=罗伯特}关于{EmailSubject=团队午餐}说{Message=今年星期二同队午餐}
-- 发送电子邮件{Date=今天}
-- 发送电子邮件与{Category=红砰}
-- 发送电子邮件与{Category=读取回执}自{ContactName=莫宁}
-- 发送一个{Category=重要}电子邮件到{ContactName=黛比}
-- 发送一个{Category=紧急}电子邮件
-- 发送一个{Category=紧急}电子邮件来自{SenderName=我}电子邮件到{EmailAddress=partone 下划线 partwo 在 hotmail 点 com}
-- 发送一个{Category=紧急}从我的电子邮件{Line=工作帐户}自{ContactName=乔治}
-- 发送一个{Category=紧急}从我的电子邮件{Line=工作}电子邮件到{ContactName=紫}
-- 发送和电子邮件有关{EmailSubject=游泳队练习}
-- 发送{ContactName=布赖恩戈德堡}一个新{Category=标记}电子邮件
-- 发送电子邮件关于{EmailSubject=作业计划}自{ContactName=乔伊}和{ContactName=加里}
-- 发送已标记的电子邮件{Category=优先}自{ContactName=卡拉}
-- 发送电子邮件到{ContactName=卡罗琳}并标记它{Category=重要}
-- 发送电子邮件到{RelationshipName=爸爸}
-- 发送电子邮件到{ContactName=大卫维特}说{Message=测试}
-- 发送电子邮件到{ContactName=约翰}关于{EmailSubject=车}
-- 发送电子邮件到{EmailAddress=partone parttwo partthree partfour 在 gmail 点 com}
-- 发送电子邮件到{EmailAddress=partone.parttwo@outlook.com partone parttwo@outlook. com}
-- 发送电子邮件到{ContactName=肖恩} {Date=今天}
-- 发送{Category=重要}电子邮件到{ContactName=尼 基}
-- 发送{ContactName=乔恩}电子邮件与{Category=红砰}
-- 发送{Attachment=大型文件}通过电子邮件
-- 发送邮件到{ContactName=斯科特}
-- 发送{ContactName=玛丽}一个{Category=红砰}电子邮件
-- 发送{ContactName=玛丽}电子邮件标记为{Category=高优先级}
-- 送我{Attachment=家政医生}自{ContactName=凯蒂}
-- 送我{Attachment=付款 visio 图表}自{ContactName=史蒂夫}
-- 发送新电子邮件到{ContactName=乔}广告是{Category=高度重视}
-- 发送{ContactName=我}电子邮件与{Category=低优先级}
-- 发送{ContactName=斯蒂芬妮 panesar}一封电子邮件
+- 发送电子邮件关于 {EmailSubject=测试状态} 自 {ContactName=j 测试 k 测试} 
+- 发送电子邮件关于 {EmailSubject=破碎的窗户} 
+- 发送电子邮件给我
+- 发送电子邮件标记 {Category=跟进} 自 {ContactName=蒂姆} 
+- 发送电子邮件标记为 {Category=跟进} 自 {ContactName=丽 贝卡} 
+- 发送一封标有 {Category=爆炸} 自 {ContactName=加里 horrisberger} 
+- 发送电子邮件至 {ContactName=美丽} 标记 {Category=红砰} 
+- 发送电子邮件至 {ContactName=戴夫} 关于这 {EmailSubject=徒步旅行} 
+- 发送电子邮件至 {ContactName=多莉} 和 {ContactName=路易莎} 
+- 发送电子邮件至 {ContactName=伊丽莎白} 用一个 {Category=红砰} 
+- 发送电子邮件至 {ContactName=格雷厄姆} , {ContactName=丹尼尔} 和 {ContactName=梅根·特雷纳} 
+- 发送电子邮件至 {ContactName=杰森. 马克思} 
+- 发送电子邮件至 {ContactName=麦克斯} 有关 {EmailSubject=我们可以计划的事情, 让我们去远足} 
+- 发送电子邮件至 {ContactName=麦克斯} 有关 {EmailSubject=周末计划} 
+- 发送电子邮件至 {ContactName=梅勒 Kappus}   {Message=测试} 
+- 发送电子邮件至 {RelationshipName=妈妈} 
+- 发送电子邮件到我的 {RelationshipName=哥哥} 
+- 发送电子邮件至 {EmailAddress=partone 点第二在微软点 com} 
+- 发送电子邮件至 {EmailAddress=partone 点第二在 outlook 网点网} 
+- 发送电子邮件至 {EmailAddress=partone 第二 partthree 在 outlook 点 com} 说 {Message=这是我的新手机很酷} 
+- 发送电子邮件至 {EmailAddress=partone 第二二六四九在 gmail 点 com} 
+- 发送电子邮件至 {EmailAddress=partone_parttwo@microsoft.com partone_parttwo@microsoft} 
+- 发送电子邮件至 {ContactName=朗达} 有关 {EmailSubject=的计划} 这 {Date=周末} 
+- 发送电子邮件至 {ContactName=抢} 说 {Message=这是关于周末计划的信息} 
+- 发送电子邮件至 {ContactName=莎拉} 标记为 {Category=重要} 
+- 发送电子邮件至 {ContactName=扎克} 和 {ContactName=罗伯特} 有关 {EmailSubject=团队午餐} 说 {Message=同队午餐星期二} 
+- 发送电子邮件 {Date=今天} 
+- 发送电子邮件与 {Category=红砰} 
+- 发送电子邮件与 {Category=已读回执} 自 {ContactName=莫宁} 
+- 发送一个 {Category=重要} 电邮至 {ContactName=黛比} 
+- 发送一个 {Category=紧急} 电子邮件
+- 发送一个 {Category=紧急} 电子邮件从 {SenderName=我} 电邮至 {EmailAddress=partone 下划线 partwo 在 hotmail 点 com} 
+- 发送一个 {Category=紧急} 从我的电子邮件 {Line=工作帐户} 自 {ContactName=乔治} 
+- 发送一个 {Category=紧急} 从我的电子邮件 {Line=工作} 电邮至 {ContactName=紫} 
+- 发送和电子邮件关于 {EmailSubject=游泳队练习} 
+- 发送 {ContactName=布赖恩戈德堡} 一个新 {Category=标记} 电子邮件
+- 发送电子邮件关于 {EmailSubject=家庭作业计划} 自 {ContactName=乔伊} 和 {ContactName=加里} 
+- 发送电子邮件标记 {Category=优先} 自 {ContactName=卡拉} 
+- 发送电子邮件至 {ContactName=卡罗琳} 并标记它 {Category=重要} 
+- 发送电子邮件至 {RelationshipName=爸爸} 
+- 发送电子邮件至 {ContactName=大卫维特} 说 {Message=测试} 
+- 发送电子邮件至 {ContactName=约翰} 有关 {EmailSubject=车} 
+- 发送电子邮件至 {EmailAddress=partone 第二 partthree partfour 在 gmail 点 com} 
+- 发送电子邮件至 {EmailAddress=partone.parttwo@outlook.com partone. parttwo@outlook} 
+- 发送电子邮件至 {ContactName=肖恩}   {Date=今天} 
+- 发送 {Category=重要} 电邮至 {ContactName=尼 基} 
+- 发送 {ContactName=乔恩} 电子邮件与 {Category=红砰} 
+- 发送 {Attachment=大文件} 通过电子邮件
+- 发送邮件到 {ContactName=斯科特} 
+- 发送 {ContactName=玛丽} 一个 {Category=红砰} 电子邮件
+- 发送 {ContactName=玛丽} 电子邮件标记为 {Category=高优先级} 
+- 送我 {Attachment=家政医生} 自 {ContactName=凯蒂} 
+- 送我 {Attachment=付款 visio 图表} 自 {ContactName=史蒂夫} 
+- 发送新电子邮件至 {ContactName=乔} 广告是 {Category=高重要性} 
+- 发送 {ContactName=我} 电子邮件与 {Category=低优先级} 
+- 发送 {ContactName=斯蒂芬妮 panesar} 一封电子邮件
 - 发送电子邮件
 - 立即发送电子邮件
-- 发送此{Attachment=文档}在电子邮件
-- 设置电子邮件{Date=今天}
-- 开始新的电子邮件关于{EmailSubject=婚姻顾问预约}
-- 开始新的电子邮件从{SenderName=特 蕾 西}说{Message=这是我的简历}
-- 开始新的电子邮件说{Message=我们去公园吧}
-- 启动新电子邮件以{ContactName=维 琪}关于{EmailSubject=今夜过夜}
-- 启动电子邮件以{ContactName=阿里尔·沙龙}关于{EmailSubject=说起来}
-- 启动新电子邮件关于{EmailSubject=玉米卷博客}自{ContactName=haden}和{ContactName=Haiden}
-- 启动新电子邮件到{RelationshipName=朋友}关于{EmailSubject=俱乐部}
-- 开始新邮件主题{EmailSubject=尼日利亚王子}
-- 启动新电子邮件以{ContactName=丽莎}关于{EmailSubject=看棒球}
-- 新的电子邮件是{Category=高优先级}正在发送到{ContactName=贾斯汀}
-- 你会发送一个标记{Category=非紧急}电子邮件到{ContactName=我}
+- 发送此 {Attachment=文档} 在电子邮件
+- 设置电子邮件 {Date=今天} 
+- 开始新的电子邮件关于 {EmailSubject=婚姻顾问任命} 
+- 开始新的电子邮件从 {SenderName=特 蕾 西} 说 {Message=这是我的简历} 
+- 开始一个新的电子邮件说 {Message=让我们去公园} 
+- 启动新电子邮件以 {ContactName=维 琪} 有关 {EmailSubject=今晚睡吧} 
+- 启动电子邮件以 {ContactName=阿里尔·沙龙} 有关 {EmailSubject=说起来} 
+- 开始新的电子邮件关于 {EmailSubject=玉米卷博客} 自 {ContactName=haden} 和 {ContactName=海登} 
+- 启动新电子邮件以 {RelationshipName=朋友} 有关 {EmailSubject=俱乐部} 
+- 开始新邮件主题 {EmailSubject=尼日利亚王子} 
+- 启动新电子邮件以 {ContactName=丽莎} 有关 {EmailSubject=看棒球} 
+- 新的电子邮件是 {Category=高优先级} 被送到 {ContactName=贾斯汀} 
+- 你会发送一个标记 {Category=非紧急} 电邮至 {ContactName=我} 
 - 写电子邮件
-- 写一封关于{EmailSubject=筹款活动}
-- 写一{Category=紧急}电子邮件到{ContactName=玛西娅洛佩兹}
+- 写一封关于 {EmailSubject=筹款活动} 
+- 写一个 {Category=紧急} 电邮至 {ContactName=洛佩兹} 
 - 写电子邮件
-- 写电子邮件到{RelationshipName=妈妈}主题是{EmailSubject=照看}
-
-
-## ShowNext
-- 往前走
-- 继续
-- 转到下一页
-- 转到下一页
-- 前进
-- 继续前进
-- 下一步移动
-- 下
-- 下一封电子邮件
-- 下一
-- 下一个请
-- 下{Category=读}电子邮件
-- 显示我的下一个
-- 让我看看下一个
-- 显示下一页
-- 显示下一封电子邮件
-- 显示下一页{Category=读}
-- 显示下一个
-- 显示下一封来自我的电子邮件{FromRelationshipName=老板}
-- 显示下一个
-- 下一
-- 下一封电子邮件
-
-
-## ShowPrevious
-- 回到最后一个
-- 把前一个
-- 来到最后
-- 转到上一页
-- 转到最后一个
-- 退后
-- 以前
-- 以前的电子邮件
-- 上一个
-- 上一张请
-- 显示我以前的电子邮件从{SenderName=杰克}
-- 显示前一封电子邮件
-- 显示上一页
-- 显示上一页
-- 显示以前的电子邮件从我的{FromRelationshipName=导师}
-- 显示前一个
-- 上一封电子邮件
-- 什么是前
-
+- 将电子邮件写入 {RelationshipName=妈妈} 主题是 {EmailSubject=照看} 
 
 > # Entity definitions
 

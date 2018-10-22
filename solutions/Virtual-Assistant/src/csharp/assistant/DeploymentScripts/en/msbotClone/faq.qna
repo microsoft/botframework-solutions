@@ -5,7 +5,7 @@
       "answer": "This is a placeholder",
       "source": "Editorial",
       "questions": [
-        "What is a Custom Assistant?"
+        "What is a Virtual Assistant?"
       ],
       "metadata": []
     },
@@ -69,6 +69,17 @@
       "source": "Editorial",
       "questions": [
         "How do I create a skill?"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 8,
+      "answer": "If the tire pressure monitor lamp comes on in yellow then the tire pressure is off about 10% or more",
+      "source": "Manual",
+      "questions": [
+        "What is the yellow light on my dash",
+        "What is that yellow light",
+        "What does the yellow light on my dashboard mean"
       ],
       "metadata": []
     }

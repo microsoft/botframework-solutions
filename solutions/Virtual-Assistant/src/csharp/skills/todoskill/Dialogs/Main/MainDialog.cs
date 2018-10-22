@@ -100,8 +100,6 @@ namespace ToDoSkill
                         }
 
                     case ToDo.Intent.ShowToDo:
-                    case ToDo.Intent.Previous:
-                    case ToDo.Intent.Next:
                         {
                             await dc.BeginDialogAsync(nameof(ShowToDoItemDialog), skillOptions);
                             break;

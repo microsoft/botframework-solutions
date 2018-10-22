@@ -12,6 +12,7 @@ $PREBUILT:number
 - hiya
 - how are you
 - how are you today
+- hey
 
 # Help
 - help
@@ -37,10 +38,10 @@ $PREBUILT:number
 - i would like to cancel
 - never mind
 - please stop
+- exit
 
 # Restart
 - can i do that again
-- go back
 - i need to change something
 - restart
 - start over
@@ -71,6 +72,8 @@ $PREBUILT:number
 - why not
 - yep that's right
 - yup
+- yep
+- go ahead
 
 # ConfirmNo
 - by no means
@@ -83,6 +86,7 @@ $PREBUILT:number
 - not at all
 - not really
 - not right now thanks
+- no thank you
 
 # ConfirmMore
 - more
@@ -99,6 +103,42 @@ $PREBUILT:number
 - next
 - next item
 - show next
+- could you show the next one
+- i need to go to the next one
+- go to the next one please
+- move to the next one
+- go on
+- go to next
+- go to the next page
+- move forward
+- move on
+- move on next
+- next one
+- next please
+- show me next
+- show me the next
+- show the next
+- show the next one
+- the next email
+
+# Previous
+- go back
+- last one
+- previous one
+- the last one
+- old one
+- last
+- back to the last one
+- bring the previous one
+- come to the last
+- go to previous
+- go to the last one
+- move back
+- previous
+- show me previous
+- previous one please
+- the previous one
+- what is the previous
 
 # Goodbye
 - good night

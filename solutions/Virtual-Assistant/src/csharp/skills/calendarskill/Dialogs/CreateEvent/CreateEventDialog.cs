@@ -290,8 +290,8 @@ namespace CalendarSkill
                     sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
                     var luisResult = state.LuisResult;
                     var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
-                    var topIntent = luisResult?.TopIntent().intent;
-                    if (topIntent == Luis.Calendar.Intent.Reject || topIntent == Luis.Calendar.Intent.ConfirmNo || topIntent == Luis.Calendar.Intent.NoLocation)
+                    var topIntent = luisResult?.TopIntent().intent.ToString();
+                    if (topIntent == Luis.General.Intent.Cancel.ToString() || topIntent == Luis.General.Intent.ConfirmNo.ToString() || topIntent == Luis.Calendar.Intent.NoLocation.ToString())
                     {
                         state.Location = string.Empty;
                     }
@@ -533,12 +533,12 @@ namespace CalendarSkill
                     state.ShowAttendeesIndex = 0;
                     return await sc.BeginDialogAsync(Actions.ConfirmAttendee);
                 }
-                else if (sc.Result.ToString() == Luis.Calendar.Intent.ShowNext.ToString())
+                else if (sc.Result.ToString() == Luis.General.Intent.Next.ToString())
                 {
                     state.ShowAttendeesIndex++;
                     return await sc.BeginDialogAsync(Actions.ConfirmAttendee);
                 }
-                else if (sc.Result.ToString() == Luis.Calendar.Intent.ShowPrevious.ToString())
+                else if (sc.Result.ToString() == Luis.General.Intent.Previous.ToString())
                 {
                     if (state.ShowAttendeesIndex > 0)
                     {

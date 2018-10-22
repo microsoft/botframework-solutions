@@ -108,8 +108,6 @@ namespace CalendarSkill
                         }
 
                     case Calendar.Intent.FindCalendarEntry:
-                    case Calendar.Intent.ShowNext:
-                    case Calendar.Intent.ShowPrevious:
                     case Calendar.Intent.Summary:
                         {
                             await dc.BeginDialogAsync(nameof(SummaryDialog), skillOptions);
@@ -234,12 +232,6 @@ namespace CalendarSkill
                         case General.Intent.Help:
                             {
                                 // result = await OnHelp(dc);
-                                break;
-                            }
-
-                        case General.Intent.Logout:
-                            {
-                                result = await OnLogout(dc);
                                 break;
                             }
                     }

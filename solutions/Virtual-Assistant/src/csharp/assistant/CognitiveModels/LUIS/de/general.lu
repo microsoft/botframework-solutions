@@ -12,6 +12,7 @@ $PREBUILT:number
 - Hiya
 - Wie geht es dir
 - Wie geht es dir heute
+- Hallöchen
 
 # Help
 - Hilfe
@@ -37,10 +38,10 @@ $PREBUILT:number
 - Ich möchte absagen
 - Vergessen Sie es
 - Bitte stoppen
+- Ausfahrt
 
 # Restart
 - kann ich das noch einmal machen
-- Zurück
 - Ich muss etwas ändern
 - Neu starten
 - Start über
@@ -71,6 +72,8 @@ $PREBUILT:number
 - Warum nicht
 - Yep that es Right
 - Yup
+- Yep
+- Nur zu
 
 # ConfirmNo
 - Keineswegs
@@ -83,6 +86,7 @@ $PREBUILT:number
 - Überhaupt nicht
 - Nicht wirklich
 - nicht gerade jetzt dank
+- Nein, danke
 
 # ConfirmMore
 - Mehr
@@ -99,6 +103,42 @@ $PREBUILT:number
 - Nächsten
 - nächsten Punkt
 - Show Next
+- könntest du den nächsten zeigen
+- Ich muss zum nächsten gehen
+- gehen Sie bitte zum nächsten
+- zum nächsten übergehen
+- Mache weiter
+- gehen Sie zum nächsten
+- zur nächsten Seite
+- Vorankommen
+- Schritt auf
+- Weiter geht es
+- nächsten ein
+- nächsten bitte
+- Zeig mir als nächstes
+- Zeige mir die nächste
+- zeigen die nächste
+- zeigen Sie den nächsten
+- die nächste e-Mail
+
+# Previous
+- Zurück
+- letzten einen
+- vorherige
+- der letzte
+- jährige ein
+- Last
+- zurück zum letzten
+- bringen Sie die vorherige
+- kommen Sie zum letzten
+- gehen Sie zu früheren
+- zum letzten gehen
+- zurückziehen
+- Vorherigen
+- Zeige mir vorher
+- vorherige bitte
+- der vorherige
+- Was ist der bisherige
 
 # Goodbye
 - Gute Nacht
