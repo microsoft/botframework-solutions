@@ -3,6 +3,7 @@ using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Middleware;
+using Microsoft.Bot.Solutions.Resources;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -46,8 +47,8 @@ namespace Microsoft.Bot.Solutions.Skills
             _dialogs.Add(new OAuthPrompt(nameof(OAuthPrompt), new OAuthPromptSettings()
             {
                 ConnectionName = skillConfiguration.AuthConnectionName,
-                Title = "Skill Authentication",
-                Text = $"Please login to access this feature.",
+                Title = CommonResponses.SkillAuthenticationTitle.Reply.Text,
+                Text = CommonResponses.SkillAuthenticationPrompt.Reply.Text,
             }));
 
             // Send parameters to skill in skillBegin event
@@ -131,7 +132,7 @@ namespace Microsoft.Bot.Solutions.Skills
                 };
 
                 _inProcAdapter.Use(new EventDebuggerMiddleware());
-                _inProcAdapter.Use(new SetLocaleMiddleware(dc.Context.Activity.Locale));
+                _inProcAdapter.Use(new SetLocaleMiddleware(dc.Context.Activity.Locale ?? "zh-cn"));
                 _inProcAdapter.Use(new AutoSaveStateMiddleware(userState, conversationState));
                 _skillInitialized = true;
             }

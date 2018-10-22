@@ -43,81 +43,6 @@
 - Diese e-Mail sollte markiert werden
 - Turn Fahne auf
 
-
-## Cancel
-- Abbrechen
-- können Sie es stornieren
-- Abbrechen
-- kündigen alle
-- e-Mail stornieren
-- es abbrechen
-- Nachricht stornieren
-- stornieren Sie meine e-Mail an {ContactName=Jerry}
-- Text Abbrechen auf {ContactName = James Robinson}
-- Absagen,
-- Bitte stornieren Sie diese Bestellung
-- die Mail stornieren
-- die Nachricht Abbrechen
-- den Text Abbrechen
-- die Textnachricht stornieren
-- kündigen diese
-- Diese Nachricht stornieren
-- diesen Vorgang abbrechen
-- diesen Text Abbrechen
-- Schließen
-- Löschen
-- Don ' t read
-- Don 't read it
-- diesen Text nicht senden
-- Tue nicht
-- nicht anrufen
-- nennen Sie Sie nicht
-- keine e-Mail
-- Lesen Sie die Nachricht nicht
-- senden
-- Senden Sie es nicht
-- Senden Sie diese e-Mail nicht
-- Senden Sie diese e-Mail nicht
-- Zeige mir nicht
-- Ausfahrt
-- Vergiss es
-- Ich möchte, dass Sie die SMS stornieren
-- Weder
-- keiner von Ihnen
-- Vergessen Sie es
-- geschweige denn absagen
-- geschweige denn die Nachricht Abbrechen
-- Nevermind Abbrechen
-- keine Absage
-- keine Absage
-- keine Absage, dass
-- No Don 't Send
-- No Don 't send it
-- Nein, es ist nicht richtig
-- nicht nur die Textnachricht stornieren
-- keine Absage
-- Nein, das ist nicht richtig
-- Nein, das ist nicht richtig
-- Nein, kündigen Sie es
-- Nein, mach es nicht
-- Nein, ich möchte diese Nachricht nicht senden
-- keiner von Ihnen
-- keines dieser
-- nichts davon
-- keiner dieser
-- nichts absagen
-- Okay Abbrechen
-- Beenden
-- Stoppen
-- aufhören, es
-- Hör auf
-- Stop Message
-- aufhören zu lesen
-- Hör damit auf
-- Ja absagen
-- Ja, Absagen
-
-
 ## CheckMessages
 - jede neue e-Mail
 - jede neue e-Mail verfügbar
@@ -260,34 +185,6 @@
 - Bitte weiter an {ContactName=Helen}
 
 
-## Greeting
-- Guten Morgen
-- Hallo
-- Hallo
-- Es freut mich dich kennenzulernen
-
-
-## Help
-- Kannst du mir helfen?
-- können Sie mir hier helfen
-- Hilf mir bitte
-- Hilf mir zu {ContactName=beginnen}
-- helfen Sie mir, mehr zu {ContactName=verstehen}
-- Hilf mir dabei
-- Hilfe bei meinem Gerät bitte
-- Ich benötige deine Hilfe
-- Bitte hilf mir
-- Bitte helfen Sie mir, ich möchte beenden
-
-
-## Logout
-- Abmelden
-- Abmelden Computer
-- Abmelden Sie mein Telefon
-- Abmelden
-- Schild aus Facebook bitte
-
-
 ## None
 - Fügen Sie eine {Attachment=Datei} in die e-Mail
 - Fügen Sie ein {Attachment=Bild}
@@ -353,6 +250,96 @@
 - setzen Sie einige zusätzliche Zeilen zu dieser Nachricht
 - Warte, ich muss mehr schreiben
 - schreibe mehr
+- Abbrechen
+- können Sie es stornieren
+- Abbrechen
+- kündigen alle
+- e-Mail stornieren
+- es abbrechen
+- Nachricht stornieren
+- stornieren Sie meine e-Mail an {ContactName=Jerry}
+- Text Abbrechen auf {ContactName = James Robinson}
+- Absagen,
+- Bitte stornieren Sie diese Bestellung
+- die Mail stornieren
+- die Nachricht Abbrechen
+- den Text Abbrechen
+- die Textnachricht stornieren
+- kündigen diese
+- Diese Nachricht stornieren
+- diesen Vorgang abbrechen
+- diesen Text Abbrechen
+- Schließen
+- Löschen
+- Don ' t read
+- Don 't read it
+- diesen Text nicht senden
+- Tue nicht
+- nicht anrufen
+- nennen Sie Sie nicht
+- keine e-Mail
+- Lesen Sie die Nachricht nicht
+- senden
+- Senden Sie es nicht
+- Senden Sie diese e-Mail nicht
+- Senden Sie diese e-Mail nicht
+- Zeige mir nicht
+- Ausfahrt
+- Vergiss es
+- Ich möchte, dass Sie die SMS stornieren
+- Weder
+- keiner von Ihnen
+- Vergessen Sie es
+- geschweige denn absagen
+- geschweige denn die Nachricht Abbrechen
+- Nevermind Abbrechen
+- keine Absage
+- keine Absage
+- keine Absage, dass
+- No Don 't Send
+- No Don 't send it
+- Nein, es ist nicht richtig
+- nicht nur die Textnachricht stornieren
+- keine Absage
+- Nein, das ist nicht richtig
+- Nein, das ist nicht richtig
+- Nein, kündigen Sie es
+- Nein, mach es nicht
+- Nein, ich möchte diese Nachricht nicht senden
+- keiner von Ihnen
+- keines dieser
+- nichts davon
+- keiner dieser
+- nichts absagen
+- Okay Abbrechen
+- Beenden
+- Stoppen
+- aufhören, es
+- Hör auf
+- Stop Message
+- aufhören zu lesen
+- Hör damit auf
+- Ja absagen
+- Ja, Absagen
+- Guten Morgen
+- Hallo
+- Hallo
+- Es freut mich dich kennenzulernen
+- Kannst du mir helfen?
+- können Sie mir hier helfen
+- Hilf mir bitte
+- Hilf mir zu {ContactName=beginnen}
+- helfen Sie mir, mehr zu {ContactName=verstehen}
+- Hilf mir dabei
+- Hilfe bei meinem Gerät bitte
+- Ich benötige deine Hilfe
+- Bitte hilf mir
+- Bitte helfen Sie mir, ich möchte beenden
+- Abmelden
+- Abmelden Computer
+- Abmelden Sie mein Telefon
+- Abmelden
+- Schild aus Facebook bitte
 
 
 ## QueryLastText

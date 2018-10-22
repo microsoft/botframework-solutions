@@ -1,8 +1,8 @@
-# Custom Assistant Testing
+# Virtual Assistant Testing
 
 ## Overview
 
-A Custom Assistant can be tested just like any other Bot Framework Bot, the Bot Framework Emulator and WebChat canvases being the most commonly tools. 
+A Virtual Assistant can be tested just like any other Bot Framework Bot, the Bot Framework Emulator and WebChat canvases being the most commonly tools. 
 
 ## Bot Framework Emulator
 
@@ -34,7 +34,7 @@ When opening the Assistant-WebTest project for the first time you will be assign
 
 ## Direct-Line Sample
 
-A simple Console App is provided to demonstrate the base communication interaction required with a Custom Assistant and highlights how a device can interact with a Custom Assistant. The Sample enables you to conduct a conversation with a Custom Assistant and demonstrates how responses can be processed including Adaptive Cards along with retrieving the "Speak" property which is the Speech friendly variation of the response.
+A simple Console App is provided to demonstrate the base communication interaction required with a Virtual Assistant and highlights how a device can interact with a Virtual Assistant. The Sample enables you to conduct a conversation with a Virtual Assistant and demonstrates how responses can be processed including Adaptive Cards along with retrieving the "Speak" property which is the Speech friendly variation of the response.
 
 Examples are also provided on how events can be sent (device activation for example) as well as receiving responses to perform an action locally (e.g. change the navigation system or radio station).
 

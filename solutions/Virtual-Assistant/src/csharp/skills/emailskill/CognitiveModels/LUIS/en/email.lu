@@ -44,80 +44,6 @@
 - turn flag on
 
 
-## Cancel
-- abort
-- can you cancel it
-- cancel
-- cancel all
-- cancel email
-- cancel it
-- cancel message
-- cancel my email to {ContactName=jerry}
-- cancel text to {ContactName=james robinson}
-- cancel that
-- cancel that order please
-- cancel the mail
-- cancel the message
-- cancel the text
-- cancel the text message
-- cancel this
-- cancel this message
-- cancel this process
-- cancel this text
-- close
-- delete
-- don ' t read
-- don ' t read it
-- don 't send this text
-- don't
-- don't call
-- don't call her
-- don't email
-- don't read the message
-- don't send
-- don't send it
-- don't send that email
-- don't send this email
-- don't show me
-- exit
-- forget it
-- i want you to cancel the sms
-- neither
-- neither of them
-- never mind
-- never mind cancel
-- never mind cancel the message
-- nevermind cancel
-- no cancel
-- no cancel it
-- no cancel that
-- no don't send
-- no don't send it
-- no it's not right
-- no just cancel the text message
-- no no cancel
-- no that is not right
-- no that's not right
-- no, cancel it
-- no, don't do it
-- no, i don't want to send this message
-- none of them
-- none of these
-- none of this
-- none of those
-- nothing cancel
-- okay cancel
-- quit
-- stop
-- stop doing it
-- stop it
-- stop message
-- stop reading
-- stop that
-- yes cancel
-- yes, cancel it
-
-
 ## CheckMessages
 - any new email
 - any new email available
@@ -260,34 +186,6 @@
 - please forward to {ContactName=helen}
 
 
-## Greeting
-- good morning
-- hello
-- hi
-- nice to meet you
-
-
-## Help
-- can you help me ?
-- can you help me here
-- help me please
-- help me to {ContactName=start}
-- help me to {ContactName=understand} more please
-- help me with this
-- help with my device please
-- i need your help
-- please help me
-- please help me i want to finish
-
-
-## Logout
-- log off
-- log off computer
-- log off my phone
-- log out
-- sign out of facebook please
-
-
 ## None
 - add a {Attachment=file} to the email
 - add a {Attachment=picture}
@@ -353,6 +251,96 @@
 - put some additional lines to this message
 - wait, i need to write more
 - write more
+- good morning
+- hello
+- hi
+- nice to meet you
+- can you help me ?
+- can you help me here
+- help me please
+- help me to {ContactName=start}
+- help me to {ContactName=understand} more please
+- help me with this
+- help with my device please
+- i need your help
+- please help me
+- please help me i want to finish
+- log off
+- log off computer
+- log off my phone
+- log out
+- sign out of facebook please
+- abort
+- can you cancel it
+- cancel
+- cancel all
+- cancel email
+- cancel it
+- cancel message
+- cancel my email to {ContactName=jerry}
+- cancel text to {ContactName=james robinson}
+- cancel that
+- cancel that order please
+- cancel the mail
+- cancel the message
+- cancel the text
+- cancel the text message
+- cancel this
+- cancel this message
+- cancel this process
+- cancel this text
+- close
+- delete
+- don ' t read
+- don ' t read it
+- don 't send this text
+- don't
+- don't call
+- don't call her
+- don't email
+- don't read the message
+- don't send
+- don't send it
+- don't send that email
+- don't send this email
+- don't show me
+- exit
+- forget it
+- i want you to cancel the sms
+- neither
+- neither of them
+- never mind
+- never mind cancel
+- never mind cancel the message
+- nevermind cancel
+- no cancel
+- no cancel it
+- no cancel that
+- no don't send
+- no don't send it
+- no it's not right
+- no just cancel the text message
+- no no cancel
+- no that is not right
+- no that's not right
+- no, cancel it
+- no, don't do it
+- no, i don't want to send this message
+- none of them
+- none of these
+- none of this
+- none of those
+- nothing cancel
+- okay cancel
+- quit
+- stop
+- stop doing it
+- stop it
+- stop message
+- stop reading
+- stop that
+- yes cancel
+- yes, cancel it
 
 
 ## QueryLastText

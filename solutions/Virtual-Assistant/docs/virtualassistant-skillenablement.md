@@ -10,7 +10,7 @@ If you wish to create your own Skill from scratch and not use the DemoSkill proj
 
 ## Custom Constructor
 
-A custom constructor is needed in addition to the existing Bot constructor this is due to the direct invocation pattern which doesn't leverage the Asp.Net Core DI infrastructure. This constructor is passed a `BotState" object from the Custom Assistant within which the Skill's state can be stored. Configuration is also passsed, most often for LUIS settings so this can be initialized for subsequent processing.
+A custom constructor is needed in addition to the existing Bot constructor this is due to the direct invocation pattern which doesn't leverage the Asp.Net Core DI infrastructure. This constructor is passed a `BotState" object from the Virtual Assistant within which the Skill's state can be stored. Configuration is also passsed, most often for LUIS settings so this can be initialized for subsequent processing.
 
 ```
 public DemoSkill(BotState botState, string stateName = null, Dictionary<string, string> configuration = null)
@@ -69,7 +69,7 @@ else
 ## Handle Events
 
 Skills need to handle two distinct events, skillBegin and tokens/response. 
-- skillBegin: Sent by the Custom Assistant to start a Skill conversation. The `Value` property of the Event contains a `SkillMetadata` object which includes the LUIS result for the first utterance, Configuration properties as set in the Custom Assistant Skill configuration and Parameters relating to a given user if requested and exist for a given user.
+- skillBegin: Sent by the Virtual Assistant to start a Skill conversation. The `Value` property of the Event contains a `SkillMetadata` object which includes the LUIS result for the first utterance, Configuration properties as set in the Virtual Assistant Skill configuration and Parameters relating to a given user if requested and exist for a given user.
 - tokens/Response: Tokens are passed into the Skill through this event, the active dialog should have it's Continue method called to pass onto the next stage of Dialog processing now the token is available.
 
 > The LUIS Result (Turn 0) and Parameters are only passed once in this skillBeginEvent and won't be available in future turns therefore it's important that you ensure this information is stored for use by subsequent turns. The configuration object is passed to the Skill constructor on each instantiation.
@@ -119,16 +119,16 @@ case DialogTurnStatus.Complete:
 
 In scenarios where your Skill needs access to a Token from the User to perform an Action this should be performed by the Custom Assitant ensuring that Tokens are held centrally and can be shared across Skills where appropriate (e.g. a Microsoft Graph token).
 
-This is performed by sending a `tokens/request` event to the Custom Assistant and then wait for a `tokens/response` event to be returned. If a token is already stored by the Custom Assistant it will be returned immediately otherwise a Prompt to the user will be generated to initiate login. See [Linked Accounts](./virtualassistant-linkedaccounts.md) on how to ensure Tokens are made available during initial onboarding of the user to the Custom Assistant. 
+This is performed by sending a `tokens/request` event to the Virtual Assistant and then wait for a `tokens/response` event to be returned. If a token is already stored by the Virtual Assistant it will be returned immediately otherwise a Prompt to the user will be generated to initiate login. See [Linked Accounts](./virtualassistant-linkedaccounts.md) on how to ensure Tokens are made available during initial onboarding of the user to the Virtual Assistant. 
 
-Register a `SkillAuth` Dialog as part of your overall Dialog registration. Note this uses an EventPrompt class provided as part of the Custom Assistant.
+Register a `SkillAuth` Dialog as part of your overall Dialog registration. Note this uses an EventPrompt class provided as part of the Virtual Assistant.
 ```
 private const string AuthSkillMode = "SkillAuth";
 ...
 AddDialog(new EventPrompt(AuthSkillMode, "tokens/response", TokenResponseValidator));
 ```
 
-Then, when you require a Token request a Token from the Custom Assistant. 
+Then, when you require a Token request a Token from the Virtual Assistant. 
 
 ```
 // If in Skill mode we ask the calling Bot for the token

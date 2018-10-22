@@ -46,6 +46,26 @@
         "speak": "Sorry I think I cannot find what you want right now. Try again later please."
       }
     ],
-    "inputHint": "expectingInput"
-  }
+    "inputHint": "acceptingInput"
+  },
+
+  "SkillAuthenticationTitle": {
+    "replies": [
+      {
+        "text": "Skill Authentication",
+        "speak": "Skill Authentication"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+
+  "SkillAuthenticationPrompt": {
+    "replies": [
+      {
+        "text": "You haven't linked any accounts yet, if possible please authenticate your assistant to access this service or switch to your companion experience.",
+        "speak": "You haven't linked any accounts yet, if possible please authenticate your assistant to access this service or switch to your companion experience."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }  
 }

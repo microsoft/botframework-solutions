@@ -44,80 +44,6 @@
 - Turn flag on
 
 
-## Cancel
-- Interrompere
-- si può annullare
-- Annulla
-- Annulla tutto
-- Annulla email
-- Annulla
-- Annulla messaggio
-- Cancella la mia email a {ContactName=Jerry}
-- Annulla testo a {ContactName = James Robinson}
-- annullare che
-- annullare l'ordine per favore
-- Annulla la posta
-- Annulla il messaggio
-- Annulla il testo
-- Annulla il messaggio di testo
-- annullare questa
-- Annulla questo messaggio
-- Annulla questo processo
-- Annulla questo testo
-- Vicino
-- Elimina
-- Don ' t leggere
-- Don ' t leggerlo
-- Don ' t inviare questo testo
-- Non
-- non chiamare
-- non chiamarla
-- non e-mail
-- non leggere il messaggio
-- non inviare
-- non inviarlo
-- non inviare e-mail
-- non inviare questa e-mail
-- non farmi vedere
-- Uscita
-- Lascia perdere
-- Voglio che tu annulli l'sms
-- Né
-- nessuno dei due
-- Non importa
-- non importa Annulla
-- non importa cancellare il messaggio
-- non importa Annulla
-- No Cancel
-- No annullarlo
-- No Cancel che
-- No non inviare
-- No non inviarlo
-- No, non è giusto
-- non basta cancellare il messaggio di testo
-- No No Annulla
-- No che non è giusto
-- No che non è giusto
-- No, Annulla
-- No, non farlo
-- No, non voglio mandare questo messaggio
-- nessuno di loro
-- nessuno di questi
-- niente di tutto questo
-- nessuno di questi
-- nulla Annulla
-- OK Annulla
-- Smettere
-- Fermare
-- smettere di farlo
-- Smettila
-- messaggio di arresto
-- smettere di leggere
-- Smettila
-- Sì Annulla
-- Sì, Annulla
-
-
 ## CheckMessages
 - qualsiasi nuova e-mail
 - qualsiasi nuova e-mail disponibile
@@ -260,34 +186,6 @@
 - si prega di inoltrare a Helen
 
 
-## Greeting
-- Buongiorno
-- Ciao
-- Ciao
-- Piacere
-
-
-## Help
-- Puoi aiutarmi?
-- mi potete aiutare qui
-- Aiutatemi per favore
-- Aiutami a iniziare
-- Aiutami a capire di più per favore
-- aiutarmi con questo
-- aiuto con il mio dispositivo per favore
-- Ho bisogno del tuo aiuto
-- Please help me
-- Please help me voglio finire
-
-
-## Logout
-- disconnettersi
-- disconnettersi dal computer
-- Disconnetti il mio telefono
-- logout
-- Esci da Facebook per favore
-
-
 ## None
 - aggiungere un {Attachment=file} all'email
 - aggiungere Un'{Attachment=Immagine}
@@ -353,6 +251,96 @@
 - mettere alcune linee aggiuntive a questo messaggio
 - Aspetta, ho bisogno di scrivere di più
 - scrivere di più
+- Interrompere
+- si può annullare
+- Annulla
+- Annulla tutto
+- Annulla email
+- Annulla
+- Annulla messaggio
+- Cancella la mia email a {ContactName=Jerry}
+- Annulla testo a {ContactName = James Robinson}
+- annullare che
+- annullare l'ordine per favore
+- Annulla la posta
+- Annulla il messaggio
+- Annulla il testo
+- Annulla il messaggio di testo
+- annullare questa
+- Annulla questo messaggio
+- Annulla questo processo
+- Annulla questo testo
+- Vicino
+- Elimina
+- Don ' t leggere
+- Don ' t leggerlo
+- Don ' t inviare questo testo
+- Non
+- non chiamare
+- non chiamarla
+- non e-mail
+- non leggere il messaggio
+- non inviare
+- non inviarlo
+- non inviare e-mail
+- non inviare questa e-mail
+- non farmi vedere
+- Uscita
+- Lascia perdere
+- Voglio che tu annulli l'sms
+- Né
+- nessuno dei due
+- Non importa
+- non importa Annulla
+- non importa cancellare il messaggio
+- non importa Annulla
+- No Cancel
+- No annullarlo
+- No Cancel che
+- No non inviare
+- No non inviarlo
+- No, non è giusto
+- non basta cancellare il messaggio di testo
+- No No Annulla
+- No che non è giusto
+- No che non è giusto
+- No, Annulla
+- No, non farlo
+- No, non voglio mandare questo messaggio
+- nessuno di loro
+- nessuno di questi
+- niente di tutto questo
+- nessuno di questi
+- nulla Annulla
+- OK Annulla
+- Smettere
+- Fermare
+- smettere di farlo
+- Smettila
+- messaggio di arresto
+- smettere di leggere
+- Smettila
+- Sì Annulla
+- Sì, Annulla
+- Buongiorno
+- Ciao
+- Ciao
+- Piacere
+- Puoi aiutarmi?
+- mi potete aiutare qui
+- Aiutatemi per favore
+- Aiutami a iniziare
+- Aiutami a capire di più per favore
+- aiutarmi con questo
+- aiuto con il mio dispositivo per favore
+- Ho bisogno del tuo aiuto
+- Please help me
+- Please help me voglio finire
+- disconnettersi
+- disconnettersi dal computer
+- Disconnetti il mio telefono
+- logout
+- Esci da Facebook per favore
 
 
 ## QueryLastText

@@ -1,4 +1,4 @@
-# Custom Assistant - Linked Accounts
+# Virtual Assistant - Linked Accounts
 
 ## Overview
 
@@ -63,10 +63,10 @@ Once logged in you, Click Linked Accounts in the top navigation page and you sho
 
 You can now click Sign-In to be navigated to the respective OAuth sign-in page. Once complete the Linked Accounts website should show the updated status.
 
-## Testing your Custom Assistant with Linked Accounts
+## Testing your Virtual Assistant with Linked Accounts
 
-Now that you've linked your account and stored tokens you can move back to your Custom Assistant and check that it's able to use the tokens you've stored and not prompt for authentication.
+Now that you've linked your account and stored tokens you can move back to your Virtual Assistant and check that it's able to use the tokens you've stored and not prompt for authentication.
 
-> Note that when communicating with the Custom Assistant (Bot) the From.Id property on each Activity must be populated with the same User unique-identifier as this is the *key* used by the Authentication logic to retrieve tokens. The Linked Accounts website sample uses the [objectidentifier](https://docs.microsoft.com/en-us/azure/architecture/multitenant-identity/claims) claim and this must be used by your Custom Assistant client app or Test Harnesses. Equally, the principal name (upn) could be used if preferred.
+> Note that when communicating with the Virtual Assistant (Bot) the From.Id property on each Activity must be populated with the same User unique-identifier as this is the *key* used by the Authentication logic to retrieve tokens. The Linked Accounts website sample uses the [objectidentifier](https://docs.microsoft.com/en-us/azure/architecture/multitenant-identity/claims) claim and this must be used by your Virtual Assistant client app or Test Harnesses. Equally, the principal name (upn) could be used if preferred.
 
 Asking a question that triggers a user flow which requires the specified token should now not prompt for authentication.
