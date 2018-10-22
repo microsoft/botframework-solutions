@@ -179,14 +179,15 @@ namespace ToDoSkill
             try
             {
                 var state = await _accessor.GetAsync(sc.Context);
-                var luisResult = state.LuisResult;
+                var luisResult = state.GeneralLuisResult;
                 var topIntent = luisResult?.TopIntent().intent;
-                if (topIntent == ToDo.Intent.ConfirmYes)
+
+                if (topIntent == General.Intent.ConfirmYes)
                 {
                     state.DeleteTaskConfirmation = true;
                     return await sc.EndDialogAsync(true);
                 }
-                else if (topIntent == ToDo.Intent.ConfirmNo)
+                else if (topIntent == General.Intent.ConfirmNo)
                 {
                     state.DeleteTaskConfirmation = false;
                     return await sc.EndDialogAsync(true);

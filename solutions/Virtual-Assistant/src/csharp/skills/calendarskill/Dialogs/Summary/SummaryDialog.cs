@@ -55,7 +55,7 @@ namespace CalendarSkill
                 var state = await _accessor.GetAsync(sc.Context);
 
                 var luisResult = state.LuisResult;
-                    
+
                 var topIntent = luisResult?.TopIntent().intent;
 
                 if (topIntent == Calendar.Intent.Summary)
@@ -63,7 +63,10 @@ namespace CalendarSkill
                     state.Clear();
                 }
 
-                if (topIntent == Calendar.Intent.ShowNext)
+                var generalLuisResult = state.GeneralLuisResult;
+                var topGeneralIntent = generalLuisResult?.TopIntent().intent;
+
+                if (topGeneralIntent == General.Intent.Next)
                 {
                     if ((state.ShowEventIndex + 1) * CalendarSkillState.PageSize < state.SummaryEvents.Count)
                     {
@@ -76,7 +79,7 @@ namespace CalendarSkill
                     }
                 }
 
-                if (topIntent == Calendar.Intent.ShowPrevious)
+                if (topGeneralIntent == General.Intent.Previous)
                 {
                     if (state.ShowEventIndex > 0)
                     {
@@ -212,16 +215,21 @@ namespace CalendarSkill
             try
             {
                 var state = await _accessor.GetAsync(sc.Context);
-                var luisResult = state.LuisResult;
 
+                var luisResult = state.LuisResult;
                 var topIntent = luisResult?.TopIntent().intent;
+
                 if (topIntent == null)
                 {
                     return await sc.EndDialogAsync(true);
                 }
 
                 var eventItem = state.ReadOutEvents.FirstOrDefault();
-                if (topIntent == Luis.Calendar.Intent.ConfirmNo || topIntent == Luis.Calendar.Intent.Reject)
+
+                var generalLuisResult = state.GeneralLuisResult;
+                var generalTopIntent = generalLuisResult?.TopIntent().intent;
+
+                if (generalTopIntent == General.Intent.ConfirmNo)
                 {
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarSharedResponses.CancellingMessage));
                     return await sc.EndDialogAsync(true);

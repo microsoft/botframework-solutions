@@ -171,7 +171,7 @@ namespace CalendarSkill
         {
 
             var state = await _accessor.GetAsync(pc.Context);
-            var luisResult = state.LuisResult;
+            var luisResult = state.GeneralLuisResult;
             var topIntent = luisResult?.TopIntent().intent;
 
             // TODO: The signature for validators has changed to return bool -- Need new way to handle this logic

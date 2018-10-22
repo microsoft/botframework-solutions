@@ -195,6 +195,7 @@ namespace ToDoSkill
                 else
                 {
                     var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
+                    state.GeneralLuisResult = luisResult;
                     var topIntent = luisResult.TopIntent().intent;
 
                     // check intent

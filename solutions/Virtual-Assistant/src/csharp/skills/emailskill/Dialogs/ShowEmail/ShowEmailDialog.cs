@@ -60,12 +60,14 @@ namespace EmailSkill
                     await DigestEmailLuisResult(sc, luisResult);
                 }
 
-                if (topIntent == Email.Intent.ShowNext)
+                var generalLuisResult = state.GeneralLuisResult;
+                var generalTopIntent = generalLuisResult?.TopIntent().intent;
+                if (generalTopIntent == General.Intent.Next)
                 {
                     state.ShowEmailIndex++;
                 }
 
-                if (topIntent == Email.Intent.ShowPrevious && state.ShowEmailIndex > 0)
+                if (generalTopIntent == General.Intent.Previous && state.ShowEmailIndex > 0)
                 {
                     state.ShowEmailIndex--;
                 }
@@ -147,15 +149,17 @@ namespace EmailSkill
             {
                 var state = await _emailStateAccessor.GetAsync(sc.Context);
                 var luisResult = state.LuisResult;
-
                 var topIntent = luisResult?.TopIntent().intent;
+                var generalLuisResult = state.GeneralLuisResult;
+                var generalTopIntent = generalLuisResult?.TopIntent().intent;
+
                 if (topIntent == null)
                 {
                     return await sc.EndDialogAsync(true);
                 }
 
                 var message = state.Message.FirstOrDefault();
-                if (topIntent == Email.Intent.ConfirmNo)
+                if (generalTopIntent == General.Intent.ConfirmNo)
                 {
                     await sc.Context.SendActivityAsync(
                         sc.Context.Activity.CreateReply(EmailSharedResponses.CancellingMessage));

@@ -180,7 +180,7 @@ namespace EmailSkill
                 var choiceResult = (sc.Result as FoundChoice)?.Value.Trim('*');
                 if (choiceResult != null)
                 {
-                    if (choiceResult == Email.Intent.ShowNext.ToString())
+                    if (choiceResult == General.Intent.Next.ToString())
                     {
                         state.ShowRecipientIndex++;
                         return await sc.BeginDialogAsync(Action.ConfirmRecipient);
@@ -192,7 +192,7 @@ namespace EmailSkill
                         return await sc.BeginDialogAsync(Action.ConfirmRecipient, new UpdateUserDialogOptions(UpdateUserDialogOptions.UpdateReason.TooMany));
                     }
 
-                    if (choiceResult == Email.Intent.ShowPrevious.ToString())
+                    if (choiceResult == General.Intent.Previous.ToString())
                     {
                         if (state.ShowRecipientIndex > 0)
                         {
