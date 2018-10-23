@@ -122,7 +122,6 @@ namespace VirtualAssistant
                 //{
                 //    throw new InvalidOperationException("Microsoft Text Translation API key is missing. Please add your translation key to the 'translatorKey' setting.");
                 //}
-
             });
         }
 
