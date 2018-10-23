@@ -54,48 +54,6 @@ $PREBUILT:number
 - Transfer me please
 - Kontakt Unterstützung
 
-# ConfirmYes
-- Absolut
-- Sicher
-- Definitiv
-- Sicher
-- Ich denke schon
-- Lass es uns tun
-- machen wir das
-- Oh ja
-- Ja, bitte
-- Okay
-- Okay
-- sichere Sache
-- Ja
-- Ja, das wäre ein großer Dank
-- Warum nicht
-- Yep that es Right
-- Yup
-- Yep
-- Nur zu
-
-# ConfirmNo
-- Keineswegs
-- nah
-- Nö
-- Nein, danke
-- Nein
-- Nein, das ist okay
-- Auf keinen Fall
-- Überhaupt nicht
-- Nicht wirklich
-- nicht gerade jetzt dank
-- Nein, danke
-
-# ConfirmMore
-- Mehr
-- Ich möchte mehr wissen
-- Zeige mir mehr
-- Mehr
-- Weitere Infos
-- Weitere Informationen
-
 # Next
 - Voraus
 - vorwärts gehen
@@ -147,6 +105,13 @@ $PREBUILT:number
 - Ok danke
 - Ok tschüss
 - Das ist es dank
+
+# Logout
+- SignOut
+- Vergiss mich
+- Abmelden
+- logout
+- Abmelden
 
 # None
 - meine Wasserflasche ist grün

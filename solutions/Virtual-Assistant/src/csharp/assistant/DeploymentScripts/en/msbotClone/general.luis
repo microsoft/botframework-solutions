@@ -16,15 +16,6 @@
       "name": "Escalate"
     },
     {
-      "name": "ConfirmYes"
-    },
-    {
-      "name": "ConfirmNo"
-    },
-    {
-      "name": "ConfirmMore"
-    },
-    {
       "name": "Next"
     },
     {
@@ -32,6 +23,9 @@
     },
     {
       "name": "Goodbye"
+    },
+    {
+      "name": "Logout"
     },
     {
       "name": "None"
@@ -247,186 +241,6 @@
     {
       "text": "contact support",
       "intent": "Escalate",
-      "entities": []
-    },
-    {
-      "text": "absolutely",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "sure",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "definitely",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "for sure",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "i think so",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "let's do it",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "let's do that",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "oh yes",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "yes please",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "okay",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "ok",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "sure thing",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "yeah",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "yeah that would be great thanks",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "why not",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "yep that's right",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "yup",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "yep",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "go ahead",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "by no means",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "nah",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "nope",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "no thanks",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "no",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "no that's okay",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "no way",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "not at all",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "not really",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "not right now thanks",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "no thank you",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "more",
-      "intent": "ConfirmMore",
-      "entities": []
-    },
-    {
-      "text": "i would like to know more",
-      "intent": "ConfirmMore",
-      "entities": []
-    },
-    {
-      "text": "show me more",
-      "intent": "ConfirmMore",
-      "entities": []
-    },
-    {
-      "text": "more",
-      "intent": "ConfirmMore",
-      "entities": []
-    },
-    {
-      "text": "more info",
-      "intent": "ConfirmMore",
-      "entities": []
-    },
-    {
-      "text": "more information",
-      "intent": "ConfirmMore",
       "entities": []
     },
     {
@@ -657,6 +471,31 @@
     {
       "text": "that's it thanks",
       "intent": "Goodbye",
+      "entities": []
+    },
+    {
+      "text": "signout",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "forget me",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "sign out",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "logout",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "log out",
+      "intent": "Logout",
       "entities": []
     },
     {

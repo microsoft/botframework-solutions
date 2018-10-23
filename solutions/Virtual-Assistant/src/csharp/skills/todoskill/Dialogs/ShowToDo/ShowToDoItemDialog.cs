@@ -2,6 +2,7 @@
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using System;
@@ -143,12 +144,17 @@ namespace ToDoSkill
             {
                 var state = await _accessor.GetAsync(sc.Context);
                 var topIntent = state.GeneralLuisResult?.TopIntent().intent;
-                if (topIntent == General.Intent.ConfirmYes)
+
+                sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
+                var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
+                var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
+
+                if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
                 {
                     state.TaskContent = null;
                     return await sc.NextAsync();
                 }
-                else if (topIntent == General.Intent.ConfirmNo)
+                else if ((promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false))
                 {
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ActionEnded));
                     return await sc.EndDialogAsync(true);

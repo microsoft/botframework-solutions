@@ -468,6 +468,15 @@
 - write email
 - write email to {RelationshipName=mom} subject is {EmailSubject=babysit}
 
+## Delete
+- can you help me delete it
+- delete the first email for me
+- delete the {OrderReference=last} one
+- delete the second one
+- delete this email
+- put it in the recycle bin
+- remove it from my inbox
+
 > # Entity definitions
 
 $Attachment:simple

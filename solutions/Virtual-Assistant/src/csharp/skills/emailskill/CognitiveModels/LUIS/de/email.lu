@@ -468,6 +468,15 @@
 - e-Mail schreiben
 - Schreiben Sie eine e-Mail an  {RelationshipName=Mutter}  Thema ist  {EmailSubject=Babysitten} 
 
+## Delete
+- können Sie mir helfen, es zu löschen
+- Löschen Sie die erste e-Mail für mich
+- Löschen die  {OrderReference=Last} Eine
+- die zweite löschen
+- Diese e-Mail löschen
+- Legen Sie es in den Papierkorb
+- Entfernen Sie es aus meinem Posteingang
+
 > # Entity definitions
 
 $Attachment:simple

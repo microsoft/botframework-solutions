@@ -24,7 +24,8 @@ namespace Luis
             Reply, 
             SearchMessages, 
             SelectItem, 
-            SendEmail
+            SendEmail, 
+            Delete
         };
         public Dictionary<Intent, IntentScore> Intents;
 

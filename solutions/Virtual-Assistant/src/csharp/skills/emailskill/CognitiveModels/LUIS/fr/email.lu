@@ -468,6 +468,15 @@
 - Ecrire un courriel
 - écrivez par courriel à  {RelationshipName=Maman}  sujet est  {EmailSubject=Garder} 
 
+## Delete
+- pouvez-vous m'aider à le supprimer
+- supprimer le premier e-mail pour moi
+- supprimer le  {OrderReference=Dernière} Un
+- supprimer le second
+- supprimer cet e-mail
+- Mettez-le dans la corbeille
+- Retirez-le de ma boîte de réception
+
 > # Entity definitions
 
 $Attachment:simple

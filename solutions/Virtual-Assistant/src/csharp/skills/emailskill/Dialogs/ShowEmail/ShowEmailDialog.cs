@@ -4,6 +4,7 @@ using EmailSkill.Extensions;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using System;
@@ -148,6 +149,10 @@ namespace EmailSkill
             try
             {
                 var state = await _emailStateAccessor.GetAsync(sc.Context);
+
+                sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
+                var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
+
                 var luisResult = state.LuisResult;
                 var topIntent = luisResult?.TopIntent().intent;
                 var generalLuisResult = state.GeneralLuisResult;
@@ -159,7 +164,9 @@ namespace EmailSkill
                 }
 
                 var message = state.Message.FirstOrDefault();
-                if (generalTopIntent == General.Intent.ConfirmNo)
+
+                var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
+                if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
                 {
                     await sc.Context.SendActivityAsync(
                         sc.Context.Activity.CreateReply(EmailSharedResponses.CancellingMessage));

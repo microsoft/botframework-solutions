@@ -561,7 +561,7 @@
 - Qual è il mio  {PositionReference=Prima}  Riunione  {StartDate=Domani} 
 - che è il mio  {OrderReference=Prossima} Evento
 - che sarà il mio  {OrderReference=Prossima}   {Subject=Volo} 
-
+- quali incontri
 
 ## FindCalendarWhen
 - Mio  {OrderReference=Prossima}  incontro con  {ContactName=Tony} è quando

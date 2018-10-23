@@ -561,7 +561,7 @@
 - What es My  {PositionReference=Ersten}  Sitzung  {StartDate=Morgen} 
 - was mein  {OrderReference=Nächsten} Ereignis
 - Das wird mein  {OrderReference=Nächsten}   {Subject=Flug} 
-
+- welche treffen
 
 ## FindCalendarWhen
 - Meine  {OrderReference=Nächsten}  Treffen mit  {ContactName=Tony} ist,

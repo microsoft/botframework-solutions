@@ -468,6 +468,15 @@
 - 写电子邮件
 - 将电子邮件写入 {RelationshipName=妈妈} 主题是 {EmailSubject=照看} 
 
+## Delete
+- 你能帮我删除它吗？
+- 删除我的第一封电子邮件
+- 删除该 {OrderReference=最后} 一个
+- 删除第二个
+- 删除此电子邮件
+- 放在回收站
+- 从我的收件箱中删除它
+
 > # Entity definitions
 
 $Attachment:simple

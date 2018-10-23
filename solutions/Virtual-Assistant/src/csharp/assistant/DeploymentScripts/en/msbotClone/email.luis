@@ -29,6 +29,9 @@
     },
     {
       "name": "SendEmail"
+    },
+    {
+      "name": "Delete"
     }
   ],
   "entities": [
@@ -4301,6 +4304,47 @@
           "endPos": 36
         }
       ]
+    },
+    {
+      "text": "can you help me delete it",
+      "intent": "Delete",
+      "entities": []
+    },
+    {
+      "text": "delete the first email for me",
+      "intent": "Delete",
+      "entities": []
+    },
+    {
+      "text": "delete the last one",
+      "intent": "Delete",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 11,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "delete the second one",
+      "intent": "Delete",
+      "entities": []
+    },
+    {
+      "text": "delete this email",
+      "intent": "Delete",
+      "entities": []
+    },
+    {
+      "text": "put it in the recycle bin",
+      "intent": "Delete",
+      "entities": []
+    },
+    {
+      "text": "remove it from my inbox",
+      "intent": "Delete",
+      "entities": []
     }
   ],
   "patterns": [],

@@ -54,48 +54,6 @@ $PREBUILT:number
 - Transfer me please
 - Contatta il supporto
 
-# ConfirmYes
-- Assolutamente
-- Sicuro
-- Sicuramente
-- Di sicuro
-- Credo di sì
-- Facciamolo
-- Facciamolo
-- Oh sì
-- Sì per favore
-- Okk
-- Ok
-- cosa sicura
-- Sì
-- sì che sarebbe grande grazie
-- Perché no
-- Yep che è di destra
-- Yup
-- Sì
-- Continua
-
-# ConfirmNo
-- In nessun modo
-- Vicino
-- No
-- No grazie
-- No
-- No va bene
-- Assolutamente no
-- Niente affatto
-- Non proprio
-- non in questo momento grazie
-- No grazie
-
-# ConfirmMore
-- Più
-- Mi piacerebbe sapere di più
-- Mostrami di più
-- Più
-- più informazioni
-- maggiori informazioni
-
 # Next
 - Anticipo
 - andare avanti
@@ -147,6 +105,13 @@ $PREBUILT:number
 - Ok grazie
 - Ok ciao
 - Questo è tutto grazie
+
+# Logout
+- SignOut
+- dimenticare me
+- Esci
+- Logout
+- logout
 
 # None
 - la mia bottiglia d'acqua è verde

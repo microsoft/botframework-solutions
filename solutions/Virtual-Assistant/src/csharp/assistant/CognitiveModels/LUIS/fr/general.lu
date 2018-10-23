@@ -54,48 +54,6 @@ $PREBUILT:number
 - Transférez-moi svp
 - Contacter le support technique
 
-# ConfirmYes
-- Absolument
-- Sûr
-- Certainement
-- Sans aucun doute
-- Je pense
-- Allons-y
-- faisons ça
-- Oh oui
-- Oui s'il vous plaît
-- OK
-- Bien
-- sure chose
-- Oui
-- Oui ce serait un grand merci
-- Pourquoi pas
-- Yep c'est vrai
-- Yup
-- Yep
-- Vas-y . allez-y
-
-# ConfirmNo
-- en aucun cas
-- Proche
-- Non
-- Non merci
-- Pas
-- non, c'est bon
-- Pas question
-- Pas du tout
-- Pas vraiment
-- pas en ce moment Merci
-- non merci
-
-# ConfirmMore
-- Plus
-- Je voudrais en savoir plus
-- Montrez-moi plus
-- Plus
-- plus d'infos
-- plus d'information
-
 # Next
 - Avance
 - aller de l'avant
@@ -147,6 +105,13 @@ $PREBUILT:number
 - Ok merci
 - Ok salut
 - C'est tout Merci
+
+# Logout
+- SignOut
+- oubliez-moi
+- se déconnecter
+- Déconnexion
+- déconnexion
 
 # None
 - ma bouteille d'eau est verte
