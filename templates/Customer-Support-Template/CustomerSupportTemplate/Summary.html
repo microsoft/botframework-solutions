@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/9.6.0/css/fabric.min.css" />
+    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <style>
+        td, th {
+            padding-bottom: 0px !important;
+            padding-top: 0px !important;
+            padding-right: 15 !important;
+            margin: 0 !important;
+        }
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            border-top:none;
+            border-bottom: 1px solid #ddd;
+        }
+        .navbar {
+            border: none;
+            min-height: 48px;
+        }
+        .navbar-inverse {
+            background-color: #0078D7 !important;
+            color: #fff !important;
+        }
+        .navbar-header {
+            padding-top: 10px;
+        }
+        .navbar-header a {
+            color: #fff;
+        }
+        #dispatchName {
+            margin-right: 150px;
+        }
+        .nav-pills > li > a {
+            border-radius: 0;
+            padding-bottom: 0px;
+            padding-left: 0px;
+            padding-right: 0px;
+            margin-right: 15px;
+            color: #333;
+        }
+        .nav-pills > li.active > a,
+        .nav-pills > li.active > a:hover,
+        .nav-pills > li.active > a:focus {
+            color: #333;
+            background-color: #fff !important;
+            font-weight: 600 !important;
+            border-bottom-color: #0078D7;
+            border-bottom-style: solid;
+            border-bottom-width: 2px;
+        }
+        .nav-pills > .active > a > .badge {
+            background-color: #fff !important;
+            font-weight: 600 !important;
+        }
+        .nav-pills > li:hover > a:hover {
+            background-color: #fff !important;
+        }
+    </style>
+</head>
+<body class="ms-Fabric ms-font-m">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header ms-fontSize-l">
+                <span id="dispatchName">LamilCustomerSupportTemplateDispatch</span>
+                <span><a href="https://www.luis.ai/applications/b00f5a0e-08a5-4954-87ab-187d525882bf/versions/Dispatch/dashboard" target="_blank">LUIS Application ID: b00f5a0e-08a5-4954-87ab-187d525882bf</a></span>
+            </div>
+        </div>
+    </nav>
+    <br /><br /><br />
+    <div class="container body-content">
+        <span class="ms-fontSize-xl ms-fontWeight-semibold">Dispatch Summary</span>
+        <span style="float:right"><a href="https://www.luis.ai/applications/b00f5a0e-08a5-4954-87ab-187d525882bf/versions/Dispatch/dashboard" target="_blank">View in LUIS portal</a></span>
+        <div>
+            <p><p>Please check below for intent statistics and duplicate utterances.</p><p><strong>Suggestions for model improvement</strong>:</p><ul style = "list-style-type:square"><li>Consider adding more utterances to the intents <strong>q_FAQ</strong>, as their utterance count is low.</li><li>Consider adding more utterances to the intents <strong>q_FAQ</strong>, as their number of utterances is considerably lower than the other intents.</li></ul></p>
+            <p>To improve dispatch, please update the source models and retrain the dispatch model by running the command "dispatch refresh".</p>
+        </div>
+        <br />
+        <ul class="nav nav-pills ms-fontSize-mPlus ms-fontWeight-semibold" id="modelAnalysis" role="tablist" style="padding-bottom:10px">
+            <li class="nav-item active">
+                <a class="nav-link active" id="intentutterancestatistics-tab" data-toggle="tab" href="#intentutterancestatistics" role="tab" aria-controls="intentutterancestatistics" aria-selected="true"><strong>Intent Statistics</strong></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" id="duplicates-tab" data-toggle="tab" href="#duplicates" role="tab" aria-controls="duplicates" aria-selected="true"><strong>Duplicates</strong></a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="intentutterancestatistics" role="tabpanel" aria-labelledby="intentutterancestatistics-tab">
+                <p>Intents and utterances statistics</p>
+                <p>
+                    <table class="table"><tr><th>Intent</th><th>Utterance Count</th><th>Utterance Average Length</th><th>Utterance Maximum Length</th><th>Utterance Minimum Length</th><th>Utterance Length StdDev</th></tr><tr><td>l_LamilCustomerSupportTemplate_G</td><td>84</td><td>10.774</td><td>31</td><td>2</td><td>6.31</td></tr><tr><td>l_LamilCustomerSupportTemplate_R</td><td>70</td><td>28.171</td><td>69</td><td>8</td><td>12.447</td></tr><tr><td>q_FAQ</td><td>15</td><td>55.667</td><td>150</td><td>19</td><td>38.241</td></tr><tr><td>None</td><td>8</td><td>18</td><td>33</td><td>6</td><td>8.298</td></tr></table>
+                </p>
+            </div>
+            <div class="tab-pane" id="duplicates" role="tabpanel" aria-labelledby="duplicates-tab">
+                <p>Utterances in multiple intents</p>
+                <p>
+                    There are no utterances in multiple intents.
+                </p>
+            </div>
+        </div>
+        <br /><br />
+    </div>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"></script>
+</body>
+</html>
