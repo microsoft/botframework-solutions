@@ -37,8 +37,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\EmailSkill\EmailSkill.csproj" />
-    <ProjectReference Include="..\TestFramework\TestFramework.csproj" />
+    <ProjectReference Include="..\..\emailSkill\EmailSkill.csproj" />
+    <ProjectReference Include="..\testFramework\TestFramework.csproj" />
   </ItemGroup>
 
   <ItemGroup>
