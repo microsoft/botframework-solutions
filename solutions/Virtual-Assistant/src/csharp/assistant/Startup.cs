@@ -118,11 +118,6 @@ namespace VirtualAssistant
                 {
                     options.Middleware.Add(new TranslationMiddleware(new string[] { "en", "fr", "it", "de", "es" }, translatorKey, false));
                 }
-                else
-                {
-                    throw new InvalidOperationException("Microsoft Text Translation API key is missing. Please add your translation key to the 'translatorKey' setting.");
-                }
-
             });
         }
 
