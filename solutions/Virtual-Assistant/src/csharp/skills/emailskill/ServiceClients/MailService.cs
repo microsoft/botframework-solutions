@@ -43,7 +43,7 @@ namespace EmailSkill
         /// <param name="fromAddress">search condition, filter email from this address.</param>
         /// <param name="skip">number of skipped result.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public async Task<List<Message>> GetMyMessages(DateTime fromTime, DateTime toTime, bool getUnRead = false, bool isImportant = false, bool directlyToMe = false, string fromAddress = null, int skip = 0)
+        public async Task<List<Message>> GetMyMessagesAsync(DateTime fromTime, DateTime toTime, bool getUnRead = false, bool isImportant = false, bool directlyToMe = false, string fromAddress = null, int skip = 0)
         {
             var optionList = new List<QueryOption>();
             var filterString = string.Empty;
@@ -158,7 +158,7 @@ namespace EmailSkill
         /// <param name="subject">Eamil Subject.</param>
         /// <param name="recipients">List of recipient.</param>
         /// <returns>Completed Task.</returns>
-        public async Task SendMessage(string content, string subject, List<Recipient> recipients)
+        public async Task SendMessageAsync(string content, string subject, List<Recipient> recipients)
         {
             // todo: I don't know why but recipient list need to be create again to avoid 400 error
             List<Recipient> re = new List<Recipient>();
@@ -197,7 +197,7 @@ namespace EmailSkill
         /// <param name="id">The Id of message to reply.</param>
         /// <param name="text">The rely message body.</param>
         /// <returns>Completed Task.</returns>
-        public async Task<List<Message>> ReplyToMessage(string id, string text)
+        public async Task<List<Message>> ReplyToMessageAsync(string id, string text)
         {
             List<Message> items = new List<Message>();
 
@@ -228,7 +228,7 @@ namespace EmailSkill
         /// <param name="comment">comment.</param>
         /// <param name="recipients">recipients.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task ForwardMessage(string id, string comment, List<Recipient> recipients)
+        public async Task ForwardMessageAsync(string id, string comment, List<Recipient> recipients)
         {
             // todo: I don't know why but recipient list need to be create again to avoid 400 error
             List<Recipient> re = new List<Recipient>();
@@ -252,7 +252,7 @@ namespace EmailSkill
         /// </summary>
         /// <param name="id">Message id.</param>
         /// <returns></returns>
-        public async Task DeleteMessage(string id)
+        public async Task DeleteMessageAsync(string id)
         {
             await this._graphClient.Me.Messages[id].Request().DeleteAsync();
         }

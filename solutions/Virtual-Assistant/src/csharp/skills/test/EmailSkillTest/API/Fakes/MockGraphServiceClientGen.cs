@@ -1,11 +1,11 @@
-﻿namespace EmailSkillTest.API.Fakes
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Microsoft.Graph;
-    using Moq;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.Graph;
+using Moq;
 
+namespace EmailSkillTest.API.Fakes
+{
     public class MockGraphServiceClientGen
     {
         private readonly Mock<IGraphServiceClient> mockMailService;

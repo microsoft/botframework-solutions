@@ -17,7 +17,7 @@ namespace EmailSkill
         /// <param name="content">The additional text when forward.</param>
         /// <param name="recipients">The recipients.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        Task ForwardMessage(string id, string content, List<Recipient> recipients);
+        Task ForwardMessageAsync(string id, string content, List<Recipient> recipients);
 
         /// <summary>
         /// Send email.
@@ -26,7 +26,7 @@ namespace EmailSkill
         /// <param name="subject">Email subject.</param>
         /// <param name="recipients">The recipients.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        Task SendMessage(string content, string subject, List<Recipient> recipients);
+        Task SendMessageAsync(string content, string subject, List<Recipient> recipients);
 
         /// <summary>
         /// Reply email.
@@ -34,7 +34,7 @@ namespace EmailSkill
         /// <param name="id">The message id which need to be reply.</param>
         /// <param name="content">The additional text when reply.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        Task<List<Message>> ReplyToMessage(string id, string content);
+        Task<List<Message>> ReplyToMessageAsync(string id, string content);
 
         /// <summary>
         /// Get messages.
@@ -47,7 +47,7 @@ namespace EmailSkill
         /// <param name="mailAddress">Message coming from address.</param>
         /// <param name="skip">Skip message count.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        Task<List<Message>> GetMyMessages(DateTime startDateTime, DateTime endDateTime, bool isRead, bool isImportant, bool directlyToMe, string mailAddress, int skip);
+        Task<List<Message>> GetMyMessagesAsync(DateTime startDateTime, DateTime endDateTime, bool isRead, bool isImportant, bool directlyToMe, string mailAddress, int skip);
 
         /// <summary>
         /// Forward email.
@@ -56,6 +56,6 @@ namespace EmailSkill
         /// <param name="content">The additional text when forward.</param>
         /// <param name="recipients">The recipients.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        Task DeleteMessage(string id);
+        Task DeleteMessageAsync(string id);
     }
 }

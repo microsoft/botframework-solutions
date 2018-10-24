@@ -15,7 +15,7 @@ namespace EmailSkill
     public class SendEmailDialog : EmailSkillDialog
     {
         public SendEmailDialog(
-            SkillConfiguration services,
+            ISkillConfiguration services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IMailSkillServiceManager serviceManager)
@@ -109,7 +109,7 @@ namespace EmailSkill
                     var service = _serviceManager.InitMailService(token, state.GetUserTimeZone());
 
                     // send user message.
-                    await service.SendMessage(state.Content, state.Subject, state.Recipients);
+                    await service.SendMessageAsync(state.Content, state.Subject, state.Recipients);
 
                     var nameListString = $"To: {state.Recipients.FirstOrDefault()?.EmailAddress.Name}";
                     if (state.Recipients.Count > 1)

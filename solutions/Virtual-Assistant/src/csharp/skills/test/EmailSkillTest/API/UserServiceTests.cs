@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
+using EmailSkill;
+using EmailSkillTest.API.Fakes;
+using Microsoft.Graph;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EmailSkillTest.API
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using EmailSkill;
-    using EmailSkillTest.API.Fakes;
-    using Microsoft.Graph;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     [TestClass]
     public class UserServiceTests
     {
