@@ -1,34 +1,37 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿  
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using Microsoft.Bot.Solutions.Dialogs;
+using Newtonsoft.Json;
+
 namespace Microsoft.Bot.Solutions.Resources
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
-    using System.Runtime.CompilerServices;
-    using Microsoft.Bot.Solutions.Dialogs;
-    using Newtonsoft.Json;
-
+    /// <summary>
+    /// Contains bot responses.
+    /// </summary>
     public static class CommonResponses
     {
         private const string _jsonFileName = "CommonResponses.*.json";
 
         private static Dictionary<string, Dictionary<string, BotResponse>> _jsonResponses;
 
-        // Generated code:
-        // This code runs in the text json:
+        // Generated code:  
         public static BotResponse ConfirmUserInfo => GetBotResponse();
-
+          
         public static BotResponse ConfirmSaveInfoFailed => GetBotResponse();
-
+          
         public static BotResponse ErrorMessage => GetBotResponse();
-
+          
         public static BotResponse SkillAuthenticationTitle => GetBotResponse();
-
+          
         public static BotResponse SkillAuthenticationPrompt => GetBotResponse();
-
+                
         private static Dictionary<string, Dictionary<string, BotResponse>> JsonResponses
         {
             get
@@ -40,7 +43,7 @@ namespace Microsoft.Bot.Solutions.Resources
 
                 _jsonResponses = new Dictionary<string, Dictionary<string, BotResponse>>();
                 var dir = Path.GetDirectoryName(typeof(CommonResponses).Assembly.Location);
-                var resDir = Path.Combine(dir, "Resources");
+                var resDir = Path.Combine(dir, @"Resources");
 
                 var jsonFiles = Directory.GetFiles(resDir, _jsonFileName);
                 foreach (var file in jsonFiles)
@@ -91,8 +94,8 @@ namespace Microsoft.Bot.Solutions.Resources
             {
                 if (JsonResponses.ContainsKey(locale))
                 {
-                    return JsonResponses[locale].ContainsKey(propertyName) ?
-                        JsonResponses[locale].Keys.FirstOrDefault(k => string.Compare(k, propertyName, StringComparison.CurrentCultureIgnoreCase) == 0) :
+                    return JsonResponses[locale].ContainsKey(propertyName) ? 
+                        JsonResponses[locale].Keys.FirstOrDefault(k => string.Compare(k, propertyName, StringComparison.CurrentCultureIgnoreCase) == 0) : 
                         null;
                 }
 

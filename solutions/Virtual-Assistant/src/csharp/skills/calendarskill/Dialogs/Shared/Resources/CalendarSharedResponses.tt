@@ -1,15 +1,17 @@
 ﻿<#@ assembly name="Newtonsoft.Json.dll" #>
-<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ template debug="false" hostspecific="true" language="C#" #>  
 <#@ output extension=".cs" #>
 <#
   var className = System.IO.Path.GetFileNameWithoutExtension(Host.TemplateFile);
   var namespaceName = System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("NamespaceHint");;
   string myFile = System.IO.File.ReadAllText(this.Host.ResolvePath(className + ".en.json"));
   var json = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.Dictionary<string, dynamic>>(myFile);
+  var resourcePath = System.IO.Path.GetDirectoryName(Host.TemplateFile);
+  var projectPath = Host.ResolveAssemblyReference("$(ProjectDir)");
+  var relativeResourcePath = resourcePath.Substring(projectPath.Length);
 #>
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -22,21 +24,20 @@ using Newtonsoft.Json;
 namespace <#= namespaceName #>
 {
     /// <summary>
-    /// Calendar bot responses class.
+    /// Contains bot responses.
     /// </summary>
     public static class <#= className #>
     {
-        private const string JsonFileName = "<#=className#>.*.json";
-        private static Exception resourceLoadingException;
+        private const string _jsonFileName = "<#=className#>.*.json";
 
         private static Dictionary<string, Dictionary<string, BotResponse>> _jsonResponses;
 
-        // Generated code:
-        // This code runs in the text json:
-<# foreach (var propertyName in json)  { #>
+        // Generated code:<#
+        // This code runs in the text json:  
+        foreach (var propertyName in json)  { #>  
         public static BotResponse <#= propertyName.Key.Substring(0, 1).ToUpperInvariant() + propertyName.Key.Substring(1) #> => GetBotResponse();
-
-<# } #>
+        <# } #>
+        
         private static Dictionary<string, Dictionary<string, BotResponse>> JsonResponses
         {
             get
@@ -48,47 +49,24 @@ namespace <#= namespaceName #>
 
                 _jsonResponses = new Dictionary<string, Dictionary<string, BotResponse>>();
                 var dir = Path.GetDirectoryName(typeof(<#= className #>).Assembly.Location);
-                var resDir = Path.Combine(dir, "Dialogs\\Shared\\Resources");
+                var resDir = Path.Combine(dir, @"<#=relativeResourcePath#>");
 
-                var jsonFiles = Directory.GetFiles(resDir, JsonFileName);
+                var jsonFiles = Directory.GetFiles(resDir, _jsonFileName);
                 foreach (var file in jsonFiles)
                 {
-                    try
-                    {
-                        var jsonData = File.ReadAllText(file);
-                        var responses = JsonConvert.DeserializeObject<Dictionary<string, BotResponse>>(jsonData);
-                        var key = new FileInfo(file).Name.Split(".")[1].ToLower();
+                    var jsonData = File.ReadAllText(file);
+                    var jsonResponses = JsonConvert.DeserializeObject<Dictionary<string, BotResponse>>(jsonData);
+                    var key = new FileInfo(file).Name.Split(".")[1].ToLower();
 
-                        _jsonResponses.Add(key, responses);
-                    }
-                    catch (JsonReaderException ex)
-                    {
-                        _jsonResponses = null;
-                        resourceLoadingException = new Exception($"Deserialization exception when deserializing response resource file {file}: {ex.Message}");
-                        break;
-                    }
-                    catch (Exception ex)
-                    {
-                        _jsonResponses = null;
-                        resourceLoadingException = ex;
-                        break;
-                    }
+                    _jsonResponses.Add(key, jsonResponses);
                 }
 
-                resourceLoadingException = null;
                 return _jsonResponses;
             }
         }
 
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {
-            // warm up the JsonResponses loading to see if it actually exist. If not, throw with the loading time exception that's actually helpful
-            var jsonResponses = JsonResponses;
-            if (jsonResponses == null && resourceLoadingException != null)
-            {
-                throw resourceLoadingException;
-            }
-
             var locale = CultureInfo.CurrentUICulture.Name;
             var theK = GetJsonResponseKeyForLocale(locale, propertyName);
 
@@ -112,14 +90,21 @@ namespace <#= namespaceName #>
 
         private static string GetJsonResponseKeyForLocale(string locale, string propertyName)
         {
-            if (JsonResponses.ContainsKey(locale))
+            try
             {
-                return JsonResponses[locale].ContainsKey(propertyName) ?
-                    JsonResponses[locale].Keys.FirstOrDefault(k => string.Compare(k, propertyName, StringComparison.CurrentCultureIgnoreCase) == 0) :
-                    null;
-            }
+                if (JsonResponses.ContainsKey(locale))
+                {
+                    return JsonResponses[locale].ContainsKey(propertyName) ? 
+                        JsonResponses[locale].Keys.FirstOrDefault(k => string.Compare(k, propertyName, StringComparison.CurrentCultureIgnoreCase) == 0) : 
+                        null;
+                }
 
-            return null;
+                return null;
+            }
+            catch (KeyNotFoundException)
+            {
+                return null;
+            }
         }
     }
 }

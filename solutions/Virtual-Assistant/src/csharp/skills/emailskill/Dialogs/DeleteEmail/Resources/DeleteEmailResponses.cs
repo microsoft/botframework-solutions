@@ -1,6 +1,6 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿  
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -13,46 +13,45 @@ using Newtonsoft.Json;
 namespace EmailSkill.Dialogs.DeleteEmail.Resources
 {
     /// <summary>
-    /// Calendar bot responses class.
+    /// Contains bot responses.
     /// </summary>
     public static class DeleteEmailResponses
     {
-        private const string JsonFileName = "DeleteEmailResponses.*.json";
+        private const string _jsonFileName = "DeleteEmailResponses.*.json";
 
-        private static Dictionary<string, Dictionary<string, BotResponse>> jsonResponses;
+        private static Dictionary<string, Dictionary<string, BotResponse>> _jsonResponses;
 
-        // Generated code:
-        // This code runs in the text json:
+        // Generated code:  
         public static BotResponse DeletePrompt => GetBotResponse();
-
+          
         public static BotResponse DeleteConfirm => GetBotResponse();
-
+          
         public static BotResponse DeleteSuccessfully => GetBotResponse();
-
+                
         private static Dictionary<string, Dictionary<string, BotResponse>> JsonResponses
         {
             get
             {
-                if (jsonResponses != null)
+                if (_jsonResponses != null)
                 {
-                    return jsonResponses;
+                    return _jsonResponses;
                 }
 
-                jsonResponses = new Dictionary<string, Dictionary<string, BotResponse>>();
+                _jsonResponses = new Dictionary<string, Dictionary<string, BotResponse>>();
                 var dir = Path.GetDirectoryName(typeof(DeleteEmailResponses).Assembly.Location);
-                var resDir = Path.Combine(dir, "Dialogs\\DeleteEmail\\Resources");
+                var resDir = Path.Combine(dir, @"Dialogs\DeleteEmail\Resources");
 
-                var jsonFiles = Directory.GetFiles(resDir, JsonFileName);
+                var jsonFiles = Directory.GetFiles(resDir, _jsonFileName);
                 foreach (var file in jsonFiles)
                 {
                     var jsonData = File.ReadAllText(file);
-                    var responses = JsonConvert.DeserializeObject<Dictionary<string, BotResponse>>(jsonData);
+                    var jsonResponses = JsonConvert.DeserializeObject<Dictionary<string, BotResponse>>(jsonData);
                     var key = new FileInfo(file).Name.Split(".")[1].ToLower();
 
-                    jsonResponses.Add(key, responses);
+                    _jsonResponses.Add(key, jsonResponses);
                 }
 
-                return jsonResponses;
+                return _jsonResponses;
             }
         }
 
@@ -85,8 +84,8 @@ namespace EmailSkill.Dialogs.DeleteEmail.Resources
             {
                 if (JsonResponses.ContainsKey(locale))
                 {
-                    return JsonResponses[locale].ContainsKey(propertyName) ?
-                        JsonResponses[locale].Keys.FirstOrDefault(k => string.Compare(k, propertyName, StringComparison.CurrentCultureIgnoreCase) == 0) :
+                    return JsonResponses[locale].ContainsKey(propertyName) ? 
+                        JsonResponses[locale].Keys.FirstOrDefault(k => string.Compare(k, propertyName, StringComparison.CurrentCultureIgnoreCase) == 0) : 
                         null;
                 }
 

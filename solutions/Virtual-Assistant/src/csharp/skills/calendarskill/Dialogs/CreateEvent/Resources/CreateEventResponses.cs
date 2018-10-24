@@ -1,6 +1,6 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿  
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -13,74 +13,73 @@ using Newtonsoft.Json;
 namespace CalendarSkill.Dialogs.CreateEvent.Resources
 {
     /// <summary>
-    /// Calendar bot responses class.
+    /// Contains bot responses.
     /// </summary>
     public static class CreateEventResponses
     {
-        private const string JsonFileName = "CreateEventResponses.*.json";
+        private const string _jsonFileName = "CreateEventResponses.*.json";
 
-        private static Dictionary<string, Dictionary<string, BotResponse>> jsonResponses;
+        private static Dictionary<string, Dictionary<string, BotResponse>> _jsonResponses;
 
-        // Generated code:
-        // This code runs in the text json:
+        // Generated code:  
         public static BotResponse NoTitle => GetBotResponse();
-
+          
         public static BotResponse NoContent => GetBotResponse();
-
+          
         public static BotResponse NoLocation => GetBotResponse();
-
+          
         public static BotResponse ConfirmCreate => GetBotResponse();
-
+          
         public static BotResponse ConfirmCreateFailed => GetBotResponse();
-
+          
         public static BotResponse EventCreated => GetBotResponse();
-
+          
         public static BotResponse EventCreationFailed => GetBotResponse();
-
+          
         public static BotResponse NoAttendeesMS => GetBotResponse();
-
+          
         public static BotResponse WrongAddress => GetBotResponse();
-
+          
         public static BotResponse NoAttendees => GetBotResponse();
-
+          
         public static BotResponse PromptTooManyPeople => GetBotResponse();
-
+          
         public static BotResponse PromptPersonNotFound => GetBotResponse();
-
+          
         public static BotResponse NoStartDate => GetBotResponse();
-
+          
         public static BotResponse NoStartTime => GetBotResponse();
-
+          
         public static BotResponse NoDuration => GetBotResponse();
-
+          
         public static BotResponse FindUserErrorMessage => GetBotResponse();
-
+          
         public static BotResponse ConfirmRecipient => GetBotResponse();
-
+                
         private static Dictionary<string, Dictionary<string, BotResponse>> JsonResponses
         {
             get
             {
-                if (jsonResponses != null)
+                if (_jsonResponses != null)
                 {
-                    return jsonResponses;
+                    return _jsonResponses;
                 }
 
-                jsonResponses = new Dictionary<string, Dictionary<string, BotResponse>>();
+                _jsonResponses = new Dictionary<string, Dictionary<string, BotResponse>>();
                 var dir = Path.GetDirectoryName(typeof(CreateEventResponses).Assembly.Location);
-                var resDir = Path.Combine(dir, "Dialogs\\CreateEvent\\Resources");
+                var resDir = Path.Combine(dir, @"Dialogs\CreateEvent\Resources");
 
-                var jsonFiles = Directory.GetFiles(resDir, JsonFileName);
+                var jsonFiles = Directory.GetFiles(resDir, _jsonFileName);
                 foreach (var file in jsonFiles)
                 {
                     var jsonData = File.ReadAllText(file);
-                    var responses = JsonConvert.DeserializeObject<Dictionary<string, BotResponse>>(jsonData);
+                    var jsonResponses = JsonConvert.DeserializeObject<Dictionary<string, BotResponse>>(jsonData);
                     var key = new FileInfo(file).Name.Split(".")[1].ToLower();
 
-                    jsonResponses.Add(key, responses);
+                    _jsonResponses.Add(key, jsonResponses);
                 }
 
-                return jsonResponses;
+                return _jsonResponses;
             }
         }
 
@@ -113,8 +112,8 @@ namespace CalendarSkill.Dialogs.CreateEvent.Resources
             {
                 if (JsonResponses.ContainsKey(locale))
                 {
-                    return JsonResponses[locale].ContainsKey(propertyName) ?
-                        JsonResponses[locale].Keys.FirstOrDefault(k => string.Compare(k, propertyName, StringComparison.CurrentCultureIgnoreCase) == 0) :
+                    return JsonResponses[locale].ContainsKey(propertyName) ? 
+                        JsonResponses[locale].Keys.FirstOrDefault(k => string.Compare(k, propertyName, StringComparison.CurrentCultureIgnoreCase) == 0) : 
                         null;
                 }
 
