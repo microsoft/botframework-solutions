@@ -12,9 +12,7 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "botFilePath": ".\\GGVADev.bot",
-        "botFileSecret": "1LkIrcs1IAwpyIYlkheVhezaF1JB0J54Pzh/M3hnbVc="
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "VirtualAssistant": {
