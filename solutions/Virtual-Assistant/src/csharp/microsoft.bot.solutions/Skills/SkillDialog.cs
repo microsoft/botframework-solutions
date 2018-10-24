@@ -113,6 +113,10 @@ namespace Microsoft.Bot.Solutions.Skills
                     activity.Name = Events.TokenResponseEventName;
                     activity.Value = result.Result;
                 }
+                else
+                {
+                    return result;
+                }
             }
 
             return await ForwardToSkill(dc, activity);
