@@ -82,7 +82,40 @@ namespace Microsoft.Bot.Solutions.Skills
 
         public override async Task<DialogTurnResult> ContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await ForwardToSkill(dc, dc.Context.Activity);
+            var activity = dc.Context.Activity;
+            var innerDc = await _dialogs.CreateContextAsync(dc.Context);
+
+            // Add the oauth prompt to _dialogs if it is missing
+            var dialog = _dialogs.Find(nameof(OAuthPrompt));
+            if (dialog == null)
+            {
+                var skillDefinition = dc.ActiveDialog.State[ActiveSkillStateKey] as SkillDefinition;
+                var skillConfiguration = _skills[skillDefinition.Id];
+
+                _dialogs.Add(new OAuthPrompt(nameof(OAuthPrompt), new OAuthPromptSettings()
+                {
+                    ConnectionName = skillConfiguration.AuthConnectionName,
+                    Title = CommonResponses.SkillAuthenticationTitle.Reply.Text,
+                    Text = CommonResponses.SkillAuthenticationPrompt.Reply.Text,
+                }));
+            }
+
+            // Check if we're in the oauth prompt
+            if (innerDc.ActiveDialog != null)
+            {
+                // Handle magic code auth
+                var result = await innerDc.ContinueDialogAsync();
+
+                // forward the token response to the skill
+                if (result.Status == DialogTurnStatus.Complete && result.Result is TokenResponse)
+                {
+                    activity.Type = ActivityTypes.Event;
+                    activity.Name = Events.TokenResponseEventName;
+                    activity.Value = result.Result;
+                }
+            }
+
+            return await ForwardToSkill(dc, activity);
         }
 
         private async Task InitializeSkill(DialogContext dc)
