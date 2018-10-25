@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "test", "{546AC410-5
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestFramework", "skills\tests\testframework\TestFramework.csproj", "{1B4F6C4B-C813-476D-84C5-D9FD51678065}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailSkillTest", "skills\tests\email\EmailSkillTest.csproj", "{699BA894-1429-4DB8-ABF6-826E3F143F49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailSkillTest", "skills\tests\emailskilltest\EmailSkillTest.csproj", "{699BA894-1429-4DB8-ABF6-826E3F143F49}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
