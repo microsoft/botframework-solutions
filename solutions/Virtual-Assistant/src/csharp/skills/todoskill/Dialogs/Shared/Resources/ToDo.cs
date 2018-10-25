@@ -37,7 +37,7 @@ namespace Luis
             public string[] ContainsAll;
             public string[] ListType;
             public string[] ShopVerb;
-            public string[] Food;
+            public string[] FoodOfGrocery;
             public string[] ShopContent;
 
             // Built-in entities
@@ -54,7 +54,7 @@ namespace Luis
                 public InstanceData[] ordinal;
                 public InstanceData[] TaskContent;
                 public InstanceData[] ShopVerb;
-                public InstanceData[] Food;
+                public InstanceData[] FoodOfGrocery;
                 public InstanceData[] ShopContent;
             }
             [JsonProperty("$instance")]

@@ -170,12 +170,20 @@ namespace ToDoSkill
             }
             else if (topIntent == ToDo.Intent.AddToDo)
             {
+                state.TaskContentPattern = null;
+                state.TaskContentML = null;
                 state.TaskContent = null;
+                state.FoodOfGrocery = null;
+                state.ShopContent = null;
+                state.HasShopVerb = false;
+                await DigestToDoLuisResult(sc, state.LuisResult);
             }
             else if (topIntent == ToDo.Intent.MarkToDo || topIntent == ToDo.Intent.DeleteToDo)
             {
                 state.TaskIndexes = new List<int>();
                 state.MarkOrDeleteAllTasksFlag = false;
+                state.TaskContentPattern = null;
+                state.TaskContentML = null;
                 state.TaskContent = null;
                 await DigestToDoLuisResult(sc, state.LuisResult);
             }
@@ -217,7 +225,8 @@ namespace ToDoSkill
         public async Task<DialogTurnResult> AskToDoTaskIndex(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await _accessor.GetAsync(sc.Context);
-            if (!string.IsNullOrEmpty(state.TaskContent)
+            if (!string.IsNullOrEmpty(state.TaskContentPattern)
+                || !string.IsNullOrEmpty(state.TaskContentML)
                 || state.MarkOrDeleteAllTasksFlag
                 || (state.TaskIndexes.Count == 1
                     && state.TaskIndexes[0] >= 0
@@ -235,7 +244,8 @@ namespace ToDoSkill
         public async Task<DialogTurnResult> AfterAskToDoTaskIndex(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await _accessor.GetAsync(sc.Context);
-            if (string.IsNullOrEmpty(state.TaskContent)
+            if (string.IsNullOrEmpty(state.TaskContentPattern)
+                && string.IsNullOrEmpty(state.TaskContentML)
                 && !state.MarkOrDeleteAllTasksFlag
                 && (state.TaskIndexes.Count == 0
                     || state.TaskIndexes[0] < 0
@@ -245,7 +255,8 @@ namespace ToDoSkill
             }
 
             var matchedIndexes = Enumerable.Range(0, state.AllTasks.Count)
-                .Where(i => state.AllTasks[i].Topic.Equals(state.TaskContent, StringComparison.OrdinalIgnoreCase))
+                .Where(i => state.AllTasks[i].Topic.Equals(state.TaskContentPattern, StringComparison.OrdinalIgnoreCase)
+                || state.AllTasks[i].Topic.Equals(state.TaskContentML, StringComparison.OrdinalIgnoreCase))
                 .ToList();
 
             if (matchedIndexes?.Count > 0)
@@ -281,7 +292,8 @@ namespace ToDoSkill
             }
             else
             {
-                state.TaskContent = null;
+                state.TaskContentPattern = null;
+                state.TaskContentML = null;
                 return await sc.BeginDialogAsync(Action.CollectToDoTaskIndex);
             }
         }
@@ -294,7 +306,9 @@ namespace ToDoSkill
         public async Task<DialogTurnResult> AskToDoTaskContent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await this._accessor.GetAsync(sc.Context);
-            if (!string.IsNullOrEmpty(state.TaskContent))
+            if (!string.IsNullOrEmpty(state.TaskContentPattern)
+                || !string.IsNullOrEmpty(state.TaskContentML)
+                || !string.IsNullOrEmpty(state.ShopContent))
             {
                 return await sc.NextAsync();
             }
@@ -310,7 +324,9 @@ namespace ToDoSkill
             try
             {
                 var state = await _accessor.GetAsync(sc.Context);
-                if (string.IsNullOrEmpty(state.TaskContent))
+                if (string.IsNullOrEmpty(state.TaskContentPattern)
+                    && string.IsNullOrEmpty(state.TaskContentML)
+                    && string.IsNullOrEmpty(state.ShopContent))
                 {
                     if (sc.Result != null)
                     {
@@ -325,6 +341,7 @@ namespace ToDoSkill
                 }
                 else
                 {
+                    await this.ExtractListTypeAndTaskContentAsync(sc);
                     return await sc.EndDialogAsync(true);
                 }
             }
@@ -443,6 +460,25 @@ namespace ToDoSkill
                     {
                         state.ListType = ListType.ToDo.ToString();
                     }
+                }
+                else
+                {
+                    state.ListType = ListType.ToDo.ToString();
+                }
+
+                if (entities.FoodOfGrocery != null)
+                {
+                    state.FoodOfGrocery = entities.FoodOfGrocery[0];
+                }
+
+                if (entities.ShopVerb != null)
+                {
+                    state.HasShopVerb = true;
+                }
+
+                if (entities.ShopContent != null)
+                {
+                    state.ShopContent = entities.ShopContent[0];
                 }
 
                 if (dc.Context.Activity.Text != null)
@@ -611,6 +647,28 @@ namespace ToDoSkill
             var state = await _accessor.GetAsync(sc.Context);
             state.Clear();
             await sc.CancelAllDialogsAsync();
+        }
+
+        private async Task ExtractListTypeAndTaskContentAsync(WaterfallStepContext sc)
+        {
+            var state = await _accessor.GetAsync(sc.Context).ConfigureAwait(false);
+            if (state.ListType == ListType.Grocery.ToString()
+                || (state.HasShopVerb && !string.IsNullOrEmpty(state.FoodOfGrocery)))
+            {
+                state.ListType = ListType.Grocery.ToString();
+                state.TaskContent = string.IsNullOrEmpty(state.ShopContent) ? state.TaskContentML ?? state.TaskContentPattern : state.ShopContent;
+            }
+            else if (state.ListType == ListType.Shopping.ToString()
+                || (state.HasShopVerb && !string.IsNullOrEmpty(state.ShopContent)))
+            {
+                state.ListType = ListType.Shopping.ToString();
+                state.TaskContent = string.IsNullOrEmpty(state.ShopContent) ? state.TaskContentML ?? state.TaskContentPattern : state.ShopContent;
+            }
+            else
+            {
+                state.ListType = ListType.ToDo.ToString();
+                state.TaskContent = state.TaskContentML ?? state.TaskContentPattern;
+            }
         }
     }
 }

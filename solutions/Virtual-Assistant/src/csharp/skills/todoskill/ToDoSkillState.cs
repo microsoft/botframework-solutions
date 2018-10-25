@@ -11,7 +11,6 @@ namespace ToDoSkill
         /// </summary>
         public ToDoSkillState()
         {
-            TaskContent = null;
             Task = new ToDoItem();
             Tasks = new List<ToDoItem>();
             TaskIndexes = new List<int>();
@@ -24,6 +23,12 @@ namespace ToDoSkill
             LuisResult = null;
             ConversationDialogState = null;
             ListType = null;
+            FoodOfGrocery = null;
+            HasShopVerb = false;
+            ShopContent = null;
+            TaskContentPattern = null;
+            TaskContentML = null;
+            TaskContent = null;
         }
 
         /// <summary>
@@ -41,14 +46,6 @@ namespace ToDoSkill
         /// Luis intent score threshold.
         /// </value>
         public double ScoreThreshold { get; } = 0.7;
-
-        /// <summary>
-        /// Gets or sets ToDoTaskContent.
-        /// </summary>
-        /// <value>
-        /// ToDoTaskContent.
-        /// </value>
-        public string TaskContent { get; set; }
 
         /// <summary>
         /// Gets or sets ToDoTaskActivity.
@@ -147,11 +144,58 @@ namespace ToDoSkill
         public string ListType { get; set; }
 
         /// <summary>
+        /// Gets or sets FoodOfGrocery.
+        /// </summary>
+        /// <value>
+        /// TaskType.
+        /// </value>
+        public string FoodOfGrocery { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether gets or sets HasShopVerb.
+        /// </summary>
+        /// <value>
+        /// TaskType.
+        /// </value>
+        public bool HasShopVerb { get; set; }
+
+        /// <summary>
+        /// Gets or sets ShopContent.
+        /// </summary>
+        /// <value>
+        /// TaskType.
+        /// </value>
+        public string ShopContent { get; set; }
+
+        /// <summary>
+        /// Gets or sets TaskContentPattern.
+        /// </summary>
+        /// <value>
+        /// ToDoTaskContent.
+        /// </value>
+        public string TaskContentPattern { get; set; }
+
+        /// <summary>
+        /// Gets or sets TaskContentML.
+        /// </summary>
+        /// <value>
+        /// ToDoTaskContent.
+        /// </value>
+        public string TaskContentML { get; set; }
+
+        /// <summary>
+        /// Gets or sets TaskContent.
+        /// </summary>
+        /// <value>
+        /// ToDoTaskContent.
+        /// </value>
+        public string TaskContent { get; set; }
+
+        /// <summary>
         /// Clear state.
         /// </summary>
         public void Clear()
         {
-            TaskContent = null;
             Task = new ToDoItem();
             Tasks = new List<ToDoItem>();
             TaskIndexes = new List<int>();
@@ -164,6 +208,12 @@ namespace ToDoSkill
             LuisResult = null;
             ConversationDialogState = null;
             ListType = null;
+            FoodOfGrocery = null;
+            HasShopVerb = false;
+            ShopContent = null;
+            TaskContentPattern = null;
+            TaskContentML = null;
+            TaskContent = null;
         }
     }
 }

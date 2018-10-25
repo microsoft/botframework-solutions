@@ -98,8 +98,8 @@
   "ShowToDoTasks": {
     "replies": [
       {
-        "text": "Sie haben {taskCount} Einträge auf Ihrer To Do Liste:",
-        "speak": "Sie haben {taskCount} Einträge auf Ihrer To Do Liste:"
+        "text": "Sie haben {taskCount} Einträge auf Ihrer Liste:",
+        "speak": "Sie haben {taskCount} Einträge auf Ihrer Liste:"
       }
     ],
     "inputHint": "expectingInput"
@@ -268,8 +268,8 @@
   "SettingUpOneNoteMessage": {
     "replies": [
       {
-        "text": "Ich richte Ihre One Note To Do Liste ein. Das geht schnell.",
-        "speak": "Ich richte Ihre One Note To Do Liste ein. Das geht schnell."
+        "text": "Ich richte Ihre One Note ein. Das geht schnell.",
+        "speak": "Ich richte Ihre One Note ein. Das geht schnell."
       }
     ],
     "inputHint": "acceptingInput"
@@ -286,8 +286,8 @@
   "NoTasksInList": {
     "replies": [
       {
-        "text": "Ihre To Do Liste ist leer.",
-        "speak": "Ihre To Do Liste ist leer."
+        "text": "Ihre Liste ist leer.",
+        "speak": "Ihre Liste ist leer."
       }
     ],
     "inputHint": "expectingInput"
