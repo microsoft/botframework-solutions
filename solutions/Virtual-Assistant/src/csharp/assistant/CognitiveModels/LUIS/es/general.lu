@@ -12,6 +12,7 @@ $PREBUILT:number
 - Hola
 - Cómo estás
 - Cómo te va
+- Oye
 
 # Help
 - Ayuda
@@ -37,10 +38,10 @@ $PREBUILT:number
 - me gustaría cancelar
 - Olvídalo
 - por favor, pare
+- Salida
 
 # Restart
 - puedo hacer eso de nuevo
-- Volver
 - Necesito cambiar algo
 - Reiniciar
 - empezar de
@@ -71,6 +72,8 @@ $PREBUILT:number
 - Por qué no
 - sí que es cierto
 - Sí
+- Sí
+- Adelante
 
 # ConfirmNo
 - de ninguna manera
@@ -83,6 +86,7 @@ $PREBUILT:number
 - De nada
 - La verdad es que no
 - ahora no gracias
+- No, gracias
 
 # ConfirmMore
 - Más
@@ -99,6 +103,42 @@ $PREBUILT:number
 - Próxima
 - siguiente elemento
 - Mostrar siguiente
+- ¿podría mostrar el siguiente
+- necesito ir al siguiente
+- ir a la siguiente, por favor
+- pasar al siguiente
+- Sigue
+- ir al siguiente
+- ir a la página siguiente
+- Avanzar
+- seguir adelante
+- avanzar en la siguiente
+- siguiente uno
+- siguiente por favor
+- Muéstrame la próxima
+- Muéstrame la siguiente
+- Mostrar el siguiente
+- Mostrar el siguiente
+- el siguiente correo electrónico
+
+# Previous
+- Volver
+- último uno
+- anterior uno
+- el último
+- viejo uno
+- Última
+- volver a The Last One
+- traer el anterior
+- llegar a la última
+- ir a anterior
+- ir a la última
+- retroceder
+- Anterior
+- mostrarme anterior
+- anterior por favor
+- el anterior
+- ¿Cuál es el anterior
 
 # Goodbye
 - Buenas noches

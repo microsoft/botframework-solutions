@@ -4,43 +4,20 @@
       "name": "AddToDo"
     },
     {
-      "name": "Cancel"
-    },
-    {
-      "name": "ConfirmNo"
-    },
-    {
-      "name": "ConfirmYes"
-    },
-    {
       "name": "DeleteToDo"
     },
     {
-      "name": "Greeting"
-    },
-    {
-      "name": "Help"
-    },
-    {
-      "name": "Logout"
-    },
-    {
       "name": "MarkToDo"
-    },
-    {
-      "name": "Next"
-    },
-    {
-      "name": "None"
-    },
-    {
-      "name": "Previous"
     },
     {
       "name": "ShowToDo"
     }
   ],
   "entities": [
+    {
+      "name": "TaskType",
+      "roles": []
+    },
     {
       "name": "ContainsAll",
       "roles": []
@@ -49,210 +26,269 @@
   "composites": [],
   "closedLists": [],
   "regex_entities": [],
-  "model_features": [
-    {
-      "name": "Near",
-      "words": "附近, 周围, 附近, 附近",
-      "mode": false,
-      "activated": true
-    },
-    {
-      "name": "Show",
-      "words": "显示、查找、查找、搜索",
-      "mode": false,
-      "activated": true
-    }
-  ],
+  "model_features": [],
   "regex_features": [],
   "utterances": [
     {
-      "text": "添加新任务",
+      "text": "添加一个 杂货店 项目",
       "intent": "AddToDo",
-      "entities": []
-    },
-    {
-      "text": "添加要执行的项",
-      "intent": "AddToDo",
-      "entities": []
-    },
-    {
-      "text": "添加 a 为我做",
-      "intent": "AddToDo",
-      "entities": []
-    },
-    {
-      "text": "添加到执行项",
-      "intent": "AddToDo",
-      "entities": []
-    },
-    {
-      "text": "添加到所有",
-      "intent": "AddToDo",
-      "entities": []
-    },
-    {
-      "text": "为我添加一个 todo",
-      "intent": "AddToDo",
-      "entities": []
-    },
-    {
-      "text": "添加其他任务",
-      "intent": "AddToDo",
-      "entities": []
-    },
-    {
-      "text": "添加另一个要做的事",
-      "intent": "AddToDo",
-      "entities": []
-    },
-    {
-      "text": "另一项任务",
-      "intent": "AddToDo",
-      "entities": []
-    },
-    {
-      "text": "另一个做",
-      "intent": "AddToDo",
-      "entities": []
-    },
-    {
-      "text": "你能为我添加一个 todo 吗？",
-      "intent": "AddToDo",
-      "entities": []
-    },
-    {
-      "text": "创建要执行的新项",
-      "intent": "AddToDo",
-      "entities": []
-    },
-    {
-      "text": "我只是想做一件事",
-      "intent": "AddToDo",
-      "entities": []
-    },
-    {
-      "text": "只是想到一个新的 todo",
-      "intent": "AddToDo",
-      "entities": []
-    },
-    {
-      "text": "请添加 todo 项",
-      "intent": "AddToDo",
-      "entities": []
-    },
-    {
-      "text": "保存到所有",
-      "intent": "AddToDo",
-      "entities": []
-    },
-    {
-      "text": "取消",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "取消 bot",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "取消技能",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "退出",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "退出技能",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "退出 bot",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "不",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "不，谢谢",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "不, 不要这样做",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "不",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "不完全是",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "不是那样",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "答案是肯定的",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "当然是的",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "确定",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "是的",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "是的, 请",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "是的, 请",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "你能删除第三个吗？",
-      "intent": "DeleteToDo",
-      "entities": []
-    },
-    {
-      "text": "是否可以帮助删除所有任务",
-      "intent": "DeleteToDo",
       "entities": [
         {
-          "entity": "ContainsAll",
+          "entity": "TaskType",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "添加新 任务",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 4,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "添加一个 任务 买牛奶",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 5,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "添加一个 要做",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 5,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "添加一个 要做 给我的",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 5,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "添加一个 要做 项目",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 5,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "添加一个 所有",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 5,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "添加一个 所有 给我的",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 5,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "添加一个 要做的事 给我的",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 5,
+          "endPos": 8
+        }
+      ]
+    },
+    {
+      "text": "添加另一个 任务",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 6,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "添加另一个 要做",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 6,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "添加牛奶到我的 杂货店 列表",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 8,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "把鞋子加到我的 购物 列表",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
           "startPos": 8,
           "endPos": 9
         }
       ]
     },
     {
-      "text": "删除要执行的项",
+      "text": "另一个 任务",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 4,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "另一个 要做",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 4,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "可以添加一个 购物 我的物品？",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 7,
+          "endPos": 8
+        }
+      ]
+    },
+    {
+      "text": "可以添加一个 所有 给我的",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 7,
+          "endPos": 8
+        }
+      ]
+    },
+    {
+      "text": "创建新 要做",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 4,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "我只是想到了一个 要做",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 9,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "刚想到一个新的 所有",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 8,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "请添加一个 所有 项目",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 6,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "保存一个 所有",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 5,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "你能删掉第三个吗？",
+      "intent": "DeleteToDo",
+      "entities": []
+    },
+    {
+      "text": "你能帮助删除 所有 任务",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 7,
+          "endPos": 8
+        }
+      ]
+    },
+    {
+      "text": "删除要执行的操作",
       "intent": "DeleteToDo",
       "entities": []
     },
@@ -262,35 +298,35 @@
       "entities": []
     },
     {
-      "text": "全部删除",
+      "text": "删除 所有",
       "intent": "DeleteToDo",
       "entities": [
         {
           "entity": "ContainsAll",
-          "startPos": 0,
-          "endPos": 1
+          "startPos": 3,
+          "endPos": 4
         }
       ]
     },
     {
-      "text": "删除所有任务",
+      "text": "删除 所有 任务",
       "intent": "DeleteToDo",
       "entities": [
         {
           "entity": "ContainsAll",
-          "startPos": 2,
-          "endPos": 3
+          "startPos": 3,
+          "endPos": 4
         }
       ]
     },
     {
-      "text": "全部删除到 dos",
+      "text": "删除 所有 到 dos",
       "intent": "DeleteToDo",
       "entities": [
         {
           "entity": "ContainsAll",
-          "startPos": 0,
-          "endPos": 1
+          "startPos": 3,
+          "endPos": 4
         }
       ]
     },
@@ -310,35 +346,35 @@
       "entities": []
     },
     {
-      "text": "帮助删除所有 dos",
+      "text": "帮助删除 所有 到 dos",
       "intent": "DeleteToDo",
       "entities": [
         {
           "entity": "ContainsAll",
-          "startPos": 4,
-          "endPos": 5
+          "startPos": 5,
+          "endPos": 6
         }
       ]
     },
     {
-      "text": "我想删除所有我做的",
+      "text": "我要删除 所有 我做的",
       "intent": "DeleteToDo",
       "entities": [
         {
           "entity": "ContainsAll",
-          "startPos": 4,
-          "endPos": 5
+          "startPos": 5,
+          "endPos": 6
         }
       ]
     },
     {
-      "text": "我想删除所有的 dos",
+      "text": "我要删除 所有 到 dos",
       "intent": "DeleteToDo",
       "entities": [
         {
           "entity": "ContainsAll",
-          "startPos": 4,
-          "endPos": 5
+          "startPos": 5,
+          "endPos": 6
         }
       ]
     },
@@ -348,13 +384,13 @@
       "entities": []
     },
     {
-      "text": "我想删除所有我的 dos",
+      "text": "我想删除 所有 我的 dos",
       "intent": "DeleteToDo",
       "entities": [
         {
           "entity": "ContainsAll",
-          "startPos": 4,
-          "endPos": 5
+          "startPos": 5,
+          "endPos": 6
         }
       ]
     },
@@ -364,7 +400,7 @@
       "entities": []
     },
     {
-      "text": "请帮助删除我所有的 dos",
+      "text": "请帮助删除 所有 我的 dos",
       "intent": "DeleteToDo",
       "entities": [
         {
@@ -375,7 +411,7 @@
       ]
     },
     {
-      "text": "请删除 a 做",
+      "text": "请删除要执行的操作",
       "intent": "DeleteToDo",
       "entities": []
     },
@@ -385,7 +421,7 @@
       "entities": []
     },
     {
-      "text": "请删除 \"执行任务\"",
+      "text": "请删除任务",
       "intent": "DeleteToDo",
       "entities": []
     },
@@ -395,103 +431,48 @@
       "entities": []
     },
     {
-      "text": "删除所有",
+      "text": "删除 所有",
       "intent": "DeleteToDo",
       "entities": [
         {
           "entity": "ContainsAll",
-          "startPos": 2,
-          "endPos": 3
+          "startPos": 3,
+          "endPos": 4
         }
       ]
     },
     {
-      "text": "删除所有 taks",
+      "text": "删除 所有 狗",
       "intent": "DeleteToDo",
       "entities": [
         {
           "entity": "ContainsAll",
-          "startPos": 2,
-          "endPos": 3
+          "startPos": 3,
+          "endPos": 4
         }
       ]
     },
     {
-      "text": "删除所有任务",
+      "text": "删除 所有 任务",
       "intent": "DeleteToDo",
       "entities": [
         {
           "entity": "ContainsAll",
-          "startPos": 2,
-          "endPos": 3
+          "startPos": 3,
+          "endPos": 4
         }
       ]
     },
     {
-      "text": "全部删除至 dos",
+      "text": "删除 所有 到 dos",
       "intent": "DeleteToDo",
       "entities": [
         {
           "entity": "ContainsAll",
-          "startPos": 0,
-          "endPos": 1
+          "startPos": 3,
+          "endPos": 4
         }
       ]
-    },
-    {
-      "text": "你好",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "你好",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "有一个 bot",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "帮助",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "请帮助我",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "显示帮助",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "显示帮助说明",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "告诉我如何使用技巧",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "注销",
-      "intent": "Logout",
-      "entities": []
-    },
-    {
-      "text": "注销",
-      "intent": "Logout",
-      "entities": []
-    },
-    {
-      "text": "退出",
-      "intent": "Logout",
-      "entities": []
     },
     {
       "text": "你能帮我标记第二个吗？",
@@ -499,56 +480,7 @@
       "entities": []
     },
     {
-      "text": "全部完成",
-      "intent": "MarkToDo",
-      "entities": [
-        {
-          "entity": "ContainsAll",
-          "startPos": 0,
-          "endPos": 1
-        }
-      ]
-    },
-    {
-      "text": "完成所有任务",
-      "intent": "MarkToDo",
-      "entities": [
-        {
-          "entity": "ContainsAll",
-          "startPos": 2,
-          "endPos": 3
-        }
-      ]
-    },
-    {
-      "text": "全部完成至 dos",
-      "intent": "MarkToDo",
-      "entities": [
-        {
-          "entity": "ContainsAll",
-          "startPos": 0,
-          "endPos": 1
-        }
-      ]
-    },
-    {
-      "text": "我已经完成了第三个做",
-      "intent": "MarkToDo",
-      "entities": []
-    },
-    {
-      "text": "我想把我所有的 dos 标记为完整的",
-      "intent": "MarkToDo",
-      "entities": [
-        {
-          "entity": "ContainsAll",
-          "startPos": 4,
-          "endPos": 5
-        }
-      ]
-    },
-    {
-      "text": "我想把所有的全部标记为完整的",
+      "text": "完成 所有",
       "intent": "MarkToDo",
       "entities": [
         {
@@ -559,7 +491,34 @@
       ]
     },
     {
-      "text": "我想把它们全部标记为完整的。",
+      "text": "完成 所有 任务",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 3,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "完成 所有 到 dos",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 3,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "我已经完成了第三个做",
+      "intent": "MarkToDo",
+      "entities": []
+    },
+    {
+      "text": "我想马克 所有 我的 dos 为完整",
       "intent": "MarkToDo",
       "entities": [
         {
@@ -570,18 +529,40 @@
       ]
     },
     {
-      "text": "标记所有我的 dos 完成",
+      "text": "我想马克 所有 为完整",
       "intent": "MarkToDo",
       "entities": [
         {
           "entity": "ContainsAll",
-          "startPos": 2,
-          "endPos": 3
+          "startPos": 5,
+          "endPos": 6
         }
       ]
     },
     {
-      "text": "将第三个标记为 \"完成\"",
+      "text": "我想标记他们 所有 为完整",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 7,
+          "endPos": 8
+        }
+      ]
+    },
+    {
+      "text": "马克 所有 我的 dos 完成",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 3,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "将第三个标记为完整",
       "intent": "MarkToDo",
       "entities": []
     },
@@ -596,158 +577,278 @@
       "entities": []
     },
     {
-      "text": "你能显示下",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "你能在 dos 下显示吗？",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "更",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "更多任务",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "更多到 dos",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "下",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "下一个 todo 页",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "请显示下一页的 \"完成\" 列表",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "显示更多",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "显示更多任务",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "显示更多到 dos",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "显示下一页",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "所有",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "你能显示上",
-      "intent": "Previous",
-      "entities": []
-    },
-    {
-      "text": "你能给我看一下吗？",
-      "intent": "Previous",
-      "entities": []
-    },
-    {
-      "text": "上一页",
-      "intent": "Previous",
-      "entities": []
-    },
-    {
-      "text": "上一页",
-      "intent": "Previous",
-      "entities": []
-    },
-    {
-      "text": "显示上一页",
-      "intent": "Previous",
-      "entities": []
-    },
-    {
-      "text": "你能给我看下我的 dos 吗？",
+      "text": "你能告诉我 杂货店 列表？",
       "intent": "ShowToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 6,
+          "endPos": 8
+        }
+      ]
     },
     {
-      "text": "阅读我的 \"做\" 列表",
+      "text": "你能告诉我 购物 项目",
       "intent": "ShowToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 6,
+          "endPos": 7
+        }
+      ]
     },
     {
-      "text": "读出我的到 dos",
+      "text": "你能告诉我 购物 列表？",
       "intent": "ShowToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 6,
+          "endPos": 7
+        }
+      ]
     },
     {
-      "text": "读出我做的",
+      "text": "你能告诉我 到 dos ?",
       "intent": "ShowToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 6,
+          "endPos": 10
+        }
+      ]
     },
     {
-      "text": "显示我的 todo 项目",
+      "text": "读我 杂货店 列表",
       "intent": "ShowToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 3,
+          "endPos": 5
+        }
+      ]
     },
     {
-      "text": "显示我的 todo 列表",
+      "text": "读我 购物 列表",
       "intent": "ShowToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 3,
+          "endPos": 4
+        }
+      ]
     },
     {
-      "text": "显示我的托多斯",
+      "text": "读我 要做 列表",
       "intent": "ShowToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 3,
+          "endPos": 4
+        }
+      ]
     },
     {
-      "text": "显示 todo 项目",
+      "text": "读出我 杂货店 列表",
       "intent": "ShowToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 4,
+          "endPos": 6
+        }
+      ]
     },
     {
-      "text": "显示 todo 列表",
+      "text": "读出我 购物 列表",
       "intent": "ShowToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 4,
+          "endPos": 5
+        }
+      ]
     },
     {
-      "text": "我的 todo 列表怎么办？",
+      "text": "读出我 到 dos",
       "intent": "ShowToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 4,
+          "endPos": 8
+        }
+      ]
     },
     {
-      "text": "什么是我的 dos",
+      "text": "读出我 要做的",
       "intent": "ShowToDo",
-      "entities": []
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 4,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "显示我 购物 项目",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 4,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "显示我 所有 项目",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 4,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "显示我 所有 列表",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 4,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "显示我 所有",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 4,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "显示 所有 项目",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 3,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "显示 所有 列表",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 3,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "我的 杂货店 列表",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 3,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "我的 购物 列表？",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 3,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "我的 所有 列表",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 3,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "什么是我 杂货店 列表",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "什么是我 购物 列表",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 5,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "什么是我 到 dos",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "TaskType",
+          "startPos": 5,
+          "endPos": 9
+        }
+      ]
     }
   ],
   "patterns": [
     {
-      "pattern": "创建 {TaskContent} 的任务",
+      "pattern": "提醒我, {taskcontent}",
       "intent": "AddToDo"
     },
     {
-      "pattern": "创建任务到 {TaskContent}",
+      "pattern": "提醒我 {taskcontent}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "添加到 {TaskContent}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "创建任务, {TaskContent}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "创建任务以 {TaskContent}",
       "intent": "AddToDo"
     },
     {
@@ -755,7 +856,11 @@
       "intent": "AddToDo"
     },
     {
-      "pattern": "添加到执行任务到 {TaskContent}",
+      "pattern": "添加此操作 {TaskContent}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "创建以执行 {TaskContent}",
       "intent": "AddToDo"
     },
     {
@@ -763,39 +868,75 @@
       "intent": "AddToDo"
     },
     {
-      "pattern": "添加 {TaskContent} 的任务",
+      "pattern": "添加任务, {TaskContent}",
       "intent": "AddToDo"
     },
     {
-      "pattern": "将 {TaskContent} 添加到 \"我到 dos\"",
+      "pattern": "添加一项 {TaskContent}",
       "intent": "AddToDo"
     },
     {
-      "pattern": "创建任务到 {TaskContent}",
+      "pattern": "添加 {TaskContent} 到我的 dos",
       "intent": "AddToDo"
     },
     {
-      "pattern": "添加要执行的任务 {TaskContent}",
+      "pattern": "创建任务以 {TaskContent}",
       "intent": "AddToDo"
     },
     {
-      "pattern": "添加到执行任务 {TaskContent}",
+      "pattern": "添加 {TaskContent} 到我的杂货清单",
       "intent": "AddToDo"
     },
     {
-      "pattern": "将 {TaskContent} 添加到我的任务中",
+      "pattern": "创建此操作 {TaskContent}",
       "intent": "AddToDo"
     },
     {
-      "pattern": "将 {TaskContent} 添加到 \"我的要做\" 列表中",
+      "pattern": "添加 {TaskContent} 到我的任务",
       "intent": "AddToDo"
     },
     {
-      "pattern": "向 {TaskContent} 添加要执行的任务",
+      "pattern": "添加 {TaskContent} 到我要做的列表",
       "intent": "AddToDo"
     },
     {
-      "pattern": "创建 {TaskContent} 的任务",
+      "pattern": "添加 {TaskContent} 到我的购物清单",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "创建要执行的操作以 {TaskContent}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "创建一个这样做 {TaskContent}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "添加 {TaskContent} 到我的待办事项列表",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "创建一个任务, {TaskContent}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "添加一个 {TaskType} 项, {TaskContent}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "提醒我, {TaskContent}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "添加要执行的操作以 {TaskContent}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "添加 a 以执行该操作 {TaskContent}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "删除以执行该操作 {TaskContent}",
       "intent": "AddToDo"
     },
     {
@@ -803,19 +944,11 @@
       "intent": "AddToDo"
     },
     {
-      "pattern": "将 a 添加到 {TaskContent}",
-      "intent": "AddToDo"
-    },
-    {
-      "pattern": "添加要执行该 {TaskContent} 的",
-      "intent": "AddToDo"
-    },
-    {
-      "pattern": "删除 {TaskContent} 的任务",
+      "pattern": "删除任务 {TaskContent}",
       "intent": "DeleteToDo"
     },
     {
-      "pattern": "删除要执行的 {TaskContent}",
+      "pattern": "删除要执行的操作 {TaskContent}",
       "intent": "DeleteToDo"
     },
     {
@@ -823,27 +956,11 @@
       "intent": "DeleteToDo"
     },
     {
-      "pattern": "删除要执行的 {TaskContent}",
+      "pattern": "移除要执行的操作, {TaskContent}",
       "intent": "DeleteToDo"
     },
     {
-      "pattern": "删除以执行该 {TaskContent}",
-      "intent": "DeleteToDo"
-    },
-    {
-      "pattern": "删除任务 {TaskContent}",
-      "intent": "DeleteToDo"
-    },
-    {
-      "pattern": "删除 {TaskContent} 的任务",
-      "intent": "DeleteToDo"
-    },
-    {
-      "pattern": "删除要执行的 {TaskContent}",
-      "intent": "DeleteToDo"
-    },
-    {
-      "pattern": "删除要执行的 {TaskContent}",
+      "pattern": "移除以执行该操作 {TaskContent}",
       "intent": "DeleteToDo"
     },
     {
@@ -851,11 +968,15 @@
       "intent": "DeleteToDo"
     },
     {
-      "pattern": "删除 {TaskContent} 的任务",
+      "pattern": "删除任务 {TaskContent}",
       "intent": "DeleteToDo"
     },
     {
-      "pattern": "移除到执行 {TaskContent}",
+      "pattern": "删除要执行的操作, {TaskContent}",
+      "intent": "DeleteToDo"
+    },
+    {
+      "pattern": "删除要执行的操作 {TaskContent}",
       "intent": "DeleteToDo"
     },
     {
@@ -863,23 +984,27 @@
       "intent": "DeleteToDo"
     },
     {
-      "pattern": "删除到执行 {TaskContent}",
+      "pattern": "删除任务 {TaskContent}",
       "intent": "DeleteToDo"
     },
     {
-      "pattern": "完成任务 {TaskContent}",
-      "intent": "MarkToDo"
+      "pattern": "删除任务 {TaskContent}",
+      "intent": "DeleteToDo"
     },
     {
-      "pattern": "将任务 {TaskContent} 标记为已完成",
-      "intent": "MarkToDo"
+      "pattern": "删除以执行 {TaskContent}",
+      "intent": "DeleteToDo"
     },
     {
-      "pattern": "标记任务 {TaskContent}",
-      "intent": "MarkToDo"
+      "pattern": "删除任务 {TaskContent}",
+      "intent": "DeleteToDo"
     },
     {
-      "pattern": "标记 {TaskContent} 为已完成",
+      "pattern": "删除以执行 {TaskContent}",
+      "intent": "DeleteToDo"
+    },
+    {
+      "pattern": "标记任务 {TaskContent} 完工",
       "intent": "MarkToDo"
     },
     {
@@ -887,27 +1012,60 @@
       "intent": "MarkToDo"
     },
     {
-      "pattern": "标记 {TaskContent} 已完成",
+      "pattern": "马克 {TaskContent} 完工",
       "intent": "MarkToDo"
     },
     {
-      "pattern": "将任务 {TaskContent} 标记为已完成",
+      "pattern": "标记任务 {TaskContent} 为完整",
       "intent": "MarkToDo"
     },
     {
-      "pattern": "标记任务 {TaskContent}",
+      "pattern": "马克 {TaskContent} 完成后",
       "intent": "MarkToDo"
     },
     {
-      "pattern": "标记任务 {TaskContent} 已完成",
+      "pattern": "标记任务 {TaskContent} 完成后",
       "intent": "MarkToDo"
     },
     {
-      "pattern": "标记任务 {TaskContent} 已完成",
+      "pattern": "标记任务 {TaskContent} 完成后",
+      "intent": "MarkToDo"
+    },
+    {
+      "pattern": "标记任务 {TaskContent} 如完成",
+      "intent": "MarkToDo"
+    },
+    {
+      "pattern": "马克 {TaskContent} 为完整",
+      "intent": "MarkToDo"
+    },
+    {
+      "pattern": "马克 {TaskContent} 如完成",
+      "intent": "MarkToDo"
+    },
+    {
+      "pattern": "完成任务 {TaskContent}",
+      "intent": "MarkToDo"
+    },
+    {
+      "pattern": "标记任务 {TaskContent} 为完整",
+      "intent": "MarkToDo"
+    },
+    {
+      "pattern": "标记任务 {TaskContent} 如完成",
+      "intent": "MarkToDo"
+    },
+    {
+      "pattern": "标记任务 {TaskContent} 完工",
       "intent": "MarkToDo"
     }
   ],
   "patternAnyEntities": [
+    {
+      "name": "taskcontent",
+      "explicitList": [],
+      "roles": []
+    },
     {
       "name": "TaskContent",
       "explicitList": [],
@@ -922,7 +1080,7 @@
   ],
   "luis_schema_version": "3.0.0",
   "versionId": "0.1",
-  "name": "ToDo",
+  "name": "todo",
   "desc": "",
-  "culture": "zh-cn"
+  "culture": "en-us"
 }
