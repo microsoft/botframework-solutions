@@ -16,7 +16,7 @@ namespace EmailSkill
     public class ShowEmailDialog : EmailSkillDialog
     {
         public ShowEmailDialog(
-            SkillConfiguration services,
+            ISkillConfiguration services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IMailSkillServiceManager serviceManager)
