@@ -96,6 +96,7 @@ namespace CustomerSupportTemplate.Dialogs.Returns
             return await stepContext.PromptAsync(DialogIds.ZipCodePrompt, new PromptOptions
             {
                 Prompt = await _responder.RenderTemplate(stepContext.Context, stepContext.Context.Activity.Locale, ReturnResponses.ResponseIds.ZipCodePrompt),
+                RetryPrompt = await _responder.RenderTemplate(stepContext.Context, stepContext.Context.Activity.Locale, ReturnResponses.ResponseIds.ZipCodeReprompt)
             });
         }
 

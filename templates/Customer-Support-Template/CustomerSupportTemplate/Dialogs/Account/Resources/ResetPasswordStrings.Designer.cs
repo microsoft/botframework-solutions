@@ -79,7 +79,7 @@ namespace CustomerSupportTemplate.Dialogs.Account.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorry, that doesn&apos;t look like an email address. Please try again..
+        ///   Looks up a localized string similar to Sorry, I didn&apos;t understand that. Please enter a valid email address..
         /// </summary>
         public static string InvalidEmailMessage {
             get {

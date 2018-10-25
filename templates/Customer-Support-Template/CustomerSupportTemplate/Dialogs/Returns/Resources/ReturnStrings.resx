@@ -147,4 +147,7 @@
   <data name="ZipCodePrompt" xml:space="preserve">
     <value>What is your zip code?</value>
   </data>
+  <data name="ZipCodeReprompt" xml:space="preserve">
+    <value>Sorry, I didn't understand that. Please enter a valid 5 digit zip code.</value>
+  </data>
 </root>

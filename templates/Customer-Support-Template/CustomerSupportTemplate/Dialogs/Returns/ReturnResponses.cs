@@ -21,6 +21,7 @@ namespace CustomerSupportTemplate.Dialogs.Returns
                 { ResponseIds.ExchangePolicyCard, (context, data) => CreateAdaptiveCardResponse(context, data, @".\Dialogs\Returns\Resources\ExchangePolicy.json") },
                 { ResponseIds.ExchangeTypePrompt, (context, data) => ReturnStrings.ExchangeTypePrompt },
                 { ResponseIds.ZipCodePrompt, (context, data) => ReturnStrings.ZipCodePrompt },
+                { ResponseIds.ZipCodeReprompt, (context, data) => ReturnStrings.ZipCodeReprompt },
                 { ResponseIds.NearbyStores, (context, data) => CreateNearbyStoresResponse(context, data) },
                 { ResponseIds.ReturnPolicyCard, (context, data) => CreateAdaptiveCardResponse(context, data, @".\Dialogs\Returns\Resources\ReturnPolicy.json") },
                 { ResponseIds.StartReturnPrompt, (context, data) => ReturnStrings.StartReturnPrompt },
@@ -157,6 +158,7 @@ namespace CustomerSupportTemplate.Dialogs.Returns
             public const string ReturnPolicyCard = "returnPolicy";
             public const string ExchangeTypePrompt = "exchangeTypePrompt";
             public const string ZipCodePrompt = "zipCodePrompt";
+            public const string ZipCodeReprompt = "zipCodeReprompt";
             public const string StartReturnPrompt = "startReturnPrompt";
             public static string OrderNumberPrompt = "orderNumberPrompt";
             public static string PhoneNumberPrompt = "phoneNumberPrompt";

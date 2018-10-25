@@ -149,5 +149,14 @@ namespace CustomerSupportTemplate.Dialogs.Returns.Resources {
                 return ResourceManager.GetString("ZipCodePrompt", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorry, I didn&apos;t understand that. Please enter a valid 5 digit zip code..
+        /// </summary>
+        public static string ZipCodeReprompt {
+            get {
+                return ResourceManager.GetString("ZipCodeReprompt", resourceCulture);
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@
 using CustomerSupportTemplate.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -28,6 +29,14 @@ namespace CustomerSupportTemplate.Dialogs.Account
                 ShowSteps,
                 PromptToLogin,
                 PromptForUpdatedInfo,
+                CompleteDialog,
+            };
+
+            var getUserContactInfo = new WaterfallStep[]
+            {
+                PromptForName,
+                PromptForEmail,
+                PromptForPhone,
                 CompleteDialog,
             };
 
@@ -76,7 +85,23 @@ namespace CustomerSupportTemplate.Dialogs.Account
 
         private Task<bool> ContactInfoValidator(PromptValidatorContext<string> promptContext, CancellationToken cancellationToken)
         {
+            // start the waterfall dialog for updated info
             return Task.FromResult(true);
+        }
+
+        private Task<DialogTurnResult> PromptForName(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        private Task<DialogTurnResult> PromptForEmail(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        private Task<DialogTurnResult> PromptForPhone(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
 
         private class DialogIds
