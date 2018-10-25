@@ -11,7 +11,7 @@ namespace VirtualAssistant
 {
     public class CustomSkillDialog : ComponentDialog
     {
-        public CustomSkillDialog(Dictionary<string, SkillConfiguration> skills, IStatePropertyAccessor<DialogState> accessor)
+        public CustomSkillDialog(Dictionary<string, ISkillConfiguration> skills, IStatePropertyAccessor<DialogState> accessor)
             : base(nameof(CustomSkillDialog))
         {
             AddDialog(new SkillDialog(skills, accessor));

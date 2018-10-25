@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using Microsoft.Graph;
 using System;
 
 namespace EmailSkill
@@ -10,13 +11,15 @@ namespace EmailSkill
         /// <inheritdoc/>
         public IUserService InitUserService(string token, TimeZoneInfo timeZoneInfo)
         {
-            return new UserService(token, timeZoneInfo);
+            IGraphServiceClient serviceClient = GraphClientHelper.GetAuthenticatedClient(token, timeZoneInfo);
+            return new UserService(serviceClient, timeZoneInfo);
         }
 
         /// <inheritdoc/>
         public IMailService InitMailService(string token, TimeZoneInfo timeZoneInfo)
         {
-            return new MailService(token, timeZoneInfo);
+            IGraphServiceClient serviceClient = GraphClientHelper.GetAuthenticatedClient(token, timeZoneInfo);
+            return new MailService(serviceClient, timeZoneInfo);
         }
     }
 }
