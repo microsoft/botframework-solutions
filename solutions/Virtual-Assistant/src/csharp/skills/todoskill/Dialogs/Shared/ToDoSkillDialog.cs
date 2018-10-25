@@ -441,11 +441,6 @@ namespace ToDoSkill
                     }
                 }
 
-                if (entities.TaskContent != null)
-                {
-                    state.TaskContent = entities.TaskContent[0];
-                }
-
                 if (entities.ListType != null)
                 {
                     if (entities.ListType[0].Equals(ListType.Grocery.ToString(), StringComparison.InvariantCultureIgnoreCase))
@@ -468,10 +463,10 @@ namespace ToDoSkill
 
                 if (entities.FoodOfGrocery != null)
                 {
-                    state.FoodOfGrocery = entities.FoodOfGrocery[0];
+                    state.FoodOfGrocery = entities.FoodOfGrocery[0][0];
                 }
 
-                if (entities.ShopVerb != null)
+                if (entities.ShopVerb != null && entities.ShopContent[0] != null)
                 {
                     state.HasShopVerb = true;
                 }
@@ -479,6 +474,16 @@ namespace ToDoSkill
                 if (entities.ShopContent != null)
                 {
                     state.ShopContent = entities.ShopContent[0];
+                }
+
+                if (entities.TaskContentPattern != null)
+                {
+                    state.TaskContentPattern = entities.TaskContentPattern[0];
+                }
+
+                if (entities.TaskContentML != null)
+                {
+                    state.TaskContentML = entities.TaskContentPattern[0];
                 }
 
                 if (dc.Context.Activity.Text != null)

@@ -36,26 +36,30 @@ namespace Luis
             // Simple entities
             public string[] ContainsAll;
             public string[] ListType;
-            public string[] ShopVerb;
-            public string[] FoodOfGrocery;
-            public string[] ShopContent;
+            public string[] TaskContentML;
 
             // Built-in entities
             public double[] ordinal;
 
+            // Lists
+            public string[][] FoodOfGrocery;
+            public string[][] ShopVerb;
+
             // Pattern.any
-            public string[] TaskContent;
+            public string[] ShopContent;
+            public string[] TaskContentPattern;
 
             // Instance
             public class _Instance
             {
                 public InstanceData[] ContainsAll;
                 public InstanceData[] ListType;
+                public InstanceData[] TaskContentML;
                 public InstanceData[] ordinal;
-                public InstanceData[] TaskContent;
-                public InstanceData[] ShopVerb;
                 public InstanceData[] FoodOfGrocery;
+                public InstanceData[] ShopVerb;
                 public InstanceData[] ShopContent;
+                public InstanceData[] TaskContentPattern;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;

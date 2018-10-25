@@ -1,4 +1,5 @@
 {
+  "luis_schema_version": "3.1.0",
   "versionId": "0.1",
   "name": "ToDo",
   "desc": "",
@@ -52,13 +53,56 @@
     {
       "name": "ListType",
       "roles": []
+    },
+    {
+      "name": "TaskContentML",
+      "roles": []
     }
   ],
   "composites": [],
-  "closedLists": [],
+  "closedLists": [
+    {
+      "name": "FoodOfGrocery",
+      "subLists": [
+        {
+          "canonicalForm": "food",
+          "list": [
+            "milk",
+            "banana",
+            "juice",
+            "rice",
+            "eggs",
+            "egg",
+            "tomato",
+            "apples"
+          ]
+        }
+      ],
+      "roles": []
+    },
+    {
+      "name": "ShopVerb",
+      "subLists": [
+        {
+          "canonicalForm": "buy",
+          "list": [
+            "buy",
+            "purchase",
+            "shop"
+          ]
+        }
+      ],
+      "roles": []
+    }
+  ],
   "patternAnyEntities": [
     {
-      "name": "TaskContent",
+      "name": "ShopContent",
+      "explicitList": [],
+      "roles": []
+    },
+    {
+      "name": "TaskContentPattern",
       "explicitList": [],
       "roles": []
     }
@@ -87,223 +131,251 @@
   ],
   "patterns": [
     {
-      "pattern": "remove the task that {TaskContent}",
-      "intent": "DeleteToDo"
+      "pattern": "add task to {TaskContentPattern}",
+      "intent": "AddToDo"
     },
     {
-      "pattern": "remove the to do {TaskContent}",
-      "intent": "DeleteToDo"
+      "pattern": "add {TaskContentPattern} to my tasks",
+      "intent": "AddToDo"
     },
     {
-      "pattern": "mark the task {TaskContent} as finished",
+      "pattern": "mark task {TaskContentPattern} as complete",
       "intent": "MarkToDo"
     },
     {
-      "pattern": "add to do to {TaskContent}",
+      "pattern": "create a task to {TaskContentPattern}",
       "intent": "AddToDo"
     },
     {
-      "pattern": "delete task {TaskContent}",
+      "pattern": "create task that {TaskContentPattern}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "remove the to do that {TaskContentPattern}",
       "intent": "DeleteToDo"
     },
     {
-      "pattern": "create task that {TaskContent}",
+      "pattern": "create a to do to {TaskContentPattern}",
       "intent": "AddToDo"
     },
     {
-      "pattern": "create task to {TaskContent}",
+      "pattern": "remind me to buy {ShopContent}",
       "intent": "AddToDo"
     },
     {
-      "pattern": "add a task to {TaskContent}",
-      "intent": "AddToDo"
-    },
-    {
-      "pattern": "add to do that {TaskContent}",
-      "intent": "AddToDo"
-    },
-    {
-      "pattern": "remove the to do that {TaskContent}",
+      "pattern": "delete the to do that {TaskContentPattern}",
       "intent": "DeleteToDo"
     },
     {
-      "pattern": "remove to do that {TaskContent}",
+      "pattern": "add to do to {TaskContentPattern}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "add task that {TaskContentPattern}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "create a to do that {TaskContentPattern}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "add a {ListType} item to {TaskContentPattern}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "add {TaskContentPattern} to my grocery list",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "remove the task {TaskContentPattern}",
       "intent": "DeleteToDo"
     },
     {
-      "pattern": "complete task {TaskContent}",
-      "intent": "MarkToDo"
-    },
-    {
-      "pattern": "create to do to {TaskContent}",
+      "pattern": "create to do to {TaskContentPattern}",
       "intent": "AddToDo"
     },
     {
-      "pattern": "delete the task {TaskContent}",
+      "pattern": "remind me to purchase {ShopContent}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "add a to do that {TaskContentPattern}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "remove to do that {TaskContentPattern}",
       "intent": "DeleteToDo"
     },
     {
-      "pattern": "add task to {TaskContent}",
-      "intent": "AddToDo"
-    },
-    {
-      "pattern": "add task that {TaskContent}",
-      "intent": "AddToDo"
-    },
-    {
-      "pattern": "add a task that {TaskContent}",
-      "intent": "AddToDo"
-    },
-    {
-      "pattern": "add {TaskContent} to my to dos",
-      "intent": "AddToDo"
-    },
-    {
-      "pattern": "create a task to {TaskContent}",
-      "intent": "AddToDo"
-    },
-    {
-      "pattern": "mark {TaskContent} as finished",
-      "intent": "MarkToDo"
-    },
-    {
-      "pattern": "remove task that {TaskContent}",
+      "pattern": "delete task {TaskContentPattern}",
       "intent": "DeleteToDo"
     },
     {
-      "pattern": "delete the to do that {TaskContent}",
+      "pattern": "create a task that {TaskContentPattern}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "delete task that {TaskContentPattern}",
       "intent": "DeleteToDo"
     },
     {
-      "pattern": "mark task {TaskContent} as complete",
+      "pattern": "remind me to {TaskContentPattern}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "mark {TaskContentPattern} as finished",
       "intent": "MarkToDo"
     },
     {
-      "pattern": "mark {TaskContent} as completed",
-      "intent": "MarkToDo"
+      "pattern": "add a task to {TaskContentPattern}",
+      "intent": "AddToDo"
     },
     {
-      "pattern": "delete the to do {TaskContent}",
+      "pattern": "remove task {TaskContentPattern}",
       "intent": "DeleteToDo"
     },
     {
-      "pattern": "remove task {TaskContent}",
+      "pattern": "remove task that {TaskContentPattern}",
       "intent": "DeleteToDo"
     },
     {
-      "pattern": "add {TaskContent} to my grocery list",
-      "intent": "AddToDo"
-    },
-    {
-      "pattern": "mark the task {TaskContent} as completed",
-      "intent": "MarkToDo"
-    },
-    {
-      "pattern": "delete the task that {TaskContent}",
+      "pattern": "delete to do {TaskContentPattern}",
       "intent": "DeleteToDo"
     },
     {
-      "pattern": "delete task that {TaskContent}",
+      "pattern": "complete task {TaskContentPattern}",
+      "intent": "MarkToDo"
+    },
+    {
+      "pattern": "add a shopping item to {TaskContentPattern}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "mark the task {TaskContentPattern} as completed",
+      "intent": "MarkToDo"
+    },
+    {
+      "pattern": "remove the task that {TaskContentPattern}",
       "intent": "DeleteToDo"
     },
     {
-      "pattern": "create to do that {TaskContent}",
+      "pattern": "add {TaskContentPattern} to my shopping list",
       "intent": "AddToDo"
     },
     {
-      "pattern": "remove to do {TaskContent}",
+      "pattern": "mark task {TaskContentPattern} as completed",
+      "intent": "MarkToDo"
+    },
+    {
+      "pattern": "remind me that {TaskContentPattern}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "add a grocery item to buy {ShopContent}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "add a shopping item to buy {ShopContent}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "mark the task {TaskContentPattern} as complete",
+      "intent": "MarkToDo"
+    },
+    {
+      "pattern": "complete the task {TaskContentPattern}",
+      "intent": "MarkToDo"
+    },
+    {
+      "pattern": "create task to {TaskContentPattern}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "add {TaskContentPattern} to my todo list",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "mark {TaskContentPattern} as done",
+      "intent": "MarkToDo"
+    },
+    {
+      "pattern": "create to do that {TaskContentPattern}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "add a {ListType} item that {TaskContentPattern}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "mark task {TaskContentPattern} as done",
+      "intent": "MarkToDo"
+    },
+    {
+      "pattern": "add {TaskContentPattern} to my to do list",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "mark the task {TaskContentPattern} as finished",
+      "intent": "MarkToDo"
+    },
+    {
+      "pattern": "remove the to do {TaskContentPattern}",
       "intent": "DeleteToDo"
     },
     {
-      "pattern": "mark task {TaskContent} as completed",
-      "intent": "MarkToDo"
-    },
-    {
-      "pattern": "add {TaskContent} to my tasks",
-      "intent": "AddToDo"
-    },
-    {
-      "pattern": "mark the task {TaskContent} as done",
-      "intent": "MarkToDo"
-    },
-    {
-      "pattern": "add {TaskContent} to my to do list",
-      "intent": "AddToDo"
-    },
-    {
-      "pattern": "add {TaskContent} to my shopping list",
-      "intent": "AddToDo"
-    },
-    {
-      "pattern": "remove the task {TaskContent}",
+      "pattern": "remove to do {TaskContentPattern}",
       "intent": "DeleteToDo"
     },
     {
-      "pattern": "mark {TaskContent} as complete",
+      "pattern": "add a task that {TaskContentPattern}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "add a grocery item to {TaskContentPattern}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "mark {TaskContentPattern} as complete",
       "intent": "MarkToDo"
     },
     {
-      "pattern": "mark {TaskContent} as done",
+      "pattern": "add to do that {TaskContentPattern}",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "mark the task {TaskContentPattern} as done",
       "intent": "MarkToDo"
     },
     {
-      "pattern": "complete the task {TaskContent}",
-      "intent": "MarkToDo"
-    },
-    {
-      "pattern": "create a to do to {TaskContent}",
+      "pattern": "add a to do to {TaskContentPattern}",
       "intent": "AddToDo"
     },
     {
-      "pattern": "mark the task {TaskContent} as complete",
-      "intent": "MarkToDo"
-    },
-    {
-      "pattern": "create a to do that {TaskContent}",
-      "intent": "AddToDo"
-    },
-    {
-      "pattern": "add {TaskContent} to my todo list",
-      "intent": "AddToDo"
-    },
-    {
-      "pattern": "create a task that {TaskContent}",
-      "intent": "AddToDo"
-    },
-    {
-      "pattern": "add a {ListType} item that {TaskContent}",
-      "intent": "AddToDo"
-    },
-    {
-      "pattern": "remind me that {TaskContent}",
-      "intent": "AddToDo"
-    },
-    {
-      "pattern": "delete to do {TaskContent}",
+      "pattern": "delete the to do {TaskContentPattern}",
       "intent": "DeleteToDo"
     },
     {
-      "pattern": "add a to do to {TaskContent}",
-      "intent": "AddToDo"
+      "pattern": "delete the task that {TaskContentPattern}",
+      "intent": "DeleteToDo"
     },
     {
-      "pattern": "mark task {TaskContent} as done",
+      "pattern": "mark {TaskContentPattern} as completed",
       "intent": "MarkToDo"
     },
     {
-      "pattern": "mark task {TaskContent} as finished",
+      "pattern": "mark task {TaskContentPattern} as finished",
       "intent": "MarkToDo"
     },
     {
-      "pattern": "add a to do that {TaskContent}",
+      "pattern": "delete the task {TaskContentPattern}",
+      "intent": "DeleteToDo"
+    },
+    {
+      "pattern": "add {TaskContentPattern} to my to dos",
       "intent": "AddToDo"
     },
     {
-      "pattern": "delete to do that {TaskContent}",
-      "intent": "AddToDo"
-    },
-    {
-      "pattern": "remind me to {TaskContent}",
+      "pattern": "delete to do that {TaskContentPattern}",
       "intent": "AddToDo"
     }
   ],
@@ -320,12 +392,45 @@
       ]
     },
     {
+      "text": "add a grocery item to buy milk",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 6,
+          "endPos": 12
+        }
+      ]
+    },
+    {
       "text": "add a new task",
       "intent": "AddToDo",
       "entities": [
         {
           "entity": "ListType",
           "startPos": 10,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "add a shopping item to buy apples",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 6,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "add a shopping item to buy eggs",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 6,
           "endPos": 13
         }
       ]
@@ -430,6 +535,39 @@
       ]
     },
     {
+      "text": "add buy milk to my grocery list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 19,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "add call my mother to my to do list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 25,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "add egg to my grocery list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 14,
+          "endPos": 20
+        }
+      ]
+    },
+    {
       "text": "add milk to my grocery list",
       "intent": "AddToDo",
       "entities": [
@@ -447,6 +585,17 @@
         {
           "entity": "ListType",
           "startPos": 16,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "add tomato to my grocery list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 17,
           "endPos": 23
         }
       ]
@@ -522,6 +671,17 @@
       ]
     },
     {
+      "text": "can you show grocery list?",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 13,
+          "endPos": 19
+        }
+      ]
+    },
+    {
       "text": "can you show my grocery list?",
       "intent": "ShowToDo",
       "entities": [
@@ -534,6 +694,17 @@
     },
     {
       "text": "can you show my shopping items",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 16,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "can you show my shopping list",
       "intent": "ShowToDo",
       "entities": [
         {
@@ -1092,12 +1263,17 @@
       ]
     },
     {
-      "text": "remind me that {taskcontent}",
+      "text": "remind me that buy milk",
       "intent": "AddToDo",
       "entities": []
     },
     {
-      "text": "remind me to {taskcontent}",
+      "text": "remind me to buy eggs",
+      "intent": "AddToDo",
+      "entities": []
+    },
+    {
+      "text": "remind me to purchase shoes",
       "intent": "AddToDo",
       "entities": []
     },
@@ -1157,6 +1333,28 @@
       ]
     },
     {
+      "text": "show grocery items",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 5,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "show grocery list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 5,
+          "endPos": 11
+        }
+      ]
+    },
+    {
       "text": "show help",
       "intent": "Help",
       "entities": []
@@ -1182,7 +1380,29 @@
       "entities": []
     },
     {
+      "text": "show my grocery list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 8,
+          "endPos": 14
+        }
+      ]
+    },
+    {
       "text": "show my shopping items",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 8,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "show my shopping list",
       "intent": "ShowToDo",
       "entities": [
         {
@@ -1234,6 +1454,17 @@
       "text": "show previous",
       "intent": "Previous",
       "entities": []
+    },
+    {
+      "text": "show shopping items",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 5,
+          "endPos": 12
+        }
+      ]
     },
     {
       "text": "show todo items",
