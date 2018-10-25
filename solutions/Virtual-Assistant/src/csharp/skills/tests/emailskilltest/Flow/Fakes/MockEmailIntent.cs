@@ -1,17 +1,14 @@
 ﻿using Luis;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace EmailSkillTest.Flow.Fakes
 {
-    public class MockEmail : Email
+    public class MockEmailIntent : Email
     {
         private string userInput;
         private Intent intent;
         private double score;
 
-        public MockEmail(string userInput)
+        public MockEmailIntent(string userInput)
         {
             this.Entities = new Email._Entities();
             this.userInput = userInput;
@@ -58,20 +55,12 @@ namespace EmailSkillTest.Flow.Fakes
             else if (userInput == "TestName")
             {
                 this.Entities.ContactName = new string[] { "Test test" };
-                return (Email.Intent.Confirm, 0.90);
+                return (Email.Intent.None, 0.90);
             }
             else if (userInput == "TestContent")
             {
                 this.Entities.Message = new string[] { "Test message" };
-                return (Email.Intent.Confirm, 0.90);
-            }
-            else if (userInput == "No")
-            {
-                return (Email.Intent.ConfirmNo, 0.90);
-            }
-            else if (userInput == "Yes")
-            {
-                return (Email.Intent.Confirm, 0.90);
+                return (Email.Intent.None, 0.90);
             }
 
             return (Email.Intent.None, 0.0);
@@ -91,11 +80,7 @@ namespace EmailSkillTest.Flow.Fakes
             else if (userInput == "TestContent")
             {
                 this.Entities.Message = new string[] { "Test message" };
-                return (Email.Intent.Confirm, 0.90);
-            }
-            else if (userInput == "No")
-            {
-                return (Email.Intent.ConfirmNo, 0.90);
+                return (Email.Intent.None, 0.90);
             }
 
             return (Email.Intent.None, 0.0);
@@ -112,10 +97,6 @@ namespace EmailSkillTest.Flow.Fakes
                 this.Entities.ordinal = new double[] { 1 };
                 return (Email.Intent.SelectItem, 0.90);
             }
-            else if (userInput == "No")
-            {
-                return (Email.Intent.ConfirmNo, 0.90);
-            }
 
             return (Email.Intent.None, 0.0);
         }
@@ -129,21 +110,17 @@ namespace EmailSkillTest.Flow.Fakes
             else if (userInput == "TestName")
             {
                 this.Entities.ContactName = new string[] { "Test test" };
-                return (Email.Intent.Confirm, 0.90);
+                return (Email.Intent.None, 0.90);
             }
             else if (userInput == "TestSubjcet")
             {
                 this.Entities.EmailSubject = new string[] { "Test" };
-                return (Email.Intent.Confirm, 0.90);
+                return (Email.Intent.None, 0.90);
             }
             else if (userInput == "TestContent")
             {
                 this.Entities.Message = new string[] { "Test message" };
-                return (Email.Intent.Confirm, 0.90);
-            }
-            else if (userInput == "No")
-            {
-                return (Email.Intent.ConfirmNo, 0.90);
+                return (Email.Intent.None, 0.90);
             }
 
             return (Email.Intent.None, 0.0);
