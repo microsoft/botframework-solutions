@@ -1,12 +1,8 @@
-﻿using Luis;
-using Microsoft.Bot.Builder;
-using Microsoft.Graph;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Luis;
+using Microsoft.Bot.Builder;
 using static Luis.Email;
 
 namespace EmailSkillTest.Flow.Fakes
@@ -29,20 +25,19 @@ namespace EmailSkillTest.Flow.Fakes
             T mockResult = new T();
 
             Type t = typeof(T);
+            var text = turnContext.Activity.Text;
             if (t.Name.Equals(typeof(Email).Name))
             {
-                MockEmail mockEmail = new MockEmail(turnContext.Activity.Text);
+                MockEmailIntent mockEmail = new MockEmailIntent(text);
 
                 var test = mockEmail as object;
                 mockResult = (T)test;
             }
             else if (t.Name.Equals(typeof(General).Name))
             {
-                var generalGen = new Mock<General>();
-                generalGen.Setup(f => f.TopIntent()).Returns((General.Intent.None, 0.90));
-                generalGen.SetupGet(f => f.Entities).Returns(new General._Entities());
+                MockGeneralIntent mockGeneralIntent = new MockGeneralIntent(text);
 
-                var test = generalGen.Object as object;
+                var test = mockGeneralIntent as object;
                 mockResult = (T)test;
             }
 
