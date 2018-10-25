@@ -12,12 +12,12 @@
 ## AddFlag
 - aggiungere un flag
 - aggiungere un flag per favore
-- Aggiungi un flag All'{OrderReference=Ultima} email
+- aggiungere un flag al  {OrderReference=Ultima} Posta elettronica
 - Aggiungi un flag a questa email
 - Aggiungi flag
 - Aggiungi bandiera su di esso
 - Aggiungi flag ad esso
-- Aggiungi bandiera per l'e-mail {SenderName=John} appena inviato a me
+- Aggiungi contrassegno all'email  {SenderName=John} appena inviato a me
 - Aggiungi bandiera a questa email
 - Aggiungi flag a questo messaggio
 - Bandiera
@@ -25,7 +25,7 @@
 - bandiera su
 - contrassegna l'email corrente
 - contrassegnare l'e-mail
-- Bandierina l'email da Davis
+- contrassegnare l'email da  {SenderName=Davis} 
 - contrassegnare il messaggio
 - Contrassegna questa email
 - contrassegnare questa e-mail come importante per me
@@ -36,8 +36,8 @@
 - contrassegnare il messaggio contrassegnato
 - mettere una bandiera
 - Metti una bandiera sulla nuova email
-- l'email da Thomas dovrebbe essere segnalata
-- l'email a Barb deve essere segnalata
+- l'email da  {SenderName=Thomas} deve essere contrassegnato
+- l'e-mail per  {ContactName=Barb} deve essere segnalato
 - Questa e-mail devono essere contrassegnati
 - Questa e-mail deve essere segnalata
 - Questa e-mail deve essere segnalata
@@ -52,11 +52,11 @@
 - controllare e-mail per favore
 - controllare la mia e-mail per favore
 - Controlla le mie email
-- controllare il mio {EmailPlatform=Gmail}
+- controllare il mio  {EmailPlatform=Gmail} 
 - controllare la posta in arrivo
 - controllare la mia casella di posta
 - controllare il mio messaggio
-- controllare {EmailPlatform=Outlook} per favore
+- Verifica  {EmailPlatform=Outlook} Si prega
 - controllare i messaggi
 - potrebbe per favore controllare la mia casella di posta
 - potrebbe per favore controllare i miei messaggi
@@ -66,141 +66,74 @@
 - Ho un nuovo messaggio
 - Ho un nuovo messaggio ora
 - ricevo una nuova email
-- ricevo nuova posta in {EmailPlatform=Outlook}?
+- ricevo una nuova mail in  {EmailPlatform=Outlook} ?
 - ricevo un nuovo messaggio
 - qualcuno invia messaggio a me solo allora
-- il mio {EmailPlatform=Outlook} ha una nuova e-mail
+- fa il mio  {EmailPlatform=Outlook} ha nuova email
 - Voglio controllare la mia casella di posta
 - Voglio controllare i miei messaggi
 - Mi piacerebbe controllare la mia casella di posta
-- c'è una nuova e-mail
-- c'è un nuovo messaggio
+- C'è una nuova e-mail
+- C'è un nuovo messaggio
 - si prega di controllare la mia e-mail
 - si prega di controllare la mia casella
 - si prega di controllare i miei messaggi
-- si prega di controllare il mio {EmailPlatform=Outlook}
+- si prega di controllare il mio  {EmailPlatform=Outlook} 
 - Mostra le ultime email
 - Mostra le mie email
 - Se ricevo nuovo messaggio
 - Se ho nuovo messaggio
 - Se ricevo un nuovo messaggio
 
-
-## Confirm
-- Va bene
-- Corretta
-- correggere Sì
-- Fallo
-- Confermo
-- Confermo che voglio inviare questa e-mail
-- Non c'è problema
-- Naturalmente,
-- Ok
-- OK inviare
-- Ok bene
-- Ok, bene a me
-- Okk
-- va bene inviarlo
-- Ok, invialo
-- Ok, invialo subito.
-- perfetto grazie
-- Ok
-- Buona idea
-- Sicuro
-- Certo, vai avanti
-- che è corretto
-- che è corretto
-- Questo è tutto
-- Giusto
-- Sì
-- Sì amico
-- Sì a destra
-- Sì, sì
-- Sì
-- Sì
-- Sì lo è
-- Sì, è giusto
-- Sì per favore
-- Sì inviarlo
-- Sì, grazie
-- sì che è corretto
-- sì che è corretto
-- sì che è di destra
-- Sì, questo è corretto
-- Sì, sì
-- Sì, è possibile
-- Yup
-
-
-## ConfirmNo
-- In nessun modo
-- N
-- Vicino
-- Negativo
-- No
-- No grazie
-- non sono cambiate le cose
-- Assolutamente no
-- No, va bene così.
-- No
-- Niente affatto
-- non a tutti
-- non esattamente \
-- Non proprio
-- non in questo momento grazie
-- certamente non
-- Tu non
-
-
 ## Forward
-- potrebbe inoltrare questo messaggio a Susan e Jessica
-- si prega di inoltrare questa e-mail a {relationshipName = mia sorella}
-- inoltrare tutti i file da Sally a Jim
-- avanti dicendo {messaggio = se si interesse} a {ContactName=Paolo}
-- inoltrare le email a Beth
+- potrebbe inoltrare questo messaggio a  {ContactName=Susan}  E  {ContactName=Jessica} 
+- si prega di inoltrare questa e-mail a  {RelationshipName=Mia sorella} 
+- inoltra tutti  {Attachment=File}  Da  {SenderName=Sally}  A  {ContactName=Jim} 
+- avanti dicendo  {Message=Se si interesse}  A  {ContactName=Paul} 
+- inoltrare le email a  {ContactName=Beth} 
 - Inoltra messaggio
-- Inoltra messaggio alla {RelationshipName=fidanzata}
-- inoltra l'email da {ContactName = John Smith} a {ContactName = David Miller} dicendo FYI
-- inoltra l'email da {SenderNam{ContactName=e=Mel}issa} a Jimmy
-- inoltra l'email a {RelationshipName=papà}
-- inoltra l'ultima email a {ContactName = Chris Williams}
+- Inoltra messaggio a  {RelationshipName=Ragazza} 
+- inoltra l'email da  {ContactName=John Smith}  A  {ContactName=David Miller}  dicendo  {Message=Fyi} 
+- inoltra l'email da  {SenderName=Melissa}  A  {ContactName=Jimmy} 
+- inoltrare l'email a  {RelationshipName=Papà} 
+- inoltrare il  {OrderReference=Ultima}  e-mail a  {ContactName=Chris Williams} 
 - inoltra questa email
-- inoltra questa email a Anthony digitando {Message = cosa ne pensi}
-- inoltra questa email a {ContactName=Daniel}
-- inoltra questa email a {ContactName = Gary Brown} per favore
-- inoltra questa email a {ContactName=Greg}
-- inoltra questa email a {EmailAddress = PartOne dot PartTwo at gmail dot com}
-- inoltrare questo massaggio a Petter
-- inoltra a {ContactName = Brian Potter} stasera
-- inoltra a Harry digitando {Message = sono d'accordo con esso}
-- in avanti di sposarsi con un messaggio che dice che {messaggio = non voglio che}
-- avanti alla {RelationshipName=mamma}
-- inoltra a {relationshipName = il mio capo} e allega il file {Attachment = previsto}
-- inoltra a {EmailAddress=partoneparttwo@gmail.com} {data = Lunedi successivo}
-- in avanti per favore {ContactName=Sharon}
-- avanti alla {RelationshipName=moglie} dicendo {Message = ti amo}
-- si prega di inoltrare questa e-mail a partoneparttwo@163.com
-- si prega di inoltrare questa e-mail a partoneparttwo@outlook.com
+- inoltra questa email a  {ContactName=Anthony}  digitando  {Message=Che ne pensi} 
+- inoltra questa email a  {ContactName=Daniel} 
+- inoltra questa email a  {ContactName=Gary Brown} Si prega
+- inoltra questa email a  {ContactName=Greg} 
+- inoltra questa email a  {EmailAddress=partono dot PartTwo a gmail dot com} 
+- avanti questo massaggio per  {ContactName=Petter} 
+- Avanti per  {ContactName=Brian Potter}   {Time=Stasera} 
+- Avanti per  {ContactName=Harry}  digitando  {Message=sono d'accordo con esso} 
+- Avanti per  {ContactName=Sposare}  con un messaggio che dice che  {Message=non voglio che} 
+- Avanti per  {RelationshipName=Mamma} 
+- Avanti per  {RelationshipName=il mio capo}  e collegare il  {Attachment=file previsto} 
+- Avanti per  {EmailAddress=partoneparttwo@gmail.com}   {Date=Lunedi prossimo} 
+- Avanti per  {ContactName=Sharon} Si prega
+- Avanti per  {RelationshipName=Moglie}  dicendo  {Message=Ti amo} 
+- si prega di inoltrare questa e-mail a  {EmailAddress=partoneparttwo@163.com} 
+- si prega di inoltrare questa e-mail a  {EmailAddress=partoneparttwo@outlook.com} 
 - si prega di inoltrare questo messaggio
-- si prega di inoltrare questo messaggio a JC digitando {messaggio = tutto va bene}
-- si prega di inoltrare a Helen
+- si prega di inoltrare questo messaggio a  {ContactName=Jc}  digitando  {Message=tutto va bene} 
+- si prega di inoltrare a  {ContactName=Helen} 
 
 
 ## None
-- aggiungere un {Attachment=file} all'email
-- aggiungere Un'{Attachment=Immagine}
+- aggiungere un  {Attachment=File} all'email
+- aggiungere un  {Attachment=Immagine} 
 - aggiungere un oggetto
-- aggiungere Un'Altra riga al messaggio
-- Aggiungi {Message = hai gustato l'intero programma}
+- aggiungere un'altra riga al messaggio
+- Aggiungi  {Message=ti è piaciuto l'intero programma} 
 - aggiungere più
 - aggiungere di più e modificare il messaggio
 - Aggiungi più dettagli ad esso
-- Aggiungi altro {Message = non dimenticare di portare la birra}
+- aggiungere più  {Message=non dimenticate di portare la birra} 
 - Aggiungi altro messaggio
 - Aggiunga più prego
 - Aggiungi altro testo
 - aggiungere altro testo per favore
-- Aggiungi altro alla mail di {ContactName=Ashley}
+- aggiungere più a  {ContactName=Ashley} e-mail di
 - Aggiunga più al email
 - Aggiunga più al corpo del email
 - aggiungere più ad esso
@@ -208,29 +141,29 @@
 - Aggiungi altro al testo
 - Aggiungi altro al messaggio di testo
 - Aggiunga più all'email
-- Aggiungi altro All'{OrderReference=Ultima} email
+- aggiungere più alla  {OrderReference=Ultima} Posta elettronica
 - Aggiungi altro al messaggio
-- Aggiungi {Attachment=foto}
+- Aggiungi  {Attachment=Foto} 
 - aggiungere un po' di più
 - aggiungere qualcosa
 - Aggiungi al corpo di e-mail
 - Aggiungi al messaggio
-- Aggiungi, {Message = a proposito, qual è il piano del prossimo passo}
-- Aggiungi: {Message = chiamami stasera dopo il lavoro}
+- Aggiungi  {Message=a proposito, qual è il piano del prossimo passo} 
+- Aggiungi:  {Message=Chiamami stasera dopo il lavoro} 
 - aggiungere un allegato a questa e-mail
-- Allega {Attachment=file}
+- Collegare  {Attachment=File} 
 - Posso aggiungere altro al messaggio
 - modifica e-mail in modo che io possa digitare un messaggio aggiuntivo
 - non ho ancora finito. Ho bisogno di aggiungere qualche dettaglio in più
-- Ho dimenticato di aggiungere una parte importante a quella e-mail a {ContactName = James Cameron}. si prega di impostare per modificare
+- Ho dimenticato di aggiungere una parte importante a quella e-mail a  {ContactName=James Cameron} . si prega di impostare per modificare
 - Ho bisogno di aggiungere altre righe
 - Ho bisogno di aggiungere ulteriori contenuti
 - Ho bisogno di aggiungere più messaggio
 - Ho bisogno di aggiungere più testo
 - Ho bisogno di aggiungere di più per l'e-mail
-- Ho bisogno di aggiungere di più per il messaggio e-mail che sto inviando a ben
-- Ho bisogno di aggiungere qualcos'altro alla mia e-mail a {ContactName=Anthony}
-- Ho bisogno di aggiungere qualcos'altro a quella e-mail a {ContactName = Karen Smith} prima che venga inviato
+- Ho bisogno di aggiungere di più per il messaggio e-mail che sto inviando a  {ContactName=Pollici} 
+- Ho bisogno di aggiungere qualcos'altro alla mia e-mail per  {ContactName=Anthony} 
+- Ho bisogno di aggiungere qualcos'altro a quella e-mail a  {ContactName=Karen Smith} prima che venga inviato
 - Voglio aggiungere più l'e-mail
 - Desidero aggiungere di più al messaggio
 - Vorrei aggiungere di più per l'e-mail
@@ -245,128 +178,34 @@
 - più testo
 - necessità di aggiungere informazioni al messaggio precedente
 - Ok, ho bisogno di aggiungere un paio di cose che
-- si prega di aggiungere {messaggio = ed è stato terribile}
+- si prega di aggiungere  {Message=ed è stato terribile} 
 - si prega di aggiungere più
-- si prega di aggiungere, {messaggio = per favore fatemelo sapere cosa posso portare. sarei felice di fare un contorno o dessert}
-- mettere alcune linee aggiuntive a questo messaggio
-- Aspetta, ho bisogno di scrivere di più
-- scrivere di più
-- Interrompere
-- si può annullare
-- Annulla
-- Annulla tutto
-- Annulla email
-- Annulla
-- Annulla messaggio
-- Cancella la mia email a {ContactName=Jerry}
-- Annulla testo a {ContactName = James Robinson}
-- annullare che
-- annullare l'ordine per favore
-- Annulla la posta
-- Annulla il messaggio
-- Annulla il testo
-- Annulla il messaggio di testo
-- annullare questa
-- Annulla questo messaggio
-- Annulla questo processo
-- Annulla questo testo
-- Vicino
-- Elimina
-- Don ' t leggere
-- Don ' t leggerlo
-- Don ' t inviare questo testo
-- Non
-- non chiamare
-- non chiamarla
-- non e-mail
-- non leggere il messaggio
-- non inviare
-- non inviarlo
-- non inviare e-mail
-- non inviare questa e-mail
-- non farmi vedere
-- Uscita
-- Lascia perdere
-- Voglio che tu annulli l'sms
-- Né
-- nessuno dei due
-- Non importa
-- non importa Annulla
-- non importa cancellare il messaggio
-- non importa Annulla
-- No Cancel
-- No annullarlo
-- No Cancel che
-- No non inviare
-- No non inviarlo
-- No, non è giusto
-- non basta cancellare il messaggio di testo
-- No No Annulla
-- No che non è giusto
-- No che non è giusto
-- No, Annulla
-- No, non farlo
-- No, non voglio mandare questo messaggio
-- nessuno di loro
-- nessuno di questi
-- niente di tutto questo
-- nessuno di questi
-- nulla Annulla
-- OK Annulla
-- Smettere
-- Fermare
-- smettere di farlo
-- Smettila
-- messaggio di arresto
-- smettere di leggere
-- Smettila
-- Sì Annulla
-- Sì, Annulla
-- Buongiorno
-- Ciao
-- Ciao
-- Piacere
-- Puoi aiutarmi?
-- mi potete aiutare qui
-- Aiutatemi per favore
-- Aiutami a iniziare
-- Aiutami a capire di più per favore
-- aiutarmi con questo
-- aiuto con il mio dispositivo per favore
-- Ho bisogno del tuo aiuto
-- Please help me
-- Please help me voglio finire
-- disconnettersi
-- disconnettersi dal computer
-- Disconnetti il mio telefono
-- logout
-- Esci da Facebook per favore
-
+- si prega di aggiungere,  {Message=per favore fatemi sapere cosa posso portare. sarei felice di fare un contorno o dessert} 
 
 ## QueryLastText
-- mi puoi dire l'{OrderReference=ultima} e-mail che ho ricevuto
-- Voglio vedere l'{OrderReference=ultima} email
-- ultima email
-- Aprire l'{OrderReference=ultima} e-mail
+- Puoi dirmi il  {OrderReference=Ultima} e-mail che ho ricevuto
+- Voglio vedere il  {OrderReference=Ultima} Posta elettronica
+-  {OrderReference=Ultima} Posta elettronica
+- Aprire il  {OrderReference=Ultima} Posta elettronica
 - Aprire l'ultima e-mail che ho ottenuto
-- Ti prego, dimmi chi mi ha mandato l'ultimo
-- Mostrami l'ultima email
+- Ti prego, dimmi chi mi ha mandato  {OrderReference=Ultima} 
+- Mostrami il  {OrderReference=Ultima} Posta elettronica
 - Mostrami l'ultima email
 - Mostrami la nuova email
-- Mostra l'{OrderReference=ultima} email
-- l'{OrderReference=ultima} e-mail
-- che cosa ha fatto {RelationshipName=mamma} solo dire
-- quello che {ContactName=Eric} ha appena detto
-- ciò che Harry {OrderReference=Ultima} e-mail ha detto
-- Qual è l'{OrderReference=ultima} e-mail che ho ricevuto oggi
-- Qual è l'ultima email che ho ricevuto da papà
-- Qual è stata l'{OrderReference=ultima} e-mail
-- Qual è stata l'{OrderReference=ultima} e-mail che ho ricevuto da papà
-- Qual è stata l'{OrderReference=ultima} e-mail che ho ricevuto da Helen Edwards
+- mostrare la  {OrderReference=Ultima} Posta elettronica
+- Hte  {OrderReference=Ultima} Posta elettronica
+- che cosa ha fatto  {RelationshipName=Mamma} solo dire
+- Cosa  {ContactName=Eric} appena detto
+- ciò che Harry  {OrderReference=Ultima} e-mail ha detto
+- Qual è la  {OrderReference=Ultima} e-mail che ho ricevuto oggi
+- Qual è l'ultima email che ho ricevuto da  {FromRelationshipName=Papà} 
+- Qual è stata la  {OrderReference=Ultima} Posta elettronica
+- Qual è stata la  {OrderReference=Ultima} e-mail che ho ricevuto da papà
+- Qual è stata la  {OrderReference=Ultima} e-mail ho ottenuto da Helen Edwards
 - che mi e-mail solo ora
 - che mi ha inviato via email
 - che mi ha inviato via email solo ora
-- che mi ha inviato l'ultima email
+- che mi ha inviato via email  {OrderReference=Ultima} 
 - che di recente mi ha mandato
 - che mi ha mandato un messaggio
 - che mi ha mandato un messaggio solo ora
@@ -376,142 +215,142 @@
 
 ## ReadAloud
 - Puoi leggere le mie email
-- riesci a leggere la mia {OrderReference=ultima} e-mail
-- si prega di leggere la mia {OrderReference=ultima} e-mail
-- leggere ad alta voce la mia {OrderReference=nuova} e-mail
+- riesci a leggere il mio  {OrderReference=Ultima} Posta elettronica
+- si prega di leggere il mio  {OrderReference=Ultima} Posta elettronica
+- leggere ad alta voce il mio  {OrderReference=Nuovo} Posta elettronica
 - Leggi email
-- Leggi email Dall'{SenderName=Alba}
-- Leggi email da {SenderName=Kat}
-- Legga il email dalla mummia
+- Leggi email da  {SenderName=Alba} 
+- Leggi email da  {SenderName=Kat} 
+- Leggi email da  {FromRelationshipName=Mamma} 
 - leggere e-mail a me
 - Leggi le email
 - Leggi le email da Clay
-- Leggi la {PositionReference=prima} email nella casella di collegamento
-- leggere {PositionReference=prima} e-mail nella casella di posta collegata
-- Leggi {Line=Google} mail
+- Leggere  {PositionReference=Prima} email nella casella di collegamento
+- Leggere  {PositionReference=Prima} e-mail nella casella di posta collegata
+- Leggere  {Line=Google} Posta
 - Leggilo
-- Leggi {OrderReference=l'}ultima email ricevuta
+- Leggere  {OrderReference=Ultima} e-mail ricevute
 - Leggi l'ultima e-mail in arrivo
-- Leggi {OrderReference=ultima} posta
+- Leggere  {OrderReference=Ultima} Posta
 - Leggi le ultime email
-- Leggi {SenderName = Mary Grace Verduguez} email
-- Leggimi la mia {OrderReferen{Line=ce=ulti}ma} email hotmail
-- Leggimi le mie {OrderReference=ultime} email
+- Leggere  {SenderName=Mary Grace Verduguez} Posta elettronica
+- Leggimi il mio  {OrderReference=Ultima}   {Line=Hotmail} Posta elettronica
+- Leggimi il mio  {OrderReference=Ultima} E-mail
 - Leggimi l'email
-- Leggimi le email da {SenderName=Agatha}
-- Leggimi l'{OrderReference=ultima} {SenderName=email }inviata da Claude
-- Leggimi le {OrderReference=ultime} email del {tempo = cinque minuti}
-- Leggimi la {OrderReference=nuova} email
+- Leggimi le email da  {SenderName=Agatha} 
+- Leggimi il  {OrderReference=Ultima}  Posta elettronica  {SenderName=Claude} Inviato
+- Leggimi il  {OrderReference=Ultima}  e-mail del  {Time=cinque minuti} 
+- Leggimi il  {OrderReference=Più recente} Posta elettronica
 - Leggi l'email più recente
 - Legga il mio email dal bambino
-- Leggi la mia email da {SenderName=maritino}
+- Leggi la mia email da  {SenderName=Marito} 
 - Leggi la mia email da Tyler Moffett
 - leggere i miei messaggi e-mail
 - Leggi la mia email per favore
 - Leggi la mia email a me
 - Leggi le mie email
-- Leggi le mie email da grassi
+- Leggi le mie email da  {SenderName=Grasso} 
 - Leggi la mia casella di posta
-- Leggi la mia {OrderReference=ultima} email
-- Leggi la mia {OrderReference=ultima} email a me
-- Leggi il mio {OrderReference=ultimo} SMS
+- letto il mio  {OrderReference=Ultima} Posta elettronica
+- letto il mio  {OrderReference=Ultima} e-mail a me
+- letto il mio  {OrderReference=Ultima} Sms
 - Leggi la mia email più recente
 - Leggi la mia nuova email
-- Leggi le mie {Category=nuove} email
+- letto il mio  {Category=Nuovo} E-mail
 - Leggi la mia notifica
-- Leggi la mia email di {Line=Outlook}
-- Leggi la mia email {Time=recente}
+- letto il mio  {Line=Outlook} Posta elettronica
+- letto il mio  {Time=Recente} Posta elettronica
 - Leggi il mio messaggio e-mail recente per favore
 - Leggi i miei messaggi e-mail recenti
-- Leggi la mia email {Time=recente} a me
+- letto il mio  {Time=Recente} e-mail a me
 - Leggi la mia seconda email
 - Leggi la nuova email
-- Leggi la nuova email da {SenderName = David ma}
-- Leggi {Category=nuovo} messaggio
+- Leggere  {Category=Nuovo}  e-mail da  {SenderName=david ma} 
+- Leggere  {Category=Nuovo} Messaggio
 - leggere per favore
 - Leggi le email recenti
 - Leggi l'email
-- Leggi la {PositionReference=prima} email
-- Leggi la {PositionRefere{Line=nce=pri}ma} email in Hotmail
-- Leggi l'{OrderReference=ultima} email
-- Leggi l'{OrderReference=ultimo} messaggio di posta elettronica
-- Leggi l'{OrderReference={FromRelationshipName=ultim}a} email da mamma
-- Leggi l'ultima email da {SenderName = Steve Lip}
+- leggere il  {PositionReference=Prima} Posta elettronica
+- leggere il  {PositionReference=Prima}  e-mail in  {Line=Hotmail} 
+- leggere il  {OrderReference=Ultima} Posta elettronica
+- leggere il  {OrderReference=Ultima} messaggio di posta elettronica
+- leggere il  {OrderReference=Ultima}  e-mail da  {FromRelationshipName=Mamma} 
+- leggere il  {OrderReference=Ultima}  e-mail da  {SenderName=Steve labbro} 
 - Leggi l'ultima email che ho inviato
-- Leggi la posta di oggi
-- Leggi le email non lette
+- Leggere  {Date=Oggi} Posta
+- Leggere  {Category=Unread} Posta elettronica
 
 
 ## Reply
-- creare una risposta all'e-mail dicendo {Message = pls Inviami l'immagine di nuovo}
+- creare una risposta all'email dicendo  {Message=pls mi mandi l'immagine di nuovo} 
 - e-mail indietro
-- email indietro {messaggio = ti richiamo}
+- e-mail indietro  {Message=Io ti richiamo} 
 - come rispondere a una e-mail
-- Fai una risposta con {messaggio = grazie mille}
+- fare una risposta con  {Message=Mille Grazie} 
 - Risposta
-- Rispondi via email {messaggio = grazie mille saluti molto meglio Jun}
-- Rispondi dicendo {messaggio = ti amo}
-- risposta dicendo {Message=sì}
-- Rispondi digitando Ciao
-- Rispondi digitando {Message = sono sulla mia strada}
+- Rispondi via email  {Message=La ringrazio molto meglio saluti Jun} 
+- risposta dicendo  {Message=Ti amo} 
+- risposta dicendo  {Message=Sì} 
+- Rispondi digitando  {Message=Ciao} 
+- Rispondi digitando  {Message=sono sulla mia strada} 
 - risposta richiesta a una e-mail
-- Rispondi che {messaggio = sono occupato}
-- Rispondi a {ContactName=Andy}
-- Rispondi a {ContactName=Brett}
-- Rispondi a email {message = sono occupato ora}
-- Rispondi alla mia {OrderReference=ultima} email
+- risposta che  {Message=sono occupato} 
+- Rispondi a  {ContactName=Andy} 
+- Rispondi a  {ContactName=Brett} 
+- Rispondi a email  {Message=sono occupato ora} 
+- risposta al mio  {OrderReference=Ultima} Posta elettronica
 - Rispondi all'email
-- Rispondi al {PositionReference=primo}
-- Rispondi con Hello
-- risposta {messaggio = Yee ha}
-- Rispondi {messaggio = Yes boss.}
-- Rispondi {messaggio = i ' m malati non posso farlo}
-- Rispondi a {ContactName = Lore Hound}
-- Rispondi all'email dicendo {Message = io sono occupato oggi}
-- ritorno {ContactName = Husky siberiano} mobile
+- rispondere alla  {PositionReference=Prima} Uno
+- Rispondi con  {Message=Ciao} 
+- Risposta  {Message=Yee ha} 
+- Risposta  {Message=Sì capo.} 
+- Rispondere  {Message=i ' m malati non posso farlo} 
+- rispondono a  {ContactName=Lore Hound} 
+- rispondere alla mail dicendo  {Message=sono occupato oggi} 
+- Ritorno  {ContactName=Husky siberiano}   {Line=Mobile} 
 - inviare e-mail indietro
-- Invia la risposta con {Message = i ' ve già so}
+- Invia la risposta con  {Message=Ho già sapere} 
 
 
 ## SearchMessages
 - Puoi cercare le mie email
-- rilevare le email da {SenderName=Betty}
-- rilevare l'email contenente la parola chiave {SearchTexts=Beauty}
-- rilevare l'email da {SenderName=Lisa}
-- Ho avuto qualsiasi e-mail da {SenderName=Tom}
-- Ho avuto e-mail da {SenderName=Tom}
-- Ho avuto l'e-mail contenente parole chiave {SearchTexts=pranzo}
-- email inviato da {SenderName=Tisa}
-- e-mail contiene {SearchTexts=banca}
-- enumerare le email con algroithm
-- trova email da {FromRelationshipName=mamma}
-- trova email con {SearchTexts=curriculum} vitae
-- elencare le e-mail contengono {SearchTexts = immagine divertente}
-- interrogare le email con Bill
-- Cerca {SearchTexts = bla bla} nella mia email
-- ricerca e-mail contengono {SearchTexts=Outlook}
-- Cerca email con parole chiave {SearchTexts=pranzo}
-- le email di ricerca contengono {SearchTexts = elementi di lavoro}
-- Cerca email contiene tagliandi
-- Cerca email da {SenderName=Mike}
-- Cerca parole chiave {SearchTexts = keywordone keywordtwo} nella mia e-mail
-- Cerca {SearchTexts = keywordsone keywordstwo} dalla posta in arrivo
+- rileva e-mail da  {SenderName=Betty} 
+- rilevare la parola chiave contenente l'email  {SearchTexts=Bellezza} 
+- rileva l'email da  {SenderName=Lisa} 
+- Ho avuto qualsiasi e-mail da  {SenderName=Tom} 
+- Ho avuto e-mail da  {SenderName=Tom} 
+- Ho avuto l'e-mail contenente la parola chiave  {SearchTexts=Pranzo} 
+- e-mail inviata da  {SenderName=Nove} 
+- e-mail contiene  {SearchTexts=Banca} 
+- enumerare le e-mail con  {SearchTexts=algroithm} 
+- trova email da  {FromRelationshipName=Mamma} 
+- trova email con  {SearchTexts=Riprendere} 
+- elencare le e-mail contengono  {SearchTexts=immagine divertente} 
+- interrogare le email con  {SearchTexts=Bill} 
+- Ricerca  {SearchTexts=bla bla} nelle mie email
+- Cerca e-mail contengono  {SearchTexts=Outlook} 
+- Cerca email con parole chiave  {SearchTexts=Pranzo} 
+- Cerca e-mail contengono  {SearchTexts=elementi di lavoro} 
+- Cerca email contiene  {SearchTexts=Coupon} 
+- Cerca email da  {SenderName=Mike} 
+- Cerca parole chiave  {SearchTexts=keywordone keywordtwo} nelle mie email
+- Ricerca  {SearchTexts=keywordsone keywordstwo} dalla posta in arrivo
 - Cerca le mie email
-- Cerca testo con parole {SearchTexts = pranzo insieme}
-- Cerca l'email con le parole chiave Hello
-- Cerca nelle e-mail contiene {SearchTexts=Microsoft}
-- Cerca le email contiene {SearchTexts=denaro}
-- Mostra e-mail contengono parole "{SearchTexts = piano futuro}"
-- Mostra email con "{SearchTexts = carta di credito}"
-- Mostrami le email da girlfriend
-- Mostrami l'email di Tom e filtrare con Word lunch
-- Mostrami l'email inviata da mamma
+- Cerca testo con parole  {SearchTexts=pranzo insieme} 
+- Cerca l'email con le parole chiave  {SearchTexts=Ciao} 
+- Cerca le email contiene  {SearchTexts=Microsoft} 
+- Cerca le email contiene  {SearchTexts=Soldi} 
+- Mostra e-mail contengono parole "  {SearchTexts=piano futuro} "
+- Mostra email con "  {SearchTexts=carta di credito} "
+- Mostrami le email da  {FromRelationshipName=Ragazza} 
+- Mostrami l'email da  {SenderName=Tom}  e filtrare con Word  {SearchTexts=Pranzo} 
+- Mostrami l'email inviata da  {FromRelationshipName=Mamma} 
 
 
 ## SelectItem
-- scelgo Toyota per {ContactName=visitare}
+- scelgo Toyota per  {ContactName=Visitare} 
 - Ho scelto il posto numero due
-- {Message = scelgo il primo risultato del ristorante}
+-  {Message=sceglierò il primo risultato del ristorante} 
 - McDonald ' s
 - aprire questo
 - Seleziona l'articolo numero dieci
@@ -524,157 +363,119 @@
 
 
 ## SendEmail
-- Componi nuova email su {EmailSubject = spagnolo Homework}
-- creazione di una nuova posta intitolata {EmailSubject = informazioni urgenti di riunione} a Jim
+- comporre nuove e-mail su  {EmailSubject=lavoro spagnolo} 
+- Crea nuova posta intitolata  {EmailSubject=informazioni sulle riunioni urgenti}  A  {ContactName=Jim} 
 - email Henry Mathew
-- e-mail mio {RelationshipName=fratello}
-- e-mail la mia {Attachment=presentazione}
-- Invia il {Attach{ContactName=ment=}file} a Nancy
-- email a {ContactName=Ashley} su {EmailSubject = openning Issue}
-- email a {ContactName = Mario Waters}: {messaggio = Mike, che la settimana scorsa la cena è stata splendida.}
-- e-mail a {EmailAddress = partono PartTwo PartThree uno a hotmail dot com}
-- email a {EmailAddress=partoneparttwo@gmail.com}
-- e-mail a {EmailAddress = Shawn Parker 9 5 a Google dot com}
-- Ho bisogno di inviare una e-mail su {EmailSubject = le parole di una canzone}
-- mail {EmailAddress = partono PartTwo a gmail dot com}
-- Fai una nuova email su {EmailSubject = previsioni meteo}
-- Mark e-mail per {categoria = follow-up} e inviare a {ContactName=Emma}
-- nuova e-mail su {EmailSubject = veramente buono parlare} a {ContactName=Simon}
-- nuova email su {EmailSubject = scrittura di documenti}
-- nuova email a {ContactN{EmailSubject=ame=mi}eky} su spalla
-- Invia una mail a {EmailAddress = PartOne dot PartTwo a yahoo dot com}
-- Invia una mail a {ContactName=Kevin}
-- Invia una nuova email su {EmailSubject=Facebook}
-- inviare una nuova e-mail su {EmailSubject = il torneo di hockey} ad {Contact{Contact{ContactName=Nam}e=Name}=Andrea}, Bill, e Ron
-- Invia una nuova email a Don e Larry su tagliandi
-- Invia una nuova email a {ContactName = Jerry Jones} con un Bang allegato
-- Invia una nuova email a {EmailAddress=partonepartwopartthree@yahoo.com}
-- Invia un nuovo {Category = alta importanza} e-mail a {ContactName=Vance}
-- Invia a {Category = lettura ricevuta} email a {ContactName=Elizabeth}
+- e-mail il mio  {RelationshipName=Fratello} 
+- e-mail il mio  {Attachment=Presentazione} 
+- e-mail il  {Attachment=File}  A  {ContactName=Nancy} 
+- e-mail a  {ContactName=Ashley}  Circa  {EmailSubject=openning problema} 
+- e-mail a  {ContactName=Mike Waters} :  {Message=Mike, quella cena la settimana scorsa è stata splendida.} 
+- e-mail a  {EmailAddress=partono PartTwo PartThree uno a hotmail dot com} 
+- e-mail a  {EmailAddress=partoneparttwo@gmail.com} 
+- e-mail a  {EmailAddress=Shawn Parker 9 5 a Google dot com} 
+- Ho bisogno di inviare una e-mail su  {EmailSubject=le parole di una canzone} 
+- Posta  {EmailAddress=partono PartTwo a gmail dot com} 
+- Fai una nuova email su  {EmailSubject=Previsioni} 
+- Mark e-mail per  {Category=follow up}  e inviare a  {ContactName=Emma} 
+- nuova e-mail su  {EmailSubject=parlare davvero bene}  A  {ContactName=Simon} 
+- nuova e-mail su  {EmailSubject=scrittura di documenti} 
+- nuova e-mail a  {ContactName=mieky}  Circa  {EmailSubject=Wingman} 
+- inviare una mail a  {EmailAddress=partono dot PartTwo a yahoo dot com} 
+- Invia una mail a  {ContactName=Kevin} 
+- Invia una nuova email su  {EmailSubject=Facebook} 
+- Invia una nuova email su  {EmailSubject=il torneo di hockey}  A  {ContactName=Andrea}  ,  {ContactName=Bill}  E  {ContactName=Ron} 
+- Invia una nuova email a  {ContactName=Don}  E  {ContactName=Larry}  Circa  {EmailSubject=Coupon} 
+- Invia una nuova email a  {ContactName=Jerry Jones}  con un  {Category=Bang}   {Attachment=Collegato} 
+- Invia una nuova email a  {EmailAddress=partonepartwopartthree@yahoo.com} 
+- inviare un nuovo  {Category=alta importanza}  e-mail a  {ContactName=Vance} 
+- Invia un  {Category=ricevuta di lettura}  e-mail a  {ContactName=Elizabeth} 
 - Invia una email
-- Invia un'e-mail su {EmailSubject = test status} to {ContactName = j test k test}
-- Invia un'e-mail su {EmailSubject = la finestra che è rotto}
+- inviare una e-mail su  {EmailSubject=stato test}  A  {ContactName=test j test k} 
+- inviare una e-mail su  {EmailSubject=la finestra che è rotto} 
 - Invia una email per me
-- Invia un'email contrassegnata {categoria = follow up} a Tim
-- Invia un'email contrassegnata per {categoria = follow up} per Rebecca
-- inviare una e-mail contrassegnata con un Bang a {ContactName = Gary horrisberger}
-- Invia un'email a bella contrassegnata {Category = Red Bang}
-- Invia una mail a Dave sul {EmailSubject = escursione escursionistica}
-- Invia un'email a Dolly e Louisa
-- Invia una mail a {ContactName=Elizabeth} con un {Category = Red Bang}
-- Invia un'e-mail a {Contact{ContactName=Name=G}raham}, Daniel e Sonia
-- Invia un'email a {ContactName = Jason Marx}
-- Invia una email a {ContactName=max} about {EmailSubject = possiamo pianificare le cose andiamo escursioni}
-- Invia una email a max about {EmailSubject = weekend plans}
-- Invia un'email a {ContactName = Melle Kappus} test
-- Invia una mail a {RelationshipName=mamma}
-- Invia una email a mio {RelationshipName=fratello}
-- Invia un'e-mail a {EmailAddress = PartOne dot PartTwo a Microsoft dot com}
-- Invia un'e-mail a {EmailAddress = PartOne dot PartTwo a Outlook dot NET}
-- Invia un'e-mail a {EmailAddress = partono PartTwo PartThree a Outlook dot com} dicendo {Message = questo è il mio nuovo telefono è cool}
-- Invia un'email a {EmailAddress = PartOne PartTwo 2 6 4 9 at gmail dot com}
-- Invia un'email a {EmailAddress=partone_parttwo@microsoft.com}
-- Invia un'e-mail a {ContactName=Rhonda} about {EmailSubject = i {Date=pian}i} questo fine settimana
-- Invia una email a {ContactName=Rob} dicendo {Message = questo è il messaggio sui piani weekend}
-- inviare una email a {ContactName=Sarah} contra{Category=ssegnato c}ome importante
-- Invia una email a {Contac{ContactName=tName=}Zach} e Robert su {EmailSubject = pranzo di squadra} dire {messaggio = stesso pranzo di squadra questo martedì}
-- Invia una email {Date=oggi} stesso
-- inviare una e-mail con un {Category = Red Bang}
-- Invia una email con {category = leggi ricevuta} a {ContactName=Alonzo}
-- Invia una email {Category=imp{ContactName=ortant}e} a Debbie
-- Invia una email urgente
-- Invia una email urgente dalla mia email a {EmailAddress = partono sottolineatura partwo a hotmail dot com}
-- Invia una email urgente dal mio {line = account di lavoro} a George
-- Invia una email urgente dal mio lavoro e-mail a Violet
-- inviare e-mail su {EmailSubject = nuotata team practice}
-- inviare {ContactName = Bryan Goldberg} una nuova email contrassegnata
-- Invia email su {EmailSubject = piano Homework} per {Contac{ContactName=tNam}e=Joey} e Gary
-- Invia email con {Category=p{ContactName=riori}tà} a Carla
-- inviare e-mail a Caroline e contrassegnarlo importante
-- Invia email a {RelationshipName=papà}
-- Invia email a {ContactName = David Vetter} dire test
-- inviare e-mail a {ContactName{EmailSubject==Gio}vanni} su auto
-- Invia un'email a {EmailAddress = PartOne PartTwo PartThree PartFour at gmail dot com}
-- Invia email a {EmailAddress=PartOne.PartTwo@outlook.com}
-- Invia email a {Cont{Date=actN}ame=Sean} oggi
-- Invia email {Category=imp{ContactName=ortan}ti} a Nicky
-- Invia una e-mail a {ContactName=Jon} con un {Category = Red Bang}
-- Invia {allegato = file di grandi dimensioni} tramite posta elettronica
-- Invia una mail a {ContactName=Scott}
-- Invia a {ContactName=Mary} a {Category = Red Bang} email
-- Invia una email contrassegnata come {Category = priorità alta}
-- Invia il mio {Attachment = pulizie doc} a {ContactName=Katie}
-- Invia il mio {allegato = pagamento diagramma di Visio} a {ContactName=Steve}
-- Invia nuova email a {ContactName=Joe} ad è {categoria = alta importanza}
-- Invia una mail a {ContactName=Sam} con {category = bassa priorità}
-- inviare {ContactName = Stephanie pezone} una e-mail
+- Invia una email contrassegnata  {Category=follow up}  A  {ContactName=Tm} 
+- Invia un'email contrassegnata per  {Category=follow up}  A  {ContactName=Rebecca} 
+- inviare una e-mail contrassegnata con un  {Category=Bang}  A  {ContactName=Gary horrisberger} 
+- inviare una e-mail a  {ContactName=bella}  Contrassegnato  {Category=Red Bang} 
+- inviare una e-mail a  {ContactName=Dave}  riguardo al  {EmailSubject=escursione} 
+- inviare una e-mail a  {ContactName=Dolly}  E  {ContactName=Louisa} 
+- inviare una e-mail a  {ContactName=Elizabeth}  con un  {Category=Red Bang} 
+- inviare una e-mail a  {ContactName=Graham}  ,  {ContactName=Daniel}  E  {ContactName=Meghan} 
+- inviare una e-mail a  {ContactName=Jason Marx} 
+- inviare una e-mail a  {ContactName=Massimo}  Circa  {EmailSubject=possiamo pianificare le cose andiamo escursioni} 
+- inviare una e-mail a  {ContactName=Massimo}  Circa  {EmailSubject=piani di fine settimana} 
+- inviare una e-mail a  {ContactName=Melle Kappus}   {Message=Test} 
+- inviare una e-mail a  {RelationshipName=Mamma} 
+- Invia una email a My  {RelationshipName=Fratello} 
+- inviare una e-mail a  {EmailAddress=partono dot PartTwo a Microsoft dot com} 
+- inviare una e-mail a  {EmailAddress=partono dot PartTwo a Outlook dot NET} 
+- inviare una e-mail a  {EmailAddress=partono PartTwo PartThree a Outlook dot com}  Dicendo  {Message=Questo è il mio nuovo telefono è fresco} 
+- inviare una e-mail a  {EmailAddress=partono PartTwo 2 6 4 9 a gmail dot com} 
+- inviare una e-mail a  {EmailAddress=partone_parttwo@microsoft.com} 
+- inviare una e-mail a  {ContactName=Rhonda}  Circa  {EmailSubject=i piani}  Questo  {Date=Fine settimana} 
+- inviare una e-mail a  {ContactName=Rob}  Dicendo  {Message=Questo è il messaggio sui piani di fine settimana} 
+- inviare una e-mail a  {ContactName=Sarah}  contrassegnati come  {Category=Importante} 
+- inviare una e-mail a  {ContactName=Zach}  E  {ContactName=Robert}  Circa  {EmailSubject=pranzo di squadra}  Dicendo  {Message=stesso pranzo di squadra questo martedì} 
+- Invia una email  {Date=Oggi} 
+- inviare una e-mail con un  {Category=Red Bang} 
+- inviare una e-mail con  {Category=ricevuta di lettura}  A  {ContactName=Alonzo} 
+- inviare un  {Category=Importante}  e-mail a  {ContactName=Debbie} 
+- inviare un  {Category=Urgente} Posta elettronica
+- inviare un  {Category=Urgente}  e-mail da  {SenderName=Mio}  e-mail a  {EmailAddress=partono sottolineatura partwo a hotmail dot com} 
+- inviare un  {Category=Urgente}  e-mail dal mio  {Line=conto lavoro}  A  {ContactName=George} 
+- inviare un  {Category=Urgente}  e-mail dal mio  {Line=Lavoro}  e-mail a  {ContactName=Viola} 
+- inviare e-mail su  {EmailSubject=nuoto squadra pratica} 
+- Invia  {ContactName=Bryan Goldberg}  un nuovo  {Category=Contrassegnato} Posta elettronica
+- inviare e-mail su  {EmailSubject=piano di lavoro}  A  {ContactName=Joey}  E  {ContactName=Gary} 
+- Invia email contrassegnato  {Category=Priorità}  A  {ContactName=Carla} 
+- inviare e-mail a  {ContactName=Caroline}  e segnarlo  {Category=Importante} 
+- inviare e-mail a  {RelationshipName=Papà} 
+- inviare e-mail a  {ContactName=David Vetter}  Dicendo  {Message=Test} 
+- inviare e-mail a  {ContactName=John}  Circa  {EmailSubject=Auto} 
+- inviare e-mail a  {EmailAddress=partono PartTwo PartThree PartFour a gmail dot com} 
+- inviare e-mail a  {EmailAddress=PartOne.PartTwo@outlook.com} 
+- inviare e-mail a  {ContactName=Sean}   {Date=Oggi} 
+- Invia  {Category=Importante}  e-mail a  {ContactName=Nicky} 
+- Invia  {ContactName=Jon}  una e-mail con un  {Category=Red Bang} 
+- Invia  {Attachment=file di grandi dimensioni} tramite e-mail
+- inviare una mail a  {ContactName=Scott} 
+- Invia  {ContactName=Maria}  Un  {Category=Red Bang} Posta elettronica
+- Invia  {ContactName=Maria}  un inviato via email contrassegnato come  {Category=alta priorità} 
+- inviare il mio  {Attachment=pulizie doc}  A  {ContactName=Katie} 
+- inviare il mio  {Attachment=diagramma di Visio pagamento}  A  {ContactName=Steve} 
+- Invia una nuova email a  {ContactName=Joe}  annuncio è  {Category=alta importanza} 
+- Invia  {ContactName=Ho}  una e-mail con  {Category=Priorità bassa} 
+- Invia  {ContactName=Stephanie pezone} un email
 - Invia l'email
 - Invia l'email ora
-- Invia questo {Attachment=documento} su una e-mail
-- impostare una e-mail {Date=oggi}
-- inizia una nuova email su {EmailSubject = matrimonio consigliere appuntamenti}
-- inizia una nuova email da {SenderName=Tracy} dicendo {messaggio = Ecco il mio curriculum}
-- avviare una nuova e-mail dicendo {messaggio = lascia andare al parco}
-- inizia una nuova email a {ContactName=Vicky} su {EmailSubject = dormire stasera}
-- inizia un'email a Ariel su {EmailSubject = Speaking up}
-- inizia una nuova email su {EmailSubject = Taco Blog} a {Contact{ContactName=Name=H}aden} e Haiden
-- inizia una nuova email ad {RelationshipName=amici} su {EmailSubject = il Club}
-- inizio nuova posta oggetto di {EmailSubject = nigeriano Prince}
-- avviare una nuova e-mail a Lisa su {EmailSubject = watching baseball}
-- la nuova e-mail è {categoria = alta priorità} che viene inviato a {ContactName=Justin}
-- manderai un email marcato {Category = non urgente} a Sam
+- inviare questo  {Attachment=Documento} su una e-mail
+- impostare una e-mail  {Date=Oggi} 
+- inizia una nuova email su  {EmailSubject=matrimonio consigliere appuntamenti} 
+- inizia una nuova email da  {SenderName=Tracy}  Dicendo  {Message=Ecco il mio curriculum} 
+- inizia una nuova e-mail dicendo  {Message=lascia andare al parco} 
+- inizia una nuova email a  {ContactName=Vicky}  Circa  {EmailSubject=dormire stasera} 
+- avviare un'e-mail a  {ContactName=Ariel}  Circa  {EmailSubject=parlando} 
+- inizia una nuova email  {EmailSubject=Taco Blog}  A  {ContactName=Haden}  E  {ContactName=Haiden} 
+- inizia una nuova email a  {RelationshipName=Gli amici}  Circa  {EmailSubject=il Club} 
+- inizia la nuova mail oggetto di  {EmailSubject=principe nigeriano} 
+- avviare una nuova e-mail per  {ContactName=Lisa}  Circa  {EmailSubject=sorveglianza del baseball} 
+- la nuova e-mail è  {Category=alta priorità}  che viene inviato a  {ContactName=Justin} 
+- si invia un marcato  {Category=Non urgente}  e-mail a  {ContactName=Ho} 
 - Scrivi una email
-- Scrivi un'email su {EmailSubject = la raccolta fondi}
-- Scrivi un'email urgente a {ContactName = marcia Lopez}
+- Scrivi una mail su  {EmailSubject=la raccolta fondi} 
+- scrivere un  {Category=Urgente}  e-mail a  {ContactName=marcia lopez} 
 - scrivere e-mail
-- scrivere e-mail al soggetto {Relatio{EmailSubject=nshipName=}mamma} è babysitter
+- scrivere e-mail a  {RelationshipName=Mamma}  soggetto è  {EmailSubject=Babysitter} 
 
-
-## ShowNext
-- andare avanti
-- Continua
-- Vai al prossimo
-- Vai alla pagina successiva
-- andare avanti
-- andare avanti
-- andare avanti
-- Prossima
-- prossima email
-- prossimo uno
-- Avanti per favore
-- prossima email non letti
-- Mostrami il prossimo
-- Mostrami il prossimo
-- Mostra successivo
-- Mostra la prossima email
-- Mostra successivo da leggere
-- Mostra il prossimo
-- Mostra la prossima email dal mio {FromRelationshipName=capo}
-- Mostra quello successivo
-- il prossimo
-- la prossima e-mail
-
-
-## ShowPrevious
-- Torna All'Ultimo
-- portare il precedente
-- venire All'Ultimo
-- Vai al precedente
-- Vai All'Ultimo
-- spostare indietro
-- Precedente
-- email precedente
-- precedente
-- uno precedente per favore
-- Mostrami email precedente da Jack
-- Mostrami l'email precedente
-- Mostra precedente
-- Mostra uno precedente
-- Mostra la email precedente dal mio mentore
-- Mostra quello precedente
-- l'email precedente
-- Qual è il precedente
-
+## Delete
+- Potete aiutarmi a eliminarlo
+- eliminare la prima e-mail per me
+- eliminare il  {OrderReference=Ultima} Uno
+- eliminare il secondo
+- eliminare questa e-mail
+- metterlo nel cestino
+- rimuoverlo dalla posta in arrivo
 
 > # Entity definitions
 

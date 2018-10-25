@@ -4,6 +4,7 @@ using EmailSkill.Extensions;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using System;
@@ -60,12 +61,14 @@ namespace EmailSkill
                     await DigestEmailLuisResult(sc, luisResult);
                 }
 
-                if (topIntent == Email.Intent.ShowNext)
+                var generalLuisResult = state.GeneralLuisResult;
+                var generalTopIntent = generalLuisResult?.TopIntent().intent;
+                if (generalTopIntent == General.Intent.Next)
                 {
                     state.ShowEmailIndex++;
                 }
 
-                if (topIntent == Email.Intent.ShowPrevious && state.ShowEmailIndex > 0)
+                if (generalTopIntent == General.Intent.Previous && state.ShowEmailIndex > 0)
                 {
                     state.ShowEmailIndex--;
                 }
@@ -146,16 +149,24 @@ namespace EmailSkill
             try
             {
                 var state = await _emailStateAccessor.GetAsync(sc.Context);
-                var luisResult = state.LuisResult;
 
+                sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
+                var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
+
+                var luisResult = state.LuisResult;
                 var topIntent = luisResult?.TopIntent().intent;
+                var generalLuisResult = state.GeneralLuisResult;
+                var generalTopIntent = generalLuisResult?.TopIntent().intent;
+
                 if (topIntent == null)
                 {
                     return await sc.EndDialogAsync(true);
                 }
 
                 var message = state.Message.FirstOrDefault();
-                if (topIntent == Email.Intent.ConfirmNo)
+
+                var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
+                if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
                 {
                     await sc.Context.SendActivityAsync(
                         sc.Context.Activity.CreateReply(EmailSharedResponses.CancellingMessage));

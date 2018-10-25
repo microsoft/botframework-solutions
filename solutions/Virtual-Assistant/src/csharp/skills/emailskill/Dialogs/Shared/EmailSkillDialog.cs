@@ -406,11 +406,12 @@ namespace EmailSkill
         {
             var state = await _emailStateAccessor.GetAsync(pc.Context);
             var luisResult = state.LuisResult;
-
             var topIntent = luisResult?.TopIntent().intent;
+            var generlLuisResult = state.GeneralLuisResult;
+            var generalTopIntent = generlLuisResult?.TopIntent().intent;
 
             // If user want to show more recipient end current choice dialog and return the intent to next step.
-            if (topIntent == Email.Intent.ShowNext || topIntent == Email.Intent.ShowPrevious)
+            if (generalTopIntent == General.Intent.Next || generalTopIntent == General.Intent.Previous)
             {
                 // TODO: The signature of validators has been changed per the sdk team, meaning this logic will need to be executed in a different way
                 if (pc.Options.Choices.Count > 5)

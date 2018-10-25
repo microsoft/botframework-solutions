@@ -97,8 +97,6 @@ namespace EmailSkill
                         }
 
                     case Email.Intent.SearchMessages:
-                    case Email.Intent.ShowNext:
-                    case Email.Intent.ShowPrevious:
                     case Email.Intent.CheckMessages:
                         {
                             await dc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
@@ -208,6 +206,7 @@ namespace EmailSkill
                 else
                 {
                     var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
+                    state.GeneralLuisResult = luisResult;
                     var topIntent = luisResult.TopIntent().intent;
 
                     // check intent
@@ -222,12 +221,6 @@ namespace EmailSkill
                         case General.Intent.Help:
                             {
                                 // result = await OnHelp(dc);
-                                break;
-                            }
-
-                        case General.Intent.Logout:
-                            {
-                                result = await OnLogout(dc);
                                 break;
                             }
                     }
