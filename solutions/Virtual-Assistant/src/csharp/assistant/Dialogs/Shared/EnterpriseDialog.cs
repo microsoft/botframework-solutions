@@ -33,7 +33,7 @@ namespace VirtualAssistant
             var intent = luisResult.TopIntent().intent;
 
             // TODO - Evolve this pattern
-            if (luisResult.TopIntent().score > 0.3)
+            if (luisResult.TopIntent().score > 0.5)
             {
                 // Add the luis result (intent and entities) for further processing in the derived dialog
                 dc.Context.TurnState.Add(LuisResultKey, luisResult);
