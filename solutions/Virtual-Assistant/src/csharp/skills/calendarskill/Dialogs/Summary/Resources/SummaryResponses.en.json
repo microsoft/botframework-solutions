@@ -79,8 +79,8 @@
   "ReadOutMorePrompt": {
     "replies": [
       {
-        "text": "Do you want to hear more? Which one do you want to hear?",
-        "speak": "Do you want to hear more? Which one do you want to hear?"
+        "text": "Do you want to hear more? If so, which one do you want to hear? First, Second or Third",
+        "speak": "Do you want to hear more? If so, which one do you want to hear?  First, Second or Third"
       }
     ],
     "inputHint": "expectingInput"

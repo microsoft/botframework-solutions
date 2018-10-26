@@ -1,76 +1,88 @@
 {
-  "qnaDocuments": [
+  "urls": [],
+  "qnaList": [
     {
-      "id": 1,
-      "answer": "This is a placeholder",
-      "source": "Editorial",
+      "id": 0,
+      "answer": "We have seen significant need from our customers and partners to deliver a conversational assistant tailored to their brand, personalized to their customers and made available across a broad range of conversational canvases and devices. Continuing Microsoft open-sourced approach toward Bot Framework SDK, the open source Custom Personal Assistant solution provides full control over the end user experience built on a set of foundational capabilities. Additionally, the experience can be infused with intelligence about the end-user and any device/ecosystem information for a truly integrated and intelligent experience.\r\nFind out more [here](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/README.md).\r\n",
+      "source": "custom editorial",
       "questions": [
-        "What is a Custom Assistant?"
+        "What is a Virtual Assistant?"
       ],
       "metadata": []
     },
     {
-      "id": 2,
-      "answer": "A Skill is a ...",
-      "source": "Editorial",
+      "id": 0,
+      "answer": "A broad set of common capabilities exist which today, which require each developer to build themselves. Our Virtual Assistant solution includes a new Skill capability enabling new capabilities to be plugged into an Virtual Assistant through configuration only and provide an authentication mechanism for Skills to request tokens for down-stream activities.\r\nFind out more [here](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/virtualassistant-skills.md).\r\n",
+      "source": "custom editorial",
       "questions": [
         "What is a Skill?"
       ],
       "metadata": []
     },
     {
-      "id": 3,
-      "answer": "This is a placeholder",
-      "source": "Editorial",
+      "id": 0,
+      "answer": "## Overview\r\nThe Calendar Skill provides Calendar related capabilities to a Virtual Assistant. The most common scenarios have been implemented in this first release with additional scenarios in development.\r\n## Supported Scenarios\r\nThe following scenarios are currently supported by the Skill:\r\n- Show meeting summary - e.g \"What's in my calendar\"\r\n- Next Meeting - e.g. \"what's my next meeting\"\r\n- Create a meeting - e.g. Book a meeting\r\n- Update a meeting - e.g. Update meeting\r\n- Delete a meeting - e.g. Delete a meeting\r\n",
+      "source": "custom editorial",
       "questions": [
-        "What can the Calendar Skill do?"
+        "What can the Calendar Skill do?"
       ],
       "metadata": []
     },
     {
-      "id": 4,
-      "answer": "This is a placeholder",
-      "source": "Editorial",
-      "questions": [
-        "What can the To Do Skill do?"
-      ],
-      "metadata": []
-    },
-    {
-      "id": 5,
-      "answer": "This is a placeholder",
-      "source": "Editorial",
+      "id": 0,
+      "answer": "# Overview\r\nThe Email Skill provides Email related capabilities to a Virtual Assistant. The most common scenarios have been implemented in this first release with additional scenarios in development.\r\n\r\n## Supported Scenarios\r\nThe following scenarios are currently supported by the Skill:\r\n\r\n- Send an Email\r\n- Send an email to John Smith\r\n- Send an email\r\n- Find Email\r\n- Find email from John Smith\r\n- What email do I have\r\n",
+      "source": "custom editorial",
       "questions": [
         "What can the Email Skill do?"
       ],
       "metadata": []
     },
     {
-      "id": 6,
-      "answer": "This is a placeholder",
-      "source": "Editorial",
+      "id": 0,
+      "answer": "## Overview\r\nThe Point of Interest Skill provides PoI related capabilities to a Virtual Assistant. The most common scenarios have been implemented in this first release with additional scenarios in development.\r\n\r\n## Supported Scenarios\r\nThe following scenarios are currently supported by the Skill:\r\n\r\n- NAVIGATION_ROUTE_FROM_X_TO_Y\r\n- What's the fastest way to get to 221B Baker Street?\r\n- How do I get to the grocery store?\r\n- I need directions to a cafe\r\n- NAVIGATION_FIND_POINTOFINTEREST\r\n- What's nearby?\r\n- Are there any pharmacies in town?\r\n- Can you recommend an affordable restaurant in Seattle?\r\n- NAVIGATION_CANCEL_ROUTE\r\n- I don't want to go to the shop anymore\r\n- Would you cancel my route?\r\n- On second thought, forget going to the airport\r\n",
+      "source": "custom editorial",
       "questions": [
-        "what can the Point of Interest Skill do?"
+        "What can the Point of Interest Skill do?"
       ],
       "metadata": []
     },
     {
-      "id": 7,
-      "answer": "This is a placeholder",
-      "source": "Editorial",
+      "id": 0,
+      "answer": "## Overview\r\nThe Task Skill provides Task related capabilities to a Virtual Assistant. The most common scenarios have been implemented in this first release with additional scenarios in development.\r\n\r\n## Supported Scenarios\r\nThe following scenarios are currently supported by the Skill:\r\n\r\n- Add a Task\r\n- Remind me to pickup milk\r\n- Add task\r\n- Find Tasks\r\n- What tasks do I have\r\n",
+      "source": "custom editorial",
       "questions": [
-        "What services do the skills connect to?"
+        "What can the ToDo Skill do?"
       ],
       "metadata": []
     },
     {
-      "id": 8,
-      "answer": "This is a placeholder",
-      "source": "Editorial",
+      "id": 0,
+      "answer": "The Virtual Assistant recently released new localisation for the Virtual Assistant and Skills enabling usage in English, French, Italian, German, Spanish and Chinese Simplified.\r\n",
+      "source": "custom editorial",
       "questions": [
-        "How do I create a skill?"
+        "What's New"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "If the tire pressure monitor lamp comes on in yellow then the tire pressure is off about 10% or more\r\n",
+      "source": "custom editorial",
+      "questions": [
+        "What is that yellow light?"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "Raise an issue on the [GitHub repo](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/README.md)\r\n",
+      "source": "custom editorial",
+      "questions": [
+        "How do I raise a bug?"
       ],
       "metadata": []
     }
-  ]
+  ],
+  "files": [],
+  "name": "faq"
 }

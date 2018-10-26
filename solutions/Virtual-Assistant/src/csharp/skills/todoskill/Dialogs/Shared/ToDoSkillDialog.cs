@@ -149,20 +149,22 @@ namespace ToDoSkill
         {
             var state = await _accessor.GetAsync(sc.Context);
             var topIntent = state.LuisResult?.TopIntent().intent;
+            var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
+
             if (topIntent == ToDo.Intent.ShowToDo)
             {
                 state.ShowToDoPageIndex = 0;
                 state.Tasks = new List<ToDoItem>();
                 state.AllTasks = new List<ToDoItem>();
             }
-            else if (topIntent == ToDo.Intent.Next)
+            else if (generalTopIntent == General.Intent.Next)
             {
                 if ((state.ShowToDoPageIndex + 1) * state.PageSize < state.AllTasks.Count)
                 {
                     state.ShowToDoPageIndex++;
                 }
             }
-            else if (topIntent == ToDo.Intent.Previous && state.ShowToDoPageIndex > 0)
+            else if (generalTopIntent == General.Intent.Previous && state.ShowToDoPageIndex > 0)
             {
                 state.ShowToDoPageIndex--;
             }

@@ -49,7 +49,7 @@ namespace EmailSkill
             // Initializes your bot service clients and adds a singleton that your Bot can access through dependency injection.
             var parameters = Configuration.GetSection("Parameters")?.Get<string[]>();
             var configuration = Configuration.GetSection("Configuration")?.Get<Dictionary<string, object>>();
-            var connectedServices = new SkillConfiguration(botConfig, parameters, configuration);
+            ISkillConfiguration connectedServices = new SkillConfiguration(botConfig, parameters, configuration);
             services.AddSingleton(sp => connectedServices);
 
             // Initialize Bot State
@@ -98,7 +98,7 @@ namespace EmailSkill
                 {
                     await context.SendActivityAsync(context.Activity.CreateReply(EmailSharedResponses.EmailErrorMessage));
                     await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Email Skill Error: {exception.Message} | {exception.StackTrace}"));
-                    connectedServices.TelemetryClient.TrackException(exception);
+                    connectedServices.TelemetryClient?.TrackException(exception);
                 };
 
                 // Transcript Middleware (saves conversation history in a standard format)

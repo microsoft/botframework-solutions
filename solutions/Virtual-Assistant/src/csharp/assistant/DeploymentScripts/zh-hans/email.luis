@@ -4,28 +4,10 @@
       "name": "AddFlag"
     },
     {
-      "name": "Cancel"
-    },
-    {
       "name": "CheckMessages"
     },
     {
-      "name": "Confirm"
-    },
-    {
-      "name": "ConfirmNo"
-    },
-    {
       "name": "Forward"
-    },
-    {
-      "name": "Greeting"
-    },
-    {
-      "name": "Help"
-    },
-    {
-      "name": "Logout"
     },
     {
       "name": "None"
@@ -47,12 +29,6 @@
     },
     {
       "name": "SendEmail"
-    },
-    {
-      "name": "ShowNext"
-    },
-    {
-      "name": "ShowPrevious"
     }
   ],
   "entities": [
@@ -133,18 +109,18 @@
       "entities": []
     },
     {
-      "text": "请添加标志",
+      "text": "添加标志请",
       "intent": "AddFlag",
       "entities": []
     },
     {
-      "text": "将标志添加到最后电子邮件",
+      "text": "将标志添加到 最后 电子邮件",
       "intent": "AddFlag",
       "entities": [
         {
           "entity": "OrderReference",
-          "startPos": 6,
-          "endPos": 7
+          "startPos": 7,
+          "endPos": 8
         }
       ]
     },
@@ -159,7 +135,7 @@
       "entities": []
     },
     {
-      "text": "在上面添加标志",
+      "text": "在其上添加标志",
       "intent": "AddFlag",
       "entities": []
     },
@@ -169,13 +145,13 @@
       "entities": []
     },
     {
-      "text": "向电子邮件添加标志约翰刚寄给我",
+      "text": "向电子邮件添加标志 约翰 刚刚寄给我",
       "intent": "AddFlag",
       "entities": [
         {
           "entity": "SenderName",
-          "startPos": 9,
-          "endPos": 10
+          "startPos": 10,
+          "endPos": 11
         }
       ]
     },
@@ -200,7 +176,7 @@
       "entities": []
     },
     {
-      "text": "上的标志",
+      "text": "标记 on",
       "intent": "AddFlag",
       "entities": []
     },
@@ -215,18 +191,18 @@
       "entities": []
     },
     {
-      "text": "标记电子邮件从戴维斯",
+      "text": "将电子邮件标记为 戴维斯",
       "intent": "AddFlag",
       "entities": [
         {
           "entity": "SenderName",
-          "startPos": 7,
-          "endPos": 9
+          "startPos": 9,
+          "endPos": 11
         }
       ]
     },
     {
-      "text": "标记邮件",
+      "text": "标记消息",
       "intent": "AddFlag",
       "entities": []
     },
@@ -241,17 +217,17 @@
       "entities": []
     },
     {
-      "text": "我要添加一个标志",
+      "text": "我想添加一个标志",
       "intent": "AddFlag",
       "entities": []
     },
     {
-      "text": "我想在这封电子邮件上添加一个标志",
+      "text": "我想在此电子邮件中添加一个标志",
       "intent": "AddFlag",
       "entities": []
     },
     {
-      "text": "使其标记为",
+      "text": "使其标记",
       "intent": "AddFlag",
       "entities": []
     },
@@ -266,7 +242,7 @@
       "entities": []
     },
     {
-      "text": "放置标志",
+      "text": "把国旗",
       "intent": "AddFlag",
       "entities": []
     },
@@ -276,7 +252,7 @@
       "entities": []
     },
     {
-      "text": "的电子邮件来自托马斯应标记为",
+      "text": "的电子邮件从 托马斯 应标记",
       "intent": "AddFlag",
       "entities": [
         {
@@ -287,13 +263,13 @@
       ]
     },
     {
-      "text": "的电子邮件, 以芭芭拉需要标记",
+      "text": "的电子邮件, 以 芭芭拉 需要标记",
       "intent": "AddFlag",
       "entities": [
         {
           "entity": "ContactName",
-          "startPos": 8,
-          "endPos": 10
+          "startPos": 9,
+          "endPos": 11
         }
       ]
     },
@@ -308,380 +284,13 @@
       "entities": []
     },
     {
-      "text": "此电子邮件应标记为",
+      "text": "应将此电子邮件标记为",
       "intent": "AddFlag",
       "entities": []
     },
     {
       "text": "打开标志",
       "intent": "AddFlag",
-      "entities": []
-    },
-    {
-      "text": "中止",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "你能取消它吗？",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "取消",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "全部取消",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "取消电子邮件",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "取消它",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "取消邮件",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "取消我的电子邮件到杰瑞",
-      "intent": "Cancel",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 9,
-          "endPos": 10
-        }
-      ]
-    },
-    {
-      "text": "取消文本到詹姆斯鲁宾逊",
-      "intent": "Cancel",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 5,
-          "endPos": 10
-        }
-      ]
-    },
-    {
-      "text": "取消该",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "请取消订单",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "取消邮件",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "取消邮件",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "取消文本",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "取消文本消息",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "取消此",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "取消此邮件",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "取消此过程",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "取消此文本",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "关闭",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "删除",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "不读",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "不要读它",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "不要发送此文本",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "不要",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "不要叫",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "别叫她",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "不要发电子邮件",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "不读邮件",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "不发送",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "不要发送它",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "不要发送电子邮件",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "不要发送此电子邮件",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "不要告诉我",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "退出",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "没关系",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "我要你取消短信",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "也",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "他们都不",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "没关系",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "没关系取消",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "没关系, 取消留言",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "不介意取消",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "无取消",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "不取消",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "没有取消",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "不发送",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "不, 不要发送",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "不, 这是不对的",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "不只是取消文本消息",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "无取消",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "不, 这是不对的",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "不, 这是不对的",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "不, 取消它",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "不, 不要这样做",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "不, 我不想发送此消息",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "他们都没有",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "这些都不是",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "这些",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "这些都不是",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "没有取消",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "好的取消",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "退出",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "停止",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "停止做它",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "停下",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "停止消息",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "停止阅读",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "停下",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "是取消",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "是, 取消它",
-      "intent": "Cancel",
       "entities": []
     },
     {
@@ -710,7 +319,7 @@
       "entities": []
     },
     {
-      "text": "请检查我的电子邮件",
+      "text": "请查收我的电子邮件",
       "intent": "CheckMessages",
       "entities": []
     },
@@ -720,13 +329,13 @@
       "entities": []
     },
     {
-      "text": "检查我Gmail",
+      "text": "检查我 Gmail",
       "intent": "CheckMessages",
       "entities": [
         {
           "entity": "EmailPlatform",
-          "startPos": 3,
-          "endPos": 7
+          "startPos": 4,
+          "endPos": 8
         }
       ]
     },
@@ -736,7 +345,7 @@
       "entities": []
     },
     {
-      "text": "选中 \"我的邮箱\"",
+      "text": "查看我的邮件框",
       "intent": "CheckMessages",
       "entities": []
     },
@@ -746,13 +355,13 @@
       "entities": []
     },
     {
-      "text": "检查前景请",
+      "text": "检查 前景 请",
       "intent": "CheckMessages",
       "entities": [
         {
           "entity": "EmailPlatform",
-          "startPos": 2,
-          "endPos": 3
+          "startPos": 3,
+          "endPos": 4
         }
       ]
     },
@@ -762,22 +371,17 @@
       "entities": []
     },
     {
-      "text": "请您检查一下我的收件箱",
+      "text": "请检查我的收件箱",
       "intent": "CheckMessages",
       "entities": []
     },
     {
-      "text": "你能帮我查一下留言吗？",
+      "text": "你能检查一下我的留言吗？",
       "intent": "CheckMessages",
       "entities": []
     },
     {
-      "text": "是否收到新邮件",
-      "intent": "CheckMessages",
-      "entities": []
-    },
-    {
-      "text": "我有新邮件吗？",
+      "text": "我是否收到新消息",
       "intent": "CheckMessages",
       "entities": []
     },
@@ -787,69 +391,74 @@
       "entities": []
     },
     {
-      "text": "我有新留言吗？",
+      "text": "我是否有新的电子邮件",
       "intent": "CheckMessages",
       "entities": []
     },
     {
-      "text": "我现在有新留言了吗？",
+      "text": "我是否有新消息",
       "intent": "CheckMessages",
       "entities": []
     },
     {
-      "text": "是否收到新电子邮件",
+      "text": "我现在有新消息了吗",
       "intent": "CheckMessages",
       "entities": []
     },
     {
-      "text": "是否收到新邮件前景?",
+      "text": "我是否收到新电子邮件",
+      "intent": "CheckMessages",
+      "entities": []
+    },
+    {
+      "text": "我是否收到新邮件 前景 ?",
       "intent": "CheckMessages",
       "entities": [
         {
           "entity": "EmailPlatform",
-          "startPos": 7,
-          "endPos": 8
+          "startPos": 9,
+          "endPos": 10
         }
       ]
     },
     {
-      "text": "是否收到新邮件",
+      "text": "我是否收到新消息",
       "intent": "CheckMessages",
       "entities": []
     },
     {
-      "text": "刚才有人给我发信息吗？",
+      "text": "刚才有人给我发消息吗？",
       "intent": "CheckMessages",
       "entities": []
     },
     {
-      "text": "我的前景有新的电子邮件",
+      "text": "做我 前景 有新的电子邮件",
       "intent": "CheckMessages",
       "entities": [
         {
           "entity": "EmailPlatform",
-          "startPos": 2,
-          "endPos": 3
+          "startPos": 3,
+          "endPos": 4
         }
       ]
     },
     {
-      "text": "我要检查我的收件箱",
+      "text": "我想检查我的收件箱",
       "intent": "CheckMessages",
       "entities": []
     },
     {
-      "text": "我想查看我的留言",
+      "text": "我想检查我的留言",
       "intent": "CheckMessages",
       "entities": []
     },
     {
-      "text": "我想检查一下我的收件箱",
+      "text": "我想检查我的收件箱",
       "intent": "CheckMessages",
       "entities": []
     },
     {
-      "text": "有新的电子邮件",
+      "text": "是否有新的电子邮件",
       "intent": "CheckMessages",
       "entities": []
     },
@@ -874,13 +483,13 @@
       "entities": []
     },
     {
-      "text": "请检查我前景",
+      "text": "请检查我 前景",
       "intent": "CheckMessages",
       "entities": [
         {
           "entity": "EmailPlatform",
-          "startPos": 4,
-          "endPos": 5
+          "startPos": 5,
+          "endPos": 6
         }
       ]
     },
@@ -895,472 +504,172 @@
       "entities": []
     },
     {
+      "text": "是否收到新消息",
+      "intent": "CheckMessages",
+      "entities": []
+    },
+    {
+      "text": "是否有新消息",
+      "intent": "CheckMessages",
+      "entities": []
+    },
+    {
       "text": "是否收到新邮件",
       "intent": "CheckMessages",
       "entities": []
     },
     {
-      "text": "是否有新邮件",
-      "intent": "CheckMessages",
-      "entities": []
-    },
-    {
-      "text": "是否收到新邮件",
-      "intent": "CheckMessages",
-      "entities": []
-    },
-    {
-      "text": "好",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "正确",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "更正是",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "做吧",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "我确认",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "我确认我想发送这封电子邮件",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "没关系",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "答案是肯定的",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "还行",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "确定发送",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "好",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "好的, 我很高兴",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "好",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "好吧, 把它",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "好的, 把它",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "好了, 现在就发吧",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "完美谢谢你",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "对",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "听上去很好",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "确定",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "当然, 去吧",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "这是正确的",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "没错",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "就是这样",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "没错",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "是的",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "是伙计",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "对",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "是的",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "是的",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "是的",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "是的，它是",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "是的, 这是正确的",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "是的, 请",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "是发送它",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "是的谢谢你",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "是的, 这是正确的",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "是的, 这是正确的",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "是的, 这是正确的",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "是的, 这是正确的",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "是的",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "是的, 你可以",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "是的",
-      "intent": "Confirm",
-      "entities": []
-    },
-    {
-      "text": "绝非",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "N",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "关闭",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "负",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "不",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "不，谢谢",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "没有什么改变",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "不可能",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "不, 没关系",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "不",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "一点也不",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "不在所有",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "不完全 \\",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "没有",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "现在不行谢谢",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "你当然没有",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "你没",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "请将此消息转发给苏珊和杰西卡",
+      "text": "您能否将此消息转发到 苏珊 和 杰西卡",
       "intent": "Forward",
       "entities": [
         {
           "entity": "ContactName",
-          "startPos": 8,
-          "endPos": 9
+          "startPos": 11,
+          "endPos": 12
         },
         {
           "entity": "ContactName",
-          "startPos": 11,
-          "endPos": 13
+          "startPos": 16,
+          "endPos": 18
         }
       ]
     },
     {
-      "text": "请你把这封电子邮件转发给我姐姐",
+      "text": "请你把这封电子邮件转发给 我妹妹",
       "intent": "Forward",
       "entities": [
         {
           "entity": "RelationshipName",
-          "startPos": 12,
+          "startPos": 13,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "转发所有 文件 从 莎莉 自 吉姆",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "Attachment",
+          "startPos": 5,
+          "endPos": 6
+        },
+        {
+          "entity": "SenderName",
+          "startPos": 10,
+          "endPos": 11
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 15,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "向前说 如果您感兴趣 自 保罗",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 4,
+          "endPos": 9
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 13,
           "endPos": 14
         }
       ]
     },
     {
-      "text": "转发所有文件从莎莉自吉姆",
-      "intent": "Forward",
-      "entities": [
-        {
-          "entity": "Attachment",
-          "startPos": 4,
-          "endPos": 5
-        },
-        {
-          "entity": "SenderName",
-          "startPos": 7,
-          "endPos": 8
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 10,
-          "endPos": 11
-        }
-      ]
-    },
-    {
-      "text": "向前说如果您感兴趣自保罗",
-      "intent": "Forward",
-      "entities": [
-        {
-          "entity": "Message",
-          "startPos": 3,
-          "endPos": 8
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 10,
-          "endPos": 11
-        }
-      ]
-    },
-    {
-      "text": "转发电子邮件到贝丝",
+      "text": "转发电子邮件到 贝丝",
       "intent": "Forward",
       "entities": [
         {
           "entity": "ContactName",
-          "startPos": 7,
-          "endPos": 8
-        }
-      ]
-    },
-    {
-      "text": "转发邮件",
-      "intent": "Forward",
-      "entities": []
-    },
-    {
-      "text": "转发消息到女朋友",
-      "intent": "Forward",
-      "entities": [
-        {
-          "entity": "RelationshipName",
-          "startPos": 5,
-          "endPos": 7
-        }
-      ]
-    },
-    {
-      "text": "转发电子邮件从约翰·史密斯自大卫. 米勒通过说fyi",
-      "intent": "Forward",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 7,
-          "endPos": 12
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 14,
-          "endPos": 19
-        },
-        {
-          "entity": "Message",
-          "startPos": 23,
-          "endPos": 25
-        }
-      ]
-    },
-    {
-      "text": "转发电子邮件从梅丽莎自吉 米",
-      "intent": "Forward",
-      "entities": [
-        {
-          "entity": "SenderName",
-          "startPos": 7,
-          "endPos": 9
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 11,
-          "endPos": 13
-        }
-      ]
-    },
-    {
-      "text": "将电子邮件转发到爸爸",
-      "intent": "Forward",
-      "entities": [
-        {
-          "entity": "RelationshipName",
           "startPos": 8,
           "endPos": 9
         }
       ]
     },
     {
-      "text": "转发该最后电子邮件到克里斯威廉斯",
+      "text": "转发消息",
+      "intent": "Forward",
+      "entities": []
+    },
+    {
+      "text": "将消息转发到 女朋友",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "RelationshipName",
+          "startPos": 7,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "转发电子邮件从 约翰·史密斯 自 大卫·米勒 通过说 仅供参考",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 8,
+          "endPos": 13
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 17,
+          "endPos": 21
+        },
+        {
+          "entity": "Message",
+          "startPos": 27,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "转发电子邮件从 梅丽莎 自 吉 米",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 8,
+          "endPos": 10
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 14,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "将电子邮件转发到 爸爸",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "RelationshipName",
+          "startPos": 9,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "转发该 最后 电邮至 克里斯. 威廉姆斯",
       "intent": "Forward",
       "entities": [
         {
           "entity": "OrderReference",
-          "startPos": 3,
-          "endPos": 4
+          "startPos": 4,
+          "endPos": 5
         },
         {
           "entity": "ContactName",
-          "startPos": 10,
-          "endPos": 15
+          "startPos": 11,
+          "endPos": 19
         }
       ]
     },
@@ -1370,374 +679,267 @@
       "entities": []
     },
     {
-      "text": "将此电子邮件转发到安东尼通过键入你觉得怎么样",
+      "text": "将此电子邮件转发到 安东尼 通过键入 你觉得怎么样",
       "intent": "Forward",
       "entities": [
         {
           "entity": "ContactName",
-          "startPos": 9,
-          "endPos": 11
+          "startPos": 10,
+          "endPos": 12
         },
         {
           "entity": "Message",
-          "startPos": 16,
-          "endPos": 21
+          "startPos": 19,
+          "endPos": 24
         }
       ]
     },
     {
-      "text": "将此电子邮件转发到丹尼尔",
+      "text": "将此电子邮件转发到 丹尼尔",
       "intent": "Forward",
       "entities": [
         {
           "entity": "ContactName",
-          "startPos": 9,
-          "endPos": 11
+          "startPos": 10,
+          "endPos": 12
         }
       ]
     },
     {
-      "text": "将此电子邮件转发到加里. 布朗请",
+      "text": "将此电子邮件转发到 加里. 布朗 请",
       "intent": "Forward",
       "entities": [
         {
           "entity": "ContactName",
-          "startPos": 9,
-          "endPos": 14
-        }
-      ]
-    },
-    {
-      "text": "将此电子邮件转发到格雷格",
-      "intent": "Forward",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 9,
-          "endPos": 11
-        }
-      ]
-    },
-    {
-      "text": "将此电子邮件转发到partone 点 parttwo 在 gmail 点 com",
-      "intent": "Forward",
-      "entities": [
-        {
-          "entity": "EmailAddress",
-          "startPos": 9,
-          "endPos": 39
-        }
-      ]
-    },
-    {
-      "text": "将此按摩转到彼得",
-      "intent": "Forward",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 6,
-          "endPos": 7
-        }
-      ]
-    },
-    {
-      "text": "转发到布赖恩波特 今晚",
-      "intent": "Forward",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 3,
-          "endPos": 7
-        },
-        {
-          "entity": "Time",
-          "startPos": 9,
-          "endPos": 10
-        }
-      ]
-    },
-    {
-      "text": "转发到哈利通过键入我同意这一点。",
-      "intent": "Forward",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 3,
-          "endPos": 4
-        },
-        {
-          "entity": "Message",
-          "startPos": 9,
+          "startPos": 10,
           "endPos": 15
         }
       ]
     },
     {
-      "text": "转发到嫁给有消息说,我不想那样",
+      "text": "将此电子邮件转发到 格雷格",
       "intent": "Forward",
       "entities": [
         {
           "entity": "ContactName",
-          "startPos": 3,
-          "endPos": 4
+          "startPos": 10,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "将此电子邮件转发到 partone 点第二在 gmail 点 com",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "EmailAddress",
+          "startPos": 10,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "将此按摩转到 皮特",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 7,
+          "endPos": 8
+        }
+      ]
+    },
+    {
+      "text": "转发到 布莱恩. 波特   今晚",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 4,
+          "endPos": 10
+        },
+        {
+          "entity": "Time",
+          "startPos": 14,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "转发到 哈利 通过键入 我同意",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 4,
+          "endPos": 5
         },
         {
           "entity": "Message",
-          "startPos": 10,
+          "startPos": 12,
           "endPos": 14
         }
       ]
     },
     {
-      "text": "转发到妈妈",
+      "text": "转发到 嫁给 有消息说 我不想那样",
       "intent": "Forward",
       "entities": [
         {
-          "entity": "RelationshipName",
-          "startPos": 3,
-          "endPos": 4
+          "entity": "ContactName",
+          "startPos": 4,
+          "endPos": 5
+        },
+        {
+          "entity": "Message",
+          "startPos": 12,
+          "endPos": 16
         }
       ]
     },
     {
-      "text": "转发到我的老板并附上schedual 文件",
+      "text": "转发到 妈妈",
       "intent": "Forward",
       "entities": [
         {
           "entity": "RelationshipName",
-          "startPos": 3,
-          "endPos": 6
+          "startPos": 4,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "转发到 我的老板 并附上 游览文件",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "RelationshipName",
+          "startPos": 4,
+          "endPos": 7
         },
         {
           "entity": "Attachment",
-          "startPos": 10,
-          "endPos": 20
+          "startPos": 13,
+          "endPos": 16
         }
       ]
     },
     {
-      "text": "转发到partoneparttwo@gmail.com partoneparttwo@gmail 下星期一",
+      "text": "转发到 partoneparttwo@gmail.com partoneparttwo@gmail   下星期一",
       "intent": "Forward",
       "entities": [
         {
           "entity": "EmailAddress",
-          "startPos": 3,
-          "endPos": 47
+          "startPos": 4,
+          "endPos": 48
         },
         {
           "entity": "Date",
-          "startPos": 49,
-          "endPos": 52
+          "startPos": 52,
+          "endPos": 55
         }
       ]
     },
     {
-      "text": "转发到沙龙请",
+      "text": "转发到 沙龙 请",
       "intent": "Forward",
       "entities": [
         {
           "entity": "ContactName",
-          "startPos": 3,
-          "endPos": 4
+          "startPos": 4,
+          "endPos": 5
         }
       ]
     },
     {
-      "text": "转发到妻子通过说我爱你",
+      "text": "转发到 妻子 通过说 我爱你",
       "intent": "Forward",
       "entities": [
         {
           "entity": "RelationshipName",
-          "startPos": 3,
-          "endPos": 4
+          "startPos": 4,
+          "endPos": 5
         },
         {
           "entity": "Message",
-          "startPos": 8,
+          "startPos": 11,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "请将此电子邮件转发到 partoneparttwo@163.com partoneparttwo@163",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "EmailAddress",
+          "startPos": 11,
+          "endPos": 51
+        }
+      ]
+    },
+    {
+      "text": "请将此电子邮件转发到 partoneparttwo@outlook.com partoneparttwo@outlook",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "EmailAddress",
+          "startPos": 11,
+          "endPos": 59
+        }
+      ]
+    },
+    {
+      "text": "请转发此消息",
+      "intent": "Forward",
+      "entities": []
+    },
+    {
+      "text": "请将此消息转发到 Jc 通过键入 一切都会好起来的",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 9,
           "endPos": 10
-        }
-      ]
-    },
-    {
-      "text": "请将此电子邮件转发到partoneparttwo@163.com partoneparttwo@163",
-      "intent": "Forward",
-      "entities": [
-        {
-          "entity": "EmailAddress",
-          "startPos": 10,
-          "endPos": 50
-        }
-      ]
-    },
-    {
-      "text": "请将此电子邮件转发到partoneparttwo@outlook.com partoneparttwo@outlook",
-      "intent": "Forward",
-      "entities": [
-        {
-          "entity": "EmailAddress",
-          "startPos": 10,
-          "endPos": 58
-        }
-      ]
-    },
-    {
-      "text": "请转发此邮件",
-      "intent": "Forward",
-      "entities": []
-    },
-    {
-      "text": "请将此消息转发到Jc通过键入一切都会好起来的",
-      "intent": "Forward",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 8,
-          "endPos": 9
         },
         {
           "entity": "Message",
-          "startPos": 14,
-          "endPos": 21
+          "startPos": 17,
+          "endPos": 24
         }
       ]
     },
     {
-      "text": "请向海伦",
+      "text": "请转到 海伦",
       "intent": "Forward",
       "entities": [
         {
           "entity": "ContactName",
-          "startPos": 2,
-          "endPos": 3
-        }
-      ]
-    },
-    {
-      "text": "早上好",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "你好",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "你好",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "我很高兴认识你",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "你可以帮我吗？",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "你能帮我吗？",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "请帮助我",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "帮我开始",
-      "intent": "Help",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 2,
-          "endPos": 3
-        }
-      ]
-    },
-    {
-      "text": "帮我理解更多请",
-      "intent": "Help",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 2,
-          "endPos": 3
-        }
-      ]
-    },
-    {
-      "text": "帮我这个",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "请帮助我的设备",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "我需要你的帮助",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "请帮助我",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "请帮助我, 我想完成",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "注销",
-      "intent": "Logout",
-      "entities": []
-    },
-    {
-      "text": "注销计算机",
-      "intent": "Logout",
-      "entities": []
-    },
-    {
-      "text": "注销我的电话",
-      "intent": "Logout",
-      "entities": []
-    },
-    {
-      "text": "注销",
-      "intent": "Logout",
-      "entities": []
-    },
-    {
-      "text": "请在 facebook 上签名",
-      "intent": "Logout",
-      "entities": []
-    },
-    {
-      "text": "添加一个文件到电子邮件",
-      "intent": "None",
-      "entities": [
-        {
-          "entity": "Attachment",
           "startPos": 4,
           "endPos": 5
         }
       ]
     },
     {
-      "text": "添加一个图片",
+      "text": "添加一个 文件 到电子邮件",
       "intent": "None",
       "entities": [
         {
           "entity": "Attachment",
-          "startPos": 4,
-          "endPos": 5
+          "startPos": 5,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "添加一个 图片",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Attachment",
+          "startPos": 5,
+          "endPos": 6
         }
       ]
     },
@@ -1747,18 +949,18 @@
       "entities": []
     },
     {
-      "text": "向邮件中添加另一行",
+      "text": "向邮件添加其他行",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "添加你喜欢整个节目吗？",
+      "text": "添加 你喜欢整个节目吗？",
       "intent": "None",
       "entities": [
         {
           "entity": "Message",
-          "startPos": 2,
-          "endPos": 10
+          "startPos": 3,
+          "endPos": 11
         }
       ]
     },
@@ -1768,7 +970,7 @@
       "entities": []
     },
     {
-      "text": "添加更多信息并更改邮件",
+      "text": "添加更多内容并更改邮件",
       "intent": "None",
       "entities": []
     },
@@ -1778,18 +980,18 @@
       "entities": []
     },
     {
-      "text": "添加更多别忘了带啤酒来",
+      "text": "添加更多 别忘了带啤酒来",
       "intent": "None",
       "entities": [
         {
           "entity": "Message",
-          "startPos": 4,
-          "endPos": 10
+          "startPos": 5,
+          "endPos": 11
         }
       ]
     },
     {
-      "text": "添加更多信息",
+      "text": "添加更多消息",
       "intent": "None",
       "entities": []
     },
@@ -1804,28 +1006,28 @@
       "entities": []
     },
     {
-      "text": "请添加更多文字",
+      "text": "请添加更多文本",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "添加更多到艾希礼的电子邮件",
+      "text": "添加更多到 艾希礼 的电子邮件",
       "intent": "None",
       "entities": [
         {
           "entity": "ContactName",
-          "startPos": 5,
-          "endPos": 7
+          "startPos": 6,
+          "endPos": 8
         }
       ]
     },
     {
-      "text": "添加更多邮件",
+      "text": "添加更多电子邮件",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "将更多邮件添加到电子邮件正文中",
+      "text": "添加更多到电子邮件正文",
       "intent": "None",
       "entities": []
     },
@@ -1835,49 +1037,49 @@
       "entities": []
     },
     {
-      "text": "添加到邮件中",
+      "text": "向邮件添加更多信息",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "将更多内容添加到文本中",
+      "text": "向文本添加更多内容",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "添加到文本消息中",
+      "text": "向文本消息添加更多内容",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "将更多邮件添加到电子邮件中",
+      "text": "向电子邮件添加更多",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "将更多添加到最后电子邮件",
+      "text": "将更多添加到 最后 电子邮件",
       "intent": "None",
       "entities": [
         {
           "entity": "OrderReference",
-          "startPos": 6,
-          "endPos": 7
+          "startPos": 7,
+          "endPos": 8
         }
       ]
     },
     {
-      "text": "向邮件中添加更多信息",
+      "text": "向邮件添加更多内容",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "添加照片",
+      "text": "添加 照片",
       "intent": "None",
       "entities": [
         {
           "entity": "Attachment",
-          "startPos": 2,
-          "endPos": 3
+          "startPos": 3,
+          "endPos": 4
         }
       ]
     },
@@ -1892,7 +1094,7 @@
       "entities": []
     },
     {
-      "text": "添加到电子邮件正文中",
+      "text": "添加到电子邮件正文",
       "intent": "None",
       "entities": []
     },
@@ -1902,45 +1104,45 @@
       "entities": []
     },
     {
-      "text": "添加顺便一步, 下一步计划是什么？",
-      "intent": "None",
-      "entities": [
-        {
-          "entity": "Message",
-          "startPos": 2,
-          "endPos": 16
-        }
-      ]
-    },
-    {
-      "text": "添加：下班后给我打电话",
+      "text": "添加 顺便一想, 下一步计划是什么？",
       "intent": "None",
       "entities": [
         {
           "entity": "Message",
           "startPos": 3,
-          "endPos": 10
+          "endPos": 17
         }
       ]
     },
     {
-      "text": "将附件附加到此电子邮件中",
+      "text": "添加： 下班后给我打电话",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 4,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "将附件附加到此电子邮件",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "附加文件",
+      "text": "附加 文件",
       "intent": "None",
       "entities": [
         {
           "entity": "Attachment",
-          "startPos": 2,
-          "endPos": 3
+          "startPos": 3,
+          "endPos": 4
         }
       ]
     },
     {
-      "text": "是否可以向邮件中添加更多信息",
+      "text": "我可以向邮件添加更多信息吗？",
       "intent": "None",
       "entities": []
     },
@@ -1950,12 +1152,12 @@
       "entities": []
     },
     {
-      "text": "我还没做完呢。我需要添加一些细节",
+      "text": "我还没做完呢。我需要添加更多的细节",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "我忘了添加一个重要的部分, 该电子邮件詹姆斯·卡梅隆.请将其设置为编辑",
+      "text": "我忘了添加一个重要的部分, 电子邮件 詹姆斯·卡梅隆 .请将其设置为编辑",
       "intent": "None",
       "entities": [
         {
@@ -1976,12 +1178,12 @@
       "entities": []
     },
     {
-      "text": "我需要添加更多的信息",
+      "text": "我需要添加更多信息",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "我需要添加更多的文本",
+      "text": "我需要添加更多文本",
       "intent": "None",
       "entities": []
     },
@@ -1991,45 +1193,45 @@
       "entities": []
     },
     {
-      "text": "我需要添加更多的电子邮件, 我发送到在",
+      "text": "我需要添加更多的电子邮件消息, 我发送到 在",
       "intent": "None",
       "entities": [
         {
           "entity": "ContactName",
-          "startPos": 18,
-          "endPos": 18
-        }
-      ]
-    },
-    {
-      "text": "我需要添加其他东西到我的电子邮件安东尼",
-      "intent": "None",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 16,
-          "endPos": 18
-        }
-      ]
-    },
-    {
-      "text": "我需要添加一些其他的电子邮件到卡伦. 史密斯在发送之前",
-      "intent": "None",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 15,
+          "startPos": 21,
           "endPos": 21
         }
       ]
     },
     {
+      "text": "我需要添加其他东西到我的电子邮件 安东尼",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 17,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "我需要添加其他东西到该电子邮件 凯伦. 史密斯 在发送之前",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 16,
+          "endPos": 22
+        }
+      ]
+    },
+    {
       "text": "我想添加更多的电子邮件",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "我想添加更多的信息",
+      "text": "我希望在邮件中添加更多信息",
       "intent": "None",
       "entities": []
     },
@@ -2039,7 +1241,7 @@
       "entities": []
     },
     {
-      "text": "我想添加更多的电子邮件",
+      "text": "我想添加更多的电子邮件消息",
       "intent": "None",
       "entities": []
     },
@@ -2059,22 +1261,22 @@
       "entities": []
     },
     {
-      "text": "请为我插入更多的线条",
+      "text": "请为我插入更多行",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "在电子邮件中插入更多文本",
+      "text": "在我的电子邮件中插入更多文本",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "我可以添加更多的电子邮件吗？",
+      "text": "是否可以添加更多的电子邮件？",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "它是不完整的, 需要更多的内容",
+      "text": "它不完整, 需要更多的内容",
       "intent": "None",
       "entities": []
     },
@@ -2084,7 +1286,7 @@
       "entities": []
     },
     {
-      "text": "需要向上一个邮件中添加信息",
+      "text": "需要向前一条消息添加信息",
       "intent": "None",
       "entities": []
     },
@@ -2094,13 +1296,13 @@
       "entities": []
     },
     {
-      "text": "请添加这是可怕的",
+      "text": "请添加 这是可怕的",
       "intent": "None",
       "entities": [
         {
           "entity": "Message",
-          "startPos": 3,
-          "endPos": 7
+          "startPos": 4,
+          "endPos": 8
         }
       ]
     },
@@ -2110,33 +1312,29 @@
       "entities": []
     },
     {
-      "text": "请添加,请让我知道我能带来什么。我很乐意做一个小菜或甜点",
+      "text": "请添加, 请让我知道我能带来什么。我很乐意做小菜或甜点",
       "intent": "None",
       "entities": [
         {
           "entity": "Message",
-          "startPos": 4,
-          "endPos": 27
+          "startPos": 5,
+          "endPos": 26
         }
       ]
     },
     {
-      "text": "在该邮件中添加一些附加行",
-      "intent": "None",
-      "entities": []
+      "text": "你能告诉我 最后 我收到的电子邮件",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 6,
+          "endPos": 7
+        }
+      ]
     },
     {
-      "text": "等等, 我需要写更多",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "写更多",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "你能告诉我最后我收到的电子邮件",
+      "text": "我想看看 最后 电子邮件",
       "intent": "QueryLastText",
       "entities": [
         {
@@ -2147,18 +1345,7 @@
       ]
     },
     {
-      "text": "我想看看最后电子邮件",
-      "intent": "QueryLastText",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 4,
-          "endPos": 5
-        }
-      ]
-    },
-    {
-      "text": "最后电子邮件",
+      "text": "最后 电子邮件",
       "intent": "QueryLastText",
       "entities": [
         {
@@ -2169,7 +1356,7 @@
       ]
     },
     {
-      "text": "打开 \"最后电子邮件",
+      "text": "打开该 最后 电子邮件",
       "intent": "QueryLastText",
       "entities": [
         {
@@ -2185,7 +1372,7 @@
       "entities": []
     },
     {
-      "text": "请告诉我是谁给我发电子邮件的最后",
+      "text": "请告诉我谁发了电子邮件给我 最后",
       "intent": "QueryLastText",
       "entities": [
         {
@@ -2196,7 +1383,28 @@
       ]
     },
     {
-      "text": "让我看看最后电子邮件",
+      "text": "给我看看 最后 电子邮件",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 5,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "给我看最新的电子邮件",
+      "intent": "QueryLastText",
+      "entities": []
+    },
+    {
+      "text": "给我看最新的电子邮件",
+      "intent": "QueryLastText",
+      "entities": []
+    },
+    {
+      "text": "显示该 最后 电子邮件",
       "intent": "QueryLastText",
       "entities": [
         {
@@ -2207,127 +1415,106 @@
       ]
     },
     {
-      "text": "给我看最新的电子邮件",
-      "intent": "QueryLastText",
-      "entities": []
-    },
-    {
-      "text": "显示最新的电子邮件",
-      "intent": "QueryLastText",
-      "entities": []
-    },
-    {
-      "text": "显示该最后电子邮件",
+      "text": "的 最后 电子邮件",
       "intent": "QueryLastText",
       "entities": [
         {
           "entity": "OrderReference",
-          "startPos": 3,
-          "endPos": 4
+          "startPos": 2,
+          "endPos": 3
         }
       ]
     },
     {
-      "text": "的最后电子邮件",
-      "intent": "QueryLastText",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 1,
-          "endPos": 2
-        }
-      ]
-    },
-    {
-      "text": "什么妈妈就说",
+      "text": "是什么 妈妈 只是说",
       "intent": "QueryLastText",
       "entities": [
         {
           "entity": "RelationshipName",
-          "startPos": 2,
-          "endPos": 3
+          "startPos": 4,
+          "endPos": 5
         }
       ]
     },
     {
-      "text": "什么埃里克刚说",
+      "text": "什么 埃里克 刚才说",
       "intent": "QueryLastText",
       "entities": [
         {
           "entity": "ContactName",
-          "startPos": 2,
-          "endPos": 4
-        }
-      ]
-    },
-    {
-      "text": "哈利最后电子邮件说",
-      "intent": "QueryLastText",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 2,
-          "endPos": 3
-        }
-      ]
-    },
-    {
-      "text": "什么是最后今天收到的电子邮件",
-      "intent": "QueryLastText",
-      "entities": [
-        {
-          "entity": "OrderReference",
           "startPos": 3,
-          "endPos": 4
+          "endPos": 5
         }
       ]
     },
     {
-      "text": "什么是我收到的最新电子邮件爸爸",
+      "text": "什么哈利 最后 电子邮件说",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 5,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "什么是 最后 今天收到的电子邮件",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 4,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "我收到的最新电子邮件是什么？ 爸爸",
       "intent": "QueryLastText",
       "entities": [
         {
           "entity": "FromRelationshipName",
-          "startPos": 13,
-          "endPos": 14
+          "startPos": 15,
+          "endPos": 16
         }
       ]
     },
     {
-      "text": "什么是最后电子邮件",
+      "text": "什么是 最后 电子邮件",
       "intent": "QueryLastText",
       "entities": [
         {
           "entity": "OrderReference",
-          "startPos": 3,
-          "endPos": 4
+          "startPos": 4,
+          "endPos": 5
         }
       ]
     },
     {
-      "text": "什么是最后我从爸爸那里收到的电子邮件",
+      "text": "什么是 最后 我从爸爸那里得到的电子邮件",
       "intent": "QueryLastText",
       "entities": [
         {
           "entity": "OrderReference",
-          "startPos": 3,
-          "endPos": 4
+          "startPos": 4,
+          "endPos": 5
         }
       ]
     },
     {
-      "text": "什么是最后电子邮件, 我得到了从海伦爱德华兹",
+      "text": "什么是 最后 我从海伦爱德华兹收到的电子邮件",
       "intent": "QueryLastText",
       "entities": [
         {
           "entity": "OrderReference",
-          "startPos": 3,
-          "endPos": 4
+          "startPos": 4,
+          "endPos": 5
         }
       ]
     },
     {
-      "text": "刚才给我发电子邮件的人",
+      "text": "我刚才给我发电子邮件",
       "intent": "QueryLastText",
       "entities": []
     },
@@ -2337,23 +1524,23 @@
       "entities": []
     },
     {
-      "text": "刚才给我发电子邮件的人",
+      "text": "我刚才给我发电子邮件",
       "intent": "QueryLastText",
       "entities": []
     },
     {
-      "text": "谁给我发电子邮件最后",
+      "text": "谁给我发电子邮件 最后",
       "intent": "QueryLastText",
       "entities": [
         {
           "entity": "OrderReference",
-          "startPos": 8,
-          "endPos": 9
+          "startPos": 9,
+          "endPos": 10
         }
       ]
     },
     {
-      "text": "最近给我发电子邮件的人",
+      "text": "最近发邮件给我",
       "intent": "QueryLastText",
       "entities": []
     },
@@ -2363,12 +1550,12 @@
       "entities": []
     },
     {
-      "text": "刚才给我发短信的人",
+      "text": "刚才给我发短信了",
       "intent": "QueryLastText",
       "entities": []
     },
     {
-      "text": "刚才谁的邮件？",
+      "text": "刚才是谁的电子邮件？",
       "intent": "QueryLastText",
       "entities": []
     },
@@ -2383,18 +1570,18 @@
       "entities": []
     },
     {
-      "text": "你能读我最后电子邮件",
+      "text": "你能读懂我 最后 电子邮件",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "OrderReference",
-          "startPos": 4,
-          "endPos": 5
+          "startPos": 6,
+          "endPos": 7
         }
       ]
     },
     {
-      "text": "请阅读我的最后电子邮件",
+      "text": "请阅读我 最后 电子邮件",
       "intent": "ReadAloud",
       "entities": [
         {
@@ -2405,13 +1592,13 @@
       ]
     },
     {
-      "text": "朗读我新增功能电子邮件",
+      "text": "大声朗读我 新增功能 电子邮件",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "OrderReference",
-          "startPos": 3,
-          "endPos": 6
+          "startPos": 6,
+          "endPos": 9
         }
       ]
     },
@@ -2421,35 +1608,35 @@
       "entities": []
     },
     {
-      "text": "阅读电子邮件黎明",
+      "text": "阅读电子邮件从 黎明",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "SenderName",
-          "startPos": 6,
-          "endPos": 7
+          "startPos": 8,
+          "endPos": 9
         }
       ]
     },
     {
-      "text": "阅读电子邮件凯特",
+      "text": "阅读电子邮件从 凯特",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "SenderName",
-          "startPos": 6,
-          "endPos": 7
+          "startPos": 8,
+          "endPos": 9
         }
       ]
     },
     {
-      "text": "阅读电子邮件妈妈",
+      "text": "阅读电子邮件从 妈妈",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "FromRelationshipName",
-          "startPos": 6,
-          "endPos": 7
+          "startPos": 8,
+          "endPos": 9
         }
       ]
     },
@@ -2464,40 +1651,40 @@
       "entities": []
     },
     {
-      "text": "阅读来自粘土的电子邮件",
+      "text": "阅读粘土的电子邮件",
       "intent": "ReadAloud",
       "entities": []
     },
     {
-      "text": "读第一在链接框中发送电子邮件",
+      "text": "读 第一 \"链接\" 框中的电子邮件",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "PositionReference",
-          "startPos": 1,
-          "endPos": 2
+          "startPos": 2,
+          "endPos": 3
         }
       ]
     },
     {
-      "text": "读第一在链接的收件箱中发送电子邮件",
+      "text": "读 第一 在链接的收件箱中发送电子邮件",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "PositionReference",
-          "startPos": 1,
-          "endPos": 2
+          "startPos": 2,
+          "endPos": 3
         }
       ]
     },
     {
-      "text": "读谷歌邮件",
+      "text": "读 谷歌 邮件",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "Line",
-          "startPos": 1,
-          "endPos": 2
+          "startPos": 2,
+          "endPos": 3
         }
       ]
     },
@@ -2507,29 +1694,29 @@
       "entities": []
     },
     {
-      "text": "读最后收到的电子邮件",
+      "text": "读 最后 收到的电子邮件",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "OrderReference",
-          "startPos": 1,
-          "endPos": 2
+          "startPos": 2,
+          "endPos": 3
         }
       ]
     },
     {
-      "text": "阅读最近收到的电子邮件",
+      "text": "阅读最后收到的电子邮件",
       "intent": "ReadAloud",
       "entities": []
     },
     {
-      "text": "读最后邮件",
+      "text": "读 最后 邮件",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "OrderReference",
-          "startPos": 1,
-          "endPos": 2
+          "startPos": 2,
+          "endPos": 3
         }
       ]
     },
@@ -2539,68 +1726,52 @@
       "entities": []
     },
     {
-      "text": "读玛丽格蕾 verduguez电子邮件",
+      "text": "读 玛丽格蕾 verduguez 电子邮件",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "SenderName",
-          "startPos": 1,
-          "endPos": 14
+          "startPos": 2,
+          "endPos": 15
         }
       ]
     },
     {
-      "text": "读我的最后 Hotmail电子邮件",
+      "text": "读我的 最后   Hotmail 电子邮件",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "OrderReference",
-          "startPos": 3,
-          "endPos": 4
+          "startPos": 4,
+          "endPos": 5
         },
         {
           "entity": "Line",
-          "startPos": 6,
-          "endPos": 12
+          "startPos": 9,
+          "endPos": 15
         }
       ]
     },
     {
-      "text": "读我的最新电子邮件",
+      "text": "读我的 最新 电子邮件",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "OrderReference",
-          "startPos": 3,
-          "endPos": 4
+          "startPos": 4,
+          "endPos": 5
         }
       ]
     },
     {
-      "text": "阅读我的电子邮件",
+      "text": "给我读电子邮件",
       "intent": "ReadAloud",
       "entities": []
     },
     {
-      "text": "读我的电子邮件从阿加莎",
+      "text": "读我的电子邮件从 阿加莎",
       "intent": "ReadAloud",
       "entities": [
-        {
-          "entity": "SenderName",
-          "startPos": 8,
-          "endPos": 10
-        }
-      ]
-    },
-    {
-      "text": "读我的最后电子邮件克劳德送",
-      "intent": "ReadAloud",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 3,
-          "endPos": 4
-        },
         {
           "entity": "SenderName",
           "startPos": 9,
@@ -2609,29 +1780,45 @@
       ]
     },
     {
-      "text": "读我的最后电子邮件的五分钟",
+      "text": "读我的 最后 电子邮件 克劳德 送",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "OrderReference",
-          "startPos": 3,
-          "endPos": 4
+          "startPos": 4,
+          "endPos": 5
         },
         {
-          "entity": "Time",
-          "startPos": 10,
-          "endPos": 12
+          "entity": "SenderName",
+          "startPos": 12,
+          "endPos": 14
         }
       ]
     },
     {
-      "text": "读我的最新电子邮件",
+      "text": "读我的 最后 电子邮件的 五分钟",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "OrderReference",
-          "startPos": 3,
-          "endPos": 4
+          "startPos": 4,
+          "endPos": 5
+        },
+        {
+          "entity": "Time",
+          "startPos": 13,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "读我的 最新 电子邮件",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 4,
+          "endPos": 5
         }
       ]
     },
@@ -2641,23 +1828,23 @@
       "entities": []
     },
     {
-      "text": "阅读我的电子邮件从婴儿",
+      "text": "阅读我的电子邮件从婴孩",
       "intent": "ReadAloud",
       "entities": []
     },
     {
-      "text": "阅读我的电子邮件从老公",
+      "text": "阅读我的电子邮件从 老公",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "SenderName",
-          "startPos": 9,
-          "endPos": 10
+          "startPos": 10,
+          "endPos": 11
         }
       ]
     },
     {
-      "text": "读我的电子邮件从泰勒莫菲特",
+      "text": "阅读我的电子邮件从泰勒莫菲特",
       "intent": "ReadAloud",
       "entities": []
     },
@@ -2672,7 +1859,7 @@
       "entities": []
     },
     {
-      "text": "读我的电子邮件给我",
+      "text": "阅读我的电子邮件给我",
       "intent": "ReadAloud",
       "entities": []
     },
@@ -2682,13 +1869,13 @@
       "entities": []
     },
     {
-      "text": "阅读我的电子邮件从脂肪",
+      "text": "阅读我的电子邮件从 脂肪",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "SenderName",
-          "startPos": 9,
-          "endPos": 10
+          "startPos": 10,
+          "endPos": 11
         }
       ]
     },
@@ -2698,35 +1885,35 @@
       "entities": []
     },
     {
-      "text": "读我最后电子邮件",
+      "text": "读我 最后 电子邮件",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "OrderReference",
-          "startPos": 2,
-          "endPos": 3
+          "startPos": 3,
+          "endPos": 4
         }
       ]
     },
     {
-      "text": "读我最后发电子邮件给我",
+      "text": "读我 最后 给我发电子邮件",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "OrderReference",
-          "startPos": 2,
-          "endPos": 3
+          "startPos": 3,
+          "endPos": 4
         }
       ]
     },
     {
-      "text": "读我最后短信",
+      "text": "读我 最后 短信",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "OrderReference",
-          "startPos": 2,
-          "endPos": 3
+          "startPos": 3,
+          "endPos": 4
         }
       ]
     },
@@ -2741,13 +1928,13 @@
       "entities": []
     },
     {
-      "text": "读我新增功能电子邮件",
+      "text": "读我 新增功能 电子邮件",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "Category",
-          "startPos": 2,
-          "endPos": 5
+          "startPos": 3,
+          "endPos": 6
         }
       ]
     },
@@ -2757,24 +1944,24 @@
       "entities": []
     },
     {
-      "text": "读我前景电子邮件",
+      "text": "读我 前景 电子邮件",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "Line",
-          "startPos": 2,
-          "endPos": 3
+          "startPos": 3,
+          "endPos": 4
         }
       ]
     },
     {
-      "text": "读我最近电子邮件",
+      "text": "读我 最近 电子邮件",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "Time",
-          "startPos": 2,
-          "endPos": 3
+          "startPos": 3,
+          "endPos": 4
         }
       ]
     },
@@ -2789,13 +1976,13 @@
       "entities": []
     },
     {
-      "text": "读我最近给我发电子邮件",
+      "text": "读我 最近 电邮给我",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "Time",
-          "startPos": 2,
-          "endPos": 3
+          "startPos": 3,
+          "endPos": 4
         }
       ]
     },
@@ -2805,34 +1992,34 @@
       "entities": []
     },
     {
-      "text": "阅读新邮件",
+      "text": "阅读新电子邮件",
       "intent": "ReadAloud",
       "entities": []
     },
     {
-      "text": "读新增功能电子邮件来自大卫, 但",
+      "text": "读 新增功能 电子邮件从 大卫, 但",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "Category",
-          "startPos": 1,
-          "endPos": 4
+          "startPos": 2,
+          "endPos": 5
         },
         {
           "entity": "SenderName",
-          "startPos": 11,
-          "endPos": 15
+          "startPos": 13,
+          "endPos": 17
         }
       ]
     },
     {
-      "text": "读新增功能消息",
+      "text": "读 新增功能 消息",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "Category",
-          "startPos": 1,
-          "endPos": 4
+          "startPos": 2,
+          "endPos": 5
         }
       ]
     },
@@ -2852,83 +2039,83 @@
       "entities": []
     },
     {
-      "text": "读了第一电子邮件",
+      "text": "阅读该 第一 电子邮件",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "PositionReference",
-          "startPos": 2,
-          "endPos": 3
+          "startPos": 4,
+          "endPos": 5
         }
       ]
     },
     {
-      "text": "读了第一电子邮件在Hotmail",
+      "text": "阅读该 第一 电子邮件在 Hotmail",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "PositionReference",
-          "startPos": 2,
-          "endPos": 3
+          "startPos": 4,
+          "endPos": 5
         },
         {
           "entity": "Line",
-          "startPos": 9,
-          "endPos": 15
+          "startPos": 13,
+          "endPos": 19
         }
       ]
     },
     {
-      "text": "读了最后电子邮件",
+      "text": "阅读该 最后 电子邮件",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "OrderReference",
-          "startPos": 2,
-          "endPos": 3
+          "startPos": 4,
+          "endPos": 5
         }
       ]
     },
     {
-      "text": "读了最后电子邮件信息",
+      "text": "阅读该 最后 电子邮件消息",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "OrderReference",
-          "startPos": 2,
-          "endPos": 3
+          "startPos": 4,
+          "endPos": 5
         }
       ]
     },
     {
-      "text": "读了最新电子邮件来自妈妈",
+      "text": "阅读该 最新 电子邮件从 妈妈",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "OrderReference",
-          "startPos": 2,
-          "endPos": 3
+          "startPos": 4,
+          "endPos": 5
         },
         {
           "entity": "FromRelationshipName",
-          "startPos": 10,
-          "endPos": 11
+          "startPos": 13,
+          "endPos": 14
         }
       ]
     },
     {
-      "text": "读了最新电子邮件来自史蒂夫嘴唇",
+      "text": "阅读该 最新 电子邮件从 史蒂夫唇",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "OrderReference",
-          "startPos": 2,
-          "endPos": 3
+          "startPos": 4,
+          "endPos": 5
         },
         {
           "entity": "SenderName",
-          "startPos": 10,
-          "endPos": 14
+          "startPos": 13,
+          "endPos": 16
         }
       ]
     },
@@ -2938,51 +2125,51 @@
       "entities": []
     },
     {
-      "text": "读今天邮件",
+      "text": "读 今天 邮件",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "Date",
-          "startPos": 1,
-          "endPos": 2
+          "startPos": 2,
+          "endPos": 3
         }
       ]
     },
     {
-      "text": "读读电子邮件",
+      "text": "读 未读 电子邮件",
       "intent": "ReadAloud",
       "entities": [
         {
           "entity": "Category",
-          "startPos": 1,
-          "endPos": 1
+          "startPos": 2,
+          "endPos": 3
         }
       ]
     },
     {
-      "text": "创建对电子邮件的响应, 说请再把照片寄给我。",
+      "text": "通过以下方法创建对电子邮件的响应: 请再给我一张照片",
       "intent": "Reply",
       "entities": [
         {
           "entity": "Message",
-          "startPos": 13,
-          "endPos": 21
+          "startPos": 18,
+          "endPos": 25
         }
       ]
     },
     {
-      "text": "回邮",
+      "text": "电子邮件回",
       "intent": "Reply",
       "entities": []
     },
     {
-      "text": "回邮我会给你回电的",
+      "text": "电子邮件回 我会给你回电的",
       "intent": "Reply",
       "entities": [
         {
           "entity": "Message",
-          "startPos": 2,
-          "endPos": 8
+          "startPos": 6,
+          "endPos": 12
         }
       ]
     },
@@ -2992,13 +2179,13 @@
       "entities": []
     },
     {
-      "text": "作出回应谢谢",
+      "text": "作出响应与 谢谢",
       "intent": "Reply",
       "entities": [
         {
           "entity": "Message",
-          "startPos": 4,
-          "endPos": 5
+          "startPos": 6,
+          "endPos": 7
         }
       ]
     },
@@ -3008,117 +2195,117 @@
       "entities": []
     },
     {
-      "text": "电子邮件回复非常感谢你最好的问候君",
+      "text": "通过电子邮件回复 非常感谢您的问候琼",
       "intent": "Reply",
       "entities": [
         {
           "entity": "Message",
-          "startPos": 6,
-          "endPos": 16
+          "startPos": 9,
+          "endPos": 17
         }
       ]
     },
     {
-      "text": "答复说我爱你",
+      "text": "答复说 我爱你",
       "intent": "Reply",
       "entities": [
         {
           "entity": "Message",
-          "startPos": 3,
-          "endPos": 5
-        }
-      ]
-    },
-    {
-      "text": "答复说是的",
-      "intent": "Reply",
-      "entities": [
-        {
-          "entity": "Message",
-          "startPos": 3,
-          "endPos": 4
-        }
-      ]
-    },
-    {
-      "text": "键入时答复你好",
-      "intent": "Reply",
-      "entities": [
-        {
-          "entity": "Message",
-          "startPos": 5,
+          "startPos": 4,
           "endPos": 6
         }
       ]
     },
     {
-      "text": "键入时答复我在路上",
+      "text": "答复说 是的",
       "intent": "Reply",
       "entities": [
         {
           "entity": "Message",
-          "startPos": 5,
-          "endPos": 8
-        }
-      ]
-    },
-    {
-      "text": "电子邮件要求的回复",
-      "intent": "Reply",
-      "entities": []
-    },
-    {
-      "text": "答复,我很忙",
-      "intent": "Reply",
-      "entities": [
-        {
-          "entity": "Message",
-          "startPos": 3,
+          "startPos": 4,
           "endPos": 5
         }
       ]
     },
     {
-      "text": "答复安 迪",
-      "intent": "Reply",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 2,
-          "endPos": 4
-        }
-      ]
-    },
-    {
-      "text": "答复布雷特",
-      "intent": "Reply",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 2,
-          "endPos": 4
-        }
-      ]
-    },
-    {
-      "text": "回复电子邮件我现在很忙",
+      "text": "通过键入答复 你好",
       "intent": "Reply",
       "entities": [
         {
           "entity": "Message",
-          "startPos": 6,
+          "startPos": 7,
+          "endPos": 8
+        }
+      ]
+    },
+    {
+      "text": "通过键入答复 我在路上",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 7,
           "endPos": 10
         }
       ]
     },
     {
-      "text": "答复我最后电子邮件",
+      "text": "电子邮件所需的答复",
+      "intent": "Reply",
+      "entities": []
+    },
+    {
+      "text": "答复说, 我很忙",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "回复至 安 迪",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 4,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "回复至 布雷特",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 4,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "回复电子邮件 我现在很忙",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 7,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "回复我 最后 电子邮件",
       "intent": "Reply",
       "entities": [
         {
           "entity": "OrderReference",
-          "startPos": 3,
-          "endPos": 4
+          "startPos": 4,
+          "endPos": 5
         }
       ]
     },
@@ -3128,95 +2315,95 @@
       "entities": []
     },
     {
-      "text": "答复该第一一个",
+      "text": "答复该 第一 一个",
       "intent": "Reply",
       "entities": [
         {
           "entity": "PositionReference",
+          "startPos": 4,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "答复与 你好",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 4,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "答复 怡哈",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "Message",
           "startPos": 3,
           "endPos": 4
         }
       ]
     },
     {
-      "text": "答复你好",
+      "text": "答复 是老大",
       "intent": "Reply",
       "entities": [
         {
           "entity": "Message",
-          "startPos": 2,
-          "endPos": 3
-        }
-      ]
-    },
-    {
-      "text": "答复怡哈哈",
-      "intent": "Reply",
-      "entities": [
-        {
-          "entity": "Message",
-          "startPos": 2,
-          "endPos": 4
-        }
-      ]
-    },
-    {
-      "text": "答复是老大",
-      "intent": "Reply",
-      "entities": [
-        {
-          "entity": "Message",
-          "startPos": 2,
-          "endPos": 4
-        }
-      ]
-    },
-    {
-      "text": "响应我生病了, 我不能这样做",
-      "intent": "Reply",
-      "entities": [
-        {
-          "entity": "Message",
-          "startPos": 2,
-          "endPos": 13
-        }
-      ]
-    },
-    {
-      "text": "响应知识猎犬",
-      "intent": "Reply",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 2,
+          "startPos": 3,
           "endPos": 5
         }
       ]
     },
     {
-      "text": "回复电子邮件, 说我今天很忙",
+      "text": "响应 我病了, 我做不到",
       "intent": "Reply",
       "entities": [
         {
           "entity": "Message",
-          "startPos": 9,
-          "endPos": 13
+          "startPos": 3,
+          "endPos": 11
         }
       ]
     },
     {
-      "text": "返回西伯利亚爱斯基摩 移动",
+      "text": "回应 传说猎犬",
       "intent": "Reply",
       "entities": [
         {
           "entity": "ContactName",
-          "startPos": 2,
+          "startPos": 3,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "回复电子邮件通过说 我今天很忙",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 10,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "返回 西伯利亚哈士奇   移动",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 3,
           "endPos": 9
         },
         {
           "entity": "Line",
-          "startPos": 11,
-          "endPos": 12
+          "startPos": 13,
+          "endPos": 14
         }
       ]
     },
@@ -3226,23 +2413,23 @@
       "entities": []
     },
     {
-      "text": "发送响应我已经知道",
+      "text": "发送响应与 我已经知道",
       "intent": "Reply",
       "entities": [
         {
           "entity": "Message",
-          "startPos": 4,
-          "endPos": 8
+          "startPos": 6,
+          "endPos": 10
         }
       ]
     },
     {
-      "text": "你能搜索我的电子邮件吗？",
+      "text": "你能搜索我的电子邮件",
       "intent": "SearchMessages",
       "entities": []
     },
     {
-      "text": "检测电子邮件来自贝蒂",
+      "text": "检测电子邮件从 贝蒂",
       "intent": "SearchMessages",
       "entities": [
         {
@@ -3253,18 +2440,18 @@
       ]
     },
     {
-      "text": "检测包含关键字的电子邮件美",
+      "text": "检测包含关键字的电子邮件 美",
       "intent": "SearchMessages",
       "entities": [
         {
           "entity": "SearchTexts",
-          "startPos": 12,
-          "endPos": 12
+          "startPos": 13,
+          "endPos": 13
         }
       ]
     },
     {
-      "text": "检测电子邮件来自丽莎",
+      "text": "检测电子邮件从 丽莎",
       "intent": "SearchMessages",
       "entities": [
         {
@@ -3275,7 +2462,18 @@
       ]
     },
     {
-      "text": "我收到任何电子邮件汤姆",
+      "text": "我有没有收到任何电子邮件从 汤姆",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 14,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "我收到电子邮件从 汤姆",
       "intent": "SearchMessages",
       "entities": [
         {
@@ -3286,73 +2484,29 @@
       ]
     },
     {
-      "text": "我收到的电子邮件汤姆",
+      "text": "我有没有收到包含关键字的电子邮件 午餐",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 17,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "电子邮件发送自 九",
       "intent": "SearchMessages",
       "entities": [
         {
           "entity": "SenderName",
           "startPos": 8,
-          "endPos": 9
+          "endPos": 8
         }
       ]
     },
     {
-      "text": "我得到的电子邮件包含关键字午餐",
-      "intent": "SearchMessages",
-      "entities": [
-        {
-          "entity": "SearchTexts",
-          "startPos": 13,
-          "endPos": 14
-        }
-      ]
-    },
-    {
-      "text": "电子邮件发送自九",
-      "intent": "SearchMessages",
-      "entities": [
-        {
-          "entity": "SenderName",
-          "startPos": 7,
-          "endPos": 7
-        }
-      ]
-    },
-    {
-      "text": "电子邮件包含银行",
-      "intent": "SearchMessages",
-      "entities": [
-        {
-          "entity": "SearchTexts",
-          "startPos": 6,
-          "endPos": 7
-        }
-      ]
-    },
-    {
-      "text": "枚举电子邮件与algroithm",
-      "intent": "SearchMessages",
-      "entities": [
-        {
-          "entity": "SearchTexts",
-          "startPos": 7,
-          "endPos": 15
-        }
-      ]
-    },
-    {
-      "text": "查找电子邮件妈妈",
-      "intent": "SearchMessages",
-      "entities": [
-        {
-          "entity": "FromRelationshipName",
-          "startPos": 6,
-          "endPos": 7
-        }
-      ]
-    },
-    {
-      "text": "查找电子邮件与恢复",
+      "text": "电子邮件包含 银行",
       "intent": "SearchMessages",
       "entities": [
         {
@@ -3363,7 +2517,51 @@
       ]
     },
     {
-      "text": "列出电子邮件包含滑稽的图片",
+      "text": "枚举电子邮件与 拼接",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 8,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "查找电子邮件从 妈妈",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "FromRelationshipName",
+          "startPos": 8,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "查找电子邮件与 恢复",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 8,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "列出的电子邮件包含 滑稽的图片",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 10,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "查询电子邮件与 条例 草案",
       "intent": "SearchMessages",
       "entities": [
         {
@@ -3374,122 +2572,29 @@
       ]
     },
     {
-      "text": "查询电子邮件与条例 草案",
+      "text": "搜索 等等等等 在我的电子邮件",
       "intent": "SearchMessages",
       "entities": [
         {
           "entity": "SearchTexts",
-          "startPos": 7,
-          "endPos": 11
+          "startPos": 3,
+          "endPos": 6
         }
       ]
     },
     {
-      "text": "搜索等等在我的电子邮件",
+      "text": "搜索电子邮件包含 前景",
       "intent": "SearchMessages",
       "entities": [
         {
           "entity": "SearchTexts",
-          "startPos": 2,
-          "endPos": 3
-        }
-      ]
-    },
-    {
-      "text": "搜索电子邮件包含前景",
-      "intent": "SearchMessages",
-      "entities": [
-        {
-          "entity": "SearchTexts",
-          "startPos": 8,
-          "endPos": 9
-        }
-      ]
-    },
-    {
-      "text": "用关键词搜索电子邮件午餐",
-      "intent": "SearchMessages",
-      "entities": [
-        {
-          "entity": "SearchTexts",
-          "startPos": 10,
-          "endPos": 11
-        }
-      ]
-    },
-    {
-      "text": "搜索电子邮件包含工作项",
-      "intent": "SearchMessages",
-      "entities": [
-        {
-          "entity": "SearchTexts",
-          "startPos": 8,
+          "startPos": 9,
           "endPos": 10
         }
       ]
     },
     {
-      "text": "搜索电子邮件包含优惠 券",
-      "intent": "SearchMessages",
-      "entities": [
-        {
-          "entity": "SearchTexts",
-          "startPos": 8,
-          "endPos": 11
-        }
-      ]
-    },
-    {
-      "text": "搜索电子邮件从迈克",
-      "intent": "SearchMessages",
-      "entities": [
-        {
-          "entity": "SenderName",
-          "startPos": 7,
-          "endPos": 8
-        }
-      ]
-    },
-    {
-      "text": "搜索关键词keywordone keywordtwo在我的电子邮件",
-      "intent": "SearchMessages",
-      "entities": [
-        {
-          "entity": "SearchTexts",
-          "startPos": 5,
-          "endPos": 25
-        }
-      ]
-    },
-    {
-      "text": "搜索keywordsone keywordstwo从收件箱",
-      "intent": "SearchMessages",
-      "entities": [
-        {
-          "entity": "SearchTexts",
-          "startPos": 2,
-          "endPos": 24
-        }
-      ]
-    },
-    {
-      "text": "搜索我的电子邮件",
-      "intent": "SearchMessages",
-      "entities": []
-    },
-    {
-      "text": "用单词搜索文本一起吃午餐",
-      "intent": "SearchMessages",
-      "entities": [
-        {
-          "entity": "SearchTexts",
-          "startPos": 7,
-          "endPos": 11
-        }
-      ]
-    },
-    {
-      "text": "使用关键词搜索电子邮件你好",
+      "text": "用关键词搜索电子邮件 午餐",
       "intent": "SearchMessages",
       "entities": [
         {
@@ -3500,95 +2605,177 @@
       ]
     },
     {
-      "text": "搜索电子邮件包含微软",
+      "text": "搜索电子邮件包含 工作项",
       "intent": "SearchMessages",
       "entities": [
         {
           "entity": "SearchTexts",
-          "startPos": 8,
-          "endPos": 9
-        }
-      ]
-    },
-    {
-      "text": "搜索电子邮件包含钱",
-      "intent": "SearchMessages",
-      "entities": [
-        {
-          "entity": "SearchTexts",
-          "startPos": 8,
-          "endPos": 8
-        }
-      ]
-    },
-    {
-      "text": "显示电子邮件包含单词 \"未来计划\"",
-      "intent": "SearchMessages",
-      "entities": [
-        {
-          "entity": "SearchTexts",
-          "startPos": 12,
-          "endPos": 15
-        }
-      ]
-    },
-    {
-      "text": "显示电子邮件 \"信用卡\"",
-      "intent": "SearchMessages",
-      "entities": [
-        {
-          "entity": "SearchTexts",
-          "startPos": 8,
-          "endPos": 10
-        }
-      ]
-    },
-    {
-      "text": "显示电子邮件从女朋友",
-      "intent": "SearchMessages",
-      "entities": [
-        {
-          "entity": "FromRelationshipName",
-          "startPos": 7,
-          "endPos": 9
-        }
-      ]
-    },
-    {
-      "text": "显示电子邮件从汤姆并使用 word 进行筛选午餐",
-      "intent": "SearchMessages",
-      "entities": [
-        {
-          "entity": "SenderName",
-          "startPos": 7,
-          "endPos": 8
-        },
-        {
-          "entity": "SearchTexts",
-          "startPos": 22,
-          "endPos": 23
-        }
-      ]
-    },
-    {
-      "text": "告诉我发送的电子邮件妈妈",
-      "intent": "SearchMessages",
-      "entities": [
-        {
-          "entity": "FromRelationshipName",
-          "startPos": 10,
+          "startPos": 9,
           "endPos": 11
         }
       ]
     },
     {
-      "text": "我选择丰田访问",
+      "text": "搜索电子邮件包含 优惠 券",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 9,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "搜索电子邮件从 迈克",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 8,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "搜索关键字 keywordone keywordtwo 在我的电子邮件",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 6,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "搜索 keywordsone keywordstwo 从收件箱",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 3,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "搜索我的电子邮件",
+      "intent": "SearchMessages",
+      "entities": []
+    },
+    {
+      "text": "用文字搜索文字 一起吃午餐",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 8,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "使用关键字搜索电子邮件 你好",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 12,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "搜索电子邮件包含 微软",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 9,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "搜索电子邮件包含 钱",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 9,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "显示电子邮件包含单词 \" 未来计划 \"",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 13,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "显示电子邮件与 \" 信用卡 \"",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 10,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "显示我的电子邮件从 女朋友",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "FromRelationshipName",
+          "startPos": 10,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "向我显示电子邮件从 汤姆 和使用 word 进行筛选 午餐",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 10,
+          "endPos": 11
+        },
+        {
+          "entity": "SearchTexts",
+          "startPos": 27,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "向我显示发送的电子邮件 妈妈",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "FromRelationshipName",
+          "startPos": 12,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "我选择丰田 访问",
       "intent": "SelectItem",
       "entities": [
         {
           "entity": "ContactName",
-          "startPos": 5,
-          "endPos": 6
+          "startPos": 6,
+          "endPos": 7
         }
       ]
     },
@@ -3598,13 +2785,13 @@
       "entities": []
     },
     {
-      "text": "我将选择第一个餐馆结果",
+      "text": "我会选择第一家餐馆的结果",
       "intent": "SelectItem",
       "entities": [
         {
           "entity": "Message",
           "startPos": 0,
-          "endPos": 10
+          "endPos": 11
         }
       ]
     },
@@ -3614,12 +2801,12 @@
       "entities": []
     },
     {
-      "text": "打开这张",
+      "text": "打开这个",
       "intent": "SelectItem",
       "entities": []
     },
     {
-      "text": "选择项目编号十",
+      "text": "选择物料编号十",
       "intent": "SelectItem",
       "entities": []
     },
@@ -3654,7 +2841,7 @@
       "entities": []
     },
     {
-      "text": "撰写新的电子邮件关于西班牙家庭作业",
+      "text": "撰写新电子邮件关于 西班牙家庭作业",
       "intent": "SendEmail",
       "entities": [
         {
@@ -3665,18 +2852,18 @@
       ]
     },
     {
-      "text": "创建标题为的新邮件紧急会议信息自吉姆",
+      "text": "创建新邮件, 标题为 紧急会议信息 自 吉姆",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "EmailSubject",
-          "startPos": 9,
-          "endPos": 14
+          "startPos": 11,
+          "endPos": 16
         },
         {
           "entity": "ContactName",
-          "startPos": 16,
-          "endPos": 17
+          "startPos": 20,
+          "endPos": 21
         }
       ]
     },
@@ -3686,330 +2873,314 @@
       "entities": []
     },
     {
-      "text": "电子邮件我哥哥",
+      "text": "电邮我 哥哥",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "RelationshipName",
-          "startPos": 5,
-          "endPos": 6
+          "startPos": 4,
+          "endPos": 5
         }
       ]
     },
     {
-      "text": "电子邮件我表示",
+      "text": "电邮我 表示",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "Attachment",
-          "startPos": 5,
-          "endPos": 6
+          "startPos": 4,
+          "endPos": 5
         }
       ]
     },
     {
-      "text": "电子邮件的文件自南 希",
+      "text": "电子邮件的 文件 自 南 希",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "Attachment",
-          "startPos": 5,
-          "endPos": 6
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 8,
-          "endPos": 10
-        }
-      ]
-    },
-    {
-      "text": "电子邮件到艾希礼关于开幕问题",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 5,
+          "startPos": 6,
           "endPos": 7
         },
         {
-          "entity": "EmailSubject",
-          "startPos": 10,
+          "entity": "ContactName",
+          "startPos": 11,
           "endPos": 13
         }
       ]
     },
     {
-      "text": "电子邮件到麦克水:麦克, 上周的晚餐很精彩。",
+      "text": "电邮至 艾希礼 有关 开幕问题",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "ContactName",
-          "startPos": 5,
+          "startPos": 4,
+          "endPos": 6
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 11,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "电邮至 迈克水域 : 迈克, 上周的晚餐很精彩。",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 4,
           "endPos": 7
         },
         {
           "entity": "Message",
-          "startPos": 9,
-          "endPos": 21
+          "startPos": 11,
+          "endPos": 23
         }
       ]
     },
     {
-      "text": "电子邮件到partone parttwo partthree 一个在 hotmail 点 com",
+      "text": "电邮至 partone 第二 partthree 一个在 hotmail 点 com",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "EmailAddress",
-          "startPos": 5,
-          "endPos": 47
+          "startPos": 4,
+          "endPos": 41
         }
       ]
     },
     {
-      "text": "电子邮件到partoneparttwo@gmail.com partoneparttwo@gmail",
+      "text": "电邮至 partoneparttwo@gmail.com partoneparttwo@gmail",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "EmailAddress",
-          "startPos": 5,
-          "endPos": 49
+          "startPos": 4,
+          "endPos": 48
         }
       ]
     },
     {
-      "text": "电子邮件到肖恩帕克 9 5 在谷歌点 com",
+      "text": "电邮至 肖恩帕克 9 5 在谷歌点 com",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "EmailAddress",
-          "startPos": 5,
-          "endPos": 21
+          "startPos": 4,
+          "endPos": 20
         }
       ]
     },
     {
-      "text": "我需要发送电子邮件约歌曲的歌词",
+      "text": "我需要发送电子邮件关于 歌曲的歌词",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "EmailSubject",
-          "startPos": 10,
+          "startPos": 12,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "邮件 partone 第二在 gmail 点 com",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailAddress",
+          "startPos": 3,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "制作新的电子邮件关于 天气预报",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 11,
           "endPos": 14
         }
       ]
     },
     {
-      "text": "邮件partone parttwo 在 gmail 点 com",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "EmailAddress",
-          "startPos": 2,
-          "endPos": 30
-        }
-      ]
-    },
-    {
-      "text": "制作新的电子邮件关于天气预报",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "EmailSubject",
-          "startPos": 10,
-          "endPos": 13
-        }
-      ]
-    },
-    {
-      "text": "标记电子邮件跟进并发送到艾玛",
+      "text": "标记电子邮件的 跟进 并发送到 艾玛",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "Category",
-          "startPos": 6,
-          "endPos": 7
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 12,
-          "endPos": 13
-        }
-      ]
-    },
-    {
-      "text": "新电子邮件关于真的很好的谈话自西蒙",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "EmailSubject",
-          "startPos": 7,
-          "endPos": 13
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 15,
-          "endPos": 16
-        }
-      ]
-    },
-    {
-      "text": "新电子邮件关于编写文档",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "EmailSubject",
-          "startPos": 7,
-          "endPos": 10
-        }
-      ]
-    },
-    {
-      "text": "新电子邮件到mieky关于僚机",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 6,
-          "endPos": 10
-        },
-        {
-          "entity": "EmailSubject",
-          "startPos": 13,
-          "endPos": 14
-        }
-      ]
-    },
-    {
-      "text": "发送电子邮件到partone 点 parttwo 在雅虎点 com",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "EmailAddress",
-          "startPos": 7,
-          "endPos": 32
-        }
-      ]
-    },
-    {
-      "text": "发送邮件到凯文",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 5,
-          "endPos": 6
-        }
-      ]
-    },
-    {
-      "text": "发送新电子邮件关于Facebook",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "EmailSubject",
-          "startPos": 9,
-          "endPos": 16
-        }
-      ]
-    },
-    {
-      "text": "发送新电子邮件关于曲棍球锦标赛自安德里亚,条例 草案和罗恩",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "EmailSubject",
-          "startPos": 9,
-          "endPos": 14
+          "startPos": 8,
+          "endPos": 9
         },
         {
           "entity": "ContactName",
           "startPos": 16,
-          "endPos": 19
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 21,
-          "endPos": 25
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 27,
-          "endPos": 28
-        }
-      ]
-    },
-    {
-      "text": "发送新电子邮件到唐和拉里关于优惠 券",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 8,
-          "endPos": 8
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 10,
-          "endPos": 11
-        },
-        {
-          "entity": "EmailSubject",
-          "startPos": 14,
           "endPos": 17
         }
       ]
     },
     {
-      "text": "发送新电子邮件到杰瑞琼斯用一个爆炸 附加",
+      "text": "有关的新电子邮件 真的很好的谈话 自 西蒙",
       "intent": "SendEmail",
       "entities": [
         {
+          "entity": "EmailSubject",
+          "startPos": 9,
+          "endPos": 15
+        },
+        {
           "entity": "ContactName",
-          "startPos": 8,
-          "endPos": 11
-        },
-        {
-          "entity": "Category",
-          "startPos": 15,
-          "endPos": 16
-        },
-        {
-          "entity": "Attachment",
-          "startPos": 18,
-          "endPos": 19
+          "startPos": 19,
+          "endPos": 20
         }
       ]
     },
     {
-      "text": "发送新电子邮件到partonepartwopartthree@yahoo.com partonepartwopartthree@yahoo",
+      "text": "有关的新电子邮件 编写文档",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 9,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "新电子邮件到 mieky 有关 僚机",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 7,
+          "endPos": 11
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 16,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "发送电子邮件至 partone 点第二在雅虎点 com",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "EmailAddress",
           "startPos": 8,
-          "endPos": 68
+          "endPos": 26
         }
       ]
     },
     {
-      "text": "发送新高度重视电子邮件到万斯",
+      "text": "发送邮件到 凯文",
       "intent": "SendEmail",
       "entities": [
         {
-          "entity": "Category",
-          "startPos": 3,
-          "endPos": 6
-        },
-        {
           "entity": "ContactName",
-          "startPos": 12,
-          "endPos": 13
+          "startPos": 6,
+          "endPos": 7
         }
       ]
     },
     {
-      "text": "发送一个读取回执电子邮件到伊丽莎白",
+      "text": "发送新电子邮件关于 Facebook",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 10,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "发送新电子邮件关于 曲棍球锦标赛 自 安德里亚 , 条例 草案 和 罗恩",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 10,
+          "endPos": 15
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 19,
+          "endPos": 22
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 26,
+          "endPos": 30
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 34,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "发送新电子邮件至 唐 和 拉里 有关 优惠 券",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 9,
+          "endPos": 9
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 13,
+          "endPos": 14
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 19,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "发送新电子邮件至 杰瑞琼斯 用一个 爆炸   附加",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 9,
+          "endPos": 12
+        },
+        {
+          "entity": "Category",
+          "startPos": 18,
+          "endPos": 19
+        },
+        {
+          "entity": "Attachment",
+          "startPos": 23,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "发送新电子邮件至 partonepartwopartthree@yahoo.com partonepartwopartthree@yahoo",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailAddress",
+          "startPos": 9,
+          "endPos": 69
+        }
+      ]
+    },
+    {
+      "text": "发送新 高重要性 电邮至 万斯",
       "intent": "SendEmail",
       "entities": [
         {
@@ -4020,7 +3191,23 @@
         {
           "entity": "ContactName",
           "startPos": 13,
-          "endPos": 16
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "发送一个 已读回执 电邮至 伊丽莎白",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 5,
+          "endPos": 8
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 14,
+          "endPos": 17
         }
       ]
     },
@@ -4030,39 +3217,55 @@
       "entities": []
     },
     {
-      "text": "发送电子邮件关于测试状态自j 测试 k 测试",
+      "text": "发送电子邮件关于 测试状态 自 j 测试 k 测试",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "EmailSubject",
-          "startPos": 8,
-          "endPos": 11
+          "startPos": 9,
+          "endPos": 12
         },
         {
           "entity": "ContactName",
-          "startPos": 13,
-          "endPos": 21
+          "startPos": 16,
+          "endPos": 24
         }
       ]
     },
     {
-      "text": "发送电子邮件关于破碎的窗户",
+      "text": "发送电子邮件关于 破碎的窗户",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "EmailSubject",
-          "startPos": 8,
-          "endPos": 12
+          "startPos": 9,
+          "endPos": 13
         }
       ]
     },
     {
-      "text": "给我发电子邮件",
+      "text": "发送电子邮件给我",
       "intent": "SendEmail",
       "entities": []
     },
     {
-      "text": "发送已标记的电子邮件跟进自蒂姆",
+      "text": "发送电子邮件标记 跟进 自 蒂姆",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 9,
+          "endPos": 10
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 14,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "发送电子邮件标记为 跟进 自 丽 贝卡",
       "intent": "SendEmail",
       "entities": [
         {
@@ -4072,13 +3275,13 @@
         },
         {
           "entity": "ContactName",
-          "startPos": 13,
-          "endPos": 14
+          "startPos": 15,
+          "endPos": 18
         }
       ]
     },
     {
-      "text": "发送一封标记为跟进自丽 贝卡",
+      "text": "发送一封标有 爆炸 自 加里 horrisberger",
       "intent": "SendEmail",
       "entities": [
         {
@@ -4088,83 +3291,19 @@
         },
         {
           "entity": "ContactName",
-          "startPos": 10,
-          "endPos": 13
-        }
-      ]
-    },
-    {
-      "text": "发送一封标有爆炸自加里 horrisberger",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "Category",
-          "startPos": 6,
-          "endPos": 7
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 9,
-          "endPos": 23
-        }
-      ]
-    },
-    {
-      "text": "发送电子邮件到美丽标记红砰",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 7,
-          "endPos": 8
-        },
-        {
-          "entity": "Category",
-          "startPos": 11,
-          "endPos": 12
-        }
-      ]
-    },
-    {
-      "text": "发送电子邮件到戴夫有关该徒步旅行",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 7,
-          "endPos": 8
-        },
-        {
-          "entity": "EmailSubject",
           "startPos": 12,
-          "endPos": 15
+          "endPos": 26
         }
       ]
     },
     {
-      "text": "发送电子邮件到多莉和路易莎",
+      "text": "发送电子邮件至 美丽 标记 红砰",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "ContactName",
-          "startPos": 7,
-          "endPos": 8
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 10,
-          "endPos": 12
-        }
-      ]
-    },
-    {
-      "text": "发送电子邮件到伊丽莎白用一个红砰",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 7,
-          "endPos": 10
+          "startPos": 8,
+          "endPos": 9
         },
         {
           "entity": "Category",
@@ -4174,77 +3313,125 @@
       ]
     },
     {
-      "text": "发送电子邮件到格雷厄姆,丹尼尔和梅根",
+      "text": "发送电子邮件至 戴夫 关于这 徒步旅行",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "ContactName",
-          "startPos": 7,
-          "endPos": 10
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 12,
-          "endPos": 14
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 16,
-          "endPos": 17
-        }
-      ]
-    },
-    {
-      "text": "发送电子邮件到杰森马克思",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 7,
-          "endPos": 11
-        }
-      ]
-    },
-    {
-      "text": "发送电子邮件到麦克斯关于我们可以计划的事情, 让我们去远足",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 7,
+          "startPos": 8,
           "endPos": 9
         },
         {
           "entity": "EmailSubject",
-          "startPos": 12,
-          "endPos": 28
+          "startPos": 15,
+          "endPos": 18
         }
       ]
     },
     {
-      "text": "发送电子邮件到麦克斯关于周末计划",
+      "text": "发送电子邮件至 多莉 和 路易莎",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "ContactName",
-          "startPos": 7,
+          "startPos": 8,
           "endPos": 9
         },
         {
-          "entity": "EmailSubject",
-          "startPos": 12,
+          "entity": "ContactName",
+          "startPos": 13,
           "endPos": 15
         }
       ]
     },
     {
-      "text": "发送电子邮件到Melle Kappus 测试",
+      "text": "发送电子邮件至 伊丽莎白 用一个 红砰",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "ContactName",
-          "startPos": 7,
+          "startPos": 8,
+          "endPos": 11
+        },
+        {
+          "entity": "Category",
+          "startPos": 17,
           "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "发送电子邮件至 格雷厄姆 , 丹尼尔 和 梅根·特雷纳",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 8,
+          "endPos": 11
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 15,
+          "endPos": 17
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 21,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "发送电子邮件至 杰森. 马克思",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 8,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "发送电子邮件至 麦克斯 有关 我们可以计划的事情, 让我们去远足",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 8,
+          "endPos": 10
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 15,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "发送电子邮件至 麦克斯 有关 周末计划",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 8,
+          "endPos": 10
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 15,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "发送电子邮件至 梅勒 Kappus   测试",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 8,
+          "endPos": 16
         },
         {
           "entity": "Message",
@@ -4254,479 +3441,517 @@
       ]
     },
     {
-      "text": "发送电子邮件到妈妈",
+      "text": "发送电子邮件至 妈妈",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "RelationshipName",
-          "startPos": 7,
-          "endPos": 8
-        }
-      ]
-    },
-    {
-      "text": "发送电子邮件到我的哥哥",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "RelationshipName",
-          "startPos": 9,
-          "endPos": 10
-        }
-      ]
-    },
-    {
-      "text": "发送电子邮件到partone 点 parttwo 在微软点 com",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "EmailAddress",
-          "startPos": 7,
-          "endPos": 32
-        }
-      ]
-    },
-    {
-      "text": "发送电子邮件到partone 点 parttwo 在 outlook 网点网",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "EmailAddress",
-          "startPos": 7,
-          "endPos": 37
-        }
-      ]
-    },
-    {
-      "text": "发送电子邮件到partone parttwo partthree 在 outlook 点 com 上说这是我的新手机很酷",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "EmailAddress",
-          "startPos": 7,
-          "endPos": 49
-        },
-        {
-          "entity": "Message",
-          "startPos": 51,
-          "endPos": 59
-        }
-      ]
-    },
-    {
-      "text": "发送电子邮件到partone parttwo 二六四九在 gmail 点 com",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "EmailAddress",
-          "startPos": 7,
-          "endPos": 39
-        }
-      ]
-    },
-    {
-      "text": "发送电子邮件到partone_parttwo@microsoft.com partone_parttwo@microsoft",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "EmailAddress",
-          "startPos": 7,
-          "endPos": 61
-        }
-      ]
-    },
-    {
-      "text": "发送电子邮件到朗达关于的计划这周末",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 7,
-          "endPos": 8
-        },
-        {
-          "entity": "EmailSubject",
-          "startPos": 11,
-          "endPos": 13
-        },
-        {
-          "entity": "Date",
-          "startPos": 15,
-          "endPos": 16
-        }
-      ]
-    },
-    {
-      "text": "发送电子邮件到抢说这是关于周末计划的信息",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 7,
-          "endPos": 7
-        },
-        {
-          "entity": "Message",
-          "startPos": 9,
-          "endPos": 19
-        }
-      ]
-    },
-    {
-      "text": "发送电子邮件到莎拉标记为重要",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 7,
-          "endPos": 8
-        },
-        {
-          "entity": "Category",
-          "startPos": 12,
-          "endPos": 13
-        }
-      ]
-    },
-    {
-      "text": "发送电子邮件到扎克和罗伯特关于团队午餐说今年星期二同队午餐",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 7,
-          "endPos": 8
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 10,
-          "endPos": 12
-        },
-        {
-          "entity": "EmailSubject",
-          "startPos": 15,
-          "endPos": 18
-        },
-        {
-          "entity": "Message",
-          "startPos": 20,
-          "endPos": 28
-        }
-      ]
-    },
-    {
-      "text": "发送电子邮件今天",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "Date",
-          "startPos": 6,
-          "endPos": 7
-        }
-      ]
-    },
-    {
-      "text": "发送电子邮件与红砰",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "Category",
-          "startPos": 7,
-          "endPos": 8
-        }
-      ]
-    },
-    {
-      "text": "发送电子邮件与读取回执自莫宁",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "Category",
-          "startPos": 7,
-          "endPos": 10
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 12,
-          "endPos": 13
-        }
-      ]
-    },
-    {
-      "text": "发送一个重要电子邮件到黛比",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "Category",
-          "startPos": 4,
-          "endPos": 5
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 11,
-          "endPos": 12
-        }
-      ]
-    },
-    {
-      "text": "发送一个紧急电子邮件",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "Category",
-          "startPos": 4,
-          "endPos": 5
-        }
-      ]
-    },
-    {
-      "text": "发送一个紧急电子邮件来自我电子邮件到partone 下划线 partwo 在 hotmail 点 com",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "Category",
-          "startPos": 4,
-          "endPos": 5
-        },
-        {
-          "entity": "SenderName",
-          "startPos": 12,
-          "endPos": 12
-        },
-        {
-          "entity": "EmailAddress",
-          "startPos": 18,
-          "endPos": 51
-        }
-      ]
-    },
-    {
-      "text": "发送一个紧急从我的电子邮件工作帐户自乔治",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "Category",
-          "startPos": 4,
-          "endPos": 5
-        },
-        {
-          "entity": "Line",
-          "startPos": 13,
-          "endPos": 16
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 18,
-          "endPos": 19
-        }
-      ]
-    },
-    {
-      "text": "发送一个紧急从我的电子邮件工作电子邮件到紫",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "Category",
-          "startPos": 4,
-          "endPos": 5
-        },
-        {
-          "entity": "Line",
-          "startPos": 13,
-          "endPos": 14
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 20,
-          "endPos": 20
-        }
-      ]
-    },
-    {
-      "text": "发送和电子邮件有关游泳队练习",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "EmailSubject",
-          "startPos": 9,
-          "endPos": 13
-        }
-      ]
-    },
-    {
-      "text": "发送布赖恩戈德堡一个新标记电子邮件",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 2,
-          "endPos": 7
-        },
-        {
-          "entity": "Category",
-          "startPos": 11,
-          "endPos": 12
-        }
-      ]
-    },
-    {
-      "text": "发送电子邮件关于作业计划自乔伊和加里",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "EmailSubject",
           "startPos": 8,
-          "endPos": 11
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 13,
-          "endPos": 14
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 16,
-          "endPos": 17
-        }
-      ]
-    },
-    {
-      "text": "发送已标记的电子邮件优先自卡拉",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "Category",
-          "startPos": 10,
-          "endPos": 11
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 13,
-          "endPos": 14
-        }
-      ]
-    },
-    {
-      "text": "发送电子邮件到卡罗琳并标记它重要",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 7,
           "endPos": 9
-        },
-        {
-          "entity": "Category",
-          "startPos": 14,
-          "endPos": 15
         }
       ]
     },
     {
-      "text": "发送电子邮件到爸爸",
+      "text": "发送电子邮件到我的 哥哥",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "RelationshipName",
-          "startPos": 7,
-          "endPos": 8
-        }
-      ]
-    },
-    {
-      "text": "发送电子邮件到大卫维特说测试",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 7,
-          "endPos": 10
-        },
-        {
-          "entity": "Message",
-          "startPos": 12,
-          "endPos": 13
-        }
-      ]
-    },
-    {
-      "text": "发送电子邮件到约翰关于车",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 7,
-          "endPos": 8
-        },
-        {
-          "entity": "EmailSubject",
-          "startPos": 11,
+          "startPos": 10,
           "endPos": 11
         }
       ]
     },
     {
-      "text": "发送电子邮件到partone parttwo partthree partfour 在 gmail 点 com",
+      "text": "发送电子邮件至 partone 点第二在微软点 com",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "EmailAddress",
-          "startPos": 7,
-          "endPos": 54
+          "startPos": 8,
+          "endPos": 26
         }
       ]
     },
     {
-      "text": "发送电子邮件到partone.parttwo@outlook.com partone parttwo@outlook. com",
+      "text": "发送电子邮件至 partone 点第二在 outlook 网点网",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "EmailAddress",
-          "startPos": 7,
+          "startPos": 8,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "发送电子邮件至 partone 第二 partthree 在 outlook 点 com 说 这是我的新手机很酷",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailAddress",
+          "startPos": 8,
+          "endPos": 43
+        },
+        {
+          "entity": "Message",
+          "startPos": 47,
+          "endPos": 55
+        }
+      ]
+    },
+    {
+      "text": "发送电子邮件至 partone 第二二六四九在 gmail 点 com",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailAddress",
+          "startPos": 8,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "发送电子邮件至 partone_parttwo@microsoft.com partone_parttwo@microsoft",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailAddress",
+          "startPos": 8,
           "endPos": 62
         }
       ]
     },
     {
-      "text": "发送电子邮件到肖恩 今天",
+      "text": "发送电子邮件至 朗达 有关 的计划 这 周末",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "ContactName",
-          "startPos": 7,
-          "endPos": 8
+          "startPos": 8,
+          "endPos": 9
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 14,
+          "endPos": 16
         },
         {
           "entity": "Date",
-          "startPos": 10,
-          "endPos": 11
+          "startPos": 20,
+          "endPos": 21
         }
       ]
     },
     {
-      "text": "发送重要电子邮件到尼 基",
+      "text": "发送电子邮件至 抢 说 这是关于周末计划的信息",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 8,
+          "endPos": 8
+        },
+        {
+          "entity": "Message",
+          "startPos": 12,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "发送电子邮件至 莎拉 标记为 重要",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 8,
+          "endPos": 9
+        },
+        {
+          "entity": "Category",
+          "startPos": 15,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "发送电子邮件至 扎克 和 罗伯特 有关 团队午餐 说 同队午餐星期二",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 8,
+          "endPos": 9
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 13,
+          "endPos": 15
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 20,
+          "endPos": 23
+        },
+        {
+          "entity": "Message",
+          "startPos": 27,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "发送电子邮件 今天",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Date",
+          "startPos": 7,
+          "endPos": 8
+        }
+      ]
+    },
+    {
+      "text": "发送电子邮件与 红砰",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "Category",
-          "startPos": 2,
-          "endPos": 3
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 9,
-          "endPos": 11
+          "startPos": 8,
+          "endPos": 9
         }
       ]
     },
     {
-      "text": "发送乔恩电子邮件与红砰",
+      "text": "发送电子邮件与 已读回执 自 莫宁",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 8,
+          "endPos": 11
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 15,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "发送一个 重要 电邮至 黛比",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 5,
+          "endPos": 6
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 12,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "发送一个 紧急 电子邮件",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 5,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "发送一个 紧急 电子邮件从 我 电邮至 partone 下划线 partwo 在 hotmail 点 com",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 5,
+          "endPos": 6
+        },
+        {
+          "entity": "SenderName",
+          "startPos": 14,
+          "endPos": 14
+        },
+        {
+          "entity": "EmailAddress",
+          "startPos": 20,
+          "endPos": 53
+        }
+      ]
+    },
+    {
+      "text": "发送一个 紧急 从我的电子邮件 工作帐户 自 乔治",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 5,
+          "endPos": 6
+        },
+        {
+          "entity": "Line",
+          "startPos": 16,
+          "endPos": 19
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 23,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "发送一个 紧急 从我的电子邮件 工作 电邮至 紫",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 5,
+          "endPos": 6
+        },
+        {
+          "entity": "Line",
+          "startPos": 16,
+          "endPos": 17
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 23,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "发送和电子邮件关于 游泳队练习",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 10,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "发送 布赖恩戈德堡 一个新 标记 电子邮件",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "ContactName",
-          "startPos": 2,
-          "endPos": 3
+          "startPos": 3,
+          "endPos": 8
+        },
+        {
+          "entity": "Category",
+          "startPos": 14,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "发送电子邮件关于 家庭作业计划 自 乔伊 和 加里",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 9,
+          "endPos": 14
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 18,
+          "endPos": 19
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 23,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "发送电子邮件标记 优先 自 卡拉",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 9,
+          "endPos": 10
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 14,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "发送电子邮件至 卡罗琳 并标记它 重要",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 8,
+          "endPos": 10
+        },
+        {
+          "entity": "Category",
+          "startPos": 17,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "发送电子邮件至 爸爸",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "RelationshipName",
+          "startPos": 8,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "发送电子邮件至 大卫维特 说 测试",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 8,
+          "endPos": 11
+        },
+        {
+          "entity": "Message",
+          "startPos": 15,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "发送电子邮件至 约翰 有关 车",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 8,
+          "endPos": 9
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 14,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "发送电子邮件至 partone 第二 partthree partfour 在 gmail 点 com",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailAddress",
+          "startPos": 8,
+          "endPos": 50
+        }
+      ]
+    },
+    {
+      "text": "发送电子邮件至 partone.parttwo@outlook.com partone. parttwo@outlook",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailAddress",
+          "startPos": 8,
+          "endPos": 59
+        }
+      ]
+    },
+    {
+      "text": "发送电子邮件至 肖恩   今天",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 8,
+          "endPos": 9
+        },
+        {
+          "entity": "Date",
+          "startPos": 13,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "发送 重要 电邮至 尼 基",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 3,
+          "endPos": 4
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 10,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "发送 乔恩 电子邮件与 红砰",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 3,
+          "endPos": 4
+        },
+        {
+          "entity": "Category",
+          "startPos": 12,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "发送 大文件 通过电子邮件",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Attachment",
+          "startPos": 3,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "发送邮件到 斯科特",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 6,
+          "endPos": 8
+        }
+      ]
+    },
+    {
+      "text": "发送 玛丽 一个 红砰 电子邮件",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 3,
+          "endPos": 4
         },
         {
           "entity": "Category",
@@ -4736,50 +3961,76 @@
       ]
     },
     {
-      "text": "发送大型文件通过电子邮件",
+      "text": "发送 玛丽 电子邮件标记为 高优先级",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 3,
+          "endPos": 4
+        },
+        {
+          "entity": "Category",
+          "startPos": 14,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "送我 家政医生 自 凯蒂",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "Attachment",
-          "startPos": 2,
-          "endPos": 5
+          "startPos": 3,
+          "endPos": 6
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 10,
+          "endPos": 11
         }
       ]
     },
     {
-      "text": "发送邮件到斯科特",
+      "text": "送我 付款 visio 图表 自 史蒂夫",
       "intent": "SendEmail",
       "entities": [
         {
+          "entity": "Attachment",
+          "startPos": 3,
+          "endPos": 13
+        },
+        {
           "entity": "ContactName",
-          "startPos": 5,
-          "endPos": 7
+          "startPos": 17,
+          "endPos": 19
         }
       ]
     },
     {
-      "text": "发送玛丽一个红砰电子邮件",
+      "text": "发送新电子邮件至 乔 广告是 高重要性",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "ContactName",
-          "startPos": 2,
-          "endPos": 3
+          "startPos": 9,
+          "endPos": 9
         },
         {
           "entity": "Category",
-          "startPos": 6,
-          "endPos": 7
+          "startPos": 15,
+          "endPos": 18
         }
       ]
     },
     {
-      "text": "发送玛丽电子邮件标记为高优先级",
+      "text": "发送 我 电子邮件与 低优先级",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "ContactName",
-          "startPos": 2,
+          "startPos": 3,
           "endPos": 3
         },
         {
@@ -4790,77 +4041,13 @@
       ]
     },
     {
-      "text": "送我家政医生自凯蒂",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "Attachment",
-          "startPos": 2,
-          "endPos": 5
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 7,
-          "endPos": 8
-        }
-      ]
-    },
-    {
-      "text": "送我付款 visio 图表自史蒂夫",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "Attachment",
-          "startPos": 2,
-          "endPos": 12
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 14,
-          "endPos": 16
-        }
-      ]
-    },
-    {
-      "text": "发送新电子邮件到乔广告是高度重视",
+      "text": "发送 斯蒂芬妮 panesar 一封电子邮件",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "ContactName",
-          "startPos": 8,
-          "endPos": 8
-        },
-        {
-          "entity": "Category",
-          "startPos": 12,
-          "endPos": 15
-        }
-      ]
-    },
-    {
-      "text": "发送我电子邮件与低优先级",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 2,
-          "endPos": 2
-        },
-        {
-          "entity": "Category",
-          "startPos": 8,
-          "endPos": 11
-        }
-      ]
-    },
-    {
-      "text": "发送斯蒂芬妮 panesar一封电子邮件",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 2,
-          "endPos": 13
+          "startPos": 3,
+          "endPos": 14
         }
       ]
     },
@@ -4875,89 +4062,126 @@
       "entities": []
     },
     {
-      "text": "发送此文档在电子邮件",
+      "text": "发送此 文档 在电子邮件",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "Attachment",
-          "startPos": 3,
-          "endPos": 4
+          "startPos": 4,
+          "endPos": 5
         }
       ]
     },
     {
-      "text": "设置电子邮件今天",
+      "text": "设置电子邮件 今天",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "Date",
-          "startPos": 6,
-          "endPos": 7
+          "startPos": 7,
+          "endPos": 8
         }
       ]
     },
     {
-      "text": "开始新的电子邮件关于婚姻顾问预约",
+      "text": "开始新的电子邮件关于 婚姻顾问任命",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "EmailSubject",
-          "startPos": 10,
-          "endPos": 15
-        }
-      ]
-    },
-    {
-      "text": "开始新的电子邮件从特 蕾 西说这是我的简历",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "SenderName",
-          "startPos": 9,
-          "endPos": 13
-        },
-        {
-          "entity": "Message",
-          "startPos": 15,
-          "endPos": 20
-        }
-      ]
-    },
-    {
-      "text": "开始新的电子邮件说我们去公园吧",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "Message",
-          "startPos": 9,
-          "endPos": 14
-        }
-      ]
-    },
-    {
-      "text": "启动新电子邮件以维 琪关于今夜过夜",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 8,
-          "endPos": 10
-        },
-        {
-          "entity": "EmailSubject",
-          "startPos": 13,
+          "startPos": 11,
           "endPos": 16
         }
       ]
     },
     {
-      "text": "启动电子邮件以阿里尔·沙龙关于说起来",
+      "text": "开始新的电子邮件从 特 蕾 西 说 这是我的简历",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 10,
+          "endPos": 14
+        },
+        {
+          "entity": "Message",
+          "startPos": 18,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "开始一个新的电子邮件说 让我们去公园",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 12,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "启动新电子邮件以 维 琪 有关 今晚睡吧",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "ContactName",
-          "startPos": 7,
-          "endPos": 12
+          "startPos": 9,
+          "endPos": 11
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 16,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "启动电子邮件以 阿里尔·沙龙 有关 说起来",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 8,
+          "endPos": 13
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 18,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "开始新的电子邮件关于 玉米卷博客 自 haden 和 海登",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 11,
+          "endPos": 15
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 19,
+          "endPos": 23
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 27,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "启动新电子邮件以 朋友 有关 俱乐部",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "RelationshipName",
+          "startPos": 9,
+          "endPos": 10
         },
         {
           "entity": "EmailSubject",
@@ -4967,28 +4191,103 @@
       ]
     },
     {
-      "text": "启动新电子邮件关于玉米卷博客自haden和Haiden",
+      "text": "开始新邮件主题 尼日利亚王子",
       "intent": "SendEmail",
       "entities": [
         {
           "entity": "EmailSubject",
-          "startPos": 9,
+          "startPos": 8,
           "endPos": 13
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 15,
-          "endPos": 19
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 21,
-          "endPos": 26
         }
       ]
     },
     {
-      "text": "启动新电子邮件到朋友关于俱乐部",
+      "text": "启动新电子邮件以 丽莎 有关 看棒球",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 9,
+          "endPos": 10
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 15,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "新的电子邮件是 高优先级 被送到 贾斯汀",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 8,
+          "endPos": 11
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 17,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "你会发送一个标记 非紧急 电邮至 我",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 9,
+          "endPos": 11
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 17,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "写电子邮件",
+      "intent": "SendEmail",
+      "entities": []
+    },
+    {
+      "text": "写一封关于 筹款活动",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 6,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "写一个 紧急 电邮至 洛佩兹",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 4,
+          "endPos": 5
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 11,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "写电子邮件",
+      "intent": "SendEmail",
+      "entities": []
+    },
+    {
+      "text": "将电子邮件写入 妈妈 主题是 照看",
       "intent": "SendEmail",
       "entities": [
         {
@@ -4998,352 +4297,10 @@
         },
         {
           "entity": "EmailSubject",
-          "startPos": 12,
-          "endPos": 14
-        }
-      ]
-    },
-    {
-      "text": "开始新邮件主题尼日利亚王子",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "EmailSubject",
-          "startPos": 7,
-          "endPos": 12
-        }
-      ]
-    },
-    {
-      "text": "启动新电子邮件以丽莎关于看棒球",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "ContactName",
-          "startPos": 8,
-          "endPos": 9
-        },
-        {
-          "entity": "EmailSubject",
-          "startPos": 12,
-          "endPos": 14
-        }
-      ]
-    },
-    {
-      "text": "新的电子邮件是高优先级正在发送到贾斯汀",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "Category",
-          "startPos": 7,
-          "endPos": 10
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 16,
-          "endPos": 18
-        }
-      ]
-    },
-    {
-      "text": "你会发送一个标记非紧急电子邮件到我",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "Category",
-          "startPos": 8,
-          "endPos": 10
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 16,
+          "startPos": 15,
           "endPos": 16
         }
       ]
-    },
-    {
-      "text": "写电子邮件",
-      "intent": "SendEmail",
-      "entities": []
-    },
-    {
-      "text": "写一封关于筹款活动",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "EmailSubject",
-          "startPos": 5,
-          "endPos": 8
-        }
-      ]
-    },
-    {
-      "text": "写一紧急电子邮件到玛西娅洛佩兹",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "Category",
-          "startPos": 2,
-          "endPos": 3
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 9,
-          "endPos": 14
-        }
-      ]
-    },
-    {
-      "text": "写电子邮件",
-      "intent": "SendEmail",
-      "entities": []
-    },
-    {
-      "text": "写电子邮件到妈妈主题是照看",
-      "intent": "SendEmail",
-      "entities": [
-        {
-          "entity": "RelationshipName",
-          "startPos": 6,
-          "endPos": 7
-        },
-        {
-          "entity": "EmailSubject",
-          "startPos": 11,
-          "endPos": 12
-        }
-      ]
-    },
-    {
-      "text": "往前走",
-      "intent": "ShowNext",
-      "entities": []
-    },
-    {
-      "text": "继续",
-      "intent": "ShowNext",
-      "entities": []
-    },
-    {
-      "text": "转到下一页",
-      "intent": "ShowNext",
-      "entities": []
-    },
-    {
-      "text": "转到下一页",
-      "intent": "ShowNext",
-      "entities": []
-    },
-    {
-      "text": "前进",
-      "intent": "ShowNext",
-      "entities": []
-    },
-    {
-      "text": "继续前进",
-      "intent": "ShowNext",
-      "entities": []
-    },
-    {
-      "text": "下一步移动",
-      "intent": "ShowNext",
-      "entities": []
-    },
-    {
-      "text": "下",
-      "intent": "ShowNext",
-      "entities": []
-    },
-    {
-      "text": "下一封电子邮件",
-      "intent": "ShowNext",
-      "entities": []
-    },
-    {
-      "text": "下一",
-      "intent": "ShowNext",
-      "entities": []
-    },
-    {
-      "text": "下一个请",
-      "intent": "ShowNext",
-      "entities": []
-    },
-    {
-      "text": "下读电子邮件",
-      "intent": "ShowNext",
-      "entities": [
-        {
-          "entity": "Category",
-          "startPos": 1,
-          "endPos": 1
-        }
-      ]
-    },
-    {
-      "text": "显示我的下一个",
-      "intent": "ShowNext",
-      "entities": []
-    },
-    {
-      "text": "让我看看下一个",
-      "intent": "ShowNext",
-      "entities": []
-    },
-    {
-      "text": "显示下一页",
-      "intent": "ShowNext",
-      "entities": []
-    },
-    {
-      "text": "显示下一封电子邮件",
-      "intent": "ShowNext",
-      "entities": []
-    },
-    {
-      "text": "显示下一页读",
-      "intent": "ShowNext",
-      "entities": [
-        {
-          "entity": "Category",
-          "startPos": 5,
-          "endPos": 5
-        }
-      ]
-    },
-    {
-      "text": "显示下一个",
-      "intent": "ShowNext",
-      "entities": []
-    },
-    {
-      "text": "显示下一封来自我的电子邮件老板",
-      "intent": "ShowNext",
-      "entities": [
-        {
-          "entity": "FromRelationshipName",
-          "startPos": 13,
-          "endPos": 14
-        }
-      ]
-    },
-    {
-      "text": "显示下一个",
-      "intent": "ShowNext",
-      "entities": []
-    },
-    {
-      "text": "下一",
-      "intent": "ShowNext",
-      "entities": []
-    },
-    {
-      "text": "下一封电子邮件",
-      "intent": "ShowNext",
-      "entities": []
-    },
-    {
-      "text": "回到最后一个",
-      "intent": "ShowPrevious",
-      "entities": []
-    },
-    {
-      "text": "把前一个",
-      "intent": "ShowPrevious",
-      "entities": []
-    },
-    {
-      "text": "来到最后",
-      "intent": "ShowPrevious",
-      "entities": []
-    },
-    {
-      "text": "转到上一页",
-      "intent": "ShowPrevious",
-      "entities": []
-    },
-    {
-      "text": "转到最后一个",
-      "intent": "ShowPrevious",
-      "entities": []
-    },
-    {
-      "text": "退后",
-      "intent": "ShowPrevious",
-      "entities": []
-    },
-    {
-      "text": "以前",
-      "intent": "ShowPrevious",
-      "entities": []
-    },
-    {
-      "text": "以前的电子邮件",
-      "intent": "ShowPrevious",
-      "entities": []
-    },
-    {
-      "text": "上一个",
-      "intent": "ShowPrevious",
-      "entities": []
-    },
-    {
-      "text": "上一张请",
-      "intent": "ShowPrevious",
-      "entities": []
-    },
-    {
-      "text": "显示我以前的电子邮件从杰克",
-      "intent": "ShowPrevious",
-      "entities": [
-        {
-          "entity": "SenderName",
-          "startPos": 11,
-          "endPos": 12
-        }
-      ]
-    },
-    {
-      "text": "显示前一封电子邮件",
-      "intent": "ShowPrevious",
-      "entities": []
-    },
-    {
-      "text": "显示上一页",
-      "intent": "ShowPrevious",
-      "entities": []
-    },
-    {
-      "text": "显示上一页",
-      "intent": "ShowPrevious",
-      "entities": []
-    },
-    {
-      "text": "显示以前的电子邮件从我的导师",
-      "intent": "ShowPrevious",
-      "entities": [
-        {
-          "entity": "FromRelationshipName",
-          "startPos": 12,
-          "endPos": 13
-        }
-      ]
-    },
-    {
-      "text": "显示前一个",
-      "intent": "ShowPrevious",
-      "entities": []
-    },
-    {
-      "text": "上一封电子邮件",
-      "intent": "ShowPrevious",
-      "entities": []
-    },
-    {
-      "text": "什么是前",
-      "intent": "ShowPrevious",
-      "entities": []
     }
   ],
   "patterns": [],
@@ -5364,7 +4321,7 @@
   ],
   "luis_schema_version": "3.0.0",
   "versionId": "0.1",
-  "name": "Email",
+  "name": "email",
   "desc": "",
   "culture": "zh-cn"
 }

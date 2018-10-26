@@ -12,6 +12,7 @@ $PREBUILT:number
 - Ciao
 - Come stai
 - Come stai oggi
+- Ehi
 
 # Help
 - Guida
@@ -37,10 +38,10 @@ $PREBUILT:number
 - Vorrei annullare
 - Non importa
 - si prega di smettere
+- Uscita
 
 # Restart
 - Posso farlo di nuovo
-- Indietro
 - Ho bisogno di cambiare qualcosa
 - Riavviare
 - ricominciare
@@ -53,45 +54,6 @@ $PREBUILT:number
 - Transfer me please
 - Contatta il supporto
 
-# ConfirmYes
-- Assolutamente
-- Sicuro
-- Sicuramente
-- Di sicuro
-- Credo di sì
-- Facciamolo
-- Facciamolo
-- Oh sì
-- Sì per favore
-- Okk
-- Ok
-- cosa sicura
-- Sì
-- sì che sarebbe grande grazie
-- Perché no
-- Yep che è di destra
-- Yup
-
-# ConfirmNo
-- In nessun modo
-- Vicino
-- No
-- No grazie
-- No
-- No va bene
-- Assolutamente no
-- Niente affatto
-- Non proprio
-- non in questo momento grazie
-
-# ConfirmMore
-- Più
-- Mi piacerebbe sapere di più
-- Mostrami di più
-- Più
-- più informazioni
-- maggiori informazioni
-
 # Next
 - Anticipo
 - andare avanti
@@ -99,6 +61,42 @@ $PREBUILT:number
 - Prossima
 - articolo successivo
 - Mostra successivo
+- Potresti mostrare quello successivo
+- Ho bisogno di andare a quello successivo
+- Vai a quello successivo per favore
+- passare a quella successiva
+- Continua
+- Vai al prossimo
+- Vai alla pagina successiva
+- andare avanti
+- andare avanti
+- andare avanti
+- prossimo uno
+- Avanti per favore
+- Mostrami il prossimo
+- Mostrami il prossimo
+- Mostra il prossimo
+- Mostra quello successivo
+- la prossima e-mail
+
+# Previous
+- Indietro
+- ultimo uno
+- precedente
+- l'ultimo
+- quello vecchio
+- Ultima
+- Torna all'ultimo
+- portare il precedente
+- venire all'ultimo
+- Vai al precedente
+- Vai all'ultimo
+- spostare indietro
+- Precedente
+- Mostrami precedente
+- uno precedente per favore
+- quello precedente
+- Qual è il precedente
 
 # Goodbye
 - Buona notte
@@ -107,6 +105,13 @@ $PREBUILT:number
 - Ok grazie
 - Ok ciao
 - Questo è tutto grazie
+
+# Logout
+- SignOut
+- dimenticare me
+- Esci
+- Logout
+- logout
 
 # None
 - la mia bottiglia d'acqua è verde

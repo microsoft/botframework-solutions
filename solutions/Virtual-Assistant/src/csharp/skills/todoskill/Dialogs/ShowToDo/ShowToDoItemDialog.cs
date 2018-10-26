@@ -2,6 +2,7 @@
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using System;
@@ -74,6 +75,7 @@ namespace ToDoSkill
                 var allTasksCount = state.AllTasks.Count;
                 var currentTaskIndex = state.ShowToDoPageIndex * state.PageSize;
                 state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));
+                var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
                 if (state.Tasks.Count <= 0)
                 {
                     return await sc.NextAsync();
@@ -89,7 +91,7 @@ namespace ToDoSkill
                             ToDoSharedResponses.ShowToDoTasks,
                             ShowToDoResponses.ReadToDoTasks);
                     }
-                    else if (topIntent == ToDo.Intent.Next)
+                    else if (generalTopIntent == General.Intent.Next)
                     {
                         toDoListAttachment = ToAdaptiveCardAttachmentForShowToDos(
                             state.Tasks,
@@ -97,7 +99,7 @@ namespace ToDoSkill
                             ShowToDoResponses.ShowNextToDoTasks,
                             null);
                     }
-                    else if (topIntent == ToDo.Intent.Previous)
+                    else if (generalTopIntent == General.Intent.Previous)
                     {
                         toDoListAttachment = ToAdaptiveCardAttachmentForShowToDos(
                             state.Tasks,
@@ -141,13 +143,18 @@ namespace ToDoSkill
             try
             {
                 var state = await _accessor.GetAsync(sc.Context);
-                var topIntent = state.LuisResult?.TopIntent().intent;
-                if (topIntent == ToDo.Intent.ConfirmYes)
+                var topIntent = state.GeneralLuisResult?.TopIntent().intent;
+
+                sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
+                var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
+                var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
+
+                if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
                 {
                     state.TaskContent = null;
                     return await sc.NextAsync();
                 }
-                else if (topIntent == ToDo.Intent.ConfirmNo)
+                else if ((promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false))
                 {
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ActionEnded));
                     return await sc.EndDialogAsync(true);

@@ -76,6 +76,8 @@ namespace EmailSkill
 
         public Email LuisResult { get; set; }
 
+        public General GeneralLuisResult { get; set; }
+
         public IRecognizerConvert LuisResultPassedFromSkill { get; set; }
 
         public TimeZoneInfo GetUserTimeZone()

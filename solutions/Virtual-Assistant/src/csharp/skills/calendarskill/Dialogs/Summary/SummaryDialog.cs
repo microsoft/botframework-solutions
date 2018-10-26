@@ -4,6 +4,7 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using System;
@@ -55,7 +56,7 @@ namespace CalendarSkill
                 var state = await _accessor.GetAsync(sc.Context);
 
                 var luisResult = state.LuisResult;
-                    
+
                 var topIntent = luisResult?.TopIntent().intent;
 
                 if (topIntent == Calendar.Intent.Summary)
@@ -63,7 +64,10 @@ namespace CalendarSkill
                     state.Clear();
                 }
 
-                if (topIntent == Calendar.Intent.ShowNext)
+                var generalLuisResult = state.GeneralLuisResult;
+                var topGeneralIntent = generalLuisResult?.TopIntent().intent;
+
+                if (topGeneralIntent == General.Intent.Next)
                 {
                     if ((state.ShowEventIndex + 1) * CalendarSkillState.PageSize < state.SummaryEvents.Count)
                     {
@@ -76,7 +80,7 @@ namespace CalendarSkill
                     }
                 }
 
-                if (topIntent == Calendar.Intent.ShowPrevious)
+                if (topGeneralIntent == General.Intent.Previous)
                 {
                     if (state.ShowEventIndex > 0)
                     {
@@ -185,7 +189,7 @@ namespace CalendarSkill
         {
             try
             {
-                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.ReadOutPrompt) });
+                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.ReadOutMorePrompt) });
             }
             catch
             {
@@ -212,16 +216,25 @@ namespace CalendarSkill
             try
             {
                 var state = await _accessor.GetAsync(sc.Context);
-                var luisResult = state.LuisResult;
 
+                var luisResult = state.LuisResult;
                 var topIntent = luisResult?.TopIntent().intent;
+
                 if (topIntent == null)
                 {
                     return await sc.EndDialogAsync(true);
                 }
 
                 var eventItem = state.ReadOutEvents.FirstOrDefault();
-                if (topIntent == Luis.Calendar.Intent.ConfirmNo || topIntent == Luis.Calendar.Intent.Reject)
+
+                sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
+                var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
+
+                var generalLuisResult = state.GeneralLuisResult;
+                var generalTopIntent = generalLuisResult?.TopIntent().intent;
+
+                var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
+                if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
                 {
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarSharedResponses.CancellingMessage));
                     return await sc.EndDialogAsync(true);
