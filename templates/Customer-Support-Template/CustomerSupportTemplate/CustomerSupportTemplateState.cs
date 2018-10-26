@@ -8,6 +8,8 @@ namespace CustomerSupportTemplate
 {
     public class CustomerSupportTemplateState : DialogState
     {
+        public bool IntroSent { get; set; }
+
         public Account Account { get; set; }
 
         public Order Order { get; set; }

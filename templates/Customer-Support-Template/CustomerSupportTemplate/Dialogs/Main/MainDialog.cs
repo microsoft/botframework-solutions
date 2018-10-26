@@ -37,8 +37,15 @@ namespace CustomerSupportTemplate
 
         protected override async Task OnStartAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var view = new MainResponses();
-            await view.ReplyWith(innerDc.Context, MainResponses.Intro);
+            var state = await _stateAccessor.GetAsync(innerDc.Context, () => new CustomerSupportTemplateState());
+
+            if (!state.IntroSent)
+            {
+                var view = new MainResponses();
+                await view.ReplyWith(innerDc.Context, MainResponses.Intro);
+
+                state.IntroSent = true;
+            }
         }
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
