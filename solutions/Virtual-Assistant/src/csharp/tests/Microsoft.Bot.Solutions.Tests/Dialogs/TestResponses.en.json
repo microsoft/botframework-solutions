@@ -1,0 +1,45 @@
+{
+  "GetResponseText": {
+    "replies": [
+      {
+        "text": "The text",
+        "speak": "The speak",
+        "cardText": "The card text"
+      }
+    ],
+    "inputHint": "expectingInput",
+    "suggestedActions": [
+      "Suggestion 1",
+      "Suggestion 2"
+    ]
+  },
+  "MultiLanguage": {
+    "replies": [
+      {
+        "text": "This is in English",
+        "speak": "This is in English",
+        "cardText": "This is in English"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "EnglishOnly": {
+    "replies": [
+      {
+        "text": "This wasn't found in spanish so the fallback answer is returned",
+        "speak": "This is in English",
+        "cardText": "This is in English"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoInputHint": {
+    "replies": [
+      {
+        "text": "This is in English",
+        "speak": "This is in English",
+        "cardText": "This is in English"
+      }
+    ]
+  }
+}

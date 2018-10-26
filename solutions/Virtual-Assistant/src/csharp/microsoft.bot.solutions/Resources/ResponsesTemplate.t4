@@ -1,0 +1,46 @@
+﻿<#@ assembly name="Newtonsoft.Json.dll" #>
+<#
+  var className = System.IO.Path.GetFileNameWithoutExtension(Host.TemplateFile);
+  var namespaceName = System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("NamespaceHint");;
+  string myFile = System.IO.File.ReadAllText(this.Host.ResolvePath(className + ".en.json"));
+  var json = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.Dictionary<string, dynamic>>(myFile);
+  var resourcePath = System.IO.Path.GetDirectoryName(Host.TemplateFile);
+  var projectPath = Host.ResolveAssemblyReference("$(ProjectDir)");
+  var relativeResourcePath = resourcePath.Substring(projectPath.Length);
+#>
+// https://docs.microsoft.com/en-us/visualstudio/modeling/t4-include-directive?view=vs-2017
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+using System;
+using System.IO;
+using System.Runtime.CompilerServices;
+using Microsoft.Bot.Solutions.Dialogs;
+
+namespace <#= namespaceName #>
+{
+    /// <summary>
+    /// Contains bot responses.
+    /// </summary>
+    public static class <#= className #>
+    {
+        private static readonly ResponseManager _responseManager;
+
+		static <#= className #>()
+        {
+            var dir = Path.GetDirectoryName(typeof(<#= className #>).Assembly.Location);
+            var resDir = Path.Combine(dir, @"<#=relativeResourcePath#>");
+            _responseManager = new ResponseManager(resDir, "<#=className#>");
+        }
+
+        // Generated accessors<#
+        // This code runs in the text json:  
+        foreach (var propertyName in json)  { #>  
+        public static BotResponse <#= propertyName.Key.Substring(0, 1).ToUpperInvariant() + propertyName.Key.Substring(1) #> => GetBotResponse();
+        <# } #>
+        
+        private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
+        {
+            return _responseManager.GetBotResponse(propertyName);
+        }
+    }
+}

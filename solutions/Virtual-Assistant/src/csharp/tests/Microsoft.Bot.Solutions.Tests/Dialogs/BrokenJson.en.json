@@ -1,0 +1,14 @@
+{
+  "GetResponseText": {
+    "replies": [
+      {
+        "text": "The text",
+        "speak": "The speak",
+        "cardText": "The card text"
+      }
+    ],
+    "inputHint": "expectingInput",
+    "suggestedActions": [
+      "Suggestion 1",
+      "Suggestion 2"
+    ]
