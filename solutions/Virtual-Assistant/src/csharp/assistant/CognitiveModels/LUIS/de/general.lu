@@ -12,6 +12,7 @@ $PREBUILT:number
 - Hiya
 - Wie geht es dir
 - Wie geht es dir heute
+- Hallöchen
 
 # Help
 - Hilfe
@@ -37,10 +38,10 @@ $PREBUILT:number
 - Ich möchte absagen
 - Vergessen Sie es
 - Bitte stoppen
+- Ausfahrt
 
 # Restart
 - kann ich das noch einmal machen
-- Zurück
 - Ich muss etwas ändern
 - Neu starten
 - Start über
@@ -53,45 +54,6 @@ $PREBUILT:number
 - Transfer me please
 - Kontakt Unterstützung
 
-# ConfirmYes
-- Absolut
-- Sicher
-- Definitiv
-- Sicher
-- Ich denke schon
-- Lass es uns tun
-- machen wir das
-- Oh ja
-- Ja, bitte
-- Okay
-- Okay
-- sichere Sache
-- Ja
-- Ja, das wäre ein großer Dank
-- Warum nicht
-- Yep that es Right
-- Yup
-
-# ConfirmNo
-- Keineswegs
-- nah
-- Nö
-- Nein, danke
-- Nein
-- Nein, das ist okay
-- Auf keinen Fall
-- Überhaupt nicht
-- Nicht wirklich
-- nicht gerade jetzt dank
-
-# ConfirmMore
-- Mehr
-- Ich möchte mehr wissen
-- Zeige mir mehr
-- Mehr
-- Weitere Infos
-- Weitere Informationen
-
 # Next
 - Voraus
 - vorwärts gehen
@@ -99,6 +61,42 @@ $PREBUILT:number
 - Nächsten
 - nächsten Punkt
 - Show Next
+- könntest du den nächsten zeigen
+- Ich muss zum nächsten gehen
+- gehen Sie bitte zum nächsten
+- zum nächsten übergehen
+- Mache weiter
+- gehen Sie zum nächsten
+- zur nächsten Seite
+- Vorankommen
+- Schritt auf
+- Weiter geht es
+- nächsten ein
+- nächsten bitte
+- Zeig mir als nächstes
+- Zeige mir die nächste
+- zeigen die nächste
+- zeigen Sie den nächsten
+- die nächste e-Mail
+
+# Previous
+- Zurück
+- letzten einen
+- vorherige
+- der letzte
+- jährige ein
+- Last
+- zurück zum letzten
+- bringen Sie die vorherige
+- kommen Sie zum letzten
+- gehen Sie zu früheren
+- zum letzten gehen
+- zurückziehen
+- Vorherigen
+- Zeige mir vorher
+- vorherige bitte
+- der vorherige
+- Was ist der bisherige
 
 # Goodbye
 - Gute Nacht
@@ -107,6 +105,13 @@ $PREBUILT:number
 - Ok danke
 - Ok tschüss
 - Das ist es dank
+
+# Logout
+- SignOut
+- Vergiss mich
+- Abmelden
+- logout
+- Abmelden
 
 # None
 - meine Wasserflasche ist grün

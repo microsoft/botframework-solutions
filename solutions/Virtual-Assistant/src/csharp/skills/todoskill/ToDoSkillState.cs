@@ -127,6 +127,8 @@ namespace ToDoSkill
         /// </value>
         public ToDo LuisResult { get; set; }
 
+        public General GeneralLuisResult { get; set; }
+
         /// <summary>
         /// Gets or sets ConversationDialogState.
         /// </summary>

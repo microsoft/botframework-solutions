@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using ToDoSkill.Dialogs.DeleteToDo.Resources;
@@ -183,14 +184,19 @@ namespace ToDoSkill
             try
             {
                 var state = await _accessor.GetAsync(sc.Context);
-                var luisResult = state.LuisResult;
+                var luisResult = state.GeneralLuisResult;
                 var topIntent = luisResult?.TopIntent().intent;
-                if (topIntent == ToDo.Intent.ConfirmYes)
+
+                sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
+                var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
+                var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
+
+                if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
                 {
                     state.DeleteTaskConfirmation = true;
                     return await sc.EndDialogAsync(true);
                 }
-                else if (topIntent == ToDo.Intent.ConfirmNo)
+                else if((promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false))
                 {
                     state.DeleteTaskConfirmation = false;
                     return await sc.EndDialogAsync(true);

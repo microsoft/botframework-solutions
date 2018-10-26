@@ -18,8 +18,9 @@ namespace PointOfInterestSkill.Dialogs.Shared.Resources
     public static class POISharedResponses
     {
         private const string JsonFileName = "POISharedResponses.*.json";
+        private static Exception resourceLoadingException;
 
-        private static Dictionary<string, Dictionary<string, BotResponse>> jsonResponses;
+        private static Dictionary<string, Dictionary<string, BotResponse>> _jsonResponses;
 
         // Generated code:
         // This code runs in the text json:
@@ -57,31 +58,54 @@ namespace PointOfInterestSkill.Dialogs.Shared.Resources
         {
             get
             {
-                if (jsonResponses != null)
+                if (_jsonResponses != null)
                 {
-                    return jsonResponses;
+                    return _jsonResponses;
                 }
 
-                jsonResponses = new Dictionary<string, Dictionary<string, BotResponse>>();
+                _jsonResponses = new Dictionary<string, Dictionary<string, BotResponse>>();
                 var dir = Path.GetDirectoryName(typeof(POISharedResponses).Assembly.Location);
                 var resDir = Path.Combine(dir, "Dialogs\\Shared\\Resources");
 
                 var jsonFiles = Directory.GetFiles(resDir, JsonFileName);
                 foreach (var file in jsonFiles)
                 {
-                    var jsonData = File.ReadAllText(file);
-                    var responses = JsonConvert.DeserializeObject<Dictionary<string, BotResponse>>(jsonData);
-                    var key = new FileInfo(file).Name.Split(".")[1].ToLower();
+                    try
+                    {
+                        var jsonData = File.ReadAllText(file);
+                        var responses = JsonConvert.DeserializeObject<Dictionary<string, BotResponse>>(jsonData);
+                        var key = new FileInfo(file).Name.Split(".")[1].ToLower();
 
-                    jsonResponses.Add(key, responses);
+                        _jsonResponses.Add(key, responses);
+                    }
+                    catch (JsonReaderException ex)
+                    {
+                        _jsonResponses = null;
+                        resourceLoadingException = new Exception($"Deserialization exception when deserializing response resource file {file}: {ex.Message}");
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        _jsonResponses = null;
+                        resourceLoadingException = ex;
+                        break;
+                    }
                 }
 
-                return jsonResponses;
+                resourceLoadingException = null;
+                return _jsonResponses;
             }
         }
 
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {
+            // warm up the JsonResponses loading to see if it actually exist. If not, throw with the loading time exception that's actually helpful
+            var jsonResponses = JsonResponses;
+            if (jsonResponses == null && resourceLoadingException != null)
+            {
+                throw resourceLoadingException;
+            }
+
             var locale = CultureInfo.CurrentUICulture.Name;
             var theK = GetJsonResponseKeyForLocale(locale, propertyName);
 
@@ -105,21 +129,14 @@ namespace PointOfInterestSkill.Dialogs.Shared.Resources
 
         private static string GetJsonResponseKeyForLocale(string locale, string propertyName)
         {
-            try
+            if (JsonResponses.ContainsKey(locale))
             {
-                if (JsonResponses.ContainsKey(locale))
-                {
-                    return JsonResponses[locale].ContainsKey(propertyName) ?
-                        JsonResponses[locale].Keys.FirstOrDefault(k => string.Compare(k, propertyName, StringComparison.CurrentCultureIgnoreCase) == 0) :
-                        null;
-                }
+                return JsonResponses[locale].ContainsKey(propertyName) ?
+                    JsonResponses[locale].Keys.FirstOrDefault(k => string.Compare(k, propertyName, StringComparison.CurrentCultureIgnoreCase) == 0) :
+                    null;
+            }
 
-                return null;
-            }
-            catch (KeyNotFoundException)
-            {
-                return null;
-            }
+            return null;
         }
     }
 }
