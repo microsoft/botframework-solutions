@@ -52,7 +52,7 @@
     <None Update="Resources\CommonResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\CommonResponses.en.json">
+    <None Update="Resources\CommonResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resources\CommonResponses.tt">

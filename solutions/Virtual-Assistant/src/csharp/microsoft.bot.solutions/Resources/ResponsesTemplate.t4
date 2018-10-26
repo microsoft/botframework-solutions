@@ -2,7 +2,7 @@
 <#
   var className = System.IO.Path.GetFileNameWithoutExtension(Host.TemplateFile);
   var namespaceName = System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("NamespaceHint");;
-  string myFile = System.IO.File.ReadAllText(this.Host.ResolvePath(className + ".en.json"));
+  string myFile = System.IO.File.ReadAllText(this.Host.ResolvePath(className + ".json"));
   var json = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.Dictionary<string, dynamic>>(myFile);
   var resourcePath = System.IO.Path.GetDirectoryName(Host.TemplateFile);
   var projectPath = Host.ResolveAssemblyReference("$(ProjectDir)");

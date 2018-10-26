@@ -17,16 +17,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Dialogs\BrokenJson.en.json">
+    <None Update="Dialogs\BrokenJson.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Dialogs\TestResponses.es.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Dialogs\TestResponses.en.json">
+    <None Update="Dialogs\TestResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\TestResponses.en.json">
+    <None Update="Resources\TestResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resources\TestResponses.tt">

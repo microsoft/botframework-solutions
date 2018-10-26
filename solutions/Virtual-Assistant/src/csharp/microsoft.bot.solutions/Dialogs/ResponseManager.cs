@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Newtonsoft.Json;
@@ -11,8 +10,10 @@ namespace Microsoft.Bot.Solutions.Dialogs
 {
     public class ResponseManager
     {
+        private const string _defaultLocaleKey = "Default";
+        private readonly string _defaultJsonFile;
+        private readonly string _extraLanguageJsonFileSearchPattern;
         private readonly string _jsonFilePath;
-        private readonly string _jsonFileSearchPattern;
         private Dictionary<string, Dictionary<string, BotResponse>> _jsonResponses;
 
         /// <summary>
@@ -22,7 +23,8 @@ namespace Microsoft.Bot.Solutions.Dialogs
         /// <param name="resourceName">The name of the resources (e.g: MyResponses).</param>
         public ResponseManager(string resourcePath, string resourceName)
         {
-            _jsonFileSearchPattern = resourceName + ".*.json";
+            _defaultJsonFile = resourceName + ".json";
+            _extraLanguageJsonFileSearchPattern = resourceName + ".*.json";
             _jsonFilePath = resourcePath;
         }
 
@@ -35,53 +37,28 @@ namespace Microsoft.Bot.Solutions.Dialogs
                     return _jsonResponses;
                 }
 
-                _jsonResponses = new Dictionary<string, Dictionary<string, BotResponse>>();
-                var jsonFiles = Directory.GetFiles(_jsonFilePath, _jsonFileSearchPattern);
-                if (jsonFiles.Length == 0)
-                {
-                    throw new FileNotFoundException($"Unable to find resource files for \"{_jsonFileSearchPattern}\" under \"{_jsonFilePath}\".", Path.Combine(_jsonFilePath, _jsonFileSearchPattern));
-                }
-
-                foreach (var file in jsonFiles)
-                {
-                    try
-                    {
-                        string jsonData;
-                        using (var sr = new StreamReader(file, Encoding.GetEncoding("iso-8859-1")))
-                        {
-                            jsonData = sr.ReadToEnd();
-                        }
-
-                        var responses = JsonConvert.DeserializeObject<Dictionary<string, BotResponse>>(jsonData);
-                        var localeKey = new FileInfo(file).Name.Split(".")[1].ToLower();
-                        _jsonResponses.Add(localeKey, responses);
-                    }
-                    catch (JsonSerializationException ex)
-                    {
-                        throw new JsonSerializationException($"Error deserializing {file}. {ex.Message}", ex);
-                    }
-                }
+                _jsonResponses = LoadResponses();
 
                 return _jsonResponses;
             }
         }
 
-        public BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
+        public virtual BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {
             var locale = CultureInfo.CurrentUICulture.Name;
             var key = GetJsonResponseKeyForLocale(locale, propertyName);
 
-            // fall back to parent language
+            // try parent language
             if (key == null)
             {
                 locale = CultureInfo.CurrentUICulture.Name.Split("-")[0].ToLower();
                 key = GetJsonResponseKeyForLocale(locale, propertyName);
 
-                // fall back to en
+                // fall back to default
                 if (key == null)
                 {
-                    locale = "en";
-                    key = GetJsonResponseKeyForLocale(locale, propertyName, true);
+                    locale = _defaultLocaleKey;
+                    key = GetJsonResponseKeyForLocale(locale, propertyName);
                 }
             }
 
@@ -89,26 +66,53 @@ namespace Microsoft.Bot.Solutions.Dialogs
             return JsonConvert.DeserializeObject<BotResponse>(JsonConvert.SerializeObject(botResponse));
         }
 
-        private string GetJsonResponseKeyForLocale(string locale, string propertyName, bool isFallbackLanguage = false)
+        protected virtual Dictionary<string, Dictionary<string, BotResponse>> LoadResponses()
         {
-            try
-            {
-                if (JsonResponses.ContainsKey(locale))
-                {
-                    return JsonResponses[locale].ContainsKey(propertyName) ? JsonResponses[locale].Keys.FirstOrDefault(k => string.Compare(k, propertyName, StringComparison.CurrentCultureIgnoreCase) == 0) : null;
-                }
+            var jsonResponses = new Dictionary<string, Dictionary<string, BotResponse>>();
 
-                return null;
-            }
-            catch (KeyNotFoundException)
-            {
-                if (isFallbackLanguage)
-                {
-                    throw;
-                }
+            var jsonFiles = new List<string>(Directory.GetFiles(_jsonFilePath, _extraLanguageJsonFileSearchPattern));
 
-                return null;
+            var defaultFile = Path.Combine(_jsonFilePath, _defaultJsonFile);
+            if (!File.Exists(defaultFile))
+            {
+                throw new FileNotFoundException($"Unable to find \"{_defaultJsonFile}\" under \"{_jsonFilePath}\".", Path.Combine(_jsonFilePath, _extraLanguageJsonFileSearchPattern));
             }
+
+            jsonFiles.Add(defaultFile);
+
+            foreach (var file in jsonFiles)
+            {
+                try
+                {
+                    string jsonData;
+                    using (var sr = new StreamReader(file, Encoding.GetEncoding("iso-8859-1")))
+                    {
+                        jsonData = sr.ReadToEnd();
+                    }
+
+                    var responses = JsonConvert.DeserializeObject<Dictionary<string, BotResponse>>(jsonData);
+
+                    var fileInfo = new FileInfo(file);
+                    var localeKey = string.Equals(fileInfo.Name, _defaultJsonFile, StringComparison.CurrentCultureIgnoreCase) ? _defaultLocaleKey : fileInfo.Name.Split(".")[1].ToLower();
+                    jsonResponses.Add(localeKey, responses);
+                }
+                catch (JsonSerializationException ex)
+                {
+                    throw new JsonSerializationException($"Error deserializing {file}. {ex.Message}", ex);
+                }
+            }
+
+            return jsonResponses;
+        }
+
+        private string GetJsonResponseKeyForLocale(string locale, string propertyName)
+        {
+            if (JsonResponses.ContainsKey(locale))
+            {
+                return JsonResponses[locale].ContainsKey(propertyName) ? propertyName : null;
+            }
+
+            return null;
         }
     }
 }
