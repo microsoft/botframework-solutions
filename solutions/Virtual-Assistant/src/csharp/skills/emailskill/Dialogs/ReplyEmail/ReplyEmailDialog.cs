@@ -14,7 +14,7 @@ namespace EmailSkill
     public class ReplyEmailDialog : EmailSkillDialog
     {
         public ReplyEmailDialog(
-            SkillConfiguration services,
+            ISkillConfiguration services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IMailSkillServiceManager serviceManager)
@@ -67,7 +67,7 @@ namespace EmailSkill
                     // reply user message.
                     if (message != null)
                     {
-                        await service.ReplyToMessage(message.Id, content);
+                        await service.ReplyToMessageAsync(message.Id, content);
                     }
 
                     var nameListString = $"To: {message?.From.EmailAddress.Name}";

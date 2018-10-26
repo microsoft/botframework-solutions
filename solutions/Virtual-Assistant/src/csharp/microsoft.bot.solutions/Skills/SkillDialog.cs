@@ -17,14 +17,14 @@ namespace Microsoft.Bot.Solutions.Skills
         private const string ActiveSkillStateKey = "ActiveSkill";
 
         // Fields
-        private Dictionary<string, SkillConfiguration> _skills;
+        private Dictionary<string, ISkillConfiguration> _skills;
         private IStatePropertyAccessor<DialogState> _accessor;
         private DialogSet _dialogs;
         private InProcAdapter _inProcAdapter;
         private IBot _activatedSkill;
         private bool _skillInitialized;
 
-        public SkillDialog(Dictionary<string, SkillConfiguration> skills, IStatePropertyAccessor<DialogState> accessor)
+        public SkillDialog(Dictionary<string, ISkillConfiguration> skills, IStatePropertyAccessor<DialogState> accessor)
             : base(nameof(SkillDialog))
         {
             _skills = skills;
@@ -129,13 +129,22 @@ namespace Microsoft.Bot.Solutions.Skills
                 var skillDefinition = dc.ActiveDialog.State[ActiveSkillStateKey] as SkillDefinition;
                 var skillConfiguration = _skills[skillDefinition.Id];
 
-                var cosmosDbOptions = skillConfiguration.CosmosDbOptions;
-                cosmosDbOptions.CollectionId = skillDefinition.Name;
+                IStorage storage;
+
+                if (skillConfiguration.CosmosDbOptions != null)
+                {
+                    var cosmosDbOptions = skillConfiguration.CosmosDbOptions;
+                    cosmosDbOptions.CollectionId = skillDefinition.Name;
+                    storage = new CosmosDbStorage(cosmosDbOptions);
+                }
+                else
+                {
+                    storage = new MemoryStorage();
+                }
 
                 // Initialize skill state
-                var cosmosDbStorage = new CosmosDbStorage(cosmosDbOptions);
-                var userState = new UserState(cosmosDbStorage);
-                var conversationState = new ConversationState(cosmosDbStorage);
+                var userState = new UserState(storage);
+                var conversationState = new ConversationState(storage);
 
                 // Create skill instance
                 try

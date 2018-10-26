@@ -173,12 +173,12 @@ namespace CalendarSkill
         {
 
             var state = await _accessor.GetAsync(pc.Context);
-            var luisResult = state.LuisResult;
+            var luisResult = state.GeneralLuisResult;
             var topIntent = luisResult?.TopIntent().intent;
 
             // TODO: The signature for validators has changed to return bool -- Need new way to handle this logic
             // If user want to show more recipient end current choice dialog and return the intent to next step.
-            if (topIntent == Luis.Calendar.Intent.ShowNext || topIntent == Luis.Calendar.Intent.ShowPrevious)
+            if (topIntent == Luis.General.Intent.Next || topIntent == Luis.General.Intent.Previous)
             {
                 // pc.End(topIntent);
                 return true;
