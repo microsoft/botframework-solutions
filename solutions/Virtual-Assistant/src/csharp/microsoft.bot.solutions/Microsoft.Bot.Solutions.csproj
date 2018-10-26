@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AssemblyName>Microsoft.Bot.Solutions</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -58,6 +59,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <LastGenOutput>CommonResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Resources\ResponsesTemplate.t4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
