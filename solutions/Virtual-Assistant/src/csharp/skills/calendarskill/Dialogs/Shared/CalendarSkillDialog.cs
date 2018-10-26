@@ -363,7 +363,7 @@ namespace CalendarSkill
                         // ignored
                     }
                 }
-                
+
                 if (entity.Duration != null)
                 {
                     foreach (var datetimeItem in entity.datetime)
@@ -375,6 +375,16 @@ namespace CalendarSkill
                             break;
                         }
                     }
+                }
+
+                if (entity.MeetingRoom != null)
+                {
+                    state.Location = entity.MeetingRoom[0];
+                }
+
+                if (entity.Location != null)
+                {
+                    state.Location = entity.Location[0];
                 }
             }
             catch (Exception e)
