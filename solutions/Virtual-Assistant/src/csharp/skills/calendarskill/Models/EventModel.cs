@@ -3,6 +3,7 @@
 
 namespace CalendarSkill
 {
+    using global::CalendarSkill.Common;
     using System;
     using System.Collections.Generic;
 
@@ -263,9 +264,14 @@ namespace CalendarSkill
                 switch (source)
                 {
                     case EventSource.Microsoft:
-                        return DateTime.Parse(msftEventData.Start.DateTime);
+                        if (this.TimeZone == TimeZoneInfo.Utc && !msftEventData.Start.DateTime.EndsWith("Z"))
+                        {
+                            msftEventData.Start.DateTime = msftEventData.Start.DateTime + "Z";
+                        }
+
+                        return DateTime.Parse(msftEventData.Start.DateTime).ToUniversalTime();
                     case EventSource.Google:
-                        return gmailEventData.Start.DateTime.Value;
+                        return gmailEventData.Start.DateTime.Value.ToUniversalTime();
                     default:
                         throw new Exception("Event Type not Defined");
                 }
@@ -273,6 +279,11 @@ namespace CalendarSkill
 
             set
             {
+                if (value.Kind != DateTimeKind.Utc)
+                {
+                    throw new Exception("Model Start Time is not Utc Time");
+                }
+
                 switch (source)
                 {
                     case EventSource.Microsoft:
@@ -289,7 +300,7 @@ namespace CalendarSkill
                             gmailEventData.Start = new Google.Apis.Calendar.v3.Data.EventDateTime();
                         }
 
-                        gmailEventData.Start.DateTime = value;
+                        gmailEventData.Start.DateTimeRaw = value.ToString("o");
                         break;
                     default:
                         throw new Exception("Event Type not Defined");
@@ -310,9 +321,14 @@ namespace CalendarSkill
                 switch (source)
                 {
                     case EventSource.Microsoft:
-                        return DateTime.Parse(msftEventData.End.DateTime);
+                        if (this.TimeZone == TimeZoneInfo.Utc && !msftEventData.End.DateTime.EndsWith("Z"))
+                        {
+                            msftEventData.End.DateTime = msftEventData.End.DateTime + "Z";
+                        }
+
+                        return DateTime.Parse(msftEventData.End.DateTime).ToUniversalTime();
                     case EventSource.Google:
-                        return gmailEventData.End.DateTime.Value;
+                        return gmailEventData.End.DateTime.Value.ToUniversalTime();
                     default:
                         throw new Exception("Event Type not Defined");
                 }
@@ -320,6 +336,11 @@ namespace CalendarSkill
 
             set
             {
+                if (value.Kind != DateTimeKind.Utc)
+                {
+                    throw new Exception("Model End Time is not Utc Time");
+                }
+
                 switch (source)
                 {
                     case EventSource.Microsoft:
@@ -336,7 +357,7 @@ namespace CalendarSkill
                             gmailEventData.End = new Google.Apis.Calendar.v3.Data.EventDateTime();
                         }
 
-                        gmailEventData.End.DateTime = value;
+                        gmailEventData.End.DateTimeRaw = value.ToString("o");
                         break;
                     default:
                         throw new Exception("Event Type not Defined");
@@ -353,6 +374,11 @@ namespace CalendarSkill
                     case EventSource.Microsoft:
                         return TimeZoneInfo.FindSystemTimeZoneById(msftEventData.Start.TimeZone);
                     case EventSource.Google:
+                        if (gmailEventData.Start.TimeZone == null)
+                        {
+                            return TimeZoneInfo.Utc;
+                        }
+
                         return TimeZoneInfo.FindSystemTimeZoneById(TimeZoneConverter.IanaToWindows(gmailEventData.Start.TimeZone));
                     default:
                         throw new Exception("Event Type not Defined");
@@ -609,7 +635,7 @@ namespace CalendarSkill
             set => source = value;
         }
 
-        public CalendarCardData ToAdaptiveCardData(bool showDate = true)
+        public CalendarCardData ToAdaptiveCardData(TimeZoneInfo timeZone, bool showDate = true)
         {
             var eventItem = this;
 
@@ -625,7 +651,7 @@ namespace CalendarSkill
 
             if (showDate)
             {
-                textString += $"\n{eventItem.StartTime.ToString("dd-MM-yyyy")}";
+                textString += $"\n{TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone).ToString("dd-MM-yyyy")}";
             }
 
             if (eventItem.IsAllDay == true)
@@ -634,7 +660,7 @@ namespace CalendarSkill
             }
             else
             {
-                textString += $"\n{eventItem.StartTime.ToString("h:mm tt")} - {eventItem.EndTime.ToString("h:mm tt")}";
+                textString += $"\n{TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone).ToString("h:mm tt")} - {TimeConverter.ConvertUtcToUserTime(eventItem.EndTime, timeZone).ToString("h:mm tt")}";
             }
 
             if (eventItem.Location != null)
@@ -645,11 +671,11 @@ namespace CalendarSkill
             string speakString = string.Empty;
             if (eventItem.IsAllDay == true)
             {
-                speakString = $"{eventItem.Title} at {eventItem.StartTime.ToString("MMMM dd all day")}";
+                speakString = $"{eventItem.Title} at {TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone).ToString("MMMM dd all day")}";
             }
             else
             {
-                speakString = $"{eventItem.Title} at {eventItem.StartTime.ToString("h:mm tt")}";
+                speakString = $"{eventItem.Title} at {TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone).ToString("h:mm tt")}";
             }
 
             return new CalendarCardData
@@ -657,7 +683,7 @@ namespace CalendarSkill
                 Title = eventItem.Title,
                 Content = textString,
                 MeetingLink = eventItem.OnlineMeetingUrl,
-                Speak = $"{eventItem.Title} at {eventItem.StartTime.ToString("h:mm tt")}",
+                Speak = $"{eventItem.Title} at {TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone).ToString("h:mm tt")}",
             };
         }
 

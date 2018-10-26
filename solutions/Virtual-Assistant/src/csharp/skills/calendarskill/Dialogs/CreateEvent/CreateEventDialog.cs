@@ -1,4 +1,5 @@
-﻿using CalendarSkill.Dialogs.CreateEvent.Resources;
+﻿using CalendarSkill.Common;
+using CalendarSkill.Dialogs.CreateEvent.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
 using Luis;
 using Microsoft.Bot.Builder;
@@ -307,13 +308,13 @@ namespace CalendarSkill
                     Title = state.Title,
                     Content = state.Content,
                     Attendees = state.Attendees,
-                    StartTime = (DateTime)state.StartDateTime,
-                    EndTime = (DateTime)state.EndDateTime,
-                    TimeZone = state.GetUserTimeZone(),
+                    StartTime = state.StartDateTime.Value,
+                    EndTime = state.EndDateTime.Value,
+                    TimeZone = TimeZoneInfo.Utc,
                     Location = state.Location,
                 };
 
-                var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(CreateEventResponses.ConfirmCreate, newEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", newEvent.ToAdaptiveCardData());
+                var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(CreateEventResponses.ConfirmCreate, newEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", newEvent.ToAdaptiveCardData(state.GetUserTimeZone()));
 
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
@@ -344,13 +345,13 @@ namespace CalendarSkill
                         Attendees = state.Attendees,
                         StartTime = (DateTime)state.StartDateTime,
                         EndTime = (DateTime)state.EndDateTime,
-                        TimeZone = state.GetUserTimeZone(),
+                        TimeZone = TimeZoneInfo.Utc,
                         Location = state.Location,
                     };
                     var calendarService = _serviceManager.InitCalendarService(state.APIToken, state.EventSource, state.GetUserTimeZone());
                     if (await calendarService.CreateEvent(newEvent) != null)
                     {
-                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(CreateEventResponses.EventCreated, newEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", newEvent.ToAdaptiveCardData());
+                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(CreateEventResponses.EventCreated, newEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", newEvent.ToAdaptiveCardData(state.GetUserTimeZone()));
                         await sc.Context.SendActivityAsync(replyMessage);
                     }
                     else
@@ -741,14 +742,8 @@ namespace CalendarSkill
                     if (dateTime != null)
                     {
                         bool isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeResolutions.First().Value, dateTimeResolutions.First().Timex);
-                        state.StartTime = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
-                        state.StartDateTime = new DateTime(
-                            state.StartDate.Value.Year,
-                            state.StartDate.Value.Month,
-                            state.StartDate.Value.Day,
-                            state.StartTime.Value.Hour,
-                            state.StartTime.Value.Minute,
-                            state.StartTime.Value.Second);
+                        state.StartTime = isRelativeTime ? TimeConverter.ConvertLuisLocalToUtc(dateTime, state.GetUserTimeZone()) : TimeZoneInfo.ConvertTimeToUtc(dateTime, state.GetUserTimeZone());
+                        state.StartDateTime = state.StartTime;
                         return await sc.EndDialogAsync();
                     }
                 }

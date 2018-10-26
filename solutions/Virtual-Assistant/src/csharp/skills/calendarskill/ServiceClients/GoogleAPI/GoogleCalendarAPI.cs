@@ -98,9 +98,10 @@ namespace CalendarSkill
             var results = new List<EventModel>();
             foreach (var gevent in events.Items)
             {
-                if (startTime.CompareTo(gevent.Start.DateTime) == 0)
+                EventModel eventModel = new EventModel(gevent);
+                if (startTime.CompareTo(eventModel.StartTime) == 0)
                 {
-                    results.Add(new EventModel(gevent));
+                    results.Add(eventModel);
                 }
             }
 
@@ -111,7 +112,7 @@ namespace CalendarSkill
         /// <inheritdoc/>
         public async Task<List<EventModel>> GetEventsByTitle(string title)
         {
-            var events = RequestEventsByStartTime(DateTime.Now.AddDays(-1));
+            var events = RequestEventsByStartTime(DateTime.UtcNow.AddDays(-1));
             var results = new List<EventModel>();
             foreach (var gevent in events.Items)
             {
@@ -181,7 +182,7 @@ namespace CalendarSkill
         {
             // Define parameters of request.
             var request = service.Events.List("primary");
-            request.TimeMin = DateTime.Now;
+            request.TimeMin = DateTime.UtcNow;
             request.ShowDeleted = false;
             request.SingleEvents = true;
             request.MaxResults = 10;

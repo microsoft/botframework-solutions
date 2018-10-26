@@ -13,15 +13,12 @@ namespace CalendarSkill
     {
         private readonly GraphServiceClient _graphClient;
 
-        private TimeZoneInfo timeZoneInfo;
-
-        public MSGraphCalendarAPI(string token, TimeZoneInfo info)
+        public MSGraphCalendarAPI(string token)
         {
-            _graphClient = GetAuthenticatedClient(token, info);
-            timeZoneInfo = info;
+            _graphClient = GetAuthenticatedClient(token);
         }
 
-        public static GraphServiceClient GetAuthenticatedClient(string accessToken, TimeZoneInfo info)
+        public static GraphServiceClient GetAuthenticatedClient(string accessToken)
         {
             var graphClient = new GraphServiceClient(
                 new DelegateAuthenticationProvider(
@@ -31,7 +28,7 @@ namespace CalendarSkill
                         requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
 
                         // Get event times in the current time zone.
-                        requestMessage.Headers.Add("Prefer", "outlook.timezone=\"" + info.Id + "\"");
+                        //requestMessage.Headers.Add("Prefer", "outlook.timezone=\"" + info.Id + "\"");
                         await Task.CompletedTask;
                     }));
             return graphClient;
@@ -100,8 +97,7 @@ namespace CalendarSkill
         /// <inheritdoc/>
         public async Task<List<EventModel>> GetEventsByTitle(string title)
         {
-            var queryDate = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.Local, timeZoneInfo);
-            var allEvents = await GetMyStartTimeEvents(DateTime.Now.AddDays(-1));
+            var allEvents = await GetMyStartTimeEvents(DateTime.UtcNow.AddDays(-1));
             var result = new List<EventModel>();
 
             foreach (var item in allEvents)
@@ -225,7 +221,6 @@ namespace CalendarSkill
 
             // Get events.
             var options = new List<QueryOption>();
-            startTime = startTime.ToUniversalTime();
             var endTime = startTime.AddDays(3);
             options.Add(new QueryOption("startdatetime", startTime.ToString("o")));
             options.Add(new QueryOption("enddatetime", endTime.ToString("o")));
@@ -285,9 +280,6 @@ namespace CalendarSkill
         {
             var items = new List<Event>();
 
-            startTime = startTime.ToUniversalTime();
-            endTime = endTime.ToUniversalTime();
-
             // Define the time span for the calendar view.
             var options = new List<QueryOption>
             {
@@ -319,76 +311,6 @@ namespace CalendarSkill
             // Add the event.
             var createdEvent = await _graphClient.Me.Events.Request().AddAsync(newEvent);
             return createdEvent;
-        }
-
-        // Create an event.
-        // This snippet creates an hour-long event three days from now.
-        private async Task<List<Event>> CreateEvent(string eventName, string eventContent, string locationDisplayName, List<string> attendeeEmail, DateTime startTime, DateTime endTime)
-        {
-            var items = new List<Event>();
-            var guid = Guid.NewGuid().ToString();
-
-            // List of attendees
-            var attendees = new List<Attendee>();
-            if (attendeeEmail != null)
-            {
-                foreach (var email in attendeeEmail)
-                {
-                    attendees.Add(new Attendee
-                    {
-                        EmailAddress = new EmailAddress
-                        {
-                            Address = email,
-                        },
-                        Type = AttendeeType.Required,
-                    });
-                }
-            }
-
-            // Event body
-            var body = new ItemBody
-            {
-                Content = eventContent,
-                ContentType = BodyType.Text,
-            };
-
-            // Event start and end time
-            // Another example date format: `new DateTime(2017, 12, 1, 9, 30, 0).ToString("o")`
-            var startTimeTimeZone = new DateTimeTimeZone
-            {
-                DateTime = startTime.ToString("o"),
-                TimeZone = timeZoneInfo.Id,
-            };
-            var endTimeTimeZone = new DateTimeTimeZone
-            {
-                DateTime = endTime.ToString("o"),
-                TimeZone = timeZoneInfo.Id,
-            };
-
-            // Event location
-            var location = new Location
-            {
-                DisplayName = locationDisplayName,
-            };
-
-            // Add the event.
-            var createdEvent = await _graphClient.Me.Events.Request().AddAsync(new Event
-            {
-                Subject = eventName,
-                Location = location,
-                Attendees = attendees,
-                Body = body,
-                Start = startTimeTimeZone,
-                End = endTimeTimeZone,
-            });
-
-            if (createdEvent != null)
-            {
-                // Get event properties.
-                items.Add(createdEvent);
-            }
-
-            return items;
         }
 
         // Get a specified event.

@@ -79,6 +79,7 @@ namespace CalendarSkill
 
         public TimeZoneInfo GetUserTimeZone()
         {
+            return TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time");
             if ((UserInfo != null) && (UserInfo.Timezone != null))
             {
                 return UserInfo.Timezone;

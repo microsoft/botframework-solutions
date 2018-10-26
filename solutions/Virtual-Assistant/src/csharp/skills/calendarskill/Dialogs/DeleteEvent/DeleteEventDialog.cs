@@ -1,4 +1,5 @@
-﻿using CalendarSkill.Dialogs.DeleteEvent.Resources;
+﻿using CalendarSkill.Common;
+using CalendarSkill.Dialogs.DeleteEvent.Resources;
 using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
 using Microsoft.Bot.Builder;
@@ -60,7 +61,7 @@ namespace CalendarSkill
                 }
 
                 var deleteEvent = state.Events[0];
-                var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(DeleteEventResponses.ConfirmDelete, deleteEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", deleteEvent.ToAdaptiveCardData());
+                var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(DeleteEventResponses.ConfirmDelete, deleteEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", deleteEvent.ToAdaptiveCardData(state.GetUserTimeZone()));
 
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
@@ -115,7 +116,6 @@ namespace CalendarSkill
                 }
 
                 var calendarService = _serviceManager.InitCalendarService(state.APIToken, state.EventSource, state.GetUserTimeZone());
-
                 if (state.StartDateTime == null)
                 {
                     return await sc.BeginDialogAsync(Actions.UpdateStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound));
@@ -186,7 +186,7 @@ namespace CalendarSkill
                         startTime = DateTime.Parse(dateTimeResolutions.First().Value);
                         var dateTimeConvertType = dateTimeResolutions.First().Timex;
                         bool isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeResolutions.First().Value, dateTimeResolutions.First().Timex);
-                        startTime = isRelativeTime ? TimeZoneInfo.ConvertTime(startTime.Value, TimeZoneInfo.Local, state.GetUserTimeZone()) : startTime;
+                        startTime = isRelativeTime ? TimeConverter.ConvertLuisLocalToUtc(startTime.Value, state.GetUserTimeZone()) : TimeZoneInfo.ConvertTimeToUtc(startTime.Value, state.GetUserTimeZone());
                     }
                 }
                 catch
@@ -199,7 +199,6 @@ namespace CalendarSkill
                 if (startTime != null)
                 {
                     state.StartDateTime = startTime;
-                    startTime = DateTime.SpecifyKind(startTime.Value, DateTimeKind.Local);
                     events = await calendarService.GetEventsByStartTime(startTime.Value);
                 }
                 else
@@ -239,7 +238,7 @@ namespace CalendarSkill
                     var cardsData = new List<CalendarCardData>();
                     foreach (var item in events)
                     {
-                        var meetingCard = item.ToAdaptiveCardData();
+                        var meetingCard = item.ToAdaptiveCardData(state.GetUserTimeZone());
                         var replyTemp = sc.Context.Activity.CreateAdaptiveCardReply(CalendarMainResponses.GreetingMessage, item.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", meetingCard);
                         replyToConversation.Attachments.Add(replyTemp.Attachments[0]);
                     }
