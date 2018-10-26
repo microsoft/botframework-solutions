@@ -118,7 +118,7 @@ namespace VirtualAssistant
 
                                 case General.Intent.Logout:
                                     {
-                                        await OnLogout(dc);
+                                        await LogoutAsync(dc);
                                         break;
                                     }
 
@@ -230,7 +230,7 @@ namespace VirtualAssistant
             }
         }
 
-        protected virtual async Task<InterruptionAction> OnLogout(DialogContext dc)
+        protected virtual async Task<InterruptionAction> LogoutAsync(DialogContext dc)
         {
             BotFrameworkAdapter adapter;
             var supported = dc.Context.Adapter is BotFrameworkAdapter;
