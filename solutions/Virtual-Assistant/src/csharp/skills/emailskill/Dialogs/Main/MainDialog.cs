@@ -225,6 +225,7 @@ namespace EmailSkill
                                     // result = await OnHelp(dc);
                                     break;
                                 }
+
                             case General.Intent.Logout:
                                 {
                                     result = await OnLogout(dc);
