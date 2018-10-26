@@ -51,10 +51,6 @@
     {
       "name": "store",
       "roles": []
-    },
-    {
-      "name": "location",
-      "roles": []
     }
   ],
   "composites": [],
@@ -259,12 +255,12 @@
       "intent": "CheckItemAvailability",
       "entities": [
         {
-          "entity": "location",
+          "entity": "store",
           "startPos": 5,
           "endPos": 11
         },
         {
-          "entity": "store",
+          "entity": "product",
           "startPos": 25,
           "endPos": 35
         }
@@ -314,6 +310,28 @@
       ]
     },
     {
+      "text": "Do you have laptops in stock?",
+      "intent": "CheckItemAvailability",
+      "entities": [
+        {
+          "entity": "product",
+          "startPos": 12,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "Is this in stock in seattle?",
+      "intent": "CheckItemAvailability",
+      "entities": [
+        {
+          "entity": "store",
+          "startPos": 20,
+          "endPos": 26
+        }
+      ]
+    },
+    {
       "text": "Buy online and pick up at store.",
       "intent": "BuyOnlinePickUpInStore",
       "entities": []
@@ -341,6 +359,11 @@
     },
     {
       "text": "Want to buy online and pickup at store today.",
+      "intent": "BuyOnlinePickUpInStore",
+      "entities": []
+    },
+    {
+      "text": "Can I buy something online and collect it in store?",
       "intent": "BuyOnlinePickUpInStore",
       "entities": []
     },
@@ -391,6 +414,11 @@
     },
     {
       "text": "Update Account Information",
+      "intent": "UpdateAccount",
+      "entities": []
+    },
+    {
+      "text": "update contact information",
       "intent": "UpdateAccount",
       "entities": []
     },
@@ -468,14 +496,24 @@
       "text": "Update Shipping Address on order.",
       "intent": "UpdateShippingAddress",
       "entities": []
+    },
+    {
+      "text": "Update my delivery address",
+      "intent": "UpdateShippingAddress",
+      "entities": []
+    },
+    {
+      "text": "Change my shipping address",
+      "intent": "UpdateShippingAddress",
+      "entities": []
     }
   ],
   "patterns": [],
   "patternAnyEntities": [],
   "prebuiltEntities": [],
   "luis_schema_version": "3.0.0",
-  "versionId": "0.1",
-  "name": "CustomerSupport_Retail",
+  "versionId": "0.2",
+  "name": "retail",
   "desc": "",
   "culture": "en-us"
 }
