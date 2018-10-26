@@ -117,25 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CANCELLED" xml:space="preserve">
+  <data name="Cancelled" xml:space="preserve">
     <value>Ok, let's start over.</value>
   </data>
-  <data name="COMPLETED" xml:space="preserve">
+  <data name="Completed" xml:space="preserve">
     <value>What else can I help you with?</value>
   </data>
-  <data name="CONFUSED" xml:space="preserve">
+  <data name="Confused" xml:space="preserve">
     <value>I'm sorry, I'm not able to help with that.</value>
   </data>
-  <data name="GREETING" xml:space="preserve">
+  <data name="Greeting" xml:space="preserve">
     <value>Hi there!</value>
   </data>
-  <data name="GREETING_WITH_NAME" xml:space="preserve">
+  <data name="GreetingWithName" xml:space="preserve">
     <value>Hey, {0}!</value>
-  </data>
-  <data name="HELP_TEXT" xml:space="preserve">
-    <value>This template is a reference solution for Retail Customer Support scenarios. It is based on a selection of common needs identified through market research.</value>
-  </data>
-  <data name="HELP_TITLE" xml:space="preserve">
-    <value>Help</value>
   </data>
 </root>

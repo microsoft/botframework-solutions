@@ -1,8 +1,9 @@
 ﻿using CustomerSupportTemplate.Dialogs.Account.Resources;
+using CustomerSupportTemplate.Dialogs.Shared;
 using CustomerSupportTemplate.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using System;
+using Microsoft.Bot.Schema;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,7 +17,7 @@ namespace CustomerSupportTemplate.Dialogs.Account
         private AccountResponses _responder = new AccountResponses();
 
         public UpdateAccountDialog(
-            BotServices services, 
+            BotServices services,
             IStatePropertyAccessor<CustomerSupportTemplateState> stateAccessor)
             : base(services, nameof(UpdateAccountDialog))
         {
@@ -32,21 +33,13 @@ namespace CustomerSupportTemplate.Dialogs.Account
                 CompleteDialog,
             };
 
-            var getUserContactInfo = new WaterfallStep[]
-            {
-                PromptForName,
-                PromptForEmail,
-                PromptForPhone,
-                CompleteDialog,
-            };
-
             InitialDialogId = nameof(UpdateAccountDialog);
             AddDialog(new WaterfallDialog(InitialDialogId, updateAccount));
-            AddDialog(new TextPrompt(DialogIds.UpdateContactInfoPrompt, ContactInfoValidator));
+            AddDialog(new FormPrompt(DialogIds.UpdateContactInfoPrompt, ContactInfoValidator));
             AddDialog(new OAuthPrompt(DialogIds.AuthPrompt, new OAuthPromptSettings()
             {
                 ConnectionName = services.AuthConnectionName,
-                Text = UpdateAccountStrings.LoginPrompt,
+                Text = AccountStrings.LoginPrompt,
                 Title = "Login",
                 Timeout = 30000,
             }));
@@ -71,37 +64,40 @@ namespace CustomerSupportTemplate.Dialogs.Account
             return await stepContext.PromptAsync(DialogIds.UpdateContactInfoPrompt, new PromptOptions
             {
                 Prompt = await _responder.RenderTemplate(stepContext.Context, stepContext.Context.Activity.Locale, AccountResponses.ResponseIds.NewInfoCard),
+                RetryPrompt = await _responder.RenderTemplate(stepContext.Context, stepContext.Context.Activity.Locale, AccountResponses.ResponseIds.NewInfoReprompt),
             });
         }
 
         private async Task<DialogTurnResult> CompleteDialog(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            var info = (Models.Account)stepContext.Result;
+            dynamic value = (stepContext.Result as Activity).Value;
+            var info = new Models.Account()
+            {
+                Name = value.name,
+                Email = value.email,
+                Phone = value.phone,
+            };
+
             _client.UpdateUserContactInfo(info);
             await _responder.ReplyWith(stepContext.Context, AccountResponses.ResponseIds.NewInfoSavedPrompt);
 
             return await stepContext.EndDialogAsync();
         }
 
-        private Task<bool> ContactInfoValidator(PromptValidatorContext<string> promptContext, CancellationToken cancellationToken)
+        private Task<bool> ContactInfoValidator(PromptValidatorContext<Activity> promptContext, CancellationToken cancellationToken)
         {
+            dynamic value = promptContext.Context.Activity.Value;
+
+            if (value != null)
+            {
+                if (!string.IsNullOrEmpty((string)value.name) || !string.IsNullOrEmpty((string)value.email) || !string.IsNullOrEmpty((string)value.phone))
+                {
+                    return Task.FromResult(true);
+                }
+            }
+
             // start the waterfall dialog for updated info
-            return Task.FromResult(true);
-        }
-
-        private Task<DialogTurnResult> PromptForName(WaterfallStepContext stepContext, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        private Task<DialogTurnResult> PromptForEmail(WaterfallStepContext stepContext, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        private Task<DialogTurnResult> PromptForPhone(WaterfallStepContext stepContext, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
+            return Task.FromResult(false);
         }
 
         private class DialogIds

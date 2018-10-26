@@ -25,10 +25,10 @@ namespace CustomerSupportTemplate
         {
             ["default"] = new TemplateIdMap
             {
-                { Cancelled, (context, data) => MainStrings.CANCELLED },
-                { Completed, (context, data) => MainStrings.COMPLETED },
-                { Confused, (context, data) => MainStrings.CONFUSED },
-                { Greeting, (context, data) => MainStrings.GREETING },
+                { Cancelled, (context, data) => MainStrings.Cancelled },
+                { Completed, (context, data) => MainStrings.Completed },
+                { Confused, (context, data) => MainStrings.Confused },
+                { Greeting, (context, data) => MainStrings.Greeting },
                 { Help, (context, data) => SendHelpCard(context, data) },
                 { Intro, (context, data) => SendIntroCard(context, data) },
             },
@@ -45,14 +45,28 @@ namespace CustomerSupportTemplate
         {
             var response = turnContext.Activity.CreateReply();
 
-            var introCard = File.ReadAllText(@".\Dialogs\Main\Resources\Intro.json");
+            var introCard = File.ReadAllText(@".\Dialogs\Main\Resources\IntroCard.json");
 
-            response.Attachments = new List<Attachment>();
-            response.Attachments.Add(new Attachment()
+            response.Attachments = new List<Attachment>
             {
-                ContentType = "application/vnd.microsoft.card.adaptive",
-                Content = JsonConvert.DeserializeObject(introCard),
-            });
+                new Attachment()
+                {
+                    ContentType = "application/vnd.microsoft.card.adaptive",
+                    Content = JsonConvert.DeserializeObject(introCard),
+                }
+            };
+
+            response.SuggestedActions = new SuggestedActions()
+            {
+                Actions = new List<CardAction>()
+                {
+                    new CardAction(ActionTypes.ImBack, "Reset my password", value:  "Reset my password"),
+                    new CardAction(ActionTypes.ImBack, "Check order status", value:  "Check order status"),
+                    new CardAction(ActionTypes.ImBack, "Check return status", value:  "Check return status"),
+                    new CardAction(ActionTypes.ImBack, "Shipping options", value:  "Shipping options"),
+                    new CardAction(ActionTypes.ImBack, "Find a store", value:  "Find a store"),
+                }
+            };
 
             return response;
         }
@@ -60,13 +74,28 @@ namespace CustomerSupportTemplate
         public static IMessageActivity SendHelpCard(ITurnContext turnContext, dynamic data)
         {
             var response = turnContext.Activity.CreateReply();
-            response.Attachments = new List<Attachment>();
 
-            response.Attachments.Add(new HeroCard()
+            var helpCard = File.ReadAllText(@".\Dialogs\Main\Resources\HelpCard.json");
+            response.Attachments = new List<Attachment>
             {
-                Title = MainStrings.HELP_TITLE,
-                Text = MainStrings.HELP_TEXT,
-            }.ToAttachment());
+                new Attachment()
+                {
+                    ContentType = "application/vnd.microsoft.card.adaptive",
+                    Content = JsonConvert.DeserializeObject(helpCard),
+                }
+            };
+
+            response.SuggestedActions = new SuggestedActions()
+            {
+                Actions = new List<CardAction>()
+                {
+                    new CardAction(ActionTypes.ImBack, "Reset my password", value:  "Reset my password"),
+                    new CardAction(ActionTypes.ImBack, "Check order status", value:  "Check order status"),
+                    new CardAction(ActionTypes.ImBack, "Check return status", value:  "Check return status"),
+                    new CardAction(ActionTypes.ImBack, "Shipping options", value:  "Shipping options"),
+                    new CardAction(ActionTypes.ImBack, "Find a store", value:  "Find a store"),
+                }
+            };
 
             return response;
         }

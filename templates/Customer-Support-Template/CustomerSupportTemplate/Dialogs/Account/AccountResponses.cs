@@ -18,15 +18,16 @@ namespace CustomerSupportTemplate.Dialogs.Account.Resources
             ["default"] = new TemplateIdMap
             {
                 { ResponseIds.PayBillPolicyCard, (context, data) => CreateAdaptiveCardResponse(context, @".\Dialogs\Account\Resources\PayBill.json") },
-                { ResponseIds.AccountIdPrompt, (context, data) => ResetPasswordStrings.AccountIdPrompt },
-                { ResponseIds.EmailPrompt, (context, data) => ResetPasswordStrings.EmailPrompt },
-                { ResponseIds.InvalidEmailMessage, (context, data) => ResetPasswordStrings.InvalidEmailMessage },
-                { ResponseIds.ResetEmailSentMessage, (context, data) => string.Format(ResetPasswordStrings.ResetEmailSent, data) },
-                { ResponseIds.UpdateContactInfoMessage, (context, data) => UpdateAccountStrings.UpdateContactInfoMessage },
-                { ResponseIds.LoginPrompt, (context, data) => UpdateAccountStrings.LoginPrompt },
-                { ResponseIds.NewInfoPrompt, (context, data) => UpdateAccountStrings.NewInfoPrompt },
+                { ResponseIds.AccountIdPrompt, (context, data) => AccountStrings.AccountIdPrompt },
+                { ResponseIds.EmailPrompt, (context, data) => AccountStrings.EmailPrompt },
+                { ResponseIds.InvalidEmailMessage, (context, data) => AccountStrings.InvalidEmailMessage },
+                { ResponseIds.ResetEmailSentMessage, (context, data) => string.Format(AccountStrings.ResetEmailSent, data) },
+                { ResponseIds.UpdateContactInfoMessage, (context, data) => AccountStrings.UpdateContactInfoMessage },
+                { ResponseIds.LoginPrompt, (context, data) => AccountStrings.LoginPrompt },
+                { ResponseIds.NewInfoPrompt, (context, data) => AccountStrings.NewInfoPrompt },
+                { ResponseIds.NewInfoReprompt, (context, data) => AccountStrings.NewInfoReprompt },
                 { ResponseIds.NewInfoCard, (context, data) => CreateAdaptiveCardResponse(context, @".\Dialogs\Account\Resources\UpdateContactInfo.json") },
-                { ResponseIds.NewInfoSavedPrompt, (context, data) => UpdateAccountStrings.NewInfoSavedMessage },
+                { ResponseIds.NewInfoSavedPrompt, (context, data) => AccountStrings.NewInfoSavedMessage },
             },
             ["en"] = new TemplateIdMap { },
             ["fr"] = new TemplateIdMap { },
@@ -63,6 +64,7 @@ namespace CustomerSupportTemplate.Dialogs.Account.Resources
             public const string UpdateContactInfoMessage = "updateContactInfoMessage";
             public const string LoginPrompt = "loginPrompt";
             public const string NewInfoPrompt = "newInfoPrompt";
+            public const string NewInfoReprompt = "newInfoReprompt";
             public const string NewInfoCard = "updateContactInfo";
             public const string NewInfoSavedPrompt = "newInfoSavedPrompt";
         }

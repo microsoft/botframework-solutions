@@ -126,7 +126,22 @@
   <data name="InvalidEmailMessage" xml:space="preserve">
     <value>Sorry, I didn't understand that. Please enter a valid email address.</value>
   </data>
+  <data name="LoginPrompt" xml:space="preserve">
+    <value>Please login to continue.</value>
+  </data>
+  <data name="NewInfoPrompt" xml:space="preserve">
+    <value>Please fill out this form with your updated information.</value>
+  </data>
+  <data name="NewInfoReprompt" xml:space="preserve">
+    <value>Sorry, I didn't understand. Please fill out this form with your updated contact information.</value>
+  </data>
+  <data name="NewInfoSavedMessage" xml:space="preserve">
+    <value>I have saved your updated contact information.</value>
+  </data>
   <data name="ResetEmailSent" xml:space="preserve">
     <value>I've sent your reset password link to {0}.</value>
+  </data>
+  <data name="UpdateContactInfoMessage" xml:space="preserve">
+    <value>I can help you update your contact information.</value>
   </data>
 </root>

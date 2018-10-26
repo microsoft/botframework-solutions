@@ -22,14 +22,14 @@ namespace CustomerSupportTemplate.Dialogs.Account.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class ResetPasswordStrings {
+    public class AccountStrings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ResetPasswordStrings() {
+        internal AccountStrings() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace CustomerSupportTemplate.Dialogs.Account.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("CustomerSupportTemplate.Dialogs.Account.Resources.ResetPasswordStrings", typeof(ResetPasswordStrings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("CustomerSupportTemplate.Dialogs.Account.Resources.AccountStrings", typeof(AccountStrings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -88,11 +88,56 @@ namespace CustomerSupportTemplate.Dialogs.Account.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please login to continue..
+        /// </summary>
+        public static string LoginPrompt {
+            get {
+                return ResourceManager.GetString("LoginPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please fill out this form with your updated information..
+        /// </summary>
+        public static string NewInfoPrompt {
+            get {
+                return ResourceManager.GetString("NewInfoPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorry, I didn&apos;t understand. Please fill out this form with your updated contact information..
+        /// </summary>
+        public static string NewInfoReprompt {
+            get {
+                return ResourceManager.GetString("NewInfoReprompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I have saved your updated contact information..
+        /// </summary>
+        public static string NewInfoSavedMessage {
+            get {
+                return ResourceManager.GetString("NewInfoSavedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to I&apos;ve sent your reset password link to {0}..
         /// </summary>
         public static string ResetEmailSent {
             get {
                 return ResourceManager.GetString("ResetEmailSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I can help you update your contact information..
+        /// </summary>
+        public static string UpdateContactInfoMessage {
+            get {
+                return ResourceManager.GetString("UpdateContactInfoMessage", resourceCulture);
             }
         }
     }

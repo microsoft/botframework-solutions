@@ -63,63 +63,45 @@ namespace CustomerSupportTemplate.Dialogs.Main.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Ok, let&apos;s start over..
         /// </summary>
-        public static string CANCELLED {
+        public static string Cancelled {
             get {
-                return ResourceManager.GetString("CANCELLED", resourceCulture);
+                return ResourceManager.GetString("Cancelled", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to What else can I help you with?.
         /// </summary>
-        public static string COMPLETED {
+        public static string Completed {
             get {
-                return ResourceManager.GetString("COMPLETED", resourceCulture);
+                return ResourceManager.GetString("Completed", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to I&apos;m sorry, I&apos;m not able to help with that..
         /// </summary>
-        public static string CONFUSED {
+        public static string Confused {
             get {
-                return ResourceManager.GetString("CONFUSED", resourceCulture);
+                return ResourceManager.GetString("Confused", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Hi there!.
         /// </summary>
-        public static string GREETING {
+        public static string Greeting {
             get {
-                return ResourceManager.GetString("GREETING", resourceCulture);
+                return ResourceManager.GetString("Greeting", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Hey, {0}!.
         /// </summary>
-        public static string GREETING_WITH_NAME {
+        public static string GreetingWithName {
             get {
-                return ResourceManager.GetString("GREETING_WITH_NAME", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to This template is a reference solution for Retail Customer Support scenarios. It is based on a selection of common needs identified through market research..
-        /// </summary>
-        public static string HELP_TEXT {
-            get {
-                return ResourceManager.GetString("HELP_TEXT", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Help.
-        /// </summary>
-        public static string HELP_TITLE {
-            get {
-                return ResourceManager.GetString("HELP_TITLE", resourceCulture);
+                return ResourceManager.GetString("GreetingWithName", resourceCulture);
             }
         }
     }

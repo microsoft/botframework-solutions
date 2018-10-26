@@ -30,15 +30,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Dialogs\Account\Resources\ResetPasswordStrings.Designer.cs">
+    <Compile Update="Dialogs\Account\Resources\AccountStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>ResetPasswordStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Dialogs\Account\Resources\UpdateAccountStrings.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>UpdateAccountStrings.resx</DependentUpon>
+      <DependentUpon>AccountStrings.resx</DependentUpon>
     </Compile>
     <Compile Update="Dialogs\Cancel\Resources\CancelStrings.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -88,13 +83,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Dialogs\Account\Resources\ResetPasswordStrings.resx">
+    <EmbeddedResource Update="Dialogs\Account\Resources\AccountStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ResetPasswordStrings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Dialogs\Account\Resources\UpdateAccountStrings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>UpdateAccountStrings.Designer.cs</LastGenOutput>
+      <LastGenOutput>AccountStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Dialogs\Cancel\Resources\CancelStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -141,7 +132,7 @@
     <Content Update="Dialogs\Account\Resources\UpdateContactInfo.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\Main\Resources\Intro.json">
+    <Content Update="Dialogs\Main\Resources\IntroCard.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Orders\Resources\CancelOrder.json">

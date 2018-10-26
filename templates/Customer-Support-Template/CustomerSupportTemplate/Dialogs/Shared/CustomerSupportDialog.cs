@@ -29,32 +29,35 @@ namespace CustomerSupportTemplate
 
         protected override async Task<InterruptionStatus> OnDialogInterruptionAsync(DialogContext dc, CancellationToken cancellationToken)
         {
-            // check luis intent
-            _services.LuisServices.TryGetValue("general", out var luisService);
-
-            if (luisService == null)
+            if(dc.Context.Activity.Text != null)
             {
-                throw new Exception("The specified LUIS Model could not be found in your Bot Services configuration.");
-            }
-            else
-            {
-                var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
-                var intent = luisResult.TopIntent().intent;
+                // check luis intent
+                _services.LuisServices.TryGetValue("general", out var luisService);
 
-                // Add the luis result (intent and entities) for further processing in the derived dialog
-                dc.Context.TurnState.Add(LuisResultKey, luisResult);
-
-                switch (intent)
+                if (luisService == null)
                 {
-                    case General.Intent.Cancel:
-                        {
-                            return await OnCancel(dc);
-                        }
+                    throw new Exception("The specified LUIS Model could not be found in your Bot Services configuration.");
+                }
+                else
+                {
+                    var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
+                    var intent = luisResult.TopIntent().intent;
 
-                    case General.Intent.Help:
-                        {
-                            return await OnHelp(dc);
-                        }
+                    // Add the luis result (intent and entities) for further processing in the derived dialog
+                    dc.Context.TurnState.Add(LuisResultKey, luisResult);
+
+                    switch (intent)
+                    {
+                        case General.Intent.Cancel:
+                            {
+                                return await OnCancel(dc);
+                            }
+
+                        case General.Intent.Help:
+                            {
+                                return await OnHelp(dc);
+                            }
+                    }
                 }
             }
 

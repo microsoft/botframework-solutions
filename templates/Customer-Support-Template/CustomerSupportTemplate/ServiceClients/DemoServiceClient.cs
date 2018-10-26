@@ -18,8 +18,7 @@ namespace CustomerSupportTemplate.ServiceClients
             return new Account()
             {
                 Id = Guid.NewGuid().ToString(),
-                FirstName = "John",
-                LastName = "Doe",
+                Name = "John Doe",
                 Address = new Address()
                 {
                     Street1 = "1234 Apple St",
