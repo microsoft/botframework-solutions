@@ -13,8 +13,8 @@
     "replies": [
 
       {
-        "text": "What is the meeting title?",
-        "speak": "What is the meeting title?"
+        "text": "What is the meeting invite content?",
+        "speak": "What is the meeting invite content??"
       }
     ],
     "inputHint": "expectingInput"
