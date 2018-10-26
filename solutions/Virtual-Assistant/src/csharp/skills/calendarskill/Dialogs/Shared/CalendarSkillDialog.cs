@@ -43,7 +43,6 @@ namespace CalendarSkill
             var oauthSettings = new OAuthPromptSettings()
             {
                 ConnectionName = _services.AuthConnectionName,
-                //ConnectionName = "msgraph",
                 Text = $"Authentication",
                 Title = "Signin",
                 Timeout = 300000, // User has 5 minutes to login
@@ -138,7 +137,6 @@ namespace CalendarSkill
                 {
                     var state = await _accessor.GetAsync(sc.Context);
                     state.APIToken = tokenResponse.Token;
-                    state.EventSource = EventSource.Google;
                 }
 
                 return await sc.NextAsync();

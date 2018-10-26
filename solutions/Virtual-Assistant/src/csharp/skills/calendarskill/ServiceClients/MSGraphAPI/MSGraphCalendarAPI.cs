@@ -28,7 +28,7 @@ namespace CalendarSkill
                         requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
 
                         // Get event times in the current time zone.
-                        //requestMessage.Headers.Add("Prefer", "outlook.timezone=\"" + info.Id + "\"");
+                        requestMessage.Headers.Add("Prefer", "outlook.timezone=\"" + TimeZoneInfo.Utc.Id + "\"");
                         await Task.CompletedTask;
                     }));
             return graphClient;
