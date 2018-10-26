@@ -11,6 +11,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="DeploymentScripts\msbotClone\dispatch.luis" />
+    <None Remove="DeploymentScripts\msbotClone\general.luis" />
+    <None Remove="DeploymentScripts\msbotClone\retail.luis" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="DeploymentScripts\msbotClone\dispatch.luis" />
+    <Content Include="DeploymentScripts\msbotClone\general.luis" />
+    <Content Include="DeploymentScripts\msbotClone\retail.luis" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AdaptiveCards" Version="1.0.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
