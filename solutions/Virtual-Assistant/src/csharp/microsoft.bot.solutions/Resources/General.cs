@@ -23,7 +23,10 @@ namespace Luis
             Next, 
             Previous, 
             Goodbye, 
-            Logout, 
+            Logout,
+            ConfirmYes,
+            ConfirmNo,
+            ConfirmMore,
             None
         };
         public Dictionary<Intent, IntentScore> Intents;
