@@ -50,6 +50,16 @@
       "type": "qna",
       "id": "faq",
       "name": "FAQ"
+    },
+    {
+      "type": "dispatch",
+      "id": "dispatch",
+      "name": "Dispatch",
+      "serviceIds": [
+        "general",
+        "retail",
+        "faq"
+      ]
     }
   ]
 }
