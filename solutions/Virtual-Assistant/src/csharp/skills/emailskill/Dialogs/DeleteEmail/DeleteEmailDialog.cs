@@ -14,7 +14,7 @@ namespace EmailSkill
     public class DeleteEmailDialog : EmailSkillDialog
     {
         public DeleteEmailDialog(
-            SkillConfiguration services,
+            ISkillConfiguration services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IMailSkillServiceManager serviceManager)
@@ -88,7 +88,7 @@ namespace EmailSkill
                     var state = await _emailStateAccessor.GetAsync(sc.Context);
                     var mailService = this._serviceManager.InitMailService(state.MsGraphToken, state.GetUserTimeZone());
                     var focusMessage = state.Message.FirstOrDefault();
-                    await mailService.DeleteMessage(focusMessage.Id);
+                    await mailService.DeleteMessageAsync(focusMessage.Id);
                 }
                 else
                 {

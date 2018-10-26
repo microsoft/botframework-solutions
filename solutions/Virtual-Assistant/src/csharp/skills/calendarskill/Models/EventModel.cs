@@ -14,17 +14,17 @@ namespace CalendarSkill
         /// <summary>
         /// Event from Microsoft.
         /// </summary>
-        Microsoft = 0,
+        Microsoft = 1,
 
         /// <summary>
         /// Event from Google.
         /// </summary>
-        Google = 1,
+        Google = 2,
 
         /// <summary>
         /// Event from other.
         /// </summary>
-        Other = -1,
+        Other = 0,
     }
 
     /// <summary>
@@ -110,6 +110,8 @@ namespace CalendarSkill
                         return msftEventData;
                     case EventSource.Google:
                         return gmailEventData;
+                    case EventSource.Other:
+                        return null;
                     default:
                         throw new Exception("Event Type not Defined");
                 }
@@ -117,6 +119,17 @@ namespace CalendarSkill
 
             set
             {
+                if (value is Google.Apis.Calendar.v3.Data.Event)
+                {
+                    source = EventSource.Google;
+                }
+
+
+                if (value is Microsoft.Graph.Event)
+                {
+                    source = EventSource.Microsoft;
+                }
+
                 switch (source)
                 {
                     case EventSource.Microsoft:
@@ -130,6 +143,8 @@ namespace CalendarSkill
                     case EventSource.Google:
                         gmailEventData = value;
                         break;
+                    case EventSource.Other:
+                        throw new Exception("Get defaut type, please check");
                     default:
                         throw new Exception("Event Type not Defined");
                 }

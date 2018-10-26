@@ -1,5 +1,6 @@
 ﻿using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Azure;
@@ -8,7 +9,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.Bot.Solutions.Skills
 {
-    public class SkillConfiguration
+    public class SkillConfiguration : ISkillConfiguration
     {
         public SkillConfiguration()
         {
@@ -54,7 +55,7 @@ namespace Microsoft.Bot.Solutions.Skills
                 }
             }
 
-            if(parameters != null)
+            if (parameters != null)
             {
                 // add the parameters the skill needs
                 foreach (var parameter in parameters)
@@ -63,8 +64,8 @@ namespace Microsoft.Bot.Solutions.Skills
                     Properties.Add(parameter, null);
                 }
             }
-            
-            if(configuration != null)
+
+            if (configuration != null)
             {
                 // add the additional keys the skill needs
                 foreach (var set in configuration)
@@ -74,14 +75,14 @@ namespace Microsoft.Bot.Solutions.Skills
             }
         }
 
-        public string AuthConnectionName { get; set; }
+        public override string AuthConnectionName { get; set; }
 
-        public TelemetryClient TelemetryClient { get; set; }
+        public override TelemetryClient TelemetryClient { get; set; }
 
-        public CosmosDbStorageOptions CosmosDbOptions { get; set; }
+        public override CosmosDbStorageOptions CosmosDbOptions { get; set; }
 
-        public Dictionary<string, LuisRecognizer> LuisServices { get; set; } = new Dictionary<string, LuisRecognizer>();
+        public override Dictionary<string, IRecognizer> LuisServices { get; set; } = new Dictionary<string, IRecognizer>();
 
-        public Dictionary<string, object> Properties { get; set; } = new Dictionary<string, object>();
+        public override Dictionary<string, object> Properties { get; set; } = new Dictionary<string, object>();
     }
 }

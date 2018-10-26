@@ -13,7 +13,7 @@ namespace EmailSkill
     public class ForwardEmailDialog : EmailSkillDialog
     {
         public ForwardEmailDialog(
-            SkillConfiguration services,
+            ISkillConfiguration services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IMailSkillServiceManager serviceManager)
@@ -70,7 +70,7 @@ namespace EmailSkill
                     var service = _serviceManager.InitMailService(token, state.GetUserTimeZone());
 
                     // send user message.
-                    await service.ForwardMessage(id, content, recipients);
+                    await service.ForwardMessageAsync(id, content, recipients);
 
                     var nameListString = $"To: {state.Recipients.FirstOrDefault()?.EmailAddress.Name}";
                     if (state.Recipients.Count > 1)

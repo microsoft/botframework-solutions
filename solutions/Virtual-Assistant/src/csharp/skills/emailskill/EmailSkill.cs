@@ -18,13 +18,13 @@ namespace EmailSkill
     public class EmailSkill : IBot
     {
         private bool _skillMode;
-        private readonly SkillConfiguration _services;
+        private readonly ISkillConfiguration _services;
         private readonly ConversationState _conversationState;
         private readonly UserState _userState;
         private IMailSkillServiceManager _serviceManager;
         private DialogSet _dialogs;
 
-        public EmailSkill(SkillConfiguration services, ConversationState conversationState, UserState userState, IMailSkillServiceManager serviceManager = null, bool skillMode = false)
+        public EmailSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, IMailSkillServiceManager serviceManager = null, bool skillMode = false)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));
@@ -35,7 +35,6 @@ namespace EmailSkill
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(DialogState)));
             _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _serviceManager, _skillMode));
         }
-
 
         /// <summary>
         /// Run every turn of the conversation. Handles orchestration of messages.
@@ -62,6 +61,10 @@ namespace EmailSkill
                         {
                             await dc.BeginDialogAsync(nameof(MainDialog));
                         }
+                    }
+                    else
+                    {
+                        await dc.BeginDialogAsync(nameof(MainDialog));
                     }
                 }
                 else
