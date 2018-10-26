@@ -295,59 +295,6 @@ namespace CalendarSkill
             return timex.Contains("T");
         }
 
-        public static DateTime ParseToDateTime(string dateTimeString)
-        {
-            string[] formats =
-            {
-                "yyyy-MM-ddTHH",
-                "yyyy-MM-ddTHH:mm",
-                "yyyy-MM-ddTHH:mm:ss",
-            };
-            return DateTime.ParseExact(dateTimeString, formats, null);
-        }
-
-        public static DateTime ParseToTime(string timeString)
-        {
-            string[] formats =
-            {
-                "THH",
-                "THH:mm",
-                "THH:mm:ss",
-            };
-            return DateTime.ParseExact(timeString, formats, null);
-        }
-
-        public static void ParseToTimeRange(string dateTimeString, out DateTime? startDateTime, out DateTime? endDateTime)
-        {
-            var timeRange = dateTimeString.Split("T")[1];
-            var date = DateTime.Parse(dateTimeString.Split("T")[0]);
-            if (timeRange == "MO")
-            {
-                startDateTime = new DateTime(date.Year, date.Month, date.Day, 0, 0, 0);
-                endDateTime = new DateTime(date.Year, date.Month, date.Day, 11, 59, 59);
-            }
-            else if (timeRange == "AF")
-            {
-                startDateTime = new DateTime(date.Year, date.Month, date.Day, 12, 0, 0);
-                endDateTime = new DateTime(date.Year, date.Month, date.Day, 16, 59, 59);
-            }
-            else if (timeRange == "EV")
-            {
-                startDateTime = new DateTime(date.Year, date.Month, date.Day, 17, 0, 0);
-                endDateTime = new DateTime(date.Year, date.Month, date.Day, 20, 59, 59);
-            }
-            else if (timeRange == "NI")
-            {
-                startDateTime = new DateTime(date.Year, date.Month, date.Day, 21, 0, 0);
-                endDateTime = new DateTime(date.Year, date.Month, date.Day, 23, 59, 59);
-            }
-            else
-            {
-                startDateTime = null;
-                endDateTime = null;
-            }
-        }
-
         private async Task DigestCalendarLuisResult(DialogContext dc, Calendar luisResult)
         {
             try
@@ -416,65 +363,7 @@ namespace CalendarSkill
                         // ignored
                     }
                 }
-
-                if (entity.StartDate != null)
-                {
-                    state.StartDateString = entity.StartDate[0];
-                    foreach (var datetimeItem in entity.datetime)
-                    {
-                        if (datetimeItem.Type == "date")
-                        {
-                            var date = DateTime.Parse(entity.datetime[0].Expressions[0]);
-                            state.StartDate = date;
-                        }
-                        else if (datetimeItem.Type == "datetime")
-                        {
-                            var date = ParseToDateTime(datetimeItem.Expressions[0]);
-                            state.StartDate = date;
-                            state.StartTime = date;
-                        }
-                        else if (entity.datetime[0].Type == "datetimerange")
-                        {
-                            var date = DateTime.Parse(datetimeItem.Expressions[0].Split("T")[0]);
-                            state.StartDate = date;
-                            ParseToTimeRange(datetimeItem.Expressions[0], out var startDateTime, out var endDateTime);
-                            if (startDateTime != null)
-                            {
-                                state.StartTime = startDateTime;
-                            }
-
-                            if (endDateTime != null)
-                            {
-                                state.EndDateTime = endDateTime;
-                            }
-                        }
-                    }
-                }
-
-                if (entity.StartTime != null)
-                {
-                    state.StartTimeString = entity.StartTime[0];
-                    foreach (var datetimeItem in entity.datetime)
-                    {
-                        if (datetimeItem.Type == "time")
-                        {
-                            state.StartTime = ParseToTime(datetimeItem.Expressions[0]);
-                            if (state.StartDate == null)
-                            {
-                                state.StartDate = DateTime.Now;
-                            }
-                        }
-                        else if (datetimeItem.Type == "datetime")
-                        {
-                            state.StartTime = ParseToDateTime(datetimeItem.Expressions[0]);
-                            if (state.StartDate == null)
-                            {
-                                state.StartDate = DateTime.Now;
-                            }
-                        }
-                    }
-                }
-
+                
                 if (entity.Duration != null)
                 {
                     foreach (var datetimeItem in entity.datetime)
