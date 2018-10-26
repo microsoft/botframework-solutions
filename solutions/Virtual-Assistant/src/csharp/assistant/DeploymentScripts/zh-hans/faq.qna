@@ -1,87 +1,88 @@
 {
+  "urls": [],
   "qnaDocuments": [
     {
       "id": 1,
-      "answer": "This is a placeholder",
-      "source": "Editorial",
+      "answer": "我们已经看到我们的客户和合作伙伴有很大的需求, 可以为他们的品牌量身定做一个对话助理, 为他们的客户提供个性化服务, 并在广泛的对话画布和设备上使用。对 Bot 框架 SDK 的持续 Microsoft 开源方法, 开源自定义个人助理解决方案可全面控制基于一组基础功能构建的最终用户体验。此外, 该体验还可注入有关最终用户和任何设备/生态系统信息的智能, 以实现真正的集成和智能体验。了解更多 [这里] (https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/README.md)",
+      "source": "custom editorial",
       "questions": [
-        "What is a Virtual Assistant?"
+        "什么是虚拟助理"
       ],
       "metadata": []
     },
     {
       "id": 2,
-      "answer": "A Skill is a ...",
-      "source": "Editorial",
+      "answer": "目前存在一组广泛的通用功能, 需要每个开发人员自行构建。我们的虚拟助理解决方案包括一种新的技能能力, 可通过配置将新功能插入到虚拟助理, 并提供一种技能的身份验证机制, 以便为下游活动请求令牌。了解更多 [这里](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/virtualassistant-skills.md).\r\n",
+      "source": "custom editorial",
       "questions": [
-        "What is a Skill?"
+        "什么是技能？"
       ],
       "metadata": []
     },
     {
       "id": 3,
-      "answer": "This is a placeholder",
-      "source": "Editorial",
+      "answer": "## 概述 日历技能为虚拟助理提供日历相关功能。在第一个版本中, 最常见的方案是在开发中使用其他方案实现的。## 支持的方案技能目前支持以下方案:-显示会议摘要: 日历中的内容 -下一次会议: 我的下一次会议是什么 -创建会议: 预订会议 -更新会议: 更新会议 -删除会议: 删除会议",
+      "source": "custom editorial",
       "questions": [
-        "What can the Calendar Skill do?"
+        "日历技能能做什么？"
       ],
       "metadata": []
     },
     {
       "id": 4,
-      "answer": "This is a placeholder",
-      "source": "Editorial",
+      "answer": "## 概述电子邮件技能为虚拟助理提供电子邮件相关功能。在第一个版本中实现了最常见的方案, 并在开发中添加了其他方案",
+      "source": "custom editorial",
       "questions": [
-        "What can the To Do Skill do?"
+        "电子邮件技能能做什么？"
       ],
       "metadata": []
     },
     {
       "id": 5,
-      "answer": "This is a placeholder",
-      "source": "Editorial",
+      "answer": "兴趣点技能为虚拟助理提供 PoI 相关功能。最常见的方案已在第一个版本中实现, 并在开发中添加了其他方案, 请尝试查找星巴克或餐厅",
+      "source": "custom editorial",
       "questions": [
-        "What can the Email Skill do?"
+        "兴趣点技巧能做些什么？"
       ],
       "metadata": []
     },
     {
       "id": 6,
-      "answer": "This is a placeholder",
-      "source": "Editorial",
+      "answer": "任务技能为虚拟助理提供任务相关功能。在第一个版本中, 最常见的方案是在开发中使用其他方案实现的。尝试添加任务或查找所拥有的任务。",
+      "source": "custom editorial",
       "questions": [
-        "what can the Point of Interest Skill do?"
+        "ToDo 技能能做什么？"
       ],
       "metadata": []
     },
     {
       "id": 7,
-      "answer": "This is a placeholder",
-      "source": "Editorial",
+      "answer": "虚拟助手最近发布了虚拟助手的新本地化和技能, 使其能够使用英语、法语、意大利语、德语、西班牙语和简体中文。",
+      "source": "custom editorial",
       "questions": [
-        "What services do the skills connect to?"
+        "新增内容"
       ],
       "metadata": []
     },
     {
       "id": 8,
-      "answer": "This is a placeholder",
-      "source": "Editorial",
+      "answer": "如果轮胎压力监测灯以黄色出现, 则轮胎压力约为10% 或更多",
+      "source": "custom editorial",
       "questions": [
-        "How do I create a skill?"
+        "那是什么黄色的光？"
       ],
       "metadata": []
     },
     {
-      "id": 8,
-      "answer": "If the tire pressure monitor lamp comes on in yellow then the tire pressure is off about 10% or more",
-      "source": "Manual",
+      "id": 9,
+      "answer": "提出一个问题 [GitHub repo](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/README.md)\r\n",
+      "source": "custom editorial",
       "questions": [
-        "What is the yellow light on my dash",
-        "What is that yellow light",
-        "What does the yellow light on my dashboard mean"
+        "如何提出问题？"
       ],
       "metadata": []
     }
-  ]
+  ],
+  "files": [],
+  "name": "faq"
 }
