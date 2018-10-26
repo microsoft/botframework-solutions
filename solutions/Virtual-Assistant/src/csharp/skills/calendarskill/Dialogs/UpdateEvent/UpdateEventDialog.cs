@@ -241,7 +241,7 @@ namespace CalendarSkill
             {
                 var state = await _accessor.GetAsync(sc.Context);
 
-                if (state.StartDate != null || state.StartTime != null)
+                if (state.StartDate != null || state.StartTime != null || state.Title != null)
                 {
                     return await sc.NextAsync();
                 }
@@ -292,6 +292,11 @@ namespace CalendarSkill
                     events = await GetEventsByTime(state.StartDate, state.StartTime, null, state.GetUserTimeZone(), calendarService);
                     state.StartDate = null;
                     state.StartTime = null;
+                }
+                else if (state.Title != null)
+                {
+                    events = await calendarService.GetEventsByTitle(state.Title);
+                    state.Title = null;
                 }
                 else
                 {
