@@ -1,4 +1,4 @@
-{
+﻿{
   "intents": [
     {
       "name": "AddToDo"
@@ -832,14 +832,6 @@
   ],
   "patterns": [
     {
-      "pattern": "提醒我, {taskcontent}",
-      "intent": "AddToDo"
-    },
-    {
-      "pattern": "提醒我 {taskcontent}",
-      "intent": "AddToDo"
-    },
-    {
       "pattern": "添加到 {TaskContent}",
       "intent": "AddToDo"
     },
@@ -852,19 +844,11 @@
       "intent": "AddToDo"
     },
     {
-      "pattern": "将任务添加到 {TaskContent}",
-      "intent": "AddToDo"
-    },
-    {
       "pattern": "添加此操作 {TaskContent}",
       "intent": "AddToDo"
     },
     {
       "pattern": "创建以执行 {TaskContent}",
-      "intent": "AddToDo"
-    },
-    {
-      "pattern": "将任务添加到 {TaskContent}",
       "intent": "AddToDo"
     },
     {
@@ -877,10 +861,6 @@
     },
     {
       "pattern": "添加 {TaskContent} 到我的 dos",
-      "intent": "AddToDo"
-    },
-    {
-      "pattern": "创建任务以 {TaskContent}",
       "intent": "AddToDo"
     },
     {
@@ -905,10 +885,6 @@
     },
     {
       "pattern": "创建要执行的操作以 {TaskContent}",
-      "intent": "AddToDo"
-    },
-    {
-      "pattern": "创建一个这样做 {TaskContent}",
       "intent": "AddToDo"
     },
     {
@@ -952,51 +928,11 @@
       "intent": "DeleteToDo"
     },
     {
-      "pattern": "删除任务 {TaskContent}",
-      "intent": "DeleteToDo"
-    },
-    {
       "pattern": "移除要执行的操作, {TaskContent}",
       "intent": "DeleteToDo"
     },
     {
       "pattern": "移除以执行该操作 {TaskContent}",
-      "intent": "DeleteToDo"
-    },
-    {
-      "pattern": "删除任务 {TaskContent}",
-      "intent": "DeleteToDo"
-    },
-    {
-      "pattern": "删除任务 {TaskContent}",
-      "intent": "DeleteToDo"
-    },
-    {
-      "pattern": "删除要执行的操作, {TaskContent}",
-      "intent": "DeleteToDo"
-    },
-    {
-      "pattern": "删除要执行的操作 {TaskContent}",
-      "intent": "DeleteToDo"
-    },
-    {
-      "pattern": "删除任务 {TaskContent}",
-      "intent": "DeleteToDo"
-    },
-    {
-      "pattern": "删除任务 {TaskContent}",
-      "intent": "DeleteToDo"
-    },
-    {
-      "pattern": "删除任务 {TaskContent}",
-      "intent": "DeleteToDo"
-    },
-    {
-      "pattern": "删除以执行 {TaskContent}",
-      "intent": "DeleteToDo"
-    },
-    {
-      "pattern": "删除任务 {TaskContent}",
       "intent": "DeleteToDo"
     },
     {
@@ -1028,10 +964,6 @@
       "intent": "MarkToDo"
     },
     {
-      "pattern": "标记任务 {TaskContent} 完成后",
-      "intent": "MarkToDo"
-    },
-    {
       "pattern": "标记任务 {TaskContent} 如完成",
       "intent": "MarkToDo"
     },
@@ -1042,30 +974,9 @@
     {
       "pattern": "马克 {TaskContent} 如完成",
       "intent": "MarkToDo"
-    },
-    {
-      "pattern": "完成任务 {TaskContent}",
-      "intent": "MarkToDo"
-    },
-    {
-      "pattern": "标记任务 {TaskContent} 为完整",
-      "intent": "MarkToDo"
-    },
-    {
-      "pattern": "标记任务 {TaskContent} 如完成",
-      "intent": "MarkToDo"
-    },
-    {
-      "pattern": "标记任务 {TaskContent} 完工",
-      "intent": "MarkToDo"
     }
   ],
   "patternAnyEntities": [
-    {
-      "name": "taskcontent",
-      "explicitList": [],
-      "roles": []
-    },
     {
       "name": "TaskContent",
       "explicitList": [],
@@ -1082,5 +993,5 @@
   "versionId": "0.1",
   "name": "todo",
   "desc": "",
-  "culture": "en-us"
+  "culture": "zh-cn"
 }
