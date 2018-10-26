@@ -221,7 +221,7 @@ namespace CalendarSkill
                     state.GeneralLuisResult = luisResult;
                     var topIntent = luisResult.TopIntent().intent;
 
-                    if (luisResult.TopIntent().score > 0.3)
+                    if (luisResult.TopIntent().score > 0.5)
                     {
                         // check intent
                         switch (topIntent)
@@ -235,6 +235,12 @@ namespace CalendarSkill
                             case General.Intent.Help:
                                 {
                                     // result = await OnHelp(dc);
+                                    break;
+                                }
+
+                            case General.Intent.Logout:
+                                {
+                                    result = await OnLogout(dc);
                                     break;
                                 }
                         }

@@ -12,6 +12,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Skills;
 
 namespace VirtualAssistant
@@ -80,46 +81,55 @@ namespace VirtualAssistant
                         var luisIntent = luisResult?.TopIntent().intent;
 
                         // switch on general intents
-                        switch (luisIntent)
+                        if (luisResult.TopIntent().score > 0.5)
                         {
-                            case General.Intent.Greeting:
-                                {
-                                    // send greeting response
-                                    await _responder.ReplyWith(dc.Context, MainResponses.Greeting);
-                                    break;
-                                }
+                            switch (luisIntent)
+                            {
+                                case General.Intent.Greeting:
+                                    {
+                                        // send greeting response
+                                        await _responder.ReplyWith(dc.Context, MainResponses.Greeting);
+                                        break;
+                                    }
 
-                            case General.Intent.Help:
-                                {
-                                    // send help response
-                                    await _responder.ReplyWith(dc.Context, MainResponses.Help);
-                                    break;
-                                }
+                                case General.Intent.Help:
+                                    {
+                                        // send help response
+                                        await _responder.ReplyWith(dc.Context, MainResponses.Help);
+                                        break;
+                                    }
 
-                            case General.Intent.Cancel:
-                                {
-                                    // send cancelled response
-                                    await _responder.ReplyWith(dc.Context, MainResponses.Cancelled);
+                                case General.Intent.Cancel:
+                                    {
+                                        // send cancelled response
+                                        await _responder.ReplyWith(dc.Context, MainResponses.Cancelled);
 
-                                    // Cancel any active dialogs on the stack
-                                    await dc.CancelAllDialogsAsync();
-                                    break;
-                                }
+                                        // Cancel any active dialogs on the stack
+                                        await dc.CancelAllDialogsAsync();
+                                        break;
+                                    }
 
-                            case General.Intent.Escalate:
-                                {
-                                    // start escalate dialog
-                                    await dc.BeginDialogAsync(nameof(EscalateDialog));
-                                    break;
-                                }
+                                case General.Intent.Escalate:
+                                    {
+                                        // start escalate dialog
+                                        await dc.BeginDialogAsync(nameof(EscalateDialog));
+                                        break;
+                                    }
 
-                            case General.Intent.None:
-                            default:
-                                {
-                                    // No intent was identified, send confused message
-                                    await _responder.ReplyWith(dc.Context, MainResponses.Confused);
-                                    break;
-                                }
+                                case General.Intent.Logout:
+                                    {
+                                        await OnLogout(dc);
+                                        break;
+                                    }
+
+                                case General.Intent.None:
+                                default:
+                                    {
+                                        // No intent was identified, send confused message
+                                        await _responder.ReplyWith(dc.Context, MainResponses.Confused);
+                                        break;
+                                    }
+                            }
                         }
 
                         break;
@@ -218,6 +228,28 @@ namespace VirtualAssistant
                     await CompleteAsync(dc);
                 }
             }
+        }
+
+        protected virtual async Task<InterruptionAction> OnLogout(DialogContext dc)
+        {
+            BotFrameworkAdapter adapter;
+            var supported = dc.Context.Adapter is BotFrameworkAdapter;
+            if (!supported)
+            {
+                throw new InvalidOperationException("OAuthPrompt.SignOutUser(): not supported by the current adapter");
+            }
+            else
+            {
+                adapter = (BotFrameworkAdapter)dc.Context.Adapter;
+            }
+
+            await dc.CancelAllDialogsAsync();
+
+            // Sign out user
+            await adapter.SignOutUserAsync(dc.Context, _services.AuthConnectionName);
+            await dc.Context.SendActivityAsync("Ok, you're signed out.");
+
+            return InterruptionAction.StartedDialog;
         }
 
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))

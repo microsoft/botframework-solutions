@@ -199,7 +199,7 @@ namespace ToDoSkill
                     var topIntent = luisResult.TopIntent().intent;
 
                     // check intent
-                    if (luisResult.TopIntent().score > 0.3)
+                    if (luisResult.TopIntent().score > 0.5)
                     {
                         switch (topIntent)
                         {

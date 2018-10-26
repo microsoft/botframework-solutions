@@ -210,7 +210,7 @@ namespace EmailSkill
                     var topIntent = luisResult.TopIntent().intent;
 
                     // check intent
-                    if (luisResult.TopIntent().score > 0.3)
+                    if (luisResult.TopIntent().score > 0.5)
                     {
                         switch (topIntent)
                         {
@@ -223,6 +223,11 @@ namespace EmailSkill
                             case General.Intent.Help:
                                 {
                                     // result = await OnHelp(dc);
+                                    break;
+                                }
+                            case General.Intent.Logout:
+                                {
+                                    result = await OnLogout(dc);
                                     break;
                                 }
                         }
