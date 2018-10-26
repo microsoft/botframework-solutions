@@ -62,6 +62,8 @@ namespace PointOfInterestSkill
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
+            var routeResult = EndOfTurn;
+
             // If dispatch result is general luis model
             _services.LuisServices.TryGetValue("pointofinterest", out var luisService);
 
@@ -85,19 +87,19 @@ namespace PointOfInterestSkill
                 {
                     case PointOfInterest.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y:
                         {
-                            await dc.BeginDialogAsync(nameof(RouteDialog), skillOptions);
+                            routeResult = await dc.BeginDialogAsync(nameof(RouteDialog), skillOptions);
                             break;
                         }
 
                     case PointOfInterest.Intent.NAVIGATION_CANCEL_ROUTE:
                         {
-                            await dc.BeginDialogAsync(nameof(CancelRouteDialog), skillOptions);
+                            routeResult = await dc.BeginDialogAsync(nameof(CancelRouteDialog), skillOptions);
                             break;
                         }
 
                     case PointOfInterest.Intent.NAVIGATION_FIND_POINTOFINTEREST:
                         {
-                            await dc.BeginDialogAsync(nameof(FindPointOfInterestDialog), skillOptions);
+                            routeResult = await dc.BeginDialogAsync(nameof(FindPointOfInterestDialog), skillOptions);
                             break;
                         }
 
@@ -106,7 +108,7 @@ namespace PointOfInterestSkill
                             await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(POISharedResponses.DidntUnderstandMessage));
                             if (_skillMode)
                             {
-                                await CompleteAsync(dc);
+                                routeResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             }
 
                             break;
@@ -118,12 +120,17 @@ namespace PointOfInterestSkill
 
                             if (_skillMode)
                             {
-                                await CompleteAsync(dc);
+                                routeResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             }
 
                             break;
                         }
                 }
+            }
+
+            if (routeResult.Status == DialogTurnStatus.Complete)
+            {
+                await CompleteAsync(dc);
             }
         }
 
@@ -260,8 +267,8 @@ namespace PointOfInterestSkill
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new PointOfInterestSkillState());
                 state.LuisResult = poiLuisResult;
 
-                    // check luis intent
-                    _services.LuisServices.TryGetValue("general", out var luisService);
+                // check luis intent
+                _services.LuisServices.TryGetValue("general", out var luisService);
 
                 if (luisService == null)
                 {
@@ -273,25 +280,28 @@ namespace PointOfInterestSkill
                     var topIntent = luisResult.TopIntent().intent;
 
                     // check intent
-                    switch (topIntent)
+                    if (luisResult.TopIntent().score > 0.5)
                     {
-                        case General.Intent.Cancel:
-                            {
-                                result = await OnCancel(dc);
-                                break;
-                            }
+                        switch (topIntent)
+                        {
+                            case General.Intent.Cancel:
+                                {
+                                    result = await OnCancel(dc);
+                                    break;
+                                }
 
-                        case General.Intent.Help:
-                            {
-                                // result = await OnHelp(dc);
-                                break;
-                            }
+                            case General.Intent.Help:
+                                {
+                                    // result = await OnHelp(dc);
+                                    break;
+                                }
 
-                        case General.Intent.Logout:
-                            {
-                                result = await OnLogout(dc);
-                                break;
-                            }
+                            case General.Intent.Logout:
+                                {
+                                    result = await OnLogout(dc);
+                                    break;
+                                }
+                        }
                     }
                 }
             }

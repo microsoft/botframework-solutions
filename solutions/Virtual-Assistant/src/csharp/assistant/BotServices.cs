@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Azure;
@@ -104,14 +105,14 @@ namespace VirtualAssistant
                 }
             }
 
-            foreach(var skill in skills)
+            foreach (var skill in skills)
             {
                 var skillConfig = new SkillConfiguration()
                 {
                     AuthConnectionName = AuthConnectionName,
                     CosmosDbOptions = CosmosDbOptions,
                     TelemetryClient = TelemetryClient,
-                    LuisServices = LuisServices.Where(l => skill.LuisServiceIds.Contains(l.Key) == true).ToDictionary(l => l.Key, l => l.Value as LuisRecognizer),
+                    LuisServices = LuisServices.Where(l => skill.LuisServiceIds.Contains(l.Key) == true).ToDictionary(l => l.Key, l => l.Value as IRecognizer),
                 };
 
                 foreach (var set in skill.Configuration)
@@ -179,7 +180,7 @@ namespace VirtualAssistant
 
         public List<SkillDefinition> SkillDefinitions { get; set; } = new List<SkillDefinition>();
 
-        public Dictionary<string, SkillConfiguration> SkillConfigurations = new Dictionary<string, SkillConfiguration>();
+        public Dictionary<string, ISkillConfiguration> SkillConfigurations = new Dictionary<string, ISkillConfiguration>();
 
     }
 }

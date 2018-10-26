@@ -12,6 +12,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Skills;
 
 namespace VirtualAssistant
@@ -80,46 +81,55 @@ namespace VirtualAssistant
                         var luisIntent = luisResult?.TopIntent().intent;
 
                         // switch on general intents
-                        switch (luisIntent)
+                        if (luisResult.TopIntent().score > 0.5)
                         {
-                            case General.Intent.Greeting:
-                                {
-                                    // send greeting response
-                                    await _responder.ReplyWith(dc.Context, MainResponses.Greeting);
-                                    break;
-                                }
+                            switch (luisIntent)
+                            {
+                                case General.Intent.Greeting:
+                                    {
+                                        // send greeting response
+                                        await _responder.ReplyWith(dc.Context, MainResponses.Greeting);
+                                        break;
+                                    }
 
-                            case General.Intent.Help:
-                                {
-                                    // send help response
-                                    await _responder.ReplyWith(dc.Context, MainResponses.Help);
-                                    break;
-                                }
+                                case General.Intent.Help:
+                                    {
+                                        // send help response
+                                        await _responder.ReplyWith(dc.Context, MainResponses.Help);
+                                        break;
+                                    }
 
-                            case General.Intent.Cancel:
-                                {
-                                    // send cancelled response
-                                    await _responder.ReplyWith(dc.Context, MainResponses.Cancelled);
+                                case General.Intent.Cancel:
+                                    {
+                                        // send cancelled response
+                                        await _responder.ReplyWith(dc.Context, MainResponses.Cancelled);
 
-                                    // Cancel any active dialogs on the stack
-                                    await dc.CancelAllDialogsAsync();
-                                    break;
-                                }
+                                        // Cancel any active dialogs on the stack
+                                        await dc.CancelAllDialogsAsync();
+                                        break;
+                                    }
 
-                            case General.Intent.Escalate:
-                                {
-                                    // start escalate dialog
-                                    await dc.BeginDialogAsync(nameof(EscalateDialog));
-                                    break;
-                                }
+                                case General.Intent.Escalate:
+                                    {
+                                        // start escalate dialog
+                                        await dc.BeginDialogAsync(nameof(EscalateDialog));
+                                        break;
+                                    }
 
-                            case General.Intent.None:
-                            default:
-                                {
-                                    // No intent was identified, send confused message
-                                    await _responder.ReplyWith(dc.Context, MainResponses.Confused);
-                                    break;
-                                }
+                                case General.Intent.Logout:
+                                    {
+                                        await LogoutAsync(dc);
+                                        break;
+                                    }
+
+                                case General.Intent.None:
+                                default:
+                                    {
+                                        // No intent was identified, send confused message
+                                        await _responder.ReplyWith(dc.Context, MainResponses.Confused);
+                                        break;
+                                    }
+                            }
                         }
 
                         break;
@@ -220,6 +230,28 @@ namespace VirtualAssistant
             }
         }
 
+        protected virtual async Task<InterruptionAction> LogoutAsync(DialogContext dc)
+        {
+            BotFrameworkAdapter adapter;
+            var supported = dc.Context.Adapter is BotFrameworkAdapter;
+            if (!supported)
+            {
+                throw new InvalidOperationException("OAuthPrompt.SignOutUser(): not supported by the current adapter");
+            }
+            else
+            {
+                adapter = (BotFrameworkAdapter)dc.Context.Adapter;
+            }
+
+            await dc.CancelAllDialogsAsync();
+
+            // Sign out user
+            await adapter.SignOutUserAsync(dc.Context, _services.AuthConnectionName);
+            await dc.Context.SendActivityAsync("Ok, you're signed out.");
+
+            return InterruptionAction.StartedDialog;
+        }
+
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             await _responder.ReplyWith(dc.Context, MainResponses.Completed);
@@ -235,13 +267,15 @@ namespace VirtualAssistant
             var ev = dc.Context.Activity.AsEventActivity();
             var parameters = await _parametersAccessor.GetAsync(dc.Context, () => new Dictionary<string, object>());
 
-            // Send trace to emulator
-            var trace = new Activity(type: ActivityTypes.Trace, text: $"Received event: {ev.Name}");
-            await dc.Context.SendActivityAsync(trace);
-
-            switch (ev.Name)
+            if (!string.IsNullOrEmpty(ev.Name))
             {
-                case Events.TimezoneEvent:
+                // Send trace to emulator
+                var trace = new Activity(type: ActivityTypes.Trace, text: $"Received event: {ev.Name}");
+                await dc.Context.SendActivityAsync(trace);
+
+                switch (ev.Name)
+                {
+                    case Events.TimezoneEvent:
                     {
                         try
                         {
@@ -259,21 +293,21 @@ namespace VirtualAssistant
                         break;
                     }
 
-                case Events.LocationEvent:
+                    case Events.LocationEvent:
                     {
                         parameters[ev.Name] = ev.Value;
                         forward = false;
                         break;
                     }
 
-                case Events.TokenResponseEvent:
+                    case Events.TokenResponseEvent:
                     {
                         forward = true;
                         break;
                     }
 
-                case Events.ActiveLocationUpdate:
-                case Events.ActiveRouteUpdate:
+                    case Events.ActiveLocationUpdate:
+                    case Events.ActiveRouteUpdate:
                     {
                         var matchedSkill = _skillRouter.IdentifyRegisteredSkill(Dispatch.Intent.l_PointOfInterest.ToString());
 
@@ -285,15 +319,39 @@ namespace VirtualAssistant
                         forward = false;
                         break;
                     }
-            }
 
-            if (forward)
-            {
-                var result = await dc.ContinueDialogAsync();
+                    case Events.ResetUser:
+                    {
+                        await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Reset User Event received, clearing down State and Tokens."));
 
-                if (result.Status == DialogTurnStatus.Complete)
+                        // Clear State
+                        await _onboardingState.DeleteAsync(dc.Context, cancellationToken);
+
+                        // Clear Tokens
+                        var adapter = dc.Context.Adapter as BotFrameworkAdapter;
+                        await adapter.SignOutUserAsync(dc.Context,null, dc.Context.Activity.From.Id, cancellationToken);
+
+                        forward = false;
+
+                        break;
+                    }
+
+                    default:
+                    {
+                        await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event {ev.Name} was received but not processed."));
+                        forward = false;
+                        break;
+                    }
+                }
+
+                if (forward)
                 {
-                    await CompleteAsync(dc);
+                    var result = await dc.ContinueDialogAsync();
+
+                    if (result.Status == DialogTurnStatus.Complete)
+                    {
+                        await CompleteAsync(dc);
+                    }
                 }
             }
         }
@@ -306,5 +364,6 @@ namespace VirtualAssistant
         public const string LocationEvent = "IPA.Location";
         public const string ActiveLocationUpdate = "POI.ActiveLocation";
         public const string ActiveRouteUpdate = "POI.ActiveRoute";
+        public const string ResetUser = "IPA.ResetUser";
     }
 }

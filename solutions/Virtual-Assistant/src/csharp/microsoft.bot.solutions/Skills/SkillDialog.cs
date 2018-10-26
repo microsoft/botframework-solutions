@@ -3,6 +3,7 @@ using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Middleware;
+using Microsoft.Bot.Solutions.Resources;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -16,14 +17,14 @@ namespace Microsoft.Bot.Solutions.Skills
         private const string ActiveSkillStateKey = "ActiveSkill";
 
         // Fields
-        private Dictionary<string, SkillConfiguration> _skills;
+        private Dictionary<string, ISkillConfiguration> _skills;
         private IStatePropertyAccessor<DialogState> _accessor;
         private DialogSet _dialogs;
         private InProcAdapter _inProcAdapter;
         private IBot _activatedSkill;
         private bool _skillInitialized;
 
-        public SkillDialog(Dictionary<string, SkillConfiguration> skills, IStatePropertyAccessor<DialogState> accessor)
+        public SkillDialog(Dictionary<string, ISkillConfiguration> skills, IStatePropertyAccessor<DialogState> accessor)
             : base(nameof(SkillDialog))
         {
             _skills = skills;
@@ -46,8 +47,8 @@ namespace Microsoft.Bot.Solutions.Skills
             _dialogs.Add(new OAuthPrompt(nameof(OAuthPrompt), new OAuthPromptSettings()
             {
                 ConnectionName = skillConfiguration.AuthConnectionName,
-                Title = "Skill Authentication",
-                Text = $"Please login to access this feature.",
+                Title = CommonResponses.SkillAuthenticationTitle.Reply.Text,
+                Text = CommonResponses.SkillAuthenticationPrompt.Reply.Text,
             }));
 
             // Send parameters to skill in skillBegin event
@@ -81,7 +82,44 @@ namespace Microsoft.Bot.Solutions.Skills
 
         public override async Task<DialogTurnResult> ContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await ForwardToSkill(dc, dc.Context.Activity);
+            var activity = dc.Context.Activity;
+            var innerDc = await _dialogs.CreateContextAsync(dc.Context);
+
+            // Add the oauth prompt to _dialogs if it is missing
+            var dialog = _dialogs.Find(nameof(OAuthPrompt));
+            if (dialog == null)
+            {
+                var skillDefinition = dc.ActiveDialog.State[ActiveSkillStateKey] as SkillDefinition;
+                var skillConfiguration = _skills[skillDefinition.Id];
+
+                _dialogs.Add(new OAuthPrompt(nameof(OAuthPrompt), new OAuthPromptSettings()
+                {
+                    ConnectionName = skillConfiguration.AuthConnectionName,
+                    Title = CommonResponses.SkillAuthenticationTitle.Reply.Text,
+                    Text = CommonResponses.SkillAuthenticationPrompt.Reply.Text,
+                }));
+            }
+
+            // Check if we're in the oauth prompt
+            if (innerDc.ActiveDialog != null)
+            {
+                // Handle magic code auth
+                var result = await innerDc.ContinueDialogAsync();
+
+                // forward the token response to the skill
+                if (result.Status == DialogTurnStatus.Complete && result.Result is TokenResponse)
+                {
+                    activity.Type = ActivityTypes.Event;
+                    activity.Name = Events.TokenResponseEventName;
+                    activity.Value = result.Result;
+                }
+                else
+                {
+                    return result;
+                }
+            }
+
+            return await ForwardToSkill(dc, activity);
         }
 
         private async Task InitializeSkill(DialogContext dc)
@@ -91,13 +129,22 @@ namespace Microsoft.Bot.Solutions.Skills
                 var skillDefinition = dc.ActiveDialog.State[ActiveSkillStateKey] as SkillDefinition;
                 var skillConfiguration = _skills[skillDefinition.Id];
 
-                var cosmosDbOptions = skillConfiguration.CosmosDbOptions;
-                cosmosDbOptions.CollectionId = skillDefinition.Name;
+                IStorage storage;
+
+                if (skillConfiguration.CosmosDbOptions != null)
+                {
+                    var cosmosDbOptions = skillConfiguration.CosmosDbOptions;
+                    cosmosDbOptions.CollectionId = skillDefinition.Name;
+                    storage = new CosmosDbStorage(cosmosDbOptions);
+                }
+                else
+                {
+                    storage = new MemoryStorage();
+                }
 
                 // Initialize skill state
-                var cosmosDbStorage = new CosmosDbStorage(cosmosDbOptions);
-                var userState = new UserState(cosmosDbStorage);
-                var conversationState = new ConversationState(cosmosDbStorage);
+                var userState = new UserState(storage);
+                var conversationState = new ConversationState(storage);
 
                 // Create skill instance
                 try
@@ -131,7 +178,7 @@ namespace Microsoft.Bot.Solutions.Skills
                 };
 
                 _inProcAdapter.Use(new EventDebuggerMiddleware());
-                _inProcAdapter.Use(new SetLocaleMiddleware(dc.Context.Activity.Locale));
+                _inProcAdapter.Use(new SetLocaleMiddleware(dc.Context.Activity.Locale ?? "zh-cn"));
                 _inProcAdapter.Use(new AutoSaveStateMiddleware(userState, conversationState));
                 _skillInitialized = true;
             }

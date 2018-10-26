@@ -42,6 +42,8 @@ namespace CalendarSkill
 
         public Luis.Calendar LuisResult { get; set; }
 
+        public Luis.General GeneralLuisResult { get; set; }
+
         public string Title { get; set; }
 
         public string Content { get; set; }

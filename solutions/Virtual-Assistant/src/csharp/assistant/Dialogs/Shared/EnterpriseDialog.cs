@@ -32,20 +32,24 @@ namespace VirtualAssistant
             var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
             var intent = luisResult.TopIntent().intent;
 
-            // Add the luis result (intent and entities) for further processing in the derived dialog
-            dc.Context.TurnState.Add(LuisResultKey, luisResult);
-
-            switch (intent)
+            // TODO - Evolve this pattern
+            if (luisResult.TopIntent().score > 0.5)
             {
-                case General.Intent.Cancel:
-                    {
-                        return await OnCancel(dc);
-                    }
+                // Add the luis result (intent and entities) for further processing in the derived dialog
+                dc.Context.TurnState.Add(LuisResultKey, luisResult);
 
-                case General.Intent.Help:
-                    {
-                        return await OnHelp(dc);
-                    }
+                switch (intent)
+                {
+                    case General.Intent.Cancel:
+                        {
+                            return await OnCancel(dc);
+                        }
+
+                    case General.Intent.Help:
+                        {
+                            return await OnHelp(dc);
+                        }
+                }
             }
 
             return InterruptionAction.NoAction;

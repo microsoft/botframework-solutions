@@ -21,7 +21,7 @@ namespace EmailSkill
     public class MainDialog : RouterDialog
     {
         private bool _skillMode;
-        private SkillConfiguration _services;
+        private ISkillConfiguration _services;
         private UserState _userState;
         private ConversationState _conversationState;
         private IMailSkillServiceManager _serviceManager;
@@ -29,7 +29,7 @@ namespace EmailSkill
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
         private EmailSkillResponseBuilder _responseBuilder = new EmailSkillResponseBuilder();
 
-        public MainDialog(SkillConfiguration services, ConversationState conversationState, UserState userState, IMailSkillServiceManager serviceManager, bool skillMode)
+        public MainDialog(ISkillConfiguration services, ConversationState conversationState, UserState userState, IMailSkillServiceManager serviceManager, bool skillMode)
             : base(nameof(MainDialog))
         {
             _skillMode = skillMode;
@@ -97,8 +97,6 @@ namespace EmailSkill
                         }
 
                     case Email.Intent.SearchMessages:
-                    case Email.Intent.ShowNext:
-                    case Email.Intent.ShowPrevious:
                     case Email.Intent.CheckMessages:
                         {
                             await dc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
@@ -208,28 +206,32 @@ namespace EmailSkill
                 else
                 {
                     var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
+                    state.GeneralLuisResult = luisResult;
                     var topIntent = luisResult.TopIntent().intent;
 
                     // check intent
-                    switch (topIntent)
+                    if (luisResult.TopIntent().score > 0.5)
                     {
-                        case General.Intent.Cancel:
-                            {
-                                result = await OnCancel(dc);
-                                break;
-                            }
+                        switch (topIntent)
+                        {
+                            case General.Intent.Cancel:
+                                {
+                                    result = await OnCancel(dc);
+                                    break;
+                                }
 
-                        case General.Intent.Help:
-                            {
-                                // result = await OnHelp(dc);
-                                break;
-                            }
+                            case General.Intent.Help:
+                                {
+                                    // result = await OnHelp(dc);
+                                    break;
+                                }
 
-                        case General.Intent.Logout:
-                            {
-                                result = await OnLogout(dc);
-                                break;
-                            }
+                            case General.Intent.Logout:
+                                {
+                                    result = await OnLogout(dc);
+                                    break;
+                                }
+                        }
                     }
                 }
             }

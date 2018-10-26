@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistant", "assista
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Solutions", "Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj", "{0106AD2E-C570-42DF-B54B-3ACA50D58D80}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skills", "Skills", "{1F423A0A-64D9-400C-B2B0-3AC378A5AB02}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skills", "skills", "{1F423A0A-64D9-400C-B2B0-3AC378A5AB02}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalendarSkill", "skills\calendarskill\CalendarSkill.csproj", "{6BD03130-4931-410F-83EB-03E37E17E2B9}"
 EndProject
@@ -22,6 +22,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PointOfInterestSkill", "skills\pointofinterestskill\PointOfInterestSkill.csproj", "{ACB52D46-6553-44EF-89AE-D3038406FA1E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoSkill", "skills\todoskill\ToDoSkill.csproj", "{3DE6A4B2-9241-4605-9E8C-BD17A1F71502}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "test", "{546AC410-598F-49FD-9583-F912DF35BDA5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestFramework", "skills\tests\testframework\TestFramework.csproj", "{1B4F6C4B-C813-476D-84C5-D9FD51678065}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailSkillTest", "skills\tests\emailskilltest\EmailSkillTest.csproj", "{699BA894-1429-4DB8-ABF6-826E3F143F49}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +59,14 @@ Global
 		{3DE6A4B2-9241-4605-9E8C-BD17A1F71502}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DE6A4B2-9241-4605-9E8C-BD17A1F71502}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DE6A4B2-9241-4605-9E8C-BD17A1F71502}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B4F6C4B-C813-476D-84C5-D9FD51678065}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B4F6C4B-C813-476D-84C5-D9FD51678065}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B4F6C4B-C813-476D-84C5-D9FD51678065}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B4F6C4B-C813-476D-84C5-D9FD51678065}.Release|Any CPU.Build.0 = Release|Any CPU
+		{699BA894-1429-4DB8-ABF6-826E3F143F49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{699BA894-1429-4DB8-ABF6-826E3F143F49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{699BA894-1429-4DB8-ABF6-826E3F143F49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{699BA894-1429-4DB8-ABF6-826E3F143F49}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +76,9 @@ Global
 		{2DF1C042-7544-4885-AFE4-E7010369A519} = {1F423A0A-64D9-400C-B2B0-3AC378A5AB02}
 		{ACB52D46-6553-44EF-89AE-D3038406FA1E} = {1F423A0A-64D9-400C-B2B0-3AC378A5AB02}
 		{3DE6A4B2-9241-4605-9E8C-BD17A1F71502} = {1F423A0A-64D9-400C-B2B0-3AC378A5AB02}
+		{546AC410-598F-49FD-9583-F912DF35BDA5} = {1F423A0A-64D9-400C-B2B0-3AC378A5AB02}
+		{1B4F6C4B-C813-476D-84C5-D9FD51678065} = {546AC410-598F-49FD-9583-F912DF35BDA5}
+		{699BA894-1429-4DB8-ABF6-826E3F143F49} = {546AC410-598F-49FD-9583-F912DF35BDA5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7569C2D0-1323-45B5-8CFF-3ECACD9E0B82}

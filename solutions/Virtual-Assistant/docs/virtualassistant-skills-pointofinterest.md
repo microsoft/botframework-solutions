@@ -1,7 +1,7 @@
-# Custom Assistant Skills - Point of Interest
+# Virtual Assistant Skills - Point of Interest
 
 ## Overview
-The Point of Interest Skill provides PoI related capabilities to a Custom Assistant. The most common scenarios have been implemented in this first release with additional scenarios in development.
+The Point of Interest Skill provides PoI related capabilities to a Virtual Assistant. The most common scenarios have been implemented in this first release with additional scenarios in development.
 
 ## Supported Scenarios
 The following scenarios are currently supported by the Skill:
@@ -32,7 +32,7 @@ The following Parameters are accepted by the Skill and enable additional persona
 - IPA.Location
 
 ## Configuration File Information
-The following Configuration entries are required to be passed to the Skill and are provided through the Custom Assistant appSettings.json file. These should be updated to reflect your LUIS deployment.
+The following Configuration entries are required to be passed to the Skill and are provided through the Virtual Assistant appSettings.json file. These should be updated to reflect your LUIS deployment.
 
 - LuisAppId
 - LuisSubscriptionKey

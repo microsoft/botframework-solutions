@@ -1,27 +1,5 @@
 {
-  "name": "General",
-  "versionId": "0.1",
-  "desc": "",
-  "culture": "en-us",
   "intents": [
-    {
-      "name": "Cancel"
-    },
-    {
-      "name": "ConfirmMore"
-    },
-    {
-      "name": "ConfirmNo"
-    },
-    {
-      "name": "ConfirmYes"
-    },
-    {
-      "name": "Escalate"
-    },
-    {
-      "name": "Goodbye"
-    },
     {
       "name": "Greeting"
     },
@@ -29,67 +7,136 @@
       "name": "Help"
     },
     {
-      "name": "Next"
-    },
-    {
-      "name": "None"
+      "name": "Cancel"
     },
     {
       "name": "Restart"
+    },
+    {
+      "name": "Escalate"
+    },
+    {
+      "name": "ConfirmYes"
+    },
+    {
+      "name": "ConfirmNo"
+    },
+    {
+      "name": "ConfirmMore"
+    },
+    {
+      "name": "Next"
+    },
+    {
+      "name": "Previous"
+    },
+    {
+      "name": "Goodbye"
+    },
+    {
+      "name": "None"
     }
   ],
   "entities": [],
-  "closedLists": [],
   "composites": [],
-  "patternAnyEntities": [],
+  "closedLists": [],
   "regex_entities": [],
-  "prebuiltEntities": [
-    {
-      "name": "datetimeV2",
-      "roles": []
-    },
-    {
-      "name": "number",
-      "roles": []
-    }
-  ],
-  "regex_features": [],
   "model_features": [],
-  "patterns": [],
+  "regex_features": [],
   "utterances": [
     {
-      "text": "abort",
-      "intent": "Cancel",
+      "text": "hi",
+      "intent": "Greeting",
       "entities": []
     },
     {
-      "text": "absolutely",
-      "intent": "ConfirmYes",
+      "text": "hello",
+      "intent": "Greeting",
       "entities": []
     },
     {
-      "text": "advance",
-      "intent": "Next",
+      "text": "good morning",
+      "intent": "Greeting",
       "entities": []
     },
     {
-      "text": "by no means",
-      "intent": "ConfirmNo",
+      "text": "good evening",
+      "intent": "Greeting",
       "entities": []
     },
     {
-      "text": "bye",
-      "intent": "Goodbye",
+      "text": "hello bot",
+      "intent": "Greeting",
       "entities": []
     },
     {
-      "text": "can i do that again",
-      "intent": "Restart",
+      "text": "hiya",
+      "intent": "Greeting",
       "entities": []
     },
     {
-      "text": "can i talk to a person",
-      "intent": "Escalate",
+      "text": "how are you",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "how are you today",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hey",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "help me",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "help please",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "i'm stuck",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "i don't understand",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what can I say",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what can you help me with",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what can you do",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what do i do now",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "why doesn't this work",
+      "intent": "Help",
       "entities": []
     },
     {
@@ -98,18 +145,18 @@
       "entities": []
     },
     {
-      "text": "cancel",
+      "text": "stop",
       "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "contact support",
-      "intent": "Escalate",
+      "text": "abort",
+      "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "definitely",
-      "intent": "ConfirmYes",
+      "text": "cancel",
+      "intent": "Cancel",
       "entities": []
     },
     {
@@ -133,93 +180,28 @@
       "entities": []
     },
     {
-      "text": "for sure",
-      "intent": "ConfirmYes",
+      "text": "i would like to cancel",
+      "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "go back",
+      "text": "never mind",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "please stop",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "exit",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "can i do that again",
       "intent": "Restart",
-      "entities": []
-    },
-    {
-      "text": "go forward",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "go to next",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "good evening",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "good morning",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "good night",
-      "intent": "Goodbye",
-      "entities": []
-    },
-    {
-      "text": "goodbye",
-      "intent": "Goodbye",
-      "entities": []
-    },
-    {
-      "text": "hello",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "hello bot",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "help",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "help me",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "help please",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "hi",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "hiya",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "how are you",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "how are you today",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "i don't understand",
-      "intent": "Help",
       "entities": []
     },
     {
@@ -228,8 +210,23 @@
       "entities": []
     },
     {
-      "text": "i think so",
-      "intent": "ConfirmYes",
+      "text": "restart",
+      "intent": "Restart",
+      "entities": []
+    },
+    {
+      "text": "start over",
+      "intent": "Restart",
+      "entities": []
+    },
+    {
+      "text": "undo",
+      "intent": "Restart",
+      "entities": []
+    },
+    {
+      "text": "can i talk to a person",
+      "intent": "Escalate",
       "entities": []
     },
     {
@@ -238,18 +235,43 @@
       "entities": []
     },
     {
-      "text": "i would like to cancel",
-      "intent": "Cancel",
+      "text": "talk to a human",
+      "intent": "Escalate",
       "entities": []
     },
     {
-      "text": "i would like to know more",
-      "intent": "ConfirmMore",
+      "text": "transfer me please",
+      "intent": "Escalate",
       "entities": []
     },
     {
-      "text": "i'm stuck",
-      "intent": "Help",
+      "text": "contact support",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "absolutely",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "sure",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "definitely",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "for sure",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "i think so",
+      "intent": "ConfirmYes",
       "entities": []
     },
     {
@@ -263,28 +285,68 @@
       "entities": []
     },
     {
-      "text": "luhan",
-      "intent": "None",
+      "text": "oh yes",
+      "intent": "ConfirmYes",
       "entities": []
     },
     {
-      "text": "more",
-      "intent": "ConfirmMore",
+      "text": "yes please",
+      "intent": "ConfirmYes",
       "entities": []
     },
     {
-      "text": "more info",
-      "intent": "ConfirmMore",
+      "text": "okay",
+      "intent": "ConfirmYes",
       "entities": []
     },
     {
-      "text": "more information",
-      "intent": "ConfirmMore",
+      "text": "ok",
+      "intent": "ConfirmYes",
       "entities": []
     },
     {
-      "text": "my water bottle is green",
-      "intent": "None",
+      "text": "sure thing",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "yeah",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "yeah that would be great thanks",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "why not",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "yep that's right",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "yup",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "yep",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "go ahead",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "by no means",
+      "intent": "ConfirmNo",
       "entities": []
     },
     {
@@ -293,27 +355,17 @@
       "entities": []
     },
     {
-      "text": "never mind",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "next",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "next item",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "no",
+      "text": "nope",
       "intent": "ConfirmNo",
       "entities": []
     },
     {
       "text": "no thanks",
+      "intent": "ConfirmNo",
+      "entities": []
+    },
+    {
+      "text": "no",
       "intent": "ConfirmNo",
       "entities": []
     },
@@ -324,11 +376,6 @@
     },
     {
       "text": "no way",
-      "intent": "ConfirmNo",
-      "entities": []
-    },
-    {
-      "text": "nope",
       "intent": "ConfirmNo",
       "entities": []
     },
@@ -348,17 +395,252 @@
       "entities": []
     },
     {
-      "text": "oh yes",
-      "intent": "ConfirmYes",
+      "text": "no thank you",
+      "intent": "ConfirmNo",
       "entities": []
     },
     {
-      "text": "ok",
-      "intent": "ConfirmYes",
+      "text": "more",
+      "intent": "ConfirmMore",
       "entities": []
     },
     {
-      "text": "ok bye",
+      "text": "i would like to know more",
+      "intent": "ConfirmMore",
+      "entities": []
+    },
+    {
+      "text": "show me more",
+      "intent": "ConfirmMore",
+      "entities": []
+    },
+    {
+      "text": "more",
+      "intent": "ConfirmMore",
+      "entities": []
+    },
+    {
+      "text": "more info",
+      "intent": "ConfirmMore",
+      "entities": []
+    },
+    {
+      "text": "more information",
+      "intent": "ConfirmMore",
+      "entities": []
+    },
+    {
+      "text": "advance",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "go forward",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "go to next",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "next",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "next item",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "show next",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "could you show the next one",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "i need to go to the next one",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "go to the next one please",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "move to the next one",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "go on",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "go to next",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "go to the next page",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "move forward",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "move on",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "move on next",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "next one",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "next please",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "show me next",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "show me the next",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "show the next",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "show the next one",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "the next email",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "go back",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "last one",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "previous one",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "the last one",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "old one",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "last",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "back to the last one",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "bring the previous one",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "come to the last",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "go to previous",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "go to the last one",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "move back",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "previous",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "show me previous",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "previous one please",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "the previous one",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "what is the previous",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "good night",
+      "intent": "Goodbye",
+      "entities": []
+    },
+    {
+      "text": "goodbye",
+      "intent": "Goodbye",
+      "entities": []
+    },
+    {
+      "text": "bye",
       "intent": "Goodbye",
       "entities": []
     },
@@ -368,58 +650,8 @@
       "entities": []
     },
     {
-      "text": "okay",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "paper planes in the sky",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "please stop",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "restart",
-      "intent": "Restart",
-      "entities": []
-    },
-    {
-      "text": "show me more",
-      "intent": "ConfirmMore",
-      "entities": []
-    },
-    {
-      "text": "show next",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "start over",
-      "intent": "Restart",
-      "entities": []
-    },
-    {
-      "text": "stop",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "sure",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "sure thing",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "talk to a human",
-      "intent": "Escalate",
+      "text": "ok bye",
+      "intent": "Goodbye",
       "entities": []
     },
     {
@@ -428,8 +660,8 @@
       "entities": []
     },
     {
-      "text": "transfer me please",
-      "intent": "Escalate",
+      "text": "my water bottle is green",
+      "intent": "None",
       "entities": []
     },
     {
@@ -438,64 +670,26 @@
       "entities": []
     },
     {
-      "text": "undo",
-      "intent": "Restart",
-      "entities": []
-    },
-    {
-      "text": "what can i say",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "what can you do",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "what can you help me with",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "what do i do now",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "why doesn't this work",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "why not",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "yeah",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "yeah that would be great thanks",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "yep that's right",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "yes please",
-      "intent": "ConfirmYes",
-      "entities": []
-    },
-    {
-      "text": "yup",
-      "intent": "ConfirmYes",
+      "text": "paper planes in the sky",
+      "intent": "None",
       "entities": []
     }
-  ]
+  ],
+  "patterns": [],
+  "patternAnyEntities": [],
+  "prebuiltEntities": [
+    {
+      "name": "datetimeV2",
+      "roles": []
+    },
+    {
+      "name": "number",
+      "roles": []
+    }
+  ],
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.1",
+  "name": "General",
+  "desc": "",
+  "culture": "en-us"
 }

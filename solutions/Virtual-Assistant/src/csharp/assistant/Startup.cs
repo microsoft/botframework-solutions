@@ -12,6 +12,7 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;
@@ -102,13 +103,25 @@ namespace VirtualAssistant
                 var blobStorage = storageService as BlobStorageService;
                 var transcriptStore = new AzureBlobTranscriptStore(blobStorage.ConnectionString, blobStorage.Container);
                 var transcriptMiddleware = new TranscriptLoggerMiddleware(transcriptStore);
-                options.Middleware.Add(transcriptMiddleware);              
+                options.Middleware.Add(transcriptMiddleware);
 
                 // Typing Middleware (automatically shows typing when the bot is responding/working)
                 options.Middleware.Add(new ShowTypingMiddleware());
                 options.Middleware.Add(new SetLocaleMiddleware(defaultLocale ?? "en"));
                 options.Middleware.Add(new EventDebuggerMiddleware());
                 options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
+
+                //// Translator is an optional component for scenarios when an Assistant needs to work beyond native language support
+                //var translatorKey = Configuration.GetValue<string>("translatorKey");
+
+                //if (!string.IsNullOrEmpty(translatorKey))
+                //{
+                //    options.Middleware.Add(new TranslationMiddleware(new string[] { "en", "fr", "it", "de", "es" }, translatorKey, false));
+                //}
+                //else
+                //{
+                //    throw new InvalidOperationException("Microsoft Text Translation API key is missing. Please add your translation key to the 'translatorKey' setting.");
+                //}
             });
         }
 

@@ -28,6 +28,9 @@
       "name": "Next"
     },
     {
+      "name": "Previous"
+    },
+    {
       "name": "Goodbye"
     },
     {
@@ -82,6 +85,11 @@
       "entities": []
     },
     {
+      "text": "嘿",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
       "text": "帮助",
       "intent": "Help",
       "entities": []
@@ -92,7 +100,7 @@
       "entities": []
     },
     {
-      "text": "请帮助",
+      "text": "帮助请",
       "intent": "Help",
       "entities": []
     },
@@ -112,7 +120,7 @@
       "entities": []
     },
     {
-      "text": "你能帮我什么忙吗？",
+      "text": "你能帮我什么？",
       "intent": "Help",
       "entities": []
     },
@@ -122,12 +130,12 @@
       "entities": []
     },
     {
-      "text": "我现在该怎么办？",
+      "text": "我现在该怎么办",
       "intent": "Help",
       "entities": []
     },
     {
-      "text": "为什么这个工作",
+      "text": "为什么不这样做",
       "intent": "Help",
       "entities": []
     },
@@ -187,12 +195,12 @@
       "entities": []
     },
     {
-      "text": "我能再做一次吗？",
-      "intent": "Restart",
+      "text": "退出",
+      "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "回去",
+      "text": "我能再做一次吗",
       "intent": "Restart",
       "entities": []
     },
@@ -267,12 +275,12 @@
       "entities": []
     },
     {
-      "text": "我们来吧",
+      "text": "我们做吧",
       "intent": "ConfirmYes",
       "entities": []
     },
     {
-      "text": "让我们这样做,",
+      "text": "让我们这样做",
       "intent": "ConfirmYes",
       "entities": []
     },
@@ -327,7 +335,17 @@
       "entities": []
     },
     {
-      "text": "绝非",
+      "text": "是的",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "继续",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "决不",
       "intent": "ConfirmNo",
       "entities": []
     },
@@ -377,6 +395,11 @@
       "entities": []
     },
     {
+      "text": "不,谢谢",
+      "intent": "ConfirmNo",
+      "entities": []
+    },
+    {
       "text": "更",
       "intent": "ConfirmMore",
       "entities": []
@@ -412,7 +435,7 @@
       "entities": []
     },
     {
-      "text": "往前走",
+      "text": "继续前进",
       "intent": "Next",
       "entities": []
     },
@@ -434,6 +457,176 @@
     {
       "text": "显示下一页",
       "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "你能展示下一张吗？",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "我要去下一个",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "请转到下一个",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "移到下一个",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "继续",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "转到下一页",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "转到下一页",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "前进",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "继续前进",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "继续下一步",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "下一页",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "下一页请",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "显示下一个",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "让我看看下一个",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "显示下一",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "显示下一个",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "下一封电子邮件",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "回去",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "最后一个",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "前一个",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "最后一个",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "老一",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "最后",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "回到最后一个",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "带上一个",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "走到最后",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "转到上一页",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "转到最后一个",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "退后",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "以前",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "显示上一页",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "上一张请",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "前一个",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "什么是以前",
+      "intent": "Previous",
       "entities": []
     },
     {
@@ -472,7 +665,7 @@
       "entities": []
     },
     {
-      "text": "海龟喜欢在海里游泳。",
+      "text": "海龟喜欢在海里游泳",
       "intent": "None",
       "entities": []
     },
@@ -496,7 +689,7 @@
   ],
   "luis_schema_version": "3.0.0",
   "versionId": "0.1",
-  "name": "General",
+  "name": "general",
   "desc": "",
-  "culture": "zh-cn"
+  "culture": "en-us"
 }

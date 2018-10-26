@@ -4,9 +4,11 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Graph;
+using Microsoft.Recognizers.Text.Choice;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -282,9 +284,15 @@ namespace CalendarSkill
                 {
                     sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
                     var luisResult = state.LuisResult;
+
                     var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
-                    var topIntent = luisResult?.TopIntent().intent;
-                    if (topIntent == Luis.Calendar.Intent.Reject || topIntent == Luis.Calendar.Intent.ConfirmNo || topIntent == Luis.Calendar.Intent.NoLocation)
+                    var topIntent = luisResult?.TopIntent().intent.ToString();
+
+                    var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
+
+                    // Enable the user to skip providing the location if they say something matching the Cancel intent, say something matching the ConfirmNo recognizer or something matching the NoLocation intent
+
+                    if (topIntent == Luis.General.Intent.Cancel.ToString() || (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false) || topIntent == Luis.Calendar.Intent.NoLocation.ToString())
                     {
                         state.Location = string.Empty;
                     }
@@ -536,12 +544,12 @@ namespace CalendarSkill
                     state.ShowAttendeesIndex = 0;
                     return await sc.BeginDialogAsync(Actions.ConfirmAttendee);
                 }
-                else if (sc.Result.ToString() == Luis.Calendar.Intent.ShowNext.ToString())
+                else if (sc.Result.ToString() == Luis.General.Intent.Next.ToString())
                 {
                     state.ShowAttendeesIndex++;
                     return await sc.BeginDialogAsync(Actions.ConfirmAttendee);
                 }
-                else if (sc.Result.ToString() == Luis.Calendar.Intent.ShowPrevious.ToString())
+                else if (sc.Result.ToString() == Luis.General.Intent.Previous.ToString())
                 {
                     if (state.ShowAttendeesIndex > 0)
                     {
@@ -860,7 +868,7 @@ namespace CalendarSkill
             }
             catch (ServiceException)
             {
-                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(CreateEventResponses.FindUserErrorMessage, _responseBuilder));
+                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(CreateEventResponses.FindUserErrorMessage, _responseBuilder, new StringDictionary() { { "UserName", name } }));
                 state.Clear();
                 await dc.EndDialogAsync(true);
             }
@@ -882,7 +890,7 @@ namespace CalendarSkill
             }
             catch (ServiceException)
             {
-                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(CreateEventResponses.FindUserErrorMessage, _responseBuilder));
+                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(CreateEventResponses.FindUserErrorMessage, _responseBuilder, new StringDictionary() { { "UserName", name } }));
 
                 var state = await _accessor.GetAsync(dc.Context);
                 state.Clear();
@@ -914,25 +922,27 @@ namespace CalendarSkill
                     Value = $"**{user.DisplayName}: {mailAddress}**",
                     Synonyms = new List<string> { (i + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
                 };
-                var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
+                var userName = user.UserPrincipalName.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
                 if (!string.IsNullOrEmpty(userName))
                 {
-                    choice.Synonyms.Add(userName);
-                    choice.Synonyms.Add(userName.ToLower());
-                }
-
-                if (skip <= 0)
-                {
-                    if (options.Choices.Count >= pageSize)
                     {
-                        return options;
+                        choice.Synonyms.Add(userName);
+                        choice.Synonyms.Add(userName.ToLower());
                     }
 
-                    options.Choices.Add(choice);
-                }
-                else
-                {
-                    skip--;
+                    if (skip <= 0)
+                    {
+                        if (options.Choices.Count >= pageSize)
+                        {
+                            return options;
+                        }
+
+                        options.Choices.Add(choice);
+                    }
+                    else
+                    {
+                        skip--;
+                    }
                 }
             }
 

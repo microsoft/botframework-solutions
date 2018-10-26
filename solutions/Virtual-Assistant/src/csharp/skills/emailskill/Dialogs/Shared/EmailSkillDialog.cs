@@ -31,7 +31,7 @@ namespace EmailSkill
         public const string LocalModeAuth = "LocalAuth";
 
         // Fields
-        protected SkillConfiguration _services;
+        protected ISkillConfiguration _services;
         protected IStatePropertyAccessor<EmailSkillState> _emailStateAccessor;
         protected IStatePropertyAccessor<DialogState> _dialogStateAccessor;
         protected IMailSkillServiceManager _serviceManager;
@@ -39,7 +39,7 @@ namespace EmailSkill
 
         public EmailSkillDialog(
             string dialogId,
-            SkillConfiguration services,
+            ISkillConfiguration services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IMailSkillServiceManager serviceManager)
@@ -47,6 +47,7 @@ namespace EmailSkill
         {
             _services = services;
             _emailStateAccessor = emailStateAccessor;
+            _dialogStateAccessor = dialogStateAccessor;
             _serviceManager = serviceManager;
 
             var oauthSettings = new OAuthPromptSettings()
@@ -99,6 +100,10 @@ namespace EmailSkill
 
                     // Wait for the tokens/response event
                     return await sc.PromptAsync(SkillModeAuth, new PromptOptions());
+                }
+                else if (sc.Context.Activity.ChannelId == "test")
+                {
+                    return await sc.NextAsync();
                 }
                 else
                 {
@@ -401,11 +406,12 @@ namespace EmailSkill
         {
             var state = await _emailStateAccessor.GetAsync(pc.Context);
             var luisResult = state.LuisResult;
-
             var topIntent = luisResult?.TopIntent().intent;
+            var generlLuisResult = state.GeneralLuisResult;
+            var generalTopIntent = generlLuisResult?.TopIntent().intent;
 
             // If user want to show more recipient end current choice dialog and return the intent to next step.
-            if (topIntent == Email.Intent.ShowNext || topIntent == Email.Intent.ShowPrevious)
+            if (generalTopIntent == General.Intent.Next || generalTopIntent == General.Intent.Previous)
             {
                 // TODO: The signature of validators has been changed per the sdk team, meaning this logic will need to be executed in a different way
                 if (pc.Options.Choices.Count > 5)
@@ -661,7 +667,7 @@ namespace EmailSkill
                 }
 
                 // Get user message.
-                result = await serivce.GetMyMessages(startDateTime, endDateTime, isUnreadOnly, isImportant, directlyToMe, mailAddress, skip);
+                result = await serivce.GetMyMessagesAsync(startDateTime, endDateTime, isUnreadOnly, isImportant, directlyToMe, mailAddress, skip);
             }
             catch (Exception ex)
             {
@@ -701,7 +707,7 @@ namespace EmailSkill
             var searchType = "relevant";
             if (state.IsUnreadOnly)
             {
-                searchType = " unread";
+                searchType += " unread";
             }
             else if (state.IsImportant)
             {

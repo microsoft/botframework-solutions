@@ -42,7 +42,10 @@ namespace Microsoft.Bot.Solutions.AdaptiveCards
                 var escapedTokens = new StringDictionary();
                 foreach (string key in tokens.Keys)
                 {
-                    escapedTokens.Add(key, tokens[key]?.Replace("\"", "\\\""));
+                    var escapedTokenStr = tokens[key]?.Replace("\"", "\\\"");
+                    escapedTokenStr = escapedTokenStr?.Replace("\\", "\\\\");
+                    escapedTokenStr = escapedTokenStr?.Replace("\'", "\\\'");
+                    escapedTokens.Add(key, escapedTokenStr);
                 }
 
                 jsonCard = CardTokensRegex.Replace(jsonCard, match => escapedTokens[match.Groups[1].Value]);

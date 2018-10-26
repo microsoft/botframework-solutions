@@ -1,0 +1,71 @@
+﻿{
+  "ConfirmUserInfo": {
+    "replies": [
+      {
+        "text": "Je suis prêt à l'enregistrer en tant que vos informations personnelles, s'il vous plaît confirmer ce qui suit: ",
+        "speak": "Je suis prêt à l'enregistrer en tant que vos informations personnelles, s'il vous plaît confirmer ce qui suit: "
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+
+  "ConfirmSaveInfoFailed": {
+    "replies": [
+      {
+        "text": "Veuillez confirmer avant d'enregistrer les informations utilisateur.",
+        "speak": "Veuillez confirmer avant d'enregistrer les informations utilisateur."
+      },
+      {
+        "text": "Veuillez confirmer cette information.",
+        "speak": "Veuillez confirmer cette information."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+
+  "ErrorMessage": {
+    "replies": [
+      {
+        "text": "Désolé, on dirait que quelque chose a mal tourné!",
+        "speak": "Désolé, on dirait que quelque chose a mal tourné!"
+      },
+      {
+        "text": "Une erreur s'est produite, donnez-moi un peu de temps et réessayer plus tard.",
+        "speak": "Une erreur s'est produite, donnez-moi un peu de temps et réessayer plus tard."
+      },
+      {
+        "text": "Quelque chose s'est mal passé, Désolé!",
+        "speak": "Quelque chose s'est mal passé, Désolé!"
+      },
+      {
+        "text": "Je crois que quelque chose a mal tourné. Pouvez-vous réessayer plus tard?",
+        "speak": "Je crois que quelque chose a mal tourné. Pouvez-vous réessayer plus tard?"
+      },
+      {
+        "text": "Désolé je pense que je ne peux pas trouver ce que vous voulez en ce moment. Essayez à nouveau plus tard s'il vous plaît.",
+        "speak": "Désolé je pense que je ne peux pas trouver ce que vous voulez en ce moment. Essayez à nouveau plus tard s'il vous plaît."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+
+  "SkillAuthenticationTitle": {
+    "replies": [
+      {
+        "text": "Skill Authentification",
+        "speak": "Skill Authentification"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+
+  "SkillAuthenticationPrompt": {
+    "replies": [
+      {
+        "text": "Vous n'avez pas encore lié de comptes, si possible, veuillez authentifier votre Assistant pour accéder à ce service ou passer à votre expérience de compagnon.",
+        "speak": "Vous n'avez pas encore lié de comptes, si possible, veuillez authentifier votre Assistant pour accéder à ce service ou passer à votre expérience de compagnon."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }  
+}
