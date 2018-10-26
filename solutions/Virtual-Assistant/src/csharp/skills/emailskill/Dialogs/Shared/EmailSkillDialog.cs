@@ -107,7 +107,7 @@ namespace EmailSkill
                 }
                 else
                 {
-                    return await sc.PromptAsync(LocalModeAuth, new PromptOptions());
+                    return await sc.PromptAsync(LocalModeAuth, new PromptOptions() { RetryPrompt = sc.Context.Activity.CreateReply(EmailSharedResponses.NoAuth, _responseBuilder), });
                 }
             }
             catch(Exception ex)
@@ -399,7 +399,15 @@ namespace EmailSkill
 
         private Task<bool> AuthPromptValidator(PromptValidatorContext<TokenResponse> pc, CancellationToken cancellationToken)
         {
-            return Task.FromResult(true);
+            var activity = pc.Recognized.Value;
+            if (activity != null)
+            {
+                return Task.FromResult(true);
+            }
+            else
+            {
+                return Task.FromResult(false);
+            }
         }
 
         public async Task<bool> ChoiceValidator(PromptValidatorContext<FoundChoice> pc, CancellationToken cancellationToken)

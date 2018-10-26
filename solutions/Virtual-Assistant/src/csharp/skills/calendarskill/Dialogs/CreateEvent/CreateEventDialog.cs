@@ -513,7 +513,7 @@ namespace CalendarSkill
                 if (selectOption.Choices.Count == 0)
                 {
                     state.ShowAttendeesIndex = 0;
-                    return await sc.BeginDialogAsync(Actions.UpdateName, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.TooMany));
+                    return await sc.BeginDialogAsync(Actions.UpdateName, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.NotFound));
                 }
 
                 // Update prompt string to include the choices because the list style is none;
@@ -897,29 +897,27 @@ namespace CalendarSkill
                     Value = $"**{user.DisplayName}: {mailAddress}**",
                     Synonyms = new List<string> { (i + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
                 };
-                if (!string.IsNullOrEmpty(user.UserPrincipalName))
+
+                var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
+                if (!string.IsNullOrEmpty(userName))
                 {
-                    var userName = user.UserPrincipalName.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
-                    if (!string.IsNullOrEmpty(userName))
                     {
+                        choice.Synonyms.Add(userName);
+                        choice.Synonyms.Add(userName.ToLower());
+                    }
+
+                    if (skip <= 0)
+                    {
+                        if (options.Choices.Count >= pageSize)
                         {
-                            choice.Synonyms.Add(userName);
-                            choice.Synonyms.Add(userName.ToLower());
+                            return options;
                         }
 
-                        if (skip <= 0)
-                        {
-                            if (options.Choices.Count >= pageSize)
-                            {
-                                return options;
-                            }
-
-                            options.Choices.Add(choice);
-                        }
-                        else
-                        {
-                            skip--;
-                        }
+                        options.Choices.Add(choice);
+                    }
+                    else
+                    {
+                        skip--;
                     }
                 }
             }
@@ -939,32 +937,29 @@ namespace CalendarSkill
                     Synonyms = new List<string> { (i + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
                 };
 
-                if (!string.IsNullOrEmpty(user.UserPrincipalName))
+                var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
+                if (!string.IsNullOrEmpty(userName))
                 {
-                    var userName = user.UserPrincipalName.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
-                    if (!string.IsNullOrEmpty(userName))
-                    {
-                        choice.Synonyms.Add(userName);
-                        choice.Synonyms.Add(userName.ToLower());
-                    }
+                    choice.Synonyms.Add(userName);
+                    choice.Synonyms.Add(userName.ToLower());
+                }
 
-                    if (skip <= 0)
-                    {
-                        if (options.Choices.Count >= pageSize)
-                        {
-                            return options;
-                        }
-
-                        options.Choices.Add(choice);
-                    }
-                    else if (skip >= 10)
+                if (skip <= 0)
+                {
+                    if (options.Choices.Count >= pageSize)
                     {
                         return options;
                     }
-                    else
-                    {
-                        skip--;
-                    }
+
+                    options.Choices.Add(choice);
+                }
+                else if (skip >= 10)
+                {
+                    return options;
+                }
+                else
+                {
+                    skip--;
                 }
             }
 
