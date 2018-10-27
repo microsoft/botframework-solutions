@@ -1,124 +1,44 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿  
+// https://docs.microsoft.com/en-us/visualstudio/modeling/t4-include-directive?view=vs-2017
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using Microsoft.Bot.Solutions.Dialogs;
-using Newtonsoft.Json;
 
 namespace CalendarSkill.Dialogs.Shared.Resources
 {
     /// <summary>
-    /// Calendar bot responses class.
+    /// Contains bot responses.
     /// </summary>
     public static class CalendarSharedResponses
     {
-        private const string JsonFileName = "CalendarSharedResponses.*.json";
-        private static Exception resourceLoadingException;
+        private static readonly ResponseManager _responseManager;
 
-        private static Dictionary<string, Dictionary<string, BotResponse>> _jsonResponses;
-
-        // Generated code:
-        // This code runs in the text json:
-        public static BotResponse DidntUnderstandMessage => GetBotResponse();
-
-        public static BotResponse CancellingMessage => GetBotResponse();
-
-        public static BotResponse NoAuth => GetBotResponse();
-
-        public static BotResponse AuthFailed => GetBotResponse();
-
-        public static BotResponse ActionEnded => GetBotResponse();
-
-        public static BotResponse CalendarErrorMessage => GetBotResponse();
-
-        private static Dictionary<string, Dictionary<string, BotResponse>> JsonResponses
+		static CalendarSharedResponses()
         {
-            get
-            {
-                if (_jsonResponses != null)
-                {
-                    return _jsonResponses;
-                }
-
-                _jsonResponses = new Dictionary<string, Dictionary<string, BotResponse>>();
-                var dir = Path.GetDirectoryName(typeof(CalendarSharedResponses).Assembly.Location);
-                var resDir = Path.Combine(dir, "Dialogs\\Shared\\Resources");
-
-                var jsonFiles = Directory.GetFiles(resDir, JsonFileName);
-                foreach (var file in jsonFiles)
-                {
-                    try
-                    {
-                        var jsonData = File.ReadAllText(file);
-                        var responses = JsonConvert.DeserializeObject<Dictionary<string, BotResponse>>(jsonData);
-                        var key = new FileInfo(file).Name.Split(".")[1].ToLower();
-
-                        _jsonResponses.Add(key, responses);
-                    }
-                    catch (JsonReaderException ex)
-                    {
-                        _jsonResponses = null;
-                        resourceLoadingException = new Exception($"Deserialization exception when deserializing response resource file {file}: {ex.Message}");
-                        break;
-                    }
-                    catch (Exception ex)
-                    {
-                        _jsonResponses = null;
-                        resourceLoadingException = ex;
-                        break;
-                    }
-                }
-
-                resourceLoadingException = null;
-                return _jsonResponses;
-            }
+            var dir = Path.GetDirectoryName(typeof(CalendarSharedResponses).Assembly.Location);
+            var resDir = Path.Combine(dir, @"Dialogs\Shared\Resources");
+            _responseManager = new ResponseManager(resDir, "CalendarSharedResponses");
         }
 
+        // Generated accessors  
+        public static BotResponse DidntUnderstandMessage => GetBotResponse();
+          
+        public static BotResponse CancellingMessage => GetBotResponse();
+          
+        public static BotResponse NoAuth => GetBotResponse();
+          
+        public static BotResponse AuthFailed => GetBotResponse();
+          
+        public static BotResponse ActionEnded => GetBotResponse();
+          
+        public static BotResponse CalendarErrorMessage => GetBotResponse();
+                
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {
-            // warm up the JsonResponses loading to see if it actually exist. If not, throw with the loading time exception that's actually helpful
-            var jsonResponses = JsonResponses;
-            if (jsonResponses == null && resourceLoadingException != null)
-            {
-                throw resourceLoadingException;
-            }
-
-            var locale = CultureInfo.CurrentUICulture.Name;
-            var theK = GetJsonResponseKeyForLocale(locale, propertyName);
-
-            // fall back to parent language
-            if (theK == null)
-            {
-                locale = CultureInfo.CurrentUICulture.Name.Split("-")[0].ToLower();
-                theK = GetJsonResponseKeyForLocale(locale, propertyName);
-
-                // fall back to en
-                if (theK == null)
-                {
-                    locale = "en";
-                    theK = GetJsonResponseKeyForLocale(locale, propertyName);
-                }
-            }
-
-            var botResponse = JsonResponses[locale][theK ?? throw new ArgumentNullException(nameof(propertyName))];
-            return JsonConvert.DeserializeObject<BotResponse>(JsonConvert.SerializeObject(botResponse));
-        }
-
-        private static string GetJsonResponseKeyForLocale(string locale, string propertyName)
-        {
-            if (JsonResponses.ContainsKey(locale))
-            {
-                return JsonResponses[locale].ContainsKey(propertyName) ?
-                    JsonResponses[locale].Keys.FirstOrDefault(k => string.Compare(k, propertyName, StringComparison.CurrentCultureIgnoreCase) == 0) :
-                    null;
-            }
-
-            return null;
+            return _responseManager.GetBotResponse(propertyName);
         }
     }
 }

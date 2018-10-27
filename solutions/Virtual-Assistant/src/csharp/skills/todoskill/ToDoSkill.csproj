@@ -97,19 +97,19 @@
     <Content Update="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.en.json">
+    <Content Update="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Main\Resources\ToDoMainResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\Main\Resources\ToDoMainResponses.en.json">
+    <Content Update="Dialogs\Main\Resources\ToDoMainResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\MarkToDo\Resources\MarkToDoResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\MarkToDo\Resources\MarkToDoResponses.en.json">
+    <Content Update="Dialogs\MarkToDo\Resources\MarkToDoResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Shared\Resources\ToDoSharedResponses.zh.json">
@@ -118,7 +118,7 @@
     <Content Update="Dialogs\Shared\Resources\ToDoSharedResponses.de.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\Shared\Resources\ToDoSharedResponses.en.json">
+    <Content Update="Dialogs\Shared\Resources\ToDoSharedResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Shared\Resources\old_ToDoSharedResponses.zh.json">
@@ -127,7 +127,7 @@
     <Content Update="Dialogs\ShowToDo\Resources\ShowToDoResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\ShowToDo\Resources\ShowToDoResponses.en.json">
+    <Content Update="Dialogs\ShowToDo\Resources\ShowToDoResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
