@@ -1,95 +1,32 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿  
+// https://docs.microsoft.com/en-us/visualstudio/modeling/t4-include-directive?view=vs-2017
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using Microsoft.Bot.Solutions.Dialogs;
-using Newtonsoft.Json;
 
 namespace PointOfInterestSkill.Dialogs.FindPointOfInterest.Resources
 {
     /// <summary>
-    /// Calendar bot responses class.
+    /// Contains bot responses.
     /// </summary>
     public static class FindPointOfInterestResponses
     {
-        private const string JsonFileName = "FindPointOfInterestResponses.*.json";
+        private static readonly ResponseManager _responseManager;
 
-        private static Dictionary<string, Dictionary<string, BotResponse>> jsonResponses;
-
-        // Generated code:
-        // This code runs in the text json:
-        private static Dictionary<string, Dictionary<string, BotResponse>> JsonResponses
+		static FindPointOfInterestResponses()
         {
-            get
-            {
-                if (jsonResponses != null)
-                {
-                    return jsonResponses;
-                }
-
-                jsonResponses = new Dictionary<string, Dictionary<string, BotResponse>>();
-                var dir = Path.GetDirectoryName(typeof(FindPointOfInterestResponses).Assembly.Location);
-                var resDir = Path.Combine(dir, "Dialogs\\FindPointOfInterest\\Resources");
-
-                var jsonFiles = Directory.GetFiles(resDir, JsonFileName);
-                foreach (var file in jsonFiles)
-                {
-                    var jsonData = File.ReadAllText(file);
-                    var responses = JsonConvert.DeserializeObject<Dictionary<string, BotResponse>>(jsonData);
-                    var key = new FileInfo(file).Name.Split(".")[1].ToLower();
-
-                    jsonResponses.Add(key, responses);
-                }
-
-                return jsonResponses;
-            }
+            var dir = Path.GetDirectoryName(typeof(FindPointOfInterestResponses).Assembly.Location);
+            var resDir = Path.Combine(dir, @"Dialogs\FindPointOfInterest\Resources");
+            _responseManager = new ResponseManager(resDir, "FindPointOfInterestResponses");
         }
 
+        // Generated accessors        
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {
-            var locale = CultureInfo.CurrentUICulture.Name;
-            var theK = GetJsonResponseKeyForLocale(locale, propertyName);
-
-            // fall back to parent language
-            if (theK == null)
-            {
-                locale = CultureInfo.CurrentUICulture.Name.Split("-")[0].ToLower();
-                theK = GetJsonResponseKeyForLocale(locale, propertyName);
-
-                // fall back to en
-                if (theK == null)
-                {
-                    locale = "en";
-                    theK = GetJsonResponseKeyForLocale(locale, propertyName);
-                }
-            }
-
-            var botResponse = JsonResponses[locale][theK ?? throw new ArgumentNullException(nameof(propertyName))];
-            return JsonConvert.DeserializeObject<BotResponse>(JsonConvert.SerializeObject(botResponse));
-        }
-
-        private static string GetJsonResponseKeyForLocale(string locale, string propertyName)
-        {
-            try
-            {
-                if (JsonResponses.ContainsKey(locale))
-                {
-                    return JsonResponses[locale].ContainsKey(propertyName) ?
-                        JsonResponses[locale].Keys.FirstOrDefault(k => string.Compare(k, propertyName, StringComparison.CurrentCultureIgnoreCase) == 0) :
-                        null;
-                }
-
-                return null;
-            }
-            catch (KeyNotFoundException)
-            {
-                return null;
-            }
+            return _responseManager.GetBotResponse(propertyName);
         }
     }
 }

@@ -7,30 +7,24 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using Microsoft.Bot.Solutions.Dialogs;
 
-namespace PointOfInterestSkill.Dialogs.Route.Resources
+namespace Microsoft.Bot.Solutions.Tests.Resources
 {
     /// <summary>
     /// Contains bot responses.
     /// </summary>
-    public static class RouteResponses
+    public static class TestResponses
     {
         private static readonly ResponseManager _responseManager;
 
-		static RouteResponses()
+		static TestResponses()
         {
-            var dir = Path.GetDirectoryName(typeof(RouteResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\Route\Resources");
-            _responseManager = new ResponseManager(resDir, "RouteResponses");
+            var dir = Path.GetDirectoryName(typeof(TestResponses).Assembly.Location);
+            var resDir = Path.Combine(dir, @"Resources");
+            _responseManager = new ResponseManager(resDir, "TestResponses");
         }
 
         // Generated accessors  
-        public static BotResponse MissingActiveLocationErrorMessage => GetBotResponse();
-          
-        public static BotResponse PromptToStartRoute => GetBotResponse();
-          
-        public static BotResponse SendingRouteDetails => GetBotResponse();
-          
-        public static BotResponse AskAboutRouteLater => GetBotResponse();
+        public static BotResponse GetResponseText => GetBotResponse();
                 
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {
