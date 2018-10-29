@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AssemblyName>Microsoft.Bot.Solutions</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -51,13 +52,16 @@
     <None Update="Resources\CommonResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\CommonResponses.en.json">
+    <None Update="Resources\CommonResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resources\CommonResponses.tt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <LastGenOutput>CommonResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Resources\ResponsesTemplate.t4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
