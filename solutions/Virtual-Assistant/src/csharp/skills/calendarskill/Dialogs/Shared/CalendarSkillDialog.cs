@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace CalendarSkill
 {
@@ -254,10 +255,150 @@ namespace CalendarSkill
             return false;
         }
 
-        private Task DigestCalendarLuisResult(DialogContext dc, Calendar luisResult)
+        public static async Task<List<EventModel>> GetEventsByTime(DateTime? startDate, DateTime? startTime, DateTime? endDateTime, TimeZoneInfo userTimeZone, ICalendar calendarService)
         {
-            // add luis entities to state
-            return Task.CompletedTask;
+            if (startDate == null)
+            {
+                return null;
+            }
+
+            var rawEvents = new List<EventModel>();
+            var resultEvents = new List<EventModel>();
+            DateTime searchStartTime;
+
+            if (startTime == null || endDateTime != null)
+            {
+                searchStartTime = new DateTime(startDate.Value.Year, startDate.Value.Month, startDate.Value.Day);
+                var endTime = new DateTime(startDate.Value.Year, startDate.Value.Month, startDate.Value.Day, 23, 59, 59);
+                if (endDateTime != null)
+                {
+                    searchStartTime = new DateTime(searchStartTime.Year, searchStartTime.Month, searchStartTime.Day, startTime.Value.Hour, startTime.Value.Minute, startTime.Value.Second);
+                    endTime = endDateTime.Value;
+                }
+
+                var startTimeUtc = TimeZoneInfo.ConvertTimeToUtc(searchStartTime, userTimeZone);
+                var endTimeUtc = TimeZoneInfo.ConvertTimeToUtc(endTime, userTimeZone);
+                rawEvents = await calendarService.GetEventsByTime(startTimeUtc, endTimeUtc);
+            }
+            else
+            {
+                var searchTime = TimeZoneInfo.ConvertTime(startTime.Value, TimeZoneInfo.Local, userTimeZone);
+                searchStartTime = new DateTime(startDate.Value.Year, startDate.Value.Month, startDate.Value.Day, searchTime.Hour, searchTime.Minute, 0);
+                rawEvents = await calendarService.GetEventsByStartTime(searchStartTime);
+            }
+
+            foreach (var item in rawEvents)
+            {
+                if (item.StartTime >= startDate && item.StartTime >= searchStartTime && item.IsCancelled != true)
+                {
+                    resultEvents.Add(item);
+                }
+            }
+
+            return resultEvents;
+        }
+
+        public static bool ContainsTime(string timex)
+        {
+            return timex.Contains("T");
+        }
+
+        private async Task DigestCalendarLuisResult(DialogContext dc, Calendar luisResult)
+        {
+            try
+            {
+                var state = await _accessor.GetAsync(dc.Context);
+
+                var entity = luisResult.Entities;
+                if (entity.Subject != null)
+                {
+                    state.Title = entity.Subject[0];
+                }
+
+                if (entity.ContactName != null)
+                {
+                    foreach (var name in entity.ContactName)
+                    {
+                        if (!state.AttendeesNameList.Contains(name))
+                        {
+                            state.AttendeesNameList.Add(name);
+                        }
+                    }
+                }
+
+                if (entity.ordinal != null)
+                {
+                    try
+                    {
+                        var eventList = state.SummaryEvents;
+                        var value = entity.ordinal[0];
+                        var num = int.Parse(value.ToString());
+                        if (eventList != null && num > 0)
+                        {
+                            var currentList = eventList.GetRange(0, Math.Min(CalendarSkillState.PageSize, eventList.Count));
+                            if (num <= currentList.Count)
+                            {
+                                state.ReadOutEvents.Clear();
+                                state.ReadOutEvents.Add(currentList[num - 1]);
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }
+
+                if (entity.number != null && entity.ordinal != null && entity.ordinal.Length == 0)
+                {
+                    try
+                    {
+                        var eventList = state.SummaryEvents;
+                        var value = entity.ordinal[0];
+                        var num = int.Parse(value.ToString());
+                        if (eventList != null && num > 0)
+                        {
+                            var currentList = eventList.GetRange(0, Math.Min(CalendarSkillState.PageSize, eventList.Count));
+                            if (num <= currentList.Count)
+                            {
+                                state.ReadOutEvents.Clear();
+                                state.ReadOutEvents.Add(currentList[num - 1]);
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }
+
+                if (entity.Duration != null)
+                {
+                    foreach (var datetimeItem in entity.datetime)
+                    {
+                        if (datetimeItem.Type == "duration")
+                        {
+                            TimeSpan ts = XmlConvert.ToTimeSpan(datetimeItem.Expressions[0]);
+                            state.Duration = (int)ts.TotalSeconds;
+                            break;
+                        }
+                    }
+                }
+
+                if (entity.MeetingRoom != null)
+                {
+                    state.Location = entity.MeetingRoom[0];
+                }
+
+                if (entity.Location != null)
+                {
+                    state.Location = entity.Location[0];
+                }
+            }
+            catch (Exception e)
+            {
+                // put log here
+            }
         }
 
         public async Task HandleDialogExceptions(WaterfallStepContext sc)
