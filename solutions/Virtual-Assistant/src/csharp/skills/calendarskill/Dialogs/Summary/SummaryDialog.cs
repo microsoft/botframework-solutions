@@ -61,7 +61,7 @@ namespace CalendarSkill
 
                 if (topIntent == Calendar.Intent.Summary)
                 {
-                    state.Clear();
+                    state.SummaryEvents = null;
                 }
 
                 var generalLuisResult = state.GeneralLuisResult;
@@ -120,56 +120,50 @@ namespace CalendarSkill
 
                     var searchDate = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.Local, state.GetUserTimeZone());
 
-                    var startTime = new DateTime(searchDate.Year, searchDate.Month, searchDate.Day);
-                    var endTime = new DateTime(searchDate.Year, searchDate.Month, searchDate.Day, 23, 59, 59);
-                    var startTimeUtc = TimeZoneInfo.ConvertTimeToUtc(startTime, state.GetUserTimeZone());
-                    var endTimeUtc = TimeZoneInfo.ConvertTimeToUtc(endTime, state.GetUserTimeZone());
-                    var rawEvents = await calendarService.GetEventsByTime(startTimeUtc, endTimeUtc);
-                    var todayEvents = new List<EventModel>();
-                    foreach (var item in rawEvents)
+                    if (state.StartDate != null)
                     {
-                        if (item.StartTime > searchDate && item.StartTime >= startTime && item.IsCancelled != true)
-                        {
-                            todayEvents.Add(item);
-                        }
+                        searchDate = state.StartDate.Value;
                     }
 
-                    if (todayEvents.Count == 0)
+                    var searchedEvents = await GetEventsByTime(searchDate, state.StartTime, state.EndDateTime, state.GetUserTimeZone(), calendarService);
+
+                    if (searchedEvents.Count == 0)
                     {
                         await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowNoMeetingMessage));
                         return await sc.EndDialogAsync(true);
                     }
                     else
                     {
-                        var speakParams = new StringDictionary()
+                        var responseParams = new StringDictionary()
                         {
-                            { "Count", todayEvents.Count.ToString() },
-                            { "EventName1", todayEvents[0].Title },
-                            { "EventDuration", todayEvents[0].ToDurationString() },
+                            { "Count", searchedEvents.Count.ToString() },
+                            { "EventName1", searchedEvents[0].Title },
+                            { "EventDuration", searchedEvents[0].ToDurationString() },
                         };
 
-                        if (todayEvents.Count == 1)
+                        if (searchedEvents.Count == 1)
                         {
-                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowOneMeetingSummaryMessage, _responseBuilder, speakParams));
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowOneMeetingSummaryMessage, _responseBuilder, responseParams));
                         }
                         else
                         {
-                            speakParams.Add("EventName2", todayEvents[todayEvents.Count - 1].Title);
-                            if (todayEvents[todayEvents.Count - 1].IsAllDay == true)
+                            responseParams.Add("EventName2", searchedEvents[searchedEvents.Count - 1].Title);
+                            if (searchedEvents[searchedEvents.Count - 1].IsAllDay == true)
                             {
-                                speakParams.Add("EventTime", todayEvents[todayEvents.Count - 1].StartTime.ToString("MMMM dd all day"));
+                                responseParams.Add("EventTime", searchedEvents[searchedEvents.Count - 1].StartTime.ToString("MMMM dd all day"));
                             }
                             else
                             {
-                                speakParams.Add("EventTime", todayEvents[todayEvents.Count - 1].StartTime.ToString("h:mm tt"));
+                                responseParams.Add("EventTime", searchedEvents[searchedEvents.Count - 1].StartTime.ToString("h:mm tt"));
                             }
 
-                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowOneMeetingSummaryMessage, _responseBuilder, speakParams));
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowMultipleMeetingSummaryMessage, _responseBuilder, responseParams));
                         }
                     }
 
-                    await ShowMeetingList(sc, todayEvents.GetRange(0, Math.Min(CalendarSkillState.PageSize, todayEvents.Count)), false);
-                    state.SummaryEvents = todayEvents;
+                    await ShowMeetingList(sc, searchedEvents.GetRange(0, Math.Min(CalendarSkillState.PageSize, searchedEvents.Count)), false);
+                    state.Clear();
+                    state.SummaryEvents = searchedEvents;
                 }
                 else
                 {

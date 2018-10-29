@@ -15,7 +15,9 @@ namespace CalendarSkill
             Title = null;
             Content = null;
             StartDate = null;
+            StartDateString = null;
             StartTime = null;
+            StartTimeString = null;
             StartDateTime = null;
             EndDateTime = null;
             Location = null;
@@ -31,6 +33,7 @@ namespace CalendarSkill
             ShowEventIndex = 0;
             SummaryEvents = null;
             ReadOutEvents = new List<EventModel>();
+            Duration = 0;
         }
 
         public User User { get; set; }
@@ -79,6 +82,12 @@ namespace CalendarSkill
 
         public List<EventModel> ReadOutEvents { get; set; }
 
+        public int Duration { get; set; }
+
+        public string StartDateString { get; set; }
+
+        public string StartTimeString { get; set; }
+
         public TimeZoneInfo GetUserTimeZone()
         {
             if ((UserInfo != null) && (UserInfo.Timezone != null))
@@ -95,7 +104,9 @@ namespace CalendarSkill
             Title = null;
             Content = null;
             StartDate = null;
+            StartDateString = null;
             StartTime = null;
+            StartTimeString = null;
             StartDateTime = null;
             EndDateTime = null;
             Location = null;
@@ -111,6 +122,7 @@ namespace CalendarSkill
             ShowEventIndex = 0;
             SummaryEvents = null;
             ReadOutEvents = new List<EventModel>();
+            Duration = 0;
         }
 
         public class UserInformation

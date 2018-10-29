@@ -138,6 +138,11 @@ namespace CalendarSkill
             {
                 var state = await _accessor.GetAsync(sc.Context);
 
+                if (state.StartDate != null || state.StartTime != null || state.Title != null)
+                {
+                    return await sc.NextAsync();
+                }
+
                 if (((UpdateDateTimeDialogOptions)sc.Options).Reason == UpdateDateTimeDialogOptions.UpdateReason.NoEvent)
                 {
                     return await sc.PromptAsync(Actions.DateTimePromptForUpdateDelete, new PromptOptions
@@ -175,37 +180,52 @@ namespace CalendarSkill
             try
             {
                 var state = await _accessor.GetAsync(sc.Context);
-                sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
-                DateTime? startTime = null;
-                try
-                {
-                    IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
-                    if (dateTimeResolutions.Count > 0)
-                    {
-                        startTime = DateTime.Parse(dateTimeResolutions.First().Value);
-                        var dateTimeConvertType = dateTimeResolutions.First().Timex;
-                        bool isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeResolutions.First().Value, dateTimeResolutions.First().Timex);
-                        startTime = isRelativeTime ? TimeZoneInfo.ConvertTime(startTime.Value, TimeZoneInfo.Local, state.GetUserTimeZone()) : startTime;
-                    }
-                }
-                catch
-                {
-                }
+                var events = new List<EventModel>();
 
                 var calendarService = _serviceManager.InitCalendarService(state.APIToken, state.EventSource, state.GetUserTimeZone());
 
-                var events = new List<EventModel>();
-                if (startTime != null)
+                if (state.StartDate != null || state.StartTime != null)
                 {
-                    state.StartDateTime = startTime;
-                    startTime = DateTime.SpecifyKind(startTime.Value, DateTimeKind.Local);
-                    events = await calendarService.GetEventsByStartTime(startTime.Value);
+                    events = await GetEventsByTime(state.StartDate, state.StartTime, null, state.GetUserTimeZone(), calendarService);
+                    state.StartDate = null;
+                    state.StartTime = null;
+                }
+                else if (state.Title != null)
+                {
+                    events = await calendarService.GetEventsByTitle(state.Title);
+                    state.Title = null;
                 }
                 else
                 {
-                    state.Title = userInput;
-                    events = await calendarService.GetEventsByTitle(userInput);
+                    DateTime? startTime = null;
+                    sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
+                    var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
+                    try
+                    {
+                        IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
+                        if (dateTimeResolutions.Count > 0)
+                        {
+                            startTime = DateTime.Parse(dateTimeResolutions.First().Value);
+                            var dateTimeConvertType = dateTimeResolutions.First().Timex;
+                            bool isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeResolutions.First().Value, dateTimeResolutions.First().Timex);
+                            startTime = isRelativeTime ? TimeZoneInfo.ConvertTime(startTime.Value, TimeZoneInfo.Local, state.GetUserTimeZone()) : startTime;
+                        }
+                    }
+                    catch
+                    {
+                    }
+
+                    if (startTime != null)
+                    {
+                        state.StartDateTime = startTime;
+                        startTime = DateTime.SpecifyKind(startTime.Value, DateTimeKind.Local);
+                        events = await calendarService.GetEventsByStartTime(startTime.Value);
+                    }
+                    else
+                    {
+                        state.Title = userInput;
+                        events = await calendarService.GetEventsByTitle(userInput);
+                    }
                 }
 
                 state.Events = events;
