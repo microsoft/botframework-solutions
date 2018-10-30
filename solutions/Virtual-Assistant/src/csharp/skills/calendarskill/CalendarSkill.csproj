@@ -150,25 +150,25 @@
     <Content Update="Dialogs\CreateEvent\Resources\CreateEventResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\CreateEvent\Resources\CreateEventResponses.en.json">
+    <Content Update="Dialogs\CreateEvent\Resources\CreateEventResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\DeleteEvent\Resources\DeleteEventResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\DeleteEvent\Resources\DeleteEventResponses.en.json">
+    <Content Update="Dialogs\DeleteEvent\Resources\DeleteEventResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Main\Resources\CalendarMainResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\Main\Resources\CalendarMainResponses.en.json">
+    <Content Update="Dialogs\Main\Resources\CalendarMainResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.en.json">
+    <Content Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Shared\Resources\CalendarSharedResponses.zh.json">
@@ -186,19 +186,19 @@
     <Content Update="Dialogs\Shared\Resources\Cards\CalendarCardNoJoinButton.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\Shared\Resources\CalendarSharedResponses.en.json">
+    <Content Update="Dialogs\Shared\Resources\CalendarSharedResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Summary\Resources\SummaryResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\Summary\Resources\SummaryResponses.en.json">
+    <Content Update="Dialogs\Summary\Resources\SummaryResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.en.json">
+    <Content Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

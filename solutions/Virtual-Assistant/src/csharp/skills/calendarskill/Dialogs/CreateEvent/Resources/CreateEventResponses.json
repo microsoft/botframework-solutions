@@ -1,0 +1,206 @@
+{
+  "NoTitle": {
+    "replies": [
+
+      {
+        "text": "Alright, I will send this to {UserName}, what is the subject of the meeting?",
+        "speak": "Alright, I will send this to {UserName}, what is the subject of the meeting?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoContent": {
+    "replies": [
+
+      {
+        "text": "What is the meeting invite content?",
+        "speak": "What is the meeting invite content??"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoLocation": {
+    "replies": [
+
+      {
+        "text": "What location?",
+        "speak": "What location?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmCreate": {
+    "replies": [
+      {
+        "text": "I'm ready to create it. Please confirm the following:",
+        "speak": "I'm ready to create it. Please confirm the following:"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmCreateFailed": {
+    "replies": [
+      {
+        "text": "I'm ready to create it. Please confirm the following. Please confirm.",
+        "speak": "I'm ready to create it. Please confirm the following. Please confirm."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "EventCreated": {
+    "replies": [
+
+      {
+        "text": "I have added the following to your calendar ",
+        "speak": "I have added the following to your calendar "
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "EventCreationFailed": {
+    "replies": [
+
+      {
+        "text": "Event creation failed",
+        "speak": "Event creation failed"
+      },
+      {
+        "text": "Something went wrong, try again please.",
+        "speak": "Something went wrong, try again please."
+      },
+      {
+        "text": "It seems the event could not be created, please try again later.",
+        "speak": "It seems the event could not be created, please try again later."
+      },
+      {
+        "text": "Creation of the event failed, please try again.",
+        "speak": "Creation of the event failed, please try again."
+      },
+      {
+        "text": "An error occured with creating the event, want to try again?",
+        "speak": "An error occured with creating the event, want to try again?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoAttendeesMS": {
+    "replies": [
+
+      {
+        "text": "Who are the participants?",
+        "speak": "Who are the participants?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "WrongAddress": {
+    "replies": [
+
+      {
+        "text": "That doesn't look like an email address, please try again. (Please enter Email address like: Alice@example.com)",
+        "speak": "That doesn't look like an email address, please try again. (Please enter Email address like: Alice@example.com)"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoAttendees": {
+    "replies": [
+
+      {
+        "text": "Who are the participants? (Please enter Email address like: Alice@example.com)",
+        "speak": "Who are the participants? (Please enter Email address like: Alice@example.com)"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "PromptTooManyPeople": {
+    "replies": [
+      {
+        "text": "There are too many people called {UserName}, Please re-enter the name.",
+        "speak": "There are too many people called {UserName}, Please re-enter the name."
+      },
+      {
+        "text": "I found too many contacts with this name. Can you be a bit more specific?",
+        "speak": "I found too many contacts with this name. Can you be a bit more specific?"
+      },
+      {
+        "text": "Can you try again by stating their firstname and surname?",
+        "speak": "Can you try again by stating their firstname and surname?"
+      },
+      {
+        "text": "I have found too many contacts, can you try again by being more specific with the name? It helps if you include a surname.",
+        "speak": "I have found too many contacts, can you try again by being more specific with the name? It helps if you include a surname."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "PromptPersonNotFound": {
+    "replies": [
+      {
+        "text": "Person not found, please input the right name.",
+        "speak": "Person not found, please input the right name."
+      },
+      {
+        "text": "I cannot find the contact your are looking for right now. Please include more details, do you want to try again?",
+        "speak": "I cannot find the contact your are looking for right now. Please include more details, do you want to try again?"
+      },
+      {
+        "text": "Something is wrong because I cannot find the contact you are looking for. Please try again by stating out their name again. It helps if you include a surname.",
+        "speak": "Something is wrong because I cannot find the contact you are looking for. Please try again by stating out their name again. It helps if you include a surname."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoStartDate": {
+    "replies": [
+
+      {
+        "text": "What date?",
+        "speak": "What date?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoStartTime": {
+    "replies": [
+
+      {
+        "text": "What time?",
+        "speak": "What time?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoDuration": {
+    "replies": [
+
+      {
+        "text": "How long is the meeting for?",
+        "speak": "How long is the meeting for?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "FindUserErrorMessage": {
+    "replies": [
+      {
+        "text": "I can't find the person named {UserName} right now. Please try again or cancel.",
+        "speak": "I can't find the person named {UserName} right now. Please try again or cancel."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ConfirmRecipient": {
+    "replies": [
+      {
+        "text": "Who do you want to invite?",
+        "speak": "Who do you want to invite?"
+      },
+      {
+        "text": "What contact do you want to select?",
+        "speak": "What contact do you want to select?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  }
+}

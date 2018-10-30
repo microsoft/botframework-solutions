@@ -1,0 +1,54 @@
+{
+  "MissingActiveLocationErrorMessage": {
+    "replies": [
+      {
+        "text": "Sorry, I didn't get that. Where would you like to go?",
+        "speak": "Sorry, I didn't get that. Where would you like to go?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "PromptToStartRoute": {
+    "replies": [
+      {
+        "text": "Would you like to begin your route now?",
+        "speak": "Would you like to begin your route now?"
+      },
+      {
+        "text": "Shall we get started?",
+        "speak": "Shall we get started?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "SendingRouteDetails": {
+    "replies": [
+      {
+        "text": "I'm sending you the route details.",
+        "speak": "I'm sending you the route details."
+      },
+      {
+        "text": "Here are more detailed directions.",
+        "speak": "Here are more detailed directions."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "AskAboutRouteLater": {
+    "replies": [
+      {
+        "text": "Ok, you can ask me about this route anytime.",
+        "speak": "Ok, you can ask me about this route anytime."
+      },
+      {
+        "text": "Ok, I can help you with this later.",
+        "speak": "Ok, I can help you with this later."
+      },
+      {
+        "text": "Sure, you can come back to this another time.",
+        "speak": "Sure, you can come back to this another time."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}

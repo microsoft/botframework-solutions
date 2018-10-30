@@ -5,6 +5,6 @@ namespace PointOfInterestSkill
 {
     public interface IServiceManager
     {
-        IGeoSpatialService InitMapsService(string key, string locale = "en");
+        IGeoSpatialService InitMapsService(string key, string locale = "en-us");
     }
 }

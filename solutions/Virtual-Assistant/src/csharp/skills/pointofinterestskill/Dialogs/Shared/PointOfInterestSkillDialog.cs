@@ -75,7 +75,7 @@ namespace PointOfInterestSkill
                 }
 
                 var state = await _accessor.GetAsync(sc.Context);
-                var service = _serviceManager.InitMapsService(GetAzureMapsKey(), sc.Context.Activity.Locale ?? "en");
+                var service = _serviceManager.InitMapsService(GetAzureMapsKey(), sc.Context.Activity.Locale ?? "en-us");
                 var locationSet = new LocationSet();
 
                 if (string.IsNullOrEmpty(state.SearchText) && string.IsNullOrEmpty(state.SearchAddress))
