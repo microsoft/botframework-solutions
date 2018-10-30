@@ -9,7 +9,7 @@ namespace CalendarSkill.Common
     {
         public static DateTime ConvertLuisLocalToUtc(DateTime time, TimeZoneInfo timeZone)
         {
-            if (time.Kind != DateTimeKind.Local)
+            if (time.Kind != DateTimeKind.Local && time.Kind != DateTimeKind.Unspecified)
             {
                 throw new Exception("Input time is not a Lius time.");
             }
