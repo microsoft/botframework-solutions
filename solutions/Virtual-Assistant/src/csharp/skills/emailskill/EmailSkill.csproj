@@ -120,37 +120,37 @@
     <Content Update="Dialogs\ConfirmRecipient\Resources\ConfirmRecipientResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\ConfirmRecipient\Resources\ConfirmRecipientResponses.en.json">
+    <Content Update="Dialogs\ConfirmRecipient\Resources\ConfirmRecipientResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.en.json">
+    <Content Update="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.en.json">
+    <Content Update="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Main\Resources\EmailMainResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\Main\Resources\EmailMainResponses.en.json">
+    <Content Update="Dialogs\Main\Resources\EmailMainResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\ReplyEmail\Resources\ReplyEmailResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\ReplyEmail\Resources\ReplyEmailResponses.en.json">
+    <Content Update="Dialogs\ReplyEmail\Resources\ReplyEmailResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\SendEmail\Resources\SendEmailResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\SendEmail\Resources\SendEmailResponses.en.json">
+    <Content Update="Dialogs\SendEmail\Resources\SendEmailResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Shared\Resources\Cards\EmailCard.json">
@@ -168,13 +168,13 @@
     <Content Update="Dialogs\Shared\Resources\EmailSharedResponses.de.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\Shared\Resources\EmailSharedResponses.en.json">
+    <Content Update="Dialogs\Shared\Resources\EmailSharedResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\ShowEmail\Resources\ShowEmailResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\ShowEmail\Resources\ShowEmailResponses.en.json">
+    <Content Update="Dialogs\ShowEmail\Resources\ShowEmailResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
