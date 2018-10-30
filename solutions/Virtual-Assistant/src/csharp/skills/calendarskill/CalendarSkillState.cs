@@ -19,7 +19,13 @@ namespace CalendarSkill
             StartTime = null;
             StartTimeString = null;
             StartDateTime = null;
+            EndDate = null;
+            EndTime = null;
             EndDateTime = null;
+            OriginalStartDate = null;
+            OriginalStartTime = null;
+            OriginalEndDate = null;
+            OriginalEndTime = null;
             Location = null;
             Attendees = new List<EventModel.Attendee>();
             APIToken = null;
@@ -53,6 +59,18 @@ namespace CalendarSkill
         public DateTime? StartTime { get; set; }
 
         public DateTime? StartDateTime { get; set; }
+
+        public DateTime? EndDate { get; set; }
+
+        public DateTime? EndTime { get; set; }
+
+        public DateTime? OriginalStartDate { get; set; }
+
+        public DateTime? OriginalStartTime { get; set; }
+
+        public DateTime? OriginalEndDate { get; set; }
+
+        public DateTime? OriginalEndTime { get; set; }
 
         public DateTime? EndDateTime { get; set; }
 
@@ -108,7 +126,13 @@ namespace CalendarSkill
             StartTime = null;
             StartTimeString = null;
             StartDateTime = null;
+            EndDate = null;
+            EndTime = null;
             EndDateTime = null;
+            OriginalStartDate = null;
+            OriginalStartTime = null;
+            OriginalEndDate = null;
+            OriginalEndTime = null;
             Location = null;
             Attendees = new List<EventModel.Attendee>();
             APIToken = null;
