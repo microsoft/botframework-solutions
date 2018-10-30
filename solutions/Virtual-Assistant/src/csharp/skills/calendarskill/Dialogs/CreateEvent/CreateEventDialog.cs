@@ -516,7 +516,7 @@ namespace CalendarSkill
                 if (selectOption.Choices.Count == 0)
                 {
                     state.ShowAttendeesIndex = 0;
-                    return await sc.BeginDialogAsync(Actions.UpdateName, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.TooMany));
+                    return await sc.BeginDialogAsync(Actions.UpdateName, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.NotFound));
                 }
 
                 // Update prompt string to include the choices because the list style is none;
@@ -922,7 +922,8 @@ namespace CalendarSkill
                     Value = $"**{user.DisplayName}: {mailAddress}**",
                     Synonyms = new List<string> { (i + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
                 };
-                var userName = user.UserPrincipalName.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
+
+                var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
                 if (!string.IsNullOrEmpty(userName))
                 {
                     {
@@ -960,6 +961,7 @@ namespace CalendarSkill
                     Value = $"{user.DisplayName}: {mailAddress}",
                     Synonyms = new List<string> { (i + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
                 };
+
                 var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
                 if (!string.IsNullOrEmpty(userName))
                 {

@@ -94,7 +94,7 @@ namespace ToDoSkill
                 }
                 else
                 {
-                    return await sc.PromptAsync(LocalModeAuth, new PromptOptions());
+                    return await sc.PromptAsync(LocalModeAuth, new PromptOptions() { RetryPrompt = sc.Context.Activity.CreateReply(ToDoSharedResponses.NoAuth, _responseBuilder), });
                 }
             }
             catch
@@ -390,7 +390,15 @@ namespace ToDoSkill
 
         private Task<bool> AuthPromptValidator(PromptValidatorContext<TokenResponse> pc, CancellationToken cancellationToken)
         {
-            return Task.FromResult(true);
+            var activity = pc.Recognized.Value;
+            if (activity != null)
+            {
+                return Task.FromResult(true);
+            }
+            else
+            {
+                return Task.FromResult(false);
+            }
         }
 
         // Helpers
