@@ -103,6 +103,7 @@ namespace EmailSkill
                 try
                 {
                     userList = await GetUserAsync(sc, currentRecipientName);
+                    //userList = await GetContactAsync(sc, currentRecipientName);
                 }
                 catch
                 {

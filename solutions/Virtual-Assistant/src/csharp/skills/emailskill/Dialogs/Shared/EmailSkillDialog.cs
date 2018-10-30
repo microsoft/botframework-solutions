@@ -498,7 +498,7 @@ namespace EmailSkill
                     Value = $"**{user.DisplayName}: {mailAddress}**",
                     Synonyms = new List<string> { (i + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
                 };
-                var userName = user.UserPrincipalName.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
+                var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
                 if (!string.IsNullOrEmpty(userName))
                 {
                     choice.Synonyms.Add(userName);
@@ -535,7 +535,7 @@ namespace EmailSkill
                     Value = $"{user.DisplayName}: {mailAddress}",
                     Synonyms = new List<string> { (i + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
                 };
-                var userName = user.UserPrincipalName.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
+                var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
                 if (!string.IsNullOrEmpty(userName))
                 {
                     choice.Synonyms.Add(userName);
@@ -752,6 +752,30 @@ namespace EmailSkill
                 foreach (var user in userList)
                 {
                     result.Add(user.ToPerson());
+                }
+            }
+            catch (ServiceException)
+            {
+                // won't clear conversation state hear, because sometime use api is not available, like user msa account.
+            }
+
+            return result;
+        }
+
+        public async Task<List<Person>> GetContactAsync(WaterfallStepContext sc, string name)
+        {
+            var result = new List<Person>();
+            try
+            {
+                var state = await _emailStateAccessor.GetAsync(sc.Context);
+                var token = state.MsGraphToken;
+                var service = _serviceManager.InitUserService(token, state.GetUserTimeZone());
+
+                // Get users.
+                var contactList = await service.GetContactAsync(name);
+                foreach (var contact in contactList)
+                {
+                    result.Add(contact.ToPerson());
                 }
             }
             catch (ServiceException)

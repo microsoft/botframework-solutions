@@ -35,5 +35,27 @@ namespace EmailSkill.Extensions
             person.JobTitle = user.JobTitle;
             return person;
         }
+
+        public static Person ToPerson(this Contact contact)
+        {
+            var person = new Person
+            {
+                DisplayName = contact.DisplayName,
+                UserPrincipalName = null,
+                Surname = contact.Surname,
+            };
+            var emailAddresses = new List<ScoredEmailAddress>
+            {
+                new ScoredEmailAddress()
+                {
+                    Address = contact.EmailAddresses?.FirstOrDefault()?.Address,
+                    RelevanceScore = 1.0,
+                },
+            };
+            person.ScoredEmailAddresses = emailAddresses;
+            person.ImAddress = contact.ImAddresses?.FirstOrDefault();
+            person.JobTitle = contact.JobTitle;
+            return person;
+        }
     }
 }
