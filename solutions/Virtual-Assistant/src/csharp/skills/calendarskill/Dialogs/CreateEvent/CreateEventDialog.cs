@@ -172,7 +172,7 @@ namespace CalendarSkill
                     return await sc.EndDialogAsync(true);
                 }
 
-                var calendarService = _serviceManager.InitCalendarService(state.APIToken, state.EventSource, state.GetUserTimeZone());
+                var calendarService = _serviceManager.InitCalendarService(state.APIToken, state.EventSource);
                 if (state.Attendees.Count == 0)
                 {
                     return await sc.BeginDialogAsync(Actions.UpdateAddress);
@@ -349,7 +349,7 @@ namespace CalendarSkill
                         TimeZone = TimeZoneInfo.Utc,
                         Location = state.Location,
                     };
-                    var calendarService = _serviceManager.InitCalendarService(state.APIToken, state.EventSource, state.GetUserTimeZone());
+                    var calendarService = _serviceManager.InitCalendarService(state.APIToken, state.EventSource);
                     if (await calendarService.CreateEvent(newEvent) != null)
                     {
                         var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(CreateEventResponses.EventCreated, newEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", newEvent.ToAdaptiveCardData(state.GetUserTimeZone()));
@@ -778,6 +778,7 @@ namespace CalendarSkill
                         state.StartTime.Value.Hour,
                         state.StartTime.Value.Minute,
                         state.StartTime.Value.Second);
+                    state.StartDateTime = TimeConverter.ConvertLuisLocalToUtc(state.StartDateTime.Value, state.GetUserTimeZone());
                     return await sc.EndDialogAsync();
                 }
 
