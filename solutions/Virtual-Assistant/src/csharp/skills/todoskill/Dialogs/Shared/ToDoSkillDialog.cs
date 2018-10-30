@@ -196,6 +196,8 @@ namespace ToDoSkill
         public async Task<DialogTurnResult> InitAllTasks(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await _accessor.GetAsync(sc.Context);
+            state.ListType = state.ListType ?? ListType.ToDo.ToString();
+
             if (!state.OneNotePageIds.ContainsKey(state.ListType))
             {
                 await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
@@ -368,11 +370,6 @@ namespace ToDoSkill
                 var page = await service.GetDefaultToDoPage(state.ListType);
                 await service.AddToDo(state.TaskContent, page.ContentUrl);
                 var todosAndPageIdTuple = await service.GetToDos(state.ListType);
-                if (!state.OneNotePageIds.ContainsKey(state.ListType))
-                {
-                    state.OneNotePageIds.Add(state.ListType, todosAndPageIdTuple.Item2);
-                }
-
                 state.AllTasks = todosAndPageIdTuple.Item1;
                 state.ShowToDoPageIndex = 0;
                 var rangeCount = Math.Min(state.PageSize, state.AllTasks.Count);
@@ -458,17 +455,13 @@ namespace ToDoSkill
                         state.ListType = ListType.ToDo.ToString();
                     }
                 }
-                else
-                {
-                    state.ListType = ListType.ToDo.ToString();
-                }
 
                 if (entities.FoodOfGrocery != null)
                 {
                     state.FoodOfGrocery = entities.FoodOfGrocery[0][0];
                 }
 
-                if (entities.ShopVerb != null && entities.ShopContent[0] != null)
+                if (entities.ShopVerb != null && entities.ShopContent != null)
                 {
                     state.HasShopVerb = true;
                 }
@@ -658,7 +651,7 @@ namespace ToDoSkill
 
         private async Task ExtractListTypeAndTaskContentAsync(WaterfallStepContext sc)
         {
-            var state = await _accessor.GetAsync(sc.Context).ConfigureAwait(false);
+            var state = await _accessor.GetAsync(sc.Context);
             if (state.ListType == ListType.Grocery.ToString()
                 || (state.HasShopVerb && !string.IsNullOrEmpty(state.FoodOfGrocery)))
             {

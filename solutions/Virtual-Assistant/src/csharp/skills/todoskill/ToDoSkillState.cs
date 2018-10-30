@@ -21,6 +21,7 @@ namespace ToDoSkill
             MarkOrDeleteAllTasksFlag = false;
             OneNotePageIds = new Dictionary<string, string>();
             LuisResult = null;
+            GeneralLuisResult = null;
             ConversationDialogState = null;
             ListType = null;
             FoodOfGrocery = null;
@@ -127,6 +128,12 @@ namespace ToDoSkill
         /// </value>
         public ToDo LuisResult { get; set; }
 
+        /// <summary>
+        /// Gets or sets GeneralLuisResult.
+        /// </summary>
+        /// <value>
+        /// LuisResult.
+        /// </value>
         public General GeneralLuisResult { get; set; }
 
         /// <summary>
@@ -208,6 +215,7 @@ namespace ToDoSkill
             MarkOrDeleteAllTasksFlag = false;
             OneNotePageIds = new Dictionary<string, string>();
             LuisResult = null;
+            GeneralLuisResult = null;
             ConversationDialogState = null;
             ListType = null;
             FoodOfGrocery = null;

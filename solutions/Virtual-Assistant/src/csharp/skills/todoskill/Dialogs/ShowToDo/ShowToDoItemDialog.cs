@@ -68,11 +68,6 @@ namespace ToDoSkill
                 {
                     var service = await _serviceManager.Init(state.MsGraphToken, state.OneNotePageIds);
                     var todosAndPageIdTuple = await service.GetToDos(state.ListType);
-                    if (!state.OneNotePageIds.ContainsKey(state.ListType))
-                    {
-                        state.OneNotePageIds.Add(state.ListType, todosAndPageIdTuple.Item2);
-                    }
-
                     state.AllTasks = todosAndPageIdTuple.Item1;
                 }
 

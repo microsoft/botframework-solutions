@@ -73,12 +73,6 @@ namespace ToDoSkill
                 }
 
                 var todosAndPageIdTuple = await service.GetToDos(state.ListType);
-
-                if (!state.OneNotePageIds.ContainsKey(state.ListType))
-                {
-                    state.OneNotePageIds.Add(state.ListType, todosAndPageIdTuple.Item2);
-                }
-
                 state.AllTasks = todosAndPageIdTuple.Item1;
                 var allTasksCount = state.AllTasks.Count;
                 var currentTaskIndex = state.ShowToDoPageIndex * state.PageSize;

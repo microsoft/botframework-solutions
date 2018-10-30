@@ -64,11 +64,8 @@ namespace ToDoSkill
                         pageIds.Add(shoppingPageName, shoppingPageId);
                     }
                 }
-                else
-                {
-                    this.pageIds = pageIds;
-                }
 
+                this.pageIds = pageIds;
                 return this;
             }
             catch (Exception ex)
