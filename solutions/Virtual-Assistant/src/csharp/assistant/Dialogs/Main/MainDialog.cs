@@ -397,6 +397,11 @@ namespace VirtualAssistant
                     }
             }
 
+            if (handled)
+            {
+                await CompleteAsync(dc);
+            }
+
             return handled;
         }
 
