@@ -261,11 +261,6 @@ namespace CalendarSkill
         public static async Task<List<EventModel>> GetEventsByTime(DateTime? startDate, DateTime? startTime, DateTime? endDate, DateTime? endTime, TimeZoneInfo userTimeZone, ICalendar calendarService)
         {
             // todo: check input datetime is utc
-            if (startDate == null)
-            {
-                return null;
-            }
-
             var rawEvents = new List<EventModel>();
             var resultEvents = new List<EventModel>();
 
