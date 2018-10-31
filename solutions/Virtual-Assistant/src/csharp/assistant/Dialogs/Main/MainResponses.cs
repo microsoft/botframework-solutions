@@ -20,6 +20,7 @@ namespace VirtualAssistant
         public const string Greeting = "greeting";
         public const string Help = "help";
         public const string Intro = "intro";
+        public const string Qna = "qna";
 
         private static LanguageTemplateDictionary _responseTemplates = new LanguageTemplateDictionary
         {
@@ -31,6 +32,7 @@ namespace VirtualAssistant
                 { Greeting, (context, data) => SendAcceptingInputReply(context, MainStrings.GREETING) },
                 { Help, (context, data) => SendHelpCard(context, data) },
                 { Intro, (context, data) => SendIntroCard(context, data) },
+                { Qna, (context, data) => SendQnaCard(context, data) },
             },
             ["en"] = new TemplateIdMap { },
             ["fr"] = new TemplateIdMap { },
@@ -52,7 +54,7 @@ namespace VirtualAssistant
                 {
                     ContentType = "application/vnd.microsoft.card.adaptive",
                     Content = JsonConvert.DeserializeObject(introCard),
-                }
+                },
             };
 
             return response;
@@ -80,6 +82,19 @@ namespace VirtualAssistant
                 new CardAction(type: ActionTypes.ImBack, title: MainStrings.POI_SUGGESTEDACTION),
             }
             };
+            return response;
+        }
+
+        public static IMessageActivity SendQnaCard(ITurnContext turnContext, dynamic data)
+        {
+            var response = turnContext.Activity.CreateReply();
+            var card = JsonConvert.DeserializeObject<HeroCard>((string)data);
+
+            response.Attachments = new List<Attachment>
+            {
+                card.ToAttachment(),
+            };
+
             return response;
         }
 

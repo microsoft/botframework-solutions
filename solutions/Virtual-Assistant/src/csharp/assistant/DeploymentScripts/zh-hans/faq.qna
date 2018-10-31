@@ -3,7 +3,7 @@
   "qnaDocuments": [
     {
       "id": 1,
-      "answer": "我们已经看到我们的客户和合作伙伴有很大的需求, 可以为他们的品牌量身定做一个对话助理, 为他们的客户提供个性化服务, 并在广泛的对话画布和设备上使用。对 Bot 框架 SDK 的持续 Microsoft 开源方法, 开源自定义个人助理解决方案可全面控制基于一组基础功能构建的最终用户体验。此外, 该体验还可注入有关最终用户和任何设备/生态系统信息的智能, 以实现真正的集成和智能体验。了解更多 [这里] (https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/README.md)",
+      "answer": "{'text':'我们已经看到我们的客户和合作伙伴有很大的需求, 可以为他们的品牌量身定做一个对话助理, 为他们的客户提供个性化服务, 并在广泛的对话画布和设备上使用。对 Bot 框架 SDK 的持续 Microsoft 开源方法, 开源自定义个人助理解决方案可全面控制基于一组基础功能构建的最终用户体验。此外, 该体验还可注入有关最终用户和任何设备/生态系统信息的智能, 以实现真正的集成和智能体验。了解更多 [这里] (https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/README.md)'}",
       "source": "custom editorial",
       "questions": [
         "什么是虚拟助理"
@@ -12,7 +12,7 @@
     },
     {
       "id": 2,
-      "answer": "目前存在一组广泛的通用功能, 需要每个开发人员自行构建。我们的虚拟助理解决方案包括一种新的技能能力, 可通过配置将新功能插入到虚拟助理, 并提供一种技能的身份验证机制, 以便为下游活动请求令牌。了解更多 [这里](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/virtualassistant-skills.md).\r\n",
+      "answer": "{'text':'目前存在一组广泛的通用功能, 需要每个开发人员自行构建。我们的虚拟助理解决方案包括一种新的技能能力, 可通过配置将新功能插入到虚拟助理, 并提供一种技能的身份验证机制, 以便为下游活动请求令牌。了解更多 [这里](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/virtualassistant-skills.md).\r\n'}",
       "source": "custom editorial",
       "questions": [
         "什么是技能？"
@@ -21,7 +21,7 @@
     },
     {
       "id": 3,
-      "answer": "## 概述 日历技能为虚拟助理提供日历相关功能。在第一个版本中, 最常见的方案是在开发中使用其他方案实现的。## 支持的方案技能目前支持以下方案:-显示会议摘要: 日历中的内容 -下一次会议: 我的下一次会议是什么 -创建会议: 预订会议 -更新会议: 更新会议 -删除会议: 删除会议",
+      "answer": "{'text':'## 概述 日历技能为虚拟助理提供日历相关功能。在第一个版本中, 最常见的方案是在开发中使用其他方案实现的。## 支持的方案技能目前支持以下方案:-显示会议摘要: 日历中的内容 -下一次会议: 我的下一次会议是什么 -创建会议: 预订会议 -更新会议: 更新会议 -删除会议: 删除会议'}",
       "source": "custom editorial",
       "questions": [
         "日历技能能做什么？"
@@ -30,7 +30,7 @@
     },
     {
       "id": 4,
-      "answer": "## 概述电子邮件技能为虚拟助理提供电子邮件相关功能。在第一个版本中实现了最常见的方案, 并在开发中添加了其他方案",
+      "answer": "{'text':'## 概述电子邮件技能为虚拟助理提供电子邮件相关功能。在第一个版本中实现了最常见的方案, 并在开发中添加了其他方案'}",
       "source": "custom editorial",
       "questions": [
         "电子邮件技能能做什么？"
@@ -39,7 +39,7 @@
     },
     {
       "id": 5,
-      "answer": "兴趣点技能为虚拟助理提供 PoI 相关功能。最常见的方案已在第一个版本中实现, 并在开发中添加了其他方案, 请尝试查找星巴克或餐厅",
+      "answer": "{'text':'兴趣点技能为虚拟助理提供 PoI 相关功能。最常见的方案已在第一个版本中实现, 并在开发中添加了其他方案, 请尝试查找星巴克或餐厅'}",
       "source": "custom editorial",
       "questions": [
         "兴趣点技巧能做些什么？"
@@ -48,7 +48,7 @@
     },
     {
       "id": 6,
-      "answer": "任务技能为虚拟助理提供任务相关功能。在第一个版本中, 最常见的方案是在开发中使用其他方案实现的。尝试添加任务或查找所拥有的任务。",
+      "answer": "{'text':'任务技能为虚拟助理提供任务相关功能。在第一个版本中, 最常见的方案是在开发中使用其他方案实现的。尝试添加任务或查找所拥有的任务。'}",
       "source": "custom editorial",
       "questions": [
         "ToDo 技能能做什么？"
@@ -57,7 +57,7 @@
     },
     {
       "id": 7,
-      "answer": "虚拟助手最近发布了虚拟助手的新本地化和技能, 使其能够使用英语、法语、意大利语、德语、西班牙语和简体中文。",
+      "answer": "{'text':'虚拟助手最近发布了虚拟助手的新本地化和技能, 使其能够使用英语、法语、意大利语、德语、西班牙语和简体中文。'}",
       "source": "custom editorial",
       "questions": [
         "新增内容"
@@ -66,19 +66,335 @@
     },
     {
       "id": 8,
-      "answer": "如果轮胎压力监测灯以黄色出现, 则轮胎压力约为10% 或更多",
+      "answer": "{'text':'提出一个问题 [GitHub repo](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/README.md)\r\n'}",
       "source": "custom editorial",
       "questions": [
-        "那是什么黄色的光？"
+        "如何提出问题？"
       ],
       "metadata": []
     },
     {
       "id": 9,
-      "answer": "提出一个问题 [GitHub repo](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/README.md)\r\n",
+      "answer": "{'text':'轮胎充气压力表, 请参阅页面 219, 包含在环境温度下指定轮胎尺寸的所有轮胎充气压力规格。轮胎充气压力值适用于车辆型号的汽车制造商批准的轮胎尺寸。要确定正确的轮胎充气压力, 请注意以下事项: ▷轮胎尺寸的车辆。▷最大允许行驶速度。'}",
       "source": "custom editorial",
       "questions": [
-        "如何提出问题？"
+        "推荐轮胎压力"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 10,
+      "answer": "{'text':'▷通过遥控器或点火开关打开车辆。▷如果你携带遥控器, 用力抓住驾驶员或前排乘客门上的门把手'}",
+      "source": "custom editorial",
+      "questions": [
+        "如何关闭闹钟？"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 11,
+      "answer": "{'text':'在方向盘附近'}",
+      "source": "custom editorial",
+      "questions": [
+        "加热方向盘的按钮在哪里？"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 12,
+      "answer": "{'text':'如发生电气故障，由经销商服务中心或其他合格服务中心或维修店解锁燃油填料瓣。'}",
+      "source": "custom editorial",
+      "questions": [
+        "油箱的紧急释放在哪里？"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 13,
+      "answer": "{'text':'当引擎运作时，1.按下按钮或选择运动+与驾驶动力控制。TRACTION显示在仪表簇中, 而且DSC OFF的指示灯亮起。2. 啮合选择器拉杆S的位置. 3。用左脚用力按压刹车。4. 按下并按住油门踏板超出阻力点的全油门位置。标志符号显示在仪表组中。5. 启动发动机转速调整。3秒内松开制动器。'}",
+      "source": "custom editorial",
+      "questions": [
+        "如何使用启动控制？"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 14,
+      "answer": "{'text':'该系统提供了几个不同的程序。可以通过驱动动力控制选择程序。\"运动\"持续运动控制减震器, 提高驾驶敏捷性。\"运动+\" 持续运动控制减震器, 以提高驾驶灵活性, 特别当驾驶稳定性有限时。\"舒适/环保\"平衡控制车辆.'}",
+      "source": "custom editorial",
+      "questions": [
+        "生态/舒适/运动模式的区别是什么？"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 15,
+      "answer": "{'text':'智能安全功能支持驾驶员辅助系统的中央操作。根据车辆的装备情况, 智能安全由一个或多个系统组成, 可帮助防止迫在眉睫的碰撞。每当引擎使用 \"开始Start/停止 Stop\" 按钮启动时, 这些系统都会自动激活: ▷关于控制警告, 请参阅页面131。▷行人警告, 请参阅页面 137'}",
+      "source": "custom editorial",
+      "questions": [
+        "告诉我车里的智能安全功能？"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 16,
+      "answer": "{'text':'用力抓住驾驶员或前排乘客门上的门把手。这对应于按遥控器上的按钮.'}",
+      "source": "custom editorial",
+      "questions": [
+        "如何不按解锁按钮来解锁门？"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 17,
+      "answer": "{'text':'座椅靠背的曲率可以调整, 以支持脊柱腰椎区域。下背部和脊柱支持直立姿势。▷按下按钮的前/后部分: 曲率增加/减少。▷按下按钮的上/下部分: 曲率向上/向下移动。'}",
+      "source": "custom editorial",
+      "questions": [
+        "我如何使用我的腰部支撑"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 18,
+      "answer": "{'text':'座椅靠背的曲率可以用它支持脊柱腰椎区域的方式进行调整。下背部和脊柱支持直立姿势。▷按下按钮的前/后部分: 曲率增加/减少。▷按下按钮的上/下部分: 曲率向上/向下移动。'}",
+      "source": "custom editorial",
+      "questions": [
+        "是否有低背支持？"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 19,
+      "answer": "{'text':'座椅靠背的曲率可以用它支持脊柱腰椎区域的方式进行调整。下背部和脊柱支持直立姿势。▷按下按钮的前/后部分: 曲率增加/减少。▷按下按钮的上/下部分: 曲率向上/向下移动。'}",
+      "source": "custom editorial",
+      "questions": [
+        "我的车有腰部支撑吗？"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 20,
+      "answer": "{'text':'车辆内部的空气质量通过测试排放的内部、微滤波器和调节温度、气流和循环空气模式的恒温控制系统得到改善。此外还有其他功能依赖于车辆的设备, 例如微滤波器/活性炭过滤器、自动循环空气控制 AUC 的全自动恒温控制和停放车辆通风'}",
+      "source": "custom editorial",
+      "questions": [
+        "气候系统是如何工作的？"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 21,
+      "answer": "{'text':'在中心控制台的附近'}",
+      "source": "custom editorial",
+      "questions": [
+        "中央锁定按钮在哪里？"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 22,
+      "answer": "{'text':'您可以通过将手机插入无线充电托盘来无线充电。'}",
+      "source": "custom editorial",
+      "questions": [
+        "如何为手机充电？"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 23,
+      "answer": "{'text':'使用 iDrive 连接设备与互联网热点: 1.  \"我的车\" 2。 \"iDrive设置 3。 \"移动设备\" 4。 \"连接新设备 5。  \"互联网热点 \" 热点名称和热点代码显示在控件显示。6. 在设备上搜索 WiFi 网络。在设备上选择网络名称。7. 在设备上输入热点代码并进行连接。通过互联网热点的第一次互联网使用, 数据量必须从服务提供商购买。通过互联网热点连接的所有设备都使用此数据量。如有必要, 可以从 ConnectedDrive 商店购买数据卷。'}",
+      "source": "custom editorial",
+      "questions": [
+        "如何激活我的无线网热点？"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 24,
+      "answer": "{'text':'使用 iDrive 自动解锁: 1.我的车  2.车辆设置  3.门/钥匙。在行程结束时解锁。在通过按下启动/停止按钮关闭了引擎后, 锁定的车辆自动解锁。'}",
+      "source": "custom editorial",
+      "questions": [
+        "如何解锁所有的车门？"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 25,
+      "answer": "{'text':'以下连接类型需要一次性与车辆配对: ▷蓝牙。▷网络热点。▷ 苹果的CarPlay 配对设备将在以后自动识别并连接到车辆。'}",
+      "source": "custom editorial",
+      "questions": [
+        "如何激活 Apple CarPlay？"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 26,
+      "answer": "{'text':'替代发动机机油类型 如果没有适合连续使用的发动机机油, 则可添加高达1 quart或1升的发动机油, 其机油额定值如下: 宝马发动机汽油 Longlife-01。API SL或高级机油额定值. 宝马发动机柴油 Longlife-04。API SL或优异的机油额定值。'}",
+      "source": "custom editorial",
+      "questions": [
+        "如果我没有推荐机油类型该怎么办？"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 27,
+      "answer": "{'text':'1. 站在车辆后方的中间, 距离车辆后方约一臂的长度。2. 在车下对着车辆的行驶方向摆动一只脚, 然后立即将其拉回.'}",
+      "source": "custom editorial",
+      "questions": [
+        "如何不用钥匙来打开后备箱？"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 28,
+      "answer": "{'text':'使用 iDrive, 选择选项 1 (我的车辆), 然后选项 2 (车辆状态), 然后选项 3 (发动机油位)。发动机油位将显示在显示屏上。'}",
+      "source": "custom editorial",
+      "questions": [
+        "如何检查我的机油？"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 29,
+      "answer": "{'text':'锁定安全带 1。把安全带全部往外拉。2. 使用安全带固定儿童汽车作业。3. 将安全带往外拉, 并将其紧固在儿童安全座椅上，这样就被安全带被锁住了。'}",
+      "source": "custom editorial",
+      "questions": [
+        "如何使用安全带来固定汽车座椅？"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 30,
+      "answer": "{'text':'现在他们叫我“智能助手”, 但他们正在考虑更好的名称。'}",
+      "source": "custom editorial",
+      "questions": [
+        "你叫什么名字？"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 31,
+      "answer": "{'text':'现在他们叫我“智能助手”, 但他们正在考虑更好的名称。'}",
+      "source": "custom editorial",
+      "questions": [
+        "我该怎么称呼你？"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 32,
+      "answer": "{'text':'现在他们叫我“智能助手”, 但他们正在考虑更好的名称。'}",
+      "source": "custom editorial",
+      "questions": [
+        "你是谁？"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 33,
+      "answer": "{'text':'快出去, 出去, 出去!!!!'}",
+      "source": "custom editorial",
+      "questions": [
+        "火车来了"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 34,
+      "answer": "{'text':'智能内饰让您的驾驶体验更舒适。试着问一些问题，比如“我的座位温度设定是什么？” 或这 “请记住我的座位温度喜好”'}",
+      "source": "custom editorial",
+      "questions": [
+        "智能内饰"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 35,
+      "answer": "{'text':'汽车天才是来帮助你回答有关你的汽车的问题。试着问一些事情, 比如, “汽车仪表板上的黄灯是什么？” 或者 “怎么给我的手机充电？'}",
+      "source": "custom editorial",
+      "questions": [
+        "汽车天才"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 36,
+      "answer": "{'title':'轮胎压力监视器(黄色)','subtitle':'','text':'如果此指示灯以黄色显示则轮胎压力约为10%或更高.','images':[{'url':'https://virtualassistantcndemo.azurewebsites.net/Images/TirePressureYellow.png'}]}",
+      "source": "custom editorial",
+      "questions": [
+        "汽车仪表板上的黄灯是怎么回事？",
+        "那个黄灯是怎么回事？"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 39,
+      "answer": "{'title':'轮胎压力监视器 (红色)','subtitle':'','text':'如果此警告亮起红色, 这意味着您的轮胎或轮胎迅速收缩.','images':[{'url':'https://virtualassistantcndemo.azurewebsites.net/Images/TirePressureRed.png'}]}",
+      "source": "custom editorial",
+      "questions": [
+        "汽车仪表板上的的红色轮胎灯是怎么回事？"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 40,
+      "answer": "{'title':'中断流体监视器 (红色)','subtitle':'','text':'如果此信号亮起红色, 您的刹车液电平过低. ','images':[{'url':'https://virtualassistantcndemo.azurewebsites.net/Images/BreakFluidRed.png'}]}",
+      "source": "custom editorial",
+      "questions": [
+        "汽车仪表板上的红色圆圈是什么？"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 41,
+      "answer": "{'text':'你应该每隔1万英里或每6月更换一次机油。'}",
+      "source": "custom editorial",
+      "questions": [
+        "我什么时候换机油？"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 42,
+      "answer": "{'text':'\"车内办公功能可以帮助您在开车时做更多的事情。比如你可以试着问 “我下一个会议是什么时候？”，“开车时我能做什么？”，“我的工作清单里有什么？”，“提醒我打电话给妈妈”，或“我的备忘录里有什么？\".'}",
+      "source": "custom editorial",
+      "questions": [
+        "车内办公功能"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 43,
+      "answer": "{'text':'我可以帮您预订晚餐或午餐。您只需要说“订餐”，我就会帮您马上订。'}",
+      "source": "custom editorial",
+      "questions": [
+        "订餐"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 44,
+      "answer": "{'text':'您好！我现在已经完成了我的测试版!在这最新版里, 我有一个全新的界面 (它是灰的, 而且很酷), 我有新的外观, 而且我们已经修复了一下补丁。您也可以在车里来直接体验我的服务。我希望您能喜欢, 我期待着尽快让我上路。'}",
+      "source": "custom editorial",
+      "questions": [
+        "有什么新功能？"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 45,
+      "answer": "{'text':'您好！我现在已经完成了我的测试版!在这最新版里, 我有一个全新的界面 (它是灰的, 而且很酷), 我有新的外观, 而且我们已经修复了一下补丁。您也可以在车里来直接体验我的服务。我希望您能喜欢, 我期待着尽快让我上路。'}",
+      "source": "custom editorial",
+      "questions": [
+        "怎么了？"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 46,
+      "answer": "{'text':'我不知道, 但如果你问Lam, 我敢肯定他知道。'}",
+      "source": "custom editorial",
+      "questions": [
+        "我在哪里可以找到日志？"
       ],
       "metadata": []
     }

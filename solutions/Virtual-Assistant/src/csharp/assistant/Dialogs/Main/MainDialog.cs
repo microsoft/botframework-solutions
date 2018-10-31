@@ -66,166 +66,150 @@ namespace VirtualAssistant
         {
             var parameters = await _parametersAccessor.GetAsync(dc.Context, () => new Dictionary<string, object>());
 
-            // No dialog is currently on the stack and we haven't responded to the user
-            // Check dispatch result
-            var dispatchResult = await _services.DispatchRecognizer.RecognizeAsync<Dispatch>(dc.Context, CancellationToken.None);
-            var intent = dispatchResult.TopIntent().intent;
+            bool handled = await HandleCommands(dc);
 
-            switch (intent)
+            if (!handled)
             {
-                case Dispatch.Intent.l_General:
-                    {
-                        // If dispatch result is general luis model
-                        var luisService = _services.LuisServices["general"];
-                        var luisResult = await luisService.RecognizeAsync<General>(dc.Context, CancellationToken.None);
-                        var luisIntent = luisResult?.TopIntent().intent;
+                // No dialog is currently on the stack and we haven't responded to the user
+                // Check dispatch result
+                var dispatchResult = await _services.DispatchRecognizer.RecognizeAsync<Dispatch>(dc.Context, CancellationToken.None);
+                var intent = dispatchResult.TopIntent().intent;
 
-                        // switch on general intents
-                        if (luisResult.TopIntent().score > 0.5)
-                        {
-                            switch (luisIntent)
-                            {
-                                case General.Intent.Greeting:
-                                    {
-                                        // send greeting response
-                                        await _responder.ReplyWith(dc.Context, MainResponses.Greeting);
-                                        break;
-                                    }
-
-                                case General.Intent.Help:
-                                    {
-                                        // send help response
-                                        await _responder.ReplyWith(dc.Context, MainResponses.Help);
-                                        break;
-                                    }
-
-                                case General.Intent.Cancel:
-                                    {
-                                        // send cancelled response
-                                        await _responder.ReplyWith(dc.Context, MainResponses.Cancelled);
-
-                                        // Cancel any active dialogs on the stack
-                                        await dc.CancelAllDialogsAsync();
-                                        break;
-                                    }
-
-                                case General.Intent.Escalate:
-                                    {
-                                        // start escalate dialog
-                                        await dc.BeginDialogAsync(nameof(EscalateDialog));
-                                        break;
-                                    }
-
-                                case General.Intent.Logout:
-                                    {
-                                        await LogoutAsync(dc);
-                                        break;
-                                    }
-
-                                case General.Intent.None:
-                                default:
-                                    {
-                                        // No intent was identified, send confused message
-                                        await _responder.ReplyWith(dc.Context, MainResponses.Confused);
-                                        break;
-                                    }
-                            }
-                        }
-
-                        break;
-                    }
-
-                case Dispatch.Intent.l_Calendar:
-                    {
-                        var luisService = _services.LuisServices["calendar"];
-                        var luisResult = await luisService.RecognizeAsync<Calendar>(dc.Context, CancellationToken.None);
-                        var matchedSkill = _skillRouter.IdentifyRegisteredSkill(intent.ToString());
-
-                        await RouteToSkillAsync(dc, new SkillDialogOptions()
-                        {
-                            SkillDefinition = matchedSkill,
-                            Parameters = parameters,
-                        });
-
-                        break;
-                    }
-
-                case Dispatch.Intent.l_Email:
-                    {
-                        var luisService = _services.LuisServices["email"];
-                        var luisResult = await luisService.RecognizeAsync<Email>(dc.Context, CancellationToken.None);
-                        var matchedSkill = _skillRouter.IdentifyRegisteredSkill(intent.ToString());
-
-                        await RouteToSkillAsync(dc, new SkillDialogOptions()
-                        {
-                            SkillDefinition = matchedSkill,
-                            Parameters = parameters,
-                        });
-
-                        break;
-                    }
-
-                case Dispatch.Intent.l_ToDo:
-                    {
-                        var luisService = _services.LuisServices["todo"];
-                        var luisResult = await luisService.RecognizeAsync<ToDo>(dc.Context, CancellationToken.None);
-                        var matchedSkill = _skillRouter.IdentifyRegisteredSkill(intent.ToString());
-
-                        await RouteToSkillAsync(dc, new SkillDialogOptions()
-                        {
-                            SkillDefinition = matchedSkill,
-                            Parameters = parameters,
-                        });
-
-                        break;
-                    }
-
-                case Dispatch.Intent.l_PointOfInterest:
-                    {
-                        var luisService = _services.LuisServices["pointofinterest"];
-                        var luisResult = await luisService.RecognizeAsync<PointOfInterest>(dc.Context, CancellationToken.None);
-                        var matchedSkill = _skillRouter.IdentifyRegisteredSkill(intent.ToString());
-
-                        await RouteToSkillAsync(dc, new SkillDialogOptions()
-                        {
-                            SkillDefinition = matchedSkill,
-                            Parameters = parameters,
-                        });
-
-                        break;
-                    }
-
-                case Dispatch.Intent.q_FAQ:
-                    {
-                        var qnaService = _services.QnAServices["faq"];
-                        var answers = await qnaService.GetAnswersAsync(dc.Context);
-                        if (answers != null && answers.Count() > 0)
-                        {
-                            await dc.Context.SendActivityAsync(answers[0].Answer);
-                        }
-
-                        break;
-                    }
-            }
-        }
-
-        private async Task RouteToSkillAsync(DialogContext dc, SkillDialogOptions options)
-        {
-            // If we can't handle this within the local Bot it's a skill (prefix of s will make this clearer)
-            if (options.SkillDefinition != null)
-            {
-                // We have matched to a Skill
-                await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Forwarding your utterance to the {options.SkillDefinition.Name} skill."));
-
-                // Begin the SkillDialog and pass the arguments in
-                await dc.BeginDialogAsync(nameof(CustomSkillDialog), options);
-
-                // Pass the activity we have
-                var result = await dc.ContinueDialogAsync();
-
-                if (result.Status == DialogTurnStatus.Complete)
+                switch (intent)
                 {
-                    await CompleteAsync(dc);
+                    case Dispatch.Intent.l_General:
+                        {
+                            // If dispatch result is general luis model
+                            var luisService = _services.LuisServices["general"];
+                            var luisResult = await luisService.RecognizeAsync<General>(dc.Context, CancellationToken.None);
+                            var luisIntent = luisResult?.TopIntent().intent;
+
+                            // switch on general intents
+                            if (luisResult.TopIntent().score > 0.5)
+                            {
+                                switch (luisIntent)
+                                {
+                                    case General.Intent.Greeting:
+                                        {
+                                            // send greeting response
+                                            await _responder.ReplyWith(dc.Context, MainResponses.Greeting);
+                                            break;
+                                        }
+
+                                    case General.Intent.Help:
+                                        {
+                                            // send help response
+                                            await _responder.ReplyWith(dc.Context, MainResponses.Help);
+                                            break;
+                                        }
+
+                                    case General.Intent.Cancel:
+                                        {
+                                            // send cancelled response
+                                            await _responder.ReplyWith(dc.Context, MainResponses.Cancelled);
+
+                                            // Cancel any active dialogs on the stack
+                                            await dc.CancelAllDialogsAsync();
+                                            break;
+                                        }
+
+                                    case General.Intent.Escalate:
+                                        {
+                                            // start escalate dialog
+                                            await dc.BeginDialogAsync(nameof(EscalateDialog));
+                                            break;
+                                        }
+
+                                    case General.Intent.Logout:
+                                        {
+                                            await LogoutAsync(dc);
+                                            break;
+                                        }
+
+                                    case General.Intent.None:
+                                    default:
+                                        {
+                                            // No intent was identified, send confused message
+                                            await _responder.ReplyWith(dc.Context, MainResponses.Confused);
+                                            break;
+                                        }
+                                }
+                            }
+
+                            break;
+                        }
+
+                    case Dispatch.Intent.l_Calendar:
+                        {
+                            var luisService = _services.LuisServices["calendar"];
+                            var luisResult = await luisService.RecognizeAsync<Calendar>(dc.Context, CancellationToken.None);
+                            var matchedSkill = _skillRouter.IdentifyRegisteredSkill(intent.ToString());
+
+                            await RouteToSkillAsync(dc, new SkillDialogOptions()
+                            {
+                                SkillDefinition = matchedSkill,
+                                Parameters = parameters,
+                            });
+
+                            break;
+                        }
+
+                    case Dispatch.Intent.l_Email:
+                        {
+                            var luisService = _services.LuisServices["email"];
+                            var luisResult = await luisService.RecognizeAsync<Email>(dc.Context, CancellationToken.None);
+                            var matchedSkill = _skillRouter.IdentifyRegisteredSkill(intent.ToString());
+
+                            await RouteToSkillAsync(dc, new SkillDialogOptions()
+                            {
+                                SkillDefinition = matchedSkill,
+                                Parameters = parameters,
+                            });
+
+                            break;
+                        }
+
+                    case Dispatch.Intent.l_ToDo:
+                        {
+                            var luisService = _services.LuisServices["todo"];
+                            var luisResult = await luisService.RecognizeAsync<ToDo>(dc.Context, CancellationToken.None);
+                            var matchedSkill = _skillRouter.IdentifyRegisteredSkill(intent.ToString());
+
+                            await RouteToSkillAsync(dc, new SkillDialogOptions()
+                            {
+                                SkillDefinition = matchedSkill,
+                                Parameters = parameters,
+                            });
+
+                            break;
+                        }
+
+                    case Dispatch.Intent.l_PointOfInterest:
+                        {
+                            var luisService = _services.LuisServices["pointofinterest"];
+                            var luisResult = await luisService.RecognizeAsync<PointOfInterest>(dc.Context, CancellationToken.None);
+                            var matchedSkill = _skillRouter.IdentifyRegisteredSkill(intent.ToString());
+
+                            await RouteToSkillAsync(dc, new SkillDialogOptions()
+                            {
+                                SkillDefinition = matchedSkill,
+                                Parameters = parameters,
+                            });
+
+                            break;
+                        }
+
+                    case Dispatch.Intent.q_FAQ:
+                        {
+                            var qnaService = _services.QnAServices["faq"];
+                            var answers = await qnaService.GetAnswersAsync(dc.Context);
+                            if (answers != null && answers.Count() > 0)
+                            {
+                                await _responder.ReplyWith(dc.Context, MainResponses.Qna, answers[0].Answer);
+                            }
+
+                            break;
+                        }
                 }
             }
         }
@@ -355,15 +339,96 @@ namespace VirtualAssistant
                 }
             }
         }
-    }
 
-    public static class Events
-    {
-        public const string TokenResponseEvent = "tokens/response";
-        public const string TimezoneEvent = "IPA.Timezone";
-        public const string LocationEvent = "IPA.Location";
-        public const string ActiveLocationUpdate = "POI.ActiveLocation";
-        public const string ActiveRouteUpdate = "POI.ActiveRoute";
-        public const string ResetUser = "IPA.ResetUser";
+        private async Task<bool> HandleCommands(DialogContext dc)
+        {
+            var handled = false;
+            var command = dc.Context.Activity.Text;
+            var response = dc.Context.Activity.CreateReply();
+
+            switch (command)
+            {
+                case "change radio station to 90.7":
+                case "将收音机调到99.7 FM":
+                    {
+                        response.Type = ActivityTypes.Event;
+                        response.Name = "TuneRadio";
+                        response.Value = "99.7";
+                        await dc.Context.SendActivityAsync(response);
+
+                        handled = true;
+                        break;
+                    }
+
+                case "turn off cruise control":
+                case "打开巡航控制器":
+                case "关闭巡航控制器":
+                    {
+                        response.Type = ActivityTypes.Event;
+                        response.Name = "ToggleCruiseControl";
+                        await dc.Context.SendActivityAsync(response);
+
+                        handled = true;
+                        break;
+                    }
+
+                case "change temperature to 23 degrees":
+                case "将温度设定为23度":
+                    {
+                        response.Type = ActivityTypes.Event;
+                        response.Name = "ChangeTemperature";
+                        response.Value = "23";
+                        await dc.Context.SendActivityAsync(response);
+
+                        handled = true;
+                        break;
+                    }
+
+                case "play the song rainbow by jay chou":
+                case "播放周杰伦的歌曲彩虹":
+                    {
+                        response.Type = ActivityTypes.Event;
+                        response.Name = "PlayMusic";
+                        response.Value = "Rainbow by Jay Chou";
+                        await dc.Context.SendActivityAsync(response);
+
+                        handled = true;
+                        break;
+                    }
+            }
+
+            return handled;
+        }
+
+        private async Task RouteToSkillAsync(DialogContext dc, SkillDialogOptions options)
+        {
+            // If we can't handle this within the local Bot it's a skill (prefix of s will make this clearer)
+            if (options.SkillDefinition != null)
+            {
+                // We have matched to a Skill
+                await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Forwarding your utterance to the {options.SkillDefinition.Name} skill."));
+
+                // Begin the SkillDialog and pass the arguments in
+                await dc.BeginDialogAsync(nameof(CustomSkillDialog), options);
+
+                // Pass the activity we have
+                var result = await dc.ContinueDialogAsync();
+
+                if (result.Status == DialogTurnStatus.Complete)
+                {
+                    await CompleteAsync(dc);
+                }
+            }
+        }
+
+        private static class Events
+        {
+            public const string TokenResponseEvent = "tokens/response";
+            public const string TimezoneEvent = "IPA.Timezone";
+            public const string LocationEvent = "IPA.Location";
+            public const string ActiveLocationUpdate = "POI.ActiveLocation";
+            public const string ActiveRouteUpdate = "POI.ActiveRoute";
+            public const string ResetUser = "IPA.ResetUser";
+        }
     }
 }
