@@ -15,6 +15,7 @@ namespace Microsoft.Bot.Solutions.Dialogs
         private readonly string _extraLanguageJsonFileSearchPattern;
         private readonly string _jsonFilePath;
         private Dictionary<string, Dictionary<string, BotResponse>> _jsonResponses;
+        private Exception _resourceLoadingException;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ResponseManager"/> class.
@@ -45,6 +46,13 @@ namespace Microsoft.Bot.Solutions.Dialogs
 
         public virtual BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {
+            // warm up the JsonResponses loading to see if it actually exist. If not, throw with the loading time exception that's actually helpful
+            var jsonResponses = JsonResponses;
+            if (jsonResponses == null && _resourceLoadingException != null)
+            {
+                throw _resourceLoadingException;
+            }
+
             var locale = CultureInfo.CurrentUICulture.Name;
             var key = GetJsonResponseKeyForLocale(locale, propertyName);
 
@@ -75,7 +83,8 @@ namespace Microsoft.Bot.Solutions.Dialogs
             var defaultFile = Path.Combine(_jsonFilePath, _defaultJsonFile);
             if (!File.Exists(defaultFile))
             {
-                throw new FileNotFoundException($"Unable to find \"{_defaultJsonFile}\" under \"{_jsonFilePath}\".", Path.Combine(_jsonFilePath, _extraLanguageJsonFileSearchPattern));
+                _resourceLoadingException = new FileNotFoundException($"Unable to find \"{_defaultJsonFile}\" under \"{_jsonFilePath}\".", Path.Combine(_jsonFilePath, _extraLanguageJsonFileSearchPattern));
+                return null;
             }
 
             jsonFiles.Add(defaultFile);
@@ -95,10 +104,19 @@ namespace Microsoft.Bot.Solutions.Dialogs
                     var fileInfo = new FileInfo(file);
                     var localeKey = string.Equals(fileInfo.Name, _defaultJsonFile, StringComparison.CurrentCultureIgnoreCase) ? _defaultLocaleKey : fileInfo.Name.Split(".")[1].ToLower();
                     jsonResponses.Add(localeKey, responses);
+                    _resourceLoadingException = null;
                 }
-                catch (JsonSerializationException ex)
+                catch (JsonReaderException ex)
                 {
-                    throw new JsonSerializationException($"Error deserializing {file}. {ex.Message}", ex);
+                    jsonResponses = null;
+                    _resourceLoadingException = new JsonReaderException($"Error deserializing {file}. {ex.Message}", ex);
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    jsonResponses = null;
+                    _resourceLoadingException = ex;
+                    break;
                 }
             }
 
