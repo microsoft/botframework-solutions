@@ -758,13 +758,16 @@ namespace CalendarSkill
                 if (sc.Result != null && state.StartTime == null)
                 {
                     IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
-                    var dateTime = DateTime.Parse(dateTimeResolutions.First().Value);
-                    var dateTimeConvertType = dateTimeResolutions.First().Timex;
-
-                    if (dateTime != null)
+                    if (dateTimeResolutions.First().Value != null)
                     {
-                        bool isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeResolutions.First().Value, dateTimeResolutions.First().Timex);
-                        state.StartTime = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
+                        var dateTime = DateTime.Parse(dateTimeResolutions.First().Value);
+                        var dateTimeConvertType = dateTimeResolutions.First().Timex;
+
+                        if (dateTime != null)
+                        {
+                            bool isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeResolutions.First().Value, dateTimeResolutions.First().Timex);
+                            state.StartTime = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
+                        }
                     }
                 }
 
