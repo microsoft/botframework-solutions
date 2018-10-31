@@ -97,7 +97,7 @@ namespace CalendarSkill
                 }
                 else
                 {
-                    return await sc.PromptAsync(LocalModeAuth, new PromptOptions());
+                    return await sc.PromptAsync(LocalModeAuth, new PromptOptions() { RetryPrompt = sc.Context.Activity.CreateReply(CalendarSharedResponses.NoAuth, _responseBuilder), });
                 }
             }
             catch
@@ -165,7 +165,15 @@ namespace CalendarSkill
 
         public Task<bool> AuthPromptValidator(PromptValidatorContext<TokenResponse> promptContext, CancellationToken cancellationToken)
         {
-            return Task.FromResult(true);
+            var activity = promptContext.Recognized.Value;
+            if (activity != null)
+            {
+                return Task.FromResult(true);
+            }
+            else
+            {
+                return Task.FromResult(false);
+            }
         }
 
         public async Task<bool> ChoiceValidator(PromptValidatorContext<FoundChoice> pc, CancellationToken cancellationToken)
