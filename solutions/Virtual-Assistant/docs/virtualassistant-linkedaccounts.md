@@ -1,26 +1,42 @@
-# Virtual Assistant - Linked Accounts
+# Linking Accounts to a Virtual Assistant
 
 ## Overview
 
-Speech-led conversational scenarios require a different mindset and approach for certain scenarios, one such example is Authentication. If you take a Productivity scenario, whereby the user wants to access information in their calendar it's important for the VA Bot to have access to a security token (Office 365 for example). 
+Speech-led conversational scenarios require a different mindset and approach for certain scenarios, 
+one such example is [Authentication](/virtualassistant-authenticaiton.md). 
+If you take a Productivity scenario, whereby the user wants to access information in their calendar it's important 
+for the VA Bot to have access to a security token (Office 365 for example). 
 
-The first time this scenario executes VA will need to prompt the user for authentication, normally this is done by returning an OAuthCard to the user along with a Button with underlying link to an OAuth authentication page as shown below.
+The first time this scenario executes the Virtual Agent needs to prompt a user for authentication. When using WebChat, this is normally 
+done by returning an OAuthCard to the user along with a Button linking to an OAuth authentication page as shown below. 
+If you'd like to learn more about this scenario in WebChat, we encourage you to read [Sign-In experiences](https://blog.botframework.com/2018/08/28/sign-in-experiences/) on the Bot Framework Blog.
 
-OAuth Card Example:
+##### OAuth Card Example
 
 ![Example OAuth Card](./media/virtualassistant-LinkedAccountsOAuthCard.png)
 
-Signin Page Example
+##### Signin Page Example
 
 ![Example Login Page](./media/virtualassistant-LinkedAccountsSignin.png)
 
-In a speech-led scenario it's not acceptable or practical for a user to enter their username and password through voice commands. Therefore a separate companion experience provides an opportunity for the user to signin-in and provide permission for an VA Bot to retrieve a token for later use. The Linked Accounts feature of the VA provides a reference example of a Web-Page using a new set of Azure Bot Service APIs to deliver this feature, you can use this example to build an account linking experience within your own Web-Site or Mobile-App.
+
+In a speech-led scenario, it's unacceptable and impractical to expect a user to enter their username and password through voice command.
+Therefore, a separate companion experience would provide the opportunity for a user to sign in once and provide permissions for the Virtual Assistant to retrieve a token for later continued use.
+The Linked Accounts feature of the Virtual Assistant provides a reference sample of a web app using the Azure Bot Service to deliver this.
+You can use this example to build an account linking experience within your own web or mobile app.
 
 ## Authentication Configuration
 
-In order to perform Account Linking, the Linked Accounts Web-Site will need the end-user to login using the same account as they'll use to Authenticate as a user of your VA Bot. for example darren@contosoassistant.com. The ``appsettings.json`` file in the sample project has the following OAuth configuration entry for you to complete, the default example is for a microsoft.online.com scenario.
+In order to perform Account Linking, the Linked Accounts web app will need a user to login using the same account as they'll use to authenticate as a user of your Virtual Assistant, for example `darren@contosoassistant.com`. 
+The ``appsettings.json`` file in the sample project has the following OAuth configuration entry for you to complete, the default example is for a microsoft.online.com scenario.
 
-Update this in-line with your chosen identity provider. If you wish to use login.microsoftonline.com, login to the Azure Portal, Choose Azure Active Directory and create a new Application within App Registrations. Use the ``Application ID`` as your ClientId.
+Update this in-line with your chosen identity provider. 
+
+##### Using login.microsoftonline.com
+1. Login to the Azure Portal
+2. Choose **Azure Active Directory**  > **App Registrations** and create a new Application. 
+3. Update the ``ClientId`` below with the newly created ``Application ID``.
+4. Configure a Reply URL matching the URL for your linked accounts application. Note that the reply URL will need to completely match for sign-in to work. For a local test website this will typically require a signin-oidc suffix. e.g. http://localhost:#####/signin-oidc
 
 ```
 "AzureAd": {
@@ -32,20 +48,24 @@ Update this in-line with your chosen identity provider. If you wish to use login
   }
 ```
 
-Back in the Azure Active Directory configuration page, you will need to set a Reply URL matching the URL for your linked accounts application. 
+This sample uses the AD Object Identifier claim (``AadObjectidentifierClaim``) as the unique user identifier when performing token operations. 
+This needs to be the same claim used by the Virtual Assistant when requesting tokens.
 
-> Note that the reply URL will need to completely match for sign-in to work. For a local test website this will typically require a signin-oidc suffix. e.g. http://localhost:26923/signin-oidc 
-
-This sample uses the AD Object Identifier claim (``AadObjectidentifierClaim``) as the unique user identifier when performing token operations. This needs to be the same claim used by your VA Bot when requesting tokens.
-
-The Linked Accounts Web-Site also requires access to the VA Bot ApplicationId and Secret in order to manage account linking and securely store authentication tokens linked to the end-users identity and the following configuration entries should be updated.
+##### Using a Microsoft account
 
 ```
-"MicrosoftAppId": "YOUR_IPA_BOT_APPLICATIONID",
-"MicrosoftAppPassword": "YOUR_IPA_BOT_APPLICATION_SECRET" 
+To do
+``` 
+
+In order to manage account linking and securely store authentication tokens, the web app requires access to your bot's ApplicationId and Secret.
+```
+"MicrosoftAppId": "YOUR_BOT_APPLICATIONID",
+"MicrosoftAppPassword": "YOUR_BOT_APPLICATION_SECRET" 
 ```
   
-The final configuration is the DirectLine secret for your VA Bot, this is required to avoid prompts for magic codes which are otherwise required to protect against man-in-the-middle attacks. Exchanging a DirectLine secret for a Token and providing a TrustedOrigin enables removal of the magic code step.
+The final configuration is the Direct Line secret for your Virtual Assistant bot.
+This is required to avoid prompts for magic codes, otherwise required to protect against man-in-the-middle attacks. 
+Exchanging a Direct Line secret for a Token and providing a Trusted Origin enables removal of the magic code step.
 
 > Your VA Bot will need to be deployed and have a Direct-Line channel configured within the Azure portal
 
