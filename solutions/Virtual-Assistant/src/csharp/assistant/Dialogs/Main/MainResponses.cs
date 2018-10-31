@@ -88,7 +88,7 @@ namespace VirtualAssistant
         public static IMessageActivity SendQnaCard(ITurnContext turnContext, dynamic data)
         {
             var response = turnContext.Activity.CreateReply();
-            var card = JsonConvert.DeserializeObject<HeroCard>((string)data);
+            var card = JsonConvert.DeserializeObject<ThumbnailCard>((string)data);
 
             response.Attachments = new List<Attachment>
             {
