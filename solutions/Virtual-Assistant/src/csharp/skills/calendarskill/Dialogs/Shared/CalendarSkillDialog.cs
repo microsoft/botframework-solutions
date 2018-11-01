@@ -12,6 +12,7 @@ using Microsoft.Recognizers.Text;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
@@ -52,11 +53,11 @@ namespace CalendarSkill
             AddDialog(new EventPrompt(SkillModeAuth, "tokens/response", TokenResponseValidator));
             AddDialog(new OAuthPrompt(LocalModeAuth, oauthSettings, AuthPromptValidator));
             AddDialog(new TextPrompt(Actions.Prompt));
-            AddDialog(new ConfirmPrompt(Actions.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
-            AddDialog(new DateTimePrompt(Actions.DateTimePrompt, null, Culture.English));
-            AddDialog(new DateTimePrompt(Actions.DateTimePromptForUpdateDelete, DateTimePromptValidator, Culture.English));
-            AddDialog(new ChoicePrompt(Actions.Choice, ChoiceValidator, Culture.English) { Style = ListStyle.None, });
-            AddDialog(new ChoicePrompt(Actions.EventChoice, null, Culture.English) { Style = ListStyle.Inline, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = false } });
+            AddDialog(new ConfirmPrompt(Actions.TakeFurtherAction, null, CultureInfo.CurrentUICulture.TwoLetterISOLanguageName) { Style = ListStyle.SuggestedAction });
+            AddDialog(new DateTimePrompt(Actions.DateTimePrompt, null, CultureInfo.CurrentUICulture.TwoLetterISOLanguageName));
+            AddDialog(new DateTimePrompt(Actions.DateTimePromptForUpdateDelete, DateTimePromptValidator, CultureInfo.CurrentUICulture.TwoLetterISOLanguageName));
+            AddDialog(new ChoicePrompt(Actions.Choice, ChoiceValidator, CultureInfo.CurrentUICulture.TwoLetterISOLanguageName) { Style = ListStyle.None, });
+            AddDialog(new ChoicePrompt(Actions.EventChoice, null, CultureInfo.CurrentUICulture.TwoLetterISOLanguageName) { Style = ListStyle.Inline, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = false } });
         }
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
@@ -303,7 +304,7 @@ namespace CalendarSkill
             return timex.Contains("T");
         }
 
-        private async Task DigestCalendarLuisResult(DialogContext dc, Calendar luisResult)
+        private async Task DigestCalendarLuisResult(DialogContext dc, Luis.Calendar luisResult)
         {
             try
             {
