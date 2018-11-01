@@ -126,7 +126,15 @@ namespace CalendarSkill
                         searchDate = state.StartDate.Value;
                     }
 
-                    var searchedEvents = await GetEventsByTime(searchDate, state.StartTime, state.EndDate, state.EndTime, state.GetUserTimeZone(), calendarService);
+                    var results = await GetEventsByTime(searchDate, state.StartTime, state.EndDate, state.EndTime, state.GetUserTimeZone(), calendarService);
+                    var searchedEvents = new List<EventModel>();
+                    foreach (var item in results)
+                    {
+                        if (item.StartTime >= DateTime.UtcNow)
+                        {
+                            searchedEvents.Add(item);
+                        }
+                    }
 
                     if (searchedEvents.Count == 0)
                     {

@@ -267,15 +267,15 @@ namespace CalendarSkill
 
             bool searchByStartTime = startTime != null && endDate == null && endTime == null;
 
-            startDate = startDate ?? DateTime.UtcNow;
-            endDate = endDate ?? startDate ?? DateTime.UtcNow;
+            startDate = startDate ?? TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, userTimeZone);
+            endDate = endDate ?? startDate ?? TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, userTimeZone);
 
             var searchStartTime = startTime == null ? new DateTime(startDate.Value.Year, startDate.Value.Month, startDate.Value.Day) :
                 new DateTime(startDate.Value.Year, startDate.Value.Month, startDate.Value.Day, startTime.Value.Hour, startTime.Value.Minute, startTime.Value.Second);
-            searchStartTime = DateTime.SpecifyKind(searchStartTime, DateTimeKind.Utc);
+            searchStartTime = TimeZoneInfo.ConvertTimeToUtc(searchStartTime, userTimeZone);
             var searchEndTime = endTime == null ? new DateTime(endDate.Value.Year, endDate.Value.Month, endDate.Value.Day, 23, 59, 59) :
                 new DateTime(endDate.Value.Year, endDate.Value.Month, endDate.Value.Day, endTime.Value.Hour, endTime.Value.Minute, endTime.Value.Second);
-            searchEndTime = DateTime.SpecifyKind(searchEndTime, DateTimeKind.Utc);
+            searchEndTime = TimeZoneInfo.ConvertTimeToUtc(searchEndTime, userTimeZone);
 
             if (searchByStartTime)
             {
@@ -288,7 +288,7 @@ namespace CalendarSkill
 
             foreach (var item in rawEvents)
             {
-                if (item.StartTime >= startDate && item.StartTime >= searchStartTime && item.IsCancelled != true)
+                if (item.StartTime >= searchStartTime && item.IsCancelled != true)
                 {
                     resultEvents.Add(item);
                 }
@@ -406,8 +406,7 @@ namespace CalendarSkill
                         if (dateTime != null)
                         {
                             bool isRelativeTime = IsRelativeTime(entity.StartDate[0], result[0].Value, result[0].Timex);
-                            state.StartDate = isRelativeTime ? TimeZoneInfo.ConvertTimeToUtc(dateTime, TimeZoneInfo.Local) : 
-                                TimeConverter.ConvertLuisLocalToUtc(dateTime, state.GetUserTimeZone());
+                            state.StartDate = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
                         }
                     }
                 }
@@ -426,16 +425,15 @@ namespace CalendarSkill
                             if (dateTime != null)
                             {
                                 bool isRelativeTime = IsRelativeTime(entity.StartTime[0], result[0].Value, result[0].Timex);
-                                state.StartTime = isRelativeTime ? TimeZoneInfo.ConvertTimeToUtc(dateTime, TimeZoneInfo.Local) :
-                                    TimeConverter.ConvertLuisLocalToUtc(dateTime, state.GetUserTimeZone());
+                                state.StartTime = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
                             }
                         }
                         else
                         {
                             var startTime = DateTime.Parse(result[0].Start);
                             var endTime = DateTime.Parse(result[0].End);
-                            state.StartTime = TimeConverter.ConvertLuisLocalToUtc(startTime, state.GetUserTimeZone());
-                            state.EndTime = TimeConverter.ConvertLuisLocalToUtc(endTime, state.GetUserTimeZone());
+                            state.StartTime = startTime;
+                            state.EndTime = endTime;
                         }
                     }
                 }
@@ -452,8 +450,7 @@ namespace CalendarSkill
                         if (dateTime != null)
                         {
                             bool isRelativeTime = IsRelativeTime(entity.EndDate[0], result[0].Value, result[0].Timex);
-                            state.EndDate = isRelativeTime ? TimeZoneInfo.ConvertTimeToUtc(dateTime, TimeZoneInfo.Local) :
-                                TimeConverter.ConvertLuisLocalToUtc(dateTime, state.GetUserTimeZone());
+                            state.EndDate = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
                         }
                     }
                 }
@@ -470,8 +467,7 @@ namespace CalendarSkill
                         if (dateTime != null)
                         {
                             bool isRelativeTime = IsRelativeTime(entity.EndTime[0], result[0].Value, result[0].Timex);
-                            state.EndTime = isRelativeTime ? TimeZoneInfo.ConvertTimeToUtc(dateTime, TimeZoneInfo.Local) :
-                                TimeConverter.ConvertLuisLocalToUtc(dateTime, state.GetUserTimeZone());
+                            state.EndTime = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
                         }
                     }
                 }
@@ -488,8 +484,7 @@ namespace CalendarSkill
                         if (dateTime != null)
                         {
                             bool isRelativeTime = IsRelativeTime(entity.OriginalStartDate[0], result[0].Value, result[0].Timex);
-                            state.OriginalStartDate = isRelativeTime ? TimeZoneInfo.ConvertTimeToUtc(dateTime, TimeZoneInfo.Local) :
-                                TimeConverter.ConvertLuisLocalToUtc(dateTime, state.GetUserTimeZone());
+                            state.OriginalStartDate = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
                         }
                     }
                 }
@@ -508,16 +503,15 @@ namespace CalendarSkill
                             if (dateTime != null)
                             {
                                 bool isRelativeTime = IsRelativeTime(entity.OriginalStartTime[0], result[0].Value, result[0].Timex);
-                                state.OriginalStartTime = isRelativeTime ? TimeZoneInfo.ConvertTimeToUtc(dateTime, TimeZoneInfo.Local) :
-                                    TimeConverter.ConvertLuisLocalToUtc(dateTime, state.GetUserTimeZone());
+                                state.OriginalStartTime = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
                             }
                         }
                         else
                         {
                             var startTime = DateTime.Parse(result[0].Start);
                             var endTime = DateTime.Parse(result[0].End);
-                            state.OriginalStartTime = TimeConverter.ConvertLuisLocalToUtc(startTime, state.GetUserTimeZone());
-                            state.OriginalEndTime = TimeConverter.ConvertLuisLocalToUtc(endTime, state.GetUserTimeZone());
+                            state.OriginalStartTime = startTime;
+                            state.OriginalEndTime = endTime;
                         }
                     }
                 }
@@ -534,8 +528,7 @@ namespace CalendarSkill
                         if (dateTime != null)
                         {
                             bool isRelativeTime = IsRelativeTime(entity.OriginalEndDate[0], result[0].Value, result[0].Timex);
-                            state.OriginalEndDate = isRelativeTime ? TimeZoneInfo.ConvertTimeToUtc(dateTime, TimeZoneInfo.Local) :
-                                TimeConverter.ConvertLuisLocalToUtc(dateTime, state.GetUserTimeZone());
+                            state.OriginalEndDate = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
                         }
                     }
                 }

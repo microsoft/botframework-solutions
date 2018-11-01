@@ -196,43 +196,40 @@ namespace CalendarSkill
                 if (state.StartDate != null || state.StartTime != null)
                 {
                     var originalEvent = state.Events[0];
+                    var originalStartDateTime = TimeConverter.ConvertUtcToUserTime(originalEvent.StartTime, state.GetUserTimeZone());
 
                     if (state.StartDate != null && state.StartTime != null)
                     {
-                        state.NewStartDateTime = DateTime.SpecifyKind(
-                            new DateTime(
-                                state.StartDate.Value.Year,
-                                state.StartDate.Value.Month,
-                                state.StartDate.Value.Day,
-                                state.StartTime.Value.Hour,
-                                state.StartTime.Value.Minute,
-                                state.StartTime.Value.Second),
-                            DateTimeKind.Utc);
+                        state.NewStartDateTime = new DateTime(
+                            state.StartDate.Value.Year,
+                            state.StartDate.Value.Month,
+                            state.StartDate.Value.Day,
+                            state.StartTime.Value.Hour,
+                            state.StartTime.Value.Minute,
+                            state.StartTime.Value.Second);
                     }
                     else if (state.StartDate != null)
                     {
-                        state.NewStartDateTime = DateTime.SpecifyKind(
-                            new DateTime(
-                                state.StartDate.Value.Year,
-                                state.StartDate.Value.Month,
-                                state.StartDate.Value.Day,
-                                originalEvent.StartTime.Hour,
-                                originalEvent.StartTime.Minute,
-                                originalEvent.StartTime.Second),
-                            DateTimeKind.Utc);
+                        state.NewStartDateTime = new DateTime(
+                            state.StartDate.Value.Year,
+                            state.StartDate.Value.Month,
+                            state.StartDate.Value.Day,
+                            originalStartDateTime.Hour,
+                            originalStartDateTime.Minute,
+                            originalStartDateTime.Second);
                     }
                     else
                     {
-                        state.NewStartDateTime = DateTime.SpecifyKind(
-                            new DateTime(
-                                originalEvent.StartTime.Year,
-                                originalEvent.StartTime.Month,
-                                originalEvent.StartTime.Day,
-                                state.StartTime.Value.Hour,
-                                state.StartTime.Value.Minute,
-                                state.StartTime.Value.Second),
-                            DateTimeKind.Utc);
+                        state.NewStartDateTime = new DateTime(
+                            originalStartDateTime.Year,
+                            originalStartDateTime.Month,
+                            originalStartDateTime.Day,
+                            state.StartTime.Value.Hour,
+                            state.StartTime.Value.Minute,
+                            state.StartTime.Value.Second);
                     }
+
+                    state.NewStartDateTime = TimeZoneInfo.ConvertTimeToUtc(state.NewStartDateTime.Value, state.GetUserTimeZone());
 
                     return await sc.ContinueDialogAsync();
                 }

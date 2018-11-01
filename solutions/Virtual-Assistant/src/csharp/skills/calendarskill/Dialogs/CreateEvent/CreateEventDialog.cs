@@ -784,7 +784,7 @@ namespace CalendarSkill
                         state.StartTime.Value.Hour,
                         state.StartTime.Value.Minute,
                         state.StartTime.Value.Second);
-                    state.StartDateTime = TimeConverter.ConvertLuisLocalToUtc(state.StartDateTime.Value, state.GetUserTimeZone());
+                    state.StartDateTime = TimeZoneInfo.ConvertTimeToUtc(state.StartDateTime.Value, state.GetUserTimeZone());
                     return await sc.EndDialogAsync();
                 }
 
@@ -803,7 +803,7 @@ namespace CalendarSkill
             try
             {
                 var state = await _accessor.GetAsync(sc.Context);
-                if (state.Duration > 0)
+                if (state.Duration > 0 || state.EndTime != null || state.EndDate != null)
                 {
                     return await sc.NextAsync();
                 }
@@ -834,6 +834,26 @@ namespace CalendarSkill
             try
             {
                 var state = await _accessor.GetAsync(sc.Context);
+                if (state.EndDate != null || state.EndTime != null)
+                {
+                    DateTime? startDate = state.StartDate == null ? TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, state.GetUserTimeZone()) : state.StartDate;
+                    DateTime? endDate = state.EndDate;
+                    DateTime? endTime = state.EndTime;
+                    state.EndDateTime = endDate == null ?
+                        new DateTime(startDate.Value.Year,
+                            startDate.Value.Month,
+                            startDate.Value.Day,
+                            endTime.Value.Hour,
+                            endTime.Value.Minute,
+                            endTime.Value.Second) :
+                        new DateTime(endDate.Value.Year,
+                            endDate.Value.Month,
+                            endDate.Value.Day, 23, 59, 59);
+                    state.EndDateTime = TimeZoneInfo.ConvertTimeToUtc(state.EndDateTime.Value, state.GetUserTimeZone());
+                    TimeSpan ts = state.StartDateTime.Value.Subtract(state.EndDateTime.Value).Duration();
+                    state.Duration = (int)ts.TotalSeconds;
+                }
+
                 if (state.Duration <= 0 && sc.Result != null)
                 {
                     sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
