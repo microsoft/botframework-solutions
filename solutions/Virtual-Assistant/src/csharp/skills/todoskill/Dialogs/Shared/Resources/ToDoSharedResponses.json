@@ -148,8 +148,8 @@
   "SettingUpOneNoteMessage": {
     "replies": [
       {
-        "text": "I am setting up your OneNote, this won't take long.",
-        "speak": "I am setting up your OneNote, this won't take long."
+        "text": "I am setting up your list, this won't take long.",
+        "speak": "I am setting up your list, this won't take long."
       }
     ],
     "inputHint": "acceptingInput"
