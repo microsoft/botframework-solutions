@@ -218,8 +218,8 @@ namespace CalendarSkill
             replyToConversation.AttachmentLayout = AttachmentLayoutTypes.Carousel;
             replyToConversation.Attachments = new List<Microsoft.Bot.Schema.Attachment>();
 
-            var state = await _accessor.GetAsync(dc.Context);
             var cardsData = new List<CalendarCardData>();
+            var state = await _accessor.GetAsync(dc.Context);
             foreach (var item in events)
             {
                 var meetingCard = item.ToAdaptiveCardData(state.GetUserTimeZone(), showDate);
