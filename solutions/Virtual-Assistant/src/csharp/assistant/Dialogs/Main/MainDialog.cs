@@ -374,6 +374,7 @@ namespace VirtualAssistant
 
                 case "change temperature to 23 degrees":
                 case "将温度设定为23度":
+                case "将温度设定为二十三度":
                     {
                         response.Type = ActivityTypes.Event;
                         response.Name = "ChangeTemperature";
