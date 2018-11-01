@@ -217,7 +217,7 @@ namespace CalendarSkill
                     return await sc.BeginDialogAsync(Actions.UpdateNewStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotADateTime));
                 }
             }
-            catch (Exception e)
+            catch ()
             {
                 await HandleDialogExceptions(sc);
                 throw;
