@@ -9,7 +9,7 @@ namespace ToDoSkill.ServiceClients
     /// <summary>
     /// To Do bot service.
     /// </summary>
-    public interface IOutlookTaskService
+    public interface IOutlookService
     {
         /// <summary>
         /// Get To Do list.
@@ -46,6 +46,6 @@ namespace ToDoSkill.ServiceClients
         /// <param name="token">To Do service token.</param>
         /// <param name="taskFolderIds">Task folder ids.</param>
         /// <returns>To Do service itself.</returns>
-        Task<IOutlookTaskService> Init(string token, Dictionary<string, string> taskFolderIds);
+        Task<IOutlookService> Init(string token, Dictionary<string, string> taskFolderIds);
     }
 }

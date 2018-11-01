@@ -21,28 +21,27 @@ namespace ToDoSkill
         private readonly SkillConfiguration _services;
         private readonly ConversationState _conversationState;
         private readonly UserState _userState;
-        private IToDoService _serviceManager;
+        private ITaskService _serviceManager;
         private DialogSet _dialogs;
 
-        public ToDoSkill(SkillConfiguration services, ConversationState conversationState, UserState userState, IToDoService serviceManager = null, bool skillMode = false)
+        public ToDoSkill(SkillConfiguration services, ConversationState conversationState, UserState userState, ITaskService serviceManager = null, bool skillMode = false)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
-            _serviceManager = serviceManager ?? new ToDoService();
+            _serviceManager = serviceManager ?? new OneNoteService();
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(DialogState)));
             _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _serviceManager, _skillMode));
         }
-
 
         /// <summary>
         /// Run every turn of the conversation. Handles orchestration of messages.
         /// </summary>
         /// <param name="turnContext">Bot Turn Context.</param>
         /// <param name="cancellationToken">Task CancellationToken.</param>
-        /// <returns>A <see cref="ToDoItem"/> representing the asynchronous operation.</returns>
+        /// <returns>A <see cref="TaskItem"/> representing the asynchronous operation.</returns>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             var dc = await _dialogs.CreateContextAsync(turnContext);

@@ -5,20 +5,13 @@ namespace ToDoSkill
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.Specialized;
     using System.Linq;
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Text;
     using System.Text.RegularExpressions;
-    using System.Threading.Tasks;
     using System.Xml;
-    using AdaptiveCards;
-    using Microsoft.Azure.CognitiveServices.Language.LUIS.Runtime.Models;
-    using Microsoft.Bot.Builder;
-    using Microsoft.Bot.Solutions.Dialogs;
     using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
-    using Microsoft.Bot.Solutions.Extensions;
     using Newtonsoft.Json;
 
     /// <summary>
@@ -137,13 +130,13 @@ namespace ToDoSkill
         /// <summary>
         /// Generate mark all To Dos http request.
         /// </summary>
-        /// <param name="toDoTaskActivities">To Do task activities.</param>
+        /// <param name="taskItems">Task items.</param>
         /// <param name="pageContentUrl">page content url.</param>
         /// <returns>Generated http request message.</returns>
-        public static HttpRequestMessage GenerateMarkToDosHttpRequest(List<ToDoItem> toDoTaskActivities, string pageContentUrl)
+        public static HttpRequestMessage GenerateMarkToDosHttpRequest(List<TaskItem> taskItems, string pageContentUrl)
         {
             var commands = new List<object>();
-            foreach (var toDoTaskActivity in toDoTaskActivities)
+            foreach (var toDoTaskActivity in taskItems)
             {
                 var patchCommand = new
                 {
@@ -164,13 +157,13 @@ namespace ToDoSkill
         /// <summary>
         /// Generate delete all To Dos http request.
         /// </summary>
-        /// <param name="toDoTaskActivities">To Do task activities.</param>
+        /// <param name="taskItems">Task items.</param>
         /// <param name="pageContentUrl">page content url.</param>
         /// <returns>Generated http request message.</returns>
-        public static HttpRequestMessage GenerateDeleteToDosHttpRequest(List<ToDoItem> toDoTaskActivities, string pageContentUrl)
+        public static HttpRequestMessage GenerateDeleteToDosHttpRequest(List<TaskItem> taskItems, string pageContentUrl)
         {
             var commands = new List<object>();
-            foreach (var toDoTaskActivity in toDoTaskActivities)
+            foreach (var toDoTaskActivity in taskItems)
             {
                 var patchCommand = new
                 {
@@ -225,22 +218,22 @@ namespace ToDoSkill
         /// Generate add Outlook task http request.
         /// </summary>
         /// <param name="url">url.</param>
-        /// <param name="toDoItem">page title.</param>
+        /// <param name="taskItem">Task item.</param>
         /// <returns>Generated page html.</returns>
-        public static HttpRequestMessage GenerateDeleteOutlookTaskHttpRequest(string url, ToDoItem toDoItem)
+        public static HttpRequestMessage GenerateDeleteOutlookTaskHttpRequest(string url, TaskItem taskItem)
         {
-            return new HttpRequestMessage(new HttpMethod("DELETE"), url + "/" + toDoItem.Id);
+            return new HttpRequestMessage(new HttpMethod("DELETE"), url + "/" + taskItem.Id);
         }
 
         /// <summary>
         /// Generate add Outlook task http request.
         /// </summary>
         /// <param name="url">url.</param>
-        /// <param name="toDoItem">page title.</param>
+        /// <param name="taskItem">Task item.</param>
         /// <returns>Generated page html.</returns>
-        public static HttpRequestMessage GenerateMarkOutlookTaskCompletedHttpRequest(string url, ToDoItem toDoItem)
+        public static HttpRequestMessage GenerateMarkOutlookTaskCompletedHttpRequest(string url, TaskItem taskItem)
         {
-            return new HttpRequestMessage(new HttpMethod("POST"), url + "/" + toDoItem.Id + "/complete");
+            return new HttpRequestMessage(new HttpMethod("POST"), url + "/" + taskItem.Id + "/complete");
         }
 
         /// <summary>

@@ -12,7 +12,7 @@ namespace ToDoSkill.ServiceClients
     /// <summary>
     /// To Do bot service.
     /// </summary>
-    public class OutlookTaskService : IOutlookTaskService
+    public class OutlookService : ITaskService
     {
         private const string ToDoTaskFolder = "ToDo";
         private const string GroceryTaskFolder = "Grocery";
@@ -22,31 +22,31 @@ namespace ToDoSkill.ServiceClients
         private Dictionary<string, string> taskFolderIds;
 
         /// <summary>
-        /// Initializes OutlookTaskService using token.
+        /// Initializes Outlook task service using token.
         /// </summary>
         /// <param name="token">The token used for msgraph API call.</param>
         /// <param name="taskFolderIds">Task folder ids.</param>
         /// <returns>Outlook task service itself.</returns>
-        public async Task<IOutlookTaskService> Init(string token, Dictionary<string, string> taskFolderIds)
+        public async Task<ITaskService> InitAsync(string token, Dictionary<string, string> taskFolderIds)
         {
             try
             {
                 this.httpClient = ServiceHelper.GetHttpClient(token);
                 if (!taskFolderIds.ContainsKey(ToDoTaskFolder))
                 {
-                    var taskFolderId = await GetOrCreateTaskFolder(ToDoTaskFolder);
+                    var taskFolderId = await GetOrCreateTaskFolderAsync(ToDoTaskFolder);
                     taskFolderIds.Add(ToDoTaskFolder, taskFolderId);
                 }
 
                 if (!taskFolderIds.ContainsKey(GroceryTaskFolder))
                 {
-                    var taskFolderId = await GetOrCreateTaskFolder(GroceryTaskFolder);
+                    var taskFolderId = await GetOrCreateTaskFolderAsync(GroceryTaskFolder);
                     taskFolderIds.Add(GroceryTaskFolder, taskFolderId);
                 }
 
                 if (taskFolderIds.ContainsKey(ShoppingTaskFolder))
                 {
-                    var taskFolderId = await GetOrCreateTaskFolder(ShoppingTaskFolder);
+                    var taskFolderId = await GetOrCreateTaskFolderAsync(ShoppingTaskFolder);
                     taskFolderIds.Add(ShoppingTaskFolder, taskFolderId);
                 }
 
@@ -63,13 +63,13 @@ namespace ToDoSkill.ServiceClients
         /// Get To Do tasks.
         /// </summary>
         /// <param name="listType">Task list type.</param>
-        /// <returns>List of ToDoTaskActivityModel.</returns>
-        public async Task<List<ToDoItem>> GetTasks(string listType)
+        /// <returns>List of task items.</returns>
+        public async Task<List<TaskItem>> GetTasksAsync(string listType)
         {
             try
             {
                 var requestUrl = this.graphBaseUrl + "taskFolders/" + taskFolderIds[listType] + "/tasks";
-                return await this.GetTasksAsync(requestUrl);
+                return await this.ExecuteTasksGetAsync(requestUrl);
             }
             catch (Exception ex)
             {
@@ -82,13 +82,13 @@ namespace ToDoSkill.ServiceClients
         /// </summary>
         /// <param name="listType">Task list type.</param>
         /// <param name="taskText">The task text.</param>
-        /// <returns>List of ToDoTaskActivityModel.</returns>
-        public async Task<bool> AddTask(string listType, string taskText)
+        /// <returns>Ture if succeed.</returns>
+        public async Task<bool> AddTaskAsync(string listType, string taskText)
         {
             try
             {
                 var requestUrl = this.graphBaseUrl + "taskFolders/" + taskFolderIds[listType] + "/tasks";
-                return await this.AddTaskAsync(requestUrl, taskText);
+                return await this.ExecuteTaskAddAsync(requestUrl, taskText);
             }
             catch (Exception ex)
             {
@@ -99,14 +99,15 @@ namespace ToDoSkill.ServiceClients
         /// <summary>
         /// Mark tasks as completed.
         /// </summary>
-        /// <param name="toDoItems">Task items.</param>
-        /// <returns>List of ToDoTaskActivityModel.</returns>
-        public async Task<bool> MarkTasksCompleted(List<ToDoItem> toDoItems)
+        /// <param name="listType">Task list type.</param>
+        /// <param name="taskItems">Task items.</param>
+        /// <returns>True if succeed.</returns>
+        public async Task<bool> MarkTasksCompletedAsync(string listType, List<TaskItem> taskItems)
         {
             try
             {
                 var requestUrl = this.graphBaseUrl + "tasks";
-                return await this.MarkTasksCompletedAsync(requestUrl, toDoItems);
+                return await this.ExecuteTasksMarkAsync(requestUrl, taskItems);
             }
             catch (Exception ex)
             {
@@ -117,14 +118,15 @@ namespace ToDoSkill.ServiceClients
         /// <summary>
         /// Delete tasks.
         /// </summary>
-        /// <param name="toDoItems">Task items.</param>
-        /// <returns>List of ToDoTaskActivityModel.</returns>
-        public async Task<bool> DeleteTasks(List<ToDoItem> toDoItems)
+        /// <param name="listType">Task list type.</param>
+        /// <param name="taskItems">Task items.</param>
+        /// <returns>True if succeed.</returns>
+        public async Task<bool> DeleteTasksAsync(string listType, List<TaskItem> taskItems)
         {
             try
             {
                 var requestUrl = this.graphBaseUrl + "tasks";
-                return await this.DeleteTasksAsync(requestUrl, toDoItems);
+                return await this.ExecuteTasksDeleteAsync(requestUrl, taskItems);
             }
             catch (Exception ex)
             {
@@ -132,14 +134,14 @@ namespace ToDoSkill.ServiceClients
             }
         }
 
-        private async Task<string> GetOrCreateTaskFolder(string taskFolderName)
+        private async Task<string> GetOrCreateTaskFolderAsync(string taskFolderName)
         {
             try
             {
-                var taskFolderId = await GetTaskFolder(taskFolderName);
+                var taskFolderId = await GetTaskFolderAsync(taskFolderName);
                 if (string.IsNullOrEmpty(taskFolderId))
                 {
-                    taskFolderId = await CreateTaskFolder(taskFolderName);
+                    taskFolderId = await CreateTaskFolderAsync(taskFolderName);
                 }
 
                 return taskFolderId;
@@ -150,7 +152,7 @@ namespace ToDoSkill.ServiceClients
             }
         }
 
-        private async Task<string> GetTaskFolder(string taskFolderName)
+        private async Task<string> GetTaskFolderAsync(string taskFolderName)
         {
             try
             {
@@ -171,7 +173,7 @@ namespace ToDoSkill.ServiceClients
             }
         }
 
-        private async Task<string> CreateTaskFolder(string taskFolderName)
+        private async Task<string> CreateTaskFolderAsync(string taskFolderName)
         {
             try
             {
@@ -200,13 +202,13 @@ namespace ToDoSkill.ServiceClients
             return taskFolderIdNameDic;
         }
 
-        private async Task<List<ToDoItem>> GetTasksAsync(string url)
+        private async Task<List<TaskItem>> ExecuteTasksGetAsync(string url)
         {
             var tasksObject = await this.ExecuteGraphFetchAsync(url);
-            var toDoTasks = new List<ToDoItem>();
+            var toDoTasks = new List<TaskItem>();
             foreach (var task in tasksObject)
             {
-                toDoTasks.Add(new ToDoItem()
+                toDoTasks.Add(new TaskItem()
                 {
                     Topic = task["subject"],
                     Id = task["id"],
@@ -217,18 +219,18 @@ namespace ToDoSkill.ServiceClients
             return toDoTasks;
         }
 
-        private async Task<bool> AddTaskAsync(string url, string taskText)
+        private async Task<bool> ExecuteTaskAddAsync(string url, string taskText)
         {
             var httpRequestMessage = ServiceHelper.GenerateAddOutlookTaskHttpRequest(url, taskText);
             var result = await this.httpClient.SendAsync(httpRequestMessage);
             return result.IsSuccessStatusCode;
         }
 
-        private async Task<bool> MarkTasksCompletedAsync(string url, List<ToDoItem> toDoItems)
+        private async Task<bool> ExecuteTasksMarkAsync(string url, List<TaskItem> taskItems)
         {
-            foreach (var toDoItem in toDoItems)
+            foreach (var taskItem in taskItems)
             {
-                var httpRequestMessage = ServiceHelper.GenerateMarkOutlookTaskCompletedHttpRequest(url, toDoItem);
+                var httpRequestMessage = ServiceHelper.GenerateMarkOutlookTaskCompletedHttpRequest(url, taskItem);
                 var result = await this.httpClient.SendAsync(httpRequestMessage);
                 if (!result.IsSuccessStatusCode)
                 {
@@ -239,11 +241,11 @@ namespace ToDoSkill.ServiceClients
             return true;
         }
 
-        private async Task<bool> DeleteTasksAsync(string url, List<ToDoItem> toDoItems)
+        private async Task<bool> ExecuteTasksDeleteAsync(string url, List<TaskItem> taskItems)
         {
-            foreach (var toDoItem in toDoItems)
+            foreach (var taskItem in taskItems)
             {
-                var httpRequestMessage = ServiceHelper.GenerateDeleteOutlookTaskHttpRequest(url, toDoItem);
+                var httpRequestMessage = ServiceHelper.GenerateDeleteOutlookTaskHttpRequest(url, taskItem);
                 var result = await this.httpClient.SendAsync(httpRequestMessage);
                 if (!result.IsSuccessStatusCode)
                 {

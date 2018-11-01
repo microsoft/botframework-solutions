@@ -30,14 +30,14 @@ namespace ToDoSkill
         // Fields
         protected SkillConfiguration _services;
         protected IStatePropertyAccessor<ToDoSkillState> _accessor;
-        protected IToDoService _serviceManager;
+        protected ITaskService _serviceManager;
         protected ToDoSkillResponseBuilder _responseBuilder = new ToDoSkillResponseBuilder();
 
         public ToDoSkillDialog(
             string dialogId,
             SkillConfiguration services,
             IStatePropertyAccessor<ToDoSkillState> accessor,
-            IToDoService serviceManager)
+            ITaskService serviceManager)
             : base(dialogId)
         {
             _services = services;
@@ -154,21 +154,21 @@ namespace ToDoSkill
 
             if (topIntent == ToDo.Intent.ShowToDo)
             {
-                state.ShowToDoPageIndex = 0;
-                state.Tasks = new List<ToDoItem>();
-                state.AllTasks = new List<ToDoItem>();
+                state.ShowTaskPageIndex = 0;
+                state.Tasks = new List<TaskItem>();
+                state.AllTasks = new List<TaskItem>();
                 await DigestToDoLuisResult(sc, state.LuisResult);
             }
             else if (generalTopIntent == General.Intent.Next)
             {
-                if ((state.ShowToDoPageIndex + 1) * state.PageSize < state.AllTasks.Count)
+                if ((state.ShowTaskPageIndex + 1) * state.PageSize < state.AllTasks.Count)
                 {
-                    state.ShowToDoPageIndex++;
+                    state.ShowTaskPageIndex++;
                 }
             }
-            else if (generalTopIntent == General.Intent.Previous && state.ShowToDoPageIndex > 0)
+            else if (generalTopIntent == General.Intent.Previous && state.ShowTaskPageIndex > 0)
             {
-                state.ShowToDoPageIndex--;
+                state.ShowTaskPageIndex--;
             }
             else if (topIntent == ToDo.Intent.AddToDo)
             {
@@ -198,14 +198,12 @@ namespace ToDoSkill
             var state = await _accessor.GetAsync(sc.Context);
             state.ListType = state.ListType ?? ListType.ToDo.ToString();
 
-            if (!state.OneNotePageIds.ContainsKey(state.ListType))
+            if (!state.ListTypeIds.ContainsKey(state.ListType))
             {
                 await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
-                var service = await _serviceManager.Init(state.MsGraphToken, state.OneNotePageIds);
-                var todosAndPageIdTuple = await service.GetToDos(state.ListType);
-                state.OneNotePageIds.Add(state.ListType, todosAndPageIdTuple.Item2);
-                state.AllTasks = todosAndPageIdTuple.Item1;
-                state.ShowToDoPageIndex = 0;
+                var service = await _serviceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
+                state.AllTasks = await service.GetTasksAsync(state.ListType);
+                state.ShowTaskPageIndex = 0;
                 var rangeCount = Math.Min(state.PageSize, state.AllTasks.Count);
                 state.Tasks = state.AllTasks.GetRange(0, rangeCount);
             }
@@ -291,7 +289,7 @@ namespace ToDoSkill
                 && state.TaskIndexes[0] >= 0
                 && state.TaskIndexes[0] < state.Tasks.Count)
             {
-                state.TaskIndexes[0] = (state.PageSize * state.ShowToDoPageIndex) + state.TaskIndexes[0];
+                state.TaskIndexes[0] = (state.PageSize * state.ShowTaskPageIndex) + state.TaskIndexes[0];
                 return await sc.EndDialogAsync(true);
             }
             else
@@ -361,17 +359,15 @@ namespace ToDoSkill
             try
             {
                 var state = await _accessor.GetAsync(sc.Context);
-                if (!state.OneNotePageIds.ContainsKey(state.ListType))
+                if (!state.ListTypeIds.ContainsKey(state.ListType))
                 {
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
                 }
 
-                var service = await _serviceManager.Init(state.MsGraphToken, state.OneNotePageIds);
-                var page = await service.GetDefaultToDoPage(state.ListType);
-                await service.AddToDo(state.TaskContent, page.ContentUrl);
-                var todosAndPageIdTuple = await service.GetToDos(state.ListType);
-                state.AllTasks = todosAndPageIdTuple.Item1;
-                state.ShowToDoPageIndex = 0;
+                var service = await _serviceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
+                await service.AddTaskAsync(state.ListType, state.TaskContent);
+                state.AllTasks = await service.GetTasksAsync(state.ListType);
+                state.ShowTaskPageIndex = 0;
                 var rangeCount = Math.Min(state.PageSize, state.AllTasks.Count);
                 state.Tasks = state.AllTasks.GetRange(0, rangeCount);
                 var toDoListAttachment = ToAdaptiveCardAttachmentForOtherFlows(
@@ -508,7 +504,7 @@ namespace ToDoSkill
         }
 
         public static Microsoft.Bot.Schema.Attachment ToAdaptiveCardAttachmentForShowToDos(
-           List<ToDoItem> todos,
+           List<TaskItem> todos,
            int allTaskCount,
            BotResponse botResponse1,
            BotResponse botResponse2)
@@ -564,7 +560,7 @@ namespace ToDoSkill
         }
 
         public static Microsoft.Bot.Schema.Attachment ToAdaptiveCardAttachmentForOtherFlows(
-            List<ToDoItem> todos,
+            List<TaskItem> todos,
             int allTaskCount,
             string taskContent,
             BotResponse botResponse1,

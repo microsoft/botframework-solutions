@@ -2,7 +2,7 @@
 
 namespace ToDoSkill
 {
-    public class ToDoItem
+    public class TaskItem
     {
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }

@@ -17,7 +17,7 @@ namespace ToDoSkill
     /// <summary>
     /// To Do bot service.
     /// </summary>
-    public class ToDoService : IToDoService
+    public class OneNoteService : ITaskService
     {
         private const string OneNoteNotebookName = "ToDoNotebook";
         private const string OneNoteSectionName = "ToDoSection";
@@ -29,12 +29,12 @@ namespace ToDoSkill
         private Dictionary<string, string> pageIds;
 
         /// <summary>
-        /// Initializes ToDoService using token.
+        /// Initializes OneNote task service using token.
         /// </summary>
         /// <param name="token">the token used for msgraph API call.</param>
         /// <param name="pageIds">the page ids.</param>
-        /// <returns>To Do service itself.</returns>
-        public async Task<IToDoService> Init(string token, Dictionary<string, string> pageIds)
+        /// <returns>OneNote task service itself.</returns>
+        public async Task<ITaskService> InitAsync(string token, Dictionary<string, string> pageIds)
         {
             try
             {
@@ -75,26 +75,27 @@ namespace ToDoSkill
         }
 
         /// <summary>
-        /// Get To Do list.
+        /// Get To Do tasks.
         /// </summary>
-        /// <returns>Tuple of To Dos and onenote page ids.</returns>
-        public async Task<Tuple<List<ToDoItem>, string>> GetToDos(string listType)
+        /// <param name="listType">Task list type.</param>
+        /// <returns>List of task items.</returns>
+        public async Task<List<TaskItem>> GetTasksAsync(string listType)
         {
             try
             {
-                var pages = await GetOneNotePageById(pageIds[listType]);
+                var pages = await GetOneNotePageByIdAsync(pageIds[listType]);
 
                 var retryCount = 2;
                 while ((pages == null || pages.Count == 0) && retryCount > 0)
                 {
-                    pages = await GetOneNotePageById(pageIds[listType]);
+                    pages = await GetOneNotePageByIdAsync(pageIds[listType]);
                     retryCount--;
                 }
 
                 if (pages != null && pages.Count > 0)
                 {
-                    var todos = await GetToDoContent(pages.First().ContentUrl);
-                    return new Tuple<List<ToDoItem>, string>(todos, pageIds[listType]);
+                    var todos = await GetToDoContentAsync(pages.First().ContentUrl);
+                    return todos;
                 }
                 else
                 {
@@ -108,78 +109,49 @@ namespace ToDoSkill
         }
 
         /// <summary>
-        /// Get default To Do page.
+        /// Add a task.
         /// </summary>
-        /// <returns>Default onenote page.</returns>
-        public async Task<OnenotePage> GetDefaultToDoPage(string listType)
-        {
-            try
-            {
-                var pages = await GetOneNotePageById(pageIds[listType]);
-
-                var retryCount = 2;
-                while ((pages == null || pages.Count == 0) && retryCount > 0)
-                {
-                    pages = await GetOneNotePageById(pageIds[listType]);
-                    retryCount--;
-                }
-
-                if (pages != null && pages.Count > 0)
-                {
-                    return pages.First();
-                }
-                else
-                {
-                    throw new Exception("Can not get the To Do OneNote pages.");
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        /// <summary>
-        /// Add To Do to onenote page.
-        /// </summary>
-        /// <param name="todoText">To Do text.</param>
-        /// <param name="pageContentUrl">page content url.</param>
+        /// <param name="listType">Task list type.</param>
+        /// <param name="taskText">The task text.</param>
         /// <returns>Ture if succeed.</returns>
-        public async Task<bool> AddToDo(string todoText, string pageContentUrl)
+        public async Task<bool> AddTaskAsync(string listType, string taskText)
         {
-            var todoContent = await httpClient.GetStringAsync(pageContentUrl + "/?includeIDs=true");
-            var httpRequestMessage = ServiceHelper.GenerateAddToDoHttpRequest(todoText, todoContent, pageContentUrl);
+            var pageContentUrl = await this.GetDefaultToDoPageAsync(listType);
+            var todoContent = await httpClient.GetStringAsync(pageContentUrl.ContentUrl + "/?includeIDs=true");
+            var httpRequestMessage = ServiceHelper.GenerateAddToDoHttpRequest(taskText, todoContent, pageContentUrl.ContentUrl);
             var result = await httpClient.SendAsync(httpRequestMessage);
             return result.IsSuccessStatusCode;
         }
 
         /// <summary>
-        /// Mark to do item as completed.
+        /// Mark tasks as completed.
         /// </summary>
-        /// <param name="toDoActivities">To Do activities.</param>
-        /// <param name="pageContentUrl">page content url.</param>
+        /// <param name="listType">Task list type.</param>
+        /// <param name="taskItems">Task items.</param>
         /// <returns>True if succeed.</returns>
-        public async Task<bool> MarkToDosCompleted(List<ToDoItem> toDoActivities, string pageContentUrl)
+        public async Task<bool> MarkTasksCompletedAsync(string listType, List<TaskItem> taskItems)
         {
-            var httpRequestMessage = ServiceHelper.GenerateMarkToDosHttpRequest(toDoActivities, pageContentUrl);
+            var pageContentUrl = await this.GetDefaultToDoPageAsync(listType);
+            var httpRequestMessage = ServiceHelper.GenerateMarkToDosHttpRequest(taskItems, pageContentUrl.ContentUrl);
             var result = await httpClient.SendAsync(httpRequestMessage);
             return result.IsSuccessStatusCode;
         }
 
         /// <summary>
-        /// Delete To Do.
+        /// Delete tasks.
         /// </summary>
-        /// <param name="toDoActivities">To Do activities.</param>
-        /// <param name="pageContentUrl">page content url.</param>
+        /// <param name="listType">Task list type.</param>
+        /// <param name="taskItems">Task items.</param>
         /// <returns>True if succeed.</returns>
-        public async Task<bool> DeleteToDos(List<ToDoItem> toDoActivities, string pageContentUrl)
+        public async Task<bool> DeleteTasksAsync(string listType, List<TaskItem> taskItems)
         {
-            var httpRequestMessage = ServiceHelper.GenerateDeleteToDosHttpRequest(toDoActivities, pageContentUrl);
+            var pageContentUrl = await this.GetDefaultToDoPageAsync(listType);
+            var httpRequestMessage = ServiceHelper.GenerateDeleteToDosHttpRequest(taskItems, pageContentUrl.ContentUrl);
             var result = await httpClient.SendAsync(httpRequestMessage);
             return result.IsSuccessStatusCode;
         }
 
-        private async Task<string> CreateOneNoteNotebook(string createNotebookUrl, string notebookName)
+        private async Task<string> CreateOneNoteNotebookAsync(string createNotebookUrl, string notebookName)
         {
             var makeSectionContent = await httpClient.GetStringAsync(createNotebookUrl);
             var httpRequestMessage = ServiceHelper.GenerateCreateNotebookHttpRequest(makeSectionContent, createNotebookUrl, notebookName);
@@ -191,21 +163,21 @@ namespace ToDoSkill
         private async Task<string> GetOrCreateNotebookAsync(string notebookName)
         {
             var notebooksUrl = $"{graphBaseUrl}/onenote/notebooks";
-            var onenoteNotebook = await GetOneNoteNotebook($"{notebooksUrl}?filter=name eq '{notebookName}'");
+            var onenoteNotebook = await GetOneNoteNotebookAsync($"{notebooksUrl}?filter=name eq '{notebookName}'");
             if (onenoteNotebook.Count == 0)
             {
-                return await CreateOneNoteNotebook(notebooksUrl, notebookName);
+                return await CreateOneNoteNotebookAsync(notebooksUrl, notebookName);
             }
 
             return onenoteNotebook[0].Id;
         }
 
-        private async Task<List<Notebook>> GetOneNoteNotebook(string url)
+        private async Task<List<Notebook>> GetOneNoteNotebookAsync(string url)
         {
-            return JsonConvert.DeserializeObject<List<Notebook>>(await ExecuteGraphFetch(url));
+            return JsonConvert.DeserializeObject<List<Notebook>>(await ExecuteGraphFetchAsync(url));
         }
 
-        private async Task<string> CreateOneNoteSection(string sectionContentUrl, string sectionTitle)
+        private async Task<string> CreateOneNoteSectionAsync(string sectionContentUrl, string sectionTitle)
         {
             var makeSectionContent = await httpClient.GetStringAsync(sectionContentUrl);
             var httpRequestMessage = ServiceHelper.GenerateCreateSectionHttpRequest(makeSectionContent, sectionContentUrl, sectionTitle);
@@ -217,21 +189,21 @@ namespace ToDoSkill
         private async Task<string> GetOrCreateSectionAsync(string notebookId, string sectionTitle)
         {
             var sectionsUrl = $"{graphBaseUrl}/onenote/notebooks/{notebookId}/sections";
-            var onenoteSection = await GetOneNoteSection($"{sectionsUrl}?filter=name eq '{sectionTitle}'");
+            var onenoteSection = await GetOneNoteSectionAsync($"{sectionsUrl}?filter=name eq '{sectionTitle}'");
             if (onenoteSection.Count == 0)
             {
-                return await CreateOneNoteSection(sectionsUrl, sectionTitle);
+                return await CreateOneNoteSectionAsync(sectionsUrl, sectionTitle);
             }
 
             return onenoteSection[0].Id;
         }
 
-        private async Task<List<OnenoteSection>> GetOneNoteSection(string url)
+        private async Task<List<OnenoteSection>> GetOneNoteSectionAsync(string url)
         {
-            return JsonConvert.DeserializeObject<List<OnenoteSection>>(await ExecuteGraphFetch(url));
+            return JsonConvert.DeserializeObject<List<OnenoteSection>>(await ExecuteGraphFetchAsync(url));
         }
 
-        private async Task<bool> CreateOneNotePage(string sectionUrl, string pageTitle)
+        private async Task<bool> CreateOneNotePageAsync(string sectionUrl, string pageTitle)
         {
             var httpRequestMessage = ServiceHelper.GenerateCreatePageHttpRequest(pageTitle, sectionUrl);
             var result = await httpClient.SendAsync(httpRequestMessage);
@@ -241,16 +213,16 @@ namespace ToDoSkill
         private async Task<string> GetOrCreatePageAsync(string sectionId, string pageTitle)
         {
             var pagesUrl = $"{graphBaseUrl}/onenote/sections/{sectionId}/pages";
-            var onenotePage = await GetOneNotePage($"{pagesUrl}?filter=title eq '{pageTitle}'");
+            var onenotePage = await GetOneNotePageAsync($"{pagesUrl}?filter=title eq '{pageTitle}'");
             if (onenotePage == null || onenotePage.Count == 0)
             {
-                var successFlag = await CreateOneNotePage(pagesUrl, pageTitle);
+                var successFlag = await CreateOneNotePageAsync(pagesUrl, pageTitle);
                 if (successFlag)
                 {
                     var retryCount = 3;
                     while ((onenotePage == null || onenotePage.Count == 0) && retryCount > 0)
                     {
-                        onenotePage = await GetOneNotePage($"{pagesUrl}?filter=title eq '{pageTitle}'");
+                        onenotePage = await GetOneNotePageAsync($"{pagesUrl}?filter=title eq '{pageTitle}'");
                         retryCount--;
                     }
                 }
@@ -270,19 +242,18 @@ namespace ToDoSkill
             }
         }
 
-        private async Task<List<OnenotePage>> GetOneNotePage(string url)
+        private async Task<List<OnenotePage>> GetOneNotePageAsync(string url)
         {
-            return JsonConvert.DeserializeObject<List<OnenotePage>>(await ExecuteGraphFetch(url));
-
+            return JsonConvert.DeserializeObject<List<OnenotePage>>(await ExecuteGraphFetchAsync(url));
         }
 
-        private async Task<List<OnenotePage>> GetOneNotePageById(string pageId)
+        private async Task<List<OnenotePage>> GetOneNotePageByIdAsync(string pageId)
         {
             var pageByIdUrl = $"{graphBaseUrl}/onenote/pages?filter=id eq '{pageId}'";
-            return await GetOneNotePage(pageByIdUrl);
+            return await GetOneNotePageAsync(pageByIdUrl);
         }
 
-        private async Task<List<ToDoItem>> GetToDoContent(string pageContentUrl)
+        private async Task<List<TaskItem>> GetToDoContentAsync(string pageContentUrl)
         {
             var todoContent = await httpClient.GetStringAsync(pageContentUrl + "?includeIDs=true");
             var doc = new XmlDocument();
@@ -294,18 +265,46 @@ namespace ToDoSkill
                 ?.SelectNodes("p")
                 ?.Cast<XmlNode>()
                 ?.Where(node => node.Attributes["data-tag"] != null && node.Attributes["data-tag"].Value.StartsWith("to-do"))
-                ?.Select(node => new ToDoItem() { Topic = node.InnerText, Id = node.Attributes["id"].Value, IsCompleted = node.Attributes["data-tag"].Value == "to-do" ? false : true })
+                ?.Select(node => new TaskItem() { Topic = node.InnerText, Id = node.Attributes["id"].Value, IsCompleted = node.Attributes["data-tag"].Value == "to-do" ? false : true })
                 ?.ToList();
 
             if (todosList == null)
             {
-                todosList = new List<ToDoItem>();
+                todosList = new List<TaskItem>();
             }
 
             return todosList;
         }
 
-        private async Task<string> ExecuteGraphFetch(string url)
+        private async Task<OnenotePage> GetDefaultToDoPageAsync(string listType)
+        {
+            try
+            {
+                var pages = await GetOneNotePageByIdAsync(pageIds[listType]);
+
+                var retryCount = 2;
+                while ((pages == null || pages.Count == 0) && retryCount > 0)
+                {
+                    pages = await GetOneNotePageByIdAsync(pageIds[listType]);
+                    retryCount--;
+                }
+
+                if (pages != null && pages.Count > 0)
+                {
+                    return pages.First();
+                }
+                else
+                {
+                    throw new Exception("Can not get the To Do OneNote pages.");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private async Task<string> ExecuteGraphFetchAsync(string url)
         {
             var result = await httpClient.GetStringAsync(url);
             dynamic content = JObject.Parse(result);
