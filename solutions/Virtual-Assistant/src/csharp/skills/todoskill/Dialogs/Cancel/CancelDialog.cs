@@ -1,9 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 
 namespace ToDoSkill
 {
@@ -27,12 +29,12 @@ namespace ToDoSkill
             };
 
             AddDialog(new WaterfallDialog(InitialDialogId, cancel));
-            AddDialog(new ConfirmPrompt(CancelPrompt));
+            AddDialog(new ConfirmPrompt(CancelPrompt, null, CultureInfo.CurrentUICulture.TwoLetterISOLanguageName) { Style = ListStyle.SuggestedAction });
         }
 
         public static async Task<DialogTurnResult> AskToCancel(WaterfallStepContext sc, CancellationToken cancellationToken) => await sc.PromptAsync(CancelPrompt, new PromptOptions()
         {
-            Prompt = await _responder.RenderTemplate(sc.Context, "en", CancelResponses._confirmPrompt),
+            Prompt = await _responder.RenderTemplate(sc.Context, sc.Context.Activity.Locale, CancelResponses._confirmPrompt),
         });
 
         public static async Task<DialogTurnResult> FinishCancelDialog(WaterfallStepContext sc, CancellationToken cancellationToken) => await sc.EndDialogAsync((bool)sc.Result);
