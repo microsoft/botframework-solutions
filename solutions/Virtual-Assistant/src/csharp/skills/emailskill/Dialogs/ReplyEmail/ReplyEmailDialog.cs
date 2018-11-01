@@ -70,7 +70,7 @@ namespace EmailSkill
                         await service.ReplyToMessageAsync(message.Id, content);
                     }
 
-                    var nameListString = $"To: {message?.From.EmailAddress.Name}";
+                    var nameListString = $"发送至: {message?.From.EmailAddress.Name}";
                     if (message?.ToRecipients.Count() > 1)
                     {
                         nameListString += $" + {message.ToRecipients.Count() - 1} more";
@@ -78,7 +78,7 @@ namespace EmailSkill
 
                     var emailCard = new EmailCardData
                     {
-                        Subject = "RE: " + message?.Subject,
+                        Subject = "回复: " + message?.Subject,
                         NameList = nameListString,
                         EmailContent = state.Content,
                     };

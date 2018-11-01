@@ -72,7 +72,7 @@ namespace EmailSkill
                     // send user message.
                     await service.ForwardMessageAsync(id, content, recipients);
 
-                    var nameListString = $"To: {state.Recipients.FirstOrDefault()?.EmailAddress.Name}";
+                    var nameListString = $"发送至: {state.Recipients.FirstOrDefault()?.EmailAddress.Name}";
                     if (state.Recipients.Count > 1)
                     {
                         nameListString += $" + {state.Recipients.Count - 1} more";
@@ -80,9 +80,9 @@ namespace EmailSkill
 
                     var emailCard = new EmailCardData
                     {
-                        Subject = "Subject: FW: " + message.FirstOrDefault()?.Subject,
+                        Subject = "主题: 转发: " + message.FirstOrDefault()?.Subject,
                         NameList = nameListString,
-                        EmailContent = "Content: " + state.Content,
+                        EmailContent = "内容: " + state.Content,
                     };
                     var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(EmailSharedResponses.SentSuccessfully, "Dialogs/Shared/Resources/Cards/EmailWithOutButtonCard.json", emailCard);
 

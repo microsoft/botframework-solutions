@@ -263,9 +263,9 @@ namespace EmailSkill
 
                 var emailCard = new EmailCardData
                 {
-                    Subject = "Subject: " + state.Subject,
+                    Subject = "主题: " + state.Subject,
                     NameList = nameListString,
-                    EmailContent = "Content: " + state.Content,
+                    EmailContent = "内容: " + state.Content,
                 };
                 var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(EmailSharedResponses.ConfirmSend, "Dialogs/Shared/Resources/Cards/EmailWithOutButtonCard.json", emailCard, _responseBuilder);
 
@@ -595,7 +595,7 @@ namespace EmailSkill
         public async Task<string> GetPreviewNameListString(WaterfallStepContext sc, string actionType)
         {
             var state = await _emailStateAccessor.GetAsync(sc.Context);
-            var nameListString = "To: ";
+            var nameListString = "发送至: ";
 
             switch (actionType)
             {
@@ -692,7 +692,7 @@ namespace EmailSkill
             var cardsData = new List<EmailCardData>();
             foreach (var message in messages)
             {
-                var nameListString = $"To: {message.ToRecipients.FirstOrDefault()?.EmailAddress.Name}";
+                var nameListString = $"发送至: {message.ToRecipients.FirstOrDefault()?.EmailAddress.Name}";
                 if (message.ToRecipients != null && message.ToRecipients.Count() > 1)
                 {
                     nameListString += $" + {message.ToRecipients.Count() - 1} more";
@@ -708,7 +708,7 @@ namespace EmailSkill
                     ReceivedDateTime = message.ReceivedDateTime == null
                     ? "Not available"
                     : message.ReceivedDateTime.Value.UtcDateTime.ToRelativeString(state.GetUserTimeZone()),
-                    Speak = message?.Subject + " From " + message.Sender.EmailAddress.Name,
+                    Speak = message?.Subject + " 来自 " + message.Sender.EmailAddress.Name,
                 };
                 cardsData.Add(emailCard);
             }

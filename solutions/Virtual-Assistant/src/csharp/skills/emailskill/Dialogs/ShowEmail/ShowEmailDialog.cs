@@ -178,7 +178,7 @@ namespace EmailSkill
                 }
                 else if (topIntent == Email.Intent.SelectItem || (topIntent == Email.Intent.ReadAloud && message != null))
                 {
-                    var nameListString = $"To: {message?.ToRecipients.FirstOrDefault()?.EmailAddress.Name}";
+                    var nameListString = $"发送至: {message?.ToRecipients.FirstOrDefault()?.EmailAddress.Name}";
                     if (message?.ToRecipients.Count() > 1)
                     {
                         nameListString += $" + {message.ToRecipients.Count() - 1} more";
@@ -194,7 +194,7 @@ namespace EmailSkill
                         ReceivedDateTime = message?.ReceivedDateTime == null
                             ? "Not available"
                             : message.ReceivedDateTime.Value.UtcDateTime.ToRelativeString(state.GetUserTimeZone()),
-                        Speak = message?.Subject + " From " + message?.Sender.EmailAddress.Name + " " + message?.BodyPreview,
+                        Speak = message?.Subject + " 来自 " + message?.Sender.EmailAddress.Name + " " + message?.BodyPreview,
                     };
                     var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(ShowEmailResponses.ReadOutMessage, "Dialogs/Shared/Resources/Cards/EmailDetailCard.json", emailCard);
                     await sc.Context.SendActivityAsync(replyMessage);
