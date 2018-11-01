@@ -6,8 +6,24 @@
   "body": [
     {
       "type": "Image",
-      "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtB3AwMUeNoq4gUBGe6Ocj8kyh3bXa9ZbV7u1fVKQoyKFHdkqU",
-      "size": "stretch"
+      "horizontalAlignment": "Center",
+      "url": "https://virtualasspc5f.blob.core.windows.net/images/BMW%20lcon%402x.png",
+      "size": "Large",
+      "width": "150px",
+      "height": "150px"
+    },
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "TextBlock",
+          "horizontalAlignment": "Center",
+          "size": "ExtraLarge",
+          "weight": "Lighter",
+          "color": "Light",
+          "text": "智能助手"
+        }
+      ]
     },
     {
       "type": "TextBlock",

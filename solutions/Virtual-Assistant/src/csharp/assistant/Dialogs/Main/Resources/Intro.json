@@ -1,32 +1,39 @@
 {
-  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "type": "AdaptiveCard",
-  "version": "1.0",
-  "speak": "Welcome to your Virtual Assistant! Now that you're up and running, let's get started.",
   "body": [
     {
       "type": "Image",
-      "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtB3AwMUeNoq4gUBGe6Ocj8kyh3bXa9ZbV7u1fVKQoyKFHdkqU",
-      "size": "stretch"
+      "horizontalAlignment": "Center",
+      "url": "https://virtualasspc5f.blob.core.windows.net/images/BMW%20lcon%402x.png",
+      "size": "Large",
+      "width": "150px",
+      "height": "150px"
+    },
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "TextBlock",
+          "horizontalAlignment": "Center",
+          "size": "ExtraLarge",
+          "weight": "Lighter",
+          "color": "Light",
+          "text": "Virtual Assistant"
+        }
+      ]
     },
     {
       "type": "TextBlock",
-      "spacing": "medium",
-      "size": "default",
-      "weight": "bolder",
+      "spacing": "Medium",
+      "weight": "Bolder",
       "text": "Welcome to **your** Virtual Assistant!",
-      "speak": "Welcome to your Virtual Assistant",
-      "wrap": true,
-      "maxLines": 0
+      "wrap": true
     },
     {
       "type": "TextBlock",
-      "size": "default",
-      "isSubtle": "yes",
       "text": "Now that you have successfully run your Virtual Assistant, follow the links in this Adaptive Card to explore further.",
-      "speak": "Now that your up and running let's get started.",
-      "wrap": true,
-      "maxLines": 0
+      "isSubtle": "yes",
+      "wrap": true
     }
   ],
   "actions": [
@@ -45,5 +52,8 @@
       "title": "Skills",
       "url": "https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/customassistant-skills.md"
     }
-  ]
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0",
+  "speak": "Welcome to your Virtual Assistant! Now that you're up and running, let's get started."
 }
