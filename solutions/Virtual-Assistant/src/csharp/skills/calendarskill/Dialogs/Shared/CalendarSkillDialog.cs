@@ -397,16 +397,20 @@ namespace CalendarSkill
                 if (entity.StartDate != null)
                 {
                     var culture = dc.Context.Activity.Locale ?? English;
-                    List<DateTimeResolution> result = RecognizeDateTime(entity.StartDate[0], culture);
-                    if (result != null && result[0].Value != null)
+                    List<DateTimeResolution> results = RecognizeDateTime(entity.StartDate[0], culture);
+                    if (results != null)
                     {
-                        var dateTime = DateTime.Parse(result[0].Value);
-                        var dateTimeConvertType = result[0].Timex;
-
-                        if (dateTime != null)
+                        var result = results[results.Count - 1];
+                        if (result.Value != null)
                         {
-                            bool isRelativeTime = IsRelativeTime(entity.StartDate[0], result[0].Value, result[0].Timex);
-                            state.StartDate = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
+                            var dateTime = DateTime.Parse(result.Value);
+                            var dateTimeConvertType = result.Timex;
+
+                            if (dateTime != null)
+                            {
+                                bool isRelativeTime = IsRelativeTime(entity.StartDate[0], result.Value, result.Timex);
+                                state.StartDate = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
+                            }
                         }
                     }
                 }
@@ -441,16 +445,20 @@ namespace CalendarSkill
                 if (entity.EndDate != null)
                 {
                     var culture = dc.Context.Activity.Locale ?? English;
-                    List<DateTimeResolution> result = RecognizeDateTime(entity.EndDate[0], culture);
-                    if (result != null && result[0].Value != null)
+                    List<DateTimeResolution> results = RecognizeDateTime(entity.EndDate[0], culture);
+                    if (results != null)
                     {
-                        var dateTime = DateTime.Parse(result[0].Value);
-                        var dateTimeConvertType = result[0].Timex;
-
-                        if (dateTime != null)
+                        var result = results[results.Count - 1];
+                        if (result.Value != null)
                         {
-                            bool isRelativeTime = IsRelativeTime(entity.EndDate[0], result[0].Value, result[0].Timex);
-                            state.EndDate = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
+                            var dateTime = DateTime.Parse(result.Value);
+                            var dateTimeConvertType = result.Timex;
+
+                            if (dateTime != null)
+                            {
+                                bool isRelativeTime = IsRelativeTime(entity.EndDate[0], result.Value, result.Timex);
+                                state.EndDate = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
+                            }
                         }
                     }
                 }
@@ -475,16 +483,20 @@ namespace CalendarSkill
                 if (entity.OriginalStartDate != null)
                 {
                     var culture = dc.Context.Activity.Locale ?? English;
-                    List<DateTimeResolution> result = RecognizeDateTime(entity.OriginalStartDate[0], culture);
-                    if (result != null && result[0].Value != null)
+                    List<DateTimeResolution> results = RecognizeDateTime(entity.OriginalStartDate[0], culture);
+                    if (results != null)
                     {
-                        var dateTime = DateTime.Parse(result[0].Value);
-                        var dateTimeConvertType = result[0].Timex;
-
-                        if (dateTime != null)
+                        var result = results[results.Count - 1];
+                        if (result.Value != null)
                         {
-                            bool isRelativeTime = IsRelativeTime(entity.OriginalStartDate[0], result[0].Value, result[0].Timex);
-                            state.OriginalStartDate = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
+                            var dateTime = DateTime.Parse(result.Value);
+                            var dateTimeConvertType = result.Timex;
+
+                            if (dateTime != null)
+                            {
+                                bool isRelativeTime = IsRelativeTime(entity.OriginalStartDate[0], result.Value, result.Timex);
+                                state.OriginalStartDate = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
+                            }
                         }
                     }
                 }
@@ -519,16 +531,20 @@ namespace CalendarSkill
                 if (entity.OriginalEndDate != null)
                 {
                     var culture = dc.Context.Activity.Locale ?? English;
-                    List<DateTimeResolution> result = RecognizeDateTime(entity.OriginalEndDate[0], culture);
-                    if (result != null && result[0].Value != null)
+                    List<DateTimeResolution> results = RecognizeDateTime(entity.OriginalEndDate[0], culture);
+                    if (results != null)
                     {
-                        var dateTime = DateTime.Parse(result[0].Value);
-                        var dateTimeConvertType = result[0].Timex;
-
-                        if (dateTime != null)
+                        var result = results[results.Count - 1];
+                        if (result.Value != null)
                         {
-                            bool isRelativeTime = IsRelativeTime(entity.OriginalEndDate[0], result[0].Value, result[0].Timex);
-                            state.OriginalEndDate = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
+                            var dateTime = DateTime.Parse(result.Value);
+                            var dateTimeConvertType = result.Timex;
+
+                            if (dateTime != null)
+                            {
+                                bool isRelativeTime = IsRelativeTime(entity.OriginalEndDate[0], result.Value, result.Timex);
+                                state.OriginalEndDate = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
+                            }
                         }
                     }
                 }
