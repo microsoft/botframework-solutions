@@ -679,31 +679,34 @@ namespace CalendarSkill
                 if (sc.Result != null)
                 {
                     IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
-                    var dateTime = DateTime.Parse(dateTimeResolutions.First().Value);
-                    var dateTimeConvertType = dateTimeResolutions.First().Timex;
-
-                    if (dateTime != null)
+                    if (dateTimeResolutions.First().Value != null)
                     {
-                        bool isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeResolutions.First().Value, dateTimeResolutions.First().Timex);
-                        if (ContainsTime(dateTimeConvertType))
-                        {
-                            state.StartTime = TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone());
-                        }
+                        var dateTime = DateTime.Parse(dateTimeResolutions.First().Value);
+                        var dateTimeConvertType = dateTimeResolutions.First().Timex;
 
-                        // Workaround as DateTimePrompt only return as local time
-                        if (isRelativeTime)
+                        if (dateTime != null)
                         {
-                            dateTime = new DateTime(
-                            dateTime.Year,
-                            dateTime.Month,
-                            dateTime.Day,
-                            DateTime.Now.Hour,
-                            DateTime.Now.Minute,
-                            DateTime.Now.Second);
-                        }
+                            bool isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeResolutions.First().Value, dateTimeResolutions.First().Timex);
+                            if (ContainsTime(dateTimeConvertType))
+                            {
+                                state.StartTime = TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone());
+                            }
 
-                        state.StartDate = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
-                        return await sc.EndDialogAsync();
+                            // Workaround as DateTimePrompt only return as local time
+                            if (isRelativeTime)
+                            {
+                                dateTime = new DateTime(
+                                dateTime.Year,
+                                dateTime.Month,
+                                dateTime.Day,
+                                DateTime.Now.Hour,
+                                DateTime.Now.Minute,
+                                DateTime.Now.Second);
+                            }
+
+                            state.StartDate = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
+                            return await sc.EndDialogAsync();
+                        }
                     }
                 }
 
@@ -759,13 +762,16 @@ namespace CalendarSkill
                 if (sc.Result != null && state.StartTime == null)
                 {
                     IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
-                    var dateTime = DateTime.Parse(dateTimeResolutions.First().Value);
-                    var dateTimeConvertType = dateTimeResolutions.First().Timex;
-
-                    if (dateTime != null)
+                    if (dateTimeResolutions.First().Value != null)
                     {
-                        bool isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeResolutions.First().Value, dateTimeResolutions.First().Timex);
-                        state.StartTime = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
+                        var dateTime = DateTime.Parse(dateTimeResolutions.First().Value);
+                        var dateTimeConvertType = dateTimeResolutions.First().Timex;
+
+                        if (dateTime != null)
+                        {
+                            bool isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeResolutions.First().Value, dateTimeResolutions.First().Timex);
+                            state.StartTime = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
+                        }
                     }
                 }
 
@@ -833,8 +839,11 @@ namespace CalendarSkill
                     sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
 
                     IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
-                    int.TryParse(dateTimeResolutions.First().Value, out int duration);
-                    state.Duration = duration;
+                    if (dateTimeResolutions.First().Value != null)
+                    {
+                        int.TryParse(dateTimeResolutions.First().Value, out int duration);
+                        state.Duration = duration;
+                    }
                 }
 
                 if (state.Duration > 0)

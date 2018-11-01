@@ -166,6 +166,12 @@ namespace CalendarSkill
         {
             try
             {
+                var state = await _accessor.GetAsync(sc.Context);
+                if (state.StartDate != null || state.StartTime != null)
+                {
+                    return await sc.ContinueDialogAsync();
+                }
+
                 if (((UpdateDateTimeDialogOptions)sc.Options).Reason == UpdateDateTimeDialogOptions.UpdateReason.NotFound)
                 {
                     return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(UpdateEventResponses.NoNewTime) });
@@ -187,7 +193,50 @@ namespace CalendarSkill
             try
             {
                 var state = await _accessor.GetAsync(sc.Context);
-                if (sc.Result != null)
+                if (state.StartDate != null || state.StartTime != null)
+                {
+                    var originalEvent = state.Events[0];
+
+                    if (state.StartDate != null && state.StartTime != null)
+                    {
+                        state.NewStartDateTime = DateTime.SpecifyKind(
+                            new DateTime(
+                                state.StartDate.Value.Year,
+                                state.StartDate.Value.Month,
+                                state.StartDate.Value.Day,
+                                state.StartTime.Value.Hour,
+                                state.StartTime.Value.Minute,
+                                state.StartTime.Value.Second),
+                            DateTimeKind.Utc);
+                    }
+                    else if (state.StartDate != null)
+                    {
+                        state.NewStartDateTime = DateTime.SpecifyKind(
+                            new DateTime(
+                                state.StartDate.Value.Year,
+                                state.StartDate.Value.Month,
+                                state.StartDate.Value.Day,
+                                originalEvent.StartTime.Hour,
+                                originalEvent.StartTime.Minute,
+                                originalEvent.StartTime.Second),
+                            DateTimeKind.Utc);
+                    }
+                    else
+                    {
+                        state.NewStartDateTime = DateTime.SpecifyKind(
+                            new DateTime(
+                                originalEvent.StartTime.Year,
+                                originalEvent.StartTime.Month,
+                                originalEvent.StartTime.Day,
+                                state.StartTime.Value.Hour,
+                                state.StartTime.Value.Minute,
+                                state.StartTime.Value.Second),
+                            DateTimeKind.Utc);
+                    }
+
+                    return await sc.ContinueDialogAsync();
+                }
+                else if (sc.Result != null)
                 {
                     IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
                     var newStartTime = DateTime.Parse(dateTimeResolutions.First().Value);
@@ -250,7 +299,7 @@ namespace CalendarSkill
             {
                 var state = await _accessor.GetAsync(sc.Context);
 
-                if (state.StartDate != null || state.StartTime != null || state.Title != null)
+                if (state.OriginalStartDate != null || state.OriginalStartTime != null || state.Title != null)
                 {
                     return await sc.NextAsync();
                 }
@@ -264,20 +313,10 @@ namespace CalendarSkill
                 }
                 else
                 {
-                    if (state.DialogName == "DeleteEvent")
+                    return await sc.PromptAsync(Actions.DateTimePromptForUpdateDelete, new PromptOptions
                     {
-                        return await sc.PromptAsync(Actions.DateTimePromptForUpdateDelete, new PromptOptions
-                        {
-                            Prompt = sc.Context.Activity.CreateReply(UpdateEventResponses.NoDeleteStartTime),
-                        });
-                    }
-                    else
-                    {
-                        return await sc.PromptAsync(Actions.DateTimePromptForUpdateDelete, new PromptOptions
-                        {
-                            Prompt = sc.Context.Activity.CreateReply(UpdateEventResponses.NoUpdateStartTime),
-                        });
-                    }
+                        Prompt = sc.Context.Activity.CreateReply(UpdateEventResponses.NoUpdateStartTime),
+                    });
                 }
             }
             catch
@@ -296,11 +335,13 @@ namespace CalendarSkill
 
                 var calendarService = _serviceManager.InitCalendarService(state.APIToken, state.EventSource);
 
-                if (state.StartDate != null || state.StartTime != null)
+                if (state.OriginalStartDate != null || state.OriginalStartTime != null)
                 {
-                    events = await GetEventsByTime(state.StartDate, state.StartTime, null, state.GetUserTimeZone(), calendarService);
-                    state.StartDate = null;
-                    state.StartTime = null;
+                    events = await GetEventsByTime(state.OriginalStartDate, state.OriginalStartTime, state.OriginalEndDate, state.OriginalEndTime, state.GetUserTimeZone(), calendarService);
+                    state.OriginalStartDate = null;
+                    state.OriginalStartTime = null;
+                    state.OriginalEndDate = null;
+                    state.OriginalStartTime = null;
                 }
                 else if (state.Title != null)
                 {
@@ -329,7 +370,6 @@ namespace CalendarSkill
 
                     if (startTime != null)
                     {
-                        state.StartDateTime = startTime;
                         startTime = DateTime.SpecifyKind(startTime.Value, DateTimeKind.Local);
                         events = await calendarService.GetEventsByStartTime(startTime.Value);
                     }
