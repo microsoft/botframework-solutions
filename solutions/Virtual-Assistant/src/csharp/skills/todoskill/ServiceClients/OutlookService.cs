@@ -44,7 +44,7 @@ namespace ToDoSkill.ServiceClients
                     taskFolderIds.Add(GroceryTaskFolder, taskFolderId);
                 }
 
-                if (taskFolderIds.ContainsKey(ShoppingTaskFolder))
+                if (!taskFolderIds.ContainsKey(ShoppingTaskFolder))
                 {
                     var taskFolderId = await GetOrCreateTaskFolderAsync(ShoppingTaskFolder);
                     taskFolderIds.Add(ShoppingTaskFolder, taskFolderId);
@@ -194,8 +194,8 @@ namespace ToDoSkill.ServiceClients
             var taskFolderIdNameDic = new Dictionary<string, string>();
             foreach (var taskFolder in taskFoldersObject)
             {
-                var taskFolderId = taskFolder["id"];
-                var taskFolderName = taskFolder["name"];
+                string taskFolderId = taskFolder["id"];
+                string taskFolderName = taskFolder["name"];
                 taskFolderIdNameDic.Add(taskFolderId, taskFolderName);
             }
 

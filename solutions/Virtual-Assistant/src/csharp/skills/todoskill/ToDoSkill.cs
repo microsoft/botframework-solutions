@@ -9,6 +9,8 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Skills;
+using ToDoSkill.ServiceClients;
+using static ToDoSkill.ServiceProviderTypes;
 
 namespace ToDoSkill
 {
@@ -30,7 +32,16 @@ namespace ToDoSkill
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
-            _serviceManager = serviceManager ?? new OneNoteService();
+
+            var isOutlookProvider = _services.Properties.ContainsKey("TaskServiceProvider")
+                && _services.Properties["TaskServiceProvider"].ToString().Equals(ProviderTypes.Outlook.ToString(), StringComparison.InvariantCultureIgnoreCase);
+            ITaskService taskService = new OneNoteService();
+            if (isOutlookProvider)
+            {
+                taskService = new OutlookService();
+            }
+
+            _serviceManager = serviceManager ?? taskService;
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(DialogState)));
             _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _serviceManager, _skillMode));
