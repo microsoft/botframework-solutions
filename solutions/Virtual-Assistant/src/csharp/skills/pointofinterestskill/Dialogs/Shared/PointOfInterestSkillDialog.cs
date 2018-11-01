@@ -40,7 +40,7 @@ namespace PointOfInterestSkill
             _serviceManager = serviceManager;
 
             AddDialog(new TextPrompt(Action.Prompt, CustomPromptValidatorAsync));
-            AddDialog(new ConfirmPrompt(Action.ConfirmPrompt, null, CultureInfo.CurrentUICulture.TwoLetterISOLanguageName) { Style = ListStyle.SuggestedAction, });
+            AddDialog(new ConfirmPrompt(Action.ConfirmPrompt) { Style = ListStyle.Auto, });
         }
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))

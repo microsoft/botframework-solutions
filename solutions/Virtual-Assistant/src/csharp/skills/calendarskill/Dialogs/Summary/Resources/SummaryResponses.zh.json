@@ -1,5 +1,5 @@
 ﻿{
-  "CalendarNoMoreEvent": {
+ "CalendarNoMoreEvent": {
     "replies": [
       {
         "text": "没有更多会议！",
@@ -34,15 +34,6 @@
       }
     ],
     "inputHint": "acceptingInput"
-  },
-  "ShowMultipleMeetingSummaryMessage": {
-    "replies": [
-      {
-        "text": "我在您的日历上找到了 {Count} 个事件：",
-        "speak": "我在您的日历上找到了 {Count} 个事件: 第一个是历时 {EventDuration} 的 {EventName1}, 然后最后的事件是 {EventTime} 的 {EventName2} 。"
-      }
-    ],
-    "inputHint": "ignoringInput"
   },
   "ReadOutPrompt": {
     "replies": [
@@ -81,15 +72,6 @@
       {
         "text": "我应该给你读哪个会议内容？",
         "speak": "我应该给你读哪个会议内容？"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "ReadOutMorePrompt": {
-    "replies": [
-      {
-        "text": "您还想听更多的吗?",
-        "speak": "您还想听更多的吗?"
       }
     ],
     "inputHint": "expectingInput"

@@ -17,7 +17,6 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading;
@@ -62,8 +61,8 @@ namespace EmailSkill
             AddDialog(new EventPrompt(SkillModeAuth, "tokens/response", TokenResponseValidator));
             AddDialog(new OAuthPrompt(LocalModeAuth, oauthSettings, AuthPromptValidator));
             AddDialog(new TextPrompt(Action.Prompt));
-            AddDialog(new ConfirmPrompt(Action.TakeFurtherAction, null, CultureInfo.CurrentUICulture.TwoLetterISOLanguageName) { Style = ListStyle.SuggestedAction });
-            AddDialog(new ChoicePrompt(Action.Choice, ChoiceValidator, CultureInfo.CurrentUICulture.TwoLetterISOLanguageName) { Style = ListStyle.None });
+            AddDialog(new ConfirmPrompt(Action.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
+            AddDialog(new ChoicePrompt(Action.Choice, ChoiceValidator, Culture.English) { Style = ListStyle.None });
         }
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))

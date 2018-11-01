@@ -348,12 +348,12 @@ namespace VirtualAssistant
 
             switch (command)
             {
-                case "change radio station to 99.7":
+                case "change radio station to 90.7":
                 case "将收音机调到99.7 FM":
                     {
                         response.Type = ActivityTypes.Event;
                         response.Name = "TuneRadio";
-                        response.Value = "99.7 FM";
+                        response.Value = "90.7 FM";
                         await dc.Context.SendActivityAsync(response);
 
                         handled = true;
@@ -389,7 +389,7 @@ namespace VirtualAssistant
                     {
                         response.Type = ActivityTypes.Event;
                         response.Name = "PlayMusic";
-                        response.Value = "彩虹 - 周杰伦";
+                        response.Value = "Rainbow - Jay Chou";
                         await dc.Context.SendActivityAsync(response);
 
                         handled = true;
