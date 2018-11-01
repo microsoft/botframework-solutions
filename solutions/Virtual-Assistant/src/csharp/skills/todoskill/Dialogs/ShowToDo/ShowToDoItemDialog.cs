@@ -1,13 +1,13 @@
-﻿using Luis;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.Dialogs.ShowToDo.Resources;
 
@@ -35,7 +35,7 @@ namespace ToDoSkill
                 AskAddFirstTaskConfirmation,
                 AfterAskAddFirstTaskConfirmation,
                 CollectToDoTaskContent,
-                AddToDoTask
+                AddToDoTask,
             };
 
             var collectToDoTaskContent = new WaterfallStep[]
@@ -58,7 +58,7 @@ namespace ToDoSkill
             try
             {
                 var state = await _accessor.GetAsync(sc.Context);
-                if (string.IsNullOrEmpty(state.OneNotePageId))
+                if (!state.OneNotePageIds.ContainsKey(state.ListType))
                 {
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
                 }
@@ -66,9 +66,8 @@ namespace ToDoSkill
                 var topIntent = state.LuisResult?.TopIntent().intent;
                 if (topIntent == ToDo.Intent.ShowToDo || topIntent == ToDo.Intent.None)
                 {
-                    var service = await _serviceManager.Init(state.MsGraphToken, state.OneNotePageId);
-                    var todosAndPageIdTuple = await service.GetToDos();
-                    state.OneNotePageId = todosAndPageIdTuple.Item2;
+                    var service = await _serviceManager.Init(state.MsGraphToken, state.OneNotePageIds);
+                    var todosAndPageIdTuple = await service.GetToDos(state.ListType);
                     state.AllTasks = todosAndPageIdTuple.Item1;
                 }
 

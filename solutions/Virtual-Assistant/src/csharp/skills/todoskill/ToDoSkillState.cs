@@ -1,7 +1,6 @@
-﻿using Luis;
-using Microsoft.Bot.Builder;
+﻿using System.Collections.Generic;
+using Luis;
 using Microsoft.Bot.Builder.Dialogs;
-using System.Collections.Generic;
 
 namespace ToDoSkill
 {
@@ -12,7 +11,6 @@ namespace ToDoSkill
         /// </summary>
         public ToDoSkillState()
         {
-            TaskContent = null;
             Task = new ToDoItem();
             Tasks = new List<ToDoItem>();
             TaskIndexes = new List<int>();
@@ -21,9 +19,17 @@ namespace ToDoSkill
             AllTasks = new List<ToDoItem>();
             DeleteTaskConfirmation = false;
             MarkOrDeleteAllTasksFlag = false;
-            OneNotePageId = null;
+            OneNotePageIds = new Dictionary<string, string>();
             LuisResult = null;
+            GeneralLuisResult = null;
             ConversationDialogState = null;
+            ListType = null;
+            FoodOfGrocery = null;
+            HasShopVerb = false;
+            ShopContent = null;
+            TaskContentPattern = null;
+            TaskContentML = null;
+            TaskContent = null;
         }
 
         /// <summary>
@@ -41,14 +47,6 @@ namespace ToDoSkill
         /// Luis intent score threshold.
         /// </value>
         public double ScoreThreshold { get; } = 0.7;
-
-        /// <summary>
-        /// Gets or sets ToDoTaskContent.
-        /// </summary>
-        /// <value>
-        /// ToDoTaskContent.
-        /// </value>
-        public string TaskContent { get; set; }
 
         /// <summary>
         /// Gets or sets ToDoTaskActivity.
@@ -120,7 +118,7 @@ namespace ToDoSkill
         /// <value>
         /// OneNotePageId.
         /// </value>
-        public string OneNotePageId { get; set; }
+        public Dictionary<string, string> OneNotePageIds { get; set; }
 
         /// <summary>
         /// Gets or sets LuisResult.
@@ -130,6 +128,12 @@ namespace ToDoSkill
         /// </value>
         public ToDo LuisResult { get; set; }
 
+        /// <summary>
+        /// Gets or sets GeneralLuisResult.
+        /// </summary>
+        /// <value>
+        /// LuisResult.
+        /// </value>
         public General GeneralLuisResult { get; set; }
 
         /// <summary>
@@ -141,11 +145,66 @@ namespace ToDoSkill
         public DialogState ConversationDialogState { get; set; }
 
         /// <summary>
+        /// Gets or sets TaskType.
+        /// </summary>
+        /// <value>
+        /// TaskType.
+        /// </value>
+        public string ListType { get; set; }
+
+        /// <summary>
+        /// Gets or sets FoodOfGrocery.
+        /// </summary>
+        /// <value>
+        /// TaskType.
+        /// </value>
+        public string FoodOfGrocery { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether gets or sets HasShopVerb.
+        /// </summary>
+        /// <value>
+        /// TaskType.
+        /// </value>
+        public bool HasShopVerb { get; set; }
+
+        /// <summary>
+        /// Gets or sets ShopContent.
+        /// </summary>
+        /// <value>
+        /// TaskType.
+        /// </value>
+        public string ShopContent { get; set; }
+
+        /// <summary>
+        /// Gets or sets TaskContentPattern.
+        /// </summary>
+        /// <value>
+        /// ToDoTaskContent.
+        /// </value>
+        public string TaskContentPattern { get; set; }
+
+        /// <summary>
+        /// Gets or sets TaskContentML.
+        /// </summary>
+        /// <value>
+        /// ToDoTaskContent.
+        /// </value>
+        public string TaskContentML { get; set; }
+
+        /// <summary>
+        /// Gets or sets TaskContent.
+        /// </summary>
+        /// <value>
+        /// ToDoTaskContent.
+        /// </value>
+        public string TaskContent { get; set; }
+
+        /// <summary>
         /// Clear state.
         /// </summary>
         public void Clear()
         {
-            TaskContent = null;
             Task = new ToDoItem();
             Tasks = new List<ToDoItem>();
             TaskIndexes = new List<int>();
@@ -154,9 +213,17 @@ namespace ToDoSkill
             AllTasks = new List<ToDoItem>();
             DeleteTaskConfirmation = false;
             MarkOrDeleteAllTasksFlag = false;
-            OneNotePageId = null;
+            OneNotePageIds = new Dictionary<string, string>();
             LuisResult = null;
+            GeneralLuisResult = null;
             ConversationDialogState = null;
+            ListType = null;
+            FoodOfGrocery = null;
+            HasShopVerb = false;
+            ShopContent = null;
+            TaskContentPattern = null;
+            TaskContentML = null;
+            TaskContent = null;
         }
     }
 }
