@@ -100,8 +100,8 @@
   "SettingUpOneNoteMessage": {
     "replies": [
       {
-        "text": "我正在配置您onenote上的待办事项表，这不会占用很长时间。",
-        "speak": "我正在配置您onenote上的待办事项表，这不会占用很长时间。"
+        "text": "我正在配置您onenote，这不会占用很长时间。",
+        "speak": "我正在配置您onenote，这不会占用很长时间。"
       }
     ],
     "inputHint": "acceptingInput"
@@ -109,8 +109,8 @@
   "ShowToDoTasks": {
     "replies": [
       {
-        "text": "您的待办事项表有 {taskCount} 个任务：",
-        "speak": "您的待办事项表有 {taskCount} 个任务："
+        "text": "您的列表有 {taskCount} 个任务：",
+        "speak": "您的列表有 {taskCount} 个任务："
       }
     ],
     "inputHint": "expectingInput"
@@ -157,8 +157,8 @@
   "NoTasksInList": {
     "replies": [
       {
-        "text": "您的待办事项表是空的.",
-        "speak": "您的待办事项表是空的."
+        "text": "您的事项表是空的.",
+        "speak": "您的事项表是空的."
       }
     ],
     "inputHint": "expectingInput"

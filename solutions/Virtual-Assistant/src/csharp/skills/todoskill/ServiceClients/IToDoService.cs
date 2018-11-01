@@ -17,13 +17,13 @@ namespace ToDoSkill
         /// Get To Do list.
         /// </summary>
         /// <returns>Tuple of to dos and onenote page id.</returns>
-        Task<Tuple<List<ToDoItem>, string>> GetToDos();
+        Task<Tuple<List<ToDoItem>, string>> GetToDos(string listType);
 
         /// <summary>
         /// Get default To Do page.
         /// </summary>
         /// <returns>Default onenote page.</returns>
-        Task<OnenotePage> GetDefaultToDoPage();
+        Task<OnenotePage> GetDefaultToDoPage(string listType);
 
         /// <summary>
         /// Add to do to onenote page.
@@ -71,6 +71,6 @@ namespace ToDoSkill
         /// <param name="token">To Do service token.</param>
         /// <param name="pageId">Onenote page id.</param>
         /// <returns>To Do service itself.</returns>
-        Task<IToDoService> Init(string token, string pageId);
+        Task<IToDoService> Init(string token, Dictionary<string, string> pageIds);
     }
 }
