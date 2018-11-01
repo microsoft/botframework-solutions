@@ -14,6 +14,7 @@ namespace Microsoft.Bot.Solutions.Dialogs.Onboard
     using Microsoft.Bot.Builder.Dialogs.Choices;
     using Microsoft.Bot.Schema;
     using Microsoft.Recognizers.Text;
+    using System.Globalization;
 
     /// <summary>
     /// OnboardDialog.
@@ -61,7 +62,7 @@ namespace Microsoft.Bot.Solutions.Dialogs.Onboard
             AddDialog(new TextPrompt(OnboardingView.PRIMARY_EMAIL_PROMPT));
             AddDialog(new TextPrompt(OnboardingView.SECONDARY_EMAIL_PROMPT));
             AddDialog(new TextPrompt(OnboardingView.LOCATION_PROMPT));
-            AddDialog(new ConfirmPrompt(CONFIRM_PROMPT, null, Culture.English)
+            AddDialog(new ConfirmPrompt(CONFIRM_PROMPT, null, CultureInfo.CurrentUICulture.TwoLetterISOLanguageName)
             { Style = ListStyle.SuggestedAction });
         }
 
