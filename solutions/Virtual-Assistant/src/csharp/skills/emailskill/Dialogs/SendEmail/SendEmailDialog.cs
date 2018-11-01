@@ -123,6 +123,9 @@ namespace EmailSkill
                         NameList = nameListString,
                         EmailContent = "内容: " + state.Content,
                     };
+
+                    emailCard.Speak = $"{emailCard.Subject}, {emailCard.NameList}, {emailCard.EmailContent}";
+
                     var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(EmailSharedResponses.SentSuccessfully, "Dialogs/Shared/Resources/Cards/EmailWithOutButtonCard.json", emailCard);
 
                     await sc.Context.SendActivityAsync(replyMessage);
