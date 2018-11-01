@@ -97,6 +97,15 @@ namespace VirtualAssistant.Dialogs.Main.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Done..
+        /// </summary>
+        public static string DONE {
+            get {
+                return ResourceManager.GetString("DONE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Send an email.
         /// </summary>
         public static string EMAIL_SUGGESTEDACTION {

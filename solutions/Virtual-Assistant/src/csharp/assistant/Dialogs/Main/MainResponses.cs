@@ -21,6 +21,7 @@ namespace VirtualAssistant
         public const string Help = "help";
         public const string Intro = "intro";
         public const string Qna = "qna";
+        public const string Done = "done";
 
         private static LanguageTemplateDictionary _responseTemplates = new LanguageTemplateDictionary
         {
@@ -33,6 +34,7 @@ namespace VirtualAssistant
                 { Help, (context, data) => SendHelpCard(context, data) },
                 { Intro, (context, data) => SendIntroCard(context, data) },
                 { Qna, (context, data) => SendQnaCard(context, data) },
+                { Done, (context, data) => MainStrings.DONE },
             },
             ["en"] = new TemplateIdMap { },
             ["fr"] = new TemplateIdMap { },
@@ -68,19 +70,19 @@ namespace VirtualAssistant
                 new HeroCard()
                 {
                     Title = MainStrings.HELP_TITLE,
-                    Text = MainStrings.HELP_TEXT
-                }.ToAttachment()
+                    Text = MainStrings.HELP_TEXT,
+                }.ToAttachment(),
             };
 
             response.SuggestedActions = new SuggestedActions
             {
                 Actions = new List<CardAction>()
-            {
-                new CardAction(type: ActionTypes.ImBack, title: MainStrings.CALENDAR_SUGGESTEDACTION),
-                new CardAction(type: ActionTypes.ImBack, title: MainStrings.EMAIL_SUGGESTEDACTION),
-                new CardAction(type: ActionTypes.ImBack, title: MainStrings.MEETING_SUGGESTEDACTION),
-                new CardAction(type: ActionTypes.ImBack, title: MainStrings.POI_SUGGESTEDACTION),
-            }
+                {
+                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.CALENDAR_SUGGESTEDACTION),
+                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.EMAIL_SUGGESTEDACTION),
+                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.MEETING_SUGGESTEDACTION),
+                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.POI_SUGGESTEDACTION),
+                },
             };
             return response;
         }
@@ -94,6 +96,10 @@ namespace VirtualAssistant
             {
                 card.ToAttachment(),
             };
+
+            response.Speak = card.Title != null ? $"{card.Title} " : string.Empty;
+            response.Speak += card.Subtitle != null ? $"{card.Subtitle} " : string.Empty;
+            response.Speak += card.Text != null ? $"{card.Text} " : string.Empty;
 
             return response;
         }

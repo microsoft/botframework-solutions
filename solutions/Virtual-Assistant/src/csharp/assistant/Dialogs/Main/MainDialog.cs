@@ -353,7 +353,7 @@ namespace VirtualAssistant
                     {
                         response.Type = ActivityTypes.Event;
                         response.Name = "TuneRadio";
-                        response.Value = "99.7";
+                        response.Value = "90.7 FM";
                         await dc.Context.SendActivityAsync(response);
 
                         handled = true;
@@ -389,7 +389,7 @@ namespace VirtualAssistant
                     {
                         response.Type = ActivityTypes.Event;
                         response.Name = "PlayMusic";
-                        response.Value = "Rainbow by Jay Chou";
+                        response.Value = "Rainbow - Jay Chou";
                         await dc.Context.SendActivityAsync(response);
 
                         handled = true;
@@ -399,6 +399,7 @@ namespace VirtualAssistant
 
             if (handled)
             {
+                await _responder.ReplyWith(dc.Context, MainResponses.Done);
                 await CompleteAsync(dc);
             }
 

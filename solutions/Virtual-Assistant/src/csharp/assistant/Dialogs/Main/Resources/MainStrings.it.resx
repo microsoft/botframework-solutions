@@ -129,6 +129,9 @@
   <data name="CONFUSED" xml:space="preserve">
     <value>Mi dispiace, non sono in grado di aiutarti.</value>
   </data>
+  <data name="DONE" xml:space="preserve">
+    <value>Fatto.</value>
+  </data>
   <data name="EMAIL_SUGGESTEDACTION" xml:space="preserve">
     <value>Invia una email</value>
   </data>
