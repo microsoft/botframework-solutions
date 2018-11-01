@@ -148,38 +148,12 @@ namespace ToDoSkill
         }
 
         /// <summary>
-        /// Mark all to do items as completed.
-        /// </summary>
-        /// <param name="toDoActivities">To Do activities.</param>
-        /// <param name="pageContentUrl">page content url.</param>
-        /// <returns>True if succeed.</returns>
-        public async Task<bool> MarkAllToDosCompleted(List<ToDoItem> toDoActivities, string pageContentUrl)
-        {
-            var httpRequestMessage = ServiceHelper.GenerateMarkToDosHttpRequest(toDoActivities, pageContentUrl);
-            var result = await httpClient.SendAsync(httpRequestMessage);
-            return result.IsSuccessStatusCode;
-        }
-
-        /// <summary>
         /// Delete To Do.
         /// </summary>
         /// <param name="toDoActivities">To Do activities.</param>
         /// <param name="pageContentUrl">page content url.</param>
         /// <returns>True if succeed.</returns>
         public async Task<bool> DeleteToDos(List<ToDoItem> toDoActivities, string pageContentUrl)
-        {
-            var httpRequestMessage = ServiceHelper.GenerateDeleteToDosHttpRequest(toDoActivities, pageContentUrl);
-            var result = await httpClient.SendAsync(httpRequestMessage);
-            return result.IsSuccessStatusCode;
-        }
-
-        /// <summary>
-        /// Delete all To Dos.
-        /// </summary>
-        /// <param name="toDoActivities">To Do activities.</param>
-        /// <param name="pageContentUrl">page content url.</param>
-        /// <returns>True if succeed.</returns>
-        public async Task<bool> DeleteAllToDos(List<ToDoItem> toDoActivities, string pageContentUrl)
         {
             var httpRequestMessage = ServiceHelper.GenerateDeleteToDosHttpRequest(toDoActivities, pageContentUrl);
             var result = await httpClient.SendAsync(httpRequestMessage);

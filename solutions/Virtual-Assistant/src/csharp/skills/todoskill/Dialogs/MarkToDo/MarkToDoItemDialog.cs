@@ -60,7 +60,7 @@ namespace ToDoSkill
                 string taskTopicToBeMarked = null;
                 if (state.MarkOrDeleteAllTasksFlag)
                 {
-                    await service.MarkAllToDosCompleted(state.AllTasks, page.ContentUrl);
+                    await service.MarkToDosCompleted(state.AllTasks, page.ContentUrl);
                     botResponse = MarkToDoResponses.AfterAllToDoTasksCompleted;
                 }
                 else

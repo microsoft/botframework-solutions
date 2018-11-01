@@ -42,28 +42,12 @@ namespace ToDoSkill
         Task<bool> MarkToDosCompleted(List<ToDoItem> toDoActivities, string pageContentUrl);
 
         /// <summary>
-        /// Mark all to dos as completed.
-        /// </summary>
-        /// <param name="toDoActivities">To Do activities.</param>
-        /// <param name="pageContentUrl">page content url.</param>
-        /// <returns>True if succeed.</returns>
-        Task<bool> MarkAllToDosCompleted(List<ToDoItem> toDoActivities, string pageContentUrl);
-
-        /// <summary>
         /// Delete to dos.
         /// </summary>
         /// <param name="toDoActivities">To Do activities.</param>
         /// <param name="pageContentUrl">page content url.</param>
         /// <returns>True if succeed.</returns>
         Task<bool> DeleteToDos(List<ToDoItem> toDoActivities, string pageContentUrl);
-
-        /// <summary>
-        /// Delete all to dos.
-        /// </summary>
-        /// <param name="toDoActivities">To Do activities.</param>
-        /// <param name="pageContentUrl">page content url.</param>
-        /// <returns>True if succeed.</returns>
-        Task<bool> DeleteAllToDos(List<ToDoItem> toDoActivities, string pageContentUrl);
 
         /// <summary>
         /// Init To Do service.

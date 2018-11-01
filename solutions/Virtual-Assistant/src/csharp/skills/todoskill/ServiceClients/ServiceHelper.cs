@@ -203,6 +203,66 @@ namespace ToDoSkill
         }
 
         /// <summary>
+        /// Generate add Outlook task http request.
+        /// </summary>
+        /// <param name="url">url.</param>
+        /// <param name="taskSubject">page title.</param>
+        /// <returns>Generated page html.</returns>
+        public static HttpRequestMessage GenerateAddOutlookTaskHttpRequest(string url, string taskSubject)
+        {
+            var taskObject = new
+            {
+                subject = taskSubject,
+            };
+
+            return new HttpRequestMessage(new HttpMethod("POST"), url)
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(taskObject), Encoding.UTF8, "application/json"),
+            };
+        }
+
+        /// <summary>
+        /// Generate add Outlook task http request.
+        /// </summary>
+        /// <param name="url">url.</param>
+        /// <param name="toDoItem">page title.</param>
+        /// <returns>Generated page html.</returns>
+        public static HttpRequestMessage GenerateDeleteOutlookTaskHttpRequest(string url, ToDoItem toDoItem)
+        {
+            return new HttpRequestMessage(new HttpMethod("DELETE"), url + "/" + toDoItem.Id);
+        }
+
+        /// <summary>
+        /// Generate add Outlook task http request.
+        /// </summary>
+        /// <param name="url">url.</param>
+        /// <param name="toDoItem">page title.</param>
+        /// <returns>Generated page html.</returns>
+        public static HttpRequestMessage GenerateMarkOutlookTaskCompletedHttpRequest(string url, ToDoItem toDoItem)
+        {
+            return new HttpRequestMessage(new HttpMethod("POST"), url + "/" + toDoItem.Id + "/complete");
+        }
+
+        /// <summary>
+        /// Generate add Outlook task http request.
+        /// </summary>
+        /// <param name="url">url.</param>
+        /// <param name="taskFolderName">Task folder name.</param>
+        /// <returns>Generated page html.</returns>
+        public static HttpRequestMessage GenerateCreateTaskFolderHttpRequest(string url, string taskFolderName)
+        {
+            var taskFolderObject = new
+            {
+                name = taskFolderName,
+            };
+
+            return new HttpRequestMessage(new HttpMethod("POST"), url)
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(taskFolderObject), Encoding.UTF8, "application/json"),
+            };
+        }
+
+        /// <summary>
         /// Generate httpClient.
         /// </summary>
         /// <param name="accessToken">API access token.</param>

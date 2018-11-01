@@ -76,7 +76,7 @@ namespace ToDoSkill
                     string taskTopicToBeDeleted = null;
                     if (state.MarkOrDeleteAllTasksFlag)
                     {
-                        await service.DeleteAllToDos(state.AllTasks, page.ContentUrl);
+                        await service.DeleteToDos(state.AllTasks, page.ContentUrl);
                         state.AllTasks = new List<ToDoItem>();
                         state.Tasks = new List<ToDoItem>();
                         state.ShowToDoPageIndex = 0;
