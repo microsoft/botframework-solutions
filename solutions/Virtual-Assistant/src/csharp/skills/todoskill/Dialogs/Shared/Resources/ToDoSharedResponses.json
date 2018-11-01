@@ -148,8 +148,8 @@
   "SettingUpOneNoteMessage": {
     "replies": [
       {
-        "text": "I am setting up your OneNote To Do list, this won't take long.",
-        "speak": "I am setting up your OneNote To Do list, this won't take long."
+        "text": "I am setting up your OneNote, this won't take long.",
+        "speak": "I am setting up your OneNote, this won't take long."
       }
     ],
     "inputHint": "acceptingInput"
@@ -157,8 +157,8 @@
   "ShowToDoTasks": {
     "replies": [
       {
-        "text": "You have {taskCount} items on your To Do list:",
-        "speak": "You have {taskCount} items on your To Do list:"
+        "text": "You have {taskCount} items on your list:",
+        "speak": "You have {taskCount} items on your list:"
       }
     ],
     "inputHint": "expectingInput"
@@ -205,8 +205,8 @@
   "NoTasksInList": {
     "replies": [
       {
-        "text": "Your To Do list is empty.",
-        "speak": "Your To Do list is empty."
+        "text": "Your list is empty.",
+        "speak": "Your list is empty."
       }
     ],
     "inputHint": "expectingInput"
