@@ -635,7 +635,7 @@ namespace CalendarSkill
                     state.AttendeesNameList[state.ConfirmAttendeesNameIndex] = userInput;
                 }
 
-                return await sc.EndDialogAsync(true);
+                return await sc.EndDialogAsync();
             }
             catch
             {
