@@ -78,11 +78,7 @@ namespace VirtualAssistant
                             if (service.Name == "Authentication")
                             {
                                 var authentication = service as GenericService;
-
-                                if (!string.IsNullOrEmpty(authentication.Configuration["Azure Active Directory v2"]))
-                                {
-                                    AuthConnectionName = authentication.Configuration["Azure Active Directory v2"];
-                                }
+                                AuthenticationConnections = authentication.Configuration;
                             }
 
                             break;
@@ -115,6 +111,19 @@ namespace VirtualAssistant
                     LuisServices = LuisServices.Where(l => skill.LuisServiceIds.Contains(l.Key) == true).ToDictionary(l => l.Key, l => l.Value as IRecognizer),
                 };
 
+                if (skill.AuthenticationProviders != null)
+                {
+                    foreach (var provider in skill.AuthenticationProviders)
+                    {
+                        AuthenticationConnections.TryGetValue(provider, out string connectionName);
+
+                        if (connectionName != null)
+                        {
+                            skillConfig.AuthenticationConnections.Add(provider, connectionName);
+                        }
+                    }
+                }
+
                 foreach (var set in skill.Configuration)
                 {
                     skillConfig.Properties.Add(set.Key, set.Value);
@@ -135,6 +144,8 @@ namespace VirtualAssistant
         /// A string based on configuration in the .bot file.
         /// </value>
         public string AuthConnectionName { get; }
+
+        public Dictionary<string, string> AuthenticationConnections { get; set; } = new Dictionary<string, string>();
 
         /// <summary>
         /// Gets the set of AppInsights Telemetry Client used.
@@ -180,7 +191,6 @@ namespace VirtualAssistant
 
         public List<SkillDefinition> SkillDefinitions { get; set; } = new List<SkillDefinition>();
 
-        public Dictionary<string, ISkillConfiguration> SkillConfigurations = new Dictionary<string, ISkillConfiguration>();
-
+        public Dictionary<string, ISkillConfiguration> SkillConfigurations { get; set; } = new Dictionary<string, ISkillConfiguration>();
     }
 }
