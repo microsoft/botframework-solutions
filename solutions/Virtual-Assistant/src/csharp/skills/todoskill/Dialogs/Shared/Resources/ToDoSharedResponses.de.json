@@ -268,8 +268,8 @@
   "SettingUpOneNoteMessage": {
     "replies": [
       {
-        "text": "Ich richte Ihre One Note ein. Das geht schnell.",
-        "speak": "Ich richte Ihre One Note ein. Das geht schnell."
+        "text": "Ich konfiguriere Ihre Liste, was nicht lange dauern wird.",
+        "speak": "Ich konfiguriere Ihre Liste, was nicht lange dauern wird."
       }
     ],
     "inputHint": "acceptingInput"

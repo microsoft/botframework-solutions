@@ -9,7 +9,7 @@ namespace ToDoSkill
         public AddToDoItemDialog(
             SkillConfiguration services,
             IStatePropertyAccessor<ToDoSkillState> accessor,
-            IToDoService serviceManager)
+            ITaskService serviceManager)
             : base(nameof(AddToDoItemDialog), services, accessor, serviceManager)
         {
             var addToDoTask = new WaterfallStep[]

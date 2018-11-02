@@ -100,8 +100,8 @@
   "SettingUpOneNoteMessage": {
     "replies": [
       {
-        "text": "我正在配置您onenote，这不会占用很长时间。",
-        "speak": "我正在配置您onenote，这不会占用很长时间。"
+        "text": "我正在配置您的列表, 这不会花费很长时间。",
+        "speak": "我正在配置您的列表, 这不会花费很长时间。"
       }
     ],
     "inputHint": "acceptingInput"
