@@ -193,8 +193,8 @@ namespace EmailSkill
                         Speak = message?.Subject + " From " + message?.Sender.EmailAddress.Name + " " + message?.BodyPreview,
                     };
 
-                    // Todo: workaround here to read out email details.
-                    var emailDetails = emailCard.Speak;
+                    // Todo: workaround here to read out email details. Ignore body for now as we need a summary and filter.
+                    var emailDetails = message?.Subject + " From " + message?.Sender.EmailAddress.Name;
                     var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(ShowEmailResponses.ReadOutMessage, "Dialogs/Shared/Resources/Cards/EmailDetailCard.json", emailCard, null, new StringDictionary() { { "EmailDetails", emailDetails } });
                     await sc.Context.SendActivityAsync(replyMessage);
 

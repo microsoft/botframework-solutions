@@ -61,7 +61,7 @@
       },
       {
         "text": "Content of email:",
-        "speak": "Content of email: {EmailDetails}"
+        "speak": "Details of email: {EmailDetails}"
       }
     ],
     "inputHint": "expectingInput"
