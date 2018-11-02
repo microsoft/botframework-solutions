@@ -71,6 +71,11 @@ namespace VirtualAssistant
             var dispatchResult = await _services.DispatchRecognizer.RecognizeAsync<Dispatch>(dc.Context, CancellationToken.None);
             var intent = dispatchResult.TopIntent().intent;
 
+            if (intent != Dispatch.Intent.l_General)
+            {
+                intent = Dispatch.Intent.l_ToDo;
+            }
+
             switch (intent)
             {
                 case Dispatch.Intent.l_General:
