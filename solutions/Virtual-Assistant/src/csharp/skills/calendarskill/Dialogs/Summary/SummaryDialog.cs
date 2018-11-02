@@ -1,4 +1,5 @@
-﻿using CalendarSkill.Dialogs.Shared.Resources;
+﻿using CalendarSkill.Common;
+using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Dialogs.Summary.Resources;
 using Luis;
 using Microsoft.Bot.Builder;
@@ -116,16 +117,24 @@ namespace CalendarSkill
                         return await sc.EndDialogAsync(true);
                     }
 
-                    var calendarService = _serviceManager.InitCalendarService(state.APIToken, state.EventSource, state.GetUserTimeZone());
+                    var calendarService = _serviceManager.InitCalendarService(state.APIToken, state.EventSource);
 
-                    var searchDate = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.Local, state.GetUserTimeZone());
+                    var searchDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, state.GetUserTimeZone());
 
                     if (state.StartDate != null)
                     {
                         searchDate = state.StartDate.Value;
                     }
 
-                    var searchedEvents = await GetEventsByTime(searchDate, state.StartTime, state.EndDateTime, state.GetUserTimeZone(), calendarService);
+                    var results = await GetEventsByTime(searchDate, state.StartTime, state.EndDate, state.EndTime, state.GetUserTimeZone(), calendarService);
+                    var searchedEvents = new List<EventModel>();
+                    foreach (var item in results)
+                    {
+                        if (item.StartTime >= DateTime.UtcNow)
+                        {
+                            searchedEvents.Add(item);
+                        }
+                    }
 
                     if (searchedEvents.Count == 0)
                     {
@@ -150,11 +159,11 @@ namespace CalendarSkill
                             responseParams.Add("EventName2", searchedEvents[searchedEvents.Count - 1].Title);
                             if (searchedEvents[searchedEvents.Count - 1].IsAllDay == true)
                             {
-                                responseParams.Add("EventTime", searchedEvents[searchedEvents.Count - 1].StartTime.ToString("MMMM dd all day"));
+                                responseParams.Add("EventTime", TimeConverter.ConvertUtcToUserTime(searchedEvents[searchedEvents.Count - 1].StartTime, state.GetUserTimeZone()).ToString("MMMM dd all day"));
                             }
                             else
                             {
-                                responseParams.Add("EventTime", searchedEvents[searchedEvents.Count - 1].StartTime.ToString("h:mm tt"));
+                                responseParams.Add("EventTime", TimeConverter.ConvertUtcToUserTime(searchedEvents[searchedEvents.Count - 1].StartTime, state.GetUserTimeZone()).ToString("h:mm tt"));
                             }
 
                             await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowMultipleMeetingSummaryMessage, _responseBuilder, responseParams));
@@ -239,7 +248,7 @@ namespace CalendarSkill
                 }
                 else if (eventItem != null)
                 {
-                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(SummaryResponses.ReadOutMessage, eventItem.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", eventItem.ToAdaptiveCardData());
+                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(SummaryResponses.ReadOutMessage, eventItem.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", eventItem.ToAdaptiveCardData(state.GetUserTimeZone()));
                     await sc.Context.SendActivityAsync(replyMessage);
 
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.ReadOutMorePrompt) });
