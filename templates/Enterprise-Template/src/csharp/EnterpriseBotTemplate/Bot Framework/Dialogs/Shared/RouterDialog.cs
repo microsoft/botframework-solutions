@@ -3,6 +3,7 @@
 
 using System.Threading;
 using System.Threading.Tasks;
+using $safeprojectname$.Extensions;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
@@ -21,6 +22,12 @@ namespace $safeprojectname$
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var activity = innerDc.Context.Activity;
+
+            if (CortanaHelper.IsLaunchActivity(activity) && string.IsNullOrEmpty(activity.Text))
+            {
+                await OnStartAsync(innerDc);
+                return EndOfTurn;
+            }
 
             switch (activity.Type)
             {

@@ -2,11 +2,12 @@
 // Licensed under the MIT License.
 
 using $safeprojectname$.Dialogs.Cancel.Resources;
+using $safeprojectname$.Extensions;
 using Microsoft.Bot.Builder.TemplateManager;
 
 namespace $safeprojectname$
 {
-    public class CancelResponses : TemplateManager
+    public class CancelResponses : TemplateManagerWithVoice
     {
         // Constants
         public const string _confirmPrompt = "Cancel.ConfirmCancelPrompt";

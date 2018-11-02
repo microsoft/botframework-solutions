@@ -2,11 +2,14 @@
 // Licensed under the MIT License.
 
 using $safeprojectname$.Dialogs.Escalate.Resources;
+using $safeprojectname$.Extensions;
 using Microsoft.Bot.Builder.TemplateManager;
+using Microsoft.Bot.Schema;
+using System.Collections.Generic;
 
 namespace $safeprojectname$
 {
-    public class EscalateResponses : TemplateManager
+    public class EscalateResponses : TemplateManagerWithVoice
     {
         public const string SendPhone = "sendPhone";
 
@@ -14,7 +17,7 @@ namespace $safeprojectname$
         {
             ["default"] = new TemplateIdMap
             {
-                { SendPhone, (context, data) => EscalateStrings.PHONE_INFO },
+                { SendPhone, SendEscalateCard },
             },
             ["en"] = new TemplateIdMap { },
             ["fr"] = new TemplateIdMap { },
@@ -23,6 +26,27 @@ namespace $safeprojectname$
         public EscalateResponses()
         {
             Register(new DictionaryRenderer(_responseTemplates));
+        }
+
+        public static IMessageActivity SendEscalateCard(ITurnContext turnContext, dynamic data)
+        {
+            var response = turnContext.Activity.CreateReply();
+
+            response.Speak = EscalateStrings.PHONE_INFO;
+            response.Attachments = new List<Attachment>
+            {
+                new HeroCard()
+                {
+                    Text = EscalateStrings.PHONE_INFO,
+                    Buttons = new List<CardAction>()
+                {
+                    new CardAction(type: ActionTypes.OpenUrl, title: "Call now", value: "tel:8001235555"),
+                    new CardAction(type: ActionTypes.OpenUrl, title: "Open Teams", value: "msteams://")
+                },
+                }.ToAttachment()
+            };
+
+            return response;
         }
     }
 }

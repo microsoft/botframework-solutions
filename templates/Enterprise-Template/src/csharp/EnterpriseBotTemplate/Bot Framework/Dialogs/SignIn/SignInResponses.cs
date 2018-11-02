@@ -2,11 +2,12 @@
 // Licensed under the MIT License.
 
 using $safeprojectname$.Dialogs.SignIn.Resources;
+using $safeprojectname$.Extensions;
 using Microsoft.Bot.Builder.TemplateManager;
 
 namespace $safeprojectname$
 {
-    public class SignInResponses : TemplateManager
+    public class SignInResponses : TemplateManagerWithVoice
     {
         // Constants
         public const string SignInPrompt = "namePrompt";

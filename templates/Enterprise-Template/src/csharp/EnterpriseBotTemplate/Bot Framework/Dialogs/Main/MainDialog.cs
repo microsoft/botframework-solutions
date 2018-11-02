@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Schema;
 
 namespace $safeprojectname$
 {
@@ -34,13 +35,15 @@ namespace $safeprojectname$
         var onboardingAccessor = _userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
         var onboardingState = await onboardingAccessor.GetAsync(innerDc.Context, () => new OnboardingState());
 
-        var view = new MainResponses();
-        await view.ReplyWith(innerDc.Context, MainResponses.Intro);
-
         if (string.IsNullOrEmpty(onboardingState.Name))
         {
             // This is the first time the user is interacting with the bot, so gather onboarding information.
             await innerDc.BeginDialogAsync(nameof(OnboardingDialog));
+        }
+        else
+        {
+            var view = new MainResponses();
+            await view.ReplyWith(innerDc.Context, MainResponses.Intro);
         }
     }
 
@@ -132,7 +135,10 @@ namespace $safeprojectname$
     protected override async Task CompleteAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
     {
         // The active dialog's stack ended with a complete status
-        await _responder.ReplyWith(innerDc.Context, MainResponses.Completed);
+            await _responder.ReplyWith(innerDc.Context, MainResponses.Completed, inputHint: InputHints.IgnoringInput);
+
+            var view = new MainResponses();
+            await view.ReplyWith(innerDc.Context, MainResponses.Intro);
     }
 }
 }

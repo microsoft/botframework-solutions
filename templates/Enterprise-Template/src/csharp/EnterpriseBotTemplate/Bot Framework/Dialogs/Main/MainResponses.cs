@@ -3,15 +3,16 @@
 
 using System.Collections.Generic;
 using System.IO;
+using AdaptiveCards;
 using $safeprojectname$.Dialogs.Main.Resources;
+using $safeprojectname$.Extensions;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.TemplateManager;
 using Microsoft.Bot.Schema;
-using Newtonsoft.Json;
 
 namespace $safeprojectname$
 {
-    public class MainResponses : TemplateManager
+    public class MainResponses : TemplateManagerWithVoice
     {
         // Constants
         public const string Cancelled = "cancelled";
@@ -46,13 +47,16 @@ namespace $safeprojectname$
             var response = turnContext.Activity.CreateReply();
 
             var introCard = File.ReadAllText(@".\Dialogs\Main\Resources\Intro.json");
-
-            response.Attachments = new List<Attachment>();
-            response.Attachments.Add(new Attachment()
+            AdaptiveCard card = AdaptiveCard.FromJson(introCard).Card;
+            response.Speak = card.Speak;
+            response.Attachments = new List<Attachment>
             {
-                ContentType = "application/vnd.microsoft.card.adaptive",
-                Content = JsonConvert.DeserializeObject(introCard),
-            });
+                new Attachment()
+                {
+                    ContentType = AdaptiveCard.ContentType,
+                    Content = card
+                }
+            };
 
             return response;
         }
@@ -60,19 +64,21 @@ namespace $safeprojectname$
         public static IMessageActivity SendHelpCard(ITurnContext turnContext, dynamic data)
         {
             var response = turnContext.Activity.CreateReply();
-            response.Attachments = new List<Attachment>();
-
-            response.Attachments.Add(new HeroCard()
+            response.Speak = MainStrings.HELP_TEXT;
+            response.Attachments = new List<Attachment>
             {
-                Title = MainStrings.HELP_TITLE,
-                Text = MainStrings.HELP_TEXT,
-                Buttons = new List<CardAction>()
+                new HeroCard()
+                {
+                    Title = MainStrings.HELP_TITLE,
+                    Text = MainStrings.HELP_TEXT,
+                    Buttons = new List<CardAction>()
                 {
                     new CardAction(type: ActionTypes.ImBack, title: "Test LUIS", value: "Hello"),
                     new CardAction(type: ActionTypes.ImBack, title: "Test QnAMaker", value: "What is the sdk v4?"),
                     new CardAction(type: ActionTypes.OpenUrl, title: "Learn More", value: "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"),
                 },
-            }.ToAttachment());
+                }.ToAttachment()
+            };
 
             return response;
         }

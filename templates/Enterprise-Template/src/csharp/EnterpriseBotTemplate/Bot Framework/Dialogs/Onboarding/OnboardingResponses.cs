@@ -2,11 +2,12 @@
 // Licensed under the MIT License.
 
 using $safeprojectname$.Dialogs.Onboarding.Resources;
+using $safeprojectname$.Extensions;
 using Microsoft.Bot.Builder.TemplateManager;
 
 namespace $safeprojectname$
 {
-    public class OnboardingResponses : TemplateManager
+    public class OnboardingResponses : TemplateManagerWithVoice
     {
         public const string _namePrompt = "namePrompt";
         public const string _haveName = "haveName";

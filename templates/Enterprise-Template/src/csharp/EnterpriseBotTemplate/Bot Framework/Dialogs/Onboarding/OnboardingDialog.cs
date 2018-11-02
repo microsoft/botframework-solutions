@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Schema;
 
 namespace $safeprojectname$
 {
@@ -52,7 +53,7 @@ namespace $safeprojectname$
             {
                 return await sc.PromptAsync(NamePrompt, new PromptOptions()
                 {
-                    Prompt = await _responder.RenderTemplate(sc.Context, "en", OnboardingResponses._namePrompt),
+                    Prompt = await _responder.RenderTemplate(sc.Context, "en", OnboardingResponses._namePrompt, inputHint: InputHints.ExpectingInput),
                 });
             }
         }
@@ -62,7 +63,7 @@ namespace $safeprojectname$
             _state = await _accessor.GetAsync(sc.Context);
             var name = _state.Name = (string)sc.Result;
 
-            await _responder.ReplyWith(sc.Context, OnboardingResponses._haveName, new { name });
+            await _responder.ReplyWith(sc.Context, OnboardingResponses._haveName, new { name }, inputHint: InputHints.IgnoringInput);
 
             if (!string.IsNullOrEmpty(_state.Email))
             {
@@ -72,7 +73,7 @@ namespace $safeprojectname$
             {
                 return await sc.PromptAsync(EmailPrompt, new PromptOptions()
                 {
-                    Prompt = await _responder.RenderTemplate(sc.Context, "en", OnboardingResponses._emailPrompt),
+                    Prompt = await _responder.RenderTemplate(sc.Context, "en", OnboardingResponses._emailPrompt, inputHint: InputHints.ExpectingInput),
                 });
             }
         }
@@ -82,7 +83,7 @@ namespace $safeprojectname$
             _state = await _accessor.GetAsync(sc.Context);
             var email = _state.Email = (string)sc.Result;
 
-            await _responder.ReplyWith(sc.Context, OnboardingResponses._haveEmail, new { email });
+            await _responder.ReplyWith(sc.Context, OnboardingResponses._haveEmail, new { email }, inputHint: InputHints.IgnoringInput);
 
             if (!string.IsNullOrEmpty(_state.Location))
             {
@@ -92,7 +93,7 @@ namespace $safeprojectname$
             {
                 return await sc.PromptAsync(LocationPrompt, new PromptOptions()
                 {
-                    Prompt = await _responder.RenderTemplate(sc.Context, "en", OnboardingResponses._locationPrompt),
+                    Prompt = await _responder.RenderTemplate(sc.Context, "en", OnboardingResponses._locationPrompt, inputHint: InputHints.ExpectingInput),
                 });
             }
         }
@@ -102,7 +103,7 @@ namespace $safeprojectname$
             _state = await _accessor.GetAsync(sc.Context);
             _state.Location = (string)sc.Result;
 
-            await _responder.ReplyWith(sc.Context, OnboardingResponses._haveLocation, new { _state.Name, _state.Location });
+            await _responder.ReplyWith(sc.Context, OnboardingResponses._haveLocation, new { _state.Name, _state.Location }, inputHint: InputHints.IgnoringInput);
             return await sc.EndDialogAsync();
         }
     }
