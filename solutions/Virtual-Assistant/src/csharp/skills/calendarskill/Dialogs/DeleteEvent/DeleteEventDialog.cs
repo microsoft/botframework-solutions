@@ -1,4 +1,5 @@
-﻿using CalendarSkill.Dialogs.DeleteEvent.Resources;
+﻿using CalendarSkill.Common;
+using CalendarSkill.Dialogs.DeleteEvent.Resources;
 using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
 using Microsoft.Bot.Builder;
@@ -60,7 +61,7 @@ namespace CalendarSkill
                 }
 
                 var deleteEvent = state.Events[0];
-                var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(DeleteEventResponses.ConfirmDelete, deleteEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", deleteEvent.ToAdaptiveCardData());
+                var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(DeleteEventResponses.ConfirmDelete, deleteEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", deleteEvent.ToAdaptiveCardData(state.GetUserTimeZone()));
 
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
@@ -80,7 +81,7 @@ namespace CalendarSkill
             try
             {
                 var state = await _accessor.GetAsync(sc.Context);
-                var calendarService = _serviceManager.InitCalendarService(state.APIToken, state.EventSource, state.GetUserTimeZone());
+                var calendarService = _serviceManager.InitCalendarService(state.APIToken, state.EventSource);
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult)
                 {
@@ -114,8 +115,7 @@ namespace CalendarSkill
                     return await sc.EndDialogAsync(true);
                 }
 
-                var calendarService = _serviceManager.InitCalendarService(state.APIToken, state.EventSource, state.GetUserTimeZone());
-
+                var calendarService = _serviceManager.InitCalendarService(state.APIToken, state.EventSource);
                 if (state.StartDateTime == null)
                 {
                     return await sc.BeginDialogAsync(Actions.UpdateStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound));
@@ -152,20 +152,10 @@ namespace CalendarSkill
                 }
                 else
                 {
-                    if (state.DialogName == "DeleteEvent")
+                    return await sc.PromptAsync(Actions.DateTimePromptForUpdateDelete, new PromptOptions
                     {
-                        return await sc.PromptAsync(Actions.DateTimePromptForUpdateDelete, new PromptOptions
-                        {
-                            Prompt = sc.Context.Activity.CreateReply(DeleteEventResponses.NoDeleteStartTime),
-                        });
-                    }
-                    else
-                    {
-                        return await sc.PromptAsync(Actions.DateTimePromptForUpdateDelete, new PromptOptions
-                        {
-                            Prompt = sc.Context.Activity.CreateReply(DeleteEventResponses.NoUpdateStartTime),
-                        });
-                    }
+                        Prompt = sc.Context.Activity.CreateReply(DeleteEventResponses.NoDeleteStartTime),
+                    });
                 }
             }
             catch
@@ -182,11 +172,11 @@ namespace CalendarSkill
                 var state = await _accessor.GetAsync(sc.Context);
                 var events = new List<EventModel>();
 
-                var calendarService = _serviceManager.InitCalendarService(state.APIToken, state.EventSource, state.GetUserTimeZone());
+                var calendarService = _serviceManager.InitCalendarService(state.APIToken, state.EventSource);
 
                 if (state.StartDate != null || state.StartTime != null)
                 {
-                    events = await GetEventsByTime(state.StartDate, state.StartTime, null, state.GetUserTimeZone(), calendarService);
+                    events = await GetEventsByTime(state.StartDate, state.StartTime, state.EndDate, state.EndTime, state.GetUserTimeZone(), calendarService);
                     state.StartDate = null;
                     state.StartTime = null;
                 }
@@ -259,7 +249,7 @@ namespace CalendarSkill
                     var cardsData = new List<CalendarCardData>();
                     foreach (var item in events)
                     {
-                        var meetingCard = item.ToAdaptiveCardData();
+                        var meetingCard = item.ToAdaptiveCardData(state.GetUserTimeZone());
                         var replyTemp = sc.Context.Activity.CreateAdaptiveCardReply(CalendarMainResponses.GreetingMessage, item.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", meetingCard);
                         replyToConversation.Attachments.Add(replyTemp.Attachments[0]);
                     }

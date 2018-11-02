@@ -10,6 +10,7 @@ using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.Dialogs.ShowToDo.Resources;
+using static ToDoSkill.ListTypes;
 
 namespace ToDoSkill
 {
@@ -18,7 +19,7 @@ namespace ToDoSkill
         public ShowToDoItemDialog(
             SkillConfiguration services,
             IStatePropertyAccessor<ToDoSkillState> accessor,
-            IToDoService serviceManager)
+            ITaskService serviceManager)
             : base(nameof(ShowToDoItemDialog), services, accessor, serviceManager)
         {
             var showToDoTasks = new WaterfallStep[]
@@ -58,7 +59,8 @@ namespace ToDoSkill
             try
             {
                 var state = await _accessor.GetAsync(sc.Context);
-                if (!state.OneNotePageIds.ContainsKey(state.ListType))
+                state.ListType = state.ListType ?? ListType.ToDo.ToString();
+                if (!state.ListTypeIds.ContainsKey(state.ListType))
                 {
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
                 }
@@ -66,13 +68,12 @@ namespace ToDoSkill
                 var topIntent = state.LuisResult?.TopIntent().intent;
                 if (topIntent == ToDo.Intent.ShowToDo || topIntent == ToDo.Intent.None)
                 {
-                    var service = await _serviceManager.Init(state.MsGraphToken, state.OneNotePageIds);
-                    var todosAndPageIdTuple = await service.GetToDos(state.ListType);
-                    state.AllTasks = todosAndPageIdTuple.Item1;
+                    var service = await _serviceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
+                    state.AllTasks = await service.GetTasksAsync(state.ListType);
                 }
 
                 var allTasksCount = state.AllTasks.Count;
-                var currentTaskIndex = state.ShowToDoPageIndex * state.PageSize;
+                var currentTaskIndex = state.ShowTaskPageIndex * state.PageSize;
                 state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));
                 var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
                 if (state.Tasks.Count <= 0)
@@ -111,7 +112,7 @@ namespace ToDoSkill
                     toDoListReply.Attachments.Add(toDoListAttachment);
                     await sc.Context.SendActivityAsync(toDoListReply);
                     if ((topIntent == ToDo.Intent.ShowToDo || topIntent == ToDo.Intent.None)
-                        && allTasksCount > (state.ShowToDoPageIndex + 1) * state.PageSize)
+                        && allTasksCount > (state.ShowTaskPageIndex + 1) * state.PageSize)
                     {
                         await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ShowToDoResponses.ShowingMoreTasks));
                     }
