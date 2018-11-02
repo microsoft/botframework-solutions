@@ -35,8 +35,8 @@ The ``appsettings.json`` file in the sample project has the following OAuth conf
    *  **Application Type**: Web app / API
    *  **Sign-on URL**: `http://localhost:XXXX/signin-oidc` *(update with the local port of your project)*
 5. On the **Overview** page of your new app, copy the following values into your `appsettings.json`
-   * `Directory (tenant) ID to `TenantId`
-   * `Application (client) ID` to `ClientId`
+   * `Directory (tenant) ID` maps to `TenantId`
+   * `Application (client) ID` maps to `ClientId`
 
 ```
 "AzureAd": {
@@ -69,18 +69,22 @@ Exchanging a Direct Line secret for a Token and providing a Trusted Origin enabl
 ```
 ## Testing Linked Accounts
 
-If you run the project within Visual Studio you will be navigated to the Linked Accounts website. You'll be prompted to login, ensure you choose the same credentials that your VA Bot will be using when performing operations on your behalf. 
+If you run the project within Visual Studio you will be navigated to the Linked Accounts web app. 
+You'll be prompted to login, use the same credentials that your Virtual Assistant will be using when performing operations on your behalf. 
 
 > If different accounts are used then the VA Bot will not have access to your linked tokens and may prompt for authentication.
 
-Once logged in you, Click Linked Accounts in the top navigation page and you should see a list of the Authentication connections configured for the Bot (whose MicrosoftAppId you specified in the earlier configuration step).
+Once logged in you, click Linked Accounts in the top navigation page and you should see a list of the Authentication connections configured for the Bot 
+(whose MicrosoftAppId you specified in the earlier configuration step).
 
-You can now click Sign-In to be navigated to the respective OAuth sign-in page. Once complete the Linked Accounts website should show the updated status.
+You can now click Sign-In to be navigated to the respective OAuth sign-in page. Once complete the Linked Accounts web app should show a green linked status.
 
 ## Testing your Virtual Assistant with Linked Accounts
 
 Now that you've linked your account and stored tokens you can move back to your Virtual Assistant and check that it's able to use the tokens you've stored and not prompt for authentication.
 
-> Note that when communicating with the Virtual Assistant (Bot) the From.Id property on each Activity must be populated with the same User unique-identifier as this is the *key* used by the Authentication logic to retrieve tokens. The Linked Accounts website sample uses the [objectidentifier](https://docs.microsoft.com/en-us/azure/architecture/multitenant-identity/claims) claim and this must be used by your Virtual Assistant client app or Test Harnesses. Equally, the principal name (upn) could be used if preferred.
+> Note that when communicating with the Virtual Assistant (Bot) the From.Id property on each Activity must be populated with the same User unique-identifier as this is the *key* used by the Authentication logic to retrieve tokens. 
+> The Linked Accounts website sample uses the [objectidentifier](https://docs.microsoft.com/en-us/azure/architecture/multitenant-identity/claims) claim and this must be used by your Virtual Assistant client app or Test Harnesses. 
+> Equally, the principal name (upn) could be used if preferred.
 
 Asking a question that triggers a user flow which requires the specified token should now not prompt for authentication.
