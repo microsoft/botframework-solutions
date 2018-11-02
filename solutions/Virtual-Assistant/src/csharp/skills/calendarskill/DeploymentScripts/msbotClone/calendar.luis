@@ -1,4 +1,9 @@
 {
+  "luis_schema_version": "3.1.0",
+  "versionId": "0.1",
+  "name": "VirtualAssistantTest_Calendar",
+  "desc": "new communication prebuilt domain",
+  "culture": "en-us",
   "intents": [
     {
       "name": "ChangeCalendarEntry"
@@ -3519,6 +3524,27 @@
       ]
     },
     {
+      "text": "create a meeting with tom at 10pm for half an hour",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 22,
+          "endPos": 24
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 29,
+          "endPos": 32
+        },
+        {
+          "entity": "Duration",
+          "startPos": 38,
+          "endPos": 49
+        }
+      ]
+    },
+    {
       "text": "create all day appointment on sunday",
       "intent": "CreateCalendarEntry",
       "entities": [
@@ -6278,6 +6304,22 @@
       ]
     },
     {
+      "text": "move 3pm meeting to 4pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 5,
+          "endPos": 7
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 20,
+          "endPos": 22
+        }
+      ]
+    },
+    {
       "text": "move appt with rebecca to next week",
       "intent": "ChangeCalendarEntry",
       "entities": [
@@ -6358,6 +6400,22 @@
           "entity": "StartTime",
           "startPos": 45,
           "endPos": 46
+        }
+      ]
+    },
+    {
+      "text": "move my 10pm meeting to 9pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 8,
+          "endPos": 11
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 24,
+          "endPos": 26
         }
       ]
     },
@@ -11494,9 +11552,5 @@
       ]
     }
   ],
-  "luis_schema_version": "3.0.0",
-  "versionId": "0.1",
-  "name": "calendar",
-  "desc": "",
-  "culture": "en-us"
+  "settings": []
 }
