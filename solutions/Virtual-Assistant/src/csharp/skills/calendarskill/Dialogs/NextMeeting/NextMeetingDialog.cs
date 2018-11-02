@@ -1,4 +1,5 @@
-﻿using CalendarSkill.Dialogs.NextMeeting.Resources;
+﻿using CalendarSkill.Common;
+using CalendarSkill.Dialogs.NextMeeting.Resources;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
@@ -42,7 +43,7 @@ namespace CalendarSkill
                     return await sc.EndDialogAsync(true);
                 }
 
-                var calendarService = _serviceManager.InitCalendarService(state.APIToken, state.EventSource, state.GetUserTimeZone());
+                var calendarService = _serviceManager.InitCalendarService(state.APIToken, state.EventSource);
 
                 var eventList = await calendarService.GetUpcomingEvents();
                 var nextEventList = new List<EventModel>();
@@ -69,11 +70,11 @@ namespace CalendarSkill
                         };
                         if (nextEventList[0].IsAllDay == true)
                         {
-                            speakParams.Add("EventTime", nextEventList[0].StartTime.ToString("MMMM dd all day"));
+                            speakParams.Add("EventTime", TimeConverter.ConvertUtcToUserTime(nextEventList[0].StartTime, state.GetUserTimeZone()).ToString("MMMM dd all day"));
                         }
                         else
                         {
-                            speakParams.Add("EventTime", nextEventList[0].StartTime.ToString("h:mm tt"));
+                            speakParams.Add("EventTime", TimeConverter.ConvertUtcToUserTime(nextEventList[0].StartTime, state.GetUserTimeZone()).ToString("h:mm tt"));
                         }
 
                         if (string.IsNullOrEmpty(nextEventList[0].Location))
