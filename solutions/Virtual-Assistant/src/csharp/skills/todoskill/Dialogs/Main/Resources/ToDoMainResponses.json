@@ -2,8 +2,8 @@
   "ToDoWelcomeMessage": {
     "replies": [
       {
-        "text": "Hi. I'm To Do bot. I can help you manage your To Do, Shopping or Grocery list in your OneNote.",
-        "speak": "Hi. I'm To Do bot. I can help you manage your To Do, Shopping or Grocery list in your OneNote."
+        "text": "Hi. I'm To Do bot. I can help you manage your To Do, Shopping or Grocery list.",
+        "speak": "Hi. I'm To Do bot. I can help you manage your To Do, Shopping or Grocery list."
       }
     ],
     "suggestedActions": [
