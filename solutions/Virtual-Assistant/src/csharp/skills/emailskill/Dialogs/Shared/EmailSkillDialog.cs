@@ -50,16 +50,17 @@ namespace EmailSkill
             _dialogStateAccessor = dialogStateAccessor;
             _serviceManager = serviceManager;
 
-            var oauthSettings = new OAuthPromptSettings()
+            foreach (var connection in services.AuthenticationConnections)
             {
-                ConnectionName = _services.AuthConnectionName ?? throw new Exception("The authentication connection has not been initialized."),
-                Text = $"Authentication",
-                Title = "Signin",
-                Timeout = 300000, // User has 5 minutes to login
-            };
+                AddDialog(new OAuthPrompt(connection.Key, new OAuthPromptSettings
+                {
+                    ConnectionName = connection.Value,
+                    Text = $"Please login with your {connection.Key} account.",
+                    Timeout = 30000,
+                }));
+            }
 
             AddDialog(new EventPrompt(SkillModeAuth, "tokens/response", TokenResponseValidator));
-            AddDialog(new OAuthPrompt(LocalModeAuth, oauthSettings, AuthPromptValidator));
             AddDialog(new TextPrompt(Action.Prompt));
             AddDialog(new ConfirmPrompt(Action.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
             AddDialog(new ChoicePrompt(Action.Choice, ChoiceValidator, Culture.English) { Style = ListStyle.None });
