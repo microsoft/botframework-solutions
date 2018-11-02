@@ -2505,6 +2505,22 @@
       ]
     },
     {
+      "text": "change my 7 pm event to 8 pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 10,
+          "endPos": 13
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 24,
+          "endPos": 27
+        }
+      ]
+    },
+    {
       "text": "change my 8 till 9 appointment to 11 till 12",
       "intent": "ChangeCalendarEntry",
       "entities": [
@@ -2590,6 +2606,22 @@
           "entity": "StartTime",
           "startPos": 43,
           "endPos": 43
+        }
+      ]
+    },
+    {
+      "text": "change my meeting at night to tomorrow",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 21,
+          "endPos": 25
+        },
+        {
+          "entity": "StartDate",
+          "startPos": 30,
+          "endPos": 37
         }
       ]
     },
@@ -3536,6 +3568,17 @@
       "entities": []
     },
     {
+      "text": "delete my meeting at night",
+      "intent": "DeleteCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartTime",
+          "startPos": 21,
+          "endPos": 25
+        }
+      ]
+    },
+    {
       "text": "delete my schedule",
       "intent": "DeleteCalendarEntry",
       "entities": []
@@ -3798,6 +3841,22 @@
           "entity": "StartDate",
           "startPos": 19,
           "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "do i have events tomorrow night",
+      "intent": "FindCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartDate",
+          "startPos": 17,
+          "endPos": 24
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 26,
+          "endPos": 30
         }
       ]
     },
@@ -7602,6 +7661,17 @@
       "entities": []
     },
     {
+      "text": "show my schedule at night",
+      "intent": "FindCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartTime",
+          "startPos": 20,
+          "endPos": 24
+        }
+      ]
+    },
+    {
       "text": "show time before next appointment",
       "intent": "TimeRemaining",
       "entities": [
@@ -7976,12 +8046,17 @@
           "endPos": 27
         },
         {
-          "entity": "EndTime",
+          "entity": "OriginalStartTime",
+          "startPos": 24,
+          "endPos": 27
+        },
+        {
+          "entity": "StartTime",
           "startPos": 32,
           "endPos": 35
         },
         {
-          "entity": "EndDate",
+          "entity": "StartDate",
           "startPos": 37,
           "endPos": 41
         }
@@ -8369,6 +8444,17 @@
           "entity": "StartDate",
           "startPos": 25,
           "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "what are my meetings at night",
+      "intent": "FindCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartTime",
+          "startPos": 24,
+          "endPos": 28
         }
       ]
     },
