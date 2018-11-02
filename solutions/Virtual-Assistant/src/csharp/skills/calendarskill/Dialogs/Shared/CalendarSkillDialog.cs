@@ -377,8 +377,16 @@ namespace CalendarSkill
                     {
                         if (datetimeItem.Type == "duration")
                         {
-                            TimeSpan ts = XmlConvert.ToTimeSpan(datetimeItem.Expressions[0]);
-                            state.Duration = (int)ts.TotalSeconds;
+                            var culture = dc.Context.Activity.Locale ?? English;
+                            List<DateTimeResolution> result = RecognizeDateTime(entity.Duration[0], culture);
+                            if (result != null)
+                            {
+                                if (result[0].Value != null)
+                                {
+                                    state.Duration = int.Parse(result[0].Value);
+                                }
+                            }
+
                             break;
                         }
                     }
