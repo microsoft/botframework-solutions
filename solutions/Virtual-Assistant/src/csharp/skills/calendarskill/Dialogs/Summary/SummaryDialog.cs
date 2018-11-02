@@ -248,7 +248,10 @@ namespace CalendarSkill
                 }
                 else if (eventItem != null)
                 {
-                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(SummaryResponses.ReadOutMessage, eventItem.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", eventItem.ToAdaptiveCardData(state.GetUserTimeZone()));
+                    var locationDetails = eventItem.Location == string.Empty ? "" : "And location is" + eventItem.Location;
+                    var meetingDetails = eventItem.Title + "From" + eventItem.StartTime.ToString() + "To" + eventItem.EndTime.ToString() + locationDetails;
+
+                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(SummaryResponses.ReadOutMessage, eventItem.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", eventItem.ToAdaptiveCardData(state.GetUserTimeZone()), null, new StringDictionary() { { "MeetingDetails", meetingDetails } });
                     await sc.Context.SendActivityAsync(replyMessage);
 
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.ReadOutMorePrompt) });
