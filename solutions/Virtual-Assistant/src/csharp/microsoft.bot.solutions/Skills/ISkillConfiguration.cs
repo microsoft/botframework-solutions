@@ -11,6 +11,8 @@ namespace Microsoft.Bot.Solutions.Skills
     {
         public abstract string AuthConnectionName { get; set; }
 
+        public abstract Dictionary<string, string> AuthenticationConnections { get; set; }
+
         public abstract TelemetryClient TelemetryClient { get; set; }
 
         public abstract CosmosDbStorageOptions CosmosDbOptions { get; set; }

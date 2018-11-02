@@ -19,6 +19,9 @@ namespace Microsoft.Bot.Solutions.Skills
         [JsonProperty("luisServiceIds")]
         public string[] LuisServiceIds { get; set; }
 
+        [JsonProperty("authenticationProviders")]
+        public string[] AuthenticationProviders { get; set; }
+
         [JsonProperty("parameters")]
         public string[] Parameters { get; set; }
 

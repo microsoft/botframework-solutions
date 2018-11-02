@@ -44,12 +44,7 @@ namespace Microsoft.Bot.Solutions.Skills
 
             // Initialize authentication prompt
             _dialogs = _dialogs ?? new DialogSet(_accessor);
-            _dialogs.Add(new OAuthPrompt(nameof(OAuthPrompt), new OAuthPromptSettings()
-            {
-                ConnectionName = skillConfiguration.AuthConnectionName,
-                Title = CommonResponses.SkillAuthenticationTitle.Reply.Text,
-                Text = CommonResponses.SkillAuthenticationPrompt.Reply.Text,
-            }));
+            _dialogs.Add(new SkillAuthenticationDialog(skillConfiguration));
 
             // Send parameters to skill in skillBegin event
             var userData = new Dictionary<string, object>();
@@ -86,18 +81,13 @@ namespace Microsoft.Bot.Solutions.Skills
             var innerDc = await _dialogs.CreateContextAsync(dc.Context);
 
             // Add the oauth prompt to _dialogs if it is missing
-            var dialog = _dialogs.Find(nameof(OAuthPrompt));
+            var dialog = _dialogs.Find(nameof(SkillAuthenticationDialog));
             if (dialog == null)
             {
                 var skillDefinition = dc.ActiveDialog.State[ActiveSkillStateKey] as SkillDefinition;
                 var skillConfiguration = _skills[skillDefinition.Id];
 
-                _dialogs.Add(new OAuthPrompt(nameof(OAuthPrompt), new OAuthPromptSettings()
-                {
-                    ConnectionName = skillConfiguration.AuthConnectionName,
-                    Title = CommonResponses.SkillAuthenticationTitle.Reply.Text,
-                    Text = CommonResponses.SkillAuthenticationPrompt.Reply.Text,
-                }));
+                _dialogs.Add(new SkillAuthenticationDialog(skillConfiguration));
             }
 
             // Check if we're in the oauth prompt
@@ -218,11 +208,7 @@ namespace Microsoft.Bot.Solutions.Skills
                     else if (skillResponse?.Name == Events.TokenRequestEventName)
                     {
                         // Send trace to emulator
-                        await dc.Context.SendActivityAsync(
-                            new Activity(
-                                type: ActivityTypes.Trace,
-                                text: $"<--Received a Token Request from a skill"
-                                ));
+                        await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Received a Token Request from a skill"));
 
                         // Uncomment this line to prompt user for login every time the skill requests a token
                         //var a = dc.Context.Adapter as BotFrameworkAdapter;
@@ -231,7 +217,8 @@ namespace Microsoft.Bot.Solutions.Skills
                         //await a.SignOutUserAsync(dc.Context, skillConfiguration.AuthConnectionName, dc.Context.Activity.From.Id, default(CancellationToken));
 
                         var innerDc = await _dialogs.CreateContextAsync(dc.Context);
-                        var authResult = await innerDc.BeginDialogAsync(nameof(OAuthPrompt));
+                        var authResult = await innerDc.BeginDialogAsync(nameof(SkillAuthenticationDialog));
+
                         if (authResult.Result?.GetType() == typeof(TokenResponse))
                         {
                             var tokenEvent = skillResponse.CreateReply();
