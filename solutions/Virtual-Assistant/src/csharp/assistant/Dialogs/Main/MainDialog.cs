@@ -136,54 +136,10 @@ namespace VirtualAssistant
                     }
 
                 case Dispatch.Intent.l_Calendar:
-                    {
-                        var luisService = _services.LuisServices["calendar"];
-                        var luisResult = await luisService.RecognizeAsync<Calendar>(dc.Context, CancellationToken.None);
-                        var matchedSkill = _skillRouter.IdentifyRegisteredSkill(intent.ToString());
-
-                        await RouteToSkillAsync(dc, new SkillDialogOptions()
-                        {
-                            SkillDefinition = matchedSkill,
-                            Parameters = parameters,
-                        });
-
-                        break;
-                    }
-
-                case Dispatch.Intent.l_Email:
-                    {
-                        var luisService = _services.LuisServices["email"];
-                        var luisResult = await luisService.RecognizeAsync<Email>(dc.Context, CancellationToken.None);
-                        var matchedSkill = _skillRouter.IdentifyRegisteredSkill(intent.ToString());
-
-                        await RouteToSkillAsync(dc, new SkillDialogOptions()
-                        {
-                            SkillDefinition = matchedSkill,
-                            Parameters = parameters,
-                        });
-
-                        break;
-                    }
-
+                 case Dispatch.Intent.l_Email:
                 case Dispatch.Intent.l_ToDo:
-                    {
-                        var luisService = _services.LuisServices["todo"];
-                        var luisResult = await luisService.RecognizeAsync<ToDo>(dc.Context, CancellationToken.None);
-                        var matchedSkill = _skillRouter.IdentifyRegisteredSkill(intent.ToString());
-
-                        await RouteToSkillAsync(dc, new SkillDialogOptions()
-                        {
-                            SkillDefinition = matchedSkill,
-                            Parameters = parameters,
-                        });
-
-                        break;
-                    }
-
                 case Dispatch.Intent.l_PointOfInterest:
                     {
-                        var luisService = _services.LuisServices["pointofinterest"];
-                        var luisResult = await luisService.RecognizeAsync<PointOfInterest>(dc.Context, CancellationToken.None);
                         var matchedSkill = _skillRouter.IdentifyRegisteredSkill(intent.ToString());
 
                         await RouteToSkillAsync(dc, new SkillDialogOptions()
