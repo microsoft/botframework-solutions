@@ -645,11 +645,11 @@ namespace CalendarSkill
             string speakString = string.Empty;
             if (eventItem.IsAllDay == true)
             {
-                speakString = $"{eventItem.Title} at {eventItem.StartTime.ToString("MMMM dd all day")}";
+                speakString = $"{eventItem.Title} 在 {eventItem.StartTime.ToString("MMMM dd all day")}";
             }
             else
             {
-                speakString = $"{eventItem.Title} at {eventItem.StartTime.ToString("h:mm tt")}";
+                speakString = $"{eventItem.Title} 在 {eventItem.StartTime.ToString("h:mm tt")}";
             }
 
             return new CalendarCardData
@@ -657,7 +657,7 @@ namespace CalendarSkill
                 Title = eventItem.Title,
                 Content = textString,
                 MeetingLink = eventItem.OnlineMeetingUrl,
-                Speak = $"{eventItem.Title} at {eventItem.StartTime.ToString("h:mm tt")}",
+                Speak = $"{eventItem.Title} 在 {eventItem.StartTime.ToString("h:mm tt")}",
             };
         }
 
