@@ -508,6 +508,37 @@
       ]
     },
     {
+      "text": "add picture day at school to my calendar for friday, november the 8th from 8 am to 9:30 am",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 4,
+          "endPos": 24
+        },
+        {
+          "entity": "Location",
+          "startPos": 19,
+          "endPos": 24
+        },
+        {
+          "entity": "StartDate",
+          "startPos": 45,
+          "endPos": 68
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 75,
+          "endPos": 78
+        },
+        {
+          "entity": "EndTime",
+          "startPos": 83,
+          "endPos": 89
+        }
+      ]
+    },
+    {
       "text": "add picture day at school to my calendar for friday, september the 9th from 8 am to 9:30 am",
       "intent": "CreateCalendarEntry",
       "entities": [
@@ -645,6 +676,27 @@
           "entity": "StartDate",
           "startPos": 16,
           "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "add team meeting to my calendar at 10pm with xiaoming wang",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 4,
+          "endPos": 15
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 35,
+          "endPos": 38
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 45,
+          "endPos": 57
         }
       ]
     },
@@ -1257,6 +1309,11 @@
       "entities": [
         {
           "entity": "StartTime",
+          "startPos": 23,
+          "endPos": 26
+        },
+        {
+          "entity": "OriginalStartTime",
           "startPos": 23,
           "endPos": 26
         },
@@ -2341,17 +2398,6 @@
       ]
     },
     {
-      "text": "change lunch date from 11am - 12pm to 12pm - 1:30pm",
-      "intent": "ChangeCalendarEntry",
-      "entities": [
-        {
-          "entity": "Subject",
-          "startPos": 7,
-          "endPos": 11
-        }
-      ]
-    },
-    {
       "text": "change marathon training from 8:00 am to 1:00 pm",
       "intent": "ChangeCalendarEntry",
       "entities": [
@@ -2411,6 +2457,68 @@
           "entity": "StartDate",
           "startPos": 47,
           "endPos": 62
+        }
+      ]
+    },
+    {
+      "text": "change meeting from 2-3pm to 4-5pm today",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartTime",
+          "startPos": 20,
+          "endPos": 20
+        },
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 20,
+          "endPos": 24
+        },
+        {
+          "entity": "EndTime",
+          "startPos": 29,
+          "endPos": 29
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 29,
+          "endPos": 33
+        },
+        {
+          "entity": "StartDate",
+          "startPos": 35,
+          "endPos": 39
+        }
+      ]
+    },
+    {
+      "text": "change meeting from 2pm-3pm to 4pm-5pm today",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 20,
+          "endPos": 22
+        },
+        {
+          "entity": "OriginalEndTime",
+          "startPos": 24,
+          "endPos": 26
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 31,
+          "endPos": 33
+        },
+        {
+          "entity": "EndTime",
+          "startPos": 35,
+          "endPos": 37
+        },
+        {
+          "entity": "StartDate",
+          "startPos": 39,
+          "endPos": 43
         }
       ]
     },
@@ -2489,6 +2597,22 @@
       ]
     },
     {
+      "text": "change my 6pm event to 7pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 10,
+          "endPos": 12
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 23,
+          "endPos": 25
+        }
+      ]
+    },
+    {
       "text": "change my 7 30 pm appointment to 8 pm",
       "intent": "ChangeCalendarEntry",
       "entities": [
@@ -2517,6 +2641,22 @@
           "entity": "StartTime",
           "startPos": 24,
           "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "change my 7pm event to 6pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 10,
+          "endPos": 12
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 23,
+          "endPos": 25
         }
       ]
     },
@@ -3250,6 +3390,50 @@
       ]
     },
     {
+      "text": "create a meeting at 11am",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartTime",
+          "startPos": 20,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "create a meeting at 12am",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartTime",
+          "startPos": 20,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "create a meeting at 7pm",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartTime",
+          "startPos": 20,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "create a meeting at 8am",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartTime",
+          "startPos": 20,
+          "endPos": 22
+        }
+      ]
+    },
+    {
       "text": "create a meeting at suzhou",
       "intent": "CreateCalendarEntry",
       "entities": [
@@ -3257,6 +3441,27 @@
           "entity": "Location",
           "startPos": 20,
           "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "create a meeting for tomorrow 6pm with qiong",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartDate",
+          "startPos": 21,
+          "endPos": 28
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 30,
+          "endPos": 32
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 39,
+          "endPos": 43
         }
       ]
     },
@@ -3289,6 +3494,27 @@
           "entity": "ContactName",
           "startPos": 22,
           "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "create a meeting with qiong for today 3pm",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 22,
+          "endPos": 26
+        },
+        {
+          "entity": "StartDate",
+          "startPos": 32,
+          "endPos": 36
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 38,
+          "endPos": 40
         }
       ]
     },
@@ -6068,6 +6294,37 @@
       ]
     },
     {
+      "text": "move meeting from 9pm-10pm to 8pm-9pm today",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 18,
+          "endPos": 20
+        },
+        {
+          "entity": "OriginalEndTime",
+          "startPos": 22,
+          "endPos": 25
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 30,
+          "endPos": 32
+        },
+        {
+          "entity": "EndTime",
+          "startPos": 34,
+          "endPos": 36
+        },
+        {
+          "entity": "StartDate",
+          "startPos": 38,
+          "endPos": 42
+        }
+      ]
+    },
+    {
       "text": "move my 1 pm up 30 minutes",
       "intent": "ChangeCalendarEntry",
       "entities": [
@@ -6180,6 +6437,22 @@
     },
     {
       "text": "move my 6pm meeting to 7pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 8,
+          "endPos": 10
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 23,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "move my 9pm meeting to 8pm",
       "intent": "ChangeCalendarEntry",
       "entities": [
         {
@@ -7661,6 +7934,17 @@
       "entities": []
     },
     {
+      "text": "show my meetings tomorrow",
+      "intent": "FindCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartDate",
+          "startPos": 17,
+          "endPos": 24
+        }
+      ]
+    },
+    {
       "text": "show my schedule at night",
       "intent": "FindCalendarEntry",
       "entities": [
@@ -8027,6 +8311,37 @@
       ]
     },
     {
+      "text": "update meeting from 8am-12pm to 7am-11am today",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 20,
+          "endPos": 22
+        },
+        {
+          "entity": "OriginalEndTime",
+          "startPos": 24,
+          "endPos": 27
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 32,
+          "endPos": 34
+        },
+        {
+          "entity": "EndTime",
+          "startPos": 36,
+          "endPos": 39
+        },
+        {
+          "entity": "StartDate",
+          "startPos": 41,
+          "endPos": 45
+        }
+      ]
+    },
+    {
       "text": "update my appointment",
       "intent": "ChangeCalendarEntry",
       "entities": []
@@ -8040,11 +8355,6 @@
       "text": "update my calendar from 2 pm to 4 pm today",
       "intent": "ChangeCalendarEntry",
       "entities": [
-        {
-          "entity": "StartTime",
-          "startPos": 24,
-          "endPos": 27
-        },
         {
           "entity": "OriginalStartTime",
           "startPos": 24,
@@ -8084,6 +8394,22 @@
       ]
     },
     {
+      "text": "update my calendar from 6pm to 7pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 24,
+          "endPos": 26
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 31,
+          "endPos": 33
+        }
+      ]
+    },
+    {
       "text": "update my camping appointment",
       "intent": "ChangeCalendarEntry",
       "entities": [
@@ -8100,6 +8426,22 @@
       "entities": []
     },
     {
+      "text": "update my meeting from 6pm to 7pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 23,
+          "endPos": 25
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 30,
+          "endPos": 32
+        }
+      ]
+    },
+    {
       "text": "update my next appointment",
       "intent": "ChangeCalendarEntry",
       "entities": [
@@ -8107,6 +8449,27 @@
           "entity": "OrderReference",
           "startPos": 10,
           "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "update my tomorrow 6pm meeting to 7pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartDate",
+          "startPos": 10,
+          "endPos": 17
+        },
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 19,
+          "endPos": 21
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 34,
+          "endPos": 36
         }
       ]
     },
