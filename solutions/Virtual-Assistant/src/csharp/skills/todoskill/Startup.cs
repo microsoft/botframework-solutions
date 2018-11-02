@@ -18,6 +18,7 @@ using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ToDoSkill.Dialogs.Shared.Resources;
+using ToDoSkill.ServiceClients;
 
 namespace ToDoSkill
 {
@@ -71,7 +72,15 @@ namespace ToDoSkill
             services.AddSingleton(conversationState);
             services.AddSingleton(new BotStateSet(userState, conversationState));
 
-            services.AddTransient<IToDoService, ToDoService>();
+            var serviceProvider = Configuration.GetSection("ServiceProvider")?.Value;
+            if (serviceProvider.Equals("Outlook", StringComparison.InvariantCultureIgnoreCase))
+            {
+                services.AddTransient<ITaskService, OutlookService>();
+            }
+            else
+            {
+                services.AddTransient<ITaskService, OneNoteService>();
+            }
 
             // Add the bot with options
             services.AddBot<ToDoSkill>(options =>

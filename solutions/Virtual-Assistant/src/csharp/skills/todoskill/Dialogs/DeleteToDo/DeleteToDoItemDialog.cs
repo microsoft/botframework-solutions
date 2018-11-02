@@ -19,7 +19,7 @@ namespace ToDoSkill
         public DeleteToDoItemDialog(
             SkillConfiguration services,
             IStatePropertyAccessor<ToDoSkillState> accessor,
-            IToDoService serviceManager)
+            ITaskService serviceManager)
             : base(nameof(DeleteToDoItemDialog), services, accessor, serviceManager)
         {
             var deleteToDoTask = new WaterfallStep[]
@@ -66,37 +66,34 @@ namespace ToDoSkill
                 var state = await _accessor.GetAsync(sc.Context);
                 if (state.DeleteTaskConfirmation)
                 {
-                    if (string.IsNullOrEmpty(state.OneNotePageId))
+                    if (!state.ListTypeIds.ContainsKey(state.ListType))
                     {
                         await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
                     }
 
-                    var service = await _serviceManager.Init(state.MsGraphToken, state.OneNotePageId);
-                    var page = await service.GetDefaultToDoPage();
+                    var service = await _serviceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
                     string taskTopicToBeDeleted = null;
                     if (state.MarkOrDeleteAllTasksFlag)
                     {
-                        await service.DeleteAllToDos(state.AllTasks, page.ContentUrl);
-                        state.AllTasks = new List<ToDoItem>();
-                        state.Tasks = new List<ToDoItem>();
-                        state.ShowToDoPageIndex = 0;
+                        await service.DeleteTasksAsync(state.ListType, state.AllTasks);
+                        state.AllTasks = new List<TaskItem>();
+                        state.Tasks = new List<TaskItem>();
+                        state.ShowTaskPageIndex = 0;
                         state.TaskIndexes = new List<int>();
                     }
                     else
                     {
                         taskTopicToBeDeleted = state.AllTasks[state.TaskIndexes[0]].Topic;
-                        var tasksToBeDeleted = new List<ToDoItem>();
+                        var tasksToBeDeleted = new List<TaskItem>();
                         state.TaskIndexes.ForEach(i => tasksToBeDeleted.Add(state.AllTasks[i]));
-                        await service.DeleteToDos(tasksToBeDeleted, page.ContentUrl);
-                        var todosAndPageIdTuple = await service.GetToDos();
-                        state.OneNotePageId = todosAndPageIdTuple.Item2;
-                        state.AllTasks = todosAndPageIdTuple.Item1;
+                        await service.DeleteTasksAsync(state.ListType, tasksToBeDeleted);
+                        state.AllTasks = await service.GetTasksAsync(state.ListType);
                         var allTasksCount = state.AllTasks.Count;
-                        var currentTaskIndex = state.ShowToDoPageIndex * state.PageSize;
+                        var currentTaskIndex = state.ShowTaskPageIndex * state.PageSize;
                         while (currentTaskIndex >= allTasksCount && currentTaskIndex >= state.PageSize)
                         {
                             currentTaskIndex -= state.PageSize;
-                            state.ShowToDoPageIndex--;
+                            state.ShowTaskPageIndex--;
                         }
 
                         state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));

@@ -2,8 +2,8 @@
   "AfterTaskDeleted": {
     "replies": [
       {
-        "text": "I have deleted the task {taskContent} for you.",
-        "speak": "I have deleted the task {taskContent} for you."
+        "text": "I have deleted the item {taskContent} for you.",
+        "speak": "I have deleted the item {taskContent} for you."
       }
     ],
     "inputHint": "expectingInput"
@@ -11,8 +11,8 @@
   "AfterAllTasksDeleted": {
     "replies": [
       {
-        "text": "I have cleared out your To Do list.",
-        "speak": "I have cleared out your To Do list."
+        "text": "I have cleared out your list.",
+        "speak": "I have cleared out your list."
       }
     ],
     "inputHint": "expectingInput"
@@ -29,8 +29,8 @@
   "AskDeletionAllConfirmation": {
     "replies": [
       {
-        "text": "Are you sure you want to delete all your tasks?",
-        "speak": "Are you sure you want to delete all your tasks?"
+        "text": "Are you sure you want to delete all your items?",
+        "speak": "Are you sure you want to delete all your items?"
       }
     ],
     "inputHint": "expectingInput"
