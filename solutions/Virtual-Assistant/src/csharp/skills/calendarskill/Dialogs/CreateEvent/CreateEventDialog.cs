@@ -1,6 +1,7 @@
 ﻿using CalendarSkill.Common;
 using CalendarSkill.Dialogs.CreateEvent.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
+using CalendarSkill.Extensions;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -491,8 +492,20 @@ namespace CalendarSkill
 
                     return await sc.NextAsync(result);
                 }
+
                 var personList = await GetPeopleWorkWithAsync(sc, currentRecipientName);
-                var userList = await GetUserAsync(sc, currentRecipientName);
+
+                var userList = new List<Person>();
+                try
+                {
+                    // Temp workaround: use contact replace user.
+                    //userList = await GetUserAsync(sc, currentRecipientName);
+                    userList = await GetContactAsync(sc, currentRecipientName);
+                }
+                catch
+                {
+                    // do nothing when get user failed. because can not use token to ensure user use a work account.
+                }
 
                 // todo: should set updatename reason in sc.Result
                 if (personList.Count > 10)
@@ -905,7 +918,11 @@ namespace CalendarSkill
                 var service = _serviceManager.InitUserService(token, state.GetUserTimeZone());
 
                 // Get users.
-                result = await service.GetPeopleAsync(name);
+                var userList = await service.GetUserAsync(name);
+                foreach (var user in userList)
+                {
+                    result.Add(user.ToPerson());
+                }
             }
             catch (ServiceException)
             {
@@ -937,6 +954,30 @@ namespace CalendarSkill
                 state.Clear();
                 await _accessor.SetAsync(dc.Context, state);
                 await dc.EndDialogAsync(true); // todo: should be sc.EndAll();
+            }
+
+            return result;
+        }
+
+        public async Task<List<Person>> GetContactAsync(WaterfallStepContext sc, string name)
+        {
+            var result = new List<Person>();
+            try
+            {
+                var state = await _accessor.GetAsync(sc.Context);
+                var token = state.APIToken;
+                var service = _serviceManager.InitUserService(token, state.GetUserTimeZone());
+
+                // Get users.
+                var contactList = await service.GetContactAsync(name);
+                foreach (var contact in contactList)
+                {
+                    result.Add(contact.ToPerson());
+                }
+            }
+            catch (ServiceException)
+            {
+                // won't clear conversation state hear, because sometime use api is not available, like user msa account.
             }
 
             return result;
