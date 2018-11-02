@@ -2,8 +2,8 @@
   "AfterToDoTaskCompleted": {
     "replies": [
       {
-        "text": "I have completed the task {taskContent} for you.",
-        "speak": "I have completed the task {taskContent} for you."
+        "text": "I have completed the item {taskContent} for you.",
+        "speak": "I have completed the item {taskContent} for you."
       }
     ],
     "inputHint": "expectingInput"
@@ -11,8 +11,8 @@
   "AfterAllToDoTasksCompleted": {
     "replies": [
       {
-        "text": "I have completed all the tasks for you.",
-        "speak": "I have completed all the tasks for you."
+        "text": "I have completed all the items for you.",
+        "speak": "I have completed all the items for you."
       }
     ],
     "inputHint": "expectingInput"

@@ -1,4 +1,11 @@
-﻿using AdaptiveCards;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+using AdaptiveCards;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -9,14 +16,8 @@ using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using ToDoSkill.Dialogs.Shared.Resources;
+using static ToDoSkill.ListTypes;
 
 namespace ToDoSkill
 {
@@ -29,14 +30,14 @@ namespace ToDoSkill
         // Fields
         protected SkillConfiguration _services;
         protected IStatePropertyAccessor<ToDoSkillState> _accessor;
-        protected IToDoService _serviceManager;
+        protected ITaskService _serviceManager;
         protected ToDoSkillResponseBuilder _responseBuilder = new ToDoSkillResponseBuilder();
 
         public ToDoSkillDialog(
             string dialogId,
             SkillConfiguration services,
             IStatePropertyAccessor<ToDoSkillState> accessor,
-            IToDoService serviceManager)
+            ITaskService serviceManager)
             : base(dialogId)
         {
             _services = services;
@@ -153,29 +154,38 @@ namespace ToDoSkill
 
             if (topIntent == ToDo.Intent.ShowToDo)
             {
-                state.ShowToDoPageIndex = 0;
-                state.Tasks = new List<ToDoItem>();
-                state.AllTasks = new List<ToDoItem>();
+                state.ShowTaskPageIndex = 0;
+                state.Tasks = new List<TaskItem>();
+                state.AllTasks = new List<TaskItem>();
+                await DigestToDoLuisResult(sc, state.LuisResult);
             }
             else if (generalTopIntent == General.Intent.Next)
             {
-                if ((state.ShowToDoPageIndex + 1) * state.PageSize < state.AllTasks.Count)
+                if ((state.ShowTaskPageIndex + 1) * state.PageSize < state.AllTasks.Count)
                 {
-                    state.ShowToDoPageIndex++;
+                    state.ShowTaskPageIndex++;
                 }
             }
-            else if (generalTopIntent == General.Intent.Previous && state.ShowToDoPageIndex > 0)
+            else if (generalTopIntent == General.Intent.Previous && state.ShowTaskPageIndex > 0)
             {
-                state.ShowToDoPageIndex--;
+                state.ShowTaskPageIndex--;
             }
             else if (topIntent == ToDo.Intent.AddToDo)
             {
+                state.TaskContentPattern = null;
+                state.TaskContentML = null;
                 state.TaskContent = null;
+                state.FoodOfGrocery = null;
+                state.ShopContent = null;
+                state.HasShopVerb = false;
+                await DigestToDoLuisResult(sc, state.LuisResult);
             }
             else if (topIntent == ToDo.Intent.MarkToDo || topIntent == ToDo.Intent.DeleteToDo)
             {
                 state.TaskIndexes = new List<int>();
                 state.MarkOrDeleteAllTasksFlag = false;
+                state.TaskContentPattern = null;
+                state.TaskContentML = null;
                 state.TaskContent = null;
                 await DigestToDoLuisResult(sc, state.LuisResult);
             }
@@ -186,14 +196,14 @@ namespace ToDoSkill
         public async Task<DialogTurnResult> InitAllTasks(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await _accessor.GetAsync(sc.Context);
-            if (string.IsNullOrEmpty(state.OneNotePageId))
+            state.ListType = state.ListType ?? ListType.ToDo.ToString();
+
+            if (!state.ListTypeIds.ContainsKey(state.ListType))
             {
                 await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
-                var service = await _serviceManager.Init(state.MsGraphToken, state.OneNotePageId);
-                var todosAndPageIdTuple = await service.GetToDos();
-                state.OneNotePageId = todosAndPageIdTuple.Item2;
-                state.AllTasks = todosAndPageIdTuple.Item1;
-                state.ShowToDoPageIndex = 0;
+                var service = await _serviceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
+                state.AllTasks = await service.GetTasksAsync(state.ListType);
+                state.ShowTaskPageIndex = 0;
                 var rangeCount = Math.Min(state.PageSize, state.AllTasks.Count);
                 state.Tasks = state.AllTasks.GetRange(0, rangeCount);
             }
@@ -217,7 +227,8 @@ namespace ToDoSkill
         public async Task<DialogTurnResult> AskToDoTaskIndex(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await _accessor.GetAsync(sc.Context);
-            if (!string.IsNullOrEmpty(state.TaskContent)
+            if (!string.IsNullOrEmpty(state.TaskContentPattern)
+                || !string.IsNullOrEmpty(state.TaskContentML)
                 || state.MarkOrDeleteAllTasksFlag
                 || (state.TaskIndexes.Count == 1
                     && state.TaskIndexes[0] >= 0
@@ -235,7 +246,8 @@ namespace ToDoSkill
         public async Task<DialogTurnResult> AfterAskToDoTaskIndex(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await _accessor.GetAsync(sc.Context);
-            if (string.IsNullOrEmpty(state.TaskContent)
+            if (string.IsNullOrEmpty(state.TaskContentPattern)
+                && string.IsNullOrEmpty(state.TaskContentML)
                 && !state.MarkOrDeleteAllTasksFlag
                 && (state.TaskIndexes.Count == 0
                     || state.TaskIndexes[0] < 0
@@ -245,7 +257,8 @@ namespace ToDoSkill
             }
 
             var matchedIndexes = Enumerable.Range(0, state.AllTasks.Count)
-                .Where(i => state.AllTasks[i].Topic.Equals(state.TaskContent, StringComparison.OrdinalIgnoreCase))
+                .Where(i => state.AllTasks[i].Topic.Equals(state.TaskContentPattern, StringComparison.OrdinalIgnoreCase)
+                || state.AllTasks[i].Topic.Equals(state.TaskContentML, StringComparison.OrdinalIgnoreCase))
                 .ToList();
 
             if (matchedIndexes?.Count > 0)
@@ -276,12 +289,13 @@ namespace ToDoSkill
                 && state.TaskIndexes[0] >= 0
                 && state.TaskIndexes[0] < state.Tasks.Count)
             {
-                state.TaskIndexes[0] = (state.PageSize * state.ShowToDoPageIndex) + state.TaskIndexes[0];
+                state.TaskIndexes[0] = (state.PageSize * state.ShowTaskPageIndex) + state.TaskIndexes[0];
                 return await sc.EndDialogAsync(true);
             }
             else
             {
-                state.TaskContent = null;
+                state.TaskContentPattern = null;
+                state.TaskContentML = null;
                 return await sc.BeginDialogAsync(Action.CollectToDoTaskIndex);
             }
         }
@@ -294,7 +308,9 @@ namespace ToDoSkill
         public async Task<DialogTurnResult> AskToDoTaskContent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await this._accessor.GetAsync(sc.Context);
-            if (!string.IsNullOrEmpty(state.TaskContent))
+            if (!string.IsNullOrEmpty(state.TaskContentPattern)
+                || !string.IsNullOrEmpty(state.TaskContentML)
+                || !string.IsNullOrEmpty(state.ShopContent))
             {
                 return await sc.NextAsync();
             }
@@ -310,7 +326,9 @@ namespace ToDoSkill
             try
             {
                 var state = await _accessor.GetAsync(sc.Context);
-                if (string.IsNullOrEmpty(state.TaskContent))
+                if (string.IsNullOrEmpty(state.TaskContentPattern)
+                    && string.IsNullOrEmpty(state.TaskContentML)
+                    && string.IsNullOrEmpty(state.ShopContent))
                 {
                     if (sc.Result != null)
                     {
@@ -325,6 +343,7 @@ namespace ToDoSkill
                 }
                 else
                 {
+                    await this.ExtractListTypeAndTaskContentAsync(sc);
                     return await sc.EndDialogAsync(true);
                 }
             }
@@ -340,19 +359,16 @@ namespace ToDoSkill
             try
             {
                 var state = await _accessor.GetAsync(sc.Context);
-                if (string.IsNullOrEmpty(state.OneNotePageId))
+                state.ListType = state.ListType ?? ListType.ToDo.ToString();
+                if (!state.ListTypeIds.ContainsKey(state.ListType))
                 {
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
                 }
 
-                var service = await _serviceManager.Init(state.MsGraphToken, state.OneNotePageId);
-                var page = await service.GetDefaultToDoPage();
-                state.OneNotePageId = page.Id;
-                await service.AddToDo(state.TaskContent, page.ContentUrl);
-                var todosAndPageIdTuple = await service.GetToDos();
-                state.OneNotePageId = todosAndPageIdTuple.Item2;
-                state.AllTasks = todosAndPageIdTuple.Item1;
-                state.ShowToDoPageIndex = 0;
+                var service = await _serviceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
+                await service.AddTaskAsync(state.ListType, state.TaskContent);
+                state.AllTasks = await service.GetTasksAsync(state.ListType);
+                state.ShowTaskPageIndex = 0;
                 var rangeCount = Math.Min(state.PageSize, state.AllTasks.Count);
                 state.Tasks = state.AllTasks.GetRange(0, rangeCount);
                 var toDoListAttachment = ToAdaptiveCardAttachmentForOtherFlows(
@@ -429,9 +445,45 @@ namespace ToDoSkill
                     }
                 }
 
-                if (entities.TaskContent != null)
+                if (entities.ListType != null)
                 {
-                    state.TaskContent = entities.TaskContent[0];
+                    if (entities.ListType[0].Equals(ListType.Grocery.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        state.ListType = ListType.Grocery.ToString();
+                    }
+                    else if (entities.ListType[0].Equals(ListType.Shopping.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        state.ListType = ListType.Shopping.ToString();
+                    }
+                    else
+                    {
+                        state.ListType = ListType.ToDo.ToString();
+                    }
+                }
+
+                if (entities.FoodOfGrocery != null)
+                {
+                    state.FoodOfGrocery = entities.FoodOfGrocery[0][0];
+                }
+
+                if (entities.ShopVerb != null && entities.ShopContent != null)
+                {
+                    state.HasShopVerb = true;
+                }
+
+                if (entities.ShopContent != null)
+                {
+                    state.ShopContent = entities.ShopContent[0];
+                }
+
+                if (entities.TaskContentPattern != null)
+                {
+                    state.TaskContentPattern = entities.TaskContentPattern[0];
+                }
+
+                if (entities.TaskContentML != null)
+                {
+                    state.TaskContentML = entities.TaskContentPattern[0];
                 }
 
                 if (dc.Context.Activity.Text != null)
@@ -453,7 +505,7 @@ namespace ToDoSkill
         }
 
         public static Microsoft.Bot.Schema.Attachment ToAdaptiveCardAttachmentForShowToDos(
-           List<ToDoItem> todos,
+           List<TaskItem> todos,
            int allTaskCount,
            BotResponse botResponse1,
            BotResponse botResponse2)
@@ -475,7 +527,7 @@ namespace ToDoSkill
             body.Add(textBlock);
             var choiceSet = new AdaptiveChoiceSetInput
             {
-                IsMultiSelect = true
+                IsMultiSelect = true,
             };
             var value = Guid.NewGuid().ToString() + ",";
             var index = 0;
@@ -484,7 +536,7 @@ namespace ToDoSkill
                 var choice = new AdaptiveChoice
                 {
                     Title = todo.Topic,
-                    Value = todo.Id
+                    Value = todo.Id,
                 };
                 choiceSet.Choices.Add(choice);
                 if (todo.IsCompleted)
@@ -509,7 +561,7 @@ namespace ToDoSkill
         }
 
         public static Microsoft.Bot.Schema.Attachment ToAdaptiveCardAttachmentForOtherFlows(
-            List<ToDoItem> todos,
+            List<TaskItem> todos,
             int allTaskCount,
             string taskContent,
             BotResponse botResponse1,
@@ -529,7 +581,7 @@ namespace ToDoSkill
             body.Add(textBlock);
             var choiceSet = new AdaptiveChoiceSetInput
             {
-                IsMultiSelect = true
+                IsMultiSelect = true,
             };
             var value = Guid.NewGuid().ToString() + ",";
             foreach (var todo in todos)
@@ -537,7 +589,7 @@ namespace ToDoSkill
                 var choice = new AdaptiveChoice
                 {
                     Title = todo.Topic,
-                    Value = todo.Id
+                    Value = todo.Id,
                 };
                 choiceSet.Choices.Add(choice);
                 if (todo.IsCompleted)
@@ -600,6 +652,28 @@ namespace ToDoSkill
             var state = await _accessor.GetAsync(sc.Context);
             state.Clear();
             await sc.CancelAllDialogsAsync();
+        }
+
+        private async Task ExtractListTypeAndTaskContentAsync(WaterfallStepContext sc)
+        {
+            var state = await _accessor.GetAsync(sc.Context);
+            if (state.ListType == ListType.Grocery.ToString()
+                || (state.HasShopVerb && !string.IsNullOrEmpty(state.FoodOfGrocery)))
+            {
+                state.ListType = ListType.Grocery.ToString();
+                state.TaskContent = string.IsNullOrEmpty(state.ShopContent) ? state.TaskContentML ?? state.TaskContentPattern : state.ShopContent;
+            }
+            else if (state.ListType == ListType.Shopping.ToString()
+                || (state.HasShopVerb && !string.IsNullOrEmpty(state.ShopContent)))
+            {
+                state.ListType = ListType.Shopping.ToString();
+                state.TaskContent = string.IsNullOrEmpty(state.ShopContent) ? state.TaskContentML ?? state.TaskContentPattern : state.ShopContent;
+            }
+            else
+            {
+                state.ListType = ListType.ToDo.ToString();
+                state.TaskContent = state.TaskContentML ?? state.TaskContentPattern;
+            }
         }
     }
 }

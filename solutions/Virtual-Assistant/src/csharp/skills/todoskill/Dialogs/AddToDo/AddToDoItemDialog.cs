@@ -1,11 +1,6 @@
 ﻿using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using ToDoSkill.Dialogs.Shared.Resources;
 
 namespace ToDoSkill
 {
@@ -14,7 +9,7 @@ namespace ToDoSkill
         public AddToDoItemDialog(
             SkillConfiguration services,
             IStatePropertyAccessor<ToDoSkillState> accessor,
-            IToDoService serviceManager)
+            ITaskService serviceManager)
             : base(nameof(AddToDoItemDialog), services, accessor, serviceManager)
         {
             var addToDoTask = new WaterfallStep[]
