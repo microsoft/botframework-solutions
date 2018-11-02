@@ -207,8 +207,7 @@ namespace CalendarSkill
 
                     if (startTime != null)
                     {
-                        state.StartDateTime = startTime;
-                        startTime = DateTime.SpecifyKind(startTime.Value, DateTimeKind.Local);
+                        startTime = TimeConverter.ConvertLuisLocalToUtc(startTime.Value, state.GetUserTimeZone());
                         events = await calendarService.GetEventsByStartTime(startTime.Value);
                     }
                     else
