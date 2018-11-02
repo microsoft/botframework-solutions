@@ -1,11 +1,6 @@
 ﻿using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using ToDoSkill.Dialogs.Shared.Resources;
 
 namespace ToDoSkill
 {
