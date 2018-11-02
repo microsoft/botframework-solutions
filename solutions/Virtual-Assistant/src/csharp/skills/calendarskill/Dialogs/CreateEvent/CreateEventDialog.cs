@@ -481,6 +481,16 @@ namespace CalendarSkill
             {
                 var state = await _accessor.GetAsync(sc.Context);
                 var currentRecipientName = state.AttendeesNameList[state.ConfirmAttendeesNameIndex];
+                if (IsEmail(currentRecipientName))
+                {
+                    var result =
+                        new FoundChoice()
+                        {
+                            Value = $"{currentRecipientName}: {currentRecipientName}",
+                        };
+
+                    return await sc.NextAsync(result);
+                }
                 var personList = await GetPeopleWorkWithAsync(sc, currentRecipientName);
                 var userList = await GetUserAsync(sc, currentRecipientName);
 
