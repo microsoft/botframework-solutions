@@ -11,14 +11,9 @@ The first time this scenario executes the Virtual Agent needs to prompt a user f
 done by returning an OAuthCard to the user along with a Button linking to an OAuth authentication page as shown below. 
 If you'd like to learn more about this scenario in WebChat, we encourage you to read [Sign-In experiences](https://blog.botframework.com/2018/08/28/sign-in-experiences/) on the Bot Framework Blog.
 
-##### OAuth Card Example
+**Oauth Card Sample**
 
 ![Example OAuth Card](./media/virtualassistant-LinkedAccountsOAuthCard.png)
-
-##### Signin Page Example
-
-![Example Login Page](./media/virtualassistant-LinkedAccountsSignin.png)
-
 
 In a speech-led scenario, it's unacceptable and impractical to expect a user to enter their username and password through voice command.
 Therefore, a separate companion experience would provide the opportunity for a user to sign in once and provide permissions for the Virtual Assistant to retrieve a token for later continued use.
@@ -30,32 +25,32 @@ You can use this example to build an account linking experience within your own 
 In order to perform Account Linking, the Linked Accounts web app will need a user to login using the same account as they'll use to authenticate as a user of your Virtual Assistant, for example `darren@contosoassistant.com`. 
 The ``appsettings.json`` file in the sample project has the following OAuth configuration entry for you to complete, the default example is for a microsoft.online.com scenario.
 
-Update this in-line with your chosen identity provider. 
+### Integrating Azure AD
 
-##### Using login.microsoftonline.com
-1. Login to the Azure Portal
-2. Choose **Azure Active Directory**  > **App Registrations** and create a new Application. 
-3. Update the ``ClientId`` below with the newly created ``Application ID``.
-4. Configure a Reply URL matching the URL for your linked accounts application. Note that the reply URL will need to completely match for sign-in to work. For a local test website this will typically require a signin-oidc suffix. e.g. http://localhost:#####/signin-oidc
+1. Sign in to the [Azure Portal](https://portal.azure.com/).
+2. On the left sidebar, select  **Azure Active Directory**.
+3. From the sidedbar within, select **App Registrations (Preview)**.
+4. Select **New application registration**
+   *  **Name**: *Provide a friendly name*
+   *  **Application Type**: Web app / API
+   *  **Sign-on URL**: `http://localhost:XXXX/signin-oidc` *(update with the local port of your project)*
+5. On the **Overview** page of your new app, copy the following values into your `appsettings.json`
+   * `Directory (tenant) ID to `TenantId`
+   * `Application (client) ID` to `ClientId`
 
 ```
 "AzureAd": {
     "Instance": "https://login.microsoftonline.com/",
     "Domain": "microsoft.onmicrosoft.com",
-    "TenantId": "microsoft.com",
+    "TenantId": "YOUR_TENANTID",
     "ClientId": "YOUR_CLIENTID",
     "CallbackPath": "/signin-oidc"
   }
 ```
 
-This sample uses the AD Object Identifier claim (``AadObjectidentifierClaim``) as the unique user identifier when performing token operations. 
-This needs to be the same claim used by the Virtual Assistant when requesting tokens.
+> **Note** This should enable MSA accounts to be linked as well, but your provider may prevent that as a default. You can go to **Users** > **New guest user** to add additional accounts.
 
-##### Using a Microsoft account
-
-```
-To do
-``` 
+This sample uses the AD Object Identifier claim (``AadObjectidentifierClaim``) as the unique user identifier when performing token operations. This needs to be the same claim used by the Virtual Assistant when requesting tokens. 
 
 In order to manage account linking and securely store authentication tokens, the web app requires access to your bot's ApplicationId and Secret.
 ```
@@ -71,7 +66,6 @@ Exchanging a Direct Line secret for a Token and providing a Trusted Origin enabl
 
 ```
   "ClientDirectLineSecret": "YOUR_DIRECTLINE_SECRET",
-  "ClientDirectLineEndpoint": "https://directline.botframework.com/v3/directline"
 ```
 ## Testing Linked Accounts
 
