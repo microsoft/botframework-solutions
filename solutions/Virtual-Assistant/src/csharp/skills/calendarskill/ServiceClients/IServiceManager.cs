@@ -9,6 +9,6 @@ namespace CalendarSkill
     {
         IUserService InitUserService(string token, TimeZoneInfo info);
 
-        ICalendar InitCalendarService(string token, EventSource source, TimeZoneInfo info);
+        ICalendar InitCalendarService(string token, EventSource source);
     }
 }

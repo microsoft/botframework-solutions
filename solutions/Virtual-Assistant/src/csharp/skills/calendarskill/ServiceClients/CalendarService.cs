@@ -17,12 +17,12 @@ namespace CalendarSkill
         /// <param name="token">the access token.</param>
         /// <param name="source">the calendar provider.</param>
         /// <param name="timeZoneInfo">the user timezone info.</param>
-        public CalendarService(string token, EventSource source, TimeZoneInfo timeZoneInfo)
+        public CalendarService(string token, EventSource source)
         {
             switch (source)
             {
                 case EventSource.Microsoft:
-                    calendarAPI = new MSGraphCalendarAPI(token, timeZoneInfo);
+                    calendarAPI = new MSGraphCalendarAPI(token);
                     break;
                 case EventSource.Google:
                     // Todo: Google API timezone?
@@ -48,12 +48,27 @@ namespace CalendarSkill
         /// <inheritdoc/>
         public async Task<List<EventModel>> GetEventsByTime(DateTime startTime, DateTime endTime)
         {
+            if (startTime.Kind != DateTimeKind.Utc)
+            {
+                throw new Exception("Get Event By Time -  Start Time is not UTC");
+            }
+
+            if (endTime.Kind != DateTimeKind.Utc)
+            {
+                throw new Exception("Get Event By Time -  End Time is not UTC");
+            }
+
             return await calendarAPI.GetEventsByTime(startTime, endTime);
         }
 
         /// <inheritdoc/>
         public async Task<List<EventModel>> GetEventsByStartTime(DateTime startTime)
         {
+            if (startTime.Kind != DateTimeKind.Utc)
+            {
+                throw new Exception("Get Event By Start Time -  Start Time is not UTC");
+            }
+
             return await calendarAPI.GetEventsByStartTime(startTime);
         }
 
