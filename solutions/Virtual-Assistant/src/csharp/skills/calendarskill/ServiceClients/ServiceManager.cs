@@ -19,9 +19,9 @@ namespace CalendarSkill
         }
 
         /// <inheritdoc/>
-        public ICalendar InitCalendarService(string token, EventSource source, TimeZoneInfo info)
+        public ICalendar InitCalendarService(string token, EventSource source)
         {
-            return new CalendarService(token, source, info);
+            return new CalendarService(token, source);
         }
     }
 }

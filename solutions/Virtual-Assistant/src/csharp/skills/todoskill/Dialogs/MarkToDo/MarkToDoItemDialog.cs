@@ -17,7 +17,7 @@ namespace ToDoSkill
         public MarkToDoItemDialog(
             SkillConfiguration services,
             IStatePropertyAccessor<ToDoSkillState> accessor,
-            IToDoService serviceManager)
+            ITaskService serviceManager)
             : base(nameof(MarkToDoItemDialog), services, accessor, serviceManager)
         {
             var markToDoTask = new WaterfallStep[]
@@ -49,33 +49,31 @@ namespace ToDoSkill
             try
             {
                 var state = await _accessor.GetAsync(sc.Context);
-                if (!state.OneNotePageIds.ContainsKey(state.ListType))
+                if (!state.ListTypeIds.ContainsKey(state.ListType))
                 {
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
                 }
 
-                var service = await _serviceManager.Init(state.MsGraphToken, state.OneNotePageIds);
-                var page = await service.GetDefaultToDoPage(state.ListType);
+                var service = await _serviceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
                 BotResponse botResponse;
                 string taskTopicToBeMarked = null;
                 if (state.MarkOrDeleteAllTasksFlag)
                 {
-                    await service.MarkAllToDosCompleted(state.AllTasks, page.ContentUrl);
+                    await service.MarkTasksCompletedAsync(state.ListType, state.AllTasks);
                     botResponse = MarkToDoResponses.AfterAllToDoTasksCompleted;
                 }
                 else
                 {
                     taskTopicToBeMarked = state.AllTasks[state.TaskIndexes[0]].Topic;
-                    var tasksToBeMarked = new List<ToDoItem>();
+                    var tasksToBeMarked = new List<TaskItem>();
                     state.TaskIndexes.ForEach(i => tasksToBeMarked.Add(state.AllTasks[i]));
-                    await service.MarkToDosCompleted(tasksToBeMarked, page.ContentUrl);
+                    await service.MarkTasksCompletedAsync(state.ListType, tasksToBeMarked);
                     botResponse = MarkToDoResponses.AfterToDoTaskCompleted;
                 }
 
-                var todosAndPageIdTuple = await service.GetToDos(state.ListType);
-                state.AllTasks = todosAndPageIdTuple.Item1;
+                state.AllTasks = await service.GetTasksAsync(state.ListType);
                 var allTasksCount = state.AllTasks.Count;
-                var currentTaskIndex = state.ShowToDoPageIndex * state.PageSize;
+                var currentTaskIndex = state.ShowTaskPageIndex * state.PageSize;
                 state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));
                 var markToDoAttachment = ToAdaptiveCardAttachmentForOtherFlows(
                     state.Tasks,

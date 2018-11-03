@@ -9,12 +9,12 @@ namespace CalendarSkill.Common
     {
         public static DateTime ConvertLuisLocalToUtc(DateTime time, TimeZoneInfo timeZone)
         {
-            if (time.Kind != DateTimeKind.Local)
+            DateTime unspecified = time;
+            if (time.Kind != DateTimeKind.Unspecified)
             {
-                throw new Exception("Input time is not a Lius time.");
+                unspecified = DateTime.SpecifyKind(time, DateTimeKind.Unspecified);
             }
 
-            DateTime unspecified = DateTime.SpecifyKind(time, DateTimeKind.Unspecified);
             DateTime utc = TimeZoneInfo.ConvertTimeToUtc(unspecified, timeZone);
             return utc;
         }
