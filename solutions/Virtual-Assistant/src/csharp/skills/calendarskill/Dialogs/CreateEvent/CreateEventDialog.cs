@@ -17,6 +17,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Solutions.Resources;
 
 namespace CalendarSkill
 {
@@ -280,7 +281,7 @@ namespace CalendarSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context);
+                var state = await _accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (state.Location == null && sc.Result != null)
                 {
                     sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
@@ -315,13 +316,20 @@ namespace CalendarSkill
                     Location = state.Location,
                 };
 
-                var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(CreateEventResponses.ConfirmCreate, newEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", newEvent.ToAdaptiveCardData(state.GetUserTimeZone()));
+                var tokens = new StringDictionary
+                {
+                    { "Attendees", state.Attendees.ToSpeechString(CommonStrings.And, li => li.DisplayName) },
+                    { "Date", state.StartDateTime.Value.ToSpeechDateString(true) },
+                    { "Time", state.StartDateTime.Value.ToSpeechTimeString(true) },
+                };
+
+                var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(CreateEventResponses.ConfirmCreate, newEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", newEvent.ToAdaptiveCardData(state.GetUserTimeZone()), tokens: tokens);
 
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
                     Prompt = replyMessage,
                     RetryPrompt = sc.Context.Activity.CreateReply(CreateEventResponses.ConfirmCreateFailed, _responseBuilder),
-                });
+                }, cancellationToken);
             }
             catch
             {
@@ -334,7 +342,7 @@ namespace CalendarSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context);
+                var state = await _accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult)
                 {
