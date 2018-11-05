@@ -49,7 +49,8 @@ namespace CalendarSkill
             // Initializes your bot service clients and adds a singleton that your Bot can access through dependency injection.
             var parameters = Configuration.GetSection("Parameters")?.Get<string[]>();
             var configuration = Configuration.GetSection("Configuration")?.Get<Dictionary<string, object>>();
-            var connectedServices = new SkillConfiguration(botConfig, parameters, configuration);
+            var supportedProviders = Configuration.GetSection("SupportedProviders")?.Get<string[]>();
+            var connectedServices = new SkillConfiguration(botConfig, supportedProviders, parameters, configuration);
             services.AddSingleton(sp => connectedServices);
 
             // Initialize Bot State

@@ -50,7 +50,7 @@ namespace PointOfInterestSkill
             // Initializes your bot service clients and adds a singleton that your Bot can access through dependency injection.
             var parameters = Configuration.GetSection("Parameters")?.Get<string[]>();
             var configuration = Configuration.GetSection("Configuration")?.Get<Dictionary<string, object>>();
-            var connectedServices = new SkillConfiguration(botConfig, parameters, configuration);
+            var connectedServices = new SkillConfiguration(botConfig, null, parameters, configuration);
             services.AddSingleton(sp => connectedServices);
 
             // Initialize Bot State

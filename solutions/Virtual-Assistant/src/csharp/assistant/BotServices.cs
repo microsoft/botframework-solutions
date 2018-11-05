@@ -105,15 +105,14 @@ namespace VirtualAssistant
             {
                 var skillConfig = new SkillConfiguration()
                 {
-                    AuthConnectionName = AuthConnectionName,
                     CosmosDbOptions = CosmosDbOptions,
                     TelemetryClient = TelemetryClient,
                     LuisServices = LuisServices.Where(l => skill.LuisServiceIds.Contains(l.Key) == true).ToDictionary(l => l.Key, l => l.Value as IRecognizer),
                 };
 
-                if (skill.AuthenticationProviders != null)
+                if (skill.SupportedProviders != null)
                 {
-                    foreach (var provider in skill.AuthenticationProviders)
+                    foreach (var provider in skill.SupportedProviders)
                     {
                         AuthenticationConnections.TryGetValue(provider, out string connectionName);
 
@@ -135,15 +134,6 @@ namespace VirtualAssistant
         }
 
         public CosmosDbStorageOptions CosmosDbOptions { get; }
-
-        /// <summary>
-        /// Gets the set of the Authentication Connection Name for the Bot application.
-        /// </summary>
-        /// <remarks>The Authentication Connection Name  should not be modified while the bot is running.</remarks>
-        /// <value>
-        /// A string based on configuration in the .bot file.
-        /// </value>
-        public string AuthConnectionName { get; }
 
         public Dictionary<string, string> AuthenticationConnections { get; set; } = new Dictionary<string, string>();
 
