@@ -16,7 +16,7 @@ namespace Microsoft.Bot.Solutions.Skills
 
         }
 
-        public SkillConfiguration(BotConfiguration botConfiguration, string[] parameters, Dictionary<string, object> configuration)
+        public SkillConfiguration(BotConfiguration botConfiguration, string[] supportedProviders, string[] parameters, Dictionary<string, object> configuration)
         {
             foreach (var service in botConfiguration.Services)
             {
@@ -42,8 +42,17 @@ namespace Microsoft.Bot.Solutions.Skills
                         {
                             if (service.Name == "Authentication")
                             {
-                                var authentication = service as GenericService;
-                                AuthenticationConnections = authentication.Configuration;
+                                var auth = service as GenericService;
+
+                                foreach (var provider in supportedProviders)
+                                {
+                                    auth.Configuration.TryGetValue(provider, out string connectionName);
+
+                                    if (connectionName != null)
+                                    {
+                                        AuthenticationConnections.Add(provider, connectionName);
+                                    }
+                                }
                             }
 
                             break;
@@ -70,8 +79,6 @@ namespace Microsoft.Bot.Solutions.Skills
                 }
             }
         }
-
-        public override string AuthConnectionName { get; set; }
 
         public override Dictionary<string, string> AuthenticationConnections { get; set; } = new Dictionary<string, string>();
 

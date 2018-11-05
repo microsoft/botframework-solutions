@@ -18,6 +18,7 @@ using System.Xml;
 using Microsoft.Recognizers.Text.DateTime;
 using static Microsoft.Recognizers.Text.Culture;
 using CalendarSkill.Common;
+using Microsoft.Bot.Solutions.Authentication;
 
 namespace CalendarSkill
 {
@@ -44,16 +45,18 @@ namespace CalendarSkill
             _accessor = accessor;
             _serviceManager = serviceManager;
 
-            var oauthSettings = new OAuthPromptSettings()
+            foreach (var connection in services.AuthenticationConnections)
             {
-                ConnectionName = _services.AuthConnectionName,
-                Text = $"Authentication",
-                Title = "Signin",
-                Timeout = 300000, // User has 5 minutes to login
-            };
+                AddDialog(new OAuthPrompt(connection.Key, new OAuthPromptSettings
+                {
+                    ConnectionName = connection.Value,
+                    Text = $"Please login with your {connection.Key} account.",
+                    Timeout = 30000,
+                }));
+            }
 
             AddDialog(new EventPrompt(SkillModeAuth, "tokens/response", TokenResponseValidator));
-            AddDialog(new OAuthPrompt(LocalModeAuth, oauthSettings, AuthPromptValidator));
+            AddDialog(new MultiProviderAuthDialog(services));
             AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new ConfirmPrompt(Actions.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
             AddDialog(new DateTimePrompt(Actions.DateTimePrompt, null, Culture.English));
@@ -100,7 +103,7 @@ namespace CalendarSkill
                 }
                 else
                 {
-                    return await sc.PromptAsync(LocalModeAuth, new PromptOptions() { RetryPrompt = sc.Context.Activity.CreateReply(CalendarSharedResponses.NoAuth, _responseBuilder), });
+                    return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions());
                 }
             }
             catch
@@ -118,29 +121,44 @@ namespace CalendarSkill
                 // When the user authenticates interactively we pass on the tokens/Response event which surfaces as a JObject
                 // When the token is cached we get a TokenResponse object.
                 var skillOptions = (CalendarSkillDialogOptions)sc.Options;
-                TokenResponse tokenResponse;
+                ProviderTokenResponse providerTokenResponse;
                 if (skillOptions.SkillMode)
                 {
                     var resultType = sc.Context.Activity.Value.GetType();
-                    if (resultType == typeof(TokenResponse))
+                    if (resultType == typeof(ProviderTokenResponse))
                     {
-                        tokenResponse = sc.Context.Activity.Value as TokenResponse;
+                        providerTokenResponse = sc.Context.Activity.Value as ProviderTokenResponse;
                     }
                     else
                     {
                         var tokenResponseObject = sc.Context.Activity.Value as JObject;
-                        tokenResponse = tokenResponseObject?.ToObject<TokenResponse>();
+                        providerTokenResponse = tokenResponseObject?.ToObject<ProviderTokenResponse>();
                     }
                 }
                 else
                 {
-                    tokenResponse = sc.Result as TokenResponse;
+                    providerTokenResponse = sc.Result as ProviderTokenResponse;
                 }
 
-                if (tokenResponse != null)
+                if (providerTokenResponse != null)
                 {
                     var state = await _accessor.GetAsync(sc.Context);
-                    state.APIToken = tokenResponse.Token;
+                    state.APIToken = providerTokenResponse.TokenResponse.Token;
+
+                    var provider = providerTokenResponse.AuthenticationProvider;
+
+                    if (provider == OAuthProvider.AzureAD)
+                    {
+                        state.EventSource = EventSource.Microsoft;
+                    }
+                    else if (provider == OAuthProvider.Google)
+                    {
+                        state.EventSource = EventSource.Google;
+                    }
+                    else
+                    {
+                        throw new Exception($"The authentication provider \"{provider.ToString()}\" is not support by the Calendar Skill.");
+                    }
                 }
 
                 return await sc.NextAsync();
@@ -157,19 +175,6 @@ namespace CalendarSkill
         {
             var activity = pc.Recognized.Value;
             if (activity != null && activity.Type == ActivityTypes.Event)
-            {
-                return Task.FromResult(true);
-            }
-            else
-            {
-                return Task.FromResult(false);
-            }
-        }
-
-        public Task<bool> AuthPromptValidator(PromptValidatorContext<TokenResponse> promptContext, CancellationToken cancellationToken)
-        {
-            var activity = promptContext.Recognized.Value;
-            if (activity != null)
             {
                 return Task.FromResult(true);
             }

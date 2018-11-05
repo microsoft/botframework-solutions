@@ -9,6 +9,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Graph;
@@ -61,6 +62,7 @@ namespace EmailSkill
             }
 
             AddDialog(new EventPrompt(SkillModeAuth, "tokens/response", TokenResponseValidator));
+            AddDialog(new MultiProviderAuthDialog(services));
             AddDialog(new TextPrompt(Action.Prompt));
             AddDialog(new ConfirmPrompt(Action.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
             AddDialog(new ChoicePrompt(Action.Choice, ChoiceValidator, Culture.English) { Style = ListStyle.None });
@@ -108,7 +110,7 @@ namespace EmailSkill
                 }
                 else
                 {
-                    return await sc.PromptAsync(LocalModeAuth, new PromptOptions() { RetryPrompt = sc.Context.Activity.CreateReply(EmailSharedResponses.NoAuth, _responseBuilder), });
+                    return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = sc.Context.Activity.CreateReply(EmailSharedResponses.NoAuth, _responseBuilder), });
                 }
             }
             catch(Exception ex)
@@ -124,34 +126,34 @@ namespace EmailSkill
                 // When the user authenticates interactively we pass on the tokens/Response event which surfaces as a JObject
                 // When the token is cached we get a TokenResponse object.
                 var skillOptions = (EmailSkillDialogOptions)sc.Options;
-                TokenResponse tokenResponse;
+                ProviderTokenResponse providerTokenResponse;
                 if (skillOptions != null && skillOptions.SkillMode)
                 {
                     var resultType = sc.Context.Activity.Value.GetType();
-                    if (resultType == typeof(TokenResponse))
+                    if (resultType == typeof(ProviderTokenResponse))
                     {
-                        tokenResponse = sc.Context.Activity.Value as TokenResponse;
+                        providerTokenResponse = sc.Context.Activity.Value as ProviderTokenResponse;
                     }
                     else
                     {
                         var tokenResponseObject = sc.Context.Activity.Value as JObject;
-                        tokenResponse = tokenResponseObject?.ToObject<TokenResponse>();
+                        providerTokenResponse = tokenResponseObject?.ToObject<ProviderTokenResponse>();
                     }
                 }
                 else
                 {
-                    tokenResponse = sc.Result as TokenResponse;
+                    providerTokenResponse = sc.Result as ProviderTokenResponse;
                 }
 
-                if (tokenResponse != null)
+                if (providerTokenResponse != null)
                 {
                     var state = await _emailStateAccessor.GetAsync(sc.Context);
-                    state.MsGraphToken = tokenResponse.Token;
+                    state.MsGraphToken = providerTokenResponse.TokenResponse.Token;
                 }
 
                 return await sc.NextAsync();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw await HandleDialogExceptions(sc, ex);
             }
