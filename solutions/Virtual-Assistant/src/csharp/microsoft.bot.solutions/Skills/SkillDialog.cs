@@ -23,12 +23,14 @@ namespace Microsoft.Bot.Solutions.Skills
         private InProcAdapter _inProcAdapter;
         private IBot _activatedSkill;
         private bool _skillInitialized;
+        private bool _cacheTokens;
 
-        public SkillDialog(Dictionary<string, ISkillConfiguration> skills, IStatePropertyAccessor<DialogState> accessor)
+        public SkillDialog(Dictionary<string, ISkillConfiguration> skills, IStatePropertyAccessor<DialogState> accessor, bool cacheTokens = true)
             : base(nameof(SkillDialog))
         {
             _skills = skills;
             _accessor = accessor;
+            _cacheTokens = cacheTokens;
             _dialogs = new DialogSet(_accessor);
         }
 
@@ -210,11 +212,16 @@ namespace Microsoft.Bot.Solutions.Skills
                         // Send trace to emulator
                         await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Received a Token Request from a skill"));
 
-                        // Uncomment this line to prompt user for login every time the skill requests a token
-                        //var a = dc.Context.Adapter as BotFrameworkAdapter;
-                        //var skillDefinition = dc.ActiveDialog.State[ActiveSkillStateKey] as SkillDefinition;
-                        //var skillConfiguration = _skills[skillDefinition.Id];
-                        //await a.SignOutUserAsync(dc.Context, skillConfiguration.AuthConnectionName, dc.Context.Activity.From.Id, default(CancellationToken));
+                        if (!_cacheTokens)
+                        {
+                            var a = dc.Context.Adapter as BotFrameworkAdapter;
+                            var tokens = await a.GetTokenStatusAsync(dc.Context, dc.Context.Activity.From.Id);
+
+                            foreach (var token in tokens)
+                            {
+                                await a.SignOutUserAsync(dc.Context, token.ConnectionName, dc.Context.Activity.From.Id, default(CancellationToken));
+                            }
+                        }
 
                         var innerDc = await _dialogs.CreateContextAsync(dc.Context);
                         var authResult = await innerDc.BeginDialogAsync(nameof(SkillAuthenticationDialog));
