@@ -40,8 +40,8 @@
   "ConfirmCreateFailed": {
     "replies": [
       {
-        "text": "I'm ready to create the event. Please confirm the following.",
-        "speak": "I'm ready to create the event. Please confirm the following."
+        "text": "I'm ready to create the event. Please confirm the following:",
+        "speak": "I'll setup a meeting with {Attendees} for {Date} {Time}, is this OK?"
       }
     ],
     "inputHint": "expectingInput"
