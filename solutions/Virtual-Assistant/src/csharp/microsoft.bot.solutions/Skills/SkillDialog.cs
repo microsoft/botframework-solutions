@@ -2,6 +2,7 @@
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Resources;
 using System;
@@ -23,14 +24,14 @@ namespace Microsoft.Bot.Solutions.Skills
         private InProcAdapter _inProcAdapter;
         private IBot _activatedSkill;
         private bool _skillInitialized;
-        private bool _cacheTokens;
+        private bool _useCachedTokens;
 
-        public SkillDialog(Dictionary<string, ISkillConfiguration> skills, IStatePropertyAccessor<DialogState> accessor, bool cacheTokens = true)
+        public SkillDialog(Dictionary<string, ISkillConfiguration> skills, IStatePropertyAccessor<DialogState> accessor, bool useCachedTokens = false)
             : base(nameof(SkillDialog))
         {
             _skills = skills;
             _accessor = accessor;
-            _cacheTokens = cacheTokens;
+            _useCachedTokens = useCachedTokens;
             _dialogs = new DialogSet(_accessor);
         }
 
@@ -103,7 +104,7 @@ namespace Microsoft.Bot.Solutions.Skills
                 {
                     activity.Type = ActivityTypes.Event;
                     activity.Name = Events.TokenResponseEventName;
-                    activity.Value = result.Result;
+                    activity.Value = await CreateProviderTokenResponse(dc.Context, result.Result as TokenResponse);
                 }
                 else
                 {
@@ -212,7 +213,7 @@ namespace Microsoft.Bot.Solutions.Skills
                         // Send trace to emulator
                         await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Received a Token Request from a skill"));
 
-                        if (!_cacheTokens)
+                        if (!_useCachedTokens)
                         {
                             var a = dc.Context.Adapter as BotFrameworkAdapter;
                             var tokens = await a.GetTokenStatusAsync(dc.Context, dc.Context.Activity.From.Id);
@@ -231,7 +232,7 @@ namespace Microsoft.Bot.Solutions.Skills
                             var tokenEvent = skillResponse.CreateReply();
                             tokenEvent.Type = ActivityTypes.Event;
                             tokenEvent.Name = Events.TokenResponseEventName;
-                            tokenEvent.Value = authResult.Result;
+                            tokenEvent.Value = await CreateProviderTokenResponse(dc.Context, authResult.Result as TokenResponse);
 
                             return await ForwardToSkill(dc, tokenEvent);
                         }
@@ -277,6 +278,19 @@ namespace Microsoft.Bot.Solutions.Skills
                 await dc.EndDialogAsync();
                 throw;
             }
+        }
+
+        public async Task<ProviderTokenResponse> CreateProviderTokenResponse(ITurnContext context, TokenResponse tokenResponse)
+        {
+            var adapter = context.Adapter as BotFrameworkAdapter;
+            var tokens = await adapter.GetTokenStatusAsync(context, context.Activity.From.Id);
+            var match = Array.Find(tokens, t => t.ConnectionName == tokenResponse.ConnectionName);
+
+            return new ProviderTokenResponse
+            {
+                AuthenticationProvider = match.ServiceProviderDisplayName.GetAuthenticationProvider(),
+                TokenResponse = tokenResponse,
+            };
         }
 
         private class Events
