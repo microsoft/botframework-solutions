@@ -136,7 +136,7 @@ namespace VirtualAssistant
                     }
 
                 case Dispatch.Intent.l_Calendar:
-                 case Dispatch.Intent.l_Email:
+                case Dispatch.Intent.l_Email:
                 case Dispatch.Intent.l_ToDo:
                 case Dispatch.Intent.l_PointOfInterest:
                     {
