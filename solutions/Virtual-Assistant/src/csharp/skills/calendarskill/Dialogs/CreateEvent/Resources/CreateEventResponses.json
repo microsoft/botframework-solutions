@@ -3,8 +3,8 @@
     "replies": [
 
       {
-        "text": "Alright, I will send this to {UserName}, what is the subject of the meeting?",
-        "speak": "Alright, I will send this to {UserName}, what is the subject of the meeting?"
+        "text": "Alright, I will send an invite to {UserName}, what is the subject of the meeting?",
+        "speak": "Alright, I will send an invite to {UserName}, what is the subject of the meeting?"
       }
     ],
     "inputHint": "expectingInput"
@@ -31,8 +31,8 @@
   "ConfirmCreate": {
     "replies": [
       {
-        "text": "I'm ready to create the event. Please confirm the following:",
-        "speak": "OK, I'll setup a meeting with {Attendees} for {Date} {Time}, shall I go ahead?"
+        "text": "I'm ready to create the meeting. Please confirm the following:",
+        "speak": "OK, I'll setup a meeting with {Attendees} for {Date} {Time}, sound good?"
       }
     ],
     "inputHint": "expectingInput"
