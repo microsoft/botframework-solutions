@@ -1,24 +1,23 @@
-﻿using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Authentication;
-using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
-using Microsoft.Bot.Solutions.Extensions;
-using Microsoft.Bot.Solutions.Resources;
-using Microsoft.Bot.Solutions.Skills;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
+using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Skills;
 
 namespace Microsoft.Bot.Solutions.Authentication
 {
     public class MultiProviderAuthDialog : ComponentDialog
     {
         private ISkillConfiguration _skillConfiguration;
-        protected CommonResponseBuilder _responseBuilder = new CommonResponseBuilder();
+        private CommonResponseBuilder _responseBuilder = new CommonResponseBuilder();
 
         public MultiProviderAuthDialog(ISkillConfiguration skillConfiguration)
             : base(nameof(MultiProviderAuthDialog))
@@ -112,7 +111,7 @@ namespace Microsoft.Bot.Solutions.Authentication
 
         private async Task<DialogTurnResult> PromptForAuth(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            string authType = string.Empty;
+            var authType = string.Empty;
             if (stepContext.Result is string)
             {
                 authType = stepContext.Result as string;
@@ -134,7 +133,7 @@ namespace Microsoft.Bot.Solutions.Authentication
             return await stepContext.EndDialogAsync(result);
         }
 
-        public async Task<ProviderTokenResponse> CreateProviderTokenResponse(ITurnContext context, TokenResponse tokenResponse)
+        private async Task<ProviderTokenResponse> CreateProviderTokenResponse(ITurnContext context, TokenResponse tokenResponse)
         {
             try
             {
@@ -154,7 +153,7 @@ namespace Microsoft.Bot.Solutions.Authentication
             }
         }
 
-        public Task<bool> AuthPromptValidator(PromptValidatorContext<TokenResponse> promptContext, CancellationToken cancellationToken)
+        private Task<bool> AuthPromptValidator(PromptValidatorContext<TokenResponse> promptContext, CancellationToken cancellationToken)
         {
             var token = promptContext.Recognized.Value;
             if (token != null)
