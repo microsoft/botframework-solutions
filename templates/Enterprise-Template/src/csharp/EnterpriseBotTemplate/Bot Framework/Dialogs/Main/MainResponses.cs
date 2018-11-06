@@ -54,7 +54,17 @@ namespace $safeprojectname$
                 Content = JsonConvert.DeserializeObject(introCard),
             });
 
-            return response;
+            response.SuggestedActions = new SuggestedActions()
+            {
+                Actions = new List<CardAction>()
+                    {
+                        new CardAction(){ Type=ActionTypes.ImBack, Title = "Test LUIS", Value="Hi there!" },
+                        new CardAction(){ Type=ActionTypes.ImBack, Title = "Test QnAMaker", Value="Why did Microsoft develop the Bot Framework?" },
+                        new CardAction(){ Type=ActionTypes.OpenUrl, Title = "Learn More", Value="https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-enterprise-template-overview?view=azure-bot-service-4.0" }
+                    }
+            };
+
+        return response;
         }
 
         public static IMessageActivity SendHelpCard(ITurnContext turnContext, dynamic data)
