@@ -64,7 +64,7 @@ namespace $safeprojectname$
                     }
             };
 
-        return response;
+            return response;
         }
 
         public static IMessageActivity SendHelpCard(ITurnContext turnContext, dynamic data)
