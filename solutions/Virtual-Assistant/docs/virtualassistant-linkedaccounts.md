@@ -11,7 +11,7 @@ The first time this scenario executes the Virtual Agent needs to prompt a user f
 done by returning an OAuthCard to the user along with a Button linking to an OAuth authentication page as shown below. 
 If you'd like to learn more about this scenario in WebChat, we encourage you to read [Sign-In experiences](https://blog.botframework.com/2018/08/28/sign-in-experiences/) on the Bot Framework Blog.
 
-**Oauth Card Sample**
+**OAuth Card Example**
 
 ![Example OAuth Card](./media/virtualassistant-LinkedAccountsOAuthCard.png)
 
