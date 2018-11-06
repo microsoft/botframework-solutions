@@ -26,7 +26,7 @@ namespace Microsoft.Bot.Solutions.Skills
         private bool _skillInitialized;
         private bool _useCachedTokens;
 
-        public SkillDialog(Dictionary<string, ISkillConfiguration> skills, IStatePropertyAccessor<DialogState> accessor, bool useCachedTokens = false)
+        public SkillDialog(Dictionary<string, ISkillConfiguration> skills, IStatePropertyAccessor<DialogState> accessor, bool useCachedTokens = true)
             : base(nameof(SkillDialog))
         {
             _skills = skills;
