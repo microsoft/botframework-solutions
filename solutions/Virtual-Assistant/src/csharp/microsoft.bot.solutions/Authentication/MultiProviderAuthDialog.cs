@@ -37,13 +37,16 @@ namespace Microsoft.Bot.Solutions.Authentication
 
             foreach (var connection in skillConfiguration.AuthenticationConnections)
             {
-                AddDialog(new OAuthPrompt(connection.Key, new OAuthPromptSettings
-                {
-                    ConnectionName = connection.Value,
-                    Title = "Login",
-                    Text = $"Please login with your {connection.Key} account.",
-                    Timeout = 30000,
-                }));
+                AddDialog(new OAuthPrompt(
+                    connection.Key,
+                    new OAuthPromptSettings
+                    {
+                        ConnectionName = connection.Value,
+                        Title = "Login",
+                        Text = $"Please login with your {connection.Key} account.",
+                        Timeout = 30000,
+                    },
+                    AuthPromptValidator));
             }
         }
 
@@ -133,15 +136,35 @@ namespace Microsoft.Bot.Solutions.Authentication
 
         public async Task<ProviderTokenResponse> CreateProviderTokenResponse(ITurnContext context, TokenResponse tokenResponse)
         {
-            var adapter = context.Adapter as BotFrameworkAdapter;
-            var tokens = await adapter.GetTokenStatusAsync(context, context.Activity.From.Id);
-            var match = Array.Find(tokens, t => t.ConnectionName == tokenResponse.ConnectionName);
-
-            return new ProviderTokenResponse
+            try
             {
-                AuthenticationProvider = match.ServiceProviderDisplayName.GetAuthenticationProvider(),
-                TokenResponse = tokenResponse,
-            };
+                var adapter = context.Adapter as BotFrameworkAdapter;
+                var tokens = await adapter.GetTokenStatusAsync(context, context.Activity.From.Id);
+                var match = Array.Find(tokens, t => t.ConnectionName == tokenResponse.ConnectionName);
+
+                return new ProviderTokenResponse
+                {
+                    AuthenticationProvider = match.ServiceProviderDisplayName.GetAuthenticationProvider(),
+                    TokenResponse = tokenResponse,
+                };
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public Task<bool> AuthPromptValidator(PromptValidatorContext<TokenResponse> promptContext, CancellationToken cancellationToken)
+        {
+            var token = promptContext.Recognized.Value;
+            if (token != null)
+            {
+                return Task.FromResult(true);
+            }
+            else
+            {
+                return Task.FromResult(false);
+            }
         }
 
         private class DialogIds

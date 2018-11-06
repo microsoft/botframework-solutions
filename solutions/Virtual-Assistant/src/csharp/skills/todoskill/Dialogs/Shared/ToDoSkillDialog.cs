@@ -52,7 +52,7 @@ namespace ToDoSkill
                     ConnectionName = connection.Value,
                     Text = $"Please login with your {connection.Key} account.",
                     Timeout = 30000,
-                }));
+                }, AuthPromptValidator));
             }
 
             AddDialog(new EventPrompt(SkillModeAuth, "tokens/response", TokenResponseValidator));
@@ -407,10 +407,10 @@ namespace ToDoSkill
             }
         }
 
-        private Task<bool> AuthPromptValidator(PromptValidatorContext<TokenResponse> pc, CancellationToken cancellationToken)
+        public Task<bool> AuthPromptValidator(PromptValidatorContext<TokenResponse> promptContext, CancellationToken cancellationToken)
         {
-            var activity = pc.Recognized.Value;
-            if (activity != null)
+            var token = promptContext.Recognized.Value;
+            if (token != null)
             {
                 return Task.FromResult(true);
             }
@@ -419,6 +419,7 @@ namespace ToDoSkill
                 return Task.FromResult(false);
             }
         }
+
 
         // Helpers
         public async Task DigestToDoLuisResult(DialogContext dc, ToDo luisResult)

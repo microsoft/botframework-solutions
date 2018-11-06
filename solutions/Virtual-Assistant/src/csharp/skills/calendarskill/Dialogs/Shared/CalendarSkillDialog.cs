@@ -52,7 +52,7 @@ namespace CalendarSkill
                     ConnectionName = connection.Value,
                     Text = $"Please login with your {connection.Key} account.",
                     Timeout = 30000,
-                }));
+                }, AuthPromptValidator));
             }
 
             AddDialog(new EventPrompt(SkillModeAuth, "tokens/response", TokenResponseValidator));
@@ -175,6 +175,19 @@ namespace CalendarSkill
         {
             var activity = pc.Recognized.Value;
             if (activity != null && activity.Type == ActivityTypes.Event)
+            {
+                return Task.FromResult(true);
+            }
+            else
+            {
+                return Task.FromResult(false);
+            }
+        }
+
+        public Task<bool> AuthPromptValidator(PromptValidatorContext<TokenResponse> promptContext, CancellationToken cancellationToken)
+        {
+            var token = promptContext.Recognized.Value;
+            if (token != null)
             {
                 return Task.FromResult(true);
             }
