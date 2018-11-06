@@ -24,14 +24,14 @@ namespace $safeprojectname$
         private static LanguageTemplateDictionary _responseTemplates = new LanguageTemplateDictionary
         {
             ["default"] = new TemplateIdMap
-                {
-                    { Cancelled, (context, data) => MainStrings.CANCELLED },
-                    { Completed, (context, data) => MainStrings.COMPLETED },
-                    { Confused, (context, data) => MainStrings.CONFUSED },
-                    { Greeting, (context, data) => MainStrings.GREETING },
-                    { Help, (context, data) => SendHelpCard(context, data) },
-                    { Intro, (context, data) => SendIntroCard(context, data) },
-                },
+            {
+                { Cancelled, (context, data) => MainStrings.CANCELLED },
+                { Completed, (context, data) => MainStrings.COMPLETED },
+                { Confused, (context, data) => MainStrings.CONFUSED },
+                { Greeting, (context, data) => MainStrings.GREETING },
+                { Help, (context, data) => SendHelpCard(context, data) },
+                { Intro, (context, data) => SendIntroCard(context, data) },
+            },
             ["en"] = new TemplateIdMap { },
             ["fr"] = new TemplateIdMap { },
         };
@@ -57,11 +57,11 @@ namespace $safeprojectname$
             response.SuggestedActions = new SuggestedActions()
             {
                 Actions = new List<CardAction>()
-                    {
-                        new CardAction(type: ActionTypes.ImBack, title: "Test LUIS", value: "Hi there!"),
-                        new CardAction(type: ActionTypes.ImBack, title: "Test QnAMaker", value: "Why did Microsoft develop the Bot Framework?"),
-                        new CardAction(type: ActionTypes.OpenUrl, title: "Learn More", value: "https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-enterprise-template-overview?view=azure-bot-service-4.0")
-                    }
+                {
+                    new CardAction(type: ActionTypes.ImBack, title: "Test LUIS", value: "Hi there!"),
+                    new CardAction(type: ActionTypes.ImBack, title: "Test QnAMaker", value: "Why did Microsoft develop the Bot Framework?"),
+                    new CardAction(type: ActionTypes.OpenUrl, title: "Learn More", value: "https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-enterprise-template-overview?view=azure-bot-service-4.0")
+                }
             };
 
             return response;
@@ -77,11 +77,11 @@ namespace $safeprojectname$
                 Title = MainStrings.HELP_TITLE,
                 Text = MainStrings.HELP_TEXT,
                 Buttons = new List<CardAction>()
-                    {
-                        new CardAction(type: ActionTypes.ImBack, title: "Test LUIS", value: "Hello"),
-                        new CardAction(type: ActionTypes.ImBack, title: "Test QnAMaker", value: "What is the sdk v4?"),
-                        new CardAction(type: ActionTypes.OpenUrl, title: "Learn More", value: "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"),
-                    },
+                {
+                    new CardAction(type: ActionTypes.ImBack, title: "Test LUIS", value: "Hello"),
+                    new CardAction(type: ActionTypes.ImBack, title: "Test QnAMaker", value: "What is the sdk v4?"),
+                    new CardAction(type: ActionTypes.OpenUrl, title: "Learn More", value: "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"),
+                },
             }.ToAttachment());
 
             return response;
