@@ -49,7 +49,7 @@ namespace ToDoSkill
 
             // Initializes your bot service clients and adds a singleton that your Bot can access through dependency injection.
             var parameters = Configuration.GetSection("Parameters")?.Get<string[]>();
-            var configuration = Configuration.GetSection("Configuration")?.Get<Dictionary<string, object>>();
+            var configuration = Configuration.GetSection("Configuration")?.GetChildren()?.ToDictionary(x => x.Key, y => y.Value as object);
             var supportedProviders = Configuration.GetSection("SupportedProviders").Get<string[]>();
             var connectedServices = new SkillConfiguration(botConfig, supportedProviders, parameters, configuration);
             services.AddSingleton(sp => connectedServices);
