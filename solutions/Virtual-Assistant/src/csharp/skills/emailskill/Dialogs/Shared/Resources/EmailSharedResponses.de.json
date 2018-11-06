@@ -361,10 +361,6 @@
   "ReadOutMessage": {
     "replies": [
       {
-        "text": "Email-Details:",
-        "speak": "Email-Details: {EmailDetails}"
-      },
-      {
         "text": "Email Inhalte:",
         "speak": "Email Inhalte: {EmailDetails}"
       }
