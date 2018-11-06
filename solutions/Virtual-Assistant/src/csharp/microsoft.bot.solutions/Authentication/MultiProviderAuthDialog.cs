@@ -3,6 +3,9 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
+using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
+using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using System;
 using System.Collections.Generic;
@@ -15,6 +18,7 @@ namespace Microsoft.Bot.Solutions.Authentication
     public class MultiProviderAuthDialog : ComponentDialog
     {
         private ISkillConfiguration _skillConfiguration;
+        protected CommonResponseBuilder _responseBuilder = new CommonResponseBuilder();
 
         public MultiProviderAuthDialog(ISkillConfiguration skillConfiguration)
             : base(nameof(MultiProviderAuthDialog))
@@ -77,7 +81,7 @@ namespace Microsoft.Bot.Solutions.Authentication
 
                     return await stepContext.PromptAsync(DialogIds.ProviderPrompt, new PromptOptions
                     {
-                        Prompt = new Activity(type: ActivityTypes.Message, text: "You have multiple accounts configured. Which one would you like to use?"),
+                        Prompt = stepContext.Context.Activity.CreateReply(CommonResponses.ConfiguredAuthProvidersPrompt),
                         Choices = choices,
                     });
                 }
@@ -96,7 +100,7 @@ namespace Microsoft.Bot.Solutions.Authentication
 
                     return await stepContext.PromptAsync(DialogIds.ProviderPrompt, new PromptOptions
                     {
-                        Prompt = new Activity(type: ActivityTypes.Message, text: "Which account do you want to use?"),
+                        Prompt = stepContext.Context.Activity.CreateReply(CommonResponses.AuthProvidersPrompt),
                         Choices = choices,
                     });
                 }
