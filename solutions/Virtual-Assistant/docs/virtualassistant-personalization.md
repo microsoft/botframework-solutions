@@ -10,7 +10,7 @@ To get started, learn how to clone the repository & deploy your Azure resources 
 The folder structure of your Virtual Assistant is shown below.
 
     | - Assistant                           // Directory for the core Virtual Assistant
-        | - YOURBOT.bot            // The .bot file containing all of your Bot configuration including dependencies
+        | - YOURBOT.bot                     // The .bot file containing all of your Bot configuration including dependencies
         | - README.md                       // README file containing links to documentation
         | - Program.cs                      // Default Program.cs file
         | - Startup.cs                      // Core Bot Initialisation including Bot Configuration LUIS, Dispatcher, etc. 
@@ -112,7 +112,10 @@ To update an existing QnAMaker Knowledge Base, perform the following steps:
     dispatch refresh --bot "YOURBOT.bot" --secret YOURSECRET
 ```
 
-## Sample Transcript
+## Demoing the Skills
 
-For ideas on the demo script you'd like to present, see our attached sample (demonstrating all skills & authentication) at.
-This can be opened in the [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator/wiki).
+You can review a sample transcript showcasing the Productivity & Point of Interest Skills [here](transcripts/skillsdemo.transcript), 
+which can be opened in the [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator/wiki).
+This sample conversation shows a user having previously [linked their account](/virtualassistant-linkedaccounts.md) and taking advantage of [event debug middleware](/virtualassistant-events.md).
+
+![Virtual Assistant Introduction Card](media/transcript-skillsdemo.png)
