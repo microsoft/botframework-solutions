@@ -41,7 +41,7 @@ namespace Microsoft.Bot.Solutions.Authentication
                     connection.Key,
                     new OAuthPromptSettings
                     {
-                        ConnectionName = connection.Value,
+                        ConnectionName = connection.Key,
                         Title = "Login",
                         Text = $"Please login with your {connection.Key} account.",
                         Timeout = 30000,
@@ -62,11 +62,11 @@ namespace Microsoft.Bot.Solutions.Authentication
                 var adapter = stepContext.Context.Adapter as BotFrameworkAdapter;
                 var tokenStatusCollection = await adapter.GetTokenStatusAsync(stepContext.Context, stepContext.Context.Activity.From.Id);
 
-                var matchingProviders = tokenStatusCollection.Where(p => p.HasToken && _skillConfiguration.AuthenticationConnections.Any(t => t.Value == p.ConnectionName)).ToList();
+                var matchingProviders = tokenStatusCollection.Where(p => p.HasToken && _skillConfiguration.AuthenticationConnections.Any(t => t.Key == p.ConnectionName)).ToList();
 
                 if (matchingProviders.Count() == 1)
                 {
-                    var authType = matchingProviders[0].ServiceProviderDisplayName;
+                    var authType = matchingProviders[0].ConnectionName;
                     return await stepContext.NextAsync(authType);
                 }
                 else if (matchingProviders.Count() > 1)
@@ -77,8 +77,8 @@ namespace Microsoft.Bot.Solutions.Authentication
                     {
                         choices.Add(new Choice()
                         {
-                            Action = new CardAction(ActionTypes.ImBack, connection.ServiceProviderDisplayName, value: connection.ServiceProviderDisplayName),
-                            Value = connection.ServiceProviderDisplayName,
+                            Action = new CardAction(ActionTypes.ImBack, connection.ConnectionName, value: connection.ConnectionName),
+                            Value = connection.ConnectionName,
                         });
                     }
 

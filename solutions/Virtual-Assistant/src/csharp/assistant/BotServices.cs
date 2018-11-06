@@ -114,11 +114,11 @@ namespace VirtualAssistant
                 {
                     foreach (var provider in skill.SupportedProviders)
                     {
-                        AuthenticationConnections.TryGetValue(provider, out string connectionName);
+                        var matches = AuthenticationConnections.Where(x => x.Value == provider);
 
-                        if (connectionName != null)
+                        foreach (var match in matches)
                         {
-                            skillConfig.AuthenticationConnections.Add(provider, connectionName);
+                            skillConfig.AuthenticationConnections.Add(match.Key, match.Value);
                         }
                     }
                 }
