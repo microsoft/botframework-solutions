@@ -38,12 +38,12 @@
     {
       "type": "Action.OpenUrl",
       "title": "Cuentas vinculadas",
-      "url": "https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/customassistant-linkedaccounts.md"
+      "url": "https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/virtualassistant-linkedaccounts.md"
     },
     {
       "type": "Action.OpenUrl",
       "title": "Skills",
-      "url": "https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/customassistant-skills.md"
+      "url": "https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/virtualassistant-skills.md"
     }
   ]
 }
