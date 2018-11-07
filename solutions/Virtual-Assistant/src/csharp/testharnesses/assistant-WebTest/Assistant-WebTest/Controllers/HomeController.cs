@@ -10,6 +10,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Assistant_WebTest.Models;
 using Microsoft.Extensions.Configuration;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using Newtonsoft.Json;
 
 namespace Assistant_WebTest.Controllers
 {
@@ -27,9 +31,23 @@ namespace Assistant_WebTest.Controllers
 
         public IActionResult Index()
         {
-            // Pass the DirectLine Secret, Speech Key and Voice Name
+            // Get DirectLine Token
+            // Pass the DirectLine Token, Speech Key and Voice Name
             // Note this approach will require magic code validation
-            ViewData["DirectLineSecret"] = directLineSecret;
+            var directLineToken = string.Empty;
+            var directLineClient = new HttpClient();
+            directLineClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", directLineSecret);
+
+            var response = directLineClient.PostAsync("https://directline.botframework.com/v3/directline/tokens/generate", new StringContent(string.Empty, Encoding.UTF8, "application/json")).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseString = response.Content.ReadAsStringAsync().Result;
+                var directLineResponse = JsonConvert.DeserializeObject<DirectlineResponse>(responseString);
+                directLineToken = directLineResponse.token;
+            }
+
+            ViewData["DirectLineToken"] = directLineToken;
             ViewData["SpeechKey"] = speechKey;
             ViewData["VoiceName"] = voiceName;
 

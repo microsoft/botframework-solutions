@@ -335,9 +335,11 @@ ASALocalRun/
 **/appsettings.production.json
 **/appsettings.development.json
 
+# LaunchSettings
+**/launchSettings.json
+
 # LUIS json files
 *.luis
 
 # QnAMaker json files
 *.qna
-/solutions/Virtual-Assistant/src/csharp/testharnesses/assistant-WebTest/Assistant-WebTest/Properties/launchSettings.json
