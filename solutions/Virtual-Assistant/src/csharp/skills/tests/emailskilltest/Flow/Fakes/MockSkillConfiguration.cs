@@ -17,6 +17,8 @@ namespace EmailSkillTest.Flow.Fakes
             this.LuisServices.Add("general", new MockLuisRecognizer());
             this.LuisServices.Add("email", new MockLuisRecognizer());
 
+            this.AuthenticationConnections.Add("Google", "Google");
+
             this.TelemetryClient = null;
             this.CosmosDbOptions = null;
         }
