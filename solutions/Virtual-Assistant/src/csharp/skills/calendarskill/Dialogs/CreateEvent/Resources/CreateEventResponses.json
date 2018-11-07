@@ -136,18 +136,18 @@
   },
   "PromptPersonNotFound": {
     "replies": [
-      {
-        "text": "Person not found, please input the right name.",
-        "speak": "Person not found, please input the right name."
-      },
-      {
-        "text": "I cannot find the contact your are looking for right now. Please include more details, do you want to try again?",
-        "speak": "I cannot find the contact your are looking for right now. Please include more details, do you want to try again?"
-      },
-      {
-        "text": "Something is wrong because I cannot find the contact you are looking for. Please try again by stating out their name again. It helps if you include a surname.",
-        "speak": "Something is wrong because I cannot find the contact you are looking for. Please try again by stating out their name again. It helps if you include a surname."
-      }
+        {
+            "text": "{UserName} not found, please input the right name.",
+            "speak": "{UserName} not found, please input the right name."
+        },
+        {
+            "text": "I cannot find the {UserName} your are looking for right now. Please include more details, do you want to try again?",
+            "speak": "I cannot find the {UserName} your are looking for right now. Please include more details, do you want to try again?"
+        },
+        {
+            "text": "Something is wrong because I cannot find the {UserName} you are looking for. Please try again by stating out their name again. It helps if you include a surname.",
+            "speak": "Something is wrong because I cannot find the {UserName} you are looking for. Please try again by stating out their name again. It helps if you include a surname."
+        }
     ],
     "inputHint": "expectingInput"
   },

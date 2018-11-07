@@ -635,7 +635,7 @@ namespace CalendarSkill
                 {
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions
                     {
-                        Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.PromptPersonNotFound, _responseBuilder),
+                        Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.PromptPersonNotFound, _responseBuilder, new StringDictionary() { { "UserName", currentRecipientName } }),
                     });
                 }
             }
