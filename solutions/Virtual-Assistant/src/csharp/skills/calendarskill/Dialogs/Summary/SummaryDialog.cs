@@ -242,7 +242,7 @@ namespace CalendarSkill
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarSharedResponses.CancellingMessage));
                     return await sc.EndDialogAsync(true);
                 }
-                else if (topIntent == Luis.Calendar.Intent.ReadAloud && eventItem == null)
+                else if ((promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true) || (topIntent == Luis.Calendar.Intent.ReadAloud && eventItem == null))
                 {
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.ReadOutPrompt), });
                 }
