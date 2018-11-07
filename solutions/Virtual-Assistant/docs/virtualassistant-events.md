@@ -14,6 +14,10 @@ At the time of writing the following events are supported out of the box and per
 - Name: `IPA.Location`, Value: `latitude`,`latitude`
 - Name: `IPA.Timezone`, Value: TimeZoneInfo Identifier (e.g. Pacific Standard Time)
 
+In addition to these, a `ResetUser` event is available which provides a way to request that all user state information and linked accounts are removed demonstarting how a Forget-Me type experience could be initiated, no Value is required for this event.
+
+- Name: `IPA.ResetUser`
+
 > The mechanism for sharing User information between the Virtual Assistant and Skills is expected to change in a future release. 
 > An automatic event processing and storage mechanism is being evaluated for a future release.
 
@@ -37,6 +41,10 @@ For example this message would result in an Activity being received by the Bot w
 This example would result in an Activity being received by the Bot with a `ActivityType` of `Event`, `Name` of `IPA.Timezone` and `Value` of `Pacific Standard Time`.
 ```
 /event:{ "Name": "IPA.Timezone", "Value": "Pacific Standard Time" }
+```
+This event as detailed above clears down all state including linked accounts enabling you to test authentication and onboarding scenarios.
+```
+/event:{Name:"IPA.ResetUser"}
 ```
 
 ## Event Prompt
