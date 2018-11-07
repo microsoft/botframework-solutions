@@ -31,7 +31,7 @@ namespace CalendarSkill
             APIToken = null;
             Events = new List<EventModel>();
             NewStartDateTime = null;
-            EventSource = EventSource.Microsoft;
+            EventSource = EventSource.Other;
             AttendeesNameList = new List<string>();
             ConfirmAttendeesNameIndex = 0;
             DialogName = string.Empty;
@@ -149,7 +149,7 @@ namespace CalendarSkill
             APIToken = null;
             Events = new List<EventModel>();
             NewStartDateTime = null;
-            EventSource = EventSource.Microsoft;
+            EventSource = EventSource.Other;
             AttendeesNameList = new List<string>();
             ConfirmAttendeesNameIndex = 0;
             DialogName = string.Empty;

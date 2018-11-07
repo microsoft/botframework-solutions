@@ -1,11 +1,10 @@
-﻿using Microsoft.ApplicationInsights;
+﻿using System.Collections.Generic;
+using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Configuration;
-using System.Collections.Generic;
 
 namespace Microsoft.Bot.Solutions.Skills
 {
@@ -13,10 +12,9 @@ namespace Microsoft.Bot.Solutions.Skills
     {
         public SkillConfiguration()
         {
-
         }
 
-        public SkillConfiguration(BotConfiguration botConfiguration, string[] parameters, Dictionary<string, object> configuration)
+        public SkillConfiguration(BotConfiguration botConfiguration, string[] supportedProviders, string[] parameters, Dictionary<string, object> configuration)
         {
             foreach (var service in botConfiguration.Services)
             {
@@ -42,11 +40,16 @@ namespace Microsoft.Bot.Solutions.Skills
                         {
                             if (service.Name == "Authentication")
                             {
-                                var authentication = service as GenericService;
+                                var auth = service as GenericService;
 
-                                if (!string.IsNullOrEmpty(authentication.Configuration["Azure Active Directory v2"]))
+                                foreach (var provider in supportedProviders)
                                 {
-                                    AuthConnectionName = authentication.Configuration["Azure Active Directory v2"];
+                                    auth.Configuration.TryGetValue(provider, out var connectionName);
+
+                                    if (connectionName != null)
+                                    {
+                                        AuthenticationConnections.Add(provider, connectionName);
+                                    }
                                 }
                             }
 
@@ -75,7 +78,7 @@ namespace Microsoft.Bot.Solutions.Skills
             }
         }
 
-        public override string AuthConnectionName { get; set; }
+        public override Dictionary<string, string> AuthenticationConnections { get; set; } = new Dictionary<string, string>();
 
         public override TelemetryClient TelemetryClient { get; set; }
 

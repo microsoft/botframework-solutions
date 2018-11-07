@@ -33,6 +33,10 @@ namespace Microsoft.Bot.Solutions.Resources
         public static BotResponse SkillAuthenticationTitle => GetBotResponse();
           
         public static BotResponse SkillAuthenticationPrompt => GetBotResponse();
+          
+        public static BotResponse AuthProvidersPrompt => GetBotResponse();
+          
+        public static BotResponse ConfiguredAuthProvidersPrompt => GetBotResponse();
                 
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 
 namespace CalendarSkill
 {
@@ -33,7 +34,10 @@ namespace CalendarSkill
 
         private static void LoadData()
         {
-            using (var mappingFile = new FileStream("ServiceClients/WindowsIanaMapping", FileMode.Open))
+            var dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var resDir = Path.Combine(dir, @"ServiceClients\WindowsIanaMapping");
+
+            using (var mappingFile = new FileStream(resDir, FileMode.Open))
             using (var sr = new StreamReader(mappingFile))
             {
                 string line;
