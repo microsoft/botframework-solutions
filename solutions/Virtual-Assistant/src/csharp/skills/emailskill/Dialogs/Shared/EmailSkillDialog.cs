@@ -457,13 +457,18 @@ namespace EmailSkill
         {
             var state = await _emailStateAccessor.GetAsync(sc.Context);
             var recipients = state.Recipients;
-            if (recipients.Count == 1)
+
+            if (recipients.Count == 0)
+            {
+                throw new Exception("Invalid user number!");
+            }
+            else if (recipients.Count == 1)
             {
                 return recipients.FirstOrDefault()?.EmailAddress.Name;
             }
 
-            string result = string.Empty;
-            for (int i = 0; i < recipients.Count; i++)
+            string result = recipients.FirstOrDefault()?.EmailAddress.Name;
+            for (int i = 1; i < recipients.Count; i++)
             {
                 if (i == recipients.Count - 1)
                 {
@@ -476,6 +481,73 @@ namespace EmailSkill
             }
 
             return result;
+        }
+
+        protected (List<Person> formattedPersonList, List<Person> formattedUserList) FormatRecipientList(List<Person> personList, List<Person> userList)
+        {
+            // Remove dup items
+            List<Person> formattedPersonList = new List<Person>();
+            List<Person> formattedUserList = new List<Person>();
+
+            foreach (var person in personList)
+            {
+                var mailAddress = person.ScoredEmailAddresses.FirstOrDefault()?.Address ?? person.UserPrincipalName;
+
+                bool isDup = false;
+                foreach (var formattedPerson in formattedPersonList)
+                {
+                    var formattedMailAddress = formattedPerson.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedPerson.UserPrincipalName;
+
+                    if (mailAddress.Equals(formattedMailAddress))
+                    {
+                        isDup = true;
+                        break;
+                    }
+                }
+
+                if (!isDup)
+                {
+                    formattedPersonList.Add(person);
+                }
+            }
+
+            foreach (var user in userList)
+            {
+                var mailAddress = user.ScoredEmailAddresses.FirstOrDefault()?.Address ?? user.UserPrincipalName;
+
+                bool isDup = false;
+                foreach (var formattedPerson in formattedPersonList)
+                {
+                    var formattedMailAddress = formattedPerson.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedPerson.UserPrincipalName;
+
+                    if (mailAddress.Equals(formattedMailAddress))
+                    {
+                        isDup = true;
+                        break;
+                    }
+                }
+
+                if (!isDup)
+                {
+                    foreach (var formattedUser in formattedUserList)
+                    {
+                        var formattedMailAddress = formattedUser.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedUser.UserPrincipalName;
+
+                        if (mailAddress.Equals(formattedMailAddress))
+                        {
+                            isDup = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!isDup)
+                {
+                    formattedUserList.Add(user);
+                }
+            }
+
+            return (formattedPersonList, formattedUserList);
         }
 
         public async Task<PromptOptions> GenerateOptions(List<Person> personList, List<Person> userList, DialogContext sc)
