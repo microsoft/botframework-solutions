@@ -97,11 +97,11 @@
     "ReadOutMessage": {
         "replies": [
           {
-            "text": "Details of meeting: {MeetingDetails}",
+            "text": "Details of meeting:",
             "speak": "Details of event: {MeetingDetails}"
           },
           {
-            "text": "Content of meeting: {MeetingDetails}",
+            "text": "Content of meeting:",
             "speak": "Content of event: {MeetingDetails}"
           }
         ],
