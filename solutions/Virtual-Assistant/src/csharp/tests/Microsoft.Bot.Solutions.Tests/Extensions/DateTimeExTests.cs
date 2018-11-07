@@ -93,7 +93,7 @@ namespace Microsoft.Bot.Solutions.Tests.Extensions
         [TestMethod]
         public void TestUsingResourceValues()
         {
-            var cultures = new[] {"en-US", "es-ES", "es-MX", "de-DE"};
+            var cultures = new[] {"en-US", "es-ES", "es-MX", "de-DE", "it", "zh", "fr" };
             foreach (var culture in cultures)
             {
                 CultureInfo.CurrentUICulture = new CultureInfo(culture);
