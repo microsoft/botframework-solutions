@@ -12,11 +12,14 @@ namespace EmailSkillTest.Flow.Fakes
         {
             this.Users = FakeUsers();
             this.People = FakePeople();
+            this.Contacts = FakeContacts();
         }
 
         public List<Person> People { get; set; }
 
         public List<User> Users { get; set; }
+
+        public List<Contact> Contacts { get; set; }
 
         public async Task<List<Person>> GetPeopleAsync(string name)
         {
@@ -26,6 +29,11 @@ namespace EmailSkillTest.Flow.Fakes
         public async Task<List<User>> GetUserAsync(string name)
         {
             return this.Users;
+        }
+
+        public async Task<List<Contact>> GetContactsAsync(string name)
+        {
+            return this.Contacts;
         }
 
         private List<Person> FakePeople()
@@ -65,42 +73,24 @@ namespace EmailSkillTest.Flow.Fakes
             return users;
         }
 
-        //protected override async Task<IGraphServiceUsersCollectionPage> GetUserFromGraphAsync(List<QueryOption> optionList)
-        //{
-        //    IGraphServiceUsersCollectionPage result = new GraphServiceUsersCollectionPage();
+        private List<Contact> FakeContacts()
+        {
+            var contacts = new List<Contact>();
 
-        //    var emailAddress = "test@test.com";
-        //    result.Add(new User()
-        //    {
-        //        UserPrincipalName = "test@test.com",
-        //        Mail = emailAddress,
-        //        DisplayName = "Test Test",
-        //    });
+            var addressList = new List<EmailAddress>();
+            var emailAddress = new EmailAddress()
+            {
+                Address = "test@test.com",
+            };
+            addressList.Add(emailAddress);
 
-        //    await Task.CompletedTask;
-        //    return result;
-        //}
+            contacts.Add(new Contact()
+            {
+                EmailAddresses = addressList,
+                DisplayName = "Test Test",
+            });
 
-        //protected override async Task<IUserPeopleCollectionPage> GetPeopleFromGraphAsync(List<QueryOption> optionList)
-        //{
-        //    IUserPeopleCollectionPage result = new UserPeopleCollectionPage();
-
-        //    var addressList = new List<ScoredEmailAddress>();
-        //    var emailAddress = new ScoredEmailAddress()
-        //    {
-        //        Address = "test@test.com",
-        //        RelevanceScore = 1,
-        //    };
-        //    addressList.Add(emailAddress);
-        //    result.Add(new Person()
-        //    {
-        //        UserPrincipalName = "test@test.com",
-        //        ScoredEmailAddresses = addressList,
-        //        DisplayName = "Test Test",
-        //    });
-
-        //    await Task.CompletedTask;
-        //    return result;
-        //}
+            return contacts;
+        }
     }
 }

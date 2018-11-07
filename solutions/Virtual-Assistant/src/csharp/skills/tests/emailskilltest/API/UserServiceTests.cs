@@ -102,5 +102,48 @@ namespace EmailSkillTest.API
                 Assert.IsFalse(user.DisplayName.StartsWith("Conf Room"));
             }
         }
+
+        [TestMethod]
+        public async Task GetContactsTest()
+        {
+            IUserPeopleCollectionPage people = new UserPeopleCollectionPage();
+            for (int i = 0; i < 3; i++)
+            {
+                var person = new Person()
+                {
+                    DisplayName = "Conf Room" + i,
+                };
+
+                people.Add(person);
+            }
+
+            for (int i = 0; i < 12; i++)
+            {
+                var user = new Person()
+                {
+                    DisplayName = "TestUser" + i,
+                };
+
+                people.Add(user);
+            }
+
+            var mockGraphServiceClient = new MockGraphServiceClientGen();
+            mockGraphServiceClient.People = people;
+            mockGraphServiceClient.SetMockBehavior();
+
+            IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
+            UserService userService = new UserService(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
+
+            var result = await userService.GetPeopleAsync("test");
+
+            // Test get > 0 people per page
+            Assert.IsTrue(result.Count == 12);
+
+            // "Conf Room" is filtered
+            foreach (var user in result)
+            {
+                Assert.IsFalse(user.DisplayName.StartsWith("Conf Room"));
+            }
+        }
     }
 }

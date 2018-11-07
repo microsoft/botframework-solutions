@@ -842,7 +842,7 @@ namespace EmailSkill
             return result;
         }
 
-        public async Task<List<Person>> GetContactAsync(WaterfallStepContext sc, string name)
+        public async Task<List<Person>> GetContactsAsync(WaterfallStepContext sc, string name)
         {
             var result = new List<Person>();
             try
@@ -852,8 +852,8 @@ namespace EmailSkill
                 var service = _serviceManager.InitUserService(token, state.GetUserTimeZone());
 
                 // Get users.
-                var contactList = await service.GetContactAsync(name);
-                foreach (var contact in contactList)
+                var contactsList = await service.GetContactsAsync(name);
+                foreach (var contact in contactsList)
                 {
                     result.Add(contact.ToPerson());
                 }

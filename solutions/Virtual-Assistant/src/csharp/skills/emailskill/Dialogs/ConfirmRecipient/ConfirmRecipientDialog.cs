@@ -96,7 +96,7 @@ namespace EmailSkill
                 var currentRecipientName = state.NameList[state.ConfirmRecipientIndex];
 
                 var originPersonList = await GetPeopleWorkWithAsync(sc, currentRecipientName);
-                var originContactList = await GetContactAsync(sc, currentRecipientName);
+                var originContactList = await GetContactsAsync(sc, currentRecipientName);
                 originPersonList.AddRange(originContactList);
 
                 // msa account can not get user from your org. and token type is not jwt.
