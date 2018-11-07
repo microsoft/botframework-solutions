@@ -1,7 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Web Chat";
 }
-<body>
     <div id="webchat"></div>
     <script src="https://cdn.botframework.com/botframework-webchat/latest/CognitiveServices.js"></script>
     <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
@@ -22,12 +21,15 @@
             user: { id: '@ViewData["UserId"]' },
             speechOptions: speechOptions,
             resize: 'detect',
-            botAvatarInitials: 'VA',
-            userAvatarInitials: 'US',
         });
 
+        var userName = '@ViewData["UserName"]';
+        var userInitials = userName.replace(/(\S)\S*\s*/ig, "$1");
+
         window.WebChat.renderWebChat({
-            directLine: bot
+            directLine: bot,
+            botAvatarInitials: 'VA',
+            userAvatarInitials: userInitials
         }, document.getElementById('webchat'));
 
         bot.postActivity({
@@ -40,4 +42,3 @@
             console.log('trigger "startConversation" sent');
         });
     </script>
-</body>
