@@ -17,7 +17,7 @@ namespace PointOfInterestSkill
             DialogName = string.Empty;
             SearchText = string.Empty;
             SearchAddress = string.Empty;
-            CurrentCoordinates = new LatLng() { Latitude = 47.640568390488625, Longitude = -122.1293731033802 };
+            CurrentCoordinates = null;
             FoundLocations = null;
             ActiveRoute = null;
             SearchDescriptor = string.Empty;
@@ -62,6 +62,14 @@ namespace PointOfInterestSkill
             SearchDescriptor = string.Empty;
             FoundLocations = null;
             LastUtteredNumber = null;
+        }
+
+        public void CheckForValidCurrentCoordinates()
+        {
+            if (CurrentCoordinates == null)
+            {
+                throw new Exception("The bot state is missing any current coordinates. Make sure your event architecture is correctly configured.");
+            }
         }
     }
 }
