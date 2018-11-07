@@ -1,10 +1,10 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Web Chat";
 }
 <body>
     <div id="webchat"></div>
     <script src="https://cdn.botframework.com/botframework-webchat/latest/CognitiveServices.js"></script>
-    <script src="https://cdn.botframework.com/botframework-webchat/preview/botchat.js"></script>
+    <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
     <script>
 
         const speechOptions = {
@@ -17,15 +17,27 @@
             })
         };
 
+        var bot = window.WebChat.createDirectLine({
+            secret: '@ViewData["DirectLineSecret"]',
+            user: { id: '@ViewData["UserId"]' },
+            speechOptions: speechOptions,
+            resize: 'detect',
+            botAvatarInitials: 'VA',
+            userAvatarInitials: 'US',
+        });
+
         window.WebChat.renderWebChat({
-            directLine: window.WebChat.createDirectLine({
-                secret: '@ViewData["DirectLineSecret"]',
-                user: { id: '@ViewData["UserId"]' },
-                speechOptions: speechOptions,
-                resize: 'detect',
-                botAvatarInitials: 'AS',
-                userAvatarInitials: 'US',                
-            })
+            directLine: bot
         }, document.getElementById('webchat'));
+
+        bot.postActivity({
+            from: {id: '@ViewData["UserId"]', name: "User", role: "user" },
+            name: 'startConversation',
+            type: 'event',
+            value: ''
+        })
+        .subscribe(function (id) {
+            console.log('trigger "startConversation" sent');
+        });
     </script>
 </body>

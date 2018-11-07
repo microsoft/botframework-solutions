@@ -340,3 +340,4 @@ ASALocalRun/
 
 # QnAMaker json files
 *.qna
+/solutions/Virtual-Assistant/src/csharp/testharnesses/assistant-WebTest/Assistant-WebTest/Properties/launchSettings.json
