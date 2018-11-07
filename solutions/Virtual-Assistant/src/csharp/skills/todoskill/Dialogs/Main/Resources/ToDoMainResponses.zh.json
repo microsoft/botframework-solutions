@@ -2,8 +2,8 @@
   "ToDoWelcomeMessage": {
     "replies": [
       {
-        "text": "你好！我是To Do bot. 我可以帮助你管理onenote上的代办事项列表，购物列表以及杂货列表。",
-        "speak": "你好！我是To Do bot. 我可以帮助你管理onenote上的代办事项列表，购物列表以及杂货列表。"
+        "text": "你好！我是To Do bot. 我可以帮助你管理代办事项列表，购物列表以及杂货列表。",
+        "speak": "你好！我是To Do bot. 我可以帮助你管理代办事项列表，购物列表以及杂货列表。"
       }
     ],
     "inputHint": "acceptingInput"
