@@ -288,7 +288,7 @@ namespace EmailSkill
                     if (sc.ActiveDialog.Id == nameof(ForwardEmailDialog))
                     {
                         var recipientConfirmedMessage =
-                            sc.Context.Activity.CreateReply(EmailSharedResponses.RecipientConfirmed, null, new StringDictionary() { { "UserName", await GetNameListString(sc) } });
+                            sc.Context.Activity.CreateReply(EmailSharedResponses.RecipientConfirmed, null, new StringDictionary() { { "UserName", await GetNameListStringAsync(sc) } });
                         noEmailContentMessage.Text = recipientConfirmedMessage.Text + " " + noEmailContentMessage.Text;
                         noEmailContentMessage.Speak = recipientConfirmedMessage.Speak + " " + noEmailContentMessage.Speak;
                     }
@@ -453,9 +453,9 @@ namespace EmailSkill
         }
 
         // Helpers
-        public async Task<string> GetNameListString(WaterfallStepContext sc)
+        public async Task<string> GetNameListStringAsync(WaterfallStepContext sc)
         {
-            var state = await _emailStateAccessor.GetAsync(sc.Context);
+            var state = await _emailStateAccessor.GetAsync(sc?.Context);
             var recipients = state.Recipients;
 
             if (recipients.Count == 0)
@@ -483,7 +483,7 @@ namespace EmailSkill
             return result;
         }
 
-        protected (List<Person> formattedPersonList, List<Person> formattedUserList) FormatRecipientList(List<Person> personList, List<Person> userList)
+        public static (List<Person> formattedPersonList, List<Person> formattedUserList) FormatRecipientList(List<Person> personList, List<Person> userList)
         {
             // Remove dup items
             List<Person> formattedPersonList = new List<Person>();
