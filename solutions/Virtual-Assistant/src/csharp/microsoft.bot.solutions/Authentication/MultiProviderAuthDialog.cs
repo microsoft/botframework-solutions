@@ -24,6 +24,11 @@ namespace Microsoft.Bot.Solutions.Authentication
         {
             _skillConfiguration = skillConfiguration;
 
+            if (!_skillConfiguration.AuthenticationConnections.Any())
+            {
+                throw new Exception("You must configure an authentication connection in your bot file before using this component.");
+            }
+
             var auth = new WaterfallStep[]
             {
                 PromptForProvider,
@@ -135,22 +140,15 @@ namespace Microsoft.Bot.Solutions.Authentication
 
         private async Task<ProviderTokenResponse> CreateProviderTokenResponse(ITurnContext context, TokenResponse tokenResponse)
         {
-            try
-            {
-                var adapter = context.Adapter as BotFrameworkAdapter;
-                var tokens = await adapter.GetTokenStatusAsync(context, context.Activity.From.Id);
-                var match = Array.Find(tokens, t => t.ConnectionName == tokenResponse.ConnectionName);
+            var adapter = context.Adapter as BotFrameworkAdapter;
+            var tokens = await adapter.GetTokenStatusAsync(context, context.Activity.From.Id);
+            var match = Array.Find(tokens, t => t.ConnectionName == tokenResponse.ConnectionName);
 
-                return new ProviderTokenResponse
-                {
-                    AuthenticationProvider = match.ServiceProviderDisplayName.GetAuthenticationProvider(),
-                    TokenResponse = tokenResponse,
-                };
-            }
-            catch
+            return new ProviderTokenResponse
             {
-                throw;
-            }
+                AuthenticationProvider = match.ServiceProviderDisplayName.GetAuthenticationProvider(),
+                TokenResponse = tokenResponse,
+            };
         }
 
         private Task<bool> AuthPromptValidator(PromptValidatorContext<TokenResponse> promptContext, CancellationToken cancellationToken)

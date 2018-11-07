@@ -1,14 +1,13 @@
-﻿using Microsoft.Bot.Builder;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Middleware;
-using Microsoft.Bot.Solutions.Resources;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Solutions.Skills
 {
@@ -215,12 +214,12 @@ namespace Microsoft.Bot.Solutions.Skills
 
                         if (!_useCachedTokens)
                         {
-                            var a = dc.Context.Adapter as BotFrameworkAdapter;
-                            var tokens = await a.GetTokenStatusAsync(dc.Context, dc.Context.Activity.From.Id);
+                            var adapter = dc.Context.Adapter as BotFrameworkAdapter;
+                            var tokens = await adapter.GetTokenStatusAsync(dc.Context, dc.Context.Activity.From.Id);
 
                             foreach (var token in tokens)
                             {
-                                await a.SignOutUserAsync(dc.Context, token.ConnectionName, dc.Context.Activity.From.Id, default(CancellationToken));
+                                await adapter.SignOutUserAsync(dc.Context, token.ConnectionName, dc.Context.Activity.From.Id, default(CancellationToken));
                             }
                         }
 

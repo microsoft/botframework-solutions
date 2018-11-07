@@ -1,11 +1,10 @@
-﻿using Microsoft.ApplicationInsights;
+﻿using System.Collections.Generic;
+using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Configuration;
-using System.Collections.Generic;
 
 namespace Microsoft.Bot.Solutions.Skills
 {
@@ -13,7 +12,6 @@ namespace Microsoft.Bot.Solutions.Skills
     {
         public SkillConfiguration()
         {
-
         }
 
         public SkillConfiguration(BotConfiguration botConfiguration, string[] supportedProviders, string[] parameters, Dictionary<string, object> configuration)
@@ -46,7 +44,7 @@ namespace Microsoft.Bot.Solutions.Skills
 
                                 foreach (var provider in supportedProviders)
                                 {
-                                    auth.Configuration.TryGetValue(provider, out string connectionName);
+                                    auth.Configuration.TryGetValue(provider, out var connectionName);
 
                                     if (connectionName != null)
                                     {

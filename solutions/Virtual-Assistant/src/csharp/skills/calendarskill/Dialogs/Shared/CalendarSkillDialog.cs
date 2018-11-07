@@ -1,24 +1,24 @@
-﻿using CalendarSkill.Dialogs.Main.Resources;
-using CalendarSkill.Dialogs.Shared.Resources;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Xml;
+using CalendarSkill.Common;
+using CalendarSkill.Dialogs.Main.Resources;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Recognizers.Text;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Xml;
 using Microsoft.Recognizers.Text.DateTime;
+using Newtonsoft.Json.Linq;
 using static Microsoft.Recognizers.Text.Culture;
-using CalendarSkill.Common;
-using Microsoft.Bot.Solutions.Authentication;
 
 namespace CalendarSkill
 {
@@ -45,14 +45,22 @@ namespace CalendarSkill
             _accessor = accessor;
             _serviceManager = serviceManager;
 
+            if (!_services.AuthenticationConnections.Any())
+            {
+                throw new Exception("You must configure an authentication connection in your bot file before using this component.");
+            }
+
             foreach (var connection in services.AuthenticationConnections)
             {
-                AddDialog(new OAuthPrompt(connection.Key, new OAuthPromptSettings
-                {
-                    ConnectionName = connection.Value,
-                    Text = $"Please login with your {connection.Key} account.",
-                    Timeout = 30000,
-                }, AuthPromptValidator));
+                AddDialog(new OAuthPrompt(
+                    connection.Key,
+                    new OAuthPromptSettings
+                    {
+                        ConnectionName = connection.Value,
+                        Text = $"Please login with your {connection.Key} account.",
+                        Timeout = 30000,
+                    },
+                    AuthPromptValidator));
             }
 
             AddDialog(new EventPrompt(SkillModeAuth, "tokens/response", TokenResponseValidator));

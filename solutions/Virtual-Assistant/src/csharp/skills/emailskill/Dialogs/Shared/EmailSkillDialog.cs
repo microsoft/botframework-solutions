@@ -1,4 +1,11 @@
-﻿using EmailSkill.Dialogs.ConfirmRecipient.Resources;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using EmailSkill.Dialogs.ConfirmRecipient.Resources;
 using EmailSkill.Dialogs.SendEmail.Resources;
 using EmailSkill.Dialogs.Shared.Resources;
 using EmailSkill.Dialogs.ShowEmail.Resources;
@@ -15,14 +22,6 @@ using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Graph;
 using Microsoft.Recognizers.Text;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-
 namespace EmailSkill
 {
     public class EmailSkillDialog : ComponentDialog
@@ -50,6 +49,11 @@ namespace EmailSkill
             _emailStateAccessor = emailStateAccessor;
             _dialogStateAccessor = dialogStateAccessor;
             _serviceManager = serviceManager;
+
+            if (!_services.AuthenticationConnections.Any())
+            {
+                throw new Exception("You must configure an authentication connection in your bot file before using this component.");
+            }
 
             foreach (var connection in services.AuthenticationConnections)
             {
