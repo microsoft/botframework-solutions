@@ -156,6 +156,8 @@ namespace PointOfInterestSkill
                 var service = _serviceManager.InitMapsService(GetAzureMapsKey());
                 var routeDirections = new RouteDirections();
 
+                state.CheckForValidCurrentCoordinates();
+
                 if (state.ActiveLocation == null)
                 {
                     // No ActiveLocation found
