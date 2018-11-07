@@ -61,7 +61,10 @@ namespace Assistant_WebTest.Controllers
 
             // Update as appropriate for your scenario to the unique identifier claim
             var useriD = claimsIdentity.Claims?.SingleOrDefault(c => c.Type == HomeController.AadObjectidentifierClaim)?.Value;
-            ViewData["UserId"] = useriD;           
+            var userName = claimsIdentity.Claims?.SingleOrDefault(c => c.Type == "name").Value;
+
+            ViewData["UserId"] = useriD;
+            ViewData["UserName"] = userName;
 
             return View();
         }
