@@ -334,3 +334,4 @@ ASALocalRun/
 # AppSettings
 **/appsettings.production.json
 **/appsettings.development.json
+/solutions/Virtual-Assistant/src/csharp/testharnesses/assistant-WebTest/Assistant-WebTest/Properties/launchSettings.json
