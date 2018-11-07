@@ -95,7 +95,6 @@ namespace EmailSkill
                 var state = await _emailStateAccessor.GetAsync(sc.Context);
                 var currentRecipientName = state.NameList[state.ConfirmRecipientIndex];
 
-                // Temp workaround: use contact replace people.
                 //var personList = await GetPeopleWorkWithAsync(sc, currentRecipientName);
                 var personList = await GetContactAsync(sc, currentRecipientName);
 
