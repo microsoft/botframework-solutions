@@ -78,11 +78,7 @@ namespace VirtualAssistant
                             if (service.Name == "Authentication")
                             {
                                 var authentication = service as GenericService;
-
-                                if (!string.IsNullOrEmpty(authentication.Configuration["Azure Active Directory v2"]))
-                                {
-                                    AuthConnectionName = authentication.Configuration["Azure Active Directory v2"];
-                                }
+                                AuthenticationConnections = authentication.Configuration;
                             }
 
                             break;
@@ -109,11 +105,23 @@ namespace VirtualAssistant
             {
                 var skillConfig = new SkillConfiguration()
                 {
-                    AuthConnectionName = AuthConnectionName,
                     CosmosDbOptions = CosmosDbOptions,
                     TelemetryClient = TelemetryClient,
                     LuisServices = LuisServices.Where(l => skill.LuisServiceIds.Contains(l.Key) == true).ToDictionary(l => l.Key, l => l.Value as IRecognizer),
                 };
+
+                if (skill.SupportedProviders != null)
+                {
+                    foreach (var provider in skill.SupportedProviders)
+                    {
+                        var matches = AuthenticationConnections.Where(x => x.Value == provider);
+
+                        foreach (var match in matches)
+                        {
+                            skillConfig.AuthenticationConnections.Add(match.Key, match.Value);
+                        }
+                    }
+                }
 
                 foreach (var set in skill.Configuration)
                 {
@@ -127,14 +135,7 @@ namespace VirtualAssistant
 
         public CosmosDbStorageOptions CosmosDbOptions { get; }
 
-        /// <summary>
-        /// Gets the set of the Authentication Connection Name for the Bot application.
-        /// </summary>
-        /// <remarks>The Authentication Connection Name  should not be modified while the bot is running.</remarks>
-        /// <value>
-        /// A string based on configuration in the .bot file.
-        /// </value>
-        public string AuthConnectionName { get; }
+        public Dictionary<string, string> AuthenticationConnections { get; set; } = new Dictionary<string, string>();
 
         /// <summary>
         /// Gets the set of AppInsights Telemetry Client used.
@@ -180,7 +181,6 @@ namespace VirtualAssistant
 
         public List<SkillDefinition> SkillDefinitions { get; set; } = new List<SkillDefinition>();
 
-        public Dictionary<string, ISkillConfiguration> SkillConfigurations = new Dictionary<string, ISkillConfiguration>();
-
+        public Dictionary<string, ISkillConfiguration> SkillConfigurations { get; set; } = new Dictionary<string, ISkillConfiguration>();
     }
 }
