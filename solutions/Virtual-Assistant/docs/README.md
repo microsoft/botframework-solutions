@@ -24,7 +24,7 @@ Onboarding | An example OnBoarding flow enabling your Assistant to greet the use
 [Point of Interest Skill](./virtualassistant-skills-pointofinterest.md) | The preview Point of Interest (PoI) skill provides a comprehensive language model for finding points of interest and requesting directions. The skill currently provides integration into Azure Maps.
 [Calendar Skill](./virtualassistant-skills-productivity-calendar.md) | The preview Calendar Skill provides a comprehensive language model for common calendar related activities, The skill is currently integrated into Microsoft Graph (Office 365/Outlook.com) with support for Google APIs to follow soon..
 [Email Skill](./virtualassistant-skills-productivity-email.md) | The preview Email Skill provides a comprehensive language model for common email related activities, The skill is currently integrated into Microsoft Graph (Office 365/Outlook.com) with support for Google APIs to follow soon.
-[ToDo Skill](./virtualassistant-skills-productivity-tasks.md) | The preview ToDo Skill provides a comprehensive language model for common task related activities, The skill is currently integrated into OneNote with Microsoft Graph (outlookTask) support to follow soon.
+[ToDo Skill](./virtualassistant-skills-productivity-todo.md) | The preview ToDo Skill provides a comprehensive language model for common task related activities, The skill is currently integrated into OneNote with Microsoft Graph (outlookTask) support to follow soon.
 [Device Integration](./virtualassistant-deviceintegration.md) | Our Azure Bot Service SDKs (Direct Line) along with Adaptive Card and Speech SDKs enable easy cross platform integration to devices. Additional device integration examples and platform including Edge are planned.
 [Test Harnesses](./virtualassistant-testing.md) | In addition to the Bot Framework Emulator, a WebChat based test harness is provided enabling more complex authentication scenarios to be tested. A simple Console based test harness demonstrates the approach to exchange messages to help frame the ease of device integration.
 [Automated Deployment](./virtualassistant-createvirtualassistant.md) | All the Azure resources required for your Assistant are automatically deployed: Bot registration, Azure App Service, LUIS, QnAMaker, Content Moderator, CosmosDB, Azure Storage, and Application Insights. Additionally, LUIS models for all skills, QnAMaker, and Dispatch models are created, trained, and published to enable immediate testing.
@@ -78,7 +78,7 @@ Our Virtual Assistant solution includes a new Skill capability enabling new capa
 
 All aspects of each Skill (Language Model, Dialogs, Integration Code and Language Generation) are completely customisable by developers as the full source code is provided on GitHub along with the Virtual Assistant.
 
-Initial previews of the [Email](./virtualassistant-skills-productivity-email.md), [Calendar](./virtualassistant-skills-productivity-calendar.md), [ToDo](./virtualassistant-skills-productivity-tasks.md) and [Point of Interest](./virtualassistant-skills-pointofinterest.md) Skills are now available. 
+Initial previews of the [Email](./virtualassistant-skills-productivity-email.md), [Calendar](./virtualassistant-skills-productivity-calendar.md), [ToDo](./virtualassistant-skills-productivity-todo.md) and [Point of Interest](./virtualassistant-skills-pointofinterest.md) Skills are now available. 
 
 ## Documentation
 
@@ -101,7 +101,7 @@ Initial previews of the [Email](./virtualassistant-skills-productivity-email.md)
   - [Creating a Skill](./virtualassistant-skillenablement.md)
   - [Productivity - Calendar Skill](./virtualassistant-skills-productivity-calendar.md)
   - [Productivity - Email Skill](./virtualassistant-skills-productivity-email.md)
-  - [Productivity - ToDo Skill](./virtualassistant-skills-productivity-tasks.md)
+  - [Productivity - ToDo Skill](./virtualassistant-skills-productivity-todo.md)
   - [Point of Interest Skill](./virtualassistant-skills-pointofinterest.md)
 
 # Contributing
