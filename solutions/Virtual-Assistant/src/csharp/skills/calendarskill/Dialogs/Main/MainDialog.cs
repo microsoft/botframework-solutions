@@ -16,6 +16,7 @@ using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 
 namespace CalendarSkill
 {
@@ -222,7 +223,7 @@ namespace CalendarSkill
                     state.GeneralLuisResult = luisResult;
                     var topIntent = luisResult.TopIntent().intent;
 
-                    if (luisResult.TopIntent().score > 0.5)
+                    if (luisResult.TopIntent().score > Util.ScoreThreshold)
                     {
                         // check intent
                         switch (topIntent)

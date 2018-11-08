@@ -14,6 +14,7 @@ using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 using PointOfInterestSkill.Dialogs.Main.Resources;
 using PointOfInterestSkill.Dialogs.Route.Resources;
 using PointOfInterestSkill.Dialogs.Shared.Resources;
@@ -280,7 +281,7 @@ namespace PointOfInterestSkill
                     var topIntent = luisResult.TopIntent().intent;
 
                     // check intent
-                    if (luisResult.TopIntent().score > 0.5)
+                    if (luisResult.TopIntent().score > Util.ScoreThreshold)
                     {
                         switch (topIntent)
                         {

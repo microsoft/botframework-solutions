@@ -15,6 +15,7 @@ using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 
 namespace EmailSkill
 {
@@ -210,7 +211,7 @@ namespace EmailSkill
                     var topIntent = luisResult.TopIntent().intent;
 
                     // check intent
-                    if (luisResult.TopIntent().score > 0.5)
+                    if (luisResult.TopIntent().score > Util.ScoreThreshold)
                     {
                         switch (topIntent)
                         {
