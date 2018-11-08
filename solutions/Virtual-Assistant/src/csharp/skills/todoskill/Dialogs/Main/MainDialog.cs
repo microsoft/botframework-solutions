@@ -256,7 +256,12 @@ namespace ToDoSkill
             await dc.CancelAllDialogsAsync();
 
             // Sign out user
-            await adapter.SignOutUserAsync(dc.Context, _services.AuthConnectionName);
+            var tokens = await adapter.GetTokenStatusAsync(dc.Context, dc.Context.Activity.From.Id);
+            foreach (var token in tokens)
+            {
+                await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
+            }
+
             await dc.Context.SendActivityAsync("Ok, you're signed out.");
 
             return InterruptionAction.StartedDialog;
