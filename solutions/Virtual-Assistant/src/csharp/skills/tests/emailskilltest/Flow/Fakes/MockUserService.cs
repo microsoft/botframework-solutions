@@ -20,12 +20,32 @@ namespace EmailSkillTest.Flow.Fakes
 
         public async Task<List<Person>> GetPeopleAsync(string name)
         {
-            return this.People;
+            List<Person> result = new List<Person>();
+
+            foreach (var person in this.People)
+            {
+                if (person.DisplayName == name)
+                {
+                    result.Add(person);
+                }
+            }
+
+            return result;
         }
 
         public async Task<List<User>> GetUserAsync(string name)
         {
-            return this.Users;
+            List<User> result = new List<User>();
+
+            foreach (var user in this.Users)
+            {
+                if (user.DisplayName == name)
+                {
+                    result.Add(user);
+                }
+            }
+
+            return result;
         }
 
         private List<Person> FakePeople()
@@ -60,6 +80,20 @@ namespace EmailSkillTest.Flow.Fakes
                 UserPrincipalName = "test@test.com",
                 Mail = emailAddressStr,
                 DisplayName = "Test Test",
+            });
+
+            users.Add(new User()
+            {
+                UserPrincipalName = "testdup1@test.com",
+                Mail = emailAddressStr,
+                DisplayName = "TestDup Test",
+            });
+
+            users.Add(new User()
+            {
+                UserPrincipalName = "testdup2@test.com",
+                Mail = emailAddressStr,
+                DisplayName = "TestDup Test",
             });
 
             return users;

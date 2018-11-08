@@ -15,7 +15,6 @@ using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Bot.Solutions.Util;
 
 namespace EmailSkill
 {
@@ -210,29 +209,25 @@ namespace EmailSkill
                     state.GeneralLuisResult = luisResult;
                     var topIntent = luisResult.TopIntent().intent;
 
-                    // check intent
-                    if (luisResult.TopIntent().score > Util.ScoreThreshold)
+                    switch (topIntent)
                     {
-                        switch (topIntent)
-                        {
-                            case General.Intent.Cancel:
-                                {
-                                    result = await OnCancel(dc);
-                                    break;
-                                }
+                        case General.Intent.Cancel:
+                            {
+                                result = await OnCancel(dc);
+                                break;
+                            }
 
-                            case General.Intent.Help:
-                                {
-                                    // result = await OnHelp(dc);
-                                    break;
-                                }
+                        case General.Intent.Help:
+                            {
+                                // result = await OnHelp(dc);
+                                break;
+                            }
 
-                            case General.Intent.Logout:
-                                {
-                                    result = await OnLogout(dc);
-                                    break;
-                                }
-                        }
+                        case General.Intent.Logout:
+                            {
+                                result = await OnLogout(dc);
+                                break;
+                            }
                     }
                 }
             }
