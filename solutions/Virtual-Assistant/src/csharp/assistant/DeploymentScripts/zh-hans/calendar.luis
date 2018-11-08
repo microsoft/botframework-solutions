@@ -1,4 +1,4 @@
-﻿{
+{
   "intents": [
     {
       "name": "ChangeCalendarEntry"
@@ -6212,6 +6212,11 @@
           "endPos": 10
         }
       ]
+    },
+    {
+      "text": "什么会议",
+      "intent": "FindCalendarEntry",
+      "entities": []
     },
     {
       "text": "我 下 会见 托尼 是当",

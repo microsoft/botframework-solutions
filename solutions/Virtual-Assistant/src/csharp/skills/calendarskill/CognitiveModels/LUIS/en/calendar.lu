@@ -895,21 +895,21 @@
 - show me where my {OrderReference=next} appointment is
 - tell me about my {OrderReference=next} meeting
 - the {OrderReference=next} appointment after that
-- what ' s my {OrderReference=next} appointment
-- what ' s my {OrderReference=next} meeting
-- what ' s {OrderReference=next} on my calendar
-- what ' s on my {OrderReference=next} meeting
+- what's my {OrderReference=next} appointment
+- what's my {OrderReference=next} meeting
+- what's {OrderReference=next} on my calendar
+- what's on my {OrderReference=next} meeting
 - what is my {OrderReference=next} appointment
 - what is my next event
 - what is my next meeting
 - what is my next schedule
 - what is {OrderReference=next} in calendar
-- whatâ€™s m{OrderReference=y ne}xt meeting
-- when ' s my {OrderReference=next} {Subject=doctors appointment}
+- what's my {OrderReference=next} meeting
+- when's my {OrderReference=next} {Subject=doctors appointment}
 - when is my {OrderReference=next} {Subject=hair cut} appointment
 - when is my {OrderReference=next} meeting with ms {ContactName=pierre}
 - when's my {OrderReference=next} appointment
-- where ' s my {OrderReference=next} meeting
+- where's my {OrderReference=next} meeting
 - where do i have to be {OrderReference=next}
 - where do i need to be {OrderReference=next}
 - where is my {OrderReference=next} appointment with {ContactName=ms pierre}
