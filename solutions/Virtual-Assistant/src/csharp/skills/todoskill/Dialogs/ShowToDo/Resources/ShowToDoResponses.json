@@ -29,8 +29,8 @@
   "ShowingMoreTasks": {
     "replies": [
       {
-        "text": "You have more tasks on the list, if you want to know the rest please ask me for \"next\" or \"more\" tasks.",
-        "speak": "You have more tasks on the list, if you want to know the rest please ask me for \"next\" or \"more\" tasks."
+        "text": "You have more items on the list, if you want to know the rest please ask me for \"next\" or \"more\" items.",
+        "speak": "You have more items on the list, if you want to know the rest please ask me for \"next\" or \"more\" items."
       }
     ],
     "inputHint": "acceptingInput"

@@ -24,7 +24,7 @@ namespace ToDoSkill
         private SkillConfiguration _services;
         private UserState _userState;
         private ConversationState _conversationState;
-        private IToDoService _serviceManager;
+        private ITaskService _serviceManager;
         private IStatePropertyAccessor<ToDoSkillState> _stateAccessor;
         private ToDoSkillResponseBuilder _responseBuilder = new ToDoSkillResponseBuilder();
 
@@ -32,7 +32,7 @@ namespace ToDoSkill
             SkillConfiguration services,
             ConversationState conversationState,
             UserState userState,
-            IToDoService serviceManager,
+            ITaskService serviceManager,
             bool skillMode)
             : base(nameof(MainDialog))
         {
@@ -256,7 +256,12 @@ namespace ToDoSkill
             await dc.CancelAllDialogsAsync();
 
             // Sign out user
-            await adapter.SignOutUserAsync(dc.Context, _services.AuthConnectionName);
+            var tokens = await adapter.GetTokenStatusAsync(dc.Context, dc.Context.Activity.From.Id);
+            foreach (var token in tokens)
+            {
+                await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
+            }
+
             await dc.Context.SendActivityAsync("Ok, you're signed out.");
 
             return InterruptionAction.StartedDialog;

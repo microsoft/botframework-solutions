@@ -11,15 +11,15 @@ namespace ToDoSkill
         /// </summary>
         public ToDoSkillState()
         {
-            Task = new ToDoItem();
-            Tasks = new List<ToDoItem>();
+            Task = new TaskItem();
+            Tasks = new List<TaskItem>();
             TaskIndexes = new List<int>();
             MsGraphToken = null;
-            ShowToDoPageIndex = 0;
-            AllTasks = new List<ToDoItem>();
+            ShowTaskPageIndex = 0;
+            AllTasks = new List<TaskItem>();
             DeleteTaskConfirmation = false;
             MarkOrDeleteAllTasksFlag = false;
-            OneNotePageIds = new Dictionary<string, string>();
+            ListTypeIds = new Dictionary<string, string>();
             LuisResult = null;
             GeneralLuisResult = null;
             ConversationDialogState = null;
@@ -54,7 +54,7 @@ namespace ToDoSkill
         /// <value>
         /// ToDoTaskActivity.
         /// </value>
-        public ToDoItem Task { get; set; }
+        public TaskItem Task { get; set; }
 
         /// <summary>
         /// Gets or sets ToDoTaskActivities.
@@ -62,7 +62,7 @@ namespace ToDoSkill
         /// <value>
         /// ToDoTaskActivities.
         /// </value>
-        public List<ToDoItem> Tasks { get; set; }
+        public List<TaskItem> Tasks { get; set; }
 
         /// <summary>
         /// Gets or sets ToDoTaskIndex.
@@ -81,12 +81,12 @@ namespace ToDoSkill
         public string MsGraphToken { get; set; }
 
         /// <summary>
-        /// Gets or sets ShowToDoPageIndex.
+        /// Gets or sets ShowTaskPageIndex.
         /// </summary>
         /// <value>
         /// ShowToDoPageIndex.
         /// </value>
-        public int ShowToDoPageIndex { get; set; }
+        public int ShowTaskPageIndex { get; set; }
 
         /// <summary>
         /// Gets or sets ToDoTaskAllActivities.
@@ -94,7 +94,7 @@ namespace ToDoSkill
         /// <value>
         /// ToDoTaskAllActivities.
         /// </value>
-        public List<ToDoItem> AllTasks { get; set; }
+        public List<TaskItem> AllTasks { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether DeleteTaskConfirmation.
@@ -113,12 +113,12 @@ namespace ToDoSkill
         public bool MarkOrDeleteAllTasksFlag { get; set; }
 
         /// <summary>
-        /// Gets or sets OneNotePageId.
+        /// Gets or sets ListTypeIds.
         /// </summary>
         /// <value>
         /// OneNotePageId.
         /// </value>
-        public Dictionary<string, string> OneNotePageIds { get; set; }
+        public Dictionary<string, string> ListTypeIds { get; set; }
 
         /// <summary>
         /// Gets or sets LuisResult.
@@ -205,15 +205,15 @@ namespace ToDoSkill
         /// </summary>
         public void Clear()
         {
-            Task = new ToDoItem();
-            Tasks = new List<ToDoItem>();
+            Task = new TaskItem();
+            Tasks = new List<TaskItem>();
             TaskIndexes = new List<int>();
             MsGraphToken = null;
-            ShowToDoPageIndex = 0;
-            AllTasks = new List<ToDoItem>();
+            ShowTaskPageIndex = 0;
+            AllTasks = new List<TaskItem>();
             DeleteTaskConfirmation = false;
             MarkOrDeleteAllTasksFlag = false;
-            OneNotePageIds = new Dictionary<string, string>();
+            ListTypeIds = new Dictionary<string, string>();
             LuisResult = null;
             GeneralLuisResult = null;
             ConversationDialogState = null;

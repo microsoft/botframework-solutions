@@ -54,6 +54,16 @@ namespace $safeprojectname$
                 Content = JsonConvert.DeserializeObject(introCard),
             });
 
+            response.SuggestedActions = new SuggestedActions()
+            {
+                Actions = new List<CardAction>()
+                {
+                    new CardAction(type: ActionTypes.ImBack, title: "Test LUIS", value: "Hi there!"),
+                    new CardAction(type: ActionTypes.ImBack, title: "Test QnAMaker", value: "Why did Microsoft develop the Bot Framework?"),
+                    new CardAction(type: ActionTypes.OpenUrl, title: "Learn More", value: "https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-enterprise-template-overview?view=azure-bot-service-4.0")
+                }
+            };
+
             return response;
         }
 
