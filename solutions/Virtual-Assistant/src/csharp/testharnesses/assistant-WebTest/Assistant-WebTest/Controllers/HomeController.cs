@@ -25,6 +25,7 @@ namespace Assistant_WebTest.Controllers
         {
             // Retrieve the Bot configuration
             directLineSecret = configuration.GetSection("DirectLineSecret").Value;
+            directLineTokenGenerate = configuration.GetSection("DirectLineStartConversation").Value;
             speechKey = configuration.GetSection("SpeechKey").Value;
             voiceName = configuration.GetSection("VoiceName").Value;
         }
@@ -38,7 +39,7 @@ namespace Assistant_WebTest.Controllers
             var directLineClient = new HttpClient();
             directLineClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", directLineSecret);
 
-            var response = directLineClient.PostAsync("https://directline.botframework.com/v3/directline/tokens/generate", new StringContent(string.Empty, Encoding.UTF8, "application/json")).Result;
+            var response = directLineClient.PostAsync(directLineTokenGenerate, new StringContent(string.Empty, Encoding.UTF8, "application/json")).Result;
 
             if (response.IsSuccessStatusCode)
             {
@@ -77,6 +78,7 @@ namespace Assistant_WebTest.Controllers
         }
 
         private string directLineSecret;
+        private string directLineTokenGenerate;
         private string speechKey;
         private string voiceName;
     }

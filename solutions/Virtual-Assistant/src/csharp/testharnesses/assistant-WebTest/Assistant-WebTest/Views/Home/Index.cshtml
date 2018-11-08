@@ -5,6 +5,9 @@
     <script src="https://cdn.botframework.com/botframework-webchat/latest/CognitiveServices.js"></script>
     <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
     <script>
+        var userId = '@ViewData["UserId"]';
+        var userName = '@ViewData["UserName"]';
+        var userInitials = userName.replace(/(\S)\S*\s*/ig, "$1");
 
         const speechOptions = {
 
@@ -18,13 +21,10 @@
 
         var bot = window.WebChat.createDirectLine({
             token: '@ViewData["DirectLineToken"]',
-            user: { id: '@ViewData["UserId"]' },
+            user: { id: userId, name: "User", role: "user" },
             speechOptions: speechOptions,
-            resize: 'detect',
+            resize: 'detect'
         });
-
-        var userName = '@ViewData["UserName"]';
-        var userInitials = userName.replace(/(\S)\S*\s*/ig, "$1");
 
         window.WebChat.renderWebChat({
             directLine: bot,
@@ -33,12 +33,12 @@
         }, document.getElementById('webchat'));
 
         bot.postActivity({
-            from: {id: '@ViewData["UserId"]', name: "User", role: "user" },
+            from: { id: userId, name: "User", role: "user"  },
             name: 'startConversation',
             type: 'event',
             value: ''
         })
         .subscribe(function (id) {
-            console.log('trigger "startConversation" sent');
-        });
+            console.log('Event "startConversation" sent');
+            });
     </script>
