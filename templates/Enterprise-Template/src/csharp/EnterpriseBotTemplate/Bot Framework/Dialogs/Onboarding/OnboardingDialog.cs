@@ -53,7 +53,7 @@ namespace $safeprojectname$
             {
                 return await sc.PromptAsync(NamePrompt, new PromptOptions()
                 {
-                    Prompt = await _responder.RenderTemplate(sc.Context, "en", OnboardingResponses._namePrompt, inputHint: InputHints.ExpectingInput),
+                    Prompt = await _responder.RenderTemplate(sc.Context, "en", OnboardingResponses._namePrompt),
                 });
             }
         }
@@ -73,7 +73,7 @@ namespace $safeprojectname$
             {
                 return await sc.PromptAsync(EmailPrompt, new PromptOptions()
                 {
-                    Prompt = await _responder.RenderTemplate(sc.Context, "en", OnboardingResponses._emailPrompt, inputHint: InputHints.ExpectingInput),
+                    Prompt = await _responder.RenderTemplate(sc.Context, "en", OnboardingResponses._emailPrompt),
                 });
             }
         }
@@ -93,7 +93,7 @@ namespace $safeprojectname$
             {
                 return await sc.PromptAsync(LocationPrompt, new PromptOptions()
                 {
-                    Prompt = await _responder.RenderTemplate(sc.Context, "en", OnboardingResponses._locationPrompt, inputHint: InputHints.ExpectingInput),
+                    Prompt = await _responder.RenderTemplate(sc.Context, "en", OnboardingResponses._locationPrompt),
                 });
             }
         }
