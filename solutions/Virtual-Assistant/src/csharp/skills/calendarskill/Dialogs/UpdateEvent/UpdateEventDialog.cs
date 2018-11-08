@@ -125,10 +125,10 @@ namespace CalendarSkill
         {
             try
             {
+                var state = await _accessor.GetAsync(sc.Context);
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult)
                 {
-                    var state = await _accessor.GetAsync(sc.Context);
 
                     var newStartTime = (DateTime)state.NewStartDateTime;
                     //newStartTime = DateTime.SpecifyKind(newStartTime, DateTimeKind.Local);
@@ -146,13 +146,13 @@ namespace CalendarSkill
 
                     var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(UpdateEventResponses.EventUpdated, newEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", newEvent.ToAdaptiveCardData(state.GetUserTimeZone()));
                     await sc.Context.SendActivityAsync(replyMessage);
-                    state.Clear();
                 }
                 else
                 {
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarSharedResponses.ActionEnded));
                 }
 
+                state.Clear();
                 return await sc.EndDialogAsync(true);
             }
             catch
