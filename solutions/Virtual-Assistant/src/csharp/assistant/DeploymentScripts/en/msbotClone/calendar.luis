@@ -99,15 +99,15 @@
       "roles": []
     },
     {
+      "name": "OriginalStartDate",
+      "roles": []
+    },
+    {
       "name": "OriginalEndTime",
       "roles": []
     },
     {
       "name": "EndTime",
-      "roles": []
-    },
-    {
-      "name": "OriginalStartDate",
       "roles": []
     },
     {
@@ -220,6 +220,17 @@
       ]
     },
     {
+      "text": "can you move this appointment to 5pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartTime",
+          "startPos": 33,
+          "endPos": 35
+        }
+      ]
+    },
+    {
       "text": "can you update a meeting",
       "intent": "ChangeCalendarEntry",
       "entities": []
@@ -241,6 +252,22 @@
       ]
     },
     {
+      "text": "change 10am meeting to start 20 minutes later",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 7,
+          "endPos": 10
+        },
+        {
+          "entity": "MoveLaterTimeSpan",
+          "startPos": 29,
+          "endPos": 38
+        }
+      ]
+    },
+    {
       "text": "change 4 pm lunch appointment",
       "intent": "ChangeCalendarEntry",
       "entities": [
@@ -257,6 +284,22 @@
       ]
     },
     {
+      "text": "change 4pm lunch appointment",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 7,
+          "endPos": 9
+        },
+        {
+          "entity": "Subject",
+          "startPos": 11,
+          "endPos": 15
+        }
+      ]
+    },
+    {
       "text": "change 5 pm appointment 1 hour earlier",
       "intent": "ChangeCalendarEntry",
       "entities": [
@@ -269,6 +312,22 @@
           "entity": "MoveEarlierTimeSpan",
           "startPos": 24,
           "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "change 5pm appointment 1 hour earlier",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 7,
+          "endPos": 9
+        },
+        {
+          "entity": "MoveEarlierTimeSpan",
+          "startPos": 23,
+          "endPos": 28
         }
       ]
     },
@@ -372,9 +431,25 @@
       "intent": "ChangeCalendarEntry",
       "entities": [
         {
+          "entity": "OriginalStartDate",
+          "startPos": 7,
+          "endPos": 8
+        },
+        {
           "entity": "StartTime",
           "startPos": 13,
           "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "change it to 5pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartTime",
+          "startPos": 13,
+          "endPos": 15
         }
       ]
     },
@@ -458,6 +533,27 @@
       ]
     },
     {
+      "text": "change marathon training from 8:00am to 1:00pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 7,
+          "endPos": 23
+        },
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 30,
+          "endPos": 35
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 40,
+          "endPos": 45
+        }
+      ]
+    },
+    {
       "text": "change marketing meeting from every tuesday to every wednesdays",
       "intent": "ChangeCalendarEntry",
       "entities": [
@@ -475,6 +571,37 @@
           "entity": "StartDate",
           "startPos": 47,
           "endPos": 62
+        }
+      ]
+    },
+    {
+      "text": "change meeting from 2pm-3pm to 4pm-5pm today",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 20,
+          "endPos": 22
+        },
+        {
+          "entity": "OriginalEndTime",
+          "startPos": 24,
+          "endPos": 26
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 31,
+          "endPos": 33
+        },
+        {
+          "entity": "EndTime",
+          "startPos": 35,
+          "endPos": 37
+        },
+        {
+          "entity": "StartDate",
+          "startPos": 39,
+          "endPos": 43
         }
       ]
     },
@@ -500,6 +627,27 @@
       ]
     },
     {
+      "text": "change my 11pm appointment's location to cal anderson park",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 10,
+          "endPos": 13
+        },
+        {
+          "entity": "SlotAttribute",
+          "startPos": 29,
+          "endPos": 36
+        },
+        {
+          "entity": "Location",
+          "startPos": 41,
+          "endPos": 57
+        }
+      ]
+    },
+    {
       "text": "change my 3 pm event to 4 pm",
       "intent": "ChangeCalendarEntry",
       "entities": [
@@ -516,6 +664,38 @@
       ]
     },
     {
+      "text": "change my 3pm event to 4pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 10,
+          "endPos": 12
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 23,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "change my 6pm event to 7pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 10,
+          "endPos": 12
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 23,
+          "endPos": 25
+        }
+      ]
+    },
+    {
       "text": "change my 7 30 pm appointment to 8 pm",
       "intent": "ChangeCalendarEntry",
       "entities": [
@@ -528,6 +708,38 @@
           "entity": "StartTime",
           "startPos": 33,
           "endPos": 36
+        }
+      ]
+    },
+    {
+      "text": "change my 7 pm event to 8 pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 10,
+          "endPos": 13
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 24,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "change my 7pm event to 6pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 10,
+          "endPos": 12
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 23,
+          "endPos": 25
         }
       ]
     },
@@ -617,6 +829,22 @@
           "entity": "StartTime",
           "startPos": 43,
           "endPos": 43
+        }
+      ]
+    },
+    {
+      "text": "change my meeting at night to tomorrow",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 21,
+          "endPos": 25
+        },
+        {
+          "entity": "StartDate",
+          "startPos": 30,
+          "endPos": 37
         }
       ]
     },
@@ -977,6 +1205,22 @@
       ]
     },
     {
+      "text": "let next meeting starting at 10am",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 4,
+          "endPos": 7
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 29,
+          "endPos": 32
+        }
+      ]
+    },
+    {
       "text": "make next meeting to start 1 hour later",
       "intent": "ChangeCalendarEntry",
       "entities": [
@@ -1063,6 +1307,22 @@
       ]
     },
     {
+      "text": "move 3pm meeting to 4pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 5,
+          "endPos": 7
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 20,
+          "endPos": 22
+        }
+      ]
+    },
+    {
       "text": "move appt with rebecca to next week",
       "intent": "ChangeCalendarEntry",
       "entities": [
@@ -1075,6 +1335,37 @@
           "entity": "StartDate",
           "startPos": 26,
           "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "move meeting from 9pm-10pm to 8pm-9pm today",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 18,
+          "endPos": 20
+        },
+        {
+          "entity": "OriginalEndTime",
+          "startPos": 22,
+          "endPos": 25
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 30,
+          "endPos": 32
+        },
+        {
+          "entity": "EndTime",
+          "startPos": 34,
+          "endPos": 36
+        },
+        {
+          "entity": "StartDate",
+          "startPos": 38,
+          "endPos": 42
         }
       ]
     },
@@ -1116,6 +1407,22 @@
       ]
     },
     {
+      "text": "move my 10pm meeting to 9pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 8,
+          "endPos": 11
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 24,
+          "endPos": 26
+        }
+      ]
+    },
+    {
       "text": "move my 12 pm meeting to 2",
       "intent": "ChangeCalendarEntry",
       "entities": [
@@ -1128,6 +1435,22 @@
           "entity": "StartTime",
           "startPos": 25,
           "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "move my 12pm meeting to 2pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 8,
+          "endPos": 11
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 24,
+          "endPos": 26
         }
       ]
     },
@@ -1153,12 +1476,97 @@
       ]
     },
     {
+      "text": "move my 4pm meeting to 5pm today",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 8,
+          "endPos": 10
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 23,
+          "endPos": 25
+        },
+        {
+          "entity": "StartDate",
+          "startPos": 27,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "move my 6pm meeting to 7pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 8,
+          "endPos": 10
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 23,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "move my 9pm meeting to 8pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 8,
+          "endPos": 10
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 23,
+          "endPos": 25
+        }
+      ]
+    },
+    {
       "text": "move my meeting back by an hour",
       "intent": "ChangeCalendarEntry",
       "entities": [
         {
           "entity": "MoveLaterTimeSpan",
           "startPos": 24,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "move my meeting from 6pm to 5pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 21,
+          "endPos": 23
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 28,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "move my meeting to 6pm from 7pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartTime",
+          "startPos": 19,
+          "endPos": 21
+        },
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 28,
           "endPos": 30
         }
       ]
@@ -1346,6 +1754,32 @@
       ]
     },
     {
+      "text": "move party planning meeting from saturday to friday at 1pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 5,
+          "endPos": 26
+        },
+        {
+          "entity": "OriginalStartDate",
+          "startPos": 33,
+          "endPos": 40
+        },
+        {
+          "entity": "StartDate",
+          "startPos": 45,
+          "endPos": 50
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 55,
+          "endPos": 57
+        }
+      ]
+    },
+    {
       "text": "move shoe appointment to tuesday at one",
       "intent": "ChangeCalendarEntry",
       "entities": [
@@ -1371,11 +1805,6 @@
       "intent": "ChangeCalendarEntry",
       "entities": [
         {
-          "entity": "OriginalStartDate",
-          "startPos": 12,
-          "endPos": 15
-        },
-        {
           "entity": "StartTime",
           "startPos": 20,
           "endPos": 23
@@ -1383,23 +1812,55 @@
       ]
     },
     {
-      "text": "postpone my 4 pm meeting today until 5 pm",
+      "text": "please move this to 3pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartTime",
+          "startPos": 20,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "postpone my 4pm meeting today until 5pm",
       "intent": "ChangeCalendarEntry",
       "entities": [
         {
           "entity": "OriginalStartTime",
           "startPos": 12,
-          "endPos": 15
+          "endPos": 14
         },
         {
           "entity": "OriginalStartDate",
-          "startPos": 25,
-          "endPos": 29
+          "startPos": 24,
+          "endPos": 28
         },
         {
           "entity": "StartTime",
-          "startPos": 37,
-          "endPos": 40
+          "startPos": 36,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "postpone my 7pm meeting today until 8pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 12,
+          "endPos": 14
+        },
+        {
+          "entity": "StartDate",
+          "startPos": 24,
+          "endPos": 28
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 36,
+          "endPos": 38
         }
       ]
     },
@@ -1413,7 +1874,7 @@
           "endPos": 21
         },
         {
-          "entity": "StartDate",
+          "entity": "OriginalStartDate",
           "startPos": 31,
           "endPos": 35
         },
@@ -1520,6 +1981,37 @@
       ]
     },
     {
+      "text": "update meeting from 8am-12pm to 7am-11am today",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 20,
+          "endPos": 22
+        },
+        {
+          "entity": "OriginalEndTime",
+          "startPos": 24,
+          "endPos": 27
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 32,
+          "endPos": 34
+        },
+        {
+          "entity": "EndTime",
+          "startPos": 36,
+          "endPos": 39
+        },
+        {
+          "entity": "StartDate",
+          "startPos": 41,
+          "endPos": 45
+        }
+      ]
+    },
+    {
       "text": "update my appointment",
       "intent": "ChangeCalendarEntry",
       "entities": []
@@ -1534,19 +2026,56 @@
       "intent": "ChangeCalendarEntry",
       "entities": [
         {
-          "entity": "StartTime",
+          "entity": "OriginalStartTime",
           "startPos": 24,
           "endPos": 27
         },
         {
-          "entity": "EndTime",
+          "entity": "StartTime",
           "startPos": 32,
           "endPos": 35
         },
         {
-          "entity": "EndDate",
+          "entity": "StartDate",
           "startPos": 37,
           "endPos": 41
+        }
+      ]
+    },
+    {
+      "text": "update my calendar from 2pm to 4pm today",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 24,
+          "endPos": 26
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 31,
+          "endPos": 33
+        },
+        {
+          "entity": "StartDate",
+          "startPos": 35,
+          "endPos": 39
+        }
+      ]
+    },
+    {
+      "text": "update my calendar from 6pm to 7pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 24,
+          "endPos": 26
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 31,
+          "endPos": 33
         }
       ]
     },
@@ -1567,6 +2096,22 @@
       "entities": []
     },
     {
+      "text": "update my meeting from 6pm to 7pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 23,
+          "endPos": 25
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 30,
+          "endPos": 32
+        }
+      ]
+    },
+    {
       "text": "update my next appointment",
       "intent": "ChangeCalendarEntry",
       "entities": [
@@ -1574,6 +2119,27 @@
           "entity": "OrderReference",
           "startPos": 10,
           "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "update my tomorrow 6pm meeting to 7pm",
+      "intent": "ChangeCalendarEntry",
+      "entities": [
+        {
+          "entity": "OriginalStartDate",
+          "startPos": 10,
+          "endPos": 17
+        },
+        {
+          "entity": "OriginalStartTime",
+          "startPos": 19,
+          "endPos": 21
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 34,
+          "endPos": 36
         }
       ]
     },
@@ -3518,6 +4084,27 @@
       ]
     },
     {
+      "text": "add team meeting to my calendar at 10pm with xiaoming wang",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 4,
+          "endPos": 15
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 35,
+          "endPos": 38
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 45,
+          "endPos": 57
+        }
+      ]
+    },
+    {
       "text": "add to calendar",
       "intent": "CreateCalendarEntry",
       "entities": []
@@ -3704,38 +4291,90 @@
       ]
     },
     {
+      "text": "appending group meeting next monday at 9am",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "Subject",
+          "startPos": 10,
+          "endPos": 22
+        },
+        {
+          "entity": "StartDate",
+          "startPos": 24,
+          "endPos": 34
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 39,
+          "endPos": 41
+        }
+      ]
+    },
+    {
       "text": "appointment",
       "intent": "CreateCalendarEntry",
       "entities": []
     },
     {
-      "text": "block my calendar from 4 pm wednesday till the end of the day friday for trip to east coast",
+      "text": "block my calendar from 4pm on wednesday till the end of the day friday for trip to east coast",
       "intent": "CreateCalendarEntry",
       "entities": [
         {
           "entity": "StartTime",
           "startPos": 23,
-          "endPos": 26
+          "endPos": 25
         },
         {
           "entity": "StartDate",
-          "startPos": 28,
-          "endPos": 36
+          "startPos": 30,
+          "endPos": 38
         },
         {
           "entity": "EndTime",
-          "startPos": 47,
-          "endPos": 60
+          "startPos": 49,
+          "endPos": 62
         },
         {
           "entity": "EndDate",
-          "startPos": 62,
-          "endPos": 67
+          "startPos": 64,
+          "endPos": 69
         },
         {
           "entity": "Subject",
-          "startPos": 73,
-          "endPos": 90
+          "startPos": 75,
+          "endPos": 92
+        }
+      ]
+    },
+    {
+      "text": "block my calendar from 4pm wednesday till the end of the day friday for trip to east coast",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartTime",
+          "startPos": 23,
+          "endPos": 25
+        },
+        {
+          "entity": "StartDate",
+          "startPos": 27,
+          "endPos": 35
+        },
+        {
+          "entity": "EndTime",
+          "startPos": 46,
+          "endPos": 59
+        },
+        {
+          "entity": "EndDate",
+          "startPos": 61,
+          "endPos": 66
+        },
+        {
+          "entity": "Subject",
+          "startPos": 72,
+          "endPos": 89
         }
       ]
     },
@@ -3783,6 +4422,50 @@
       ]
     },
     {
+      "text": "create a meeting at 11am",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartTime",
+          "startPos": 20,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "create a meeting at 12am",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartTime",
+          "startPos": 20,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "create a meeting at 7pm",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartTime",
+          "startPos": 20,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "create a meeting at 8am",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartTime",
+          "startPos": 20,
+          "endPos": 22
+        }
+      ]
+    },
+    {
       "text": "create a meeting at suzhou",
       "intent": "CreateCalendarEntry",
       "entities": [
@@ -3794,6 +4477,48 @@
       ]
     },
     {
+      "text": "create a meeting for tomorrow 6pm with qiong",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartDate",
+          "startPos": 21,
+          "endPos": 28
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 30,
+          "endPos": 32
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 39,
+          "endPos": 43
+        }
+      ]
+    },
+    {
+      "text": "create a meeting from tomorrow 6pm to 7pm",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartDate",
+          "startPos": 22,
+          "endPos": 29
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 31,
+          "endPos": 33
+        },
+        {
+          "entity": "EndTime",
+          "startPos": 38,
+          "endPos": 40
+        }
+      ]
+    },
+    {
       "text": "create a meeting with alice",
       "intent": "CreateCalendarEntry",
       "entities": [
@@ -3801,6 +4526,48 @@
           "entity": "ContactName",
           "startPos": 22,
           "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "create a meeting with qiong for today 3pm",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 22,
+          "endPos": 26
+        },
+        {
+          "entity": "StartDate",
+          "startPos": 32,
+          "endPos": 36
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 38,
+          "endPos": 40
+        }
+      ]
+    },
+    {
+      "text": "create a meeting with tom at 10pm for half an hour",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 22,
+          "endPos": 24
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 29,
+          "endPos": 32
+        },
+        {
+          "entity": "Duration",
+          "startPos": 38,
+          "endPos": 49
         }
       ]
     },
@@ -3901,6 +4668,17 @@
       ]
     },
     {
+      "text": "create appointment at 3pm",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartTime",
+          "startPos": 22,
+          "endPos": 24
+        }
+      ]
+    },
+    {
       "text": "create appointment for 30 minutes",
       "intent": "CreateCalendarEntry",
       "entities": [
@@ -3976,6 +4754,22 @@
           "entity": "Subject",
           "startPos": 65,
           "endPos": 80
+        }
+      ]
+    },
+    {
+      "text": "help me to book a meeting room from 10am to 3pm",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartTime",
+          "startPos": 36,
+          "endPos": 39
+        },
+        {
+          "entity": "EndTime",
+          "startPos": 44,
+          "endPos": 46
         }
       ]
     },
@@ -4130,6 +4924,70 @@
       "text": "schedule a meeting",
       "intent": "CreateCalendarEntry",
       "entities": []
+    },
+    {
+      "text": "schedule a meeting on nov. 3",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartDate",
+          "startPos": 22,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "schedule a meeting on nov. 3 from 3-4pm",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartDate",
+          "startPos": 22,
+          "endPos": 27
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 34,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "schedule a meeting on nov. 3 from 3pm-4pm",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartDate",
+          "startPos": 22,
+          "endPos": 27
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 34,
+          "endPos": 36
+        },
+        {
+          "entity": "EndTime",
+          "startPos": 38,
+          "endPos": 40
+        }
+      ]
+    },
+    {
+      "text": "schedule a meeting with ryan from 3-4pm on october 25th",
+      "intent": "CreateCalendarEntry",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 24,
+          "endPos": 27
+        },
+        {
+          "entity": "StartDate",
+          "startPos": 43,
+          "endPos": 54
+        }
+      ]
     },
     {
       "text": "schedule an appointment",
@@ -4385,6 +5243,27 @@
       ]
     },
     {
+      "text": "cancel meeting with bob 3pm today",
+      "intent": "DeleteCalendarEntry",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 20,
+          "endPos": 22
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 24,
+          "endPos": 26
+        },
+        {
+          "entity": "StartDate",
+          "startPos": 28,
+          "endPos": 32
+        }
+      ]
+    },
+    {
       "text": "cancel my adventureworks trip to seattle",
       "intent": "DeleteCalendarEntry",
       "entities": [
@@ -4408,6 +5287,17 @@
           "entity": "StartTime",
           "startPos": 25,
           "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "cancel my appointment at 9pm",
+      "intent": "DeleteCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartTime",
+          "startPos": 25,
+          "endPos": 27
         }
       ]
     },
@@ -4466,6 +5356,27 @@
           "entity": "StartTime",
           "startPos": 43,
           "endPos": 47
+        }
+      ]
+    },
+    {
+      "text": "cancel my meeting at shanghai on monday at 10am",
+      "intent": "DeleteCalendarEntry",
+      "entities": [
+        {
+          "entity": "Location",
+          "startPos": 21,
+          "endPos": 28
+        },
+        {
+          "entity": "StartDate",
+          "startPos": 33,
+          "endPos": 38
+        },
+        {
+          "entity": "StartTime",
+          "startPos": 43,
+          "endPos": 46
         }
       ]
     },
@@ -4746,6 +5657,17 @@
       "entities": []
     },
     {
+      "text": "delete my meeting at night",
+      "intent": "DeleteCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartTime",
+          "startPos": 21,
+          "endPos": 25
+        }
+      ]
+    },
+    {
       "text": "delete my schedule",
       "intent": "DeleteCalendarEntry",
       "entities": []
@@ -4913,17 +5835,6 @@
       ]
     },
     {
-      "text": "detailed information about the next meeting",
-      "intent": "FindCalendarDetail",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 31,
-          "endPos": 34
-        }
-      ]
-    },
-    {
       "text": "details about the meeting with jam",
       "intent": "FindCalendarDetail",
       "entities": [
@@ -4931,17 +5842,6 @@
           "entity": "ContactName",
           "startPos": 31,
           "endPos": 33
-        }
-      ]
-    },
-    {
-      "text": "give me details of the next appointment",
-      "intent": "FindCalendarDetail",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 23,
-          "endPos": 26
         }
       ]
     },
@@ -4960,17 +5860,6 @@
       "text": "i need to know about my meeting",
       "intent": "FindCalendarDetail",
       "entities": []
-    },
-    {
-      "text": "i need to know about my next appointment",
-      "intent": "FindCalendarDetail",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 24,
-          "endPos": 27
-        }
-      ]
     },
     {
       "text": "i need you to provide me the details of the meeting i have scheduled with my colleague paul",
@@ -5002,17 +5891,6 @@
           "entity": "StartDate",
           "startPos": 25,
           "endPos": 29
-        }
-      ]
-    },
-    {
-      "text": "tell me about my next meeting",
-      "intent": "FindCalendarDetail",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 17,
-          "endPos": 20
         }
       ]
     },
@@ -5260,7 +6138,7 @@
           "endPos": 25
         },
         {
-          "entity": "StartTime",
+          "entity": "EndTime",
           "startPos": 30,
           "endPos": 30
         }
@@ -5289,18 +6167,29 @@
       ]
     },
     {
-      "text": "find the meeting around 5 to 8 pm",
+      "text": "do i have events tomorrow night",
       "intent": "FindCalendarEntry",
       "entities": [
         {
-          "entity": "StartTime",
-          "startPos": 24,
+          "entity": "StartDate",
+          "startPos": 17,
           "endPos": 24
         },
         {
           "entity": "StartTime",
-          "startPos": 29,
-          "endPos": 32
+          "startPos": 26,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "find the meeting around 5 to 8pm",
+      "intent": "FindCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartTime",
+          "startPos": 17,
+          "endPos": 31
         }
       ]
     },
@@ -5316,57 +6205,13 @@
       ]
     },
     {
-      "text": "find the next meeting",
+      "text": "get my meetings tomorrow",
       "intent": "FindCalendarEntry",
       "entities": [
         {
-          "entity": "OrderReference",
-          "startPos": 9,
-          "endPos": 12
-        }
-      ]
-    },
-    {
-      "text": "get to my next event",
-      "intent": "FindCalendarEntry",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 10,
-          "endPos": 13
-        }
-      ]
-    },
-    {
-      "text": "locate the next appointment",
-      "intent": "FindCalendarEntry",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 11,
-          "endPos": 14
-        }
-      ]
-    },
-    {
-      "text": "look up my next appointment for me",
-      "intent": "FindCalendarEntry",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 11,
-          "endPos": 14
-        }
-      ]
-    },
-    {
-      "text": "next meeting",
-      "intent": "FindCalendarEntry",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 0,
-          "endPos": 3
+          "entity": "StartDate",
+          "startPos": 16,
+          "endPos": 23
         }
       ]
     },
@@ -5452,17 +6297,6 @@
       ]
     },
     {
-      "text": "show me my next meeting",
-      "intent": "FindCalendarEntry",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 11,
-          "endPos": 14
-        }
-      ]
-    },
-    {
       "text": "show me my schedule",
       "intent": "FindCalendarEntry",
       "entities": []
@@ -5489,6 +6323,28 @@
       "entities": []
     },
     {
+      "text": "show my meetings tomorrow",
+      "intent": "FindCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartDate",
+          "startPos": 17,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "show my schedule at night",
+      "intent": "FindCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartTime",
+          "startPos": 20,
+          "endPos": 24
+        }
+      ]
+    },
+    {
       "text": "tell me the events scheduled at calendar constitution hall",
       "intent": "FindCalendarEntry",
       "entities": [
@@ -5496,17 +6352,6 @@
           "entity": "Location",
           "startPos": 41,
           "endPos": 57
-        }
-      ]
-    },
-    {
-      "text": "the next appointment after that",
-      "intent": "FindCalendarEntry",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 4,
-          "endPos": 7
         }
       ]
     },
@@ -5603,28 +6448,6 @@
       ]
     },
     {
-      "text": "what ' s my next appointment",
-      "intent": "FindCalendarEntry",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 12,
-          "endPos": 15
-        }
-      ]
-    },
-    {
-      "text": "what ' s my next meeting",
-      "intent": "FindCalendarEntry",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 12,
-          "endPos": 15
-        }
-      ]
-    },
-    {
       "text": "what ' s my schedule for tomorrow",
       "intent": "FindCalendarEntry",
       "entities": [
@@ -5658,17 +6481,6 @@
       ]
     },
     {
-      "text": "what ' s next on my calendar",
-      "intent": "FindCalendarEntry",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 9,
-          "endPos": 12
-        }
-      ]
-    },
-    {
       "text": "what ' s on my calendar",
       "intent": "FindCalendarEntry",
       "entities": []
@@ -5692,17 +6504,6 @@
           "entity": "StartDate",
           "startPos": 24,
           "endPos": 28
-        }
-      ]
-    },
-    {
-      "text": "what ' s on my next meeting",
-      "intent": "FindCalendarEntry",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 15,
-          "endPos": 18
         }
       ]
     },
@@ -5817,6 +6618,17 @@
           "entity": "StartDate",
           "startPos": 25,
           "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "what are my meetings at night",
+      "intent": "FindCalendarEntry",
+      "entities": [
+        {
+          "entity": "StartTime",
+          "startPos": 24,
+          "endPos": 28
         }
       ]
     },
@@ -6054,17 +6866,6 @@
       ]
     },
     {
-      "text": "what is my next appointment",
-      "intent": "FindCalendarEntry",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 11,
-          "endPos": 14
-        }
-      ]
-    },
-    {
       "text": "what is my schedule for tomorrow",
       "intent": "FindCalendarEntry",
       "entities": [
@@ -6083,17 +6884,6 @@
           "entity": "StartDate",
           "startPos": 20,
           "endPos": 27
-        }
-      ]
-    },
-    {
-      "text": "what is next in calendar",
-      "intent": "FindCalendarEntry",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 8,
-          "endPos": 11
         }
       ]
     },
@@ -6186,33 +6976,6 @@
           "entity": "StartDate",
           "startPos": 24,
           "endPos": 31
-        }
-      ]
-    },
-    {
-      "text": "which is my next event",
-      "intent": "FindCalendarEntry",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 12,
-          "endPos": 15
-        }
-      ]
-    },
-    {
-      "text": "which will be my next flight",
-      "intent": "FindCalendarEntry",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 17,
-          "endPos": 20
-        },
-        {
-          "entity": "Subject",
-          "startPos": 22,
-          "endPos": 27
         }
       ]
     },
@@ -6476,22 +7239,6 @@
       ]
     },
     {
-      "text": "when ' s my next doctors appointment",
-      "intent": "FindCalendarWhen",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 12,
-          "endPos": 15
-        },
-        {
-          "entity": "Subject",
-          "startPos": 17,
-          "endPos": 35
-        }
-      ]
-    },
-    {
       "text": "when ' s my next meeting",
       "intent": "FindCalendarWhen",
       "entities": [
@@ -6741,22 +7488,6 @@
       ]
     },
     {
-      "text": "when is my next hair cut appointment",
-      "intent": "FindCalendarWhen",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 11,
-          "endPos": 14
-        },
-        {
-          "entity": "Subject",
-          "startPos": 16,
-          "endPos": 23
-        }
-      ]
-    },
-    {
       "text": "when is my next meeting",
       "intent": "FindCalendarWhen",
       "entities": [
@@ -6780,22 +7511,6 @@
           "entity": "ContactName",
           "startPos": 34,
           "endPos": 39
-        }
-      ]
-    },
-    {
-      "text": "when is my next meeting with ms pierre",
-      "intent": "FindCalendarWhen",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 11,
-          "endPos": 14
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 32,
-          "endPos": 37
         }
       ]
     },
@@ -6924,17 +7639,6 @@
       ]
     },
     {
-      "text": "when's my next appointment",
-      "intent": "FindCalendarWhen",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 10,
-          "endPos": 13
-        }
-      ]
-    },
-    {
       "text": "when's my next trip",
       "intent": "FindCalendarWhen",
       "entities": [
@@ -6978,17 +7682,6 @@
       ]
     },
     {
-      "text": "location of the next appointment",
-      "intent": "FindCalendarWhere",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 16,
-          "endPos": 19
-        }
-      ]
-    },
-    {
       "text": "meeting at 3 pm today locations",
       "intent": "FindCalendarWhere",
       "entities": [
@@ -7012,17 +7705,6 @@
           "entity": "Subject",
           "startPos": 25,
           "endPos": 43
-        }
-      ]
-    },
-    {
-      "text": "show me where my next appointment is",
-      "intent": "FindCalendarWhere",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 17,
-          "endPos": 20
         }
       ]
     },
@@ -7055,17 +7737,6 @@
     },
     {
       "text": "where ' s my next appointment",
-      "intent": "FindCalendarWhere",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 13,
-          "endPos": 16
-        }
-      ]
-    },
-    {
-      "text": "where ' s my next meeting",
       "intent": "FindCalendarWhere",
       "entities": [
         {
@@ -7169,17 +7840,6 @@
       ]
     },
     {
-      "text": "where do i have to be next",
-      "intent": "FindCalendarWhere",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 22,
-          "endPos": 25
-        }
-      ]
-    },
-    {
       "text": "where do i have to be today",
       "intent": "FindCalendarWhere",
       "entities": [
@@ -7187,17 +7847,6 @@
           "entity": "StartDate",
           "startPos": 22,
           "endPos": 26
-        }
-      ]
-    },
-    {
-      "text": "where do i need to be next",
-      "intent": "FindCalendarWhere",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 22,
-          "endPos": 25
         }
       ]
     },
@@ -7444,38 +8093,6 @@
           "entity": "ContactName",
           "startPos": 39,
           "endPos": 44
-        }
-      ]
-    },
-    {
-      "text": "where is my next appointment with ms pierre",
-      "intent": "FindCalendarWhere",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 12,
-          "endPos": 15
-        },
-        {
-          "entity": "ContactName",
-          "startPos": 34,
-          "endPos": 42
-        }
-      ]
-    },
-    {
-      "text": "where is my next dentist appointment",
-      "intent": "FindCalendarWhere",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 12,
-          "endPos": 15
-        },
-        {
-          "entity": "Subject",
-          "startPos": 17,
-          "endPos": 35
         }
       ]
     },
@@ -7782,17 +8399,6 @@
       ]
     },
     {
-      "text": "list the attendees of the next meeting",
-      "intent": "FindCalendarWho",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 26,
-          "endPos": 29
-        }
-      ]
-    },
-    {
       "text": "list the participants for the 2pm meeting tomorrow",
       "intent": "FindCalendarWho",
       "entities": [
@@ -8040,17 +8646,6 @@
           "entity": "StartDate",
           "startPos": 37,
           "endPos": 44
-        }
-      ]
-    },
-    {
-      "text": "who is in my next meeting",
-      "intent": "FindCalendarWho",
-      "entities": [
-        {
-          "entity": "OrderReference",
-          "startPos": 13,
-          "endPos": 16
         }
       ]
     },
@@ -9488,6 +10083,215 @@
       "entities": []
     },
     {
+      "text": "detailed information about the next meeting",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 31,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "find the next meeting",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 9,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "get to my next event",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 10,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "give me details of the next appointment",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 23,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "i need to know about my next appointment",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 24,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "list the attendees of the next meeting",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 26,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "locate the next appointment",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 11,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "location of the next appointment",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 16,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "look up my next appointment for me",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 11,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "next meeting",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 0,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "show me my next meeting",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 11,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "show me where my next appointment is",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 17,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "tell me about my next meeting",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 17,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "the next appointment after that",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 4,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "what's my next appointment",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 10,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "what's my next meeting",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 10,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "what's next on my calendar",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 7,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "what's on my next meeting",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 13,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "what is my next appointment",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 11,
+          "endPos": 14
+        }
+      ]
+    },
+    {
       "text": "what is my next event",
       "intent": "NextMeeting",
       "entities": []
@@ -9501,6 +10305,190 @@
       "text": "what is my next schedule",
       "intent": "NextMeeting",
       "entities": []
+    },
+    {
+      "text": "what is next in calendar",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 8,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "what's my next meeting",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 10,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "when's my next doctors appointment",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 10,
+          "endPos": 13
+        },
+        {
+          "entity": "Subject",
+          "startPos": 15,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "when is my next hair cut appointment",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 11,
+          "endPos": 14
+        },
+        {
+          "entity": "Subject",
+          "startPos": 16,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "when is my next meeting with ms pierre",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 11,
+          "endPos": 14
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 32,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "when's my next appointment",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 10,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "where's my next meeting",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 11,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "where do i have to be next",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 22,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "where do i need to be next",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 22,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "where is my next appointment with ms pierre",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 12,
+          "endPos": 15
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 34,
+          "endPos": 42
+        }
+      ]
+    },
+    {
+      "text": "where is my next dentist appointment",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 12,
+          "endPos": 15
+        },
+        {
+          "entity": "Subject",
+          "startPos": 17,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "which is my next event",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 12,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "which will be my next flight",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 17,
+          "endPos": 20
+        },
+        {
+          "entity": "Subject",
+          "startPos": 22,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "who is in my next meeting",
+      "intent": "NextMeeting",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 13,
+          "endPos": 16
+        }
+      ]
     },
     {
       "text": "no location",
@@ -10305,7 +11293,7 @@
       "intent": "TimeRemaining",
       "entities": [
         {
-          "entity": "StartTime",
+          "entity": "OrderReference",
           "startPos": 20,
           "endPos": 23
         }

@@ -679,14 +679,15 @@ namespace CalendarSkill
                 if (sc.Result != null)
                 {
                     IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
-                    if (dateTimeResolutions.First().Value != null)
+                    var dateTimeConvertType = dateTimeResolutions.Last()?.Timex;
+                    var dateTimeValue = dateTimeResolutions.Last()?.Value;
+                    if (dateTimeValue != null)
                     {
-                        var dateTime = DateTime.Parse(dateTimeResolutions.First().Value);
-                        var dateTimeConvertType = dateTimeResolutions.First().Timex;
+                        var dateTime = DateTime.Parse(dateTimeValue);
 
                         if (dateTime != null)
                         {
-                            bool isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeResolutions.First().Value, dateTimeResolutions.First().Timex);
+                            bool isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeValue, dateTimeConvertType);
                             if (ContainsTime(dateTimeConvertType))
                             {
                                 state.StartTime = TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone());
@@ -762,14 +763,15 @@ namespace CalendarSkill
                 if (sc.Result != null && state.StartTime == null)
                 {
                     IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
-                    if (dateTimeResolutions.First().Value != null)
+                    var dateTimeConvertType = dateTimeResolutions.First()?.Timex;
+                    var dateTimeValue = dateTimeResolutions.First()?.Value;
+                    if (dateTimeValue != null)
                     {
-                        var dateTime = DateTime.Parse(dateTimeResolutions.First().Value);
-                        var dateTimeConvertType = dateTimeResolutions.First().Timex;
+                        var dateTime = DateTime.Parse(dateTimeValue);
 
                         if (dateTime != null)
                         {
-                            bool isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeResolutions.First().Value, dateTimeResolutions.First().Timex);
+                            bool isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeValue, dateTimeConvertType);
                             state.StartTime = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
                         }
                     }
