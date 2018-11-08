@@ -43,7 +43,7 @@ namespace Assistant_WebTest.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var responseString = response.Content.ReadAsStringAsync().Result;
-                var directLineResponse = JsonConvert.DeserializeObject<DirectlineResponse>(responseString);
+                var directLineResponse = JsonConvert.DeserializeObject<DirectLineResponse>(responseString);
                 directLineToken = directLineResponse.token;
             }
 

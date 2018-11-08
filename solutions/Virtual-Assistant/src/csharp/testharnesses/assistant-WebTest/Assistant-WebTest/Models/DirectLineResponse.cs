@@ -3,7 +3,7 @@
 
 namespace Assistant_WebTest.Models
 {
-    public class DirectlineResponse
+    public class DirectLineResponse
     {
         public string conversationId { get; set; }
         public string token { get; set; }
