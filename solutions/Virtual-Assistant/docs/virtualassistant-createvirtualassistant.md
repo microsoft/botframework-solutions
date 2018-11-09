@@ -155,7 +155,7 @@ az bot authsetting create --resource-group YOUR_BOT_NAME --name YOUR_BOT_NAME --
 The final step is to update your .bot file and associated Skills (in appSettings.config) with the Authentication connection name, this is used by the Assistant to enable Authentication prompts or use of Linked Accounts.
 
 ```shell
-msbot connect generic --name "Authentication" --keys "{\"Azure Active Directory v2\":\"YOUR_AUTH_CONNECTION_NAME\"}" --bot YOURBOTFILE.bot --secret "YOUR_BOT_SECRET" --url "portal.azure.net"
+msbot connect generic --name "Authentication" --keys "{\"YOUR_AUTH_CONNECTION_NAME\":\"Azure Active Directory v2\"}" --bot YOURBOTFILE.bot --secret "YOUR_BOT_SECRET" --url "portal.azure.net"
 ```
 
 Then in the appSettings.config updated the `authConnectionName` for each skill as appropriate. 
