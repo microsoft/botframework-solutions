@@ -311,7 +311,7 @@ namespace EmailSkill
             try
             {
                 var state = await _emailStateAccessor.GetAsync(sc.Context);
-                if (state.NameList.Count == 0)
+                if (state.IsNoRecipientAvailable())
                 {
                     return await sc.PromptAsync(Action.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(EmailSharedResponses.NoRecipients, _responseBuilder), });
                 }
@@ -333,7 +333,7 @@ namespace EmailSkill
                 var state = await _emailStateAccessor.GetAsync(sc.Context);
 
                 // ensure state.nameList is not null or empty
-                if (state.NameList.Count == 0)
+                if (state.IsNoRecipientAvailable())
                 {
                     var userInput = sc.Result.ToString();
                     if (userInput == null)
@@ -866,9 +866,10 @@ namespace EmailSkill
                 {
                     foreach (var emailAddress in entity.EmailAddress)
                     {
-                        if (IsEmail(emailAddress) && !state.EmailList.Contains(emailAddress))
+                        var email = emailAddress.Replace(" ", "");
+                        if (IsEmail(email) && !state.EmailList.Contains(email))
                         {
-                            state.EmailList.Add(emailAddress);
+                            state.EmailList.Add(email);
                         }
                     }
                 }
@@ -956,7 +957,7 @@ namespace EmailSkill
                 return false;
             }
 
-            return Regex.IsMatch(email, @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
+            return Regex.IsMatch(email, @"^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$");
         }
 
         // This method is called by any waterfall step that throws an exception to ensure consistency

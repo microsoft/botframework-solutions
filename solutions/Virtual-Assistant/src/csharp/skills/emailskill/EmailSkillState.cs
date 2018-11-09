@@ -93,6 +93,11 @@ namespace EmailSkill
             return TimeZoneInfo.Local;
         }
 
+        public bool IsNoRecipientAvailable()
+        {
+            return (NameList.Count == 0) && (EmailList.Count == 0);
+        }
+
         public void Clear()
         {
             NameList.Clear();
