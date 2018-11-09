@@ -29,7 +29,7 @@ The following scenarios are currently supported by the Skill:
 
 ## Skill Parameters
 The following Parameters are accepted by the Skill and enable additional personalisation of responses to a given user:
-- IPA.Location
+- IPA.Location (*The skill will fail without this as it is missing a user's current coordinates*)
 
 ## Configuration File Information
 The following Configuration entries are required to be passed to the Skill and are provided through the Virtual Assistant appSettings.json file. These should be updated to reflect your LUIS deployment.

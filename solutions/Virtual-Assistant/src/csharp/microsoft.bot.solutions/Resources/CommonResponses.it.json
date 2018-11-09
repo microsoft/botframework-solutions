@@ -67,5 +67,25 @@
       }
     ],
     "inputHint": "acceptingInput"
-  }  
+  },
+
+  "AuthProvidersPrompt": {
+    "replies": [
+      {
+        "text": "Quale account si desidera utilizzare?",
+        "speak": "Quale account si desidera utilizzare?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+
+  "ConfiguredAuthProvidersPrompt": {
+    "replies": [
+      {
+        "text": "Si dispone di più account configurati. Quale si desidera utilizzare?",
+        "speak": "Si dispone di più account configurati. Quale si desidera utilizzare?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  }
 }
