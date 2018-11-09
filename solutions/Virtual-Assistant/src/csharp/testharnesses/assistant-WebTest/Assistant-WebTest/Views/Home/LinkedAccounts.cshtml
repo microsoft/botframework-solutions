@@ -3,7 +3,6 @@
     ViewData["Title"] = "Linked Accounts";
 }
 <script src="https://cdn.botframework.com/botframework-webchat/latest/botchat.js"></script>
-
 <script>
     const directLine = new BotChat.DirectLine({
         secret: '@Model.DirectLineToken',
@@ -23,7 +22,6 @@
         console.log('failed to get sessionId', error);
     });
 </script>
-
 
 @if (Model.Status == null)
 {
