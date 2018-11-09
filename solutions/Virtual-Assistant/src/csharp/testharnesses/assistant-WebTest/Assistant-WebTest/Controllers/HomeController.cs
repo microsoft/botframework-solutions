@@ -50,26 +50,15 @@ namespace Assistant_WebTest.Controllers
                 var directLineResponse = JsonConvert.DeserializeObject<DirectLineResponse>(responseString);
                 directLineToken = directLineResponse.token;
 
-                ViewData["DirectLineToken"] = directLineToken;
-                ViewData["SpeechKey"] = speechKey;
-                ViewData["VoiceName"] = voiceName;
-
-                // Retrieve the object idenitifer for the user which will be the userID (fromID) passed to the Bot
-                var claimsIdentity = this.User?.Identity as ClaimsIdentity;
-
-                if (claimsIdentity == null)
-                {
-                    throw new InvalidOperationException("User is not logged in and needs to be.");
-                }
-
                 // Update as appropriate for your scenario to the unique identifier claim
-                var userId = claimsIdentity.Claims?.SingleOrDefault(c => c.Type == HomeController.AadObjectidentifierClaim)?.Value;
-                var userName = claimsIdentity.Claims?.SingleOrDefault(c => c.Type == "name").Value;
-
-                ViewData["UserId"] = this.GetUserId(claimsIdentity);
-                ViewData["UserName"] = this.GetUserName(claimsIdentity);
-
-                return View();
+                return View(new WebChatViewModel()
+                {
+                    DirectLineToken = directLineToken,
+                    SpeechKey = speechKey,
+                    VoiceName = voiceName,
+                    UserID = this.GetUserId(),
+                    UserName = this.GetUserName()
+                });
             }
             else
             {
@@ -83,7 +72,11 @@ namespace Assistant_WebTest.Controllers
             var directLineClient = new HttpClient();
             directLineClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", directLineSecret);
 
-            var response = directLineClient.PostAsync($"{directLineEndpoint}/tokens/generate", new StringContent(string.Empty, Encoding.UTF8, "application/json")).Result;
+            // In order to avoid magic code prompts we need to set a TrustedOrigin, therefore requests using the token can be validated
+            // as coming from this web-site and protecting against scenarios where a URL is shared with someone else
+            string trustedOrigin = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
+
+            var response = directLineClient.PostAsync($"{directLineEndpoint}/tokens/generate", new StringContent(JsonConvert.SerializeObject(new { TrustedOrigins = new string[] { trustedOrigin } }), Encoding.UTF8, "application/json")).Result;
 
             if (response.IsSuccessStatusCode)
             {
@@ -91,15 +84,8 @@ namespace Assistant_WebTest.Controllers
                 var directLineResponse = JsonConvert.DeserializeObject<DirectLineResponse>(responseString);
                 directLineToken = directLineResponse.token;
 
-                // Retrieve the object idenitifer for the user which will be the userID (fromID) passed to the Bot
-                var claimsIdentity = this.User?.Identity as ClaimsIdentity;
-
-                if (claimsIdentity == null)
-                {
-                    throw new InvalidOperationException("User is not logged in and needs to be.");
-                }
-
-                var userId = this.GetUserId(claimsIdentity);
+                // Retrieve the object identifier for the user which will be the userID (fromID) passed to the Bot
+                var userId = this.GetUserId();
 
                 // Retrieve the status
                 TokenStatus[] tokenStatuses = await repository.GetTokenStatusAsync(userId, CredentialProvider);
@@ -126,8 +112,16 @@ namespace Assistant_WebTest.Controllers
             return View(new ErrorViewModel { RequestId = System.Diagnostics.Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        private string GetUserId(ClaimsIdentity claimsIdentity)
+        private string GetUserId()
         {
+            // Retrieve the object idenitifer for the user which will be the userID (fromID) passed to the Bot
+            var claimsIdentity = this.User?.Identity as ClaimsIdentity;
+
+            if (claimsIdentity == null)
+            {
+                throw new InvalidOperationException("User is not logged in and needs to be.");
+            }
+
             var objectId = claimsIdentity.Claims?.SingleOrDefault(c => c.Type == AadObjectidentifierClaim)?.Value;
 
             if (objectId == null)
@@ -138,17 +132,61 @@ namespace Assistant_WebTest.Controllers
             return objectId;
         }
 
-        private string GetUserName(ClaimsIdentity claimsIdentity)
+        private string GetUserName()
         {
+            // Retrieve the object idenitifer for the user which will be the userID (fromID) passed to the Bot
+            var claimsIdentity = this.User?.Identity as ClaimsIdentity;
 
-            var objectId = claimsIdentity.Claims?.SingleOrDefault(c => c.Type == "name")?.Value;
+            if (claimsIdentity == null)
+            {
+                throw new InvalidOperationException("User is not logged in and needs to be.");
+            }
 
-            if (objectId == null)
+            var objectName = claimsIdentity.Claims?.SingleOrDefault(c => c.Type == "name")?.Value;
+
+            if (objectName == null)
             {
                 throw new InvalidOperationException("User does not have a valid AAD ObjectId claim.");
             }
 
-            return objectId;
+            return objectName;
+        }
+
+        /// <summary>
+        /// Retrieve a URL for the user to link a given connection name to their Bot
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> SignIn(TokenStatus account)
+        {
+            var userId = GetUserId();
+
+            string link = await repository.GetSignInLinkAsync(userId, CredentialProvider, account.ConnectionName, $"{this.Request.Scheme}://{this.Request.Host.Value}/Home/LinkedAccounts");
+
+            return Redirect(link);
+        }
+
+        /// <summary>
+        /// Sign a user out of a given connection name previously linked to their Bot
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> SignOut(TokenStatus account)
+        {
+            var userId = GetUserId();
+
+            await this.repository.SignOutAsync(userId, CredentialProvider, account.ConnectionName);
+
+            return RedirectToAction("LinkedAccounts");
+        }
+
+        public async Task<IActionResult> SignOutAll()
+        {
+            var userId = GetUserId();
+
+            await this.repository.SignOutAsync(userId, CredentialProvider);
+
+            return RedirectToAction("LinkedAccounts");
         }
 
         private string directLineSecret;

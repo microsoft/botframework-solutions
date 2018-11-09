@@ -1,24 +1,28 @@
-﻿@{
+﻿@model WebChatViewModel
+@{
     ViewData["Title"] = "Web Chat";
 }
     <div id="webchat"></div>
     <script src="https://cdn.botframework.com/botframework-webchat/latest/CognitiveServices.js"></script>
     <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
     <script>
+        var userId = '@Model.UserID';
+        var userName = '@Model.UserName';
+        var userInitials = userName.replace(/(\S)\S*\s*/ig, "$1");
 
         const speechOptions = {
 
-            speechRecognizer: new CognitiveServices.SpeechRecognizer({ subscriptionKey: '@ViewData["SpeechKey"]' }),
+            speechRecognizer: new CognitiveServices.SpeechRecognizer({ subscriptionKey: '@Model.SpeechKey' }),
             speechSynthesizer: new CognitiveServices.SpeechSynthesizer({
                 gender: CognitiveServices.SynthesisGender.Female,
-                subscriptionKey: '@ViewData["SpeechKey"]',
-                voiceName: '@ViewData["VoiceName"]'
+                subscriptionKey: '@Model.SpeechKey',
+                voiceName: '@Model.VoiceName'
             })
         };
 
         var bot = window.WebChat.createDirectLine({
-            token: '@ViewData["DirectLineToken"]',
-            user: { id: '@ViewData["UserId"]' },
+            token: '@Model.DirectLineToken',
+            user: { id: userId, name: "User", role: "user" },
             speechOptions: speechOptions,
             resize: 'detect',
         });
