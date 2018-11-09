@@ -6,7 +6,7 @@ call ludown parse toluis --in %0\..\..\..\..\skills\calendarskill\CognitiveModel
 call ludown parse toluis --in %0\..\..\..\..\skills\emailskill\CognitiveModels\LUIS\fr\email.lu -o %0\..\..\..\DeploymentScripts\fr --out email.luis -n Email
 call ludown parse toluis --in %0\..\..\..\..\skills\todoskill\CognitiveModels\LUIS\fr\todo.lu -o %0\..\..\..\DeploymentScripts\fr --out todo.luis -n ToDo
 call ludown parse toluis --in %0\..\..\..\..\skills\pointofinterestskill\CognitiveModels\LUIS\fr\pointofinterest.lu -o %0\..\..\..\DeploymentScripts\fr --out pointofinterest.luis -n PointOfInterest
-call ludown parse toqna --in %0\..\..\..\CognitiveModels\QnA\fr\faq.lu -o %0\..\..\..\DeploymentScripts\fr -n faq.qna
+call ludown parse toqna  --in %0\..\..\..\CognitiveModels\QnA\fr\faq.lu -o %0\..\..\..\DeploymentScripts\fr -n faq.qna
 call ludown parse toluis --in %0\..\..\..\CognitiveModels\LUIS\fr\dispatch.lu -o %0\..\..\..\DeploymentScripts\fr --out dispatch.luis -n Dispatch -i Dispatch -c fr-fr
 
 @echo on
