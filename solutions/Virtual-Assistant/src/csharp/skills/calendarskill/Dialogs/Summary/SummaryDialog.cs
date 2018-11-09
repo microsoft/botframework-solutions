@@ -19,7 +19,7 @@ namespace CalendarSkill
     public class SummaryDialog : CalendarSkillDialog
     {
         public SummaryDialog(
-            SkillConfiguration services,
+            ISkillConfiguration services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager)
             : base(nameof(SummaryDialog), services, accessor, serviceManager)
@@ -111,6 +111,7 @@ namespace CalendarSkill
                 var state = await _accessor.GetAsync(sc.Context);
                 if (state.SummaryEvents == null)
                 {
+                    // this will lead to error when test
                     if (string.IsNullOrEmpty(state.APIToken))
                     {
                         return await sc.EndDialogAsync(true);

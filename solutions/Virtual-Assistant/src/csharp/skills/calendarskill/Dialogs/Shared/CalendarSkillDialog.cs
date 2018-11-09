@@ -25,14 +25,14 @@ namespace CalendarSkill
         public const string LocalModeAuth = "LocalAuth";
 
         // Fields
-        protected SkillConfiguration _services;
+        protected ISkillConfiguration _services;
         protected IStatePropertyAccessor<CalendarSkillState> _accessor;
         protected IServiceManager _serviceManager;
         protected CalendarSkillResponseBuilder _responseBuilder = new CalendarSkillResponseBuilder();
 
         public CalendarSkillDialog(
             string dialogId,
-            SkillConfiguration services,
+            ISkillConfiguration services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager)
             : base(dialogId)
@@ -94,6 +94,10 @@ namespace CalendarSkill
 
                     // Wait for the tokens/response event
                     return await sc.PromptAsync(SkillModeAuth, new PromptOptions());
+                }
+                else if (sc.Context.Activity.ChannelId == "test")
+                {
+                    return await sc.NextAsync();
                 }
                 else
                 {

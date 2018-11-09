@@ -33,6 +33,22 @@ namespace CalendarSkill
             }
         }
 
+        public CalendarService(ICalendar calendarAPI, EventSource source, TimeZoneInfo timeZoneInfo)
+        {
+            switch (source)
+            {
+                case EventSource.Microsoft:
+                    this.calendarAPI = calendarAPI;
+                    break;
+                case EventSource.Google:
+                    // Todo: Google API timezone?
+                    this.calendarAPI = calendarAPI;
+                    break;
+                default:
+                    throw new Exception("Event Type not Defined");
+            }
+        }
+
         /// <inheritdoc/>
         public async Task<EventModel> CreateEvent(EventModel newEvent)
         {

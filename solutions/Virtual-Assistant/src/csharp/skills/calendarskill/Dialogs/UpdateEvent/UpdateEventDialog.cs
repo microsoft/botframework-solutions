@@ -18,7 +18,7 @@ namespace CalendarSkill
     public class UpdateEventDialog : CalendarSkillDialog
     {
         public UpdateEventDialog(
-            SkillConfiguration services,
+            ISkillConfiguration services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager)
             : base(nameof(UpdateEventDialog), services, accessor, serviceManager)
@@ -154,8 +154,9 @@ namespace CalendarSkill
 
                 return await sc.EndDialogAsync(true);
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine("{0} Exception caught.", e);
                 await HandleDialogExceptions(sc);
                 throw;
             }

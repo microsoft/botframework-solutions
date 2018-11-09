@@ -14,13 +14,19 @@ namespace CalendarSkill
     /// </summary>
     public class MSGraphUserService : IUserService
     {
-        private GraphServiceClient graphClient;
+        private IGraphServiceClient graphClient;
 
         private TimeZoneInfo timeZoneInfo;
 
         public MSGraphUserService(string token, TimeZoneInfo info)
         {
             graphClient = GetAuthenticatedClient(token, info);
+            timeZoneInfo = info;
+        }
+
+        public MSGraphUserService(IGraphServiceClient graphClient, TimeZoneInfo info)
+        {
+            this.graphClient = graphClient;
             timeZoneInfo = info;
         }
 

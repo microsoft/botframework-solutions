@@ -22,7 +22,7 @@ namespace CalendarSkill
     public class CreateEventDialog : CalendarSkillDialog
     {
         public CreateEventDialog(
-            SkillConfiguration services,
+            ISkillConfiguration services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager)
             : base(nameof(CreateEventDialog), services, accessor, serviceManager)

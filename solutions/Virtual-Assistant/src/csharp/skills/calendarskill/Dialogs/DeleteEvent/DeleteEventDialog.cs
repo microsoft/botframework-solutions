@@ -18,7 +18,7 @@ namespace CalendarSkill
     public class DeleteEventDialog : CalendarSkillDialog
     {
         public DeleteEventDialog(
-            SkillConfiguration services,
+            ISkillConfiguration services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager)
             : base(nameof(DeleteEventDialog), services, accessor, serviceManager)

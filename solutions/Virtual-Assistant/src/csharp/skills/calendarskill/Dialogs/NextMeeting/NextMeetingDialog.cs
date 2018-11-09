@@ -13,7 +13,7 @@ namespace CalendarSkill
     public class NextMeetingDialog : CalendarSkillDialog
     {
         public NextMeetingDialog(
-            SkillConfiguration services,
+            ISkillConfiguration services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager)
             : base(nameof(NextMeetingDialog), services, accessor, serviceManager)

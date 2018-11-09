@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.Graph;
 using System;
 
 namespace CalendarSkill
@@ -9,6 +10,10 @@ namespace CalendarSkill
     {
         IUserService InitUserService(string token, TimeZoneInfo info);
 
+        IUserService InitUserService(IGraphServiceClient graphClient, TimeZoneInfo info);
+
         ICalendar InitCalendarService(string token, EventSource source, TimeZoneInfo info);
+
+        ICalendar InitCalendarService(ICalendar calendarAPI, EventSource source, TimeZoneInfo info);
     }
 }

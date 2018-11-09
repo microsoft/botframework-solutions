@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using System;
+using Microsoft.Graph;
 
 namespace CalendarSkill
 {
@@ -18,10 +19,20 @@ namespace CalendarSkill
             return new MSGraphUserService(token, info);
         }
 
+        public IUserService InitUserService(IGraphServiceClient graphClient, TimeZoneInfo info)
+        {
+            return new MSGraphUserService(graphClient, info);
+        }
+
         /// <inheritdoc/>
         public ICalendar InitCalendarService(string token, EventSource source, TimeZoneInfo info)
         {
             return new CalendarService(token, source, info);
+        }
+
+        public ICalendar InitCalendarService(ICalendar calendarAPI, EventSource source, TimeZoneInfo info)
+        {
+            return new CalendarService(calendarAPI, source, info);
         }
     }
 }
