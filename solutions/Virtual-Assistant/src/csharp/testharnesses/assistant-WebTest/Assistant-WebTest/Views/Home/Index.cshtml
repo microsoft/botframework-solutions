@@ -1,31 +1,14 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Web Test";
 }
-<body>
-    <div id="webchat"></div>
-    <script src="https://cdn.botframework.com/botframework-webchat/latest/CognitiveServices.js"></script>
-    <script src="https://cdn.botframework.com/botframework-webchat/preview/botchat.js"></script>
-    <script>
 
-        const speechOptions = {
-
-            speechRecognizer: new CognitiveServices.SpeechRecognizer({ subscriptionKey: '@ViewData["SpeechKey"]' }),
-            speechSynthesizer: new CognitiveServices.SpeechSynthesizer({
-                gender: CognitiveServices.SynthesisGender.Female,
-                subscriptionKey: '@ViewData["SpeechKey"]',
-                voiceName: '@ViewData["VoiceName"]'
-            })
-        };
-
-        window.WebChat.renderWebChat({
-            directLine: window.WebChat.createDirectLine({
-                secret: '@ViewData["DirectLineSecret"]',
-                user: { id: '@ViewData["UserId"]' },
-                speechOptions: speechOptions,
-                resize: 'detect',
-                botAvatarInitials: 'AS',
-                userAvatarInitials: 'US',                
-            })
-        }, document.getElementById('webchat'));
-    </script>
-</body>
+<div class="panel-title">
+    <p>
+        This is a sample web app to demonstrate both a Web Chat and the capability to link accounts to a Virtual Assistant unsing Linked Accounts.
+        In voice focused scenarios there is a need to ensure a companion experience (Website or Mobile App) can be used to link accounts as part of the onboarding process.
+        <br />
+        <br/><b>References</b>
+        <br/><a href="https://github.com/microsoft/botframework-webchat">Web Chat</a>
+        <br/><a href="https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/virtualassistant-linkedaccounts.md">Linked Accounts</a>
+    </p>
+</div>
