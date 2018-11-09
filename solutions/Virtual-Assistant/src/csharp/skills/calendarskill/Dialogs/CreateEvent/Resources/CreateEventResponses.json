@@ -3,18 +3,17 @@
     "replies": [
 
       {
-        "text": "Alright, I will send this to {UserName}, what is the subject of the meeting?",
-        "speak": "Alright, I will send this to {UserName}, what is the subject of the meeting?"
+        "text": "Alright, I will send an invite to {UserName}, what is the subject of the meeting?",
+        "speak": "Alright, I will send an invite to {UserName}, what is the subject of the meeting?"
       }
     ],
     "inputHint": "expectingInput"
   },
   "NoContent": {
     "replies": [
-
       {
-        "text": "What is the meeting invite content?",
-        "speak": "What is the meeting invite content??"
+        "text": "What would you like to add in the meeting details?",
+        "speak": "What would you like to add in the meeting details?"
       }
     ],
     "inputHint": "expectingInput"
@@ -23,8 +22,8 @@
     "replies": [
 
       {
-        "text": "What location?",
-        "speak": "What location?"
+        "text": "What is the location for the meeting?",
+        "speak": "What is the location for the meeting?"
       }
     ],
     "inputHint": "expectingInput"
@@ -32,8 +31,8 @@
   "ConfirmCreate": {
     "replies": [
       {
-        "text": "I'm ready to create it. Please confirm the following:",
-        "speak": "I'm ready to create it. Please confirm the following:"
+        "text": "I'm ready to create the meeting. Please confirm the following:",
+        "speak": "OK, I'll setup a meeting with {Attendees} for {Date} {Time}, sound good?"
       }
     ],
     "inputHint": "expectingInput"
@@ -41,8 +40,8 @@
   "ConfirmCreateFailed": {
     "replies": [
       {
-        "text": "I'm ready to create it. Please confirm the following. Please confirm.",
-        "speak": "I'm ready to create it. Please confirm the following. Please confirm."
+        "text": "I'm ready to create the event. Please confirm the following:",
+        "speak": "I'll setup a meeting with {Attendees} for {Date} {Time}, is this OK?"
       }
     ],
     "inputHint": "expectingInput"
@@ -51,8 +50,8 @@
     "replies": [
 
       {
-        "text": "I have added the following to your calendar ",
-        "speak": "I have added the following to your calendar "
+        "text": "OK, I have added the event to your calendar.",
+        "speak": "OK, I have added the event to your calendar."
       }
     ],
     "inputHint": "expectingInput"
@@ -77,8 +76,8 @@
         "speak": "Creation of the event failed, please try again."
       },
       {
-        "text": "An error occured with creating the event, want to try again?",
-        "speak": "An error occured with creating the event, want to try again?"
+        "text": "An error occured with creating the event.",
+        "speak": "An error occured with creating the event."
       }
     ],
     "inputHint": "expectingInput"
@@ -87,8 +86,8 @@
     "replies": [
 
       {
-        "text": "Who are the participants?",
-        "speak": "Who are the participants?"
+        "text": "Who will join?",
+        "speak": "Who will join?"
       }
     ],
     "inputHint": "expectingInput"
@@ -137,16 +136,12 @@
   "PromptPersonNotFound": {
     "replies": [
         {
-            "text": "{UserName} not found, please input the right name.",
-            "speak": "{UserName} not found, please input the right name."
+            "text": "I cannot find {UserName}. Please try again. It helps if you include a surname.",
+            "speak": "I cannot find {UserName}. Please try again. It helps if you include a surname."
         },
         {
-            "text": "I cannot find the {UserName} your are looking for right now. Please include more details, do you want to try again?",
-            "speak": "I cannot find the {UserName} your are looking for right now. Please include more details, do you want to try again?"
-        },
-        {
-            "text": "Something is wrong because I cannot find the {UserName} you are looking for. Please try again by stating out their name again. It helps if you include a surname.",
-            "speak": "Something is wrong because I cannot find the {UserName} you are looking for. Please try again by stating out their name again. It helps if you include a surname."
+            "text": "Something is wrong because I cannot find the {UserName} you are looking for. Please try again. It helps if you include a surname.",
+            "speak": "Something is wrong because I cannot find the {UserName} you are looking for. Please try again. It helps if you include a surname."
         }
     ],
     "inputHint": "expectingInput"
@@ -155,8 +150,8 @@
     "replies": [
 
       {
-        "text": "What date?",
-        "speak": "What date?"
+        "text": "For what date?",
+        "speak": "For what date?"
       }
     ],
     "inputHint": "expectingInput"
@@ -165,8 +160,8 @@
     "replies": [
 
       {
-        "text": "What time?",
-        "speak": "What time?"
+        "text": "What time does it start?",
+        "speak": "What time does it start?"
       }
     ],
     "inputHint": "expectingInput"

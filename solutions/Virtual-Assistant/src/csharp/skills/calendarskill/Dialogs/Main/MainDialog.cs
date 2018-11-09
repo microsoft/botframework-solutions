@@ -12,6 +12,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
@@ -175,7 +176,6 @@ namespace CalendarSkill
                             }
                         }
 
-                        state.EventSource = EventSource.Microsoft;
                         break;
                     }
 
@@ -192,6 +192,7 @@ namespace CalendarSkill
 
                             await dc.Context.SendActivityAsync(response);
                         }
+
                         break;
                     }
             }
@@ -279,7 +280,12 @@ namespace CalendarSkill
             await dc.CancelAllDialogsAsync();
 
             // Sign out user
-            await adapter.SignOutUserAsync(dc.Context, _services.AuthConnectionName);
+            var tokens = await adapter.GetTokenStatusAsync(dc.Context, dc.Context.Activity.From.Id);
+            foreach (var token in tokens)
+            {
+                await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
+            }
+
             await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(CalendarMainResponses.LogOut));
 
             return InterruptionAction.StartedDialog;

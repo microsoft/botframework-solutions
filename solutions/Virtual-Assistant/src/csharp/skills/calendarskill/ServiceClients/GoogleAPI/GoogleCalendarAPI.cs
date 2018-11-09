@@ -1,42 +1,39 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Auth.OAuth2.Flows;
+using Google.Apis.Auth.OAuth2.Responses;
+using Google.Apis.Calendar.v3;
+using Google.Apis.Calendar.v3.Data;
+using Google.Apis.Services;
+using Google.Apis.Util.Store;
 
-namespace CalendarSkill
+namespace CalendarSkill.ServiceClients.GoogleAPI
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Google.Apis.Auth.OAuth2;
-    using Google.Apis.Auth.OAuth2.Flows;
-    using Google.Apis.Auth.OAuth2.Responses;
-    using Google.Apis.Calendar.v3;
-    using Google.Apis.Calendar.v3.Data;
-    using Google.Apis.Services;
-    using Google.Apis.Util.Store;
-
     /// <summary>
     /// The Google Calendar API service.
     /// </summary>
     public class GoogleCalendarAPI : ICalendar
     {
-        private static readonly string[] Scopes = { Google.Apis.Calendar.v3.CalendarService.Scope.CalendarReadonly, Google.Apis.Calendar.v3.CalendarService.Scope.Calendar };
-        private static string applicationName = "Gmail API .NET Quickstart";
         private static Google.Apis.Calendar.v3.CalendarService service;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GoogleCalendarAPI"/> class.
         /// </summary>
         /// <param name="token">access token.</param>
-        public GoogleCalendarAPI(string token)
+        public GoogleCalendarAPI(GoogleClient config, string token)
         {
             var flow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
             {
                 ClientSecrets = new ClientSecrets
                 {
-                    ClientId = "21265915303-86gk1759nok7tqsa5k6ee27eepqfhdht.apps.googleusercontent.com",
-                    ClientSecret = "66dvHAEq_51fLhVPw6kg200R",
+                    ClientId = config.ClientId,
+                    ClientSecret = config.ClientSecret,
                 },
-                Scopes = Scopes,
+                Scopes = config.Scopes,
                 DataStore = new FileDataStore("Store"),
             });
 
@@ -52,7 +49,7 @@ namespace CalendarSkill
             service = new Google.Apis.Calendar.v3.CalendarService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credential,
-                ApplicationName = applicationName,
+                ApplicationName = config.ApplicationName,
             });
         }
 
