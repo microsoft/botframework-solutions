@@ -34,11 +34,19 @@ namespace ToDoSkill
         /// <param name="token">the token used for msgraph API call.</param>
         /// <param name="pageIds">the page ids.</param>
         /// <returns>OneNote task service itself.</returns>
-        public async Task<ITaskService> InitAsync(string token, Dictionary<string, string> pageIds)
+        public async Task<ITaskService> InitAsync(string token, Dictionary<string, string> pageIds, HttpClient client = null)
         {
             try
             {
-                httpClient = ServiceHelper.GetHttpClient(token);
+                if (client == null)
+                {
+                    httpClient = ServiceHelper.GetHttpClient(token);
+                }
+                else
+                {
+                    httpClient = client;
+                }
+
                 if (!pageIds.ContainsKey(toDoPageName)
                     || !pageIds.ContainsKey(groceryPageName)
                     || !pageIds.ContainsKey(shoppingPageName))
