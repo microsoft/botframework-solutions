@@ -908,12 +908,12 @@ namespace EmailSkill
                     }
                 }
 
-                if (entity.number != null && entity.ordinal != null)
+                if (entity.number != null && entity.ordinal == null)
                 {
                     try
                     {
                         var emailList = state.MessageList;
-                        var value = entity.ordinal[0];
+                        var value = entity.number[0];
                         if (Math.Abs(value - (int)value) < double.Epsilon)
                         {
                             var num = (int)value;

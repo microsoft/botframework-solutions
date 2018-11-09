@@ -63,14 +63,14 @@ namespace CalendarSkill
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await _accessor.GetAsync(dc.Context);
-            await DigestCalendarLuisResult(dc, state.LuisResult);
+            await DigestCalendarLuisResult(dc, state.LuisResult, true);
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }
 
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await _accessor.GetAsync(dc.Context);
-            await DigestCalendarLuisResult(dc, state.LuisResult);
+            await DigestCalendarLuisResult(dc, state.LuisResult, false);
             return await base.OnContinueDialogAsync(dc, cancellationToken);
         }
 
@@ -315,28 +315,13 @@ namespace CalendarSkill
             return timex.Contains("T");
         }
 
-        private async Task DigestCalendarLuisResult(DialogContext dc, Calendar luisResult)
+        private async Task DigestCalendarLuisResult(DialogContext dc, Calendar luisResult, bool isBeginDialog)
         {
             try
             {
                 var state = await _accessor.GetAsync(dc.Context);
 
                 var entity = luisResult.Entities;
-                if (entity.Subject != null)
-                {
-                    state.Title = entity.Subject[0];
-                }
-
-                if (entity.ContactName != null)
-                {
-                    foreach (var name in entity.ContactName)
-                    {
-                        if (!state.AttendeesNameList.Contains(name))
-                        {
-                            state.AttendeesNameList.Add(name);
-                        }
-                    }
-                }
 
                 if (entity.ordinal != null)
                 {
@@ -384,14 +369,43 @@ namespace CalendarSkill
                     }
                 }
 
+                if (!isBeginDialog)
+                {
+                    return;
+                }
+
+                if (entity.Subject != null)
+                {
+                    state.Title = entity.Subject[0];
+                }
+
+                if (entity.ContactName != null)
+                {
+                    foreach (var name in entity.ContactName)
+                    {
+                        if (!state.AttendeesNameList.Contains(name))
+                        {
+                            state.AttendeesNameList.Add(name);
+                        }
+                    }
+                }
+
                 if (entity.Duration != null)
                 {
                     foreach (var datetimeItem in entity.datetime)
                     {
                         if (datetimeItem.Type == "duration")
                         {
-                            TimeSpan ts = XmlConvert.ToTimeSpan(datetimeItem.Expressions[0]);
-                            state.Duration = (int)ts.TotalSeconds;
+                            var culture = dc.Context.Activity.Locale ?? English;
+                            List<DateTimeResolution> result = RecognizeDateTime(entity.Duration[0], culture);
+                            if (result != null)
+                            {
+                                if (result[0].Value != null)
+                                {
+                                    state.Duration = int.Parse(result[0].Value);
+                                }
+                            }
+
                             break;
                         }
                     }

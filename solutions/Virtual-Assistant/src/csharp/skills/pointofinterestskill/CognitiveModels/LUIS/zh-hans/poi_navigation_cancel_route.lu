@@ -1,2872 +1,385 @@
 ## NAVIGATION_CANCEL_ROUTE
-- 不介意去
-- 不介意去 {KEYWORD=coltejer} 在 {ADDRESS=戴维森镇}
-- 不介意去 {KEYWORD=三位一体教堂} 在 {ADDRESS=哈里森县结余}
-- 不介意去 {KEYWORD=与银鲛的房子} 在 {ADDRESS=港口存款镇}
-- 不介意去 {KEYWORD=亚历山大体育场} 在 {ADDRESS=东法纳姆}
-- 不介意去 {KEYWORD=亚历山大灯塔} 在 {ADDRESS=弗里多尼亚镇}
-- 不介意去 {KEYWORD=伦敦塔} 在 {ADDRESS=恩光市}
-- 不介意去 {KEYWORD=伯明翰市政厅} 在 {ADDRESS=奥尔萨}
-- 不介意去 {KEYWORD=哈雷阿卡拉火山口} 在 {ADDRESS=十字木材城}
-- 不介意去 {KEYWORD=哥伦比亚中心} 在 {ADDRESS=莫里斯敦村}
-- 不介意去 {KEYWORD=国家艺术画廊} 在 {ADDRESS=邓肯}
-- 不介意去 {KEYWORD=大提顿} 在 {ADDRESS=东北}
-- 不介意去 {KEYWORD=布塔宫殿酒店} 在 {ADDRESS=三角洲县结余}
-- 不介意去 {KEYWORD=斜塔} 在 {ADDRESS=michigantown 镇}
-- 不介意去 {KEYWORD=柏悦酒店} 在 {ADDRESS=凯斯维尔}
-- 不介意去 {KEYWORD=橄榄山} 在 {ADDRESS=休斯敦市}
-- 不介意去 {KEYWORD=海滨长廊 ii} 在 {ADDRESS=曼斯菲尔德}
-- 不介意去 {KEYWORD=海滩} 在 {ADDRESS=管家}
-- 不介意去 {KEYWORD=猛犸洞穴} 在 {ADDRESS=高河}
-- 不介意去 {KEYWORD=纳瓦霍国家纪念碑} 在 {ADDRESS=道格拉斯县余额}
-- 不介意导航
-- 不介意目的地
-- 不介意路线服务
-- 不导航
-- 不要介意导航到一个 {KEYWORD=乐园}
-- 不要介意导航到一个 {KEYWORD=休闲餐厅}
-- 不要介意导航到一个 {KEYWORD=会计}
-- 不要介意导航到一个 {KEYWORD=体育用品店}
-- 不要介意导航到一个 {KEYWORD=健康餐厅}
-- 不要介意导航到一个 {KEYWORD=健身中心}
-- 不要介意导航到一个 {KEYWORD=啤酒}
-- 不要介意导航到一个 {KEYWORD=墨西哥餐厅}
-- 不要介意导航到一个 {KEYWORD=学校}
-- 不要介意导航到一个 {KEYWORD=宠物店}
-- 不要介意导航到一个 {KEYWORD=市政厅}
-- 不要介意导航到一个 {KEYWORD=帆船学校}
-- 不要介意导航到一个 {KEYWORD=快餐接头}
-- 不要介意导航到一个 {KEYWORD=意大利面食餐厅}
-- 不要介意导航到一个 {KEYWORD=拉丁餐厅}
-- 不要介意导航到一个 {KEYWORD=按摩治疗师}
-- 不要介意导航到一个 {KEYWORD=日托}
-- 不要介意导航到一个 {KEYWORD=点心餐厅}
-- 不要介意导航到一个 {KEYWORD=电话商店}
-- 不要介意导航到一个 {KEYWORD=硬件存储}
-- 不要介意导航到一个 {KEYWORD=童装店}
-- 不要介意导航到一个 {KEYWORD=粤菜餐厅}
-- 不要介意导航到一个 {KEYWORD=纹身客厅}
-- 不要介意导航到一个 {KEYWORD=胃酒吧}
-- 不要介意导航到一个 {KEYWORD=花园供应中心}
-- 不要介意导航到一个 {KEYWORD=葡萄牙餐厅}
-- 不要介意导航到一个 {KEYWORD=韩国餐厅}
-- 不要去
-- 不要导航到 {KEYWORD=不拘一格的餐厅}
-- 不要导航到 {KEYWORD=中餐厅}
-- 不要导航到 {KEYWORD=乐园}
-- 不要导航到 {KEYWORD=书店}
-- 不要导航到 {KEYWORD=亚洲餐厅}
-- 不要导航到 {KEYWORD=休闲餐厅}
-- 不要导航到 {KEYWORD=会计}
-- 不要导航到 {KEYWORD=低沉}
-- 不要导航到 {KEYWORD=体育用品店}
-- 不要导航到 {KEYWORD=保加利亚餐厅}
-- 不要导航到 {KEYWORD=修理店}
-- 不要导航到 {KEYWORD=停车场}
-- 不要导航到 {KEYWORD=健身中心}
-- 不要导航到 {KEYWORD=健身房}
-- 不要导航到 {KEYWORD=克里奥尔餐厅}
-- 不要导航到 {KEYWORD=冷冻酸奶餐厅}
-- 不要导航到 {KEYWORD=出租车停靠站}
-- 不要导航到 {KEYWORD=办公用品商店}
-- 不要导航到 {KEYWORD=加勒比餐厅}
-- 不要导航到 {KEYWORD=医生}
-- 不要导航到 {KEYWORD=医生办公室}
-- 不要导航到 {KEYWORD=医科学校}
-- 不要导航到 {KEYWORD=医院}
-- 不要导航到 {KEYWORD=午餐餐厅}
-- 不要导航到 {KEYWORD=南方餐厅}
-- 不要导航到 {KEYWORD=南美洲餐厅}
-- 不要导航到 {KEYWORD=南非餐厅}
-- 不要导航到 {KEYWORD=博物馆}
-- 不要导航到 {KEYWORD=印度餐厅}
-- 不要导航到 {KEYWORD=发廊}
-- 不要导航到 {KEYWORD=咖啡厅}
-- 不要导航到 {KEYWORD=商场}
-- 不要导航到 {KEYWORD=啤酒店}
-- 不要导航到 {KEYWORD=图书馆}
-- 不要导航到 {KEYWORD=地铁站}
-- 不要导航到 {KEYWORD=复制中心}
-- 不要导航到 {KEYWORD=夏令营}
-- 不要导航到 {KEYWORD=大学}
-- 不要导航到 {KEYWORD=女装店}
-- 不要导航到 {KEYWORD=婴儿店}
-- 不要导航到 {KEYWORD=家修店}
-- 不要导航到 {KEYWORD=家具店}
-- 不要导航到 {KEYWORD=家庭餐厅}
-- 不要导航到 {KEYWORD=家电商店}
-- 不要导航到 {KEYWORD=寿司餐厅}
-- 不要导航到 {KEYWORD=小 酒馆}
-- 不要导航到 {KEYWORD=小学}
-- 不要导航到 {KEYWORD=屠夫}
-- 不要导航到 {KEYWORD=巴士总站}
-- 不要导航到 {KEYWORD=干洗店}
-- 不要导航到 {KEYWORD=幼儿园}
-- 不要导航到 {KEYWORD=广告代理}
-- 不要导航到 {KEYWORD=广场}
-- 不要导航到 {KEYWORD=心理医生}
-- 不要导航到 {KEYWORD=意大利面食餐厅}
-- 不要导航到 {KEYWORD=意大利餐厅}
-- 不要导航到 {KEYWORD=户外商店}
-- 不要导航到 {KEYWORD=手机商店}
-- 不要导航到 {KEYWORD=批发商}
-- 不要导航到 {KEYWORD=折扣店}
-- 不要导航到 {KEYWORD=拉美餐厅}
-- 不要导航到 {KEYWORD=按摩治疗师}
-- 不要导航到 {KEYWORD=操场}
-- 不要导航到 {KEYWORD=新厨房餐厅}
-- 不要导航到 {KEYWORD=日光浴室}
-- 不要导航到 {KEYWORD=日式餐厅}
-- 不要导航到 {KEYWORD=普通话餐厅}
-- 不要导航到 {KEYWORD=有机餐厅}
-- 不要导航到 {KEYWORD=服务站}
-- 不要导航到 {KEYWORD=机场}
-- 不要导航到 {KEYWORD=枪支商店}
-- 不要导航到 {KEYWORD=植物园}
-- 不要导航到 {KEYWORD=歌剧院}
-- 不要导航到 {KEYWORD=民族杂货店}
-- 不要导航到 {KEYWORD=水上乐园}
-- 不要导航到 {KEYWORD=汉堡餐厅}
-- 不要导航到 {KEYWORD=汽车修理店}
-- 不要导航到 {KEYWORD=汽车经销店}
-- 不要导航到 {KEYWORD=汽车车间}
-- 不要导航到 {KEYWORD=河餐厅}
-- 不要导航到 {KEYWORD=泰国餐厅}
-- 不要导航到 {KEYWORD=洗车}
-- 不要导航到 {KEYWORD=海鲜餐厅}
-- 不要导航到 {KEYWORD=清真寺}
-- 不要导航到 {KEYWORD=游戏商店}
-- 不要导航到 {KEYWORD=火车站}
-- 不要导航到 {KEYWORD=点心餐厅}
-- 不要导航到 {KEYWORD=熟食}
-- 不要导航到 {KEYWORD=熟食 店}
-- 不要导航到 {KEYWORD=狩猎店}
-- 不要导航到 {KEYWORD=理发店}
-- 不要导航到 {KEYWORD=甜品餐厅}
-- 不要导航到 {KEYWORD=男装时装店}
-- 不要导航到 {KEYWORD=税务门诊}
-- 不要导航到 {KEYWORD=竞技场}
-- 不要导航到 {KEYWORD=篮球场}
-- 不要导航到 {KEYWORD=糕点店}
-- 不要导航到 {KEYWORD=素食餐厅}
-- 不要导航到 {KEYWORD=经典餐厅}
-- 不要导航到 {KEYWORD=网球场}
-- 不要导航到 {KEYWORD=美容院}
-- 不要导航到 {KEYWORD=美甲师}
-- 不要导航到 {KEYWORD=美食餐厅}
-- 不要导航到 {KEYWORD=自助 洗衣店}
-- 不要导航到 {KEYWORD=舞蹈工作室}
-- 不要导航到 {KEYWORD=舞蹈课}
-- 不要导航到 {KEYWORD=花匠}
-- 不要导航到 {KEYWORD=英国餐厅}
-- 不要导航到 {KEYWORD=荷兰餐厅}
-- 不要导航到 {KEYWORD=葡萄酒店}
-- 不要导航到 {KEYWORD=西班牙餐厅}
-- 不要导航到 {KEYWORD=西装店}
-- 不要导航到 {KEYWORD=货币兑换}
-- 不要导航到 {KEYWORD=购物中心}
-- 不要导航到 {KEYWORD=赌场}
-- 不要导航到 {KEYWORD=超级充电器}
-- 不要导航到 {KEYWORD=退休家庭}
-- 不要导航到 {KEYWORD=酒吧}
-- 不要导航到 {KEYWORD=酒吧和烧烤}
-- 不要导航到 {KEYWORD=酒吧和酒廊}
-- 不要导航到 {KEYWORD=银行}
-- 不要导航到 {KEYWORD=阿卡迪亚餐厅}
-- 不要导航到 {KEYWORD=阿尔巴尼亚餐厅}
-- 不要导航到 {KEYWORD=露营商店}
-- 不要导航到 {KEYWORD=非洲餐厅}
-- 不要导航到 {KEYWORD=面包 店}
-- 不要导航到 {KEYWORD=鞋匠}
-- 不要导航到 {KEYWORD=韩国餐厅}
-- 不要导航到 {KEYWORD=音乐商店}
-- 不要导航到 {KEYWORD=食品银行}
-- 不要导航到 {KEYWORD=马戏团}
-- 不要导航到 {KEYWORD=高中}
-- 不要导航到 {KEYWORD=高尔夫俱乐部}
-- 不要导航到 {KEYWORD=黎巴嫩餐厅}
-- 不要带我去 {ADDRESS=anthonyville 镇}
-- 不要带我去 {ADDRESS=avoyelles 教区}
-- 不要带我去 {ADDRESS=centerville}
-- 不要带我去 {ADDRESS=Herreid}
-- 不要带我去 {ADDRESS=hetland 镇}
-- 不要带我去 {ADDRESS=millersburg}
-- 不要带我去 {ADDRESS=millersburg 镇}
-- 不要带我去 {ADDRESS=portville 村}
-- 不要带我去 {ADDRESS=wallingford}
-- 不要带我去 {ADDRESS=wyocena 村}
-- 不要带我去 {ADDRESS=丘站村}
-- 不要带我去 {ADDRESS=中央}
-- 不要带我去 {ADDRESS=丹麦城市}
-- 不要带我去 {ADDRESS=乔利市}
-- 不要带我去 {ADDRESS=伯克利郡}
-- 不要带我去 {ADDRESS=佛罗伦萨}
-- 不要带我去 {ADDRESS=兰 登}
-- 不要带我去 {ADDRESS=兰利镇}
-- 不要带我去 {ADDRESS=兰开斯特城}
-- 不要带我去 {ADDRESS=农安县}
-- 不要带我去 {ADDRESS=剑桥村}
-- 不要带我去 {ADDRESS=博伊尔}
-- 不要带我去 {ADDRESS=史肯隆}
-- 不要带我去 {ADDRESS=史迪威市}
-- 不要带我去 {ADDRESS=吉尔哈特}
-- 不要带我去 {ADDRESS=吉尔特纳村}
-- 不要带我去 {ADDRESS=哈蒙德维尔镇}
-- 不要带我去 {ADDRESS=圣-杰罗姆}
-- 不要带我去 {ADDRESS=大中心}
-- 不要带我去 {ADDRESS=大号角县平衡}
-- 不要带我去 {ADDRESS=天县}
-- 不要带我去 {ADDRESS=奥什科什市}
-- 不要带我去 {ADDRESS=奥尔斯特市}
-- 不要带我去 {ADDRESS=奥拉西}
-- 不要带我去 {ADDRESS=富兰克林市}
-- 不要带我去 {ADDRESS=富兰克林郡}
-- 不要带我去 {ADDRESS=布朗特县余额}
-- 不要带我去 {ADDRESS=布朗郡}
-- 不要带我去 {ADDRESS=彼德雷镇}
-- 不要带我去 {ADDRESS=所有}
-- 不要带我去 {ADDRESS=施莱伯}
-- 不要带我去 {ADDRESS=普罗季温市}
-- 不要带我去 {ADDRESS=月桂泉行政区}
-- 不要带我去 {ADDRESS=杜威郡}
-- 不要带我去 {ADDRESS=柳树镇}
-- 不要带我去 {ADDRESS=梅森郡}
-- 不要带我去 {ADDRESS=永嘉县}
-- 不要带我去 {ADDRESS=沃克维尔镇}
-- 不要带我去 {ADDRESS=沃尔顿山庄}
-- 不要带我去 {ADDRESS=沃迪纳市}
-- 不要带我去 {ADDRESS=沃金}
-- 不要带我去 {ADDRESS=波蒂特市}
-- 不要带我去 {ADDRESS=洛赫比伊}
-- 不要带我去 {ADDRESS=海斯维尔行政区}
-- 不要带我去 {ADDRESS=理事会希尔镇}
-- 不要带我去 {ADDRESS=白玫瑰-海港的脖子}
-- 不要带我去 {ADDRESS=皮尔逊}
-- 不要带我去 {ADDRESS=盐县}
-- 不要带我去 {ADDRESS=秋河}
-- 不要带我去 {ADDRESS=科莫克斯}
-- 不要带我去 {ADDRESS=米切尔郡平衡}
-- 不要带我去 {ADDRESS=老梦露}
-- 不要带我去 {ADDRESS=考维塔县}
-- 不要带我去 {ADDRESS=肯特郡}
-- 不要带我去 {ADDRESS=艾塔斯卡村}
-- 不要带我去 {ADDRESS=艾奇逊市}
-- 不要带我去 {ADDRESS=荷里路德}
-- 不要带我去 {ADDRESS=莫兰市}
-- 不要带我去 {ADDRESS=莲}
-- 不要带我去 {ADDRESS=蒙茅斯市}
-- 不要带我去 {ADDRESS=蓝岛}
-- 不要带我去 {ADDRESS=贝伦}
-- 不要带我去 {ADDRESS=贝茨郡}
-- 不要带我去 {ADDRESS=贾森维尔市}
-- 不要带我去 {ADDRESS=赫利镇}
-- 不要带我去 {ADDRESS=赫默尔亨普斯特德县}
-- 不要带我去 {ADDRESS=迪金森平衡}
-- 不要带我去 {ADDRESS=铁岭村}
-- 不要带我去 {ADDRESS=长臂猿}
-- 不要带我去 {ADDRESS=阿姆斯壮县}
-- 不要带我去 {ADDRESS=阿德恩镇村}
-- 不要带我去 {ADDRESS=霍夫曼镇}
-- 不要带我去 {ADDRESS=霍尔特郡}
-- 丢弃路线
-- 中止导航
+- 实际上取消去{KEYWORD}
+- 其实不去{ADDRESS}
+- 实际上忘了要去{ADDRESS}
+- 其实不介意去{ADDRESS}
+- 取消{KEYWORD}船舶
+- 取消去{KEYWORD}在{ADDRESS}
+- 取消导航到{KEYWORD}
+- 取消带我去{ADDRESS}地址{ADDRESS}地址中的
+- 清楚{KEYWORD}船舶
+- 明确要去{KEYWORD}在{ADDRESS}
+- 明确要去{ADDRESS}
+- 清除导航到{KEYWORD}
+- 清除导航到{KEYWORD}
+- 清楚带我到{ADDRESS}地址{ADDRESS}地址中的
+- 删除转到{KEYWORD}在{ADDRESS}
+- 删除转到{ADDRESS}
+- 删除导航到{KEYWORD}
+- 删除导航到{KEYWORD}
+- 删除{KEYWORD}船舶
+- 删除带我到{ADDRESS}地址{ADDRESS}地址中的
+- 不导航到{KEYWORD}
+- 不导航到{KEYWORD}
+- 不要带我去{ADDRESS}
+- 不导航到{KEYWORD}
+- 不导航到{KEYWORD}
+- 不要带我去{ADDRESS}
+- 结束{KEYWORD}船舶
+- 结束去{KEYWORD}在{ADDRESS}
+- 结束导航到{KEYWORD}
+- 结束带我到{ADDRESS}地址{ADDRESS}地址中的
+- 忘记{KEYWORD}船舶
+- 忘了要去{KEYWORD}在{ADDRESS}
+- 忘了要去{ADDRESS}
+- 忘记导航到一个{KEYWORD}
+- 忘记导航到一个{KEYWORD}
+- 忘了带我去{ADDRESS}地址{ADDRESS}地址中的
+- 摆脱{KEYWORD}船舶
+- 摆脱去{ADDRESS}
+- 摆脱去{KEYWORD}在{ADDRESS}
+- 摆脱导航到一个{KEYWORD}
+- 摆脱导航到{KEYWORD}
+- 摆脱带我去{ADDRESS}地址{ADDRESS}地址中的
+- 没关系{KEYWORD}船舶
+- 没关系, 要去{KEYWORD}在{ADDRESS}
+- 别介意导航到一个{KEYWORD}
+- 别介意带我去{ADDRESS}地址{ADDRESS}地址中的
+- 在第二个想法取消去{KEYWORD}
+- 在第二个想法不去{ADDRESS}
+- 在第二个想法不去{ADDRESS}
+- 在第二个思想结束去{KEYWORD}
+- 在第二个想法忘记去{ADDRESS}
+- 在第二个想法没关系要去{ADDRESS}
+- 删除{KEYWORD}船舶
+- 删除要{ADDRESS}
+- 删除要{KEYWORD}在{ADDRESS}
+- 删除导航到{KEYWORD}
+- 删除带我到{ADDRESS}地址{ADDRESS}地址中的
+- 停止{KEYWORD}船舶
+- 停止去{ADDRESS}
+- 停止去{KEYWORD}在{ADDRESS}
+- 停止导航到{KEYWORD}
+- 别再带我去{ADDRESS}地址{ADDRESS}地址中的
 - 中止目标
+- 中止导航
 - 中止路由
-- 临时目标
-- 你会停止导航吗？
-- 你会删除去
-- 你会削减
-- 你会削减导航
-- 你会取消导航
-- 你会取消航线服务吗？
-- 你会忘记导航
-- 你会抹去
-- 你会擦去
-- 你会擦除导航
-- 你会清除导航
-- 你会结束导航
-- 你会结束航线服务
-- 你能停止导航吗？
-- 你能切去
-- 你能切断导航
-- 你能切走吗
-- 你能删去
-- 你能删去吗？
+- 实际上取消纳维
+- 实际上清除纳维
+- 实际上削减纳维
+- 实际上删除纳维
+- 实际上结束纳维
+- 实际上擦除纳维
+- 居然忘了纳维
+- 实际上忘记了导航
+- 实际上摆脱纳维
+- 其实不介意航行
+- 实际上删除纳维
+- 实际上停止纳维
+- 实际上擦去纳维
+- 实际上消灭纳维
+- 您可以取消导航
+- 您可以取消航线服务吗？
+- 你能清楚地走吗？
+- 您可以清除导航
+- 你能不能切掉去
+- 你能削减导航
 - 你能删除去
-- 你能删除导航吗？
-- 你能取消导航吗？
-- 你能取消航线服务吗？
-- 你能忘记导航
-- 你能忘记导航吗？
-- 你能把导航去掉吗？
-- 你能把导航擦干净吗？
-- 你能抹去
-- 你能抹去吗？
-- 你能摆脱导航
-- 你能擦去吗？
-- 你能擦掉导航
-- 你能擦掉导航吗？
-- 你能擦除导航
-- 你能清楚地去
-- 你能清除去
-- 你能清除导航
-- 你能清除导航吗？
-- 你能结束导航
+- 是否可以删除导航
 - 你能结束导航吗
-- 你能结束导航吗？
 - 你能结束航线服务吗？
-- 停止 {KEYWORD=Basler 商品交易会大厦} 船舶
-- 停止 {KEYWORD=ubudiah 清真寺} 船舶
-- 停止 {KEYWORD=伯明翰市政厅} 船舶
-- 停止 {KEYWORD=佛国寺} 船舶
-- 停止 {KEYWORD=加拿大里普利水族馆} 船舶
-- 停止 {KEYWORD=吉隆坡塔} 船舶
-- 停止 {KEYWORD=哈利法塔} 船舶
-- 停止 {KEYWORD=圣保罗大教堂} 船舶
-- 停止 {KEYWORD=埃菲尔铁塔} 船舶
-- 停止 {KEYWORD=基督在科尔科瓦多} 船舶
-- 停止 {KEYWORD=塔形吊顶的} 船舶
-- 停止 {KEYWORD=塞恩塞斯视觉艺术中心} 船舶
-- 停止 {KEYWORD=密友-城市大厦} 船舶
-- 停止 {KEYWORD=拜罗伊特节日之家} 船舶
-- 停止 {KEYWORD=撒尿} 船舶
-- 停止 {KEYWORD=斯科温克小径} 船舶
-- 停止 {KEYWORD=森科尔能源中心} 船舶
-- 停止 {KEYWORD=海岛山农场} 船舶
-- 停止 {KEYWORD=环球剧场} 船舶
-- 停止 {KEYWORD=玻璃亭} 船舶
-- 停止 {KEYWORD=罗德的巨人} 船舶
-- 停止 {KEYWORD=英格兰银行} 船舶
-- 停止 {KEYWORD=西可环球广场} 船舶
-- 停止 {KEYWORD=观澜湖酒店} 船舶
-- 停止去 {KEYWORD=cinerama 圆顶} 在 {ADDRESS=汉密尔顿郡平衡}
-- 停止去 {ADDRESS=paxville}
-- 停止去 {KEYWORD=万神殿} 在 {ADDRESS=玫瑰茄村}
-- 停止去 {KEYWORD=世贸中心} 在 {ADDRESS=沃帕纳卡镇}
-- 停止去 {KEYWORD=中心岛} 在 {ADDRESS=st. 圣奥尔本斯}
-- 停止去 {ADDRESS=伊萨卡村}
-- 停止去 {KEYWORD=伯明翰市政厅} 在 {ADDRESS=弗吉尼亚市}
-- 停止去 {ADDRESS=农安县}
-- 停止去 {ADDRESS=农民}
-- 停止去 {KEYWORD=加拿大里普利水族馆} 在 {ADDRESS=沃特勒斯}
-- 停止去 {KEYWORD=南谷购物中心中心} 在 {ADDRESS=斯沃茨溪城}
-- 停止去 {ADDRESS=博伊尔县}
-- 停止去 {ADDRESS=吉尔克里斯特县}
-- 停止去 {KEYWORD=团圆塔} 在 {ADDRESS=谢里登城}
-- 停止去 {ADDRESS=圣玛丽}
-- 停止去 {KEYWORD=圣索菲亚大教堂} 在 {ADDRESS=莱利县结余}
-- 停止去 {KEYWORD=圣马科斯城堡} 在 {ADDRESS=亚当斯郡}
-- 停止去 {KEYWORD=埃及金字塔} 在 {ADDRESS=巴灵顿行政区}
-- 停止去 {KEYWORD=埃斯科里亚尔} 在 {ADDRESS=鹰}
-- 停止去 {ADDRESS=塞奇威克}
-- 停止去 {KEYWORD=太空针} 在 {ADDRESS=埃文斯维尔镇}
-- 停止去 {KEYWORD=太空针} 在 {ADDRESS=安多弗}
-- 停止去 {KEYWORD=姬路城} 在 {ADDRESS=宾利}
-- 停止去 {KEYWORD=山路岭路} 在 {ADDRESS=哈丁县平衡}
-- 停止去 {KEYWORD=布加勒斯特购物中心} 在 {ADDRESS=东安格斯}
-- 停止去 {ADDRESS=布拉克斯顿县}
-- 停止去 {ADDRESS=弗伦兹维尔}
-- 停止去 {ADDRESS=惠特兰县}
-- 停止去 {KEYWORD=所罗门古根海姆博物馆} 在 {ADDRESS=自由自治区}
-- 停止去 {ADDRESS=果园村}
-- 停止去 {ADDRESS=格里利县}
-- 停止去 {ADDRESS=梅斯基特市}
-- 停止去 {KEYWORD=毕尔巴鄂古根海姆博物馆} 在 {ADDRESS=韦登}
-- 停止去 {KEYWORD=洛克菲勒中心} 在 {ADDRESS=巴顿郡}
-- 停止去 {KEYWORD=爱妮岛城堡} 在 {ADDRESS=梅普尔顿市}
-- 停止去 {ADDRESS=特拉华州县的余额}
-- 停止去 {ADDRESS=礁港}
-- 停止去 {ADDRESS=福克县}
-- 停止去 {ADDRESS=窗 饰}
-- 停止去 {KEYWORD=美国银行大厦} 在 {ADDRESS=东兰辛}
-- 停止去 {KEYWORD=美国银行广场} 在 {ADDRESS=圣彼得堡市}
-- 停止去 {KEYWORD=自由女神像} 在 {ADDRESS=萝茜镇}
-- 停止去 {KEYWORD=西埃德蒙顿购物中心} 在 {ADDRESS=佩里}
-- 停止去 {ADDRESS=追逐}
-- 停止去 {KEYWORD=里亚托塔} 在 {ADDRESS=反抗县的平衡}
-- 停止去 {KEYWORD=长城} 在 {ADDRESS=拉斯顿}
-- 停止去 {ADDRESS=阿什兰县结余}
-- 停止去 {ADDRESS=韦斯顿市}
-- 停止去 {ADDRESS=黎巴嫩}
-- 停止去 {ADDRESS=鼠标}
-- 停止导航
-- 停止导航到 {KEYWORD=健身俱乐部}
-- 停止导航到 {KEYWORD=儿童日托中心}
-- 停止导航到 {KEYWORD=克里奥尔餐厅}
-- 停止导航到 {KEYWORD=加油站}
-- 停止导航到 {KEYWORD=医院}
-- 停止导航到 {KEYWORD=厂}
-- 停止导航到 {KEYWORD=大会堂}
-- 停止导航到 {KEYWORD=女装店}
-- 停止导航到 {KEYWORD=寺庙}
-- 停止导航到 {KEYWORD=教堂}
-- 停止导航到 {KEYWORD=日式餐厅}
-- 停止导航到 {KEYWORD=日间护理中心}
-- 停止导航到 {KEYWORD=歌剧院}
-- 停止导航到 {KEYWORD=水上乐园}
-- 停止导航到 {KEYWORD=汉堡接头}
-- 停止导航到 {KEYWORD=海鲜餐厅}
-- 停止导航到 {KEYWORD=灵魂美食餐厅}
-- 停止导航到 {KEYWORD=电脑维修店}
-- 停止导航到 {KEYWORD=硬件存储}
-- 停止导航到 {KEYWORD=舞蹈工作室}
-- 停止导航到 {KEYWORD=融合餐厅}
-- 停止导航到 {KEYWORD=裁缝}
-- 停止导航到 {KEYWORD=西南餐厅}
-- 停止导航到 {KEYWORD=酒吧和酒廊}
-- 停止导航到 {KEYWORD=银行}
-- 停止导航到 {KEYWORD=食品银行}
-- 停止导航到 {KEYWORD=鸡肉餐厅}
-- 停止路线服务
-- 关于第二思想切割导航
-- 关于第二思想删除导航
-- 关于第二思想末端导航
-- 关闭导航
-- 关闭目标
-- 关闭路由
-- 其实不去 {ADDRESS=cottondale}
-- 其实不去 {ADDRESS=Haskell}
-- 其实不去 {ADDRESS=lincolnwood 村}
-- 其实不去 {ADDRESS=maquoketa}
-- 其实不去 {ADDRESS=mooringsport 镇}
-- 其实不去 {ADDRESS=noorvik}
-- 其实不去 {ADDRESS=亚当斯郡}
-- 其实不去 {ADDRESS=亚当斯郡平衡}
-- 其实不去 {ADDRESS=先锋城}
-- 其实不去 {ADDRESS=兰金市}
-- 其实不去 {ADDRESS=利马镇}
-- 其实不去 {ADDRESS=博波尔}
-- 其实不去 {ADDRESS=卡林}
-- 其实不去 {ADDRESS=卡罗尔县余额}
-- 其实不去 {ADDRESS=厄普舍县}
-- 其实不去 {ADDRESS=哥伦比亚县}
-- 其实不去 {ADDRESS=圣约瑟夫村}
-- 其实不去 {ADDRESS=塞勒姆城}
-- 其实不去 {ADDRESS=夏伊洛}
-- 其实不去 {ADDRESS=大型电池}
-- 其实不去 {ADDRESS=奥克木吉市}
-- 其实不去 {ADDRESS=奥兰塔}
-- 其实不去 {ADDRESS=宁波东港}
-- 其实不去 {ADDRESS=屈永}
-- 其实不去 {ADDRESS=山顶城}
-- 其实不去 {ADDRESS=巴赫巴胡高尔夫球场镇}
-- 其实不去 {ADDRESS=布尔市}
-- 其实不去 {ADDRESS=布恩县结余}
-- 其实不去 {ADDRESS=希尔克雷斯特村}
-- 其实不去 {ADDRESS=希望}
-- 其实不去 {ADDRESS=弗洛伊德村}
-- 其实不去 {ADDRESS=彭尼农场镇}
-- 其实不去 {ADDRESS=普吉拉多角郡}
-- 其实不去 {ADDRESS=朱厄尔市}
-- 其实不去 {ADDRESS=杰克逊郡}
-- 其实不去 {ADDRESS=林肯郡}
-- 其实不去 {ADDRESS=梅尼菲县}
-- 其实不去 {ADDRESS=波瓦坦点村}
-- 其实不去 {ADDRESS=洛根郡平衡}
-- 其实不去 {ADDRESS=浆果}
-- 其实不去 {ADDRESS=海伦娜-西海伦娜市}
-- 其实不去 {ADDRESS=海狸镇}
-- 其实不去 {ADDRESS=港口存款镇}
-- 其实不去 {ADDRESS=琼斯维尔}
-- 其实不去 {ADDRESS=瓦许本}
-- 其实不去 {ADDRESS=的村庄}
-- 其实不去 {ADDRESS=科潘}
-- 其实不去 {ADDRESS=米德镇}
-- 其实不去 {ADDRESS=粘土县平衡}
-- 其实不去 {ADDRESS=维克多}
-- 其实不去 {ADDRESS=绿色森林城市}
-- 其实不去 {ADDRESS=罗尔斯顿}
-- 其实不去 {ADDRESS=肖托}
-- 其实不去 {ADDRESS=艾奥拉市}
-- 其实不去 {ADDRESS=达林顿自治市}
-- 其实不去 {ADDRESS=达顿}
-- 其实不去 {ADDRESS=迪林厄姆人口普查区结余}
-- 其实不去 {ADDRESS=里奇韦}
-- 其实不去 {ADDRESS=长臂猿城}
-- 其实不去 {ADDRESS=雷德沃特}
-- 其实不去 {ADDRESS=韦尔顿}
-- 其实不去 {ADDRESS=韦斯特里}
-- 其实不去 {ADDRESS=马丁斯渡轮}
-- 其实不去 {ADDRESS=马特瓦}
-- 其实不去 {ADDRESS=黄金城县}
-- 其实不去 {ADDRESS=黑}
-- 其实从来不介意导航
-- 其实从来没有介意去 {ADDRESS=monongalia 县余额}
-- 其实从来没有介意去 {ADDRESS=nicoma 公园}
-- 其实从来没有介意去 {ADDRESS=加菲猫县}
-- 其实从来没有介意去 {ADDRESS=埃尔米塔日}
-- 其实从来没有介意去 {ADDRESS=安德森郡}
-- 其实从来没有介意去 {ADDRESS=拉格朗日}
-- 其实从来没有介意去 {ADDRESS=拉脱维亚语}
-- 其实从来没有介意去 {ADDRESS=斯韦尔代尔}
-- 其实从来没有介意去 {ADDRESS=极光}
-- 其实从来没有介意去 {ADDRESS=汉考克郡}
-- 其实从来没有介意去 {ADDRESS=维罗纳行政区}
-- 其实从来没有介意去 {ADDRESS=艾尔德尔县余额}
-- 其实从来没有介意去 {ADDRESS=苏珊摩尔镇}
-- 其实从来没有介意去 {ADDRESS=莫尼蒂市}
-- 其实从来没有介意去 {ADDRESS=里弗代尔市}
-- 其实忘了去 {ADDRESS=astatula}
-- 其实忘了去 {ADDRESS=del 城市城市}
-- 其实忘了去 {ADDRESS=lashburn}
-- 其实忘了去 {ADDRESS=pax 镇}
-- 其实忘了去 {ADDRESS=pontotoc 县}
-- 其实忘了去 {ADDRESS=tippah 县}
-- 其实忘了去 {ADDRESS=wakonda 镇}
-- 其实忘了去 {ADDRESS=乔治郡}
-- 其实忘了去 {ADDRESS=亨德森城}
-- 其实忘了去 {ADDRESS=伍德伯里}
-- 其实忘了去 {ADDRESS=伍德克利夫湖区}
-- 其实忘了去 {ADDRESS=休斯城}
-- 其实忘了去 {ADDRESS=伯内特余额}
-- 其实忘了去 {ADDRESS=修饰市}
-- 其实忘了去 {ADDRESS=华纳知更鸟城}
-- 其实忘了去 {ADDRESS=印花石}
-- 其实忘了去 {ADDRESS=哈伦县结余}
-- 其实忘了去 {ADDRESS=圣保罗}
-- 其实忘了去 {ADDRESS=圣拉斐尔-碧蕾哈斯}
-- 其实忘了去 {ADDRESS=坦恩布鲁克城}
-- 其实忘了去 {ADDRESS=埃尔金市}
-- 其实忘了去 {ADDRESS=大学站城}
-- 其实忘了去 {ADDRESS=奥德韦}
-- 其实忘了去 {ADDRESS=奥本城}
-- 其实忘了去 {ADDRESS=安尼斯顿}
-- 其实忘了去 {ADDRESS=宾布鲁克}
-- 其实忘了去 {ADDRESS=尼腓}
-- 其实忘了去 {ADDRESS=平顶山县平衡}
-- 其实忘了去 {ADDRESS=弥 尔 顿}
-- 其实忘了去 {ADDRESS=彭德尔顿县余额}
-- 其实忘了去 {ADDRESS=惠勒郡的平衡}
-- 其实忘了去 {ADDRESS=戴齐}
-- 其实忘了去 {ADDRESS=拉什郡}
-- 其实忘了去 {ADDRESS=斯宾塞县结余}
-- 其实忘了去 {ADDRESS=杰克逊}
-- 其实忘了去 {ADDRESS=查利斯市}
-- 其实忘了去 {ADDRESS=查尔斯顿县结余}
-- 其实忘了去 {ADDRESS=桤木公寓}
-- 其实忘了去 {ADDRESS=梅多拉镇}
-- 其实忘了去 {ADDRESS=梅里登市}
-- 其实忘了去 {ADDRESS=汤普森城}
-- 其实忘了去 {ADDRESS=法兰克福村}
-- 其实忘了去 {ADDRESS=湖城城市}
-- 其实忘了去 {ADDRESS=特伦顿镇}
-- 其实忘了去 {ADDRESS=瓜达卢佩县}
-- 其实忘了去 {ADDRESS=米德兰行政区}
-- 其实忘了去 {ADDRESS=网页}
-- 其实忘了去 {ADDRESS=艾尤卡}
-- 其实忘了去 {ADDRESS=莱尔比}
-- 其实忘了去 {ADDRESS=葛林渡轮}
-- 其实忘了去 {ADDRESS=观澜湖镇}
-- 其实忘了去 {ADDRESS=让蒂伊}
-- 其实忘了去 {ADDRESS=诺拉泉城}
-- 其实忘了去 {ADDRESS=贝尔维尤}
-- 其实忘了去 {ADDRESS=贾斯珀县}
-- 其实忘了去 {ADDRESS=赫洛茨市}
-- 其实忘了去 {ADDRESS=迈阿密}
-- 其实忘了去 {ADDRESS=这个村子}
-- 其实忘了去 {ADDRESS=迪尔伍德市}
-- 其实忘了去 {ADDRESS=邓伍迪市}
-- 其实忘了去 {ADDRESS=银羽镇}
-- 其实忘了去 {ADDRESS=雷斯图勒}
-- 其实忘了去 {ADDRESS=鞍河行政区}
-- 其实忘了去 {ADDRESS=韦伯斯特郡}
-- 其实忘了去 {ADDRESS=高潮城市}
-- 其实忘了去 {ADDRESS=鲍贝尔斯}
-- 其实忘了导航
-- 切割目的地
-- 切割路线
-- 切割路线服务
-- 划痕路线
-- 删除 {KEYWORD=ashabori} 船舶
-- 删除 {KEYWORD=djenn 大清真寺} 船舶
-- 删除 {KEYWORD=lds 教堂办公楼} 船舶
-- 删除 {KEYWORD=shreepati 街机} 船舶
-- 删除 {KEYWORD=sp 重新} 船舶
-- 删除 {KEYWORD=一个加拿大广场} 船舶
-- 删除 {KEYWORD=与银鲛的房子} 船舶
-- 删除 {KEYWORD=价格塔} 船舶
-- 删除 {KEYWORD=加拿大第一广场} 船舶
-- 删除 {KEYWORD=南谷购物中心中心} 船舶
-- 删除 {KEYWORD=哈雷阿卡拉火山口} 船舶
-- 删除 {KEYWORD=圣家家庭} 船舶
-- 删除 {KEYWORD=圣礼拜堂} 船舶
-- 删除 {KEYWORD=埃及灯塔} 船舶
-- 删除 {KEYWORD=塞恩塞斯视觉艺术中心} 船舶
-- 删除 {KEYWORD=天使瀑布} 船舶
-- 删除 {KEYWORD=天坛} 船舶
-- 删除 {KEYWORD=天穹} 船舶
-- 删除 {KEYWORD=尤里卡大厦} 船舶
-- 删除 {KEYWORD=布雷顿角高地国家公园} 船舶
-- 删除 {KEYWORD=悉尼歌剧院酒店} 船舶
-- 删除 {KEYWORD=新奥尔良竞技场} 船舶
-- 删除 {KEYWORD=曼彻斯特皮卡迪利站} 船舶
-- 删除 {KEYWORD=泰姬陵} 船舶
-- 删除 {KEYWORD=海滨广场} 船舶
-- 删除 {KEYWORD=爱妮岛城堡} 船舶
-- 删除 {KEYWORD=皇家歌剧院酒店} 船舶
-- 删除 {KEYWORD=皇家泰瑞尔博物馆} 船舶
-- 删除 {KEYWORD=红场} 船舶
-- 删除 {KEYWORD=艾尔斯岩} 船舶
-- 删除 {KEYWORD=苏丹阿都沙末大厦} 船舶
-- 删除 {KEYWORD=苏格兰议会大厦} 船舶
-- 删除 {KEYWORD=袋鼠溪农场} 船舶
-- 删除 {KEYWORD=西尔斯大厦} 船舶
-- 删除 {KEYWORD=迪拜兰德} 船舶
-- 删除 {KEYWORD=酿酒历史街区} 船舶
-- 删除 {KEYWORD=里多运河} 船舶
-- 删除 {KEYWORD=阿恩戴尔塔} 船舶
-- 删除 {KEYWORD=阿联酋大厦酒店} 船舶
-- 删除 {KEYWORD=魔鬼塔} 船舶
-- 删除导航
-- 删除导航到 {KEYWORD=体育用品店}
-- 删除导航到 {KEYWORD=健康商店}
-- 删除导航到 {KEYWORD=克里奥尔餐厅}
-- 删除导航到 {KEYWORD=办公用品商店}
-- 删除导航到 {KEYWORD=厂}
-- 删除导航到 {KEYWORD=古董店}
-- 删除导航到 {KEYWORD=客厅}
-- 删除导航到 {KEYWORD=家庭餐厅}
-- 删除导航到 {KEYWORD=宾馆}
-- 删除导航到 {KEYWORD=折扣店}
-- 删除导航到 {KEYWORD=散装商店}
-- 删除导航到 {KEYWORD=普通话餐厅}
-- 删除导航到 {KEYWORD=汽车车间}
-- 删除导航到 {KEYWORD=法式餐厅}
-- 删除导航到 {KEYWORD=电影院}
-- 删除导航到 {KEYWORD=相机商店}
-- 删除导航到 {KEYWORD=糖果店}
-- 删除导航到 {KEYWORD=阿卡迪亚餐厅}
-- 删除导航到 {KEYWORD=面包 店}
-- 删除导航到 {KEYWORD=高中}
-- 删除带我到 {ADDRESS=先锋街} 在 {ADDRESS=皮埃蒙特城}
-- 删除带我到 {ADDRESS=克拉克街} 在 {ADDRESS=法塞特}
-- 删除带我到 {ADDRESS=兰开斯特大道} 在 {ADDRESS=韦斯顿市}
-- 删除带我到 {ADDRESS=华威街} 在 {ADDRESS=贝尔顿}
-- 删除带我到 {ADDRESS=印第安纳广场} 在 {ADDRESS=沃灵顿行政区}
-- 删除带我到 {ADDRESS=史崔克阁} 在 {ADDRESS=奥格登村}
-- 删除带我到 {ADDRESS=埃尔姆伍德大道} 在 {ADDRESS=brundidge 市}
-- 删除带我到 {ADDRESS=奶精街} 在 {ADDRESS=赖特斯敦村}
-- 删除带我到 {ADDRESS=广州法院} 在 {ADDRESS=奇罗镇}
-- 删除带我到 {ADDRESS=斯基尔曼街} 在 {ADDRESS=坎贝尔顿}
-- 删除带我到 {ADDRESS=明珠街} 在 {ADDRESS=劳登维尔村}
-- 删除带我到 {ADDRESS=杜威广场} 在 {ADDRESS=波德特}
-- 删除带我到 {ADDRESS=枫街} 在 {ADDRESS=扬克顿县}
-- 删除带我到 {ADDRESS=格罗夫大道} 在 {ADDRESS=河高地城市}
-- 删除带我到 {ADDRESS=榆树大道} 在 {ADDRESS=乌鸦翼县平衡}
-- 删除带我到 {ADDRESS=殖民地的驱动器} 在 {ADDRESS=阿林顿城}
-- 删除带我到 {ADDRESS=海洋大道} 在 {ADDRESS=卡托巴镇}
-- 删除带我到 {ADDRESS=第七十八街} 在 {ADDRESS=麦克林县余额}
-- 删除带我到 {ADDRESS=第八大道} 在 {ADDRESS=emmet 县}
-- 删除带我到 {ADDRESS=第八街西} 在 {ADDRESS=大学公园村}
-- 删除带我到 {ADDRESS=红木驱动器} 在 {ADDRESS=奥本}
-- 删除带我到 {ADDRESS=莫法特街} 在 {ADDRESS=惠顿市}
-- 删除带我到 {ADDRESS=诺尔街} 在 {ADDRESS=科克伦县结余}
-- 删除带我到 {ADDRESS=铁路大道} 在 {ADDRESS=霍米尼市}
-- 删除带我到 {ADDRESS=阿特金斯大道} 在 {ADDRESS=布坎南县}
-- 删除带我到 {ADDRESS=隐蔽街道} 在 {ADDRESS=温斯顿市}
-- 删除带我到 {ADDRESS=马西大道} 在 {ADDRESS=梅菲尔德市}
-- 删除带我到 {ADDRESS=骆驼阁} 在 {ADDRESS=费耶特维尔市}
-- 删除带我去 {ADDRESS=17号干线} 在 {ADDRESS=北温哥华}
-- 删除带我去 {ADDRESS=30号干线} 在 {ADDRESS=名字}
-- 删除带我去 {ADDRESS=trucklemans 巷} 在 {ADDRESS=湖 景}
-- 删除带我去 {ADDRESS=wallabout 街} 在 {ADDRESS=卢克镇}
-- 删除带我去 {ADDRESS=冬青驱动器} 在 {ADDRESS=锡考克斯镇}
-- 删除带我去 {ADDRESS=利大道} 在 {ADDRESS=林肯郡的平衡}
-- 删除带我去 {ADDRESS=布莱顿海滩大道酒店} 在 {ADDRESS=高点}
-- 删除带我去 {ADDRESS=康尼岛大道} 在 {ADDRESS=wachapreague}
-- 删除带我去 {ADDRESS=旗帜大道} 在 {ADDRESS=城市}
-- 删除带我去 {ADDRESS=杰罗姆街} 在 {ADDRESS=云汉县余额}
-- 删除带我去 {ADDRESS=松街} 在 {ADDRESS=蒙蒂塞洛市}
-- 删除带我去 {ADDRESS=板栗大道} 在 {ADDRESS=奥克代尔行政区}
-- 删除带我去 {ADDRESS=桂冠大道} 在 {ADDRESS=拉沃尼亚市}
-- 删除带我去 {ADDRESS=汉普顿广场} 在 {ADDRESS=漫游海岸村}
-- 删除带我去 {ADDRESS=浮桥} 在 {ADDRESS=拉塞尔维尔}
-- 删除带我去 {ADDRESS=海岸大路} 在 {ADDRESS=日内瓦城市}
-- 删除带我去 {ADDRESS=海湾大道} 在 {ADDRESS=雪 莉}
-- 删除带我去 {ADDRESS=港湾道} 在 {ADDRESS=哈里森郡}
-- 删除带我去 {ADDRESS=理查兹街} 在 {ADDRESS=euharlee}
-- 删除带我去 {ADDRESS=第九十六街} 在 {ADDRESS=赠款城市}
-- 删除带我去 {ADDRESS=第十六街} 在 {ADDRESS=森德里奇}
-- 删除带我去 {ADDRESS=第四街南} 在 {ADDRESS=亨德里克斯镇}
-- 删除带我去 {ADDRESS=联合大道} 在 {ADDRESS=岩石港口城市}
-- 删除带我去 {ADDRESS=达勒姆路} 在 {ADDRESS=克拉克叉子}
-- 删除带我去 {ADDRESS=迪卡尔布大道} 在 {ADDRESS=基奈市}
-- 删除带我去 {ADDRESS=银行街} 在 {ADDRESS=圣-那儿}
-- 删除带我去 {ADDRESS=阳台的地方} 在 {ADDRESS=伯利恒镇}
-- 删除带我去 {ADDRESS=阳台的地方} 在 {ADDRESS=北平原}
-- 删除带我去 {ADDRESS=阿甘街} 在 {ADDRESS=高利河桥镇}
-- 删除目标
-- 删除继续
-- 删除要 {KEYWORD=bt 塔} 在 {ADDRESS=卡姆登市}
-- 删除要 {ADDRESS=campbellsville 市}
-- 删除要 {KEYWORD=glaspaleis} 在 {ADDRESS=新诺克斯维尔村酒店}
-- 删除要 {KEYWORD=malkera} 在 {ADDRESS=西沙利文镇}
-- 删除要 {KEYWORD=panthon} 在 {ADDRESS=贝林县余额}
-- 删除要 {ADDRESS=smelterville 市}
-- 删除要 {ADDRESS=wasagaming}
-- 删除要 {ADDRESS=winkelman}
-- 删除要 {ADDRESS=丘谷}
-- 删除要 {ADDRESS=东}
-- 删除要 {KEYWORD=中心岛} 在 {ADDRESS=温莎县结余}
-- 删除要 {KEYWORD=中正纪念堂} 在 {ADDRESS=梅森维尔}
-- 删除要 {ADDRESS=从旅游村村}
-- 删除要 {KEYWORD=伯明翰市政厅} 在 {ADDRESS=拉蒂默县余额}
-- 删除要 {ADDRESS=佩里城}
-- 删除要 {ADDRESS=佩里郡}
-- 删除要 {ADDRESS=克尔科特}
-- 删除要 {ADDRESS=克拉勒姆县余额}
-- 删除要 {ADDRESS=克罗凯市}
-- 删除要 {ADDRESS=克里德城}
-- 删除要 {KEYWORD=冬宫} 在 {ADDRESS=黑烟湖}
-- 删除要 {ADDRESS=凯斯波特村}
-- 删除要 {KEYWORD=加拿大里普利水族馆} 在 {ADDRESS=圣克拉拉村酒店}
-- 删除要 {ADDRESS=北 hatley}
-- 删除要 {ADDRESS=卢克斯城}
-- 删除要 {ADDRESS=县线}
-- 删除要 {KEYWORD=国家步兵博物馆和士兵中心} 在 {ADDRESS=法纳姆}
-- 删除要 {KEYWORD=圣尼古拉斯教堂} 在 {ADDRESS=西维吉尼亚麦塔瓦}
-- 删除要 {KEYWORD=圣火山山} 在 {ADDRESS=市}
-- 删除要 {KEYWORD=圣约瑟夫的演说} 在 {ADDRESS=小仲马镇}
-- 删除要 {ADDRESS=坎伯兰县结余}
-- 删除要 {ADDRESS=坎贝尔郡}
-- 删除要 {KEYWORD=埃里克威廉姆斯广场} 在 {ADDRESS=bellewood}
-- 删除要 {KEYWORD=基奥普斯大金字塔} 在 {ADDRESS=佩塔瓦瓦}
-- 删除要 {KEYWORD=多伦多自治中心} 在 {ADDRESS=彭德尔顿城}
-- 删除要 {ADDRESS=多伦斯}
-- 删除要 {KEYWORD=大华银行广场一} 在 {ADDRESS=安尼斯顿}
-- 删除要 {KEYWORD=天空塔} 在 {ADDRESS=圣巴泰勒米}
-- 删除要 {ADDRESS=失落的民族城市}
-- 删除要 {KEYWORD=威斯汀海港城堡酒店} 在 {ADDRESS=亨利县余额}
-- 删除要 {ADDRESS=富兰克林维尔村}
-- 删除要 {KEYWORD=富尔顿歌剧院酒店} 在 {ADDRESS=杜村}
-- 删除要 {ADDRESS=山村}
-- 删除要 {ADDRESS=市中心}
-- 删除要 {ADDRESS=布恩县}
-- 删除要 {ADDRESS=布朗郡}
-- 删除要 {ADDRESS=布雷镇}
-- 删除要 {ADDRESS=弗吉尼亚}
-- 删除要 {ADDRESS=弗里德利}
-- 删除要 {ADDRESS=德城市}
-- 删除要 {ADDRESS=怀俄明州}
-- 删除要 {ADDRESS=惠特克斯}
-- 删除要 {KEYWORD=所罗门古根海姆博物馆} 在 {ADDRESS=kenhorst 行政区}
-- 删除要 {ADDRESS=折断弓}
-- 删除要 {KEYWORD=摩根大通大厦} 在 {ADDRESS=谢恩}
-- 删除要 {ADDRESS=摩根顿}
-- 删除要 {ADDRESS=斯宾克县余额}
-- 删除要 {ADDRESS=新 alluwe}
-- 删除要 {KEYWORD=明尼苏达州议会大厦} 在 {ADDRESS=纪念碑}
-- 删除要 {KEYWORD=曼彻斯特皮卡迪利站} 在 {ADDRESS=锐村}
-- 删除要 {ADDRESS=杰克逊城}
-- 删除要 {KEYWORD=森科尔能源中心} 在 {ADDRESS=塔波罗镇}
-- 删除要 {ADDRESS=榆县平衡}
-- 删除要 {ADDRESS=水力发电城}
-- 删除要 {KEYWORD=汇丰大厦} 在 {ADDRESS=布拉德肖}
-- 删除要 {ADDRESS=沙洛特}
-- 删除要 {ADDRESS=波卡洪塔斯}
-- 删除要 {ADDRESS=洛克波特镇}
-- 删除要 {ADDRESS=洪堡}
-- 删除要 {ADDRESS=温泉}
-- 删除要 {ADDRESS=湖站}
-- 删除要 {KEYWORD=潘 am 大厦} 在 {ADDRESS=克莱郡}
-- 删除要 {KEYWORD=玛德 琳} 在 {ADDRESS=谢尔顿村}
-- 删除要 {ADDRESS=理查森}
-- 删除要 {ADDRESS=琼斯维尔镇}
-- 删除要 {ADDRESS=瑟马米什市}
-- 删除要 {ADDRESS=的余额}
-- 删除要 {KEYWORD=皇家泰瑞尔博物馆} 在 {ADDRESS=硝基}
-- 删除要 {KEYWORD=皇家音乐学院} 在 {ADDRESS=怀恩多特县余额}
-- 删除要 {ADDRESS=皮博迪市}
-- 删除要 {KEYWORD=省公园} 在 {ADDRESS=brooksburg}
-- 删除要 {ADDRESS=瞭望山}
-- 删除要 {KEYWORD=碲化/山村缆车} 在 {ADDRESS=皮茨菲尔德市}
-- 删除要 {KEYWORD=神圣的心} 在 {ADDRESS=兰图尔村}
-- 删除要 {KEYWORD=神的花园} 在 {ADDRESS=哈维市}
-- 删除要 {ADDRESS=米德尔维尔村}
-- 删除要 {KEYWORD=纽格兰奇} 在 {ADDRESS=明德镇}
-- 删除要 {KEYWORD=艾菲尔铁塔} 在 {ADDRESS=贝尔蒙特}
-- 删除要 {KEYWORD=苏格兰议会大厦} 在 {ADDRESS=布拉姆韦尔镇}
-- 删除要 {KEYWORD=萨米恩托博物馆} 在 {ADDRESS=克利福德市}
-- 删除要 {KEYWORD=葛底斯堡国家军事公园} 在 {ADDRESS=凯文镇}
-- 删除要 {KEYWORD=西班牙台阶} 在 {ADDRESS=格林郡平衡}
-- 删除要 {KEYWORD=西雅图中央图书馆} 在 {ADDRESS=战斗场地}
-- 删除要 {KEYWORD=西雅图中央图书馆} 在 {ADDRESS=福尔斯顿}
-- 删除要 {KEYWORD=论坛报塔} 在 {ADDRESS=寺庙}
-- 删除要 {KEYWORD=贝尔库尔城堡} 在 {ADDRESS=克利夫兰高地城}
-- 删除要 {ADDRESS=贝尔蒙特村庄酒店}
-- 删除要 {KEYWORD=贡达大厦} 在 {ADDRESS=斯伯丁}
-- 删除要 {KEYWORD=贾斯珀国家公园} 在 {ADDRESS=锡拉丘兹}
-- 删除要 {KEYWORD=锚旅馆} 在 {ADDRESS=本尼瓦县余额}
-- 删除要 {KEYWORD=首都大厦} 在 {ADDRESS=的余额县}
-- 删除要 {ADDRESS=马里恩郡}
-- 删除要 {ADDRESS=鹅溪}
-- 删除路由
-- 删除路由服务
-- 别去
-- 别带我去 {ADDRESS=9号干线} 在 {ADDRESS=鲍曼郡}
-- 别带我去 {ADDRESS=bakerhill}
-- 别带我去 {ADDRESS=barbourmeade 市}
-- 别带我去 {ADDRESS=boardman}
-- 别带我去 {ADDRESS=kingsborough 第七步行} 在 {ADDRESS=贝洛伊特}
-- 别带我去 {ADDRESS=kingsborough 第六步行} 在 {ADDRESS=漆 咸}
-- 别带我去 {ADDRESS=moorefield 村}
-- 别带我去 {ADDRESS=reklaw 市}
-- 别带我去 {ADDRESS=sapawe}
-- 别带我去 {ADDRESS=wamac}
-- 别带我去 {ADDRESS=乌德隆公园城}
-- 别带我去 {ADDRESS=克劳福德郡}
-- 别带我去 {ADDRESS=克拉勒姆县}
-- 别带我去 {ADDRESS=关缦淑}
-- 别带我去 {ADDRESS=凯恩斯维尔}
-- 别带我去 {ADDRESS=切罗基市}
-- 别带我去 {ADDRESS=加莱市}
-- 别带我去 {ADDRESS=劳伦}
-- 别带我去 {ADDRESS=劳伦斯城}
-- 别带我去 {ADDRESS=包机橡木}
-- 别带我去 {ADDRESS=北弯市}
-- 别带我去 {ADDRESS=博科希镇}
-- 别带我去 {ADDRESS=卡多县余额}
-- 别带我去 {ADDRESS=卡恩斯维尔}
-- 别带我去 {ADDRESS=印度街} 在 {ADDRESS=诺姆市}
-- 别带我去 {ADDRESS=史都磨坊}
-- 别带我去 {ADDRESS=唐斯维尔村}
-- 别带我去 {ADDRESS=圣安东尼奥城}
-- 别带我去 {ADDRESS=圣米歇尔-圣徒}
-- 别带我去 {ADDRESS=堤防城}
-- 别带我去 {ADDRESS=奥古斯塔驱动器} 在 {ADDRESS=umiujaq}
-- 别带我去 {ADDRESS=奥杜邦公园行政区}
-- 别带我去 {ADDRESS=小屋街} 在 {ADDRESS=莱斯罗普市}
-- 别带我去 {ADDRESS=布莱顿第六宫} 在 {ADDRESS=麦迪逊}
-- 别带我去 {ADDRESS=布莱顿第十一街} 在 {ADDRESS=湾县}
-- 别带我去 {ADDRESS=布鲁克林路} 在 {ADDRESS=戈尔登代尔}
-- 别带我去 {ADDRESS=布鲁塞尔}
-- 别带我去 {ADDRESS=希望街} 在 {ADDRESS=巴克兰市}
-- 别带我去 {ADDRESS=平静的湖镇}
-- 别带我去 {ADDRESS=库珀市市}
-- 别带我去 {ADDRESS=弗朗西斯县的平衡}
-- 别带我去 {ADDRESS=弧村的}
-- 别带我去 {ADDRESS=拉夫兰市}
-- 别带我去 {ADDRESS=拉拉市}
-- 别带我去 {ADDRESS=拉普顿堡市}
-- 别带我去 {ADDRESS=拉特兰}
-- 别带我去 {ADDRESS=授予县}
-- 别带我去 {ADDRESS=敖德萨}
-- 别带我去 {ADDRESS=新街} 在 {ADDRESS=克利夫顿镇}
-- 别带我去 {ADDRESS=曼斯菲尔德镇}
-- 别带我去 {ADDRESS=本宁顿}
-- 别带我去 {ADDRESS=杰克逊郡平衡}
-- 别带我去 {ADDRESS=林 赛}
-- 别带我去 {ADDRESS=格伦维尤庄园城}
-- 别带我去 {ADDRESS=格拉夫村}
-- 别带我去 {ADDRESS=格林县}
-- 别带我去 {ADDRESS=格雷森县平衡}
-- 别带我去 {ADDRESS=氧化钪市}
-- 别带我去 {ADDRESS=汤普金斯}
-- 别带我去 {ADDRESS=沃纳斯维尔行政区}
-- 别带我去 {ADDRESS=波纹管瀑布村}
-- 别带我去 {ADDRESS=泰勒街} 在 {ADDRESS=羚羊县}
-- 别带我去 {ADDRESS=泰普斯科特街} 在 {ADDRESS=弗洛伍德市}
-- 别带我去 {ADDRESS=泰隆行政区}
-- 别带我去 {ADDRESS=温哥华}
-- 别带我去 {ADDRESS=焦炭县}
-- 别带我去 {ADDRESS=王子街} 在 {ADDRESS=贾斯珀县结余}
-- 别带我去 {ADDRESS=玫瑰山城}
-- 别带我去 {ADDRESS=皇后城城}
-- 别带我去 {ADDRESS=第九街} 在 {ADDRESS=韦奕礼市}
-- 别带我去 {ADDRESS=第五街} 在 {ADDRESS=斯蒂芬市}
-- 别带我去 {ADDRESS=米德尔顿街} 在 {ADDRESS=咖啡泉镇}
-- 别带我去 {ADDRESS=约翰逊郡}
-- 别带我去 {ADDRESS=纳尔逊城}
-- 别带我去 {ADDRESS=维安}
-- 别带我去 {ADDRESS=绿地}
-- 别带我去 {ADDRESS=罗切斯特}
-- 别带我去 {ADDRESS=莱曼}
-- 别带我去 {ADDRESS=西梅菲尔德行政区}
-- 别带我去 {ADDRESS=西罗亚泉}
-- 别带我去 {ADDRESS=诺福克}
-- 别带我去 {ADDRESS=谢里登大道} 在 {ADDRESS=门诺市}
-- 别带我去 {ADDRESS=贝尔福广场} 在 {ADDRESS=哥伦布城}
-- 别带我去 {ADDRESS=贝尔郡}
-- 别带我去 {ADDRESS=贝雷斯福德}
-- 别带我去 {ADDRESS=赛特街} 在 {ADDRESS=虚张声势城市镇}
-- 别带我去 {ADDRESS=车队步行} 在 {ADDRESS=绿湾}
-- 别带我去 {ADDRESS=达拉斯郡}
-- 别带我去 {ADDRESS=邨路} 在 {ADDRESS=土堆}
-- 别带我去 {ADDRESS=铁桥}
-- 别带我去 {ADDRESS=锡纳斯市}
-- 别带我去 {ADDRESS=镇脉}
-- 别带我去 {ADDRESS=阿什顿}
-- 别带我去 {ADDRESS=阿尔及尔县}
-- 别带我去 {ADDRESS=阿斯托里亚}
-- 别带我去 {ADDRESS=韦尔斯维尔}
-- 别带我去 {ADDRESS=领域}
-- 别带我去 {ADDRESS=飞燕草镇}
-- 别带我去 {ADDRESS=麦基城}
-- 别带我去 {ADDRESS=黑泽尔顿}
-- 别走
-- 前进和结束航线服务
-- 前进并剪切导航
-- 剪切导航
-- 取消 {KEYWORD=aliilani} 船舶
-- 取消 {KEYWORD=amsouth 塔} 船舶
-- 取消 {KEYWORD=bt 塔} 船舶
-- 取消 {KEYWORD=krger 国家公园} 船舶
-- 取消 {KEYWORD=oub 中心} 船舶
-- 取消 {KEYWORD=pittodrie 体育场} 船舶
-- 取消 {KEYWORD=schnbrunn 宫殿酒店} 船舶
-- 取消 {KEYWORD=t c 塔} 船舶
-- 取消 {KEYWORD=东京塔} 船舶
-- 取消 {KEYWORD=中央岛公园} 船舶
-- 取消 {KEYWORD=中央广场} 船舶
-- 取消 {KEYWORD=以弗所书弥尔特神庙} 船舶
-- 取消 {KEYWORD=伦纳德蒂利大厦} 船舶
-- 取消 {KEYWORD=冰川点} 船舶
-- 取消 {KEYWORD=冰霜银行大厦} 船舶
-- 取消 {KEYWORD=切斯特曼海滩} 船舶
-- 取消 {KEYWORD=剧院楼梯} 船舶
-- 取消 {KEYWORD=勃兰登堡门} 船舶
-- 取消 {KEYWORD=卡尼尔歌剧院} 船舶
-- 取消 {KEYWORD=原子塔} 船舶
-- 取消 {KEYWORD=哥伦比亚中心} 船舶
-- 取消 {KEYWORD=四河喷泉} 船舶
-- 取消 {KEYWORD=圣劳伦斯市场} 船舶
-- 取消 {KEYWORD=埃及灯塔} 船舶
-- 取消 {KEYWORD=埃尔金和冬季花园剧院中心} 船舶
-- 取消 {KEYWORD=埃菲尔铁塔} 船舶
-- 取消 {KEYWORD=多伦多伊顿中心} 船舶
-- 取消 {KEYWORD=大峡谷} 船舶
-- 取消 {KEYWORD=天使瀑布} 船舶
-- 取消 {KEYWORD=太阳信托广场} 船舶
-- 取消 {KEYWORD=威斯汀海港城堡酒店} 船舶
-- 取消 {KEYWORD=宙斯雕像} 船舶
-- 取消 {KEYWORD=密友-城市大厦} 船舶
-- 取消 {KEYWORD=寇松街火车站} 船舶
-- 取消 {KEYWORD=富国法戈中心} 船舶
-- 取消 {KEYWORD=尤里卡大厦} 船舶
-- 取消 {KEYWORD=尼德罗斯皮勒格里姆斯加德大教堂} 船舶
-- 取消 {KEYWORD=巴黎歌剧院} 船舶
-- 取消 {KEYWORD=布塔宫殿酒店} 船舶
-- 取消 {KEYWORD=帝国大厦} 船舶
-- 取消 {KEYWORD=拜罗伊特节日之家} 船舶
-- 取消 {KEYWORD=放大器位置} 船舶
-- 取消 {KEYWORD=斜塔} 船舶
-- 取消 {KEYWORD=斜角博物馆} 船舶
-- 取消 {KEYWORD=斯科温克小径} 船舶
-- 取消 {KEYWORD=曲棍球名人堂} 船舶
-- 取消 {KEYWORD=曼彻斯特皮卡迪利站} 船舶
-- 取消 {KEYWORD=柳京酒店} 船舶
-- 取消 {KEYWORD=桌顶山} 船舶
-- 取消 {KEYWORD=比瑟姆塔} 船舶
-- 取消 {KEYWORD=泰姬陵} 船舶
-- 取消 {KEYWORD=泰特美术馆} 船舶
-- 取消 {KEYWORD=海军陆战队国家博物馆} 船舶
-- 取消 {KEYWORD=海滨长廊 ii} 船舶
-- 取消 {KEYWORD=温莎城堡} 船舶
-- 取消 {KEYWORD=特朗普大厦} 船舶
-- 取消 {KEYWORD=狮身人面像} 船舶
-- 取消 {KEYWORD=玛丽} 船舶
-- 取消 {KEYWORD=玻璃} 船舶
-- 取消 {KEYWORD=玻璃亭} 船舶
-- 取消 {KEYWORD=理查森大厦} 船舶
-- 取消 {KEYWORD=的神圣} 船舶
-- 取消 {KEYWORD=皇家 bc 博物馆} 船舶
-- 取消 {KEYWORD=皇家马德里宫酒店} 船舶
-- 取消 {KEYWORD=礼堂大楼} 船舶
-- 取消 {KEYWORD=神的花园} 船舶
-- 取消 {KEYWORD=科尔恩剧院} 船舶
-- 取消 {KEYWORD=秦艽公园冬季花园} 船舶
-- 取消 {KEYWORD=米拉峡谷公园} 船舶
-- 取消 {KEYWORD=红场} 船舶
-- 取消 {KEYWORD=罗纳德·里根大厦} 船舶
-- 取消 {KEYWORD=联合站} 船舶
-- 取消 {KEYWORD=至尊沙盒} 船舶
-- 取消 {KEYWORD=苏格兰议会大厦} 船舶
-- 取消 {KEYWORD=莫里斯皇家美术馆} 船舶
-- 取消 {KEYWORD=萨米恩托博物馆} 船舶
-- 取消 {KEYWORD=视觉和音响剧院} 船舶
-- 取消 {KEYWORD=贡达大厦} 船舶
-- 取消 {KEYWORD=钥匙塔} 船舶
-- 取消 {KEYWORD=阿克斯胡斯要塞} 船舶
-- 取消 {KEYWORD=阿克萨清真寺} 船舶
-- 取消 {KEYWORD=隆德大教堂} 船舶
-- 取消 {KEYWORD=首都大厦} 船舶
-- 取消 {KEYWORD=香榭丽舍大街} 船舶
-- 取消 {KEYWORD=马德河格伦山枫农场有限公司} 船舶
-- 取消 {KEYWORD=马蹄弯} 船舶
-- 取消任何地方去
+- 你能抹去去
+- 是否可以擦除导航
+- 你能忘记导航吗
+- 你能摆脱导航
+- 你能不能取消导航
+- 请您取消航线服务好吗？
+- 你能不能清除导航
+- 你能不能别再走了
+- 你能不能剪掉导航
+- 你能不能请删除去
+- 请删除导航
+- 你能不能结束导航
+- 你能不能结束航线服务
+- 你能不能抹去去
+- 你能不能擦除导航
+- 你能不能忘了导航
+- 你能不能摆脱导航
+- 你能不能删除去
+- 你能不能删除导航
+- 你能不能停止导航
+- 你能不能擦掉导航
+- 你能不能把它擦干净吗？
+- 你能不能把导航擦干净
+- 是否可以删除导航
+- 是否可以停止导航
+- 你能擦去吗？
+- 是否可以擦除导航
+- 你能擦除导航
 - 取消去
 - 取消导航
-- 取消导航到 {KEYWORD=Atm}
-- 取消导航到 {KEYWORD=书店}
-- 取消导航到 {KEYWORD=亚洲餐厅}
-- 取消导航到 {KEYWORD=会计}
-- 取消导航到 {KEYWORD=低沉}
-- 取消导航到 {KEYWORD=停车场}
-- 取消导航到 {KEYWORD=健身中心}
-- 取消导航到 {KEYWORD=健身房}
-- 取消导航到 {KEYWORD=公交车站}
-- 取消导航到 {KEYWORD=冰淇淋厅}
-- 取消导航到 {KEYWORD=出租车停靠站}
-- 取消导航到 {KEYWORD=办公大楼}
-- 取消导航到 {KEYWORD=医生办公室}
-- 取消导航到 {KEYWORD=医疗中心}
-- 取消导航到 {KEYWORD=医科学校}
-- 取消导航到 {KEYWORD=博物馆}
-- 取消导航到 {KEYWORD=商场}
-- 取消导航到 {KEYWORD=地铁}
-- 取消导航到 {KEYWORD=地铁站}
-- 取消导航到 {KEYWORD=大教堂}
-- 取消导航到 {KEYWORD=婴儿店}
-- 取消导航到 {KEYWORD=宠物店}
-- 取消导航到 {KEYWORD=家庭和花园商店}
-- 取消导航到 {KEYWORD=巴基斯坦餐厅}
-- 取消导航到 {KEYWORD=帆船学校}
-- 取消导航到 {KEYWORD=广场}
-- 取消导航到 {KEYWORD=当铺}
-- 取消导航到 {KEYWORD=意大利餐厅}
-- 取消导航到 {KEYWORD=护照办公室}
-- 取消导航到 {KEYWORD=教堂}
-- 取消导航到 {KEYWORD=新厨房餐厅}
-- 取消导航到 {KEYWORD=日光浴室}
-- 取消导航到 {KEYWORD=日托}
-- 取消导航到 {KEYWORD=晚餐餐厅}
-- 取消导航到 {KEYWORD=普通话餐厅}
-- 取消导航到 {KEYWORD=植物园}
-- 取消导航到 {KEYWORD=水上乐园}
-- 取消导航到 {KEYWORD=河餐厅}
-- 取消导航到 {KEYWORD=波斯餐厅}
-- 取消导航到 {KEYWORD=火车站}
-- 取消导航到 {KEYWORD=烧烤}
-- 取消导航到 {KEYWORD=犹太餐厅}
-- 取消导航到 {KEYWORD=理发师}
-- 取消导航到 {KEYWORD=理发店}
-- 取消导航到 {KEYWORD=甜点面包店}
-- 取消导航到 {KEYWORD=电子商店}
-- 取消导航到 {KEYWORD=电影院}
-- 取消导航到 {KEYWORD=电脑维修店}
-- 取消导航到 {KEYWORD=男装时装店}
-- 取消导航到 {KEYWORD=监狱}
-- 取消导航到 {KEYWORD=篮球场}
-- 取消导航到 {KEYWORD=素食餐厅}
-- 取消导航到 {KEYWORD=经典餐厅}
-- 取消导航到 {KEYWORD=美容院}
-- 取消导航到 {KEYWORD=美甲师}
-- 取消导航到 {KEYWORD=胃酒吧}
-- 取消导航到 {KEYWORD=英国餐厅}
-- 取消导航到 {KEYWORD=药店}
-- 取消导航到 {KEYWORD=葡萄酒店}
-- 取消导航到 {KEYWORD=购物中心}
-- 取消导航到 {KEYWORD=赛道}
-- 取消导航到 {KEYWORD=车臣餐厅}
-- 取消导航到 {KEYWORD=酒吧}
-- 取消导航到 {KEYWORD=银行机}
-- 取消导航到 {KEYWORD=阿卡迪亚餐厅}
-- 取消导航到 {KEYWORD=阿富汗餐厅}
-- 取消导航到 {KEYWORD=零件中心}
-- 取消导航到 {KEYWORD=露营商店}
-- 取消导航到 {KEYWORD=青年旅舍}
-- 取消导航到 {KEYWORD=食品银行}
-- 取消导航到 {KEYWORD=驱动器}
-- 取消导航到 {KEYWORD=验光 师}
-- 取消带我去 {ADDRESS=10号干线} 在 {ADDRESS=奥克兰镇}
-- 取消带我去 {ADDRESS=29号干线} 在 {ADDRESS=药园镇}
-- 取消带我去 {ADDRESS=41号干线} 在 {ADDRESS=咖喱郡}
-- 取消带我去 {ADDRESS=karweg 广场} 在 {ADDRESS=利兹顿镇}
-- 取消带我去 {ADDRESS=onderdonk 大道} 在 {ADDRESS=明德}
-- 取消带我去 {ADDRESS=paerdegat 第七街} 在 {ADDRESS=弗雷德里克}
-- 取消带我去 {ADDRESS=东大街} 在 {ADDRESS=克洛维斯}
-- 取消带我去 {ADDRESS=乡间小路} 在 {ADDRESS=auglaize 县余额}
-- 取消带我去 {ADDRESS=伍德法院} 在 {ADDRESS=brownvale}
-- 取消带我去 {ADDRESS=伯特利环路} 在 {ADDRESS=长岛}
-- 取消带我去 {ADDRESS=克拉伦登路} 在 {ADDRESS=埃利科特维尔村}
-- 取消带我去 {ADDRESS=克里斯蒂娜·佩里巷} 在 {ADDRESS=考考市}
-- 取消带我去 {ADDRESS=公园 cir} 在 {ADDRESS=林登市}
-- 取消带我去 {ADDRESS=剑桥驱动} 在 {ADDRESS=红柳县平衡}
-- 取消带我去 {ADDRESS=博蒙特街} 在 {ADDRESS=owenton 市}
-- 取消带我去 {ADDRESS=大洋大道} 在 {ADDRESS=考利县余额}
-- 取消带我去 {ADDRESS=大道 H} 在 {ADDRESS=干脊}
-- 取消带我去 {ADDRESS=宝石街} 在 {ADDRESS=圣埃内迪}
-- 取消带我去 {ADDRESS=山茱萸驱动} 在 {ADDRESS=康宁}
-- 取消带我去 {ADDRESS=山谷景观驱动器} 在 {ADDRESS=麦卡蒙}
-- 取消带我去 {ADDRESS=山顶街} 在 {ADDRESS=本顿县结余}
-- 取消带我去 {ADDRESS=布莱顿第八街} 在 {ADDRESS=剧团市}
-- 取消带我去 {ADDRESS=布鲁克林下城区街} 在 {ADDRESS=安达卢西亚城市}
-- 取消带我去 {ADDRESS=广场} 在 {ADDRESS=克劳福德郡平衡}
-- 取消带我去 {ADDRESS=惠特尼广场} 在 {ADDRESS=欣斯代尔村}
-- 取消带我去 {ADDRESS=托马斯街} 在 {ADDRESS=蒂博多}
-- 取消带我去 {ADDRESS=摇滚街} 在 {ADDRESS=惠顿市}
-- 取消带我去 {ADDRESS=旗帜大道} 在 {ADDRESS=贝尔维尔村}
-- 取消带我去 {ADDRESS=木街} 在 {ADDRESS=米德尔塞克斯县}
-- 取消带我去 {ADDRESS=杰拉尔德阁} 在 {ADDRESS=万寿菊镇}
-- 取消带我去 {ADDRESS=枫巷} 在 {ADDRESS=粘土县平衡}
-- 取消带我去 {ADDRESS=柏树阁} 在 {ADDRESS=牛顿县平衡}
-- 取消带我去 {ADDRESS=核桃街} 在 {ADDRESS=霍普城}
-- 取消带我去 {ADDRESS=森林广场} 在 {ADDRESS=st. gregoire de 尼科莱特}
-- 取消带我去 {ADDRESS=森林驱动器} 在 {ADDRESS=lavaltrie}
-- 取消带我去 {ADDRESS=樱草巷} 在 {ADDRESS=格兰-安塞}
-- 取消带我去 {ADDRESS=沙龙街} 在 {ADDRESS=米切尔郡}
-- 取消带我去 {ADDRESS=泊苑} 在 {ADDRESS=瓦萨奇县余额}
-- 取消带我去 {ADDRESS=洛克威大路} 在 {ADDRESS=pinetops}
-- 取消带我去 {ADDRESS=洛根街} 在 {ADDRESS=维克菲尔德}
-- 取消带我去 {ADDRESS=温莎驱动器} 在 {ADDRESS=舍伍德市}
-- 取消带我去 {ADDRESS=湾第四十四街} 在 {ADDRESS=冲厕村}
-- 取消带我去 {ADDRESS=湾第四十街} 在 {ADDRESS=大遍历县的平衡}
-- 取消带我去 {ADDRESS=溪路} 在 {ADDRESS=卡斯特县平衡}
-- 取消带我去 {ADDRESS=灯塔苑} 在 {ADDRESS=哈伍德高地村酒店}
-- 取消带我去 {ADDRESS=特拉华州大道} 在 {ADDRESS=wymore}
-- 取消带我去 {ADDRESS=磨坊街} 在 {ADDRESS=新希望镇}
-- 取消带我去 {ADDRESS=科尔曼街} 在 {ADDRESS=aliceville}
-- 取消带我去 {ADDRESS=第102街} 在 {ADDRESS=曼斯菲尔德市}
-- 取消带我去 {ADDRESS=第七十六街} 在 {ADDRESS=列克星敦}
-- 取消带我去 {ADDRESS=第七大道} 在 {ADDRESS=詹姆斯波特市}
-- 取消带我去 {ADDRESS=第七街} 在 {ADDRESS=钱伯斯县}
-- 取消带我去 {ADDRESS=第三街} 在 {ADDRESS=diamondville 镇}
-- 取消带我去 {ADDRESS=第九十街} 在 {ADDRESS=阿霍斯基镇}
-- 取消带我去 {ADDRESS=第二十八街} 在 {ADDRESS=汉森市}
-- 取消带我去 {ADDRESS=第五十六街} 在 {ADDRESS=尼斯县}
-- 取消带我去 {ADDRESS=第五十六驱动器} 在 {ADDRESS=萨默维尔}
-- 取消带我去 {ADDRESS=第四十八街} 在 {ADDRESS=萨布利特县余额}
-- 取消带我去 {ADDRESS=维克多路} 在 {ADDRESS=奥伯林}
-- 取消带我去 {ADDRESS=自由大道} 在 {ADDRESS=钟}
-- 取消带我去 {ADDRESS=草甸街} 在 {ADDRESS=上 kalskag 市}
-- 取消带我去 {ADDRESS=葛路} 在 {ADDRESS=克莱尔顿}
-- 取消带我去 {ADDRESS=西格妮·韦弗街} 在 {ADDRESS=bledsoe 县}
-- 取消带我去 {ADDRESS=门罗街} 在 {ADDRESS=杰克逊郡平衡}
-- 取消带我去 {ADDRESS=阿甘街} 在 {ADDRESS=朗福德}
-- 取消带我去 {ADDRESS=雪松苑} 在 {ADDRESS=香槟郡}
-- 取消带我去 {ADDRESS=高地大道} 在 {ADDRESS=金刚砂县}
-- 取消带我去 {ADDRESS=麦迪逊街} 在 {ADDRESS=恩典}
-- 取消要 {KEYWORD=amsouth 塔} 在 {ADDRESS=普莱森顿}
-- 取消要 {KEYWORD=cinerama 圆顶} 在 {ADDRESS=宝马村}
-- 取消要 {KEYWORD=krger 国家公园} 在 {ADDRESS=宾汉湖}
-- 取消要 {KEYWORD=lds 教堂办公楼} 在 {ADDRESS=罗尔斯顿}
-- 取消要 {KEYWORD=oub 中心} 在 {ADDRESS=水力发电城}
-- 取消要 {KEYWORD=panthon} 在 {ADDRESS=林恩镇}
-- 取消要 {KEYWORD=q1} 在 {ADDRESS=皮特金县余额}
-- 取消要 {KEYWORD=takakkaw 瀑布} 在 {ADDRESS=莱温斯顿镇}
-- 取消要 {KEYWORD=Tivoli} 在 {ADDRESS=梦 露}
-- 取消要 {KEYWORD=yogenfruz} 在 {ADDRESS=新沃特福德}
-- 取消要 {KEYWORD=与银鲛的房子} 在 {ADDRESS=糖山村}
-- 取消要 {KEYWORD=世界金融中心} 在 {ADDRESS=赠款县余额}
-- 取消要 {KEYWORD=中央广场} 在 {ADDRESS=诺加利斯市}
-- 取消要 {KEYWORD=以弗所书弥尔特神庙} 在 {ADDRESS=华盛顿郡}
-- 取消要 {KEYWORD=伊普西兰蒂水塔} 在 {ADDRESS=海德堡自治市}
-- 取消要 {KEYWORD=伊玛目阿里清真寺} 在 {ADDRESS=汉考克郡}
-- 取消要 {KEYWORD=修行} 在 {ADDRESS=彭比纳}
-- 取消要 {KEYWORD=克尔白} 在 {ADDRESS=艾特金县}
-- 取消要 {KEYWORD=勃兰登堡门} 在 {ADDRESS=圣-那儿}
-- 取消要 {KEYWORD=史密斯大厦} 在 {ADDRESS=普拉斯基}
-- 取消要 {KEYWORD=哥伦比亚中心} 在 {ADDRESS=布兰特利镇}
-- 取消要 {KEYWORD=四河喷泉} 在 {ADDRESS=沃斯科县余额}
-- 取消要 {KEYWORD=圣地清真寺} 在 {ADDRESS=西敏寺城}
-- 取消要 {KEYWORD=圣彼得大教堂} 在 {ADDRESS=威尔逊城}
-- 取消要 {KEYWORD=圣马科斯城堡} 在 {ADDRESS=斯图尔特}
-- 取消要 {KEYWORD=埃及金字塔} 在 {ADDRESS=哈 曼}
-- 取消要 {KEYWORD=埃尔金和冬季花园剧院中心} 在 {ADDRESS=杰克逊维尔村}
-- 取消要 {KEYWORD=城市大门} 在 {ADDRESS=哈珀市}
-- 取消要 {KEYWORD=城市大门} 在 {ADDRESS=广州市}
-- 取消要 {KEYWORD=多伦多伊顿中心} 在 {ADDRESS=贝尔特拉米县余额}
-- 取消要 {KEYWORD=大堡礁} 在 {ADDRESS=longview 村}
-- 取消要 {KEYWORD=大本钟} 在 {ADDRESS=坎贝尔郡平衡}
-- 取消要 {KEYWORD=天使瀑布} 在 {ADDRESS=提顿县}
-- 取消要 {KEYWORD=天使瀑布} 在 {ADDRESS=罗素郡}
-- 取消要 {KEYWORD=天坛} 在 {ADDRESS=保龄球绿色城市}
-- 取消要 {KEYWORD=密友-城市大厦} 在 {ADDRESS=里维耶尔-圣珍}
-- 取消要 {KEYWORD=尼德罗斯皮勒格里姆斯加德大教堂} 在 {ADDRESS=劳伦斯郡平衡}
-- 取消要 {KEYWORD=布加勒斯特购物中心} 在 {ADDRESS=embree}
-- 取消要 {KEYWORD=总督府} 在 {ADDRESS=所在县余额}
-- 取消要 {KEYWORD=拉吉 bhvan} 在 {ADDRESS=赠款县余额}
-- 取消要 {KEYWORD=文化与科学宫} 在 {ADDRESS=汉密尔顿郡平衡}
-- 取消要 {KEYWORD=斐济储备银行大厦} 在 {ADDRESS=夏洛特郡}
-- 取消要 {KEYWORD=斜塔} 在 {ADDRESS=金斯博格市}
-- 取消要 {KEYWORD=新天鹅堡} 在 {ADDRESS=林恩市}
-- 取消要 {KEYWORD=新奥尔良竞技场} 在 {ADDRESS=梭伦温泉村}
-- 取消要 {KEYWORD=新殖民地} 在 {ADDRESS=本顿镇}
-- 取消要 {KEYWORD=柏悦酒店} 在 {ADDRESS=奥克代尔村}
-- 取消要 {KEYWORD=柏悦酒店} 在 {ADDRESS=布莱恩县平衡}
-- 取消要 {KEYWORD=欧洲银行} 在 {ADDRESS=塔拉霍马}
-- 取消要 {KEYWORD=比瑟姆塔} 在 {ADDRESS=旅行车丘村}
-- 取消要 {KEYWORD=汇丰大厦} 在 {ADDRESS=杰斐逊郡平衡}
-- 取消要 {KEYWORD=泰国美食} 在 {ADDRESS=斯帕克曼市}
-- 取消要 {KEYWORD=温彻斯特神秘之家酒店} 在 {ADDRESS=雪松谷城}
-- 取消要 {KEYWORD=温斯皮尔中心} 在 {ADDRESS=黑鸭湾}
-- 取消要 {KEYWORD=煤气筒} 在 {ADDRESS=鹰路口}
-- 取消要 {KEYWORD=爱晚--} 在 {ADDRESS=埃利斯}
-- 取消要 {KEYWORD=特朗普大厦} 在 {ADDRESS=拉科尼亚市}
-- 取消要 {KEYWORD=白宫} 在 {ADDRESS=麦肯齐}
-- 取消要 {KEYWORD=的螺旋} 在 {ADDRESS=奥斯汀市}
-- 取消要 {KEYWORD=科尔恩剧院} 在 {ADDRESS=加的夫镇}
-- 取消要 {KEYWORD=科尔恩剧院} 在 {ADDRESS=曼彻斯特村}
-- 取消要 {KEYWORD=秦艽公园冬季花园} 在 {ADDRESS=南伯利恒行政区}
-- 取消要 {KEYWORD=箭牌大厦} 在 {ADDRESS=自流}
-- 取消要 {KEYWORD=约克大教堂} 在 {ADDRESS=卡姆登市}
-- 取消要 {KEYWORD=罗伯特-克莱门特体育馆} 在 {ADDRESS=湖景镇}
-- 取消要 {KEYWORD=航站楼} 在 {ADDRESS=黑脚}
-- 取消要 {KEYWORD=芬格的洞穴} 在 {ADDRESS=圣胡安郡}
-- 取消要 {KEYWORD=苏哈列夫塔} 在 {ADDRESS=海利}
-- 取消要 {KEYWORD=著名的人球员晚餐剧场} 在 {ADDRESS=威廉港村酒店}
-- 取消要 {KEYWORD=葛底斯堡国家军事公园} 在 {ADDRESS=特拉福德}
-- 取消要 {KEYWORD=西可环球广场} 在 {ADDRESS=富兰克林县结余}
-- 取消要 {KEYWORD=西可环球广场} 在 {ADDRESS=费尔森塔尔镇}
-- 取消要 {KEYWORD=西敏寺} 在 {ADDRESS=巴克斯顿}
-- 取消要 {KEYWORD=西码头} 在 {ADDRESS=alleghany 县余额}
-- 取消要 {KEYWORD=议会宫殿} 在 {ADDRESS=bassfield}
-- 取消要 {KEYWORD=诺克斯堡} 在 {ADDRESS=克林顿}
-- 取消要 {KEYWORD=贝尔库尔城堡} 在 {ADDRESS=尼尔森}
-- 取消要 {KEYWORD=锦茂大厦} 在 {ADDRESS=萨默维尔镇}
-- 取消要 {KEYWORD=阿克萨清真寺} 在 {ADDRESS=沃尔什}
-- 取消要 {KEYWORD=阿尔罕布拉} 在 {ADDRESS=itawamba 县余额}
-- 取消要 {KEYWORD=马蹄弯} 在 {ADDRESS=奥尔巴尼县结余}
-- 取消要 {KEYWORD=鹿特丹海港} 在 {ADDRESS=罗切斯特行政区}
-- 取消要 {KEYWORD=黄石公园} 在 {ADDRESS=康宁}
-- 可以删除导航
-- 在第二个念头忘记去 {ADDRESS=aviston 村}
-- 在第二个念头忘记去 {ADDRESS=Causapscal}
-- 在第二个念头忘记去 {ADDRESS=gallaway}
-- 在第二个念头忘记去 {ADDRESS=Mondamin}
-- 在第二个念头忘记去 {ADDRESS=pennsboro}
-- 在第二个念头忘记去 {ADDRESS=polkville 镇}
-- 在第二个念头忘记去 {ADDRESS=smithboro 村}
-- 在第二个念头忘记去 {ADDRESS=st-昆汀}
-- 在第二个念头忘记去 {ADDRESS=亨廷顿}
-- 在第二个念头忘记去 {ADDRESS=亨德利县结余}
-- 在第二个念头忘记去 {ADDRESS=伊卡拉卡}
-- 在第二个念头忘记去 {ADDRESS=伯克县余额}
-- 在第二个念头忘记去 {ADDRESS=伯杰}
-- 在第二个念头忘记去 {ADDRESS=克利本县}
-- 在第二个念头忘记去 {ADDRESS=劳伦斯郡平衡}
-- 在第二个念头忘记去 {ADDRESS=劳动节湾}
-- 在第二个念头忘记去 {ADDRESS=华谢基县}
-- 在第二个念头忘记去 {ADDRESS=博蒂诺}
-- 在第二个念头忘记去 {ADDRESS=卡姆罗斯}
-- 在第二个念头忘记去 {ADDRESS=卡拉克维尔市}
-- 在第二个念头忘记去 {ADDRESS=卡斯平衡}
-- 在第二个念头忘记去 {ADDRESS=卡马斯县}
-- 在第二个念头忘记去 {ADDRESS=圣-莱昂-乐大酒店}
-- 在第二个念头忘记去 {ADDRESS=基督教县}
-- 在第二个念头忘记去 {ADDRESS=塔托}
-- 在第二个念头忘记去 {ADDRESS=塞勒姆}
-- 在第二个念头忘记去 {ADDRESS=多尼芬县余额}
-- 在第二个念头忘记去 {ADDRESS=奥尔巴尼村}
-- 在第二个念头忘记去 {ADDRESS=奥斯利县}
-- 在第二个念头忘记去 {ADDRESS=安娜城}
-- 在第二个念头忘记去 {ADDRESS=宜人花园小镇}
-- 在第二个念头忘记去 {ADDRESS=富兰克林泉}
-- 在第二个念头忘记去 {ADDRESS=山毛榉村}
-- 在第二个念头忘记去 {ADDRESS=巴顿镇}
-- 在第二个念头忘记去 {ADDRESS=希尔克雷斯特村}
-- 在第二个念头忘记去 {ADDRESS=帕尔马}
-- 在第二个念头忘记去 {ADDRESS=弗鲁特兰}
-- 在第二个念头忘记去 {ADDRESS=德尔蒙特}
-- 在第二个念头忘记去 {ADDRESS=怀尔顿}
-- 在第二个念头忘记去 {ADDRESS=戴尔县平衡}
-- 在第二个念头忘记去 {ADDRESS=托克苏克贝湾}
-- 在第二个念头忘记去 {ADDRESS=托洛诺村}
-- 在第二个念头忘记去 {ADDRESS=拜黑利亚镇}
-- 在第二个念头忘记去 {ADDRESS=斯卡蒙贝湾城}
-- 在第二个念头忘记去 {ADDRESS=斯托克顿市}
-- 在第二个念头忘记去 {ADDRESS=新塞勒姆城}
-- 在第二个念头忘记去 {ADDRESS=新罗克福德市}
-- 在第二个念头忘记去 {ADDRESS=查尔斯湖城}
-- 在第二个念头忘记去 {ADDRESS=格林斯伯勒市}
-- 在第二个念头忘记去 {ADDRESS=梅森维尔市}
-- 在第二个念头忘记去 {ADDRESS=橙村}
-- 在第二个念头忘记去 {ADDRESS=沃希托县余额}
-- 在第二个念头忘记去 {ADDRESS=温泉县}
-- 在第二个念头忘记去 {ADDRESS=煤炭经营村城}
-- 在第二个念头忘记去 {ADDRESS=的平衡}
-- 在第二个念头忘记去 {ADDRESS=福尔摩斯海滩城市}
-- 在第二个念头忘记去 {ADDRESS=科林斯城}
-- 在第二个念头忘记去 {ADDRESS=联盟县余额}
-- 在第二个念头忘记去 {ADDRESS=艾尔德尔市}
-- 在第二个念头忘记去 {ADDRESS=艾尔斯福德}
-- 在第二个念头忘记去 {ADDRESS=范德胡夫}
-- 在第二个念头忘记去 {ADDRESS=范肖镇}
-- 在第二个念头忘记去 {ADDRESS=谢里丹}
-- 在第二个念头忘记去 {ADDRESS=路径}
-- 在第二个念头忘记去 {ADDRESS=迪勒村}
-- 在第二个念头忘记去 {ADDRESS=锡斯特斯维尔}
-- 在第二个念头忘记去 {ADDRESS=锡纳斯}
-- 在第二个念头忘记去 {ADDRESS=长}
-- 在第二个念头忘记去 {ADDRESS=阿代尔}
-- 在第二个念头忘记去 {ADDRESS=阿克伦镇}
-- 在第二个念头忘记去 {ADDRESS=阿尔戈马磨坊}
-- 在第二个念头忘记去 {ADDRESS=韦恩郡}
-- 在第二个念头忘记去 {ADDRESS=鹰郡平衡}
-- 在第二个念头忘记导航
-- 在第二个想法不去 {ADDRESS=brandonville}
-- 在第二个想法不去 {ADDRESS=damase}
-- 在第二个想法不去 {ADDRESS=eastborough}
-- 在第二个想法不去 {ADDRESS=kittitas}
-- 在第二个想法不去 {ADDRESS=macks 溪}
-- 在第二个想法不去 {ADDRESS=quasqueton 市}
-- 在第二个想法不去 {ADDRESS=renfrow}
-- 在第二个想法不去 {ADDRESS=wickenburg 镇}
-- 在第二个想法不去 {ADDRESS=willacoochee 市}
-- 在第二个想法不去 {ADDRESS=东布鲁顿}
-- 在第二个想法不去 {ADDRESS=中央}
-- 在第二个想法不去 {ADDRESS=佩恩茨维尔市}
-- 在第二个想法不去 {ADDRESS=克利夫顿城}
-- 在第二个想法不去 {ADDRESS=克拉克森}
-- 在第二个想法不去 {ADDRESS=克莱郡}
-- 在第二个想法不去 {ADDRESS=克里姆林宫}
-- 在第二个想法不去 {ADDRESS=凯契根网关自治区}
-- 在第二个想法不去 {ADDRESS=博恩斯蒂尔}
-- 在第二个想法不去 {ADDRESS=古德里奇}
-- 在第二个想法不去 {ADDRESS=史各士山}
-- 在第二个想法不去 {ADDRESS=土墩}
-- 在第二个想法不去 {ADDRESS=圣-亚历克西斯-马塔佩迪亚}
-- 在第二个想法不去 {ADDRESS=埃文莫尔卡特赖特花园}
-- 在第二个想法不去 {ADDRESS=布兰维尔}
-- 在第二个想法不去 {ADDRESS=布朗郡平衡}
-- 在第二个想法不去 {ADDRESS=帕丘塔}
-- 在第二个想法不去 {ADDRESS=帕尔默镇城市}
-- 在第二个想法不去 {ADDRESS=库尔塞勒}
-- 在第二个想法不去 {ADDRESS=底特律}
-- 在第二个想法不去 {ADDRESS=开普敦可能县}
-- 在第二个想法不去 {ADDRESS=弗农}
-- 在第二个想法不去 {ADDRESS=德比镇}
-- 在第二个想法不去 {ADDRESS=德雷克塞尔}
-- 在第二个想法不去 {ADDRESS=斯图克顿}
-- 在第二个想法不去 {ADDRESS=斯托克布里奇村}
-- 在第二个想法不去 {ADDRESS=斯托宁顿村}
-- 在第二个想法不去 {ADDRESS=方铅矿村}
-- 在第二个想法不去 {ADDRESS=普拉斯基县}
-- 在第二个想法不去 {ADDRESS=朱厄尔县}
-- 在第二个想法不去 {ADDRESS=森林城市城市}
-- 在第二个想法不去 {ADDRESS=汉密尔顿郡}
-- 在第二个想法不去 {ADDRESS=湖滨-吠叫}
-- 在第二个想法不去 {ADDRESS=瓦德勒伊-湖滨}
-- 在第二个想法不去 {ADDRESS=科林斯维尔}
-- 在第二个想法不去 {ADDRESS=科西嘉城}
-- 在第二个想法不去 {ADDRESS=茎}
-- 在第二个想法不去 {ADDRESS=莫尔斯村}
-- 在第二个想法不去 {ADDRESS=莱恩市}
-- 在第二个想法不去 {ADDRESS=补助金教区结余}
-- 在第二个想法不去 {ADDRESS=西甲镇}
-- 在第二个想法不去 {ADDRESS=达克皮克县余额}
-- 在第二个想法不去 {ADDRESS=迪博尔}
-- 在第二个想法不去 {ADDRESS=迪比克市}
-- 在第二个想法不去 {ADDRESS=道格拉斯}
-- 在第二个想法不去 {ADDRESS=里士满}
-- 在第二个想法不去 {ADDRESS=霍姆斯县平衡}
-- 在第二个想法不去 {ADDRESS=霍顿县结余}
-- 在第二个想法不去 {ADDRESS=韦恩}
-- 在第二个想法不去 {ADDRESS=韦恩镇}
-- 在第二个想法不去 {ADDRESS=马丁村}
-- 在第二个想法不去 {ADDRESS=马里科帕}
-- 在第二个想法不去 {ADDRESS=鸭}
-- 在第二个想法不去 {ADDRESS=麦金利郡}
-- 在第二个想法从来不介意导航
-- 在第二个想法从来没有介意去 {ADDRESS=公平草坪行政区}
-- 在第二个想法从来没有介意去 {ADDRESS=康斯托克}
-- 在第二个想法从来没有介意去 {ADDRESS=斯图尔特村}
-- 在第二个想法从来没有介意去 {ADDRESS=格里利市}
-- 在第二个想法从来没有介意去 {ADDRESS=浆果}
-- 在第二个想法从来没有介意去 {ADDRESS=米尔福德村}
-- 在第二个想法从来没有介意去 {ADDRESS=蛋白石}
-- 在第二个想法从来没有介意去 {ADDRESS=西点军校}
-- 在第二个想法从来没有介意去 {ADDRESS=费尔伯恩}
-- 在第二个想法从来没有介意去 {ADDRESS=里昂}
-- 在第二个想法从来没有介意去 {ADDRESS=阿德莫尔}
-- 在第二个想法从来没有介意去 {ADDRESS=韦伯}
-- 在第二个想法从来没有介意去 {ADDRESS=风景不错}
-- 在第二个想法从来没有介意去 {ADDRESS=黑斯廷斯市}
-- 在第二个想法停止导航
-- 在第二个想法删除导航
-- 在第二个想法取消去 {KEYWORD=1号码头进口}
-- 在第二个想法取消去 {KEYWORD=aliilani}
-- 在第二个想法取消去 {KEYWORD=三位一体教堂}
-- 在第二个想法取消去 {KEYWORD=中央公园}
-- 在第二个想法取消去 {KEYWORD=中央广场}
-- 在第二个想法取消去 {KEYWORD=中心点}
-- 在第二个想法取消去 {KEYWORD=价格塔}
-- 在第二个想法取消去 {KEYWORD=伍尔沃斯大厦}
-- 在第二个想法取消去 {KEYWORD=公共图书馆}
-- 在第二个想法取消去 {KEYWORD=切斯特曼海滩}
-- 在第二个想法取消去 {KEYWORD=吉隆坡塔}
-- 在第二个想法取消去 {KEYWORD=哈利法塔}
-- 在第二个想法取消去 {KEYWORD=国会大厦}
-- 在第二个想法取消去 {KEYWORD=城市塔}
-- 在第二个想法取消去 {KEYWORD=基奥普斯大金字塔}
-- 在第二个想法取消去 {KEYWORD=基督救世主大教堂}
-- 在第二个想法取消去 {KEYWORD=多伦多自治中心}
-- 在第二个想法取消去 {KEYWORD=大黑烟山国家公园}
-- 在第二个想法取消去 {KEYWORD=托纳布奥尼路}
-- 在第二个想法取消去 {KEYWORD=斯特拉特福节}
-- 在第二个想法取消去 {KEYWORD=新天鹅堡}
-- 在第二个想法取消去 {KEYWORD=星巴克}
-- 在第二个想法取消去 {KEYWORD=曲棍球名人堂}
-- 在第二个想法取消去 {KEYWORD=曼彻斯特维多利亚站}
-- 在第二个想法取消去 {KEYWORD=海印}
-- 在第二个想法取消去 {KEYWORD=海滩}
-- 在第二个想法取消去 {KEYWORD=清真寺 al nabawi}
-- 在第二个想法取消去 {KEYWORD=温莎城堡}
-- 在第二个想法取消去 {KEYWORD=滨城餐厅}
-- 在第二个想法取消去 {KEYWORD=潘 am 大厦}
-- 在第二个想法取消去 {KEYWORD=特朗普大厦}
-- 在第二个想法取消去 {KEYWORD=皇后岛宫剧院}
-- 在第二个想法取消去 {KEYWORD=航站楼}
-- 在第二个想法取消去 {KEYWORD=艾伦花园学院}
-- 在第二个想法取消去 {KEYWORD=西可环球广场}
-- 在第二个想法取消去 {KEYWORD=西码头}
-- 在第二个想法取消去 {KEYWORD=视觉与音响剧场}
-- 在第二个想法取消去 {KEYWORD=论坛报塔}
-- 在第二个想法取消去 {KEYWORD=迪拜兰德}
-- 在第二个想法取消去 {KEYWORD=退伍军人纪念馆}
-- 在第二个想法取消去 {KEYWORD=银行家大厅塔楼}
-- 在第二个想法取消去 {KEYWORD=阿克斯胡斯城堡}
-- 在第二个想法取消去 {KEYWORD=阿恩戴尔塔}
-- 在第二个想法取消去 {KEYWORD=颐和园}
-- 在第二个想法取消去 {KEYWORD=高盛大厦}
-- 在第二个想法擦拭导航
-- 在第二个想法擦除导航
-- 在第二个想法结束去 {KEYWORD=cinerama 圆顶}
-- 在第二个想法结束去 {KEYWORD=krger 国家公园}
-- 在第二个想法结束去 {KEYWORD=Marineview 广场}
-- 在第二个想法结束去 {KEYWORD=pittodrie 体育场}
-- 在第二个想法结束去 {KEYWORD=伦斯特酒店}
-- 在第二个想法结束去 {KEYWORD=冰霜银行大厦}
-- 在第二个想法结束去 {KEYWORD=剧院楼梯}
-- 在第二个想法结束去 {KEYWORD=动物园}
-- 在第二个想法结束去 {KEYWORD=国家艺术画廊}
-- 在第二个想法结束去 {KEYWORD=坎莫尔洞穴大鼠巢洞}
-- 在第二个想法结束去 {KEYWORD=埃斯科里亚尔}
-- 在第二个想法结束去 {KEYWORD=城市大门}
-- 在第二个想法结束去 {KEYWORD=塔}
-- 在第二个想法结束去 {KEYWORD=天使瀑布}
-- 在第二个想法结束去 {KEYWORD=布伦海姆宫殿酒店}
-- 在第二个想法结束去 {KEYWORD=撒尿}
-- 在第二个想法结束去 {KEYWORD=新天鹅堡}
-- 在第二个想法结束去 {KEYWORD=爱晚--}
-- 在第二个想法结束去 {KEYWORD=特朗普大厦}
-- 在第二个想法结束去 {KEYWORD=生境 ' 67}
-- 在第二个想法结束去 {KEYWORD=神圣的心}
-- 在第二个想法结束去 {KEYWORD=秦艽公园冬季花园}
-- 在第二个想法结束去 {KEYWORD=罗伯特-克莱门特体育馆}
-- 在第二个想法结束去 {KEYWORD=老爹科尔巴德利亚}
-- 在第二个想法结束去 {KEYWORD=著名的戴夫的}
-- 在第二个想法结束去 {KEYWORD=视觉和音响剧院}
-- 在第二个想法结束去 {KEYWORD=贝尔库尔城堡}
-- 在第二个想法结束去 {KEYWORD=金门大桥}
-- 在第二个想法结束去 {KEYWORD=钥匙塔}
-- 在第二个想法结束去 {KEYWORD=锡安国家公园}
-- 在第二个想法结束去 {KEYWORD=阿蒙寺}
-- 在第二个想法结束去 {KEYWORD=香榭丽舍大街}
-- 实际上停止导航
-- 实际上删除导航
-- 实际上削减导航
-- 实际上取消去 {KEYWORD=cherun-梅}
-- 实际上取消去 {KEYWORD=cinerama 圆顶}
-- 实际上取消去 {KEYWORD=万神殿}
-- 实际上取消去 {KEYWORD=中央广场}
-- 实际上取消去 {KEYWORD=依赖美国) 路易斯安那州}
-- 实际上取消去 {KEYWORD=勃兰登堡门}
-- 实际上取消去 {KEYWORD=商业银行大厦}
-- 实际上取消去 {KEYWORD=国会挪威}
-- 实际上取消去 {KEYWORD=埃及金字塔}
-- 实际上取消去 {KEYWORD=大堡礁}
-- 实际上取消去 {KEYWORD=姬路城}
-- 实际上取消去 {KEYWORD=寇松街火车站}
-- 实际上取消去 {KEYWORD=富国法戈中心}
-- 实际上取消去 {KEYWORD=山顶缆车2峰}
-- 实际上取消去 {KEYWORD=巴比伦的空中花园}
-- 实际上取消去 {KEYWORD=布拉格城堡}
-- 实际上取消去 {KEYWORD=布洛西村}
-- 实际上取消去 {KEYWORD=摩根大通大厦}
-- 实际上取消去 {KEYWORD=放大器位置}
-- 实际上取消去 {KEYWORD=斯泰森大厦}
-- 实际上取消去 {KEYWORD=极乐寺}
-- 实际上取消去 {KEYWORD=清真寺 al nabawi}
-- 实际上取消去 {KEYWORD=煤气筒}
-- 实际上取消去 {KEYWORD=盖洛德奥普利兰德度假酒店}
-- 实际上取消去 {KEYWORD=箭牌大厦}
-- 实际上取消去 {KEYWORD=米拉峡谷公园}
-- 实际上取消去 {KEYWORD=老爹市长}
-- 实际上取消去 {KEYWORD=航站楼}
-- 实际上取消去 {KEYWORD=苏丹阿都沙末大厦}
-- 实际上取消去 {KEYWORD=贾加纳斯寺}
-- 实际上取消去 {KEYWORD=金庙}
-- 实际上取消去 {KEYWORD=高盛大厦}
-- 实际上取消导航
-- 实际上摆脱导航
-- 实际上擦除导航
-- 实际上清除导航
-- 实际上结束去 {KEYWORD=ginas spa 一室公寓}
-- 实际上结束去 {KEYWORD=glaspaleis}
-- 实际上结束去 {KEYWORD=t c 塔}
-- 实际上结束去 {KEYWORD=乳品皇后}
-- 实际上结束去 {KEYWORD=亚历山大灯塔}
-- 实际上结束去 {KEYWORD=依赖美国) 路易斯安那州}
-- 实际上结束去 {KEYWORD=公共图书馆}
-- 实际上结束去 {KEYWORD=共和广场}
-- 实际上结束去 {KEYWORD=凡尔 赛}
-- 实际上结束去 {KEYWORD=博莱蒙特大厦}
-- 实际上结束去 {KEYWORD=卡萨罗马}
-- 实际上结束去 {KEYWORD=卫城}
-- 实际上结束去 {KEYWORD=后院汉堡}
-- 实际上结束去 {KEYWORD=商业银行大厦}
-- 实际上结束去 {KEYWORD=国会山}
-- 实际上结束去 {KEYWORD=圣保罗大教堂}
-- 实际上结束去 {KEYWORD=圣索菲亚大教堂}
-- 实际上结束去 {KEYWORD=埃里克威廉姆斯广场}
-- 实际上结束去 {KEYWORD=基奥普斯大金字塔}
-- 实际上结束去 {KEYWORD=尤里卡大厦}
-- 实际上结束去 {KEYWORD=巴黎圣母院}
-- 实际上结束去 {KEYWORD=布莱斯峡谷}
-- 实际上结束去 {KEYWORD=悉尼歌剧院酒店}
-- 实际上结束去 {KEYWORD=文化与科学宫}
-- 实际上结束去 {KEYWORD=新天鹅堡}
-- 实际上结束去 {KEYWORD=极乐寺}
-- 实际上结束去 {KEYWORD=温彻斯特神秘之家酒店}
-- 实际上结束去 {KEYWORD=熨斗大厦}
-- 实际上结束去 {KEYWORD=米兰}
-- 实际上结束去 {KEYWORD=米拉卡萨}
-- 实际上结束去 {KEYWORD=著名的人球员晚餐剧场}
-- 实际上结束去 {KEYWORD=观澜湖酒店}
-- 实际上结束去 {KEYWORD=达利安泰兹詹国王摩索拉斯墓}
-- 实际上结束去 {KEYWORD=酿酒历史街区}
-- 实际上结束去 {KEYWORD=阿恩戴尔塔}
-- 实际上结束去 {KEYWORD=阿扎迪塔}
-- 实际上结束去 {KEYWORD=阿联酋航空办公大楼}
-- 实际上结束去 {KEYWORD=首都大厦}
-- 实际上结束去 {KEYWORD=高盛大厦}
-- 实际上结束导航
-- 导航停止
+- 取消任何去的地方
+- 清除目的地
+- 明确的去
+- 清晰导航
+- 清晰的路线
+- 清晰的路线服务
+- 你能取消导航吗？
+- 你能取消航线服务吗？
+- 你能清除去
+- 你能清除导航
+- 你能不能切掉去
+- 你能削减导航
+- 你能删除去
+- 您可以删除导航
+- 你能不能结束导航
+- 你能不能结束航线服务
+- 你能抹去导航吗
+- 你能不能忘了导航
+- 你能摆脱导航
+- 你能不能取消导航
+- 请你取消航线服务好吗？
+- 你能不能清除去
+- 你能不能清除导航
+- 你能不能切掉
+- 你能不能削减导航
+- 你能不能请删除去
+- 你能不能删除导航
+- 你能不能请结束导航
+- 请你结束航线服务
+- 你能不能抹去去
+- 你能不能擦除导航
+- 你能不能忘了导航
+- 你能不能摆脱导航
+- 你能不能删除去
+- 你能不能删除导航
+- 你能不能停止导航
+- 你能不能擦去
+- 你能不能擦掉导航
+- 你能不能把导航擦干净
+- 你能删除去
+- 是否可以删除导航
+- 你能不能停止导航
+- 你能不能擦掉去
+- 你能擦掉导航吗？
+- 你能消灭出去
+- 你能擦除导航
+- 切割目标
+- 切割导航
+- 切割路线
+- 切断路线服务
+- 删除目标
+- 删除去
+- 删除导航
+- 删除路由
+- 删除路由服务
+- 关闭目标
+- 关闭导航
+- 关闭路由
+- 不要去
+- 不导航
+- 别走
+- 不导航
+- 放置目标
+- 放置导航
+- 掉落路线
+- 结束去
+- 结束导航
+- 无论走到哪里都要结束
+- 擦除目标
+- 擦除导航
+- 擦除路径
+- 擦除路线服务
+- 忘记目的地
+- 忘了去
+- 忘了纳维
+- 忘记导航
+- 忘记导航
+- 忘记路线服务
+- 摆脱去
+- 摆脱导航
+- 取消路线服务
+- 继续操作并取消导航
+- 继续并取消航线服务
+- 继续前进, 并清除去
+- 继续前进, 清除导航
+- 继续前进, 并削减去
+- 继续前进, 并削减导航
+- 继续, 并删除去
+- 继续并删除导航
+- 继续前进, 结束导航
+- 继续前进, 结束航线服务
+- 继续前进, 抹去去
+- 继续并擦除导航
+- 继续前进, 摆脱导航
+- 继续前进, 并删除去
+- 继续并删除导航
+- 继续前进并停止导航
+- 继续前进, 擦掉去
+- 继续前进, 擦掉导航
+- 继续前进, 消灭去
+- 继续前进, 并消灭导航
+- 是否有可能取消导航
+- 是否可以取消航线服务
+- 是否有可能清除去
+- 是否有可能清除导航
+- 有没有可能削减去
+- 是否有可能删除去
+- 是否可以删除导航
+- 是否有可能结束导航
+- 是否有可能结束路由服务
+- 是否有可能抹去去
+- 是否有可能擦除导航
+- 是否有可能忘记导航
+- 是否有可能摆脱导航
+- 是否有可能删除去
+- 是否有可能删除导航
+- 是否有可能擦除导航
+- 有可能消灭去
+- 导航清晰
 - 导航删除
 - 导航忘记
 - 导航摆脱
-- 导航清除
-- 导航移除
-- 往前走, 擦去
-- 忘了去 {KEYWORD=aliilani} 在 {ADDRESS=斯图克顿}
-- 忘了去 {KEYWORD=ashabori} 在 {ADDRESS=弗农}
-- 忘了去 {KEYWORD=ashabori} 在 {ADDRESS=木山}
-- 忘了去 {KEYWORD=ashabori} 在 {ADDRESS=格里纳普}
-- 忘了去 {KEYWORD=bajrakli 清真寺} 在 {ADDRESS=哈德森}
-- 忘了去 {ADDRESS=cloridorme}
-- 忘了去 {KEYWORD=coltejer} 在 {ADDRESS=安德鲁斯}
-- 忘了去 {ADDRESS=dagsboro}
-- 忘了去 {KEYWORD=djenn 大清真寺} 在 {ADDRESS=米萨纳比}
-- 忘了去 {KEYWORD=ed 墨维斯剧院} 在 {ADDRESS=所在城市}
-- 忘了去 {KEYWORD=firrhill 高中} 在 {ADDRESS=麦迪逊郡平衡}
-- 忘了去 {KEYWORD=lds 教堂办公楼} 在 {ADDRESS=chuathbaluk}
-- 忘了去 {KEYWORD=panthon} 在 {ADDRESS=earlville}
-- 忘了去 {KEYWORD=panthon} 在 {ADDRESS=博蒙特}
-- 忘了去 {KEYWORD=panthon} 在 {ADDRESS=小仲马镇}
-- 忘了去 {KEYWORD=spadina 历史悠久的房屋和花园} 在 {ADDRESS=洛根郡}
-- 忘了去 {KEYWORD=stawamus 总公园} 在 {ADDRESS=斯凯科米什}
-- 忘了去 {ADDRESS=streamwood 村}
-- 忘了去 {KEYWORD=takakkaw 瀑布} 在 {ADDRESS=休伦市}
-- 忘了去 {KEYWORD=takakkaw 瀑布} 在 {ADDRESS=坎伯兰县}
-- 忘了去 {KEYWORD=ue 塔} 在 {ADDRESS=奥德韦}
-- 忘了去 {KEYWORD=Versatel 大厦} 在 {ADDRESS=卡拉韦拉斯县}
-- 忘了去 {KEYWORD=Versatel 大厦} 在 {ADDRESS=詹妮特·麦柯迪}
-- 忘了去 {KEYWORD=一个加拿大广场} 在 {ADDRESS=拉姆齐}
-- 忘了去 {KEYWORD=一个央街} 在 {ADDRESS=麦麦麦市}
-- 忘了去 {KEYWORD=东方明珠塔} 在 {ADDRESS=湾县}
-- 忘了去 {KEYWORD=中国银行大厦} 在 {ADDRESS=南希县}
-- 忘了去 {KEYWORD=中央岛公园} 在 {ADDRESS=西温多弗市}
-- 忘了去 {KEYWORD=丹巴德} 在 {ADDRESS=罗杰斯}
-- 忘了去 {KEYWORD=主权银行大厦} 在 {ADDRESS=考德威尔县}
-- 忘了去 {KEYWORD=五角大楼} 在 {ADDRESS=贝尔特拉米县余额}
-- 忘了去 {KEYWORD=亚历山大体育场} 在 {ADDRESS=平德尔镇}
-- 忘了去 {KEYWORD=伦敦塔} 在 {ADDRESS=加邦县余额}
-- 忘了去 {KEYWORD=伦敦塔} 在 {ADDRESS=攻击}
-- 忘了去 {KEYWORD=伦斯特酒店} 在 {ADDRESS=manassa}
-- 忘了去 {ADDRESS=伦道夫村}
-- 忘了去 {KEYWORD=佛国寺} 在 {ADDRESS=金}
-- 忘了去 {KEYWORD=佩达纳太子} 在 {ADDRESS=射手城}
-- 忘了去 {KEYWORD=修行} 在 {ADDRESS=圣奥尔本斯市}
-- 忘了去 {KEYWORD=光大大厦} 在 {ADDRESS=埃伦顿镇}
-- 忘了去 {KEYWORD=克尔白} 在 {ADDRESS=高地县平衡}
-- 忘了去 {KEYWORD=六合彩总统府} 在 {ADDRESS=卡斯县}
-- 忘了去 {KEYWORD=共和广场} 在 {ADDRESS=南盐湖}
-- 忘了去 {KEYWORD=冰川点} 在 {ADDRESS=莫里尔顿}
-- 忘了去 {KEYWORD=冰霜银行大厦} 在 {ADDRESS=泰晤士福德}
-- 忘了去 {KEYWORD=凯旋拱门} 在 {ADDRESS=奥斯汀郡}
-- 忘了去 {KEYWORD=别墅情绪} 在 {ADDRESS=清水县结余}
-- 忘了去 {KEYWORD=加拿大塔} 在 {ADDRESS=阿比维尔}
-- 忘了去 {KEYWORD=加拿大第一广场} 在 {ADDRESS=韦斯特比}
-- 忘了去 {ADDRESS=北普拉特}
-- 忘了去 {ADDRESS=北流县}
-- 忘了去 {KEYWORD=华盛顿共同大厦} 在 {ADDRESS=伯 灵 顿}
-- 忘了去 {KEYWORD=南谷购物中心中心} 在 {ADDRESS=南图森市}
-- 忘了去 {ADDRESS=博格镇}
-- 忘了去 {KEYWORD=卡尼尔歌剧院} 在 {ADDRESS=山谷城城市}
-- 忘了去 {KEYWORD=台北101} 在 {ADDRESS=夏延镇}
-- 忘了去 {KEYWORD=史密斯大厦} 在 {ADDRESS=伯明翰}
-- 忘了去 {KEYWORD=吉隆坡塔} 在 {ADDRESS=布拉德福德村}
-- 忘了去 {KEYWORD=哥伦比亚中心} 在 {ADDRESS=帕克}
-- 忘了去 {KEYWORD=商业银行大厦} 在 {ADDRESS=米德郡}
-- 忘了去 {KEYWORD=商品集市} 在 {ADDRESS=圣米歇尔山}
-- 忘了去 {KEYWORD=嘉里塔} 在 {ADDRESS=st-昆汀}
-- 忘了去 {KEYWORD=国会 大厦} 在 {ADDRESS=通加诺克西市}
-- 忘了去 {KEYWORD=国会挪威} 在 {ADDRESS=leflore 县}
-- 忘了去 {KEYWORD=国家艺术画廊} 在 {ADDRESS=科里奥波利斯行政区}
-- 忘了去 {KEYWORD=国旗纪念馆} 在 {ADDRESS=puvirnituq}
-- 忘了去 {KEYWORD=图根哈特别墅酒店} 在 {ADDRESS=balmertown}
-- 忘了去 {ADDRESS=圣伊西多尔圣-大草原酒店}
-- 忘了去 {KEYWORD=圣家家庭} 在 {ADDRESS=艾克利}
-- 忘了去 {KEYWORD=圣尼古拉斯教堂} 在 {ADDRESS=北华盛顿}
-- 忘了去 {KEYWORD=圣彼得大教堂} 在 {ADDRESS=佩恩县结余}
-- 忘了去 {KEYWORD=圣母大殿} 在 {ADDRESS=米克尔}
-- 忘了去 {KEYWORD=圣火山山} 在 {ADDRESS=切罗基郡}
-- 忘了去 {KEYWORD=圣罗勒大教堂} 在 {ADDRESS=森镇}
-- 忘了去 {ADDRESS=圣马科斯}
-- 忘了去 {ADDRESS=埃利科特维尔村}
-- 忘了去 {ADDRESS=埃尔科县}
-- 忘了去 {KEYWORD=埃菲尔铁塔} 在 {ADDRESS=磨坊城城市}
-- 忘了去 {KEYWORD=城堡芳堤娜} 在 {ADDRESS=西敏寺}
-- 忘了去 {KEYWORD=城市塔} 在 {ADDRESS=华盛顿城}
-- 忘了去 {KEYWORD=城市大门} 在 {ADDRESS=鹅湖城}
-- 忘了去 {KEYWORD=塞恩塞斯视觉艺术中心} 在 {ADDRESS=jenkinsville 镇}
-- 忘了去 {KEYWORD=复活节公路体育场} 在 {ADDRESS=杰斐逊郡}
-- 忘了去 {KEYWORD=多伦多自治中心} 在 {ADDRESS=伦道夫村}
-- 忘了去 {KEYWORD=多伦多自治中心} 在 {ADDRESS=迪林厄姆人口普查区结余}
-- 忘了去 {KEYWORD=大峡谷} 在 {ADDRESS=荷兰}
-- 忘了去 {ADDRESS=天堂谷}
-- 忘了去 {KEYWORD=太阳信托广场} 在 {ADDRESS=伯克郡}
-- 忘了去 {KEYWORD=威斯汀桃树广场酒店} 在 {ADDRESS=欧文}
-- 忘了去 {KEYWORD=威斯汀桃树广场酒店} 在 {ADDRESS=电力县}
-- 忘了去 {KEYWORD=宙斯雕像} 在 {ADDRESS=基林市}
-- 忘了去 {KEYWORD=家庭保险大厦} 在 {ADDRESS=克利夫兰城}
-- 忘了去 {ADDRESS=宾汉湖}
-- 忘了去 {KEYWORD=寇松街火车站} 在 {ADDRESS=沃德纳}
-- 忘了去 {KEYWORD=富国法戈广场} 在 {ADDRESS=lynxville 村}
-- 忘了去 {ADDRESS=州线镇}
-- 忘了去 {KEYWORD=巴比伦的空中花园} 在 {ADDRESS=富兰克林市}
-- 忘了去 {ADDRESS=巴特勒郡}
-- 忘了去 {ADDRESS=巴罗郡}
-- 忘了去 {KEYWORD=巴黎歌剧院} 在 {ADDRESS=别是巴泉镇}
-- 忘了去 {KEYWORD=布拉格城堡} 在 {ADDRESS=加里县结余}
-- 忘了去 {KEYWORD=平安梅尔大厦} 在 {ADDRESS=弗里蒙特市}
-- 忘了去 {KEYWORD=广岛和平纪念馆} 在 {ADDRESS=詹姆斯敦镇}
-- 忘了去 {KEYWORD=彩虹桥} 在 {ADDRESS=阿加西省森林}
-- 忘了去 {KEYWORD=所罗门古根海姆博物馆} 在 {ADDRESS=布莱恩头镇}
-- 忘了去 {ADDRESS=托林顿}
-- 忘了去 {ADDRESS=拉特曼诺夫市}
-- 忘了去 {KEYWORD=拉链美洲台} 在 {ADDRESS=格雷特纳}
-- 忘了去 {KEYWORD=指甲效果} 在 {ADDRESS=埃尔莫尔镇}
-- 忘了去 {KEYWORD=撒尿} 在 {ADDRESS=信号山镇}
-- 忘了去 {KEYWORD=放大器位置} 在 {ADDRESS=山顶城}
-- 忘了去 {KEYWORD=斜角博物馆} 在 {ADDRESS=梯级县平衡}
-- 忘了去 {KEYWORD=斜角博物馆} 在 {ADDRESS=达比}
-- 忘了去 {KEYWORD=斜角博物馆} 在 {ADDRESS=霍尔郡}
-- 忘了去 {KEYWORD=斯特拉特福节} 在 {ADDRESS=乔克托县余额}
-- 忘了去 {ADDRESS=斯蒂芬维尔}
-- 忘了去 {KEYWORD=新天鹅堡} 在 {ADDRESS=东纽瓦克行政区}
-- 忘了去 {KEYWORD=新奥尔良竞技场} 在 {ADDRESS=麦克纳布}
-- 忘了去 {KEYWORD=新殖民地} 在 {ADDRESS=雷德菲尔德市}
-- 忘了去 {KEYWORD=时代广场} 在 {ADDRESS=马丁村}
-- 忘了去 {KEYWORD=极乐寺} 在 {ADDRESS=特洛伊市}
-- 忘了去 {KEYWORD=柳京酒店} 在 {ADDRESS=里昂郡}
-- 忘了去 {ADDRESS=格林郡}
-- 忘了去 {KEYWORD=格罗斯莫莫国家公园} 在 {ADDRESS=温特沃斯村}
-- 忘了去 {KEYWORD=欧洲银行} 在 {ADDRESS=因弗内斯}
-- 忘了去 {KEYWORD=汇丰大厦} 在 {ADDRESS=钢铁郡}
-- 忘了去 {KEYWORD=海印} 在 {ADDRESS=fairdale 市}
-- 忘了去 {KEYWORD=海滨长廊 ii} 在 {ADDRESS=恩西诺村}
-- 忘了去 {KEYWORD=海滨长廊 ii} 在 {ADDRESS=犁城}
-- 忘了去 {ADDRESS=温赖特镇}
-- 忘了去 {KEYWORD=爱妮岛城堡} 在 {ADDRESS=克雷斯特维尤}
-- 忘了去 {KEYWORD=爱德华花园} 在 {ADDRESS=银溪}
-- 忘了去 {ADDRESS=特克索拉}
-- 忘了去 {ADDRESS=特里普}
-- 忘了去 {KEYWORD=犹他爵士竞技场} 在 {ADDRESS=漆 咸}
-- 忘了去 {KEYWORD=独联体塔} 在 {ADDRESS=威尔登}
-- 忘了去 {KEYWORD=独联体塔} 在 {ADDRESS=雨 果}
-- 忘了去 {KEYWORD=猛犸洞穴} 在 {ADDRESS=白金城}
-- 忘了去 {KEYWORD=玻璃亭} 在 {ADDRESS=克伦县平衡}
-- 忘了去 {KEYWORD=玻璃亭} 在 {ADDRESS=梅森村}
-- 忘了去 {KEYWORD=瑞安联邦大厦} 在 {ADDRESS=三叶草镇}
-- 忘了去 {KEYWORD=甜面包山} 在 {ADDRESS=加勒特}
-- 忘了去 {KEYWORD=白宫} 在 {ADDRESS=橡树溪村}
-- 忘了去 {KEYWORD=白宫} 在 {ADDRESS=沃尔什}
-- 忘了去 {KEYWORD=白金汉宫} 在 {ADDRESS=圣维克多-博斯}
-- 忘了去 {KEYWORD=的螺旋} 在 {ADDRESS=卓别林}
-- 忘了去 {KEYWORD=皇后岛宫剧院} 在 {ADDRESS=凯伦凯勒}
-- 忘了去 {KEYWORD=皇后岛宫剧院} 在 {ADDRESS=谢尔比}
-- 忘了去 {KEYWORD=皇后岛宫剧院} 在 {ADDRESS=马什菲尔德村}
-- 忘了去 {KEYWORD=皇家大道} 在 {ADDRESS=温莎郡}
-- 忘了去 {KEYWORD=皇家泰瑞尔博物馆} 在 {ADDRESS=亚当斯郡平衡}
-- 忘了去 {KEYWORD=省公园} 在 {ADDRESS=海鸥湖}
-- 忘了去 {ADDRESS=碳素县平衡}
-- 忘了去 {KEYWORD=神庙} 在 {ADDRESS=亚特兰大}
-- 忘了去 {KEYWORD=秦艽公园冬季花园} 在 {ADDRESS=提升教区的平衡}
-- 忘了去 {KEYWORD=秦艽公园冬季花园} 在 {ADDRESS=林肯郡的平衡}
-- 忘了去 {KEYWORD=秦艽公园冬季花园} 在 {ADDRESS=肖尼县}
-- 忘了去 {KEYWORD=米兰中央车站} 在 {ADDRESS=成大会馆市}
-- 忘了去 {KEYWORD=米拉卡萨} 在 {ADDRESS=圣玛尔特}
-- 忘了去 {KEYWORD=米拉峡谷公园} 在 {ADDRESS=希望}
-- 忘了去 {KEYWORD=红场} 在 {ADDRESS=巴塞特}
-- 忘了去 {KEYWORD=约克大教堂} 在 {ADDRESS=白县余额}
-- 忘了去 {ADDRESS=纽厄尔}
-- 忘了去 {KEYWORD=纽格兰奇} 在 {ADDRESS=史密斯维尔市}
-- 忘了去 {KEYWORD=纽波特塔} 在 {ADDRESS=韦尔斯维尔}
-- 忘了去 {KEYWORD=罗斯福坎波贝洛国际公园} 在 {ADDRESS=布卢菲尔德}
-- 忘了去 {KEYWORD=美国空军国家博物馆} 在 {ADDRESS=海登}
-- 忘了去 {KEYWORD=美国购物中心} 在 {ADDRESS=斯塔尔}
-- 忘了去 {KEYWORD=美洲广场} 在 {ADDRESS=尼尔村酒店}
-- 忘了去 {KEYWORD=联合国总部} 在 {ADDRESS=安森维尔}
-- 忘了去 {KEYWORD=联合站} 在 {ADDRESS=尤托镇}
-- 忘了去 {KEYWORD=艾菲尔铁塔} 在 {ADDRESS=van 范阿尔斯泰恩市}
-- 忘了去 {ADDRESS=螺旋线城}
-- 忘了去 {KEYWORD=西可环球广场} 在 {ADDRESS=转运村}
-- 忘了去 {KEYWORD=西斯廷教堂} 在 {ADDRESS=枫叶谷}
-- 忘了去 {KEYWORD=西码头} 在 {ADDRESS=佩恩城}
-- 忘了去 {KEYWORD=视觉与音响剧场} 在 {ADDRESS=silverhill}
-- 忘了去 {KEYWORD=视觉和音响剧院} 在 {ADDRESS=希伯伦市}
-- 忘了去 {ADDRESS=贝克曼梁}
-- 忘了去 {KEYWORD=费萨尔清真寺} 在 {ADDRESS=科罗拉多州县的平衡}
-- 忘了去 {KEYWORD=迪拜兰德} 在 {ADDRESS=卫星海滩城}
-- 忘了去 {ADDRESS=邓迪}
-- 忘了去 {KEYWORD=金门大桥} 在 {ADDRESS=阿克塔市}
-- 忘了去 {ADDRESS=阿提卡市}
-- 忘了去 {KEYWORD=阿联酋航空办公大楼} 在 {ADDRESS=费尔法克斯县余额}
-- 忘了去 {KEYWORD=音乐厅} 在 {ADDRESS=白鸟}
-- 忘了去 {KEYWORD=颐和园} 在 {ADDRESS=古丁县}
-- 忘了去 {KEYWORD=香榭丽舍大街} 在 {ADDRESS=安波镇市}
-- 忘了去 {KEYWORD=马丘比丘} 在 {ADDRESS=休斯敦郡平衡}
-- 忘了去 {ADDRESS=马瑞思市}
-- 忘记 {KEYWORD=ashabori} 船舶
-- 忘记 {KEYWORD=bajrakli 清真寺} 船舶
-- 忘记 {KEYWORD=dg 银行大厦} 船舶
-- 忘记 {KEYWORD=djenn 大清真寺} 船舶
-- 忘记 {KEYWORD=ed 墨维斯剧院} 船舶
-- 忘记 {KEYWORD=Fountainbleu 广场} 船舶
-- 忘记 {KEYWORD=ggantija} 船舶
-- 忘记 {KEYWORD=glaspaleis} 船舶
-- 忘记 {KEYWORD=panthon} 船舶
-- 忘记 {KEYWORD=t c 塔} 船舶
-- 忘记 {KEYWORD=ue 塔} 船舶
-- 忘记 {KEYWORD=一个央街} 船舶
-- 忘记 {KEYWORD=万神殿} 船舶
-- 忘记 {KEYWORD=世界金融中心} 船舶
-- 忘记 {KEYWORD=世贸中心} 船舶
-- 忘记 {KEYWORD=中央公园} 船舶
-- 忘记 {KEYWORD=中央岛公园} 船舶
-- 忘记 {KEYWORD=中央广场1} 船舶
-- 忘记 {KEYWORD=中心点} 船舶
-- 忘记 {KEYWORD=亚利桑那-索诺拉州沙漠博物馆} 船舶
-- 忘记 {KEYWORD=以弗所书弥尔特神庙} 船舶
-- 忘记 {KEYWORD=伦敦塔} 船舶
-- 忘记 {KEYWORD=伯明翰市政厅} 船舶
-- 忘记 {KEYWORD=信号山} 船舶
-- 忘记 {KEYWORD=克里斯托弗酒店} 船舶
-- 忘记 {KEYWORD=六合彩总统府} 船舶
-- 忘记 {KEYWORD=共和广场} 船舶
-- 忘记 {KEYWORD=切斯特曼海滩} 船舶
-- 忘记 {KEYWORD=加拿大第一广场} 船舶
-- 忘记 {KEYWORD=勃兰登堡门} 船舶
-- 忘记 {KEYWORD=南谷购物中心中心} 船舶
-- 忘记 {KEYWORD=卡尔加里踩踏} 船舶
-- 忘记 {KEYWORD=吉隆坡塔} 船舶
-- 忘记 {KEYWORD=团圆塔} 船舶
-- 忘记 {KEYWORD=国会 大厦} 船舶
-- 忘记 {KEYWORD=图根哈特别墅酒店} 船舶
-- 忘记 {KEYWORD=圣劳伦斯市场} 船舶
-- 忘记 {KEYWORD=圣尼古拉斯教堂} 船舶
-- 忘记 {KEYWORD=圣彼得大教堂} 船舶
-- 忘记 {KEYWORD=圣母院} 船舶
-- 忘记 {KEYWORD=圣火山山} 船舶
-- 忘记 {KEYWORD=圣马科斯城堡} 船舶
-- 忘记 {KEYWORD=埃及灯塔} 船舶
-- 忘记 {KEYWORD=多伦多伊顿中心} 船舶
-- 忘记 {KEYWORD=大堡礁} 船舶
-- 忘记 {KEYWORD=大本钟} 船舶
-- 忘记 {KEYWORD=大金字塔} 船舶
-- 忘记 {KEYWORD=天空塔} 船舶
-- 忘记 {KEYWORD=太子清真寺} 船舶
-- 忘记 {KEYWORD=太阳信托广场} 船舶
-- 忘记 {KEYWORD=奥林匹亚宙斯庙} 船舶
-- 忘记 {KEYWORD=奥索尤斯沙漠模型铁路} 船舶
-- 忘记 {KEYWORD=威斯汀海港城堡酒店} 船舶
-- 忘记 {KEYWORD=安大略省种子公司} 船舶
-- 忘记 {KEYWORD=富尔顿歌剧院酒店} 船舶
-- 忘记 {KEYWORD=巴黎圣母院 de Evinceal} 船舶
-- 忘记 {KEYWORD=布加勒斯特购物中心} 船舶
-- 忘记 {KEYWORD=平安梅尔大厦} 船舶
-- 忘记 {KEYWORD=广场别墅-玛丽} 船舶
-- 忘记 {KEYWORD=总督府} 船舶
-- 忘记 {KEYWORD=所罗门古根海姆博物馆} 船舶
-- 忘记 {KEYWORD=拉斯科岩洞洞穴} 船舶
-- 忘记 {KEYWORD=拉链美洲台} 船舶
-- 忘记 {KEYWORD=摩根大通大厦} 船舶
-- 忘记 {KEYWORD=斗兽场} 船舶
-- 忘记 {KEYWORD=斜角博物馆} 船舶
-- 忘记 {KEYWORD=斯科温克小径} 船舶
-- 忘记 {KEYWORD=新奥尔良竞技场} 船舶
-- 忘记 {KEYWORD=曲棍球名人堂} 船舶
-- 忘记 {KEYWORD=曼彻斯特皮卡迪利站} 船舶
-- 忘记 {KEYWORD=极乐寺} 船舶
-- 忘记 {KEYWORD=林肯纪念馆} 船舶
-- 忘记 {KEYWORD=梅奥大厦} 船舶
-- 忘记 {KEYWORD=欧洲银行} 船舶
-- 忘记 {KEYWORD=流星火山口} 船舶
-- 忘记 {KEYWORD=温彻斯特神秘之家酒店} 船舶
-- 忘记 {KEYWORD=温斯皮尔中心} 船舶
-- 忘记 {KEYWORD=湖畔公园旋转木马} 船舶
-- 忘记 {KEYWORD=滨海湾金沙} 船舶
-- 忘记 {KEYWORD=犹他爵士竞技场} 船舶
-- 忘记 {KEYWORD=玛德 琳} 船舶
-- 忘记 {KEYWORD=环球剧场} 船舶
-- 忘记 {KEYWORD=理查森大厦} 船舶
-- 忘记 {KEYWORD=的神圣} 船舶
-- 忘记 {KEYWORD=皇家 bc 博物馆} 船舶
-- 忘记 {KEYWORD=盖洛德奥普利兰德度假酒店} 船舶
-- 忘记 {KEYWORD=省公园} 船舶
-- 忘记 {KEYWORD=神庙} 船舶
-- 忘记 {KEYWORD=神的花园} 船舶
-- 忘记 {KEYWORD=第二城市} 船舶
-- 忘记 {KEYWORD=米兰} 船舶
-- 忘记 {KEYWORD=米拉峡谷公园} 船舶
-- 忘记 {KEYWORD=米拉德塔} 船舶
-- 忘记 {KEYWORD=红场} 船舶
-- 忘记 {KEYWORD=美国购物中心} 船舶
-- 忘记 {KEYWORD=美国银行大厦} 船舶
-- 忘记 {KEYWORD=美国银行广场} 船舶
-- 忘记 {KEYWORD=美洲广场} 船舶
-- 忘记 {KEYWORD=自由塔} 船舶
-- 忘记 {KEYWORD=至尊沙盒} 船舶
-- 忘记 {KEYWORD=航站楼} 船舶
-- 忘记 {KEYWORD=艾伦花园学院} 船舶
-- 忘记 {KEYWORD=艾菲尔铁塔} 船舶
-- 忘记 {KEYWORD=芬格的洞穴} 船舶
-- 忘记 {KEYWORD=苏丹阿都沙末大厦} 船舶
-- 忘记 {KEYWORD=蒂姆霍顿的} 船舶
-- 忘记 {KEYWORD=蓝色清真寺} 船舶
-- 忘记 {KEYWORD=西埃德蒙顿购物中心} 船舶
-- 忘记 {KEYWORD=西敏寺} 船舶
-- 忘记 {KEYWORD=西敏寺修道院} 船舶
-- 忘记 {KEYWORD=西斯廷教堂} 船舶
-- 忘记 {KEYWORD=西雅图中央图书馆} 船舶
-- 忘记 {KEYWORD=论坛报塔} 船舶
-- 忘记 {KEYWORD=诺克斯堡} 船舶
-- 忘记 {KEYWORD=贾加纳斯寺} 船舶
-- 忘记 {KEYWORD=贾斯珀国家公园} 船舶
-- 忘记 {KEYWORD=里亚托塔} 船舶
-- 忘记 {KEYWORD=里亚托桥} 船舶
-- 忘记 {KEYWORD=银行家大厅塔楼} 船舶
-- 忘记 {KEYWORD=锚旅馆} 船舶
-- 忘记 {KEYWORD=阿尔伯特学院} 船舶
-- 忘记 {KEYWORD=阿尔罕布拉} 船舶
-- 忘记 {KEYWORD=阿扎迪塔} 船舶
-- 忘记 {KEYWORD=阿瓦拉电视塔} 船舶
-- 忘记 {KEYWORD=阿联酋航空办公大楼} 船舶
-- 忘记 {KEYWORD=阿蒙寺} 船舶
-- 忘记 {KEYWORD=首都大厦} 船舶
-- 忘记 {KEYWORD=香榭丽舍大街} 船舶
-- 忘记 {KEYWORD=高盛大厦} 船舶
-- 忘记去
-- 忘记导航
-- 忘记导航到 {KEYWORD=Atm}
-- 忘记导航到 {KEYWORD=三明治吧}
-- 忘记导航到 {KEYWORD=中东餐厅}
-- 忘记导航到 {KEYWORD=二手商店}
-- 忘记导航到 {KEYWORD=休闲餐厅}
-- 忘记导航到 {KEYWORD=会计}
-- 忘记导航到 {KEYWORD=住房}
-- 忘记导航到 {KEYWORD=体育用品店}
-- 忘记导航到 {KEYWORD=便利店}
-- 忘记导航到 {KEYWORD=保险经纪}
-- 忘记导航到 {KEYWORD=保龄球}
-- 忘记导航到 {KEYWORD=健康餐厅}
-- 忘记导航到 {KEYWORD=健身俱乐部}
-- 忘记导航到 {KEYWORD=健身店}
-- 忘记导航到 {KEYWORD=健身房}
-- 忘记导航到 {KEYWORD=克里奥尔餐厅}
-- 忘记导航到 {KEYWORD=公交车站}
-- 忘记导航到 {KEYWORD=公共房屋}
-- 忘记导航到 {KEYWORD=公园}
-- 忘记导航到 {KEYWORD=冰淇淋厅}
-- 忘记导航到 {KEYWORD=出租车停靠站}
-- 忘记导航到 {KEYWORD=剧院}
-- 忘记导航到 {KEYWORD=办公用品商店}
-- 忘记导航到 {KEYWORD=加勒比餐厅}
-- 忘记导航到 {KEYWORD=加油站}
-- 忘记导航到 {KEYWORD=医生办公室}
-- 忘记导航到 {KEYWORD=医科学校}
-- 忘记导航到 {KEYWORD=医院}
-- 忘记导航到 {KEYWORD=午餐餐厅}
-- 忘记导航到 {KEYWORD=古巴餐厅}
-- 忘记导航到 {KEYWORD=咖啡馆}
-- 忘记导航到 {KEYWORD=品种店}
-- 忘记导航到 {KEYWORD=商场}
-- 忘记导航到 {KEYWORD=商学院}
-- 忘记导航到 {KEYWORD=啤酒店}
-- 忘记导航到 {KEYWORD=地铁入口}
-- 忘记导航到 {KEYWORD=复古店}
-- 忘记导航到 {KEYWORD=夜总会}
-- 忘记导航到 {KEYWORD=宠物店}
-- 忘记导航到 {KEYWORD=家修店}
-- 忘记导航到 {KEYWORD=家具店}
-- 忘记导航到 {KEYWORD=家居用品店}
-- 忘记导航到 {KEYWORD=家庭和花园商店}
-- 忘记导航到 {KEYWORD=宾馆}
-- 忘记导航到 {KEYWORD=小 酒馆}
-- 忘记导航到 {KEYWORD=小学}
-- 忘记导航到 {KEYWORD=市政厅}
-- 忘记导航到 {KEYWORD=广场}
-- 忘记导航到 {KEYWORD=心理医生}
-- 忘记导航到 {KEYWORD=快餐店}
-- 忘记导航到 {KEYWORD=慈善}
-- 忘记导航到 {KEYWORD=户外商店}
-- 忘记导航到 {KEYWORD=房地产 经纪人}
-- 忘记导航到 {KEYWORD=所有你可以吃自助餐}
-- 忘记导航到 {KEYWORD=折扣食品店}
-- 忘记导航到 {KEYWORD=护照办公室}
-- 忘记导航到 {KEYWORD=按摩沙龙}
-- 忘记导航到 {KEYWORD=教堂}
-- 忘记导航到 {KEYWORD=散装商店}
-- 忘记导航到 {KEYWORD=新厨房餐厅}
-- 忘记导航到 {KEYWORD=旅行社}
-- 忘记导航到 {KEYWORD=日光浴室}
-- 忘记导航到 {KEYWORD=晚餐餐厅}
-- 忘记导航到 {KEYWORD=普通话餐厅}
-- 忘记导航到 {KEYWORD=枪支商店}
-- 忘记导航到 {KEYWORD=植物园}
-- 忘记导航到 {KEYWORD=民族餐厅}
-- 忘记导航到 {KEYWORD=水族馆}
-- 忘记导航到 {KEYWORD=汤餐厅}
-- 忘记导航到 {KEYWORD=汽车站}
-- 忘记导航到 {KEYWORD=油漆店}
-- 忘记导航到 {KEYWORD=洗衣}
-- 忘记导航到 {KEYWORD=消防站}
-- 忘记导航到 {KEYWORD=游戏商店}
-- 忘记导航到 {KEYWORD=游泳池}
-- 忘记导航到 {KEYWORD=火车站}
-- 忘记导航到 {KEYWORD=点心餐厅}
-- 忘记导航到 {KEYWORD=烧烤}
-- 忘记导航到 {KEYWORD=熟食 店}
-- 忘记导航到 {KEYWORD=牙医}
-- 忘记导航到 {KEYWORD=牛排餐厅}
-- 忘记导航到 {KEYWORD=物理 治疗 师}
-- 忘记导航到 {KEYWORD=电子商店}
-- 忘记导航到 {KEYWORD=男士服装店}
-- 忘记导航到 {KEYWORD=监狱}
-- 忘记导航到 {KEYWORD=相机商店}
-- 忘记导航到 {KEYWORD=硬件存储}
-- 忘记导航到 {KEYWORD=竞技场}
-- 忘记导航到 {KEYWORD=童装店}
-- 忘记导航到 {KEYWORD=篮球场}
-- 忘记导航到 {KEYWORD=糕点店}
-- 忘记导航到 {KEYWORD=经典餐厅}
-- 忘记导航到 {KEYWORD=美容店}
-- 忘记导航到 {KEYWORD=美容院}
-- 忘记导航到 {KEYWORD=美甲师}
-- 忘记导航到 {KEYWORD=美食餐厅}
-- 忘记导航到 {KEYWORD=自助餐}
-- 忘记导航到 {KEYWORD=自行车店}
-- 忘记导航到 {KEYWORD=艺术店}
-- 忘记导航到 {KEYWORD=花园}
-- 忘记导航到 {KEYWORD=花园中心}
-- 忘记导航到 {KEYWORD=药学}
-- 忘记导航到 {KEYWORD=营地}
-- 忘记导航到 {KEYWORD=裁缝}
-- 忘记导航到 {KEYWORD=警察局}
-- 忘记导航到 {KEYWORD=贸易学校}
-- 忘记导航到 {KEYWORD=超市}
-- 忘记导航到 {KEYWORD=足球场}
-- 忘记导航到 {KEYWORD=退休家庭}
-- 忘记导航到 {KEYWORD=酒吧}
-- 忘记导航到 {KEYWORD=酒吧和酒廊}
-- 忘记导航到 {KEYWORD=锁 匠}
-- 忘记导航到 {KEYWORD=青年旅舍}
-- 忘记导航到 {KEYWORD=非洲餐厅}
-- 忘记导航到 {KEYWORD=高中}
-- 忘记导航到 {KEYWORD=高级美食餐厅}
-- 忘记导航到 {KEYWORD=鸡肉餐厅}
-- 忘记导航到 {KEYWORD=黎巴嫩餐厅}
-- 忘记带我去 {ADDRESS=Fanchon 广场} 在 {ADDRESS=纳什维尔村}
-- 忘记带我去 {ADDRESS=gelston 大道} 在 {ADDRESS=赫德利}
-- 忘记带我去 {ADDRESS=voorhies 大道} 在 {ADDRESS=肯辛顿市}
-- 忘记带我去 {ADDRESS=主要街道} 在 {ADDRESS=藤}
-- 忘记带我去 {ADDRESS=主要街道南} 在 {ADDRESS=城市}
-- 忘记带我去 {ADDRESS=丽致阁} 在 {ADDRESS=蒂拉穆克县}
-- 忘记带我去 {ADDRESS=乡村俱乐部驾车} 在 {ADDRESS=奥斯威哥湖城}
-- 忘记带我去 {ADDRESS=亮水城阁} 在 {ADDRESS=镇}
-- 忘记带我去 {ADDRESS=从 Siclen 大道} 在 {ADDRESS=埃尔斯沃思村}
-- 忘记带我去 {ADDRESS=休伦街} 在 {ADDRESS=沃兰市}
-- 忘记带我去 {ADDRESS=伦纳德街} 在 {ADDRESS=修士点}
-- 忘记带我去 {ADDRESS=克拉克街} 在 {ADDRESS=管家}
-- 忘记带我去 {ADDRESS=兰开斯特大道} 在 {ADDRESS=米德韦尔}
-- 忘记带我去 {ADDRESS=凉廊广场} 在 {ADDRESS=卡梅尔-米切尔溪-s}
-- 忘记带我去 {ADDRESS=凯瑟琳街} 在 {ADDRESS=罗宾逊城}
-- 忘记带我去 {ADDRESS=分部地点} 在 {ADDRESS=城市喷泉酒店}
-- 忘记带我去 {ADDRESS=前街北} 在 {ADDRESS=达拉拉镇}
-- 忘记带我去 {ADDRESS=剑桥法院} 在 {ADDRESS=富兰克林郡}
-- 忘记带我去 {ADDRESS=劳伦斯街} 在 {ADDRESS=斯托瓦尔}
-- 忘记带我去 {ADDRESS=北街} 在 {ADDRESS=布恩县}
-- 忘记带我去 {ADDRESS=厢式街道} 在 {ADDRESS=富兰克林县结余}
-- 忘记带我去 {ADDRESS=哈里森广场} 在 {ADDRESS=科妮莉亚}
-- 忘记带我去 {ADDRESS=喷泉大道} 在 {ADDRESS=贝尔顿市}
-- 忘记带我去 {ADDRESS=国会街} 在 {ADDRESS=讴}
-- 忘记带我去 {ADDRESS=国王街} 在 {ADDRESS=珊瑚港}
-- 忘记带我去 {ADDRESS=圣詹姆斯广场} 在 {ADDRESS=格伦迪县}
-- 忘记带我去 {ADDRESS=坦格伍德驱动器} 在 {ADDRESS=恩格尔伍德市}
-- 忘记带我去 {ADDRESS=埃克塞特街} 在 {ADDRESS=奥帕萨蒂卡}
-- 忘记带我去 {ADDRESS=埃塞克斯街} 在 {ADDRESS=伊利}
-- 忘记带我去 {ADDRESS=大学大道} 在 {ADDRESS=埃斯蒙德市}
-- 忘记带我去 {ADDRESS=大学街} 在 {ADDRESS=pender 村}
-- 忘记带我去 {ADDRESS=奥齐戈街} 在 {ADDRESS=贾斯珀县}
-- 忘记带我去 {ADDRESS=奶精街} 在 {ADDRESS=伍德市}
-- 忘记带我去 {ADDRESS=威廉姆斯街} 在 {ADDRESS=太平洋城市}
-- 忘记带我去 {ADDRESS=威廉姆斯街} 在 {ADDRESS=威廉斯顿镇}
-- 忘记带我去 {ADDRESS=安娜阁} 在 {ADDRESS=benwood}
-- 忘记带我去 {ADDRESS=宾夕法尼亚大道} 在 {ADDRESS=普罗季温市}
-- 忘记带我去 {ADDRESS=宾西法尼亚街} 在 {ADDRESS=泰格德}
-- 忘记带我去 {ADDRESS=小屋街} 在 {ADDRESS=格罗顿市}
-- 忘记带我去 {ADDRESS=尼尔森街} 在 {ADDRESS=伯班克}
-- 忘记带我去 {ADDRESS=山谷路} 在 {ADDRESS=东北}
-- 忘记带我去 {ADDRESS=岸路} 在 {ADDRESS=格伦维尤庄园}
-- 忘记带我去 {ADDRESS=巴洛驱动} 在 {ADDRESS=斯科茨维尔市}
-- 忘记带我去 {ADDRESS=布朗街} 在 {ADDRESS=底特律镇}
-- 忘记带我去 {ADDRESS=布法罗大道} 在 {ADDRESS=不来梅}
-- 忘记带我去 {ADDRESS=布莱顿第七巷} 在 {ADDRESS=罗伊}
-- 忘记带我去 {ADDRESS=布莱顿第二名} 在 {ADDRESS=利特尔顿}
-- 忘记带我去 {ADDRESS=布莱顿第十四街} 在 {ADDRESS=特里格县余额}
-- 忘记带我去 {ADDRESS=布鲁克林下城区广场} 在 {ADDRESS=克罗瑟斯维尔镇}
-- 忘记带我去 {ADDRESS=希尔克雷斯特大道} 在 {ADDRESS=快速电流}
-- 忘记带我去 {ADDRESS=常青巷} 在 {ADDRESS=上鞍河行政区}
-- 忘记带我去 {ADDRESS=平原第五街} 在 {ADDRESS=亨德森县结余}
-- 忘记带我去 {ADDRESS=库珀街} 在 {ADDRESS=魁北克镇的}
-- 忘记带我去 {ADDRESS=康威街} 在 {ADDRESS=大城市}
-- 忘记带我去 {ADDRESS=弗洛伊德球场} 在 {ADDRESS=西奈镇}
-- 忘记带我去 {ADDRESS=弗里尔广场} 在 {ADDRESS=萨利郡}
-- 忘记带我去 {ADDRESS=强大的地方} 在 {ADDRESS=巴格莱}
-- 忘记带我去 {ADDRESS=拱街} 在 {ADDRESS=校长城}
-- 忘记带我去 {ADDRESS=故事街} 在 {ADDRESS=弗农}
-- 忘记带我去 {ADDRESS=斯坦顿路} 在 {ADDRESS=赫克托镇}
-- 忘记带我去 {ADDRESS=斯基德莫尔大道} 在 {ADDRESS=阿萨巴斯卡的圣克里斯托弗}
-- 忘记带我去 {ADDRESS=新泽西大道} 在 {ADDRESS=秋河村}
-- 忘记带我去 {ADDRESS=施罗德大道} 在 {ADDRESS=粗壮}
-- 忘记带我去 {ADDRESS=明珠街} 在 {ADDRESS=莱利城}
-- 忘记带我去 {ADDRESS=曼哈顿法院} 在 {ADDRESS=swissvale 行政区}
-- 忘记带我去 {ADDRESS=杜里埃阁} 在 {ADDRESS=波森村}
-- 忘记带我去 {ADDRESS=杰斐逊大道} 在 {ADDRESS=springtown}
-- 忘记带我去 {ADDRESS=林荫大道球场} 在 {ADDRESS=罗切斯特城}
-- 忘记带我去 {ADDRESS=柏树阁} 在 {ADDRESS=汉密尔顿郡}
-- 忘记带我去 {ADDRESS=查尔斯广场} 在 {ADDRESS=克里奥尔乡村酒店}
-- 忘记带我去 {ADDRESS=查尔斯广场} 在 {ADDRESS=利奇菲尔德县余额}
-- 忘记带我去 {ADDRESS=查尔斯街} 在 {ADDRESS=春季山丘}
-- 忘记带我去 {ADDRESS=格雷坦街} 在 {ADDRESS=拉普兰罗斯托}
-- 忘记带我去 {ADDRESS=桥街} 在 {ADDRESS=拉法市}
-- 忘记带我去 {ADDRESS=棕榈阁} 在 {ADDRESS=林奇村}
-- 忘记带我去 {ADDRESS=榆树广场} 在 {ADDRESS=巴恩斯顿村}
-- 忘记带我去 {ADDRESS=榛阁} 在 {ADDRESS=拉}
-- 忘记带我去 {ADDRESS=沃伦街} 在 {ADDRESS=拉勒米县余额}
-- 忘记带我去 {ADDRESS=沃特伯里街} 在 {ADDRESS=兰开斯特郡结余}
-- 忘记带我去 {ADDRESS=河路} 在 {ADDRESS=卡斯湖城}
-- 忘记带我去 {ADDRESS=波罗的海街} 在 {ADDRESS=管家县余额}
-- 忘记带我去 {ADDRESS=渠道大道} 在 {ADDRESS=殖民地镇}
-- 忘记带我去 {ADDRESS=湾景大道} 在 {ADDRESS=大西洋郡平衡}
-- 忘记带我去 {ADDRESS=湾景广场} 在 {ADDRESS=路易斯维尔市}
-- 忘记带我去 {ADDRESS=湾第十三街} 在 {ADDRESS=天宝县}
-- 忘记带我去 {ADDRESS=狼之家} 在 {ADDRESS=绿蔷薇}
-- 忘记带我去 {ADDRESS=玛瑙苑} 在 {ADDRESS=亚历山大城}
-- 忘记带我去 {ADDRESS=理查森街} 在 {ADDRESS=史肯隆市}
-- 忘记带我去 {ADDRESS=申克大道} 在 {ADDRESS=谢尔比村}
-- 忘记带我去 {ADDRESS=画街} 在 {ADDRESS=永嘉县}
-- 忘记带我去 {ADDRESS=福尔摩斯巷} 在 {ADDRESS=杰克逊村酒店}
-- 忘记带我去 {ADDRESS=第七十二街} 在 {ADDRESS=马伦戈镇}
-- 忘记带我去 {ADDRESS=第七大道} 在 {ADDRESS=火焰村}
-- 忘记带我去 {ADDRESS=第三十六街} 在 {ADDRESS=月坛市}
-- 忘记带我去 {ADDRESS=第三街} 在 {ADDRESS=tribbey}
-- 忘记带我去 {ADDRESS=第三街} 在 {ADDRESS=威斯特摩兰}
-- 忘记带我去 {ADDRESS=第三街} 在 {ADDRESS=布罗克特}
-- 忘记带我去 {ADDRESS=第九十五街} 在 {ADDRESS=曼哈顿城}
-- 忘记带我去 {ADDRESS=第九大道} 在 {ADDRESS=hessmer 村}
-- 忘记带我去 {ADDRESS=第九街西} 在 {ADDRESS=蒙特苏马县余额}
-- 忘记带我去 {ADDRESS=第五十九街} 在 {ADDRESS=北斜坡区平衡}
-- 忘记带我去 {ADDRESS=第五街北} 在 {ADDRESS=柳树泉村}
-- 忘记带我去 {ADDRESS=第五街西} 在 {ADDRESS=杰斐逊郡平衡}
-- 忘记带我去 {ADDRESS=第六大道} 在 {ADDRESS=克莱顿县结余}
-- 忘记带我去 {ADDRESS=米勒大道} 在 {ADDRESS=贝尔维尤市}
-- 忘记带我去 {ADDRESS=绿街} 在 {ADDRESS=伊泽德县余额}
-- 忘记带我去 {ADDRESS=肯莫尔阁} 在 {ADDRESS=fairdale}
-- 忘记带我去 {ADDRESS=肯辛顿街} 在 {ADDRESS=温彻斯特}
-- 忘记带我去 {ADDRESS=自由街} 在 {ADDRESS=大海狸行政区}
-- 忘记带我去 {ADDRESS=舍伍德驾车} 在 {ADDRESS=加拉廷县余额}
-- 忘记带我去 {ADDRESS=英格拉哈姆街} 在 {ADDRESS=flatrock}
-- 忘记带我去 {ADDRESS=范妮街} 在 {ADDRESS=麋鹿急流村}
-- 忘记带我去 {ADDRESS=菲苑} 在 {ADDRESS=埃塞克斯郡}
-- 忘记带我去 {ADDRESS=蓝宝石街} 在 {ADDRESS=焦化}
-- 忘记带我去 {ADDRESS=詹姆斯街} 在 {ADDRESS=威洛布鲁克}
-- 忘记带我去 {ADDRESS=贵族街} 在 {ADDRESS=springport}
-- 忘记带我去 {ADDRESS=费尼莫尔街} 在 {ADDRESS=比顿}
-- 忘记带我去 {ADDRESS=道格拉斯街} 在 {ADDRESS=富兰克林郡}
-- 忘记带我去 {ADDRESS=里奇伍德广场} 在 {ADDRESS=okemah 市}
-- 忘记带我去 {ADDRESS=长盛街} 在 {ADDRESS=sprucedale}
-- 忘记带我去 {ADDRESS=阿拉巴马大道} 在 {ADDRESS=autaugaville 镇}
-- 忘记带我去 {ADDRESS=阿甘广场} 在 {ADDRESS=亨利郡}
-- 忘记带我去 {ADDRESS=隐蔽街道} 在 {ADDRESS=格罗夫兰市}
-- 忘记带我去 {ADDRESS=霍伊特街} 在 {ADDRESS=佳能城}
-- 忘记带我去 {ADDRESS=霍普街} 在 {ADDRESS=的城市}
-- 忘记带我去 {ADDRESS=马修斯广场} 在 {ADDRESS=梅多拉}
-- 忘记带我去 {ADDRESS=高地大道} 在 {ADDRESS=卡罗尔县余额}
-- 忘记带我去 {ADDRESS=高街} 在 {ADDRESS=雷普莉}
-- 忘记带我去 {ADDRESS=麦当劳大道} 在 {ADDRESS=彭布罗克城}
-- 忘记目的地
-- 忘记路线服务
-- 您是否可以取消导航
-- 拖放导航
-- 摆脱 {KEYWORD=1366技术} 船舶
-- 摆脱 {KEYWORD=1号码头进口} 船舶
-- 摆脱 {KEYWORD=azrieli 中心三角塔} 船舶
-- 摆脱 {KEYWORD=djenn 大清真寺} 船舶
-- 摆脱 {KEYWORD=krger 国家公园} 船舶
-- 摆脱 {KEYWORD=共和广场} 船舶
-- 摆脱 {KEYWORD=卫城} 船舶
-- 摆脱 {KEYWORD=圣劳伦斯市场} 船舶
-- 摆脱 {KEYWORD=城市大门} 船舶
-- 摆脱 {KEYWORD=基奥普斯大金字塔} 船舶
-- 摆脱 {KEYWORD=奥索尤斯沙漠模型铁路} 船舶
-- 摆脱 {KEYWORD=姬路城} 船舶
-- 摆脱 {KEYWORD=汇丰大厦} 船舶
-- 摆脱 {KEYWORD=皇家歌剧院酒店} 船舶
-- 摆脱 {KEYWORD=西班牙台阶} 船舶
-- 摆脱 {KEYWORD=论坛报塔} 船舶
-- 摆脱 {KEYWORD=赤柱公园} 船舶
-- 摆脱 {KEYWORD=阿尔伯特学院} 船舶
-- 摆脱去
-- 摆脱去 {KEYWORD=Basler 商品交易会大厦} 在 {ADDRESS=格林菲尔德市}
-- 摆脱去 {KEYWORD=Fountainbleu 广场} 在 {ADDRESS=矿产县结余}
-- 摆脱去 {KEYWORD=Marineview 广场} 在 {ADDRESS=亚当斯郡平衡}
-- 摆脱去 {KEYWORD=Marineview 广场} 在 {ADDRESS=克拉克郡}
-- 摆脱去 {ADDRESS=melbeta 村}
-- 摆脱去 {KEYWORD=sp 重新} 在 {ADDRESS=金士顿}
-- 摆脱去 {KEYWORD=五角大楼} 在 {ADDRESS=伦道夫}
-- 摆脱去 {ADDRESS=休斯城}
-- 摆脱去 {ADDRESS=假设教区的平衡}
-- 摆脱去 {KEYWORD=凡尔 赛} 在 {ADDRESS=哈特福德}
-- 摆脱去 {KEYWORD=加拿大塔} 在 {ADDRESS=梅菲尔德}
-- 摆脱去 {KEYWORD=加拿大塔} 在 {ADDRESS=赖恩贝克}
-- 摆脱去 {ADDRESS=勃兰登堡市}
-- 摆脱去 {ADDRESS=协和}
-- 摆脱去 {ADDRESS=卡多县}
-- 摆脱去 {KEYWORD=国家海军航空博物馆} 在 {ADDRESS=雷蒙德}
-- 摆脱去 {KEYWORD=国家艺术画廊} 在 {ADDRESS=加斯顿县余额}
-- 摆脱去 {ADDRESS=土堆}
-- 摆脱去 {KEYWORD=圣萨瓦庙} 在 {ADDRESS=加纳镇}
-- 摆脱去 {KEYWORD=城堡 de Boisclaireau} 在 {ADDRESS=黑湖}
-- 摆脱去 {KEYWORD=复活节公路体育场} 在 {ADDRESS=peterview}
-- 摆脱去 {ADDRESS=大器晚成}
-- 摆脱去 {KEYWORD=大金字塔} 在 {ADDRESS=焦炭县}
-- 摆脱去 {ADDRESS=夫人湖}
-- 摆脱去 {ADDRESS=威尔尼斯}
-- 摆脱去 {ADDRESS=富兰克林市}
-- 摆脱去 {ADDRESS=帕克城}
-- 摆脱去 {KEYWORD=平安梅尔大厦} 在 {ADDRESS=奥尔巴尼}
-- 摆脱去 {ADDRESS=开普敦}
-- 摆脱去 {KEYWORD=彩虹桥} 在 {ADDRESS=普林斯顿城}
-- 摆脱去 {ADDRESS=拉雷多}
-- 摆脱去 {KEYWORD=柏悦酒店} 在 {ADDRESS=北方英语}
-- 摆脱去 {KEYWORD=柳京酒店} 在 {ADDRESS=哥伦比亚}
-- 摆脱去 {KEYWORD=泛美金字塔} 在 {ADDRESS=ida 村}
-- 摆脱去 {ADDRESS=海湾县平衡}
-- 摆脱去 {KEYWORD=生境 ' 67} 在 {ADDRESS=拉·卡萨镇}
-- 摆脱去 {KEYWORD=生境 ' 67} 在 {ADDRESS=纽马克特}
-- 摆脱去 {KEYWORD=皇家泰瑞尔博物馆} 在 {ADDRESS=应西}
-- 摆脱去 {KEYWORD=皇家马德里宫酒店} 在 {ADDRESS=monongalia 县余额}
-- 摆脱去 {KEYWORD=神庙} 在 {ADDRESS=奥尔巴尼县结余}
-- 摆脱去 {KEYWORD=美国空军国家博物馆} 在 {ADDRESS=桑德斯郡}
-- 摆脱去 {ADDRESS=考德威尔县}
-- 摆脱去 {KEYWORD=英国浴场} 在 {ADDRESS=开罗村庄}
-- 摆脱去 {ADDRESS=诺瓦塔县余额}
-- 摆脱去 {ADDRESS=贝尔维迪尔村}
-- 摆脱去 {ADDRESS=门县平衡}
-- 摆脱去 {ADDRESS=雪松谷}
-- 摆脱去 {ADDRESS=霍尔布鲁克村}
-- 摆脱去 {ADDRESS=鲁迪镇}
-- 摆脱去 {ADDRESS=麦考斯基市}
-- 摆脱导航
-- 摆脱导航到一个 {KEYWORD=二手汽车经销店}
-- 摆脱导航到一个 {KEYWORD=俄罗斯餐厅}
-- 摆脱导航到一个 {KEYWORD=保龄球}
-- 摆脱导航到一个 {KEYWORD=克里奥尔餐厅}
-- 摆脱导航到一个 {KEYWORD=印度餐厅}
-- 摆脱导航到一个 {KEYWORD=咖啡馆}
-- 摆脱导航到一个 {KEYWORD=墨西哥餐厅}
-- 摆脱导航到一个 {KEYWORD=大教堂}
-- 摆脱导航到一个 {KEYWORD=学院}
-- 摆脱导航到一个 {KEYWORD=寿司吧}
-- 摆脱导航到一个 {KEYWORD=巴基斯坦餐厅}
-- 摆脱导航到一个 {KEYWORD=广告代理}
-- 摆脱导航到一个 {KEYWORD=拉丁餐厅}
-- 摆脱导航到一个 {KEYWORD=机械}
-- 摆脱导航到一个 {KEYWORD=歌剧院}
-- 摆脱导航到一个 {KEYWORD=汽车车间}
-- 摆脱导航到一个 {KEYWORD=消防站}
-- 摆脱导航到一个 {KEYWORD=牛排餐厅}
-- 摆脱导航到一个 {KEYWORD=甜品餐厅}
-- 摆脱导航到一个 {KEYWORD=电子商店}
-- 摆脱导航到一个 {KEYWORD=男士服装店}
-- 摆脱导航到一个 {KEYWORD=百货公司}
-- 摆脱导航到一个 {KEYWORD=监狱}
-- 摆脱导航到一个 {KEYWORD=邮局}
-- 摆脱导航到一个 {KEYWORD=酒吧和烧烤}
-- 摆脱带我去 {ADDRESS=paerdegat 第五街} 在 {ADDRESS=马托卡}
-- 摆脱带我去 {ADDRESS=中和街} 在 {ADDRESS=哥德堡市}
-- 摆脱带我去 {ADDRESS=从辛登大道} 在 {ADDRESS=普拉特郡}
-- 摆脱带我去 {ADDRESS=佩里露台} 在 {ADDRESS=林肯}
-- 摆脱带我去 {ADDRESS=前街} 在 {ADDRESS=东盘湾}
-- 摆脱带我去 {ADDRESS=勃根大道} 在 {ADDRESS=盖顿}
-- 摆脱带我去 {ADDRESS=埃弗雷特大道} 在 {ADDRESS=蒙特罗斯}
-- 摆脱带我去 {ADDRESS=大学大道} 在 {ADDRESS=圣胡安县结余}
-- 摆脱带我去 {ADDRESS=大道 p} 在 {ADDRESS=新萨默市}
-- 摆脱带我去 {ADDRESS=大道 w} 在 {ADDRESS=Cacouna}
-- 摆脱带我去 {ADDRESS=富兰克林街} 在 {ADDRESS=富临村}
-- 摆脱带我去 {ADDRESS=展望街} 在 {ADDRESS=阿里沙特}
-- 摆脱带我去 {ADDRESS=帕克维尔大道} 在 {ADDRESS=迪斯尼城}
-- 摆脱带我去 {ADDRESS=帕克维尔大道} 在 {ADDRESS=韦伯斯特}
-- 摆脱带我去 {ADDRESS=惠特尼广场} 在 {ADDRESS=亨廷顿郡的平衡}
-- 摆脱带我去 {ADDRESS=摩尔广场} 在 {ADDRESS=白色城堡}
-- 摆脱带我去 {ADDRESS=摩根大道} 在 {ADDRESS=库萨县余额}
-- 摆脱带我去 {ADDRESS=摩纳哥广场} 在 {ADDRESS=福斯托里亚}
-- 摆脱带我去 {ADDRESS=棕榈阁} 在 {ADDRESS=波默罗伊}
-- 摆脱带我去 {ADDRESS=森林街} 在 {ADDRESS=德雷柏}
-- 摆脱带我去 {ADDRESS=樱桃街} 在 {ADDRESS=格林县余额}
-- 摆脱带我去 {ADDRESS=沙利文广场} 在 {ADDRESS=迪兹伯里}
-- 摆脱带我去 {ADDRESS=湾第十三街} 在 {ADDRESS=高点城市}
-- 摆脱带我去 {ADDRESS=满阁苑} 在 {ADDRESS=福特市行政区}
-- 摆脱带我去 {ADDRESS=申克街} 在 {ADDRESS=低}
-- 摆脱带我去 {ADDRESS=的街道} 在 {ADDRESS=打捞}
-- 摆脱带我去 {ADDRESS=第八街西} 在 {ADDRESS=奥什科什市}
-- 摆脱带我去 {ADDRESS=约瓦尔民阁} 在 {ADDRESS=加菲猫县}
-- 摆脱带我去 {ADDRESS=艾伦大道} 在 {ADDRESS=纽伯里}
-- 摆脱带我去 {ADDRESS=霍桑街} 在 {ADDRESS=博伊德湾}
-- 摆脱带我去 {ADDRESS=鲍威尔街} 在 {ADDRESS=堪萨斯城城市}
-- 摆脱路线服务
-- 擦除导航
-- 擦除目标
-- 擦除路由
-- 擦除路由服务
-- 擦除路线
-- 擦除路线服务
-- 放置目标
-- 明确带我去 {ADDRESS=branton 街} 在 {ADDRESS=布莱恩郡}
-- 明确带我去 {ADDRESS=伯克希尔驱动} 在 {ADDRESS=梅里尔维尔镇}
-- 明确带我去 {ADDRESS=公园街} 在 {ADDRESS=St-方法-去芳堤娜}
-- 明确带我去 {ADDRESS=博蒙特街} 在 {ADDRESS=帕尔默村酒店}
-- 明确带我去 {ADDRESS=喷泉大道} 在 {ADDRESS=沙利文郡}
-- 明确带我去 {ADDRESS=威尔顿街} 在 {ADDRESS=富兰克林县结余}
-- 明确带我去 {ADDRESS=布莱克阁} 在 {ADDRESS=页面城市}
-- 明确带我去 {ADDRESS=布莱顿第七宫} 在 {ADDRESS=法县}
-- 明确带我去 {ADDRESS=布莱顿第五街} 在 {ADDRESS=桃金娘镇}
-- 明确带我去 {ADDRESS=布莱顿第四街} 在 {ADDRESS=鲍威尔城}
-- 明确带我去 {ADDRESS=愉快的街道} 在 {ADDRESS=哈伦市}
-- 明确带我去 {ADDRESS=斯托克顿街} 在 {ADDRESS=lynnville}
-- 明确带我去 {ADDRESS=杨梅驱动} 在 {ADDRESS=所 罗 门}
-- 明确带我去 {ADDRESS=林地大道} 在 {ADDRESS=科尔多瓦人口普查区}
-- 明确带我去 {ADDRESS=校舍车道} 在 {ADDRESS=斯图加特}
-- 明确带我去 {ADDRESS=汇富广场} 在 {ADDRESS=ellsinore}
-- 明确带我去 {ADDRESS=海滩第四十九街} 在 {ADDRESS=橡树公园村酒店}
-- 明确带我去 {ADDRESS=狭窄的大道} 在 {ADDRESS=林登}
-- 明确带我去 {ADDRESS=科尔街} 在 {ADDRESS=乔治敦}
-- 明确带我去 {ADDRESS=第七十七街} 在 {ADDRESS=艾略特郡}
-- 明确带我去 {ADDRESS=第七十四街} 在 {ADDRESS=嗨-在市镇}
-- 明确带我去 {ADDRESS=第七街} 在 {ADDRESS=艾弗里平衡}
-- 明确带我去 {ADDRESS=第五十七名} 在 {ADDRESS=温索斯特镇}
-- 明确带我去 {ADDRESS=第八十七街} 在 {ADDRESS=城市}
-- 明确带我去 {ADDRESS=约克路} 在 {ADDRESS=杰克逊城}
-- 明确带我去 {ADDRESS=绿街} 在 {ADDRESS=麦克唐纳行政区}
-- 明确带我去 {ADDRESS=西大街} 在 {ADDRESS=比弗黑德县}
-- 明确带我去 {ADDRESS=阿甘街} 在 {ADDRESS=科菲谷市}
-- 明确带我去 {ADDRESS=鲍尔曼正在广场} 在 {ADDRESS=克莱蒙费朗}
-- 明确带我去 {ADDRESS=黑斯廷斯街} 在 {ADDRESS=的余额}
-- 是否删除导航
-- 是否取消导航
-- 是否取消航线服务
-- 是否可以删除导航
-- 是否可以删除继续
-- 是否可以取消导航
-- 是否可以取消路由服务
-- 是否可以忘记导航
-- 是否可以抹去
-- 是否可以擦除导航
-- 是否可以清除导航
-- 是否可以结束导航
-- 是否可以结束航线服务
-- 是否有可能削减
-- 是否有可能抹去
-- 是否有可能摆脱导航
-- 是否有可能清除
-- 有没有可能删除去
-- 没关系 {KEYWORD=Basler 商品交易会大厦} 船舶
-- 没关系 {KEYWORD=krger 国家公园} 船舶
-- 没关系 {KEYWORD=伦斯特酒店} 船舶
-- 没关系 {KEYWORD=卢浮宫} 船舶
-- 没关系 {KEYWORD=台北101} 船舶
-- 没关系 {KEYWORD=图根哈特别墅酒店} 船舶
-- 没关系 {KEYWORD=大金字塔} 船舶
-- 没关系 {KEYWORD=威尔士公主剧院} 船舶
-- 没关系 {KEYWORD=家庭保险大厦} 船舶
-- 没关系 {KEYWORD=尼德罗斯皮勒格里姆斯加德大教堂} 船舶
-- 没关系 {KEYWORD=巴黎圣母院} 船舶
-- 没关系 {KEYWORD=布伦海姆宫殿酒店} 船舶
-- 没关系 {KEYWORD=布查特花园} 船舶
-- 没关系 {KEYWORD=曼彻斯特皮卡迪利站} 船舶
-- 没关系 {KEYWORD=海印} 船舶
-- 没关系 {KEYWORD=犹他爵士竞技场} 船舶
-- 没关系 {KEYWORD=神的花园} 船舶
-- 没关系 {KEYWORD=米拉卡萨} 船舶
-- 没关系 {KEYWORD=约克大教堂} 船舶
-- 没关系 {KEYWORD=美国银行大厦} 船舶
-- 没关系 {KEYWORD=西可环球广场} 船舶
-- 没关系 {KEYWORD=金门大桥} 船舶
-- 没关系 {KEYWORD=马丘比丘} 船舶
-- 没关系 {KEYWORD=魔鬼塔} 船舶
-- 没关系带我去 {ADDRESS=6号干线} 在 {ADDRESS=克里特岛村}
-- 没关系带我去 {ADDRESS=amersfort 广场} 在 {ADDRESS=圣安德鲁斯}
-- 没关系带我去 {ADDRESS=himrod 街} 在 {ADDRESS=walstonburg 镇}
-- 没关系带我去 {ADDRESS=佛蒙特州街} 在 {ADDRESS=极光}
-- 没关系带我去 {ADDRESS=公园驾车} 在 {ADDRESS=所以汤姆}
-- 没关系带我去 {ADDRESS=切斯特大道} 在 {ADDRESS=伊贝维尔的圣亚历山大}
-- 没关系带我去 {ADDRESS=卑尔根街} 在 {ADDRESS=科迪村}
-- 没关系带我去 {ADDRESS=哥伦比亚街} 在 {ADDRESS=法兰克福市}
-- 没关系带我去 {ADDRESS=大西洋大道} 在 {ADDRESS=橡树山城}
-- 没关系带我去 {ADDRESS=大都会大道} 在 {ADDRESS=galestown}
-- 没关系带我去 {ADDRESS=安斯利街} 在 {ADDRESS=草原县平衡}
-- 没关系带我去 {ADDRESS=布什威克大道} 在 {ADDRESS=永丰城}
-- 没关系带我去 {ADDRESS=布莱顿第四步行} 在 {ADDRESS=切斯特郡}
-- 没关系带我去 {ADDRESS=德文郡驱动器} 在 {ADDRESS=吉布森镇}
-- 没关系带我去 {ADDRESS=拉特兰路} 在 {ADDRESS=紫草市}
-- 没关系带我去 {ADDRESS=敏锐的宫廷} 在 {ADDRESS=锡考克斯镇}
-- 没关系带我去 {ADDRESS=新乌得勒支路旧} 在 {ADDRESS=奥本}
-- 没关系带我去 {ADDRESS=林地路} 在 {ADDRESS=格林斯堡}
-- 没关系带我去 {ADDRESS=林肯路} 在 {ADDRESS=绿叶城}
-- 没关系带我去 {ADDRESS=柏树大道} 在 {ADDRESS=盐湖县}
-- 没关系带我去 {ADDRESS=沃伦街} 在 {ADDRESS=科厄霍马县余额}
-- 没关系带我去 {ADDRESS=玉兰驾车} 在 {ADDRESS=迪克森镇}
-- 没关系带我去 {ADDRESS=理查兹街} 在 {ADDRESS=亚历山大}
-- 没关系带我去 {ADDRESS=第一大道} 在 {ADDRESS=利丁怀奥米辛行政区}
-- 没关系带我去 {ADDRESS=第五街南} 在 {ADDRESS=豪根村}
-- 没关系带我去 {ADDRESS=第八十一街} 在 {ADDRESS=托尼敦}
-- 没关系带我去 {ADDRESS=第十一街} 在 {ADDRESS=伯克利市}
-- 没关系带我去 {ADDRESS=范德比尔特街} 在 {ADDRESS=法兰克福}
-- 没关系带我去 {ADDRESS=诺尔街} 在 {ADDRESS=格拉夫县结余}
-- 清楚 {KEYWORD=glaspaleis} 船舶
-- 清楚 {KEYWORD=shreepati 街机} 船舶
-- 清楚 {KEYWORD=中国银行大厦} 船舶
-- 清楚 {KEYWORD=中央公园} 船舶
-- 清楚 {KEYWORD=以弗所书弥尔特神庙} 船舶
-- 清楚 {KEYWORD=公共图书馆} 船舶
-- 清楚 {KEYWORD=国会山} 船舶
-- 清楚 {KEYWORD=太子清真寺} 船舶
-- 清楚 {KEYWORD=广场马戏团} 船舶
-- 清楚 {KEYWORD=维多利亚瀑布} 船舶
-- 清楚 {KEYWORD=苏哈列夫塔} 船舶
-- 清楚 {KEYWORD=西尔斯大厦} 船舶
-- 清楚 {KEYWORD=贝尔库尔城堡} 船舶
-- 清除导航
-- 清除导航到 {KEYWORD=stripmall}
-- 清除导航到 {KEYWORD=三明治店}
-- 清除导航到 {KEYWORD=出租车停靠站}
-- 清除导航到 {KEYWORD=咖啡馆}
-- 清除导航到 {KEYWORD=大学}
-- 清除导航到 {KEYWORD=大教堂}
-- 清除导航到 {KEYWORD=宠物店}
-- 清除导航到 {KEYWORD=巴基斯坦餐厅}
-- 清除导航到 {KEYWORD=希腊餐厅}
-- 清除导航到 {KEYWORD=快餐接头}
-- 清除导航到 {KEYWORD=操场}
-- 清除导航到 {KEYWORD=歌剧院}
-- 清除导航到 {KEYWORD=理发店}
-- 清除导航到 {KEYWORD=瑜伽课程}
-- 清除导航到 {KEYWORD=男装时装店}
-- 清除导航到 {KEYWORD=硬件存储}
-- 清除导航到 {KEYWORD=粤菜餐厅}
-- 清除导航到 {KEYWORD=糖果店}
-- 清除导航到 {KEYWORD=素食餐厅}
-- 清除导航到 {KEYWORD=美式餐厅}
-- 清除导航到 {KEYWORD=美术馆}
-- 清除导航到 {KEYWORD=胃酒吧}
-- 清除导航到 {KEYWORD=花园中心}
-- 清除导航到 {KEYWORD=菲律宾餐厅}
-- 清除导航到 {KEYWORD=阿卡迪亚餐厅}
-- 清除导航到 {KEYWORD=鸡肉餐厅}
-- 清除目标
-- 清除继续
-- 清除要 {KEYWORD=amsouth 塔} 在 {ADDRESS=lapwai 市}
-- 清除要 {ADDRESS=batchtown 村}
-- 清除要 {KEYWORD=Marineview 广场} 在 {ADDRESS=vernonburg}
-- 清除要 {ADDRESS=mullinville 市}
-- 清除要 {KEYWORD=pittodrie 体育场} 在 {ADDRESS=粉红色}
-- 清除要 {KEYWORD=Ramesseum} 在 {ADDRESS=格拉夫县}
-- 清除要 {KEYWORD=schnbrunn 宫殿酒店} 在 {ADDRESS=克洛维斯城}
-- 清除要 {KEYWORD=takakkaw 瀑布} 在 {ADDRESS=麦柯廷县}
-- 清除要 {ADDRESS=三叶}
-- 清除要 {KEYWORD=世贸中心} 在 {ADDRESS=巴登自治市}
-- 清除要 {KEYWORD=中央广场1} 在 {ADDRESS=休斯顿}
-- 清除要 {ADDRESS=伦道夫市}
-- 清除要 {KEYWORD=信号山} 在 {ADDRESS=特瑞尔市}
-- 清除要 {KEYWORD=修行} 在 {ADDRESS=格拉夫村}
-- 清除要 {KEYWORD=克尔白} 在 {ADDRESS=新喀里多尼亚县结余}
-- 清除要 {KEYWORD=克里姆林宫} 在 {ADDRESS=金珀斯郡平衡}
-- 清除要 {ADDRESS=凯沃县余额}
-- 清除要 {ADDRESS=华 威}
-- 清除要 {KEYWORD=原子塔} 在 {ADDRESS=奥托村}
-- 清除要 {KEYWORD=原子塔} 在 {ADDRESS=阿米特县}
-- 清除要 {ADDRESS=反抗县的平衡}
-- 清除要 {KEYWORD=台北101} 在 {ADDRESS=乌雷}
-- 清除要 {KEYWORD=哈德良城墙} 在 {ADDRESS=装饰}
-- 清除要 {KEYWORD=哈雷阿卡拉火山口} 在 {ADDRESS=鸟瞰大地}
-- 清除要 {KEYWORD=圣母大殿} 在 {ADDRESS=西斯普林菲尔德镇}
-- 清除要 {ADDRESS=坎伯兰县}
-- 清除要 {ADDRESS=夫林夫伦福隆}
-- 清除要 {ADDRESS=奇夫兰市}
-- 清除要 {ADDRESS=奖学金市}
-- 清除要 {ADDRESS=威拉德市}
-- 清除要 {KEYWORD=小美人鱼} 在 {ADDRESS=岩石溪村}
-- 清除要 {KEYWORD=布洛西村} 在 {ADDRESS=共和城村}
-- 清除要 {ADDRESS=斯科茨维尔}
-- 清除要 {ADDRESS=日内瓦镇}
-- 清除要 {ADDRESS=杰斐逊郡}
-- 清除要 {ADDRESS=梅伍德行政区}
-- 清除要 {ADDRESS=派克郡}
-- 清除要 {ADDRESS=温斯顿-塞勒姆}
-- 清除要 {ADDRESS=特拉华州县}
-- 清除要 {ADDRESS=离县}
-- 清除要 {KEYWORD=第二城市} 在 {ADDRESS=粉末弹簧}
-- 清除要 {KEYWORD=米兰中央车站} 在 {ADDRESS=塔斯科拉市}
-- 清除要 {KEYWORD=纽波特塔} 在 {ADDRESS=山谷泉镇}
-- 清除要 {ADDRESS=美术}
-- 清除要 {ADDRESS=萨默塞特}
-- 清除要 {ADDRESS=蓝色地球郡}
-- 清除要 {ADDRESS=西伯克村}
-- 清除要 {KEYWORD=论坛报塔} 在 {ADDRESS=应用县余额}
-- 清除要 {ADDRESS=谢里登县余额}
-- 清除要 {KEYWORD=阿瓦拉电视塔} 在 {ADDRESS=屠宰}
-- 清除要 {ADDRESS=霍博肯市}
-- 清除要 {ADDRESS=霍布斯}
-- 清除要 {ADDRESS=韦尔斯维尔村}
-- 清除要 {ADDRESS=马德拉斯}
-- 清除要 {ADDRESS=齐巴奇县余额}
-- 清除路由服务
-- 清除路线
-- 清除路线服务
-- 移除去
-- 移除导航
-- 移除导航到 {KEYWORD=rbnb}
-- 移除导航到 {KEYWORD=中东餐厅}
-- 移除导航到 {KEYWORD=中餐厅}
-- 移除导航到 {KEYWORD=二手汽车经销店}
-- 移除导航到 {KEYWORD=会计}
-- 移除导航到 {KEYWORD=体育场}
-- 移除导航到 {KEYWORD=儿童日托中心}
-- 移除导航到 {KEYWORD=充电站}
-- 移除导航到 {KEYWORD=剧院}
-- 移除导航到 {KEYWORD=品种店}
-- 移除导航到 {KEYWORD=夏令营}
-- 移除导航到 {KEYWORD=巴基斯坦餐厅}
-- 移除导航到 {KEYWORD=市政厅}
-- 移除导航到 {KEYWORD=干洗机}
-- 移除导航到 {KEYWORD=幼儿园}
-- 移除导航到 {KEYWORD=广场}
-- 移除导航到 {KEYWORD=库尔德餐厅}
-- 移除导航到 {KEYWORD=拉丁餐厅}
-- 移除导航到 {KEYWORD=灵魂美食餐厅}
-- 移除导航到 {KEYWORD=点心餐厅}
-- 移除导航到 {KEYWORD=玻璃制造商}
-- 移除导航到 {KEYWORD=理发店}
-- 移除导航到 {KEYWORD=裁缝}
-- 移除导航到 {KEYWORD=赛道}
-- 移除导航到 {KEYWORD=银行机}
-- 移除导航到 {KEYWORD=露营商店}
-- 移除导航到 {KEYWORD=青年旅舍}
-- 移除导航到 {KEYWORD=非洲餐厅}
-- 移除导航到 {KEYWORD=音乐商店}
-- 移除导航到 {KEYWORD=音乐学校}
-- 移除导航到 {KEYWORD=餐厅}
-- 第二个念头忘了导航
-- 第二个想法取消导航
-- 第二个想法明确导航
-- 第二思想摆脱导航
-- 结束 {KEYWORD=42座} 船舶
-- 结束 {KEYWORD=bam 城堡} 船舶
-- 结束 {KEYWORD=Basler 商品交易会大厦} 船舶
-- 结束 {KEYWORD=oub 中心} 船舶
-- 结束 {KEYWORD=一个大西洋中心} 船舶
-- 结束 {KEYWORD=一个央街} 船舶
-- 结束 {KEYWORD=万神殿} 船舶
-- 结束 {KEYWORD=中正纪念堂} 船舶
-- 结束 {KEYWORD=乐器博物馆} 船舶
-- 结束 {KEYWORD=克尔白} 船舶
-- 结束 {KEYWORD=克里斯托弗酒店} 船舶
-- 结束 {KEYWORD=冰霜银行大厦} 船舶
-- 结束 {KEYWORD=剧院楼梯} 船舶
-- 结束 {KEYWORD=加拿大第一广场} 船舶
-- 结束 {KEYWORD=南谷购物中心中心} 船舶
-- 结束 {KEYWORD=合和岩石} 船舶
-- 结束 {KEYWORD=和平女神大教堂} 船舶
-- 结束 {KEYWORD=团圆塔} 船舶
-- 结束 {KEYWORD=国旗国家纪念碑} 船舶
-- 结束 {KEYWORD=埃尔金和冬季花园剧院中心} 船舶
-- 结束 {KEYWORD=城堡芳堤娜} 船舶
-- 结束 {KEYWORD=基奥普斯大金字塔} 船舶
-- 结束 {KEYWORD=大华银行广场一} 船舶
-- 结束 {KEYWORD=大堡礁} 船舶
-- 结束 {KEYWORD=天使瀑布} 船舶
-- 结束 {KEYWORD=奥索尤斯沙漠模型铁路} 船舶
-- 结束 {KEYWORD=姬路城} 船舶
-- 结束 {KEYWORD=家庭保险大厦} 船舶
-- 结束 {KEYWORD=小美人鱼} 船舶
-- 结束 {KEYWORD=山顶缆车2峰} 船舶
-- 结束 {KEYWORD=巨 石 阵} 船舶
-- 结束 {KEYWORD=布塔宫殿酒店} 船舶
-- 结束 {KEYWORD=彩虹桥} 船舶
-- 结束 {KEYWORD=悉尼歌剧院酒店} 船舶
-- 结束 {KEYWORD=我们的夫人} 船舶
-- 结束 {KEYWORD=拉吉 bhvan} 船舶
-- 结束 {KEYWORD=斗牛圈购物中心} 船舶
-- 结束 {KEYWORD=斯泰森大厦} 船舶
-- 结束 {KEYWORD=斯蒂芬斯顿酒店} 船舶
-- 结束 {KEYWORD=新奥尔良竞技场} 船舶
-- 结束 {KEYWORD=极乐寺} 船舶
-- 结束 {KEYWORD=柏悦酒店} 船舶
-- 结束 {KEYWORD=毕尔巴鄂古根海姆博物馆} 船舶
-- 结束 {KEYWORD=泛美金字塔} 船舶
-- 结束 {KEYWORD=海军陆战队国家博物馆} 船舶
-- 结束 {KEYWORD=海印} 船舶
-- 结束 {KEYWORD=温彻斯特神秘之家酒店} 船舶
-- 结束 {KEYWORD=熨斗大厦} 船舶
-- 结束 {KEYWORD=爱妮岛城堡} 船舶
-- 结束 {KEYWORD=玛丽} 船舶
-- 结束 {KEYWORD=玛德 琳} 船舶
-- 结束 {KEYWORD=玻璃亭} 船舶
-- 结束 {KEYWORD=皇宫酒店} 船舶
-- 结束 {KEYWORD=省公园} 船舶
-- 结束 {KEYWORD=神庙} 船舶
-- 结束 {KEYWORD=箭牌大厦} 船舶
-- 结束 {KEYWORD=罗斯福坎波贝洛国际公园} 船舶
-- 结束 {KEYWORD=美国银行广场} 船舶
-- 结束 {KEYWORD=老爹科尔巴德利亚} 船舶
-- 结束 {KEYWORD=艾伦花园学院} 船舶
-- 结束 {KEYWORD=艾菲尔铁塔} 船舶
-- 结束 {KEYWORD=芬格的洞穴} 船舶
-- 结束 {KEYWORD=蓝色清真寺} 船舶
-- 结束 {KEYWORD=袋鼠溪农场} 船舶
-- 结束 {KEYWORD=西尔斯大厦} 船舶
-- 结束 {KEYWORD=西雅图中央图书馆} 船舶
-- 结束 {KEYWORD=费萨尔清真寺} 船舶
-- 结束 {KEYWORD=贾加纳斯寺} 船舶
-- 结束 {KEYWORD=转动躯干} 船舶
-- 结束 {KEYWORD=达利安泰兹詹国王摩索拉斯墓} 船舶
-- 结束 {KEYWORD=金庙} 船舶
-- 结束 {KEYWORD=阿克萨清真寺} 船舶
-- 结束 {KEYWORD=阿扎迪塔} 船舶
-- 结束 {KEYWORD=颐和园} 船舶
-- 结束任何地方去
-- 结束去
-- 结束导航
-- 结束导航到 {KEYWORD=rbnb}
-- 结束导航到 {KEYWORD=三明治吧}
-- 结束导航到 {KEYWORD=不拘一格的餐厅}
-- 结束导航到 {KEYWORD=书店}
-- 结束导航到 {KEYWORD=二手商店}
-- 结束导航到 {KEYWORD=健康餐厅}
-- 结束导航到 {KEYWORD=克里奥尔餐厅}
-- 结束导航到 {KEYWORD=公交车站}
-- 结束导航到 {KEYWORD=冰淇淋厅}
-- 结束导航到 {KEYWORD=办公室}
-- 结束导航到 {KEYWORD=办公用品商店}
-- 结束导航到 {KEYWORD=加勒比餐厅}
-- 结束导航到 {KEYWORD=品种店}
-- 结束导航到 {KEYWORD=地铁}
-- 结束导航到 {KEYWORD=地铁站}
-- 结束导航到 {KEYWORD=复制中心}
-- 结束导航到 {KEYWORD=宠物店}
-- 结束导航到 {KEYWORD=家庭晚餐}
-- 结束导航到 {KEYWORD=小学}
-- 结束导航到 {KEYWORD=巴西餐厅}
-- 结束导航到 {KEYWORD=希腊餐厅}
-- 结束导航到 {KEYWORD=幼儿园}
-- 结束导航到 {KEYWORD=广场}
-- 结束导航到 {KEYWORD=旅行社}
-- 结束导航到 {KEYWORD=晚餐餐厅}
-- 结束导航到 {KEYWORD=服装店}
-- 结束导航到 {KEYWORD=汽车站}
-- 结束导航到 {KEYWORD=河餐厅}
-- 结束导航到 {KEYWORD=波兰餐厅}
-- 结束导航到 {KEYWORD=波斯餐厅}
-- 结束导航到 {KEYWORD=浴室和身体用品店}
-- 结束导航到 {KEYWORD=消防站}
-- 结束导航到 {KEYWORD=游乐园}
-- 结束导航到 {KEYWORD=烧烤餐厅}
-- 结束导航到 {KEYWORD=牛排}
-- 结束导航到 {KEYWORD=狩猎店}
-- 结束导航到 {KEYWORD=瑜伽课程}
-- 结束导航到 {KEYWORD=电脑商店}
-- 结束导航到 {KEYWORD=税务门诊}
-- 结束导航到 {KEYWORD=篮球场}
-- 结束导航到 {KEYWORD=糕点店}
-- 结束导航到 {KEYWORD=素食餐厅}
-- 结束导航到 {KEYWORD=网球场}
-- 结束导航到 {KEYWORD=美容店}
-- 结束导航到 {KEYWORD=美容院}
-- 结束导航到 {KEYWORD=营地}
-- 结束导航到 {KEYWORD=融合餐厅}
-- 结束导航到 {KEYWORD=西装店}
-- 结束导航到 {KEYWORD=警察局}
-- 结束导航到 {KEYWORD=赛道}
-- 结束导航到 {KEYWORD=超级充电器}
-- 结束导航到 {KEYWORD=酒店}
-- 结束导航到 {KEYWORD=面包 店}
-- 结束导航到 {KEYWORD=音乐商店}
-- 结束导航到 {KEYWORD=高尔夫球}
-- 结束带我去 {ADDRESS=29号干线} 在 {ADDRESS=莫布里奇市}
-- 结束带我去 {ADDRESS=calyer 街} 在 {ADDRESS=华盛顿城}
-- 结束带我去 {ADDRESS=k 大道} 在 {ADDRESS=温特沃斯村}
-- 结束带我去 {ADDRESS=overbaugh 广场} 在 {ADDRESS=哈拉斯}
-- 结束带我去 {ADDRESS=throop 大道} 在 {ADDRESS=里士满}
-- 结束带我去 {ADDRESS=东大街} 在 {ADDRESS=埃尔斯沃思市}
-- 结束带我去 {ADDRESS=东方大路} 在 {ADDRESS=韦弗利}
-- 结束带我去 {ADDRESS=中心街} 在 {ADDRESS=欧文顿镇}
-- 结束带我去 {ADDRESS=亚当斯大道} 在 {ADDRESS=湖站}
-- 结束带我去 {ADDRESS=亨利街} 在 {ADDRESS=布莱恩县平衡}
-- 结束带我去 {ADDRESS=伦纳德街} 在 {ADDRESS=邦纳维尔县余额}
-- 结束带我去 {ADDRESS=克林顿街} 在 {ADDRESS=亨利郡}
-- 结束带我去 {ADDRESS=冬青街} 在 {ADDRESS=伍德斯托克村}
-- 结束带我去 {ADDRESS=凯恩广场} 在 {ADDRESS=nehawka 村}
-- 结束带我去 {ADDRESS=凯瑟琳阁} 在 {ADDRESS=育空堡}
-- 结束带我去 {ADDRESS=分部街} 在 {ADDRESS=silverhill 镇}
-- 结束带我去 {ADDRESS=切斯特街} 在 {ADDRESS=瑞吉}
-- 结束带我去 {ADDRESS=刘易斯大道} 在 {ADDRESS=宾夕法尼亚州立山}
-- 结束带我去 {ADDRESS=博蒙特街} 在 {ADDRESS=霍利市}
-- 结束带我去 {ADDRESS=卡尔顿大道} 在 {ADDRESS=美世岛}
-- 结束带我去 {ADDRESS=印第安纳广场} 在 {ADDRESS=安特里姆县}
-- 结束带我去 {ADDRESS=友谊街} 在 {ADDRESS=里约热内卢韩兜市}
-- 结束带我去 {ADDRESS=哈里森街} 在 {ADDRESS=salesville}
-- 结束带我去 {ADDRESS=埃蒙斯大道} 在 {ADDRESS=萨拉托加镇}
-- 结束带我去 {ADDRESS=大街} 在 {ADDRESS=教区大厅}
-- 结束带我去 {ADDRESS=大都会大道} 在 {ADDRESS=贝尔维尔市}
-- 结束带我去 {ADDRESS=威廉姆斯阁} 在 {ADDRESS=瓦萨奇县}
-- 结束带我去 {ADDRESS=学校车道} 在 {ADDRESS=斯珀林}
-- 结束带我去 {ADDRESS=安波镇街} 在 {ADDRESS=克莱郡}
-- 结束带我去 {ADDRESS=展望公园} 在 {ADDRESS=阿尔瓦市}
-- 结束带我去 {ADDRESS=山坡车程} 在 {ADDRESS=村庄}
-- 结束带我去 {ADDRESS=布莱克大道} 在 {ADDRESS=meadowlakes 市}
-- 结束带我去 {ADDRESS=布莱顿4地点} 在 {ADDRESS=罗恩}
-- 结束带我去 {ADDRESS=布莱顿第五宫} 在 {ADDRESS=西姆拉镇}
-- 结束带我去 {ADDRESS=布鲁姆街} 在 {ADDRESS=格伦林恩镇}
-- 结束带我去 {ADDRESS=愉快的地方} 在 {ADDRESS=博尔顿镇}
-- 结束带我去 {ADDRESS=拉杰广场} 在 {ADDRESS=鲍尔肯高地城}
-- 结束带我去 {ADDRESS=拉特兰路} 在 {ADDRESS=巴恩斯维尔}
-- 结束带我去 {ADDRESS=按住街道} 在 {ADDRESS=阿克拉维克}
-- 结束带我去 {ADDRESS=斯奈德大道} 在 {ADDRESS=格拉夫村}
-- 结束带我去 {ADDRESS=斯蒂芬法院} 在 {ADDRESS=李约瑟镇}
-- 结束带我去 {ADDRESS=新泽西大道} 在 {ADDRESS=范宁县余额}
-- 结束带我去 {ADDRESS=日落大道} 在 {ADDRESS=多洛雷斯县}
-- 结束带我去 {ADDRESS=权力街} 在 {ADDRESS=海因斯}
-- 结束带我去 {ADDRESS=杨树街} 在 {ADDRESS=底特律镇}
-- 结束带我去 {ADDRESS=杰克逊街} 在 {ADDRESS=伊泽德县}
-- 结束带我去 {ADDRESS=松街} 在 {ADDRESS=本顿县}
-- 结束带我去 {ADDRESS=板栗大道} 在 {ADDRESS=结}
-- 结束带我去 {ADDRESS=栏柱街} 在 {ADDRESS=贝利奥勒姆}
-- 结束带我去 {ADDRESS=核桃街} 在 {ADDRESS=卡罗尔郡}
-- 结束带我去 {ADDRESS=桂冠驱动} 在 {ADDRESS=海舍姆镇}
-- 结束带我去 {ADDRESS=桑街} 在 {ADDRESS=黎巴嫩交界处}
-- 结束带我去 {ADDRESS=橙色街} 在 {ADDRESS=科西阿斯科}
-- 结束带我去 {ADDRESS=汉诺威法院} 在 {ADDRESS=瑟洛}
-- 结束带我去 {ADDRESS=沃伦街} 在 {ADDRESS=莫里亚蒂市}
-- 结束带我去 {ADDRESS=沃尔科特街} 在 {ADDRESS=洛厄尔市}
-- 结束带我去 {ADDRESS=湖广场} 在 {ADDRESS=黑泽尔顿}
-- 结束带我去 {ADDRESS=湾大道} 在 {ADDRESS=里弗代尔村}
-- 结束带我去 {ADDRESS=湾第三十四街} 在 {ADDRESS=奥尔珀市}
-- 结束带我去 {ADDRESS=湾第二十二街} 在 {ADDRESS=itawamba 县余额}
-- 结束带我去 {ADDRESS=湾第二十八街} 在 {ADDRESS=泰勒斯维尔}
-- 结束带我去 {ADDRESS=湾第五十二街} 在 {ADDRESS=巴赫巴胡高尔夫球场镇}
-- 结束带我去 {ADDRESS=玉兰大道} 在 {ADDRESS=家园自治市}
-- 结束带我去 {ADDRESS=玛瑙苑} 在 {ADDRESS=里昂郡}
-- 结束带我去 {ADDRESS=玫瑰街} 在 {ADDRESS=梅隆港}
-- 结束带我去 {ADDRESS=画街} 在 {ADDRESS=沼城}
-- 结束带我去 {ADDRESS=盖洛德驱动器} 在 {ADDRESS=埃蒙斯县余额}
-- 结束带我去 {ADDRESS=福福广场} 在 {ADDRESS=昂利镇}
-- 结束带我去 {ADDRESS=科林广场} 在 {ADDRESS=stillmore}
-- 结束带我去 {ADDRESS=第一大道} 在 {ADDRESS=塔克曼市}
-- 结束带我去 {ADDRESS=第九十八街} 在 {ADDRESS=亨德里克斯湖}
-- 结束带我去 {ADDRESS=第八十七街} 在 {ADDRESS=格林斯庞德}
-- 结束带我去 {ADDRESS=第八街} 在 {ADDRESS=瓦萨奇县}
-- 结束带我去 {ADDRESS=第六十八街} 在 {ADDRESS=格雷维特市}
-- 结束带我去 {ADDRESS=第六大道} 在 {ADDRESS=罗素镇}
-- 结束带我去 {ADDRESS=第十九车道} 在 {ADDRESS=涡流郡}
-- 结束带我去 {ADDRESS=第四大道} 在 {ADDRESS=普里斯维尔}
-- 结束带我去 {ADDRESS=米尔福德街} 在 {ADDRESS=格伦科市}
-- 结束带我去 {ADDRESS=米德伍德街} 在 {ADDRESS=芒怡城}
-- 结束带我去 {ADDRESS=纽柯克大道} 在 {ADDRESS=黑泽尔顿}
-- 结束带我去 {ADDRESS=罗斯福阁} 在 {ADDRESS=赖特斯敦行政区}
-- 结束带我去 {ADDRESS=联合街} 在 {ADDRESS=休斯敦郡}
-- 结束带我去 {ADDRESS=舰队街} 在 {ADDRESS=点舒适度}
-- 结束带我去 {ADDRESS=花园街} 在 {ADDRESS=富兰克林县结余}
-- 结束带我去 {ADDRESS=花园街} 在 {ADDRESS=梅伦河市}
-- 结束带我去 {ADDRESS=草甸巷} 在 {ADDRESS=马蹄弯市}
-- 结束带我去 {ADDRESS=莱德大道} 在 {ADDRESS=罗巴兹}
-- 结束带我去 {ADDRESS=街道路} 在 {ADDRESS=huntsdale}
-- 结束带我去 {ADDRESS=西大街} 在 {ADDRESS=布里奇沃特行政区}
-- 结束带我去 {ADDRESS=阿什兰广场} 在 {ADDRESS=洛识利镇}
-- 结束带我去 {ADDRESS=阿普尔盖特阁} 在 {ADDRESS=冬青泉}
-- 结束带我去 {ADDRESS=阿波罗街} 在 {ADDRESS=嘉峰}
-- 结束带我去 {ADDRESS=霍伊特街} 在 {ADDRESS=brownsboro 村城}
-- 结束带我去 {ADDRESS=韦斯特伯里阁} 在 {ADDRESS=woodston}
-- 结束带我去 {ADDRESS=高地大道} 在 {ADDRESS=米尔顿}
-- 结束带我去 {ADDRESS=高地景观大道} 在 {ADDRESS=伯 灵 顿}
-- 结束要 {KEYWORD=Basler 商品交易会大厦} 在 {ADDRESS=哥伦比亚县}
-- 结束要 {KEYWORD=ed 墨维斯剧院} 在 {ADDRESS=温彻斯特}
-- 结束要 {KEYWORD=Tivoli} 在 {ADDRESS=克莱蒙费朗}
-- 结束要 {KEYWORD=Tivoli} 在 {ADDRESS=国王}
-- 结束要 {KEYWORD=与银鲛的房子} 在 {ADDRESS=制衡县}
-- 结束要 {KEYWORD=中央岛公园} 在 {ADDRESS=winside 村}
-- 结束要 {KEYWORD=中心岛} 在 {ADDRESS=双瀑布郡}
-- 结束要 {KEYWORD=主权银行大厦} 在 {ADDRESS=华莱士}
-- 结束要 {KEYWORD=伊普西兰蒂水塔} 在 {ADDRESS=奥尔波特镇}
-- 结束要 {KEYWORD=伊普西兰蒂水塔} 在 {ADDRESS=阿比维尔}
-- 结束要 {KEYWORD=冰川点} 在 {ADDRESS=特里蒙顿}
-- 结束要 {KEYWORD=凯旋拱门} 在 {ADDRESS=沙丘城市城市}
-- 结束要 {KEYWORD=剧院楼梯} 在 {ADDRESS=zenon 公园}
-- 结束要 {KEYWORD=加拿大里普利水族馆} 在 {ADDRESS=雷德菲尔德市}
-- 结束要 {KEYWORD=动物园} 在 {ADDRESS=伊顿急流}
-- 结束要 {KEYWORD=吉隆坡塔} 在 {ADDRESS=伦道夫}
-- 结束要 {KEYWORD=吉隆坡塔} 在 {ADDRESS=克林顿郡的平衡}
-- 结束要 {KEYWORD=吉隆坡塔} 在 {ADDRESS=林伍德}
-- 结束要 {KEYWORD=哥伦比亚中心} 在 {ADDRESS=杰斐逊郡}
-- 结束要 {KEYWORD=哥伦比亚中心} 在 {ADDRESS=汉普顿行政区}
-- 结束要 {KEYWORD=商业银行大厦} 在 {ADDRESS=圣玛丽}
-- 结束要 {KEYWORD=团圆塔} 在 {ADDRESS=小河}
-- 结束要 {KEYWORD=国会山} 在 {ADDRESS=日内瓦县}
-- 结束要 {KEYWORD=国旗国家纪念碑} 在 {ADDRESS=金曼县平衡}
-- 结束要 {KEYWORD=图根哈特别墅酒店} 在 {ADDRESS=莫顿郡}
-- 结束要 {KEYWORD=圣尼古拉斯教堂} 在 {ADDRESS=卡斯特县平衡}
-- 结束要 {KEYWORD=圣尼古拉斯教堂} 在 {ADDRESS=波尼县余额}
-- 结束要 {KEYWORD=圣索菲亚大教堂} 在 {ADDRESS=海德公园城}
-- 结束要 {KEYWORD=圣萨瓦庙} 在 {ADDRESS=林肯郡}
-- 结束要 {KEYWORD=圣马科斯城堡} 在 {ADDRESS=凯雷}
-- 结束要 {KEYWORD=埃及金字塔} 在 {ADDRESS=普吉拉多角郡}
-- 结束要 {KEYWORD=埃及金字塔} 在 {ADDRESS=雷普莉}
-- 结束要 {KEYWORD=基督在科尔科瓦多} 在 {ADDRESS=大号角郡}
-- 结束要 {KEYWORD=大金字塔} 在 {ADDRESS=奥尔巴尼}
-- 结束要 {KEYWORD=太阳信托广场} 在 {ADDRESS=西欧克博奇市}
-- 结束要 {KEYWORD=安大略省种子公司} 在 {ADDRESS=坎卢普斯}
-- 结束要 {KEYWORD=富国法戈中心} 在 {ADDRESS=马德-博斯}
-- 结束要 {KEYWORD=富国银行广场} 在 {ADDRESS=联盟}
-- 结束要 {KEYWORD=富尔顿歌剧院酒店} 在 {ADDRESS=威尔士}
-- 结束要 {KEYWORD=小美人鱼} 在 {ADDRESS=扬克顿县}
-- 结束要 {KEYWORD=山顶缆车2峰} 在 {ADDRESS=fernan 湖村}
-- 结束要 {KEYWORD=岩石圆顶} 在 {ADDRESS=wauzeka 村}
-- 结束要 {KEYWORD=广场马戏团} 在 {ADDRESS=利斯维尔村}
-- 结束要 {KEYWORD=所罗门古根海姆博物馆} 在 {ADDRESS=梅尔斯县}
-- 结束要 {KEYWORD=拉什莫尔山} 在 {ADDRESS=卡梅伦}
-- 结束要 {KEYWORD=拉吉 bhvan} 在 {ADDRESS=易洛魁瀑布}
-- 结束要 {KEYWORD=拜罗伊特节日之家} 在 {ADDRESS=巴西莱镇}
-- 结束要 {KEYWORD=拱门国家公园} 在 {ADDRESS=榛城}
-- 结束要 {KEYWORD=摩根大通大厦} 在 {ADDRESS=里弗顿市}
-- 结束要 {KEYWORD=撒尿} 在 {ADDRESS=樱桃郡}
-- 结束要 {KEYWORD=斜塔} 在 {ADDRESS=里奇伍德村}
-- 结束要 {KEYWORD=斜角博物馆} 在 {ADDRESS=丹伯里村}
-- 结束要 {KEYWORD=斜角博物馆} 在 {ADDRESS=布伦瑞克县结余}
-- 结束要 {KEYWORD=新指挥官} 在 {ADDRESS=哈丁县余额}
-- 结束要 {KEYWORD=曼彻斯特皮卡迪利站} 在 {ADDRESS=的城市}
-- 结束要 {KEYWORD=比瑟姆塔} 在 {ADDRESS=骗子县}
-- 结束要 {KEYWORD=汇丰大厦} 在 {ADDRESS=布雷肯里奇村}
-- 结束要 {KEYWORD=泛美金字塔} 在 {ADDRESS=威廉斯堡}
-- 结束要 {KEYWORD=海军陆战队国家博物馆} 在 {ADDRESS=powellsville 镇}
-- 结束要 {KEYWORD=熨斗大厦} 在 {ADDRESS=伊根}
-- 结束要 {KEYWORD=瑞安联邦大厦} 在 {ADDRESS=罗村}
-- 结束要 {KEYWORD=白金汉宫} 在 {ADDRESS=圣路易斯}
-- 结束要 {KEYWORD=的神圣} 在 {ADDRESS=克拉克市}
-- 结束要 {KEYWORD=皇家歌剧院酒店} 在 {ADDRESS=科潘}
-- 结束要 {KEYWORD=皇家泰瑞尔博物馆} 在 {ADDRESS=寺庙}
-- 结束要 {KEYWORD=皇家音乐学院} 在 {ADDRESS=圣谎}
-- 结束要 {KEYWORD=盖洛德奥普利兰德度假酒店} 在 {ADDRESS=只}
-- 结束要 {KEYWORD=礼堂大楼} 在 {ADDRESS=赤 柱}
-- 结束要 {KEYWORD=米拉德塔} 在 {ADDRESS=黑利伯瑞}
-- 结束要 {KEYWORD=约克大教堂} 在 {ADDRESS=格拉斯哥城市}
-- 结束要 {KEYWORD=罗德的巨人} 在 {ADDRESS=蔑视}
-- 结束要 {KEYWORD=美国购物中心} 在 {ADDRESS=麦田}
-- 结束要 {KEYWORD=苏哈列夫塔} 在 {ADDRESS=蒂娜村酒店}
-- 结束要 {KEYWORD=英国浴场} 在 {ADDRESS=格鲁阿尔}
-- 结束要 {KEYWORD=萨米恩托博物馆} 在 {ADDRESS=普吉拉多角平衡}
-- 结束要 {KEYWORD=著名的人球员晚餐剧场} 在 {ADDRESS=曼哈顿}
-- 结束要 {KEYWORD=蓝色清真寺} 在 {ADDRESS=戈多的平衡}
-- 结束要 {KEYWORD=西可环球广场} 在 {ADDRESS=布兰科市}
-- 结束要 {KEYWORD=视觉和音响剧院} 在 {ADDRESS=圣-那儿}
-- 结束要 {KEYWORD=许愿泉} 在 {ADDRESS=childersburg 市}
-- 结束要 {KEYWORD=论坛报塔} 在 {ADDRESS=艾迪生镇}
-- 结束要 {KEYWORD=转动躯干} 在 {ADDRESS=丽 晶}
-- 结束要 {KEYWORD=里亚托塔} 在 {ADDRESS=锡特卡市和行政区}
-- 结束要 {KEYWORD=阿克斯胡斯城堡} 在 {ADDRESS=草甸桥}
-- 结束要 {KEYWORD=阿联酋大厦酒店} 在 {ADDRESS=塔拉哈西}
-- 结束要 {KEYWORD=阿联酋航空办公大楼} 在 {ADDRESS=约翰逊郡平衡}
-- 结束要 {KEYWORD=阿蒙寺} 在 {ADDRESS=华盛顿郡}
-- 结束要 {KEYWORD=阿蒙寺} 在 {ADDRESS=斯坦顿县结余}
-- 结束要 {KEYWORD=阿蒙寺} 在 {ADDRESS=朗福德镇}
-- 结束要 {KEYWORD=阿蒙寺} 在 {ADDRESS=梅里克余额}
-- 结束要 {KEYWORD=音乐厅} 在 {ADDRESS=塔特怀勒}
-- 结束要 {KEYWORD=马德河格伦山枫农场有限公司} 在 {ADDRESS=马塔努斯卡-苏丝提纳行政区}
-- 继续前进, 停止导航
-- 继续前进, 切去
-- 继续前进, 删除前进
-- 继续前进, 抹去
-- 继续前进, 摆脱导航
-- 继续前进, 擦去
-- 继续前进, 擦除导航
-- 继续前进, 清除前进
-- 继续前进, 清除导航
-- 继续前进, 移除前进
-- 继续前进, 结束导航
-- 继续前进并删除导航
-- 继续并删除导航
-- 继续并取消导航
-- 继续并取消路线服务
-- 继续并擦除导航
-- 继续并清除导航
-- 能不能请你剪掉导航
-- 能不能请你擦除导航
-- 能不能请你移除去
-- 能否删除导航
-- 请你停止导航
-- 请你切断导航
-- 请你删去
-- 请你删除去
-- 请你别走
-- 请你剪掉导航
-- 请你取消航线服务好吗？
-- 请你忘记导航
-- 请你快一点
-- 请你快一点走
-- 请你把导航去掉
-- 请你把导航擦干净
-- 请你把导航擦干净, 好吗？
-- 请你抹去
-- 请你擦去
-- 请你擦掉导航
-- 请你擦除导航
-- 请你结束导航
-- 请你结束航线服务好吗？
-- 请停止导航
-- 请切去
-- 请删除导航
-- 请剪切导航
+- 导航删除
+- 导航停止
+- 没关系去
+- 别管纳维
+- 别管导航
+- 别管路线服务
+- 在第二个想法取消纳维
+- 在第二个思想明确纳维
+- 在第二个想法削减纳维
+- 在第二个想法删除纳维
+- 在第二个思想结束纳维
+- 在第二个想法擦除纳维
+- 在第二个想法忘记纳维
+- 在第二个想法忘记导航
+- 在第二个想法摆脱纳维
+- 在第二个想法, 不要介意航行
+- 在第二个想法删除纳维
+- 在第二个想法停止纳维
+- 在第二个思想擦掉纳维
+- 在第二个想法消灭纳维
 - 请取消导航
 - 请取消航线服务
-- 请忘记导航
-- 请您删除导航
-- 请您取消导航
-- 请您取消航线服务
-- 请您清除导航
-- 请您结束路线服务好吗？
-- 请抹去
-- 请擦去
-- 请擦除导航
+- 请清除去
 - 请清除导航
-- 请清除继续
-- 请移除去
+- 请别走了
+- 请剪切导航
+- 请删除导航
 - 请结束导航
 - 请结束航线服务
-- 退出导航
+- 请擦除去
+- 请擦除导航
+- 请忘记导航
+- 请摆脱导航
+- 请删除去
+- 请删除导航
+- 请停止导航
+- 请擦去
+- 请擦掉导航
+- 请把它擦干净
+- 请擦除导航
 - 退出目标
-- 退出路线
-- 重新启动目标
-- 重新启动路由
+- 退出导航
+- 退出路由
+- 删除目标
+- 删除去
+- 删除导航
+- 删除路由
+- 删除路由服务
 - 重置目标
 - 重置路由
+- 重新启动目标
+- 重新启动路由
+- 划痕目标
+- 划痕路线
+- 别再走了
+- 停止导航
+- 停止路线服务
+- 您是否会取消导航
+- 你会取消航线服务吗？
+- 你会清除去
+- 您是否清除导航
+- 你会削减去
+- 你会削减导航
+- 你会删除去
+- 是否会删除导航
+- 你会结束导航
+- 你会结束航线服务吗？
+- 是否将擦除导航
+- 你会忘记导航
+- 你会摆脱导航
+- 请您取消导航
+- 请您取消航线服务好吗？
+- 请你清除去
+- 请您清除导航
+- 请你削减导航
+- 你请删除去
+- 请删除导航
+- 请你结束导航
+- 请你结束航线服务好吗？
+- 请您擦除导航
+- 请你摆脱导航
+- 请你删除去
+- 请您删除导航
+- 请你停止导航
+- 请你擦去好吗？
+- 请你擦掉导航好吗？
+- 请你把它擦干净好吗？
+- 请你擦去导航
+- 你会删除去
+- 是否将删除导航
+- 您是否会停止导航
+- 你会擦去吗？
+- 您是否将导航擦掉
+- 你会被消灭吗？
+- 你会擦除导航
+- 擦除目标
+- 擦除导航
+- 擦掉路线
+- 擦除路线服务
+- 消灭目的地
+- 擦除导航
+- 消灭路线
+- 消灭路线服务
+- 你会取消导航
+- 你会取消航线服务吗？
+- 你会清除去
+- 你会清除导航
+- 你会削减去
+- 你会削减导航
+- 你会删除去
+- 是否可以删除导航
+- 你会结束导航
+- 你会结束航线服务
+- 你会抹去去
+- 你会忘记导航
+- 你会摆脱导航
+- 请您取消导航
+- 请您取消航线服务好吗？
+- 你请清除去
+- 请您清除导航
+- 你能不能切掉
+- 请你削减导航
+- 你请删除去
+- 请您删除导航
+- 你请结束导航
+- 请你结束航线服务
+- 你请抹去去
+- 请你擦除导航
+- 请你忘了导航
+- 你请删除去
+- 请您删除导航
+- 请你停止导航
+- 请你擦去
+- 请你擦掉导航
+- 你能不能把它擦干净
+- 请你擦去导航
+- 你会删除去
+- 是否删除导航
+- 你会停止导航
+- 你会擦去去
+- 你会擦掉导航吗？
+- 你会消灭出去
+- 你会擦除导航

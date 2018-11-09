@@ -19,22 +19,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="DeploymentScripts\en\msbotClone\calendar.luis" />
-    <None Remove="DeploymentScripts\en\msbotClone\email.luis" />
-    <None Remove="DeploymentScripts\en\msbotClone\General.luis" />
-    <None Remove="DeploymentScripts\en\msbotClone\todo.luis" />
-    <None Remove="DeploymentScripts\zh-hans\calendar.luis" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="DeploymentScripts\en\msbotClone\calendar.luis" />
-    <Content Include="DeploymentScripts\en\msbotClone\email.luis" />
-    <Content Include="DeploymentScripts\en\msbotClone\General.luis" />
-    <Content Include="DeploymentScripts\en\msbotClone\todo.luis" />
-    <Content Include="DeploymentScripts\zh-hans\calendar.luis" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Google.Apis.Calendar.v3" Version="1.35.2.1363" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.5" />
@@ -134,5 +118,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="xcopy &quot;$(SolutionDir)skills\CalendarSkill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)skills\EmailSkill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)skills\PointOfInterestSkill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)skills\ToDoSkill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y" />
+  </Target>
 
 </Project>

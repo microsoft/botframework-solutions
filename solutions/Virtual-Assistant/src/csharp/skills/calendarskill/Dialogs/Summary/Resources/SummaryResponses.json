@@ -96,14 +96,14 @@
     },
     "ReadOutMessage": {
         "replies": [
-            {
-                "text": "Details of meeting:",
-                "speak": "Details of event"
-            },
-            {
-                "text": "Content of meeting:",
-                "speak": "Content of event:"
-            }
+          {
+            "text": "Details of meeting:",
+            "speak": "Details of event: {MeetingDetails}"
+          },
+          {
+            "text": "Content of meeting:",
+            "speak": "Content of event: {MeetingDetails}"
+          }
         ],
         "inputHint": "expectingInput"
     }
