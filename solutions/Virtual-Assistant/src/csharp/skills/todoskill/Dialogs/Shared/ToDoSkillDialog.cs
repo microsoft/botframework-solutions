@@ -28,14 +28,14 @@ namespace ToDoSkill
         public const string LocalModeAuth = "LocalAuth";
 
         // Fields
-        protected SkillConfiguration _services;
+        protected ISkillConfiguration _services;
         protected IStatePropertyAccessor<ToDoSkillState> _accessor;
         protected ITaskService _serviceManager;
         protected ToDoSkillResponseBuilder _responseBuilder = new ToDoSkillResponseBuilder();
 
         public ToDoSkillDialog(
             string dialogId,
-            SkillConfiguration services,
+            ISkillConfiguration services,
             IStatePropertyAccessor<ToDoSkillState> accessor,
             ITaskService serviceManager)
             : base(dialogId)
@@ -92,6 +92,10 @@ namespace ToDoSkill
 
                     // Wait for the tokens/response event
                     return await sc.PromptAsync(SkillModeAuth, new PromptOptions());
+                }
+                else if (sc.Context.Activity.ChannelId == "test")
+                {
+                    return await sc.NextAsync();
                 }
                 else
                 {

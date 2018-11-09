@@ -6,12 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="API\**" />
-    <EmbeddedResource Remove="API\**" />
-    <None Remove="API\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="appsettings.json" />
   </ItemGroup>
 
@@ -25,6 +19,7 @@
   <ItemGroup>
     <PackageReference Include="Autofac.Extras.Moq" Version="4.3.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+    <PackageReference Include="Moq" Version="4.10.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.4.0-beta" />
     <PackageReference Include="MSTest.TestFramework" Version="1.4.0-beta" />
   </ItemGroup>
@@ -35,6 +30,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="ToDoSkillTest.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="ToDoSkillTest.bot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

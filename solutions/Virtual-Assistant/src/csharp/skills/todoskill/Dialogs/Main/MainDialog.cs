@@ -21,7 +21,7 @@ namespace ToDoSkill
     public class MainDialog : RouterDialog
     {
         private bool _skillMode;
-        private SkillConfiguration _services;
+        private ISkillConfiguration _services;
         private UserState _userState;
         private ConversationState _conversationState;
         private ITaskService _serviceManager;
@@ -29,7 +29,7 @@ namespace ToDoSkill
         private ToDoSkillResponseBuilder _responseBuilder = new ToDoSkillResponseBuilder();
 
         public MainDialog(
-            SkillConfiguration services,
+            ISkillConfiguration services,
             ConversationState conversationState,
             UserState userState,
             ITaskService serviceManager,

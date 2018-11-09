@@ -11,12 +11,13 @@ namespace ToDoSkillTest.Flow
     using ToDoSkill;
     using Autofac;
     using ToDoSkillTest.Fakes;
+    using ToDoSkillTest.Flow.Fakes;
     using Microsoft.Bot.Solutions.Skills;
     using Microsoft.Bot.Configuration;
     using System.Collections.Generic;
     using Microsoft.Bot.Solutions.Dialogs;
     using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
-
+    
     public class ToDoBotTestBase : BotTestBase
     {
 
@@ -26,9 +27,9 @@ namespace ToDoSkillTest.Flow
 
         public IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor;
 
-        public IToDoService toDoService { get; set; }
+        public ITaskService toDoService { get; set; }
 
-        public SkillConfiguration services { get; set; }
+        public MockSkillConfiguration services { get; set; }
 
         public BotConfiguration options { get; set; }
 
@@ -48,11 +49,11 @@ namespace ToDoSkillTest.Flow
 
             var parameters = this.Configuration.GetSection("Parameters")?.Get<string[]>();
             var configuration = this.Configuration.GetSection("Configuration")?.Get<Dictionary<string, object>>();
-            this.services = new SkillConfiguration(options, parameters, configuration);
+            this.services = new MockSkillConfiguration();
 
             builder.RegisterInstance(new BotStateSet(this.userState, this.conversationState));
             var fakeToDoService = new FakeToDoService();
-            builder.RegisterInstance<IToDoService>(fakeToDoService);
+            builder.RegisterInstance<ITaskService>(fakeToDoService);
 
             this.Container = builder.Build();
             this.toDoService = fakeToDoService;

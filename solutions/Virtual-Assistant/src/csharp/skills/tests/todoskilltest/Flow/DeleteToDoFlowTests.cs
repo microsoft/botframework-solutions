@@ -49,7 +49,7 @@ namespace ToDoSkillTest.Flow
                 var toDoChoices = responseCard.Body[1] as AdaptiveChoiceSetInput;
                 var toDoChoiceCount = toDoChoices.Choices.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", FakeData.FakeToDoItems.Count.ToString() } }),
+                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", FakeData.FakeTaskItems.Count.ToString() } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, 5);
             };
@@ -66,17 +66,17 @@ namespace ToDoSkillTest.Flow
                 var toDoChoices = responseCard.Body[1] as AdaptiveChoiceSetInput;
                 var toDoChoiceCount = toDoChoices.Choices.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", (FakeData.FakeToDoItems.Count - 1).ToString() } }),
+                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", (FakeData.FakeTaskItems.Count - 1).ToString() } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, 5);
                 var toDoChoice = toDoChoices.Choices[0];
-                Assert.AreEqual(toDoChoice.Title, FakeData.FakeToDoItems[1].Topic);
+                Assert.AreEqual(toDoChoice.Title, FakeData.FakeTaskItems[1].Topic);
             };
         }
 
         private string[] CollectConfirmation()
         {
-            return this.ParseReplies(DeleteToDoResponses.AskDeletionConfirmation.Replies, new StringDictionary() { { "toDoTask", FakeData.FakeToDoItems[0].Topic } });
+            return this.ParseReplies(DeleteToDoResponses.AskDeletionConfirmation.Replies, new StringDictionary() { { "toDoTask", FakeData.FakeTaskItems[0].Topic } });
         }
 
         private string[] SettingUpOneNote()

@@ -4,6 +4,7 @@
 namespace ToDoSkill
 {
     using System.Collections.Generic;
+    using System.Net.Http;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -48,6 +49,6 @@ namespace ToDoSkill
         /// <param name="token">Task service token.</param>
         /// <param name="listTypeIds">Task list name and id dictionary.</param>
         /// <returns>To Do service itself.</returns>
-        Task<ITaskService> InitAsync(string token, Dictionary<string, string> listTypeIds);
+        Task<ITaskService> InitAsync(string token, Dictionary<string, string> listTypeIds, HttpClient client = null);
     }
 }

@@ -49,7 +49,7 @@ namespace ToDoSkillTest.Flow
                 var toDoChoices = responseCard.Body[1] as AdaptiveChoiceSetInput;
                 var toDoChoiceCount = toDoChoices.Choices.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", FakeData.FakeToDoItems.Count.ToString() } }),
+                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", FakeData.FakeTaskItems.Count.ToString() } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, 5);
             };

@@ -25,7 +25,7 @@ namespace ToDoSkillTest.Flow
         public async Task EndToEnd()
         {
             await this.GetTestFlow()
-                .Send("Create a task for me")
+                .Send("Add a task")
                 .AssertReplyOneOf(this.CollectToDoContent())
                 .Send("Test Content")
                 .AssertReplyOneOf(this.SettingUpOneNote())
@@ -54,7 +54,7 @@ namespace ToDoSkillTest.Flow
                 var toDoChoices = responseCard.Body[1] as AdaptiveChoiceSetInput;
                 var toDoChoiceCount = toDoChoices.Choices.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", (FakeData.FakeToDoItems.Count + 1).ToString() } }),
+                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", (FakeData.FakeTaskItems.Count + 1).ToString() } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, 5);
                 var toDoChoice = toDoChoices.Choices[0];

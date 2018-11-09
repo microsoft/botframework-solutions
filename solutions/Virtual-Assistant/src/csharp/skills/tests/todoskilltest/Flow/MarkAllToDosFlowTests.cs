@@ -46,7 +46,7 @@ namespace ToDoSkillTest.Flow
                 var toDoChoices = responseCard.Body[1] as AdaptiveChoiceSetInput;
                 var toDoChoiceCount = toDoChoices.Choices.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", FakeData.FakeToDoItems.Count.ToString() } }),
+                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", FakeData.FakeTaskItems.Count.ToString() } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, 5);
             };
@@ -61,7 +61,7 @@ namespace ToDoSkillTest.Flow
                 var responseCard = messageActivity.Attachments[0].Content as AdaptiveCard;
                 var adaptiveCardTitle = responseCard.Body[0] as AdaptiveTextBlock;
                 var toDoChoices = responseCard.Body[1] as AdaptiveChoiceSetInput;
-                FakeData.FakeToDoItems.GetRange(0, 5).ForEach(o => Assert.IsTrue(toDoChoices.Value.Contains(o.Id)));
+                FakeData.FakeTaskItems.GetRange(0, 5).ForEach(o => Assert.IsTrue(toDoChoices.Value.Contains(o.Id)));
             };
         }
 
