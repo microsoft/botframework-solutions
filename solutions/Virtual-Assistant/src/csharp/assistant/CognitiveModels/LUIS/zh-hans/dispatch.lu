@@ -110,9 +110,9 @@
 
 
 # l_PointOfInterest
-- [l_PointOfInterest](../../../../skills/pointofinterestskill/CognitiveModels/LUIS/en/poi_navigation_cancel_route.lu#NAVIGATION_CANCEL_ROUTE)
-- [l_PointOfInterest](../../../../skills/pointofinterestskill/CognitiveModels/LUIS/en/poi_navigation_find_poi.lu#NAVIGATION_FIND_POINTOFINTEREST)
-- [l_PointOfInterest](../../../../skills/pointofinterestskill/CognitiveModels/LUIS/en/poi_navigation_route_fromxtoy.lu#NAVIGATION_ROUTE_FROM_X_TO_Y)
+- [l_PointOfInterest](../../../../skills/pointofinterestskill/CognitiveModels/LUIS/zh-hans/poi_navigation_cancel_route.lu#NAVIGATION_CANCEL_ROUTE)
+- [l_PointOfInterest](../../../../skills/pointofinterestskill/CognitiveModels/LUIS/zh-hans/poi_navigation_find_poi.lu#NAVIGATION_FIND_POINTOFINTEREST)
+- [l_PointOfInterest](../../../../skills/pointofinterestskill/CognitiveModels/LUIS/zh-hans/poi_navigation_route_fromxtoy.lu#NAVIGATION_ROUTE_FROM_X_TO_Y)
 - 实际上取消去{KEYWORD}
 - 其实不去{ADDRESS}
 - 实际上忘了要去{ADDRESS}
