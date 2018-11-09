@@ -2986,6 +2986,28 @@
       "entities": []
     },
     {
+      "text": "show my to dos",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 8,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "show my todos",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 8,
+          "endPos": 12
+        }
+      ]
+    },
+    {
       "text": "show next",
       "intent": "None",
       "entities": []
