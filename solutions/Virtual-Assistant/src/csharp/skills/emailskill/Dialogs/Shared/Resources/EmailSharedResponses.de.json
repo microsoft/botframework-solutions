@@ -361,12 +361,8 @@
   "ReadOutMessage": {
     "replies": [
       {
-        "text": "Email-Details:",
-        "speak": "Email-Details:"
-      },
-      {
         "text": "Email Inhalte:",
-        "speak": "Email Inhalte:"
+        "speak": "Email Inhalte: {EmailDetails}"
       }
     ],
     "inputHint": "expectingInput"

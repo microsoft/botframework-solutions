@@ -54,7 +54,7 @@ namespace EmailSkillTest.Flow.Fakes
             }
             else if (userInput == "TestName")
             {
-                this.Entities.ContactName = new string[] { "Test test" };
+                this.Entities.ContactName = new string[] { "Test Test" };
                 return (Email.Intent.None, 0.90);
             }
             else if (userInput == "TestContent")
@@ -97,6 +97,11 @@ namespace EmailSkillTest.Flow.Fakes
                 this.Entities.ordinal = new double[] { 1 };
                 return (Email.Intent.SelectItem, 0.90);
             }
+            else if (userInput == "1")
+            {
+                this.Entities.number = new double[] { 1 };
+                return (Email.Intent.SelectItem, 0.90);
+            }
 
             return (Email.Intent.None, 0.0);
         }
@@ -109,7 +114,12 @@ namespace EmailSkillTest.Flow.Fakes
             }
             else if (userInput == "TestName")
             {
-                this.Entities.ContactName = new string[] { "Test test" };
+                this.Entities.ContactName = new string[] { "Test Test" };
+                return (Email.Intent.None, 0.90);
+            }
+            else if (userInput == "TestDupName")
+            {
+                this.Entities.ContactName = new string[] { "TestDup Test" };
                 return (Email.Intent.None, 0.90);
             }
             else if (userInput == "TestSubjcet")
@@ -121,6 +131,16 @@ namespace EmailSkillTest.Flow.Fakes
             {
                 this.Entities.Message = new string[] { "Test message" };
                 return (Email.Intent.None, 0.90);
+            }
+            else if (userInput == "The first one")
+            {
+                this.Entities.ordinal = new double[] { 1 };
+                return (Email.Intent.SelectItem, 0.90);
+            }
+            else if (userInput == "1")
+            {
+                this.Entities.number = new double[] { 1 };
+                return (Email.Intent.SelectItem, 0.90);
             }
 
             return (Email.Intent.None, 0.0);

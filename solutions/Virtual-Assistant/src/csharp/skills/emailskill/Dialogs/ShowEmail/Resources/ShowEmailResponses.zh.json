@@ -57,11 +57,11 @@
     "replies": [
       {
         "text": "电子邮件详情：",
-        "speak": "电子邮件详情："
+        "speak": "电子邮件详情：{EmailDetails}"
       },
       {
         "text": "电子邮件内容：",
-        "speak": "电子邮件内容："
+        "speak": "电子邮件内容：{EmailDetails}"
       }
     ],
     "inputHint": "expectingInput"
