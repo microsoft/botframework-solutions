@@ -55,16 +55,6 @@ namespace EmailSkill
                 throw new Exception("You must configure an authentication connection in your bot file before using this component.");
             }
 
-            foreach (var connection in services.AuthenticationConnections)
-            {
-                AddDialog(new OAuthPrompt(connection.Key, new OAuthPromptSettings
-                {
-                    ConnectionName = connection.Value,
-                    Text = $"Please login with your {connection.Key} account.",
-                    Timeout = 30000,
-                }, AuthPromptValidator));
-            }
-
             AddDialog(new EventPrompt(SkillModeAuth, "tokens/response", TokenResponseValidator));
             AddDialog(new MultiProviderAuthDialog(services));
             AddDialog(new TextPrompt(Action.Prompt));
@@ -918,12 +908,12 @@ namespace EmailSkill
                     }
                 }
 
-                if (entity.number != null && entity.ordinal != null)
+                if (entity.number != null && entity.ordinal == null)
                 {
                     try
                     {
                         var emailList = state.MessageList;
-                        var value = entity.ordinal[0];
+                        var value = entity.number[0];
                         if (Math.Abs(value - (int)value) < double.Epsilon)
                         {
                             var num = (int)value;
