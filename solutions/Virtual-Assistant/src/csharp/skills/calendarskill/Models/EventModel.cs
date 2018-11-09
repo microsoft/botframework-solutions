@@ -649,7 +649,7 @@ namespace CalendarSkill
                 }
             }
 
-            if (showDate)
+            if (showDate || !IsSameDate(eventItem.StartTime, eventItem.EndTime))
             {
                 if (IsSameDate(eventItem.StartTime, eventItem.EndTime))
                 {
@@ -690,7 +690,7 @@ namespace CalendarSkill
                 Title = eventItem.Title,
                 Content = textString,
                 MeetingLink = eventItem.OnlineMeetingUrl,
-                Speak = $"{eventItem.Title} at {TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone).ToString("h:mm tt")}",
+                Speak = speakString,
             };
         }
 
