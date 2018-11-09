@@ -21,7 +21,7 @@
             })
         };
 
-        var user = { id: userId, name: "User", role: "user" };
+        var user = { id: userId, name: 'default-user', role: 'user' };
 
         var bot = window.WebChat.createDirectLine({
             token: '@Model.DirectLineToken',
@@ -36,13 +36,16 @@
             userAvatarInitials: userInitials
         }, document.getElementById('webchat'));
 
-        //bot.postActivity({
-        //    from: user,
-        //    name: 'startConversation',
-        //    type: 'event',
-        //    value: ''
-        //})
-        //.subscribe(function (id) {
-        //    console.log('Event "startConversation" sent');
-        //    });
+        // Messages sent in web chat are labeled default-user, so the startup event
+        // will send it from the same id to prevent multiple occurences of ConversationUpdate activities.
+        var defaultUser = { id: 'default-user', name: 'default-user', role: 'user' };
+        bot.postActivity({
+            from: defaultUser,
+            name: 'startConversation',
+            type: 'event',
+            value: ''
+        })
+        .subscribe(function (id) {
+            console.log('Event "startConversation" sent');
+            });
     </script>
