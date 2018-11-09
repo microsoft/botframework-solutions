@@ -23,26 +23,28 @@ namespace Assistant_WebTest.Controllers
     public class HomeController : Controller
     {        
         public const string AadObjectidentifierClaim = "http://schemas.microsoft.com/identity/claims/objectidentifier";
-        public HomeController(ICredentialProvider credentialProvider, IConfiguration configuration)
+        public HomeController(ICredentialProvider provider, IConfiguration configuration)
         {
             // Retrieve the Bot configuration
             directLineSecret = configuration.GetSection("DirectLineSecret").Value;
             directLineEndpoint = configuration.GetSection("DirectLineEndpoint").Value;
             speechKey = configuration.GetSection("SpeechKey").Value;
             voiceName = configuration.GetSection("VoiceName").Value;
-            CredentialProvider = credentialProvider;
+            credentialProvider = provider;
         }
 
         public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult WebChat()
         {
             // Get DirectLine Token
             // Pass the DirectLine Token, Speech Key and Voice Name
             // Note this approach will require magic code validation
             var directLineToken = string.Empty;
-            var directLineClient = new HttpClient();
-            directLineClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", directLineSecret);
-
-            var response = directLineClient.PostAsync($"{directLineEndpoint}/tokens/generate", new StringContent(string.Empty, Encoding.UTF8, "application/json")).Result;
+            HttpResponseMessage response = GetDirectLineTokenResponse();
 
             if (response.IsSuccessStatusCode)
             {
@@ -69,14 +71,7 @@ namespace Assistant_WebTest.Controllers
         public async Task<IActionResult> LinkedAccounts()
         {
             var directLineToken = string.Empty;
-            var directLineClient = new HttpClient();
-            directLineClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", directLineSecret);
-
-            // In order to avoid magic code prompts we need to set a TrustedOrigin, therefore requests using the token can be validated
-            // as coming from this web-site and protecting against scenarios where a URL is shared with someone else
-            string trustedOrigin = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
-
-            var response = directLineClient.PostAsync($"{directLineEndpoint}/tokens/generate", new StringContent(JsonConvert.SerializeObject(new { TrustedOrigins = new string[] { trustedOrigin } }), Encoding.UTF8, "application/json")).Result;
+            HttpResponseMessage response = GetDirectLineTokenResponse();
 
             if (response.IsSuccessStatusCode)
             {
@@ -88,7 +83,7 @@ namespace Assistant_WebTest.Controllers
                 var userId = this.GetUserId();
 
                 // Retrieve the status
-                TokenStatus[] tokenStatuses = await repository.GetTokenStatusAsync(userId, CredentialProvider);
+                TokenStatus[] tokenStatuses = await repository.GetTokenStatusAsync(userId, credentialProvider);
 
                 // Pass the User Id, Direct Line Token, Endpoint and Token Status to the View model
                 return View(new LinkedAccountsViewModel()
@@ -152,6 +147,19 @@ namespace Assistant_WebTest.Controllers
             return objectName;
         }
 
+        private HttpResponseMessage GetDirectLineTokenResponse()
+        {
+            var directLineClient = new HttpClient();
+            directLineClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", directLineSecret);
+
+            // In order to avoid magic code prompts we need to set a TrustedOrigin, therefore requests using the token can be validated
+            // as coming from this web-site and protecting against scenarios where a URL is shared with someone else
+            string trustedOrigin = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
+
+            var response = directLineClient.PostAsync($"{directLineEndpoint}/tokens/generate", new StringContent(JsonConvert.SerializeObject(new { TrustedOrigins = new string[] { trustedOrigin } }), Encoding.UTF8, "application/json")).Result;
+            return response;
+        }
+
         /// <summary>
         /// Retrieve a URL for the user to link a given connection name to their Bot
         /// </summary>
@@ -161,7 +169,7 @@ namespace Assistant_WebTest.Controllers
         {
             var userId = GetUserId();
 
-            string link = await repository.GetSignInLinkAsync(userId, CredentialProvider, account.ConnectionName, $"{this.Request.Scheme}://{this.Request.Host.Value}/Home/LinkedAccounts");
+            string link = await repository.GetSignInLinkAsync(userId, credentialProvider, account.ConnectionName, $"{this.Request.Scheme}://{this.Request.Host.Value}/Home/LinkedAccounts");
 
             return Redirect(link);
         }
@@ -175,7 +183,7 @@ namespace Assistant_WebTest.Controllers
         {
             var userId = GetUserId();
 
-            await this.repository.SignOutAsync(userId, CredentialProvider, account.ConnectionName);
+            await this.repository.SignOutAsync(userId, credentialProvider, account.ConnectionName);
 
             return RedirectToAction("LinkedAccounts");
         }
@@ -184,7 +192,7 @@ namespace Assistant_WebTest.Controllers
         {
             var userId = GetUserId();
 
-            await this.repository.SignOutAsync(userId, CredentialProvider);
+            await this.repository.SignOutAsync(userId, credentialProvider);
 
             return RedirectToAction("LinkedAccounts");
         }
@@ -193,7 +201,7 @@ namespace Assistant_WebTest.Controllers
         private string directLineEndpoint;
         private string speechKey;
         private string voiceName;
-        private ICredentialProvider CredentialProvider;
+        private ICredentialProvider credentialProvider;
         private ILinkedAccountRepository repository = new LinkedAccountRepository();
     }
 }

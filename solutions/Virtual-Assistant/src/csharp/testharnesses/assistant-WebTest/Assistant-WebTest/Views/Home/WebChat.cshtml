@@ -1,0 +1,48 @@
+﻿@model WebChatViewModel
+@{
+    ViewData["Title"] = "Web Chat";
+}
+    <div id="webchat"></div>
+    <script src="https://cdn.botframework.com/botframework-webchat/latest/CognitiveServices.js"></script>
+    <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
+    <script>
+        var userId = '@Model.UserID';
+        var userName = '@Model.UserName';
+
+        // Initials are captured used for user avatar
+        var userInitials = userName.replace(/(\S)\S*\s*/ig, "$1");
+
+        const speechOptions = {
+            speechRecognizer: new CognitiveServices.SpeechRecognizer({ subscriptionKey: '@Model.SpeechKey' }),
+            speechSynthesizer: new CognitiveServices.SpeechSynthesizer({
+                gender: CognitiveServices.SynthesisGender.Female,
+                subscriptionKey: '@Model.SpeechKey',
+                voiceName: '@Model.VoiceName'
+            })
+        };
+
+        var user = { id: userId, name: "User", role: "user" };
+
+        var bot = window.WebChat.createDirectLine({
+            token: '@Model.DirectLineToken',
+            user: user,
+            speechOptions: speechOptions,
+            resize: 'detect'
+        });
+
+        window.WebChat.renderWebChat({
+            directLine: bot,
+            botAvatarInitials: 'VA',
+            userAvatarInitials: userInitials
+        }, document.getElementById('webchat'));
+
+        //bot.postActivity({
+        //    from: user,
+        //    name: 'startConversation',
+        //    type: 'event',
+        //    value: ''
+        //})
+        //.subscribe(function (id) {
+        //    console.log('Event "startConversation" sent');
+        //    });
+    </script>
