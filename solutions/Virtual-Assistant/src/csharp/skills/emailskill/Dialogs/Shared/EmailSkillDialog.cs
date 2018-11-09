@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.ConfirmRecipient.Resources;
@@ -795,6 +796,7 @@ namespace EmailSkill
                 state.EndDateTime = DateTime.UtcNow;
                 state.DirectlyToMe = false;
                 state.SenderName = null;
+                state.EmailList = new List<string>();
                 state.ShowRecipientIndex = 0;
                 state.LuisResultPassedFromSkill = null;
             }
@@ -868,6 +870,17 @@ namespace EmailSkill
                 if (entity.SenderName != null)
                 {
                     state.SenderName = entity.SenderName[0];
+                }
+
+                if (entity.EmailAddress != null)
+                {
+                    foreach (var emailAddress in entity.EmailAddress)
+                    {
+                        if (IsEmail(emailAddress) && !state.EmailList.Contains(emailAddress))
+                        {
+                            state.EmailList.Add(emailAddress);
+                        }
+                    }
                 }
 
                 if (entity.datetime != null)
@@ -944,6 +957,16 @@ namespace EmailSkill
             {
                 // put log here
             }
+        }
+
+        public static bool IsEmail(string email)
+        {
+            if ((email == null) || (email == string.Empty))
+            {
+                return false;
+            }
+
+            return Regex.IsMatch(email, @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
         }
 
         // This method is called by any waterfall step that throws an exception to ensure consistency
