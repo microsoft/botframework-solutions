@@ -74,6 +74,7 @@ namespace CalendarSkill
             {
                 var result = await luisService.RecognizeAsync<Calendar>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
+                var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
 
                 var skillOptions = new CalendarSkillDialogOptions
                 {
@@ -117,10 +118,17 @@ namespace CalendarSkill
 
                     case Calendar.Intent.None:
                         {
-                            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage));
-                            if (_skillMode)
+                            if (generalTopIntent == General.Intent.Next || generalTopIntent == General.Intent.Previous)
                             {
-                                await CompleteAsync(dc);
+                                await dc.BeginDialogAsync(nameof(SummaryDialog), skillOptions);
+                            }
+                            else
+                            {
+                                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage));
+                                if (_skillMode)
+                                {
+                                    await CompleteAsync(dc);
+                                }
                             }
 
                             break;
