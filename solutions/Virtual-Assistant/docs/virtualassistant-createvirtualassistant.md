@@ -158,7 +158,12 @@ The final step is to update your .bot file and associated Skills (in appSettings
 msbot connect generic --name "Authentication" --keys "{\"YOUR_AUTH_CONNECTION_NAME\":\"Azure Active Directory v2\"}" --bot YOURBOTFILE.bot --secret "YOUR_BOT_SECRET" --url "portal.azure.net"
 ```
 
-Then in the appSettings.config updated the `authConnectionName` for each skill as appropriate. 
+For PowerShell scenarios you can use the following variation to construct the Authentication connection, you can then pass `$keys` to the `--keys` argument above instead of the inline JSON.
+```
+$authKeyString = '{"YOUR_AUTH_CONNECTION_NAME":"Azure Active Directory v2"}'
+$authKeyObject = ConvertFrom-Json $authKeyString
+$keys = ConvertTo-Json -InputObject $authKeyObject
+```
 
 > Other Authentication Service Providers exist including the ability to create custom oAuth providers. `az bot authsetting list-providers` is a quick way to review the pre-configured ones.
 
