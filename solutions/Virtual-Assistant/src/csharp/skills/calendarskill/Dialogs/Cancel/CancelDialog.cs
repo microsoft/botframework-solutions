@@ -3,8 +3,8 @@
 
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-
 namespace CalendarSkill
 {
     public class CancelDialog : ComponentDialog
@@ -14,11 +14,13 @@ namespace CalendarSkill
 
         // Fields
         private static CancelResponses _responder = new CancelResponses();
+        protected static IStatePropertyAccessor<CalendarSkillState> _accessor;
 
-        public CancelDialog()
+        public CancelDialog(IStatePropertyAccessor<CalendarSkillState> accessor)
             : base(nameof(CancelDialog))
         {
             InitialDialogId = nameof(CancelDialog);
+            _accessor = accessor;
 
             var cancel = new WaterfallStep[]
             {
@@ -35,7 +37,11 @@ namespace CalendarSkill
             Prompt = await _responder.RenderTemplate(sc.Context, "en", CancelResponses._confirmPrompt),
         });
 
-        public static async Task<DialogTurnResult> FinishCancelDialog(WaterfallStepContext sc, CancellationToken cancellationToken) => await sc.EndDialogAsync((bool)sc.Result);
+        public static async Task<DialogTurnResult> FinishCancelDialog(WaterfallStepContext sc, CancellationToken cancellationToken) {
+            var state = await _accessor.GetAsync(sc.Context);
+            state.Clear();
+            return await sc.EndDialogAsync((bool)sc.Result);
+        }
 
         protected override async Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
         {
