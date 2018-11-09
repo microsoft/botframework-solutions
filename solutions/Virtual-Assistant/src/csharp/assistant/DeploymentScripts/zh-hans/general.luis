@@ -1,63 +1,261 @@
 {
   "intents": [
     {
-      "name": "Cancel"
-    },
-    {
-      "name": "Escalate"
-    },
-    {
-      "name": "Goodbye"
-    },
-    {
       "name": "Greeting"
     },
     {
       "name": "Help"
     },
     {
-      "name": "Logout"
+      "name": "Cancel"
+    },
+    {
+      "name": "Restart"
+    },
+    {
+      "name": "Escalate"
     },
     {
       "name": "Next"
     },
     {
-      "name": "None"
-    },
-    {
       "name": "Previous"
     },
     {
-      "name": "Restart"
+      "name": "Goodbye"
+    },
+    {
+      "name": "Logout"
+    },
+    {
+      "name": "None"
     }
   ],
   "entities": [],
-  "closedLists": [],
   "composites": [],
-  "patternAnyEntities": [],
+  "closedLists": [],
   "regex_entities": [],
-  "prebuiltEntities": [
-    {
-      "name": "datetimeV2",
-      "roles": []
-    },
-    {
-      "name": "number",
-      "roles": []
-    }
-  ],
-  "regex_features": [],
   "model_features": [],
-  "patterns": [],
+  "regex_features": [],
   "utterances": [
     {
-      "text": "上一张请",
-      "intent": "Previous",
+      "text": "你好",
+      "intent": "Greeting",
       "entities": []
     },
     {
-      "text": "上一条",
-      "intent": "Previous",
+      "text": "你好",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "早上好",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "晚上好",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "您好 bot",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "嗨",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "你好吗",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "你今天感觉如何",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "嘿",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "帮助",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "帮帮我",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "帮助请",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "我被卡住了",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "我不明白",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "我能说什么呢",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "你能帮我什么？",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "你能做什么",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "我现在该怎么办",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "为什么不这样做",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "你可以帮我吗",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "停止",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "中止",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "取消",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "无视",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "不要",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "别这样",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "别这样",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "我想取消",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "没关系",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "请停止",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "退出",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "我能再做一次吗",
+      "intent": "Restart",
+      "entities": []
+    },
+    {
+      "text": "我需要改变一些事情",
+      "intent": "Restart",
+      "entities": []
+    },
+    {
+      "text": "重新 启动",
+      "intent": "Restart",
+      "entities": []
+    },
+    {
+      "text": "从头开始",
+      "intent": "Restart",
+      "entities": []
+    },
+    {
+      "text": "撤消",
+      "intent": "Restart",
+      "entities": []
+    },
+    {
+      "text": "我能和一个人说话吗？",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "我想和一个人谈谈",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "与人交谈",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "请转移我",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "联系支持",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "进展",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "继续前进",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "转到下一页",
+      "intent": "Next",
       "entities": []
     },
     {
@@ -66,12 +264,62 @@
       "entities": []
     },
     {
-      "text": "下一封电子邮件",
+      "text": "下一项",
       "intent": "Next",
       "entities": []
     },
     {
-      "text": "下一条",
+      "text": "显示下一页",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "你能展示下一张吗？",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "我要去下一个",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "请转到下一个",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "移到下一个",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "继续",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "转到下一页",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "转到下一页",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "前进",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "继续前进",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "继续下一步",
       "intent": "Next",
       "entities": []
     },
@@ -86,368 +334,13 @@
       "entities": []
     },
     {
-      "text": "下一项",
+      "text": "显示下一个",
       "intent": "Next",
       "entities": []
     },
     {
-      "text": "不",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "不了",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "不要",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "与人交谈",
-      "intent": "Escalate",
-      "entities": []
-    },
-    {
-      "text": "中止",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "为什么不这样做",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "买苹果",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "什么是以前",
-      "intent": "Previous",
-      "entities": []
-    },
-    {
-      "text": "从头开始",
-      "intent": "Restart",
-      "entities": []
-    },
-    {
-      "text": "以前",
-      "intent": "Previous",
-      "entities": []
-    },
-    {
-      "text": "你今天感觉如何",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "你可以帮我吗",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "你好",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "你好吗",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "你能做什么",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "你能展示下一张吗？",
+      "text": "让我看看下一个",
       "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "你能帮我什么？",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "停止",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "再来一次",
-      "intent": "Restart",
-      "entities": []
-    },
-    {
-      "text": "再见",
-      "intent": "Goodbye",
-      "entities": []
-    },
-    {
-      "text": "别这样",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "前一个",
-      "intent": "Previous",
-      "entities": []
-    },
-    {
-      "text": "前进",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "取消",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "取消会议",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "取消客户简报",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "取消我们的行程",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "叫你负责人来",
-      "intent": "Escalate",
-      "entities": []
-    },
-    {
-      "text": "咋回事",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "哈 哈哈",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "哈哈",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "哈啰",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "嗨",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "嘿",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "回到最后一个",
-      "intent": "Previous",
-      "entities": []
-    },
-    {
-      "text": "回去",
-      "intent": "Previous",
-      "entities": []
-    },
-    {
-      "text": "天空中的纸飞机",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "好的，再见",
-      "intent": "Goodbye",
-      "entities": []
-    },
-    {
-      "text": "好的，谢谢",
-      "intent": "Goodbye",
-      "entities": []
-    },
-    {
-      "text": "寻找星巴克",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "就这样吧",
-      "intent": "Goodbye",
-      "entities": []
-    },
-    {
-      "text": "带上一个",
-      "intent": "Previous",
-      "entities": []
-    },
-    {
-      "text": "帮助",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "帮助请",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "帮帮我",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "忘记我",
-      "intent": "Logout",
-      "entities": []
-    },
-    {
-      "text": "怎么回事",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "怎么样",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "您好 bot",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "我不懂",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "我不明白",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "我很冷",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "我想取消",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "我想和一个人谈谈",
-      "intent": "Escalate",
-      "entities": []
-    },
-    {
-      "text": "我有什么会议",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "我现在该怎么办",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "我的水瓶是绿色的",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "我能再做一次吗",
-      "intent": "Restart",
-      "entities": []
-    },
-    {
-      "text": "我能和一个人说话吗？",
-      "intent": "Escalate",
-      "entities": []
-    },
-    {
-      "text": "我能说什么呢",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "我被卡住了",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "我要去下一个",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "我需要改变一些事情",
-      "intent": "Restart",
-      "entities": []
-    },
-    {
-      "text": "打开收音机",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "找个管事的",
-      "intent": "Escalate",
-      "entities": []
-    },
-    {
-      "text": "把你老板叫来",
-      "intent": "Escalate",
-      "entities": []
-    },
-    {
-      "text": "提醒我去取牛奶",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "撤消",
-      "intent": "Restart",
-      "entities": []
-    },
-    {
-      "text": "无视",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "早上好",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "是的",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "显示上一页",
-      "intent": "Previous",
       "entities": []
     },
     {
@@ -461,22 +354,12 @@
       "entities": []
     },
     {
-      "text": "显示下一页",
+      "text": "下一封电子邮件",
       "intent": "Next",
       "entities": []
     },
     {
-      "text": "晚上好",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "晚安",
-      "intent": "Goodbye",
-      "entities": []
-    },
-    {
-      "text": "最后",
+      "text": "回去",
       "intent": "Previous",
       "entities": []
     },
@@ -486,48 +369,13 @@
       "entities": []
     },
     {
-      "text": "没事了",
-      "intent": "Goodbye",
+      "text": "前一个",
+      "intent": "Previous",
       "entities": []
     },
     {
-      "text": "没关系",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "注销",
-      "intent": "Logout",
-      "entities": []
-    },
-    {
-      "text": "海龟喜欢在海里游泳",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "移到下一个",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "算了",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "继续",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "继续下一步",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "继续前进",
-      "intent": "Next",
+      "text": "最后一个",
+      "intent": "Previous",
       "entities": []
     },
     {
@@ -536,38 +384,18 @@
       "entities": []
     },
     {
-      "text": "联系支持",
-      "intent": "Escalate",
+      "text": "最后",
+      "intent": "Previous",
       "entities": []
     },
     {
-      "text": "航班取消",
-      "intent": "None",
+      "text": "回到最后一个",
+      "intent": "Previous",
       "entities": []
     },
     {
-      "text": "让我看看下一个",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "请停止",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "请转到下一个",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "请转移我",
-      "intent": "Escalate",
-      "entities": []
-    },
-    {
-      "text": "谢谢",
-      "intent": "Goodbye",
+      "text": "带上一个",
+      "intent": "Previous",
       "entities": []
     },
     {
@@ -581,23 +409,8 @@
       "entities": []
     },
     {
-      "text": "转到下一页",
-      "intent": "Next",
-      "entities": []
-    },
-    {
       "text": "转到最后一个",
       "intent": "Previous",
-      "entities": []
-    },
-    {
-      "text": "进展",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "退出",
-      "intent": "Logout",
       "entities": []
     },
     {
@@ -606,24 +419,116 @@
       "entities": []
     },
     {
-      "text": "重新 启动",
-      "intent": "Restart",
+      "text": "以前",
+      "intent": "Previous",
       "entities": []
     },
     {
-      "text": "重新启动讨论",
+      "text": "显示上一页",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "上一张请",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "前一个",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "什么是以前",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "晚安",
+      "intent": "Goodbye",
+      "entities": []
+    },
+    {
+      "text": "再见",
+      "intent": "Goodbye",
+      "entities": []
+    },
+    {
+      "text": "再见",
+      "intent": "Goodbye",
+      "entities": []
+    },
+    {
+      "text": "好的，谢谢",
+      "intent": "Goodbye",
+      "entities": []
+    },
+    {
+      "text": "好的，再见",
+      "intent": "Goodbye",
+      "entities": []
+    },
+    {
+      "text": "谢谢",
+      "intent": "Goodbye",
+      "entities": []
+    },
+    {
+      "text": "注销",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "忘记我",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "注销",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "注销",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "注销",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "我的水瓶是绿色的",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "重来",
-      "intent": "Restart",
+      "text": "海龟喜欢在海里游泳",
+      "intent": "None",
       "entities": []
     },
     {
-      "text": "预订会议",
+      "text": "天空中的纸飞机",
       "intent": "None",
       "entities": []
     }
-  ]
+  ],
+  "patterns": [],
+  "patternAnyEntities": [],
+  "prebuiltEntities": [
+    {
+      "name": "datetimeV2",
+      "roles": []
+    },
+    {
+      "name": "number",
+      "roles": []
+    }
+  ],
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.1",
+  "name": "General",
+  "desc": "",
+  "culture": "en-us"
 }

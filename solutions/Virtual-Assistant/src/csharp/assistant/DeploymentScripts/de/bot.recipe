@@ -1,0 +1,83 @@
+{
+  "version": "1.0",
+  "resources": [
+    {
+      "type": "endpoint",
+      "id": "1",
+      "name": "development",
+      "url": "http://localhost:3979/api/messages"
+    },
+    {
+      "type": "endpoint",
+      "id": "108",
+      "name": "production",
+      "url": "https://your-bot-url.azurewebsites.net/api/messages"
+    },
+    {
+      "type": "abs",
+      "id": "199",
+      "name": "CustomAssistantABS"
+    },
+    {
+      "type": "blob",
+      "id": "2",
+      "name": "CustomAssistantStorage",
+      "container": "transcripts"
+    },
+    {
+      "type": "appInsights",
+      "id": "3",
+      "name": "CustomAssistantInsights"
+    },
+    {
+      "type": "cosmosdb",
+      "id": "8",
+      "name": "CustomAssistantCosmosDB",
+      "database": "botstate-db",
+      "collection": "botstate-collection"
+    },
+    {
+      "type": "luis",
+      "id": "general",
+      "name": "General"
+    },
+    {
+      "type": "luis",
+      "id": "calendar",
+      "name": "Calendar"
+    },
+    {
+      "type": "luis",
+      "id": "email",
+      "name": "Email"
+    },
+    {
+      "type": "luis",
+      "id": "todo",
+      "name": "ToDo"
+    },
+    {
+      "type": "luis",
+      "id": "pointofinterest",
+      "name": "PointOfInterest"
+    },
+    {
+      "type": "qna",
+      "id": "faq",
+      "name": "FAQ"
+    },
+    {
+      "type": "dispatch",
+      "id": "dispatch",
+      "name": "Dispatch",
+      "serviceIds": [
+        "general",
+        "calendar",
+        "email",
+        "todo",
+        "pointofinterest",
+        "faq"
+      ]
+    }
+  ]
+}
