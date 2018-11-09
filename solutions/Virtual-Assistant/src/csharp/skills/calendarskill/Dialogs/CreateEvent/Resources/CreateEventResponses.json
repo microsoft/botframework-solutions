@@ -135,14 +135,14 @@
   },
   "PromptPersonNotFound": {
     "replies": [
-      {
-        "text": "I cannot find that contact. Please try again. It helps if you include a surname.",
-        "speak": "I cannot find that contact. Please try again. It helps if you include a surname."
-      },
-      {
-        "text": "Something is wrong because I cannot find the contact you are looking for. Please try again. It helps if you include a surname.",
-        "speak": "Something is wrong because I cannot find the contact you are looking for. Please try again. It helps if you include a surname."
-      }
+        {
+            "text": "I cannot find {UserName}. Please try again. It helps if you include a surname.",
+            "speak": "I cannot find {UserName}. Please try again. It helps if you include a surname."
+        },
+        {
+            "text": "Something is wrong because I cannot find the {UserName} you are looking for. Please try again. It helps if you include a surname.",
+            "speak": "Something is wrong because I cannot find the {UserName} you are looking for. Please try again. It helps if you include a surname."
+        }
     ],
     "inputHint": "expectingInput"
   },
