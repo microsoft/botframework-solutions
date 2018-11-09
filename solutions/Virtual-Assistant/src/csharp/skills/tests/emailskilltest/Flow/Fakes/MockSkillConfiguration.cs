@@ -17,13 +17,11 @@ namespace EmailSkillTest.Flow.Fakes
             this.LuisServices.Add("general", new MockLuisRecognizer());
             this.LuisServices.Add("email", new MockLuisRecognizer());
 
-            this.AuthConnectionName = "test";
+            this.AuthenticationConnections.Add("Google", "Google");
 
             this.TelemetryClient = null;
             this.CosmosDbOptions = null;
         }
-
-        public override string AuthConnectionName { get; set; }
 
         public override TelemetryClient TelemetryClient { get; set; }
 
@@ -32,5 +30,7 @@ namespace EmailSkillTest.Flow.Fakes
         public override Dictionary<string, IRecognizer> LuisServices { get; set; } = new Dictionary<string, IRecognizer>();
 
         public override Dictionary<string, object> Properties { get; set; } = new Dictionary<string, object>();
+
+        public override Dictionary<string, string> AuthenticationConnections { get; set; } = new Dictionary<string, string>();
     }
 }

@@ -80,11 +80,11 @@
     "replies": [
       {
         "text": "会议详情：",
-        "speak": "会议详情："
+        "speak": "会议详情：{MeetingDetails}"
       },
       {
         "text": "会议内容：",
-        "speak": "会议内容："
+        "speak": "会议内容：{MeetingDetails}"
       }
     ],
     "inputHint": "expectingInput"

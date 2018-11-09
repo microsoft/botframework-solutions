@@ -1,23 +1,24 @@
-﻿using CalendarSkill.Dialogs.Main.Resources;
-using CalendarSkill.Dialogs.Shared.Resources;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Xml;
+using CalendarSkill.Common;
+using CalendarSkill.Dialogs.Main.Resources;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Recognizers.Text;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Xml;
 using Microsoft.Recognizers.Text.DateTime;
+using Newtonsoft.Json.Linq;
 using static Microsoft.Recognizers.Text.Culture;
-using CalendarSkill.Common;
 
 namespace CalendarSkill
 {
@@ -44,16 +45,26 @@ namespace CalendarSkill
             _accessor = accessor;
             _serviceManager = serviceManager;
 
-            var oauthSettings = new OAuthPromptSettings()
+            if (!_services.AuthenticationConnections.Any())
             {
-                ConnectionName = _services.AuthConnectionName,
-                Text = $"Authentication",
-                Title = "Signin",
-                Timeout = 300000, // User has 5 minutes to login
-            };
+                throw new Exception("You must configure an authentication connection in your bot file before using this component.");
+            }
+
+            foreach (var connection in services.AuthenticationConnections)
+            {
+                AddDialog(new OAuthPrompt(
+                    connection.Key,
+                    new OAuthPromptSettings
+                    {
+                        ConnectionName = connection.Value,
+                        Text = $"Please login with your {connection.Key} account.",
+                        Timeout = 30000,
+                    },
+                    AuthPromptValidator));
+            }
 
             AddDialog(new EventPrompt(SkillModeAuth, "tokens/response", TokenResponseValidator));
-            AddDialog(new OAuthPrompt(LocalModeAuth, oauthSettings, AuthPromptValidator));
+            AddDialog(new MultiProviderAuthDialog(services));
             AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new ConfirmPrompt(Actions.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
             AddDialog(new DateTimePrompt(Actions.DateTimePrompt, null, Culture.English));
@@ -65,14 +76,14 @@ namespace CalendarSkill
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await _accessor.GetAsync(dc.Context);
-            await DigestCalendarLuisResult(dc, state.LuisResult);
+            await DigestCalendarLuisResult(dc, state.LuisResult, true);
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }
 
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await _accessor.GetAsync(dc.Context);
-            await DigestCalendarLuisResult(dc, state.LuisResult);
+            await DigestCalendarLuisResult(dc, state.LuisResult, false);
             return await base.OnContinueDialogAsync(dc, cancellationToken);
         }
 
@@ -100,7 +111,7 @@ namespace CalendarSkill
                 }
                 else
                 {
-                    return await sc.PromptAsync(LocalModeAuth, new PromptOptions() { RetryPrompt = sc.Context.Activity.CreateReply(CalendarSharedResponses.NoAuth, _responseBuilder), });
+                    return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions());
                 }
             }
             catch
@@ -118,29 +129,44 @@ namespace CalendarSkill
                 // When the user authenticates interactively we pass on the tokens/Response event which surfaces as a JObject
                 // When the token is cached we get a TokenResponse object.
                 var skillOptions = (CalendarSkillDialogOptions)sc.Options;
-                TokenResponse tokenResponse;
+                ProviderTokenResponse providerTokenResponse;
                 if (skillOptions.SkillMode)
                 {
                     var resultType = sc.Context.Activity.Value.GetType();
-                    if (resultType == typeof(TokenResponse))
+                    if (resultType == typeof(ProviderTokenResponse))
                     {
-                        tokenResponse = sc.Context.Activity.Value as TokenResponse;
+                        providerTokenResponse = sc.Context.Activity.Value as ProviderTokenResponse;
                     }
                     else
                     {
                         var tokenResponseObject = sc.Context.Activity.Value as JObject;
-                        tokenResponse = tokenResponseObject?.ToObject<TokenResponse>();
+                        providerTokenResponse = tokenResponseObject?.ToObject<ProviderTokenResponse>();
                     }
                 }
                 else
                 {
-                    tokenResponse = sc.Result as TokenResponse;
+                    providerTokenResponse = sc.Result as ProviderTokenResponse;
                 }
 
-                if (tokenResponse != null)
+                if (providerTokenResponse != null)
                 {
                     var state = await _accessor.GetAsync(sc.Context);
-                    state.APIToken = tokenResponse.Token;
+                    state.APIToken = providerTokenResponse.TokenResponse.Token;
+
+                    var provider = providerTokenResponse.AuthenticationProvider;
+
+                    if (provider == OAuthProvider.AzureAD)
+                    {
+                        state.EventSource = EventSource.Microsoft;
+                    }
+                    else if (provider == OAuthProvider.Google)
+                    {
+                        state.EventSource = EventSource.Google;
+                    }
+                    else
+                    {
+                        throw new Exception($"The authentication provider \"{provider.ToString()}\" is not support by the Calendar Skill.");
+                    }
                 }
 
                 return await sc.NextAsync();
@@ -168,8 +194,8 @@ namespace CalendarSkill
 
         public Task<bool> AuthPromptValidator(PromptValidatorContext<TokenResponse> promptContext, CancellationToken cancellationToken)
         {
-            var activity = promptContext.Recognized.Value;
-            if (activity != null)
+            var token = promptContext.Recognized.Value;
+            if (token != null)
             {
                 return Task.FromResult(true);
             }
@@ -302,28 +328,13 @@ namespace CalendarSkill
             return timex.Contains("T");
         }
 
-        private async Task DigestCalendarLuisResult(DialogContext dc, Calendar luisResult)
+        private async Task DigestCalendarLuisResult(DialogContext dc, Calendar luisResult, bool isBeginDialog)
         {
             try
             {
                 var state = await _accessor.GetAsync(dc.Context);
 
                 var entity = luisResult.Entities;
-                if (entity.Subject != null)
-                {
-                    state.Title = entity.Subject[0];
-                }
-
-                if (entity.ContactName != null)
-                {
-                    foreach (var name in entity.ContactName)
-                    {
-                        if (!state.AttendeesNameList.Contains(name))
-                        {
-                            state.AttendeesNameList.Add(name);
-                        }
-                    }
-                }
 
                 if (entity.ordinal != null)
                 {
@@ -371,14 +382,43 @@ namespace CalendarSkill
                     }
                 }
 
+                if (!isBeginDialog)
+                {
+                    return;
+                }
+
+                if (entity.Subject != null)
+                {
+                    state.Title = entity.Subject[0];
+                }
+
+                if (entity.ContactName != null)
+                {
+                    foreach (var name in entity.ContactName)
+                    {
+                        if (!state.AttendeesNameList.Contains(name))
+                        {
+                            state.AttendeesNameList.Add(name);
+                        }
+                    }
+                }
+
                 if (entity.Duration != null)
                 {
                     foreach (var datetimeItem in entity.datetime)
                     {
                         if (datetimeItem.Type == "duration")
                         {
-                            TimeSpan ts = XmlConvert.ToTimeSpan(datetimeItem.Expressions[0]);
-                            state.Duration = (int)ts.TotalSeconds;
+                            var culture = dc.Context.Activity.Locale ?? English;
+                            List<DateTimeResolution> result = RecognizeDateTime(entity.Duration[0], culture);
+                            if (result != null)
+                            {
+                                if (result[0].Value != null)
+                                {
+                                    state.Duration = int.Parse(result[0].Value);
+                                }
+                            }
+
                             break;
                         }
                     }

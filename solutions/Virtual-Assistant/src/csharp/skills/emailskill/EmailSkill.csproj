@@ -19,14 +19,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="DeploymentScripts\msbotClone\email.luis" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="DeploymentScripts\msbotClone\email.luis" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.5" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="0.12.1-preview" />

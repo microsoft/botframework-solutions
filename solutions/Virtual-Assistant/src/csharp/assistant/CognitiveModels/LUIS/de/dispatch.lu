@@ -1,0 +1,176 @@
+﻿> Construct the root dispatch LUIS model based on other .lu files
+
+# l_General
+- [l_General](general.lu#Cancel)
+- [l_General](general.lu#Escalate)
+- [l_General](general.lu#Goodbye)
+- [l_General](general.lu#Greeting)
+- [l_General](general.lu#Help)
+- [l_General](general.lu#Logout)
+- [l_General](general.lu#Next)
+- [l_General](general.lu#Previous)
+- [l_General](general.lu#Restart)
+
+# l_Calendar
+- [l_Calendar](../../../../skills/calendarskill/CognitiveModels/LUIS/de/calendar.lu#ChangeCalendarEntry)
+- [l_Calendar](../../../../skills/calendarskill/CognitiveModels/LUIS/de/calendar.lu#CheckAvailability)
+- [l_Calendar](../../../../skills/calendarskill/CognitiveModels/LUIS/de/calendar.lu#ConnectToMeeting)
+- [l_Calendar](../../../../skills/calendarskill/CognitiveModels/LUIS/de/calendar.lu#ContactMeetingAttendees)
+- [l_Calendar](../../../../skills/calendarskill/CognitiveModels/LUIS/de/calendar.lu#CreateCalendarEntry)
+- [l_Calendar](../../../../skills/calendarskill/CognitiveModels/LUIS/de/calendar.lu#DeleteCalendarEntry)
+- [l_Calendar](../../../../skills/calendarskill/CognitiveModels/LUIS/de/calendar.lu#FindCalendarDetail)
+- [l_Calendar](../../../../skills/calendarskill/CognitiveModels/LUIS/de/calendar.lu#FindCalendarEntry)
+- [l_Calendar](../../../../skills/calendarskill/CognitiveModels/LUIS/de/calendar.lu#FindCalendarWhen)
+- [l_Calendar](../../../../skills/calendarskill/CognitiveModels/LUIS/de/calendar.lu#FindCalendarWhere)
+- [l_Calendar](../../../../skills/calendarskill/CognitiveModels/LUIS/de/calendar.lu#FindCalendarWho)
+- [l_Calendar](../../../../skills/calendarskill/CognitiveModels/LUIS/de/calendar.lu#FindDuration)
+- [l_Calendar](../../../../skills/calendarskill/CognitiveModels/LUIS/de/calendar.lu#FindMeetingRoom)
+- [l_Calendar](../../../../skills/calendarskill/CognitiveModels/LUIS/de/calendar.lu#GoBack)
+- [l_Calendar](../../../../skills/calendarskill/CognitiveModels/LUIS/de/calendar.lu#NextMeeting)
+- [l_Calendar](../../../../skills/calendarskill/CognitiveModels/LUIS/de/calendar.lu#NoLocation)
+- [l_Calendar](../../../../skills/calendarskill/CognitiveModels/LUIS/de/calendar.lu#ReadAloud)
+- [l_Calendar](../../../../skills/calendarskill/CognitiveModels/LUIS/de/calendar.lu#Summary)
+- [l_Calendar](../../../../skills/calendarskill/CognitiveModels/LUIS/de/calendar.lu#TimeRemaining)
+
+# l_Email
+- [l_Email](../../../../skills/emailskill/CognitiveModels/LUIS/de/email.lu#AddFlag)
+- [l_Email](../../../../skills/emailskill/CognitiveModels/LUIS/de/email.lu#CheckMessages)
+- [l_Email](../../../../skills/emailskill/CognitiveModels/LUIS/de/email.lu#Forward)
+- [l_Email](../../../../skills/emailskill/CognitiveModels/LUIS/de/email.lu#QueryLastText)
+- [l_Email](../../../../skills/emailskill/CognitiveModels/LUIS/de/email.lu#ReadAloud)
+- [l_Email](../../../../skills/emailskill/CognitiveModels/LUIS/de/email.lu#Reply)
+- [l_Email](../../../../skills/emailskill/CognitiveModels/LUIS/de/email.lu#SearchMessages)
+- [l_Email](../../../../skills/emailskill/CognitiveModels/LUIS/de/email.lu#SelectItem)
+- [l_Email](../../../../skills/emailskill/CognitiveModels/LUIS/de/email.lu#SendEmail)
+- [l_Email](../../../../skills/emailskill/CognitiveModels/LUIS/de/email.lu#Delete)
+
+# l_ToDo
+- [l_ToDo](../../../../skills/todoskill/CognitiveModels/LUIS/de/todo.lu#AddToDo)
+- [l_ToDo](../../../../skills/todoskill/CognitiveModels/LUIS/de/todo.lu#DeleteToDo)
+- [l_ToDo](../../../../skills/todoskill/CognitiveModels/LUIS/de/todo.lu#MarkToDo)
+- [l_ToDo](../../../../skills/todoskill/CognitiveModels/LUIS/de/todo.lu#ShowToDo)
+- dazu beitragen,  {TaskContent} 
+- Aufgabe schaffen, die  {TaskContent} 
+- Aufgabe zu schaffen,  {TaskContent} 
+- Fügen Sie eine Aufgabe zu  {TaskContent} 
+- hinzu kommt, dass  {TaskContent} 
+- schaffen, zu tun, um  {TaskContent} 
+- Add Task to  {TaskContent} 
+- Add Task,  {TaskContent} 
+- Fügen Sie eine Aufgabe, die  {TaskContent} 
+- Hinzufügen  {TaskContent} to My to DOS
+- eine Aufgabe zu schaffen,  {TaskContent} 
+- Hinzufügen  {TaskContent} zu meiner lebensmittelliste
+- schaffen, das zu tun  {TaskContent} 
+- Hinzufügen  {TaskContent} zu meinen Aufgaben
+- Hinzufügen  {TaskContent} zu meiner to-do-Liste
+- Hinzufügen  {TaskContent} auf Meine Einkaufsliste
+- Erstellen Sie ein zu tun, um  {TaskContent} 
+- schaffen Sie ein, das zu tun  {TaskContent} 
+- Hinzufügen  {TaskContent} zu meiner TODO-Liste
+- eine Aufgabe schaffen, die  {TaskContent} 
+- fügen eine  {TaskType}  Punkt,  {TaskContent} 
+- mich daran erinnern, dass  {TaskContent} 
+- Fügen Sie eine zu tun, um  {TaskContent} 
+- Hinzufügen, dass  {TaskContent} 
+- löschen, um das zu tun  {TaskContent} 
+- erinnere mich an  {TaskContent}
+- Entfernen Sie die Aufgabe, die  {TaskContent} 
+- Entfernen Sie die to do  {TaskContent} 
+- Aufgabe löschen  {TaskContent} 
+- Entfernen Sie das zu tun  {TaskContent} 
+- entfernen, um das zu tun  {TaskContent} 
+- die Aufgabe löschen  {TaskContent} 
+- Aufgabe entfernen, die  {TaskContent} 
+- Löschen Sie das, um das zu tun  {TaskContent} 
+- Löschen Sie die to do  {TaskContent} 
+- Aufgabe abschaffen  {TaskContent} 
+- Löschen Sie die Aufgabe, die  {TaskContent} 
+- Lösch Aufgabe, die  {TaskContent} 
+- Entfernen zu tun  {TaskContent} 
+- die Aufgabe zu beseitigen  {TaskContent} 
+- Löschen zu tun  {TaskContent} 
+- Markieren die Aufgabe  {TaskContent} als fertig
+- komplette Aufgabe  {TaskContent} 
+- Mark  {TaskContent} als fertig
+- Mark Task  {TaskContent} als komplettes
+- Mark  {TaskContent} als abgeschlossen
+- Markieren die Aufgabe  {TaskContent} als abgeschlossen
+- Mark Task  {TaskContent} als abgeschlossen
+- Markieren die Aufgabe  {TaskContent} wie getan
+- Mark  {TaskContent} als komplettes
+- Mark  {TaskContent} wie getan
+- die Aufgabe zu erfüllen  {TaskContent} 
+- Markieren die Aufgabe  {TaskContent} als komplettes
+- Mark Task  {TaskContent} wie getan
+- Mark Task  {TaskContent} als fertig
+
+# l_PointOfInterest
+- [l_PointOfInterest](../../../../skills/pointofinterestskill/CognitiveModels/LUIS/de/poi_navigation_cancel_route.lu#NAVIGATION_CANCEL_ROUTE)
+- [l_PointOfInterest](../../../../skills/pointofinterestskill/CognitiveModels/LUIS/de/poi_navigation_find_poi.lu#NAVIGATION_FIND_POINTOFINTEREST)
+- [l_PointOfInterest](../../../../skills/pointofinterestskill/CognitiveModels/LUIS/de/poi_navigation_route_fromxtoy.lu#NAVIGATION_ROUTE_FROM_X_TO_Y)
+- Eigentlich abgesagt {KEYWORD}
+- Eigentlich nicht {ADDRESS}
+- Eigentlich vergessen gehen {ADDRESS}
+- Eigentlich macht es nichts aus, {ADDRESS}
+- Abbrechen {KEYWORD} Schiffe
+- Absage gehen {KEYWORD} In {ADDRESS}
+- Navigieren zu einem {KEYWORD}
+- Abbrechen mit mir {ADDRESS} Adresse{ADDRESS}S in ADDRESS
+- Klar {KEYWORD} Schiffe
+- Klar gehen {KEYWORD} In {ADDRESS}
+- Klar gehen {ADDRESS}
+- Klare Navigation zu einem {KEYWORD}
+- Klare Navigation zu einem {KEYWORD}
+- Klar, was mich zu {ADDRESS} Adresse{ADDRESS}S in ADDRESS
+- Löschung geht {KEYWORD} In {ADDRESS}
+- Löschung geht {ADDRESS}
+- Löschen Sie die Navigation zu einem {KEYWORD}
+- Navigieren zu einem {KEYWORD}
+- Löschen {KEYWORD} Schiffe
+- Löschen Sie mich zu {ADDRESS} Adresse{ADDRESS}S in ADDRESS
+- Nicht zu einem {KEYWORD}
+- Nicht zu einem {KEYWORD}
+- Nicht zu mir {ADDRESS}
+- Nicht zu einem {KEYWORD}
+- Nicht zu einem {KEYWORD}
+- Don ' t take me to {ADDRESS}
+- Ende {KEYWORD} Schiffe
+- Ende geht {KEYWORD} In {ADDRESS}
+- Navigation zu einem {KEYWORD}
+- Ende mit mir {ADDRESS} Adresse{ADDRESS}S in ADDRESS
+- Vergessen {KEYWORD} Schiffe
+- Vergessen gehen {KEYWORD} In {ADDRESS}
+- Vergessen gehen {ADDRESS}
+- Vergessen Sie, zu navigieren {KEYWORD}
+- Vergessen Sie, zu navigieren {KEYWORD}
+- Vergesst, mich zu nehmen {ADDRESS} Adresse{ADDRESS}S in ADDRESS
+- Loswerden {KEYWORD} Schiffe
+- Los geht es {ADDRESS}
+- Los geht es {KEYWORD} In {ADDRESS}
+- Lassen Sie sich von der Navigation zu einem {KEYWORD}
+- Lassen Sie sich von der Navigation zu einem {KEYWORD}
+- Los geht es, mich zu nehmen {ADDRESS} Adresse{ADDRESS}S in ADDRESS
+- Vergessen Sie es {KEYWORD} Schiffe
+- Egal, dass Sie {KEYWORD} In {ADDRESS}
+- Egal, zu einem {KEYWORD}
+- Egal, wie ich mich auf die {ADDRESS} Adresse{ADDRESS}S in ADDRESS
+- Auf zweiten Gedanken absagen, gehen {KEYWORD}
+- Auf den zweiten Gedanken nicht gehen {ADDRESS}
+- Auf den zweiten Gedanken nicht gehen {ADDRESS}
+- Am zweiten Gedanken Ende gehen {KEYWORD}
+- Auf den zweiten Gedanken vergessen, gehen {ADDRESS}
+- Auf den zweiten Gedanken, die es nicht stört, {ADDRESS}
+- Entfernen {KEYWORD} Schiffe
+- Entfernen gehen {ADDRESS}
+- Entfernen gehen {KEYWORD} In {ADDRESS}
+- Entfernen Sie die Navigation zu einem {KEYWORD}
+- Entfernen Sie mich mit {ADDRESS} Adresse{ADDRESS}S in ADDRESS
+- Stoppen {KEYWORD} Schiffe
+- Stopp {ADDRESS}
+- Stopp {KEYWORD} In {ADDRESS}
+- Hören Sie auf, zu einem {KEYWORD}
+- Hören Sie auf, mich zu nehmen {ADDRESS} Adresse{ADDRESS}S in ADDRESS
+
+# q_FAQ
+- [q_FAQ](../../QnA/en/faq.lu#?)

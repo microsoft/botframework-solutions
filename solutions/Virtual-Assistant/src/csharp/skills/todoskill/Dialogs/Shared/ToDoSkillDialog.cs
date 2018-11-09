@@ -11,6 +11,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
 using Microsoft.Bot.Solutions.Extensions;
@@ -44,16 +45,26 @@ namespace ToDoSkill
             _accessor = accessor;
             _serviceManager = serviceManager;
 
-            var oauthSettings = new OAuthPromptSettings()
+            if (!_services.AuthenticationConnections.Any())
             {
-                ConnectionName = _services.AuthConnectionName ?? throw new Exception("The authentication connection has not been initialized."),
-                Text = $"Authentication",
-                Title = "Signin",
-                Timeout = 300000, // User has 5 minutes to login
-            };
+                throw new Exception("You must configure an authentication connection in your bot file before using this component.");
+            }
+
+            foreach (var connection in services.AuthenticationConnections)
+            {
+                AddDialog(new OAuthPrompt(
+                    connection.Key,
+                    new OAuthPromptSettings
+                    {
+                        ConnectionName = connection.Value,
+                        Text = $"Please login with your {connection.Key} account.",
+                        Timeout = 30000,
+                    },
+                    AuthPromptValidator));
+            }
 
             AddDialog(new EventPrompt(SkillModeAuth, "tokens/response", TokenResponseValidator));
-            AddDialog(new OAuthPrompt(LocalModeAuth, oauthSettings, AuthPromptValidator));
+            AddDialog(new MultiProviderAuthDialog(services));
             AddDialog(new TextPrompt(Action.Prompt));
         }
 
@@ -116,29 +127,29 @@ namespace ToDoSkill
                 // When the user authenticates interactively we pass on the tokens/Response event which surfaces as a JObject
                 // When the token is cached we get a TokenResponse object.
                 var skillOptions = (ToDoSkillDialogOptions)sc.Options;
-                TokenResponse tokenResponse;
+                ProviderTokenResponse providerTokenResponse;
                 if (skillOptions != null && skillOptions.SkillMode)
                 {
                     var resultType = sc.Context.Activity.Value.GetType();
-                    if (resultType == typeof(TokenResponse))
+                    if (resultType == typeof(ProviderTokenResponse))
                     {
-                        tokenResponse = sc.Context.Activity.Value as TokenResponse;
+                        providerTokenResponse = sc.Context.Activity.Value as ProviderTokenResponse;
                     }
                     else
                     {
                         var tokenResponseObject = sc.Context.Activity.Value as JObject;
-                        tokenResponse = tokenResponseObject?.ToObject<TokenResponse>();
+                        providerTokenResponse = tokenResponseObject?.ToObject<ProviderTokenResponse>();
                     }
                 }
                 else
                 {
-                    tokenResponse = sc.Result as TokenResponse;
+                    providerTokenResponse = sc.Result as ProviderTokenResponse;
                 }
 
-                if (tokenResponse != null)
+                if (providerTokenResponse != null)
                 {
                     var state = await _accessor.GetAsync(sc.Context);
-                    state.MsGraphToken = tokenResponse.Token;
+                    state.MsGraphToken = providerTokenResponse.TokenResponse.Token;
                 }
 
                 return await sc.NextAsync();
@@ -408,10 +419,10 @@ namespace ToDoSkill
             }
         }
 
-        private Task<bool> AuthPromptValidator(PromptValidatorContext<TokenResponse> pc, CancellationToken cancellationToken)
+        public Task<bool> AuthPromptValidator(PromptValidatorContext<TokenResponse> promptContext, CancellationToken cancellationToken)
         {
-            var activity = pc.Recognized.Value;
-            if (activity != null)
+            var token = promptContext.Recognized.Value;
+            if (token != null)
             {
                 return Task.FromResult(true);
             }
@@ -420,6 +431,7 @@ namespace ToDoSkill
                 return Task.FromResult(false);
             }
         }
+
 
         // Helpers
         public async Task DigestToDoLuisResult(DialogContext dc, ToDo luisResult)
