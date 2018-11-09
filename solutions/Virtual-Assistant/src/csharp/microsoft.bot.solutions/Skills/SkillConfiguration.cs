@@ -38,7 +38,7 @@ namespace Microsoft.Bot.Solutions.Skills
                         {
                             var luis = service as LuisService;
                             var luisApp = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.GetEndpoint());
-                            LuisServices.Add(service.Id, new LuisRecognizer(luisApp));
+                            LuisServices.Add(service.Id, new TelemetryLuisRecognizer(luisApp));
                             break;
                         }
 
