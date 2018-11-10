@@ -151,6 +151,9 @@
   <data name="MEETING_SUGGESTEDACTION" xml:space="preserve">
     <value>Programar una reunión</value>
   </data>
+  <data name="NO_ACTIVE_DIALOG" xml:space="preserve">
+    <value>Parece que no hay nada que cancelar. ¿En qué puedo ayudarle?</value>
+  </data>
   <data name="POI_SUGGESTEDACTION" xml:space="preserve">
     <value>Encuentre una cafetería cerca</value>
   </data>

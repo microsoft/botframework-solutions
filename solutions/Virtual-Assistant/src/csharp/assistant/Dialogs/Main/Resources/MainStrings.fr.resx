@@ -151,6 +151,9 @@
   <data name="MEETING_SUGGESTEDACTION" xml:space="preserve">
     <value>Planifier une réunion</value>
   </data>
+  <data name="NO_ACTIVE_DIALOG" xml:space="preserve">
+    <value>On dirait qu'il n'y a rien à annuler. Que puis-je pour vous?</value>
+  </data>
   <data name="POI_SUGGESTEDACTION" xml:space="preserve">
     <value>Trouver un Coffee Shop à proximité</value>
   </data>

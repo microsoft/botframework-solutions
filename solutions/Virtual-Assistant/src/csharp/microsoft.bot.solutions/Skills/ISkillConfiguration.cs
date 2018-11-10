@@ -9,6 +9,8 @@ namespace Microsoft.Bot.Solutions.Skills
 {
     public abstract class ISkillConfiguration
     {
+        public bool IsAuthenticatedSkill { get; set; }
+
         public abstract Dictionary<string, string> AuthenticationConnections { get; set; }
 
         public abstract TelemetryClient TelemetryClient { get; set; }
