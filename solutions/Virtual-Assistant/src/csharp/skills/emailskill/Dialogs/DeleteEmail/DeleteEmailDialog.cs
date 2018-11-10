@@ -1,13 +1,13 @@
-﻿using EmailSkill.Dialogs.Shared.Resources;
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
-using Microsoft.Bot.Solutions.Skills;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.DeleteEmail.Resources;
+using EmailSkill.Dialogs.Shared.Resources;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Skills;
 
 namespace EmailSkill
 {
@@ -31,27 +31,27 @@ namespace EmailSkill
             var showEmail = new WaterfallStep[]
             {
                 PromptCollectMessage,
-                ShowEmails
+                ShowEmails,
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Action.Delete, deleteEmail));
-            AddDialog(new WaterfallDialog(Action.Show, showEmail));
-            InitialDialogId = Action.Delete;
+            AddDialog(new WaterfallDialog(Actions.Delete, deleteEmail));
+            AddDialog(new WaterfallDialog(Actions.Show, showEmail));
+            InitialDialogId = Actions.Delete;
         }
 
         public async Task<DialogTurnResult> PromptToDelete(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                var state = await _emailStateAccessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var focusedMessage = state.Message.FirstOrDefault();
                 if (focusedMessage != null)
                 {
-                    return await sc.PromptAsync(Action.TakeFurtherAction, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(DeleteEmailResponses.DeleteConfirm) });
+                    return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(DeleteEmailResponses.DeleteConfirm) });
                 }
 
-                return await sc.BeginDialogAsync(Action.Show);
+                return await sc.BeginDialogAsync(Actions.Show);
             }
             catch (Exception ex)
             {
@@ -63,11 +63,11 @@ namespace EmailSkill
         {
             try
             {
-                var state = await _emailStateAccessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var focusedMessage = state.Message.FirstOrDefault();
                 if (focusedMessage != null)
                 {
-                    return await sc.PromptAsync(Action.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(DeleteEmailResponses.DeletePrompt) });
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(DeleteEmailResponses.DeletePrompt) });
                 }
 
                 return await sc.NextAsync();
@@ -85,8 +85,8 @@ namespace EmailSkill
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult == true)
                 {
-                    var state = await _emailStateAccessor.GetAsync(sc.Context);
-                    var mailService = this._serviceManager.InitMailService(state.MsGraphToken, state.GetUserTimeZone());
+                    var state = await EmailStateAccessor.GetAsync(sc.Context);
+                    var mailService = this.ServiceManager.InitMailService(state.MsGraphToken, state.GetUserTimeZone());
                     var focusMessage = state.Message.FirstOrDefault();
                     await mailService.DeleteMessageAsync(focusMessage.Id);
                 }

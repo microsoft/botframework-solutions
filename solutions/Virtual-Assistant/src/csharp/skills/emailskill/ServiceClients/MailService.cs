@@ -82,7 +82,7 @@ namespace EmailSkill
             // only get emails from Inbox folder.
             IMailFolderMessagesCollectionPage messages =
                 optionList.Count != 0 ?
-                await this._graphClient.Me.MailFolders.Inbox.Messages.Request(optionList).GetAsync():
+                await this._graphClient.Me.MailFolders.Inbox.Messages.Request(optionList).GetAsync() :
                 await this._graphClient.Me.MailFolders.Inbox.Messages.Request().GetAsync();
             List<Message> result = new List<Message>();
 
@@ -251,7 +251,7 @@ namespace EmailSkill
         /// Delete a specific message.
         /// </summary>
         /// <param name="id">Message id.</param>
-        /// <returns></returns>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task DeleteMessageAsync(string id)
         {
             await this._graphClient.Me.Messages[id].Request().DeleteAsync();

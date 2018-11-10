@@ -5,9 +5,9 @@ namespace Microsoft.Bot.Solutions.Dialogs
 {
     using System.Collections.Generic;
     using System.Collections.Specialized;
+    using Microsoft.Bot.Schema;
     using Microsoft.Bot.Solutions.Cards;
     using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
-    using Microsoft.Bot.Schema;
 
     public interface IBotResponseBuilder
     {

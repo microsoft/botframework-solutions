@@ -3,11 +3,11 @@
 
 using System.Collections.Generic;
 using System.IO;
-using VirtualAssistant.Dialogs.Main.Resources;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.TemplateManager;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json;
+using VirtualAssistant.Dialogs.Main.Resources;
 
 namespace VirtualAssistant
 {
@@ -52,7 +52,7 @@ namespace VirtualAssistant
                 {
                     ContentType = "application/vnd.microsoft.card.adaptive",
                     Content = JsonConvert.DeserializeObject(introCard),
-                }
+                },
             };
 
             return response;
@@ -66,8 +66,8 @@ namespace VirtualAssistant
                 new HeroCard()
                 {
                     Title = MainStrings.HELP_TITLE,
-                    Text = MainStrings.HELP_TEXT
-                }.ToAttachment()
+                    Text = MainStrings.HELP_TEXT,
+                }.ToAttachment(),
             };
 
             response.SuggestedActions = new SuggestedActions
@@ -78,7 +78,7 @@ namespace VirtualAssistant
                 new CardAction(type: ActionTypes.ImBack, title: MainStrings.EMAIL_SUGGESTEDACTION),
                 new CardAction(type: ActionTypes.ImBack, title: MainStrings.MEETING_SUGGESTEDACTION),
                 new CardAction(type: ActionTypes.ImBack, title: MainStrings.POI_SUGGESTEDACTION),
-            }
+            },
             };
             return response;
         }

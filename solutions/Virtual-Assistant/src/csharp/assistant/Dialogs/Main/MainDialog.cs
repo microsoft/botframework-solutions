@@ -165,6 +165,110 @@ namespace VirtualAssistant
             }
         }
 
+        protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            await _responder.ReplyWith(dc.Context, MainResponses.Completed);
+
+            // End active dialog
+            await dc.EndDialogAsync(result);
+        }
+
+        protected override async Task OnEventAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            // Indicates whether the event activity should be sent to the active dialog on the stack
+            var forward = true;
+            var ev = dc.Context.Activity.AsEventActivity();
+            var parameters = await _parametersAccessor.GetAsync(dc.Context, () => new Dictionary<string, object>());
+
+            if (!string.IsNullOrEmpty(ev.Name))
+            {
+                // Send trace to emulator
+                var trace = new Activity(type: ActivityTypes.Trace, text: $"Received event: {ev.Name}");
+                await dc.Context.SendActivityAsync(trace);
+
+                switch (ev.Name)
+                {
+                    case Events.TimezoneEvent:
+                        {
+                            try
+                            {
+                                var timezone = ev.Value.ToString();
+                                var tz = TimeZoneInfo.FindSystemTimeZoneById(timezone);
+
+                                parameters[ev.Name] = tz;
+                            }
+                            catch
+                            {
+                                await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Timezone passed could not be mapped to a valid Timezone. Property not set."));
+                            }
+
+                            forward = false;
+                            break;
+                        }
+
+                    case Events.LocationEvent:
+                        {
+                            parameters[ev.Name] = ev.Value;
+                            forward = false;
+                            break;
+                        }
+
+                    case Events.TokenResponseEvent:
+                        {
+                            forward = true;
+                            break;
+                        }
+
+                    case Events.ActiveLocationUpdate:
+                    case Events.ActiveRouteUpdate:
+                        {
+                            var matchedSkill = _skillRouter.IdentifyRegisteredSkill(Dispatch.Intent.l_PointOfInterest.ToString());
+
+                            await RouteToSkillAsync(dc, new SkillDialogOptions()
+                            {
+                                SkillDefinition = matchedSkill,
+                            });
+
+                            forward = false;
+                            break;
+                        }
+
+                    case Events.ResetUser:
+                        {
+                            await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Reset User Event received, clearing down State and Tokens."));
+
+                            // Clear State
+                            await _onboardingState.DeleteAsync(dc.Context, cancellationToken);
+
+                            // Clear Tokens
+                            var adapter = dc.Context.Adapter as BotFrameworkAdapter;
+                            await adapter.SignOutUserAsync(dc.Context, null, dc.Context.Activity.From.Id, cancellationToken);
+
+                            forward = false;
+
+                            break;
+                        }
+
+                    default:
+                        {
+                            await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event {ev.Name} was received but not processed."));
+                            forward = false;
+                            break;
+                        }
+                }
+
+                if (forward)
+                {
+                    var result = await dc.ContinueDialogAsync();
+
+                    if (result.Status == DialogTurnStatus.Complete)
+                    {
+                        await CompleteAsync(dc);
+                    }
+                }
+            }
+        }
+
         private async Task RouteToSkillAsync(DialogContext dc, SkillDialogOptions options)
         {
             // If we can't handle this within the local Bot it's a skill (prefix of s will make this clearer)
@@ -186,7 +290,7 @@ namespace VirtualAssistant
             }
         }
 
-        protected virtual async Task<InterruptionAction> LogoutAsync(DialogContext dc)
+        private async Task<InterruptionAction> LogoutAsync(DialogContext dc)
         {
             BotFrameworkAdapter adapter;
             var supported = dc.Context.Adapter is BotFrameworkAdapter;
@@ -213,118 +317,14 @@ namespace VirtualAssistant
             return InterruptionAction.StartedDialog;
         }
 
-        protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
+        private class Events
         {
-            await _responder.ReplyWith(dc.Context, MainResponses.Completed);
-
-            // End active dialog
-            await dc.EndDialogAsync(result);
+            public const string TokenResponseEvent = "tokens/response";
+            public const string TimezoneEvent = "IPA.Timezone";
+            public const string LocationEvent = "IPA.Location";
+            public const string ActiveLocationUpdate = "POI.ActiveLocation";
+            public const string ActiveRouteUpdate = "POI.ActiveRoute";
+            public const string ResetUser = "IPA.ResetUser";
         }
-
-        protected override async Task OnEventAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            // Indicates whether the event activity should be sent to the active dialog on the stack
-            var forward = true;
-            var ev = dc.Context.Activity.AsEventActivity();
-            var parameters = await _parametersAccessor.GetAsync(dc.Context, () => new Dictionary<string, object>());
-
-            if (!string.IsNullOrEmpty(ev.Name))
-            {
-                // Send trace to emulator
-                var trace = new Activity(type: ActivityTypes.Trace, text: $"Received event: {ev.Name}");
-                await dc.Context.SendActivityAsync(trace);
-
-                switch (ev.Name)
-                {
-                    case Events.TimezoneEvent:
-                    {
-                        try
-                        {
-                            var timezone = ev.Value.ToString();
-                            var tz = TimeZoneInfo.FindSystemTimeZoneById(timezone);
-
-                            parameters[ev.Name] = tz;
-                        }
-                        catch
-                        {
-                            await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Timezone passed could not be mapped to a valid Timezone. Property not set."));
-                        }
-
-                        forward = false;
-                        break;
-                    }
-
-                    case Events.LocationEvent:
-                    {
-                        parameters[ev.Name] = ev.Value;
-                        forward = false;
-                        break;
-                    }
-
-                    case Events.TokenResponseEvent:
-                    {
-                        forward = true;
-                        break;
-                    }
-
-                    case Events.ActiveLocationUpdate:
-                    case Events.ActiveRouteUpdate:
-                    {
-                        var matchedSkill = _skillRouter.IdentifyRegisteredSkill(Dispatch.Intent.l_PointOfInterest.ToString());
-
-                        await RouteToSkillAsync(dc, new SkillDialogOptions()
-                        {
-                            SkillDefinition = matchedSkill
-                        });
-
-                        forward = false;
-                        break;
-                    }
-
-                    case Events.ResetUser:
-                    {
-                        await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Reset User Event received, clearing down State and Tokens."));
-
-                        // Clear State
-                        await _onboardingState.DeleteAsync(dc.Context, cancellationToken);
-
-                        // Clear Tokens
-                        var adapter = dc.Context.Adapter as BotFrameworkAdapter;
-                        await adapter.SignOutUserAsync(dc.Context,null, dc.Context.Activity.From.Id, cancellationToken);
-
-                        forward = false;
-
-                        break;
-                    }
-
-                    default:
-                    {
-                        await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event {ev.Name} was received but not processed."));
-                        forward = false;
-                        break;
-                    }
-                }
-
-                if (forward)
-                {
-                    var result = await dc.ContinueDialogAsync();
-
-                    if (result.Status == DialogTurnStatus.Complete)
-                    {
-                        await CompleteAsync(dc);
-                    }
-                }
-            }
-        }
-    }
-
-    public static class Events
-    {
-        public const string TokenResponseEvent = "tokens/response";
-        public const string TimezoneEvent = "IPA.Timezone";
-        public const string LocationEvent = "IPA.Location";
-        public const string ActiveLocationUpdate = "POI.ActiveLocation";
-        public const string ActiveRouteUpdate = "POI.ActiveRoute";
-        public const string ResetUser = "IPA.ResetUser";
     }
 }

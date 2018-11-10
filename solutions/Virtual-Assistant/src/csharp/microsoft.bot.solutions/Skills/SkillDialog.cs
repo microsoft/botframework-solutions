@@ -158,11 +158,7 @@ namespace Microsoft.Bot.Solutions.Skills
                         await context.SendActivityAsync(context.Activity.CreateReply($"Sorry, something went wrong trying to communicate with the skill. Please try again."));
 
                         // Send error trace to emulator
-                        await dc.Context.SendActivityAsync(
-                            new Activity(
-                                type: ActivityTypes.Trace,
-                                text: $"Skill Error: {exception.Message} | {exception.StackTrace}"
-                                ));
+                        await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Skill Error: {exception.Message} | {exception.StackTrace}"));
 
                         // Log exception in AppInsights
                         skillConfiguration.TelemetryClient.TrackException(exception);
@@ -183,7 +179,7 @@ namespace Microsoft.Bot.Solutions.Skills
             }
         }
 
-        public async Task<DialogTurnResult> ForwardToSkill(DialogContext dc, Activity activity)
+        private async Task<DialogTurnResult> ForwardToSkill(DialogContext dc, Activity activity)
         {
             try
             {
@@ -257,11 +253,7 @@ namespace Microsoft.Bot.Solutions.Skills
                 // handle ending the skill conversation
                 if (endOfConversation)
                 {
-                    await dc.Context.SendActivityAsync(
-                        new Activity(
-                            type: ActivityTypes.Trace,
-                            text: $"<--Ending the skill conversation"
-                            ));
+                    await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Ending the skill conversation"));
 
                     return await dc.EndDialogAsync();
                 }

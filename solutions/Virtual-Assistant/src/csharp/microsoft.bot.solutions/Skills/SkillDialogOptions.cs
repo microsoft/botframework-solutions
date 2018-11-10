@@ -1,7 +1,7 @@
-﻿using Microsoft.Bot.Builder;
+﻿using System.Collections.Generic;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Configuration;
-using System.Collections.Generic;
 
 namespace Microsoft.Bot.Solutions.Skills
 {

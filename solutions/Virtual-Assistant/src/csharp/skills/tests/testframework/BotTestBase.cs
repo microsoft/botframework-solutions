@@ -14,15 +14,15 @@ namespace TestFramework
 {
     public abstract class BotTestBase
     {
+        private static readonly Regex ResponseTokensRegex = new Regex(@"\{(\w+)\}", RegexOptions.Compiled);
+
         public IContainer Container { get; set; }
 
         public IConfigurationRoot Configuration { get; set; }
 
-        public abstract IBot BuildBot();
-
         public BotResponseBuilder BotResponseBuilder { get; set; }
 
-        private static readonly Regex ResponseTokensRegex = new Regex(@"\{(\w+)\}", RegexOptions.Compiled);
+        public abstract IBot BuildBot();
 
         public virtual void Initialize()
         {

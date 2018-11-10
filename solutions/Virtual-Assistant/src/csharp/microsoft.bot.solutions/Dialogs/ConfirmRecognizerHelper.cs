@@ -1,8 +1,8 @@
-﻿using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Recognizers.Text.Choice;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Recognizers.Text.Choice;
 
 namespace Microsoft.Bot.Solutions.Dialogs
 {
