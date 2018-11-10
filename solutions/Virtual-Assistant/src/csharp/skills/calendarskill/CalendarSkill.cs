@@ -18,12 +18,12 @@ namespace CalendarSkill
     /// </summary>
     public class CalendarSkill : IBot
     {
-        private bool _skillMode;
         private readonly SkillConfiguration _services;
         private readonly UserState _userState;
         private readonly ConversationState _conversationState;
         private readonly IServiceManager _serviceManager;
         private DialogSet _dialogs;
+        private bool _skillMode;
 
         public CalendarSkill(SkillConfiguration services, ConversationState conversationState, UserState userState, IServiceManager serviceManager = null, bool skillMode = false)
         {
@@ -36,7 +36,6 @@ namespace CalendarSkill
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(DialogState)));
             _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _serviceManager, _skillMode));
         }
-
 
         /// <summary>
         /// Run every turn of the conversation. Handles orchestration of messages.

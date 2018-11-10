@@ -16,7 +16,6 @@ namespace VirtualAssistant
         public static IWebHost BuildWebHost(string[] args)
         {
             return WebHost.CreateDefaultBuilder(args)
-                            //.UseEnvironment("Development")
                             .UseApplicationInsights()
                             .UseStartup<Startup>()
                             .Build();

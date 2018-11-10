@@ -1,12 +1,12 @@
-﻿using EmailSkill.Dialogs.Shared.Resources;
+﻿using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using EmailSkill.Dialogs.Shared.Resources;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace EmailSkill
 {
@@ -44,12 +44,12 @@ namespace EmailSkill
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Action.Forward, forwardEmail));
-            AddDialog(new WaterfallDialog(Action.Show, showEmail));
-            AddDialog(new WaterfallDialog(Action.UpdateSelectMessage, updateSelectMessage));
+            AddDialog(new WaterfallDialog(Actions.Forward, forwardEmail));
+            AddDialog(new WaterfallDialog(Actions.Show, showEmail));
+            AddDialog(new WaterfallDialog(Actions.UpdateSelectMessage, updateSelectMessage));
             AddDialog(new ConfirmRecipientDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager));
 
-            InitialDialogId = Action.Forward;
+            InitialDialogId = Actions.Forward;
         }
 
         public async Task<DialogTurnResult> ForwardEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -59,7 +59,7 @@ namespace EmailSkill
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult)
                 {
-                    var state = await _emailStateAccessor.GetAsync(sc.Context);
+                    var state = await EmailStateAccessor.GetAsync(sc.Context);
 
                     var token = state.MsGraphToken;
                     var message = state.Message;
@@ -67,7 +67,7 @@ namespace EmailSkill
                     var content = state.Content;
                     var recipients = state.Recipients;
 
-                    var service = _serviceManager.InitMailService(token, state.GetUserTimeZone());
+                    var service = ServiceManager.InitMailService(token, state.GetUserTimeZone());
 
                     // send user message.
                     await service.ForwardMessageAsync(id, content, recipients);

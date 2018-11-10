@@ -1,9 +1,7 @@
-﻿using Microsoft.ApplicationInsights;
+﻿using System.Collections.Generic;
+using Microsoft.ApplicationInsights;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Microsoft.Bot.Solutions.Skills
 {

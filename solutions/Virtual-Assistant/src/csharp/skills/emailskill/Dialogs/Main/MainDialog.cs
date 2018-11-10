@@ -180,6 +180,7 @@ namespace EmailSkill
 
                             await dc.Context.SendActivityAsync(response);
                         }
+
                         break;
                     }
             }
