@@ -101,11 +101,8 @@ namespace VirtualAssistant
 
                                 case General.Intent.Cancel:
                                     {
-                                        // send cancelled response
-                                        await _responder.ReplyWith(dc.Context, MainResponses.Cancelled);
-
-                                        // Cancel any active dialogs on the stack
-                                        await dc.CancelAllDialogsAsync();
+                                        // if this was triggered, then there is no active dialog
+                                        await _responder.ReplyWith(dc.Context, MainResponses.NoActiveDialog);
                                         break;
                                     }
 

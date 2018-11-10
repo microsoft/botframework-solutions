@@ -151,6 +151,9 @@
   <data name="MEETING_SUGGESTEDACTION" xml:space="preserve">
     <value>安排会议</value>
   </data>
+  <data name="NO_ACTIVE_DIALOG" xml:space="preserve">
+    <value>看来没有什么可以取消的。有什么需要我帮忙的吗？</value>
+  </data>
   <data name="POI_SUGGESTEDACTION" xml:space="preserve">
     <value>查找附近的咖啡店</value>
   </data>

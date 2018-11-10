@@ -20,12 +20,14 @@ namespace VirtualAssistant
         public const string Greeting = "greeting";
         public const string Help = "help";
         public const string Intro = "intro";
+        public const string NoActiveDialog = "noActiveDialog";
 
         private static LanguageTemplateDictionary _responseTemplates = new LanguageTemplateDictionary
         {
             ["default"] = new TemplateIdMap
             {
                 { Cancelled, (context, data) => SendAcceptingInputReply(context, MainStrings.CANCELLED) },
+                { NoActiveDialog, (context, data) => SendAcceptingInputReply(context, MainStrings.NO_ACTIVE_DIALOG) },
                 { Completed, (context, data) => SendAcceptingInputReply(context, MainStrings.COMPLETED) },
                 { Confused, (context, data) => SendAcceptingInputReply(context, MainStrings.CONFUSED) },
                 { Greeting, (context, data) => SendAcceptingInputReply(context, MainStrings.GREETING) },
