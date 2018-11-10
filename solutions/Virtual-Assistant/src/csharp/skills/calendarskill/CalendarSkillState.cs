@@ -1,6 +1,6 @@
-﻿using Microsoft.Graph;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Microsoft.Graph;
 
 namespace CalendarSkill
 {

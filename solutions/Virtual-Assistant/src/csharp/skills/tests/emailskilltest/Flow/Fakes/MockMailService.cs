@@ -18,14 +18,14 @@ namespace EmailSkillTest.Flow.Fakes
 
         public List<Message> RepliedMessages { get; set; }
 
-        public async Task<List<Message>> ReplyToMessageAsync(string id, string content)
+        public Task<List<Message>> ReplyToMessageAsync(string id, string content)
         {
-            return this.RepliedMessages;
+            return Task.FromResult(this.RepliedMessages);
         }
 
-        public async Task<List<Message>> GetMyMessagesAsync(DateTime startDateTime, DateTime endDateTime, bool isRead, bool isImportant, bool directlyToMe, string mailAddress, int skip)
+        public Task<List<Message>> GetMyMessagesAsync(DateTime startDateTime, DateTime endDateTime, bool isRead, bool isImportant, bool directlyToMe, string mailAddress, int skip)
         {
-            return this.MyMessages;
+            return Task.FromResult(this.MyMessages);
         }
 
         public async Task ForwardMessageAsync(string id, string content, List<Recipient> recipients)

@@ -15,7 +15,7 @@ namespace PointOfInterestSkill
 
         // Fields
         private IStatePropertyAccessor<PointOfInterestSkillState> _accessor;
-        private static CancelResponses _responder = new CancelResponses();
+        private CancelResponses _responder = new CancelResponses();
 
         public CancelDialog(IStatePropertyAccessor<PointOfInterestSkillState> accessor)
             : base(nameof(CancelDialog))
@@ -34,12 +34,18 @@ namespace PointOfInterestSkill
             AddDialog(new ConfirmPrompt(CancelPrompt));
         }
 
-        public static async Task<DialogTurnResult> AskToCancel(WaterfallStepContext sc, CancellationToken cancellationToken) => await sc.PromptAsync(CancelPrompt, new PromptOptions()
+        public async Task<DialogTurnResult> AskToCancel(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            Prompt = await _responder.RenderTemplate(sc.Context, "en", CancelResponses._confirmPrompt),
-        });
+            return await sc.PromptAsync(CancelPrompt, new PromptOptions()
+            {
+                Prompt = await _responder.RenderTemplate(sc.Context, "en", CancelResponses._confirmPrompt),
+            });
+        }
 
-        public static async Task<DialogTurnResult> FinishCancelDialog(WaterfallStepContext sc, CancellationToken cancellationToken) => await sc.EndDialogAsync((bool)sc.Result);
+        public async Task<DialogTurnResult> FinishCancelDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
+        {
+            return await sc.EndDialogAsync((bool)sc.Result);
+        }
 
         protected override async Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
         {

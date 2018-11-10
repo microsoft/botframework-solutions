@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using ToDoSkill.Dialogs.Cancel.Resources;
 using Microsoft.Bot.Builder.TemplateManager;
+using ToDoSkill.Dialogs.Cancel.Resources;
 
 namespace ToDoSkill
 {

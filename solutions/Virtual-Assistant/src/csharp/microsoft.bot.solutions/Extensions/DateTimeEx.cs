@@ -6,10 +6,12 @@ namespace Microsoft.Bot.Solutions.Extensions
 {
     public static class DateTimeEx
     {
-
         /// <summary>
         /// Returns a spoken version of a date.
         /// </summary>
+        /// <param name="dateTime">DateTime value to convert to speech.</param>
+        /// <param name="includePrefix">Bool for includePrefix.</param>
+        /// /// <returns>Speech string for date.</returns>
         public static string ToSpeechDateString(this DateTime dateTime, bool includePrefix = false)
         {
             var timeZoneOffset = dateTime.ToUniversalTime().Subtract(dateTime);
@@ -33,8 +35,11 @@ namespace Microsoft.Bot.Solutions.Extensions
         }
 
         /// <summary>
-        /// Returns a spoken version of a time
+        /// Returns a spoken version of a time.
         /// </summary>
+        /// <param name="dateTime">DateTime to convert to speech string.</param>
+        /// <param name="includePrefix">Should include prefix.</param>
+        /// <returns>Speech string for DateTime.</returns>
         public static string ToSpeechTimeString(this DateTime dateTime, bool includePrefix = false)
         {
             if (includePrefix)
