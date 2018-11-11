@@ -3,6 +3,7 @@
   "type": "AdaptiveCard",
   "version": "1.0",
   "speak": "This will get you to {Location} in {TravelTime}. {TrafficDelay}",
+  "id": "RouteDirectionsViewCard",
   "body": [
     {
       "type": "TextBlock",
