@@ -3,9 +3,9 @@
 
 namespace CalendarSkill
 {
-    using global::CalendarSkill.Common;
     using System;
     using System.Collections.Generic;
+    using global::CalendarSkill.Common;
 
     /// <summary>
     /// Source of event.
@@ -124,7 +124,6 @@ namespace CalendarSkill
                 {
                     source = EventSource.Google;
                 }
-
 
                 if (value is Microsoft.Graph.Event)
                 {

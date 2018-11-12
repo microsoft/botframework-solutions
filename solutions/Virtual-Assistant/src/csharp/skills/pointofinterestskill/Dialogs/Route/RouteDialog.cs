@@ -1,4 +1,8 @@
-﻿using Microsoft.Bot.Builder;
+﻿using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Extensions;
@@ -6,10 +10,6 @@ using Microsoft.Bot.Solutions.Skills;
 using Newtonsoft.Json.Linq;
 using PointOfInterestSkill.Dialogs.Route.Resources;
 using PointOfInterestSkill.Models;
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace PointOfInterestSkill
 {
@@ -37,7 +37,7 @@ namespace PointOfInterestSkill
             var findAlongRoute = new WaterfallStep[]
             {
                 GetPointOfInterestLocations,
-                ResponseToGetRoutePrompt
+                ResponseToGetRoutePrompt,
             };
 
             var findPointOfInterest = new WaterfallStep[]
@@ -59,7 +59,7 @@ namespace PointOfInterestSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context);
+                var state = await Accessor.GetAsync(sc.Context);
                 if (state.ActiveRoute != null)
                 {
                     await sc.EndDialogAsync(true);
@@ -79,7 +79,7 @@ namespace PointOfInterestSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context);
+                var state = await Accessor.GetAsync(sc.Context);
                 if (state.FoundLocations == null)
                 {
                     return await sc.NextAsync();
@@ -132,7 +132,7 @@ namespace PointOfInterestSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context);
+                var state = await Accessor.GetAsync(sc.Context);
                 if (state.ActiveLocation == null)
                 {
                     await sc.EndDialogAsync(true);
@@ -152,8 +152,8 @@ namespace PointOfInterestSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context);
-                var service = _serviceManager.InitMapsService(GetAzureMapsKey());
+                var state = await Accessor.GetAsync(sc.Context);
+                var service = ServiceManager.InitMapsService(GetAzureMapsKey());
                 var routeDirections = new RouteDirections();
 
                 state.CheckForValidCurrentCoordinates();
@@ -161,7 +161,7 @@ namespace PointOfInterestSkill
                 if (state.ActiveLocation == null)
                 {
                     // No ActiveLocation found
-                    return await sc.PromptAsync(Action.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(RouteResponses.MissingActiveLocationErrorMessage, _responseBuilder) });
+                    return await sc.PromptAsync(Action.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(RouteResponses.MissingActiveLocationErrorMessage, ResponseBuilder) });
                 }
 
                 if (!string.IsNullOrEmpty(state.SearchDescriptor))
@@ -179,7 +179,7 @@ namespace PointOfInterestSkill
 
                 if (routeDirections?.Routes?.ToList().Count == 1)
                 {
-                    return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(RouteResponses.PromptToStartRoute, _responseBuilder) });
+                    return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(RouteResponses.PromptToStartRoute, ResponseBuilder) });
                 }
 
                 return await sc.EndDialogAsync();
@@ -195,7 +195,7 @@ namespace PointOfInterestSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context);
+                var state = await Accessor.GetAsync(sc.Context);
 
                 if ((bool)sc.Result)
                 {

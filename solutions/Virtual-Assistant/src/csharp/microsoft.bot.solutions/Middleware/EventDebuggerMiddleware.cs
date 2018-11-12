@@ -33,8 +33,8 @@ namespace Microsoft.Bot.Solutions.Middleware
 
                 if (!string.IsNullOrEmpty(value) && value.Contains("event"))
                 {
-                    JObject root = JObject.Parse(value);
-                    JObject eventActivity = (JObject) root["event"];
+                    var root = JObject.Parse(value);
+                    var eventActivity = (JObject)root["event"];
                     turnContext.Activity.Type = ActivityTypes.Event;
 
                     if (eventActivity["name"] != null)

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Bot.Builder;
@@ -16,6 +17,11 @@ namespace Microsoft.Bot.Solutions.Skills
 
         public SkillConfiguration(BotConfiguration botConfiguration, string[] supportedProviders, string[] parameters, Dictionary<string, object> configuration)
         {
+            if (supportedProviders != null && supportedProviders.Count() > 0)
+            {
+                IsAuthenticatedSkill = true;
+            }
+
             foreach (var service in botConfiguration.Services)
             {
                 switch (service.Type)
@@ -32,7 +38,7 @@ namespace Microsoft.Bot.Solutions.Skills
                         {
                             var luis = service as LuisService;
                             var luisApp = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.GetEndpoint());
-                            LuisServices.Add(service.Id, new LuisRecognizer(luisApp));
+                            LuisServices.Add(service.Id, new TelemetryLuisRecognizer(luisApp));
                             break;
                         }
 

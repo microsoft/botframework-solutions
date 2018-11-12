@@ -199,7 +199,7 @@ namespace PointOfInterestSkill
                                     var coordinates = new LatLng
                                     {
                                         Latitude = lat,
-                                        Longitude = lng
+                                        Longitude = lng,
                                     };
                                     state.CurrentCoordinates = coordinates;
                                 }
@@ -358,7 +358,6 @@ namespace PointOfInterestSkill
             public const string ActiveRoute = "POI.ActiveRoute";
             public const string Location = "IPA.Location";
             public const string SkillBeginEvent = "skillBegin";
-
         }
     }
 }

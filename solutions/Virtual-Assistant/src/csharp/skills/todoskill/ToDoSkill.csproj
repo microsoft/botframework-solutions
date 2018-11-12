@@ -54,7 +54,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>DeleteToDoResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\Main\Resources\TODoMainResponses.cs">
+    <Compile Update="Dialogs\Main\Resources\ToDoMainResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ToDoMainResponses.tt</DependentUpon>

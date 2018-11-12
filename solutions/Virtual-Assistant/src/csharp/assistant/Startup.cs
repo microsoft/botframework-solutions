@@ -112,16 +112,15 @@ namespace VirtualAssistant
                 options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
 
                 //// Translator is an optional component for scenarios when an Assistant needs to work beyond native language support
-                //var translatorKey = Configuration.GetValue<string>("translatorKey");
-
-                //if (!string.IsNullOrEmpty(translatorKey))
-                //{
-                //    options.Middleware.Add(new TranslationMiddleware(new string[] { "en", "fr", "it", "de", "es" }, translatorKey, false));
-                //}
-                //else
-                //{
-                //    throw new InvalidOperationException("Microsoft Text Translation API key is missing. Please add your translation key to the 'translatorKey' setting.");
-                //}
+                // var translatorKey = Configuration.GetValue<string>("translatorKey");
+                // if (!string.IsNullOrEmpty(translatorKey))
+                // {
+                //     options.Middleware.Add(new TranslationMiddleware(new string[] { "en", "fr", "it", "de", "es" }, translatorKey, false));
+                // }
+                // else
+                // {
+                //     throw new InvalidOperationException("Microsoft Text Translation API key is missing. Please add your translation key to the 'translatorKey' setting.");
+                // }
             });
         }
 
@@ -135,7 +134,6 @@ namespace VirtualAssistant
             _isProduction = env.IsProduction();
             app.UseDefaultFiles()
                 .UseStaticFiles()
-                //.UseDeveloperExceptionPage()
                 .UseBotFramework();
         }
     }

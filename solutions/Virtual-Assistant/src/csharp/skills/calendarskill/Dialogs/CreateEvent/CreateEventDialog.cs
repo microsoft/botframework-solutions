@@ -99,15 +99,12 @@ namespace CalendarSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
 
                 if (string.IsNullOrEmpty(state.Title))
                 {
                     var userNameString = state.Attendees.ToSpeechString(CommonStrings.And, li => li.DisplayName ?? li.Address);
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions
-                    {
-                        Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoTitle, _responseBuilder, new StringDictionary() { { "UserName", userNameString } }),
-                    }, cancellationToken);
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoTitle, ResponseBuilder, new StringDictionary() { { "UserName", userNameString } }) }, cancellationToken);
                 }
                 else
                 {
@@ -125,7 +122,7 @@ namespace CalendarSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (sc.Result != null)
                 {
                     if (string.IsNullOrEmpty(state.Title))
@@ -137,10 +134,7 @@ namespace CalendarSkill
 
                 if (string.IsNullOrEmpty(state.Content))
                 {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions
-                    {
-                        Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoContent),
-                    }, cancellationToken);
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoContent) }, cancellationToken);
                 }
                 else
                 {
@@ -158,13 +152,13 @@ namespace CalendarSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (string.IsNullOrEmpty(state.APIToken))
                 {
                     return await sc.EndDialogAsync(true, cancellationToken);
                 }
 
-                _serviceManager.InitCalendarService(state.APIToken, state.EventSource);
+                ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
                 if (state.Attendees.Count == 0)
                 {
                     return await sc.BeginDialogAsync(Actions.UpdateAddress, cancellationToken: cancellationToken);
@@ -185,7 +179,7 @@ namespace CalendarSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (sc.Result != null)
                 {
                     if (string.IsNullOrEmpty(state.Content))
@@ -228,7 +222,7 @@ namespace CalendarSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
 
                 if (state.EndDateTime == null)
                 {
@@ -250,7 +244,7 @@ namespace CalendarSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
 
                 if (state.Location == null)
                 {
@@ -272,7 +266,7 @@ namespace CalendarSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (state.Location == null && sc.Result != null)
                 {
                     sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
@@ -284,8 +278,7 @@ namespace CalendarSkill
                     var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
 
                     // Enable the user to skip providing the location if they say something matching the Cancel intent, say something matching the ConfirmNo recognizer or something matching the NoLocation intent
-
-                    if (topIntent == General.Intent.Cancel.ToString() || promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false || topIntent == Calendar.Intent.NoLocation.ToString())
+                    if (topIntent == General.Intent.Cancel.ToString() || (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false) || topIntent == Calendar.Intent.NoLocation.ToString())
                     {
                         state.Location = string.Empty;
                     }
@@ -317,11 +310,7 @@ namespace CalendarSkill
 
                 var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(CreateEventResponses.ConfirmCreate, newEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", newEvent.ToAdaptiveCardData(state.GetUserTimeZone()), tokens: tokens);
 
-                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
-                {
-                    Prompt = replyMessage,
-                    RetryPrompt = sc.Context.Activity.CreateReply(CreateEventResponses.ConfirmCreateFailed, _responseBuilder, tokens),
-                }, cancellationToken);
+                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = replyMessage, RetryPrompt = sc.Context.Activity.CreateReply(CreateEventResponses.ConfirmCreateFailed, ResponseBuilder, tokens) }, cancellationToken);
             }
             catch
             {
@@ -334,7 +323,7 @@ namespace CalendarSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult)
                 {
@@ -349,7 +338,7 @@ namespace CalendarSkill
                         TimeZone = TimeZoneInfo.Utc,
                         Location = state.Location,
                     };
-                    var calendarService = _serviceManager.InitCalendarService(state.APIToken, state.EventSource);
+                    var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
                     if (await calendarService.CreateEvent(newEvent) != null)
                     {
                         var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(CreateEventResponses.EventCreated, newEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", newEvent.ToAdaptiveCardData(state.GetUserTimeZone()));
@@ -382,7 +371,7 @@ namespace CalendarSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (state.AttendeesNameList.Any())
                 {
                     return await sc.NextAsync(cancellationToken: cancellationToken);
@@ -390,24 +379,15 @@ namespace CalendarSkill
 
                 if (state.EventSource == EventSource.Microsoft)
                 {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions
-                    {
-                        Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoAttendeesMS),
-                    }, cancellationToken);
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoAttendeesMS) }, cancellationToken);
                 }
 
                 if (sc.Result != null)
                 {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions
-                    {
-                        Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.WrongAddress),
-                    }, cancellationToken);
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.WrongAddress) }, cancellationToken);
                 }
 
-                return await sc.PromptAsync(Actions.Prompt, new PromptOptions
-                {
-                    Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoAttendees),
-                }, cancellationToken);
+                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoAttendees) }, cancellationToken);
             }
             catch
             {
@@ -420,7 +400,7 @@ namespace CalendarSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (state.AttendeesNameList.Any())
                 {
                     return await sc.BeginDialogAsync(Actions.ConfirmAttendee, cancellationToken: cancellationToken);
@@ -475,7 +455,7 @@ namespace CalendarSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 var currentRecipientName = state.AttendeesNameList[state.ConfirmAttendeesNameIndex];
                 if (IsEmail(currentRecipientName))
                 {
@@ -494,7 +474,7 @@ namespace CalendarSkill
                 try
                 {
                     // Temp workaround: use contact replace user.
-                    //userList = await GetUserAsync(sc, currentRecipientName);
+                    // userList = await GetUserAsync(sc, currentRecipientName);
                     userList = await GetContactAsync(sc, currentRecipientName);
                 }
                 catch
@@ -555,7 +535,7 @@ namespace CalendarSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
 
                 // result is null when just update the recipient name. show recipients page should be reset.
                 if (sc.Result == null)
@@ -614,22 +594,16 @@ namespace CalendarSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 var currentRecipientName = state.AttendeesNameList[state.ConfirmAttendeesNameIndex];
 
                 if (((UpdateUserNameDialogOptions)sc.Options).Reason == UpdateUserNameDialogOptions.UpdateReason.TooMany)
                 {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions
-                    {
-                        Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.PromptTooManyPeople, _responseBuilder, new StringDictionary() { { "UserName", currentRecipientName } }),
-                    }, cancellationToken);
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.PromptTooManyPeople, ResponseBuilder, new StringDictionary() { { "UserName", currentRecipientName } }) }, cancellationToken);
                 }
                 else
                 {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions
-                    {
-                        Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.PromptPersonNotFound, _responseBuilder, new StringDictionary() { { "UserName", currentRecipientName } }),
-                    }, cancellationToken);
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.PromptPersonNotFound, ResponseBuilder, new StringDictionary() { { "UserName", currentRecipientName } }) }, cancellationToken);
                 }
             }
             catch
@@ -647,7 +621,7 @@ namespace CalendarSkill
                 var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
                 if (!string.IsNullOrEmpty(userInput))
                 {
-                    var state = await _accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                    var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                     state.AttendeesNameList[state.ConfirmAttendeesNameIndex] = userInput;
                 }
 
@@ -667,16 +641,10 @@ namespace CalendarSkill
             {
                 if (((UpdateDateTimeDialogOptions)sc.Options).Reason == UpdateDateTimeDialogOptions.UpdateReason.NotFound)
                 {
-                    return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions
-                    {
-                        Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartDate),
-                    }, cancellationToken);
+                    return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartDate) }, cancellationToken);
                 }
 
-                return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions
-                {
-                    Prompt = sc.Context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage),
-                }, cancellationToken);
+                return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage) }, cancellationToken);
             }
             catch
             {
@@ -689,7 +657,7 @@ namespace CalendarSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (sc.Result != null)
                 {
                     IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
@@ -739,22 +707,16 @@ namespace CalendarSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (state.StartTime == null)
                 {
                     if (((UpdateDateTimeDialogOptions)sc.Options).Reason == UpdateDateTimeDialogOptions.UpdateReason.NotFound)
                     {
-                        return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions
-                        {
-                            Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartTime),
-                        }, cancellationToken);
+                        return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartTime) }, cancellationToken);
                     }
                     else
                     {
-                        return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions
-                        {
-                            Prompt = sc.Context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage),
-                        }, cancellationToken);
+                        return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage) }, cancellationToken);
                     }
                 }
                 else
@@ -773,7 +735,7 @@ namespace CalendarSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (sc.Result != null && state.StartTime == null)
                 {
                     IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
@@ -818,24 +780,18 @@ namespace CalendarSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (state.Duration > 0 || state.EndTime != null || state.EndDate != null)
                 {
                     return await sc.NextAsync(cancellationToken: cancellationToken);
                 }
                 else if (((UpdateDateTimeDialogOptions)sc.Options).Reason == UpdateDateTimeDialogOptions.UpdateReason.NotFound)
                 {
-                    return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions
-                    {
-                        Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoDuration),
-                    }, cancellationToken);
+                    return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoDuration) }, cancellationToken);
                 }
                 else
                 {
-                    return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions
-                    {
-                        Prompt = sc.Context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage),
-                    }, cancellationToken);
+                    return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage) }, cancellationToken);
                 }
             }
             catch
@@ -849,7 +805,7 @@ namespace CalendarSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (state.EndDate != null || state.EndTime != null)
                 {
                     var startDate = state.StartDate == null ? TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, state.GetUserTimeZone()) : state.StartDate;
@@ -866,7 +822,10 @@ namespace CalendarSkill
                         : new DateTime(
                             endDate.Value.Year,
                             endDate.Value.Month,
-                            endDate.Value.Day, 23, 59, 59);
+                            endDate.Value.Day,
+                            23,
+                            59,
+                            59);
                     state.EndDateTime = TimeZoneInfo.ConvertTimeToUtc(state.EndDateTime.Value, state.GetUserTimeZone());
                     var ts = state.StartDateTime.Value.Subtract(state.EndDateTime.Value).Duration();
                     state.Duration = (int)ts.TotalSeconds;
@@ -906,11 +865,11 @@ namespace CalendarSkill
         public async Task<List<Person>> GetUserAsync(DialogContext dc, string name)
         {
             var result = new List<Person>();
-            var state = await _accessor.GetAsync(dc.Context);
+            var state = await Accessor.GetAsync(dc.Context);
             try
             {
                 var token = state.APIToken;
-                var service = _serviceManager.InitUserService(token, state.GetUserTimeZone());
+                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone());
 
                 // Get users.
                 var userList = await service.GetUserAsync(name);
@@ -921,7 +880,7 @@ namespace CalendarSkill
             }
             catch (ServiceException)
             {
-                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(CreateEventResponses.FindUserErrorMessage, _responseBuilder, new StringDictionary() { { "UserName", name } }));
+                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(CreateEventResponses.FindUserErrorMessage, ResponseBuilder, new StringDictionary() { { "UserName", name } }));
                 state.Clear();
                 await dc.EndDialogAsync(true);
             }
@@ -934,20 +893,20 @@ namespace CalendarSkill
             var result = new List<Person>();
             try
             {
-                var state = await _accessor.GetAsync(dc.Context);
+                var state = await Accessor.GetAsync(dc.Context);
                 var token = state.APIToken;
-                var service = _serviceManager.InitUserService(token, state.GetUserTimeZone());
+                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone());
 
                 // Get users.
                 result = await service.GetPeopleAsync(name);
             }
             catch (ServiceException)
             {
-                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(CreateEventResponses.FindUserErrorMessage, _responseBuilder, new StringDictionary() { { "UserName", name } }));
+                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(CreateEventResponses.FindUserErrorMessage, ResponseBuilder, new StringDictionary() { { "UserName", name } }));
 
-                var state = await _accessor.GetAsync(dc.Context);
+                var state = await Accessor.GetAsync(dc.Context);
                 state.Clear();
-                await _accessor.SetAsync(dc.Context, state);
+                await Accessor.SetAsync(dc.Context, state);
                 await dc.EndDialogAsync(true); // todo: should be sc.EndAll();
             }
 
@@ -959,9 +918,9 @@ namespace CalendarSkill
             var result = new List<Person>();
             try
             {
-                var state = await _accessor.GetAsync(sc.Context);
+                var state = await Accessor.GetAsync(sc.Context);
                 var token = state.APIToken;
-                var service = _serviceManager.InitUserService(token, state.GetUserTimeZone());
+                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone());
 
                 // Get users.
                 var contactList = await service.GetContactAsync(name);
@@ -980,7 +939,7 @@ namespace CalendarSkill
 
         public async Task<PromptOptions> GenerateOptions(List<Person> personList, List<Person> userList, DialogContext dc)
         {
-            var state = await _accessor.GetAsync(dc.Context);
+            var state = await Accessor.GetAsync(dc.Context);
             var pageIndex = state.ShowAttendeesIndex;
             var pageSize = 5;
             var skip = pageSize * pageIndex;

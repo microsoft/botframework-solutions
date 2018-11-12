@@ -1,4 +1,10 @@
-﻿using CalendarSkill.Common;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using CalendarSkill.Common;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Dialogs.Summary.Resources;
 using Luis;
@@ -8,12 +14,6 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace CalendarSkill
 {
@@ -54,7 +54,7 @@ namespace CalendarSkill
             try
             {
                 // clear context before show emails, and extract it from luis result again.
-                var state = await _accessor.GetAsync(sc.Context);
+                var state = await Accessor.GetAsync(sc.Context);
 
                 var luisResult = state.LuisResult;
 
@@ -109,7 +109,7 @@ namespace CalendarSkill
             {
                 var tokenResponse = sc.Result as TokenResponse;
 
-                var state = await _accessor.GetAsync(sc.Context);
+                var state = await Accessor.GetAsync(sc.Context);
                 if (state.SummaryEvents == null)
                 {
                     if (string.IsNullOrEmpty(state.APIToken))
@@ -117,7 +117,7 @@ namespace CalendarSkill
                         return await sc.EndDialogAsync(true);
                     }
 
-                    var calendarService = _serviceManager.InitCalendarService(state.APIToken, state.EventSource);
+                    var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
 
                     var searchDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, state.GetUserTimeZone());
 
@@ -157,7 +157,7 @@ namespace CalendarSkill
 
                         if (searchedEvents.Count == 1)
                         {
-                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowOneMeetingSummaryMessage, _responseBuilder, responseParams));
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowOneMeetingSummaryMessage, ResponseBuilder, responseParams));
                         }
                         else
                         {
@@ -171,7 +171,7 @@ namespace CalendarSkill
                                 responseParams.Add("EventTime", TimeConverter.ConvertUtcToUserTime(searchedEvents[searchedEvents.Count - 1].StartTime, state.GetUserTimeZone()).ToString("h:mm tt"));
                             }
 
-                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowMultipleMeetingSummaryMessage, _responseBuilder, responseParams));
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowMultipleMeetingSummaryMessage, ResponseBuilder, responseParams));
                         }
                     }
 
@@ -223,7 +223,7 @@ namespace CalendarSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context);
+                var state = await Accessor.GetAsync(sc.Context);
 
                 var luisResult = state.LuisResult;
                 var topIntent = luisResult?.TopIntent().intent;
@@ -284,7 +284,7 @@ namespace CalendarSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context);
+                var state = await Accessor.GetAsync(sc.Context);
                 var luisResult = state.LuisResult;
 
                 var topIntent = luisResult?.TopIntent().intent;
