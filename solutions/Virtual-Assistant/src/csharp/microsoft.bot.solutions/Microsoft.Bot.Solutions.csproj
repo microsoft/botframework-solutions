@@ -61,7 +61,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resources\CommonResponses.tt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <LastGenOutput>CommonResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
