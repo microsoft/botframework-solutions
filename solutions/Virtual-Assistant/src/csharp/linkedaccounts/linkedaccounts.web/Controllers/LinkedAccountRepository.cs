@@ -13,6 +13,7 @@ namespace LinkedAccounts.Web.Controllers
     using Microsoft.Bot.Connector;
     using Microsoft.Bot.Connector.Authentication;
     using Microsoft.Bot.Schema;
+    using System.Linq;
 
     public class LinkedAccountRepository : ILinkedAccountRepository
     {
@@ -74,7 +75,7 @@ namespace LinkedAccounts.Web.Controllers
                 link = await adapter.GetOauthSignInLinkAsync(context, connectionName, userId, finalRedirect);
 
                 // Add on code_challenge (SessionId) into the redirect
-                SessionController.Sessions.TryGetValue(userId, out string sessionId);
+                var sessionId = SessionController.Sessions.Single().Value;
 
                 if (!string.IsNullOrEmpty(sessionId))
                 {
