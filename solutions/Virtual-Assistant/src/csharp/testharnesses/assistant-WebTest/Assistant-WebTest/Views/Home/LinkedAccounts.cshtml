@@ -1,0 +1,97 @@
+﻿@model LinkedAccountsViewModel
+@{
+    ViewData["Title"] = "Linked Accounts";
+}
+<script src="https://cdn.botframework.com/botframework-webchat/latest/botchat.js"></script>
+
+<script>
+    const directLine = new BotChat.DirectLine({
+        secret: '@Model.DirectLineToken',
+        domain: '@Model.Endpoint'
+    });
+
+    directLine.getSessionId().subscribe(sessionId => {
+        console.log('received sessionId: ' + sessionId);
+
+        // Pass the sessionId to the controller
+        var request = new XMLHttpRequest();
+        request.open("post", "/api/session?id=" + sessionId, false);
+        request.send();
+
+        console.log(request.responseText);
+    }, error => {
+        console.log('failed to get sessionId', error);
+    });
+</script>
+
+
+@if (Model.Status == null)
+{
+    <div class="warning">No Authentication Connections were found using the provided ApplicationId. Have you added one to your Bot through the Azure Portal?</div>
+}
+else
+{
+    <div>
+        <div class="linkedAccount-title">Linked Accounts</div>
+
+        <div class="linkedAccount-displayName">
+            User ID:
+            @using (Html.BeginForm("ChangeUserId", "Home", FormMethod.Post))
+            {
+                @Html.TextBoxFor(model => model.UserId, new { style = "width:300px;" })
+                <button type="submit">Change</button>
+            }
+        </div>
+
+        <div class="linkedAccount-list">
+            <div class="linkedAccount-header">
+                <div class="linkedAccount-header-label linkedAccount-header-connectionName">Connection Name</div>
+                <div class="linkedAccount-header-label linkedAccount-header-displayName">Service Provider</div>
+                <div class="linkedAccount-header-label linkedAccount-header-status">Status</div>
+            </div>
+
+            @foreach (var account in Model.Status)
+            {
+                <div class="linkedAccount">
+                    <div class="linkedAccount-label linkedAccount-connectionName">@account.ConnectionName</div>
+                    <div class="linkedAccount-label linkedAccount-displayName">@account.ServiceProviderDisplayName</div>
+                    @if (!account.HasToken)
+                    {
+                        <div class="linkedAccount-label linkedAccount-status">
+                            <div class="icon">
+                                <svg viewBox="0 0 34 34">
+                                    <circle cx="16" cy="16" r="15" stroke="black" stroke-width="2" fill="gray"></circle>
+                                    Sorry, your browser does not support inline SVG.
+                                </svg>
+                            </div>
+                            <div class="online-status">
+                                Offline
+                            </div>
+                        </div>
+                        <div id="signin"></div>
+                        @Html.ActionLink("Sign In", "SignIn", "Home", account, new { @class = "button linkedAccount-action" })
+                    }
+                    else
+                    {
+                        <div class="linkedAccount-label linkedAccount-status">
+                            <div class="icon">
+                                <svg viewBox="0 0 34 34">
+                                    <circle cx="16" cy="16" r="15" stroke="black" stroke-width="2" fill="#22ee22" />
+                                    Sorry, your browser does not support inline SVG.
+                                </svg>
+                            </div>
+                            <div class="online-status">
+                                Online
+                            </div>
+                        </div>
+                        @Html.ActionLink("Sign Out", "SignOut", "Home", account, new { @class = "button linkedAccount-action" })
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="linkedAccount-actions">
+            @Html.ActionLink("Sign Out All", "SignOutAll", "Home", null, new { @class = "button" })
+        </div>
+    </div>
+}

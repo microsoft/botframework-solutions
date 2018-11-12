@@ -1,7 +1,7 @@
-# Virtual Assistant Skills - Productivity (Task)
+# Virtual Assistant Skills - Productivity (ToDo)
 
 ## Overview
-The Task Skill provides Task related capabilities to a Virtual Assistant. The most common scenarios have been implemented in this first release with additional scenarios in development.
+The ToDo Skill provides ToDo related capabilities to a Virtual Assistant. The most common scenarios have been implemented in this first release with additional scenarios in development.
 
 ## Supported Scenarios
 The following scenarios are currently supported by the Skill:
@@ -37,7 +37,7 @@ The following Configuration entries are required to be passed to the Skill and a
 {
     "Name": "ToDo",
     "DispatcherModelName": "l__ToDo",
-    "Description": "The Task Skill adds Task related capabilities to your Custom Assitant",
+    "Description": "The ToDo Skill adds ToDo related capabilities to your Custom Assitant",
     "Assembly": "ToDoSkill.ToDoSkill, ToDoSkill, Version=1.0.0.0, Culture=neutral",
     "AuthConnectionName": "AzureADConnection",
     "Parameters": [
