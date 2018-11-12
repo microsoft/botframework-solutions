@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using CalendarSkill.Common;
 using CalendarSkill.Dialogs.Main.Resources;
+using CalendarSkill.Dialogs.Shared.Resources;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -662,9 +663,13 @@ namespace CalendarSkill
 
         protected async Task HandleDialogExceptions(WaterfallStepContext sc)
         {
+            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarSharedResponses.CalendarErrorMessage));
+
             var state = await Accessor.GetAsync(sc.Context);
             state.Clear();
             await sc.CancelAllDialogsAsync();
+
+            return;
         }
     }
 }
