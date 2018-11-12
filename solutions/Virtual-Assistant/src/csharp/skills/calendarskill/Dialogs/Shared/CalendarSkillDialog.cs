@@ -28,12 +28,6 @@ namespace CalendarSkill
         public const string SkillModeAuth = "SkillAuth";
         public const string LocalModeAuth = "LocalAuth";
 
-        // Fields
-        protected SkillConfiguration _services;
-        protected IStatePropertyAccessor<CalendarSkillState> _accessor;
-        protected IServiceManager _serviceManager;
-        protected CalendarSkillResponseBuilder _responseBuilder = new CalendarSkillResponseBuilder();
-
         public CalendarSkillDialog(
             string dialogId,
             SkillConfiguration services,
@@ -41,11 +35,11 @@ namespace CalendarSkill
             IServiceManager serviceManager)
             : base(dialogId)
         {
-            _services = services;
-            _accessor = accessor;
-            _serviceManager = serviceManager;
+            Services = services;
+            Accessor = accessor;
+            ServiceManager = serviceManager;
 
-            if (!_services.AuthenticationConnections.Any())
+            if (!Services.AuthenticationConnections.Any())
             {
                 throw new Exception("You must configure an authentication connection in your bot file before using this component.");
             }
@@ -60,22 +54,30 @@ namespace CalendarSkill
             AddDialog(new ChoicePrompt(Actions.EventChoice, null, Culture.English) { Style = ListStyle.Inline, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = false } });
         }
 
+        protected SkillConfiguration Services { get; set; }
+
+        protected IStatePropertyAccessor<CalendarSkillState> Accessor { get; set; }
+
+        protected IServiceManager ServiceManager { get; set; }
+
+        protected CalendarSkillResponseBuilder ResponseBuilder { get; set; } = new CalendarSkillResponseBuilder();
+
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await _accessor.GetAsync(dc.Context);
+            var state = await Accessor.GetAsync(dc.Context);
             await DigestCalendarLuisResult(dc, state.LuisResult, true);
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }
 
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await _accessor.GetAsync(dc.Context);
+            var state = await Accessor.GetAsync(dc.Context);
             await DigestCalendarLuisResult(dc, state.LuisResult, false);
             return await base.OnContinueDialogAsync(dc, cancellationToken);
         }
 
         // Shared steps
-        public async Task<DialogTurnResult> GetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken)
+        protected async Task<DialogTurnResult> GetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             try
             {
@@ -109,7 +111,7 @@ namespace CalendarSkill
             }
         }
 
-        public async Task<DialogTurnResult> AfterGetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> AfterGetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -137,7 +139,7 @@ namespace CalendarSkill
 
                 if (providerTokenResponse != null)
                 {
-                    var state = await _accessor.GetAsync(sc.Context);
+                    var state = await Accessor.GetAsync(sc.Context);
                     state.APIToken = providerTokenResponse.TokenResponse.Token;
 
                     var provider = providerTokenResponse.AuthenticationProvider;
@@ -166,7 +168,7 @@ namespace CalendarSkill
         }
 
         // Validators
-        public Task<bool> TokenResponseValidator(PromptValidatorContext<Activity> pc, CancellationToken cancellationToken)
+        protected Task<bool> TokenResponseValidator(PromptValidatorContext<Activity> pc, CancellationToken cancellationToken)
         {
             var activity = pc.Recognized.Value;
             if (activity != null && activity.Type == ActivityTypes.Event)
@@ -179,7 +181,7 @@ namespace CalendarSkill
             }
         }
 
-        public Task<bool> AuthPromptValidator(PromptValidatorContext<TokenResponse> promptContext, CancellationToken cancellationToken)
+        protected Task<bool> AuthPromptValidator(PromptValidatorContext<TokenResponse> promptContext, CancellationToken cancellationToken)
         {
             var token = promptContext.Recognized.Value;
             if (token != null)
@@ -192,10 +194,9 @@ namespace CalendarSkill
             }
         }
 
-        public async Task<bool> ChoiceValidator(PromptValidatorContext<FoundChoice> pc, CancellationToken cancellationToken)
+        protected async Task<bool> ChoiceValidator(PromptValidatorContext<FoundChoice> pc, CancellationToken cancellationToken)
         {
-
-            var state = await _accessor.GetAsync(pc.Context);
+            var state = await Accessor.GetAsync(pc.Context);
             var luisResult = state.GeneralLuisResult;
             var topIntent = luisResult?.TopIntent().intent;
 
@@ -222,20 +223,20 @@ namespace CalendarSkill
             return false;
         }
 
-        public Task<bool> DateTimePromptValidator(PromptValidatorContext<IList<DateTimeResolution>> promptContext, CancellationToken cancellationToken)
+        protected Task<bool> DateTimePromptValidator(PromptValidatorContext<IList<DateTimeResolution>> promptContext, CancellationToken cancellationToken)
         {
             return Task.FromResult(true);
         }
 
         // Helpers
-        public async Task ShowMeetingList(DialogContext dc, List<EventModel> events, bool showDate = true)
+        protected async Task ShowMeetingList(DialogContext dc, List<EventModel> events, bool showDate = true)
         {
             var replyToConversation = dc.Context.Activity.CreateReply();
             replyToConversation.AttachmentLayout = AttachmentLayoutTypes.Carousel;
             replyToConversation.Attachments = new List<Microsoft.Bot.Schema.Attachment>();
 
             var cardsData = new List<CalendarCardData>();
-            var state = await _accessor.GetAsync(dc.Context);
+            var state = await Accessor.GetAsync(dc.Context);
             foreach (var item in events)
             {
                 var meetingCard = item.ToAdaptiveCardData(state.GetUserTimeZone(), showDate);
@@ -246,7 +247,7 @@ namespace CalendarSkill
             await dc.Context.SendActivityAsync(replyToConversation);
         }
 
-        public static bool IsRelativeTime(string userInput, string resolverResult, string timex)
+        protected bool IsRelativeTime(string userInput, string resolverResult, string timex)
         {
             if (userInput.Contains("ago") ||
                 userInput.Contains("before") ||
@@ -272,7 +273,7 @@ namespace CalendarSkill
             return false;
         }
 
-        public static async Task<List<EventModel>> GetEventsByTime(DateTime? startDate, DateTime? startTime, DateTime? endDate, DateTime? endTime, TimeZoneInfo userTimeZone, ICalendar calendarService)
+        protected async Task<List<EventModel>> GetEventsByTime(DateTime? startDate, DateTime? startTime, DateTime? endDate, DateTime? endTime, TimeZoneInfo userTimeZone, ICalendar calendarService)
         {
             // todo: check input datetime is utc
             var rawEvents = new List<EventModel>();
@@ -310,16 +311,16 @@ namespace CalendarSkill
             return resultEvents;
         }
 
-        public static bool ContainsTime(string timex)
+        protected bool ContainsTime(string timex)
         {
             return timex.Contains("T");
         }
 
-        private async Task DigestCalendarLuisResult(DialogContext dc, Calendar luisResult, bool isBeginDialog)
+        protected async Task DigestCalendarLuisResult(DialogContext dc, Calendar luisResult, bool isBeginDialog)
         {
             try
             {
-                var state = await _accessor.GetAsync(dc.Context);
+                var state = await Accessor.GetAsync(dc.Context);
 
                 var entity = luisResult.Entities;
 
@@ -594,13 +595,13 @@ namespace CalendarSkill
                     }
                 }
             }
-            catch (Exception e)
+            catch
             {
                 // put log here
             }
         }
 
-        private List<DateTimeResolution> RecognizeDateTime(string dateTimeString, string culture)
+        protected List<DateTimeResolution> RecognizeDateTime(string dateTimeString, string culture)
         {
             var results = DateTimeRecognizer.RecognizeDateTime(dateTimeString, culture);
             if (results.Count > 0)
@@ -619,7 +620,7 @@ namespace CalendarSkill
             return null;
         }
 
-        private DateTimeResolution ReadResolution(IDictionary<string, string> resolution)
+        protected DateTimeResolution ReadResolution(IDictionary<string, string> resolution)
         {
             var result = new DateTimeResolution();
 
@@ -646,9 +647,9 @@ namespace CalendarSkill
             return result;
         }
 
-        public async Task HandleDialogExceptions(WaterfallStepContext sc)
+        protected async Task HandleDialogExceptions(WaterfallStepContext sc)
         {
-            var state = await _accessor.GetAsync(sc.Context);
+            var state = await Accessor.GetAsync(sc.Context);
             state.Clear();
             await sc.CancelAllDialogsAsync();
         }

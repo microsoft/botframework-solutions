@@ -25,19 +25,21 @@ namespace <#= namespaceName #>
     {
         private static readonly ResponseManager _responseManager;
 
-		static <#= className #>()
+        static <#= className #>()
         {
             var dir = Path.GetDirectoryName(typeof(<#= className #>).Assembly.Location);
             var resDir = Path.Combine(dir, @"<#=relativeResourcePath#>");
             _responseManager = new ResponseManager(resDir, "<#=className#>");
         }
 
-        // Generated accessors<#
-        // This code runs in the text json:  
-        foreach (var propertyName in json)  { #>  
+        // Generated accessors
+<#
+// This code runs in the text json:  
+foreach (var propertyName in json)  { 
+#>
         public static BotResponse <#= propertyName.Key.Substring(0, 1).ToUpperInvariant() + propertyName.Key.Substring(1) #> => GetBotResponse();
-        <# } #>
-        
+
+<# } #>
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {
             return _responseManager.GetBotResponse(propertyName);

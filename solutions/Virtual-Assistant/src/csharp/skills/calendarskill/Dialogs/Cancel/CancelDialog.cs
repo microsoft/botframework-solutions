@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+
 namespace CalendarSkill
 {
     public class CancelDialog : ComponentDialog
@@ -13,8 +14,8 @@ namespace CalendarSkill
         public const string CancelPrompt = "cancelPrompt";
 
         // Fields
-        private static CancelResponses _responder = new CancelResponses();
-        protected static IStatePropertyAccessor<CalendarSkillState> _accessor;
+        private CancelResponses _responder = new CancelResponses();
+        private IStatePropertyAccessor<CalendarSkillState> _accessor;
 
         public CancelDialog(IStatePropertyAccessor<CalendarSkillState> accessor)
             : base(nameof(CancelDialog))
@@ -32,12 +33,16 @@ namespace CalendarSkill
             AddDialog(new ConfirmPrompt(CancelPrompt));
         }
 
-        public static async Task<DialogTurnResult> AskToCancel(WaterfallStepContext sc, CancellationToken cancellationToken) => await sc.PromptAsync(CancelPrompt, new PromptOptions()
+        public async Task<DialogTurnResult> AskToCancel(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            Prompt = await _responder.RenderTemplate(sc.Context, "en", CancelResponses._confirmPrompt),
-        });
+            return await sc.PromptAsync(CancelPrompt, new PromptOptions()
+            {
+                Prompt = await _responder.RenderTemplate(sc.Context, "en", CancelResponses._confirmPrompt),
+            });
+        }
 
-        public static async Task<DialogTurnResult> FinishCancelDialog(WaterfallStepContext sc, CancellationToken cancellationToken) {
+        public async Task<DialogTurnResult> FinishCancelDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
+        {
             var state = await _accessor.GetAsync(sc.Context);
             state.Clear();
             return await sc.EndDialogAsync((bool)sc.Result);

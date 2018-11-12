@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
-using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs;
@@ -63,7 +62,7 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context);
+                var state = await Accessor.GetAsync(sc.Context);
                 if (state.DeleteTaskConfirmation)
                 {
                     if (!state.ListTypeIds.ContainsKey(state.ListType))
@@ -71,7 +70,7 @@ namespace ToDoSkill
                         await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
                     }
 
-                    var service = await _serviceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
+                    var service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
                     string taskTopicToBeDeleted = null;
                     if (state.MarkOrDeleteAllTasksFlag)
                     {
@@ -149,7 +148,7 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context);
+                var state = await Accessor.GetAsync(sc.Context);
                 if (state.MarkOrDeleteAllTasksFlag)
                 {
                     var prompt = sc.Context.Activity.CreateReply(DeleteToDoResponses.AskDeletionAllConfirmation);
@@ -176,7 +175,7 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context);
+                var state = await Accessor.GetAsync(sc.Context);
                 var luisResult = state.GeneralLuisResult;
                 var topIntent = luisResult?.TopIntent().intent;
 
@@ -189,7 +188,7 @@ namespace ToDoSkill
                     state.DeleteTaskConfirmation = true;
                     return await sc.EndDialogAsync(true);
                 }
-                else if((promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false))
+                else if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
                 {
                     state.DeleteTaskConfirmation = false;
                     return await sc.EndDialogAsync(true);

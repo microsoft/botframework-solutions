@@ -1,12 +1,12 @@
-﻿using Microsoft.Bot.Configuration;
+﻿using System.Collections.Generic;
+using Microsoft.Bot.Configuration;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 
 namespace Microsoft.Bot.Solutions.Skills
 {
     public class SkillDefinition : ConnectedService
     {
-        public SkillDefinition() 
+        public SkillDefinition()
             : base("skill")
         {
         }

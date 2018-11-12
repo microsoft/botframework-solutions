@@ -58,7 +58,7 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context);
+                var state = await Accessor.GetAsync(sc.Context);
                 state.ListType = state.ListType ?? ListType.ToDo.ToString();
                 if (!state.ListTypeIds.ContainsKey(state.ListType))
                 {
@@ -68,7 +68,7 @@ namespace ToDoSkill
                 var topIntent = state.LuisResult?.TopIntent().intent;
                 if (topIntent == ToDo.Intent.ShowToDo)
                 {
-                    var service = await _serviceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
+                    var service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
                     state.AllTasks = await service.GetTasksAsync(state.ListType);
                 }
 
@@ -141,7 +141,7 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context);
+                var state = await Accessor.GetAsync(sc.Context);
                 var topIntent = state.GeneralLuisResult?.TopIntent().intent;
 
                 sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
@@ -153,7 +153,7 @@ namespace ToDoSkill
                     state.TaskContent = null;
                     return await sc.NextAsync();
                 }
-                else if ((promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false))
+                else if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
                 {
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ActionEnded));
                     return await sc.EndDialogAsync(true);

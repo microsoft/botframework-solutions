@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
-using CalendarSkill.ServiceClients.GoogleAPI;
-using Microsoft.Bot.Solutions.Skills;
 using System;
 using System.Collections.Generic;
+using CalendarSkill.ServiceClients.GoogleAPI;
+using Microsoft.Bot.Solutions.Skills;
 
 namespace CalendarSkill
 {

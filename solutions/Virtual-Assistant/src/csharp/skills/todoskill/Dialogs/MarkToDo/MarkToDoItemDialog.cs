@@ -1,12 +1,12 @@
-﻿using Microsoft.Bot.Builder;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using ToDoSkill.Dialogs.MarkToDo.Resources;
 using ToDoSkill.Dialogs.Shared.Resources;
 
@@ -48,13 +48,13 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context);
+                var state = await Accessor.GetAsync(sc.Context);
                 if (!state.ListTypeIds.ContainsKey(state.ListType))
                 {
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
                 }
 
-                var service = await _serviceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
+                var service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
                 BotResponse botResponse;
                 string taskTopicToBeMarked = null;
                 if (state.MarkOrDeleteAllTasksFlag)

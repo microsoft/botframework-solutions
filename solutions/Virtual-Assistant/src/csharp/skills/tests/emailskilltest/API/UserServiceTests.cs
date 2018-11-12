@@ -10,7 +10,6 @@ namespace EmailSkillTest.API
     [TestClass]
     public class UserServiceTests
     {
-
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
