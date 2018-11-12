@@ -80,12 +80,12 @@ namespace CalendarSkillTest.Flow.Fakes
             // Another example date format: `new DateTime(2017, 12, 1, 9, 30, 0).ToString("o")`
             var startTimeTimeZone = new DateTimeTimeZone
             {
-                DateTime = new DateTime(2018, 11, 11, 9, 30, 0).ToString("o"),
+                DateTime = new DateTime(2019, 11, 11, 9, 30, 0).ToString("o"),
                 TimeZone = TimeZoneInfo.Local.Id,
             };
             var endTimeTimeZone = new DateTimeTimeZone
             {
-                DateTime = new DateTime(2018, 11, 11, 10, 30, 0).ToString("o"),
+                DateTime = new DateTime(2019, 11, 11, 10, 30, 0).ToString("o"),
                 TimeZone = TimeZoneInfo.Local.Id,
             };
 
