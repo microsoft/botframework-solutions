@@ -95,7 +95,6 @@ Initial previews of the [Email](./virtualassistant-skills-productivity-email.md)
 - Skills
     - [Overview](./virtualassistant-skills.md)
     - [Skill Authentication](./virtualassistant-authentication.md)
-    - [Adding a Skill](./virtualassistant-addingaskill.md)
     - [Creating a Skill](./virtualassistant-skillenablement.md)
     - [Productivity - Calendar Skill](./virtualassistant-skills-productivity-calendar.md)
     - [Productivity - Email Skill](./virtualassistant-skills-productivity-email.md)
