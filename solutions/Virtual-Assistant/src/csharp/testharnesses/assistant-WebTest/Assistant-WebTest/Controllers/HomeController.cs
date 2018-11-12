@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Assistant_WebTest.Models;
 using Microsoft.Extensions.Configuration;
@@ -107,24 +108,42 @@ namespace Assistant_WebTest.Controllers
             return View(new ErrorViewModel { RequestId = System.Diagnostics.Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        [HttpPost]
+        public async Task<IActionResult> ChangeUserId(LinkedAccountsViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                this.HttpContext.Session.SetString("ChangedUserId", model.UserId);
+            }
+
+            return RedirectToAction("LinkedAccounts");
+        }
+
         private string GetUserId()
         {
-            // Retrieve the object idenitifer for the user which will be the userID (fromID) passed to the Bot
-            var claimsIdentity = this.User?.Identity as ClaimsIdentity;
-
-            if (claimsIdentity == null)
+            // If the user has overriden (to work around emulator blocker)
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("ChangedUserId")))
             {
-                throw new InvalidOperationException("User is not logged in and needs to be.");
+                return HttpContext.Session.GetString("ChangedUserId");
             }
-
-            var objectId = claimsIdentity.Claims?.SingleOrDefault(c => c.Type == AadObjectidentifierClaim)?.Value;
-
-            if (objectId == null)
+            else
             {
-                throw new InvalidOperationException("User does not have a valid AAD ObjectId claim.");
-            }
+                var claimsIdentity = this.User?.Identity as System.Security.Claims.ClaimsIdentity;
 
-            return objectId;
+                if (claimsIdentity == null)
+                {
+                    throw new InvalidOperationException("User is not logged in and needs to be.");
+                }
+
+                var objectId = claimsIdentity.Claims?.SingleOrDefault(c => c.Type == AadObjectidentifierClaim)?.Value;
+
+                if (objectId == null)
+                {
+                    throw new InvalidOperationException("User does not have a valid AAD ObjectId claim.");
+                }
+
+                return objectId;
+            }
         }
 
         private string GetUserName()

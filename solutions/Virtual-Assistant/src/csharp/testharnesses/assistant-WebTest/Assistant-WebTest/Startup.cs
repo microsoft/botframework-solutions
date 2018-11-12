@@ -47,6 +47,15 @@ namespace Assistant_WebTest
 
             services.AddSingleton<ICredentialProvider>(new ConfigurationCredentialProvider(Configuration));
 
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromSeconds(120);
+                options.Cookie.HttpOnly = true;
+            });
+
             services.AddMvc(options =>
             {
                 var policy = new AuthorizationPolicyBuilder()
@@ -75,6 +84,8 @@ namespace Assistant_WebTest
             app.UseCookiePolicy();
 
             app.UseAuthentication();
+
+            app.UseSession();
 
             app.UseMvc(routes =>
             {
