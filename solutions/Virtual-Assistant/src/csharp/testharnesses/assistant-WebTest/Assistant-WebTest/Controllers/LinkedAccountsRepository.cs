@@ -1,9 +1,10 @@
 ﻿// Copyright(c) Microsoft Corporation.All rights reserved.
 // Licensed under the MIT License.
 
-namespace LinkedAccounts.Web.Controllers
+namespace Assistant_WebTest.Controllers
 {
     using System;
+    using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
     using System.Threading.Tasks;
@@ -13,7 +14,6 @@ namespace LinkedAccounts.Web.Controllers
     using Microsoft.Bot.Connector;
     using Microsoft.Bot.Connector.Authentication;
     using Microsoft.Bot.Schema;
-    using System.Linq;
 
     public class LinkedAccountRepository : ILinkedAccountRepository
     {
@@ -64,7 +64,7 @@ namespace LinkedAccounts.Web.Controllers
             var adapter = new BotFrameworkAdapter(credentialProvider);
             var botAppId = ((ConfigurationCredentialProvider)credentialProvider).AppId;
             var botAppPassword = ((ConfigurationCredentialProvider)credentialProvider).Password;
-            
+
             string link = null;
             using (var context = new TurnContext(adapter, new Microsoft.Bot.Schema.Activity { }))
             {
@@ -108,6 +108,6 @@ namespace LinkedAccounts.Web.Controllers
                 // Sign the specified user out of a particular connection
                 await adapter.SignOutUserAsync(context, connectionName, userId);
             }
-        }                
+        }
     }
 }
