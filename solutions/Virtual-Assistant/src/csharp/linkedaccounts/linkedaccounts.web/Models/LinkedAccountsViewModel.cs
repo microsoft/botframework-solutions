@@ -9,7 +9,7 @@ namespace LinkedAccounts.Web.Models
     using System.Threading.Tasks;
     using Microsoft.Bot.Schema;
 
-    public class LinkedAcountViewModel
+    public class LinkedAccountsViewModel
     {
         public string UserId { get; set; }
         public TokenStatus[] Status { get; set; }
