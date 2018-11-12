@@ -62,7 +62,7 @@ namespace ToDoSkill
             AddDialog(new TextPrompt(Action.Prompt));
         }
 
-        protected SkillConfiguration Services { get; set; }
+        protected ISkillConfiguration Services { get; set; }
 
         protected IStatePropertyAccessor<ToDoSkillState> Accessor { get; set; }
 
