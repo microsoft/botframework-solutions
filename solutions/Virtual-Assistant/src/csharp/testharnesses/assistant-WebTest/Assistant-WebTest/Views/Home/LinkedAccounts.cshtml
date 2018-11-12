@@ -3,6 +3,7 @@
     ViewData["Title"] = "Linked Accounts";
 }
 <script src="https://cdn.botframework.com/botframework-webchat/latest/botchat.js"></script>
+
 <script>
     const directLine = new BotChat.DirectLine({
         secret: '@Model.DirectLineToken',
@@ -23,6 +24,7 @@
     });
 </script>
 
+
 @if (Model.Status == null)
 {
     <div class="warning">No Authentication Connections were found using the provided ApplicationId. Have you added one to your Bot through the Azure Portal?</div>
@@ -31,7 +33,16 @@ else
 {
     <div>
         <div class="linkedAccount-title">Linked Accounts</div>
-        <div class="linkedAccount-displayName">UserID: @Model.UserId</div>
+
+        <div class="linkedAccount-displayName">
+            User ID:
+            @using (Html.BeginForm("ChangeUserId", "Home", FormMethod.Post))
+            {
+                @Html.TextBoxFor(model => model.UserId, new { style = "width:300px;" })
+                <button type="submit">Change</button>
+            }
+        </div>
+
         <div class="linkedAccount-list">
             <div class="linkedAccount-header">
                 <div class="linkedAccount-header-label linkedAccount-header-connectionName">Connection Name</div>
@@ -49,7 +60,7 @@ else
                         <div class="linkedAccount-label linkedAccount-status">
                             <div class="icon">
                                 <svg viewBox="0 0 34 34">
-                                    <circle cx="16" cy="16" r="15" stroke="black" stroke-width="2" fill="gray" />
+                                    <circle cx="16" cy="16" r="15" stroke="black" stroke-width="2" fill="gray"></circle>
                                     Sorry, your browser does not support inline SVG.
                                 </svg>
                             </div>
