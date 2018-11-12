@@ -94,21 +94,23 @@ namespace EmailSkillTest.Flow.Fakes
             var emailAddressStr = "test@test.com";
             users.Add(new User()
             {
-                UserPrincipalName = "test@test.com",
+                UserPrincipalName = emailAddressStr,
                 Mail = emailAddressStr,
                 DisplayName = "Test Test",
             });
 
+            emailAddressStr = "testdup1@test.com";
             users.Add(new User()
             {
-                UserPrincipalName = "testdup1@test.com",
+                UserPrincipalName = emailAddressStr,
                 Mail = emailAddressStr,
                 DisplayName = "TestDup Test",
             });
 
+            emailAddressStr = "testdup2@test.com";
             users.Add(new User()
             {
-                UserPrincipalName = "testdup2@test.com",
+                UserPrincipalName = emailAddressStr,
                 Mail = emailAddressStr,
                 DisplayName = "TestDup Test",
             });
