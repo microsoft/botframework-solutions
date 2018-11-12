@@ -10,9 +10,7 @@ Follow the instructions below to build, deploy and configure your Assistant.
 
 ### Prerequisites
 - - Ensure you have updated [.NET Core](https://www.microsoft.com/net/download) to the latest version.
-- 
 - [Node.js](https://nodejs.org/) version 8.5 or higher.
-
 - Install the Azure Bot Service command line (CLI) tools. It's important to do this even if you have earlier versions as the Virtual Assistant makes use of new deployment capabilities.
 
 ```shell
@@ -38,7 +36,8 @@ Once the Solution has been cloned you will see the following folder structure.
 
     | - Virtual-Assistant
         | - Assistant
-        | - LinkedAccounts.Web
+        | - LinkedAccounts
+        | - Microsoft.Bot.Solutions
         | - Skills
             | - CalendarSkill
             | - DemoSkill
@@ -49,7 +48,7 @@ Once the Solution has been cloned you will see the following folder structure.
         | - TestHarnesses
             | - Assistant-ConsoleDirectLineSample
             | - Assistant-WebTest
-        | - Microsoft.Bot.Solutions
+        | - Tests
       | - VirtualAssistant.sln
 
 ### Build the Solution

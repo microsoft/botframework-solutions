@@ -13,9 +13,9 @@ The folder structure of your Virtual Assistant is shown below.
         | - YOURBOT.bot                     // The .bot file containing all of your Bot configuration including dependencies
         | - README.md                       // README file containing links to documentation
         | - Program.cs                      // Default Program.cs file
-        | - Startup.cs                      // Core Bot Initialisation including Bot Configuration LUIS, Dispatcher, etc. 
+        | - Startup.cs                      // Core Bot Initialisation including Bot Configuration LUIS, Dispatcher, etc.
         | - appsettings.json                // References above .bot file for Configuration information. App Insights key
-        | - CognitiveModels     
+        | - CognitiveModels
             | - LUIS                        // .LU files containing base conversational intents (Greeting, Help, Cancel)
             | - QnA                         // .LU files containing example QnA items
         | - DeploymentScripts               // msbot clone recipe for deployment
@@ -101,17 +101,83 @@ The introduction is presented with an [Adaptive Card](https://adaptivecards.io/)
 }
 ```
 
+## Update Virtual Assistant Responses
+
+Ahead of the new Language Generation capabilities the Virtual Assistant makes use of Resource Files (RESX) for all base assistant responses. These are defined at the dialog level and can be found within the Resources folder of the corresponding Dialog within the Dialogs folder.
+
+The `Main\Resources` folder contains responses shared across the Virtual Assistant. All resource files are localised with a separate language version as denoted by the locale suffix. For example `MainStrings.rex" under Main contains english responses with mainstrings.es containing spanish and so-on.
+
+The in-built Visual Studio resource file editor makes it easy to apply changes to suit your Virtual Assistant scenario. Once you make changes, rebuild your project for them to take effect and ensure you update the localised versions as appropriate for your scenario.
+
+![Resource File Editor](media/virtualassistant-resourcefile.png)
+
+## Update the Skill responses
+
+The Skills make use of [T4 Text Templating](https://docs.microsoft.com/en-us/visualstudio/modeling/code-generation-and-t4-text-templates?view=vs-2017) for the more complex Skill response generation. This is ahead of the new Language Generation capabilities that we will move to when ready.
+
+You may wish to change the Skill responses to better suit your scenario and apply a different personality to all responses. This can be performed by changing the appropriate JSON file representing each dialogs responses. 
+
+You can achieve this by updating the appropriate JSON file, for example as shown these can be found within the Resources folder of the corresponding Dialog. You will need to expand the corresponding TT file and JSON file to see all of the language variations.
+
+![Skill Text Templating JSON Response File](media/virtualassistant-skilljsonresponses.png)
+
+An except of the `CreateEventDialog` responses files is shown below. In this case the `NoLocation` response surfaced to the Dialog code has a `Text` display and `Speak` variant enabling the client to select the most appropriate response for the users context (e.g. text versus speech led). 
+
+In addition the [`inputHint`](https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-add-input-hints?view=azure-bot-service-3.0) is a hint to the client around microphone control, in this case this text is used for a prompt so the hint is set to expectingInput signaling that the client should automatically open the microphone for the response. If this is not set correctly, the client may inadvertently open the microphone when not needed or cause the user to have to click a speech button to respond.
+
+```
+"NoLocation": {
+    "replies": [
+      {
+        "text": "What is the location for the meeting?",
+        "speak": "What is the location for the meeting?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  }
+```
+Multiple variations for a response can be provided as shown in the error message response detailed below.
+```
+ "EventCreationFailed": {
+    "replies": [
+
+      {
+        "text": "Event creation failed",
+        "speak": "Event creation failed"
+      },
+      {
+        "text": "Something went wrong, try again please.",
+        "speak": "Something went wrong, try again please."
+      },
+      {
+        "text": "It seems the event could not be created, please try again later.",
+        "speak": "It seems the event could not be created, please try again later."
+      },
+      {
+        "text": "Creation of the event failed, please try again.",
+        "speak": "Creation of the event failed, please try again."
+      },
+      {
+        "text": "An error occured with creating the event.",
+        "speak": "An error occured with creating the event."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+```
+
+Clean and Rebuild your project once changes have been made and ensure you update all localised versions as required for your assistant.
+
 ## Update the FAQ with QnAMaker
 
 The FAQ provided features commonly asked questions about the Bot Framework, but you may wish to provide industry-specific samples.
 
 To update an existing QnAMaker Knowledge Base, perform the following steps:
-1. Make changes to your QnAMaker Knowledge Base via the [LuDown](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown) and [QnAMaker](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker) CLI tools or the [QnAMaker Portal](https://qnamaker.ai).
+1. Make changes to your QnAMaker Knowledge Base via the [LuDown](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown) and [QnAMaker](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker) CLI tools leveraging the existing QnA file stored within the `CognitiveModels\QnA` folder of your project or directly through the [QnAMaker Portal](https://qnamaker.ai).
 2. Run the following command to update your Dispatch model to reflect your changes (ensures proper message routing):
 ```shell
     dispatch refresh --bot "YOURBOT.bot" --secret YOURSECRET
 ```
-
 ## Demoing the Skills
 
 You can review a sample transcript showcasing the Productivity & Point of Interest Skills [here](transcripts/skillsdemo.transcript), 
