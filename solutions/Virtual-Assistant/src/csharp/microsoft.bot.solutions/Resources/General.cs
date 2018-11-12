@@ -8,6 +8,8 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Solutions.Util;
+
 namespace Luis
 {
     public class General: IRecognizerConvert
@@ -63,7 +65,7 @@ namespace Luis
         public virtual (Intent intent, double score) TopIntent()
         {
             Intent maxIntent = Intent.None;
-            var max = 0.0;
+            var max = Util.ScoreThreshold;
             foreach (var entry in Intents)
             {
                 if (entry.Value.Score > max)

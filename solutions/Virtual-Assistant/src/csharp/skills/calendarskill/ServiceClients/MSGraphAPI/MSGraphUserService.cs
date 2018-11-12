@@ -111,6 +111,44 @@ namespace CalendarSkill
         }
 
         /// <summary>
+        /// GetContactAsync.
+        /// </summary>
+        /// <param name="name">name.</param>
+        /// <returns>Task contains List of Contacts.</returns>
+        public async Task<List<Contact>> GetContactAsync(string name)
+        {
+            List<Contact> items = new List<Contact>();
+
+            var optionList = new List<QueryOption>();
+            var filterString = $"startswith(displayName, '{name}') or startswith(givenName,'{name}') or startswith(surname,'{name}')";
+            optionList.Add(new QueryOption("$filter", filterString));
+
+            // Get the current user's profile.
+            var contacts = await this.graphClient.Me.Contacts.Request(optionList).GetAsync();
+
+            if (contacts?.Count > 0)
+            {
+                foreach (Contact contact in contacts)
+                {
+                    // Filter out conference rooms.
+                    string displayName = contact.DisplayName ?? string.Empty;
+                    if (!displayName.StartsWith("Conf Room"))
+                    {
+                        // Get user properties.
+                        items.Add(contact);
+                    }
+
+                    if (items.Count >= 10)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return items;
+        }
+
+        /// <summary>
         /// Get the current user's profile.
         /// </summary>
         /// <returns>the current user's profile.</returns>

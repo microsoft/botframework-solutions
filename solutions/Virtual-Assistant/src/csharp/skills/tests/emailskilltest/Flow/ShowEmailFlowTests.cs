@@ -18,13 +18,28 @@ namespace EmailSkillTest.Flow
         }
 
         [TestMethod]
-        public async Task Test_NotSendingEmail()
+        public async Task Test_NotSendingEmailWithOrdinalSelection()
         {
             await this.GetTestFlow()
                 .Send("Show Emails")
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send("The first one")
+                .AssertReply(this.AssertSelectOneOfTheMessage())
+                .AssertReplyOneOf(this.ReadOutMorePrompt())
+                .Send("No")
+                .AssertReplyOneOf(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_NotSendingEmailWithNumberSelection()
+        {
+            await this.GetTestFlow()
+                .Send("Show Emails")
+                .AssertReply(this.ShowEmailList())
+                .AssertReplyOneOf(this.ReadOutPrompt())
+                .Send("1")
                 .AssertReply(this.AssertSelectOneOfTheMessage())
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send("No")

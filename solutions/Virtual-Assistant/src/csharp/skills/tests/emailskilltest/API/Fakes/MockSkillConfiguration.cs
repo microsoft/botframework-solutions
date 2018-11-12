@@ -16,11 +16,12 @@ namespace EmailSkillTest.API.Fakes
         {
             this.TelemetryClient = null;
             this.CosmosDbOptions = null;
+            this.AuthenticationConnections = new Dictionary<string, string>();
 
-            this.AuthConnectionName = "test";
+            this.AuthenticationConnections.Add("Google", "Google");
         }
 
-        public override string AuthConnectionName { get; set; }
+        public override Dictionary<string, string> AuthenticationConnections { get; set; }
 
         public override TelemetryClient TelemetryClient { get; set; }
 

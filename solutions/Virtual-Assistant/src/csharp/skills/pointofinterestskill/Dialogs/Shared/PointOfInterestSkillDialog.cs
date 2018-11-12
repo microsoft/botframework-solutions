@@ -1,4 +1,11 @@
-﻿using Luis;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
@@ -6,13 +13,6 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using PointOfInterestSkill.Dialogs.Shared.Resources;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace PointOfInterestSkill
 {
@@ -22,12 +22,6 @@ namespace PointOfInterestSkill
         public const string SkillModeAuth = "SkillAuth";
         public const string LocalModeAuth = "LocalAuth";
 
-        // Fields
-        protected SkillConfiguration _services;
-        protected IStatePropertyAccessor<PointOfInterestSkillState> _accessor;
-        protected IServiceManager _serviceManager;
-        protected PointOfInterestResponseBuilder _responseBuilder = new PointOfInterestResponseBuilder();
-
         public PointOfInterestSkillDialog(
             string dialogId,
             SkillConfiguration services,
@@ -35,33 +29,41 @@ namespace PointOfInterestSkill
             IServiceManager serviceManager)
             : base(dialogId)
         {
-            _services = services;
-            _accessor = accessor;
-            _serviceManager = serviceManager;
+            Services = services;
+            Accessor = accessor;
+            ServiceManager = serviceManager;
 
             AddDialog(new TextPrompt(Action.Prompt, CustomPromptValidatorAsync));
             AddDialog(new ConfirmPrompt(Action.ConfirmPrompt) { Style = ListStyle.Auto, });
         }
 
+        protected SkillConfiguration Services { get; set; }
+
+        protected IStatePropertyAccessor<PointOfInterestSkillState> Accessor { get; set; }
+
+        protected IServiceManager ServiceManager { get; set; }
+
+        protected PointOfInterestResponseBuilder ResponseBuilder { get; set; } = new PointOfInterestResponseBuilder();
+
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await _accessor.GetAsync(dc.Context);
+            var state = await Accessor.GetAsync(dc.Context);
             await DigestPointOfInterestLuisResult(dc, state.LuisResult);
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }
 
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await _accessor.GetAsync(dc.Context);
+            var state = await Accessor.GetAsync(dc.Context);
             await DigestPointOfInterestLuisResult(dc, state.LuisResult);
             return await base.OnContinueDialogAsync(dc, cancellationToken);
         }
 
-        public async Task<DialogTurnResult> GetPointOfInterestLocations(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> GetPointOfInterestLocations(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                //Defensive for scenarios where locale isn't correctly set
+                // Defensive for scenarios where locale isn't correctly set
                 var country = "US";
 
                 try
@@ -74,9 +76,12 @@ namespace PointOfInterestSkill
                     // Default to everything if we can't restrict the country
                 }
 
-                var state = await _accessor.GetAsync(sc.Context);
-                var service = _serviceManager.InitMapsService(GetAzureMapsKey(), sc.Context.Activity.Locale ?? "en-us");
+                var state = await Accessor.GetAsync(sc.Context);
+
+                var service = ServiceManager.InitMapsService(GetAzureMapsKey(), sc.Context.Activity.Locale ?? "en-us");
                 var locationSet = new LocationSet();
+
+                state.CheckForValidCurrentCoordinates();
 
                 if (string.IsNullOrEmpty(state.SearchText) && string.IsNullOrEmpty(state.SearchAddress))
                 {
@@ -99,7 +104,7 @@ namespace PointOfInterestSkill
 
                 if (locationSet?.Locations?.ToList().Count == 1)
                 {
-                    return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(POISharedResponses.PromptToGetRoute, _responseBuilder) });
+                    return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(POISharedResponses.PromptToGetRoute, ResponseBuilder) });
                 }
 
                 return await sc.EndDialogAsync(true);
@@ -111,11 +116,11 @@ namespace PointOfInterestSkill
             }
         }
 
-        public async Task<DialogTurnResult> ResponseToGetRoutePrompt(WaterfallStepContext sc, CancellationToken cancellationToken)
+        protected async Task<DialogTurnResult> ResponseToGetRoutePrompt(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context);
+                var state = await Accessor.GetAsync(sc.Context);
 
                 if ((bool)sc.Result)
                 {
@@ -144,19 +149,19 @@ namespace PointOfInterestSkill
         }
 
         // Vaildators
-        public Task<bool> CustomPromptValidatorAsync(PromptValidatorContext<string> promptContext, CancellationToken cancellationToken)
+        protected Task<bool> CustomPromptValidatorAsync(PromptValidatorContext<string> promptContext, CancellationToken cancellationToken)
         {
             var result = promptContext.Recognized.Value;
             return Task.FromResult(true);
         }
 
         // Helpers
-        public async Task GetPointOfInterestLocationViewCards(DialogContext sc, LocationSet locationSet)
+        protected async Task GetPointOfInterestLocationViewCards(DialogContext sc, LocationSet locationSet)
         {
             var locations = locationSet.Locations;
-            var state = await _accessor.GetAsync(sc.Context);
+            var state = await Accessor.GetAsync(sc.Context);
             var cardsData = new List<LocationCardModelData>();
-            var service = _serviceManager.InitMapsService(GetAzureMapsKey());
+            var service = ServiceManager.InitMapsService(GetAzureMapsKey());
 
             if (locations != null && locations.Count > 0)
             {
@@ -184,12 +189,12 @@ namespace PointOfInterestSkill
                 {
                     if (sc.ActiveDialog.Id.Equals(Action.FindAlongRoute) && state.ActiveRoute != null)
                     {
-                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardGroupReply(POISharedResponses.MultipleLocationsFoundAlongActiveRoute, "Dialogs/Shared/Resources/Cards/PointOfInterestViewCard.json", AttachmentLayoutTypes.Carousel, cardsData, _responseBuilder);
+                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardGroupReply(POISharedResponses.MultipleLocationsFoundAlongActiveRoute, "Dialogs/Shared/Resources/Cards/PointOfInterestViewCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder);
                         await sc.Context.SendActivityAsync(replyMessage);
                     }
                     else
                     {
-                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardGroupReply(POISharedResponses.MultipleLocationsFound, "Dialogs/Shared/Resources/Cards/PointOfInterestViewCard.json", AttachmentLayoutTypes.Carousel, cardsData, _responseBuilder);
+                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardGroupReply(POISharedResponses.MultipleLocationsFound, "Dialogs/Shared/Resources/Cards/PointOfInterestViewCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder);
                         await sc.Context.SendActivityAsync(replyMessage);
                     }
                 }
@@ -199,24 +204,24 @@ namespace PointOfInterestSkill
 
                     if (sc.ActiveDialog.Id.Equals(Action.FindAlongRoute) && state.ActiveRoute != null)
                     {
-                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(POISharedResponses.SingleLocationFoundAlongActiveRoute, "Dialogs/Shared/Resources/Cards/PointOfInterestViewNoDrivingButtonCard.json", cardsData.SingleOrDefault(), _responseBuilder);
+                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(POISharedResponses.SingleLocationFoundAlongActiveRoute, "Dialogs/Shared/Resources/Cards/PointOfInterestViewNoDrivingButtonCard.json", cardsData.SingleOrDefault(), ResponseBuilder);
                         await sc.Context.SendActivityAsync(replyMessage);
                     }
                     else
                     {
-                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(POISharedResponses.SingleLocationFound, "Dialogs/Shared/Resources/Cards/PointOfInterestViewNoDrivingButtonCard.json", cardsData.SingleOrDefault(), _responseBuilder);
+                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(POISharedResponses.SingleLocationFound, "Dialogs/Shared/Resources/Cards/PointOfInterestViewNoDrivingButtonCard.json", cardsData.SingleOrDefault(), ResponseBuilder);
                         await sc.Context.SendActivityAsync(replyMessage);
                     }
                 }
             }
             else
             {
-                var replyMessage = sc.Context.Activity.CreateReply(POISharedResponses.NoLocationsFound, _responseBuilder);
+                var replyMessage = sc.Context.Activity.CreateReply(POISharedResponses.NoLocationsFound, ResponseBuilder);
                 await sc.Context.SendActivityAsync(replyMessage);
             }
         }
 
-        public static string GetFormattedTravelTimeSpanString(TimeSpan timeSpan)
+        protected string GetFormattedTravelTimeSpanString(TimeSpan timeSpan)
         {
             var travelTimeSpanString = new StringBuilder();
             if (timeSpan.Hours == 1)
@@ -245,7 +250,7 @@ namespace PointOfInterestSkill
             return travelTimeSpanString.ToString();
         }
 
-        public static string GetFormattedTrafficDelayString(TimeSpan timeSpan)
+        protected string GetFormattedTrafficDelayString(TimeSpan timeSpan)
         {
             var trafficDelayTimeSpanString = new StringBuilder();
             if (timeSpan.Hours == 1)
@@ -283,10 +288,10 @@ namespace PointOfInterestSkill
             return trafficDelayTimeSpanString.ToString();
         }
 
-        public async Task GetRouteDirectionsViewCards(DialogContext sc, RouteDirections routeDirections)
+        protected async Task GetRouteDirectionsViewCards(DialogContext sc, RouteDirections routeDirections)
         {
             var routes = routeDirections.Routes;
-            var state = await _accessor.GetAsync(sc.Context);
+            var state = await Accessor.GetAsync(sc.Context);
             var cardsData = new List<RouteDirectionsModelCardData>();
             var routeId = 0;
 
@@ -324,16 +329,16 @@ namespace PointOfInterestSkill
             }
             else
             {
-                var replyMessage = sc.Context.Activity.CreateReply(POISharedResponses.NoLocationsFound, _responseBuilder);
+                var replyMessage = sc.Context.Activity.CreateReply(POISharedResponses.NoLocationsFound, ResponseBuilder);
                 await sc.Context.SendActivityAsync(replyMessage);
             }
         }
 
-        private async Task DigestPointOfInterestLuisResult(DialogContext dc, PointOfInterest luisResult)
+        protected async Task DigestPointOfInterestLuisResult(DialogContext dc, PointOfInterest luisResult)
         {
             try
             {
-                var state = await _accessor.GetAsync(dc.Context, () => new PointOfInterestSkillState());
+                var state = await Accessor.GetAsync(dc.Context, () => new PointOfInterestSkillState());
 
                 if (luisResult != null)
                 {
@@ -368,7 +373,7 @@ namespace PointOfInterestSkill
 
         protected string GetAzureMapsKey()
         {
-            _services.Properties.TryGetValue("AzureMapsKey", out var key);
+            Services.Properties.TryGetValue("AzureMapsKey", out var key);
 
             var keyStr = (string)key;
             if (string.IsNullOrWhiteSpace(keyStr))
@@ -381,11 +386,11 @@ namespace PointOfInterestSkill
             }
         }
 
-        public async Task HandleDialogException(WaterfallStepContext sc)
+        protected async Task HandleDialogException(WaterfallStepContext sc)
         {
-            var state = await _accessor.GetAsync(sc.Context);
+            var state = await Accessor.GetAsync(sc.Context);
             state.Clear();
-            await _accessor.SetAsync(sc.Context, state);
+            await Accessor.SetAsync(sc.Context, state);
             await sc.CancelAllDialogsAsync();
         }
     }

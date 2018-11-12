@@ -11,6 +11,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
 using Microsoft.Bot.Solutions.Extensions;
@@ -27,12 +28,6 @@ namespace ToDoSkill
         public const string SkillModeAuth = "SkillAuth";
         public const string LocalModeAuth = "LocalAuth";
 
-        // Fields
-        protected SkillConfiguration _services;
-        protected IStatePropertyAccessor<ToDoSkillState> _accessor;
-        protected ITaskService _serviceManager;
-        protected ToDoSkillResponseBuilder _responseBuilder = new ToDoSkillResponseBuilder();
-
         public ToDoSkillDialog(
             string dialogId,
             SkillConfiguration services,
@@ -40,39 +35,57 @@ namespace ToDoSkill
             ITaskService serviceManager)
             : base(dialogId)
         {
-            _services = services;
-            _accessor = accessor;
-            _serviceManager = serviceManager;
+            Services = services;
+            Accessor = accessor;
+            ServiceManager = serviceManager;
 
-            var oauthSettings = new OAuthPromptSettings()
+            if (!Services.AuthenticationConnections.Any())
             {
-                ConnectionName = _services.AuthConnectionName ?? throw new Exception("The authentication connection has not been initialized."),
-                Text = $"Authentication",
-                Title = "Signin",
-                Timeout = 300000, // User has 5 minutes to login
-            };
+                throw new Exception("You must configure an authentication connection in your bot file before using this component.");
+            }
+
+            foreach (var connection in services.AuthenticationConnections)
+            {
+                AddDialog(new OAuthPrompt(
+                    connection.Key,
+                    new OAuthPromptSettings
+                    {
+                        ConnectionName = connection.Value,
+                        Text = $"Please login with your {connection.Key} account.",
+                        Timeout = 30000,
+                    },
+                    AuthPromptValidator));
+            }
 
             AddDialog(new EventPrompt(SkillModeAuth, "tokens/response", TokenResponseValidator));
-            AddDialog(new OAuthPrompt(LocalModeAuth, oauthSettings, AuthPromptValidator));
+            AddDialog(new MultiProviderAuthDialog(services));
             AddDialog(new TextPrompt(Action.Prompt));
         }
 
+        protected SkillConfiguration Services { get; set; }
+
+        protected IStatePropertyAccessor<ToDoSkillState> Accessor { get; set; }
+
+        protected ITaskService ServiceManager { get; set; }
+
+        protected ToDoSkillResponseBuilder ResponseBuilder { get; set; }
+
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await _accessor.GetAsync(dc.Context);
+            var state = await Accessor.GetAsync(dc.Context);
             await DigestToDoLuisResult(dc, state.LuisResult);
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }
 
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await _accessor.GetAsync(dc.Context);
+            var state = await Accessor.GetAsync(dc.Context);
             await DigestToDoLuisResult(dc, state.LuisResult);
             return await base.OnContinueDialogAsync(dc, cancellationToken);
         }
 
         // Shared steps
-        public async Task<DialogTurnResult> GetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> GetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -95,7 +108,7 @@ namespace ToDoSkill
                 }
                 else
                 {
-                    return await sc.PromptAsync(LocalModeAuth, new PromptOptions() { RetryPrompt = sc.Context.Activity.CreateReply(ToDoSharedResponses.NoAuth, _responseBuilder), });
+                    return await sc.PromptAsync(LocalModeAuth, new PromptOptions() { RetryPrompt = sc.Context.Activity.CreateReply(ToDoSharedResponses.NoAuth, ResponseBuilder), });
                 }
             }
             catch
@@ -105,36 +118,36 @@ namespace ToDoSkill
             }
         }
 
-        public async Task<DialogTurnResult> AfterGetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> AfterGetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
                 // When the user authenticates interactively we pass on the tokens/Response event which surfaces as a JObject
                 // When the token is cached we get a TokenResponse object.
                 var skillOptions = (ToDoSkillDialogOptions)sc.Options;
-                TokenResponse tokenResponse;
+                ProviderTokenResponse providerTokenResponse;
                 if (skillOptions != null && skillOptions.SkillMode)
                 {
                     var resultType = sc.Context.Activity.Value.GetType();
-                    if (resultType == typeof(TokenResponse))
+                    if (resultType == typeof(ProviderTokenResponse))
                     {
-                        tokenResponse = sc.Context.Activity.Value as TokenResponse;
+                        providerTokenResponse = sc.Context.Activity.Value as ProviderTokenResponse;
                     }
                     else
                     {
                         var tokenResponseObject = sc.Context.Activity.Value as JObject;
-                        tokenResponse = tokenResponseObject?.ToObject<TokenResponse>();
+                        providerTokenResponse = tokenResponseObject?.ToObject<ProviderTokenResponse>();
                     }
                 }
                 else
                 {
-                    tokenResponse = sc.Result as TokenResponse;
+                    providerTokenResponse = sc.Result as ProviderTokenResponse;
                 }
 
-                if (tokenResponse != null)
+                if (providerTokenResponse != null)
                 {
-                    var state = await _accessor.GetAsync(sc.Context);
-                    state.MsGraphToken = tokenResponse.Token;
+                    var state = await Accessor.GetAsync(sc.Context);
+                    state.MsGraphToken = providerTokenResponse.TokenResponse.Token;
                 }
 
                 return await sc.NextAsync();
@@ -146,9 +159,9 @@ namespace ToDoSkill
             }
         }
 
-        public async Task<DialogTurnResult> ClearContext(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> ClearContext(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await _accessor.GetAsync(sc.Context);
+            var state = await Accessor.GetAsync(sc.Context);
             var topIntent = state.LuisResult?.TopIntent().intent;
             var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
 
@@ -193,15 +206,15 @@ namespace ToDoSkill
             return await sc.NextAsync();
         }
 
-        public async Task<DialogTurnResult> InitAllTasks(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> InitAllTasks(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await _accessor.GetAsync(sc.Context);
+            var state = await Accessor.GetAsync(sc.Context);
             state.ListType = state.ListType ?? ListType.ToDo.ToString();
 
             if (!state.ListTypeIds.ContainsKey(state.ListType))
             {
                 await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
-                var service = await _serviceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
+                var service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
                 state.AllTasks = await service.GetTasksAsync(state.ListType);
                 state.ShowTaskPageIndex = 0;
                 var rangeCount = Math.Min(state.PageSize, state.AllTasks.Count);
@@ -219,14 +232,14 @@ namespace ToDoSkill
             }
         }
 
-        public async Task<DialogTurnResult> CollectToDoTaskIndex(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> CollectToDoTaskIndex(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             return await sc.BeginDialogAsync(Action.CollectToDoTaskIndex);
         }
 
-        public async Task<DialogTurnResult> AskToDoTaskIndex(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> AskToDoTaskIndex(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await _accessor.GetAsync(sc.Context);
+            var state = await Accessor.GetAsync(sc.Context);
             if (!string.IsNullOrEmpty(state.TaskContentPattern)
                 || !string.IsNullOrEmpty(state.TaskContentML)
                 || state.MarkOrDeleteAllTasksFlag
@@ -243,9 +256,9 @@ namespace ToDoSkill
             }
         }
 
-        public async Task<DialogTurnResult> AfterAskToDoTaskIndex(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> AfterAskToDoTaskIndex(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await _accessor.GetAsync(sc.Context);
+            var state = await Accessor.GetAsync(sc.Context);
             if (string.IsNullOrEmpty(state.TaskContentPattern)
                 && string.IsNullOrEmpty(state.TaskContentML)
                 && !state.MarkOrDeleteAllTasksFlag
@@ -300,14 +313,14 @@ namespace ToDoSkill
             }
         }
 
-        public async Task<DialogTurnResult> CollectToDoTaskContent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> CollectToDoTaskContent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             return await sc.BeginDialogAsync(Action.CollectToDoTaskContent);
         }
 
-        public async Task<DialogTurnResult> AskToDoTaskContent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> AskToDoTaskContent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await this._accessor.GetAsync(sc.Context);
+            var state = await this.Accessor.GetAsync(sc.Context);
             if (!string.IsNullOrEmpty(state.TaskContentPattern)
                 || !string.IsNullOrEmpty(state.TaskContentML)
                 || !string.IsNullOrEmpty(state.ShopContent))
@@ -321,11 +334,11 @@ namespace ToDoSkill
             }
         }
 
-        public async Task<DialogTurnResult> AfterAskToDoTaskContent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> AfterAskToDoTaskContent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context);
+                var state = await Accessor.GetAsync(sc.Context);
                 if (string.IsNullOrEmpty(state.TaskContentPattern)
                     && string.IsNullOrEmpty(state.TaskContentML)
                     && string.IsNullOrEmpty(state.ShopContent))
@@ -354,18 +367,18 @@ namespace ToDoSkill
             }
         }
 
-        public async Task<DialogTurnResult> AddToDoTask(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> AddToDoTask(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context);
+                var state = await Accessor.GetAsync(sc.Context);
                 state.ListType = state.ListType ?? ListType.ToDo.ToString();
                 if (!state.ListTypeIds.ContainsKey(state.ListType))
                 {
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
                 }
 
-                var service = await _serviceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
+                var service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
                 await service.AddTaskAsync(state.ListType, state.TaskContent);
                 state.AllTasks = await service.GetTasksAsync(state.ListType);
                 state.ShowTaskPageIndex = 0;
@@ -391,7 +404,7 @@ namespace ToDoSkill
         }
 
         // Validators
-        private Task<bool> TokenResponseValidator(PromptValidatorContext<Activity> pc, CancellationToken cancellationToken)
+        protected Task<bool> TokenResponseValidator(PromptValidatorContext<Activity> pc, CancellationToken cancellationToken)
         {
             var activity = pc.Recognized.Value;
             if (activity != null && activity.Type == ActivityTypes.Event)
@@ -404,10 +417,10 @@ namespace ToDoSkill
             }
         }
 
-        private Task<bool> AuthPromptValidator(PromptValidatorContext<TokenResponse> pc, CancellationToken cancellationToken)
+        protected Task<bool> AuthPromptValidator(PromptValidatorContext<TokenResponse> promptContext, CancellationToken cancellationToken)
         {
-            var activity = pc.Recognized.Value;
-            if (activity != null)
+            var token = promptContext.Recognized.Value;
+            if (token != null)
             {
                 return Task.FromResult(true);
             }
@@ -418,11 +431,11 @@ namespace ToDoSkill
         }
 
         // Helpers
-        public async Task DigestToDoLuisResult(DialogContext dc, ToDo luisResult)
+        protected async Task DigestToDoLuisResult(DialogContext dc, ToDo luisResult)
         {
             try
             {
-                var state = await _accessor.GetAsync(dc.Context);
+                var state = await Accessor.GetAsync(dc.Context);
                 var entities = luisResult.Entities;
                 if (entities.ContainsAll != null)
                 {
@@ -504,7 +517,7 @@ namespace ToDoSkill
             }
         }
 
-        public static Microsoft.Bot.Schema.Attachment ToAdaptiveCardAttachmentForShowToDos(
+        protected Microsoft.Bot.Schema.Attachment ToAdaptiveCardAttachmentForShowToDos(
            List<TaskItem> todos,
            int allTaskCount,
            BotResponse botResponse1,
@@ -560,7 +573,7 @@ namespace ToDoSkill
             return attachment;
         }
 
-        public static Microsoft.Bot.Schema.Attachment ToAdaptiveCardAttachmentForOtherFlows(
+        protected Microsoft.Bot.Schema.Attachment ToAdaptiveCardAttachmentForOtherFlows(
             List<TaskItem> todos,
             int allTaskCount,
             string taskContent,
@@ -611,12 +624,12 @@ namespace ToDoSkill
             return attachment;
         }
 
-        public static string GenerateResponseWithTokens(BotResponse botResponse, StringDictionary tokens)
+        protected string GenerateResponseWithTokens(BotResponse botResponse, StringDictionary tokens)
         {
             return Format(botResponse.Reply.Text, tokens);
         }
 
-        private static string Format(string messageTemplate, StringDictionary tokens)
+        protected string Format(string messageTemplate, StringDictionary tokens)
         {
             var complexTokensRegex = new Regex(@"\{[^{\}]+(?=})\}", RegexOptions.Compiled);
             var responseFormatters = new List<IBotResponseFormatter>();
@@ -647,16 +660,16 @@ namespace ToDoSkill
             return result;
         }
 
-        public async Task HandleDialogExceptions(WaterfallStepContext sc)
+        protected async Task HandleDialogExceptions(WaterfallStepContext sc)
         {
-            var state = await _accessor.GetAsync(sc.Context);
+            var state = await Accessor.GetAsync(sc.Context);
             state.Clear();
             await sc.CancelAllDialogsAsync();
         }
 
         private async Task ExtractListTypeAndTaskContentAsync(WaterfallStepContext sc)
         {
-            var state = await _accessor.GetAsync(sc.Context);
+            var state = await Accessor.GetAsync(sc.Context);
             if (state.ListType == ListType.Grocery.ToString()
                 || (state.HasShopVerb && !string.IsNullOrEmpty(state.FoodOfGrocery)))
             {

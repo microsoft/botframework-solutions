@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using EmailSkill;
 using Microsoft.Graph;
@@ -21,19 +20,49 @@ namespace EmailSkillTest.Flow.Fakes
 
         public List<Contact> Contacts { get; set; }
 
-        public async Task<List<Person>> GetPeopleAsync(string name)
+        public Task<List<Person>> GetPeopleAsync(string name)
         {
-            return this.People;
+            var result = new List<Person>();
+
+            foreach (var person in this.People)
+            {
+                if (person.DisplayName == name)
+                {
+                    result.Add(person);
+                }
+            }
+
+            return Task.FromResult(result);
         }
 
-        public async Task<List<User>> GetUserAsync(string name)
+        public Task<List<User>> GetUserAsync(string name)
         {
-            return this.Users;
+            var result = new List<User>();
+
+            foreach (var user in this.Users)
+            {
+                if (user.DisplayName == name)
+                {
+                    result.Add(user);
+                }
+            }
+
+            return Task.FromResult(result);
         }
 
         public async Task<List<Contact>> GetContactsAsync(string name)
         {
-            return this.Contacts;
+            var result = new List<Contact>();
+
+            foreach (var contact in this.Contacts)
+            {
+                if (contact.DisplayName == name)
+                {
+                    result.Add(contact);
+                }
+            }
+
+            return result;
         }
 
         private List<Person> FakePeople()
@@ -68,6 +97,20 @@ namespace EmailSkillTest.Flow.Fakes
                 UserPrincipalName = "test@test.com",
                 Mail = emailAddressStr,
                 DisplayName = "Test Test",
+            });
+
+            users.Add(new User()
+            {
+                UserPrincipalName = "testdup1@test.com",
+                Mail = emailAddressStr,
+                DisplayName = "TestDup Test",
+            });
+
+            users.Add(new User()
+            {
+                UserPrincipalName = "testdup2@test.com",
+                Mail = emailAddressStr,
+                DisplayName = "TestDup Test",
             });
 
             return users;

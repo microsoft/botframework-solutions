@@ -11,37 +11,41 @@ using System.Threading.Tasks;
 namespace EmailSkillTest.API
 {
     [TestClass]
-    public class StepHelperTests
+    public class StepHelperTests : EmailSkillDialog
     {
         private const string dialogId = "test";
-        private static EmailSkillDialog emailSkillDialog;
-        private static ISkillConfiguration services;
-        private static MockDialogStateAccessor mockDialogStateAccessor;
-        private static MockMailSkillServiceManager mockMailSkillServiceManager;
-        private static MockEmailStateAccessor mockEmailStateAccessor;
+        private MockDialogStateAccessor mockDialogStateAccessor;
+        private MockEmailStateAccessor mockEmailStateAccessor;
+
+        public StepHelperTests()
+            : base(dialogId)
+        {
+            Services = new MockSkillConfiguration();
+
+            this.mockEmailStateAccessor = new MockEmailStateAccessor();
+            EmailStateAccessor = mockEmailStateAccessor.GetMock().Object;
+
+            this.mockDialogStateAccessor = new MockDialogStateAccessor();
+            DialogStateAccessor = mockDialogStateAccessor.GetMock().Object;
+
+            ServiceManager = new MockMailSkillServiceManager();
+        }
 
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
-            services = new MockSkillConfiguration();
-            mockDialogStateAccessor = new MockDialogStateAccessor();
-            mockMailSkillServiceManager = new MockMailSkillServiceManager();
-            mockEmailStateAccessor = new MockEmailStateAccessor();
         }
 
         [TestMethod]
         public async Task GetNameListStringTest_OneOption()
         {
-            IStatePropertyAccessor<DialogState> dialogStatePropertyAccessor = mockDialogStateAccessor.GetMock().Object;
-
             // Mock data
             mockEmailStateAccessor.MockEmailSkillState = new EmailSkillState();
             mockEmailStateAccessor.MockEmailSkillState.Recipients = GetRecipients(1);
             mockEmailStateAccessor.SetMockBehavior();
-            IStatePropertyAccessor<EmailSkillState> emailStatePropertyAccessor = mockEmailStateAccessor.GetMock().Object;
+            EmailStateAccessor = mockEmailStateAccessor.GetMock().Object;
 
-            emailSkillDialog = new EmailSkillDialog(dialogId, services, emailStatePropertyAccessor, dialogStatePropertyAccessor, mockMailSkillServiceManager);
-            var nameList = await emailSkillDialog.GetNameListStringAsync(null);
+            var nameList = await GetNameListStringAsync(null);
 
             Assert.AreEqual(nameList, "test0");
         }
@@ -49,16 +53,13 @@ namespace EmailSkillTest.API
         [TestMethod]
         public async Task GetNameListStringTest_TwoOptions()
         {
-            IStatePropertyAccessor<DialogState> dialogStatePropertyAccessor = mockDialogStateAccessor.GetMock().Object;
-
             // Mock data
             mockEmailStateAccessor.MockEmailSkillState = new EmailSkillState();
             mockEmailStateAccessor.MockEmailSkillState.Recipients = GetRecipients(2);
             mockEmailStateAccessor.SetMockBehavior();
-            IStatePropertyAccessor<EmailSkillState> emailStatePropertyAccessor = mockEmailStateAccessor.GetMock().Object;
+            EmailStateAccessor = mockEmailStateAccessor.GetMock().Object;
 
-            emailSkillDialog = new EmailSkillDialog(dialogId, services, emailStatePropertyAccessor, dialogStatePropertyAccessor, mockMailSkillServiceManager);
-            var nameList = await emailSkillDialog.GetNameListStringAsync(null);
+            var nameList = await GetNameListStringAsync(null);
 
             Assert.AreEqual(nameList, "test0 and test1");
         }
@@ -66,16 +67,13 @@ namespace EmailSkillTest.API
         [TestMethod]
         public async Task GetNameListStringTest_ThreeOptions()
         {
-            IStatePropertyAccessor<DialogState> dialogStatePropertyAccessor = mockDialogStateAccessor.GetMock().Object;
-
             // Mock data
             mockEmailStateAccessor.MockEmailSkillState = new EmailSkillState();
             mockEmailStateAccessor.MockEmailSkillState.Recipients = GetRecipients(3);
             mockEmailStateAccessor.SetMockBehavior();
-            IStatePropertyAccessor<EmailSkillState> emailStatePropertyAccessor = mockEmailStateAccessor.GetMock().Object;
+            EmailStateAccessor = mockEmailStateAccessor.GetMock().Object;
 
-            emailSkillDialog = new EmailSkillDialog(dialogId, services, emailStatePropertyAccessor, dialogStatePropertyAccessor, mockMailSkillServiceManager);
-            var nameList = await emailSkillDialog.GetNameListStringAsync(null);
+            var nameList = await GetNameListStringAsync(null);
 
             Assert.AreEqual(nameList, "test0, test1 and test2");
         }

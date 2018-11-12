@@ -19,17 +19,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="DeploymentScripts\msbotClone\email.luis" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="DeploymentScripts\msbotClone\email.luis" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.5" />
-    <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="0.12.1-preview" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.NewsSearch" Version="1.2.0" />
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.1.5" />
@@ -183,42 +174,34 @@
     <None Update="Dialogs\ConfirmRecipient\Resources\ConfirmRecipientResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ConfirmRecipientResponses.cs</LastGenOutput>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.tt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <LastGenOutput>DeleteEmailResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
     <None Update="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ForwardEmailResponses.cs</LastGenOutput>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Dialogs\Main\Resources\EmailMainResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>EmailMainResponses.cs</LastGenOutput>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Dialogs\ReplyEmail\Resources\ReplyEmailResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ReplyEmailResponses.cs</LastGenOutput>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Dialogs\SendEmail\Resources\SendEmailResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SendEmailResponses.cs</LastGenOutput>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Dialogs\Shared\Resources\EmailSharedResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>EmailSharedResponses.cs</LastGenOutput>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Dialogs\ShowEmail\Resources\ShowEmailResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ShowEmailResponses.cs</LastGenOutput>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

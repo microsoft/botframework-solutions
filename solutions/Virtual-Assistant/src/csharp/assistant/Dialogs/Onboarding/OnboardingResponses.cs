@@ -1,13 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using VirtualAssistant.Dialogs.Onboarding.Resources;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.TemplateManager;
 using Microsoft.Bot.Schema;
+using VirtualAssistant.Dialogs.Onboarding.Resources;
 
 namespace VirtualAssistant
 {
@@ -62,15 +60,16 @@ namespace VirtualAssistant
                     Text = OnboardingStrings.LINKEDACCOUNTS_BODY,
                     Images = new List<CardImage>()
                     {
-                        new CardImage(){
+                        new CardImage()
+                        {
                             Url = "https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/media/customassistant-linkedaccounts.png?raw=true",
                             Alt = "Person holding mobile device.",
                         },
                     },
-                }.ToAttachment()
+                }.ToAttachment(),
             };
 
-            return response;           
+            return response;
         }
     }
 }

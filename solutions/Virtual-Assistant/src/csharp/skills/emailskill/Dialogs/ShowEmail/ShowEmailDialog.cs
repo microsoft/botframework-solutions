@@ -1,4 +1,9 @@
-﻿using EmailSkill.Dialogs.Shared.Resources;
+﻿using System;
+using System.Collections.Specialized;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using EmailSkill.Dialogs.Shared.Resources;
 using EmailSkill.Dialogs.ShowEmail.Resources;
 using EmailSkill.Extensions;
 using Luis;
@@ -7,10 +12,6 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace EmailSkill
 {
@@ -40,10 +41,10 @@ namespace EmailSkill
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Action.Show, showEmail));
-            AddDialog(new WaterfallDialog(Action.Read, readEmail));
+            AddDialog(new WaterfallDialog(Actions.Show, showEmail));
+            AddDialog(new WaterfallDialog(Actions.Read, readEmail));
             AddDialog(new DeleteEmailDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager));
-            InitialDialogId = Action.Show;
+            InitialDialogId = Actions.Show;
         }
 
         public async Task<DialogTurnResult> IfClearContextStep(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -51,7 +52,7 @@ namespace EmailSkill
             try
             {
                 // clear context before show emails, and extract it from luis result again.
-                var state = await _emailStateAccessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var luisResult = state.LuisResult;
 
                 var topIntent = luisResult?.TopIntent().intent;
@@ -85,7 +86,7 @@ namespace EmailSkill
         {
             try
             {
-                var state = await _emailStateAccessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
 
                 var messages = await GetMessagesAsync(sc);
                 if (messages.Count > 0)
@@ -96,7 +97,7 @@ namespace EmailSkill
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.EmailNotFound, _responseBuilder));
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.EmailNotFound, ResponseBuilder));
                     return await sc.EndDialogAsync(true);
                 }
             }
@@ -110,7 +111,7 @@ namespace EmailSkill
         {
             try
             {
-                return await sc.PromptAsync(Action.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(ShowEmailResponses.ReadOutPrompt) });
+                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(ShowEmailResponses.ReadOutPrompt) });
             }
             catch (Exception ex)
             {
@@ -122,7 +123,7 @@ namespace EmailSkill
         {
             try
             {
-                var state = await _emailStateAccessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var luisResult = state.LuisResult;
 
                 var topIntent = luisResult?.TopIntent().intent;
@@ -131,12 +132,7 @@ namespace EmailSkill
                     return await sc.EndDialogAsync(true);
                 }
 
-                if (topIntent == Email.Intent.Delete)
-                {
-                    return await sc.BeginDialogAsync(nameof(DeleteEmailDialog));
-                }
-
-                return await sc.BeginDialogAsync(Action.Read);
+                return await sc.BeginDialogAsync(Actions.Read);
             }
             catch (Exception ex)
             {
@@ -148,7 +144,7 @@ namespace EmailSkill
         {
             try
             {
-                var state = await _emailStateAccessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
 
                 sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
                 var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
@@ -174,7 +170,7 @@ namespace EmailSkill
                 }
                 else if (topIntent == Email.Intent.ReadAloud && message == null)
                 {
-                    return await sc.PromptAsync(Action.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(ShowEmailResponses.ReadOutPrompt), });
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(ShowEmailResponses.ReadOutPrompt), });
                 }
                 else if (topIntent == Email.Intent.SelectItem || (topIntent == Email.Intent.ReadAloud && message != null))
                 {
@@ -196,10 +192,13 @@ namespace EmailSkill
                             : message.ReceivedDateTime.Value.UtcDateTime.ToRelativeString(state.GetUserTimeZone()),
                         Speak = message?.Subject + " From " + message?.Sender.EmailAddress.Name + " " + message?.BodyPreview,
                     };
-                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(ShowEmailResponses.ReadOutMessage, "Dialogs/Shared/Resources/Cards/EmailDetailCard.json", emailCard);
+
+                    // Todo: workaround here to read out email details. Ignore body for now as we need a summary and filter.
+                    var emailDetails = message?.Subject + " From " + message?.Sender.EmailAddress.Name;
+                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(ShowEmailResponses.ReadOutMessage, "Dialogs/Shared/Resources/Cards/EmailDetailCard.json", emailCard, null, new StringDictionary() { { "EmailDetails", emailDetails } });
                     await sc.Context.SendActivityAsync(replyMessage);
 
-                    return await sc.PromptAsync(Action.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(ShowEmailResponses.ReadOutMorePrompt) });
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(ShowEmailResponses.ReadOutMorePrompt) });
                 }
                 else
                 {
@@ -216,7 +215,7 @@ namespace EmailSkill
         {
             try
             {
-                var state = await _emailStateAccessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var luisResult = state.LuisResult;
 
                 var topIntent = luisResult?.TopIntent().intent;
@@ -225,9 +224,14 @@ namespace EmailSkill
                     return await sc.EndDialogAsync(true);
                 }
 
+                if (topIntent == Email.Intent.Delete)
+                {
+                    return await sc.BeginDialogAsync(nameof(DeleteEmailDialog));
+                }
+
                 if (topIntent == Email.Intent.ReadAloud || topIntent == Email.Intent.SelectItem)
                 {
-                    return await sc.BeginDialogAsync(Action.Read);
+                    return await sc.BeginDialogAsync(Actions.Read);
                 }
                 else
                 {

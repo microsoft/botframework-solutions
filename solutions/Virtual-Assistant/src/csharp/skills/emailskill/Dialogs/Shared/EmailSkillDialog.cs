@@ -1,4 +1,11 @@
-﻿using EmailSkill.Dialogs.ConfirmRecipient.Resources;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using EmailSkill.Dialogs.ConfirmRecipient.Resources;
 using EmailSkill.Dialogs.SendEmail.Resources;
 using EmailSkill.Dialogs.Shared.Resources;
 using EmailSkill.Dialogs.ShowEmail.Resources;
@@ -9,18 +16,12 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Graph;
 using Microsoft.Recognizers.Text;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace EmailSkill
 {
@@ -30,12 +31,11 @@ namespace EmailSkill
         public const string SkillModeAuth = "SkillAuth";
         public const string LocalModeAuth = "LocalAuth";
 
-        // Fields
-        protected ISkillConfiguration _services;
-        protected IStatePropertyAccessor<EmailSkillState> _emailStateAccessor;
-        protected IStatePropertyAccessor<DialogState> _dialogStateAccessor;
-        protected IMailSkillServiceManager _serviceManager;
-        protected EmailSkillResponseBuilder _responseBuilder = new EmailSkillResponseBuilder();
+        protected EmailSkillDialog(string dialogId)
+            : base(dialogId)
+        {
+
+        }
 
         public EmailSkillDialog(
             string dialogId,
@@ -45,42 +45,49 @@ namespace EmailSkill
             IMailSkillServiceManager serviceManager)
             : base(dialogId)
         {
-            _services = services;
-            _emailStateAccessor = emailStateAccessor;
-            _dialogStateAccessor = dialogStateAccessor;
-            _serviceManager = serviceManager;
+            Services = services;
+            EmailStateAccessor = emailStateAccessor;
+            DialogStateAccessor = dialogStateAccessor;
+            ServiceManager = serviceManager;
 
-            var oauthSettings = new OAuthPromptSettings()
+            if (!Services.AuthenticationConnections.Any())
             {
-                ConnectionName = _services.AuthConnectionName ?? throw new Exception("The authentication connection has not been initialized."),
-                Text = $"Authentication",
-                Title = "Signin",
-                Timeout = 300000, // User has 5 minutes to login
-            };
+                throw new Exception("You must configure an authentication connection in your bot file before using this component.");
+            }
 
             AddDialog(new EventPrompt(SkillModeAuth, "tokens/response", TokenResponseValidator));
-            AddDialog(new OAuthPrompt(LocalModeAuth, oauthSettings, AuthPromptValidator));
-            AddDialog(new TextPrompt(Action.Prompt));
-            AddDialog(new ConfirmPrompt(Action.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
-            AddDialog(new ChoicePrompt(Action.Choice, ChoiceValidator, Culture.English) { Style = ListStyle.None });
+            AddDialog(new MultiProviderAuthDialog(services));
+            AddDialog(new TextPrompt(Actions.Prompt));
+            AddDialog(new ConfirmPrompt(Actions.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
+            AddDialog(new ChoicePrompt(Actions.Choice, ChoiceValidator, Culture.English) { Style = ListStyle.None });
         }
+
+        protected ISkillConfiguration Services { get; set; }
+
+        protected IStatePropertyAccessor<EmailSkillState> EmailStateAccessor { get; set; }
+
+        protected IStatePropertyAccessor<DialogState> DialogStateAccessor { get; set; }
+
+        protected IMailSkillServiceManager ServiceManager { get; set; }
+
+        protected EmailSkillResponseBuilder ResponseBuilder { get; set; } = new EmailSkillResponseBuilder();
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await _emailStateAccessor.GetAsync(dc.Context);
+            var state = await EmailStateAccessor.GetAsync(dc.Context);
             await DigestEmailLuisResult(dc, state.LuisResult);
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }
 
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await _emailStateAccessor.GetAsync(dc.Context);
+            var state = await EmailStateAccessor.GetAsync(dc.Context);
             await DigestEmailLuisResult(dc, state.LuisResult);
             return await base.OnContinueDialogAsync(dc, cancellationToken);
         }
 
         // Shared steps
-        public async Task<DialogTurnResult> GetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> GetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -107,60 +114,60 @@ namespace EmailSkill
                 }
                 else
                 {
-                    return await sc.PromptAsync(LocalModeAuth, new PromptOptions() { RetryPrompt = sc.Context.Activity.CreateReply(EmailSharedResponses.NoAuth, _responseBuilder), });
+                    return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = sc.Context.Activity.CreateReply(EmailSharedResponses.NoAuth, ResponseBuilder), });
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw await HandleDialogExceptions(sc, ex);
             }
         }
 
-        public async Task<DialogTurnResult> AfterGetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> AfterGetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
                 // When the user authenticates interactively we pass on the tokens/Response event which surfaces as a JObject
                 // When the token is cached we get a TokenResponse object.
                 var skillOptions = (EmailSkillDialogOptions)sc.Options;
-                TokenResponse tokenResponse;
+                ProviderTokenResponse providerTokenResponse;
                 if (skillOptions != null && skillOptions.SkillMode)
                 {
                     var resultType = sc.Context.Activity.Value.GetType();
-                    if (resultType == typeof(TokenResponse))
+                    if (resultType == typeof(ProviderTokenResponse))
                     {
-                        tokenResponse = sc.Context.Activity.Value as TokenResponse;
+                        providerTokenResponse = sc.Context.Activity.Value as ProviderTokenResponse;
                     }
                     else
                     {
                         var tokenResponseObject = sc.Context.Activity.Value as JObject;
-                        tokenResponse = tokenResponseObject?.ToObject<TokenResponse>();
+                        providerTokenResponse = tokenResponseObject?.ToObject<ProviderTokenResponse>();
                     }
                 }
                 else
                 {
-                    tokenResponse = sc.Result as TokenResponse;
+                    providerTokenResponse = sc.Result as ProviderTokenResponse;
                 }
 
-                if (tokenResponse != null)
+                if (providerTokenResponse != null)
                 {
-                    var state = await _emailStateAccessor.GetAsync(sc.Context);
-                    state.MsGraphToken = tokenResponse.Token;
+                    var state = await EmailStateAccessor.GetAsync(sc.Context);
+                    state.MsGraphToken = providerTokenResponse.TokenResponse.Token;
                 }
 
                 return await sc.NextAsync();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw await HandleDialogExceptions(sc, ex);
             }
         }
 
-        public async Task<DialogTurnResult> UpdateMessage(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> UpdateMessage(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                return await sc.BeginDialogAsync(Action.Show);
+                return await sc.BeginDialogAsync(Actions.Show);
             }
             catch (Exception ex)
             {
@@ -168,13 +175,13 @@ namespace EmailSkill
             }
         }
 
-        public async Task<DialogTurnResult> PromptUpdateMessage(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> PromptUpdateMessage(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
                 return await sc.PromptAsync(
-                Action.Prompt,
-                new PromptOptions() { Prompt = sc.Context.Activity.CreateReply(EmailSharedResponses.NoFocusMessage, _responseBuilder), });
+                Actions.Prompt,
+                new PromptOptions() { Prompt = sc.Context.Activity.CreateReply(EmailSharedResponses.NoFocusMessage, ResponseBuilder), });
             }
             catch (Exception ex)
             {
@@ -182,11 +189,11 @@ namespace EmailSkill
             }
         }
 
-        public async Task<DialogTurnResult> AfterUpdateMessage(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> AfterUpdateMessage(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                var state = await _emailStateAccessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var luisResult = state.LuisResult;
 
                 var focusedMessage = state.Message.FirstOrDefault();
@@ -194,7 +201,7 @@ namespace EmailSkill
                 // todo: should set updatename reason in stepContext.Result
                 if (focusedMessage == null)
                 {
-                    return await sc.BeginDialogAsync(Action.UpdateSelectMessage);
+                    return await sc.BeginDialogAsync(Actions.UpdateSelectMessage);
                 }
                 else
                 {
@@ -207,14 +214,14 @@ namespace EmailSkill
             }
         }
 
-        public async Task<DialogTurnResult> CollectSelectedEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> CollectSelectedEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                var state = await _emailStateAccessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
                 if (state.Message.Count == 0)
                 {
-                    return await sc.BeginDialogAsync(Action.UpdateSelectMessage);
+                    return await sc.BeginDialogAsync(Actions.UpdateSelectMessage);
                 }
                 else
                 {
@@ -227,11 +234,11 @@ namespace EmailSkill
             }
         }
 
-        public async Task<DialogTurnResult> ConfirmBeforeSending(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> ConfirmBeforeSending(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                var state = await _emailStateAccessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
                 if (sc.Result != null)
                 {
                     if (string.IsNullOrEmpty(state.Content))
@@ -246,18 +253,18 @@ namespace EmailSkill
                 // this means reply confirm
                 if (state.Recipients.FirstOrDefault() == null)
                 {
-                    await GetPreviewSubject(sc, Action.Reply);
-                    nameListString = await GetPreviewNameListString(sc, Action.Reply);
+                    await GetPreviewSubject(sc, Actions.Reply);
+                    nameListString = await GetPreviewNameListString(sc, Actions.Reply);
                 }
                 else if (state.Subject == null)
                 {
                     // this mean forward confirm
-                    await GetPreviewSubject(sc, Action.Forward);
-                    nameListString = await GetPreviewNameListString(sc, Action.Forward);
+                    await GetPreviewSubject(sc, Actions.Forward);
+                    nameListString = await GetPreviewNameListString(sc, Actions.Forward);
                 }
                 else
                 {
-                    nameListString = await GetPreviewNameListString(sc, Action.Send);
+                    nameListString = await GetPreviewNameListString(sc, Actions.Send);
                 }
 
                 var emailCard = new EmailCardData
@@ -266,9 +273,9 @@ namespace EmailSkill
                     NameList = nameListString,
                     EmailContent = "Content: " + state.Content,
                 };
-                var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(EmailSharedResponses.ConfirmSend, "Dialogs/Shared/Resources/Cards/EmailWithOutButtonCard.json", emailCard, _responseBuilder);
+                var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(EmailSharedResponses.ConfirmSend, "Dialogs/Shared/Resources/Cards/EmailWithOutButtonCard.json", emailCard, ResponseBuilder);
 
-                return await sc.PromptAsync(Action.TakeFurtherAction, new PromptOptions { Prompt = replyMessage, RetryPrompt = sc.Context.Activity.CreateReply(EmailSharedResponses.ConfirmSendFailed, _responseBuilder), });
+                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = replyMessage, RetryPrompt = sc.Context.Activity.CreateReply(EmailSharedResponses.ConfirmSendFailed, ResponseBuilder), });
             }
             catch (Exception ex)
             {
@@ -276,15 +283,15 @@ namespace EmailSkill
             }
         }
 
-        public async Task<DialogTurnResult> CollectAdditionalText(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> CollectAdditionalText(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                var state = await _emailStateAccessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
 
                 if (string.IsNullOrEmpty(state.Content))
                 {
-                    var noEmailContentMessage = sc.Context.Activity.CreateReply(EmailSharedResponses.NoEmailContent, _responseBuilder);
+                    var noEmailContentMessage = sc.Context.Activity.CreateReply(EmailSharedResponses.NoEmailContent, ResponseBuilder);
                     if (sc.ActiveDialog.Id == nameof(ForwardEmailDialog))
                     {
                         var recipientConfirmedMessage =
@@ -294,7 +301,7 @@ namespace EmailSkill
                     }
 
                     return await sc.PromptAsync(
-                        Action.Prompt,
+                        Actions.Prompt,
                         new PromptOptions { Prompt = noEmailContentMessage, });
                 }
                 else
@@ -308,14 +315,14 @@ namespace EmailSkill
             }
         }
 
-        public async Task<DialogTurnResult> CollectNameList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> CollectNameList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                var state = await _emailStateAccessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
                 if (state.NameList.Count == 0)
                 {
-                    return await sc.PromptAsync(Action.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(EmailSharedResponses.NoRecipients, _responseBuilder), });
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(EmailSharedResponses.NoRecipients, ResponseBuilder), });
                 }
                 else
                 {
@@ -328,11 +335,11 @@ namespace EmailSkill
             }
         }
 
-        public async Task<DialogTurnResult> CollectRecipients(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> CollectRecipients(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                var state = await _emailStateAccessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
 
                 // ensure state.nameList is not null or empty
                 if (state.NameList.Count == 0)
@@ -358,11 +365,11 @@ namespace EmailSkill
             }
         }
 
-        public async Task<DialogTurnResult> ShowEmails(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> ShowEmails(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                var state = await _emailStateAccessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
 
                 var messages = await GetMessagesAsync(sc);
                 if (messages.Count > 0)
@@ -372,7 +379,7 @@ namespace EmailSkill
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.EmailNotFound, _responseBuilder));
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.EmailNotFound, ResponseBuilder));
                 }
 
                 return await sc.EndDialogAsync(true);
@@ -384,7 +391,7 @@ namespace EmailSkill
         }
 
         // Validators
-        private Task<bool> TokenResponseValidator(PromptValidatorContext<Activity> pc, CancellationToken cancellationToken)
+        protected Task<bool> TokenResponseValidator(PromptValidatorContext<Activity> pc, CancellationToken cancellationToken)
         {
             var activity = pc.Recognized.Value;
             if (activity != null && activity.Type == ActivityTypes.Event)
@@ -397,10 +404,10 @@ namespace EmailSkill
             }
         }
 
-        private Task<bool> AuthPromptValidator(PromptValidatorContext<TokenResponse> pc, CancellationToken cancellationToken)
+        protected Task<bool> AuthPromptValidator(PromptValidatorContext<TokenResponse> promptContext, CancellationToken cancellationToken)
         {
-            var activity = pc.Recognized.Value;
-            if (activity != null)
+            var token = promptContext.Recognized.Value;
+            if (token != null)
             {
                 return Task.FromResult(true);
             }
@@ -410,9 +417,9 @@ namespace EmailSkill
             }
         }
 
-        public async Task<bool> ChoiceValidator(PromptValidatorContext<FoundChoice> pc, CancellationToken cancellationToken)
+        protected async Task<bool> ChoiceValidator(PromptValidatorContext<FoundChoice> pc, CancellationToken cancellationToken)
         {
-            var state = await _emailStateAccessor.GetAsync(pc.Context);
+            var state = await EmailStateAccessor.GetAsync(pc.Context);
             var luisResult = state.LuisResult;
             var topIntent = luisResult?.TopIntent().intent;
             var generlLuisResult = state.GeneralLuisResult;
@@ -453,9 +460,9 @@ namespace EmailSkill
         }
 
         // Helpers
-        public async Task<string> GetNameListStringAsync(WaterfallStepContext sc)
+        protected async Task<string> GetNameListStringAsync(WaterfallStepContext sc)
         {
-            var state = await _emailStateAccessor.GetAsync(sc?.Context);
+            var state = await EmailStateAccessor.GetAsync(sc?.Context);
             var recipients = state.Recipients;
 
             if (recipients.Count == 0)
@@ -550,9 +557,9 @@ namespace EmailSkill
             return (formattedPersonList, formattedUserList);
         }
 
-        public async Task<PromptOptions> GenerateOptions(List<Person> personList, List<Person> userList, DialogContext sc)
+        protected async Task<PromptOptions> GenerateOptions(List<Person> personList, List<Person> userList, DialogContext sc)
         {
-            var state = await _emailStateAccessor.GetAsync(sc.Context);
+            var state = await EmailStateAccessor.GetAsync(sc.Context);
             var pageIndex = state.ShowRecipientIndex;
             var pageSize = 5;
             var skip = pageSize * pageIndex;
@@ -644,7 +651,7 @@ namespace EmailSkill
             return options;
         }
 
-        public string GetSelectPromptString(PromptOptions selectOption, bool containNumbers)
+        protected string GetSelectPromptString(PromptOptions selectOption, bool containNumbers)
         {
             var result = string.Empty;
             result += selectOption.Prompt.Text + "\r\n";
@@ -663,18 +670,18 @@ namespace EmailSkill
             return result;
         }
 
-        public async Task<string> GetPreviewNameListString(WaterfallStepContext sc, string actionType)
+        protected async Task<string> GetPreviewNameListString(WaterfallStepContext sc, string actionType)
         {
-            var state = await _emailStateAccessor.GetAsync(sc.Context);
+            var state = await EmailStateAccessor.GetAsync(sc.Context);
             var nameListString = "To: ";
 
             switch (actionType)
             {
-                case Action.Send:
+                case Actions.Send:
                     nameListString += string.Join(";", state.Recipients.Select(r => r.EmailAddress.Name));
                     return nameListString;
-                case Action.Reply:
-                case Action.Forward:
+                case Actions.Reply:
+                case Actions.Forward:
                 default:
                     nameListString += state.Recipients.FirstOrDefault()?.EmailAddress.Name;
                     if (state.Recipients.Count > 1)
@@ -686,24 +693,24 @@ namespace EmailSkill
             }
         }
 
-        private async Task<bool> GetPreviewSubject(WaterfallStepContext sc, string actionType)
+        protected async Task<bool> GetPreviewSubject(WaterfallStepContext sc, string actionType)
         {
             try
             {
-                var state = await _emailStateAccessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
 
                 var focusedMessage = state.Message.FirstOrDefault();
 
                 switch (actionType)
                 {
-                    case Action.Reply:
+                    case Actions.Reply:
                         state.Subject = focusedMessage.Subject.ToLower().StartsWith("re:") ? focusedMessage.Subject : "RE: " + focusedMessage?.Subject;
                         state.Recipients = focusedMessage.ToRecipients.ToList();
                         break;
-                    case Action.Forward:
+                    case Actions.Forward:
                         state.Subject = focusedMessage.Subject.ToLower().StartsWith("fw:") ? focusedMessage.Subject : "FW: " + focusedMessage?.Subject;
                         break;
-                    case Action.Send:
+                    case Actions.Send:
                     default:
                         break;
                 }
@@ -717,15 +724,15 @@ namespace EmailSkill
             }
         }
 
-        public async Task<List<Message>> GetMessagesAsync(WaterfallStepContext sc)
+        protected async Task<List<Message>> GetMessagesAsync(WaterfallStepContext sc)
         {
             var result = new List<Message>();
             try
             {
                 const int pageSize = 5;
-                var state = await _emailStateAccessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var token = state.MsGraphToken;
-                var serivce = _serviceManager.InitMailService(token, state.GetUserTimeZone());
+                var serivce = ServiceManager.InitMailService(token, state.GetUserTimeZone());
 
                 var isUnreadOnly = state.IsUnreadOnly;
                 var isImportant = state.IsImportant;
@@ -757,9 +764,9 @@ namespace EmailSkill
             return result;
         }
 
-        public async Task ShowMailList(WaterfallStepContext sc, List<Message> messages)
+        protected async Task ShowMailList(WaterfallStepContext sc, List<Message> messages)
         {
-            var state = await _emailStateAccessor.GetAsync(sc.Context);
+            var state = await EmailStateAccessor.GetAsync(sc.Context);
             var cardsData = new List<EmailCardData>();
             foreach (var message in messages)
             {
@@ -794,18 +801,18 @@ namespace EmailSkill
                 searchType += " important";
             }
 
-            var reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, _responseBuilder, new StringDictionary { { "SearchType", searchType } });
+            var reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, new StringDictionary { { "SearchType", searchType } });
             await sc.Context.SendActivityAsync(reply);
         }
 
-        public async Task<List<Person>> GetPeopleWorkWithAsync(WaterfallStepContext sc, string name)
+        protected async Task<List<Person>> GetPeopleWorkWithAsync(WaterfallStepContext sc, string name)
         {
             var result = new List<Person>();
             try
             {
-                var state = await _emailStateAccessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var token = state.MsGraphToken;
-                var service = _serviceManager.InitUserService(token, state.GetUserTimeZone());
+                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone());
 
                 // Get users.
                 result = await service.GetPeopleAsync(name);
@@ -818,14 +825,14 @@ namespace EmailSkill
             return result;
         }
 
-        public async Task<List<Person>> GetUserAsync(WaterfallStepContext sc, string name)
+        protected async Task<List<Person>> GetUserAsync(WaterfallStepContext sc, string name)
         {
             var result = new List<Person>();
             try
             {
-                var state = await _emailStateAccessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var token = state.MsGraphToken;
-                var service = _serviceManager.InitUserService(token, state.GetUserTimeZone());
+                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone());
 
                 // Get users.
                 var userList = await service.GetUserAsync(name);
@@ -842,14 +849,14 @@ namespace EmailSkill
             return result;
         }
 
-        public async Task<List<Person>> GetContactsAsync(WaterfallStepContext sc, string name)
+        protected async Task<List<Person>> GetContactsAsync(WaterfallStepContext sc, string name)
         {
             var result = new List<Person>();
             try
             {
-                var state = await _emailStateAccessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var token = state.MsGraphToken;
-                var service = _serviceManager.InitUserService(token, state.GetUserTimeZone());
+                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone());
 
                 // Get users.
                 var contactsList = await service.GetContactsAsync(name);
@@ -870,7 +877,7 @@ namespace EmailSkill
         {
             try
             {
-                var state = await _emailStateAccessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
                 state.NameList.Clear();
                 state.Message.Clear();
                 state.Content = null;
@@ -894,12 +901,12 @@ namespace EmailSkill
             }
         }
 
-        public async Task ClearAllState(WaterfallStepContext sc)
+        protected async Task ClearAllState(WaterfallStepContext sc)
         {
             try
             {
-                await _dialogStateAccessor.DeleteAsync(sc.Context);
-                await _emailStateAccessor.SetAsync(sc.Context, new EmailSkillState());
+                await DialogStateAccessor.DeleteAsync(sc.Context);
+                await EmailStateAccessor.SetAsync(sc.Context, new EmailSkillState());
             }
             catch (Exception)
             {
@@ -908,11 +915,11 @@ namespace EmailSkill
             }
         }
 
-        public async Task DigestEmailLuisResult(DialogContext dc, Email luisResult)
+        protected async Task DigestEmailLuisResult(DialogContext dc, Email luisResult)
         {
             try
             {
-                var state = await _emailStateAccessor.GetAsync(dc.Context);
+                var state = await EmailStateAccessor.GetAsync(dc.Context);
 
                 if (dc.Context.Activity.Text != null)
                 {
@@ -1007,12 +1014,12 @@ namespace EmailSkill
                     }
                 }
 
-                if (entity.number != null && entity.ordinal != null)
+                if (entity.number != null && entity.ordinal == null)
                 {
                     try
                     {
                         var emailList = state.MessageList;
-                        var value = entity.ordinal[0];
+                        var value = entity.number[0];
                         if (Math.Abs(value - (int)value) < double.Epsilon)
                         {
                             var num = (int)value;
@@ -1036,7 +1043,7 @@ namespace EmailSkill
         }
 
         // This method is called by any waterfall step that throws an exception to ensure consistency
-        public async Task<Exception> HandleDialogExceptions(WaterfallStepContext sc, Exception ex)
+        protected async Task<Exception> HandleDialogExceptions(WaterfallStepContext sc, Exception ex)
         {
             await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.EmailErrorMessage));
             await ClearAllState(sc);

@@ -12,6 +12,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
@@ -175,7 +176,6 @@ namespace CalendarSkill
                             }
                         }
 
-                        state.EventSource = EventSource.Microsoft;
                         break;
                     }
 
@@ -192,6 +192,7 @@ namespace CalendarSkill
 
                             await dc.Context.SendActivityAsync(response);
                         }
+
                         break;
                     }
             }
@@ -221,29 +222,26 @@ namespace CalendarSkill
                     state.GeneralLuisResult = luisResult;
                     var topIntent = luisResult.TopIntent().intent;
 
-                    if (luisResult.TopIntent().score > 0.5)
+                    // check intent
+                    switch (topIntent)
                     {
-                        // check intent
-                        switch (topIntent)
-                        {
-                            case General.Intent.Cancel:
-                                {
-                                    result = await OnCancel(dc);
-                                    break;
-                                }
+                        case General.Intent.Cancel:
+                            {
+                                result = await OnCancel(dc);
+                                break;
+                            }
 
-                            case General.Intent.Help:
-                                {
-                                    // result = await OnHelp(dc);
-                                    break;
-                                }
+                        case General.Intent.Help:
+                            {
+                                // result = await OnHelp(dc);
+                                break;
+                            }
 
-                            case General.Intent.Logout:
-                                {
-                                    result = await OnLogout(dc);
-                                    break;
-                                }
-                        }
+                        case General.Intent.Logout:
+                            {
+                                result = await OnLogout(dc);
+                                break;
+                            }
                     }
                 }
             }
@@ -279,7 +277,12 @@ namespace CalendarSkill
             await dc.CancelAllDialogsAsync();
 
             // Sign out user
-            await adapter.SignOutUserAsync(dc.Context, _services.AuthConnectionName);
+            var tokens = await adapter.GetTokenStatusAsync(dc.Context, dc.Context.Activity.From.Id);
+            foreach (var token in tokens)
+            {
+                await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
+            }
+
             await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(CalendarMainResponses.LogOut));
 
             return InterruptionAction.StartedDialog;
@@ -292,7 +295,7 @@ namespace CalendarSkill
             AddDialog(new NextMeetingDialog(_services, _stateAccessor, _serviceManager));
             AddDialog(new SummaryDialog(_services, _stateAccessor, _serviceManager));
             AddDialog(new UpdateEventDialog(_services, _stateAccessor, _serviceManager));
-            AddDialog(new CancelDialog());
+            AddDialog(new CancelDialog(_stateAccessor));
         }
 
         private class Events

@@ -689,11 +689,11 @@
     "replies": [
       {
         "text": "Details des Termins:",
-        "speak": "Details des Termins:"
+        "speak": "Details des Termins: {MeetingDetails}"
       },
       {
         "text": "Thema des Termins:",
-        "speak": "Thema des Termins:"
+        "speak": "Thema des Termins: {MeetingDetails}"
       }
     ],
     "inputHint": "expectingInput"
