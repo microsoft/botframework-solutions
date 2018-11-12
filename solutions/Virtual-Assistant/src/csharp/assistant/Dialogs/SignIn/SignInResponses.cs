@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using VirtualAssistant.Dialogs.SignIn.Resources;
 using Microsoft.Bot.Builder.TemplateManager;
+using VirtualAssistant.Dialogs.SignIn.Resources;
 
 namespace VirtualAssistant
 {

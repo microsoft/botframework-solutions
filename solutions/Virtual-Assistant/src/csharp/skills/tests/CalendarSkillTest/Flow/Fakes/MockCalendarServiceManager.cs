@@ -6,12 +6,12 @@ namespace CalendarSkillTest.Flow.Fakes
 {
     public class MockCalendarServiceManager : IServiceManager
     {
-        public ICalendar InitCalendarService(string token, EventSource source, TimeZoneInfo info)
+        public ICalendar InitCalendarService(string token, EventSource source)
         {
             return new MockCalendarService();
         }
 
-        public ICalendar InitCalendarService(ICalendar calendarAPI, EventSource source, TimeZoneInfo info)
+        public ICalendar InitCalendarService(ICalendar calendarAPI, EventSource source)
         {
             throw new NotImplementedException();
         }

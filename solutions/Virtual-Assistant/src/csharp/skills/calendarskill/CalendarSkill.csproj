@@ -22,21 +22,21 @@
     <PackageReference Include="Google.Apis.Calendar.v3" Version="1.35.2.1354" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.5" />
-    <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="0.12.1-preview" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.NewsSearch" Version="1.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.0.7" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.0.7" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.0.7" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.0.7" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.0.7" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.0.7" />
-    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.0.7" />
-    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.0.7" />
-    <PackageReference Include="Microsoft.Bot.Connector" Version="4.0.7" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.0.7" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.1.5" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.1.5" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.1.5" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.1.5" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.1.5" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.1.5" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.1.5" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.1.5" />
+    <PackageReference Include="Microsoft.Bot.Connector" Version="4.1.5" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.1.5" />
     <PackageReference Include="Microsoft.Graph" Version="1.10.0" />
     <PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Recognizers.Text.DateTime" Version="1.1.2" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
   </ItemGroup>
 
@@ -108,37 +108,30 @@
     <None Update="Dialogs\CreateEvent\Resources\CreateEventResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CreateEventResponses.cs</LastGenOutput>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Dialogs\DeleteEvent\Resources\DeleteEventResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DeleteEventResponses.cs</LastGenOutput>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Dialogs\Main\Resources\CalendarMainResponses.tt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <LastGenOutput>CalendarMainResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
     <None Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>NextMeetingResponses.cs</LastGenOutput>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Dialogs\Shared\Resources\CalendarSharedResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CalendarSharedResponses.cs</LastGenOutput>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Dialogs\Summary\Resources\SummaryResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SummaryResponses.cs</LastGenOutput>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>UpdateEventResponses.cs</LastGenOutput>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

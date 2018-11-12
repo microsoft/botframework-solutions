@@ -31,14 +31,10 @@ namespace CalendarSkillTest.Flow
                 .StartTestAsync();
         }
 
-        private string[] ActionEndMessage()
-        {
-            return this.ParseReplies(CalendarSharedResponses.CancellingMessage.Replies, new StringDictionary());
-        }
 
         private string[] AskForDeletePrompt()
         {
-            return this.ParseReplies(DeleteEventResponses.NoUpdateStartTime.Replies, new StringDictionary());
+            return this.ParseReplies(DeleteEventResponses.NoDeleteStartTime.Replies, new StringDictionary());
         }
 
         private string[] DeleteEventPrompt()

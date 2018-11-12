@@ -4,6 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CalendarSkill.ServiceClients.GoogleAPI;
+using Microsoft.Bot.Solutions.Skills;
 
 namespace CalendarSkill
 {
@@ -16,24 +18,24 @@ namespace CalendarSkill
         /// </summary>
         /// <param name="token">the access token.</param>
         /// <param name="source">the calendar provider.</param>
-        /// <param name="timeZoneInfo">the user timezone info.</param>
-        public CalendarService(string token, EventSource source, TimeZoneInfo timeZoneInfo)
+        /// <param name="config">the config for the Google application.</param>
+        public CalendarService(string token, EventSource source, GoogleClient config)
         {
             switch (source)
             {
                 case EventSource.Microsoft:
-                    calendarAPI = new MSGraphCalendarAPI(token, timeZoneInfo);
+                    calendarAPI = new MSGraphCalendarAPI(token);
                     break;
                 case EventSource.Google:
                     // Todo: Google API timezone?
-                    calendarAPI = new GoogleCalendarAPI(token);
+                    calendarAPI = new GoogleCalendarAPI(config, token);
                     break;
                 default:
                     throw new Exception("Event Type not Defined");
             }
         }
 
-        public CalendarService(ICalendar calendarAPI, EventSource source, TimeZoneInfo timeZoneInfo)
+        public CalendarService(ICalendar calendarAPI, EventSource source)
         {
             switch (source)
             {
@@ -64,12 +66,27 @@ namespace CalendarSkill
         /// <inheritdoc/>
         public async Task<List<EventModel>> GetEventsByTime(DateTime startTime, DateTime endTime)
         {
+            if (startTime.Kind != DateTimeKind.Utc)
+            {
+                throw new Exception("Get Event By Time -  Start Time is not UTC");
+            }
+
+            if (endTime.Kind != DateTimeKind.Utc)
+            {
+                throw new Exception("Get Event By Time -  End Time is not UTC");
+            }
+
             return await calendarAPI.GetEventsByTime(startTime, endTime);
         }
 
         /// <inheritdoc/>
         public async Task<List<EventModel>> GetEventsByStartTime(DateTime startTime)
         {
+            if (startTime.Kind != DateTimeKind.Utc)
+            {
+                throw new Exception("Get Event By Start Time -  Start Time is not UTC");
+            }
+
             return await calendarAPI.GetEventsByStartTime(startTime);
         }
 

@@ -47,8 +47,8 @@ namespace CalendarSkillTest.API.Fakes
 
         public async Task<EventModel> UpdateEventById(EventModel updateEvent)
         {
-            updateEvent.StartTime = DateTime.SpecifyKind(updateEvent.StartTime, DateTimeKind.Unspecified);
-            updateEvent.EndTime = DateTime.SpecifyKind(updateEvent.EndTime, DateTimeKind.Unspecified);
+            updateEvent.StartTime = DateTime.SpecifyKind(updateEvent.StartTime, DateTimeKind.Utc);
+            updateEvent.EndTime = DateTime.SpecifyKind(updateEvent.EndTime, DateTimeKind.Utc);
             return updateEvent;
         }
 
@@ -56,9 +56,10 @@ namespace CalendarSkillTest.API.Fakes
         {
             List<EventModel> result = new List<EventModel>();
 
-            var startTime = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Local);
+            var startTime = DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc);
             EventModel item = new EventModel(EventSource.Microsoft)
             {
+                Id = "test",
                 Title = "test title",
                 Content = "test content",
                 Attendees = new List<EventModel.Attendee>

@@ -20,8 +20,8 @@
   "ShowPreviousToDoTasks": {
     "replies": [
       {
-        "text": "Showing your To Do list:",
-        "speak": "Showing your To Do list:"
+        "text": "Showing your list:",
+        "speak": "Showing your list:"
       }
     ],
     "inputHint": "expectingInput"
@@ -29,8 +29,8 @@
   "ShowingMoreTasks": {
     "replies": [
       {
-        "text": "You have more tasks on the list, if you want to know the rest please ask me for \"next\" or \"more\" tasks.",
-        "speak": "You have more tasks on the list, if you want to know the rest please ask me for \"next\" or \"more\" tasks."
+        "text": "You have more items on the list, if you want to know the rest please ask me for \"next\" or \"more\" items.",
+        "speak": "You have more items on the list, if you want to know the rest please ask me for \"next\" or \"more\" items."
       }
     ],
     "inputHint": "acceptingInput"
@@ -38,12 +38,12 @@
   "NoToDoTasksPrompt": {
     "replies": [
       {
-        "text": "Your To Do list is empty. Do you want to add something?",
-        "speak": "Your To Do list is empty. Do you want to add something?"
+        "text": "Your list is empty. Do you want to add something?",
+        "speak": "Your list is empty. Do you want to add something?"
       },
       {
-        "text": "Your To Do list has no tasks. Want to add a new one?",
-        "speak": "Your To Do list has no tasks. Want to add a new one?"
+        "text": "Your list has no tasks. Want to add a new one?",
+        "speak": "Your list has no tasks. Want to add a new one?"
       }
     ],
     "inputHint": "expectingInput"

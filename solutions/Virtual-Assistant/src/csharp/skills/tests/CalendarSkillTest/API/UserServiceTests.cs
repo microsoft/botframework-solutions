@@ -5,6 +5,7 @@ using CalendarSkill;
 using CalendarSkillTest.API.Fakes;
 using Microsoft.Graph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Bot.Solutions.Skills;
 
 namespace CalendarSkillTest.API
 {
@@ -46,7 +47,7 @@ namespace CalendarSkillTest.API
             mockGraphServiceClient.SetMockBehavior();
 
             IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
-            IServiceManager serviceManager = new ServiceManager();
+            IServiceManager serviceManager = new ServiceManager(new SkillConfiguration());
             IUserService userService = serviceManager.InitUserService(serviceClient, TimeZoneInfo.Local);
 
             var result = await userService.GetUserAsync("test");
@@ -92,7 +93,7 @@ namespace CalendarSkillTest.API
             mockGraphServiceClient.SetMockBehavior();
 
             IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
-            IServiceManager serviceManager = new ServiceManager();
+            IServiceManager serviceManager = new ServiceManager(new SkillConfiguration());
             IUserService userService = serviceManager.InitUserService(serviceClient, TimeZoneInfo.Local);
 
             var result = await userService.GetPeopleAsync("test");

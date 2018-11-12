@@ -12,8 +12,8 @@ namespace CalendarSkill
 
         IUserService InitUserService(IGraphServiceClient graphClient, TimeZoneInfo info);
 
-        ICalendar InitCalendarService(string token, EventSource source, TimeZoneInfo info);
+        ICalendar InitCalendarService(string token, EventSource source);
 
-        ICalendar InitCalendarService(ICalendar calendarAPI, EventSource source, TimeZoneInfo info);
+        ICalendar InitCalendarService(ICalendar calendarAPI, EventSource source);
     }
 }

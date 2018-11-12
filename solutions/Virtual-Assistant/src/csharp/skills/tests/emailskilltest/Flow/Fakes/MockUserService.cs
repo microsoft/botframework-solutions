@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using EmailSkill;
 using Microsoft.Graph;
@@ -18,14 +17,34 @@ namespace EmailSkillTest.Flow.Fakes
 
         public List<User> Users { get; set; }
 
-        public async Task<List<Person>> GetPeopleAsync(string name)
+        public Task<List<Person>> GetPeopleAsync(string name)
         {
-            return this.People;
+            var result = new List<Person>();
+
+            foreach (var person in this.People)
+            {
+                if (person.DisplayName == name)
+                {
+                    result.Add(person);
+                }
+            }
+
+            return Task.FromResult(result);
         }
 
-        public async Task<List<User>> GetUserAsync(string name)
+        public Task<List<User>> GetUserAsync(string name)
         {
-            return this.Users;
+            var result = new List<User>();
+
+            foreach (var user in this.Users)
+            {
+                if (user.DisplayName == name)
+                {
+                    result.Add(user);
+                }
+            }
+
+            return Task.FromResult(result);
         }
 
         private List<Person> FakePeople()
@@ -62,29 +81,40 @@ namespace EmailSkillTest.Flow.Fakes
                 DisplayName = "Test Test",
             });
 
+            users.Add(new User()
+            {
+                UserPrincipalName = "testdup1@test.com",
+                Mail = emailAddressStr,
+                DisplayName = "TestDup Test",
+            });
+
+            users.Add(new User()
+            {
+                UserPrincipalName = "testdup2@test.com",
+                Mail = emailAddressStr,
+                DisplayName = "TestDup Test",
+            });
+
             return users;
         }
 
-        //protected override async Task<IGraphServiceUsersCollectionPage> GetUserFromGraphAsync(List<QueryOption> optionList)
-        //{
-        //    IGraphServiceUsersCollectionPage result = new GraphServiceUsersCollectionPage();
+        // protected override async Task<IGraphServiceUsersCollectionPage> GetUserFromGraphAsync(List<QueryOption> optionList)
+        // {
+        //     IGraphServiceUsersCollectionPage result = new GraphServiceUsersCollectionPage();
+        //     var emailAddress = "test@test.com";
+        //     result.Add(new User()
+        //     {
+        //         UserPrincipalName = "test@test.com",
+        //         Mail = emailAddress,
+        //         DisplayName = "Test Test",
+        //     });
+        //     await Task.CompletedTask;
+        //     return result;
+        // }
 
-        //    var emailAddress = "test@test.com";
-        //    result.Add(new User()
-        //    {
-        //        UserPrincipalName = "test@test.com",
-        //        Mail = emailAddress,
-        //        DisplayName = "Test Test",
-        //    });
-
-        //    await Task.CompletedTask;
-        //    return result;
-        //}
-
-        //protected override async Task<IUserPeopleCollectionPage> GetPeopleFromGraphAsync(List<QueryOption> optionList)
-        //{
+        // protected override async Task<IUserPeopleCollectionPage> GetPeopleFromGraphAsync(List<QueryOption> optionList)
+        // {
         //    IUserPeopleCollectionPage result = new UserPeopleCollectionPage();
-
         //    var addressList = new List<ScoredEmailAddress>();
         //    var emailAddress = new ScoredEmailAddress()
         //    {
@@ -98,9 +128,8 @@ namespace EmailSkillTest.Flow.Fakes
         //        ScoredEmailAddresses = addressList,
         //        DisplayName = "Test Test",
         //    });
-
         //    await Task.CompletedTask;
         //    return result;
-        //}
+        // }
     }
 }

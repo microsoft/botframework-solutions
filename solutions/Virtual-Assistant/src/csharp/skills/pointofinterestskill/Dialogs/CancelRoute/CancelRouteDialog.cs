@@ -1,10 +1,10 @@
-﻿using Microsoft.Bot.Builder;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using PointOfInterestSkill.Dialogs.CancelRoute.Resources;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace PointOfInterestSkill
 {
@@ -32,17 +32,17 @@ namespace PointOfInterestSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context);
+                var state = await Accessor.GetAsync(sc.Context);
                 if (state.ActiveRoute != null)
                 {
-                    var replyMessage = sc.Context.Activity.CreateReply(CancelRouteResponses.CancelActiveRoute, _responseBuilder);
+                    var replyMessage = sc.Context.Activity.CreateReply(CancelRouteResponses.CancelActiveRoute, ResponseBuilder);
                     await sc.Context.SendActivityAsync(replyMessage);
                     state.ActiveRoute = null;
                     state.ActiveLocation = null;
                 }
                 else
                 {
-                    var replyMessage = sc.Context.Activity.CreateReply(CancelRouteResponses.CannotCancelActiveRoute, _responseBuilder);
+                    var replyMessage = sc.Context.Activity.CreateReply(CancelRouteResponses.CannotCancelActiveRoute, ResponseBuilder);
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
 

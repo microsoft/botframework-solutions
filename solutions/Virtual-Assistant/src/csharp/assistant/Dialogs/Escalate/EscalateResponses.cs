@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using VirtualAssistant.Dialogs.Escalate.Resources;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.TemplateManager;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Builder;
+using VirtualAssistant.Dialogs.Escalate.Resources;
 
 namespace VirtualAssistant
 {

@@ -1,6 +1,6 @@
 ﻿namespace EmailSkill
 {
-    public class Action
+    public class Actions
     {
         public const string Send = "send";
 

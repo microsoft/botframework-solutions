@@ -16,14 +16,14 @@ namespace CalendarSkillTest.Flow.Fakes
         {
             this.LuisServices.Add("general", new MockLuisRecognizer());
             this.LuisServices.Add("calendar", new MockLuisRecognizer());
-
-            this.AuthConnectionName = "test";
+            this.AuthenticationConnections = new Dictionary<string, string>();
+            this.AuthenticationConnections.Add("Microsoft", "Microsoft");
 
             this.TelemetryClient = null;
             this.CosmosDbOptions = null;
         }
 
-        public override string AuthConnectionName { get; set; }
+        public override Dictionary<string, string> AuthenticationConnections { get; set; }
 
         public override TelemetryClient TelemetryClient { get; set; }
 

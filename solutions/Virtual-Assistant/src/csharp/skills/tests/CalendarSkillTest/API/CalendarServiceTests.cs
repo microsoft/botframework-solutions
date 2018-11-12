@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CalendarSkill;
 using CalendarSkillTest.API.Fakes;
 using CalendarSkillTest.API.Fakes;
+using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Graph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -11,7 +12,7 @@ using Moq;
 namespace CalendarSkillTest.API
 {
     [TestClass]
-    public class MailServiceTests
+    public class CalendarServiceTests
     {
         [ClassInitialize]
         public static void ClassInit(TestContext context)
@@ -24,8 +25,8 @@ namespace CalendarSkillTest.API
             EventModel newEvent = new EventModel(EventSource.Microsoft);
 
             ICalendar mockCalendarService = new FakeCalendarService("test token");
-            IServiceManager serviceManager = new ServiceManager();
-            ICalendar calendarService = serviceManager.InitCalendarService(mockCalendarService, EventSource.Microsoft, TimeZoneInfo.Local);
+            IServiceManager serviceManager = new ServiceManager(new SkillConfiguration());
+            ICalendar calendarService = serviceManager.InitCalendarService(mockCalendarService, EventSource.Microsoft);
 
             await calendarService.CreateEvent(newEvent);
         }
@@ -34,8 +35,8 @@ namespace CalendarSkillTest.API
         public async Task GetUpComingEventsTest()
         {
             ICalendar mockCalendarService = new FakeCalendarService("test token");
-            IServiceManager serviceManager = new ServiceManager();
-            ICalendar calendarService = serviceManager.InitCalendarService(mockCalendarService, EventSource.Microsoft, TimeZoneInfo.Local);
+            IServiceManager serviceManager = new ServiceManager(new SkillConfiguration());
+            ICalendar calendarService = serviceManager.InitCalendarService(mockCalendarService, EventSource.Microsoft);
 
             await calendarService.GetUpcomingEvents();
         }
@@ -44,28 +45,28 @@ namespace CalendarSkillTest.API
         public async Task GetEventsByTimeTest()
         {
             ICalendar mockCalendarService = new FakeCalendarService("test token");
-            IServiceManager serviceManager = new ServiceManager();
-            ICalendar calendarService = serviceManager.InitCalendarService(mockCalendarService, EventSource.Microsoft, TimeZoneInfo.Local);
+            IServiceManager serviceManager = new ServiceManager(new SkillConfiguration());
+            ICalendar calendarService = serviceManager.InitCalendarService(mockCalendarService, EventSource.Microsoft);
 
-            await calendarService.GetEventsByTime(new DateTime(), new DateTime());
+            await calendarService.GetEventsByTime(DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc), DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc));
         }
 
         [TestMethod]
         public async Task GetEventsByStartTimeTest()
         {
             ICalendar mockCalendarService = new FakeCalendarService("test token");
-            IServiceManager serviceManager = new ServiceManager();
-            ICalendar calendarService = serviceManager.InitCalendarService(mockCalendarService, EventSource.Microsoft, TimeZoneInfo.Local);
+            IServiceManager serviceManager = new ServiceManager(new SkillConfiguration());
+            ICalendar calendarService = serviceManager.InitCalendarService(mockCalendarService, EventSource.Microsoft);
 
-            await calendarService.GetEventsByStartTime(new DateTime());
+            await calendarService.GetEventsByStartTime(DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc));
         }
 
         [TestMethod]
         public async Task GetEventsByTitle()
         {
             ICalendar mockCalendarService = new FakeCalendarService("test token");
-            IServiceManager serviceManager = new ServiceManager();
-            ICalendar calendarService = serviceManager.InitCalendarService(mockCalendarService, EventSource.Microsoft, TimeZoneInfo.Local);
+            IServiceManager serviceManager = new ServiceManager(new SkillConfiguration());
+            ICalendar calendarService = serviceManager.InitCalendarService(mockCalendarService, EventSource.Microsoft);
 
             await calendarService.GetEventsByTitle("test");
         }
@@ -74,8 +75,8 @@ namespace CalendarSkillTest.API
         public async Task DeleteEventsById()
         {
             ICalendar mockCalendarService = new FakeCalendarService("test token");
-            IServiceManager serviceManager = new ServiceManager();
-            ICalendar calendarService = serviceManager.InitCalendarService(mockCalendarService, EventSource.Microsoft, TimeZoneInfo.Local);
+            IServiceManager serviceManager = new ServiceManager(new SkillConfiguration());
+            ICalendar calendarService = serviceManager.InitCalendarService(mockCalendarService, EventSource.Microsoft);
 
             await calendarService.DeleteEventById("test id");
         }
@@ -84,12 +85,14 @@ namespace CalendarSkillTest.API
         public async Task UpdateEventsById()
         {
             ICalendar mockCalendarService = new FakeCalendarService("test token");
-            IServiceManager serviceManager = new ServiceManager();
-            ICalendar calendarService = serviceManager.InitCalendarService(mockCalendarService, EventSource.Microsoft, TimeZoneInfo.Local);
+            IServiceManager serviceManager = new ServiceManager(new SkillConfiguration());
+            ICalendar calendarService = serviceManager.InitCalendarService(mockCalendarService, EventSource.Microsoft);
 
             EventModel eventModel = new EventModel(EventSource.Microsoft);
-            eventModel.StartTime = new DateTime();
-            eventModel.EndTime = new DateTime();
+            eventModel.Id = "test";
+            eventModel.TimeZone = TimeZoneInfo.Utc;
+            eventModel.StartTime = DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc);
+            eventModel.EndTime = DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc);
 
             await calendarService.UpdateEventById(eventModel);
         }

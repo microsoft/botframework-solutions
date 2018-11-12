@@ -43,8 +43,8 @@ namespace CalendarSkillTest.Flow.Fakes
 
         public async Task<EventModel> UpdateEventById(EventModel updateEvent)
         {
-            updateEvent.StartTime = new DateTime(2018, 11, 9, 9, 0, 0);
-            updateEvent.EndTime = new DateTime(2018, 11, 9, 10, 0, 0);
+            updateEvent.StartTime = DateTime.SpecifyKind(new DateTime(2018, 11, 9, 9, 0, 0), DateTimeKind.Utc);
+            updateEvent.EndTime = DateTime.SpecifyKind(new DateTime(2018, 11, 9, 10, 0, 0), DateTimeKind.Utc);
             return updateEvent;
         }
 

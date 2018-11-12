@@ -1,6 +1,6 @@
-﻿using Microsoft.Graph;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Microsoft.Graph;
 
 namespace CalendarSkill
 {
@@ -19,13 +19,19 @@ namespace CalendarSkill
             StartTime = null;
             StartTimeString = null;
             StartDateTime = null;
+            EndDate = null;
+            EndTime = null;
             EndDateTime = null;
+            OriginalStartDate = null;
+            OriginalStartTime = null;
+            OriginalEndDate = null;
+            OriginalEndTime = null;
             Location = null;
             Attendees = new List<EventModel.Attendee>();
             APIToken = null;
             Events = new List<EventModel>();
             NewStartDateTime = null;
-            EventSource = EventSource.Microsoft;
+            EventSource = EventSource.Other;
             AttendeesNameList = new List<string>();
             ConfirmAttendeesNameIndex = 0;
             DialogName = string.Empty;
@@ -48,12 +54,34 @@ namespace CalendarSkill
 
         public string Content { get; set; }
 
+        // user time zone
         public DateTime? StartDate { get; set; }
 
+        // user time zone
         public DateTime? StartTime { get; set; }
 
+        // UTC
         public DateTime? StartDateTime { get; set; }
 
+        // user time zone
+        public DateTime? EndDate { get; set; }
+
+        // user time zone
+        public DateTime? EndTime { get; set; }
+
+        // user time zone
+        public DateTime? OriginalStartDate { get; set; }
+
+        // user time zone
+        public DateTime? OriginalStartTime { get; set; }
+
+        // user time zone
+        public DateTime? OriginalEndDate { get; set; }
+
+        // user time zone
+        public DateTime? OriginalEndTime { get; set; }
+
+        // UTC
         public DateTime? EndDateTime { get; set; }
 
         public string Location { get; set; }
@@ -64,7 +92,8 @@ namespace CalendarSkill
 
         public List<EventModel> Events { get; set; }
 
-        public object NewStartDateTime { get; set; }
+        // UTC
+        public DateTime? NewStartDateTime { get; set; }
 
         public EventSource EventSource { get; set; }
 
@@ -108,13 +137,19 @@ namespace CalendarSkill
             StartTime = null;
             StartTimeString = null;
             StartDateTime = null;
+            EndDate = null;
+            EndTime = null;
             EndDateTime = null;
+            OriginalStartDate = null;
+            OriginalStartTime = null;
+            OriginalEndDate = null;
+            OriginalEndTime = null;
             Location = null;
             Attendees = new List<EventModel.Attendee>();
             APIToken = null;
             Events = new List<EventModel>();
             NewStartDateTime = null;
-            EventSource = EventSource.Microsoft;
+            EventSource = EventSource.Other;
             AttendeesNameList = new List<string>();
             ConfirmAttendeesNameIndex = 0;
             DialogName = string.Empty;
