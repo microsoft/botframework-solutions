@@ -335,9 +335,6 @@ ASALocalRun/
 **/appsettings.production.json
 **/appsettings.development.json
 
-# LaunchSettings
-**/launchSettings.json
-
 # LUIS json files
 *.luis
 

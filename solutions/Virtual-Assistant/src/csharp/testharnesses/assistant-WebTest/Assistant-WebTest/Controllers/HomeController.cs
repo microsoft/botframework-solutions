@@ -51,7 +51,7 @@ namespace Assistant_WebTest.Controllers
             {
                 var responseString = response.Content.ReadAsStringAsync().Result;
                 var directLineResponse = JsonConvert.DeserializeObject<DirectLineResponse>(responseString);
-                directLineToken = directLineResponse.token;
+                directLineToken = directLineResponse.Token;
 
                 // Update as appropriate for your scenario to the unique identifier claim
                 return View(new WebChatViewModel()
@@ -78,7 +78,7 @@ namespace Assistant_WebTest.Controllers
             {
                 var responseString = response.Content.ReadAsStringAsync().Result;
                 var directLineResponse = JsonConvert.DeserializeObject<DirectLineResponse>(responseString);
-                directLineToken = directLineResponse.token;
+                directLineToken = directLineResponse.Token;
 
                 // Retrieve the object identifier for the user which will be the userID (fromID) passed to the Bot
                 var userId = this.GetUserId();
