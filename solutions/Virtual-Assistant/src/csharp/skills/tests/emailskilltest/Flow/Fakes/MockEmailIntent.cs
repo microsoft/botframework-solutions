@@ -52,7 +52,7 @@ namespace EmailSkillTest.Flow.Fakes
                 this.Entities.ordinal = new double[] { 1 };
                 return (Email.Intent.SelectItem, 0.90);
             }
-            else if (userInput == "TestName")
+            else if (userInput == "Test Test")
             {
                 this.Entities.ContactName = new string[] { "Test Test" };
                 return (Email.Intent.None, 0.90);
@@ -112,12 +112,12 @@ namespace EmailSkillTest.Flow.Fakes
             {
                 return (Email.Intent.SendEmail, 0.90);
             }
-            else if (userInput == "TestName")
+            else if (userInput == "Test Test")
             {
                 this.Entities.ContactName = new string[] { "Test Test" };
                 return (Email.Intent.None, 0.90);
             }
-            else if (userInput == "TestDupName")
+            else if (userInput == "TestDup Test")
             {
                 this.Entities.ContactName = new string[] { "TestDup Test" };
                 return (Email.Intent.None, 0.90);
@@ -140,6 +140,26 @@ namespace EmailSkillTest.Flow.Fakes
             else if (userInput == "1")
             {
                 this.Entities.number = new double[] { 1 };
+                return (Email.Intent.SelectItem, 0.90);
+            }
+            else if (userInput == "Send email to test@test.com")
+            {
+                this.Entities.EmailAddress = new string[] { "test@test.com" };
+                return (Email.Intent.SendEmail, 0.90);
+            }
+            else if (userInput == "Send email to test1@test.com and test2@test.com")
+            {
+                this.Entities.EmailAddress = new string[] { "test1@test.com", "test2@test.com" };
+                return (Email.Intent.SendEmail, 0.90);
+            }
+            else if (userInput == "Send email to Nobody")
+            {
+                this.Entities.ContactName = new string[] { "Nobody" };
+                return (Email.Intent.SendEmail, 0.90);
+            }
+            else if (userInput == "test@test.com")
+            {
+                this.Entities.EmailAddress = new string[] { "test@test.com"};
                 return (Email.Intent.SelectItem, 0.90);
             }
 
