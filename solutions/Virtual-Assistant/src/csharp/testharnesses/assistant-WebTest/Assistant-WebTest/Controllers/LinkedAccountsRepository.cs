@@ -4,6 +4,7 @@
 namespace Assistant_WebTest.Controllers
 {
     using System;
+    using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
     using System.Threading.Tasks;
@@ -74,7 +75,7 @@ namespace Assistant_WebTest.Controllers
                 link = await adapter.GetOauthSignInLinkAsync(context, connectionName, userId, finalRedirect);
 
                 // Add on code_challenge (SessionId) into the redirect
-                SessionController.Sessions.TryGetValue(userId, out string sessionId);
+                var sessionId = SessionController.Sessions.Single().Value;
 
                 if (!string.IsNullOrEmpty(sessionId))
                 {
