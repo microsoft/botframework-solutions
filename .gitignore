@@ -334,6 +334,10 @@ ASALocalRun/
 # AppSettings
 **/appsettings.production.json
 **/appsettings.development.json
+**/appsettings.Development.json
+
+# LaunchSettings
+**/launchSettings.json
 
 # LaunchSettings
 **/launchSettings.json
