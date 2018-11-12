@@ -24,7 +24,7 @@ namespace Microsoft.Bot.Solutions.Authentication
         {
             _skillConfiguration = skillConfiguration;
 
-            if (!_skillConfiguration.AuthenticationConnections.Any())
+            if (_skillConfiguration.IsAuthenticatedSkill && !_skillConfiguration.AuthenticationConnections.Any())
             {
                 throw new Exception("You must configure an authentication connection in your bot file before using this component.");
             }

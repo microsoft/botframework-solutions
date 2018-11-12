@@ -50,12 +50,10 @@ namespace EmailSkill
         Task<List<Message>> GetMyMessagesAsync(DateTime startDateTime, DateTime endDateTime, bool isRead, bool isImportant, bool directlyToMe, string mailAddress, int skip);
 
         /// <summary>
-        /// Forward email.
+        /// Delete email.
         /// </summary>
-        /// <param name="id">The message id which need to be forward.</param>
-        /// <param name="content">The additional text when forward.</param>
-        /// <param name="recipients">The recipients.</param>
-        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        /// <param name="id">Id of email to delete.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         Task DeleteMessageAsync(string id);
     }
 }

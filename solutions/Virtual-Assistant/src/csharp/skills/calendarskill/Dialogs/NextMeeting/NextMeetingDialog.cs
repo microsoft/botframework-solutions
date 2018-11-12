@@ -1,13 +1,13 @@
-﻿using CalendarSkill.Common;
+﻿using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Threading;
+using System.Threading.Tasks;
+using CalendarSkill.Common;
 using CalendarSkill.Dialogs.NextMeeting.Resources;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace CalendarSkill
 {
@@ -37,13 +37,13 @@ namespace CalendarSkill
         {
             try
             {
-                var state = await _accessor.GetAsync(sc.Context);
+                var state = await Accessor.GetAsync(sc.Context);
                 if (string.IsNullOrEmpty(state.APIToken))
                 {
                     return await sc.EndDialogAsync(true);
                 }
 
-                var calendarService = _serviceManager.InitCalendarService(state.APIToken, state.EventSource);
+                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
 
                 var eventList = await calendarService.GetUpcomingEvents();
                 var nextEventList = new List<EventModel>();
@@ -79,12 +79,12 @@ namespace CalendarSkill
 
                         if (string.IsNullOrEmpty(nextEventList[0].Location))
                         {
-                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(NextMeetingResponses.ShowNextMeetingNoLocationMessage, _responseBuilder, speakParams));
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(NextMeetingResponses.ShowNextMeetingNoLocationMessage, ResponseBuilder, speakParams));
                         }
                         else
                         {
                             speakParams.Add("Location", nextEventList[0].Location);
-                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(NextMeetingResponses.ShowNextMeetingMessage, _responseBuilder, speakParams));
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(NextMeetingResponses.ShowNextMeetingMessage, ResponseBuilder, speakParams));
                         }
                     }
                     else
