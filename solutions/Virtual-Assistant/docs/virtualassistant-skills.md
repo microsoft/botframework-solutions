@@ -15,7 +15,7 @@ This enables delivery of Skills for common scenarios such as Productivity (Calen
 The following Skills are available at this time, these represent initial priority scenarios and work is ongoing:
 - [Productivity - Calendar](./virtualassistant-skills-productivity-calendar.md)
 - [Productivity - Email](./virtualassistant-skills-productivity-email.md)
-- [Productivity - Tasks](./virtualassistant-skills-productivity-tasks.md)
+- [Productivity - ToDo](./virtualassistant-skills-productivity-todo.md)
 - [Points of Interest](./virtualassistant-skills-pointofinterest.md)
 - Automotive - Coming Soon 
 
