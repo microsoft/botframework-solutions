@@ -467,7 +467,7 @@ namespace EmailSkill
 
             if (recipients.Count == 0)
             {
-                throw new Exception("Invalid user number!");
+                throw new Exception("No recipient!");
             }
             else if (recipients.Count == 1)
             {
@@ -865,9 +865,9 @@ namespace EmailSkill
                     result.Add(contact.ToPerson());
                 }
             }
-            catch (ServiceException)
+            catch (Exception ex)
             {
-                // won't clear conversation state hear, because sometime use api is not available, like user msa account.
+                throw await HandleDialogExceptions(sc, ex);
             }
 
             return result;

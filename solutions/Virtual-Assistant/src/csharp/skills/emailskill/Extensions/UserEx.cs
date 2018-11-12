@@ -16,6 +16,11 @@ namespace EmailSkill.Extensions
         /// <returns>Person Instance.</returns>
         public static Person ToPerson(this User user)
         {
+            if (user == null)
+            {
+                return null;
+            }
+
             var person = new Person
             {
                 DisplayName = user.DisplayName,
@@ -38,6 +43,11 @@ namespace EmailSkill.Extensions
 
         public static Person ToPerson(this Contact contact)
         {
+            if (contact == null)
+            {
+                return null;
+            }
+
             var person = new Person
             {
                 DisplayName = contact.DisplayName,
