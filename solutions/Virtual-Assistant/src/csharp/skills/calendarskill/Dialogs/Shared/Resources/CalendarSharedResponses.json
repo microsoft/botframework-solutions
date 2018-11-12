@@ -43,18 +43,6 @@
   "CancellingMessage": {
     "replies": [
       {
-        "text": "Sure, we can do this later.",
-        "speak": "Sure, we can do this later."
-      },
-      {
-        "text": "Sure, we can start this later.",
-        "speak": "Sure, we can start this later."
-      },
-      {
-        "text": "No problem, you can try again at another time.",
-        "speak": "No problem, you can try again at another time."
-      },
-      {
         "text": "Alright, let me know when you need my help.",
         "speak": "Alright, let me know when you need my help."
       },
@@ -118,7 +106,7 @@
         "speak": "I'm here if you need me."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "CalendarErrorMessage": {
     "replies": [

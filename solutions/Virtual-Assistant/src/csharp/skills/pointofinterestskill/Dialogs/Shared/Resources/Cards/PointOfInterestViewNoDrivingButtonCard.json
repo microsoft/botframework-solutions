@@ -3,6 +3,7 @@
   "version": "1.0",
   "type": "AdaptiveCard",
   "speak": "{LocationName} is located at {SpeakAddress}",
+  "id": "PointOfInterestViewNoDrivingButtonCard",
   "body": [
     {
       "type": "Image",
