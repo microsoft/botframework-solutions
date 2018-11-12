@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Graph;
 using System;
+using Microsoft.Graph;
 
 namespace EmailSkill
 {

@@ -1,6 +1,11 @@
-﻿using EmailSkill.Dialogs.ConfirmRecipient.Resources;
-using EmailSkill.Dialogs.Shared.Resources;
-using EmailSkill.Extensions;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using EmailSkill.Dialogs.ConfirmRecipient.Resources;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -8,13 +13,6 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Graph;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace EmailSkill
 {
@@ -40,25 +38,25 @@ namespace EmailSkill
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Action.ConfirmRecipient, confirmRecipient));
-            AddDialog(new WaterfallDialog(Action.UpdateRecipientName, updateRecipientName));
-            InitialDialogId = Action.ConfirmRecipient;
+            AddDialog(new WaterfallDialog(Actions.ConfirmRecipient, confirmRecipient));
+            AddDialog(new WaterfallDialog(Actions.UpdateRecipientName, updateRecipientName));
+            InitialDialogId = Actions.ConfirmRecipient;
         }
 
-       public async Task<DialogTurnResult> UpdateUserName(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> UpdateUserName(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                var state = await _emailStateAccessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var currentRecipientName = state.NameList[state.ConfirmRecipientIndex];
 
                 // todo: should make a reason enum
                 if (((UpdateUserDialogOptions)sc.Options).Reason == UpdateUserDialogOptions.UpdateReason.TooMany)
                 {
-                    return await sc.PromptAsync(Action.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(ConfirmRecipientResponses.PromptTooManyPeople, null, new StringDictionary() { { "UserName", currentRecipientName } }), });
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(ConfirmRecipientResponses.PromptTooManyPeople, null, new StringDictionary() { { "UserName", currentRecipientName } }), });
                 }
 
-                return await sc.PromptAsync(Action.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(ConfirmRecipientResponses.PromptPersonNotFound, null, new StringDictionary() { { "UserName", currentRecipientName } }), });
+                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(ConfirmRecipientResponses.PromptPersonNotFound, null, new StringDictionary() { { "UserName", currentRecipientName } }), });
             }
             catch (Exception ex)
             {
@@ -76,7 +74,7 @@ namespace EmailSkill
                     return await sc.EndDialogAsync();
                 }
 
-                var state = await _emailStateAccessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
                 state.NameList[state.ConfirmRecipientIndex] = userInput;
 
                 // should not return with value, next step use the return value for confirmation.
@@ -92,7 +90,7 @@ namespace EmailSkill
         {
             try
             {
-                var state = await _emailStateAccessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
 
                 if (state.NameList.Count == 0)
                 {
@@ -118,13 +116,13 @@ namespace EmailSkill
                 // todo: should set updatename reason in stepContext.Result
                 if (personList.Count > 10)
                 {
-                    return await sc.BeginDialogAsync(Action.UpdateRecipientName, new UpdateUserDialogOptions(UpdateUserDialogOptions.UpdateReason.TooMany));
+                    return await sc.BeginDialogAsync(Actions.UpdateRecipientName, new UpdateUserDialogOptions(UpdateUserDialogOptions.UpdateReason.TooMany));
                 }
 
                 // if cannot find related user's name and cannot take user input as email address, send not found
                 if ((personList.Count < 1) && (userList.Count < 1) && (state.EmailList.Count < 1))
                 {
-                    return await sc.BeginDialogAsync(Action.UpdateRecipientName, new UpdateUserDialogOptions(UpdateUserDialogOptions.UpdateReason.NotFound));
+                    return await sc.BeginDialogAsync(Actions.UpdateRecipientName, new UpdateUserDialogOptions(UpdateUserDialogOptions.UpdateReason.NotFound));
                 }
 
                 if (personList.Count == 1)
@@ -162,7 +160,7 @@ namespace EmailSkill
                 if (sc.Options is UpdateUserDialogOptions updateUserDialogOptions)
                 {
                     state.ShowRecipientIndex = 0;
-                    return await sc.BeginDialogAsync(Action.UpdateRecipientName, updateUserDialogOptions);
+                    return await sc.BeginDialogAsync(Actions.UpdateRecipientName, updateUserDialogOptions);
                 }
 
                 // TODO: should be simplify
@@ -172,14 +170,14 @@ namespace EmailSkill
                 if (selectOption.Choices.Count == 0)
                 {
                     state.ShowRecipientIndex = 0;
-                    return await sc.BeginDialogAsync(Action.UpdateRecipientName, new UpdateUserDialogOptions(UpdateUserDialogOptions.UpdateReason.TooMany));
+                    return await sc.BeginDialogAsync(Actions.UpdateRecipientName, new UpdateUserDialogOptions(UpdateUserDialogOptions.UpdateReason.TooMany));
                 }
 
                 // Update prompt string to include the choices because the list style is none;
                 // TODO: should be removed if use adaptive card show choices.
                 var choiceString = GetSelectPromptString(selectOption, true);
                 selectOption.Prompt.Text = choiceString;
-                return await sc.PromptAsync(Action.Choice, selectOption);
+                return await sc.PromptAsync(Actions.Choice, selectOption);
             }
             catch (Exception ex)
             {
@@ -191,7 +189,7 @@ namespace EmailSkill
         {
             try
             {
-                var state = await _emailStateAccessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
 
                 if (state.NameList.Count > 0)
                 {
@@ -199,7 +197,7 @@ namespace EmailSkill
                     if (sc.Result == null)
                     {
                         state.ShowRecipientIndex = 0;
-                        return await sc.BeginDialogAsync(Action.ConfirmRecipient);
+                        return await sc.BeginDialogAsync(Actions.ConfirmRecipient);
                     }
 
                     var choiceResult = (sc.Result as FoundChoice)?.Value.Trim('*');
@@ -208,13 +206,13 @@ namespace EmailSkill
                         if (choiceResult == General.Intent.Next.ToString())
                         {
                             state.ShowRecipientIndex++;
-                            return await sc.BeginDialogAsync(Action.ConfirmRecipient);
+                            return await sc.BeginDialogAsync(Actions.ConfirmRecipient);
                         }
 
                         if (choiceResult == UpdateUserDialogOptions.UpdateReason.TooMany.ToString())
                         {
                             state.ShowRecipientIndex++;
-                            return await sc.BeginDialogAsync(Action.ConfirmRecipient, new UpdateUserDialogOptions(UpdateUserDialogOptions.UpdateReason.TooMany));
+                            return await sc.BeginDialogAsync(Actions.ConfirmRecipient, new UpdateUserDialogOptions(UpdateUserDialogOptions.UpdateReason.TooMany));
                         }
 
                         if (choiceResult == General.Intent.Previous.ToString())
@@ -224,7 +222,7 @@ namespace EmailSkill
                                 state.ShowRecipientIndex--;
                             }
 
-                            return await sc.BeginDialogAsync(Action.ConfirmRecipient);
+                            return await sc.BeginDialogAsync(Actions.ConfirmRecipient);
                         }
 
                         var recipient = new Recipient();
@@ -244,7 +242,7 @@ namespace EmailSkill
 
                     if (state.ConfirmRecipientIndex < state.NameList.Count)
                     {
-                        return await sc.BeginDialogAsync(Action.ConfirmRecipient);
+                        return await sc.BeginDialogAsync(Actions.ConfirmRecipient);
                     }
                 }
 

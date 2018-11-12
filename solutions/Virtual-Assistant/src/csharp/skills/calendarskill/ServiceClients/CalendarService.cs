@@ -1,11 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
-using CalendarSkill.ServiceClients.GoogleAPI;
-using Microsoft.Bot.Solutions.Skills;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CalendarSkill.ServiceClients.GoogleAPI;
+using Microsoft.Bot.Solutions.Skills;
 
 namespace CalendarSkill
 {
@@ -18,7 +18,7 @@ namespace CalendarSkill
         /// </summary>
         /// <param name="token">the access token.</param>
         /// <param name="source">the calendar provider.</param>
-        /// <param name="timeZoneInfo">the user timezone info.</param>
+        /// <param name="config">the config for the Google application.</param>
         public CalendarService(string token, EventSource source, GoogleClient config)
         {
             switch (source)

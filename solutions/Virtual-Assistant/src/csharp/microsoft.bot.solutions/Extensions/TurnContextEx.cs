@@ -12,10 +12,5 @@ namespace Microsoft.Bot.Solutions.Extensions
         {
             return context.TurnState.Get<RecognizerResult>(LuisRecognizerMiddleware.LuisRecognizerResultKey)?.GetTopScoringIntent();
         }
-
-        //public static IRecognizerConvert GetLuisRecognizerResult(this ITurnContext context)
-        //{
-        //    return context.TurnState.Get<IRecognizerConvert>(LuisRecognizerMiddleware.LuisRecognizerResultKey);
-        //}
     }
 }

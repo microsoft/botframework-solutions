@@ -3,11 +3,11 @@
 
 using System.Threading;
 using System.Threading.Tasks;
-using VirtualAssistant.Dialogs.SignIn.Resources;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Graph;
+using VirtualAssistant.Dialogs.SignIn.Resources;
 
 namespace VirtualAssistant
 {

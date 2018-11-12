@@ -6,11 +6,11 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using AdaptiveCards;
+using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.AdaptiveCards;
 using Microsoft.Bot.Solutions.Cards;
 using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
-using AdaptiveCards;
-using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Solutions.Dialogs
 {
