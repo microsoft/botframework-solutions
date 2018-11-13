@@ -28,10 +28,10 @@
     },
     "ShowOneMeetingSummaryMessage": {
         "replies": [
-            {
-                "text": "I found 1 event for you:",
-                "speak": "I found 1 event for you: It is {EventName1} for {EventDuration}."
-            }
+          {
+            "text": "I found only one event for you today:",
+            "speak": "I found only one event for you today: {EventName1} for {EventDuration}."
+          }
         ],
         "inputHint": "ignoringInput"
     },
@@ -87,10 +87,10 @@
     },
     "ReadOutMorePrompt": {
         "replies": [
-            {
-                "text": "Do you want to hear more? Which one do you want to hear?",
-                "speak": "Do you want to hear more? Which one do you want to hear?"
-            }
+          {
+            "text": "Do you want to hear more appointments?",
+            "speak": "Do you want to hear more appointments?"
+          }
         ],
         "inputHint": "expectingInput"
     },
