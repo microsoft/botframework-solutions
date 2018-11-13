@@ -131,6 +131,11 @@
         {
             var result = await request.Content.ReadAsStringAsync();
             var objects = JsonConvert.DeserializeObject<List<object>>(result);
+            if (objects == null || objects.Count == 0)
+            {
+                return false;
+            }
+
             var req = JObject.Parse(objects[0].ToString());
             if (req["action"].ToString() == "append")
             {

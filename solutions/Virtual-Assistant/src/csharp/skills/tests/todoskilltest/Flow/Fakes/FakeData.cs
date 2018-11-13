@@ -1,11 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+using System.Collections.Generic;
+using ToDoSkill;
 
 namespace ToDoSkillTest.Flow.Fakes
 {
-    using System.Collections.Generic;
-    using ToDoSkill;
-
     public static class FakeData
     {
         public static List<TaskItem> FakeTaskItems = new List<TaskItem>

@@ -1,30 +1,23 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+using System;
+using System.Collections.Specialized;
+using System.Threading.Tasks;
+using AdaptiveCards;
+using Microsoft.Bot.Schema;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ToDoSkill.Dialogs.DeleteToDo.Resources;
+using ToDoSkill.Dialogs.Shared.Resources;
+using ToDoSkill.Dialogs.ShowToDo.Resources;
+using ToDoSkillTest.Flow.Fakes;
 
 namespace ToDoSkillTest.Flow
 {
-    using System;
-    using System.Collections.Specialized;
-    using System.Threading.Tasks;
-    using AdaptiveCards;
-    using Microsoft.Bot.Schema;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using ToDoSkill.Dialogs.DeleteToDo.Resources;
-    using ToDoSkill.Dialogs.Shared.Resources;
-    using ToDoSkill.Dialogs.ShowToDo.Resources;
-    using ToDoSkillTest.Flow.Fakes;
-
     [TestClass]
     public class DeleteToDoFlowTests : ToDoBotTestBase
     {
-        [TestInitialize]
-        public override void Initialize()
-        {
-            base.Initialize();
-        }
-
         [TestMethod]
-        public async Task EndToEnd()
+        public async Task Test_DeleteToDoItem()
         {
             await this.GetTestFlow()
                 .Send("Show my to dos")
@@ -54,7 +47,7 @@ namespace ToDoSkillTest.Flow
                 Assert.AreEqual(toDoChoiceCount, 5);
             };
         }
-       
+
         private Action<IActivity> AfterTaskDeletedCardMessage()
         {
             return activity =>

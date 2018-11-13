@@ -1,28 +1,22 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+using System;
+using System.Collections.Specialized;
+using System.Threading.Tasks;
+using AdaptiveCards;
+using Microsoft.Bot.Schema;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ToDoSkill.Dialogs.Shared.Resources;
+using ToDoSkillTest.Flow.Fakes;
 
 namespace ToDoSkillTest.Flow
 {
-    using System;
-    using System.Collections.Specialized;
-    using System.Threading.Tasks;
-    using AdaptiveCards;
-    using Microsoft.Bot.Schema;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using ToDoSkill.Dialogs.Shared.Resources;
-    using ToDoSkillTest.Flow.Fakes;
-
     [TestClass]
     public class AddToDoFlowTests : ToDoBotTestBase
     {
-        [TestInitialize]
-        public override void Initialize()
-        {
-            base.Initialize();
-        }
 
         [TestMethod]
-        public async Task EndToEnd()
+        public async Task Test_AddToDoItem()
         {
             await this.GetTestFlow()
                 .Send("Add a task")

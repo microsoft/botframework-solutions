@@ -45,7 +45,7 @@
             await service.MarkTasksCompletedAsync("ToDo", taskList.GetRange(0, 1));
             var markedTaskList = await service.GetTasksAsync("ToDo");
 
-            Assert.IsTrue(markedTaskList.Count > 0 && markedTaskList[0].IsCompleted);
+            Assert.IsTrue(markedTaskList != null && markedTaskList.Count > 0 && markedTaskList[0].IsCompleted);
         }
 
         [TestMethod]

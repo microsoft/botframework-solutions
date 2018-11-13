@@ -4,14 +4,12 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 
-
 namespace ToDoSkillTest.Flow.Fakes
 {
     public class MockLuisRecognizer : IRecognizer
     {
         public MockLuisRecognizer()
         {
-
         }
 
         public Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, CancellationToken cancellationToken)

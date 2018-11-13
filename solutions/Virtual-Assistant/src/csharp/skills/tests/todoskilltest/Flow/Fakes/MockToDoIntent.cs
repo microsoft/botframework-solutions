@@ -62,8 +62,7 @@ namespace ToDoSkillTest.Flow.Fakes
                     return (ToDo.Intent.ShowToDo, 0.90);
                 }
             }
-          
-           
+
             return (ToDo.Intent.None, 0.0);
         }
 
