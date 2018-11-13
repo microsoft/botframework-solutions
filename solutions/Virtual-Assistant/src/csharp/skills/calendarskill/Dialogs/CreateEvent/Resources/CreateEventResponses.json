@@ -54,7 +54,7 @@
         "speak": "OK, I have added the event to your calendar."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "EventCreationFailed": {
     "replies": [

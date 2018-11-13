@@ -18,9 +18,9 @@ A device can take the Adaptive Card response in JSON format and render to the ta
 
 Events provides a powerful way for a device to send information from the Device (as a result of a button press, or a device start) but also to receive actions that the Virtual Assistant wishes to perform (e.g. change the navigation destination, control a device feature, etc.). See the [Events section](./virtualassistant-events.md) for more information.
 
-## DirectLine SDK
+## Direct Line SDK
 
-The DirectLine REST API is documented [here](https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-direct-line-3-0-api-reference?view=azure-bot-service-3.0) and includes links to SDKs.
+The Direct Line REST API is documented [here](https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-direct-line-3-0-api-reference?view=azure-bot-service-3.0) and includes links to SDKs.
 
 ## Adaptive Card SDK
 
