@@ -21,7 +21,7 @@ dispatch refresh --bot "YOURBOT.bot" --secret YOURSECRET
 ```
 - Generate an updated Dispatch model for your Assistant to enable evaluation of incoming messages. The Dispatch.cs folder is located in the `assistant\Dialogs\Shared` folder. Ensure you run this command within the assistant directory of your cloned repo.
 ```shell
-msbot get dispatch --bot VA-dj-us-en.bot | luis export version --stdin | luisgen - -cs Dispatch -o Dialogs\Shared
+msbot get dispatch --bot "YOURBOT.bot" | luis export version --stdin | luisgen - -cs Dispatch -o Dialogs\Shared
 ```
 - Update the `assistant\Dialogs\Main\MainDialog.cs` file to include the corresponding Dispatch intent for your skill to the Skill handler, excerpt is shown below. add Authentication providers and configuration information as required.
 ```

@@ -82,27 +82,25 @@ Initial previews of the [Email](./virtualassistant-skills-productivity-email.md)
 
 ## Documentation
 
-### Virtual Assistant
-  - [Detailed Overview](./virtualassistant-detailedoverview.md)
-  - [Create your Virtual Assistant](./virtualassistant-createvirtualassistant.md)
-  - [Testing your Virtual Assistant](./virtualassistant-testing.md)
-  - [Personalizing your Virtual Assistant](./virtualassistant-personalization.md)
-  - [Linked Accounts](./virtualassistant-linkedaccounts.md)
-  - [Integrating into a device](./virtualassistant-deviceintegration.md)
-  - [Events](./virtualassistant-events.md)
-  - [Responses](./virtualassistant-responses.md)
-  - [Language Support](./virtualassistant-languagesupport.md)
-  - [Known Issues](./virtualassistant-knownissues.md)
-
-### Skills
-  - [Overview](./virtualassistant-skills.md)
-  - [Skill Authentication](./virtualassistant-authentication.md)
-  - [Adding a Skill](./virtualassistant-addingaskill.md)
-  - [Creating a Skill](./virtualassistant-skillenablement.md)
-  - [Productivity - Calendar Skill](./virtualassistant-skills-productivity-calendar.md)
-  - [Productivity - Email Skill](./virtualassistant-skills-productivity-email.md)
-  - [Productivity - ToDo Skill](./virtualassistant-skills-productivity-todo.md)
-  - [Point of Interest Skill](./virtualassistant-skills-pointofinterest.md)
+- Virtual Assistant
+    - [Detailed Overview](./virtualassistant-detailedoverview.md)
+    - [Create your Virtual Assistant](./virtualassistant-createvirtualassistant.md)
+    - [Testing your Virtual Assistant](./virtualassistant-testing.md)
+    - [Personalizing your Virtual Assistant](./virtualassistant-personalization.md)
+    - [Linked Accounts](./virtualassistant-linkedaccounts.md)
+    - [Integrating into a device](./virtualassistant-deviceintegration.md)
+    - [Events](./virtualassistant-events.md)
+    - [Responses](./virtualassistant-responses.md)
+    - [Language Support](./virtualassistant-languagesupport.md)
+    - [Known Issues](./virtualassistant-knownissues.md)
+- Skills
+    - [Overview](./virtualassistant-skills.md)
+    - [Skill Authentication](./virtualassistant-authentication.md)
+    - [Creating a Skill](./virtualassistant-skillenablement.md)
+    - [Productivity - Calendar Skill](./virtualassistant-skills-productivity-calendar.md)
+    - [Productivity - Email Skill](./virtualassistant-skills-productivity-email.md)
+    - [Productivity - Tasks Skill](./virtualassistant-skills-productivity-tasks.md)
+    - [Point of Interest Skill](./virtualassistant-skills-pointofinterest.md)
 
 # Contributing
 
