@@ -176,8 +176,29 @@ To update an existing QnAMaker Knowledge Base, perform the following steps:
 1. Make changes to your QnAMaker Knowledge Base via the [LuDown](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown) and [QnAMaker](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker) CLI tools leveraging the existing QnA file stored within the `CognitiveModels\QnA` folder of your project or directly through the [QnAMaker Portal](https://qnamaker.ai).
 2. Run the following command to update your Dispatch model to reflect your changes (ensures proper message routing):
 ```shell
-    dispatch refresh --bot "YOURBOT.bot" --secret YOURSECRET
+    dispatch refresh --bot "YOURBOT.bot" --secret YOUR_SECRET
 ```
+
+## Adding an additional QnAMaker knowledgebase
+
+In some scenarios you may wish to add an addditional QnAMaker knowledgebase to your assistant, this can be performed through the following steps.
+
+1. Create a new QnAMaker knowledgebase from a JSON file using the following command executed in your assistant directory
+```shell
+qnamaker create kb --in <KB.json> --msbot | msbot connect qna --stdin --bot "YOURBOT.bot" --secret YOUR_SECRET
+```
+2. Run the following command to update your Dispatch model to reflect your changes
+```shell
+    dispatch refresh --bot "YOURBOT.bot" --secret YOUR_SECRET
+```
+3. Update the strongly typed Dispatch class to reflect the new QnA source
+```shell
+msbot get dispatch --bot "YOURBOT.bot" | luis export version --stdin | luisgen - -cs Dispatch -o Dialogs\Shared
+```
+4.  Update the `assistant\Dialogs\Main\MainDialog.cs` file to include the corresponding Dispatch intent for your new QnA source following the example provided.
+
+You should now be able to leverage multiple QnA sources as part of your Assistant.
+
 ## Demoing the Skills
 
 You can review a sample transcript showcasing the Productivity & Point of Interest Skills [here](transcripts/skillsdemo.transcript), 
