@@ -28,7 +28,7 @@ namespace EmailSkillTest.Flow
                 .Send("Send Email")
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(testRecipient)
-                .AssertReply(this.CollectSubjcetMessage(recipientDict))
+                .AssertReply(this.CollectSubjectMessage(recipientDict))
                 .Send("TestSubjcet")
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send("TestContent")
@@ -50,7 +50,7 @@ namespace EmailSkillTest.Flow
                 .Send(testRecipient)
                 .AssertReply(this.CollectRecipients())
                 .Send("The first one")
-                .AssertReply(this.CollectSubjcetMessage(recipientDict))
+                .AssertReply(this.CollectSubjectMessage(recipientDict))
                 .Send("TestSubjcet")
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send("TestContent")
@@ -72,7 +72,7 @@ namespace EmailSkillTest.Flow
                 .Send(testRecipient)
                 .AssertReply(this.CollectRecipients())
                 .Send("1")
-                .AssertReply(this.CollectSubjcetMessage(recipientDict))
+                .AssertReply(this.CollectSubjectMessage(recipientDict))
                 .Send("TestSubjcet")
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send("TestContent")
@@ -90,7 +90,7 @@ namespace EmailSkillTest.Flow
 
             await this.GetTestFlow()
                 .Send("Send email to " + testRecipient)
-                .AssertReply(this.CollectSubjcetMessage(recipientDict))
+                .AssertReply(this.CollectSubjectMessage(recipientDict))
                 .Send("TestSubjcet")
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send("TestContent")
@@ -112,7 +112,7 @@ namespace EmailSkillTest.Flow
                 .Send("Send email to " + testRecipient)
                 .AssertReply(this.RecipientNotFoundMessage(recipientDict))
                 .Send(testRecipientConfirm)
-                .AssertReply(this.CollectSubjcetMessage(recipientConfirmDict))
+                .AssertReply(this.CollectSubjectMessage(recipientConfirmDict))
                 .Send("TestSubjcet")
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send("TestContent")
@@ -154,7 +154,7 @@ namespace EmailSkillTest.Flow
             };
         }
 
-        private Action<IActivity> CollectSubjcetMessage(StringDictionary recipients)
+        private Action<IActivity> CollectSubjectMessage(StringDictionary recipients)
         {
             return activity =>
             {

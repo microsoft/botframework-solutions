@@ -870,7 +870,7 @@ namespace EmailSkill
                 {
                     foreach (var emailAddress in entity.EmailAddress)
                     {
-                        var email = emailAddress.Replace(" ", "");
+                        var email = emailAddress.Replace(" ", string.Empty);
                         if (IsEmail(email) && !state.EmailList.Contains(email))
                         {
                             state.EmailList.Add(email);
@@ -954,9 +954,9 @@ namespace EmailSkill
             }
         }
 
-        public static bool IsEmail(string email)
+        protected bool IsEmail(string email)
         {
-            if ((email == null) || (email == string.Empty))
+            if (string.IsNullOrWhiteSpace(email))
             {
                 return false;
             }

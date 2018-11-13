@@ -92,7 +92,7 @@ namespace EmailSkill
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
 
-                if (state.NameList.Count == 0)
+                if ((state.NameList == null) || (state.NameList.Count == 0))
                 {
                     return await sc.NextAsync();
                 }
@@ -191,7 +191,7 @@ namespace EmailSkill
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
 
-                if (state.NameList.Count > 0)
+                if ((state.NameList != null) && (state.NameList.Count > 0))
                 {
                     // result is null when just update the recipient name. show recipients page should be reset.
                     if (sc.Result == null)
