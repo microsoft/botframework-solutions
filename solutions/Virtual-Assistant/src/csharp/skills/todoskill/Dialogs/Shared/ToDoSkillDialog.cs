@@ -26,7 +26,6 @@ namespace ToDoSkill
     {
         // Constants
         public const string SkillModeAuth = "SkillAuth";
-        public const string LocalModeAuth = "LocalAuth";
 
         public ToDoSkillDialog(
             string dialogId,

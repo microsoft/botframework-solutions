@@ -26,7 +26,6 @@ namespace CalendarSkill
     {
         // Constants
         public const string SkillModeAuth = "SkillAuth";
-        public const string LocalModeAuth = "LocalAuth";
 
         public CalendarSkillDialog(
             string dialogId,
