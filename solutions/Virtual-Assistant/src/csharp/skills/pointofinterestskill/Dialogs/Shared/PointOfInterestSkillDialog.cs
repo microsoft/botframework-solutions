@@ -107,6 +107,8 @@ namespace PointOfInterestSkill
                     return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(POISharedResponses.PromptToGetRoute, ResponseBuilder) });
                 }
 
+                state.ClearLuisResults();
+
                 return await sc.EndDialogAsync(true);
             }
             catch
@@ -356,7 +358,7 @@ namespace PointOfInterestSkill
 
                     if (entities.DESCRIPTOR != null && entities.DESCRIPTOR.Length != 0)
                     {
-                        state.SearchDescriptor = string.Join(" ", entities.DESCRIPTOR);
+                        state.SearchDescriptor = entities.DESCRIPTOR[0];
                     }
 
                     if (entities.number != null && entities.number.Length != 0)
