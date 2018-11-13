@@ -115,7 +115,7 @@ namespace CalendarSkill
         /// </summary>
         /// <param name="name">name.</param>
         /// <returns>Task contains List of Contacts.</returns>
-        public async Task<List<Contact>> GetContactAsync(string name)
+        public async Task<List<Contact>> GetContactsAsync(string name)
         {
             List<Contact> items = new List<Contact>();
 
