@@ -483,7 +483,7 @@ namespace CalendarSkill
                                 var date = GetDateFromDateTimeString(entity.FromDate[0], dc.Context.Activity.Locale, state.GetUserTimeZone());
                                 if (date != null)
                                 {
-                                    state.OriginalStartDate = date;
+                                    state.StartDate = date;
                                 }
                             }
 
@@ -492,7 +492,7 @@ namespace CalendarSkill
                                 var time = GetTimeFromDateTimeString(entity.FromTime[0], dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (time != null)
                                 {
-                                    state.OriginalStartTime = time;
+                                    state.StartTime = time;
                                 }
                             }
 
