@@ -468,19 +468,21 @@ namespace CalendarSkill
                     return await sc.NextAsync(result);
                 }
 
-                var personList = await GetPeopleWorkWithAsync(sc, currentRecipientName);
+                var originPersonList = await GetPeopleWorkWithAsync(sc, currentRecipientName);
+                var originContactList = await GetContactsAsync(sc, currentRecipientName);
+                originPersonList.AddRange(originContactList);
 
-                var userList = new List<Person>();
+                var originUserList = new List<Person>();
                 try
                 {
-                    // Temp workaround: use contact replace user.
-                    // userList = await GetUserAsync(sc, currentRecipientName);
-                    userList = await GetContactAsync(sc, currentRecipientName);
+                    originUserList = await GetUserAsync(sc, currentRecipientName);
                 }
                 catch
                 {
                     // do nothing when get user failed. because can not use token to ensure user use a work account.
                 }
+
+                (var personList, var userList) = FormatRecipientList(originPersonList, originUserList);
 
                 // todo: should set updatename reason in sc.Result
                 if (personList.Count > 10)
@@ -862,10 +864,10 @@ namespace CalendarSkill
             }
         }
 
-        public async Task<List<Person>> GetUserAsync(DialogContext dc, string name)
+        public async Task<List<Person>> GetUserAsync(WaterfallStepContext sc, string name)
         {
             var result = new List<Person>();
-            var state = await Accessor.GetAsync(dc.Context);
+            var state = await Accessor.GetAsync(sc.Context);
             try
             {
                 var token = state.APIToken;
@@ -880,40 +882,13 @@ namespace CalendarSkill
             }
             catch (ServiceException)
             {
-                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(CreateEventResponses.FindUserErrorMessage, ResponseBuilder, new StringDictionary() { { "UserName", name } }));
-                state.Clear();
-                await dc.EndDialogAsync(true);
+                // won't clear conversation state hear, because sometime use api is not available, like user msa account.
             }
 
             return result;
         }
 
-        public async Task<List<Person>> GetPeopleWorkWithAsync(DialogContext dc, string name)
-        {
-            var result = new List<Person>();
-            try
-            {
-                var state = await Accessor.GetAsync(dc.Context);
-                var token = state.APIToken;
-                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone());
-
-                // Get users.
-                result = await service.GetPeopleAsync(name);
-            }
-            catch (ServiceException)
-            {
-                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(CreateEventResponses.FindUserErrorMessage, ResponseBuilder, new StringDictionary() { { "UserName", name } }));
-
-                var state = await Accessor.GetAsync(dc.Context);
-                state.Clear();
-                await Accessor.SetAsync(dc.Context, state);
-                await dc.EndDialogAsync(true); // todo: should be sc.EndAll();
-            }
-
-            return result;
-        }
-
-        public async Task<List<Person>> GetContactAsync(WaterfallStepContext sc, string name)
+        protected async Task<List<Person>> GetPeopleWorkWithAsync(WaterfallStepContext sc, string name)
         {
             var result = new List<Person>();
             try
@@ -923,21 +898,43 @@ namespace CalendarSkill
                 var service = ServiceManager.InitUserService(token, state.GetUserTimeZone());
 
                 // Get users.
-                var contactList = await service.GetContactAsync(name);
-                foreach (var contact in contactList)
-                {
-                    result.Add(contact.ToPerson());
-                }
+                result = await service.GetPeopleAsync(name);
             }
-            catch (ServiceException)
+            catch (Exception ex)
             {
-                // won't clear conversation state hear, because sometime use api is not available, like user msa account.
+                await HandleDialogExceptions(sc);
+                throw ex;
             }
 
             return result;
         }
 
-        public async Task<PromptOptions> GenerateOptions(List<Person> personList, List<Person> userList, DialogContext dc)
+        protected async Task<List<Person>> GetContactsAsync(WaterfallStepContext sc, string name)
+        {
+            var result = new List<Person>();
+            try
+            {
+                var state = await Accessor.GetAsync(sc.Context);
+                var token = state.APIToken;
+                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone());
+
+                // Get users.
+                var contactList = await service.GetContactsAsync(name);
+                foreach (var contact in contactList)
+                {
+                    result.Add(contact.ToPerson());
+                }
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc);
+                throw ex;
+            }
+
+            return result;
+        }
+
+        protected async Task<PromptOptions> GenerateOptions(List<Person> personList, List<Person> userList, DialogContext dc)
         {
             var state = await Accessor.GetAsync(dc.Context);
             var pageIndex = state.ShowAttendeesIndex;
@@ -1026,6 +1023,74 @@ namespace CalendarSkill
 
             return options;
         }
+
+        protected static (List<Person> formattedPersonList, List<Person> formattedUserList) FormatRecipientList(List<Person> personList, List<Person> userList)
+        {
+            // Remove dup items
+            List<Person> formattedPersonList = new List<Person>();
+            List<Person> formattedUserList = new List<Person>();
+
+            foreach (var person in personList)
+            {
+                var mailAddress = person.ScoredEmailAddresses.FirstOrDefault()?.Address ?? person.UserPrincipalName;
+
+                bool isDup = false;
+                foreach (var formattedPerson in formattedPersonList)
+                {
+                    var formattedMailAddress = formattedPerson.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedPerson.UserPrincipalName;
+
+                    if (mailAddress.Equals(formattedMailAddress))
+                    {
+                        isDup = true;
+                        break;
+                    }
+                }
+
+                if (!isDup)
+                {
+                    formattedPersonList.Add(person);
+                }
+            }
+
+            foreach (var user in userList)
+            {
+                var mailAddress = user.ScoredEmailAddresses.FirstOrDefault()?.Address ?? user.UserPrincipalName;
+
+                bool isDup = false;
+                foreach (var formattedPerson in formattedPersonList)
+                {
+                    var formattedMailAddress = formattedPerson.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedPerson.UserPrincipalName;
+
+                    if (mailAddress.Equals(formattedMailAddress))
+                    {
+                        isDup = true;
+                        break;
+                    }
+                }
+
+                if (!isDup)
+                {
+                    foreach (var formattedUser in formattedUserList)
+                    {
+                        var formattedMailAddress = formattedUser.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedUser.UserPrincipalName;
+
+                        if (mailAddress.Equals(formattedMailAddress))
+                        {
+                            isDup = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!isDup)
+                {
+                    formattedUserList.Add(user);
+                }
+            }
+
+            return (formattedPersonList, formattedUserList);
+        }
+
 
         public string GetSelectPromptString(PromptOptions selectOption, bool containNumbers)
         {
