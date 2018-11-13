@@ -490,7 +490,7 @@ namespace EmailSkill
             return result;
         }
 
-        public static (List<Person> formattedPersonList, List<Person> formattedUserList) FormatRecipientList(List<Person> personList, List<Person> userList)
+        protected static (List<Person> formattedPersonList, List<Person> formattedUserList) FormatRecipientList(List<Person> personList, List<Person> userList)
         {
             // Remove dup items
             List<Person> formattedPersonList = new List<Person>();
@@ -505,7 +505,7 @@ namespace EmailSkill
                 {
                     var formattedMailAddress = formattedPerson.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedPerson.UserPrincipalName;
 
-                    if (mailAddress.Equals(formattedMailAddress))
+                    if (mailAddress.Equals(formattedMailAddress, StringComparison.OrdinalIgnoreCase))
                     {
                         isDup = true;
                         break;
@@ -527,7 +527,7 @@ namespace EmailSkill
                 {
                     var formattedMailAddress = formattedPerson.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedPerson.UserPrincipalName;
 
-                    if (mailAddress.Equals(formattedMailAddress))
+                    if (mailAddress.Equals(formattedMailAddress, StringComparison.OrdinalIgnoreCase))
                     {
                         isDup = true;
                         break;
