@@ -335,6 +335,8 @@ namespace CalendarSkill
             {
                 var state = await Accessor.GetAsync(dc.Context);
 
+                var intent = luisResult.TopIntent().intent;
+
                 var entity = luisResult.Entities;
 
                 if (entity.ordinal != null)
@@ -388,230 +390,319 @@ namespace CalendarSkill
                     return;
                 }
 
-                if (entity.Subject != null)
+                switch (intent)
                 {
-                    state.Title = entity.Subject[0];
-                }
-
-                if (entity.ContactName != null)
-                {
-                    foreach (var name in entity.ContactName)
-                    {
-                        if (!state.AttendeesNameList.Contains(name))
+                    case Calendar.Intent.FindMeetingRoom:
+                    case Calendar.Intent.CreateCalendarEntry:
                         {
-                            state.AttendeesNameList.Add(name);
-                        }
-                    }
-                }
-
-                if (entity.Duration != null)
-                {
-                    foreach (var datetimeItem in entity.datetime)
-                    {
-                        if (datetimeItem.Type == "duration")
-                        {
-                            var culture = dc.Context.Activity.Locale ?? English;
-                            List<DateTimeResolution> result = RecognizeDateTime(entity.Duration[0], culture);
-                            if (result != null)
+                            if (entity.Subject != null)
                             {
-                                if (result[0].Value != null)
+                                state.Title = GetSubjectFromEntity(entity);
+                            }
+
+                            if (entity.ContactName != null)
+                            {
+                                state.AttendeesNameList = GetAttendeesFromEntity(entity, state.AttendeesNameList);
+                            }
+
+                            if (entity.FromDate != null)
+                            {
+                                var date = GetDateFromDateTimeString(entity.FromDate[0], dc.Context.Activity.Locale, state.GetUserTimeZone());
+                                if (date != null)
                                 {
-                                    state.Duration = int.Parse(result[0].Value);
+                                    state.StartDate = date;
+                                }
+                            }
+
+
+                            if (entity.ToDate != null)
+                            {
+                                var date = GetDateFromDateTimeString(entity.ToDate[0], dc.Context.Activity.Locale, state.GetUserTimeZone());
+                                if (date != null)
+                                {
+                                    state.EndDate = date;
+                                }
+                            }
+
+                            if (entity.FromTime != null)
+                            {
+                                var time = GetTimeFromDateTimeString(entity.FromTime[0], dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
+                                if (time != null)
+                                {
+                                    state.StartTime = time;
+                                }
+
+                                time = GetTimeFromDateTimeString(entity.FromTime[0], dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
+                                if (time != null)
+                                {
+                                    state.EndTime = time;
+                                }
+                            }
+
+                            if (entity.ToTime != null)
+                            {
+                                var time = GetTimeFromDateTimeString(entity.ToTime[0], dc.Context.Activity.Locale, state.GetUserTimeZone());
+                                if (time != null)
+                                {
+                                    state.EndTime = time;
+                                }
+                            }
+
+                            if (entity.Duration != null)
+                            {
+                                int duration = GetDurationFromEntity(entity, dc.Context.Activity.Locale);
+                                if (duration != -1)
+                                {
+                                    state.Duration = duration;
+                                }
+                            }
+
+                            if (entity.MeetingRoom != null)
+                            {
+                                state.Location = GetMeetingRoomFromEntity(entity);
+                            }
+
+                            if (entity.Location != null)
+                            {
+                                state.Location = GetLocationFromEntity(entity);
+                            }
+
+                            break;
+                        }
+
+                    case Calendar.Intent.DeleteCalendarEntry:
+                        {
+                            if (entity.Subject != null)
+                            {
+                                state.Title = GetSubjectFromEntity(entity);
+                            }
+
+
+                            if (entity.FromDate != null)
+                            {
+                                var date = GetDateFromDateTimeString(entity.FromDate[0], dc.Context.Activity.Locale, state.GetUserTimeZone());
+                                if (date != null)
+                                {
+                                    state.OriginalStartDate = date;
+                                }
+                            }
+
+                            if (entity.FromTime != null)
+                            {
+                                var time = GetTimeFromDateTimeString(entity.FromTime[0], dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
+                                if (time != null)
+                                {
+                                    state.OriginalStartTime = time;
                                 }
                             }
 
                             break;
                         }
-                    }
-                }
 
-                if (entity.MeetingRoom != null)
-                {
-                    state.Location = entity.MeetingRoom[0];
-                }
-
-                if (entity.Location != null)
-                {
-                    state.Location = entity.Location[0];
-                }
-
-                if (entity.StartDate != null)
-                {
-                    var culture = dc.Context.Activity.Locale ?? English;
-                    List<DateTimeResolution> results = RecognizeDateTime(entity.StartDate[0], culture);
-                    if (results != null)
-                    {
-                        var result = results[results.Count - 1];
-                        if (result.Value != null)
+                    case Calendar.Intent.NextMeeting:
                         {
-                            var dateTime = DateTime.Parse(result.Value);
-                            var dateTimeConvertType = result.Timex;
+                            break;
+                        }
 
-                            if (dateTime != null)
+                    case Calendar.Intent.ChangeCalendarEntry:
+                        {
+                            if (entity.Subject != null)
                             {
-                                bool isRelativeTime = IsRelativeTime(entity.StartDate[0], result.Value, result.Timex);
-                                state.StartDate = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
+                                state.Title = GetSubjectFromEntity(entity);
                             }
-                        }
-                    }
-                }
 
-                if (entity.StartTime != null)
-                {
-                    var culture = dc.Context.Activity.Locale ?? English;
-                    List<DateTimeResolution> result = RecognizeDateTime(entity.StartTime[0], culture);
-                    if (result != null)
-                    {
-                        if (result[0].Value != null)
-                        {
-                            var dateTime = DateTime.Parse(result[0].Value);
-                            var dateTimeConvertType = result[0].Timex;
 
-                            if (dateTime != null)
+                            if (entity.FromDate != null)
                             {
-                                bool isRelativeTime = IsRelativeTime(entity.StartTime[0], result[0].Value, result[0].Timex);
-                                state.StartTime = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
+                                var date = GetDateFromDateTimeString(entity.FromDate[0], dc.Context.Activity.Locale, state.GetUserTimeZone());
+                                if (date != null)
+                                {
+                                    state.OriginalStartDate = date;
+                                }
                             }
-                        }
-                        else
-                        {
-                            var startTime = DateTime.Parse(result[0].Start);
-                            var endTime = DateTime.Parse(result[0].End);
-                            state.StartTime = startTime;
-                            state.EndTime = endTime;
-                        }
-                    }
-                }
 
-                if (entity.EndDate != null)
-                {
-                    var culture = dc.Context.Activity.Locale ?? English;
-                    List<DateTimeResolution> results = RecognizeDateTime(entity.EndDate[0], culture);
-                    if (results != null)
-                    {
-                        var result = results[results.Count - 1];
-                        if (result.Value != null)
-                        {
-                            var dateTime = DateTime.Parse(result.Value);
-                            var dateTimeConvertType = result.Timex;
 
-                            if (dateTime != null)
+                            if (entity.ToDate != null)
                             {
-                                bool isRelativeTime = IsRelativeTime(entity.EndDate[0], result.Value, result.Timex);
-                                state.EndDate = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
+                                var date = GetDateFromDateTimeString(entity.ToDate[0], dc.Context.Activity.Locale, state.GetUserTimeZone());
+                                if (date != null)
+                                {
+                                    state.StartDate = date;
+                                }
                             }
-                        }
-                    }
-                }
 
-                if (entity.EndTime != null)
-                {
-                    var culture = dc.Context.Activity.Locale ?? English;
-                    List<DateTimeResolution> result = RecognizeDateTime(entity.EndTime[0], culture);
-                    if (result != null && result[0].Value != null)
-                    {
-                        var dateTime = DateTime.Parse(result[0].Value);
-                        var dateTimeConvertType = result[0].Timex;
-
-                        if (dateTime != null)
-                        {
-                            bool isRelativeTime = IsRelativeTime(entity.EndTime[0], result[0].Value, result[0].Timex);
-                            state.EndTime = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
-                        }
-                    }
-                }
-
-                if (entity.OriginalStartDate != null)
-                {
-                    var culture = dc.Context.Activity.Locale ?? English;
-                    List<DateTimeResolution> results = RecognizeDateTime(entity.OriginalStartDate[0], culture);
-                    if (results != null)
-                    {
-                        var result = results[results.Count - 1];
-                        if (result.Value != null)
-                        {
-                            var dateTime = DateTime.Parse(result.Value);
-                            var dateTimeConvertType = result.Timex;
-
-                            if (dateTime != null)
+                            if (entity.FromTime != null)
                             {
-                                bool isRelativeTime = IsRelativeTime(entity.OriginalStartDate[0], result.Value, result.Timex);
-                                state.OriginalStartDate = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
+                                var time = GetTimeFromDateTimeString(entity.FromTime[0], dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
+                                if (time != null)
+                                {
+                                    state.OriginalStartTime = time;
+                                }
+
+                                time = GetTimeFromDateTimeString(entity.FromTime[0], dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
+                                if (time != null)
+                                {
+                                    state.OriginalEndTime = time;
+                                }
                             }
-                        }
-                    }
-                }
 
-                if (entity.OriginalStartTime != null)
-                {
-                    var culture = dc.Context.Activity.Locale ?? English;
-                    List<DateTimeResolution> result = RecognizeDateTime(entity.OriginalStartTime[0], culture);
-                    if (result != null)
-                    {
-                        if (result[0].Value != null)
-                        {
-                            var dateTime = DateTime.Parse(result[0].Value);
-                            var dateTimeConvertType = result[0].Timex;
-
-                            if (dateTime != null)
+                            if (entity.ToTime != null)
                             {
-                                bool isRelativeTime = IsRelativeTime(entity.OriginalStartTime[0], result[0].Value, result[0].Timex);
-                                state.OriginalStartTime = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
+                                var time = GetTimeFromDateTimeString(entity.ToTime[0], dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
+                                if (time != null)
+                                {
+                                    state.StartTime = time;
+                                }
+
+                                time = GetTimeFromDateTimeString(entity.ToTime[0], dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
+                                if (time != null)
+                                {
+                                    state.EndTime = time;
+                                }
                             }
+
+                            break;
                         }
-                        else
+
+                    case Calendar.Intent.FindCalendarEntry:
+                    case Calendar.Intent.Summary:
                         {
-                            var startTime = DateTime.Parse(result[0].Start);
-                            var endTime = DateTime.Parse(result[0].End);
-                            state.OriginalStartTime = startTime;
-                            state.OriginalEndTime = endTime;
+                            break;
                         }
-                    }
-                }
 
-                if (entity.OriginalEndDate != null)
-                {
-                    var culture = dc.Context.Activity.Locale ?? English;
-                    List<DateTimeResolution> results = RecognizeDateTime(entity.OriginalEndDate[0], culture);
-                    if (results != null)
-                    {
-                        var result = results[results.Count - 1];
-                        if (result.Value != null)
+                    case Calendar.Intent.None:
                         {
-                            var dateTime = DateTime.Parse(result.Value);
-                            var dateTimeConvertType = result.Timex;
 
-                            if (dateTime != null)
-                            {
-                                bool isRelativeTime = IsRelativeTime(entity.OriginalEndDate[0], result.Value, result.Timex);
-                                state.OriginalEndDate = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime;
-                            }
+                            break;
                         }
-                    }
-                }
 
-                if (entity.OriginalEndTime != null)
-                {
-                    var culture = dc.Context.Activity.Locale ?? English;
-                    List<DateTimeResolution> result = RecognizeDateTime(entity.OriginalEndTime[0], culture);
-                    if (result != null && result[0].Value != null)
-                    {
-                        var dateTime = DateTime.Parse(result[0].Value);
-                        var dateTimeConvertType = result[0].Timex;
-
-                        if (dateTime != null)
+                    default:
                         {
-                            bool isRelativeTime = IsRelativeTime(entity.OriginalEndTime[0], result[0].Value, result[0].Timex);
-                            state.OriginalEndTime = isRelativeTime ? TimeZoneInfo.ConvertTimeToUtc(dateTime, TimeZoneInfo.Local) :
-                                TimeConverter.ConvertLuisLocalToUtc(dateTime, state.GetUserTimeZone());
+                            break;
                         }
-                    }
                 }
             }
             catch
             {
                 // put log here
             }
+        }
+
+        private string GetSubjectFromEntity(Calendar._Entities entity)
+        {
+            return entity.Subject[0];
+        }
+
+        private List<string> GetAttendeesFromEntity(Calendar._Entities entity, List<string> attendees = null)
+        {
+            if (attendees == null)
+            {
+                attendees = new List<string>();
+            }
+
+            foreach (var name in entity.ContactName)
+            {
+                if (!attendees.Contains(name))
+                {
+                    attendees.Add(name);
+                }
+            }
+
+            return attendees;
+        }
+
+        private int GetDurationFromEntity(Calendar._Entities entity, string local)
+        {
+            foreach (var datetimeItem in entity.datetime)
+            {
+                if (datetimeItem.Type == "duration")
+                {
+                    var culture = local ?? English;
+                    List<DateTimeResolution> result = RecognizeDateTime(entity.Duration[0], culture);
+                    if (result != null)
+                    {
+                        if (result[0].Value != null)
+                        {
+                            return int.Parse(result[0].Value);
+                        }
+                    }
+
+                    break;
+                }
+            }
+
+            return -1;
+        }
+
+        private string GetMeetingRoomFromEntity(Calendar._Entities entity)
+        {
+            return entity.MeetingRoom[0];
+        }
+
+        private string GetLocationFromEntity(Calendar._Entities entity)
+        {
+            return entity.Location[0];
+        }
+
+        private DateTime? GetDateFromDateTimeString(string date, string local, TimeZoneInfo userTimeZone)
+        {
+            var culture = local ?? English;
+            List<DateTimeResolution> results = RecognizeDateTime(date, culture);
+            if (results != null)
+            {
+                var result = results[results.Count - 1];
+                if (result.Value != null)
+                {
+                    var dateTime = DateTime.Parse(result.Value);
+                    var dateTimeConvertType = result.Timex;
+
+                    if (dateTime != null)
+                    {
+                        bool isRelativeTime = IsRelativeTime(date, result.Value, result.Timex);
+                        return isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, userTimeZone) : dateTime;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        private DateTime? GetTimeFromDateTimeString(string time, string local, TimeZoneInfo userTimeZone, bool isStart = true)
+        {
+            var culture = local ?? English;
+            List<DateTimeResolution> result = RecognizeDateTime(time, culture);
+            if (result != null)
+            {
+                if (result[0].Value != null)
+                {
+                    if (!isStart)
+                    {
+                        return null;
+                    }
+
+                    var dateTime = DateTime.Parse(result[0].Value);
+                    var dateTimeConvertType = result[0].Timex;
+
+                    if (dateTime != null)
+                    {
+                        bool isRelativeTime = IsRelativeTime(time, result[0].Value, result[0].Timex);
+                        return isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, userTimeZone) : dateTime;
+                    }
+                }
+                else
+                {
+                    var startTime = DateTime.Parse(result[0].Start);
+                    var endTime = DateTime.Parse(result[0].End);
+                    if (isStart)
+                    {
+                        return startTime;
+                    }
+
+                    return endTime;
+                }
+            }
+
+            return null;
         }
 
         protected List<DateTimeResolution> RecognizeDateTime(string dateTimeString, string culture)
