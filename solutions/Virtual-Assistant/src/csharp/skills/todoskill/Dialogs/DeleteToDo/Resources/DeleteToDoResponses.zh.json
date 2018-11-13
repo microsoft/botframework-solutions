@@ -6,7 +6,7 @@
         "speak": "您确定您要删除事项：{toDoTask}?"
       }
     ],
-    "inputHint": "acceptingInput"
+    "inputHint": "expectingInput"
   },
   "AskDeletionAllConfirmation": {
     "replies": [
@@ -15,7 +15,7 @@
         "speak": "您确定您要删除所有事项？"
       }
     ],
-    "inputHint": "acceptingInput"
+    "inputHint": "expectingInput"
   },
   "AfterTaskDeleted": {
     "replies": [
@@ -24,7 +24,7 @@
         "speak": "已经为您删除所有事项。"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "AfterAllTasksDeleted": {
     "replies": [
@@ -33,6 +33,6 @@
         "speak": "已经为您清空事项表。"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   }
 }
