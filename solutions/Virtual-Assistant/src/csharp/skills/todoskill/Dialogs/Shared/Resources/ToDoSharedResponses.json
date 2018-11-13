@@ -38,7 +38,7 @@
         "speak": "Can you try to ask me again? I didn't get what you mean."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "CancellingMessage": {
     "replies": [
@@ -105,7 +105,7 @@
         "speak": "Your log in failed. Let's try this again."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "ActionEnded": {
     "replies": [
@@ -118,7 +118,7 @@
         "speak": "I'm here if you need me."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "ToDoErrorMessage": {
     "replies": [
@@ -152,7 +152,7 @@
         "speak": "I am setting up your list, this won't take long."
       }
     ],
-    "inputHint": "acceptingInput"
+    "inputHint": "ignoringInput"
   },
   "ShowToDoTasks": {
     "replies": [
@@ -161,7 +161,7 @@
         "speak": "You have {taskCount} items on your list:"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "ignoringInput"
   },
   "AskToDoTaskIndex": {
     "replies": [
@@ -200,7 +200,7 @@
         "speak": "I have added the task {taskContent} to your list."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "NoTasksInList": {
     "replies": [
@@ -209,6 +209,6 @@
         "speak": "Your list is empty."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   }
 }
