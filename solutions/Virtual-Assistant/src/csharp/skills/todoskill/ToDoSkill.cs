@@ -33,8 +33,8 @@ namespace ToDoSkill
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
 
-            var isOutlookProvider = _services.Properties.ContainsKey("ServiceProvider")
-                && _services.Properties["ServiceProvider"].ToString().Equals(ProviderTypes.Outlook.ToString(), StringComparison.InvariantCultureIgnoreCase);
+            var isOutlookProvider = _services.Properties.ContainsKey("TaskServiceProvider")
+                && _services.Properties["TaskServiceProvider"].ToString().Equals(ProviderTypes.Outlook.ToString(), StringComparison.InvariantCultureIgnoreCase);
             ITaskService taskService = new OneNoteService();
             if (isOutlookProvider)
             {

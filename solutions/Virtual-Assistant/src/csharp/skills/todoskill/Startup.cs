@@ -73,7 +73,7 @@ namespace ToDoSkill
             services.AddSingleton(conversationState);
             services.AddSingleton(new BotStateSet(userState, conversationState));
 
-            var serviceProvider = Configuration.GetSection("ServiceProvider")?.Value;
+            var serviceProvider = Configuration.GetSection("TaskServiceProvider")?.Value;
             if (serviceProvider.Equals("Outlook", StringComparison.InvariantCultureIgnoreCase))
             {
                 services.AddTransient<ITaskService, OutlookService>();
