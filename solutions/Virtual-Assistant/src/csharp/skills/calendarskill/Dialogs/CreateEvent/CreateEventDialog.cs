@@ -888,50 +888,95 @@ namespace CalendarSkill
             return result;
         }
 
-        protected async Task<List<Person>> GetPeopleWorkWithAsync(WaterfallStepContext sc, string name)
+        public string GetSelectPromptString(PromptOptions selectOption, bool containNumbers)
         {
-            var result = new List<Person>();
-            try
+            var result = string.Empty;
+            result += selectOption.Prompt.Text + "\r\n";
+            for (var i = 0; i < selectOption.Choices.Count; i++)
             {
-                var state = await Accessor.GetAsync(sc.Context);
-                var token = state.APIToken;
-                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone());
+                var choice = selectOption.Choices[i];
+                result += "  ";
+                if (containNumbers)
+                {
+                    result += i + 1 + "-";
+                }
 
-                // Get users.
-                result = await service.GetPeopleAsync(name);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc);
-                throw ex;
+                result += choice.Value + "\r\n";
             }
 
             return result;
         }
 
-        protected async Task<List<Person>> GetContactsAsync(WaterfallStepContext sc, string name)
+        public bool IsEmail(string emailString)
         {
-            var result = new List<Person>();
-            try
-            {
-                var state = await Accessor.GetAsync(sc.Context);
-                var token = state.APIToken;
-                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone());
+            return Regex.IsMatch(emailString, @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
+        }
 
-                // Get users.
-                var contactList = await service.GetContactsAsync(name);
-                foreach (var contact in contactList)
+        protected static (List<Person> formattedPersonList, List<Person> formattedUserList) FormatRecipientList(List<Person> personList, List<Person> userList)
+        {
+            // Remove dup items
+            List<Person> formattedPersonList = new List<Person>();
+            List<Person> formattedUserList = new List<Person>();
+
+            foreach (var person in personList)
+            {
+                var mailAddress = person.ScoredEmailAddresses.FirstOrDefault()?.Address ?? person.UserPrincipalName;
+
+                bool isDup = false;
+                foreach (var formattedPerson in formattedPersonList)
                 {
-                    result.Add(contact.ToPerson());
+                    var formattedMailAddress = formattedPerson.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedPerson.UserPrincipalName;
+
+                    if (mailAddress.Equals(formattedMailAddress))
+                    {
+                        isDup = true;
+                        break;
+                    }
+                }
+
+                if (!isDup)
+                {
+                    formattedPersonList.Add(person);
                 }
             }
-            catch (Exception ex)
+
+            foreach (var user in userList)
             {
-                await HandleDialogExceptions(sc);
-                throw ex;
+                var mailAddress = user.ScoredEmailAddresses.FirstOrDefault()?.Address ?? user.UserPrincipalName;
+
+                bool isDup = false;
+                foreach (var formattedPerson in formattedPersonList)
+                {
+                    var formattedMailAddress = formattedPerson.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedPerson.UserPrincipalName;
+
+                    if (mailAddress.Equals(formattedMailAddress))
+                    {
+                        isDup = true;
+                        break;
+                    }
+                }
+
+                if (!isDup)
+                {
+                    foreach (var formattedUser in formattedUserList)
+                    {
+                        var formattedMailAddress = formattedUser.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedUser.UserPrincipalName;
+
+                        if (mailAddress.Equals(formattedMailAddress))
+                        {
+                            isDup = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!isDup)
+                {
+                    formattedUserList.Add(user);
+                }
             }
 
-            return result;
+            return (formattedPersonList, formattedUserList);
         }
 
         protected async Task<PromptOptions> GenerateOptions(List<Person> personList, List<Person> userList, DialogContext dc)
@@ -1024,96 +1069,50 @@ namespace CalendarSkill
             return options;
         }
 
-        protected static (List<Person> formattedPersonList, List<Person> formattedUserList) FormatRecipientList(List<Person> personList, List<Person> userList)
+        protected async Task<List<Person>> GetContactsAsync(WaterfallStepContext sc, string name)
         {
-            // Remove dup items
-            List<Person> formattedPersonList = new List<Person>();
-            List<Person> formattedUserList = new List<Person>();
-
-            foreach (var person in personList)
+            var result = new List<Person>();
+            try
             {
-                var mailAddress = person.ScoredEmailAddresses.FirstOrDefault()?.Address ?? person.UserPrincipalName;
+                var state = await Accessor.GetAsync(sc.Context);
+                var token = state.APIToken;
+                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone());
 
-                bool isDup = false;
-                foreach (var formattedPerson in formattedPersonList)
+                // Get users.
+                var contactList = await service.GetContactsAsync(name);
+                foreach (var contact in contactList)
                 {
-                    var formattedMailAddress = formattedPerson.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedPerson.UserPrincipalName;
-
-                    if (mailAddress.Equals(formattedMailAddress))
-                    {
-                        isDup = true;
-                        break;
-                    }
-                }
-
-                if (!isDup)
-                {
-                    formattedPersonList.Add(person);
+                    result.Add(contact.ToPerson());
                 }
             }
-
-            foreach (var user in userList)
+            catch (Exception ex)
             {
-                var mailAddress = user.ScoredEmailAddresses.FirstOrDefault()?.Address ?? user.UserPrincipalName;
-
-                bool isDup = false;
-                foreach (var formattedPerson in formattedPersonList)
-                {
-                    var formattedMailAddress = formattedPerson.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedPerson.UserPrincipalName;
-
-                    if (mailAddress.Equals(formattedMailAddress))
-                    {
-                        isDup = true;
-                        break;
-                    }
-                }
-
-                if (!isDup)
-                {
-                    foreach (var formattedUser in formattedUserList)
-                    {
-                        var formattedMailAddress = formattedUser.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedUser.UserPrincipalName;
-
-                        if (mailAddress.Equals(formattedMailAddress))
-                        {
-                            isDup = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (!isDup)
-                {
-                    formattedUserList.Add(user);
-                }
-            }
-
-            return (formattedPersonList, formattedUserList);
-        }
-
-
-        public string GetSelectPromptString(PromptOptions selectOption, bool containNumbers)
-        {
-            var result = string.Empty;
-            result += selectOption.Prompt.Text + "\r\n";
-            for (var i = 0; i < selectOption.Choices.Count; i++)
-            {
-                var choice = selectOption.Choices[i];
-                result += "  ";
-                if (containNumbers)
-                {
-                    result += i + 1 + "-";
-                }
-
-                result += choice.Value + "\r\n";
+                await HandleDialogExceptions(sc);
+                throw ex;
             }
 
             return result;
         }
 
-        public bool IsEmail(string emailString)
+        protected async Task<List<Person>> GetPeopleWorkWithAsync(WaterfallStepContext sc, string name)
         {
-            return Regex.IsMatch(emailString, @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
+            var result = new List<Person>();
+            try
+            {
+                var state = await Accessor.GetAsync(sc.Context);
+                var token = state.APIToken;
+                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone());
+
+                // Get users.
+                result = await service.GetPeopleAsync(name);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc);
+                throw ex;
+            }
+
+            return result;
         }
     }
 }

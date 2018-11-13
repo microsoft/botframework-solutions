@@ -19,7 +19,7 @@ namespace CalendarSkillTest.Flow.Fakes
 
         public List<User> Users { get; set; }
 
-        public async Task<List<Contact>> GetContactAsync(string name)
+        public async Task<List<Contact>> GetContactsAsync(string name)
         {
             List<Contact> items = new List<Contact>();
             return await Task.FromResult(items);
