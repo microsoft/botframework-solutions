@@ -1,22 +1,21 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-using ToDoSkillTest.API.Fakes;
-using Microsoft.Graph;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ToDoSkill;
-using System.Collections.Generic;
-
-namespace ToDoSkillTest.API
+﻿namespace ToDoSkillTest.API
 {
+    using System.Collections.Generic;
+    using System.Net.Http;
+    using System.Threading.Tasks;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using ToDoSkill;
+    using ToDoSkillTest.API.Fakes;
+
     [TestClass]
     public class OneNoteServiceTests
     {
-        static private HttpClient mockClient;
+        private static HttpClient mockClient;
+
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
-            mockClient = new HttpClient(MockHttpClient.getMockHttpClient());
+            mockClient = new HttpClient(new MockHttpClientHandlerGen().GetMockHttpClientHandler());
         }
 
         [TestMethod]
@@ -32,7 +31,6 @@ namespace ToDoSkillTest.API
             var addedTaskList = await service.GetTasksAsync("ToDo");
 
             Assert.IsTrue(taskList.Count + 1 == addedTaskList.Count);
-
         }
 
         [TestMethod]
@@ -47,7 +45,7 @@ namespace ToDoSkillTest.API
             await service.MarkTasksCompletedAsync("ToDo", taskList.GetRange(0, 1));
             var markedTaskList = await service.GetTasksAsync("ToDo");
 
-            Assert.IsTrue(markedTaskList[0].IsCompleted);
+            Assert.IsTrue(markedTaskList.Count > 0 && markedTaskList[0].IsCompleted);
         }
 
         [TestMethod]

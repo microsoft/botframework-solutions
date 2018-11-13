@@ -1,86 +1,80 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Moq;
-using Moq.Protected;
-using System.Threading;
-using ToDoSkill;
-using Newtonsoft.Json.Linq;
-using System.Xml;
-using Newtonsoft.Json;
-using System.Linq;
-
-namespace ToDoSkillTest.API.Fakes
+﻿namespace ToDoSkillTest.API.Fakes
 {
-    class MockHttpClient
+    using System.Collections.Generic;
+    using System.Net.Http;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.Xml;
+    using Moq;
+    using Moq.Protected;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+    using ToDoSkill;
+
+    public class MockHttpClientHandlerGen
     {
-        private static List<TaskItem> todos = new List<TaskItem>()
-        {
-            new TaskItem()
-            {
-                Id = "1",
-                Topic = "Task 1",
-                IsCompleted = false
-            },
-            new TaskItem()
-            {
-                Id = "2",
-                Topic = "Task 2",
-                IsCompleted = false
-            },
-            new TaskItem()
-            {
-                Id = "3",
-                Topic = "Task 3",
-                IsCompleted = false
-            },
-            new TaskItem()
-            {
-                Id = "4",
-                Topic = "Task 4",
-                IsCompleted = false
-            }
-        };
+        private readonly HttpClientHandler httpClientHandler;
+        private List<TaskItem> todos;
 
-        public static string GetTodoHtml(TaskItem task)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MockHttpClientHandlerGen"/> class.
+        /// </summary>
+        public MockHttpClientHandlerGen()
         {
-            if (!task.IsCompleted)
+            this.httpClientHandler = this.GenerateMockHttpClientHandler();
+            this.todos = new List<TaskItem>()
             {
-                return $"<p id=\"{task.Id}\" data-tag=\"to-do\" style=\"margin-top:0pt;margin-bottom:0pt\">{task.Topic}</p>";
-            }
-            else
-            {
-                return $"<p id=\"{task.Id}\" data-tag=\"to-do:completed\" style=\"margin-top:0pt;margin-bottom:0pt\">{task.Topic}</p>";
-            }
-            
+                new TaskItem()
+                {
+                    Id = "1",
+                    Topic = "Task 1",
+                    IsCompleted = false,
+                },
+                new TaskItem()
+                {
+                    Id = "2",
+                    Topic = "Task 2",
+                    IsCompleted = false,
+                },
+                new TaskItem()
+                {
+                    Id = "3",
+                    Topic = "Task 3",
+                    IsCompleted = false,
+                },
+                new TaskItem()
+                {
+                    Id = "4",
+                    Topic = "Task 4",
+                    IsCompleted = false,
+                },
+            };
         }
 
-        public static string GetTodosHtml()
+        public HttpClientHandler GetMockHttpClientHandler()
         {
-            var res = "\r\n";
-            todos.ForEach(todo =>
-            {
-                res += $"{GetTodoHtml(todo)}\r\n";
-            });
-            return res;
+            return this.httpClientHandler;
         }
 
-        public static HttpClientHandler getMockHttpClient()
+        private HttpClientHandler GenerateMockHttpClientHandler()
         {
             var mockClient = new Mock<HttpClientHandler>(MockBehavior.Strict);
+            this.SetHttpMockBehavior(ref mockClient);
+            return mockClient.Object;
+        }
 
+        private void SetHttpMockBehavior(ref Mock<HttpClientHandler> mockClient)
+        {
             mockClient
-                .Protected()
-                .Setup<Task<HttpResponseMessage>>(
-                "SendAsync",
-                ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/v1.0/me/onenote/pages?filter=id")),
-                ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(() => new HttpResponseMessage()
-                {
-                    Content = new StringContent(GetPageDetails())
-                });
+               .Protected()
+               .Setup<Task<HttpResponseMessage>>(
+               "SendAsync",
+               ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/v1.0/me/onenote/pages?filter=id")),
+               ItExpr.IsAny<CancellationToken>())
+               .ReturnsAsync(() => new HttpResponseMessage()
+               {
+                   Content = new StringContent(this.GetPageDetails()),
+               });
 
             mockClient
                 .Protected()
@@ -90,7 +84,7 @@ namespace ToDoSkillTest.API.Fakes
                 ItExpr.IsAny<CancellationToken>())
                 .ReturnsAsync(() => new HttpResponseMessage()
                 {
-                    Content = new StringContent(GetPageContent())
+                    Content = new StringContent(this.GetPageContent()),
                 });
 
             mockClient
@@ -101,10 +95,9 @@ namespace ToDoSkillTest.API.Fakes
                 ItExpr.IsAny<CancellationToken>())
                 .ReturnsAsync(() => new HttpResponseMessage()
                 {
-                    StatusCode = System.Net.HttpStatusCode.OK,
-                    Content = new StringContent("")
+                    Content = new StringContent(string.Empty),
                 })
-                .Callback<HttpRequestMessage, CancellationToken>(async (r, c) => await HandlePatch(r));
+                .Callback<HttpRequestMessage, CancellationToken>(async (r, c) => await this.HandlePatch(r));
 
             mockClient
               .Protected()
@@ -114,18 +107,34 @@ namespace ToDoSkillTest.API.Fakes
               ItExpr.IsAny<CancellationToken>())
               .ReturnsAsync(() => new HttpResponseMessage()
               {
-                  Content = new StringContent(GetPageDetails())
+                  Content = new StringContent(this.GetPageDetails()),
               });
-            return mockClient.Object;
         }
-        static async Task<bool> HandlePatch(HttpRequestMessage r)
+
+        private string GetTodoHtml(TaskItem task)
         {
-            var result = await r.Content.ReadAsStringAsync();
+            var taskStatus = task.IsCompleted ? ":completed" : string.Empty;
+            return $"<p id=\"{task.Id}\" data-tag=\"to-do{taskStatus}\" style=\"margin-top:0pt;margin-bottom:0pt\">{task.Topic}</p>";
+        }
+
+        private string GetTodosHtml()
+        {
+            var res = "\r\n";
+            this.todos.ForEach(todo =>
+            {
+                res += $"{this.GetTodoHtml(todo)}\r\n";
+            });
+            return res;
+        }
+
+        private async Task<bool> HandlePatch(HttpRequestMessage request)
+        {
+            var result = await request.Content.ReadAsStringAsync();
             var objects = JsonConvert.DeserializeObject<List<object>>(result);
             var req = JObject.Parse(objects[0].ToString());
             if (req["action"].ToString() == "append")
             {
-                AddTask(req["content"].ToString());
+                this.AddTask(req["content"].ToString());
             }
             else if (req["action"].ToString() == "replace")
             {
@@ -135,48 +144,47 @@ namespace ToDoSkillTest.API.Fakes
                 if (doc.InnerText.Length == 0)
                 {
                     // Remove the current task
-                    RemoveTask(targetId);
+                    this.RemoveTask(targetId);
                 }
                 else
                 {
                     // Mark the current task as complete
-                    MarkTask(targetId);
+                    this.MarkTask(targetId);
                 }
             }
-            
+
             return true;
         }
-        static void MarkTask(string id)
+
+        private void MarkTask(string id)
         {
-            todos[todos.FindIndex(s => s.Id == id)].IsCompleted = true;
+            this.todos[this.todos.FindIndex(s => s.Id == id)].IsCompleted = true;
         }
-        static void RemoveTask(string id)
+
+        private void RemoveTask(string id)
         {
-            todos.RemoveAt(todos.FindIndex(i => i.Id == id));
+            this.todos.RemoveAt(this.todos.FindIndex(i => i.Id == id));
         }
-        static void AddTask(string taskContent)
+
+        private void AddTask(string taskContent)
         {
             var doc = new XmlDocument();
             doc.LoadXml(taskContent);
-           
-            todos.Insert(0, new TaskItem()
+            this.todos.Insert(0, new TaskItem()
             {
-                Id = todos.Count.ToString(),
-                Topic = doc.InnerText
+                Id = this.todos.Count.ToString(),
+                Topic = doc.InnerText,
             });
         }
 
-        static string GetPageContent()
+        private string GetPageContent()
         {
             return $"<html lang=\"en-US\">\r\n<head>\r\n<title>ToDo</title>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\r\n<meta name=\"created\" content=\"2018-11-07T14:52:00.0000000\" />\r\n</head>\r\n<body data-absolute-enabled=\"true\" style=\"font-family:Calibri;font-size:11pt\">\r\n<div id=\"div:TEST\" data-id=\"_default\" style=\"position:absolute;left:48px;top:120px;width:624px\">{GetTodosHtml()}</div>\r\n</body>\r\n</html>";
         }
-        static string GetPageDetails()
+
+        private string GetPageDetails()
         {
             return "{\"@odata.context\":\"https://graph.microsoft.com/v1.0/$metadata#users('bnoabotletdev%40outlook.com')/onenote/pages\",\"value\":[{\"id\":\"0-6683264ee61f47bc9e089900e12ed192!215-A2624DB91264DE33!152\",\"self\":\"https://graph.microsoft.com/v1.0/users/bnoabotletdev@outlook.com/onenote/pages/0-6683264ee61f47bc9e089900e12ed192!215-A2624DB91264DE33!152\",\"createdDateTime\":\"2018-11-07T14:52:00Z\",\"title\":\"ToDo\",\"createdByAppId\":\"WLID-00000000482345AD\",\"contentUrl\":\"https://graph.microsoft.com/v1.0/users/bnoabotletdev@outlook.com/onenote/pages/0-6683264ee61f47bc9e089900e12ed192!215-A2624DB91264DE33!152/content\",\"lastModifiedDateTime\":\"2018-11-07T14:52:00Z\",\"links\":{\"oneNoteClientUrl\":{\"href\":\"onenote:https://d.docs.live.net/a2624db91264de33/%e6%96%87%e6%a1%a3/ToDoNotebook/ToDoSection.one#ToDo&section-id=c2d2e1a9-1690-469e-bae9-e4a27c6c1aff&page-id=66fe82e8-596f-44e3-9cf7-d82a92a6158a&end\"},\"oneNoteWebUrl\":{\"href\":\"https://onedrive.live.com/redir.aspx?cid=a2624db91264de33&page=edit&resid=A2624DB91264DE33!150&parId=A2624DB91264DE33!106&wd=target%28ToDoSection.one%7Cc2d2e1a9-1690-469e-bae9-e4a27c6c1aff%2FToDo%7C66fe82e8-596f-44e3-9cf7-d82a92a6158a%2F%29\"}},\"parentSection@odata.context\":\"https://graph.microsoft.com/v1.0/$metadata#users('bnoabotletdev%40outlook.com')/onenote/pages('0-6683264ee61f47bc9e089900e12ed192%21215-A2624DB91264DE33%21152')/parentSection/$entity\",\"parentSection\":{\"id\":\"0-A2624DB91264DE33!152\",\"displayName\":\"ToDoSection\",\"self\":\"https://graph.microsoft.com/v1.0/users/bnoabotletdev@outlook.com/onenote/sections/0-A2624DB91264DE33!152\"}}]}";
         }
-        
-        
-
-        
     }
 }
