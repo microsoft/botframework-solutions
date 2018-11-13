@@ -4,7 +4,7 @@
 using $safeprojectname$.Dialogs.Escalate.Resources;
 using Microsoft.Bot.Builder.TemplateManager;
 
-namespace $safeprojectname$
+namespace $safeprojectname$.Dialogs.Escalate
 {
     public class EscalateResponses : TemplateManager
     {

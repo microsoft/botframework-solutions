@@ -7,7 +7,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 
-namespace $safeprojectname$
+namespace $safeprojectname$.Dialogs.Shared
 {
     public abstract class RouterDialog : ComponentDialog
     {

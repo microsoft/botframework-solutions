@@ -120,17 +120,16 @@
       </Folder>
       <Folder Name="Middleware" TargetFolderName="Middleware">
         <Folder Name="Telemetry" TargetFolderName="Telemetry">
+          <ProjectItem ReplaceParameters="false" TargetFileName="Example Power BI Dashboard.pbit">ExamplePowerBIDashboard.pbit</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="LuisTelemetryConstants.cs">LuisTelemetryConstants.cs</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="QnATelemetryConstants.cs">QnATelemetryConstants.cs</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="TelemetryBotDependencyExtension.cs">TelemetryBotDependencyExtension.cs</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="TelemetryConstants.cs">TelemetryConstants.cs</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="TelemetryLoggerMiddleware.cs">TelemetryLoggerMiddleware.cs</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="TelemetryLuisRecognizer.cs">TelemetryLuisRecognizer.cs</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="TelemetryQnAMaker.cs">TelemetryQnAMaker.cs</ProjectItem>
         </Folder>
         <ProjectItem ReplaceParameters="true" TargetFileName="ContentModeratorMiddleware.cs">ContentModeratorMiddleware.cs</ProjectItem>
-      </Folder>
-      <Folder Name="PowerBI" TargetFolderName="PowerBI">
-        <ProjectItem ReplaceParameters="false" TargetFileName="Example PowerBI Dashboard.pbit">Example PowerBI Dashboard.pbit</ProjectItem>
       </Folder>
       <Folder Name="ServiceClients" TargetFolderName="ServiceClients">
         <ProjectItem ReplaceParameters="true" TargetFileName="GraphClient.cs">GraphClient.cs</ProjectItem>

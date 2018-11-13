@@ -3,10 +3,11 @@
 
 using System.Threading;
 using System.Threading.Tasks;
+using $safeprojectname$.Dialogs.Shared;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace $safeprojectname$
+namespace $safeprojectname$.Dialogs.Onboarding
 {
     public class OnboardingDialog : EnterpriseDialog
     {
@@ -52,7 +53,7 @@ namespace $safeprojectname$
             {
                 return await sc.PromptAsync(NamePrompt, new PromptOptions()
                 {
-                    Prompt = await _responder.RenderTemplate(sc.Context, "en", OnboardingResponses._namePrompt),
+                    Prompt = await _responder.RenderTemplate(sc.Context, sc.Context.Activity.Locale, OnboardingResponses._namePrompt),
                 });
             }
         }
@@ -72,7 +73,7 @@ namespace $safeprojectname$
             {
                 return await sc.PromptAsync(EmailPrompt, new PromptOptions()
                 {
-                    Prompt = await _responder.RenderTemplate(sc.Context, "en", OnboardingResponses._emailPrompt),
+                    Prompt = await _responder.RenderTemplate(sc.Context, sc.Context.Activity.Locale, OnboardingResponses._emailPrompt),
                 });
             }
         }
@@ -92,7 +93,7 @@ namespace $safeprojectname$
             {
                 return await sc.PromptAsync(LocationPrompt, new PromptOptions()
                 {
-                    Prompt = await _responder.RenderTemplate(sc.Context, "en", OnboardingResponses._locationPrompt),
+                    Prompt = await _responder.RenderTemplate(sc.Context, sc.Context.Activity.Locale, OnboardingResponses._locationPrompt),
                 });
             }
         }
