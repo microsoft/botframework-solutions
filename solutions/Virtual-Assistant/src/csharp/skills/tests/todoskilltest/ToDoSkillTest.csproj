@@ -22,6 +22,10 @@
     <PackageReference Include="Moq" Version="4.10.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.4.0-beta" />
     <PackageReference Include="MSTest.TestFramework" Version="1.4.0-beta" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta009">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
