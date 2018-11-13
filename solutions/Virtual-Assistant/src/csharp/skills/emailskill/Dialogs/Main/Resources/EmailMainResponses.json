@@ -10,7 +10,7 @@
       "Show latest email",
       "Send an email to somebody"
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "HelpMessage": {
     "replies": [
@@ -24,7 +24,7 @@
       "Send an email to somebody",
       "Forward the second email to somebody"
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "GreetingMessage": {
     "replies": [
