@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CalendarSkill;
 using CalendarSkillTest.API.Fakes;
-using CalendarSkillTest.API.Fakes;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Graph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

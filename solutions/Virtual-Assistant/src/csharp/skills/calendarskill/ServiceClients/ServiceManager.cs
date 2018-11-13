@@ -2,10 +2,9 @@
 // Licensed under the MIT license.
 
 using System;
-using Microsoft.Graph;
-using System.Collections.Generic;
 using CalendarSkill.ServiceClients.GoogleAPI;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Graph;
 
 namespace CalendarSkill
 {

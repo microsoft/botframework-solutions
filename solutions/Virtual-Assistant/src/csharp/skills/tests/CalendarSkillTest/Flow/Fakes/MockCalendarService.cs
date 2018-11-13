@@ -11,41 +11,40 @@ namespace CalendarSkillTest.Flow.Fakes
         public MockCalendarService()
         {
             this.UpcomingEvents = FakeGetUpcomingEvents();
-
         }
 
         public List<EventModel> UpcomingEvents { get; set; }
 
         public async Task<EventModel> CreateEvent(EventModel newEvent)
         {
-            return newEvent;
+            return await Task.FromResult(newEvent);
         }
 
         public async Task<List<EventModel>> GetUpcomingEvents()
         {
-            return this.UpcomingEvents;
+            return await Task.FromResult(this.UpcomingEvents);
         }
 
         public async Task<List<EventModel>> GetEventsByTime(DateTime startTime, DateTime endTime)
         {
-            return this.UpcomingEvents;
+            return await Task.FromResult(this.UpcomingEvents);
         }
 
         public async Task<List<EventModel>> GetEventsByStartTime(DateTime startTime)
         {
-            return this.UpcomingEvents;
+            return await Task.FromResult(this.UpcomingEvents);
         }
 
         public async Task<List<EventModel>> GetEventsByTitle(string title)
         {
-            return this.UpcomingEvents;
+            return await Task.FromResult(this.UpcomingEvents);
         }
 
         public async Task<EventModel> UpdateEventById(EventModel updateEvent)
         {
             updateEvent.StartTime = DateTime.SpecifyKind(new DateTime(2018, 11, 9, 9, 0, 0), DateTimeKind.Utc);
             updateEvent.EndTime = DateTime.SpecifyKind(new DateTime(2018, 11, 9, 10, 0, 0), DateTimeKind.Utc);
-            return updateEvent;
+            return await Task.FromResult(updateEvent);
         }
 
         public async Task DeleteEventById(string id)
@@ -69,6 +68,7 @@ namespace CalendarSkillTest.Flow.Fakes
 
             // Event Name
             string eventName = "test title";
+
             // Event body
             var body = new ItemBody
             {
@@ -95,7 +95,7 @@ namespace CalendarSkillTest.Flow.Fakes
                 DisplayName = "office 12",
             };
 
-            // Add the event.  
+            // Add the event.
             // await _graphClient.Me.Events.Request().AddAsync
             var createdEvent = new Event
             {

@@ -1,18 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using CalendarSkill;
 using CalendarSkillTest.API.Fakes;
+using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Graph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Bot.Solutions.Skills;
 
 namespace CalendarSkillTest.API
 {
     [TestClass]
     public class UserServiceTests
     {
-
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
@@ -51,7 +49,6 @@ namespace CalendarSkillTest.API
             IUserService userService = serviceManager.InitUserService(serviceClient, TimeZoneInfo.Local);
 
             var result = await userService.GetUserAsync("test");
-
 
             // Test get 0-10 user per page
             Assert.IsTrue(result.Count >= 1);

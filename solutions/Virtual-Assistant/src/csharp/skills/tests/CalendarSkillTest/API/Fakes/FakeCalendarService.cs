@@ -1,8 +1,7 @@
-﻿using CalendarSkill;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
+using CalendarSkill;
 
 namespace CalendarSkillTest.API.Fakes
 {
@@ -17,7 +16,7 @@ namespace CalendarSkillTest.API.Fakes
 
         public async Task<EventModel> CreateEvent(EventModel newEvent)
         {
-            return newEvent;
+            return await Task.FromResult(newEvent);
         }
 
         public Task DeleteEventById(string id)
@@ -27,29 +26,29 @@ namespace CalendarSkillTest.API.Fakes
 
         public async Task<List<EventModel>> GetEventsByStartTime(DateTime startTime)
         {
-            return this.GetFakeEventModelList();
+            return await Task.FromResult(this.GetFakeEventModelList());
         }
 
         public async Task<List<EventModel>> GetEventsByTime(DateTime startTime, DateTime endTime)
         {
-            return this.GetFakeEventModelList();
+            return await Task.FromResult(this.GetFakeEventModelList());
         }
 
         public async Task<List<EventModel>> GetEventsByTitle(string title)
         {
-            return this.GetFakeEventModelList();
+            return await Task.FromResult(this.GetFakeEventModelList());
         }
 
         public async Task<List<EventModel>> GetUpcomingEvents()
         {
-            return this.GetFakeEventModelList();
+            return await Task.FromResult(this.GetFakeEventModelList());
         }
 
         public async Task<EventModel> UpdateEventById(EventModel updateEvent)
         {
             updateEvent.StartTime = DateTime.SpecifyKind(updateEvent.StartTime, DateTimeKind.Utc);
             updateEvent.EndTime = DateTime.SpecifyKind(updateEvent.EndTime, DateTimeKind.Utc);
-            return updateEvent;
+            return await Task.FromResult(updateEvent);
         }
 
         public List<EventModel> GetFakeEventModelList()

@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
-using static Luis.Calendar;
 
 namespace CalendarSkillTest.Flow.Fakes
 {
@@ -11,7 +10,6 @@ namespace CalendarSkillTest.Flow.Fakes
     {
         public MockLuisRecognizer()
         {
-
         }
 
         public Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, CancellationToken cancellationToken)
@@ -41,7 +39,7 @@ namespace CalendarSkillTest.Flow.Fakes
                 mockResult = (T)test;
             }
 
-            return mockResult;
+            return await Task.FromResult(mockResult);
         }
     }
 }

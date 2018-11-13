@@ -12,12 +12,6 @@ namespace CalendarSkillTest.Flow
     [TestClass]
     public class SummaryCalendarFlowTests : CalendarBotTestBase
     {
-        [TestInitialize]
-        public override void Initialize()
-        {
-            base.Initialize();
-        }
-
         [TestMethod]
         public async Task Test_CalendarSummary()
         {

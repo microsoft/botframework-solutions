@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using CalendarSkill.Dialogs.Main.Resources;
-using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Dialogs.DeleteEvent.Resources;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -12,12 +10,6 @@ namespace CalendarSkillTest.Flow
     [TestClass]
     public class DeleteCalendarFlowTests : CalendarBotTestBase
     {
-        [TestInitialize]
-        public override void Initialize()
-        {
-            base.Initialize();
-        }
-
         [TestMethod]
         public async Task Test_CalendarDelete()
         {
@@ -30,7 +22,6 @@ namespace CalendarSkillTest.Flow
                 .AssertReplyOneOf(this.DeleteEventPrompt())
                 .StartTestAsync();
         }
-
 
         private string[] AskForDeletePrompt()
         {

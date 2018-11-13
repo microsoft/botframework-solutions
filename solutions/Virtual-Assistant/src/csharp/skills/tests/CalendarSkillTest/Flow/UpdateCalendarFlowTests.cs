@@ -12,12 +12,6 @@ namespace CalendarSkillTest.Flow
     [TestClass]
     public class UpdateCalendarFlowTests : CalendarBotTestBase
     {
-        [TestInitialize]
-        public override void Initialize()
-        {
-            base.Initialize();
-        }
-
         [TestMethod]
         public async Task Test_CalendarCreate()
         {
@@ -47,7 +41,7 @@ namespace CalendarSkillTest.Flow
         {
             return this.ParseReplies(UpdateEventResponses.NoNewTime.Replies, new StringDictionary());
         }
-        
+
         private Action<IActivity> ShowCalendarList()
         {
             return activity =>

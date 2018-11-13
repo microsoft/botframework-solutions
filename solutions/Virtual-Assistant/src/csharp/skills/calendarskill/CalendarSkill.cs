@@ -18,11 +18,11 @@ namespace CalendarSkill
     /// </summary>
     public class CalendarSkill : IBot
     {
-        private bool _skillMode;
         private readonly ISkillConfiguration _services;
         private readonly UserState _userState;
         private readonly ConversationState _conversationState;
         private readonly IServiceManager _serviceManager;
+        private bool _skillMode;
         private DialogSet _dialogs;
 
         public CalendarSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, IServiceManager serviceManager = null, bool skillMode = false)

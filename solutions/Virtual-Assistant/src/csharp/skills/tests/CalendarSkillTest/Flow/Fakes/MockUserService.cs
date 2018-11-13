@@ -22,18 +22,17 @@ namespace CalendarSkillTest.Flow.Fakes
         public async Task<List<Contact>> GetContactAsync(string name)
         {
             List<Contact> items = new List<Contact>();
-
-            return items;
+            return await Task.FromResult(items);
         }
 
         public async Task<List<Person>> GetPeopleAsync(string name)
         {
-            return this.People;
+            return await Task.FromResult(this.People);
         }
 
         public async Task<List<User>> GetUserAsync(string name)
         {
-            return this.Users;
+            return await Task.FromResult(this.Users);
         }
 
         private List<Person> FakePeople()

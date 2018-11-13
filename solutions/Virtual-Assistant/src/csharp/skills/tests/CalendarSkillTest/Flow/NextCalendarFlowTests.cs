@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using CalendarSkill.Dialogs.Main.Resources;
-using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Dialogs.NextMeeting.Resources;
+using CalendarSkill.Dialogs.Shared.Resources;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -12,12 +11,6 @@ namespace CalendarSkillTest.Flow
     [TestClass]
     public class NextCalendarFlowTests : CalendarBotTestBase
     {
-        [TestInitialize]
-        public override void Initialize()
-        {
-            base.Initialize();
-        }
-
         [TestMethod]
         public async Task Test_CalendarDelete()
         {

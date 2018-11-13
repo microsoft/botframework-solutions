@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 using Moq;
@@ -10,6 +9,9 @@ namespace CalendarSkillTest.API.Fakes
     {
         private readonly Mock<IGraphServiceClient> mockCalendarService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MockGraphServiceClientGen"/> class.
+        /// </summary>
         public MockGraphServiceClientGen()
         {
             this.mockCalendarService = new Mock<IGraphServiceClient>();
@@ -18,7 +20,6 @@ namespace CalendarSkillTest.API.Fakes
         }
 
         public User Me { get; set; }
-
 
         public IGraphServiceUsersCollectionPage Users { get; set; }
 

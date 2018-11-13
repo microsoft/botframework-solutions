@@ -1,6 +1,6 @@
-﻿using Luis;
+﻿using System.Collections.Generic;
+using Luis;
 using Microsoft.Bot.Builder;
-using System.Collections.Generic;
 
 namespace CalendarSkillTest.Flow.Fakes
 {
@@ -42,9 +42,9 @@ namespace CalendarSkillTest.Flow.Fakes
             }
         }
 
-        public _Entities Entities { get; set; }
+        public new _Entities Entities { get; set; }
 
-        public (Intent intent, double score) TopIntent()
+        public new (Intent intent, double score) TopIntent()
         {
             return (intent, score);
         }
