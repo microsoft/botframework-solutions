@@ -5,11 +5,11 @@ using CalendarSkill;
 
 namespace CalendarSkillTest.API.Fakes
 {
-    public class FakeCalendarService : ICalendar
+    public class MockCalendarService : ICalendar
     {
         private readonly string token;
 
-        public FakeCalendarService(string token)
+        public MockCalendarService(string token)
         {
             this.token = token;
         }

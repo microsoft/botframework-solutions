@@ -40,10 +40,7 @@ namespace CalendarSkill
             switch (source)
             {
                 case EventSource.Microsoft:
-                    this.calendarAPI = calendarAPI;
-                    break;
                 case EventSource.Google:
-                    // Todo: Google API timezone?
                     this.calendarAPI = calendarAPI;
                     break;
                 default:
