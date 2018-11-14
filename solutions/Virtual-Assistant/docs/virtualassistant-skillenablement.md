@@ -4,7 +4,7 @@
 
 An initial Skill template has been made available to simplify creation of your own skill. This can be found within the [Skill-Template](https://github.com/Microsoft/AI/tree/master/templates/Skill-Template) folder of the repository.
 
-Create a new folder called `Bot Framework` within your `%userprofile%\Documents\Visual Studio 2017\Templates\ProjectTemplates\Visual C#' folder. Then within this create a` Virtual Assistant Skill` folder and copy the contents of the template into this folder.
+Create a new folder called `Bot Framework` within your `%userprofile%\Documents\Visual Studio 2017\Templates\ProjectTemplates\Visual C#` folder. Then within this create a `Virtual Assistant Skill` folder and copy the contents of the template into this folder.
 
 Restart Visual Studio, create a new project and you should now skill the `Skill Template` appear within the available C#\Bot Framework Templates.
 
@@ -19,7 +19,7 @@ msbot connect luis --appId [LUIS_APP_ID] --authoringKey [LUIS_AUTHORING_KEY] --s
 ```shell
 dispatch refresh --bot "YOURBOT.bot" --secret YOURSECRET
 ```
-- Generate an updated Dispatch model for your Assistant to enable evaluation of incoming messages. The Dispatch.cs folder is located in the `assistant\Dialogs\Shared` folder. Ensure you run this command within the assistant directory of your cloned repo.
+- Generate an updated Dispatch model for your Assistant to enable evaluation of incoming messages. The `Dispatch.cs` folder is located in the `assistant\Dialogs\Shared` folder. Ensure you run this command within the assistant directory of your cloned repo.
 ```shell
 msbot get dispatch --bot "YOURBOT.bot" | luis export version --stdin | luisgen - -cs Dispatch -o Dialogs\Shared
 ```
