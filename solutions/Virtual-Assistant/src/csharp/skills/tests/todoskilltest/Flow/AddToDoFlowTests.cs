@@ -1,11 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using AdaptiveCards;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ToDoSkill.Dialogs.Main.Resources;
 using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkillTest.Flow.Fakes;
 
@@ -17,13 +19,34 @@ namespace ToDoSkillTest.Flow
         [TestMethod]
         public async Task Test_AddToDoItem()
         {
+            var triggerActivity = new Activity()
+            {
+                Type = ActivityTypes.ConversationUpdate,
+                MembersAdded = new List<ChannelAccount>()
+                {
+                    {
+                        new ChannelAccount()
+                        {
+                            Id = "test",
+                            Name = "Test"
+                        }
+                    }
+                }
+            };
             await this.GetTestFlow()
+                .Send(triggerActivity)
+                .AssertReplyOneOf(this.ShowWelcomleMessage())
                 .Send("Add a task")
                 .AssertReplyOneOf(this.CollectToDoContent())
                 .Send("Test Content")
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReply(this.ShowUpdatedToDoList())
                 .StartTestAsync();
+        }
+
+        private string[] ShowWelcomleMessage()
+        {
+            return this.ParseReplies(ToDoMainResponses.ToDoWelcomeMessage.Replies, new StringDictionary());
         }
 
         private string[] CollectToDoContent()
