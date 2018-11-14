@@ -1,4 +1,5 @@
 ﻿using Luis;
+using Microsoft.Bot.Builder.AI.Luis;
 
 namespace EmailSkillTest.Flow.Fakes
 {
@@ -145,11 +146,16 @@ namespace EmailSkillTest.Flow.Fakes
             else if (userInput == "Send email to test@test.com")
             {
                 this.Entities.EmailAddress = new string[] { "test@test.com" };
-                return (Email.Intent.SendEmail, 0.90);
-            }
-            else if (userInput == "Send email to test1@test.com and test2@test.com")
-            {
-                this.Entities.EmailAddress = new string[] { "test1@test.com", "test2@test.com" };
+
+                this.Text = "Send email to test@test.com";
+                this.Entities._instance = new _Entities._Instance();
+                InstanceData testEmail = new InstanceData()
+                {
+                    StartIndex = 14,
+                    EndIndex = 27
+                };
+                this.Entities._instance.EmailAddress = new InstanceData[1] { testEmail };
+
                 return (Email.Intent.SendEmail, 0.90);
             }
             else if (userInput == "Send email to Nobody")
@@ -160,6 +166,16 @@ namespace EmailSkillTest.Flow.Fakes
             else if (userInput == "test@test.com")
             {
                 this.Entities.EmailAddress = new string[] { "test@test.com"};
+
+                this.Text = "test@test.com";
+                this.Entities._instance = new _Entities._Instance();
+                InstanceData testEmail = new InstanceData()
+                {
+                    StartIndex = 0,
+                    EndIndex = 13
+                };
+                this.Entities._instance.EmailAddress = new InstanceData[1] { testEmail };
+
                 return (Email.Intent.SelectItem, 0.90);
             }
 

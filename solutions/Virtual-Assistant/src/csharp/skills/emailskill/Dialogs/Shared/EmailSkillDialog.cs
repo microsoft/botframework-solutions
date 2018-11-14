@@ -867,9 +867,13 @@ namespace EmailSkill
 
                 if (entity.EmailAddress != null)
                 {
-                    foreach (var emailAddress in entity.EmailAddress)
+                    // As luis result for email address often contains extra spaces for word breaking
+                    // (e.g. send email to test@test.com, email address entity will be test @ test . com)
+                    // So use original user input as email address.
+                    var rawEntity = luisResult.Entities._instance.EmailAddress;
+                    foreach (var emailAddress in rawEntity)
                     {
-                        var email = emailAddress.Replace(" ", string.Empty);
+                        var email = luisResult.Text.Substring(emailAddress.StartIndex, emailAddress.EndIndex - emailAddress.StartIndex);
                         if (IsEmail(email) && !state.EmailList.Contains(email))
                         {
                             state.EmailList.Add(email);
