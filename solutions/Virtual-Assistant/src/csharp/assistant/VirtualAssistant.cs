@@ -21,23 +21,27 @@ namespace VirtualAssistant
         private readonly BotConfiguration _botConfig;
         private readonly ConversationState _conversationState;
         private readonly UserState _userState;
+        private readonly EndpointService _endpointService;
         private DialogSet _dialogs;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VirtualAssistant"/> class.
         /// </summary>
+        /// <param name="botConfig">Bot configuration.</param>
         /// <param name="botServices">Bot services.</param>
         /// <param name="conversationState">Bot conversation state.</param>
         /// <param name="userState">Bot user state.</param>
-        public VirtualAssistant(BotServices botServices, BotConfiguration botConfig, ConversationState conversationState, UserState userState)
+        /// <param name="endpointService">Bot endpoint service.</param>
+        public VirtualAssistant(BotServices botServices, BotConfiguration botConfig, ConversationState conversationState, UserState userState, EndpointService endpointService)
         {
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
             _services = botServices ?? throw new ArgumentNullException(nameof(botServices));
+            _endpointService = endpointService ?? throw new ArgumentNullException(nameof(endpointService));
             _botConfig = botConfig;
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(VirtualAssistant)));
-            _dialogs.Add(new MainDialog(_services, _botConfig, _conversationState, _userState));
+            _dialogs.Add(new MainDialog(_services, _botConfig, _conversationState, _userState, _endpointService));
         }
 
         /// <summary>
