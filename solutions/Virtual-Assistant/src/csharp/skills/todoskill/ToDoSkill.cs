@@ -73,10 +73,6 @@ namespace ToDoSkill
                             await dc.BeginDialogAsync(nameof(MainDialog));
                         }
                     }
-                    else
-                    {
-                        await dc.BeginDialogAsync(nameof(MainDialog));
-                    }
                 }
                 else
                 {
