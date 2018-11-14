@@ -43,7 +43,7 @@ namespace $safeprojectname$.Dialogs.Onboarding
 
         public async Task<DialogTurnResult> AskForName(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            _state = await _accessor.GetAsync(sc.Context);
+            _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
 
             if (!string.IsNullOrEmpty(_state.Name))
             {
@@ -60,7 +60,7 @@ namespace $safeprojectname$.Dialogs.Onboarding
 
         public async Task<DialogTurnResult> AskForEmail(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            _state = await _accessor.GetAsync(sc.Context);
+            _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
             var name = _state.Name = (string)sc.Result;
 
             await _responder.ReplyWith(sc.Context, OnboardingResponses._haveName, new { name });
@@ -80,7 +80,7 @@ namespace $safeprojectname$.Dialogs.Onboarding
 
         public async Task<DialogTurnResult> AskForLocation(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            _state = await _accessor.GetAsync(sc.Context);
+            _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
             var email = _state.Email = (string)sc.Result;
 
             await _responder.ReplyWith(sc.Context, OnboardingResponses._haveEmail, new { email });

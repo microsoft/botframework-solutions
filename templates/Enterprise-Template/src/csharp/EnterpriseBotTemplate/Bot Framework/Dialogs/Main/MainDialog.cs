@@ -34,11 +34,11 @@ namespace $safeprojectname$.Dialogs.Main
 
         protected override async Task OnStartAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var onboardingAccessor = _userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
-            var onboardingState = await onboardingAccessor.GetAsync(innerDc.Context, () => new OnboardingState());
-
             var view = new MainResponses();
             await view.ReplyWith(innerDc.Context, MainResponses.Intro);
+
+            var onboardingAccessor = _userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
+            var onboardingState = await onboardingAccessor.GetAsync(innerDc.Context, () => new OnboardingState());
 
             if (string.IsNullOrEmpty(onboardingState.Name))
             {

@@ -9,7 +9,7 @@
     <ApplicationInsightsResourceId>/subscriptions/4c0d07e4-5490-4784-8d89-d8c504ba2a75/resourcegroups/LamillsBot/providers/microsoft.insights/components/LamillsBot-insights</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/4c0d07e4-5490-4784-8d89-d8c504ba2a75/resourcegroups/LamillsBot/providers/microsoft.insights/components/LamillsBot-insights</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.8.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.0" />
@@ -48,6 +48,16 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>MainStrings.resx</DependentUpon>
     </Compile>
+    <Compile Update="Dialogs\Onboarding\Resources\OnboardingStrings - Copy.Designer.cs">
+      <DependentUpon>OnboardingStrings.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Dialogs\Onboarding\Resources\OnboardingStrings - Copy.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>OnboardingStrings.resx</DependentUpon>
+    </Compile>
     <Compile Update="Dialogs\Onboarding\Resources\OnboardingStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -85,10 +95,6 @@
 
   <ItemGroup>
     <WCFMetadata Include="Connected Services" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Dialogs\Shared\Resources\" />
   </ItemGroup>
 
   <ItemGroup>
