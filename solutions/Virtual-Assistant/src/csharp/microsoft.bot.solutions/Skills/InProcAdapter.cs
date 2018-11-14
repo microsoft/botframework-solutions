@@ -1,12 +1,12 @@
-﻿namespace Microsoft.Bot.Solutions.Skills
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Microsoft.Bot.Builder;
-    using Microsoft.Bot.Schema;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Schema;
 
+namespace Microsoft.Bot.Solutions.Skills
+{
     /// <summary>
     /// We want to invoke skills "in process" rather than invoking through DirectLine/Connector which his heavyweight and overlays additional security
     /// BUT we want to preserve standard BF communication protocols so leverage the Adapter pattern to interact with Skills.
@@ -54,14 +54,10 @@
                 throw new ArgumentNullException(nameof(callback));
             }
 
-            var activity = new Activity().ApplyConversationReference(reference, true);
-
-            using (var context = new TurnContext(this, activity))
+            using (var context = new TurnContext(this, reference.GetContinuationActivity()))
             {
                 await RunPipelineAsync(context, callback, cancellationToken);
             }
-
-            await base.ContinueConversationAsync(botId, reference, callback, cancellationToken);
         }
 
         public Activity GetNextReply()

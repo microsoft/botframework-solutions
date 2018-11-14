@@ -71,17 +71,19 @@ namespace VirtualAssistant
             services.AddSingleton(conversationState);
             services.AddSingleton(new BotStateSet(userState, conversationState));
 
+            var environment = _isProduction ? "production" : "development";
+            var service = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.Endpoint && s.Name == environment);
+            if (!(service is EndpointService endpointService))
+            {
+                throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
+            }
+
+            services.AddSingleton(endpointService);
+
             // Add the bot with options
             services.AddBot<VirtualAssistant>(options =>
             {
                 // Load the connected services from .bot file.
-                var environment = _isProduction ? "production" : "development";
-                var service = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.Endpoint && s.Name == environment);
-                if (!(service is EndpointService endpointService))
-                {
-                    throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
-                }
-
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
                 // Telemetry Middleware (logs activity messages in Application Insights)
