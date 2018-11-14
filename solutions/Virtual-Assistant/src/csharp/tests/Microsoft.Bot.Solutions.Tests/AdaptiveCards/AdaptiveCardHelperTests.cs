@@ -1,9 +1,7 @@
-﻿using Microsoft.Bot.Solutions.AdaptiveCards;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Text;
+using Microsoft.Bot.Solutions.AdaptiveCards;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Bot.Solutions.Tests.AdaptiveCards
 {
@@ -46,7 +44,6 @@ namespace Microsoft.Bot.Solutions.Tests.AdaptiveCards
                 Assert.IsNotNull(card);
             }
         }
-
 
         private StringDictionary GetSpecialCharToken(string content)
         {
