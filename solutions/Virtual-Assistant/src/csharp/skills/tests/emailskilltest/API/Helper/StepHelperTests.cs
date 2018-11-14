@@ -1,24 +1,21 @@
-﻿using EmailSkill;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using EmailSkill;
 using EmailSkillTest.API.Fakes;
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Graph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace EmailSkillTest.API
 {
     [TestClass]
     public class StepHelperTests : EmailSkillDialog
     {
-        private const string dialogId = "test";
+        private const string DialogId = "test";
         private MockDialogStateAccessor mockDialogStateAccessor;
         private MockEmailStateAccessor mockEmailStateAccessor;
 
         public StepHelperTests()
-            : base(dialogId)
+            : base(DialogId)
         {
             Services = new MockSkillConfiguration();
 
@@ -79,7 +76,7 @@ namespace EmailSkillTest.API
         }
 
         [TestMethod]
-        public async Task FormatRecipientListTest()
+        public void FormatRecipientListTest()
         {
             var personData = GetPersonLists(0, 5);
             var contactData = GetPersonLists(1, 6);
@@ -98,7 +95,7 @@ namespace EmailSkillTest.API
         {
             List<Recipient> result = new List<Recipient>();
 
-            for (int i = 0; i < count; ++i)
+            for (int i = 0; i < count; i++)
             {
                 var recipient = new Recipient();
                 recipient.EmailAddress = new EmailAddress();
@@ -115,7 +112,7 @@ namespace EmailSkillTest.API
         {
             List<Person> result = new List<Person>();
 
-            for (int i = start; i < end; ++i)
+            for (int i = start; i < end; i++)
             {
                 var emailList = new List<ScoredEmailAddress>();
                 var scoredEmailAddress = new ScoredEmailAddress();

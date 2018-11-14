@@ -24,7 +24,7 @@ namespace EmailSkill
         Task<List<User>> GetUserAsync(string name);
 
         /// <summary>
-        /// Get user from your organization.
+        /// Get contacts from your organization.
         /// </summary>
         /// <param name="name">The contact's name.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>

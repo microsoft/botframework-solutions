@@ -1,11 +1,8 @@
-﻿using Microsoft.Bot.Builder;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace EmailSkillTest.API.Fakes
 {

@@ -50,7 +50,7 @@ namespace EmailSkillTest.Flow.Fakes
             return Task.FromResult(result);
         }
 
-        public async Task<List<Contact>> GetContactsAsync(string name)
+        public Task<List<Contact>> GetContactsAsync(string name)
         {
             var result = new List<Contact>();
 
@@ -62,7 +62,7 @@ namespace EmailSkillTest.Flow.Fakes
                 }
             }
 
-            return result;
+            return Task.FromResult(result);
         }
 
         private List<Person> FakePeople()

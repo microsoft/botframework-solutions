@@ -92,7 +92,6 @@ namespace EmailSkillTest.API
 
             var result = await userService.GetPeopleAsync("test");
 
-            // Test get > 0 people per page
             Assert.IsTrue(result.Count == 12);
 
             // "Conf Room" is filtered
@@ -105,37 +104,36 @@ namespace EmailSkillTest.API
         [TestMethod]
         public async Task GetContactsTest()
         {
-            IUserPeopleCollectionPage people = new UserPeopleCollectionPage();
+            IUserContactsCollectionPage contacts = new UserContactsCollectionPage();
             for (int i = 0; i < 3; i++)
             {
-                var person = new Person()
+                var contact = new Contact()
                 {
                     DisplayName = "Conf Room" + i,
                 };
 
-                people.Add(person);
+                contacts.Add(contact);
             }
 
             for (int i = 0; i < 12; i++)
             {
-                var user = new Person()
+                var contact = new Contact()
                 {
                     DisplayName = "TestUser" + i,
                 };
 
-                people.Add(user);
+                contacts.Add(contact);
             }
 
             var mockGraphServiceClient = new MockGraphServiceClientGen();
-            mockGraphServiceClient.People = people;
+            mockGraphServiceClient.Contacts = contacts;
             mockGraphServiceClient.SetMockBehavior();
 
             IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
             UserService userService = new UserService(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
 
-            var result = await userService.GetPeopleAsync("test");
+            var result = await userService.GetContactsAsync("test");
 
-            // Test get > 0 people per page
             Assert.IsTrue(result.Count == 12);
 
             // "Conf Room" is filtered

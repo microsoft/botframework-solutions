@@ -127,11 +127,6 @@ namespace EmailSkill
                         // Get user properties.
                         items.Add(contact);
                     }
-
-                    if (items.Count >= 10)
-                    {
-                        break;
-                    }
                 }
             }
 
