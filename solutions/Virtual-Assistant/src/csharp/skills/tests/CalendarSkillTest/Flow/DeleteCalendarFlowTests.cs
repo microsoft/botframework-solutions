@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using CalendarSkill.Dialogs.DeleteEvent.Resources;
+using CalendarSkill.Dialogs.Main.Resources;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -14,6 +16,8 @@ namespace CalendarSkillTest.Flow
         public async Task Test_CalendarDelete()
         {
             await this.GetTestFlow()
+                .Send(GetTriggerActivity())
+                .AssertReplyOneOf(this.WelcomePrompt())
                 .Send("delete meeting")
                 .AssertReplyOneOf(this.AskForDeletePrompt())
                 .Send("test subject")
@@ -21,6 +25,11 @@ namespace CalendarSkillTest.Flow
                 .Send("Yes")
                 .AssertReplyOneOf(this.DeleteEventPrompt())
                 .StartTestAsync();
+        }
+
+        private string[] WelcomePrompt()
+        {
+            return this.ParseReplies(CalendarMainResponses.CalendarWelcomeMessage.Replies, new StringDictionary());
         }
 
         private string[] AskForDeletePrompt()

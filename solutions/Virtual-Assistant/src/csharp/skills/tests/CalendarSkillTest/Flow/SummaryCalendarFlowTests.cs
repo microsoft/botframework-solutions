@@ -16,6 +16,8 @@ namespace CalendarSkillTest.Flow
         public async Task Test_CalendarSummary()
         {
             await this.GetTestFlow()
+                .Send(GetTriggerActivity())
+                .AssertReplyOneOf(this.WelcomePrompt())
                 .Send("What should I do today")
                 .AssertReplyOneOf(this.FoundEventPrompt())
                 .AssertReply(this.ShowCalendarList())
@@ -28,6 +30,11 @@ namespace CalendarSkillTest.Flow
         private string[] ActionEndMessage()
         {
             return this.ParseReplies(CalendarSharedResponses.CancellingMessage.Replies, new StringDictionary());
+        }
+
+        private string[] WelcomePrompt()
+        {
+            return this.ParseReplies(CalendarMainResponses.CalendarWelcomeMessage.Replies, new StringDictionary());
         }
 
         private string[] FoundEventPrompt()

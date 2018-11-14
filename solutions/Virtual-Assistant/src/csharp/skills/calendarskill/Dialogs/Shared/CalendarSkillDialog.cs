@@ -114,8 +114,6 @@ namespace CalendarSkill
                 }
                 else if (sc.Context.Activity.ChannelId == "test")
                 {
-                    var state = await Accessor.GetAsync(sc.Context);
-                    state.EventSource = EventSource.Microsoft;
                     return await sc.NextAsync();
                 }
                 else

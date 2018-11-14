@@ -16,6 +16,8 @@ namespace CalendarSkillTest.Flow
         public async Task Test_CalendarCreate()
         {
             await this.GetTestFlow()
+                .Send(GetTriggerActivity())
+                .AssertReplyOneOf(this.WelcomePrompt())
                 .Send("update meeting")
                 .AssertReplyOneOf(this.AskForTitleTimePrompt())
                 .Send("test subject")
@@ -27,9 +29,9 @@ namespace CalendarSkillTest.Flow
                 .StartTestAsync();
         }
 
-        private string[] ActionEndMessage()
+        private string[] WelcomePrompt()
         {
-            return this.ParseReplies(CalendarSharedResponses.CancellingMessage.Replies, new StringDictionary());
+            return this.ParseReplies(CalendarMainResponses.CalendarWelcomeMessage.Replies, new StringDictionary());
         }
 
         private string[] AskForTitleTimePrompt()

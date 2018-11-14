@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
+using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.NextMeeting.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
 using Microsoft.Bot.Schema;
@@ -15,15 +17,17 @@ namespace CalendarSkillTest.Flow
         public async Task Test_CalendarDelete()
         {
             await this.GetTestFlow()
+                .Send(GetTriggerActivity())
+                .AssertReplyOneOf(this.WelcomePrompt())
                 .Send("what is my next meeting")
                 .AssertReplyOneOf(this.NextMeetingPrompt())
                 .AssertReply(this.ShowCalendarList())
                 .StartTestAsync();
         }
 
-        private string[] ActionEndMessage()
+        private string[] WelcomePrompt()
         {
-            return this.ParseReplies(CalendarSharedResponses.CancellingMessage.Replies, new StringDictionary());
+            return this.ParseReplies(CalendarMainResponses.CalendarWelcomeMessage.Replies, new StringDictionary());
         }
 
         private string[] NextMeetingPrompt()

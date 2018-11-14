@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using CalendarSkill.Dialogs.CreateEvent.Resources;
+using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,30 +17,32 @@ namespace CalendarSkillTest.Flow
         public async Task Test_CalendarCreate()
         {
             await this.GetTestFlow()
-                .Send("Create a meeting")
-                .AssertReplyOneOf(this.AskForParticpantsPrompt())
-                .Send("test@test.com")
-                .AssertReplyOneOf(this.AskForSubjectPrompt())
-                .Send("test subject")
-                .AssertReplyOneOf(this.AskForContentPrompt())
-                .Send("test content")
-                .AssertReplyOneOf(this.AskForDatePrompt())
-                .Send("tomorrow")
-                .AssertReplyOneOf(this.AskForStartTimePrompt())
-                .Send("at 9 AM")
-                .AssertReplyOneOf(this.AskForDurationPrompt())
-                .Send("one hour")
-                .AssertReplyOneOf(this.AskForLocationPrompt())
-                .Send("office")
-                .AssertReply(this.ShowCalendarList())
-                .Send("Yes")
-                .AssertReply(this.ShowCalendarList())
-                .StartTestAsync();
+                    .Send(GetTriggerActivity())
+                    .AssertReplyOneOf(this.WelcomePrompt())
+                    .Send("Create a meeting")
+                    .AssertReplyOneOf(this.AskForParticpantsPrompt())
+                    .Send("test@test.com")
+                    .AssertReplyOneOf(this.AskForSubjectPrompt())
+                    .Send("test subject")
+                    .AssertReplyOneOf(this.AskForContentPrompt())
+                    .Send("test content")
+                    .AssertReplyOneOf(this.AskForDatePrompt())
+                    .Send("tomorrow")
+                    .AssertReplyOneOf(this.AskForStartTimePrompt())
+                    .Send("at 9 AM")
+                    .AssertReplyOneOf(this.AskForDurationPrompt())
+                    .Send("one hour")
+                    .AssertReplyOneOf(this.AskForLocationPrompt())
+                    .Send("office")
+                    .AssertReply(this.ShowCalendarList())
+                    .Send("Yes")
+                    .AssertReply(this.ShowCalendarList())
+                    .StartTestAsync();
         }
 
-        private string[] ActionEndMessage()
+        private string[] WelcomePrompt()
         {
-            return this.ParseReplies(CalendarSharedResponses.CancellingMessage.Replies, new StringDictionary());
+            return this.ParseReplies(CalendarMainResponses.CalendarWelcomeMessage.Replies, new StringDictionary());
         }
 
         private string[] AskForParticpantsPrompt()

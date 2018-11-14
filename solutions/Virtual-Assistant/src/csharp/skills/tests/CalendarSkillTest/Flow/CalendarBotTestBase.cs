@@ -6,6 +6,7 @@ using CalendarSkillTest.Flow.Fakes;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
 using Microsoft.Bot.Solutions.Skills;
@@ -49,6 +50,26 @@ namespace CalendarSkillTest.Flow
             this.BotResponseBuilder.AddFormatter(new TextBotResponseFormatter());
         }
 
+        public Activity GetTriggerActivity()
+        {
+            var triggerActivity = new Activity()
+            {
+                Type = ActivityTypes.ConversationUpdate,
+                MembersAdded = new List<ChannelAccount>()
+                {
+                    {
+                        new ChannelAccount()
+                        {
+                            Id = "test",
+                            Name = "Test"
+                        }
+                    }
+                }
+            };
+
+            return triggerActivity;
+        }
+
         public TestFlow GetTestFlow()
         {
             var adapter = new TestAdapter()
@@ -59,6 +80,7 @@ namespace CalendarSkillTest.Flow
                 var bot = this.BuildBot() as CalendarSkill.CalendarSkill;
                 var state = await this.CalendarStateAccessor.GetAsync(context, () => new CalendarSkillState());
                 state.APIToken = "test";
+                state.EventSource = EventSource.Microsoft;
                 await bot.OnTurnAsync(context, CancellationToken.None);
             });
 
