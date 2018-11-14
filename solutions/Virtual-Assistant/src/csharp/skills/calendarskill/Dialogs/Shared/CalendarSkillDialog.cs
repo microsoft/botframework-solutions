@@ -572,7 +572,6 @@ namespace CalendarSkill
 
                     case Calendar.Intent.None:
                         {
-
                             break;
                         }
 
@@ -584,7 +583,10 @@ namespace CalendarSkill
             }
             catch
             {
-                // put log here
+                var state = await Accessor.GetAsync(dc.Context);
+                state.Clear();
+                await dc.CancelAllDialogsAsync();
+                throw;
             }
         }
 
