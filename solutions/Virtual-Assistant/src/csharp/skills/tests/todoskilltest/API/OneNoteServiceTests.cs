@@ -1,12 +1,12 @@
-﻿namespace ToDoSkillTest.API
-{
-    using System.Collections.Generic;
-    using System.Net.Http;
-    using System.Threading.Tasks;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using ToDoSkill;
-    using ToDoSkillTest.API.Fakes;
+﻿using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ToDoSkill;
+using ToDoSkillTest.API.Fakes;
 
+namespace ToDoSkillTest.API
+{
     [TestClass]
     public class OneNoteServiceTests
     {

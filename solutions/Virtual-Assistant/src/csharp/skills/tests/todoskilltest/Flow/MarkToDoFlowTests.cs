@@ -16,11 +16,10 @@ namespace ToDoSkillTest.Flow
     public class MarkToDoFlowTests : ToDoBotTestBase
     {
         [TestMethod]
-
         public async Task Test_MarkToDoItem()
         {
             await this.GetTestFlow()
-                .Send("Show my to dos")
+                .Send("Show my todos")
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReply(this.ShowToDoList())
                 .AssertReplyOneOf(this.ShowMoreTasks())

@@ -8,7 +8,7 @@ using ToDoSkillTest.Flow.Fakes;
 
 namespace ToDoSkillTest.Fakes
 {
-    class FakeToDoService : ITaskService
+    public class FakeToDoService : ITaskService
     {
         private string pageId;
         private List<TaskItem> allToDoItems = new List<TaskItem>(FakeData.FakeTaskItems);

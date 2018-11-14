@@ -1,16 +1,16 @@
-﻿namespace ToDoSkillTest.API.Fakes
-{
-    using System.Collections.Generic;
-    using System.Net.Http;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using System.Xml;
-    using Moq;
-    using Moq.Protected;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
-    using ToDoSkill;
+﻿using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Xml;
+using Moq;
+using Moq.Protected;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using ToDoSkill;
 
+namespace ToDoSkillTest.API.Fakes
+{
     public class MockHttpClientHandlerGen
     {
         private readonly HttpClientHandler httpClientHandler;

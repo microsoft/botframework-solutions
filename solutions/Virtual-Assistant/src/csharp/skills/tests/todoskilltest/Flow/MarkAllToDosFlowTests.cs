@@ -19,7 +19,7 @@ namespace ToDoSkillTest.Flow
         public async Task Test_MarkAllToDoItems()
         {
             await this.GetTestFlow()
-                .Send("Show my to dos")
+                .Send("Show my todos")
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReply(this.ShowToDoList())
                 .AssertReplyOneOf(this.ShowMoreTasks())

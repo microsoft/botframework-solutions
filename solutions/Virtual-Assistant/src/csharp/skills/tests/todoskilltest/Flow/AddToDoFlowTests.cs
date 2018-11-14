@@ -14,7 +14,6 @@ namespace ToDoSkillTest.Flow
     [TestClass]
     public class AddToDoFlowTests : ToDoBotTestBase
     {
-
         [TestMethod]
         public async Task Test_AddToDoItem()
         {

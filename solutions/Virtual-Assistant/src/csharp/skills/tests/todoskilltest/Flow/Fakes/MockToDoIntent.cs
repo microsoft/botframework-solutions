@@ -17,7 +17,6 @@ namespace ToDoSkillTest.Flow.Fakes
             this.score = 0;
 
             (intent, score) = LuisResultMock();
-
         }
 
         public override _Entities Entities { get; set; }
@@ -65,6 +64,5 @@ namespace ToDoSkillTest.Flow.Fakes
 
             return (ToDo.Intent.None, 0.0);
         }
-
     }
 }
