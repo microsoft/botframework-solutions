@@ -10,6 +10,7 @@ namespace LinkedAccounts.Web.Controllers
     using System.Threading.Tasks;
     using LinkedAccounts.Web.Models;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Bot.Connector.Authentication;
     using Microsoft.Bot.Schema;
@@ -70,7 +71,7 @@ namespace LinkedAccounts.Web.Controllers
                 TokenStatus[] tokenStatuses = await repository.GetTokenStatusAsync(userId, CredentialProvider);
 
                 // Pass the DirectLine Token, Endpont and Token Status to the View model
-                return View(new LinkedAcountViewModel()
+                return View(new LinkedAccountsViewModel()
                 {
                     UserId = userId,
                     DirectLineToken = token,
@@ -121,6 +122,18 @@ namespace LinkedAccounts.Web.Controllers
             return RedirectToAction("LinkedAccounts");
         }
 
+        
+        [HttpPost]
+        public async Task<IActionResult> ChangeUserId(LinkedAccountsViewModel model)
+        {
+            if (ModelState.IsValid)
+            {                               
+                this.HttpContext.Session.SetString("ChangedUserId", model.UserId);                                
+            }
+
+            return RedirectToAction("LinkedAccounts");
+        }
+
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
@@ -143,21 +156,29 @@ namespace LinkedAccounts.Web.Controllers
 
         private string GetUserId()
         {
-            var claimsIdentity = this.User?.Identity as System.Security.Claims.ClaimsIdentity;
-            
-            if(claimsIdentity == null)
+            // If the user has overriden (to work around emulator blocker)
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("ChangedUserId")))            
             {
-                throw new InvalidOperationException("User is not logged in and needs to be.");
+                return HttpContext.Session.GetString("ChangedUserId");
             }
-
-            var objectId = claimsIdentity.Claims?.SingleOrDefault(c => c.Type == AadObjectidentifierClaim)?.Value;
-
-            if(objectId == null)
+            else
             {
-                throw new InvalidOperationException("User does not have a valid AAD ObjectId claim.");
-            }
+                var claimsIdentity = this.User?.Identity as System.Security.Claims.ClaimsIdentity;
 
-            return objectId;
+                if (claimsIdentity == null)
+                {
+                    throw new InvalidOperationException("User is not logged in and needs to be.");
+                }
+
+                var objectId = claimsIdentity.Claims?.SingleOrDefault(c => c.Type == AadObjectidentifierClaim)?.Value;
+
+                if (objectId == null)
+                {
+                    throw new InvalidOperationException("User does not have a valid AAD ObjectId claim.");
+                }
+
+                return objectId;
+            }
         }
 
         public const string AadObjectidentifierClaim = "http://schemas.microsoft.com/identity/claims/objectidentifier";

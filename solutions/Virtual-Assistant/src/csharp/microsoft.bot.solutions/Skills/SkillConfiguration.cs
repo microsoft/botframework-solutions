@@ -50,11 +50,11 @@ namespace Microsoft.Bot.Solutions.Skills
 
                                 foreach (var provider in supportedProviders)
                                 {
-                                    auth.Configuration.TryGetValue(provider, out var connectionName);
+                                    var matches = auth.Configuration.Where(x => x.Value == provider);
 
-                                    if (connectionName != null)
+                                    foreach (var match in matches)
                                     {
-                                        AuthenticationConnections.Add(provider, connectionName);
+                                        AuthenticationConnections.Add(match.Key, match.Value);
                                     }
                                 }
                             }

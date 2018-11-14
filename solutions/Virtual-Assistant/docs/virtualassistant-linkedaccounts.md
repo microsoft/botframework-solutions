@@ -62,7 +62,7 @@ The final configuration is the Direct Line secret for your Virtual Assistant bot
 This is required to avoid prompts for magic codes, otherwise required to protect against man-in-the-middle attacks. 
 Exchanging a Direct Line secret for a Token and providing a Trusted Origin enables removal of the magic code step.
 
-> Your VA Bot will need to be deployed and have a Direct-Line channel configured within the Azure portal
+> Your VA Bot will need to be deployed and have a Direct Line channel configured within the Azure portal
 
 ```
   "ClientDirectLineSecret": "YOUR_DIRECTLINE_SECRET",

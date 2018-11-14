@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using CalendarSkill.Common;
 using CalendarSkill.Dialogs.Main.Resources;
+using CalendarSkill.Dialogs.Shared.Resources;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -26,7 +27,6 @@ namespace CalendarSkill
     {
         // Constants
         public const string SkillModeAuth = "SkillAuth";
-        public const string LocalModeAuth = "LocalAuth";
 
         public CalendarSkillDialog(
             string dialogId,
@@ -42,19 +42,6 @@ namespace CalendarSkill
             if (!Services.AuthenticationConnections.Any())
             {
                 throw new Exception("You must configure an authentication connection in your bot file before using this component.");
-            }
-
-            foreach (var connection in services.AuthenticationConnections)
-            {
-                AddDialog(new OAuthPrompt(
-                    connection.Key,
-                    new OAuthPromptSettings
-                    {
-                        ConnectionName = connection.Value,
-                        Text = $"Please login with your {connection.Key} account.",
-                        Timeout = 30000,
-                    },
-                    AuthPromptValidator));
             }
 
             AddDialog(new EventPrompt(SkillModeAuth, "tokens/response", TokenResponseValidator));
@@ -662,9 +649,13 @@ namespace CalendarSkill
 
         protected async Task HandleDialogExceptions(WaterfallStepContext sc)
         {
+            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarSharedResponses.CalendarErrorMessage));
+
             var state = await Accessor.GetAsync(sc.Context);
             state.Clear();
             await sc.CancelAllDialogsAsync();
+
+            return;
         }
     }
 }

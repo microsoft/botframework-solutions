@@ -3,6 +3,7 @@
   "version": "1.0",
   "type": "AdaptiveCard",
   "speak": "Option {OptionNumber}, {LocationName} is located at {SpeakAddress}",
+  "id": "PointOfInterestViewCard",
   "body": [
     {
       "type": "Container",

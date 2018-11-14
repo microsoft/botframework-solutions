@@ -6,7 +6,7 @@
         "speak": "已经为您完成此任务。"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "AfterAllToDoTasksCompleted": {
     "replies": [
@@ -15,6 +15,6 @@
         "speak": "已经为您完成所有事项。"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   }
 }
