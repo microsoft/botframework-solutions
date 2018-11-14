@@ -25,7 +25,7 @@ az bot directline create -g YOUR_RESOURCE_GROUP_NAME --name YOUR_BOT_NAME
 ## Web Chat Test Harness
 
 The Web Chat test harness makes use of the [Bot Framework Web Chat](https://github.com/Microsoft/BotFramework-WebChat) to provide an additional test canvas. 
-The Web Chat test harness is configured against an Identity Provider (e.g. Azure Active Directory) to enable the user to sign in and retrieve a unique identifer. 
+The Web Chat test harness is configured against an Identity Provider (e.g. Azure Active Directory) to enable the user to sign in and retrieve a unique identifier. 
 This will ensure all messages sent during testing use this identifier, enabling testing of the [Linked Accounts](./virtualassistant-linkedaccounts) feature.
 You must use sign in to your Linked Accounts app with the same identity. 
 The account you link will be automatically made available to you when testing through the Web Chat test harness, removing the need for authentication prompts.
