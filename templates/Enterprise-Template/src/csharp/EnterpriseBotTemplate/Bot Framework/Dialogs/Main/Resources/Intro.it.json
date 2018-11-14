@@ -13,7 +13,7 @@
       "spacing": "medium",
       "size": "default",
       "weight": "bolder",
-      "text": "Welcome to Bot Framework!",
+      "text": "Benvenuti a Bot Framework!",
       "wrap": true,
       "maxLines": 0
     },
@@ -21,7 +21,7 @@
       "type": "TextBlock",
       "size": "default",
       "isSubtle": "yes",
-      "text": "Now that you have successfully run your bot, follow the links in this Adaptive Card to expand your knowledge of Bot Framework.",
+      "text": "Ora che avete eseguito con successo il vostro bot, seguire i collegamenti in questa scheda adattabile per espandere la vostra conoscenza del Bot Framework.",
       "wrap": true,
       "maxLines": 0
     }
@@ -29,17 +29,17 @@
   "actions": [
     {
       "type": "Action.OpenUrl",
-      "title": "Get an overview",
+      "title": "Panoramica",
       "url": "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"
     },
     {
       "type": "Action.OpenUrl",
-      "title": "Ask a question",
+      "title": "Fare una domanda",
       "url": "https://stackoverflow.com/questions/tagged/botframework"
     },
     {
       "type": "Action.OpenUrl",
-      "title": "Learn how to deploy",
+      "title": "Informazioni su come distribuire",
       "url": "https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0"
     }
   ]
