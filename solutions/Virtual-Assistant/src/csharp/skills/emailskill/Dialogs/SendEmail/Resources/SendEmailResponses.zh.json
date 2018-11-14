@@ -6,7 +6,7 @@
         "speak": "好的，我会将邮件发送给{UserName}。"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "NoSubject": {
     "replies": [

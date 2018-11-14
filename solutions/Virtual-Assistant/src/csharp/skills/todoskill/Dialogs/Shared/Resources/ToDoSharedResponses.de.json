@@ -18,7 +18,7 @@
         "speak": "Könnten Sie mir die Frage bitte noch einmal stellen? Ich habe nicht ganz verstanden, was Sie meinen."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "NoAuth": {
     "replies": [
@@ -36,7 +36,7 @@
         "speak": "Die Authentifizierung ist fehlgeschlagen. Bitte versuchen Sie es erneut."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "GoodbyeMessage": {
     "replies": [
@@ -84,7 +84,7 @@
         "speak": "Ich habe die Aufgabe {taskContent} zu Ihrer Liste hinzugefügt."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "AskToDoTaskIndex": {
     "replies": [
@@ -102,7 +102,7 @@
         "speak": "Sie haben {taskCount} Einträge auf Ihrer Liste:"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "ignoringInput"
   },
   "ReadToDoTasks": {
     "replies": [
@@ -111,7 +111,7 @@
         "speak": "die Ersten {taskCount} sind:"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "ignoringInput"
   },
   "ShowNextToDoTasks": {
     "replies": [
@@ -120,7 +120,7 @@
         "speak": "Sie können folgendes tun:"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "ignoringInput"
   },
   "ShowPreviousToDoTasks": {
     "replies": [
@@ -129,7 +129,7 @@
         "speak": "Ich zeige Ihnen hier Ihre To Do Liste:"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "ignoringInput"
   },
   "NoToDoTasksPrompt": {
     "replies": [
@@ -151,7 +151,7 @@
         "speak": "Ich habe die Aufgabe {taskContent} für Sie als abgeschlossen markiert."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "AfterAllToDoTasksCompleted": {
     "replies": [
@@ -160,7 +160,7 @@
         "speak": "Ich habe für Sie alle Aufgaben als abgeschlossen markiert."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "AskDeletionConfirmation": {
     "replies": [
@@ -187,7 +187,7 @@
         "speak": "Ich habe die Aufgabe {taskContent} für Sie gelöscht."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "AfterAllTasksDeleted": {
     "replies": [
@@ -196,7 +196,7 @@
         "speak": "Ich habe Ihre To Do Liste für Sie geleert."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "AnythingElseCanDo": {
     "replies": [
@@ -209,7 +209,7 @@
         "speak": "Ich bin hier, wenn Sie mich brauchen."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "ToDoHelpMessage": {
     "replies": [
@@ -224,7 +224,7 @@
       "Markiere den zweiten Eintrag als abgeschlossen.",
       "Lösche die dritte Aufgabe."
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "GreetingMessage": {
     "replies": [
@@ -272,7 +272,7 @@
         "speak": "Ich konfiguriere Ihre Liste, was nicht lange dauern wird."
       }
     ],
-    "inputHint": "acceptingInput"
+    "inputHint": "ignoringInput"
   },
   "ShowingMoreTasks": {
     "replies": [
@@ -290,6 +290,6 @@
         "speak": "Ihre Liste ist leer."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   }
 }

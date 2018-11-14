@@ -6,7 +6,7 @@
         "speak": "the first {taskCount} are:"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "ignoringInput"
   },
   "ShowNextToDoTasks": {
     "replies": [
@@ -15,7 +15,7 @@
         "speak": "Here's something you can do:"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "ignoringInput"
   },
   "ShowPreviousToDoTasks": {
     "replies": [
@@ -24,7 +24,7 @@
         "speak": "Showing your list:"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "ignoringInput"
   },
   "ShowingMoreTasks": {
     "replies": [

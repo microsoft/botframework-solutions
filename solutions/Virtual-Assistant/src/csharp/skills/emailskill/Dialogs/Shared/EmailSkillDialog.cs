@@ -29,7 +29,6 @@ namespace EmailSkill
     {
         // Constants
         public const string SkillModeAuth = "SkillAuth";
-        public const string LocalModeAuth = "LocalAuth";
 
         protected EmailSkillDialog(string dialogId)
             : base(dialogId)

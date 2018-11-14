@@ -71,7 +71,7 @@ namespace LinkedAccounts.Web.Controllers
                 TokenStatus[] tokenStatuses = await repository.GetTokenStatusAsync(userId, CredentialProvider);
 
                 // Pass the DirectLine Token, Endpont and Token Status to the View model
-                return View(new LinkedAcountViewModel()
+                return View(new LinkedAccountsViewModel()
                 {
                     UserId = userId,
                     DirectLineToken = token,
@@ -124,7 +124,7 @@ namespace LinkedAccounts.Web.Controllers
 
         
         [HttpPost]
-        public async Task<IActionResult> ChangeUserId(LinkedAcountViewModel model)
+        public async Task<IActionResult> ChangeUserId(LinkedAccountsViewModel model)
         {
             if (ModelState.IsValid)
             {                               
