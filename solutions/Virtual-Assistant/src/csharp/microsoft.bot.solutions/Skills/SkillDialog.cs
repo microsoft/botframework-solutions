@@ -267,7 +267,7 @@ namespace Microsoft.Bot.Solutions.Skills
                     else
                     {
                         // if the conversation id from the activity is differnt from the context activity, it's proactive message
-                        await dc.Context.Adapter.ContinueConversationAsync(_endpointService.AppId, firstActivity.GetConversationReference(), CreateCallback(queue), default(CancellationToken));
+                        await dc.Context.Adapter.ContinueConversationAsync(_endpointService.AppId, firstActivity.GetConversationReference(), CreateCallback(queue.ToArray()), default(CancellationToken));
                     }
                 }
 
@@ -292,13 +292,12 @@ namespace Microsoft.Bot.Solutions.Skills
             }
         }
 
-        // Creates the turn logic to use for the proactive message.
-        private BotCallbackHandler CreateCallback(List<Activity> activities)
+        private BotCallbackHandler CreateCallback(Activity[] activities)
         {
             return async (turnContext, token) =>
             {
-                // Send the user a proactive confirmation message.
-                await turnContext.SendActivitiesAsync(activities.ToArray());
+                // Send back the activities in the proactive context
+                await turnContext.SendActivitiesAsync(activities, token);
             };
         }
 
