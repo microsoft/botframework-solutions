@@ -34,7 +34,7 @@ namespace ToDoSkillTest.Flow
                         }
                     }
                 }
-        };
+            };
             await this.GetTestFlow()
                 .Send(triggerActivity)
                 .AssertReplyOneOf(this.ShowWelcomleMessage())
