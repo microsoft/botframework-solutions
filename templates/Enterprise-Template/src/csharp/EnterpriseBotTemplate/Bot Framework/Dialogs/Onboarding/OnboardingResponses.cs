@@ -4,7 +4,7 @@
 using $safeprojectname$.Dialogs.Onboarding.Resources;
 using Microsoft.Bot.Builder.TemplateManager;
 
-namespace $safeprojectname$
+namespace $safeprojectname$.Dialogs.Onboarding
 {
     public class OnboardingResponses : TemplateManager
     {
