@@ -30,6 +30,7 @@ namespace CalendarSkill
             timeZoneInfo = info;
         }
 
+        // will be Deleted
         public static GraphServiceClient GetAuthenticatedClient(string accessToken, TimeZoneInfo info)
         {
             var graphClient = new GraphServiceClient(

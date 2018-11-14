@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Common;
 using CalendarSkill.Dialogs.NextMeeting.Resources;
+using CalendarSkill.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
@@ -43,7 +44,8 @@ namespace CalendarSkill
                     return await sc.EndDialogAsync(true);
                 }
 
-                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+                var calendarAPI = GraphClientHelper.GetCalendarService(state.APIToken, state.EventSource, ServiceManager.GetGoogleClient());
+                var calendarService = ServiceManager.InitCalendarService(calendarAPI, state.EventSource);
 
                 var eventList = await calendarService.GetUpcomingEvents();
                 var nextEventList = new List<EventModel>();
