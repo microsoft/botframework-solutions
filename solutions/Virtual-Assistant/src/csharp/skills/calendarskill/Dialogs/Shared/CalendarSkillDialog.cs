@@ -548,6 +548,32 @@ namespace CalendarSkill
                                 }
                             }
 
+                            if (entity.MoveEarlierTimeSpan != null)
+                            {
+                                var culture = dc.Context.Activity.Locale ?? English;
+                                List<DateTimeResolution> result = RecognizeDateTime(entity.MoveEarlierTimeSpan[0], culture);
+                                if (result != null)
+                                {
+                                    if (result[0].Value != null)
+                                    {
+                                        state.MoveTimeSpan = -int.Parse(result[0].Value);
+                                    }
+                                }
+                            }
+
+                            if (entity.MoveLaterTimeSpan != null)
+                            {
+                                var culture = dc.Context.Activity.Locale ?? English;
+                                List<DateTimeResolution> result = RecognizeDateTime(entity.MoveLaterTimeSpan[0], culture);
+                                if (result != null)
+                                {
+                                    if (result[0].Value != null)
+                                    {
+                                        state.MoveTimeSpan = int.Parse(result[0].Value);
+                                    }
+                                }
+                            }
+
                             break;
                         }
 
