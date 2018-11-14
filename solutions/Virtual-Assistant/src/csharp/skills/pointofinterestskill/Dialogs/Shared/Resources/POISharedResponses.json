@@ -248,6 +248,6 @@
         "speak": "This is the best route to your destination."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "ignoringInput"
   }
 }

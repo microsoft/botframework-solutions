@@ -1,149 +1,54 @@
 # Creating a Skill
 
-## Overview
+## Getting Started
 
-The DemoSkill project provides an example Solution which you can use as a base for your Skill Creation. The documentation below covers the core changes required to enable a Bot to be used as a Skill whilst preserving the ability for the Skill to act like a normal Bot for ease of development and testing including use of the Bot Framework Emulator.
+An initial Skill template has been made available to simplify creation of your own skill. This can be found within the [Skill-Template](https://github.com/Microsoft/AI/tree/master/templates/Skill-Template) folder of the repository.
 
-## Create a Bot as usual
+Create a new folder called `Bot Framework` within your `%userprofile%\Documents\Visual Studio 2017\Templates\ProjectTemplates\Visual C#' folder. Then within this create a` Virtual Assistant Skill` folder and copy the contents of the template into this folder.
 
-If you wish to create your own Skill from scratch and not use the DemoSkill project the following steps provide the key steps to Skill enable a Bot.
+Restart Visual Studio, create a new project and you should now skill the `Skill Template` appear within the available C#\Bot Framework Templates.
 
-## Custom Constructor
+## Adding your Skill to your Virtual Assistant
 
-A custom constructor is needed in addition to the existing Bot constructor this is due to the direct invocation pattern which doesn't leverage the Asp.Net Core DI infrastructure. This constructor is passed a `BotState" object from the Virtual Assistant within which the Skill's state can be stored. Configuration is also passsed, most often for LUIS settings so this can be initialized for subsequent processing.
-
+- Add a project reference to your new Skill project ensuring that the Virtual Assistant can locate your assemblies when invoking the skill
+- Add the LUIS model corresponding to your new Skill to the Virtual Assistant bot file through the following command
+```shell
+msbot connect luis --appId [LUIS_APP_ID] --authoringKey [LUIS_AUTHORING_KEY] --subscriptionKey [LUIS_SUBSCRIPTION_KEY]
 ```
-public DemoSkill(BotState botState, string stateName = null, Dictionary<string, string> configuration = null)
-{
-    // Flag that can be used to identify the Bot is in "Skill Mode" for Skill specific logic
-    skillMode = true;
-
-    // Create the properties and populate the Accessors. It's OK to call it DialogState as Skill mode creates an isolated area for this Skill so it doesn't conflict with Parent or other skills
-    _accessors = new DemoSkillAccessors
-    {
-        DemoSkillState = botState.CreateProperty<DemoSkillState>(stateName ?? nameof(DemoSkillState)),
-        ConversationDialogState = botState.CreateProperty<DialogState>("DialogState"),
-    };
-
-    if (configuration != null)
-    {
-        // If LUIS configuration data is passed then this Skill needs to have LUIS available for use internally
-        // Only needed if LUIS is used for Turn 1+ operations (e.g. a prompt)
-        string luisAppId;
-        string luisSubscriptionKey;
-        string luisEndpoint;
-
-        configuration.TryGetValue("LuisAppId", out luisAppId);
-        configuration.TryGetValue("LuisSubscriptionKey", out luisSubscriptionKey);
-        configuration.TryGetValue("LuisEndpoint", out luisEndpoint);
-
-        if (!string.IsNullOrEmpty(luisAppId) && !string.IsNullOrEmpty(luisSubscriptionKey) && !string.IsNullOrEmpty(luisEndpoint))
-        {
-            LuisApplication luisApplication = new LuisApplication(luisAppId, luisSubscriptionKey, luisEndpoint);
-
-            _services = new DemoSkillServices();
-            _services.LuisRecognizer = new Microsoft.Bot.Builder.AI.Luis.LuisRecognizer(luisApplication);
-        }
+- Run the following command to update the Dispatcher model to reflect the new dispatch target
+```shell
+dispatch refresh --bot "YOURBOT.bot" --secret YOURSECRET
+```
+- Generate an updated Dispatch model for your Assistant to enable evaluation of incoming messages. The Dispatch.cs folder is located in the `assistant\Dialogs\Shared` folder. Ensure you run this command within the assistant directory of your cloned repo.
+```shell
+msbot get dispatch --bot "YOURBOT.bot" | luis export version --stdin | luisgen - -cs Dispatch -o Dialogs\Shared
+```
+- Update the `assistant\Dialogs\Main\MainDialog.cs` file to include the corresponding Dispatch intent for your skill to the Skill handler, excerpt is shown below. add Authentication providers and configuration information as required.
+```
+   case Dispatch.Intent.l_Calendar:
+   case Dispatch.Intent.l_Email:
+   case Dispatch.Intent.l_ToDo:
+   case Dispatch.Intent.l_PointOfInterest:
+   {}
+````
+- Finally add the your Skill configuration to the appSettings.json file
+```
+ {
+      "type": "skill",
+      "id": "YOUR_SKILL_NAME",
+      "name": "YOUR_SKILL_NAME",
+      "assembly": "YourSkillNameSpace.YourSkillClass, YourSkillAssembly, Version=1.0.0.0, Culture=neutral",
+      "dispatchIntent": "l_YOURSKILLDISPATCHINTENT",
+      "supportedProviders": [
+      ],
+      "luisServiceIds": [
+        "YOUR_SKILL_LUIS_MODEL_NAME",
+        "general"
+      ],
+      "parameters": [
+        "IPA.Timezone"
+      ],
+      "configuration": {
+      }
     }
-
-    // Dialog registration code as per the existing constructor...
-}
-```
-
-## Optimise LUIS for Turn 0
-
-As part of the utterance processing to identify what component should process an utterance the LUISResult has already been performed. To avoid duplicate LUIS processing for the Turn 0 utterance the LUIS result is passed as part of the skillBegin Event where you can then persist in State and use as part of Turn 0 processing within your skill
-
-```
-if (skillMode && state.LuisResultPassedFromSkill != null)
-{
-    // If invoked by a Skill we get the Luis IRecognizerConvert passed to us on first turn so we don't have to do that locally
-    luisResult = (Calendar)state.LuisResultPassedFromSkill;
-}
-else
-{
-    // Process utterance as normal
-}
-```
-
-## Handle Events
-
-Skills need to handle two distinct events, skillBegin and tokens/response. 
-- skillBegin: Sent by the Virtual Assistant to start a Skill conversation. The `Value` property of the Event contains a `SkillMetadata` object which includes the LUIS result for the first utterance, Configuration properties as set in the Virtual Assistant Skill configuration and Parameters relating to a given user if requested and exist for a given user.
-- tokens/Response: Tokens are passed into the Skill through this event, the active dialog should have it's Continue method called to pass onto the next stage of Dialog processing now the token is available.
-
-> The LUIS Result (Turn 0) and Parameters are only passed once in this skillBeginEvent and won't be available in future turns therefore it's important that you ensure this information is stored for use by subsequent turns. The configuration object is passed to the Skill constructor on each instantiation.
-
-```
-if (turnContext.Activity.Name == "skillBegin")
-{
-    var state = await _accessors.DemoSkillState.GetAsync(turnContext, () => new DemoSkillState());
-    SkillMetadata skillMetadata = turnContext.Activity.Value as SkillMetadata;
-    if (skillMetadata != null)
-    {
-        // .LuisResultPassedFromSkill has the existing LUIS result which can be stored in state and used for Turn 0 processing
-        // .Configuration has any configuration settings required for operation
-        // .Parameters has any user information configured to be passed, store this for subsequent use
-    }
-}
-else if (turnContext.Activity.Name == "tokens/response")
-{
-    // Auth dialog completion
-    var dialogContext = await _dialogs.CreateContextAsync(turnContext);
-    var result = await dialogContext.ContinueDialogAsync();
-
-    // If the dialog completed when we sent the token, end the skill conversation
-    if (result.Status != DialogTurnStatus.Waiting)
-    {
-        var response = turnContext.Activity.CreateReply();
-        response.Type = ActivityTypes.EndOfConversation;
-
-        await turnContext.SendActivityAsync(response);
-    }
-}
-```
-
-## Sending the End of Conversation message
-
-```
-case DialogTurnStatus.Complete:
-    // if the dialog is complete, send endofconversation to complete the skill
-    var response = turnContext.Activity.CreateReply();
-    response.Type = ActivityTypes.EndOfConversation;
-
-    await turnContext.SendActivityAsync(response);
-    await dc.EndDialogAsync();
-```
-
-## Authentication
-
-In scenarios where your Skill needs access to a Token from the User to perform an Action this should be performed by the Custom Assitant ensuring that Tokens are held centrally and can be shared across Skills where appropriate (e.g. a Microsoft Graph token).
-
-This is performed by sending a `tokens/request` event to the Virtual Assistant and then wait for a `tokens/response` event to be returned. If a token is already stored by the Virtual Assistant it will be returned immediately otherwise a Prompt to the user will be generated to initiate login. See [Linked Accounts](./virtualassistant-linkedaccounts.md) on how to ensure Tokens are made available during initial onboarding of the user to the Virtual Assistant. 
-
-Register a `SkillAuth` Dialog as part of your overall Dialog registration. Note this uses an EventPrompt class provided as part of the Virtual Assistant.
-```
-private const string AuthSkillMode = "SkillAuth";
-...
-AddDialog(new EventPrompt(AuthSkillMode, "tokens/response", TokenResponseValidator));
-```
-
-Then, when you require a Token request a Token from the Virtual Assistant. 
-
-```
-// If in Skill mode we ask the calling Bot for the token
-if (skillOptions != null && skillOptions.SkillMode)
-{
-    // We trigger a Token Request from the Parent Bot by sending a "TokenRequest" event back and then waiting for a "TokenResponse"
-
-    var response = sc.Context.Activity.CreateReply();
-    response.Type = ActivityTypes.Event;
-    response.Name = "tokens/request";
-
-    // Send the tokens/request Event
-    await sc.Context.SendActivityAsync(response);
-
-    // Wait for the tokens/response event
-    return await sc.PromptAsync(AuthSkillMode, new PromptOptions());
-}
 ```

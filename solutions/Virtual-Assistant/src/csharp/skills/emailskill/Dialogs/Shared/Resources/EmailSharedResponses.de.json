@@ -38,7 +38,7 @@
         "speak": "Können Sie es bitte nochmal versuchen? Ich habe leider nicht verstanden was Sie meinen."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "DidntUnderstandMessageIgnoringInput": {
     "replies": [
@@ -89,7 +89,7 @@
       "Aktuelle Emails anzeigen",
       "Erstellen einer Email"
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "NoAuth": {
     "replies": [
@@ -110,7 +110,7 @@
         "speak": "Sie müssen sich einloggen, damit wir fortfahren können."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "NoEmailContent": {
     "replies": [
@@ -119,7 +119,7 @@
         "speak": "Was möchten Sie als Nachricht hinzufügen?"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "NoMessageBody": {
     "replies": [
@@ -175,7 +175,7 @@
         "speak": "Sorry, ich glaube, ich kann jetzt nicht finden, was Sie suchen. Versuchen Sie es später noch einmal."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "NoSubject": {
     "replies": [
@@ -197,7 +197,7 @@
         "speak": "Ich habe zu diesem Zeitpunkt keine neuen e-Mails gefunden. Sie können es später nochmal versuchen."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "ConfirmRecipient": {
     "replies": [
@@ -218,7 +218,7 @@
         "speak": "Mit folgenden Kontakten arbeitest Du eng zusammen:"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "ConfirmRecipientNotFirstPage": {
     "replies": [
@@ -245,7 +245,7 @@
         "speak": "Gern, ich werde dies an {UserName} senden."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "ConfirmSend": {
     "replies": [
@@ -285,7 +285,7 @@
         "speak": "Ich habe es gesendet."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "DeleteSuccessfully": {
     "replies": [
@@ -294,7 +294,7 @@
         "speak": "Ich habe es gelöscht."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "PromptPersonNotFound": {
     "replies": [
@@ -365,7 +365,7 @@
         "speak": "Email Inhalte: {EmailDetails}"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "NoRecipients": {
     "replies": [
@@ -401,7 +401,7 @@
       "Sende eine Email an Tianyu",
       "Leite die zweite EMail Tianyu weiter"
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "ActionEnded": {
     "replies": [
@@ -426,7 +426,7 @@
         "speak": "Ich bin immer hier wenn Sie mich brauchen!"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "PromptTooManyPeople": {
     "replies": [
@@ -504,6 +504,6 @@
         "speak": "Ihr Login ist fehlgeschlagen. Lassen Sie es uns erneut versuchen."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   }
 }
