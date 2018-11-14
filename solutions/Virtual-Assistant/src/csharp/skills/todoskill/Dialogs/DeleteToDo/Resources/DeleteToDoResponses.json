@@ -6,7 +6,7 @@
         "speak": "I have deleted the item {taskContent} for you."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "AfterAllTasksDeleted": {
     "replies": [
@@ -15,7 +15,7 @@
         "speak": "I have cleared out your list."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "AskDeletionConfirmation": {
     "replies": [
