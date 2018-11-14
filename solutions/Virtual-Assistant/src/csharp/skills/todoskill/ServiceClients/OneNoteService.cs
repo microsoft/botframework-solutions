@@ -33,6 +33,7 @@ namespace ToDoSkill
         /// </summary>
         /// <param name="token">the token used for msgraph API call.</param>
         /// <param name="pageIds">the page ids.</param>
+        /// <param name="client">the httpclient for making the API request.</param>
         /// <returns>OneNote task service itself.</returns>
         public async Task<ITaskService> InitAsync(string token, Dictionary<string, string> pageIds, HttpClient client = null)
         {
