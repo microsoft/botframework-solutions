@@ -38,7 +38,7 @@
         "speak": "你能再试一次，我没听懂你的意思。"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "DidntUnderstandMessageIgnoringInput": {
     "replies": [
@@ -97,7 +97,7 @@
         "speak": "您需要登录才能采取进一步行动。"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "AuthFailed": {
     "replies": [
@@ -114,7 +114,7 @@
         "speak": "登录失败，让我们再试一次。"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "ActionEnded": {
     "replies": [
@@ -139,7 +139,7 @@
         "speak": "如果你需要我的帮助，我就在这里。"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "EmailErrorMessage": {
     "replies": [
@@ -164,7 +164,7 @@
         "speak": "抱歉，我现在找不到你想要的东西。请稍后再试。"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "SentSuccessfully": {
     "replies": [
@@ -173,7 +173,7 @@
         "speak": "邮件已发送。"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "NoRecipients": {
     "replies": [
@@ -200,7 +200,7 @@
         "speak": "好的，我会将邮件发送给{UserName}。"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "ConfirmSend": {
     "replies": [
@@ -235,7 +235,7 @@
         "speak": "我此时没有检索到新的电子邮件。您可以稍后再试。"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "NoFocusMessage": {
     "replies": [

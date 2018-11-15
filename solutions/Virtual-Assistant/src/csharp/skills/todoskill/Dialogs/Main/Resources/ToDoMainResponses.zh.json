@@ -21,7 +21,7 @@
       "标注第二个待办事项为完成",
       "删除第三个待办事项"
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "GreetingMessage": {
     "replies": [

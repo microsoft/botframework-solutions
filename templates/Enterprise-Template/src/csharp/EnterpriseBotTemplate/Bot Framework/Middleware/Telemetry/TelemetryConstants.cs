@@ -1,11 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace $safeprojectname$
+namespace $safeprojectname$.Middleware.Telemetry
 {
     public static class TelemetryConstants
     {
         public const string ActivityIDProperty = "ActivityId";
+        public const string ReplyActivityIDProperty = "ReplyActivityId";
         public const string ChannelProperty = "Channel";
         public const string FromIdProperty = "FromId";
         public const string FromNameProperty = "FromName";

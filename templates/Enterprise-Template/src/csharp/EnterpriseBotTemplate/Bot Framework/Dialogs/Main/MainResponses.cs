@@ -9,7 +9,7 @@ using Microsoft.Bot.Builder.TemplateManager;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json;
 
-namespace $safeprojectname$
+namespace $safeprojectname$.Dialogs.Main
 {
     public class MainResponses : TemplateManager
     {

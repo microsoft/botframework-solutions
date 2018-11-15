@@ -4,7 +4,7 @@
 using $safeprojectname$.Dialogs.Cancel.Resources;
 using Microsoft.Bot.Builder.TemplateManager;
 
-namespace $safeprojectname$
+namespace $safeprojectname$.Dialogs.Cancel
 {
     public class CancelResponses : TemplateManager
     {

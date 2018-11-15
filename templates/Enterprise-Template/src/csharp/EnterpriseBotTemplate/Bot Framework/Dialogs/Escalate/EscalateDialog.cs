@@ -3,9 +3,10 @@
 
 using System.Threading;
 using System.Threading.Tasks;
+using $safeprojectname$.Dialogs.Shared;
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace $safeprojectname$
+namespace $safeprojectname$.Dialogs.Escalate
 {
     public class EscalateDialog : EnterpriseDialog
     {

@@ -8,7 +8,7 @@ using Microsoft.ApplicationInsights;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.QnA;
 
-namespace $safeprojectname$
+namespace $safeprojectname$.Middleware.Telemetry
 {
     /// <summary>
     /// TelemetryQnaRecognizer invokes the Qna Maker and logs some results into Application Insights.
@@ -80,13 +80,12 @@ namespace $safeprojectname$
                     var queryResult = queryResults[0];
                     telemetryProperties.Add(QnATelemetryConstants.QuestionProperty, string.Join(",", queryResult.Questions));
                     telemetryProperties.Add(QnATelemetryConstants.AnswerProperty, queryResult.Answer);
-                    telemetryProperties.Add(QnATelemetryConstants.ScoreProperty, queryResult.Score.ToString());
-                    telemetryProperties.Add(QnATelemetryConstants.ArticleFoundProperty, "true");
+                    telemetryMetrics.Add(QnATelemetryConstants.ScoreProperty, queryResult.Score);
                 }
                 else
                 {
-                    telemetryProperties.Add(QnATelemetryConstants.QuestionProperty, text);
-                    telemetryProperties.Add(QnATelemetryConstants.ArticleFoundProperty, "false");
+                    telemetryProperties.Add(QnATelemetryConstants.QuestionProperty, "No Qna Question matched");
+                    telemetryProperties.Add(QnATelemetryConstants.AnswerProperty, "No Qna Question matched");
                 }
 
                 // Track the event
