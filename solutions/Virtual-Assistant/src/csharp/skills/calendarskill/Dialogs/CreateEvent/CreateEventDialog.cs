@@ -893,30 +893,6 @@ namespace CalendarSkill
             return result;
         }
 
-        public string GetSelectPromptString(PromptOptions selectOption, bool containNumbers)
-        {
-            var result = string.Empty;
-            result += selectOption.Prompt.Text + "\r\n";
-            for (var i = 0; i < selectOption.Choices.Count; i++)
-            {
-                var choice = selectOption.Choices[i];
-                result += "  ";
-                if (containNumbers)
-                {
-                    result += i + 1 + "-";
-                }
-
-                result += choice.Value + "\r\n";
-            }
-
-            return result;
-        }
-
-        public bool IsEmail(string emailString)
-        {
-            return Regex.IsMatch(emailString, @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
-        }
-
         protected static (List<Person> formattedPersonList, List<Person> formattedUserList) FormatRecipientList(List<Person> personList, List<Person> userList)
         {
             // Remove dup items
@@ -1120,6 +1096,30 @@ namespace CalendarSkill
             }
 
             return result;
+        }
+
+        private string GetSelectPromptString(PromptOptions selectOption, bool containNumbers)
+        {
+            var result = string.Empty;
+            result += selectOption.Prompt.Text + "\r\n";
+            for (var i = 0; i < selectOption.Choices.Count; i++)
+            {
+                var choice = selectOption.Choices[i];
+                result += "  ";
+                if (containNumbers)
+                {
+                    result += (i + 1) + "-";
+                }
+
+                result += choice.Value + "\r\n";
+            }
+
+            return result;
+        }
+
+        private bool IsEmail(string emailString)
+        {
+            return Regex.IsMatch(emailString, @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
         }
     }
 }

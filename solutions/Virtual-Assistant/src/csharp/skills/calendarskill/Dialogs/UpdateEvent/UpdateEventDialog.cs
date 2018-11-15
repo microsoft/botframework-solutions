@@ -152,9 +152,8 @@ namespace CalendarSkill
 
                 return await sc.EndDialogAsync(true);
             }
-            catch (Exception e)
+            catch
             {
-                Console.WriteLine("{0} Exception caught.", e);
                 await HandleDialogExceptions(sc);
                 throw;
             }

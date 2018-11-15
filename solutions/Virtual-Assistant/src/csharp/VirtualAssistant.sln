@@ -33,7 +33,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DFCBFFD7
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Solutions.Tests", "tests\Microsoft.Bot.Solutions.Tests\Microsoft.Bot.Solutions.Tests.csproj", "{18366252-CEA5-4FB9-A022-ED957B491237}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalendarSkillTest", "skills\tests\CalendarSkillTest\CalendarSkillTest.csproj", "{F67AE5B4-DC61-4C96-947B-87D054191734}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalendarSkillTest", "skills\tests\calendarskilltest\CalendarSkillTest.csproj", "{F67AE5B4-DC61-4C96-947B-87D054191734}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
