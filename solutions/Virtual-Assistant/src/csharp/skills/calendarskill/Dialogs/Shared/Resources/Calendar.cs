@@ -44,23 +44,19 @@ namespace Luis
             public string[] Duration;
             public string[] Subject;
             public string[] ContactName;
-            public string[] OriginalStartTime;
             public string[] MoveEarlierTimeSpan;
-            public string[] StartTime;
             public string[] MoveLaterTimeSpan;
-            public string[] StartDate;
             public string[] SlotAttribute;
-            public string[] OriginalEndTime;
-            public string[] EndTime;
-            public string[] OriginalStartDate;
             public string[] Location;
             public string[] OrderReference;
-            public string[] OriginalEndDate;
-            public string[] EndDate;
             public string[] PositionReference;
             public string[] RelationshipName;
             public string[] MeetingRoom;
             public string[] DestinationCalendar;
+            public string[] FromDate;
+            public string[] FromTime;
+            public string[] ToDate;
+            public string[] ToTime;
 
             // Built-in entities
             public DateTimeSpec[] datetime;
@@ -73,19 +69,11 @@ namespace Luis
                 public InstanceData[] Duration;
                 public InstanceData[] Subject;
                 public InstanceData[] ContactName;
-                public InstanceData[] OriginalStartTime;
                 public InstanceData[] MoveEarlierTimeSpan;
-                public InstanceData[] StartTime;
                 public InstanceData[] MoveLaterTimeSpan;
-                public InstanceData[] StartDate;
                 public InstanceData[] SlotAttribute;
-                public InstanceData[] OriginalEndTime;
-                public InstanceData[] EndTime;
-                public InstanceData[] OriginalStartDate;
                 public InstanceData[] Location;
                 public InstanceData[] OrderReference;
-                public InstanceData[] OriginalEndDate;
-                public InstanceData[] EndDate;
                 public InstanceData[] PositionReference;
                 public InstanceData[] RelationshipName;
                 public InstanceData[] MeetingRoom;
@@ -93,6 +81,10 @@ namespace Luis
                 public InstanceData[] datetime;
                 public InstanceData[] number;
                 public InstanceData[] ordinal;
+                public InstanceData[] FromDate;
+                public InstanceData[] FromTime;
+                public InstanceData[] ToDate;
+                public InstanceData[] ToTime;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;
