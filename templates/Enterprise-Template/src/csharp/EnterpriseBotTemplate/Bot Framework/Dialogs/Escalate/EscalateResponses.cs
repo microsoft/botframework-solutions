@@ -2,14 +2,13 @@
 // Licensed under the MIT License.
 
 using $safeprojectname$.Dialogs.Escalate.Resources;
-using $safeprojectname$.Extensions;
 using Microsoft.Bot.Builder.TemplateManager;
 using Microsoft.Bot.Schema;
 using System.Collections.Generic;
 
 namespace $safeprojectname$.Dialogs.Escalate
 {
-    public class EscalateResponses : TemplateManagerWithVoice
+    public class EscalateResponses : TemplateManager
     {
         public const string SendPhone = "sendPhone";
 
@@ -40,7 +39,7 @@ namespace $safeprojectname$.Dialogs.Escalate
                     Text = EscalateStrings.PHONE_INFO,
                     Buttons = new List<CardAction>()
                 {
-                    new CardAction(type: ActionTypes.OpenUrl, title: "Call now", value: "tel:8001235555"),
+                    new CardAction(type: ActionTypes.OpenUrl, title: "Call now", value: "tel:18005551234"),
                     new CardAction(type: ActionTypes.OpenUrl, title: "Open Teams", value: "msteams://")
                 },
                 }.ToAttachment()

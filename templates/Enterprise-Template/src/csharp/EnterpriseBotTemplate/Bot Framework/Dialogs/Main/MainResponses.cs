@@ -5,14 +5,13 @@ using System.Collections.Generic;
 using System.IO;
 using AdaptiveCards;
 using $safeprojectname$.Dialogs.Main.Resources;
-using $safeprojectname$.Extensions;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.TemplateManager;
 using Microsoft.Bot.Schema;
 
 namespace $safeprojectname$.Dialogs.Main
 {
-    public class MainResponses : TemplateManagerWithVoice
+    public class MainResponses : TemplateManager
     {
         // Constants
         public const string Cancelled = "cancelled";
@@ -26,10 +25,10 @@ namespace $safeprojectname$.Dialogs.Main
         {
             ["default"] = new TemplateIdMap
             {
-                { Cancelled, (context, data) => MainStrings.CANCELLED },
-                { Completed, (context, data) => MainStrings.COMPLETED },
-                { Confused, (context, data) => MainStrings.CONFUSED },
-                { Greeting, (context, data) => MainStrings.GREETING },
+                { Cancelled, (context, data) => MessageFactory.Text(MainStrings.CANCELLED, ssml: MainStrings.CANCELLED, inputHint: InputHints.IgnoringInput) },
+                { Completed, (context, data) => MessageFactory.Text(MainStrings.COMPLETED, ssml: MainStrings.COMPLETED, inputHint: InputHints.IgnoringInput) },
+                { Confused, (context, data) => MessageFactory.Text(MainStrings.CONFUSED, ssml: MainStrings.CONFUSED, inputHint: InputHints.IgnoringInput) },
+                { Greeting, (context, data) => MessageFactory.Text(MainStrings.GREETING, ssml: MainStrings.GREETING, inputHint: InputHints.IgnoringInput) },
                 { Help, (context, data) => SendHelpCard(context, data) },
                 { Intro, (context, data) => SendIntroCard(context, data) },
             },

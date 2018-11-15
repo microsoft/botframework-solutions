@@ -64,7 +64,7 @@ namespace $safeprojectname$.Dialogs.Onboarding
             _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
             var name = _state.Name = (string)sc.Result;
 
-            await _responder.ReplyWith(sc.Context, OnboardingResponses._haveName, new { name }, inputHint: InputHints.IgnoringInput);
+            await _responder.ReplyWith(sc.Context, OnboardingResponses._haveName, new { name });
 
             if (!string.IsNullOrEmpty(_state.Email))
             {
@@ -84,7 +84,7 @@ namespace $safeprojectname$.Dialogs.Onboarding
             _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
             var email = _state.Email = (string)sc.Result;
 
-            await _responder.ReplyWith(sc.Context, OnboardingResponses._haveEmail, new { email }, inputHint: InputHints.IgnoringInput);
+            await _responder.ReplyWith(sc.Context, OnboardingResponses._haveEmail, new { email });
 
             if (!string.IsNullOrEmpty(_state.Location))
             {
@@ -104,7 +104,7 @@ namespace $safeprojectname$.Dialogs.Onboarding
             _state = await _accessor.GetAsync(sc.Context);
             _state.Location = (string)sc.Result;
 
-            await _responder.ReplyWith(sc.Context, OnboardingResponses._haveLocation, new { _state.Name, _state.Location }, inputHint: InputHints.IgnoringInput);
+            await _responder.ReplyWith(sc.Context, OnboardingResponses._haveLocation, new { _state.Name, _state.Location });
             return await sc.EndDialogAsync();
         }
     }
