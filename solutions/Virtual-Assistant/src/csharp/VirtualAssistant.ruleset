@@ -5,8 +5,8 @@
     <Description Resource="MinimumRecommendedRules_Description" />
   </Localization>
   <Rules AnalyzerId="AsyncUsageAnalyzers" RuleNamespace="AsyncUsageAnalyzers">
-    <Rule Id="UseConfigureAwait" Action="Warning" />
     <Rule Id="AvoidAsyncVoid" Action="Warning" />
+    <Rule Id="UseAsyncSuffix" Action="None" />
   </Rules>
   <Rules AnalyzerId="Microsoft.CodeAnalysis.CSharp.Features" RuleNamespace="Microsoft.CodeAnalysis.CSharp.Features">
     <Rule Id="IDE0003" Action="None" />
@@ -16,15 +16,14 @@
     <Rule Id="SA1011" Action="None" />
     <Rule Id="SA1200" Action="None" />
     <Rule Id="SA1101" Action="None" />
+    <Rule Id="SA1117" Action="None" />
     <Rule Id="SA1129" Action="None" />
     <Rule Id="SA1305" Action="Warning" />
     <Rule Id="SA1309" Action="None" />
     <Rule Id="SA1412" Action="Warning" />
+    <Rule Id="SA1413" Action="None" />
     <Rule Id="SA1600" Action="None" />
     <Rule Id="SA1609" Action="Warning" />
     <Rule Id="SA1633" Action="None" />
-  </Rules>
-  <Rules AnalyzerId="AsyncUsageAnalyzers" RuleNamespace="AsyncUsageAnalyzers">
-    <Rule Id="AvoidAsyncVoid" Action="Warning" />
   </Rules>
 </RuleSet>

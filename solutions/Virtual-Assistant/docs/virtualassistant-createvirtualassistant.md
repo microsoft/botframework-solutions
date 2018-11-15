@@ -10,9 +10,7 @@ Follow the instructions below to build, deploy and configure your Assistant.
 
 ### Prerequisites
 - - Ensure you have updated [.NET Core](https://www.microsoft.com/net/download) to the latest version.
-- 
 - [Node.js](https://nodejs.org/) version 8.5 or higher.
-
 - Install the Azure Bot Service command line (CLI) tools. It's important to do this even if you have earlier versions as the Virtual Assistant makes use of new deployment capabilities.
 
 ```shell
@@ -38,7 +36,8 @@ Once the Solution has been cloned you will see the following folder structure.
 
     | - Virtual-Assistant
         | - Assistant
-        | - LinkedAccounts.Web
+        | - LinkedAccounts
+        | - Microsoft.Bot.Solutions
         | - Skills
             | - CalendarSkill
             | - DemoSkill
@@ -49,7 +48,7 @@ Once the Solution has been cloned you will see the following folder structure.
         | - TestHarnesses
             | - Assistant-ConsoleDirectLineSample
             | - Assistant-WebTest
-        | - Microsoft.Bot.Solutions
+        | - Tests
       | - VirtualAssistant.sln
 
 ### Build the Solution
@@ -79,9 +78,14 @@ az account set --subscription "YOUR_SUBSCRIPTION_NAME"
 
 Your Virtual Assistant project has a deployment recipe enabling the `msbot clone services` command to automate deployment of all the above services into your Azure subscription and ensure the .bot file in your project is updated with all of the services including keys enabling seamless operation of your Virtual Assistant.
 
-To deploy your Virtual Assistant including all dependencies - e.g. CosmosDb, Application Insights, etc. run the following command from a command prompt within your project folder. Ensure you update the authoring key from the previous step and choose the Azure datacenter location you wish to use (e.g. westus or westeurope). Ensure the LUIS authoring key retrieved on the previous step is for the region you specify below (e.g. westus for luis.ai or westeurope for eu.luis.ai)
+To deploy your Virtual Assistant including all dependencies - e.g. CosmosDb, Application Insights, etc. run the following command from a command prompt within your project folder. Ensure you update the authoring key from the previous step and choose the Azure datacenter location you wish to use (e.g. westus or westeurope). You must check that the LUIS authoring key retrieved on the previous step is for the region you specify below (e.g. westus for luis.ai or westeurope for eu.luis.ai)
+
+The first command prepares the deployment scripts in English from the source LU files and must be performed before msbot clone. Other language deployments are available depending on your scenario and we are working on a combined multi-language architecture.
+
+Ensure you open a command prompt and navigate to the assistant directory before running these commands.
 
 ```shell
+DeploymentScripts\en\update_en.bat
 msbot clone services --name "MyCustomAssistantName" --luisAuthoringKey "YOUR_AUTHORING_KEY" --folder "DeploymentScripts\en\msbotClone" --location "YOUR_REGION"
 ```
 
@@ -108,24 +112,8 @@ The msbot tool will outline the deployment plan including location and SKU. Ensu
 
 ## Skill Configuration
 
-The Virtual Assistant Solution is fully integrated with all available skills out of the box. Skill configuration can be found in your appSettings.json file. An example of the Skill Configuration entries is shown below for reference.
+The Virtual Assistant Solution is fully integrated with all available skills out of the box. Skill configuration can be found in your appSettings.json file and is detailed further in the [Adding A Skill] documentation](virtualassistant-addingaskill.md)
 
-```
-"skills": [
-    {
-      "type": "skill",
-      "id": "calendarSkill",
-      "name": "calendarSkill",
-      "assembly": "CalendarSkill.CalendarSkill, CalendarSkill, Version=1.0.0.0, Culture=neutral",
-      "dispatchIntent": "l_Calendar",
-      "authConnectionName": "",
-      "luisServiceId": "calendar",
-      "parameters": [
-        "IPA.Timezone"
-      ]
-    }
-]
-```
 ## Skill Authentication
 
 If you wish to make use of the Calendar, Email and Task Skills you need to configure an Authentication Connection enabling uses of your Assistant to authenticate against services such as Office 365 and securely store a token which can be retrieved by your assistant when a user asks a question such as *"What's my day look like today"* to then use against an API like Microsoft Graph.
@@ -140,7 +128,7 @@ The [Add Authentication to your bot](https://docs.microsoft.com/en-us/azure/bot-
   - Leave Logout URL blank.
 - Under Microsoft Graph Permissions, you can need to add additional *delegated* permissions.
 - Each of the Skills require a specific set of Scopes, refer to the documentation for each skill or use the following list of Scopes that contain the scopes needed for all skills. 
-  - `Calendars.ReadWrite`, `Mail.Read`, `Mail.Send`, `Notes.ReadWrite`, `People.Read`, `User.Read`
+  - `Calendars.ReadWrite`, `Mail.ReadWrite`, `Mail.Send`, `Tasks.ReadWrite`, `Notes.ReadWrite`, `People.Read`, `User.Read`, `Contacts.Read`
 
 Next you need to create the Authentication Connection for your Bot. Ensure you use the same combination of Scopes that you provided in the above command. The first command shown below will retrieve the appId (ApplicationId) and appPassword (Client Secret) that you need to complete this step.
 
@@ -149,16 +137,21 @@ The commands shown below assume you have used the deployment process and your re
 ```shell
 msbot get production --secret YOUR_SECRET
 
-az bot authsetting create --resource-group YOUR_BOT_NAME --name YOUR_BOT_NAME --setting-name "YOUR_AUTH_CONNECTION_NAME" --client-id "YOUR_APPLICATION_ID" --client-secret "YOUR_APPLICATION_PASSWORD" --provider-scope-string "Calendars.ReadWrite Mail.Read Mail.Send Notes.ReadWrite People.Read User.Read" --service Aadv2
+az bot authsetting create --resource-group YOUR_BOT_NAME --name YOUR_BOT_NAME --setting-name "YOUR_AUTH_CONNECTION_DISPLAY_NAME" --client-id "YOUR_APPLICATION_ID" --client-secret "YOUR_APPLICATION_PASSWORD" --service Aadv2 --parameters clientId="YOUR_APPLICATION_ID" clientSecret="YOUR_APPLICATION_PASSWORD" tenantId=common --provider-scope-string "Calendars.ReadWrite Mail.ReadWrite Mail.Send Tasks.ReadWrite Notes.ReadWrite People.Read User.Read Contacts.Read" 
 ```
 
 The final step is to update your .bot file and associated Skills (in appSettings.config) with the Authentication connection name, this is used by the Assistant to enable Authentication prompts or use of Linked Accounts.
 
 ```shell
-msbot connect generic --name "Authentication" --keys "{\"Azure Active Directory v2\":\"YOUR_AUTH_CONNECTION_NAME\"}" --bot YOURBOTFILE.bot --secret "YOUR_BOT_SECRET" --url "portal.azure.net"
+msbot connect generic --name "Authentication" --keys "{\"YOUR_AUTH_CONNECTION_NAME\":\"Azure Active Directory v2\"}" --bot YOURBOTFILE.bot --secret "YOUR_BOT_SECRET" --url "portal.azure.net"
 ```
 
-Then in the appSettings.config updated the `authConnectionName` for each skill as appropriate. 
+For PowerShell scenarios you can use the following variation to construct the Authentication connection, you can then pass `$keys` to the `--keys` argument above instead of the inline JSON.
+```
+$authKeyString = '{"YOUR_AUTH_CONNECTION_NAME":"Azure Active Directory v2"}'
+$authKeyObject = ConvertFrom-Json $authKeyString
+$keys = ConvertTo-Json -InputObject $authKeyObject
+```
 
 > Other Authentication Service Providers exist including the ability to create custom oAuth providers. `az bot authsetting list-providers` is a quick way to review the pre-configured ones.
 

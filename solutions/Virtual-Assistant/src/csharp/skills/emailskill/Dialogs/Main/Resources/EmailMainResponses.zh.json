@@ -10,7 +10,7 @@
       "显示最近的电子邮件",
       "发送邮件给某人"
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "HelpMessage": {
     "replies": [
@@ -24,7 +24,7 @@
       "给某人发送电子邮件",
       "转发第二封邮件给某人"
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "GreetingMessage": {
     "replies": [

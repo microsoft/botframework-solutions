@@ -15,7 +15,7 @@ This enables delivery of Skills for common scenarios such as Productivity (Calen
 The following Skills are available at this time, these represent initial priority scenarios and work is ongoing:
 - [Productivity - Calendar](./virtualassistant-skills-productivity-calendar.md)
 - [Productivity - Email](./virtualassistant-skills-productivity-email.md)
-- [Productivity - Tasks](./virtualassistant-skills-productivity-tasks.md)
+- [Productivity - ToDo](./virtualassistant-skills-productivity-todo.md)
 - [Points of Interest](./virtualassistant-skills-pointofinterest.md)
 - Automotive - Coming Soon 
 
@@ -32,33 +32,37 @@ The custom SkillDialog bootstraps the Adapter and processes appropriate middlewa
  Each Skill is registred with a Virtual Assistant through the configuration entry shown below
 
  - Name: The name of your Skill
- - DispatcherModelName: The name of the LUIS model added to your Skill, used to help match a given dispatch target to a Skill
- - Assembly: Skills are invoked "in process" and are dynamically loaded using Reflection thus enabling a configuration only approach
- - AuthConnectionName: The Authentication Connection Name the Skill will use when requesting User Tokens. Authentication connection names are configured on the Virtual Assistant Bot Settings in the Azure Portal
- - Parameters (Optional) Parameters are a mechanism to pass user-data across a part of the Skill invocation. For example, a Skill may request access to the users current location or timezone to better personalise the experience. This Parameters are sourced automatically from the Virtual Assistant state for a given User/Conversation and provided to the Skill.
- - Configuration (Optional) Skills are invoked in-process to the Virtual Assistant so don't have access to their respective appsettings.json file, in cases where a Skill needs configuration data it can be provided through this mechanism. LUIS Configuration settings and secrets for a web-service used by a Skill are examples of configuration. 
+  - Assembly: Skills are invoked "in process" and are dynamically loaded using Reflection thus enabling a configuration only approach
+ - dispatchIntent: The name of the intent within the Dispatch model which covers your Skills LUIS capabilities
+ - supportedProviders: The Supported Authentication Providers provides the ability to highlight which authentication providers this skill supports (if any). This enables the Virtual Assistant to retrieve the token related to that provider when a user asks a question.
+ - luisServiceIds: The LUIS model names used by this skill. All Skills will make use of the General model along with their own LUIS model.
+ - Parameters: Parameters are an optional mechanism to pass user-data across a part of the Skill invocation. For example, a Skill may request access to the users current location or timezone to better personalise the experience. This Parameters are sourced automatically from the Virtual Assistant state for a given User/Conversation and provided to the Skill.
+ - Configuration: Skills are invoked in-process to the Virtual Assistant so don't have access to their respective appsettings.json file, in cases where a Skill needs configuration data it can be provided through this mechanism. LUIS Configuration settings and secrets for a web-service used by a Skill are examples of configuration.
 
  ```
-  "Skills": [
+  "skills": [
     {
-      "Name": "Demo",
-      "DispatcherModelName": "DemoSkill",
-      "Description": "The Demo Skill implements basic Graph profile info.",
-      "Assembly": "DemoSkill.DemoSkill, DemoSkill, Version=1.0.0.0, Culture=neutral",
-      "AuthConnectionName": "AzureADConnection",
-      "Parameters": 
-      [
-        "IPA.Location",
+      "type": "skill",
+      "id": "calendarSkill",
+      "name": "calendarSkill",
+      "assembly": "CalendarSkill.CalendarSkill, CalendarSkill, Version=1.0.0.0, Culture=neutral",
+      "dispatchIntent": "l_Calendar",
+      "supportedProviders": [
+        "Azure Active Directory v2",
+        "Google"
+      ],
+      "luisServiceIds": [
+        "calendar",
+        "general"
+      ],
+      "parameters": [
         "IPA.Timezone"
       ],
-      "Configuration": {
-        "ServiceKeyA": "YOUR_KEY_HERE",
-		    "LuisAppId": "YOUR_LUIS_APP_ID",
-        "LuisSubscriptionKey": "YOUR_LUIS_SUBSCRIPTION_KEY",
-        "LuisEndpoint": "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/"
+      "configuration": {
+        "configSetting1": "",
+        "configSetting2": "",
       }
-    }
-  ]
+    },
  ```
  
 ## Dispatching

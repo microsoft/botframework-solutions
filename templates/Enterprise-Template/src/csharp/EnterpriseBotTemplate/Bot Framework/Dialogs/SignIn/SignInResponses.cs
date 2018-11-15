@@ -5,7 +5,7 @@ using $safeprojectname$.Dialogs.SignIn.Resources;
 using $safeprojectname$.Extensions;
 using Microsoft.Bot.Builder.TemplateManager;
 
-namespace $safeprojectname$
+namespace $safeprojectname$.Dialogs.Shared
 {
     public class SignInResponses : TemplateManagerWithVoice
     {

@@ -175,6 +175,15 @@ namespace VirtualAssistant.Dialogs.Main.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to It looks like there is nothing to cancel. What can I help you with?.
+        /// </summary>
+        public static string NO_ACTIVE_DIALOG {
+            get {
+                return ResourceManager.GetString("NO_ACTIVE_DIALOG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Find a coffee shop nearby.
         /// </summary>
         public static string POI_SUGGESTEDACTION {

@@ -17,12 +17,12 @@ namespace EmailSkill
     /// </summary>
     public class EmailSkill : IBot
     {
-        private bool _skillMode;
         private readonly ISkillConfiguration _services;
         private readonly ConversationState _conversationState;
         private readonly UserState _userState;
         private IMailSkillServiceManager _serviceManager;
         private DialogSet _dialogs;
+        private bool _skillMode;
 
         public EmailSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, IMailSkillServiceManager serviceManager = null, bool skillMode = false)
         {

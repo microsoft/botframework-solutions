@@ -10,7 +10,7 @@
         "speak": "I did not retrieve any new emails at this time. You can try again later."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "ReadOutPrompt": {
     "replies": [
@@ -57,14 +57,14 @@
     "replies": [
       {
         "text": "Details of email:",
-        "speak": "Details of email"
+        "speak": "Details of email: {EmailDetails}"
       },
       {
         "text": "Content of email:",
-        "speak": "Content of email:"
+        "speak": "Details of email: {EmailDetails}"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "ReadOutMorePrompt": {
     "replies": [

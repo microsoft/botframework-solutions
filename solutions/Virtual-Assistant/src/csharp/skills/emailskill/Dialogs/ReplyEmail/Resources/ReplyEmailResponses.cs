@@ -1,5 +1,4 @@
-﻿  
-// https://docs.microsoft.com/en-us/visualstudio/modeling/t4-include-directive?view=vs-2017
+﻿// https://docs.microsoft.com/en-us/visualstudio/modeling/t4-include-directive?view=vs-2017
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using System;
@@ -16,14 +15,14 @@ namespace EmailSkill.Dialogs.ReplyEmail.Resources
     {
         private static readonly ResponseManager _responseManager;
 
-		static ReplyEmailResponses()
+        static ReplyEmailResponses()
         {
             var dir = Path.GetDirectoryName(typeof(ReplyEmailResponses).Assembly.Location);
             var resDir = Path.Combine(dir, @"Dialogs\ReplyEmail\Resources");
             _responseManager = new ResponseManager(resDir, "ReplyEmailResponses");
         }
 
-        // Generated accessors        
+        // Generated accessors
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {
             return _responseManager.GetBotResponse(propertyName);

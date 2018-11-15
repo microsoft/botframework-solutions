@@ -1,20 +1,19 @@
-﻿using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Skills;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Solutions.Skills;
 
 namespace VirtualAssistant
 {
     public class CustomSkillDialog : ComponentDialog
     {
-        public CustomSkillDialog(Dictionary<string, ISkillConfiguration> skills, IStatePropertyAccessor<DialogState> accessor)
+        public CustomSkillDialog(Dictionary<string, ISkillConfiguration> skills, IStatePropertyAccessor<DialogState> accessor, EndpointService endpointService)
             : base(nameof(CustomSkillDialog))
         {
-            AddDialog(new SkillDialog(skills, accessor));
+            AddDialog(new SkillDialog(skills, accessor, endpointService));
         }
 
         protected override Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)

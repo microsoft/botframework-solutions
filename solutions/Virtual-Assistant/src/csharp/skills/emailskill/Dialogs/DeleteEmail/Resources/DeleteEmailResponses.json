@@ -36,6 +36,6 @@
         "speak": "Your email has been successfully deleted."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   }
 }

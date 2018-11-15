@@ -7,7 +7,7 @@ using Microsoft.Bot.Builder.TemplateManager;
 using Microsoft.Bot.Schema;
 using System.Collections.Generic;
 
-namespace $safeprojectname$
+namespace $safeprojectname$.Dialogs.Escalate
 {
     public class EscalateResponses : TemplateManagerWithVoice
     {

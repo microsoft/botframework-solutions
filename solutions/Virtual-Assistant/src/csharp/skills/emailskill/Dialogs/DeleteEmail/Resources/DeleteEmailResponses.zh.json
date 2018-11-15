@@ -24,6 +24,6 @@
         "speak": "我已经删除了这个邮件。"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   }
 }

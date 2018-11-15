@@ -10,7 +10,7 @@
         "speak": "我此时没有检索到新的电子邮件。您可以稍后再试。"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "ReadOutPrompt": {
     "replies": [
@@ -57,14 +57,14 @@
     "replies": [
       {
         "text": "电子邮件详情：",
-        "speak": "电子邮件详情："
+        "speak": "电子邮件详情：{EmailDetails}"
       },
       {
         "text": "电子邮件内容：",
-        "speak": "电子邮件内容："
+        "speak": "电子邮件内容：{EmailDetails}"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "ReadOutMorePrompt": {
     "replies": [

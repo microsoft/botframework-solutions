@@ -3,11 +3,12 @@
 
 using System.Threading;
 using System.Threading.Tasks;
+using $safeprojectname$.Dialogs.Shared;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 
-namespace $safeprojectname$
+namespace $safeprojectname$.Dialogs.Onboarding
 {
     public class OnboardingDialog : EnterpriseDialog
     {
@@ -43,7 +44,7 @@ namespace $safeprojectname$
 
         public async Task<DialogTurnResult> AskForName(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            _state = await _accessor.GetAsync(sc.Context);
+            _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
 
             if (!string.IsNullOrEmpty(_state.Name))
             {
@@ -53,14 +54,14 @@ namespace $safeprojectname$
             {
                 return await sc.PromptAsync(NamePrompt, new PromptOptions()
                 {
-                    Prompt = await _responder.RenderTemplate(sc.Context, "en", OnboardingResponses._namePrompt),
+                    Prompt = await _responder.RenderTemplate(sc.Context, sc.Context.Activity.Locale, OnboardingResponses._namePrompt),
                 });
             }
         }
 
         public async Task<DialogTurnResult> AskForEmail(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            _state = await _accessor.GetAsync(sc.Context);
+            _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
             var name = _state.Name = (string)sc.Result;
 
             await _responder.ReplyWith(sc.Context, OnboardingResponses._haveName, new { name }, inputHint: InputHints.IgnoringInput);
@@ -73,14 +74,14 @@ namespace $safeprojectname$
             {
                 return await sc.PromptAsync(EmailPrompt, new PromptOptions()
                 {
-                    Prompt = await _responder.RenderTemplate(sc.Context, "en", OnboardingResponses._emailPrompt),
+                    Prompt = await _responder.RenderTemplate(sc.Context, sc.Context.Activity.Locale, OnboardingResponses._emailPrompt),
                 });
             }
         }
 
         public async Task<DialogTurnResult> AskForLocation(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            _state = await _accessor.GetAsync(sc.Context);
+            _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
             var email = _state.Email = (string)sc.Result;
 
             await _responder.ReplyWith(sc.Context, OnboardingResponses._haveEmail, new { email }, inputHint: InputHints.IgnoringInput);
@@ -93,7 +94,7 @@ namespace $safeprojectname$
             {
                 return await sc.PromptAsync(LocationPrompt, new PromptOptions()
                 {
-                    Prompt = await _responder.RenderTemplate(sc.Context, "en", OnboardingResponses._locationPrompt),
+                    Prompt = await _responder.RenderTemplate(sc.Context, sc.Context.Activity.Locale, OnboardingResponses._locationPrompt),
                 });
             }
         }

@@ -12,5 +12,12 @@ namespace CalendarSkill
         Task<List<Person>> GetPeopleAsync(string name);
 
         Task<List<User>> GetUserAsync(string name);
+
+        /// <summary>
+        /// Get user from your organization.
+        /// </summary>
+        /// <param name="name">The contact's name.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        Task<List<Contact>> GetContactsAsync(string name);
     }
 }

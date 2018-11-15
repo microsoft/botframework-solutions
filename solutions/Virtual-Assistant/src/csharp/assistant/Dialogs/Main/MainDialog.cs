@@ -24,25 +24,27 @@ namespace VirtualAssistant
         private BotConfiguration _botConfig;
         private UserState _userState;
         private ConversationState _conversationState;
+        private EndpointService _endpointService;
         private IStatePropertyAccessor<OnboardingState> _onboardingState;
         private IStatePropertyAccessor<Dictionary<string, object>> _parametersAccessor;
         private MainResponses _responder = new MainResponses();
         private SkillRouter _skillRouter;
 
-        public MainDialog(BotServices services, BotConfiguration botConfig, ConversationState conversationState, UserState userState)
+        public MainDialog(BotServices services, BotConfiguration botConfig, ConversationState conversationState, UserState userState, EndpointService endpointService)
             : base(nameof(MainDialog))
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _botConfig = botConfig;
             _conversationState = conversationState;
             _userState = userState;
+            _endpointService = endpointService;
             _onboardingState = _userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             _parametersAccessor = _userState.CreateProperty<Dictionary<string, object>>("userInfo");
             var dialogState = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
 
             AddDialog(new OnboardingDialog(_services, _onboardingState));
             AddDialog(new EscalateDialog(_services));
-            AddDialog(new CustomSkillDialog(_services.SkillConfigurations, dialogState));
+            AddDialog(new CustomSkillDialog(_services.SkillConfigurations, dialogState, endpointService));
 
             // Initialize skill dispatcher
             _skillRouter = new SkillRouter(_services.SkillDefinitions);
@@ -101,11 +103,8 @@ namespace VirtualAssistant
 
                                 case General.Intent.Cancel:
                                     {
-                                        // send cancelled response
-                                        await _responder.ReplyWith(dc.Context, MainResponses.Cancelled);
-
-                                        // Cancel any active dialogs on the stack
-                                        await dc.CancelAllDialogsAsync();
+                                        // if this was triggered, then there is no active dialog
+                                        await _responder.ReplyWith(dc.Context, MainResponses.NoActiveDialog);
                                         break;
                                     }
 
@@ -136,54 +135,10 @@ namespace VirtualAssistant
                     }
 
                 case Dispatch.Intent.l_Calendar:
-                    {
-                        var luisService = _services.LuisServices["calendar"];
-                        var luisResult = await luisService.RecognizeAsync<Calendar>(dc.Context, CancellationToken.None);
-                        var matchedSkill = _skillRouter.IdentifyRegisteredSkill(intent.ToString());
-
-                        await RouteToSkillAsync(dc, new SkillDialogOptions()
-                        {
-                            SkillDefinition = matchedSkill,
-                            Parameters = parameters,
-                        });
-
-                        break;
-                    }
-
                 case Dispatch.Intent.l_Email:
-                    {
-                        var luisService = _services.LuisServices["email"];
-                        var luisResult = await luisService.RecognizeAsync<Email>(dc.Context, CancellationToken.None);
-                        var matchedSkill = _skillRouter.IdentifyRegisteredSkill(intent.ToString());
-
-                        await RouteToSkillAsync(dc, new SkillDialogOptions()
-                        {
-                            SkillDefinition = matchedSkill,
-                            Parameters = parameters,
-                        });
-
-                        break;
-                    }
-
                 case Dispatch.Intent.l_ToDo:
-                    {
-                        var luisService = _services.LuisServices["todo"];
-                        var luisResult = await luisService.RecognizeAsync<ToDo>(dc.Context, CancellationToken.None);
-                        var matchedSkill = _skillRouter.IdentifyRegisteredSkill(intent.ToString());
-
-                        await RouteToSkillAsync(dc, new SkillDialogOptions()
-                        {
-                            SkillDefinition = matchedSkill,
-                            Parameters = parameters,
-                        });
-
-                        break;
-                    }
-
                 case Dispatch.Intent.l_PointOfInterest:
                     {
-                        var luisService = _services.LuisServices["pointofinterest"];
-                        var luisResult = await luisService.RecognizeAsync<PointOfInterest>(dc.Context, CancellationToken.None);
                         var matchedSkill = _skillRouter.IdentifyRegisteredSkill(intent.ToString());
 
                         await RouteToSkillAsync(dc, new SkillDialogOptions()
@@ -207,49 +162,6 @@ namespace VirtualAssistant
                         break;
                     }
             }
-        }
-
-        private async Task RouteToSkillAsync(DialogContext dc, SkillDialogOptions options)
-        {
-            // If we can't handle this within the local Bot it's a skill (prefix of s will make this clearer)
-            if (options.SkillDefinition != null)
-            {
-                // We have matched to a Skill
-                await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Forwarding your utterance to the {options.SkillDefinition.Name} skill."));
-
-                // Begin the SkillDialog and pass the arguments in
-                await dc.BeginDialogAsync(nameof(CustomSkillDialog), options);
-
-                // Pass the activity we have
-                var result = await dc.ContinueDialogAsync();
-
-                if (result.Status == DialogTurnStatus.Complete)
-                {
-                    await CompleteAsync(dc);
-                }
-            }
-        }
-
-        protected virtual async Task<InterruptionAction> LogoutAsync(DialogContext dc)
-        {
-            BotFrameworkAdapter adapter;
-            var supported = dc.Context.Adapter is BotFrameworkAdapter;
-            if (!supported)
-            {
-                throw new InvalidOperationException("OAuthPrompt.SignOutUser(): not supported by the current adapter");
-            }
-            else
-            {
-                adapter = (BotFrameworkAdapter)dc.Context.Adapter;
-            }
-
-            await dc.CancelAllDialogsAsync();
-
-            // Sign out user
-            await adapter.SignOutUserAsync(dc.Context, _services.AuthConnectionName);
-            await dc.Context.SendActivityAsync("Ok, you're signed out.");
-
-            return InterruptionAction.StartedDialog;
         }
 
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
@@ -276,72 +188,72 @@ namespace VirtualAssistant
                 switch (ev.Name)
                 {
                     case Events.TimezoneEvent:
-                    {
-                        try
                         {
-                            var timezone = ev.Value.ToString();
-                            var tz = TimeZoneInfo.FindSystemTimeZoneById(timezone);
+                            try
+                            {
+                                var timezone = ev.Value.ToString();
+                                var tz = TimeZoneInfo.FindSystemTimeZoneById(timezone);
 
-                            parameters[ev.Name] = tz;
-                        }
-                        catch
-                        {
-                            await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Timezone passed could not be mapped to a valid Timezone. Property not set."));
-                        }
+                                parameters[ev.Name] = tz;
+                            }
+                            catch
+                            {
+                                await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Timezone passed could not be mapped to a valid Timezone. Property not set."));
+                            }
 
-                        forward = false;
-                        break;
-                    }
+                            forward = false;
+                            break;
+                        }
 
                     case Events.LocationEvent:
-                    {
-                        parameters[ev.Name] = ev.Value;
-                        forward = false;
-                        break;
-                    }
+                        {
+                            parameters[ev.Name] = ev.Value;
+                            forward = false;
+                            break;
+                        }
 
                     case Events.TokenResponseEvent:
-                    {
-                        forward = true;
-                        break;
-                    }
+                        {
+                            forward = true;
+                            break;
+                        }
 
                     case Events.ActiveLocationUpdate:
                     case Events.ActiveRouteUpdate:
-                    {
-                        var matchedSkill = _skillRouter.IdentifyRegisteredSkill(Dispatch.Intent.l_PointOfInterest.ToString());
-
-                        await RouteToSkillAsync(dc, new SkillDialogOptions()
                         {
-                            SkillDefinition = matchedSkill
-                        });
+                            var matchedSkill = _skillRouter.IdentifyRegisteredSkill(Dispatch.Intent.l_PointOfInterest.ToString());
 
-                        forward = false;
-                        break;
-                    }
+                            await RouteToSkillAsync(dc, new SkillDialogOptions()
+                            {
+                                SkillDefinition = matchedSkill,
+                            });
+
+                            forward = false;
+                            break;
+                        }
 
                     case Events.ResetUser:
-                    {
-                        await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Reset User Event received, clearing down State and Tokens."));
+                        {
+                            await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Reset User Event received, clearing down State and Tokens."));
 
-                        // Clear State
-                        await _onboardingState.DeleteAsync(dc.Context, cancellationToken);
+                            // Clear State
+                            await _onboardingState.DeleteAsync(dc.Context, cancellationToken);
 
-                        // Clear Tokens
-                        var adapter = dc.Context.Adapter as BotFrameworkAdapter;
-                        await adapter.SignOutUserAsync(dc.Context,null, dc.Context.Activity.From.Id, cancellationToken);
+                            // Clear Tokens
+                            var adapter = dc.Context.Adapter as BotFrameworkAdapter;
+                            await adapter.SignOutUserAsync(dc.Context, null, dc.Context.Activity.From.Id, cancellationToken);
 
-                        forward = false;
+                            forward = false;
 
-                        break;
-                    }
+                            break;
+                        }
 
                     default:
-                    {
-                        await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event {ev.Name} was received but not processed."));
-                        forward = false;
-                        break;
-                    }
+                        {
+                            await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event {ev.Name} was received but not processed."));
+                            forward = false;
+                            break;
+                        }
                 }
 
                 if (forward)
@@ -355,15 +267,63 @@ namespace VirtualAssistant
                 }
             }
         }
-    }
 
-    public static class Events
-    {
-        public const string TokenResponseEvent = "tokens/response";
-        public const string TimezoneEvent = "IPA.Timezone";
-        public const string LocationEvent = "IPA.Location";
-        public const string ActiveLocationUpdate = "POI.ActiveLocation";
-        public const string ActiveRouteUpdate = "POI.ActiveRoute";
-        public const string ResetUser = "IPA.ResetUser";
+        private async Task RouteToSkillAsync(DialogContext dc, SkillDialogOptions options)
+        {
+            // If we can't handle this within the local Bot it's a skill (prefix of s will make this clearer)
+            if (options.SkillDefinition != null)
+            {
+                // We have matched to a Skill
+                await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Forwarding your utterance to the {options.SkillDefinition.Name} skill."));
+
+                // Begin the SkillDialog and pass the arguments in
+                await dc.BeginDialogAsync(nameof(CustomSkillDialog), options);
+
+                // Pass the activity we have
+                var result = await dc.ContinueDialogAsync();
+
+                if (result.Status == DialogTurnStatus.Complete)
+                {
+                    await CompleteAsync(dc);
+                }
+            }
+        }
+
+        private async Task<InterruptionAction> LogoutAsync(DialogContext dc)
+        {
+            BotFrameworkAdapter adapter;
+            var supported = dc.Context.Adapter is BotFrameworkAdapter;
+            if (!supported)
+            {
+                throw new InvalidOperationException("OAuthPrompt.SignOutUser(): not supported by the current adapter");
+            }
+            else
+            {
+                adapter = (BotFrameworkAdapter)dc.Context.Adapter;
+            }
+
+            await dc.CancelAllDialogsAsync();
+
+            // Sign out user
+            var tokens = await adapter.GetTokenStatusAsync(dc.Context, dc.Context.Activity.From.Id);
+            foreach (var token in tokens)
+            {
+                await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
+            }
+
+            await dc.Context.SendActivityAsync("Ok, you're signed out.");
+
+            return InterruptionAction.StartedDialog;
+        }
+
+        private class Events
+        {
+            public const string TokenResponseEvent = "tokens/response";
+            public const string TimezoneEvent = "IPA.Timezone";
+            public const string LocationEvent = "IPA.Location";
+            public const string ActiveLocationUpdate = "POI.ActiveLocation";
+            public const string ActiveRouteUpdate = "POI.ActiveRoute";
+            public const string ResetUser = "IPA.ResetUser";
+        }
     }
 }

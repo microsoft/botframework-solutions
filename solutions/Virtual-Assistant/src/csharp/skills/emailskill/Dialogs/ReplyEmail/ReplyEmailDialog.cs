@@ -1,13 +1,13 @@
-﻿using EmailSkill.Dialogs.Shared.Resources;
+﻿using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using EmailSkill.Dialogs.Shared.Resources;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Graph;
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace EmailSkill
 {
@@ -41,13 +41,13 @@ namespace EmailSkill
                 PromptUpdateMessage,
                 AfterUpdateMessage,
             };
-            AddDialog(new WaterfallDialog(Action.Reply, replyEmail));
+            AddDialog(new WaterfallDialog(Actions.Reply, replyEmail));
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Action.Show, showEmail));
-            AddDialog(new WaterfallDialog(Action.UpdateSelectMessage, updateSelectMessage));
+            AddDialog(new WaterfallDialog(Actions.Show, showEmail));
+            AddDialog(new WaterfallDialog(Actions.UpdateSelectMessage, updateSelectMessage));
 
-            InitialDialogId = Action.Reply;
+            InitialDialogId = Actions.Reply;
         }
 
         public async Task<DialogTurnResult> ReplyEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -57,12 +57,12 @@ namespace EmailSkill
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult)
                 {
-                    var state = await _emailStateAccessor.GetAsync(sc.Context);
+                    var state = await EmailStateAccessor.GetAsync(sc.Context);
                     var token = state.MsGraphToken;
                     var message = state.Message.FirstOrDefault();
                     var content = state.Content;
 
-                    var service = _serviceManager.InitMailService(token, state.GetUserTimeZone());
+                    var service = ServiceManager.InitMailService(token, state.GetUserTimeZone());
 
                     // reply user message.
                     if (message != null)

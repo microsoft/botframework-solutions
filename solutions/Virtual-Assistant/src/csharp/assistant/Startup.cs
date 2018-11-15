@@ -71,17 +71,19 @@ namespace VirtualAssistant
             services.AddSingleton(conversationState);
             services.AddSingleton(new BotStateSet(userState, conversationState));
 
+            var environment = _isProduction ? "production" : "development";
+            var service = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.Endpoint && s.Name == environment);
+            if (!(service is EndpointService endpointService))
+            {
+                throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
+            }
+
+            services.AddSingleton(endpointService);
+
             // Add the bot with options
             services.AddBot<VirtualAssistant>(options =>
             {
                 // Load the connected services from .bot file.
-                var environment = _isProduction ? "production" : "development";
-                var service = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.Endpoint && s.Name == environment);
-                if (!(service is EndpointService endpointService))
-                {
-                    throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
-                }
-
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
                 // Telemetry Middleware (logs activity messages in Application Insights)
@@ -112,16 +114,15 @@ namespace VirtualAssistant
                 options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
 
                 //// Translator is an optional component for scenarios when an Assistant needs to work beyond native language support
-                //var translatorKey = Configuration.GetValue<string>("translatorKey");
-
-                //if (!string.IsNullOrEmpty(translatorKey))
-                //{
-                //    options.Middleware.Add(new TranslationMiddleware(new string[] { "en", "fr", "it", "de", "es" }, translatorKey, false));
-                //}
-                //else
-                //{
-                //    throw new InvalidOperationException("Microsoft Text Translation API key is missing. Please add your translation key to the 'translatorKey' setting.");
-                //}
+                // var translatorKey = Configuration.GetValue<string>("translatorKey");
+                // if (!string.IsNullOrEmpty(translatorKey))
+                // {
+                //     options.Middleware.Add(new TranslationMiddleware(new string[] { "en", "fr", "it", "de", "es" }, translatorKey, false));
+                // }
+                // else
+                // {
+                //     throw new InvalidOperationException("Microsoft Text Translation API key is missing. Please add your translation key to the 'translatorKey' setting.");
+                // }
             });
         }
 
@@ -135,7 +136,6 @@ namespace VirtualAssistant
             _isProduction = env.IsProduction();
             app.UseDefaultFiles()
                 .UseStaticFiles()
-                //.UseDeveloperExceptionPage()
                 .UseBotFramework();
         }
     }

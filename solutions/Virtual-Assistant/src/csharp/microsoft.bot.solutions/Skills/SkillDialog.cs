@@ -1,13 +1,14 @@
-﻿using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Azure;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Middleware;
-using Microsoft.Bot.Solutions.Resources;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Authentication;
+using Microsoft.Bot.Solutions.Middleware;
 
 namespace Microsoft.Bot.Solutions.Skills
 {
@@ -19,16 +20,20 @@ namespace Microsoft.Bot.Solutions.Skills
         // Fields
         private Dictionary<string, ISkillConfiguration> _skills;
         private IStatePropertyAccessor<DialogState> _accessor;
+        private EndpointService _endpointService;
         private DialogSet _dialogs;
         private InProcAdapter _inProcAdapter;
         private IBot _activatedSkill;
         private bool _skillInitialized;
+        private bool _useCachedTokens;
 
-        public SkillDialog(Dictionary<string, ISkillConfiguration> skills, IStatePropertyAccessor<DialogState> accessor)
+        public SkillDialog(Dictionary<string, ISkillConfiguration> skills, IStatePropertyAccessor<DialogState> accessor, EndpointService endpointService, bool useCachedTokens = true)
             : base(nameof(SkillDialog))
         {
             _skills = skills;
             _accessor = accessor;
+            _endpointService = endpointService;
+            _useCachedTokens = useCachedTokens;
             _dialogs = new DialogSet(_accessor);
         }
 
@@ -44,12 +49,7 @@ namespace Microsoft.Bot.Solutions.Skills
 
             // Initialize authentication prompt
             _dialogs = _dialogs ?? new DialogSet(_accessor);
-            _dialogs.Add(new OAuthPrompt(nameof(OAuthPrompt), new OAuthPromptSettings()
-            {
-                ConnectionName = skillConfiguration.AuthConnectionName,
-                Title = CommonResponses.SkillAuthenticationTitle.Reply.Text,
-                Text = CommonResponses.SkillAuthenticationPrompt.Reply.Text,
-            }));
+            _dialogs.Add(new MultiProviderAuthDialog(skillConfiguration));
 
             // Send parameters to skill in skillBegin event
             var userData = new Dictionary<string, object>();
@@ -86,18 +86,13 @@ namespace Microsoft.Bot.Solutions.Skills
             var innerDc = await _dialogs.CreateContextAsync(dc.Context);
 
             // Add the oauth prompt to _dialogs if it is missing
-            var dialog = _dialogs.Find(nameof(OAuthPrompt));
+            var dialog = _dialogs.Find(nameof(MultiProviderAuthDialog));
             if (dialog == null)
             {
                 var skillDefinition = dc.ActiveDialog.State[ActiveSkillStateKey] as SkillDefinition;
                 var skillConfiguration = _skills[skillDefinition.Id];
 
-                _dialogs.Add(new OAuthPrompt(nameof(OAuthPrompt), new OAuthPromptSettings()
-                {
-                    ConnectionName = skillConfiguration.AuthConnectionName,
-                    Title = CommonResponses.SkillAuthenticationTitle.Reply.Text,
-                    Text = CommonResponses.SkillAuthenticationPrompt.Reply.Text,
-                }));
+                _dialogs.Add(new MultiProviderAuthDialog(skillConfiguration));
             }
 
             // Check if we're in the oauth prompt
@@ -107,11 +102,11 @@ namespace Microsoft.Bot.Solutions.Skills
                 var result = await innerDc.ContinueDialogAsync();
 
                 // forward the token response to the skill
-                if (result.Status == DialogTurnStatus.Complete && result.Result is TokenResponse)
+                if (result.Status == DialogTurnStatus.Complete && result.Result is ProviderTokenResponse)
                 {
                     activity.Type = ActivityTypes.Event;
                     activity.Name = Events.TokenResponseEventName;
-                    activity.Value = result.Result;
+                    activity.Value = result.Result as ProviderTokenResponse;
                 }
                 else
                 {
@@ -166,11 +161,7 @@ namespace Microsoft.Bot.Solutions.Skills
                         await context.SendActivityAsync(context.Activity.CreateReply($"Sorry, something went wrong trying to communicate with the skill. Please try again."));
 
                         // Send error trace to emulator
-                        await dc.Context.SendActivityAsync(
-                            new Activity(
-                                type: ActivityTypes.Trace,
-                                text: $"Skill Error: {exception.Message} | {exception.StackTrace}"
-                                ));
+                        await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Skill Error: {exception.Message} | {exception.StackTrace}"));
 
                         // Log exception in AppInsights
                         skillConfiguration.TelemetryClient.TrackException(exception);
@@ -191,7 +182,7 @@ namespace Microsoft.Bot.Solutions.Skills
             }
         }
 
-        public async Task<DialogTurnResult> ForwardToSkill(DialogContext dc, Activity activity)
+        private async Task<DialogTurnResult> ForwardToSkill(DialogContext dc, Activity activity)
         {
             try
             {
@@ -218,26 +209,28 @@ namespace Microsoft.Bot.Solutions.Skills
                     else if (skillResponse?.Name == Events.TokenRequestEventName)
                     {
                         // Send trace to emulator
-                        await dc.Context.SendActivityAsync(
-                            new Activity(
-                                type: ActivityTypes.Trace,
-                                text: $"<--Received a Token Request from a skill"
-                                ));
+                        await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Received a Token Request from a skill"));
 
-                        // Uncomment this line to prompt user for login every time the skill requests a token
-                        //var a = dc.Context.Adapter as BotFrameworkAdapter;
-                        //var skillDefinition = dc.ActiveDialog.State[ActiveSkillStateKey] as SkillDefinition;
-                        //var skillConfiguration = _skills[skillDefinition.Id];
-                        //await a.SignOutUserAsync(dc.Context, skillConfiguration.AuthConnectionName, dc.Context.Activity.From.Id, default(CancellationToken));
+                        if (!_useCachedTokens)
+                        {
+                            var adapter = dc.Context.Adapter as BotFrameworkAdapter;
+                            var tokens = await adapter.GetTokenStatusAsync(dc.Context, dc.Context.Activity.From.Id);
+
+                            foreach (var token in tokens)
+                            {
+                                await adapter.SignOutUserAsync(dc.Context, token.ConnectionName, dc.Context.Activity.From.Id, default(CancellationToken));
+                            }
+                        }
 
                         var innerDc = await _dialogs.CreateContextAsync(dc.Context);
-                        var authResult = await innerDc.BeginDialogAsync(nameof(OAuthPrompt));
-                        if (authResult.Result?.GetType() == typeof(TokenResponse))
+                        var authResult = await innerDc.BeginDialogAsync(nameof(MultiProviderAuthDialog));
+
+                        if (authResult.Result?.GetType() == typeof(ProviderTokenResponse))
                         {
                             var tokenEvent = skillResponse.CreateReply();
                             tokenEvent.Type = ActivityTypes.Event;
                             tokenEvent.Name = Events.TokenResponseEventName;
-                            tokenEvent.Value = authResult.Result;
+                            tokenEvent.Value = authResult.Result as ProviderTokenResponse;
 
                             return await ForwardToSkill(dc, tokenEvent);
                         }
@@ -248,7 +241,15 @@ namespace Microsoft.Bot.Solutions.Skills
                     }
                     else
                     {
-                        queue.Add(skillResponse);
+                        if (skillResponse.Type == ActivityTypes.Trace)
+                        {
+                            // Write out any trace messages from the skill to the emulator
+                            await dc.Context.SendActivityAsync(skillResponse);
+                        }
+                        else
+                        {
+                            queue.Add(skillResponse);
+                        }
                     }
 
                     skillResponse = _inProcAdapter.GetNextReply();
@@ -257,17 +258,23 @@ namespace Microsoft.Bot.Solutions.Skills
                 // send skill queue to User
                 if (queue.Count > 0)
                 {
-                    await dc.Context.SendActivitiesAsync(queue.ToArray());
+                    var firstActivity = queue[0];
+                    if (firstActivity.Conversation.Id == dc.Context.Activity.Conversation.Id)
+                    {
+                        // if the conversation id from the activity is the same as the context activity, it's reactive message
+                        await dc.Context.SendActivitiesAsync(queue.ToArray());
+                    }
+                    else
+                    {
+                        // if the conversation id from the activity is differnt from the context activity, it's proactive message
+                        await dc.Context.Adapter.ContinueConversationAsync(_endpointService.AppId, firstActivity.GetConversationReference(), CreateCallback(queue.ToArray()), default(CancellationToken));
+                    }
                 }
 
                 // handle ending the skill conversation
                 if (endOfConversation)
                 {
-                    await dc.Context.SendActivityAsync(
-                        new Activity(
-                            type: ActivityTypes.Trace,
-                            text: $"<--Ending the skill conversation"
-                            ));
+                    await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Ending the skill conversation"));
 
                     return await dc.EndDialogAsync();
                 }
@@ -283,6 +290,15 @@ namespace Microsoft.Bot.Solutions.Skills
                 await dc.EndDialogAsync();
                 throw;
             }
+        }
+
+        private BotCallbackHandler CreateCallback(Activity[] activities)
+        {
+            return async (turnContext, token) =>
+            {
+                // Send back the activities in the proactive context
+                await turnContext.SendActivitiesAsync(activities, token);
+            };
         }
 
         private class Events
