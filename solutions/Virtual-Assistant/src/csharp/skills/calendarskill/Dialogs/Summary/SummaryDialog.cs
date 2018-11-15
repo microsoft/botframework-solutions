@@ -60,7 +60,7 @@ namespace CalendarSkill
 
                 var topIntent = luisResult?.TopIntent().intent;
 
-                if (topIntent == Calendar.Intent.Summary)
+                if (topIntent == Calendar.Intent.Summary || topIntent == Calendar.Intent.FindCalendarEntry)
                 {
                     state.SummaryEvents = null;
                 }
@@ -244,9 +244,17 @@ namespace CalendarSkill
                 }
                 else if ((promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true) || (topIntent == Luis.Calendar.Intent.ReadAloud && eventItem == null))
                 {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.ReadOutPrompt), });
+                    if (state.SummaryEvents.Count == 1)
+                    {
+                        eventItem = state.SummaryEvents[0];
+                    }
+                    else
+                    {
+                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.ReadOutPrompt), });
+                    }
                 }
-                else if (eventItem != null)
+
+                if (eventItem != null)
                 {
                     string speakString = string.Empty;
                     if (eventItem.IsAllDay == true)
