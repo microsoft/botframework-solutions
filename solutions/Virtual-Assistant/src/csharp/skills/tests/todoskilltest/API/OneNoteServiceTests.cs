@@ -12,10 +12,13 @@ namespace ToDoSkillTest.API
     {
         private static HttpClient mockClient;
 
-        [ClassInitialize]
-        public static void ClassInit(TestContext context)
+        [TestInitialize]
+        public void Initialize()
         {
-            mockClient = new HttpClient(new MockHttpClientHandlerGen().GetMockHttpClientHandler());
+            if (mockClient == null)
+            {
+                mockClient = new HttpClient(new MockHttpClientHandlerGen().GetMockHttpClientHandler());
+            }
         }
 
         [TestMethod]
