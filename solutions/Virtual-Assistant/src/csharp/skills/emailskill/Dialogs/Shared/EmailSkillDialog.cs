@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.ConfirmRecipient.Resources;
@@ -385,7 +386,7 @@ namespace EmailSkill
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                if (state.NameList.Count == 0)
+                if (state.IsNoRecipientAvailable())
                 {
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(EmailSharedResponses.NoRecipients, ResponseBuilder), });
                 }
@@ -407,7 +408,7 @@ namespace EmailSkill
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
 
                 // ensure state.nameList is not null or empty
-                if (state.NameList.Count == 0)
+                if (state.IsNoRecipientAvailable())
                 {
                     var userInput = sc.Result.ToString();
                     if (userInput == null)
@@ -889,6 +890,7 @@ namespace EmailSkill
                 state.EndDateTime = DateTime.UtcNow;
                 state.DirectlyToMe = false;
                 state.SenderName = null;
+                state.EmailList = new List<string>();
                 state.ShowRecipientIndex = 0;
                 state.LuisResultPassedFromSkill = null;
             }
@@ -962,6 +964,22 @@ namespace EmailSkill
                 if (entity.SenderName != null)
                 {
                     state.SenderName = entity.SenderName[0];
+                }
+
+                if (entity.EmailAddress != null)
+                {
+                    // As luis result for email address often contains extra spaces for word breaking
+                    // (e.g. send email to test@test.com, email address entity will be test @ test . com)
+                    // So use original user input as email address.
+                    var rawEntity = luisResult.Entities._instance.EmailAddress;
+                    foreach (var emailAddress in rawEntity)
+                    {
+                        var email = luisResult.Text.Substring(emailAddress.StartIndex, emailAddress.EndIndex - emailAddress.StartIndex);
+                        if (IsEmail(email) && !state.EmailList.Contains(email))
+                        {
+                            state.EmailList.Add(email);
+                        }
+                    }
                 }
 
                 if (entity.datetime != null)
@@ -1038,6 +1056,16 @@ namespace EmailSkill
             {
                 // put log here
             }
+        }
+
+        protected bool IsEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                return false;
+            }
+
+            return Regex.IsMatch(email, @"^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$");
         }
 
         // This method is called by any waterfall step that throws an exception to ensure consistency
