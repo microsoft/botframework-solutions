@@ -10,7 +10,7 @@ namespace ToDoSkillTest.API
     [TestClass]
     public class OneNoteServiceTests
     {
-        private static HttpClient mockClient;
+        private HttpClient mockClient;
 
         [TestInitialize]
         public void Initialize()
