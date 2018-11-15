@@ -92,20 +92,25 @@ namespace EmailSkill
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var currentRecipientName = state.NameList[state.ConfirmRecipientIndex];
-                var personList = await GetPeopleWorkWithAsync(sc, currentRecipientName);
+
+                var originPersonList = await GetPeopleWorkWithAsync(sc, currentRecipientName);
+                var originContactList = await GetContactsAsync(sc, currentRecipientName);
+                originPersonList.AddRange(originContactList);
 
                 // msa account can not get user from your org. and token type is not jwt.
                 // TODO: find a way to check the account is msa or aad.
                 var handler = new JwtSecurityTokenHandler();
-                var userList = new List<Person>();
+                var originUserList = new List<Person>();
                 try
                 {
-                    userList = await GetUserAsync(sc, currentRecipientName);
+                    originUserList = await GetUserAsync(sc, currentRecipientName);
                 }
                 catch
                 {
                     // do nothing when get user failed. because can not use token to ensure user use a work account.
                 }
+
+                (var personList, var userList) = FormatRecipientList(originPersonList, originUserList);
 
                 // todo: should set updatename reason in stepContext.Result
                 if (personList.Count > 10)
@@ -147,7 +152,7 @@ namespace EmailSkill
                 if (selectOption.Choices.Count == 0)
                 {
                     state.ShowRecipientIndex = 0;
-                    return await sc.BeginDialogAsync(Actions.UpdateRecipientName, new UpdateUserDialogOptions(UpdateUserDialogOptions.UpdateReason.TooMany));
+                    return await sc.BeginDialogAsync(Actions.UpdateRecipientName, new UpdateUserDialogOptions(UpdateUserDialogOptions.UpdateReason.NotFound));
                 }
 
                 // Update prompt string to include the choices because the list style is none;

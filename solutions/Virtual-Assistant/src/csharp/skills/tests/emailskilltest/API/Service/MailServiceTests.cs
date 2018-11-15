@@ -5,7 +5,6 @@ using EmailSkill;
 using EmailSkillTest.API.Fakes;
 using Microsoft.Graph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 
 namespace EmailSkillTest.API
 {
