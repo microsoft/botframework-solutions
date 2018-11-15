@@ -62,4 +62,4 @@ case Dispatch.YOUR_DISPATCH_SKILL:
 ```
 ## Test your Skill
 
-Your Skill is now ready for use, follow the [Test](./virtualassistant-testing.md) instructions to get started.
+Your Skill is now ready for use, follow the [testing instructions](./virtualassistant-testing.md) to get started.
