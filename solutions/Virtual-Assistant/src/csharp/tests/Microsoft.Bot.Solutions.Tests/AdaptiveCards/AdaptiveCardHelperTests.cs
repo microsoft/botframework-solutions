@@ -8,7 +8,7 @@ namespace Microsoft.Bot.Solutions.Tests.AdaptiveCards
     [TestClass]
     public class AdaptiveCardHelperTests
     {
-        private string cardJson = "AdaptiveCards/TestCard.json";
+        private const string cardJson = "AdaptiveCards/TestCard.json";
 
         [TestMethod]
         public void Test_GetCardFromJson()
