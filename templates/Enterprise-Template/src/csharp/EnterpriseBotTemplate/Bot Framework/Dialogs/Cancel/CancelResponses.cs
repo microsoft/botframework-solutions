@@ -2,7 +2,9 @@
 // Licensed under the MIT License.
 
 using $safeprojectname$.Dialogs.Cancel.Resources;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.TemplateManager;
+using Microsoft.Bot.Schema;
 
 namespace $safeprojectname$.Dialogs.Cancel
 {
@@ -18,9 +20,9 @@ namespace $safeprojectname$.Dialogs.Cancel
         {
             ["default"] = new TemplateIdMap
             {
-                { _confirmPrompt, (context, data) => CancelStrings.CANCEL_PROMPT },
-                { _cancelConfirmed, (context, data) => CancelStrings.CANCEL_CONFIRMED },
-                { _cancelDenied, (context, data) => CancelStrings.CANCEL_DENIED },
+                { _confirmPrompt, (context, data) => MessageFactory.Text(CancelStrings.CANCEL_PROMPT, ssml: CancelStrings.CANCEL_PROMPT, inputHint: InputHints.ExpectingInput) },
+                { _cancelConfirmed, (context, data) => MessageFactory.Text(CancelStrings.CANCEL_CONFIRMED, ssml: CancelStrings.CANCEL_CONFIRMED, inputHint: InputHints.IgnoringInput) },
+                { _cancelDenied, (context, data) => MessageFactory.Text(CancelStrings.CANCEL_DENIED, ssml: CancelStrings.CANCEL_DENIED, inputHint: InputHints.IgnoringInput) },
             },
             ["en"] = new TemplateIdMap { },
             ["fr"] = new TemplateIdMap { },
