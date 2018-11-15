@@ -650,13 +650,15 @@ namespace CalendarSkill
 
             if (showDate || !IsSameDate(eventItem.StartTime, eventItem.EndTime))
             {
+                var startDateString = TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone).ToString("dd-MM-yyyy");
+                var endDateString = TimeConverter.ConvertUtcToUserTime(eventItem.EndTime, timeZone).ToString("dd-MM-yyyy");
                 if (IsSameDate(eventItem.StartTime, eventItem.EndTime))
                 {
-                    textString += $"\n{TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone).ToString("dd-MM-yyyy")}";
+                    textString += $"\n{startDateString}";
                 }
                 else
                 {
-                    textString += $"\n{TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone).ToString("dd-MM-yyyy")} - {TimeConverter.ConvertUtcToUserTime(eventItem.EndTime, timeZone).ToString("dd-MM-yyyy")}";
+                    textString += $"\n{startDateString} - {endDateString}";
                 }
             }
 
