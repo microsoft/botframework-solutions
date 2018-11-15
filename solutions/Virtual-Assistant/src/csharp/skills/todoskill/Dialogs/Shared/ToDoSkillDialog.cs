@@ -29,7 +29,7 @@ namespace ToDoSkill
 
         public ToDoSkillDialog(
             string dialogId,
-            SkillConfiguration services,
+            ISkillConfiguration services,
             IStatePropertyAccessor<ToDoSkillState> accessor,
             ITaskService serviceManager)
             : base(dialogId)
@@ -48,7 +48,7 @@ namespace ToDoSkill
             AddDialog(new TextPrompt(Action.Prompt));
         }
 
-        protected SkillConfiguration Services { get; set; }
+        protected ISkillConfiguration Services { get; set; }
 
         protected IStatePropertyAccessor<ToDoSkillState> Accessor { get; set; }
 
@@ -91,6 +91,10 @@ namespace ToDoSkill
 
                     // Wait for the tokens/response event
                     return await sc.PromptAsync(SkillModeAuth, new PromptOptions());
+                }
+                else if (sc.Context.Activity.ChannelId == "test")
+                {
+                    return await sc.NextAsync();
                 }
                 else
                 {

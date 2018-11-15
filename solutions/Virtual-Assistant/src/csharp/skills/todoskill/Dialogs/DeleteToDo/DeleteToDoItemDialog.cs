@@ -16,7 +16,7 @@ namespace ToDoSkill
     public class DeleteToDoItemDialog : ToDoSkillDialog
     {
         public DeleteToDoItemDialog(
-            SkillConfiguration services,
+            ISkillConfiguration services,
             IStatePropertyAccessor<ToDoSkillState> accessor,
             ITaskService serviceManager)
             : base(nameof(DeleteToDoItemDialog), services, accessor, serviceManager)
