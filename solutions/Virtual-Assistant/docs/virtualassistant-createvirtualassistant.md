@@ -9,14 +9,14 @@ The Virtual Assistant solution is under ongoing development within an open-sourc
 Follow the instructions below to build, deploy and configure your Assistant.
 
 ### Prerequisites
-- - Ensure you have updated [.NET Core](https://www.microsoft.com/net/download) to the latest version.
+- Ensure you have updated [.NET Core](https://www.microsoft.com/net/download) to the latest version.
 - [Node.js](https://nodejs.org/) version 8.5 or higher.
 - Install the Azure Bot Service command line (CLI) tools. It's important to do this even if you have earlier versions as the Virtual Assistant makes use of new deployment capabilities.
 
 ```shell
 npm install -g botdispatch chatdown ludown luis-apis luisgen msbot qnamaker  
 ```
-- [Install the Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)
+- Install the [the Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)
 
 - Install the Az Extension for Bot Service
 ```shell
@@ -24,7 +24,7 @@ az extension add -n botservice
 ```
 
 - Retrieve your LUIS Authoring Key
-  - Review [this](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation page for the correct LUIS portal for the region you plan to deploy to. Note that www.luis.ai refers to the US region and an authoring key retrieved from this portal will not work with a europe deployment. 
+   - Review the [LUIS regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation page for the correct LUIS portal for the region you plan to deploy to. Note that www.luis.ai refers to the US region and an authoring key retrieved from this portal will not work with a europe deployment. 
    - Once signed in click on your name in the top right hand corner.
    - Choose Settings and make a note of the Authoring Key for the next step.
 
@@ -124,7 +124,7 @@ The [Add Authentication to your bot](https://docs.microsoft.com/en-us/azure/bot-
 - Under Platforms, click Add Platform.
   - In the Add Platform pop-up, click Web.
   - Leave Allow Implicit Flow checked.
-  - For Redirect URL, enter https://token.botframework.com/.auth/web/redirect
+  - For Redirect URL, enter `https://token.botframework.com/.auth/web/redirect`
   - Leave Logout URL blank.
 - Under Microsoft Graph Permissions, you can need to add additional *delegated* permissions.
 - Each of the Skills require a specific set of Scopes, refer to the documentation for each skill or use the following list of Scopes that contain the scopes needed for all skills. 
