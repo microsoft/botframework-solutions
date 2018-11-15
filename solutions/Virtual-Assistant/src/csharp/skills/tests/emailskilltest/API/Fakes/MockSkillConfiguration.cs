@@ -4,20 +4,20 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Solutions.Skills;
 
-namespace EmailSkillTest.Flow.Fakes
+namespace EmailSkillTest.API.Fakes
 {
     public class MockSkillConfiguration : ISkillConfiguration
     {
         public MockSkillConfiguration()
         {
-            this.LuisServices.Add("general", new MockLuisRecognizer());
-            this.LuisServices.Add("email", new MockLuisRecognizer());
-
-            this.AuthenticationConnections.Add("Google", "Google");
-
             this.TelemetryClient = null;
             this.CosmosDbOptions = null;
+            this.AuthenticationConnections = new Dictionary<string, string>();
+
+            this.AuthenticationConnections.Add("Google", "Google");
         }
+
+        public override Dictionary<string, string> AuthenticationConnections { get; set; }
 
         public override TelemetryClient TelemetryClient { get; set; }
 
@@ -26,7 +26,5 @@ namespace EmailSkillTest.Flow.Fakes
         public override Dictionary<string, IRecognizer> LuisServices { get; set; } = new Dictionary<string, IRecognizer>();
 
         public override Dictionary<string, object> Properties { get; set; } = new Dictionary<string, object>();
-
-        public override Dictionary<string, string> AuthenticationConnections { get; set; } = new Dictionary<string, string>();
     }
 }
