@@ -16,7 +16,7 @@ Follow the instructions below to build, deploy and configure your Assistant.
 ```shell
 npm install -g botdispatch chatdown ludown luis-apis luisgen msbot qnamaker  
 ```
-- Install the Azure Command Line Tools (CLI) from [here](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)
+- [Install the Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)
 
 - Install the Az Extension for Bot Service
 ```shell
