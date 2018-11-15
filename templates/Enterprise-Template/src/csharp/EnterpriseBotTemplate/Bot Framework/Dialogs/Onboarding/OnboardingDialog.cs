@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using $safeprojectname$.Dialogs.Shared;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Schema;
 
 namespace $safeprojectname$.Dialogs.Onboarding
 {
