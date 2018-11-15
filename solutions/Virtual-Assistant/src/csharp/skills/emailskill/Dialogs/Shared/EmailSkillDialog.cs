@@ -10,6 +10,7 @@ using EmailSkill.Dialogs.SendEmail.Resources;
 using EmailSkill.Dialogs.Shared.Resources;
 using EmailSkill.Dialogs.ShowEmail.Resources;
 using EmailSkill.Extensions;
+using EmailSkill.Util;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -722,7 +723,13 @@ namespace EmailSkill
                 searchType += " important";
             }
 
-            var reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, new StringDictionary { { "SearchType", searchType } });
+            var stringToken = new StringDictionary
+            {
+                { "SearchType", searchType },
+                { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(sc, messages) },
+            };
+
+            var reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
             await sc.Context.SendActivityAsync(reply);
         }
 

@@ -484,7 +484,7 @@
     "replies": [
       {
         "text": "Sie haben die folgenden {SearchType} Emails:",
-        "speak": "Sie haben die folgenden {SearchType} Emails:"
+        "speak": "Sie haben die folgenden {SearchType} Emails: {EmailListDetails}"
       }
     ],
     "inputHint": "acceptingInput"

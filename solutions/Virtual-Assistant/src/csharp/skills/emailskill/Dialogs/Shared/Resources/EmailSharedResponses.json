@@ -263,7 +263,43 @@
     "replies": [
       {
         "text": "You have the following {SearchType} emails:",
-        "speak": "You have the following {SearchType} emails:"
+        "speak": "You have the following {SearchType} emails: {EmailListDetails}"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ConnectWords": {
+    "replies": [
+      {
+        "text": "and",
+        "speak": "and"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "FromWords": {
+    "replies": [
+      {
+        "text": "from",
+        "speak": "from"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ToWords": {
+    "replies": [
+      {
+        "text": "to",
+        "speak": "to"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "MoreWords": {
+    "replies": [
+      {
+        "text": "more",
+        "speak": "more"
       }
     ],
     "inputHint": "acceptingInput"

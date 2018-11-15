@@ -262,7 +262,7 @@
     "replies": [
       {
         "text": "您有以下{SearchType}电子邮件：",
-        "speak": "您有以下{SearchType}电子邮件："
+        "speak": "您有以下{SearchType}电子邮件： {EmailListDetails}"
       }
     ],
     "inputHint": "acceptingInput"
