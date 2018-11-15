@@ -49,7 +49,7 @@ namespace EmailSkill
                     return await sc.NextAsync();
                 }
 
-                var recipientConfirmedMessage = sc.Context.Activity.CreateReply(EmailSharedResponses.RecipientConfirmed, null, new StringDictionary() { { "UserName", await GetNameListString(sc) } });
+                var recipientConfirmedMessage = sc.Context.Activity.CreateReply(EmailSharedResponses.RecipientConfirmed, null, new StringDictionary() { { "UserName", await GetNameListStringAsync(sc) } });
                 var noSubjectMessage = sc.Context.Activity.CreateReply(SendEmailResponses.NoSubject);
                 noSubjectMessage.Text = recipientConfirmedMessage.Text + " " + noSubjectMessage.Text;
                 noSubjectMessage.Speak = recipientConfirmedMessage.Speak + " " + noSubjectMessage.Speak;
@@ -78,7 +78,7 @@ namespace EmailSkill
                     var noMessageBodyMessage = sc.Context.Activity.CreateReply(SendEmailResponses.NoMessageBody);
                     if (sc.Result == null)
                     {
-                        var recipientConfirmedMessage = sc.Context.Activity.CreateReply(EmailSharedResponses.RecipientConfirmed, null, new StringDictionary() { { "UserName", await GetNameListString(sc) } });
+                        var recipientConfirmedMessage = sc.Context.Activity.CreateReply(EmailSharedResponses.RecipientConfirmed, null, new StringDictionary() { { "UserName", await GetNameListStringAsync(sc) } });
                         noMessageBodyMessage.Text = recipientConfirmedMessage.Text + " " + noMessageBodyMessage.Text;
                         noMessageBodyMessage.Speak += recipientConfirmedMessage.Speak + " " + noMessageBodyMessage.Speak;
                     }

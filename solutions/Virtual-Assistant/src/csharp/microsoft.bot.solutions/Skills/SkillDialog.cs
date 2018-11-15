@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Middleware;
@@ -19,17 +20,19 @@ namespace Microsoft.Bot.Solutions.Skills
         // Fields
         private Dictionary<string, ISkillConfiguration> _skills;
         private IStatePropertyAccessor<DialogState> _accessor;
+        private EndpointService _endpointService;
         private DialogSet _dialogs;
         private InProcAdapter _inProcAdapter;
         private IBot _activatedSkill;
         private bool _skillInitialized;
         private bool _useCachedTokens;
 
-        public SkillDialog(Dictionary<string, ISkillConfiguration> skills, IStatePropertyAccessor<DialogState> accessor, bool useCachedTokens = true)
+        public SkillDialog(Dictionary<string, ISkillConfiguration> skills, IStatePropertyAccessor<DialogState> accessor, EndpointService endpointService, bool useCachedTokens = true)
             : base(nameof(SkillDialog))
         {
             _skills = skills;
             _accessor = accessor;
+            _endpointService = endpointService;
             _useCachedTokens = useCachedTokens;
             _dialogs = new DialogSet(_accessor);
         }
@@ -255,7 +258,17 @@ namespace Microsoft.Bot.Solutions.Skills
                 // send skill queue to User
                 if (queue.Count > 0)
                 {
-                    await dc.Context.SendActivitiesAsync(queue.ToArray());
+                    var firstActivity = queue[0];
+                    if (firstActivity.Conversation.Id == dc.Context.Activity.Conversation.Id)
+                    {
+                        // if the conversation id from the activity is the same as the context activity, it's reactive message
+                        await dc.Context.SendActivitiesAsync(queue.ToArray());
+                    }
+                    else
+                    {
+                        // if the conversation id from the activity is differnt from the context activity, it's proactive message
+                        await dc.Context.Adapter.ContinueConversationAsync(_endpointService.AppId, firstActivity.GetConversationReference(), CreateCallback(queue.ToArray()), default(CancellationToken));
+                    }
                 }
 
                 // handle ending the skill conversation
@@ -277,6 +290,15 @@ namespace Microsoft.Bot.Solutions.Skills
                 await dc.EndDialogAsync();
                 throw;
             }
+        }
+
+        private BotCallbackHandler CreateCallback(Activity[] activities)
+        {
+            return async (turnContext, token) =>
+            {
+                // Send back the activities in the proactive context
+                await turnContext.SendActivitiesAsync(activities, token);
+            };
         }
 
         private class Events

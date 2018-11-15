@@ -122,5 +122,15 @@ namespace $safeprojectname$.Dialogs.Main.Resources {
                 return ResourceManager.GetString("HELP_TITLE", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] Intro {
+            get {
+                object obj = ResourceManager.GetObject("Intro", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

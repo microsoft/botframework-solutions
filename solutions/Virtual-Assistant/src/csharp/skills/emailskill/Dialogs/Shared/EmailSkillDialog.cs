@@ -56,6 +56,11 @@ namespace EmailSkill
             AddDialog(new ChoicePrompt(Actions.Choice, ChoiceValidator, Culture.English) { Style = ListStyle.None });
         }
 
+        protected EmailSkillDialog(string dialogId)
+            : base(dialogId)
+        {
+        }
+
         protected ISkillConfiguration Services { get; set; }
 
         protected IStatePropertyAccessor<EmailSkillState> EmailStateAccessor { get; set; }
@@ -65,6 +70,73 @@ namespace EmailSkill
         protected IMailSkillServiceManager ServiceManager { get; set; }
 
         protected EmailSkillResponseBuilder ResponseBuilder { get; set; } = new EmailSkillResponseBuilder();
+
+        protected static (List<Person> formattedPersonList, List<Person> formattedUserList) FormatRecipientList(List<Person> personList, List<Person> userList)
+        {
+            // Remove dup items
+            List<Person> formattedPersonList = new List<Person>();
+            List<Person> formattedUserList = new List<Person>();
+
+            foreach (var person in personList)
+            {
+                var mailAddress = person.ScoredEmailAddresses.FirstOrDefault()?.Address ?? person.UserPrincipalName;
+
+                bool isDup = false;
+                foreach (var formattedPerson in formattedPersonList)
+                {
+                    var formattedMailAddress = formattedPerson.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedPerson.UserPrincipalName;
+
+                    if (mailAddress.Equals(formattedMailAddress, StringComparison.OrdinalIgnoreCase))
+                    {
+                        isDup = true;
+                        break;
+                    }
+                }
+
+                if (!isDup)
+                {
+                    formattedPersonList.Add(person);
+                }
+            }
+
+            foreach (var user in userList)
+            {
+                var mailAddress = user.ScoredEmailAddresses.FirstOrDefault()?.Address ?? user.UserPrincipalName;
+
+                bool isDup = false;
+                foreach (var formattedPerson in formattedPersonList)
+                {
+                    var formattedMailAddress = formattedPerson.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedPerson.UserPrincipalName;
+
+                    if (mailAddress.Equals(formattedMailAddress, StringComparison.OrdinalIgnoreCase))
+                    {
+                        isDup = true;
+                        break;
+                    }
+                }
+
+                if (!isDup)
+                {
+                    foreach (var formattedUser in formattedUserList)
+                    {
+                        var formattedMailAddress = formattedUser.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedUser.UserPrincipalName;
+
+                        if (mailAddress.Equals(formattedMailAddress))
+                        {
+                            isDup = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!isDup)
+                {
+                    formattedUserList.Add(user);
+                }
+            }
+
+            return (formattedPersonList, formattedUserList);
+        }
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -289,7 +361,7 @@ namespace EmailSkill
                     if (sc.ActiveDialog.Id == nameof(ForwardEmailDialog))
                     {
                         var recipientConfirmedMessage =
-                            sc.Context.Activity.CreateReply(EmailSharedResponses.RecipientConfirmed, null, new StringDictionary() { { "UserName", await GetNameListString(sc) } });
+                            sc.Context.Activity.CreateReply(EmailSharedResponses.RecipientConfirmed, null, new StringDictionary() { { "UserName", await GetNameListStringAsync(sc) } });
                         noEmailContentMessage.Text = recipientConfirmedMessage.Text + " " + noEmailContentMessage.Text;
                         noEmailContentMessage.Speak = recipientConfirmedMessage.Speak + " " + noEmailContentMessage.Speak;
                     }
@@ -454,17 +526,22 @@ namespace EmailSkill
         }
 
         // Helpers
-        protected async Task<string> GetNameListString(WaterfallStepContext sc)
+        protected async Task<string> GetNameListStringAsync(WaterfallStepContext sc)
         {
-            var state = await EmailStateAccessor.GetAsync(sc.Context);
+            var state = await EmailStateAccessor.GetAsync(sc?.Context);
             var recipients = state.Recipients;
-            if (recipients.Count == 1)
+
+            if (recipients == null || recipients.Count == 0)
+            {
+                throw new Exception("No recipient!");
+            }
+            else if (recipients.Count == 1)
             {
                 return recipients.FirstOrDefault()?.EmailAddress.Name;
             }
 
-            string result = string.Empty;
-            for (int i = 0; i < recipients.Count; i++)
+            string result = recipients.FirstOrDefault()?.EmailAddress.Name;
+            for (int i = 1; i < recipients.Count; i++)
             {
                 if (i == recipients.Count - 1)
                 {
@@ -507,7 +584,7 @@ namespace EmailSkill
                     Value = $"**{user.DisplayName}: {mailAddress}**",
                     Synonyms = new List<string> { (i + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
                 };
-                var userName = user.UserPrincipalName.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
+                var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
                 if (!string.IsNullOrEmpty(userName))
                 {
                     choice.Synonyms.Add(userName);
@@ -544,7 +621,7 @@ namespace EmailSkill
                     Value = $"{user.DisplayName}: {mailAddress}",
                     Synonyms = new List<string> { (i + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
                 };
-                var userName = user.UserPrincipalName.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
+                var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
                 if (!string.IsNullOrEmpty(userName))
                 {
                     choice.Synonyms.Add(userName);
@@ -772,6 +849,30 @@ namespace EmailSkill
             catch (ServiceException)
             {
                 // won't clear conversation state hear, because sometime use api is not available, like user msa account.
+            }
+
+            return result;
+        }
+
+        protected async Task<List<Person>> GetContactsAsync(WaterfallStepContext sc, string name)
+        {
+            var result = new List<Person>();
+            try
+            {
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var token = state.MsGraphToken;
+                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone());
+
+                // Get users.
+                var contactsList = await service.GetContactsAsync(name);
+                foreach (var contact in contactsList)
+                {
+                    result.Add(contact.ToPerson());
+                }
+            }
+            catch (Exception ex)
+            {
+                throw await HandleDialogExceptions(sc, ex);
             }
 
             return result;

@@ -4,10 +4,12 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using $safeprojectname$.Dialogs.Cancel;
+using $safeprojectname$.Dialogs.Main;
 using Luis;
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace $safeprojectname$
+namespace $safeprojectname$.Dialogs.Shared
 {
     public class EnterpriseDialog : InterruptableDialog
     {
@@ -36,23 +38,27 @@ namespace $safeprojectname$
             }
             else
             {
-                var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
+                var luisResult = await luisService.RecognizeAsync<General>(dc.Context, true, cancellationToken);
                 var intent = luisResult.TopIntent().intent;
 
-                // Add the luis result (intent and entities) for further processing in the derived dialog
-                dc.Context.TurnState.Add(LuisResultKey, luisResult);
-
-                switch (intent)
+                // Only triggers interruption if confidence level is high
+                if (luisResult.TopIntent().score > 0.5)
                 {
-                    case General.Intent.Cancel:
-                        {
-                            return await OnCancel(dc);
-                        }
+                    // Add the luis result (intent and entities) for further processing in the derived dialog
+                    dc.Context.TurnState.Add(LuisResultKey, luisResult);
 
-                    case General.Intent.Help:
-                        {
-                            return await OnHelp(dc);
-                        }
+                    switch (intent)
+                    {
+                        case General.Intent.Cancel:
+                            {
+                                return await OnCancel(dc);
+                            }
+
+                        case General.Intent.Help:
+                            {
+                                return await OnHelp(dc);
+                            }
+                    }
                 }
             }
 

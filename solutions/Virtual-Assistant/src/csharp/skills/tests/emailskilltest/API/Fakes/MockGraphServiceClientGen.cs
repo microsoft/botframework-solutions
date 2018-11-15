@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 using Moq;
@@ -25,6 +24,8 @@ namespace EmailSkillTest.API.Fakes
 
         public IUserPeopleCollectionPage People { get; set; }
 
+        public IUserContactsCollectionPage Contacts { get; set; }
+
         public void InitializeDefaultData()
         {
             this.Me = new User();
@@ -36,6 +37,8 @@ namespace EmailSkillTest.API.Fakes
             this.Users = new GraphServiceUsersCollectionPage();
 
             this.People = new UserPeopleCollectionPage();
+
+            this.Contacts = new UserContactsCollectionPage();
         }
 
         public void SetMockBehavior()
@@ -51,6 +54,7 @@ namespace EmailSkillTest.API.Fakes
             // Mock user service behavior
             this.MockGetUserAsync();
             this.MockGetPeopleAsync();
+            this.MockGetContactAsync();
         }
 
         public Mock<IGraphServiceClient> GetMockGraphServiceClient()
@@ -97,6 +101,11 @@ namespace EmailSkillTest.API.Fakes
         private void MockGetPeopleAsync()
         {
             this.mockMailService.Setup(f => f.Me.People.Request(It.IsAny<List<QueryOption>>()).GetAsync()).Returns(Task.FromResult(this.People));
+        }
+
+        private void MockGetContactAsync()
+        {
+            this.mockMailService.Setup(f => f.Me.Contacts.Request(It.IsAny<List<QueryOption>>()).GetAsync()).Returns(Task.FromResult(this.Contacts));
         }
     }
 }
