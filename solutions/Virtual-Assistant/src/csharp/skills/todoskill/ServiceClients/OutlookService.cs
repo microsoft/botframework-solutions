@@ -27,7 +27,7 @@ namespace ToDoSkill.ServiceClients
         /// <param name="token">The token used for msgraph API call.</param>
         /// <param name="taskFolderIds">Task folder ids.</param>
         /// <returns>Outlook task service itself.</returns>
-        public async Task<ITaskService> InitAsync(string token, Dictionary<string, string> taskFolderIds)
+        public async Task<ITaskService> InitAsync(string token, Dictionary<string, string> taskFolderIds, HttpClient client = null)
         {
             try
             {

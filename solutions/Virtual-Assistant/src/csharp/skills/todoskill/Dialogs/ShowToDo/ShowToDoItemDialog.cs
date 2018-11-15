@@ -17,7 +17,7 @@ namespace ToDoSkill
     public class ShowToDoItemDialog : ToDoSkillDialog
     {
         public ShowToDoItemDialog(
-            SkillConfiguration services,
+            ISkillConfiguration services,
             IStatePropertyAccessor<ToDoSkillState> accessor,
             ITaskService serviceManager)
             : base(nameof(ShowToDoItemDialog), services, accessor, serviceManager)
