@@ -91,6 +91,12 @@ namespace EmailSkill
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
+
+                if ((state.NameList == null) || (state.NameList.Count == 0))
+                {
+                    return await sc.NextAsync();
+                }
+
                 var currentRecipientName = state.NameList[state.ConfirmRecipientIndex];
 
                 var originPersonList = await GetPeopleWorkWithAsync(sc, currentRecipientName);
@@ -118,7 +124,8 @@ namespace EmailSkill
                     return await sc.BeginDialogAsync(Actions.UpdateRecipientName, new UpdateUserDialogOptions(UpdateUserDialogOptions.UpdateReason.TooMany));
                 }
 
-                if (personList.Count < 1 && userList.Count < 1)
+                // if cannot find related user's name and cannot take user input as email address, send not found
+                if ((personList.Count < 1) && (userList.Count < 1) && (state.EmailList.Count < 1))
                 {
                     return await sc.BeginDialogAsync(Actions.UpdateRecipientName, new UpdateUserDialogOptions(UpdateUserDialogOptions.UpdateReason.NotFound));
                 }
@@ -133,6 +140,22 @@ namespace EmailSkill
                             {
                                 Value =
                                     $"{user.DisplayName}: {user.ScoredEmailAddresses.FirstOrDefault()?.Address ?? user.UserPrincipalName}",
+                            };
+
+                        return await sc.NextAsync(result);
+                    }
+                }
+
+                if (state.EmailList.Count == 1)
+                {
+                    var email = state.EmailList.FirstOrDefault();
+                    if (email != null)
+                    {
+                        var result =
+                            new FoundChoice()
+                            {
+                                Value =
+                                    $"{email}: {email}",
                             };
 
                         return await sc.NextAsync(result);
@@ -173,56 +196,76 @@ namespace EmailSkill
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
 
-                // result is null when just update the recipient name. show recipients page should be reset.
-                if (sc.Result == null)
+                if (state.NameList != null && state.NameList.Count > 0)
                 {
-                    state.ShowRecipientIndex = 0;
-                    return await sc.BeginDialogAsync(Actions.ConfirmRecipient);
-                }
-
-                var choiceResult = (sc.Result as FoundChoice)?.Value.Trim('*');
-                if (choiceResult != null)
-                {
-                    if (choiceResult == General.Intent.Next.ToString())
+                    // result is null when just update the recipient name. show recipients page should be reset.
+                    if (sc.Result == null)
                     {
-                        state.ShowRecipientIndex++;
+                        state.ShowRecipientIndex = 0;
                         return await sc.BeginDialogAsync(Actions.ConfirmRecipient);
                     }
 
-                    if (choiceResult == UpdateUserDialogOptions.UpdateReason.TooMany.ToString())
+                    var choiceResult = (sc.Result as FoundChoice)?.Value.Trim('*');
+                    if (choiceResult != null)
                     {
-                        state.ShowRecipientIndex++;
-                        return await sc.BeginDialogAsync(Actions.ConfirmRecipient, new UpdateUserDialogOptions(UpdateUserDialogOptions.UpdateReason.TooMany));
-                    }
-
-                    if (choiceResult == General.Intent.Previous.ToString())
-                    {
-                        if (state.ShowRecipientIndex > 0)
+                        if (choiceResult == General.Intent.Next.ToString())
                         {
-                            state.ShowRecipientIndex--;
+                            state.ShowRecipientIndex++;
+                            return await sc.BeginDialogAsync(Actions.ConfirmRecipient);
                         }
 
-                        return await sc.BeginDialogAsync(Actions.ConfirmRecipient);
+                        if (choiceResult == UpdateUserDialogOptions.UpdateReason.TooMany.ToString())
+                        {
+                            state.ShowRecipientIndex++;
+                            return await sc.BeginDialogAsync(Actions.ConfirmRecipient, new UpdateUserDialogOptions(UpdateUserDialogOptions.UpdateReason.TooMany));
+                        }
+
+                        if (choiceResult == General.Intent.Previous.ToString())
+                        {
+                            if (state.ShowRecipientIndex > 0)
+                            {
+                                state.ShowRecipientIndex--;
+                            }
+
+                            return await sc.BeginDialogAsync(Actions.ConfirmRecipient);
+                        }
+
+                        var recipient = new Recipient();
+                        var emailAddress = new EmailAddress
+                        {
+                            Name = choiceResult.Split(": ")[0],
+                            Address = choiceResult.Split(": ")[1],
+                        };
+                        recipient.EmailAddress = emailAddress;
+                        if (state.Recipients.All(r => r.EmailAddress.Address != emailAddress.Address))
+                        {
+                            state.Recipients.Add(recipient);
+                        }
+
+                        state.ConfirmRecipientIndex++;
                     }
 
+                    if (state.ConfirmRecipientIndex < state.NameList.Count)
+                    {
+                        return await sc.BeginDialogAsync(Actions.ConfirmRecipient);
+                    }
+                }
+
+                // save emails
+                foreach (var email in state.EmailList)
+                {
                     var recipient = new Recipient();
                     var emailAddress = new EmailAddress
                     {
-                        Name = choiceResult.Split(": ")[0],
-                        Address = choiceResult.Split(": ")[1],
+                        Name = email,
+                        Address = email,
                     };
                     recipient.EmailAddress = emailAddress;
+
                     if (state.Recipients.All(r => r.EmailAddress.Address != emailAddress.Address))
                     {
                         state.Recipients.Add(recipient);
                     }
-
-                    state.ConfirmRecipientIndex++;
-                }
-
-                if (state.ConfirmRecipientIndex < state.NameList.Count)
-                {
-                    return await sc.BeginDialogAsync(Actions.ConfirmRecipient);
                 }
 
                 return await sc.EndDialogAsync(true);
