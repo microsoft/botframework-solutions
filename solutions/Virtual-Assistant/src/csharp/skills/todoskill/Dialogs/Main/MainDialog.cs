@@ -201,9 +201,9 @@ namespace ToDoSkill
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
                 // Update state with email luis result and entities
-                var emailLuisResult = await _services.LuisServices["todo"].RecognizeAsync<ToDo>(dc.Context, cancellationToken);
+                var toDoLuisResult = await _services.LuisServices["todo"].RecognizeAsync<ToDo>(dc.Context, cancellationToken);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
-                state.LuisResult = emailLuisResult;
+                state.LuisResult = toDoLuisResult;
 
                 // check luis intent
                 _services.LuisServices.TryGetValue("general", out var luisService);

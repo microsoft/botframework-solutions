@@ -58,15 +58,13 @@ namespace ToDoSkill
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await Accessor.GetAsync(dc.Context);
-            await DigestToDoLuisResult(dc, state.LuisResult);
+            await DigestToDoLuisResult(dc);
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }
 
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await Accessor.GetAsync(dc.Context);
-            await DigestToDoLuisResult(dc, state.LuisResult);
+            await DigestToDoLuisResult(dc);
             return await base.OnContinueDialogAsync(dc, cancellationToken);
         }
 
@@ -156,7 +154,8 @@ namespace ToDoSkill
                 state.ShowTaskPageIndex = 0;
                 state.Tasks = new List<TaskItem>();
                 state.AllTasks = new List<TaskItem>();
-                await DigestToDoLuisResult(sc, state.LuisResult);
+                state.ListType = null;
+                await DigestToDoLuisResult(sc);
             }
             else if (generalTopIntent == General.Intent.Next)
             {
@@ -177,7 +176,8 @@ namespace ToDoSkill
                 state.FoodOfGrocery = null;
                 state.ShopContent = null;
                 state.HasShopVerb = false;
-                await DigestToDoLuisResult(sc, state.LuisResult);
+                state.ListType = null;
+                await DigestToDoLuisResult(sc);
             }
             else if (topIntent == ToDo.Intent.MarkToDo || topIntent == ToDo.Intent.DeleteToDo)
             {
@@ -186,7 +186,8 @@ namespace ToDoSkill
                 state.TaskContentPattern = null;
                 state.TaskContentML = null;
                 state.TaskContent = null;
-                await DigestToDoLuisResult(sc, state.LuisResult);
+                state.ListType = null;
+                await DigestToDoLuisResult(sc);
             }
 
             return await sc.NextAsync();
@@ -245,16 +246,6 @@ namespace ToDoSkill
         protected async Task<DialogTurnResult> AfterAskToDoTaskIndex(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await Accessor.GetAsync(sc.Context);
-            if (string.IsNullOrEmpty(state.TaskContentPattern)
-                && string.IsNullOrEmpty(state.TaskContentML)
-                && !state.MarkOrDeleteAllTasksFlag
-                && (state.TaskIndexes.Count == 0
-                    || state.TaskIndexes[0] < 0
-                    || state.TaskIndexes[0] >= state.Tasks.Count))
-            {
-                await DigestToDoLuisResult(sc, state.LuisResult);
-            }
-
             var matchedIndexes = Enumerable.Range(0, state.AllTasks.Count)
                 .Where(i => state.AllTasks[i].Topic.Equals(state.TaskContentPattern, StringComparison.OrdinalIgnoreCase)
                 || state.AllTasks[i].Topic.Equals(state.TaskContentML, StringComparison.OrdinalIgnoreCase))
@@ -342,7 +333,7 @@ namespace ToDoSkill
                 }
                 else
                 {
-                    await this.ExtractListTypeAndTaskContentAsync(sc);
+                    this.ExtractListTypeAndTaskContent(state);
                     return await sc.EndDialogAsync(true);
                 }
             }
@@ -417,11 +408,12 @@ namespace ToDoSkill
         }
 
         // Helpers
-        protected async Task DigestToDoLuisResult(DialogContext dc, ToDo luisResult)
+        protected async Task DigestToDoLuisResult(DialogContext dc)
         {
             try
             {
                 var state = await Accessor.GetAsync(dc.Context);
+                var luisResult = state.LuisResult;
                 var entities = luisResult.Entities;
                 if (entities.ContainsAll != null)
                 {
@@ -482,7 +474,7 @@ namespace ToDoSkill
 
                 if (entities.TaskContentML != null)
                 {
-                    state.TaskContentML = entities.TaskContentPattern[0];
+                    state.TaskContentML = entities.TaskContentML[0];
                 }
 
                 if (dc.Context.Activity.Text != null)
@@ -653,9 +645,8 @@ namespace ToDoSkill
             await sc.CancelAllDialogsAsync();
         }
 
-        private async Task ExtractListTypeAndTaskContentAsync(WaterfallStepContext sc)
+        private void ExtractListTypeAndTaskContent(ToDoSkillState state)
         {
-            var state = await Accessor.GetAsync(sc.Context);
             if (state.ListType == ListType.Grocery.ToString()
                 || (state.HasShopVerb && !string.IsNullOrEmpty(state.FoodOfGrocery)))
             {
