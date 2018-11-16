@@ -19,7 +19,7 @@ namespace CalendarSkillTest.Flow
             await this.GetTestFlow()
                 .Send("What should I do today")
                 .AssertReply(this.ShowAuth())
-                .Send(new Activity(ActivityTypes.Event, name: "tokens/response", value: this.GetTokenResponse()))
+                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundEventPrompt())
                 .AssertReply(this.ShowCalendarList())
                 .AssertReplyOneOf(this.ReadOutMorePrompt())

@@ -1,29 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using CalendarSkill.Dialogs.DeleteEvent.Resources;
 using CalendarSkill.Dialogs.Main.Resources;
+using CalendarSkill.Dialogs.Shared.Resources;
+using CalendarSkill.Dialogs.UpdateEvent.Resources;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CalendarSkillTest.Flow
 {
     [TestClass]
-    public class DeleteCalendarFlowTests : CalendarBotTestBase
+    public class UpdateCalendarFlowTests : CalendarBotTestBase
     {
         [TestMethod]
-        public async Task Test_CalendarDelete()
+        public async Task Test_CalendarCreate()
         {
             await this.GetTestFlow()
-                .Send("delete meeting")
+                .Send("update meeting")
                 .AssertReply(this.ShowAuth())
-                .Send(new Activity(ActivityTypes.Event, name: "tokens/response", value: this.GetTokenResponse()))
-                .AssertReplyOneOf(this.AskForDeletePrompt())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.AskForTitleTimePrompt())
                 .Send("test subject")
+                .AssertReplyOneOf(this.AskForNewTimePrompt())
+                .Send("tomorrow 9 PM")
                 .AssertReply(this.ShowCalendarList())
                 .Send("Yes")
-                .AssertReplyOneOf(this.DeleteEventPrompt())
+                .AssertReply(this.ShowCalendarList())
                 .StartTestAsync();
         }
 
@@ -32,14 +34,14 @@ namespace CalendarSkillTest.Flow
             return this.ParseReplies(CalendarMainResponses.CalendarWelcomeMessage.Replies, new StringDictionary());
         }
 
-        private string[] AskForDeletePrompt()
+        private string[] AskForTitleTimePrompt()
         {
-            return this.ParseReplies(DeleteEventResponses.NoDeleteStartTime.Replies, new StringDictionary());
+            return this.ParseReplies(UpdateEventResponses.NoUpdateStartTime.Replies, new StringDictionary());
         }
 
-        private string[] DeleteEventPrompt()
+        private string[] AskForNewTimePrompt()
         {
-            return this.ParseReplies(DeleteEventResponses.EventDeleted.Replies, new StringDictionary());
+            return this.ParseReplies(UpdateEventResponses.NoNewTime.Replies, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()

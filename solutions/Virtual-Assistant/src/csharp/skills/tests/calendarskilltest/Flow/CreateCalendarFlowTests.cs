@@ -19,7 +19,7 @@ namespace CalendarSkillTest.Flow
             await this.GetTestFlow()
                     .Send("Create a meeting")
                     .AssertReply(this.ShowAuth())
-                    .Send(new Activity(ActivityTypes.Event, name: "tokens/response", value: this.GetTokenResponse()))
+                    .Send(this.GetAuthResponse())
                     .AssertReplyOneOf(this.AskForParticpantsPrompt())
                     .Send("test@test.com")
                     .AssertReplyOneOf(this.AskForSubjectPrompt())

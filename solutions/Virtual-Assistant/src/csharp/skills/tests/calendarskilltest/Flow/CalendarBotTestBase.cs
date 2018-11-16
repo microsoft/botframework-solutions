@@ -51,12 +51,11 @@ namespace CalendarSkillTest.Flow
             this.BotResponseBuilder.AddFormatter(new TextBotResponseFormatter());
         }
 
-        public ProviderTokenResponse GetTokenResponse()
+        public Activity GetAuthResponse()
         {
             ProviderTokenResponse providerTokenResponse = new ProviderTokenResponse();
             providerTokenResponse.TokenResponse = new TokenResponse(token: "test");
-
-            return providerTokenResponse;
+            return new Activity(ActivityTypes.Event, name: "tokens/response", value: providerTokenResponse);
         }
 
         public TestFlow GetTestFlow()

@@ -1,30 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using CalendarSkill.Dialogs.Main.Resources;
+using CalendarSkill.Dialogs.NextMeeting.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
-using CalendarSkill.Dialogs.UpdateEvent.Resources;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CalendarSkillTest.Flow
 {
     [TestClass]
-    public class UpdateCalendarFlowTests : CalendarBotTestBase
+    public class NextCalendarFlowTests : CalendarBotTestBase
     {
         [TestMethod]
-        public async Task Test_CalendarCreate()
+        public async Task Test_CalendarDelete()
         {
             await this.GetTestFlow()
-                .Send("update meeting")
+                .Send("what is my next meeting")
                 .AssertReply(this.ShowAuth())
-                .Send(new Activity(ActivityTypes.Event, name: "tokens/response", value: this.GetTokenResponse()))
-                .AssertReplyOneOf(this.AskForTitleTimePrompt())
-                .Send("test subject")
-                .AssertReplyOneOf(this.AskForNewTimePrompt())
-                .Send("tomorrow 9 PM")
-                .AssertReply(this.ShowCalendarList())
-                .Send("Yes")
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.NextMeetingPrompt())
                 .AssertReply(this.ShowCalendarList())
                 .StartTestAsync();
         }
@@ -34,14 +30,9 @@ namespace CalendarSkillTest.Flow
             return this.ParseReplies(CalendarMainResponses.CalendarWelcomeMessage.Replies, new StringDictionary());
         }
 
-        private string[] AskForTitleTimePrompt()
+        private string[] NextMeetingPrompt()
         {
-            return this.ParseReplies(UpdateEventResponses.NoUpdateStartTime.Replies, new StringDictionary());
-        }
-
-        private string[] AskForNewTimePrompt()
-        {
-            return this.ParseReplies(UpdateEventResponses.NoNewTime.Replies, new StringDictionary());
+            return this.ParseReplies(NextMeetingResponses.ShowNextMeetingMessage.Replies, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()

@@ -2,26 +2,28 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
+using CalendarSkill.Dialogs.DeleteEvent.Resources;
 using CalendarSkill.Dialogs.Main.Resources;
-using CalendarSkill.Dialogs.NextMeeting.Resources;
-using CalendarSkill.Dialogs.Shared.Resources;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CalendarSkillTest.Flow
 {
     [TestClass]
-    public class NextCalendarFlowTests : CalendarBotTestBase
+    public class DeleteCalendarFlowTests : CalendarBotTestBase
     {
         [TestMethod]
         public async Task Test_CalendarDelete()
         {
             await this.GetTestFlow()
-                .Send("what is my next meeting")
+                .Send("delete meeting")
                 .AssertReply(this.ShowAuth())
-                .Send(new Activity(ActivityTypes.Event, name: "tokens/response", value: this.GetTokenResponse()))
-                .AssertReplyOneOf(this.NextMeetingPrompt())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.AskForDeletePrompt())
+                .Send("test subject")
                 .AssertReply(this.ShowCalendarList())
+                .Send("Yes")
+                .AssertReplyOneOf(this.DeleteEventPrompt())
                 .StartTestAsync();
         }
 
@@ -30,9 +32,14 @@ namespace CalendarSkillTest.Flow
             return this.ParseReplies(CalendarMainResponses.CalendarWelcomeMessage.Replies, new StringDictionary());
         }
 
-        private string[] NextMeetingPrompt()
+        private string[] AskForDeletePrompt()
         {
-            return this.ParseReplies(NextMeetingResponses.ShowNextMeetingMessage.Replies, new StringDictionary());
+            return this.ParseReplies(DeleteEventResponses.NoDeleteStartTime.Replies, new StringDictionary());
+        }
+
+        private string[] DeleteEventPrompt()
+        {
+            return this.ParseReplies(DeleteEventResponses.EventDeleted.Replies, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()
