@@ -67,6 +67,7 @@ namespace $safeprojectname$.Dialogs.Main
                 }
             };
 
+            response.InputHint = InputHints.AcceptingInput;
             return response;
         }
 
@@ -89,6 +90,7 @@ namespace $safeprojectname$.Dialogs.Main
                 }.ToAttachment()
             };
 
+            response.InputHint = InputHints.AcceptingInput;
             return response;
         }
     }

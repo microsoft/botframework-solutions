@@ -37,19 +37,21 @@ namespace $safeprojectname$.Dialogs.Main
         {
             var view = new MainResponses();
             await view.ReplyWith(innerDc.Context, MainResponses.Intro);
-
-            var onboardingAccessor = _userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
-            var onboardingState = await onboardingAccessor.GetAsync(innerDc.Context, () => new OnboardingState());
-
-            if (string.IsNullOrEmpty(onboardingState.Name))
-            {
-                // This is the first time the user is interacting with the bot, so gather onboarding information.
-                await innerDc.BeginDialogAsync(nameof(OnboardingDialog));
-            }
         }
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
+            // Check if there was an action submitted from intro card
+            if (dc.Context.Activity.Value != null)
+            {
+                dynamic value = dc.Context.Activity.Value;
+                if (value.action == "startOnboarding")
+                {
+                    await dc.BeginDialogAsync(nameof(OnboardingDialog));
+                    return;
+                }
+            }
+
             // Check dispatch result
             var dispatchResult = await _services.DispatchRecognizer.RecognizeAsync<Dispatch>(dc.Context, true, CancellationToken.None);
             var intent = dispatchResult.TopIntent().intent;
