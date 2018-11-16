@@ -201,7 +201,7 @@ You should now be able to leverage multiple QnA sources as part of your Assistan
 
 ## Demoing the Skills
 
-You can review a sample transcript showcasing the Productivity & Point of Interest Skills [here](transcripts/skillsdemo.transcript), 
+You can review a [sample transcript](transcripts/skillsdemo.transcript) showcasing the Productivity & Point of Interest Skills, 
 which can be opened in the [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator/wiki).
 This sample conversation shows a user having previously [linked their account](/virtualassistant-linkedaccounts.md) and taking advantage of [event debug middleware](/virtualassistant-events.md).
 

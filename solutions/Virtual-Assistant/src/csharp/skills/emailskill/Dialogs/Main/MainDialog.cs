@@ -298,7 +298,7 @@ namespace EmailSkill
             AddDialog(new SendEmailDialog(_services, _stateAccessor, _dialogStateAccessor, _serviceManager));
             AddDialog(new ShowEmailDialog(_services, _stateAccessor, _dialogStateAccessor, _serviceManager));
             AddDialog(new ReplyEmailDialog(_services, _stateAccessor, _dialogStateAccessor, _serviceManager));
-            AddDialog(new CancelDialog());
+            AddDialog(new CancelDialog(_stateAccessor));
         }
 
         private class Events

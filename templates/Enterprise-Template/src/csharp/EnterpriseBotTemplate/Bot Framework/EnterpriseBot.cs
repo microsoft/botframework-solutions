@@ -5,9 +5,11 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using $safeprojectname$.Extensions;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
+using $safeprojectname$.Dialogs.Main;
 
 namespace $safeprojectname$
 {
@@ -45,12 +47,25 @@ namespace $safeprojectname$
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
+            // Client notifying this bot took to long to respond (timed out)
+            if (turnContext.Activity.Code == EndOfConversationCodes.BotTimedOut)
+            {
+                _services.TelemetryClient.TrackTrace($"Timeout in {turnContext.Activity.ChannelId} channel: Bot took too long to respond.");
+                // Don't respond because channel won't accept response and which may result in Exception
+                return;
+            }
+
             var dc = await _dialogs.CreateContextAsync(turnContext);
             var result = await dc.ContinueDialogAsync();
 
             if (result.Status == DialogTurnStatus.Empty)
             {
-                if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
+                // Handle Cortana's launch action
+                if (CortanaHelper.IsLaunchActivity(turnContext.Activity))
+                {
+                    await dc.BeginDialogAsync(nameof(MainDialog));
+                }
+                else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
                 {
                     var activity = turnContext.Activity.AsConversationUpdateActivity();
 

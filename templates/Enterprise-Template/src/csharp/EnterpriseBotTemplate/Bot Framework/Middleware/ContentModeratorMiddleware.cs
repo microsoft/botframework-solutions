@@ -10,7 +10,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Microsoft.CognitiveServices.ContentModerator;
 
-namespace $safeprojectname$
+namespace $safeprojectname$.Middleware
 {
     /// <summary>
     /// Middleware component to run Content Moderator Service on all incoming activities.

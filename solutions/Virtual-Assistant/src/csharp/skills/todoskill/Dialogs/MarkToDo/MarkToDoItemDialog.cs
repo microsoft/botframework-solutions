@@ -15,7 +15,7 @@ namespace ToDoSkill
     public class MarkToDoItemDialog : ToDoSkillDialog
     {
         public MarkToDoItemDialog(
-            SkillConfiguration services,
+            ISkillConfiguration services,
             IStatePropertyAccessor<ToDoSkillState> accessor,
             ITaskService serviceManager)
             : base(nameof(MarkToDoItemDialog), services, accessor, serviceManager)

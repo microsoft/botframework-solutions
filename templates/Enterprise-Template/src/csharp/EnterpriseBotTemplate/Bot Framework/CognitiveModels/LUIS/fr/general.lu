@@ -12,6 +12,7 @@ $PREBUILT:number
 - Salut
 - Comment vas-tu
 - Comment vas-tu aujourd'hui
+- Hé
 
 # Help
 - Aide
@@ -37,10 +38,10 @@ $PREBUILT:number
 - Je voudrais annuler
 - C'est pas grave
 - s'il vous plaît arrêter
+- Sortie
 
 # Restart
 - puis-je recommencer
-- Retour
 - J'ai besoin de changer quelque chose
 - Redémarrer
 - recommencer
@@ -53,45 +54,6 @@ $PREBUILT:number
 - Transférez-moi svp
 - Contacter le support technique
 
-# ConfirmYes
-- Absolument
-- Sûr
-- Certainement
-- Sans aucun doute
-- Je pense
-- Allons-y
-- faisons ça
-- Oh oui
-- Oui s'il vous plaît
-- OK
-- Bien
-- sure chose
-- Oui
-- Oui ce serait un grand merci
-- Pourquoi pas
-- Yep c'est vrai
-- Yup
-
-# ConfirmNo
-- en aucun cas
-- Proche
-- Non
-- Non merci
-- Pas
-- non, c'est bon
-- Pas question
-- Pas du tout
-- Pas vraiment
-- pas en ce moment Merci
-
-# ConfirmMore
-- Plus
-- Je voudrais en savoir plus
-- Montrez-moi plus
-- Plus
-- plus d'infos
-- plus d'information
-
 # Next
 - Avance
 - aller de l'avant
@@ -99,6 +61,42 @@ $PREBUILT:number
 - Prochaine
 - point suivant
 - afficher suivant
+- pourriez-vous montrer la prochaine
+- J'ai besoin d'aller à l'autre
+- allez à la prochaine s'il vous plaît
+- passer à la suivante
+- Allez
+- aller à la prochaine
+- aller à la page suivante
+- Avancer
+- aller de l'avant
+- passer à la prochaine
+- Next One
+- suivant s'il vous plaît
+- Montrez-moi la prochaine
+- Montrez-moi la prochaine
+- afficher la prochaine
+- afficher la suivante
+- le prochain Courriel
+
+# Previous
+- Retour
+- Last One
+- précédent
+- le dernier
+- Old One
+- Dernière
+- Retour à la dernière
+- Apportez le précédent
+- Venez à la dernière
+- aller à la précédente
+- aller à la dernière
+- reculer
+- Précédente
+- Montrez-moi précédent
+- précédent s'il vous plaît
+- le précédent
+- Quel est le précédent
 
 # Goodbye
 - Bonne nuit
@@ -107,6 +105,13 @@ $PREBUILT:number
 - Ok merci
 - Ok salut
 - C'est tout Merci
+
+# Logout
+- SignOut
+- oubliez-moi
+- se déconnecter
+- Déconnexion
+- déconnexion
 
 # None
 - ma bouteille d'eau est verte

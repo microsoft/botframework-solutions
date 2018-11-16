@@ -22,7 +22,7 @@ namespace ToDoSkill
     public class MainDialog : RouterDialog
     {
         private bool _skillMode;
-        private SkillConfiguration _services;
+        private ISkillConfiguration _services;
         private UserState _userState;
         private ConversationState _conversationState;
         private ITaskService _serviceManager;
@@ -30,7 +30,7 @@ namespace ToDoSkill
         private ToDoSkillResponseBuilder _responseBuilder = new ToDoSkillResponseBuilder();
 
         public MainDialog(
-            SkillConfiguration services,
+            ISkillConfiguration services,
             ConversationState conversationState,
             UserState userState,
             ITaskService serviceManager,
@@ -210,9 +210,9 @@ namespace ToDoSkill
                 var localeConfig = _services.LocaleConfigurations[locale];
 
                 // Update state with email luis result and entities
-                var emailLuisResult = await localeConfig.LuisServices["todo"].RecognizeAsync<ToDo>(dc.Context, cancellationToken);
+                var toDoLuisResult = await _services.LuisServices["todo"].RecognizeAsync<ToDo>(dc.Context, cancellationToken);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
-                state.LuisResult = emailLuisResult;
+                state.LuisResult = toDoLuisResult;
 
                 // check luis intent
                 localeConfig.LuisServices.TryGetValue("general", out var luisService);

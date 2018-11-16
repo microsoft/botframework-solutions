@@ -25,25 +25,27 @@ namespace VirtualAssistant
         private BotConfiguration _botConfig;
         private UserState _userState;
         private ConversationState _conversationState;
+        private EndpointService _endpointService;
         private IStatePropertyAccessor<OnboardingState> _onboardingState;
         private IStatePropertyAccessor<Dictionary<string, object>> _parametersAccessor;
         private MainResponses _responder = new MainResponses();
         private SkillRouter _skillRouter;
 
-        public MainDialog(BotServices services, BotConfiguration botConfig, ConversationState conversationState, UserState userState)
+        public MainDialog(BotServices services, BotConfiguration botConfig, ConversationState conversationState, UserState userState, EndpointService endpointService)
             : base(nameof(MainDialog))
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _botConfig = botConfig;
             _conversationState = conversationState;
             _userState = userState;
+            _endpointService = endpointService;
             _onboardingState = _userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             _parametersAccessor = _userState.CreateProperty<Dictionary<string, object>>("userInfo");
             var dialogState = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
 
             AddDialog(new OnboardingDialog(_services, _onboardingState));
             AddDialog(new EscalateDialog(_services));
-            AddDialog(new CustomSkillDialog(_services.SkillConfigurations, dialogState));
+            AddDialog(new CustomSkillDialog(_services.SkillConfigurations, dialogState, endpointService));
 
             // Initialize skill dispatcher
             _skillRouter = new SkillRouter(_services.SkillDefinitions);

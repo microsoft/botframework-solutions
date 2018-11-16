@@ -2,9 +2,12 @@
 // Licensed under the MIT License.
 
 using $safeprojectname$.Dialogs.Onboarding.Resources;
+using $safeprojectname$.Extensions;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.TemplateManager;
+using Microsoft.Bot.Schema;
 
-namespace $safeprojectname$
+namespace $safeprojectname$.Dialogs.Onboarding
 {
     public class OnboardingResponses : TemplateManager
     {
@@ -21,27 +24,27 @@ namespace $safeprojectname$
             {
                 {
                     _namePrompt,
-                    (context, data) => OnboardingStrings.NAME_PROMPT
+                    (context, data) => CreateActivityFromString(OnboardingStrings.NAME_PROMPT, InputHints.ExpectingInput)
                 },
                 {
                     _haveName,
-                    (context, data) => string.Format(OnboardingStrings.HAVE_NAME, data.name)
+                    (context, data) => CreateActivityFromString(string.Format(OnboardingStrings.HAVE_NAME, data.name))
                 },
                 {
                     _emailPrompt,
-                    (context, data) => OnboardingStrings.EMAIL_PROMPT
+                    (context, data) => CreateActivityFromString(OnboardingStrings.EMAIL_PROMPT, InputHints.ExpectingInput)
                 },
                 {
                     _haveEmail,
-                    (context, data) => string.Format(OnboardingStrings.HAVE_EMAIL, data.email)
+                    (context, data) => CreateActivityFromString(string.Format(OnboardingStrings.HAVE_EMAIL, data.email))
                 },
                 {
                     _locationPrompt,
-                    (context, data) => OnboardingStrings.LOCATION_PROMPT
+                    (context, data) => CreateActivityFromString(OnboardingStrings.LOCATION_PROMPT, InputHints.ExpectingInput)
                 },
                 {
                     _haveLocation,
-                    (context, data) => string.Format(OnboardingStrings.HAVE_LOCATION, data.Name, data.Location)
+                    (context, data) => CreateActivityFromString(string.Format(OnboardingStrings.HAVE_LOCATION, data.Name, data.Location))
                 },
             },
             ["en"] = new TemplateIdMap { },
@@ -51,6 +54,11 @@ namespace $safeprojectname$
         public OnboardingResponses()
         {
             this.Register(new DictionaryRenderer(_responseTemplates));
+        }
+
+        private static Activity CreateActivityFromString(string message, string inputHint = InputHints.IgnoringInput)
+        {
+            return MessageFactory.Text(message, ssml: message, inputHint:inputHint);
         }
     }
 }

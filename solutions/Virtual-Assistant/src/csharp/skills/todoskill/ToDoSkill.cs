@@ -19,14 +19,14 @@ namespace ToDoSkill
     /// </summary>
     public class ToDoSkill : IBot
     {
-        private readonly SkillConfiguration _services;
+        private readonly ISkillConfiguration _services;
         private readonly ConversationState _conversationState;
         private readonly UserState _userState;
         private ITaskService _serviceManager;
         private DialogSet _dialogs;
         private bool _skillMode;
 
-        public ToDoSkill(SkillConfiguration services, ConversationState conversationState, UserState userState, ITaskService serviceManager = null, bool skillMode = false)
+        public ToDoSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, ITaskService serviceManager = null, bool skillMode = false)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));

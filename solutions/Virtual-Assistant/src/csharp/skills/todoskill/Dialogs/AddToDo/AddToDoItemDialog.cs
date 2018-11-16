@@ -7,7 +7,7 @@ namespace ToDoSkill
     public class AddToDoItemDialog : ToDoSkillDialog
     {
         public AddToDoItemDialog(
-            SkillConfiguration services,
+            ISkillConfiguration services,
             IStatePropertyAccessor<ToDoSkillState> accessor,
             ITaskService serviceManager)
             : base(nameof(AddToDoItemDialog), services, accessor, serviceManager)
