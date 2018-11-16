@@ -16,6 +16,7 @@ namespace EmailSkill
             MessageList = new List<Message>();
             NameList = new List<string>();
             SenderName = null;
+            EmailList = new List<string>();
             TimeZoneInfo = TimeZoneInfo.Utc;
             Recipients = new List<Recipient>();
             Subject = null;
@@ -45,6 +46,8 @@ namespace EmailSkill
         public List<string> NameList { get; set; }
 
         public string SenderName { get; set; }
+
+        public List<string> EmailList { get; set; }
 
         public TimeZoneInfo TimeZoneInfo { get; set; }
 
@@ -90,6 +93,11 @@ namespace EmailSkill
             return TimeZoneInfo.Local;
         }
 
+        public bool IsNoRecipientAvailable()
+        {
+            return (NameList.Count == 0) && (EmailList.Count == 0);
+        }
+
         public void Clear()
         {
             NameList.Clear();
@@ -105,6 +113,7 @@ namespace EmailSkill
             EndDateTime = DateTime.UtcNow;
             DirectlyToMe = false;
             SenderName = null;
+            EmailList = new List<string>();
             ShowRecipientIndex = 0;
             LuisResultPassedFromSkill = null;
         }

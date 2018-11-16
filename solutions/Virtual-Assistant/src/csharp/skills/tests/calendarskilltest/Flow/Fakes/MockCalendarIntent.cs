@@ -42,8 +42,6 @@ namespace CalendarSkillTest.Flow.Fakes
             }
         }
 
-        public new _Entities Entities { get; set; }
-
         public new (Intent intent, double score) TopIntent()
         {
             return (intent, score);

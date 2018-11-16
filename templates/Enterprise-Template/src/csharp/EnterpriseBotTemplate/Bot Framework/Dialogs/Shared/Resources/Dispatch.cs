@@ -8,12 +8,13 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 namespace Luis
 {
-    public class Dispatch: Microsoft.Bot.Builder.IRecognizerConvert
+    public class Dispatch : Microsoft.Bot.Builder.IRecognizerConvert
     {
         public string Text;
         public string AlteredText;
-        public enum Intent {
-            l_General, 
+        public enum Intent
+        {
+            l_General,
             q_FAQ,
             None
         };
@@ -32,7 +33,7 @@ namespace Luis
         public _Entities Entities;
 
         [JsonExtensionData(ReadData = true, WriteData = true)]
-        public IDictionary<string, object> Properties {get; set; }
+        public IDictionary<string, object> Properties { get; set; }
 
         public void Convert(dynamic result)
         {

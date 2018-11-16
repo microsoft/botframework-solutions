@@ -42,8 +42,9 @@ namespace Microsoft.Bot.Solutions.AdaptiveCards
                 var escapedTokens = new StringDictionary();
                 foreach (string key in tokens.Keys)
                 {
-                    var escapedTokenStr = tokens[key]?.Replace("\"", "\\\"");
-                    escapedTokenStr = escapedTokenStr?.Replace("\\", "\\\\");
+                    // In order to deserialize the json string, need convert "\\" to "\\\\", convert "\"" to "\\\"", and convert "\'" to "\\\'"
+                    var escapedTokenStr = tokens[key]?.Replace("\\", "\\\\");
+                    escapedTokenStr = escapedTokenStr?.Replace("\"", "\\\"");
                     escapedTokenStr = escapedTokenStr?.Replace("\'", "\\\'");
                     escapedTokens.Add(key, escapedTokenStr);
                 }

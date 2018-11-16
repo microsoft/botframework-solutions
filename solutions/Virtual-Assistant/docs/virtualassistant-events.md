@@ -14,7 +14,7 @@ At the time of writing the following events are supported out of the box and per
 - Name: `IPA.Location`, Value: `latitude`,`latitude`
 - Name: `IPA.Timezone`, Value: TimeZoneInfo Identifier (e.g. Pacific Standard Time)
 
-In addition to these, a `ResetUser` event is available which provides a way to request that all user state information and linked accounts are removed demonstarting how a Forget-Me type experience could be initiated, no Value is required for this event.
+In addition to these, a `ResetUser` event is available which provides a way to request that all user state information and linked accounts are removed demonstrating how a Forget-Me type experience could be initiated, no Value is required for this event.
 
 - Name: `IPA.ResetUser`
 

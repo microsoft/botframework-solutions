@@ -26,7 +26,7 @@ az extension add -n botservice
 1. Retrieve your LUIS Authoring Key
    - Go to https://www.luis.ai and signin.
    - Once signed in click on your name in the top right hand corner.
-   - Choose Settings and make a note of the Authoring Key for the next step.
+   - Choose `Settings` and make a note of the Authoring Key for the next step.
 
 ## Deployment
 
@@ -60,7 +60,7 @@ msbot clone services --name "CustomerSupportTemplate" --luisAuthoringKey "YOUR_A
 
 Once this is complete ensure that you make a note of the .bot file secret provided as this will be required for later steps. At this time, take the secret and update the `botFileSecret` entry in your `appsettings.json` file. This will ensure your Bot can decrypt the secrets.
 
-Update your appsettings.json file with the .bot file path, .bot file secret, and AppInsights intrumentation key (this can be found in the generated .bot file).
+Update your `appsettings.json` file with the .bot file path, .bot file secret, and AppInsights intrumentation key (this can be found in the generated .bot file).
     
         {
           "botFilePath": ".\\CustomerSupportTemplate.bot",
@@ -71,7 +71,7 @@ Update your appsettings.json file with the .bot file path, .bot file secret, and
         }
 ## Testing
 
-Once complete, run your bot project within your development envrionment and open the Bot Framework Emulator. Within the Emulator, choose Open Bot from teh File menu and navigate to the .bot file in your directory.
+Once complete, run your bot project within your development environment and open the Bot Framework Emulator. Within the Emulator, choose Open Bot from the File menu and navigate to the .bot file in your directory.
 
 Then type ```hi``` to verify everything is working.
 

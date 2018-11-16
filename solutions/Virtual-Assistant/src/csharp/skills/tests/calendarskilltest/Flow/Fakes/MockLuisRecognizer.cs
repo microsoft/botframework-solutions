@@ -26,9 +26,9 @@ namespace CalendarSkillTest.Flow.Fakes
             var text = turnContext.Activity.Text;
             if (t.Name.Equals(typeof(Calendar).Name))
             {
-                MockCalendarIntent mockEmail = new MockCalendarIntent(text);
+                MockCalendarIntent mockCalendar = new MockCalendarIntent(text);
 
-                var test = mockEmail as object;
+                var test = mockCalendar as object;
                 mockResult = (T)test;
             }
             else if (t.Name.Equals(typeof(General).Name))

@@ -3,8 +3,10 @@
 
 using $safeprojectname$.Dialogs.Escalate.Resources;
 using Microsoft.Bot.Builder.TemplateManager;
+using Microsoft.Bot.Schema;
+using System.Collections.Generic;
 
-namespace $safeprojectname$
+namespace $safeprojectname$.Dialogs.Escalate
 {
     public class EscalateResponses : TemplateManager
     {
@@ -14,7 +16,7 @@ namespace $safeprojectname$
         {
             ["default"] = new TemplateIdMap
             {
-                { SendPhone, (context, data) => EscalateStrings.PHONE_INFO },
+                { SendPhone, SendEscalateCard },
             },
             ["en"] = new TemplateIdMap { },
             ["fr"] = new TemplateIdMap { },
@@ -23,6 +25,27 @@ namespace $safeprojectname$
         public EscalateResponses()
         {
             Register(new DictionaryRenderer(_responseTemplates));
+        }
+
+        public static IMessageActivity SendEscalateCard(ITurnContext turnContext, dynamic data)
+        {
+            var response = turnContext.Activity.CreateReply();
+
+            response.Speak = EscalateStrings.PHONE_INFO;
+            response.Attachments = new List<Attachment>
+            {
+                new HeroCard()
+                {
+                    Text = EscalateStrings.PHONE_INFO,
+                    Buttons = new List<CardAction>()
+                {
+                    new CardAction(type: ActionTypes.OpenUrl, title: "Call now", value: "tel:18005551234"),
+                    new CardAction(type: ActionTypes.OpenUrl, title: "Open Teams", value: "msteams://")
+                },
+                }.ToAttachment()
+            };
+
+            return response;
         }
     }
 }

@@ -10,7 +10,7 @@ In [device integration](./virtualassistant-deviceintegration.md) scenarios you r
 
 ## Activity schema
 
-The Activity schema for the Azure Bot Service can be found [here](https://github.com/Microsoft/BotBuilder/blob/hub/specs/botframework-activity/botframework-activity.md). The Activity schema is used for all messages including [Events](./virtualassistant-events.md).
+The [Bot Framework Activity schema](https://github.com/Microsoft/BotBuilder/blob/master/specs/botframework-activity/botframework-activity.md) for the Azure Bot Service is an application-level representation of conversational actions made by humans and bots. This schema is used for all messages, including [Events](./virtualassistant-events.md).
 
 ## Messages and Events
 

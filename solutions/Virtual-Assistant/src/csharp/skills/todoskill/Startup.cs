@@ -51,7 +51,7 @@ namespace ToDoSkill
             var parameters = Configuration.GetSection("Parameters")?.Get<string[]>();
             var configuration = Configuration.GetSection("Configuration")?.GetChildren()?.ToDictionary(x => x.Key, y => y.Value as object);
             var supportedProviders = Configuration.GetSection("SupportedProviders").Get<string[]>();
-            var connectedServices = new SkillConfiguration(botConfig, supportedProviders, parameters, configuration);
+            ISkillConfiguration connectedServices = new SkillConfiguration(botConfig, supportedProviders, parameters, configuration);
             services.AddSingleton(sp => connectedServices);
 
             // Initialize Bot State
@@ -73,7 +73,7 @@ namespace ToDoSkill
             services.AddSingleton(conversationState);
             services.AddSingleton(new BotStateSet(userState, conversationState));
 
-            var serviceProvider = Configuration.GetSection("ServiceProvider")?.Value;
+            var serviceProvider = Configuration.GetSection("TaskServiceProvider")?.Value;
             if (serviceProvider.Equals("Outlook", StringComparison.InvariantCultureIgnoreCase))
             {
                 services.AddTransient<ITaskService, OutlookService>();

@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace $safeprojectname$
+namespace $safeprojectname$.Dialogs.Shared
 {
     public abstract class InterruptableDialog : ComponentDialog
     {

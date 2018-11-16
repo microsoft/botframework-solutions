@@ -4,12 +4,13 @@
 using System.Threading;
 using System.Threading.Tasks;
 using $safeprojectname$.Dialogs.SignIn.Resources;
+using $safeprojectname$.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Graph;
 
-namespace $safeprojectname$
+namespace $safeprojectname$.Dialogs.Shared
 {
     public class SignInDialog : ComponentDialog
     {

@@ -21,7 +21,7 @@ namespace ToDoSkill
     public class MainDialog : RouterDialog
     {
         private bool _skillMode;
-        private SkillConfiguration _services;
+        private ISkillConfiguration _services;
         private UserState _userState;
         private ConversationState _conversationState;
         private ITaskService _serviceManager;
@@ -29,7 +29,7 @@ namespace ToDoSkill
         private ToDoSkillResponseBuilder _responseBuilder = new ToDoSkillResponseBuilder();
 
         public MainDialog(
-            SkillConfiguration services,
+            ISkillConfiguration services,
             ConversationState conversationState,
             UserState userState,
             ITaskService serviceManager,
@@ -60,6 +60,8 @@ namespace ToDoSkill
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
+            var state = await _stateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
+
             // If dispatch result is general luis model
             _services.LuisServices.TryGetValue("todo", out var luisService);
 
@@ -70,8 +72,8 @@ namespace ToDoSkill
             else
             {
                 var result = await luisService.RecognizeAsync<ToDo>(dc.Context, CancellationToken.None);
-
                 var intent = result?.TopIntent().intent;
+                var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
 
                 var skillOptions = new ToDoSkillDialogOptions
                 {
@@ -107,8 +109,20 @@ namespace ToDoSkill
 
                     case ToDo.Intent.None:
                         {
-                            // No intent was identified, send confused message
-                            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(ToDoSharedResponses.DidntUnderstandMessage));
+                            if (generalTopIntent == General.Intent.Next || generalTopIntent == General.Intent.Previous)
+                            {
+                                await dc.BeginDialogAsync(nameof(ShowToDoItemDialog), skillOptions);
+                            }
+                            else
+                            {
+                                // No intent was identified, send confused message
+                                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(ToDoSharedResponses.DidntUnderstandMessage));
+                                if (_skillMode)
+                                {
+                                    await CompleteAsync(dc);
+                                }
+                            }
+
                             break;
                         }
 
@@ -116,13 +130,18 @@ namespace ToDoSkill
                         {
                             // intent was identified but not yet implemented
                             await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(ToDoMainResponses.FeatureNotAvailable));
+                            if (_skillMode)
+                            {
+                                await CompleteAsync(dc);
+                            }
+
                             break;
                         }
                 }
             }
         }
 
-        protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (_skillMode)
             {
@@ -182,9 +201,9 @@ namespace ToDoSkill
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
                 // Update state with email luis result and entities
-                var emailLuisResult = await _services.LuisServices["todo"].RecognizeAsync<ToDo>(dc.Context, cancellationToken);
+                var toDoLuisResult = await _services.LuisServices["todo"].RecognizeAsync<ToDo>(dc.Context, cancellationToken);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
-                state.LuisResult = emailLuisResult;
+                state.LuisResult = toDoLuisResult;
 
                 // check luis intent
                 _services.LuisServices.TryGetValue("general", out var luisService);
