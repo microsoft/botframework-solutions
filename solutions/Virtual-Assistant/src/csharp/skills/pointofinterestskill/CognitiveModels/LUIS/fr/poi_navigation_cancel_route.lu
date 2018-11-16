@@ -1,66 +1,55 @@
 ## NAVIGATION_CANCEL_ROUTE
-- effectivement annuler va {KEYWORD}
-- en fait, ne vont pas à {ADDRESS}
-- effectivement oublier d'aller {ADDRESS}
-- en fait, jamais l'esprit va {ADDRESS}
+- effectivement annuler va {KEYWORD} 
+- en fait, ne vont pas à {ADDRESS} 
+- effectivement oublier d'aller {ADDRESS} 
+- en fait, jamais l'esprit va {ADDRESS} 
 - Annuler {KEYWORD} Navires
-- annuler aller à {KEYWORD} Dans {ADDRESS}
-- annuler la navigation vers un {KEYWORD}
-- annuler me prendre à {ADDRESS} Adresse{ADDRESS}S dans l'adresse
+- annuler aller à {KEYWORD} Dans {ADDRESS} 
+- annuler la navigation vers un {KEYWORD} 
+- annuler me prendre à {ADDRESS} Adresse {ADDRESS} S dans l'adresse
 - Clair {KEYWORD} Navires
-- clair va {KEYWORD} Dans {ADDRESS}
-- clair va {ADDRESS}
-- effacer la navigation vers un {KEYWORD}
-- effacer la navigation vers un {KEYWORD}
-- clair me prendre pour {ADDRESS} Adresse{ADDRESS}S dans l'adresse
-- supprimer aller à {KEYWORD} Dans {ADDRESS}
-- supprimer aller à {ADDRESS}
-- supprimer la navigation vers un {KEYWORD}
-- supprimer la navigation vers un {KEYWORD}
+- clair va {KEYWORD} Dans {ADDRESS} 
+- clair va {ADDRESS} 
+- effacer la navigation vers un {KEYWORD} 
+- clair me prendre pour {ADDRESS} Adresse {ADDRESS} S dans l'adresse
+- supprimer la navigation vers un {KEYWORD} 
 - Supprimer {KEYWORD} Navires
-- supprimer me prendre à {ADDRESS} Adresse{ADDRESS}S dans l'adresse
-- ne naviguez pas vers un {KEYWORD}
-- ne naviguez pas vers un {KEYWORD}
-- ne me prenez pas à {ADDRESS}
-- ne naviguez pas vers un {KEYWORD}
-- ne naviguez pas vers un {KEYWORD}
-- ne m'emmenez pas à {ADDRESS}
+- supprimer me prendre à {ADDRESS} Adresse {ADDRESS} S dans l'adresse
+- ne naviguez pas vers un {KEYWORD} 
+- ne me prenez pas à {ADDRESS} 
+- ne m'emmenez pas à {ADDRESS} 
 - Fin {KEYWORD} Navires
-- fin va {KEYWORD} Dans {ADDRESS}
-- fin de la navigation vers un {KEYWORD}
-- fin de m'emmener à {ADDRESS} Adresse{ADDRESS}S dans l'adresse
+- fin va {KEYWORD} Dans {ADDRESS} 
+- fin de la navigation vers un {KEYWORD} 
+- fin de m'emmener à {ADDRESS} Adresse {ADDRESS} S dans l'adresse
 - Oublier {KEYWORD} Navires
-- oublier d'aller {KEYWORD} Dans {ADDRESS}
-- oublier d'aller {ADDRESS}
-- oublier de naviguer vers un {KEYWORD}
-- oublier de naviguer vers un {KEYWORD}
-- oublier de m'emmener à {ADDRESS} Adresse{ADDRESS}S dans l'adresse
+- oublier d'aller {KEYWORD} Dans {ADDRESS} 
+- oublier d'aller {ADDRESS} 
+- oublier de naviguer vers un {KEYWORD} 
+- oublier de m'emmener à {ADDRESS} Adresse {ADDRESS} S dans l'adresse
 - se débarrasser de {KEYWORD} Navires
-- se débarrasser d'aller à {ADDRESS}
-- se débarrasser d'aller à {KEYWORD} Dans {ADDRESS}
-- Débarrassez-vous de naviguer vers un {KEYWORD}
-- Débarrassez-vous de naviguer vers un {KEYWORD}
-- Débarrassez-vous de m'emmener à {ADDRESS} Adresse{ADDRESS}S dans l'adresse
+- se débarrasser d'aller à {ADDRESS} 
+- se débarrasser d'aller à {KEYWORD} Dans {ADDRESS} 
+- Débarrassez-vous de naviguer vers un {KEYWORD} 
+- Débarrassez-vous de m'emmener à {ADDRESS} Adresse {ADDRESS} S dans l'adresse
 - C'est pas grave {KEYWORD} Navires
-- jamais l'esprit va {KEYWORD} Dans {ADDRESS}
-- jamais l'esprit de naviguer à un {KEYWORD}
-- jamais l'esprit de m'emmener à {ADDRESS} Adresse{ADDRESS}S dans l'adresse
-- à la deuxième pensée annuler va {KEYWORD}
-- à la deuxième pensée ne vont pas à {ADDRESS}
-- à la deuxième pensée ne vont pas à {ADDRESS}
-- à la fin de la réflexion va {KEYWORD}
-- à la deuxième pensée oublier d'aller {ADDRESS}
-- à la deuxième pensée jamais l'esprit va {ADDRESS}
+- jamais l'esprit va {KEYWORD} Dans {ADDRESS} 
+- jamais l'esprit de naviguer à un {KEYWORD} 
+- jamais l'esprit de m'emmener à {ADDRESS} Adresse {ADDRESS} S dans l'adresse
+- à la deuxième pensée annuler va {KEYWORD} 
+- à la deuxième pensée ne vont pas à {ADDRESS} 
+- à la fin de la réflexion va {KEYWORD} 
+- à la deuxième pensée oublier d'aller {ADDRESS} 
+- à la deuxième pensée jamais l'esprit va {ADDRESS} 
 - Retirer {KEYWORD} Navires
-- supprimer aller à {ADDRESS}
-- supprimer aller à {KEYWORD} Dans {ADDRESS}
-- supprimer la navigation vers un {KEYWORD}
-- enlever me prendre à {ADDRESS} Adresse{ADDRESS}S dans l'adresse
+- supprimer aller à {ADDRESS} 
+- supprimer aller à {KEYWORD} Dans {ADDRESS} 
+- enlever me prendre à {ADDRESS} Adresse {ADDRESS} S dans l'adresse
 - Arrêter {KEYWORD} Navires
-- arrêter d'aller à {ADDRESS}
-- arrêter d'aller à {KEYWORD} Dans {ADDRESS}
-- Arrêtez de naviguer vers un {KEYWORD}
-- arrête de m'emmener à {ADDRESS} Adresse{ADDRESS}S dans l'adresse
+- arrêter d'aller à {ADDRESS} 
+- arrêter d'aller à {KEYWORD} Dans {ADDRESS} 
+- Arrêtez de naviguer vers un {KEYWORD} 
+- arrête de m'emmener à {ADDRESS} Adresse {ADDRESS} S dans l'adresse
 - abandonner la destination
 - abandonner la navigation
 - abandonner la route

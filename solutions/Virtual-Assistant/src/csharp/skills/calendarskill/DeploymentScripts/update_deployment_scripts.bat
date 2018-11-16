@@ -9,5 +9,5 @@ call ludown parse toluis --in %0\..\..\..\..\assistant\CognitiveModels\LUIS\fr\g
 call ludown parse toluis --in %0\..\..\CognitiveModels\LUIS\fr\calendar.lu -o %0\..\fr -n Calendar --out calendar.luis
 call ludown parse toluis --in %0\..\..\..\..\assistant\CognitiveModels\LUIS\it\general.lu -o %0\..\it -n General --out general.luis
 call ludown parse toluis --in %0\..\..\CognitiveModels\LUIS\it\calendar.lu -o %0\..\it -n Calendar --out calendar.luis
-call ludown parse toluis --in %0\..\..\..\..\assistant\CognitiveModels\LUIS\zh-hans\general.lu -o %0\..\zh-hans -n General --out general.luis
-call ludown parse toluis --in %0\..\..\CognitiveModels\LUIS\zh-hans\calendar.lu -o %0\..\zh-hans -n Calendar --out calendar.luis
+call ludown parse toluis --in %0\..\..\..\..\assistant\CognitiveModels\LUIS\zh\general.lu -o %0\..\zh -n General --out general.luis
+call ludown parse toluis --in %0\..\..\CognitiveModels\LUIS\zh\calendar.lu -o %0\..\zh -n Calendar --out calendar.luis

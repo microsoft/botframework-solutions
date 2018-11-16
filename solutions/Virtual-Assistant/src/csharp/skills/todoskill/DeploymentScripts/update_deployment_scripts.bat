@@ -9,5 +9,5 @@ call ludown parse toluis --in %0\..\..\..\..\assistant\CognitiveModels\LUIS\fr\g
 call ludown parse toluis --in %0\..\..\CognitiveModels\LUIS\fr\todo.lu -o %0\..\fr -n ToDo --out todo.luis
 call ludown parse toluis --in %0\..\..\..\..\assistant\CognitiveModels\LUIS\it\general.lu -o %0\..\it -n General --out general.luis
 call ludown parse toluis --in %0\..\..\CognitiveModels\LUIS\it\todo.lu -o %0\..\it -n ToDo --out todo.luis
-call ludown parse toluis --in %0\..\..\..\..\assistant\CognitiveModels\LUIS\zh-hans\general.lu -o %0\..\zh-hans -n General --out general.luis
-call ludown parse toluis --in %0\..\..\CognitiveModels\LUIS\zh-hans\todo.lu -o %0\..\zh-hans -n ToDo --out todo.luis
+call ludown parse toluis --in %0\..\..\..\..\assistant\CognitiveModels\LUIS\zh\general.lu -o %0\..\zh -n General --out general.luis
+call ludown parse toluis --in %0\..\..\CognitiveModels\LUIS\zh\todo.lu -o %0\..\zh -n ToDo --out todo.luis

@@ -1,66 +1,66 @@
 ## NAVIGATION_CANCEL_ROUTE
-- actually cancel going to {KEYWORD}
-- actually do not go to {ADDRESS}
-- actually forget going to {ADDRESS}
-- actually never mind going to {ADDRESS}
+- actually cancel going to {KEYWORD} 
+- actually do not go to {ADDRESS} 
+- actually forget going to {ADDRESS} 
+- actually never mind going to {ADDRESS} 
 - cancel {KEYWORD} navi
-- cancel going to {KEYWORD} in {ADDRESS}
-- cancel navigating to a {KEYWORD}
-- cancel taking me to {ADDRESS} in {ADDRESS}
+- cancel going to {KEYWORD} in {ADDRESS} 
+- cancel navigating to a {KEYWORD} 
+- cancel taking me to {ADDRESS} in {ADDRESS} 
 - clear {KEYWORD} navi
-- clear going to {KEYWORD} in {ADDRESS}
-- clear going to {ADDRESS}
-- clear navigating to a {KEYWORD}
-- clear navigating to an {KEYWORD}
-- clear taking me to {ADDRESS} in {ADDRESS}
-- delete going to {KEYWORD} in {ADDRESS}
-- delete going to {ADDRESS}
-- delete navigating to a {KEYWORD}
-- delete navigating to an {KEYWORD}
+- clear going to {KEYWORD} in {ADDRESS} 
+- clear going to {ADDRESS} 
+- clear navigating to a {KEYWORD} 
+- clear navigating to an {KEYWORD} 
+- clear taking me to {ADDRESS} in {ADDRESS} 
+- delete going to {KEYWORD} in {ADDRESS} 
+- delete going to {ADDRESS} 
+- delete navigating to a {KEYWORD} 
+- delete navigating to an {KEYWORD} 
 - delete {KEYWORD} navi
-- delete taking me to {ADDRESS} in {ADDRESS}
-- do not navigate to a {KEYWORD}
-- do not navigate to an {KEYWORD}
-- do not take me to {ADDRESS}
-- don't navigate to a {KEYWORD}
-- don't navigate to an {KEYWORD}
-- don't take me to {ADDRESS}
+- delete taking me to {ADDRESS} in {ADDRESS} 
+- do not navigate to a {KEYWORD} 
+- do not navigate to an {KEYWORD} 
+- do not take me to {ADDRESS} 
+- don't navigate to a {KEYWORD} 
+- don't navigate to an {KEYWORD} 
+- don't take me to {ADDRESS} 
 - end {KEYWORD} navi
-- end going to {KEYWORD} in {ADDRESS}
-- end navigating to a {KEYWORD}
-- end taking me to {ADDRESS} in {ADDRESS}
+- end going to {KEYWORD} in {ADDRESS} 
+- end navigating to a {KEYWORD} 
+- end taking me to {ADDRESS} in {ADDRESS} 
 - forget {KEYWORD} navi
-- forget going to {KEYWORD} in {ADDRESS}
-- forget going to {ADDRESS}
-- forget navigating to a {KEYWORD}
-- forget navigating to an {KEYWORD}
-- forget taking me to {ADDRESS} in {ADDRESS}
+- forget going to {KEYWORD} in {ADDRESS} 
+- forget going to {ADDRESS} 
+- forget navigating to a {KEYWORD} 
+- forget navigating to an {KEYWORD} 
+- forget taking me to {ADDRESS} in {ADDRESS} 
 - get rid of {KEYWORD} navi
-- get rid of going to {ADDRESS}
-- get rid of going to {KEYWORD} in {ADDRESS}
-- get rid of navigating to a {KEYWORD}
-- get rid of navigating to an {KEYWORD}
-- get rid of taking me to {ADDRESS} in {ADDRESS}
+- get rid of going to {ADDRESS} 
+- get rid of going to {KEYWORD} in {ADDRESS} 
+- get rid of navigating to a {KEYWORD} 
+- get rid of navigating to an {KEYWORD} 
+- get rid of taking me to {ADDRESS} in {ADDRESS} 
 - never mind {KEYWORD} navi
-- never mind going to {KEYWORD} in {ADDRESS}
-- never mind navigating to a {KEYWORD}
-- never mind taking me to {ADDRESS} in {ADDRESS}
-- on second thought cancel going to {KEYWORD}
-- on second thought do not go to {ADDRESS}
-- on second thought don't go to {ADDRESS}
-- on second thought end going to {KEYWORD}
-- on second thought forget going to {ADDRESS}
-- on second thought never mind going to {ADDRESS}
+- never mind going to {KEYWORD} in {ADDRESS} 
+- never mind navigating to a {KEYWORD} 
+- never mind taking me to {ADDRESS} in {ADDRESS} 
+- on second thought cancel going to {KEYWORD} 
+- on second thought do not go to {ADDRESS} 
+- on second thought don't go to {ADDRESS} 
+- on second thought end going to {KEYWORD} 
+- on second thought forget going to {ADDRESS} 
+- on second thought never mind going to {ADDRESS} 
 - remove {KEYWORD} navi
-- remove going to {ADDRESS}
-- remove going to {KEYWORD} in {ADDRESS}
-- remove navigating to a {KEYWORD}
-- remove taking me to {ADDRESS} in {ADDRESS}
+- remove going to {ADDRESS} 
+- remove going to {KEYWORD} in {ADDRESS} 
+- remove navigating to a {KEYWORD} 
+- remove taking me to {ADDRESS} in {ADDRESS} 
 - stop {KEYWORD} navi
-- stop going to {ADDRESS}
-- stop going to {KEYWORD} in {ADDRESS}
-- stop navigating to a {KEYWORD}
-- stop taking me to {ADDRESS} in {ADDRESS}
+- stop going to {ADDRESS} 
+- stop going to {KEYWORD} in {ADDRESS} 
+- stop navigating to a {KEYWORD} 
+- stop taking me to {ADDRESS} in {ADDRESS} 
 - abort destination
 - abort navigation
 - abort route

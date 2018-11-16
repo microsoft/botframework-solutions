@@ -1,66 +1,57 @@
 ## NAVIGATION_CANCEL_ROUTE
-- Eigentlich abgesagt {KEYWORD}
-- Eigentlich nicht {ADDRESS}
-- Eigentlich vergessen gehen {ADDRESS}
-- Eigentlich macht es nichts aus, {ADDRESS}
+- Eigentlich abgesagt {KEYWORD} 
+- Eigentlich nicht {ADDRESS} 
+- Eigentlich vergessen gehen {ADDRESS} 
+- Eigentlich macht es nichts aus, {ADDRESS} 
 - Abbrechen {KEYWORD} Schiffe
-- Absage gehen {KEYWORD} In {ADDRESS}
-- Navigieren zu einem {KEYWORD}
-- Abbrechen mit mir {ADDRESS} Adresse{ADDRESS}S in ADDRESS
+- Absage gehen {KEYWORD} In {ADDRESS} 
+- Navigieren zu einem {KEYWORD} 
+- Abbrechen mit mir {ADDRESS} Adresse {ADDRESS} S in ADDRESS
 - Klar {KEYWORD} Schiffe
-- Klar gehen {KEYWORD} In {ADDRESS}
-- Klar gehen {ADDRESS}
-- Klare Navigation zu einem {KEYWORD}
-- Klare Navigation zu einem {KEYWORD}
-- Klar, was mich zu {ADDRESS} Adresse{ADDRESS}S in ADDRESS
-- Löschung geht {KEYWORD} In {ADDRESS}
-- Löschung geht {ADDRESS}
-- Löschen Sie die Navigation zu einem {KEYWORD}
-- Navigieren zu einem {KEYWORD}
+- Klar gehen {KEYWORD} In {ADDRESS} 
+- Klar gehen {ADDRESS} 
+- Klare Navigation zu einem {KEYWORD} 
+- Klar, was mich zu {ADDRESS} Adresse {ADDRESS} S in ADDRESS
+- Löschung geht {KEYWORD} In {ADDRESS} 
+- Löschung geht {ADDRESS} 
+- Löschen Sie die Navigation zu einem {KEYWORD} 
 - Löschen {KEYWORD} Schiffe
-- Löschen Sie mich zu {ADDRESS} Adresse{ADDRESS}S in ADDRESS
-- Nicht zu einem {KEYWORD}
-- Nicht zu einem {KEYWORD}
-- Nicht zu mir {ADDRESS}
-- Nicht zu einem {KEYWORD}
-- Nicht zu einem {KEYWORD}
-- Don ' t take me to {ADDRESS}
+- Löschen Sie mich zu {ADDRESS} Adresse {ADDRESS} S in ADDRESS
+- Nicht zu mir {ADDRESS} 
+- Nicht zu einem {KEYWORD} 
 - Ende {KEYWORD} Schiffe
-- Ende geht {KEYWORD} In {ADDRESS}
-- Navigation zu einem {KEYWORD}
-- Ende mit mir {ADDRESS} Adresse{ADDRESS}S in ADDRESS
+- Ende geht {KEYWORD} In {ADDRESS} 
+- Navigation zu einem {KEYWORD} 
+- Ende mit mir {ADDRESS} Adresse {ADDRESS} S in ADDRESS
 - Vergessen {KEYWORD} Schiffe
-- Vergessen gehen {KEYWORD} In {ADDRESS}
-- Vergessen gehen {ADDRESS}
-- Vergessen Sie, zu navigieren {KEYWORD}
-- Vergessen Sie, zu navigieren {KEYWORD}
-- Vergesst, mich zu nehmen {ADDRESS} Adresse{ADDRESS}S in ADDRESS
+- Vergessen gehen {KEYWORD} In {ADDRESS} 
+- Vergessen gehen {ADDRESS} 
+- Vergessen Sie, zu navigieren {KEYWORD} 
+- Vergesst, mich zu nehmen {ADDRESS} Adresse {ADDRESS} S in ADDRESS
 - Loswerden {KEYWORD} Schiffe
-- Los geht es {ADDRESS}
-- Los geht es {KEYWORD} In {ADDRESS}
-- Lassen Sie sich von der Navigation zu einem {KEYWORD}
-- Lassen Sie sich von der Navigation zu einem {KEYWORD}
-- Los geht es, mich zu nehmen {ADDRESS} Adresse{ADDRESS}S in ADDRESS
+- Los geht es {ADDRESS} 
+- Los geht es {KEYWORD} In {ADDRESS} 
+- Lassen Sie sich von der Navigation zu einem {KEYWORD} 
+- Los geht es, mich zu nehmen {ADDRESS} Adresse {ADDRESS} S in ADDRESS
 - Vergessen Sie es {KEYWORD} Schiffe
-- Egal, dass Sie {KEYWORD} In {ADDRESS}
-- Egal, zu einem {KEYWORD}
-- Egal, wie ich mich auf die {ADDRESS} Adresse{ADDRESS}S in ADDRESS
-- Auf zweiten Gedanken absagen, gehen {KEYWORD}
-- Auf den zweiten Gedanken nicht gehen {ADDRESS}
-- Auf den zweiten Gedanken nicht gehen {ADDRESS}
-- Am zweiten Gedanken Ende gehen {KEYWORD}
-- Auf den zweiten Gedanken vergessen, gehen {ADDRESS}
-- Auf den zweiten Gedanken, die es nicht stört, {ADDRESS}
+- Egal, dass Sie {KEYWORD} In {ADDRESS} 
+- Egal, zu einem {KEYWORD} 
+- Egal, wie ich mich auf die {ADDRESS} Adresse {ADDRESS} S in ADDRESS
+- Auf zweiten Gedanken absagen, gehen {KEYWORD} 
+- Auf den zweiten Gedanken nicht gehen {ADDRESS} 
+- Am zweiten Gedanken Ende gehen {KEYWORD} 
+- Auf den zweiten Gedanken vergessen, gehen {ADDRESS} 
+- Auf den zweiten Gedanken, die es nicht stört, {ADDRESS} 
 - Entfernen {KEYWORD} Schiffe
-- Entfernen gehen {ADDRESS}
-- Entfernen gehen {KEYWORD} In {ADDRESS}
-- Entfernen Sie die Navigation zu einem {KEYWORD}
-- Entfernen Sie mich mit {ADDRESS} Adresse{ADDRESS}S in ADDRESS
+- Entfernen gehen {ADDRESS} 
+- Entfernen gehen {KEYWORD} In {ADDRESS} 
+- Entfernen Sie die Navigation zu einem {KEYWORD} 
+- Entfernen Sie mich mit {ADDRESS} Adresse {ADDRESS} S in ADDRESS
 - Stoppen {KEYWORD} Schiffe
-- Stopp {ADDRESS}
-- Stopp {KEYWORD} In {ADDRESS}
-- Hören Sie auf, zu einem {KEYWORD}
-- Hören Sie auf, mich zu nehmen {ADDRESS} Adresse{ADDRESS}S in ADDRESS
+- Stopp {ADDRESS} 
+- Stopp {KEYWORD} In {ADDRESS} 
+- Hören Sie auf, zu einem {KEYWORD} 
+- Hören Sie auf, mich zu nehmen {ADDRESS} Adresse {ADDRESS} S in ADDRESS
 - Abort-Ziel
 - Navigation abbrechen
 - Abort-Strecke

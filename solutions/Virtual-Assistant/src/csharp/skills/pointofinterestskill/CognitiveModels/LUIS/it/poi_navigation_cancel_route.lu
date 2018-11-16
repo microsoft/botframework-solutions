@@ -1,66 +1,58 @@
 ## NAVIGATION_CANCEL_ROUTE
-- effettivamente annullare andare a {KEYWORD}
-- in realtà non andare a {ADDRESS}
-- in realtà dimenticare di andare a {ADDRESS}
-- in realtà non importa andare a {ADDRESS}
+- effettivamente annullare andare a {KEYWORD} 
+- in realtà non andare a {ADDRESS} 
+- in realtà dimenticare di andare a {ADDRESS} 
+- in realtà non importa andare a {ADDRESS} 
 - Annulla {KEYWORD} navi
-- Annulla andare a {KEYWORD} Pollici {ADDRESS}
-- Annulla navigazione in un {KEYWORD}
-- Annulla portandomi a {ADDRESS} Indirizzo{ADDRESS}S in indirizzo
+- Annulla andare a {KEYWORD} Pollici {ADDRESS} 
+- Annulla navigazione in un {KEYWORD} 
+- Annulla portandomi a {ADDRESS} Indirizzo {ADDRESS} S in indirizzo
 - Chiaro {KEYWORD} navi
-- chiaro andando a {KEYWORD} Pollici {ADDRESS}
-- chiaro andando a {ADDRESS}
-- deselezionare la navigazione in un {KEYWORD}
-- deselezionare la navigazione in un {KEYWORD}
-- chiaro portandomi a {ADDRESS} Indirizzo{ADDRESS}S in indirizzo
-- Elimina andando a {KEYWORD} Pollici {ADDRESS}
-- Elimina andando a {ADDRESS}
-- Elimina navigazione in un {KEYWORD}
-- Elimina navigazione in un {KEYWORD}
+- chiaro andando a {KEYWORD} Pollici {ADDRESS} 
+- chiaro andando a {ADDRESS} 
+- deselezionare la navigazione in un {KEYWORD} 
+- chiaro portandomi a {ADDRESS} Indirizzo {ADDRESS} S in indirizzo
+- Elimina andando a {KEYWORD} Pollici {ADDRESS} 
+- Elimina andando a {ADDRESS} 
+- Elimina navigazione in un {KEYWORD} 
 - Elimina {KEYWORD} navi
-- eliminare portandomi a {ADDRESS} Indirizzo{ADDRESS}S in indirizzo
-- non passare a un {KEYWORD}
-- non passare a un {KEYWORD}
-- non mi porti a {ADDRESS}
-- non passare a un {KEYWORD}
-- non passare a un {KEYWORD}
-- non mi porti a {ADDRESS}
+- eliminare portandomi a {ADDRESS} Indirizzo {ADDRESS} S in indirizzo
+- non passare a un {KEYWORD} 
+- non mi porti a {ADDRESS} 
 - Fine {KEYWORD} navi
-- fine andando a {KEYWORD} Pollici {ADDRESS}
-- terminare la navigazione in un {KEYWORD}
-- fine portandomi a {ADDRESS} Indirizzo{ADDRESS}S in indirizzo
+- fine andando a {KEYWORD} Pollici {ADDRESS} 
+- terminare la navigazione in un {KEYWORD} 
+- fine portandomi a {ADDRESS} Indirizzo {ADDRESS} S in indirizzo
 - Dimenticare {KEYWORD} navi
-- dimenticare di andare a {KEYWORD} Pollici {ADDRESS}
-- dimenticare di andare a {ADDRESS}
-- dimenticare la navigazione in un {KEYWORD}
-- dimenticare la navigazione in un {KEYWORD}
-- dimenticare che mi ha tenuto a {ADDRESS} Indirizzo{ADDRESS}S in indirizzo
+- dimenticare di andare a {KEYWORD} Pollici {ADDRESS} 
+- dimenticare di andare a {ADDRESS} 
+- dimenticare la navigazione in un {KEYWORD} 
+- dimenticare che mi ha tenuto a {ADDRESS} Indirizzo {ADDRESS} S in indirizzo
 - sbarazzarsi di {KEYWORD} navi
-- sbarazzarsi di andare a {ADDRESS}
-- sbarazzarsi di andare a {KEYWORD} Pollici {ADDRESS}
-- sbarazzarsi di navigazione in un {KEYWORD}
-- sbarazzarsi di navigazione in un {KEYWORD}
-- sbarazzarsi di portarmi a {ADDRESS} Indirizzo{ADDRESS}S in indirizzo
+- sbarazzarsi di andare a {ADDRESS} 
+- sbarazzarsi di andare a {KEYWORD} Pollici {ADDRESS} 
+- sbarazzarsi di navigazione in un {KEYWORD} 
+- sbarazzarsi di portarmi a {ADDRESS} Indirizzo {ADDRESS} S in indirizzo
 - Non importa {KEYWORD} navi
-- non importa andare a {KEYWORD} Pollici {ADDRESS}
-- non importa navigare verso un {KEYWORD}
-- non importa portarmi a {ADDRESS} Indirizzo{ADDRESS}S in indirizzo
-- il secondo pensiero annullare andare a {KEYWORD}
-- il secondo pensiero non vanno a {ADDRESS}
-- il secondo pensiero non andare a {ADDRESS}
-- il secondo pensiero fine di andare a {KEYWORD}
-- il secondo pensiero dimenticare di andare a {ADDRESS}
-- sul secondo pensiero non importa andare a {ADDRESS}
+- non importa andare a {KEYWORD} Pollici {ADDRESS} 
+- non importa navigare verso un {KEYWORD} 
+- non importa portarmi a {ADDRESS} Indirizzo {ADDRESS} S in indirizzo
+- il secondo pensiero annullare andare a {KEYWORD} 
+- il secondo pensiero non vanno a {ADDRESS} 
+- il secondo pensiero non andare a {ADDRESS} 
+- il secondo pensiero fine di andare a {KEYWORD} 
+- il secondo pensiero dimenticare di andare a {ADDRESS} 
+- sul secondo pensiero non importa andare a {ADDRESS} 
 - Rimuovere {KEYWORD} navi
-- rimuovere andando a {ADDRESS}
-- rimuovere andando a {KEYWORD} Pollici {ADDRESS}
-- rimuovere la navigazione in un {KEYWORD}
-- rimuovere portandomi a {ADDRESS} Indirizzo{ADDRESS}S in indirizzo
+- rimuovere andando a {ADDRESS} 
+- rimuovere andando a {KEYWORD} Pollici {ADDRESS} 
+- rimuovere la navigazione in un {KEYWORD} 
+- rimuovere portandomi a {ADDRESS} Indirizzo {ADDRESS} S in indirizzo
 - Fermare {KEYWORD} navi
-- smettere di andare a {ADDRESS}
-- smettere di andare a {KEYWORD} Pollici {ADDRESS}
-- interrompere la navigazione in un {KEYWORD}
-- Smettila di portarmi da {ADDRESS} Indirizzo{ADDRESS}S in indirizzo
+- smettere di andare a {ADDRESS} 
+- smettere di andare a {KEYWORD} Pollici {ADDRESS} 
+- interrompere la navigazione in un {KEYWORD} 
+- Smettila di portarmi da {ADDRESS} Indirizzo {ADDRESS} S in indirizzo
 - termina destinazione
 - interruzione di navigazione
 - Interrompi Route

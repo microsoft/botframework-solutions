@@ -1,7 +1,7 @@
 ## NAVIGATION_FIND_POINTOFINTEREST
 - any {KEYWORD=east side mario's} nearby
-- are there {KEYWORD=restaurants} nearby {KEYWORD=sydney tower}
-- are {KEYWORD=we} near {ADDRESS=400} {ADDRESS=broad street}{ADDRESS=?}
+- are there {KEYWORD=restaurants} nearby {KEYWORD=sydney tower} 
+- are {KEYWORD=we} near {ADDRESS=400} {ADDRESS=broad street} {ADDRESS=?} 
 - bring up best rated {KEYWORD=tattoos} nearby for over 165 pounds
 - bring up nearest {KEYWORD=landscaping} nearby for no more than 469 pounds
 - bring up {KEYWORD=speakers} for less than 312 bucks nearby
@@ -65,7 +65,7 @@
 - can you suggest the crappiest {KEYWORD=kosher restaurant} nearby for below 63 quid
 - can you suggest the highest priced {KEYWORD=michel's baguette french bkry} nearby me
 - can you suggest the most low priced {KEYWORD=night club} nearby me
-- {KEYWORD=champs-elysees} nearby {KEYWORD=easter road stadium}
+- {KEYWORD=champs-elysees} nearby {KEYWORD=easter road stadium} 
 - check a {KEYWORD=bistro} at {ADDRESS=edmore} and {ADDRESS=dodge city town} nearby me plz
 - check {KEYWORD=bikes} nearby for under 414 quid
 - check closer {KEYWORD=tvs} for no more than 444 euros nearby
@@ -95,8 +95,8 @@
 - i am looking for a {KEYWORD=towing truck} for no more than than 10 pounds nearby
 - i am looking for {KEYWORD=lebanese restaurants} nearby
 - i want a {KEYWORD=train station} nearby
-- i want to go to {KEYWORD=table top mountain} nearby {ADDRESS=kingsborough 6th walk} and {ADDRESS=raleigh place} {ADDRESS=basseterre}
-- i want you to locate {KEYWORD=artistic hair lounge} nearby {KEYWORD=the kaaba}
+- i want to go to {KEYWORD=table top mountain} nearby {ADDRESS=kingsborough 6th walk} and {ADDRESS=raleigh place} {ADDRESS=basseterre} 
+- i want you to locate {KEYWORD=artistic hair lounge} nearby {KEYWORD=the kaaba} 
 - i would love for you to show cheapest {KEYWORD=i t support} for more than 167 quid nearby
 - i'd like you to find poi nearby me
 - i'd like you to show me economical {KEYWORD=dressers} for about 420 dollars nearby
@@ -120,19 +120,19 @@
 - is there a most popular {KEYWORD=bistro} nearby for under 351 euros
 - is there a nearer {KEYWORD=carberry intenational inc} nearby
 - is there a rated place to find bottom rated {KEYWORD=dishwashers} nearby
-- is there a worse {KEYWORD=pakistani restaurant} nearby {KEYWORD=garden of the gods}
+- is there a worse {KEYWORD=pakistani restaurant} nearby {KEYWORD=garden of the gods} 
 - is there {KEYWORD=kazakh cuisine} nearby
 - is there {KEYWORD=pakistani cuisine} nearby
-- {KEYWORD=lion's choice} nearby the the junction of {ADDRESS=40th street} and {ADDRESS=mcdonald avenue} {ADDRESS=burt county}
-- location of {KEYWORD=mantha insurance brokers ltd} nearby the intersection of {ADDRESS=losee terrace} and {ADDRESS=moore street} {ADDRESS=valentine city}
-- location of {KEYWORD=navajo national monument} nearby the the intersection of {ADDRESS=forest drive} and {ADDRESS=riverside drive} in {ADDRESS=mountain home} {ADDRESS=yt}
-- please a {KEYWORD=temple} nearby the the intersection {ADDRESS=kenmore court} and {ADDRESS=krier place} {ADDRESS=glenville} {ADDRESS=ga}
+- {KEYWORD=lion's choice} nearby the the junction of {ADDRESS=40th street} and {ADDRESS=mcdonald avenue} {ADDRESS=burt county} 
+- location of {KEYWORD=mantha insurance brokers ltd} nearby the intersection of {ADDRESS=losee terrace} and {ADDRESS=moore street} {ADDRESS=valentine city} 
+- location of {KEYWORD=navajo national monument} nearby the the intersection of {ADDRESS=forest drive} and {ADDRESS=riverside drive} in {ADDRESS=mountain home} {ADDRESS=yt} 
+- please a {KEYWORD=temple} nearby the the intersection {ADDRESS=kenmore court} and {ADDRESS=krier place} {ADDRESS=glenville} {ADDRESS=ga} 
 - please check {KEYWORD=marble slab creamery} nearby
 - please find {ADDRESS=middagh street} nearby me
-- please {KEYWORD=frost bank tower} nearby the the intersection {ADDRESS=beach 37th street} and {ADDRESS=brighton 3 place} in {ADDRESS=east chicago city} {ADDRESS=ga}
+- please {KEYWORD=frost bank tower} nearby the the intersection {ADDRESS=beach 37th street} and {ADDRESS=brighton 3 place} in {ADDRESS=east chicago city} {ADDRESS=ga} 
 - please show me {ADDRESS=875} {ADDRESS=new utrecht avenue} nearby
 - plz show me the {KEYWORD=beer store} at the intersection of {ADDRESS=hawarden} and {ADDRESS=adams village} nearby
-- poi nearby {KEYWORD=palace hotel}
+- poi nearby {KEYWORD=palace hotel} 
 - recommend a {KEYWORD=atv} for about 71 euros in my area
 - recommend a {KEYWORD=chair} for less than 21 pounds in my area
 - recommend a {KEYWORD=charging station} nearby me
@@ -198,7 +198,7 @@
 - search top rating {KEYWORD=tax advice} nearby for between 351 and 169 quid
 - search {KEYWORD=tvs} for not more than 250 bucks nearby
 - search worse {KEYWORD=package delivery} for above 369 euros nearby
-- show a {KEYWORD=department store} nearby {KEYWORD=newgrange}
+- show a {KEYWORD=department store} nearby {KEYWORD=newgrange} 
 - show {KEYWORD=cici's pizza} nearby between 240 and 860 dollars
 - show {KEYWORD=financial advice} for over 336 pounds nearby
 - show me a {KEYWORD=coffee shop} in town
@@ -218,7 +218,7 @@
 - show the location of {KEYWORD=marble slab creamery} nearby me
 - show the location of {KEYWORD=pizza hut} nearby me
 - show the location of {KEYWORD=shalom meir tower} nearby me
-- show where is {KEYWORD=swan} nearby the intersection of {ADDRESS=sherman street} and {ADDRESS=oceanview avenue} {ADDRESS=forestburg}
+- show where is {KEYWORD=swan} nearby the intersection of {ADDRESS=sherman street} and {ADDRESS=oceanview avenue} {ADDRESS=forestburg} 
 - suggest a {KEYWORD=legal sea foods} for over 44 dollars nearby to me
 - suggest a {KEYWORD=mars bar and restaurant} for over 3 bucks nearby to me
 - suggest a most fairly priced {KEYWORD=town milk & variety} nearby

@@ -10,151 +10,134 @@
 > # Intent definitions
 
 ## AddToDo
-- Ajouter un  {TaskType=Épicerie} Article
-- Ajouter un nouveau  {TaskType=Tâche} 
-- Ajouter un  {TaskType=Tâche} qui achètent du lait
-- Ajouter un  {TaskType=à faire} 
-- Ajouter un  {TaskType=à faire} Pour moi
-- Ajouter un  {TaskType=à faire} Article
-- Ajouter un  {TaskType=Tous} 
-- Ajouter un  {TaskType=Tous} Pour moi
-- Ajouter un  {TaskType=à faire} Pour moi
-- Ajouter un autre  {TaskType=Tâche} 
-- Ajouter un autre  {TaskType=à faire} 
-- Ajouter du lait à mon  {TaskType=Épicerie} Liste
-- Ajouter des chaussures à mon  {TaskType=Shopping} Liste
-- Autre  {TaskType=Tâche} 
-- Autre  {TaskType=à faire} 
-- pouvez-vous ajouter un  {TaskType=Shopping} article pour moi?
-- pouvez-vous ajouter un  {TaskType=Tous} Pour moi
-- créer un nouveau  {TaskType=à faire} 
-- Je viens de penser à un  {TaskType=à faire} 
-- juste pensé à un nouveau  {TaskType=Tous} 
-- s'il vous plaît ajouter un  {TaskType=Tous} Article
-- me rappeler que  {taskcontent} 
-- me rappeler de  {taskcontent} 
-- enregistrer un  {TaskType=Tous} 
-- Ajouter à faire pour  {TaskContent} 
-- créer une tâche qui  {TaskContent} 
-- créer une tâche pour  {TaskContent} 
-- Ajouter une tâche à  {TaskContent} 
-- Ajouter à faire cela  {TaskContent} 
-- créer à faire pour  {TaskContent} 
-- Ajouter une tâche à  {TaskContent} 
-- Ajouter une tâche qui  {TaskContent} 
-- Ajouter une tâche qui  {TaskContent} 
-- Ajouter  {TaskContent} à mon dos
-- créer une tâche à  {TaskContent} 
-- Ajouter  {TaskContent} à ma liste d'épicerie
-- créer pour le faire  {TaskContent} 
-- Ajouter  {TaskContent} à mes tâches
-- Ajouter  {TaskContent} à ma liste à faire
-- Ajouter  {TaskContent} à ma liste de courses
-- créer un à faire pour  {TaskContent} 
-- créer un pour le faire  {TaskContent} 
-- Ajouter  {TaskContent} à ma liste TODO
-- créer une tâche qui  {TaskContent} 
-- Ajouter un  {TaskType}  élément qui  {TaskContent} 
-- me rappeler que  {TaskContent} 
-- Ajouter un à faire pour  {TaskContent} 
-- Ajouter un pour le faire  {TaskContent} 
-- supprimer pour le faire  {TaskContent} 
-- me rappeler de  {TaskContent} 
+- Ajouter un {TaskType=Épicerie} Article
+- Ajouter un nouveau {TaskType=Tâche} 
+- Ajouter un {TaskType=Tâche} qui achètent du lait
+- Ajouter un {TaskType=à faire} 
+- Ajouter un {TaskType=à faire} Pour moi
+- Ajouter un {TaskType=à faire} Article
+- Ajouter un {TaskType=Tous} 
+- Ajouter un {TaskType=Tous} Pour moi
+- Ajouter un {TaskType=à faire} Pour moi
+- Ajouter un autre {TaskType=Tâche} 
+- Ajouter un autre {TaskType=à faire} 
+- Ajouter du lait à mon {TaskType=Épicerie} Liste
+- Ajouter des chaussures à mon {TaskType=Shopping} Liste
+- Autre {TaskType=Tâche} 
+- Autre {TaskType=à faire} 
+- pouvez-vous ajouter un {TaskType=Shopping} article pour moi?
+- pouvez-vous ajouter un {TaskType=Tous} Pour moi
+- créer un nouveau {TaskType=à faire} 
+- Je viens de penser à un {TaskType=à faire} 
+- juste pensé à un nouveau {TaskType=Tous} 
+- s'il vous plaît ajouter un {TaskType=Tous} Article
+- enregistrer un {TaskType=Tous} 
+- me rappeler que {TaskContent} 
+- Ajouter à faire pour {TaskContent} 
+- créer une tâche qui {TaskContent} 
+- créer une tâche pour {TaskContent} 
+- Ajouter une tâche à {TaskContent} 
+- Ajouter à faire cela {TaskContent} 
+- créer à faire pour {TaskContent} 
+- Ajouter une tâche qui {TaskContent} 
+- Ajouter {TaskContent} à mon dos
+- créer une tâche à {TaskContent} 
+- Ajouter {TaskContent} à ma liste d'épicerie
+- créer pour le faire {TaskContent} 
+- Ajouter {TaskContent} à mes tâches
+- Ajouter {TaskContent} à ma liste à faire
+- Ajouter {TaskContent} à ma liste de courses
+- créer un à faire pour {TaskContent} 
+- créer un pour le faire {TaskContent} 
+- Ajouter {TaskContent} à ma liste TODO
+- Ajouter un {TaskType} élément qui {TaskContent} 
+- Ajouter un à faire pour {TaskContent} 
+- Ajouter un pour le faire {TaskContent} 
+- supprimer pour le faire {TaskContent} 
+- me rappeler de {TaskContent} 
 
 ## DeleteToDo
 - pouvez-vous supprimer le troisième à faire?
-- pouvez-vous aider à supprimer  {ContainsAll=Tous} Tâches
+- pouvez-vous aider à supprimer {ContainsAll=Tous} Tâches
 - supprimer a à faire
 - supprimer une tâche à effectuer
-- Supprimer  {ContainsAll=Tous} 
-- Supprimer  {ContainsAll=Tous} Tâches
-- Supprimer  {ContainsAll=Tous} à dos
+- Supprimer {ContainsAll=Tous} 
+- Supprimer {ContainsAll=Tous} Tâches
+- Supprimer {ContainsAll=Tous} à dos
 - supprimer la première tâche
 - supprimer le quatrième à faire
 - Aidez-moi à supprimer le second
-- aide pour supprimer  {ContainsAll=Tous} à dos
-- Je veux supprimer  {ContainsAll=Tous} mon à faire
-- Je veux supprimer  {ContainsAll=Tous} à dos
+- aide pour supprimer {ContainsAll=Tous} à dos
+- Je veux supprimer {ContainsAll=Tous} mon à faire
+- Je veux supprimer {ContainsAll=Tous} à dos
 - Je veux supprimer la troisième tâche de faire
-- Je voudrais supprimer  {ContainsAll=Tous} mon à dos
+- Je voudrais supprimer {ContainsAll=Tous} mon à dos
 - s'il vous plaît supprimer une tâche
-- s'il vous plaît aider à supprimer  {ContainsAll=Tous} mon à dos
+- s'il vous plaît aider à supprimer {ContainsAll=Tous} mon à dos
 - s'il vous plaît supprimer un à faire
 - s'il vous plaît supprimer la deuxième tâche
 - pls supprimer une tâche de faire
 - pls supprimer la troisième tâche
-- Retirer  {ContainsAll=Tous} 
-- Retirer  {ContainsAll=Tous} Chien
-- Retirer  {ContainsAll=Tous} Tâches
-- Retirer  {ContainsAll=Tous} à dos
-- Supprimez la tâche qui  {TaskContent} 
-- supprimer le faire  {TaskContent} 
-- supprimer la tâche  {TaskContent} 
-- supprimer le pour le faire  {TaskContent} 
-- supprimer pour le faire  {TaskContent} 
-- supprimer la tâche  {TaskContent} 
-- supprimer la tâche qui  {TaskContent} 
-- supprimer le pour le faire  {TaskContent} 
-- supprimer le faire  {TaskContent} 
-- supprimer la tâche  {TaskContent} 
-- Supprimez la tâche qui  {TaskContent} 
-- supprimer la tâche qui  {TaskContent} 
-- supprimer pour faire  {TaskContent} 
-- supprimer la tâche  {TaskContent} 
-- supprimer pour faire  {TaskContent} 
+- Retirer {ContainsAll=Tous} 
+- Retirer {ContainsAll=Tous} Chien
+- Retirer {ContainsAll=Tous} Tâches
+- Retirer {ContainsAll=Tous} à dos
+- Supprimez la tâche qui {TaskContent} 
+- supprimer le faire {TaskContent} 
+- supprimer la tâche {TaskContent} 
+- supprimer le pour le faire {TaskContent} 
+- supprimer la tâche qui {TaskContent} 
+- supprimer pour faire {TaskContent} 
 
 ## MarkToDo
 - pouvez-vous aider à marquer le second
-- Complet  {ContainsAll=Tous} 
-- Complet  {ContainsAll=Tous} Tâches
-- Complet  {ContainsAll=Tous} à dos
+- Complet {ContainsAll=Tous} 
+- Complet {ContainsAll=Tous} Tâches
+- Complet {ContainsAll=Tous} à dos
 - J'ai terminé le troisième à faire
-- Je veux marquer  {ContainsAll=Tous} mon dos comme complet
-- Je tiens à souligner  {ContainsAll=Tous} comme complet
-- Je tiens à les marquer  {ContainsAll=Tous} comme complet
-- Marque  {ContainsAll=Tous} mon to dos terminé
+- Je veux marquer {ContainsAll=Tous} mon dos comme complet
+- Je tiens à souligner {ContainsAll=Tous} comme complet
+- Je tiens à les marquer {ContainsAll=Tous} comme complet
+- Marque {ContainsAll=Tous} mon to dos terminé
 - marquer le troisième comme complet
 - Veuillez compléter la cinquième tâche
 - s'il vous plaît marquer la première tâche comme terminée
-- marquer la tâche  {TaskContent} comme terminé
-- tâche complète  {TaskContent} 
-- Marque  {TaskContent} comme terminé
-- tâche de marque  {TaskContent} comme complet
-- Marque  {TaskContent} comme terminé
-- marquer la tâche  {TaskContent} comme terminé
-- tâche de marque  {TaskContent} comme terminé
-- marquer la tâche  {TaskContent} comme fait
-- Marque  {TaskContent} comme complet
-- Marque  {TaskContent} comme fait
-- terminer la tâche  {TaskContent} 
-- marquer la tâche  {TaskContent} comme complet
-- tâche de marque  {TaskContent} comme fait
-- tâche de marque  {TaskContent} comme terminé
+- marquer la tâche {TaskContent} comme terminé
+- tâche complète {TaskContent} 
+- Marque {TaskContent} comme terminé
+- tâche de marque {TaskContent} comme complet
+- tâche de marque {TaskContent} comme terminé
+- marquer la tâche {TaskContent} comme fait
+- Marque {TaskContent} comme complet
+- Marque {TaskContent} comme fait
+- terminer la tâche {TaskContent} 
+- marquer la tâche {TaskContent} comme complet
+- tâche de marque {TaskContent} comme fait
 
 ## ShowToDo
-- pouvez-vous montrer mon  {TaskType=Épicerie} Liste?
-- pouvez-vous montrer mon  {TaskType=Shopping} Articles
-- pouvez-vous montrer mon  {TaskType=Shopping} Liste?
-- pouvez-vous montrer mon  {TaskType=à dos} ?
-- lire mon  {TaskType=Épicerie} Liste
-- lire mon  {TaskType=Shopping} Liste
-- lire mon  {TaskType=à faire} Liste
-- lire mon  {TaskType=Épicerie} Liste
-- lire mon  {TaskType=Shopping} Liste
-- lire mon  {TaskType=à dos} 
-- lire mon  {TaskType=à faire est} 
-- montrer mon  {TaskType=Shopping} Articles
-- montrer mon  {TaskType=Tous} Articles
-- montrer mon  {TaskType=Tous} Liste
-- montrer mon  {TaskType=Tous} 
-- Montrer  {TaskType=Tous} Articles
-- Montrer  {TaskType=Tous} Liste
-- qu'en est-il de mon  {TaskType=Épicerie} Liste
-- qu'en est-il de mon  {TaskType=Shopping} Liste?
-- qu'en est-il de mon  {TaskType=Tous} Liste
-- Quels sont mes  {TaskType=Épicerie} Liste
-- Quels sont mes  {TaskType=Shopping} Liste
-- Quels sont mes  {TaskType=à dos} 
+- pouvez-vous montrer mon {TaskType=Épicerie} Liste?
+- pouvez-vous montrer mon {TaskType=Shopping} Articles
+- pouvez-vous montrer mon {TaskType=Shopping} Liste?
+- pouvez-vous montrer mon {TaskType=à dos} ?
+- lire mon {TaskType=Épicerie} Liste
+- lire mon {TaskType=Shopping} Liste
+- lire mon {TaskType=à faire} Liste
+- lire mon {TaskType=Épicerie} Liste
+- lire mon {TaskType=Shopping} Liste
+- lire mon {TaskType=à dos} 
+- lire mon {TaskType=à faire est} 
+- montrer mon {TaskType=Shopping} Articles
+- montrer mon {TaskType=Tous} Articles
+- montrer mon {TaskType=Tous} Liste
+- montrer mon {TaskType=Tous} 
+- Montrer {TaskType=Tous} Articles
+- Montrer {TaskType=Tous} Liste
+- qu'en est-il de mon {TaskType=Épicerie} Liste
+- qu'en est-il de mon {TaskType=Shopping} Liste?
+- qu'en est-il de mon {TaskType=Tous} Liste
+- Quels sont mes {TaskType=Épicerie} Liste
+- Quels sont mes {TaskType=Shopping} Liste
+- Quels sont mes {TaskType=à dos} 
 
 
 > # Entity definitions

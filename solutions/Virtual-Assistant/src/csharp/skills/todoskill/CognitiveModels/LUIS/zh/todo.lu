@@ -2,56 +2,56 @@
 > # Intent definitions
 
 ## AddToDo
-- 保存一个 {TaskType=所有}
-- 刚想到一个新的 {TaskType=所有}
-- 创建新 {TaskType=要做}
-- 另一个 {TaskType=任务}
-- 另一个 {TaskType=要做}
+- 保存一个 {TaskType=所有} 
+- 刚想到一个新的 {TaskType=所有} 
+- 创建新 {TaskType=要做} 
+- 另一个 {TaskType=任务} 
+- 另一个 {TaskType=要做} 
 - 可以添加一个 {TaskType=所有} 给我的
 - 可以添加一个 {TaskType=购物} 我的物品？
-- 我只是想到了一个 {TaskType=要做}
+- 我只是想到了一个 {TaskType=要做} 
 - 把鞋子加到我的 {TaskType=购物} 列表
-- 添加一个 {TaskType=任务} 买牛奶
-- 添加一个 {TaskType=所有}
+- 添加一个 {TaskType=任务}  买牛奶
+- 添加一个 {TaskType=所有} 
 - 添加一个 {TaskType=所有} 给我的
 - 添加一个 {TaskType=杂货店} 项目
-- 添加一个 {TaskType=要做}
+- 添加一个 {TaskType=要做} 
 - 添加一个 {TaskType=要做} 给我的
 - 添加一个 {TaskType=要做} 项目
 - 添加一个 {TaskType=要做的事} 给我的
-- 添加另一个 {TaskType=任务}
-- 添加另一个 {TaskType=要做}
-- 添加新 {TaskType=任务}
+- 添加另一个 {TaskType=任务} 
+- 添加另一个 {TaskType=要做} 
+- 添加新 {TaskType=任务} 
 - 添加牛奶到我的 {TaskType=杂货店} 列表
 - 请添加一个 {TaskType=所有} 项目
 - 添加 {TaskContent} 到我要做的列表
-- 添加任务, {TaskContent}
+- 添加任务, {TaskContent} 
 - 添加 {TaskContent} 到我的杂货清单
-- 添加一个 {TaskType} 项, {TaskContent}
-- 添加一项 {TaskContent}
-- 添加要执行的操作以 {TaskContent}
+- 添加一个 {TaskType} 项, {TaskContent} 
+- 添加一项 {TaskContent} 
+- 添加要执行的操作以 {TaskContent} 
 - 添加 {TaskContent} 到我的 dos
-- 创建此操作 {TaskContent}
-- 创建任务, {TaskContent}
-- 创建以执行 {TaskContent}
-- 提醒我 {TaskContent}
+- 创建此操作 {TaskContent} 
+- 创建任务, {TaskContent} 
+- 创建以执行 {TaskContent} 
+- 提醒我 {TaskContent} 
 - 添加 {TaskContent} 到我的购物清单
-- 添加 a 以执行该操作 {TaskContent}
+- 添加 a 以执行该操作 {TaskContent} 
 - 添加 {TaskContent} 到我的任务
-- 添加此操作 {TaskContent}
-- 创建任务以 {TaskContent}
-- 添加到 {TaskContent}
-- 删除以执行该操作 {TaskContent}
-- 创建要执行的操作以 {TaskContent}
-- 创建一个任务, {TaskContent}
-- 提醒我, {TaskContent}
+- 添加此操作 {TaskContent} 
+- 创建任务以 {TaskContent} 
+- 添加到 {TaskContent} 
+- 删除以执行该操作 {TaskContent} 
+- 创建要执行的操作以 {TaskContent} 
+- 创建一个任务, {TaskContent} 
+- 提醒我, {TaskContent} 
 - 添加 {TaskContent} 到我的待办事项列表
 
 
 ## DeleteToDo
 - 你能删掉第三个吗？
 - 你能帮助删除 {ContainsAll=所有} 任务
-- 删除 {ContainsAll=所有}
+- 删除 {ContainsAll=所有} 
 - 删除 {ContainsAll=所有} 任务
 - 删除 {ContainsAll=所有} 到 dos
 - 删除 {ContainsAll=所有} 狗
@@ -70,16 +70,16 @@
 - 请删除第二个任务
 - 请删除要执行的操作
 - 请帮助删除 {ContainsAll=所有} 我的 dos
-- 移除要执行的操作, {TaskContent}
-- 删除任务 {TaskContent}
-- 移除以执行该操作 {TaskContent}
-- 删除要执行的操作 {TaskContent}
-- 删除以执行 {TaskContent}
+- 移除要执行的操作, {TaskContent} 
+- 删除任务 {TaskContent} 
+- 移除以执行该操作 {TaskContent} 
+- 删除要执行的操作 {TaskContent} 
+- 删除以执行 {TaskContent} 
 
 
 ## MarkToDo
 - 你能帮我标记第二个吗？
-- 完成 {ContainsAll=所有}
+- 完成 {ContainsAll=所有} 
 - 完成 {ContainsAll=所有} 任务
 - 完成 {ContainsAll=所有} 到 dos
 - 将第三个标记为完整
@@ -97,7 +97,7 @@
 - 标记任务 {TaskContent} 如完成
 - 马克 {TaskContent} 完成后
 - 马克 {TaskContent} 如完成
-- 完成任务 {TaskContent}
+- 完成任务 {TaskContent} 
 - 马克 {TaskContent} 为完整
 
 
@@ -105,7 +105,7 @@
 
 
 ## ShowToDo
-- 什么是我 {TaskType=到 dos}
+- 什么是我 {TaskType=到 dos} 
 - 什么是我 {TaskType=杂货店} 列表
 - 什么是我 {TaskType=购物} 列表
 - 你能告诉我 {TaskType=到 dos} ?
@@ -117,13 +117,13 @@
 - 我的 {TaskType=购物} 列表？
 - 显示 {TaskType=所有} 列表
 - 显示 {TaskType=所有} 项目
-- 显示我 {TaskType=所有}
+- 显示我 {TaskType=所有} 
 - 显示我 {TaskType=所有} 列表
 - 显示我 {TaskType=所有} 项目
 - 显示我 {TaskType=购物} 项目
-- 读出我 {TaskType=到 dos}
+- 读出我 {TaskType=到 dos} 
 - 读出我 {TaskType=杂货店} 列表
-- 读出我 {TaskType=要做的}
+- 读出我 {TaskType=要做的} 
 - 读出我 {TaskType=购物} 列表
 - 读我 {TaskType=杂货店} 列表
 - 读我 {TaskType=要做} 列表
