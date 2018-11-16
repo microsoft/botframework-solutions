@@ -22,5 +22,12 @@ namespace EmailSkill
         /// <param name="name">The person's name.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         Task<List<User>> GetUserAsync(string name);
+
+        /// <summary>
+        /// Get contacts from your organization.
+        /// </summary>
+        /// <param name="name">The contact's name.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        Task<List<Contact>> GetContactsAsync(string name);
     }
 }

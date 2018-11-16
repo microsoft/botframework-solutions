@@ -2,11 +2,11 @@
   "ReadToDoTasks": {
     "replies": [
       {
-        "text": "第一个 {taskCount} 是：",
-        "speak": "第一个 {taskCount} 是："
+        "text": "前 {taskCount} 个是：",
+        "speak": "前 {taskCount} 个是："
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "ignoringInput"
   },
   "ShowNextToDoTasks": {
     "replies": [
@@ -15,7 +15,7 @@
         "speak": "您可以选择下列操作："
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "ignoringInput"
   },
   "ShowPreviousToDoTasks": {
     "replies": [
@@ -24,7 +24,7 @@
         "speak": "正在显示您的事项表："
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "ignoringInput"
   },
   "ShowingMoreTasks": {
     "replies": [

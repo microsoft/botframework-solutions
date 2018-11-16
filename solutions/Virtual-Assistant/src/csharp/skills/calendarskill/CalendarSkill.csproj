@@ -133,6 +133,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>UpdateEventResponses.cs</LastGenOutput>
     </None>
+    <None Update="ServiceClients\WindowsIanaMapping">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

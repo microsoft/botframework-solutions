@@ -17,7 +17,7 @@ namespace ToDoSkill
     public class ShowToDoItemDialog : ToDoSkillDialog
     {
         public ShowToDoItemDialog(
-            SkillConfiguration services,
+            ISkillConfiguration services,
             IStatePropertyAccessor<ToDoSkillState> accessor,
             ITaskService serviceManager)
             : base(nameof(ShowToDoItemDialog), services, accessor, serviceManager)
@@ -66,7 +66,7 @@ namespace ToDoSkill
                 }
 
                 var topIntent = state.LuisResult?.TopIntent().intent;
-                if (topIntent == ToDo.Intent.ShowToDo || topIntent == ToDo.Intent.None)
+                if (topIntent == ToDo.Intent.ShowToDo)
                 {
                     var service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
                     state.AllTasks = await service.GetTasksAsync(state.ListType);
@@ -83,7 +83,7 @@ namespace ToDoSkill
                 else
                 {
                     Attachment toDoListAttachment = null;
-                    if (topIntent == ToDo.Intent.ShowToDo || topIntent == ToDo.Intent.None)
+                    if (topIntent == ToDo.Intent.ShowToDo)
                     {
                         toDoListAttachment = ToAdaptiveCardAttachmentForShowToDos(
                             state.Tasks,
@@ -111,8 +111,7 @@ namespace ToDoSkill
                     var toDoListReply = sc.Context.Activity.CreateReply();
                     toDoListReply.Attachments.Add(toDoListAttachment);
                     await sc.Context.SendActivityAsync(toDoListReply);
-                    if ((topIntent == ToDo.Intent.ShowToDo || topIntent == ToDo.Intent.None)
-                        && allTasksCount > (state.ShowTaskPageIndex + 1) * state.PageSize)
+                    if (topIntent == ToDo.Intent.ShowToDo && allTasksCount > (state.ShowTaskPageIndex + 1) * state.PageSize)
                     {
                         await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ShowToDoResponses.ShowingMoreTasks));
                     }

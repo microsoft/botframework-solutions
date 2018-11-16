@@ -69,6 +69,7 @@ namespace EmailSkill
             {
                 var result = await luisService.RecognizeAsync<Email>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
+                var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
 
                 var skillOptions = new EmailSkillDialogOptions
                 {
@@ -105,10 +106,17 @@ namespace EmailSkill
 
                     case Email.Intent.None:
                         {
-                            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(EmailSharedResponses.DidntUnderstandMessage));
-                            if (_skillMode)
+                            if (generalTopIntent == General.Intent.Next || generalTopIntent == General.Intent.Previous)
                             {
-                                await CompleteAsync(dc);
+                                await dc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
+                            }
+                            else
+                            {
+                                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(EmailSharedResponses.DidntUnderstandMessage));
+                                if (_skillMode)
+                                {
+                                    await CompleteAsync(dc);
+                                }
                             }
 
                             break;
@@ -281,7 +289,7 @@ namespace EmailSkill
             AddDialog(new SendEmailDialog(_services, _stateAccessor, _dialogStateAccessor, _serviceManager));
             AddDialog(new ShowEmailDialog(_services, _stateAccessor, _dialogStateAccessor, _serviceManager));
             AddDialog(new ReplyEmailDialog(_services, _stateAccessor, _dialogStateAccessor, _serviceManager));
-            AddDialog(new CancelDialog());
+            AddDialog(new CancelDialog(_stateAccessor));
         }
 
         private class Events

@@ -9,14 +9,14 @@ The Virtual Assistant solution is under ongoing development within an open-sourc
 Follow the instructions below to build, deploy and configure your Assistant.
 
 ### Prerequisites
-- - Ensure you have updated [.NET Core](https://www.microsoft.com/net/download) to the latest version.
+- Ensure you have updated [.NET Core](https://www.microsoft.com/net/download) to the latest version.
 - [Node.js](https://nodejs.org/) version 8.5 or higher.
 - Install the Azure Bot Service command line (CLI) tools. It's important to do this even if you have earlier versions as the Virtual Assistant makes use of new deployment capabilities.
 
 ```shell
 npm install -g botdispatch chatdown ludown luis-apis luisgen msbot qnamaker  
 ```
-- Install the Azure Command Line Tools (CLI) from [here](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)
+- Install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)
 
 - Install the Az Extension for Bot Service
 ```shell
@@ -24,7 +24,7 @@ az extension add -n botservice
 ```
 
 - Retrieve your LUIS Authoring Key
-  - Review [this](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation page for the correct LUIS portal for the region you plan to deploy to. Note that www.luis.ai refers to the US region and an authoring key retrieved from this portal will not work with a europe deployment. 
+   - Review the [LUIS regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation page for the correct LUIS portal for the region you plan to deploy to. Note that www.luis.ai refers to the US region and an authoring key retrieved from this portal will not work with a europe deployment. 
    - Once signed in click on your name in the top right hand corner.
    - Choose Settings and make a note of the Authoring Key for the next step.
 
@@ -78,9 +78,14 @@ az account set --subscription "YOUR_SUBSCRIPTION_NAME"
 
 Your Virtual Assistant project has a deployment recipe enabling the `msbot clone services` command to automate deployment of all the above services into your Azure subscription and ensure the .bot file in your project is updated with all of the services including keys enabling seamless operation of your Virtual Assistant.
 
-To deploy your Virtual Assistant including all dependencies - e.g. CosmosDb, Application Insights, etc. run the following command from a command prompt within your project folder. Ensure you update the authoring key from the previous step and choose the Azure datacenter location you wish to use (e.g. westus or westeurope). Ensure the LUIS authoring key retrieved on the previous step is for the region you specify below (e.g. westus for luis.ai or westeurope for eu.luis.ai)
+To deploy your Virtual Assistant including all dependencies - e.g. CosmosDb, Application Insights, etc. run the following command from a command prompt within your project folder. Ensure you update the authoring key from the previous step and choose the Azure datacenter location you wish to use (e.g. westus or westeurope). You must check that the LUIS authoring key retrieved on the previous step is for the region you specify below (e.g. westus for luis.ai or westeurope for eu.luis.ai)
+
+The first command prepares the deployment scripts in English from the source LU files and must be performed before msbot clone. Other language deployments are available depending on your scenario and we are working on a combined multi-language architecture.
+
+Ensure you open a command prompt and navigate to the assistant directory before running these commands.
 
 ```shell
+DeploymentScripts\en\update_en.bat
 msbot clone services --name "MyCustomAssistantName" --luisAuthoringKey "YOUR_AUTHORING_KEY" --folder "DeploymentScripts\en\msbotClone" --location "YOUR_REGION"
 ```
 
@@ -107,24 +112,8 @@ The msbot tool will outline the deployment plan including location and SKU. Ensu
 
 ## Skill Configuration
 
-The Virtual Assistant Solution is fully integrated with all available skills out of the box. Skill configuration can be found in your appSettings.json file. An example of the Skill Configuration entries is shown below for reference.
+The Virtual Assistant Solution is fully integrated with all available skills out of the box. Skill configuration can be found in your appSettings.json file and is detailed further in the [Adding A Skill] documentation](virtualassistant-addingaskill.md)
 
-```
-"skills": [
-    {
-      "type": "skill",
-      "id": "calendarSkill",
-      "name": "calendarSkill",
-      "assembly": "CalendarSkill.CalendarSkill, CalendarSkill, Version=1.0.0.0, Culture=neutral",
-      "dispatchIntent": "l_Calendar",
-      "authConnectionName": "",
-      "luisServiceId": "calendar",
-      "parameters": [
-        "IPA.Timezone"
-      ]
-    }
-]
-```
 ## Skill Authentication
 
 If you wish to make use of the Calendar, Email and Task Skills you need to configure an Authentication Connection enabling uses of your Assistant to authenticate against services such as Office 365 and securely store a token which can be retrieved by your assistant when a user asks a question such as *"What's my day look like today"* to then use against an API like Microsoft Graph.
@@ -135,7 +124,7 @@ The [Add Authentication to your bot](https://docs.microsoft.com/en-us/azure/bot-
 - Under Platforms, click Add Platform.
   - In the Add Platform pop-up, click Web.
   - Leave Allow Implicit Flow checked.
-  - For Redirect URL, enter https://token.botframework.com/.auth/web/redirect
+  - For Redirect URL, enter `https://token.botframework.com/.auth/web/redirect`
   - Leave Logout URL blank.
 - Under Microsoft Graph Permissions, you can need to add additional *delegated* permissions.
 - Each of the Skills require a specific set of Scopes, refer to the documentation for each skill or use the following list of Scopes that contain the scopes needed for all skills. 

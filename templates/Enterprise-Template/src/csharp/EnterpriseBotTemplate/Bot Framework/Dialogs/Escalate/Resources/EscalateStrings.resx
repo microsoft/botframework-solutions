@@ -118,6 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PHONE_INFO" xml:space="preserve">
-    <value>Our agents are available 24/7 at 1(800)555-1234.</value>
+    <value>Our agents are available 24/7 at 1(800)555-1234. Or connect with us through Microsoft Teams.</value>
   </data>
 </root>

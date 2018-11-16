@@ -2,9 +2,11 @@
 // Licensed under the MIT License.
 
 using $safeprojectname$.Dialogs.SignIn.Resources;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.TemplateManager;
+using Microsoft.Bot.Schema;
 
-namespace $safeprojectname$
+namespace $safeprojectname$.Dialogs.Shared
 {
     public class SignInResponses : TemplateManager
     {
@@ -20,15 +22,15 @@ namespace $safeprojectname$
             {
                 {
                     SignInPrompt,
-                    (context, data) => SignInStrings.PROMPT
+                    (context, data) => CreateActivityFromString(SignInStrings.PROMPT, inputHint:InputHints.AcceptingInput)
                 },
                 {
                     Succeeded,
-                    (context, data) => string.Format(SignInStrings.SUCCEEDED, data.name)
+                    (context, data) => CreateActivityFromString(string.Format(SignInStrings.SUCCEEDED, data.name))
                 },
                 {
                     Failed,
-                    (context, data) => SignInStrings.FAILED
+                    (context, data) => CreateActivityFromString(SignInStrings.FAILED)
                 },
             },
             ["en"] = new TemplateIdMap { },
@@ -38,6 +40,11 @@ namespace $safeprojectname$
         public SignInResponses()
         {
             this.Register(new DictionaryRenderer(_responseTemplates));
+        }
+
+        private static Activity CreateActivityFromString(string message, string inputHint = InputHints.IgnoringInput)
+        {
+            return MessageFactory.Text(message, ssml: message, inputHint:inputHint);
         }
     }
 }

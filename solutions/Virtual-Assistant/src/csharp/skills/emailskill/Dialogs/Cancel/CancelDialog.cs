@@ -3,6 +3,7 @@
 
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 
 namespace EmailSkill
@@ -14,11 +15,13 @@ namespace EmailSkill
 
         // Fields
         private static CancelResponses _responder = new CancelResponses();
+        private IStatePropertyAccessor<EmailSkillState> _accessor;
 
-        public CancelDialog()
+        public CancelDialog(IStatePropertyAccessor<EmailSkillState> accessor)
             : base(nameof(CancelDialog))
         {
             InitialDialogId = nameof(CancelDialog);
+            _accessor = accessor;
 
             var cancel = new WaterfallStep[]
             {
@@ -45,6 +48,9 @@ namespace EmailSkill
             {
                 // If user chose to cancel
                 await _responder.ReplyWith(outerDc.Context, CancelResponses._cancelConfirmed);
+
+                var state = await _accessor.GetAsync(outerDc.Context);
+                state.Clear();
 
                 // Cancel all in outer stack of component i.e. the stack the component belongs to
                 return await outerDc.CancelAllDialogsAsync();
