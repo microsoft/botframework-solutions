@@ -17,9 +17,9 @@ namespace CalendarSkillTest.Flow
         public async Task Test_CalendarDelete()
         {
             await this.GetTestFlow()
-                .Send(GetTriggerActivity())
-                .AssertReplyOneOf(this.WelcomePrompt())
                 .Send("what is my next meeting")
+                .AssertReply(this.ShowAuth())
+                .Send(new Activity(ActivityTypes.Event, name: "tokens/response", value: this.GetTokenResponse()))
                 .AssertReplyOneOf(this.NextMeetingPrompt())
                 .AssertReply(this.ShowCalendarList())
                 .StartTestAsync();
@@ -33,6 +33,14 @@ namespace CalendarSkillTest.Flow
         private string[] NextMeetingPrompt()
         {
             return this.ParseReplies(NextMeetingResponses.ShowNextMeetingMessage.Replies, new StringDictionary());
+        }
+
+        private Action<IActivity> ShowAuth()
+        {
+            return activity =>
+            {
+                var messageActivity = activity.AsMessageActivity();
+            };
         }
 
         private Action<IActivity> ShowCalendarList()

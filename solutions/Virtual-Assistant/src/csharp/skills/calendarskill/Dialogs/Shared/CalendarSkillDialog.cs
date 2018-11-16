@@ -112,10 +112,6 @@ namespace CalendarSkill
                     // Wait for the tokens/response event
                     return await sc.PromptAsync(SkillModeAuth, new PromptOptions());
                 }
-                else if (sc.Context.Activity.ChannelId == "test")
-                {
-                    return await sc.NextAsync();
-                }
                 else
                 {
                     return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions());

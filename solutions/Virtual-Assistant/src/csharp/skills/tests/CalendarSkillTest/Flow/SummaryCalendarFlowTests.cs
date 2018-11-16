@@ -5,6 +5,7 @@ using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Dialogs.Summary.Resources;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CalendarSkillTest.Flow
@@ -16,9 +17,9 @@ namespace CalendarSkillTest.Flow
         public async Task Test_CalendarSummary()
         {
             await this.GetTestFlow()
-                .Send(GetTriggerActivity())
-                .AssertReplyOneOf(this.WelcomePrompt())
                 .Send("What should I do today")
+                .AssertReply(this.ShowAuth())
+                .Send(new Activity(ActivityTypes.Event, name: "tokens/response", value: this.GetTokenResponse()))
                 .AssertReplyOneOf(this.FoundEventPrompt())
                 .AssertReply(this.ShowCalendarList())
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
@@ -55,6 +56,14 @@ namespace CalendarSkillTest.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
+            };
+        }
+
+        private Action<IActivity> ShowAuth()
+        {
+            return activity =>
+            {
+                var messageActivity = activity.AsMessageActivity();
             };
         }
 

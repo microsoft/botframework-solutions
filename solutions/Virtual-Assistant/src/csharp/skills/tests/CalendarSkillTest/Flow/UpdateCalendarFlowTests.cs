@@ -16,9 +16,9 @@ namespace CalendarSkillTest.Flow
         public async Task Test_CalendarCreate()
         {
             await this.GetTestFlow()
-                .Send(GetTriggerActivity())
-                .AssertReplyOneOf(this.WelcomePrompt())
                 .Send("update meeting")
+                .AssertReply(this.ShowAuth())
+                .Send(new Activity(ActivityTypes.Event, name: "tokens/response", value: this.GetTokenResponse()))
                 .AssertReplyOneOf(this.AskForTitleTimePrompt())
                 .Send("test subject")
                 .AssertReplyOneOf(this.AskForNewTimePrompt())
@@ -42,6 +42,14 @@ namespace CalendarSkillTest.Flow
         private string[] AskForNewTimePrompt()
         {
             return this.ParseReplies(UpdateEventResponses.NoNewTime.Replies, new StringDictionary());
+        }
+
+        private Action<IActivity> ShowAuth()
+        {
+            return activity =>
+            {
+                var messageActivity = activity.AsMessageActivity();
+            };
         }
 
         private Action<IActivity> ShowCalendarList()

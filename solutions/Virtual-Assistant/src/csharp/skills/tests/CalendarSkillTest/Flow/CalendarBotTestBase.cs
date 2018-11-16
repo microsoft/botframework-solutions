@@ -7,6 +7,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
 using Microsoft.Bot.Solutions.Skills;
@@ -50,24 +51,12 @@ namespace CalendarSkillTest.Flow
             this.BotResponseBuilder.AddFormatter(new TextBotResponseFormatter());
         }
 
-        public Activity GetTriggerActivity()
+        public ProviderTokenResponse GetTokenResponse()
         {
-            var triggerActivity = new Activity()
-            {
-                Type = ActivityTypes.ConversationUpdate,
-                MembersAdded = new List<ChannelAccount>()
-                {
-                    {
-                        new ChannelAccount()
-                        {
-                            Id = "test",
-                            Name = "Test"
-                        }
-                    }
-                }
-            };
+            ProviderTokenResponse providerTokenResponse = new ProviderTokenResponse();
+            providerTokenResponse.TokenResponse = new TokenResponse(token: "test");
 
-            return triggerActivity;
+            return providerTokenResponse;
         }
 
         public TestFlow GetTestFlow()
@@ -89,7 +78,7 @@ namespace CalendarSkillTest.Flow
 
         public override IBot BuildBot()
         {
-            return new CalendarSkill.CalendarSkill(this.Services, this.ConversationState, this.UserState,  this.ServiceManager);
+            return new CalendarSkill.CalendarSkill(this.Services, this.ConversationState, this.UserState,  this.ServiceManager, true);
         }
     }
 }

@@ -16,9 +16,9 @@ namespace CalendarSkillTest.Flow
         public async Task Test_CalendarDelete()
         {
             await this.GetTestFlow()
-                .Send(GetTriggerActivity())
-                .AssertReplyOneOf(this.WelcomePrompt())
                 .Send("delete meeting")
+                .AssertReply(this.ShowAuth())
+                .Send(new Activity(ActivityTypes.Event, name: "tokens/response", value: this.GetTokenResponse()))
                 .AssertReplyOneOf(this.AskForDeletePrompt())
                 .Send("test subject")
                 .AssertReply(this.ShowCalendarList())
@@ -40,6 +40,14 @@ namespace CalendarSkillTest.Flow
         private string[] DeleteEventPrompt()
         {
             return this.ParseReplies(DeleteEventResponses.EventDeleted.Replies, new StringDictionary());
+        }
+
+        private Action<IActivity> ShowAuth()
+        {
+            return activity =>
+            {
+                var messageActivity = activity.AsMessageActivity();
+            };
         }
 
         private Action<IActivity> ShowCalendarList()
