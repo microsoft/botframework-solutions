@@ -11,6 +11,7 @@ using $safeprojectname$.Dialogs.Shared;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Schema;
 
 namespace $safeprojectname$.Dialogs.Main
 {

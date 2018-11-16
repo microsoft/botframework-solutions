@@ -128,9 +128,14 @@ namespace CalendarSkill
 
                     var results = await GetEventsByTime(searchDate, state.StartTime, state.EndDate, state.EndTime, state.GetUserTimeZone(), calendarService);
                     var searchedEvents = new List<EventModel>();
+                    bool searchTodayMeeting = state.StartDate != null &&
+                        state.StartTime == null &&
+                        state.EndDate == null &&
+                        state.EndTime == null &&
+                        EventModel.IsSameDate(state.StartDate.Value, TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, state.GetUserTimeZone()));
                     foreach (var item in results)
                     {
-                        if (item.StartTime >= DateTime.UtcNow)
+                        if (!searchTodayMeeting || item.StartTime >= DateTime.UtcNow)
                         {
                             searchedEvents.Add(item);
                         }
