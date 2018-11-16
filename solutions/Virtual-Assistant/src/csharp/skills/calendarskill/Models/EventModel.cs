@@ -648,9 +648,18 @@ namespace CalendarSkill
                 }
             }
 
-            if (showDate)
+            if (showDate || !IsSameDate(eventItem.StartTime, eventItem.EndTime))
             {
-                textString += $"\n{TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone).ToString("dd-MM-yyyy")}";
+                var startDateString = TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone).ToString("dd-MM-yyyy");
+                var endDateString = TimeConverter.ConvertUtcToUserTime(eventItem.EndTime, timeZone).ToString("dd-MM-yyyy");
+                if (IsSameDate(eventItem.StartTime, eventItem.EndTime))
+                {
+                    textString += $"\n{startDateString}";
+                }
+                else
+                {
+                    textString += $"\n{startDateString} - {endDateString}";
+                }
             }
 
             if (eventItem.IsAllDay == true)
@@ -682,8 +691,13 @@ namespace CalendarSkill
                 Title = eventItem.Title,
                 Content = textString,
                 MeetingLink = eventItem.OnlineMeetingUrl,
-                Speak = $"{eventItem.Title} at {TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone).ToString("h:mm tt")}",
+                Speak = speakString,
             };
+        }
+
+        public static bool IsSameDate(DateTime dateTime1, DateTime dateTime2)
+        {
+            return dateTime1.Year == dateTime2.Year && dateTime1.Month == dateTime2.Month && dateTime1.Day == dateTime2.Day;
         }
 
         public string ToDurationString()
