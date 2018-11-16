@@ -46,8 +46,9 @@ namespace VirtualAssistant
             services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded."));
 
             // Initializes your bot service clients and adds a singleton that your Bot can access through dependency injection.
+            var languageModels = Configuration.GetSection("languageModels").Get<Dictionary<string, Dictionary<string, string>>>();
             var skills = Configuration.GetSection("skills").Get<List<SkillDefinition>>();
-            var connectedServices = new BotServices(botConfig, skills);
+            var connectedServices = new BotServices(botConfig, languageModels, skills);
             services.AddSingleton(sp => connectedServices);
 
             var defaultLocale = Configuration.GetSection("defaultLocale").Get<string>();
@@ -93,6 +94,7 @@ namespace VirtualAssistant
                 // Catches any errors that occur during a conversation turn and logs them to AppInsights.
                 options.OnTurnError = async (context, exception) =>
                 {
+                    // TODO: Localize this string
                     await context.SendActivityAsync("Sorry, it looks like something went wrong. Please try again.");
                     await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Virtual Assistant Error: {exception.Message} | {exception.StackTrace}"));
                     connectedServices.TelemetryClient.TrackException(exception);

@@ -35,49 +35,6 @@
       "name": "CustomAssistantCosmosDB",
       "database": "botstate-db",
       "collection": "botstate-collection"
-    },
-    {
-      "type": "luis",
-      "id": "general",
-      "name": "General"
-    },
-    {
-      "type": "luis",
-      "id": "calendar",
-      "name": "Calendar"
-    },
-    {
-      "type": "luis",
-      "id": "email",
-      "name": "Email"
-    },
-    {
-      "type": "luis",
-      "id": "todo",
-      "name": "ToDo"
-    },
-    {
-      "type": "luis",
-      "id": "pointofinterest",
-      "name": "PointOfInterest"
-    },
-    {
-      "type": "qna",
-      "id": "faq",
-      "name": "FAQ"
-    },
-    {
-      "type": "dispatch",
-      "id": "dispatch",
-      "name": "Dispatch",
-      "serviceIds": [
-        "general",
-        "calendar",
-        "email",
-        "todo",
-        "pointofinterest",
-        "faq"
-      ]
     }
   ]
 }

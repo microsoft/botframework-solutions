@@ -49,34 +49,34 @@
 - [l_ToDo](../../../../skills/todoskill/CognitiveModels/LUIS/en/todo.lu#DeleteToDo)
 - [l_ToDo](../../../../skills/todoskill/CognitiveModels/LUIS/en/todo.lu#MarkToDo)
 - [l_ToDo](../../../../skills/todoskill/CognitiveModels/LUIS/en/todo.lu#ShowToDo)
-- add to do to {TaskContent}
-- create task that {TaskContent}
-- create task to {TaskContent}
-- add a task to {TaskContent}
-- add to do that {TaskContent}
-- create to do to {TaskContent}
-- add task to {TaskContent}
-- add task that {TaskContent}
-- add a task that {TaskContent}
+- add to do to {TaskContent} 
+- create task that {TaskContent} 
+- create task to {TaskContent} 
+- add a task to {TaskContent} 
+- add to do that {TaskContent} 
+- create to do to {TaskContent} 
+- add task to {TaskContent} 
+- add task that {TaskContent} 
+- add a task that {TaskContent} 
 - add {TaskContent} to my to dos
-- create a task to {TaskContent}
+- create a task to {TaskContent} 
 - add {TaskContent} to my grocery list
-- create to do that {TaskContent}
+- create to do that {TaskContent} 
 - add {TaskContent} to my tasks
 - add {TaskContent} to my to do list
 - add {TaskContent} to my shopping list
-- create a to do to {TaskContent}
-- create a to do that {TaskContent}
+- create a to do to {TaskContent} 
+- create a to do that {TaskContent} 
 - add {TaskContent} to my todo list
-- create a task that {TaskContent}
-- add a {TaskType} item that {TaskContent}
-- remind me that {TaskContent}
-- add a to do to {TaskContent}
-- add a to do that {TaskContent}
-- delete to do that {TaskContent}
-- remind me to {TaskContent}
+- create a task that {TaskContent} 
+- add a {TaskType} item that {TaskContent} 
+- remind me that {TaskContent} 
+- add a to do to {TaskContent} 
+- add a to do that {TaskContent} 
+- delete to do that {TaskContent} 
+- remind me to {TaskContent} 
 - mark the task {TaskContent} as finished
-- complete task {TaskContent}
+- complete task {TaskContent} 
 - mark {TaskContent} as finished
 - mark task {TaskContent} as complete
 - mark {TaskContent} as completed
@@ -85,92 +85,92 @@
 - mark the task {TaskContent} as done
 - mark {TaskContent} as complete
 - mark {TaskContent} as done
-- complete the task {TaskContent}
+- complete the task {TaskContent} 
 - mark the task {TaskContent} as complete
 - mark task {TaskContent} as done
 - mark task {TaskContent} as finished
-- remove the task that {TaskContent}
-- remove the to do {TaskContent}
-- delete task {TaskContent}
-- remove the to do that {TaskContent}
-- remove to do that {TaskContent}
-- delete the task {TaskContent}
-- remove task that {TaskContent}
-- delete the to do that {TaskContent}
-- delete the to do {TaskContent}
-- remove task {TaskContent}
-- delete the task that {TaskContent}
-- delete task that {TaskContent}
-- remove to do {TaskContent}
-- remove the task {TaskContent}
-- delete to do {TaskContent}
+- remove the task that {TaskContent} 
+- remove the to do {TaskContent} 
+- delete task {TaskContent} 
+- remove the to do that {TaskContent} 
+- remove to do that {TaskContent} 
+- delete the task {TaskContent} 
+- remove task that {TaskContent} 
+- delete the to do that {TaskContent} 
+- delete the to do {TaskContent} 
+- remove task {TaskContent} 
+- delete the task that {TaskContent} 
+- delete task that {TaskContent} 
+- remove to do {TaskContent} 
+- remove the task {TaskContent} 
+- delete to do {TaskContent} 
 
 # l_PointOfInterest
 - [l_PointOfInterest](../../../../skills/pointofinterestskill/CognitiveModels/LUIS/en/poi_navigation_cancel_route.lu#NAVIGATION_CANCEL_ROUTE)
 - [l_PointOfInterest](../../../../skills/pointofinterestskill/CognitiveModels/LUIS/en/poi_navigation_find_poi.lu#NAVIGATION_FIND_POINTOFINTEREST)
 - [l_PointOfInterest](../../../../skills/pointofinterestskill/CognitiveModels/LUIS/en/poi_navigation_route_fromxtoy.lu#NAVIGATION_ROUTE_FROM_X_TO_Y)
-- actually cancel going to {KEYWORD}
-- actually do not go to {ADDRESS}
-- actually forget going to {ADDRESS}
-- actually never mind going to {ADDRESS}
+- actually cancel going to {KEYWORD} 
+- actually do not go to {ADDRESS} 
+- actually forget going to {ADDRESS} 
+- actually never mind going to {ADDRESS} 
 - cancel {KEYWORD} navi
-- cancel going to {KEYWORD} in {ADDRESS}
-- cancel navigating to a {KEYWORD}
-- cancel taking me to {ADDRESS} in {ADDRESS}
+- cancel going to {KEYWORD} in {ADDRESS} 
+- cancel navigating to a {KEYWORD} 
+- cancel taking me to {ADDRESS} in {ADDRESS} 
 - clear {KEYWORD} navi
-- clear going to {KEYWORD} in {ADDRESS}
-- clear going to {ADDRESS}
-- clear navigating to a {KEYWORD}
-- clear navigating to an {KEYWORD}
-- clear taking me to {ADDRESS} in {ADDRESS}
-- delete going to {KEYWORD} in {ADDRESS}
-- delete going to {ADDRESS}
-- delete navigating to a {KEYWORD}
-- delete navigating to an {KEYWORD}
+- clear going to {KEYWORD} in {ADDRESS} 
+- clear going to {ADDRESS} 
+- clear navigating to a {KEYWORD} 
+- clear navigating to an {KEYWORD} 
+- clear taking me to {ADDRESS} in {ADDRESS} 
+- delete going to {KEYWORD} in {ADDRESS} 
+- delete going to {ADDRESS} 
+- delete navigating to a {KEYWORD} 
+- delete navigating to an {KEYWORD} 
 - delete {KEYWORD} navi
-- delete taking me to {ADDRESS} in {ADDRESS}
-- do not navigate to a {KEYWORD}
-- do not navigate to an {KEYWORD}
-- do not take me to {ADDRESS}
-- don't navigate to a {KEYWORD}
-- don't navigate to an {KEYWORD}
-- don't take me to {ADDRESS}
+- delete taking me to {ADDRESS} in {ADDRESS} 
+- do not navigate to a {KEYWORD} 
+- do not navigate to an {KEYWORD} 
+- do not take me to {ADDRESS} 
+- don't navigate to a {KEYWORD} 
+- don't navigate to an {KEYWORD} 
+- don't take me to {ADDRESS} 
 - end {KEYWORD} navi
-- end going to {KEYWORD} in {ADDRESS}
-- end navigating to a {KEYWORD}
-- end taking me to {ADDRESS} in {ADDRESS}
+- end going to {KEYWORD} in {ADDRESS} 
+- end navigating to a {KEYWORD} 
+- end taking me to {ADDRESS} in {ADDRESS} 
 - forget {KEYWORD} navi
-- forget going to {KEYWORD} in {ADDRESS}
-- forget going to {ADDRESS}
-- forget navigating to a {KEYWORD}
-- forget navigating to an {KEYWORD}
-- forget taking me to {ADDRESS} in {ADDRESS}
+- forget going to {KEYWORD} in {ADDRESS} 
+- forget going to {ADDRESS} 
+- forget navigating to a {KEYWORD} 
+- forget navigating to an {KEYWORD} 
+- forget taking me to {ADDRESS} in {ADDRESS} 
 - get rid of {KEYWORD} navi
-- get rid of going to {ADDRESS}
-- get rid of going to {KEYWORD} in {ADDRESS}
-- get rid of navigating to a {KEYWORD}
-- get rid of navigating to an {KEYWORD}
-- get rid of taking me to {ADDRESS} in {ADDRESS}
+- get rid of going to {ADDRESS} 
+- get rid of going to {KEYWORD} in {ADDRESS} 
+- get rid of navigating to a {KEYWORD} 
+- get rid of navigating to an {KEYWORD} 
+- get rid of taking me to {ADDRESS} in {ADDRESS} 
 - never mind {KEYWORD} navi
-- never mind going to {KEYWORD} in {ADDRESS}
-- never mind navigating to a {KEYWORD}
-- never mind taking me to {ADDRESS} in {ADDRESS}
-- on second thought cancel going to {KEYWORD}
-- on second thought do not go to {ADDRESS}
-- on second thought don't go to {ADDRESS}
-- on second thought end going to {KEYWORD}
-- on second thought forget going to {ADDRESS}
-- on second thought never mind going to {ADDRESS}
+- never mind going to {KEYWORD} in {ADDRESS} 
+- never mind navigating to a {KEYWORD} 
+- never mind taking me to {ADDRESS} in {ADDRESS} 
+- on second thought cancel going to {KEYWORD} 
+- on second thought do not go to {ADDRESS} 
+- on second thought don't go to {ADDRESS} 
+- on second thought end going to {KEYWORD} 
+- on second thought forget going to {ADDRESS} 
+- on second thought never mind going to {ADDRESS} 
 - remove {KEYWORD} navi
-- remove going to {ADDRESS}
-- remove going to {KEYWORD} in {ADDRESS}
-- remove navigating to a {KEYWORD}
-- remove taking me to {ADDRESS} in {ADDRESS}
+- remove going to {ADDRESS} 
+- remove going to {KEYWORD} in {ADDRESS} 
+- remove navigating to a {KEYWORD} 
+- remove taking me to {ADDRESS} in {ADDRESS} 
 - stop {KEYWORD} navi
-- stop going to {ADDRESS}
-- stop going to {KEYWORD} in {ADDRESS}
-- stop navigating to a {KEYWORD}
-- stop taking me to {ADDRESS} in {ADDRESS}
+- stop going to {ADDRESS} 
+- stop going to {KEYWORD} in {ADDRESS} 
+- stop navigating to a {KEYWORD} 
+- stop taking me to {ADDRESS} in {ADDRESS} 
 
 # q_FAQ
 - [q_FAQ](../../QnA/en/faq.lu#?)

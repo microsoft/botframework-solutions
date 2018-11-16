@@ -9,5 +9,5 @@ call ludown parse toluis --in ../../assistant/CognitiveModels/LUIS/fr/general.lu
 call ludown parse toluis --in CognitiveModels/LUIS/fr/todo.lu -o DeploymentScripts/fr -n ToDo --out todo.luis
 call ludown parse toluis --in ../../assistant/CognitiveModels/LUIS/it/general.lu -o DeploymentScripts/it -n General --out general.luis
 call ludown parse toluis --in CognitiveModels/LUIS/it/todo.lu -o DeploymentScripts/it -n ToDo --out todo.luis
-call ludown parse toluis --in ../../assistant/CognitiveModels/LUIS/zh-hans/general.lu -o DeploymentScripts/zh-hans -n General --out general.luis
-call ludown parse toluis --in CognitiveModels/LUIS/zh-hans/todo.lu -o DeploymentScripts/zh-hans -n ToDo --out todo.luis
+call ludown parse toluis --in ../../assistant/CognitiveModels/LUIS/zh/general.lu -o DeploymentScripts/zh -n General --out general.luis
+call ludown parse toluis --in CognitiveModels/LUIS/zh/todo.lu -o DeploymentScripts/zh -n ToDo --out todo.luis

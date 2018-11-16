@@ -15,7 +15,7 @@ namespace Microsoft.Bot.Solutions.Skills
 
         public abstract CosmosDbStorageOptions CosmosDbOptions { get; set; }
 
-        public abstract Dictionary<string, IRecognizer> LuisServices { get; set; }
+        public abstract Dictionary<string, LocaleConfiguration> LocaleConfigurations { get; set; }
 
         public abstract Dictionary<string, object> Properties { get; set; }
     }

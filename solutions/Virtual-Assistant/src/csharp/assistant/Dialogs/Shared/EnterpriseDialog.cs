@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
@@ -27,8 +28,12 @@ namespace VirtualAssistant
 
         protected override async Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken)
         {
+            // get current activity locale
+            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            var localeConfig = _services.LocaleConfigurations[locale];
+
             // check luis intent
-            var luisService = _services.LuisServices["general"];
+            var luisService = localeConfig.LuisServices["general"];
             var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
             var intent = luisResult.TopIntent().intent;
 

@@ -9,5 +9,5 @@ call ludown parse toluis --in ../../assistant/CognitiveModels/LUIS/fr/general.lu
 call ludown parse toluis --in CognitiveModels/LUIS/fr/email.lu -o DeploymentScripts/fr -n Email --out email.luis
 call ludown parse toluis --in ../../assistant/CognitiveModels/LUIS/it/general.lu -o DeploymentScripts/it -n General --out general.luis
 call ludown parse toluis --in CognitiveModels/LUIS/it/email.lu -o DeploymentScripts/it -n Email --out email.luis
-call ludown parse toluis --in ../../assistant/CognitiveModels/LUIS/zh-hans/general.lu -o DeploymentScripts/zh-hans -n General --out general.luis
-call ludown parse toluis --in CognitiveModels/LUIS/zh-hans/email.lu -o DeploymentScripts/zh-hans -n Email --out email.luis
+call ludown parse toluis --in ../../assistant/CognitiveModels/LUIS/zh/general.lu -o DeploymentScripts/zh -n General --out general.luis
+call ludown parse toluis --in CognitiveModels/LUIS/zh/email.lu -o DeploymentScripts/zh -n Email --out email.luis
