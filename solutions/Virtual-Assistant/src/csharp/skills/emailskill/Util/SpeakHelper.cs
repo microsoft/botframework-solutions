@@ -25,7 +25,7 @@ namespace EmailSkill.Util
                 {
                     if (i == messages.Count - 1)
                     {
-                        speakString += CommonStrings.And + $" {messages[i].Subject} " + CommonStrings.From + $" {messages[i].Sender}";
+                        speakString += CommonStrings.And + $" {messages[i].Subject} " + CommonStrings.From + $" {messages[i].Sender.EmailAddress.Name}";
                     }
                     else
                     {
@@ -41,10 +41,31 @@ namespace EmailSkill.Util
         {
             string speakString = string.Empty;
 
-            //if (message != null)
-            //{
-            //    speakString = $"{message.Subject} from {message.Sender}";
-            //}
+            if (message != null)
+            {
+                speakString = $"{message.Subject}" + CommonStrings.From + $"{message.Sender.EmailAddress.Name}";
+            }
+
+            return speakString;
+        }
+
+        public static string ToSpeechEmailSendDetailString(string subjects, string toRecipients, string content)
+        {
+            string speakString = string.Empty;
+
+            speakString = subjects + CommonStrings.To + toRecipients + CommonStrings.Content + content;
+
+            return speakString;
+        }
+
+        public static string ToSpeechRecipientsString(IEnumerable<Recipient> recipients)
+        {
+            string speakString = string.Empty;
+
+            foreach (var recipient in recipients)
+            {
+                speakString += string.Join(" ", recipient.EmailAddress.Name);
+            }
 
             return speakString;
         }
@@ -57,7 +78,7 @@ namespace EmailSkill.Util
             {
                 if (message.Subject != null && message.Sender != null)
                 {
-                    speakString = $"{message.Subject} " + CommonStrings.From + $" {message.Sender}";
+                    speakString = $"{message.Subject} " + CommonStrings.From + $" {message.Sender.EmailAddress.Name}";
                 }
                 else if (message.Subject != null)
                 {

@@ -207,7 +207,7 @@
     "replies": [
       {
         "text": "I'm ready to send it. Please confirm the following: ",
-        "speak": "I'm ready to send it. Please confirm the following:"
+        "speak": "I'm ready to send it. Please confirm the following: {EmailDetails}"
       }
     ],
     "inputHint": "expectingInput"

@@ -142,7 +142,7 @@
     <value>de</value>
   </data>
   <data name="Important" xml:space="preserve">
-    <value>importante</value>
+    <value> importante</value>
   </data>
   <data name="More" xml:space="preserve">
     <value>más</value>
@@ -157,7 +157,7 @@
     <value>o</value>
   </data>
   <data name="Relevant" xml:space="preserve">
-    <value>relevante</value>
+    <value> relevante</value>
   </data>
   <data name="SpokenDateFormat" xml:space="preserve">
     <value>dddd dd 'de' MMMM</value>
@@ -184,7 +184,7 @@
     <value>mañana</value>
   </data>
   <data name="Unread" xml:space="preserve">
-    <value>leídos</value>
+    <value> leídos</value>
   </data>
   <data name="Yesterday" xml:space="preserve">
     <value>Ayer</value>

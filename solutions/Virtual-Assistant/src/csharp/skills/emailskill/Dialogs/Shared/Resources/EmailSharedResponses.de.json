@@ -251,7 +251,7 @@
     "replies": [
       {
         "text": "Ich bin bereit zum abschicken. Bitte bestätigen Sie folgendes: ",
-        "speak": "Ich bin bereit zum abschicken. Bitte bestätigen Sie folgendes: "
+        "speak": "Ich bin bereit zum abschicken. Bitte bestätigen Sie folgendes: {EmailDetails}"
       }
     ],
     "inputHint": "expectingInput"

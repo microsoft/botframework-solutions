@@ -283,14 +283,7 @@ namespace EmailSkill
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                if (state.Message.Count == 0)
-                {
-                    return await sc.BeginDialogAsync(Actions.UpdateSelectMessage);
-                }
-                else
-                {
-                    return await sc.NextAsync();
-                }
+                return await sc.BeginDialogAsync(Actions.UpdateSelectMessage);
             }
             catch (Exception ex)
             {
@@ -337,7 +330,13 @@ namespace EmailSkill
                     NameList = nameListString,
                     EmailContent = CommonStrings.Content + state.Content,
                 };
-                var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(EmailSharedResponses.ConfirmSend, "Dialogs/Shared/Resources/Cards/EmailWithOutButtonCard.json", emailCard, ResponseBuilder);
+
+                var speech = SpeakHelper.ToSpeechEmailSendDetailString(emailCard.Subject, emailCard.NameList, emailCard.EmailContent);
+                var stringToken = new StringDictionary
+                {
+                    { "EmailDetails", speech },
+                };
+                var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(EmailSharedResponses.ConfirmSend, "Dialogs/Shared/Resources/Cards/EmailWithOutButtonCard.json", emailCard, ResponseBuilder, stringToken);
 
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = replyMessage, RetryPrompt = sc.Context.Activity.CreateReply(EmailSharedResponses.ConfirmSendFailed, ResponseBuilder), });
             }

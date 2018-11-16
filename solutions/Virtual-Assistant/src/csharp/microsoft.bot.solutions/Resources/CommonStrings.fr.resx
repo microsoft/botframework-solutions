@@ -142,7 +142,7 @@
     <value>de</value>
   </data>
   <data name="Important" xml:space="preserve">
-    <value>important</value>
+    <value> important</value>
   </data>
   <data name="More" xml:space="preserve">
     <value>plus</value>
@@ -157,7 +157,7 @@
     <value>ou</value>
   </data>
   <data name="Relevant" xml:space="preserve">
-    <value>pertinentes</value>
+    <value> pertinentes</value>
   </data>
   <data name="SpokenDateFormat" xml:space="preserve">
     <value>dddd dd MMMM</value>
@@ -184,7 +184,7 @@
     <value>demain</value>
   </data>
   <data name="Unread" xml:space="preserve">
-    <value>lus</value>
+    <value> lus</value>
   </data>
   <data name="Yesterday" xml:space="preserve">
     <value>Hier</value>

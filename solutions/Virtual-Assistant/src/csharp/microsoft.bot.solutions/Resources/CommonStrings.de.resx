@@ -142,7 +142,7 @@
     <value>von </value>
   </data>
   <data name="Important" xml:space="preserve">
-    <value>wichtig</value>
+    <value> wichtig</value>
   </data>
   <data name="More" xml:space="preserve">
     <value>mehr</value>
@@ -157,7 +157,7 @@
     <value>oder</value>
   </data>
   <data name="Relevant" xml:space="preserve">
-    <value>relevanten </value>
+    <value> relevanten </value>
   </data>
   <data name="SpokenDateFormat" xml:space="preserve">
     <value>dddd, MMMM dd</value>
@@ -184,7 +184,7 @@
     <value>morgen</value>
   </data>
   <data name="Unread" xml:space="preserve">
-    <value>ungelesene</value>
+    <value> ungelesene</value>
   </data>
   <data name="Yesterday" xml:space="preserve">
     <value>Gestern</value>

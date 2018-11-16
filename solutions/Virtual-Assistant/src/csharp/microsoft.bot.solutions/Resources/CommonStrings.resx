@@ -157,7 +157,7 @@
     <value>or</value>
   </data>
   <data name="Relevant" xml:space="preserve">
-    <value>relevant</value>
+    <value> relevant</value>
   </data>
   <data name="SpokenDateFormat" xml:space="preserve">
     <value>dddd, MMMM dd</value>
@@ -184,7 +184,7 @@
     <value>Tomorrow </value>
   </data>
   <data name="Unread" xml:space="preserve">
-    <value>unread</value>
+    <value> unread</value>
   </data>
   <data name="Yesterday" xml:space="preserve">
     <value>Yesterday</value>

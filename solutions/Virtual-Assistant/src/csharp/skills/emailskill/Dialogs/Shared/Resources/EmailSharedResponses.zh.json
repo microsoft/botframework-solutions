@@ -206,7 +206,7 @@
     "replies": [
       {
         "text": "我准备发送邮件，请确认以下内容：",
-        "speak": "我准备发送邮件，请确认以下内容："
+        "speak": "我准备发送邮件，请确认以下内容：{EmailDetails}"
       }
     ],
     "inputHint": "expectingInput"

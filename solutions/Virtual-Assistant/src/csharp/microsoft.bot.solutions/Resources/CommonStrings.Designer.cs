@@ -178,7 +178,7 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to relevant.
+        ///   Looks up a localized string similar to  relevant.
         /// </summary>
         public static string Relevant {
             get {
@@ -259,7 +259,7 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to unread.
+        ///   Looks up a localized string similar to  unread.
         /// </summary>
         public static string Unread {
             get {
