@@ -41,6 +41,13 @@
             "type": "Action.OpenUrl",
             "title": "Learn how to deploy",
             "url": "https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0"
+        },
+        {
+            "type": "Action.Submit",
+            "title": "Try multiturn dialog",
+            "data": {
+                "action":"startOnboarding"
+            }
         }
     ]
 }
