@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using EmailSkill.Dialogs.Shared.Resources;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Graph;
 
 namespace EmailSkill.Util
@@ -24,14 +25,11 @@ namespace EmailSkill.Util
                 {
                     if (i == messages.Count - 1)
                     {
-                        var andMessage = sc.Context.Activity.CreateReply(EmailSharedResponses.ConnectWords, null, new StringDictionary() { });
-                        var fromMessage = sc.Context.Activity.CreateReply(EmailSharedResponses.FromWords, null, new StringDictionary() { });
-                        speakString += andMessage.Speak + $" {messages[i].Subject} " + fromMessage.Speak + $" {messages[i].Sender}";
+                        speakString += CommonStrings.And + $" {messages[i].Subject} " + CommonStrings.From + $" {messages[i].Sender}";
                     }
                     else
                     {
-                        var fromMessage = sc.Context.Activity.CreateReply(EmailSharedResponses.FromWords, null, new StringDictionary() { });
-                        speakString += $", {messages[i].Subject} " + fromMessage.Speak + $" {messages[i].Sender}";
+                        speakString += $", {messages[i].Subject} " + CommonStrings.From + $" {messages[i].Sender}";
                     }
                 }
             }
@@ -59,9 +57,7 @@ namespace EmailSkill.Util
             {
                 if (message.Subject != null && message.Sender != null)
                 {
-                    var fromMessage = sc.Context.Activity.CreateReply(EmailSharedResponses.FromWords, null, new StringDictionary() { });
-
-                    speakString = $"{message.Subject} " + fromMessage.Speak + $" {message.Sender}";
+                    speakString = $"{message.Subject} " + CommonStrings.From + $" {message.Sender}";
                 }
                 else if (message.Subject != null)
                 {

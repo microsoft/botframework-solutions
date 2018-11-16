@@ -55,10 +55,6 @@ namespace EmailSkill.Dialogs.Shared.Resources
 
         public static BotResponse ShowEmailPrompt => GetBotResponse();
 
-        public static BotResponse ConnectWords => GetBotResponse();
-
-        public static BotResponse FromWords => GetBotResponse();
-
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {
             return _responseManager.GetBotResponse(propertyName);

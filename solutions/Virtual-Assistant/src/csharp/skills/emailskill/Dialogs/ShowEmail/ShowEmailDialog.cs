@@ -11,6 +11,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 
 namespace EmailSkill
@@ -174,10 +175,10 @@ namespace EmailSkill
                 }
                 else if (topIntent == Email.Intent.SelectItem || (topIntent == Email.Intent.ReadAloud && message != null))
                 {
-                    var nameListString = $"To: {message?.ToRecipients.FirstOrDefault()?.EmailAddress.Name}";
+                    var nameListString = CommonStrings.To + $"{message?.ToRecipients.FirstOrDefault()?.EmailAddress.Name}";
                     if (message?.ToRecipients.Count() > 1)
                     {
-                        nameListString += $" + {message.ToRecipients.Count() - 1} more";
+                        nameListString += $" + {message.ToRecipients.Count() - 1} " + CommonStrings.More;
                     }
 
                     var emailCard = new EmailCardData
@@ -188,13 +189,13 @@ namespace EmailSkill
                         EmailContent = message?.BodyPreview,
                         EmailLink = message?.WebLink,
                         ReceivedDateTime = message?.ReceivedDateTime == null
-                            ? "Not available"
+                            ? CommonStrings.NotAvailable
                             : message.ReceivedDateTime.Value.UtcDateTime.ToRelativeString(state.GetUserTimeZone()),
-                        Speak = message?.Subject + " From " + message?.Sender.EmailAddress.Name + " " + message?.BodyPreview,
+                        Speak = message?.Subject + " " + CommonStrings.From + " " + message?.Sender.EmailAddress.Name + " " + message?.BodyPreview,
                     };
 
                     // Todo: workaround here to read out email details. Ignore body for now as we need a summary and filter.
-                    var emailDetails = message?.Subject + " From " + message?.Sender.EmailAddress.Name;
+                    var emailDetails = message?.Subject + " " + CommonStrings.From + " " + message?.Sender.EmailAddress.Name;
                     var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(ShowEmailResponses.ReadOutMessage, "Dialogs/Shared/Resources/Cards/EmailDetailCard.json", emailCard, null, new StringDictionary() { { "EmailDetails", emailDetails } });
                     await sc.Context.SendActivityAsync(replyMessage);
 

@@ -120,8 +120,44 @@
   <data name="And" xml:space="preserve">
     <value>e</value>
   </data>
+  <data name="At" xml:space="preserve">
+    <value>a</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>Contenuto: </value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value> giorni</value>
+  </data>
+  <data name="DisplayDateFormat" xml:space="preserve">
+    <value>MMM d, yyyy</value>
+  </data>
+  <data name="DisplayDateFormat_CurrentYear" xml:space="preserve">
+    <value>MMM d</value>
+  </data>
+  <data name="DisplayTime" xml:space="preserve">
+    <value>h:mm tt</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>da</value>
+  </data>
+  <data name="Important" xml:space="preserve">
+    <value> importante</value>
+  </data>
+  <data name="More" xml:space="preserve">
+    <value>più</value>
+  </data>
+  <data name="NotAvailable" xml:space="preserve">
+    <value>Non disponibile</value>
+  </data>
+  <data name="Now" xml:space="preserve">
+    <value>Nwo</value>
+  </data>
   <data name="Or" xml:space="preserve">
     <value>o</value>
+  </data>
+  <data name="Relevant" xml:space="preserve">
+    <value>rilevanti</value>
   </data>
   <data name="SpokenDateFormat" xml:space="preserve">
     <value>dddd dd MMMM</value>
@@ -135,10 +171,22 @@
   <data name="SpokenTimePrefix_One" xml:space="preserve">
     <value>alle</value>
   </data>
+  <data name="Subject" xml:space="preserve">
+    <value>Oggetto: </value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>A: </value>
+  </data>
   <data name="Today" xml:space="preserve">
     <value>oggi</value>
   </data>
   <data name="Tomorrow" xml:space="preserve">
     <value>domani</value>
+  </data>
+  <data name="Unread" xml:space="preserve">
+    <value>unread</value>
+  </data>
+  <data name="Yesterday" xml:space="preserve">
+    <value>Ieri</value>
   </data>
 </root>

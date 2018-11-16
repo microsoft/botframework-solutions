@@ -120,8 +120,44 @@
   <data name="And" xml:space="preserve">
     <value>和</value>
   </data>
+  <data name="At" xml:space="preserve">
+    <value>于</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>内容: </value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>天前</value>
+  </data>
+  <data name="DisplayDateFormat" xml:space="preserve">
+    <value>D</value>
+  </data>
+  <data name="DisplayDateFormat_CurrentYear" xml:space="preserve">
+    <value>M</value>
+  </data>
+  <data name="DisplayTime" xml:space="preserve">
+    <value>t</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>来自</value>
+  </data>
+  <data name="Important" xml:space="preserve">
+    <value>重要</value>
+  </data>
+  <data name="More" xml:space="preserve">
+    <value>更多</value>
+  </data>
+  <data name="NotAvailable" xml:space="preserve">
+    <value>未知</value>
+  </data>
+  <data name="Now" xml:space="preserve">
+    <value>刚刚</value>
+  </data>
   <data name="Or" xml:space="preserve">
     <value>或</value>
+  </data>
+  <data name="Relevant" xml:space="preserve">
+    <value>相关</value>
   </data>
   <data name="SpokenDateFormat" xml:space="preserve">
     <value>dddd dd MMMM</value>
@@ -135,10 +171,22 @@
   <data name="SpokenTimePrefix_One" xml:space="preserve">
     <value>进入</value>
   </data>
+  <data name="Subject" xml:space="preserve">
+    <value>标题: </value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>发送至: </value>
+  </data>
   <data name="Today" xml:space="preserve">
     <value>今天</value>
   </data>
   <data name="Tomorrow" xml:space="preserve">
     <value>早上</value>
+  </data>
+  <data name="Unread" xml:space="preserve">
+    <value>未读</value>
+  </data>
+  <data name="Yesterday" xml:space="preserve">
+    <value>昨天</value>
   </data>
 </root>

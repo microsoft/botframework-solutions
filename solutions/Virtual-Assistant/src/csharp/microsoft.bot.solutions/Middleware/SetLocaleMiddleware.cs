@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Solutions.Resources;
 
 namespace Microsoft.Bot.Solutions.Middleware
 {
@@ -25,6 +26,7 @@ namespace Microsoft.Bot.Solutions.Middleware
             var cultureInfo = context.Activity.Locale != null ? new CultureInfo(context.Activity.Locale) : new CultureInfo(this.defaultLocale);
 
             CultureInfo.CurrentUICulture = CultureInfo.CurrentCulture = cultureInfo;
+            CommonStrings.Culture = cultureInfo;
 
             await next(cancellationToken).ConfigureAwait(false);
         }

@@ -87,22 +87,6 @@ namespace Microsoft.Bot.Solutions.Dialogs
         }
 
         /// <inheritdoc/>
-        public void BuildYesNoReply(Activity reply, BotResponse response, StringDictionary tokens = null)
-        {
-            var parsedResponse = this.ParseResponse(response, tokens);
-            this.PopulateReplyFromResponse(reply, parsedResponse);
-            var yesNo = new[] { "Yes", "No" };
-            reply.SuggestedActions = new SuggestedActions(
-                actions: yesNo.Select(choice =>
-                    new CardAction(
-                        ActionTypes.ImBack,
-                        choice,
-                        value: choice.ToLower(),
-                        displayText: choice.ToLower(),
-                        text: choice.ToLower())).ToList());
-        }
-
-        /// <inheritdoc/>
         public void BuildMessageReply(Activity reply, BotResponse response, StringDictionary tokens = null)
         {
             var parsedResponse = this.ParseResponse(response, tokens);

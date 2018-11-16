@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.ConfirmRecipient.Resources;
-using EmailSkill.Dialogs.SendEmail.Resources;
 using EmailSkill.Dialogs.Shared.Resources;
-using EmailSkill.Dialogs.ShowEmail.Resources;
 using EmailSkill.Extensions;
 using EmailSkill.Util;
 using Luis;
@@ -19,6 +16,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Graph;
 using Microsoft.Recognizers.Text;
@@ -335,9 +333,9 @@ namespace EmailSkill
 
                 var emailCard = new EmailCardData
                 {
-                    Subject = "Subject: " + state.Subject,
+                    Subject = CommonStrings.Subject + state.Subject,
                     NameList = nameListString,
-                    EmailContent = "Content: " + state.Content,
+                    EmailContent = CommonStrings.Content + state.Content,
                 };
                 var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(EmailSharedResponses.ConfirmSend, "Dialogs/Shared/Resources/Cards/EmailWithOutButtonCard.json", emailCard, ResponseBuilder);
 
@@ -545,7 +543,7 @@ namespace EmailSkill
             {
                 if (i == recipients.Count - 1)
                 {
-                    result += " and " + recipients[i].EmailAddress.Name;
+                    result += CommonStrings.And + recipients[i].EmailAddress.Name;
                 }
                 else
                 {
@@ -672,12 +670,12 @@ namespace EmailSkill
         protected async Task<string> GetPreviewNameListString(WaterfallStepContext sc, string actionType)
         {
             var state = await EmailStateAccessor.GetAsync(sc.Context);
-            var nameListString = "To: ";
+            var nameListString = CommonStrings.To;
 
             switch (actionType)
             {
                 case Actions.Send:
-                    nameListString += string.Join(";", state.Recipients.Select(r => r.EmailAddress.Name));
+                    nameListString += string.Join("; ", state.Recipients.Select(r => r.EmailAddress.Name));
                     return nameListString;
                 case Actions.Reply:
                 case Actions.Forward:
@@ -685,7 +683,7 @@ namespace EmailSkill
                     nameListString += state.Recipients.FirstOrDefault()?.EmailAddress.Name;
                     if (state.Recipients.Count > 1)
                     {
-                        nameListString += $" + {state.Recipients.Count - 1} more";
+                        nameListString += $" + {state.Recipients.Count - 1} " + CommonStrings.More;
                     }
 
                     return nameListString;
@@ -769,10 +767,10 @@ namespace EmailSkill
             var cardsData = new List<EmailCardData>();
             foreach (var message in messages)
             {
-                var nameListString = $"To: {message.ToRecipients.FirstOrDefault()?.EmailAddress.Name}";
+                var nameListString = CommonStrings.To + $"{message.ToRecipients.FirstOrDefault()?.EmailAddress.Name}";
                 if (message.ToRecipients != null && message.ToRecipients.Count() > 1)
                 {
-                    nameListString += $" + {message.ToRecipients.Count() - 1} more";
+                    nameListString += $" + {message.ToRecipients.Count() - 1} " + CommonStrings.More;
                 }
 
                 var emailCard = new EmailCardData
@@ -783,21 +781,21 @@ namespace EmailSkill
                     EmailContent = message.BodyPreview,
                     EmailLink = message.WebLink,
                     ReceivedDateTime = message.ReceivedDateTime == null
-                    ? "Not available"
+                    ? CommonStrings.NotAvailable
                     : message.ReceivedDateTime.Value.UtcDateTime.ToRelativeString(state.GetUserTimeZone()),
-                    Speak = message?.Subject + " From " + message.Sender.EmailAddress.Name,
+                    Speak = message?.Subject + " " + CommonStrings.From + " " + message.Sender.EmailAddress.Name,
                 };
                 cardsData.Add(emailCard);
             }
 
-            var searchType = "relevant";
+            var searchType = CommonStrings.Relevant;
             if (state.IsUnreadOnly)
             {
-                searchType += " unread";
+                searchType += CommonStrings.Unread;
             }
             else if (state.IsImportant)
             {
-                searchType += " important";
+                searchType += CommonStrings.Important;
             }
 
             var stringToken = new StringDictionary

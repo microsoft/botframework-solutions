@@ -61,11 +61,110 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to and.
+        ///   Looks up a localized string similar to  and .
         /// </summary>
         public static string And {
             get {
                 return ResourceManager.GetString("And", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  at .
+        /// </summary>
+        public static string At {
+            get {
+                return ResourceManager.GetString("At", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Content: .
+        /// </summary>
+        public static string Content {
+            get {
+                return ResourceManager.GetString("Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  days.
+        /// </summary>
+        public static string Days {
+            get {
+                return ResourceManager.GetString("Days", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MMM d, yyyy.
+        /// </summary>
+        public static string DisplayDateFormat {
+            get {
+                return ResourceManager.GetString("DisplayDateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MMM d.
+        /// </summary>
+        public static string DisplayDateFormat_CurrentYear {
+            get {
+                return ResourceManager.GetString("DisplayDateFormat_CurrentYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to h:mm tt.
+        /// </summary>
+        public static string DisplayTime {
+            get {
+                return ResourceManager.GetString("DisplayTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to from.
+        /// </summary>
+        public static string From {
+            get {
+                return ResourceManager.GetString("From", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  important.
+        /// </summary>
+        public static string Important {
+            get {
+                return ResourceManager.GetString("Important", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to more.
+        /// </summary>
+        public static string More {
+            get {
+                return ResourceManager.GetString("More", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not available.
+        /// </summary>
+        public static string NotAvailable {
+            get {
+                return ResourceManager.GetString("NotAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Now.
+        /// </summary>
+        public static string Now {
+            get {
+                return ResourceManager.GetString("Now", resourceCulture);
             }
         }
         
@@ -75,6 +174,15 @@ namespace Microsoft.Bot.Solutions.Resources {
         public static string Or {
             get {
                 return ResourceManager.GetString("Or", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to relevant.
+        /// </summary>
+        public static string Relevant {
+            get {
+                return ResourceManager.GetString("Relevant", resourceCulture);
             }
         }
         
@@ -115,7 +223,25 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to today.
+        ///   Looks up a localized string similar to Subject: .
+        /// </summary>
+        public static string Subject {
+            get {
+                return ResourceManager.GetString("Subject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To: .
+        /// </summary>
+        public static string To {
+            get {
+                return ResourceManager.GetString("To", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Today .
         /// </summary>
         public static string Today {
             get {
@@ -124,11 +250,29 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to tomorrow.
+        ///   Looks up a localized string similar to Tomorrow .
         /// </summary>
         public static string Tomorrow {
             get {
                 return ResourceManager.GetString("Tomorrow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to unread.
+        /// </summary>
+        public static string Unread {
+            get {
+                return ResourceManager.GetString("Unread", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yesterday.
+        /// </summary>
+        public static string Yesterday {
+            get {
+                return ResourceManager.GetString("Yesterday", resourceCulture);
             }
         }
     }

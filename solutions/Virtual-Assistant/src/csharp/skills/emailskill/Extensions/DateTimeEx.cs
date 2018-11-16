@@ -3,6 +3,7 @@
 
 namespace EmailSkill.Extensions
 {
+    using Microsoft.Bot.Solutions.Resources;
     using System;
 
     /// <summary>
@@ -37,14 +38,14 @@ namespace EmailSkill.Extensions
             double totalSeconds = span.TotalSeconds;
             if (totalSeconds < 0.9)
             {
-                return "Now";
+                return CommonStrings.Now;
             }
 
-            string format = "Today at {0}";
+            string format = CommonStrings.Today + CommonStrings.At + "{0}";
             if (totalSeconds < (24 * 60 * 60))
             {
                 // Times
-                var time = dateTimeWithTimeZone.ToString("h:mm tt");
+                var time = dateTimeWithTimeZone.ToString(CommonStrings.DisplayTime);
                 return string.Format(format, time);
             }
 
@@ -52,28 +53,28 @@ namespace EmailSkill.Extensions
             if (totalSeconds < (48 * 60 * 60))
             {
                 // 1 Day
-                format = future ? "Tomorrow" : "Yesterday";
+                format = future ? CommonStrings.Tomorrow : CommonStrings.Yesterday;
             }
             else if (totalSeconds < (3 * 24 * 60 * 60))
             {
                 // 2 Days
-                format = string.Format(format, 2, "days");
+                format = 2 + CommonStrings.Days;
             }
             else
             {
                 // Absolute date
                 if (dateTimeWithTimeZone.Year == DateTime.Now.Year)
                 {
-                    format = dateTimeWithTimeZone.ToString(@"MMM d");
+                    format = dateTimeWithTimeZone.ToString(CommonStrings.DisplayDateFormat_CurrentYear);
                 }
                 else
                 {
-                    format = dateTimeWithTimeZone.ToString(@"MMM d, yyyy");
+                    format = dateTimeWithTimeZone.ToString(CommonStrings.DisplayDateFormat);
                 }
             }
 
             // Add time
-            return string.Format("{0} at {1:h:mmtt}", format, dateTimeWithTimeZone);
+            return string.Format("{0}" + CommonStrings.At + "{1}", format, dateTimeWithTimeZone.ToString(CommonStrings.DisplayTime));
         }
     }
 }

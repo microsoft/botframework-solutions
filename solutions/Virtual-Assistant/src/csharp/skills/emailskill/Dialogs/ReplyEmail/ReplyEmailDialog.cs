@@ -6,8 +6,8 @@ using EmailSkill.Dialogs.Shared.Resources;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Graph;
 
 namespace EmailSkill
 {
@@ -70,10 +70,10 @@ namespace EmailSkill
                         await service.ReplyToMessageAsync(message.Id, content);
                     }
 
-                    var nameListString = $"To: {message?.From.EmailAddress.Name}";
+                    var nameListString = CommonStrings.To + $"{message?.From.EmailAddress.Name}";
                     if (message?.ToRecipients.Count() > 1)
                     {
-                        nameListString += $" + {message.ToRecipients.Count() - 1} more";
+                        nameListString += $" + {message.ToRecipients.Count() - 1}" + CommonStrings.More;
                     }
 
                     var emailCard = new EmailCardData
