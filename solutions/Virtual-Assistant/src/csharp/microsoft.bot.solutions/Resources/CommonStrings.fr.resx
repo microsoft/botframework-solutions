@@ -157,7 +157,7 @@
     <value>{0} de {1}</value>
   </data>
   <data name="Important" xml:space="preserve">
-    <value> important</value>
+    <value>important</value>
   </data>
   <data name="NotAvailable" xml:space="preserve">
     <value>Non disponible</value>

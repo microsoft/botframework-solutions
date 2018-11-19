@@ -220,7 +220,7 @@
     <value>remitente desconocido</value>
   </data>
   <data name="Unread" xml:space="preserve">
-    <value> leídos</value>
+    <value>leídos</value>
   </data>
   <data name="Yesterday" xml:space="preserve">
     <value>ayer</value>
