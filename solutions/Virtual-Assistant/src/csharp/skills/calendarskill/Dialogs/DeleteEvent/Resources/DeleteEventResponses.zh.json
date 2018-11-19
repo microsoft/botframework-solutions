@@ -17,15 +17,15 @@
     ],
     "inputHint": "expectingInput"
   },
-  "EventDeleted": {
-    "replies": [
-      {
-        "text": "已经删除会议。",
-        "speak": "已经删除会议。"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
+    "EventDeleted": {
+        "replies": [
+            {
+                "text": "已经删除会议。",
+                "speak": "已经删除会议。"
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
   "EventWithStartTimeNotFound": {
     "replies": [
 

@@ -17,15 +17,15 @@
     ],
     "inputHint": "expectingInput"
   },
-  "EventDeleted": {
-    "replies": [
-      {
-        "text": "I have deleted the event.",
-        "speak": "I have deleted the event."
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
+    "EventDeleted": {
+        "replies": [
+            {
+                "text": "I have deleted the event.",
+                "speak": "I have deleted the event."
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
   "EventWithStartTimeNotFound": {
     "replies": [
 
