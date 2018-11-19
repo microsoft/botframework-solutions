@@ -123,11 +123,14 @@
   <data name="At" xml:space="preserve">
     <value>auf</value>
   </data>
-  <data name="Content" xml:space="preserve">
-    <value>Inhalt: </value>
+  <data name="AtTimeDetailsFormat" xml:space="preserve">
+    <value>{0} auf {1}</value>
   </data>
-  <data name="Days" xml:space="preserve">
-    <value>Tage vorher</value>
+  <data name="ContentFormat" xml:space="preserve">
+    <value>Inhalt: {0}</value>
+  </data>
+  <data name="DaysFormat" xml:space="preserve">
+    <value>{0} tage vorher</value>
   </data>
   <data name="DisplayDateFormat" xml:space="preserve">
     <value>MMM d, yyyy</value>
@@ -138,26 +141,50 @@
   <data name="DisplayTime" xml:space="preserve">
     <value>h:mm tt</value>
   </data>
-  <data name="From" xml:space="preserve">
-    <value>von </value>
+  <data name="EmptyContent" xml:space="preserve">
+    <value>Leerer Inhalt</value>
+  </data>
+  <data name="EmptySubject" xml:space="preserve">
+    <value>Leerer Betreff</value>
+  </data>
+  <data name="Forward" xml:space="preserve">
+    <value>fw:</value>
+  </data>
+  <data name="ForwardReplyFormat" xml:space="preserve">
+    <value>FW: {0}</value>
+  </data>
+  <data name="FromDetailsFormat" xml:space="preserve">
+    <value>{0} von {1}</value>
   </data>
   <data name="Important" xml:space="preserve">
-    <value> wichtig</value>
-  </data>
-  <data name="More" xml:space="preserve">
-    <value>mehr</value>
+    <value>wichtig</value>
   </data>
   <data name="NotAvailable" xml:space="preserve">
     <value>Nicht verfügbar</value>
   </data>
   <data name="Now" xml:space="preserve">
-    <value>Nwo</value>
+    <value>nwo</value>
   </data>
   <data name="Or" xml:space="preserve">
     <value>oder</value>
   </data>
+  <data name="RecipientsSummary" xml:space="preserve">
+    <value> + {0} mehr</value>
+  </data>
   <data name="Relevant" xml:space="preserve">
-    <value> relevanten </value>
+    <value>relevanten</value>
+  </data>
+  <data name="RelevantFormat" xml:space="preserve">
+    <value>relevanten {0}</value>
+  </data>
+  <data name="Reply" xml:space="preserve">
+    <value>re:</value>
+  </data>
+  <data name="ReplyReplyFormat" xml:space="preserve">
+    <value>RE: {0}</value>
+  </data>
+  <data name="SeparatorFormat" xml:space="preserve">
+    <value> {0} </value>
   </data>
   <data name="SpokenDateFormat" xml:space="preserve">
     <value>dddd, MMMM dd</value>
@@ -171,22 +198,31 @@
   <data name="SpokenTimePrefix_One" xml:space="preserve">
     <value>um</value>
   </data>
-  <data name="Subject" xml:space="preserve">
-    <value>Betreff: </value>
-  </data>
-  <data name="To" xml:space="preserve">
-    <value>An: </value>
+  <data name="SubjectFormat" xml:space="preserve">
+    <value>Betreff: {0}</value>
   </data>
   <data name="Today" xml:space="preserve">
     <value>heute</value>
   </data>
+  <data name="ToDetailsFormat" xml:space="preserve">
+    <value>{0} an {1} und inhalt ist {2}</value>
+  </data>
+  <data name="ToFormat" xml:space="preserve">
+    <value>An: {0}</value>
+  </data>
   <data name="Tomorrow" xml:space="preserve">
     <value>morgen</value>
   </data>
+  <data name="UnknownRecipient" xml:space="preserve">
+    <value>unbekannter empfänger</value>
+  </data>
+  <data name="UnknownSender" xml:space="preserve">
+    <value>unbekannter absender</value>
+  </data>
   <data name="Unread" xml:space="preserve">
-    <value> ungelesene</value>
+    <value>ungelesene</value>
   </data>
   <data name="Yesterday" xml:space="preserve">
-    <value>Gestern</value>
+    <value>gestern</value>
   </data>
 </root>

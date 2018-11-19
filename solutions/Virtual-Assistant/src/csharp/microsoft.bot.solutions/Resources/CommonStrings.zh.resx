@@ -123,11 +123,14 @@
   <data name="At" xml:space="preserve">
     <value>于</value>
   </data>
-  <data name="Content" xml:space="preserve">
-    <value>内容: </value>
+  <data name="AtTimeDetailsFormat" xml:space="preserve">
+    <value>{0}于{1}</value>
   </data>
-  <data name="Days" xml:space="preserve">
-    <value>天前</value>
+  <data name="ContentFormat" xml:space="preserve">
+    <value>内容: {0}</value>
+  </data>
+  <data name="DaysFormat" xml:space="preserve">
+    <value>{0}天前</value>
   </data>
   <data name="DisplayDateFormat" xml:space="preserve">
     <value>D</value>
@@ -138,14 +141,23 @@
   <data name="DisplayTime" xml:space="preserve">
     <value>t</value>
   </data>
-  <data name="From" xml:space="preserve">
-    <value>来自</value>
+  <data name="EmptyContent" xml:space="preserve">
+    <value>空内容</value>
+  </data>
+  <data name="EmptySubject" xml:space="preserve">
+    <value>空标题</value>
+  </data>
+  <data name="Forward" xml:space="preserve">
+    <value>fw:</value>
+  </data>
+  <data name="ForwardReplyFormat" xml:space="preserve">
+    <value>FW: {0}</value>
+  </data>
+  <data name="FromDetailsFormat" xml:space="preserve">
+    <value>{0}来自{1}</value>
   </data>
   <data name="Important" xml:space="preserve">
     <value>重要</value>
-  </data>
-  <data name="More" xml:space="preserve">
-    <value>更多</value>
   </data>
   <data name="NotAvailable" xml:space="preserve">
     <value>未知</value>
@@ -156,8 +168,23 @@
   <data name="Or" xml:space="preserve">
     <value>或</value>
   </data>
+  <data name="RecipientsSummary" xml:space="preserve">
+    <value> + {0} 更多</value>
+  </data>
   <data name="Relevant" xml:space="preserve">
     <value>相关</value>
+  </data>
+  <data name="RelevantFormat" xml:space="preserve">
+    <value>相关{0}</value>
+  </data>
+  <data name="Reply" xml:space="preserve">
+    <value>re:</value>
+  </data>
+  <data name="ReplyReplyFormat" xml:space="preserve">
+    <value>RE: {0}</value>
+  </data>
+  <data name="SeparatorFormat" xml:space="preserve">
+    <value>{0}</value>
   </data>
   <data name="SpokenDateFormat" xml:space="preserve">
     <value>dddd dd MMMM</value>
@@ -171,17 +198,26 @@
   <data name="SpokenTimePrefix_One" xml:space="preserve">
     <value>进入</value>
   </data>
-  <data name="Subject" xml:space="preserve">
-    <value>标题: </value>
-  </data>
-  <data name="To" xml:space="preserve">
-    <value>发送至: </value>
+  <data name="SubjectFormat" xml:space="preserve">
+    <value>标题: {0}</value>
   </data>
   <data name="Today" xml:space="preserve">
     <value>今天</value>
   </data>
+  <data name="ToDetailsFormat" xml:space="preserve">
+    <value>{0}发送至{1}内容是{2}</value>
+  </data>
+  <data name="ToFormat" xml:space="preserve">
+    <value>发送至: {0}</value>
+  </data>
   <data name="Tomorrow" xml:space="preserve">
     <value>早上</value>
+  </data>
+  <data name="UnknownRecipient" xml:space="preserve">
+    <value>未知收件人</value>
+  </data>
+  <data name="UnknownSender" xml:space="preserve">
+    <value>未知发件人</value>
   </data>
   <data name="Unread" xml:space="preserve">
     <value>未读</value>

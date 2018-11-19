@@ -41,40 +41,40 @@ namespace EmailSkill.Extensions
                 return CommonStrings.Now;
             }
 
-            string format = CommonStrings.Today + CommonStrings.At + "{0}";
+            string date = CommonStrings.Today;
             if (totalSeconds < (24 * 60 * 60))
             {
                 // Times
                 var time = dateTimeWithTimeZone.ToString(CommonStrings.DisplayTime);
-                return string.Format(format, time);
+                return string.Format(CommonStrings.AtTimeDetailsFormat, date, time);
             }
 
             // Format both date and time
             if (totalSeconds < (48 * 60 * 60))
             {
                 // 1 Day
-                format = future ? CommonStrings.Tomorrow : CommonStrings.Yesterday;
+                date = future ? CommonStrings.Tomorrow : CommonStrings.Yesterday;
             }
             else if (totalSeconds < (3 * 24 * 60 * 60))
             {
                 // 2 Days
-                format = 2 + CommonStrings.Days;
+                date = string.Format(CommonStrings.DaysFormat, 2);
             }
             else
             {
                 // Absolute date
                 if (dateTimeWithTimeZone.Year == DateTime.Now.Year)
                 {
-                    format = dateTimeWithTimeZone.ToString(CommonStrings.DisplayDateFormat_CurrentYear);
+                    date = dateTimeWithTimeZone.ToString(CommonStrings.DisplayDateFormat_CurrentYear);
                 }
                 else
                 {
-                    format = dateTimeWithTimeZone.ToString(CommonStrings.DisplayDateFormat);
+                    date = dateTimeWithTimeZone.ToString(CommonStrings.DisplayDateFormat);
                 }
             }
 
             // Add time
-            return string.Format("{0}" + CommonStrings.At + "{1}", format, dateTimeWithTimeZone.ToString(CommonStrings.DisplayTime));
+            return string.Format(CommonStrings.AtTimeDetailsFormat, date, dateTimeWithTimeZone.ToString(CommonStrings.DisplayTime));
         }
     }
 }

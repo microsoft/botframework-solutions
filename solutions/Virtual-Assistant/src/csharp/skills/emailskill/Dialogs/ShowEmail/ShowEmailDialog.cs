@@ -176,23 +176,19 @@ namespace EmailSkill
                 }
                 else if (topIntent == Email.Intent.SelectItem || (topIntent == Email.Intent.ReadAloud && message != null))
                 {
-                    var nameListString = CommonStrings.To + $"{message?.ToRecipients.FirstOrDefault()?.EmailAddress.Name}";
-                    if (message?.ToRecipients.Count() > 1)
-                    {
-                        nameListString += $" + {message.ToRecipients.Count() - 1} " + CommonStrings.More;
-                    }
+                    var nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(message.ToRecipients);
 
                     var emailCard = new EmailCardData
                     {
-                        Subject = message?.Subject,
-                        Sender = message?.Sender.EmailAddress.Name,
-                        NameList = nameListString,
-                        EmailContent = message?.BodyPreview,
-                        EmailLink = message?.WebLink,
+                        Subject = message.Subject,
+                        Sender = message.Sender.EmailAddress.Name,
+                        NameList = string.Format(CommonStrings.ToFormat, nameListString),
+                        EmailContent = message.BodyPreview,
+                        EmailLink = message.WebLink,
                         ReceivedDateTime = message?.ReceivedDateTime == null
                             ? CommonStrings.NotAvailable
                             : message.ReceivedDateTime.Value.UtcDateTime.ToRelativeString(state.GetUserTimeZone()),
-                        Speak = message?.Subject + " " + CommonStrings.From + " " + message?.Sender.EmailAddress.Name + " " + message?.BodyPreview,
+                        Speak = SpeakHelper.ToSpeechEmailDetailString(message),
                     };
 
                     // Todo: workaround here to read out email details. Ignore body for now as we need a summary and filter.

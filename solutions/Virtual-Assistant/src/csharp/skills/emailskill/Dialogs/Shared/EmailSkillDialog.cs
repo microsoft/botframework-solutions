@@ -326,9 +326,9 @@ namespace EmailSkill
 
                 var emailCard = new EmailCardData
                 {
-                    Subject = CommonStrings.Subject + state.Subject,
-                    NameList = nameListString,
-                    EmailContent = CommonStrings.Content + state.Content,
+                    Subject = string.Format(CommonStrings.SubjectFormat, state.Subject),
+                    NameList = string.Format(CommonStrings.ToFormat, nameListString),
+                    EmailContent = string.Format(CommonStrings.ContentFormat, state.Content),
                 };
 
                 var speech = SpeakHelper.ToSpeechEmailSendDetailString(emailCard.Subject, emailCard.NameList, emailCard.EmailContent);
@@ -542,7 +542,7 @@ namespace EmailSkill
             {
                 if (i == recipients.Count - 1)
                 {
-                    result += CommonStrings.And + recipients[i].EmailAddress.Name;
+                    result += string.Format(CommonStrings.SeparatorFormat, CommonStrings.And) + recipients[i].EmailAddress.Name;
                 }
                 else
                 {
@@ -669,24 +669,21 @@ namespace EmailSkill
         protected async Task<string> GetPreviewNameListString(WaterfallStepContext sc, string actionType)
         {
             var state = await EmailStateAccessor.GetAsync(sc.Context);
-            var nameListString = CommonStrings.To;
+            var nameListString = string.Empty;
 
             switch (actionType)
             {
                 case Actions.Send:
-                    nameListString += string.Join("; ", state.Recipients.Select(r => r.EmailAddress.Name));
-                    return nameListString;
+                    nameListString = DisplayHelper.ToDisplayRecipientsString(state.Recipients);
+                    break;
                 case Actions.Reply:
                 case Actions.Forward:
                 default:
-                    nameListString += state.Recipients.FirstOrDefault()?.EmailAddress.Name;
-                    if (state.Recipients.Count > 1)
-                    {
-                        nameListString += $" + {state.Recipients.Count - 1} " + CommonStrings.More;
-                    }
-
-                    return nameListString;
+                    nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(state.Recipients);
+                    break;
             }
+
+            return nameListString;
         }
 
         protected async Task<bool> GetPreviewSubject(WaterfallStepContext sc, string actionType)
@@ -700,11 +697,11 @@ namespace EmailSkill
                 switch (actionType)
                 {
                     case Actions.Reply:
-                        state.Subject = focusedMessage.Subject.ToLower().StartsWith("re:") ? focusedMessage.Subject : "RE: " + focusedMessage?.Subject;
+                        state.Subject = focusedMessage.Subject.ToLower().StartsWith(CommonStrings.Reply) ? focusedMessage.Subject : string.Format(CommonStrings.ReplyReplyFormat, focusedMessage?.Subject);
                         state.Recipients = focusedMessage.ToRecipients.ToList();
                         break;
                     case Actions.Forward:
-                        state.Subject = focusedMessage.Subject.ToLower().StartsWith("fw:") ? focusedMessage.Subject : "FW: " + focusedMessage?.Subject;
+                        state.Subject = focusedMessage.Subject.ToLower().StartsWith(CommonStrings.Forward) ? focusedMessage.Subject : string.Format(CommonStrings.ForwardReplyFormat, focusedMessage?.Subject);
                         break;
                     case Actions.Send:
                     default:
@@ -766,23 +763,19 @@ namespace EmailSkill
             var cardsData = new List<EmailCardData>();
             foreach (var message in messages)
             {
-                var nameListString = CommonStrings.To + $"{message.ToRecipients.FirstOrDefault()?.EmailAddress.Name}";
-                if (message.ToRecipients != null && message.ToRecipients.Count() > 1)
-                {
-                    nameListString += $" + {message.ToRecipients.Count() - 1} " + CommonStrings.More;
-                }
+                var nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(message.ToRecipients);
 
                 var emailCard = new EmailCardData
                 {
                     Subject = message.Subject,
                     Sender = message.Sender.EmailAddress.Name,
-                    NameList = nameListString,
+                    NameList = string.Format(CommonStrings.ToFormat, nameListString),
                     EmailContent = message.BodyPreview,
                     EmailLink = message.WebLink,
                     ReceivedDateTime = message.ReceivedDateTime == null
                     ? CommonStrings.NotAvailable
                     : message.ReceivedDateTime.Value.UtcDateTime.ToRelativeString(state.GetUserTimeZone()),
-                    Speak = message?.Subject + " " + CommonStrings.From + " " + message.Sender.EmailAddress.Name,
+                    Speak = SpeakHelper.ToSpeechEmailDetailString(message),
                 };
                 cardsData.Add(emailCard);
             }
@@ -790,11 +783,11 @@ namespace EmailSkill
             var searchType = CommonStrings.Relevant;
             if (state.IsUnreadOnly)
             {
-                searchType += CommonStrings.Unread;
+                searchType = string.Format(CommonStrings.RelevantFormat, CommonStrings.Unread);
             }
             else if (state.IsImportant)
             {
-                searchType += CommonStrings.Important;
+                searchType = string.Format(CommonStrings.RelevantFormat, CommonStrings.Important);
             }
 
             var stringToken = new StringDictionary

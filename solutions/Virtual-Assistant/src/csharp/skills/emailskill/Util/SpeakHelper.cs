@@ -14,26 +14,19 @@ namespace EmailSkill.Util
         {
             string speakString = string.Empty;
 
-            if (messages != null && messages.Count >= 1)
+            if (messages == null || messages.Count == 0)
             {
-                speakString = ToSpeechEmailSummaryString(sc, messages[0]);
+                return speakString;
             }
 
-            for (int i = 1; i < messages.Count; i++)
+            List<string> emailDetails = new List<string>();
+            for (int i = 0; i < messages.Count; i++)
             {
-                if (messages[i].Subject != null && messages[i].Sender != null)
-                {
-                    if (i == messages.Count - 1)
-                    {
-                        speakString += CommonStrings.And + $" {messages[i].Subject} " + CommonStrings.From + $" {messages[i].Sender.EmailAddress.Name}";
-                    }
-                    else
-                    {
-                        speakString += $", {messages[i].Subject} " + CommonStrings.From + $" {messages[i].Sender}";
-                    }
-                }
+                var emailDetail = ToSpeechEmailDetailString(messages[i]);
+                emailDetails.Add(emailDetail);
             }
 
+            speakString = emailDetails.ToSpeechString(CommonStrings.And);
             return speakString;
         }
 
@@ -43,50 +36,57 @@ namespace EmailSkill.Util
 
             if (message != null)
             {
-                speakString = $"{message.Subject}" + CommonStrings.From + $"{message.Sender.EmailAddress.Name}";
+                string subject = (message.Subject != null) ? message.Subject : CommonStrings.EmptySubject;
+                string sender = (message.Sender?.EmailAddress?.Name != null) ? message.Sender.EmailAddress.Name : CommonStrings.UnknownSender;
+
+                speakString = string.Format(CommonStrings.FromDetailsFormat, subject, sender);
             }
 
             return speakString;
         }
 
-        public static string ToSpeechEmailSendDetailString(string subjects, string toRecipients, string content)
+        public static string ToSpeechEmailSendDetailString(string detailSubject, string detailToRecipient, string detailContent)
         {
             string speakString = string.Empty;
 
-            speakString = subjects + CommonStrings.To + toRecipients + CommonStrings.Content + content;
+            string subject = (detailSubject != string.Empty) ? detailSubject : CommonStrings.EmptySubject;
+            string toRecipient = (detailToRecipient != string.Empty) ? detailToRecipient : CommonStrings.UnknownRecipient;
+            string content = (detailContent != string.Empty) ? detailContent : CommonStrings.EmptyContent;
+
+            speakString = string.Format(CommonStrings.ToDetailsFormat, subject, toRecipient, content);
 
             return speakString;
         }
 
-        public static string ToSpeechRecipientsString(IEnumerable<Recipient> recipients)
-        {
-            string speakString = string.Empty;
+        //public static string ToSpeechRecipientsString(IEnumerable<Recipient> recipients)
+        //{
+        //    string speakString = string.Empty;
 
-            foreach (var recipient in recipients)
-            {
-                speakString += string.Join(" ", recipient.EmailAddress.Name);
-            }
+        //    foreach (var recipient in recipients)
+        //    {
+        //        speakString += string.Join(" ", recipient.EmailAddress.Name);
+        //    }
 
-            return speakString;
-        }
+        //    return speakString;
+        //}
 
-        private static string ToSpeechEmailSummaryString(WaterfallStepContext sc, Message message)
-        {
-            string speakString = string.Empty;
+        //private static string ToSpeechEmailSummaryString(WaterfallStepContext sc, Message message)
+        //{
+        //    string speakString = string.Empty;
 
-            if (message != null)
-            {
-                if (message.Subject != null && message.Sender != null)
-                {
-                    speakString = $"{message.Subject} " + CommonStrings.From + $" {message.Sender.EmailAddress.Name}";
-                }
-                else if (message.Subject != null)
-                {
-                    speakString = $"{message.Subject} ";
-                }
-            }
+        //    if (message != null)
+        //    {
+        //        if (message.Subject != null && message.Sender != null)
+        //        {
+        //            speakString = $"{message.Subject} " + CommonStrings.From + $" {message.Sender.EmailAddress.Name}";
+        //        }
+        //        else if (message.Subject != null)
+        //        {
+        //            speakString = $"{message.Subject} ";
+        //        }
+        //    }
 
-            return speakString;
-        }
+        //    return speakString;
+        //}
     }
 }
