@@ -10,7 +10,7 @@ namespace EmailSkill.Util
 {
     public class SpeakHelper
     {
-        public static string ToSpeechEmailListString(WaterfallStepContext sc, List<Message> messages)
+        public static string ToSpeechEmailListString(List<Message> messages)
         {
             string speakString = string.Empty;
 
@@ -57,36 +57,5 @@ namespace EmailSkill.Util
 
             return speakString;
         }
-
-        //public static string ToSpeechRecipientsString(IEnumerable<Recipient> recipients)
-        //{
-        //    string speakString = string.Empty;
-
-        //    foreach (var recipient in recipients)
-        //    {
-        //        speakString += string.Join(" ", recipient.EmailAddress.Name);
-        //    }
-
-        //    return speakString;
-        //}
-
-        //private static string ToSpeechEmailSummaryString(WaterfallStepContext sc, Message message)
-        //{
-        //    string speakString = string.Empty;
-
-        //    if (message != null)
-        //    {
-        //        if (message.Subject != null && message.Sender != null)
-        //        {
-        //            speakString = $"{message.Subject} " + CommonStrings.From + $" {message.Sender.EmailAddress.Name}";
-        //        }
-        //        else if (message.Subject != null)
-        //        {
-        //            speakString = $"{message.Subject} ";
-        //        }
-        //    }
-
-        //    return speakString;
-        //}
     }
 }

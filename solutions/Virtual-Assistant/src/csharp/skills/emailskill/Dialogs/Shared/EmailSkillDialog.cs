@@ -793,7 +793,7 @@ namespace EmailSkill
             var stringToken = new StringDictionary
             {
                 { "SearchType", searchType },
-                { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(sc, messages) },
+                { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(messages) },
             };
 
             var reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
