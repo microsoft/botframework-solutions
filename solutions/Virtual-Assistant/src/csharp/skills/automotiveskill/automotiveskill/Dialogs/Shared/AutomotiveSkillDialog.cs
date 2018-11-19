@@ -43,14 +43,12 @@ namespace AutomotiveSkill
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await Accessor.GetAsync(dc.Context);
-            await DigestLuisResult(dc, state.LuisResult);
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }
 
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await Accessor.GetAsync(dc.Context);
-            await DigestLuisResult(dc, state.LuisResult);
             return await base.OnContinueDialogAsync(dc, cancellationToken);
         }
 
@@ -84,25 +82,6 @@ namespace AutomotiveSkill
             catch (Exception ex)
             {
                 throw await HandleDialogExceptions(sc, ex);
-            }
-        }
-
-     
-
-        // Helpers
-        public async Task DigestLuisResult(DialogContext dc, VehicleSettings luisResult)
-        {
-            try
-            {
-                var state = await Accessor.GetAsync(dc.Context);
-
-                state.LuisResult = luisResult;
-
-                // extract entities and store in state here.
-            }
-            catch
-            {
-                // put log here
             }
         }
 

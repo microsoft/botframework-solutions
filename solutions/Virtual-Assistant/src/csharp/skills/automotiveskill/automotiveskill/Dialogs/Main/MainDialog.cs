@@ -151,50 +151,12 @@ namespace AutomotiveSkill
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
                 // Update state with luis result and entities
-                var skillLuisResult = await _services.LuisServices["vehiclesettings"].RecognizeAsync<VehicleSettings>(dc.Context, cancellationToken);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new AutomotiveSkillState());
-                state.LuisResult = skillLuisResult;
+                var luisResult = await _services.LuisServices["vehiclesettings"].RecognizeAsync(dc.Context, cancellationToken);
+                state.LuisResult = luisResult;
 
-                var rawLuis = await _services.LuisServices["vehiclesettings"].RecognizeAsync(dc.Context, cancellationToken);
-                state.RawLuis = rawLuis;
-
-                if (state.DialogStateType == VehicleSettingStage.None)
-                {
-                    state.AddRecognizerResult(state.RawLuis, true);
-                }
-                else
-                {
-                    state.AddRecognizerResult(state.RawLuis, false);
-                }
-
-                // check luis intent
-                _services.LuisServices.TryGetValue("general", out var luisService);
-
-                if (luisService == null)
-                {
-                    throw new Exception("The specified LUIS Model could not be found in your Skill configuration.");
-                }
-                else
-                {
-                    var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
-                    var topIntent = luisResult.TopIntent().intent;
-
-                    // check intent
-                    switch (topIntent)
-                    {
-                        case General.Intent.Cancel:
-                            {
-                                result = await OnCancel(dc);
-                                break;
-                            }
-
-                        case General.Intent.Help:
-                            {
-                                result = await OnHelp(dc);
-                                break;
-                            }
-                    }
-                }
+                // If it's the top level intent that you don't "switch context" which is used by this Maluuba component
+                state.AddRecognizerResult(state.LuisResult, (state.DialogStateType == VehicleSettingStage.None) ? true : false);            
             }
 
             return result;

@@ -17,8 +17,7 @@ namespace AutomotiveSkill
 
         }
 
-        public VehicleSettings LuisResult { get; set; }
-        public RecognizerResult RawLuis { get; set; }
+        public RecognizerResult LuisResult { get; set; }
 
         public string Intent { get; set; }
 
