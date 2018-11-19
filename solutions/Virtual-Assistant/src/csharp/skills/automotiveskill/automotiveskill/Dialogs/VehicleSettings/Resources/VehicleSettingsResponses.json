@@ -1,0 +1,191 @@
+{
+  "VehicleSettingsMissingSettingName": {
+    "replies": [
+      {
+        "text": "Sorry, I don't know what setting you're talking about.",
+        "speak": "Sorry, I don't know what setting you're talking about."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "VehicleSettingsSettingNameSelection": {
+    "replies": [
+      {
+        "text": "Any of these match what you're looking for?",
+        "speak": "Any of these match what you're looking for?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "VehicleSettingsMissingSettingValue": {
+    "replies": [
+      {
+        "text": "Sorry, I don't know what setting value you're talking about.",
+        "speak": "Sorry, I don't know what setting value you're talking about."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "VehicleSettingsSettingValueSelection": {
+    "replies": [
+      {
+        "text": "Here are the settings for {settingName}. Which one?",
+        "speak": "Here are the settings for {settingName}. Which one?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "VehicleSettingsSettingValueSelectionPre": {
+    "replies": [
+      {
+        "text": "Here are the settings for {settingName}:",
+        "speak": "Here are the settings for {settingName}:"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "VehicleSettingsSettingValueSelectionPost": {
+    "replies": [
+      {
+        "text": "Which one?",
+        "speak": "Which one?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "VehicleSettingsSettingChangeConfirmation": {
+    "replies": [
+      {
+        "text": "Set {settingName} to {value}?",
+        "speak": "Set {settingName} to {value}?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "VehicleSettingsSettingChangeConfirmationWithCategory": {
+    "replies": [
+      {
+        "text": "{settingName} is {aOrAnBeforeCategory} {category} feature. Set it to {value}?",
+        "speak": "{settingName} is {aOrAnBeforeCategory} {category} feature. Set it to {value}?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "VehicleSettingsSettingChangeConfirmationDenied": {
+    "replies": [
+      {
+        "text": "Ok, not making any changes.",
+        "speak": "Ok, not making any changes."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "VehicleSettingsSettingChangeNoOpValue": {
+    "replies": [
+      {
+        "text": "{settingName} is already set to {value}.",
+        "speak": "{settingName} is already set to {value}."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "VehicleSettingsSettingChangeNoOpAmount": {
+    "replies": [
+      {
+        "text": "{settingName} is already set to {amount}{unit}.",
+        "speak": "{settingName} is already set to {amount}{unit}."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "VehicleSettingsSettingChangeUnsupported": {
+    "replies": [
+      {
+        "text": "Changing the setting {settingName} is currently unsupported.",
+        "speak": "Changing the setting {settingName} is currently unsupported."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "VehicleSettingsChangingRelativeAmount": {
+    "replies": [
+      {
+        "text": "{increasingDecreasing} {settingName} by {amount}{unit}.",
+        "speak": "{increasingDecreasing} {settingName} by {amount}{unit}."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "VehicleSettingsChangingAmount": {
+    "replies": [
+      {
+        "text": "Setting {settingName} to {amount}{unit}.",
+        "speak": "Setting {settingName} to {amount}{unit}."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "VehicleSettingsChangingValue": {
+    "replies": [
+      {
+        "text": "Setting {settingName} to {value}.",
+        "speak": "Setting {settingName} to {value}."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "VehicleSettingsChangingValueKnown": {
+    "replies": [
+      {
+        "text": "{valueIngForm} {settingName}.",
+        "speak": "{valueIngForm} {settingName}."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "VehicleSettingsCheckingStatus": {
+    "replies": [
+      {
+        "text": "Checking the status of {settingName}.",
+        "speak": "Checking the status of {settingName}."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "VehicleSettingsCheckingStatusValueSuccess": {
+    "replies": [
+      {
+        "text": "{settingName} is set to {value}.",
+        "speak": "{settingName} is set to {value}."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "VehicleSettingsCheckingStatusAmountSuccess": {
+    "replies": [
+      {
+        "text": "{settingName} is set to {amount}{unit}.",
+        "speak": "{settingName} is set to {amount}{unit}."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "VehicleSettingsCheckingStatusUnsupported": {
+    "replies": [
+      {
+        "text": "Checking the status of {settingName} is currently unsupported.",
+        "speak": "Checking the status of {settingName} is currently unsupported."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "VehicleSettingsOutOfDomain": {
+    "replies": [
+      {
+        "text": "Sorry, I don't know how to handle that yet.",
+        "speak": "Sorry, I don't know how to handle that yet."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  }
+}
