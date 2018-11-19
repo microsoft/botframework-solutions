@@ -2,34 +2,27 @@
 // Licensed under the MIT license.
 
 using System;
-using System.Collections.Generic;
 using CalendarSkill.ServiceClients.GoogleAPI;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Graph;
 
 namespace CalendarSkill
 {
     public class ServiceManager : IServiceManager
     {
-        private SkillConfiguration _skillConfig;
+        private ISkillConfiguration _skillConfig;
 
-        public ServiceManager(SkillConfiguration config)
+        public ServiceManager(ISkillConfiguration config)
         {
             _skillConfig = config;
         }
 
-        /// <summary>
-        /// Init user service with access token.
-        /// </summary>
-        /// <param name="token">access token.</param>
-        /// <param name="info">user timezone info.</param>
-        /// <returns>user service.</returns>
-        public IUserService InitUserService(string token, TimeZoneInfo info)
+        public IUserService InitUserService(IGraphServiceClient graphClient, TimeZoneInfo info)
         {
-            return new MSGraphUserService(token, info);
+            return new MSGraphUserService(graphClient, info);
         }
 
-        /// <inheritdoc/>
-        public ICalendar InitCalendarService(string token, EventSource source)
+        public GoogleClient GetGoogleClient()
         {
             if (_skillConfig == null)
             {
@@ -41,11 +34,6 @@ namespace CalendarSkill
             _skillConfig.Properties.TryGetValue("googleClientSecret", out object clientSecret);
             _skillConfig.Properties.TryGetValue("googleScopes", out object scopes);
 
-            if (clientId == null || clientSecret == null || scopes == null)
-            {
-                throw new Exception("Please configure your Google Client settings in appsetting.json.");
-            }
-
             var googleClient = new GoogleClient
             {
                 ApplicationName = appName as string,
@@ -54,7 +42,12 @@ namespace CalendarSkill
                 Scopes = (scopes as string).Split(" "),
             };
 
-            return new CalendarService(token, source, googleClient);
+            return googleClient;
+        }
+
+        public ICalendar InitCalendarService(ICalendar calendarAPI, EventSource source)
+        {
+            return new CalendarService(calendarAPI, source);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace CalendarSkill
     public class MainDialog : RouterDialog
     {
         private bool _skillMode;
-        private SkillConfiguration _services;
+        private ISkillConfiguration _services;
         private UserState _userState;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
@@ -30,7 +30,7 @@ namespace CalendarSkill
         private CalendarSkillResponseBuilder _responseBuilder = new CalendarSkillResponseBuilder();
 
         public MainDialog(
-            SkillConfiguration services,
+            ISkillConfiguration services,
             ConversationState conversationState,
             UserState userState,
             IServiceManager serviceManager,
