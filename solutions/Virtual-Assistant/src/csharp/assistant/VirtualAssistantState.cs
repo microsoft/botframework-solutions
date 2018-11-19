@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace VirtualAssistant
+﻿namespace VirtualAssistant
 {
     public class VirtualAssistantState
     {
@@ -9,15 +7,15 @@ namespace VirtualAssistant
         /// </summary>
         public VirtualAssistantState()
         {
-            ExecutedIntents = new List<string>();
+            LastIntent = null;
         }
 
         /// <summary>
-        /// Gets or sets ExecutedIntents.
+        /// Gets or sets LastIntent.
         /// </summary>
         /// <value>
         /// ToDoTaskContent.
         /// </value>
-        public List<string> ExecutedIntents { get; set; }
+        public string LastIntent { get; set; }
     }
 }

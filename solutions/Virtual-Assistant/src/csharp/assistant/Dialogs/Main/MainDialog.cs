@@ -127,7 +127,7 @@ namespace VirtualAssistant
                                 case General.Intent.Next:
                                 case General.Intent.Previous:
                                     {
-                                        var lastExecutedIntent = virtualAssistantState.ExecutedIntents.Last();
+                                        var lastExecutedIntent = virtualAssistantState.LastIntent;
                                         if (lastExecutedIntent != null)
                                         {
                                             var matchedSkill = _skillRouter.IdentifyRegisteredSkill(lastExecutedIntent);
@@ -159,7 +159,7 @@ namespace VirtualAssistant
                 case Dispatch.Intent.l_ToDo:
                 case Dispatch.Intent.l_PointOfInterest:
                     {
-                        virtualAssistantState.ExecutedIntents.Add(intent.ToString());
+                        virtualAssistantState.LastIntent = intent.ToString();
                         var matchedSkill = _skillRouter.IdentifyRegisteredSkill(intent.ToString());
 
                         await RouteToSkillAsync(dc, new SkillDialogOptions()
