@@ -3,6 +3,7 @@
 
 using System;
 using System.Linq;
+using $safeprojectname$.Dialogs.Main.Resources;
 using $safeprojectname$.Middleware.Telemetry;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DependencyCollector;
@@ -109,7 +110,7 @@ namespace $safeprojectname$
                 // Catches any errors that occur during a conversation turn and logs them to AppInsights.
                 options.OnTurnError = async (context, exception) =>
                 {
-                    await context.SendActivityAsync("Sorry, it looks like something went wrong.");
+                    await context.SendActivityAsync(MainStrings.ERROR);
                     connectedServices.TelemetryClient.TrackException(exception);
                 };
 

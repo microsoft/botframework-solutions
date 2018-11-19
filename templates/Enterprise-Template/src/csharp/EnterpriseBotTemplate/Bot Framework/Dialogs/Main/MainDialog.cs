@@ -11,7 +11,6 @@ using $safeprojectname$.Dialogs.Shared;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Schema;
 
 namespace $safeprojectname$.Dialogs.Main
 {
@@ -33,25 +32,14 @@ namespace $safeprojectname$.Dialogs.Main
             AddDialog(new EscalateDialog(_services));
         }
 
-        protected override async Task OnStartAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var view = new MainResponses();
-            await view.ReplyWith(innerDc.Context, MainResponses.Intro);
+            await view.ReplyWith(dc.Context, MainResponses.ResponseIds.Intro);
         }
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            // Check if there was an action submitted from intro card
-            if (dc.Context.Activity.Value != null)
-            {
-                dynamic value = dc.Context.Activity.Value;
-                if (value.action == "startOnboarding")
-                {
-                    await dc.BeginDialogAsync(nameof(OnboardingDialog));
-                    return;
-                }
-            }
-
             // Check dispatch result
             var dispatchResult = await _services.DispatchRecognizer.RecognizeAsync<Dispatch>(dc.Context, true, CancellationToken.None);
             var intent = dispatchResult.TopIntent().intent;
@@ -77,21 +65,21 @@ namespace $safeprojectname$.Dialogs.Main
                         case General.Intent.Greeting:
                             {
                                 // send greeting response
-                                await _responder.ReplyWith(dc.Context, MainResponses.Greeting);
+                                await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Greeting);
                                 break;
                             }
 
                         case General.Intent.Help:
                             {
                                 // send help response
-                                await _responder.ReplyWith(dc.Context, MainResponses.Help);
+                                await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Help);
                                 break;
                             }
 
                         case General.Intent.Cancel:
                             {
                                 // send cancelled response
-                                await _responder.ReplyWith(dc.Context, MainResponses.Cancelled);
+                                await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Cancelled);
 
                                 // Cancel any active dialogs on the stack
                                 await dc.CancelAllDialogsAsync();
@@ -109,7 +97,7 @@ namespace $safeprojectname$.Dialogs.Main
                         default:
                             {
                                 // No intent was identified, send confused message
-                                await _responder.ReplyWith(dc.Context, MainResponses.Confused);
+                                await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Confused);
                                 break;
                             }
                     }
@@ -135,10 +123,24 @@ namespace $safeprojectname$.Dialogs.Main
             }
         }
 
-        protected override async Task CompleteAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnEventAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            // Check if there was an action submitted from intro card
+            if (dc.Context.Activity.Value != null)
+            {
+                dynamic value = dc.Context.Activity.Value;
+                if (value.action == "startOnboarding")
+                {
+                    await dc.BeginDialogAsync(nameof(OnboardingDialog));
+                    return;
+                }
+            }
+        }
+
+        protected override async Task CompleteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // The active dialog's stack ended with a complete status
-            await _responder.ReplyWith(innerDc.Context, MainResponses.Completed);
+            await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Completed);
         }
     }
 }

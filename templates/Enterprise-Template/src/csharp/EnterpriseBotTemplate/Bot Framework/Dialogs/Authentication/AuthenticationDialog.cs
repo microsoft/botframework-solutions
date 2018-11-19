@@ -3,7 +3,7 @@
 
 using System.Threading;
 using System.Threading.Tasks;
-using $safeprojectname$.Dialogs.SignIn.Resources;
+using $safeprojectname$.Dialogs.Authentication.Resources;
 using $safeprojectname$.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -12,40 +12,39 @@ using Microsoft.Graph;
 
 namespace $safeprojectname$.Dialogs.Shared
 {
-    public class SignInDialog : ComponentDialog
+    public class AuthenticationDialog : ComponentDialog
     {
-        // Constants
-        public const string LoginPrompt = "loginPrompt";
+        private static AuthenticationResponses _responder = new AuthenticationResponses();
 
-        // Fields
-        private static SignInResponses _responder = new SignInResponses();
-
-        public SignInDialog(string connectionName)
-            : base(nameof(SignInDialog))
+        public AuthenticationDialog(string connectionName)
+            : base(nameof(AuthenticationDialog))
         {
-            InitialDialogId = nameof(SignInDialog);
+            InitialDialogId = nameof(AuthenticationDialog);
             ConnectionName = connectionName;
 
             var authenticate = new WaterfallStep[]
             {
-                AskToLogin,
-                FinishAuthDialog,
+                PromptToLogin,
+                FinishLoginDialog,
             };
 
             AddDialog(new WaterfallDialog(InitialDialogId, authenticate));
-            AddDialog(new OAuthPrompt(LoginPrompt, new OAuthPromptSettings()
+            AddDialog(new OAuthPrompt(DialogIds.LoginPrompt, new OAuthPromptSettings()
             {
                 ConnectionName = ConnectionName,
-                Title = SignInStrings.TITLE,
-                Text = SignInStrings.PROMPT,
+                Title = AuthenticationStrings.TITLE,
+                Text = AuthenticationStrings.PROMPT,
             }));
         }
 
         private string ConnectionName { get; set; }
 
-        private async Task<DialogTurnResult> AskToLogin(WaterfallStepContext sc, CancellationToken cancellationToken) => await sc.PromptAsync(LoginPrompt, new PromptOptions());
+        private async Task<DialogTurnResult> PromptToLogin(WaterfallStepContext sc, CancellationToken cancellationToken)
+        {
+            return await sc.PromptAsync(AuthenticationResponses.ResponseIds.LoginPrompt, new PromptOptions());
+        }
 
-        private async Task<DialogTurnResult> FinishAuthDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> FinishLoginDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             var activity = sc.Context.Activity;
             if (sc.Result != null)
@@ -55,13 +54,13 @@ namespace $safeprojectname$.Dialogs.Shared
                 if (tokenResponse?.Token != null)
                 {
                     var user = await GetProfile(sc.Context, tokenResponse);
-                    await _responder.ReplyWith(sc.Context, SignInResponses.Succeeded, new { name = user.DisplayName });
+                    await _responder.ReplyWith(sc.Context, AuthenticationResponses.ResponseIds.SucceededMessage, new { name = user.DisplayName });
                     return await sc.EndDialogAsync(tokenResponse);
                 }
             }
             else
             {
-                await _responder.ReplyWith(sc.Context, SignInResponses.Failed);
+                await _responder.ReplyWith(sc.Context, AuthenticationResponses.ResponseIds.FailedMessage);
             }
 
             return await sc.EndDialogAsync();
@@ -73,6 +72,11 @@ namespace $safeprojectname$.Dialogs.Shared
             var client = new GraphClient(token.Token);
 
             return await client.GetMe();
+        }
+
+        private class DialogIds
+        {
+            public const string LoginPrompt = "loginPrompt";
         }
     }
 }
