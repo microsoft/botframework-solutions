@@ -23,7 +23,8 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
         /// <summary>
         /// Initializes a new instance of the <see cref="GoogleCalendarAPI"/> class.
         /// </summary>
-        /// <param name="token">access token.</param>
+        /// <param name="config">GoogleClient. </param>
+        /// <param name="token">access token. </param>
         public GoogleCalendarAPI(GoogleClient config, string token)
         {
             var flow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
@@ -57,7 +58,7 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
         public async Task<EventModel> CreateEvent(EventModel newEvent)
         {
             await Task.CompletedTask;
-            return new EventModel(CreateEvent(newEvent.Value));
+            return new EventModel(await CreateEvent(newEvent.Value));
         }
 
         /// <inheritdoc/>
