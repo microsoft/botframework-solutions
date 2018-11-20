@@ -30,7 +30,7 @@ namespace CalendarSkill
 
         public CalendarSkillDialog(
             string dialogId,
-            SkillConfiguration services,
+            ISkillConfiguration services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager)
             : base(dialogId)
@@ -54,7 +54,7 @@ namespace CalendarSkill
             AddDialog(new ChoicePrompt(Actions.EventChoice, null, Culture.English) { Style = ListStyle.Inline, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = false } });
         }
 
-        protected SkillConfiguration Services { get; set; }
+        protected ISkillConfiguration Services { get; set; }
 
         protected IStatePropertyAccessor<CalendarSkillState> Accessor { get; set; }
 

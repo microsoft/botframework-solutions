@@ -9,6 +9,7 @@ using CalendarSkill.Common;
 using CalendarSkill.Dialogs.CreateEvent.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Extensions;
+using CalendarSkill.ServiceClients;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -25,7 +26,7 @@ namespace CalendarSkill
     public class CreateEventDialog : CalendarSkillDialog
     {
         public CreateEventDialog(
-            SkillConfiguration services,
+            ISkillConfiguration services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager)
             : base(nameof(CreateEventDialog), services, accessor, serviceManager)
@@ -158,7 +159,9 @@ namespace CalendarSkill
                     return await sc.EndDialogAsync(true, cancellationToken);
                 }
 
-                ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+                var calendarAPI = GraphClientHelper.GetCalendarService(state.APIToken, state.EventSource, ServiceManager.GetGoogleClient());
+                ServiceManager.InitCalendarService(calendarAPI, state.EventSource);
+
                 if (state.Attendees.Count == 0)
                 {
                     return await sc.BeginDialogAsync(Actions.UpdateAddress, cancellationToken: cancellationToken);
@@ -338,7 +341,8 @@ namespace CalendarSkill
                         TimeZone = TimeZoneInfo.Utc,
                         Location = state.Location,
                     };
-                    var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+                    var calendarAPI = GraphClientHelper.GetCalendarService(state.APIToken, state.EventSource, ServiceManager.GetGoogleClient());
+                    var calendarService = ServiceManager.InitCalendarService(calendarAPI, state.EventSource);
                     if (await calendarService.CreateEvent(newEvent) != null)
                     {
                         var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(CreateEventResponses.EventCreated, newEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", newEvent.ToAdaptiveCardData(state.GetUserTimeZone()));
@@ -871,7 +875,8 @@ namespace CalendarSkill
             try
             {
                 var token = state.APIToken;
-                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone());
+                IGraphServiceClient serviceClient = GraphClientHelper.GetAuthenticatedClient(token, state.GetUserTimeZone());
+                var service = ServiceManager.InitUserService(serviceClient, state.GetUserTimeZone());
 
                 // Get users.
                 var userList = await service.GetUserAsync(name);
@@ -888,50 +893,71 @@ namespace CalendarSkill
             return result;
         }
 
-        protected async Task<List<Person>> GetPeopleWorkWithAsync(WaterfallStepContext sc, string name)
+        protected static (List<Person> formattedPersonList, List<Person> formattedUserList) FormatRecipientList(List<Person> personList, List<Person> userList)
         {
-            var result = new List<Person>();
-            try
+            // Remove dup items
+            List<Person> formattedPersonList = new List<Person>();
+            List<Person> formattedUserList = new List<Person>();
+
+            foreach (var person in personList)
             {
-                var state = await Accessor.GetAsync(sc.Context);
-                var token = state.APIToken;
-                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone());
+                var mailAddress = person.ScoredEmailAddresses.FirstOrDefault()?.Address ?? person.UserPrincipalName;
 
-                // Get users.
-                result = await service.GetPeopleAsync(name);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc);
-                throw ex;
-            }
-
-            return result;
-        }
-
-        protected async Task<List<Person>> GetContactsAsync(WaterfallStepContext sc, string name)
-        {
-            var result = new List<Person>();
-            try
-            {
-                var state = await Accessor.GetAsync(sc.Context);
-                var token = state.APIToken;
-                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone());
-
-                // Get users.
-                var contactList = await service.GetContactsAsync(name);
-                foreach (var contact in contactList)
+                bool isDup = false;
+                foreach (var formattedPerson in formattedPersonList)
                 {
-                    result.Add(contact.ToPerson());
+                    var formattedMailAddress = formattedPerson.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedPerson.UserPrincipalName;
+
+                    if (mailAddress.Equals(formattedMailAddress))
+                    {
+                        isDup = true;
+                        break;
+                    }
+                }
+
+                if (!isDup)
+                {
+                    formattedPersonList.Add(person);
                 }
             }
-            catch (Exception ex)
+
+            foreach (var user in userList)
             {
-                await HandleDialogExceptions(sc);
-                throw ex;
+                var mailAddress = user.ScoredEmailAddresses.FirstOrDefault()?.Address ?? user.UserPrincipalName;
+
+                bool isDup = false;
+                foreach (var formattedPerson in formattedPersonList)
+                {
+                    var formattedMailAddress = formattedPerson.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedPerson.UserPrincipalName;
+
+                    if (mailAddress.Equals(formattedMailAddress))
+                    {
+                        isDup = true;
+                        break;
+                    }
+                }
+
+                if (!isDup)
+                {
+                    foreach (var formattedUser in formattedUserList)
+                    {
+                        var formattedMailAddress = formattedUser.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedUser.UserPrincipalName;
+
+                        if (mailAddress.Equals(formattedMailAddress))
+                        {
+                            isDup = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!isDup)
+                {
+                    formattedUserList.Add(user);
+                }
             }
 
-            return result;
+            return (formattedPersonList, formattedUserList);
         }
 
         protected async Task<PromptOptions> GenerateOptions(List<Person> personList, List<Person> userList, DialogContext dc)
@@ -1024,75 +1050,55 @@ namespace CalendarSkill
             return options;
         }
 
-        protected static (List<Person> formattedPersonList, List<Person> formattedUserList) FormatRecipientList(List<Person> personList, List<Person> userList)
+        protected async Task<List<Person>> GetContactsAsync(WaterfallStepContext sc, string name)
         {
-            // Remove dup items
-            List<Person> formattedPersonList = new List<Person>();
-            List<Person> formattedUserList = new List<Person>();
-
-            foreach (var person in personList)
+            var result = new List<Person>();
+            try
             {
-                var mailAddress = person.ScoredEmailAddresses.FirstOrDefault()?.Address ?? person.UserPrincipalName;
+                var state = await Accessor.GetAsync(sc.Context);
+                var token = state.APIToken;
+                IGraphServiceClient serviceClient = GraphClientHelper.GetAuthenticatedClient(token, state.GetUserTimeZone());
+                var service = ServiceManager.InitUserService(serviceClient, state.GetUserTimeZone());
 
-                bool isDup = false;
-                foreach (var formattedPerson in formattedPersonList)
+                // Get users.
+                var contactList = await service.GetContactsAsync(name);
+                foreach (var contact in contactList)
                 {
-                    var formattedMailAddress = formattedPerson.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedPerson.UserPrincipalName;
-
-                    if (mailAddress.Equals(formattedMailAddress))
-                    {
-                        isDup = true;
-                        break;
-                    }
-                }
-
-                if (!isDup)
-                {
-                    formattedPersonList.Add(person);
+                    result.Add(contact.ToPerson());
                 }
             }
-
-            foreach (var user in userList)
+            catch (Exception ex)
             {
-                var mailAddress = user.ScoredEmailAddresses.FirstOrDefault()?.Address ?? user.UserPrincipalName;
-
-                bool isDup = false;
-                foreach (var formattedPerson in formattedPersonList)
-                {
-                    var formattedMailAddress = formattedPerson.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedPerson.UserPrincipalName;
-
-                    if (mailAddress.Equals(formattedMailAddress))
-                    {
-                        isDup = true;
-                        break;
-                    }
-                }
-
-                if (!isDup)
-                {
-                    foreach (var formattedUser in formattedUserList)
-                    {
-                        var formattedMailAddress = formattedUser.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedUser.UserPrincipalName;
-
-                        if (mailAddress.Equals(formattedMailAddress))
-                        {
-                            isDup = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (!isDup)
-                {
-                    formattedUserList.Add(user);
-                }
+                await HandleDialogExceptions(sc);
+                throw ex;
             }
 
-            return (formattedPersonList, formattedUserList);
+            return result;
         }
 
+        protected async Task<List<Person>> GetPeopleWorkWithAsync(WaterfallStepContext sc, string name)
+        {
+            var result = new List<Person>();
+            try
+            {
+                var state = await Accessor.GetAsync(sc.Context);
+                var token = state.APIToken;
+                IGraphServiceClient serviceClient = GraphClientHelper.GetAuthenticatedClient(token, state.GetUserTimeZone());
+                var service = ServiceManager.InitUserService(serviceClient, state.GetUserTimeZone());
 
-        public string GetSelectPromptString(PromptOptions selectOption, bool containNumbers)
+                // Get users.
+                result = await service.GetPeopleAsync(name);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc);
+                throw ex;
+            }
+
+            return result;
+        }
+
+        private string GetSelectPromptString(PromptOptions selectOption, bool containNumbers)
         {
             var result = string.Empty;
             result += selectOption.Prompt.Text + "\r\n";
@@ -1102,7 +1108,7 @@ namespace CalendarSkill
                 result += "  ";
                 if (containNumbers)
                 {
-                    result += i + 1 + "-";
+                    result += (i + 1) + "-";
                 }
 
                 result += choice.Value + "\r\n";
@@ -1111,7 +1117,7 @@ namespace CalendarSkill
             return result;
         }
 
-        public bool IsEmail(string emailString)
+        private bool IsEmail(string emailString)
         {
             return Regex.IsMatch(emailString, @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
         }

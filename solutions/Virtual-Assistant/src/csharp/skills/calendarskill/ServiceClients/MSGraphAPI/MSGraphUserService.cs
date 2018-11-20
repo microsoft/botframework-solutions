@@ -14,7 +14,7 @@ namespace CalendarSkill
     /// </summary>
     public class MSGraphUserService : IUserService
     {
-        private GraphServiceClient graphClient;
+        private IGraphServiceClient graphClient;
 
         private TimeZoneInfo timeZoneInfo;
 
@@ -24,6 +24,13 @@ namespace CalendarSkill
             timeZoneInfo = info;
         }
 
+        public MSGraphUserService(IGraphServiceClient graphClient, TimeZoneInfo info)
+        {
+            this.graphClient = graphClient;
+            timeZoneInfo = info;
+        }
+
+        // will be Deleted
         public static GraphServiceClient GetAuthenticatedClient(string accessToken, TimeZoneInfo info)
         {
             var graphClient = new GraphServiceClient(
