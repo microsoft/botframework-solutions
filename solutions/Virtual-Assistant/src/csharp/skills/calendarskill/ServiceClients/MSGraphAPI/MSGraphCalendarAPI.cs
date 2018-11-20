@@ -11,7 +11,7 @@ namespace CalendarSkill
 {
     public class MSGraphCalendarAPI : ICalendar
     {
-        private readonly GraphServiceClient _graphClient;
+        private readonly IGraphServiceClient _graphClient;
 
         public MSGraphCalendarAPI(string token)
         {

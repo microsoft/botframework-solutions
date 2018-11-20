@@ -18,14 +18,14 @@ namespace CalendarSkill
     /// </summary>
     public class CalendarSkill : IBot
     {
-        private readonly SkillConfiguration _services;
+        private readonly ISkillConfiguration _services;
         private readonly UserState _userState;
         private readonly ConversationState _conversationState;
         private readonly IServiceManager _serviceManager;
-        private DialogSet _dialogs;
         private bool _skillMode;
+        private DialogSet _dialogs;
 
-        public CalendarSkill(SkillConfiguration services, ConversationState conversationState, UserState userState, IServiceManager serviceManager = null, bool skillMode = false)
+        public CalendarSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, IServiceManager serviceManager = null, bool skillMode = false)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));

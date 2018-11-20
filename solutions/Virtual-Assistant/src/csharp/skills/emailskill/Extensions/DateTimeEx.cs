@@ -4,6 +4,7 @@
 namespace EmailSkill.Extensions
 {
     using System;
+    using Microsoft.Bot.Solutions.Resources;
 
     /// <summary>
     /// Date time extension to format date time.
@@ -37,43 +38,43 @@ namespace EmailSkill.Extensions
             double totalSeconds = span.TotalSeconds;
             if (totalSeconds < 0.9)
             {
-                return "Now";
+                return CommonStrings.Now;
             }
 
-            string format = "Today at {0}";
+            string date = CommonStrings.Today;
             if (totalSeconds < (24 * 60 * 60))
             {
                 // Times
-                var time = dateTimeWithTimeZone.ToString("h:mm tt");
-                return string.Format(format, time);
+                var time = dateTimeWithTimeZone.ToString(CommonStrings.DisplayTime);
+                return string.Format(CommonStrings.AtTimeDetailsFormat, date, time);
             }
 
             // Format both date and time
             if (totalSeconds < (48 * 60 * 60))
             {
                 // 1 Day
-                format = future ? "Tomorrow" : "Yesterday";
+                date = future ? CommonStrings.Tomorrow : CommonStrings.Yesterday;
             }
             else if (totalSeconds < (3 * 24 * 60 * 60))
             {
                 // 2 Days
-                format = string.Format(format, 2, "days");
+                date = string.Format(CommonStrings.DaysFormat, 2);
             }
             else
             {
                 // Absolute date
                 if (dateTimeWithTimeZone.Year == DateTime.Now.Year)
                 {
-                    format = dateTimeWithTimeZone.ToString(@"MMM d");
+                    date = dateTimeWithTimeZone.ToString(CommonStrings.DisplayDateFormat_CurrentYear);
                 }
                 else
                 {
-                    format = dateTimeWithTimeZone.ToString(@"MMM d, yyyy");
+                    date = dateTimeWithTimeZone.ToString(CommonStrings.DisplayDateFormat);
                 }
             }
 
             // Add time
-            return string.Format("{0} at {1:h:mmtt}", format, dateTimeWithTimeZone);
+            return string.Format(CommonStrings.AtTimeDetailsFormat, date, dateTimeWithTimeZone.ToString(CommonStrings.DisplayTime));
         }
     }
 }

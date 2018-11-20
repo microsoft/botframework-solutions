@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.ConfirmRecipient.Resources;
-using EmailSkill.Dialogs.SendEmail.Resources;
 using EmailSkill.Dialogs.Shared.Resources;
-using EmailSkill.Dialogs.ShowEmail.Resources;
 using EmailSkill.Extensions;
+using EmailSkill.Util;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -19,6 +17,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Graph;
 using Microsoft.Recognizers.Text;
@@ -285,14 +284,7 @@ namespace EmailSkill
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                if (state.Message.Count == 0)
-                {
-                    return await sc.BeginDialogAsync(Actions.UpdateSelectMessage);
-                }
-                else
-                {
-                    return await sc.NextAsync();
-                }
+                return await sc.BeginDialogAsync(Actions.UpdateSelectMessage);
             }
             catch (Exception ex)
             {
@@ -335,11 +327,17 @@ namespace EmailSkill
 
                 var emailCard = new EmailCardData
                 {
-                    Subject = "Subject: " + state.Subject,
-                    NameList = nameListString,
-                    EmailContent = "Content: " + state.Content,
+                    Subject = string.Format(CommonStrings.SubjectFormat, state.Subject),
+                    NameList = string.Format(CommonStrings.ToFormat, nameListString),
+                    EmailContent = string.Format(CommonStrings.ContentFormat, state.Content),
                 };
-                var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(EmailSharedResponses.ConfirmSend, "Dialogs/Shared/Resources/Cards/EmailWithOutButtonCard.json", emailCard, ResponseBuilder);
+
+                var speech = SpeakHelper.ToSpeechEmailSendDetailString(emailCard.Subject, emailCard.NameList, emailCard.EmailContent);
+                var stringToken = new StringDictionary
+                {
+                    { "EmailDetails", speech },
+                };
+                var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(EmailSharedResponses.ConfirmSend, "Dialogs/Shared/Resources/Cards/EmailWithOutButtonCard.json", emailCard, ResponseBuilder, stringToken);
 
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = replyMessage, RetryPrompt = sc.Context.Activity.CreateReply(EmailSharedResponses.ConfirmSendFailed, ResponseBuilder), });
             }
@@ -545,7 +543,7 @@ namespace EmailSkill
             {
                 if (i == recipients.Count - 1)
                 {
-                    result += " and " + recipients[i].EmailAddress.Name;
+                    result += string.Format(CommonStrings.SeparatorFormat, CommonStrings.And) + recipients[i].EmailAddress.Name;
                 }
                 else
                 {
@@ -582,7 +580,7 @@ namespace EmailSkill
                 var choice = new Choice()
                 {
                     Value = $"**{user.DisplayName}: {mailAddress}**",
-                    Synonyms = new List<string> { (i + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
+                    Synonyms = new List<string> { (options.Choices.Count + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
                 };
                 var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
                 if (!string.IsNullOrEmpty(userName))
@@ -619,7 +617,7 @@ namespace EmailSkill
                 var choice = new Choice()
                 {
                     Value = $"{user.DisplayName}: {mailAddress}",
-                    Synonyms = new List<string> { (i + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
+                    Synonyms = new List<string> { (options.Choices.Count + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
                 };
                 var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
                 if (!string.IsNullOrEmpty(userName))
@@ -672,24 +670,21 @@ namespace EmailSkill
         protected async Task<string> GetPreviewNameListString(WaterfallStepContext sc, string actionType)
         {
             var state = await EmailStateAccessor.GetAsync(sc.Context);
-            var nameListString = "To: ";
+            var nameListString = string.Empty;
 
             switch (actionType)
             {
                 case Actions.Send:
-                    nameListString += string.Join(";", state.Recipients.Select(r => r.EmailAddress.Name));
-                    return nameListString;
+                    nameListString = DisplayHelper.ToDisplayRecipientsString(state.Recipients);
+                    break;
                 case Actions.Reply:
                 case Actions.Forward:
                 default:
-                    nameListString += state.Recipients.FirstOrDefault()?.EmailAddress.Name;
-                    if (state.Recipients.Count > 1)
-                    {
-                        nameListString += $" + {state.Recipients.Count - 1} more";
-                    }
-
-                    return nameListString;
+                    nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(state.Recipients);
+                    break;
             }
+
+            return nameListString;
         }
 
         protected async Task<bool> GetPreviewSubject(WaterfallStepContext sc, string actionType)
@@ -703,11 +698,11 @@ namespace EmailSkill
                 switch (actionType)
                 {
                     case Actions.Reply:
-                        state.Subject = focusedMessage.Subject.ToLower().StartsWith("re:") ? focusedMessage.Subject : "RE: " + focusedMessage?.Subject;
+                        state.Subject = focusedMessage.Subject.ToLower().StartsWith(CommonStrings.Reply) ? focusedMessage.Subject : string.Format(CommonStrings.ReplyReplyFormat, focusedMessage?.Subject);
                         state.Recipients = focusedMessage.ToRecipients.ToList();
                         break;
                     case Actions.Forward:
-                        state.Subject = focusedMessage.Subject.ToLower().StartsWith("fw:") ? focusedMessage.Subject : "FW: " + focusedMessage?.Subject;
+                        state.Subject = focusedMessage.Subject.ToLower().StartsWith(CommonStrings.Forward) ? focusedMessage.Subject : string.Format(CommonStrings.ForwardReplyFormat, focusedMessage?.Subject);
                         break;
                     case Actions.Send:
                     default:
@@ -769,38 +764,40 @@ namespace EmailSkill
             var cardsData = new List<EmailCardData>();
             foreach (var message in messages)
             {
-                var nameListString = $"To: {message.ToRecipients.FirstOrDefault()?.EmailAddress.Name}";
-                if (message.ToRecipients != null && message.ToRecipients.Count() > 1)
-                {
-                    nameListString += $" + {message.ToRecipients.Count() - 1} more";
-                }
+                var nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(message.ToRecipients);
 
                 var emailCard = new EmailCardData
                 {
                     Subject = message.Subject,
                     Sender = message.Sender.EmailAddress.Name,
-                    NameList = nameListString,
+                    NameList = string.Format(CommonStrings.ToFormat, nameListString),
                     EmailContent = message.BodyPreview,
                     EmailLink = message.WebLink,
                     ReceivedDateTime = message.ReceivedDateTime == null
-                    ? "Not available"
+                    ? CommonStrings.NotAvailable
                     : message.ReceivedDateTime.Value.UtcDateTime.ToRelativeString(state.GetUserTimeZone()),
-                    Speak = message?.Subject + " From " + message.Sender.EmailAddress.Name,
+                    Speak = SpeakHelper.ToSpeechEmailDetailString(message),
                 };
                 cardsData.Add(emailCard);
             }
 
-            var searchType = "relevant";
+            var searchType = CommonStrings.Relevant;
             if (state.IsUnreadOnly)
             {
-                searchType += " unread";
+                searchType = string.Format(CommonStrings.RelevantFormat, CommonStrings.Unread);
             }
             else if (state.IsImportant)
             {
-                searchType += " important";
+                searchType = string.Format(CommonStrings.RelevantFormat, CommonStrings.Important);
             }
 
-            var reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, new StringDictionary { { "SearchType", searchType } });
+            var stringToken = new StringDictionary
+            {
+                { "SearchType", searchType },
+                { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(messages) },
+            };
+
+            var reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
             await sc.Context.SendActivityAsync(reply);
         }
 

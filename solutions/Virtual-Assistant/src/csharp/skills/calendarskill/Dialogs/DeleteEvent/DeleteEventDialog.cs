@@ -7,6 +7,7 @@ using CalendarSkill.Common;
 using CalendarSkill.Dialogs.DeleteEvent.Resources;
 using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
+using CalendarSkill.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
@@ -19,7 +20,7 @@ namespace CalendarSkill
     public class DeleteEventDialog : CalendarSkillDialog
     {
         public DeleteEventDialog(
-            SkillConfiguration services,
+            ISkillConfiguration services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager)
             : base(nameof(DeleteEventDialog), services, accessor, serviceManager)
@@ -81,7 +82,8 @@ namespace CalendarSkill
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+                var calendarAPI = GraphClientHelper.GetCalendarService(state.APIToken, state.EventSource, ServiceManager.GetGoogleClient());
+                var calendarService = ServiceManager.InitCalendarService(calendarAPI, state.EventSource);
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult)
                 {
@@ -115,7 +117,8 @@ namespace CalendarSkill
                     return await sc.EndDialogAsync(true);
                 }
 
-                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+                var calendarAPI = GraphClientHelper.GetCalendarService(state.APIToken, state.EventSource, ServiceManager.GetGoogleClient());
+                var calendarService = ServiceManager.InitCalendarService(calendarAPI, state.EventSource);
                 if (state.StartDateTime == null)
                 {
                     return await sc.BeginDialogAsync(Actions.UpdateStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound));
@@ -172,7 +175,8 @@ namespace CalendarSkill
                 var state = await Accessor.GetAsync(sc.Context);
                 var events = new List<EventModel>();
 
-                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+                var calendarAPI = GraphClientHelper.GetCalendarService(state.APIToken, state.EventSource, ServiceManager.GetGoogleClient());
+                var calendarService = ServiceManager.InitCalendarService(calendarAPI, state.EventSource);
 
                 if (state.StartDate != null || state.StartTime != null)
                 {

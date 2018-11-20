@@ -1,13 +1,13 @@
 ﻿{
-  "NotEventOrganizer": {
-    "replies": [
-      {
-        "text": "您不是组织者，不能更新这个会议。",
-        "speak": "您不是组织者，不能更新这个会议。"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
+    "NotEventOrganizer": {
+        "replies": [
+            {
+                "text": "您不是组织者，不能更新这个会议。",
+                "speak": "您不是组织者，不能更新这个会议。"
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
   "ConfirmUpdate": {
     "replies": [
       {
@@ -26,15 +26,15 @@
     ],
     "inputHint": "expectingInput"
   },
-  "EventUpdated": {
-    "replies": [
-      {
-        "text": "已为您更新会议时间。",
-        "speak": "已为您更新会议时间。"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
+    "EventUpdated": {
+        "replies": [
+            {
+                "text": "已为您更新会议时间。",
+                "speak": "已为您更新会议时间。"
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
   "NoNewTime": {
     "replies": [
       {

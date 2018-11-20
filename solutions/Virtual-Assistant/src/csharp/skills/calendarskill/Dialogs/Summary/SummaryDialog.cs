@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CalendarSkill.Common;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Dialogs.Summary.Resources;
+using CalendarSkill.ServiceClients;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -20,7 +21,7 @@ namespace CalendarSkill
     public class SummaryDialog : CalendarSkillDialog
     {
         public SummaryDialog(
-            SkillConfiguration services,
+            ISkillConfiguration services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager)
             : base(nameof(SummaryDialog), services, accessor, serviceManager)
@@ -60,7 +61,7 @@ namespace CalendarSkill
 
                 var topIntent = luisResult?.TopIntent().intent;
 
-                if (topIntent == Calendar.Intent.Summary)
+                if (topIntent == Calendar.Intent.Summary || topIntent == Calendar.Intent.FindCalendarEntry)
                 {
                     state.SummaryEvents = null;
                 }
@@ -112,12 +113,14 @@ namespace CalendarSkill
                 var state = await Accessor.GetAsync(sc.Context);
                 if (state.SummaryEvents == null)
                 {
+                    // this will lead to error when test
                     if (string.IsNullOrEmpty(state.APIToken))
                     {
                         return await sc.EndDialogAsync(true);
                     }
 
-                    var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+                    var calendarAPI = GraphClientHelper.GetCalendarService(state.APIToken, state.EventSource, ServiceManager.GetGoogleClient());
+                    var calendarService = ServiceManager.InitCalendarService(calendarAPI, state.EventSource);
 
                     var searchDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, state.GetUserTimeZone());
 
@@ -249,9 +252,17 @@ namespace CalendarSkill
                 }
                 else if ((promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true) || (topIntent == Luis.Calendar.Intent.ReadAloud && eventItem == null))
                 {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.ReadOutPrompt), });
+                    if (state.SummaryEvents.Count == 1)
+                    {
+                        eventItem = state.SummaryEvents[0];
+                    }
+                    else
+                    {
+                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.ReadOutPrompt), });
+                    }
                 }
-                else if (eventItem != null)
+
+                if (eventItem != null)
                 {
                     string speakString = string.Empty;
                     if (eventItem.IsAllDay == true)

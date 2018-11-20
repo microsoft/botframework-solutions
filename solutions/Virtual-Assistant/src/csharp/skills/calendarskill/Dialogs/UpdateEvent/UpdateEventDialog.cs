@@ -7,6 +7,7 @@ using CalendarSkill.Common;
 using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Dialogs.UpdateEvent.Resources;
+using CalendarSkill.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
@@ -19,7 +20,7 @@ namespace CalendarSkill
     public class UpdateEventDialog : CalendarSkillDialog
     {
         public UpdateEventDialog(
-            SkillConfiguration services,
+            ISkillConfiguration services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager)
             : base(nameof(UpdateEventDialog), services, accessor, serviceManager)
@@ -136,7 +137,8 @@ namespace CalendarSkill
                     updateEvent.EndTime = (newStartTime + last).AddSeconds(1);
                     updateEvent.TimeZone = TimeZoneInfo.Utc;
                     updateEvent.Id = origin.Id;
-                    var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+                    var calendarAPI = GraphClientHelper.GetCalendarService(state.APIToken, state.EventSource, ServiceManager.GetGoogleClient());
+                    var calendarService = ServiceManager.InitCalendarService(calendarAPI, state.EventSource);
                     var newEvent = await calendarService.UpdateEventById(updateEvent);
 
                     var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(UpdateEventResponses.EventUpdated, newEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", newEvent.ToAdaptiveCardData(state.GetUserTimeZone()));
@@ -162,7 +164,7 @@ namespace CalendarSkill
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                if (state.StartDate != null || state.StartTime != null)
+                if (state.StartDate != null || state.StartTime != null || state.MoveTimeSpan != 0)
                 {
                     return await sc.ContinueDialogAsync();
                 }
@@ -188,7 +190,7 @@ namespace CalendarSkill
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                if (state.StartDate != null || state.StartTime != null)
+                if (state.StartDate != null || state.StartTime != null || state.MoveTimeSpan != 0)
                 {
                     var originalEvent = state.Events[0];
                     var originalStartDateTime = TimeConverter.ConvertUtcToUserTime(originalEvent.StartTime, state.GetUserTimeZone());
@@ -203,7 +205,7 @@ namespace CalendarSkill
                             state.StartTime.Value.Minute,
                             state.StartTime.Value.Second);
                     }
-                    else if (state.StartDate != null)
+                    else if (state.StartDate != null && state.StartTime == null)
                     {
                         state.NewStartDateTime = new DateTime(
                             state.StartDate.Value.Year,
@@ -213,7 +215,7 @@ namespace CalendarSkill
                             originalStartDateTime.Minute,
                             originalStartDateTime.Second);
                     }
-                    else
+                    else if (state.StartDate == null && state.StartTime != null)
                     {
                         state.NewStartDateTime = new DateTime(
                             originalStartDateTime.Year,
@@ -222,6 +224,14 @@ namespace CalendarSkill
                             state.StartTime.Value.Hour,
                             state.StartTime.Value.Minute,
                             state.StartTime.Value.Second);
+                    }
+                    else if (state.MoveTimeSpan != 0)
+                    {
+                        state.NewStartDateTime = originalStartDateTime.AddSeconds(state.MoveTimeSpan);
+                    }
+                    else
+                    {
+                        return await sc.BeginDialogAsync(Actions.UpdateNewStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound));
                     }
 
                     state.NewStartDateTime = TimeZoneInfo.ConvertTimeToUtc(state.NewStartDateTime.Value, state.GetUserTimeZone());
@@ -274,7 +284,8 @@ namespace CalendarSkill
                     return await sc.EndDialogAsync(true);
                 }
 
-                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+                var calendarAPI = GraphClientHelper.GetCalendarService(state.APIToken, state.EventSource, ServiceManager.GetGoogleClient());
+                var calendarService = ServiceManager.InitCalendarService(calendarAPI, state.EventSource);
                 return await sc.BeginDialogAsync(Actions.UpdateStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound));
             }
             catch
@@ -323,8 +334,8 @@ namespace CalendarSkill
             {
                 var state = await Accessor.GetAsync(sc.Context);
                 var events = new List<EventModel>();
-
-                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+                var calendarAPI = GraphClientHelper.GetCalendarService(state.APIToken, state.EventSource, ServiceManager.GetGoogleClient());
+                var calendarService = ServiceManager.InitCalendarService(calendarAPI, state.EventSource);
 
                 if (state.OriginalStartDate != null || state.OriginalStartTime != null)
                 {
@@ -417,10 +428,8 @@ namespace CalendarSkill
             }
             catch
             {
-                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarSharedResponses.CalendarErrorMessage, ResponseBuilder));
-                var state = await Accessor.GetAsync(sc.Context);
-                state.Clear();
-                return await sc.CancelAllDialogsAsync();
+                await HandleDialogExceptions(sc);
+                throw;
             }
         }
     }

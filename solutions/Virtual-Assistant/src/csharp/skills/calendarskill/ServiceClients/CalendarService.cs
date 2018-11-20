@@ -35,6 +35,19 @@ namespace CalendarSkill
             }
         }
 
+        public CalendarService(ICalendar calendarAPI, EventSource source)
+        {
+            switch (source)
+            {
+                case EventSource.Microsoft:
+                case EventSource.Google:
+                    this.calendarAPI = calendarAPI;
+                    break;
+                default:
+                    throw new Exception("Event Type not Defined");
+            }
+        }
+
         /// <inheritdoc/>
         public async Task<EventModel> CreateEvent(EventModel newEvent)
         {

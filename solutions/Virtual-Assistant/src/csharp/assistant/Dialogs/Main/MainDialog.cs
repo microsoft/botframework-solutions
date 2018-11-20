@@ -27,6 +27,7 @@ namespace VirtualAssistant
         private EndpointService _endpointService;
         private IStatePropertyAccessor<OnboardingState> _onboardingState;
         private IStatePropertyAccessor<Dictionary<string, object>> _parametersAccessor;
+        private IStatePropertyAccessor<VirtualAssistantState> _virtualAssistantState;
         private MainResponses _responder = new MainResponses();
         private SkillRouter _skillRouter;
 
@@ -40,6 +41,7 @@ namespace VirtualAssistant
             _endpointService = endpointService;
             _onboardingState = _userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             _parametersAccessor = _userState.CreateProperty<Dictionary<string, object>>("userInfo");
+            _virtualAssistantState = _conversationState.CreateProperty<VirtualAssistantState>(nameof(VirtualAssistantState));
             var dialogState = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
 
             AddDialog(new OnboardingDialog(_services, _onboardingState));
@@ -67,6 +69,7 @@ namespace VirtualAssistant
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var parameters = await _parametersAccessor.GetAsync(dc.Context, () => new Dictionary<string, object>());
+            var virtualAssistantState = await _virtualAssistantState.GetAsync(dc.Context, () => new VirtualAssistantState());
 
             // No dialog is currently on the stack and we haven't responded to the user
             // Check dispatch result
@@ -121,6 +124,23 @@ namespace VirtualAssistant
                                         break;
                                     }
 
+                                case General.Intent.Next:
+                                case General.Intent.Previous:
+                                    {
+                                        var lastExecutedIntent = virtualAssistantState.LastIntent;
+                                        if (lastExecutedIntent != null)
+                                        {
+                                            var matchedSkill = _skillRouter.IdentifyRegisteredSkill(lastExecutedIntent);
+                                            await RouteToSkillAsync(dc, new SkillDialogOptions()
+                                            {
+                                                SkillDefinition = matchedSkill,
+                                                Parameters = parameters,
+                                            });
+                                        }
+
+                                        break;
+                                    }
+
                                 case General.Intent.None:
                                 default:
                                     {
@@ -139,6 +159,7 @@ namespace VirtualAssistant
                 case Dispatch.Intent.l_ToDo:
                 case Dispatch.Intent.l_PointOfInterest:
                     {
+                        virtualAssistantState.LastIntent = intent.ToString();
                         var matchedSkill = _skillRouter.IdentifyRegisteredSkill(intent.ToString());
 
                         await RouteToSkillAsync(dc, new SkillDialogOptions()
