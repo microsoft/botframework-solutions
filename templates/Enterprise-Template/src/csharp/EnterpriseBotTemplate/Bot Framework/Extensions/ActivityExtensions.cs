@@ -47,6 +47,11 @@ namespace $safeprojectname$.Extensions
                                 return true;
                             }
                         }
+                        else
+                        {
+                            // For other activity types, like event or message
+                            return true;
+                        }
 
                         return false;
                     }
