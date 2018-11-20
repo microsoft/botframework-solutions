@@ -34,13 +34,13 @@ If these settings are missing, the application will raise an alert and not start
 
 ### Using the Speech Recognizer
 
-The application will switch between a keyword recognizer ("Assistant, do this") and continuous recognizer ("do this") based on the input hints returned by the bot.
+The application will switch between different recognition modes based on the input hints returned by the bot.
 
-| Input Hint        | Speech Recognizer           | Description  |
+| Input Hint        | Speech Recognizer           | Description  | Sample Utterance | 
 | ------------- |:-------------:| -----:|
-| Ignoring input      | No recognizer enabled | The bot is not expecting any response from the user and the microphone is closed. This may be used when a bot has multiple activities to send concurrently. |
-| Accepting input      | Keyword recognizer | The bot is passively awaiting a response from the user, it will open the microphone but not react unless the configured keyword has been uttered. |
-| Expecting input      | Continuous recognizer | The bot is awaiting a response from the user and will leave the microphone open. This is useful for multi-turn dialogs where a user will have a natural conversation with their bot.|
+| Ignoring input      | No recognizer enabled | The bot is not expecting any response from the user and the microphone is closed. This may be used when a bot has multiple activities to send concurrently. | n/a |
+| Accepting input      | Keyword recognizer | The bot is passively awaiting a response from the user, it will open the microphone but not react unless the configured keyword has been uttered. | *"Assistant, send an email to Mark"* |
+| Expecting input      | Continuous recognizer | The bot is awaiting a response from the user and will leave the microphone open. This is useful for multi-turn dialogs where a user will have a natural conversation with their bot.| *"Send an email to Mark"* |
 
 For more details on how to use input hints, visit [Add input hints to your messages](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-add-input-hints?view=azure-bot-service-4.0&tabs=cs).
 
