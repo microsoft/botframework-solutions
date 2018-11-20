@@ -28,6 +28,13 @@
   ],
   "actions": [
     {
+      "type": "Action.Submit",
+      "title": "Beginnen",
+      "data": {
+        "action": "startOnboarding"
+      }
+    },
+    {
       "type": "Action.OpenUrl",
       "title": "Übersicht",
       "url": "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"
