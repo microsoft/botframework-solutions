@@ -35,6 +35,7 @@ namespace $safeprojectname$.Extensions
                         return false;
                     }
 
+                case Channels.Directline:
                 case Channels.Emulator:
                 case Channels.Webchat:
                 case Channels.Msteams:
