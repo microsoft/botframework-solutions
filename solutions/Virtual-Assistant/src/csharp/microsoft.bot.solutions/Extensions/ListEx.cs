@@ -1,7 +1,7 @@
-﻿using Microsoft.Bot.Solutions.Resources;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Bot.Solutions.Resources;
 
 namespace Microsoft.Bot.Solutions.Extensions
 {

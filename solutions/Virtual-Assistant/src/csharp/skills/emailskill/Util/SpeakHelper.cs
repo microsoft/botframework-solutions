@@ -1,7 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Specialized;
-using EmailSkill.Dialogs.Shared.Resources;
-using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Graph;

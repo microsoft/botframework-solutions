@@ -3,8 +3,8 @@
 
 namespace EmailSkill.Extensions
 {
-    using Microsoft.Bot.Solutions.Resources;
     using System;
+    using Microsoft.Bot.Solutions.Resources;
 
     /// <summary>
     /// Date time extension to format date time.

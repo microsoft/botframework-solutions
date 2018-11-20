@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Specialized;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.SendEmail.Resources;
