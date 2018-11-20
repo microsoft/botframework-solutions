@@ -17,7 +17,7 @@ To generate the language model class, please use LuisGen tool: https://github.co
 
 ### Generation
 
-We're in the process of consolidating the luis model deployment steps so the instruction about LUIS language model generation will come after that's done.
+We're in the process of consolidating the LUIS model deployment steps so the instruction about LUIS language model generation will come after that's done.
 
 ### Note
 
