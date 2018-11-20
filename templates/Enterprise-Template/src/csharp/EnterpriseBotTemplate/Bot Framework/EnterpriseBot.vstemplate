@@ -198,7 +198,7 @@
       </Folder>
       <Folder Name="Middleware" TargetFolderName="Middleware">
         <Folder Name="Telemetry" TargetFolderName="Telemetry">
-          <ProjectItem ReplaceParameters="false" TargetFileName="Example Power BI Dashboard.pbit">Example PowerBI Dashboard.pbit</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Example Power BI Dashboard.pbit">Example Power BI Dashboard.pbit</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="LuisTelemetryConstants.cs">LuisTelemetryConstants.cs</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="QnATelemetryConstants.cs">QnATelemetryConstants.cs</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="TelemetryBotDependencyExtension.cs">TelemetryBotDependencyExtension.cs</ProjectItem>
