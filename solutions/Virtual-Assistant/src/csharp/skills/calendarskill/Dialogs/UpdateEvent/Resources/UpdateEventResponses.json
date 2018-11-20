@@ -1,13 +1,13 @@
 {
-  "NotEventOrganizer": {
-    "replies": [
-      {
-        "text": "I can't update this event because you are not the organizer.",
-        "speak": "I can't update this event because you are not the organizer."
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
+    "NotEventOrganizer": {
+        "replies": [
+            {
+                "text": "I can't update this event because you are not the organizer.",
+                "speak": "I can't update this event because you are not the organizer."
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
   "ConfirmUpdate": {
     "replies": [
       {
@@ -26,16 +26,16 @@
     ],
     "inputHint": "expectingInput"
   },
-  "EventUpdated": {
-    "replies": [
+    "EventUpdated": {
+        "replies": [
 
-      {
-        "text": "I have changed the time of your event.",
-        "speak": "I have changed the time of your event."
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
+            {
+                "text": "I have changed the time of your event.",
+                "speak": "I have changed the time of your event."
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
   "NoNewTime": {
     "replies": [
 

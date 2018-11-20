@@ -106,31 +106,31 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "NoAuth": {
-    "replies": [
-      {
-        "text": "Bitte melden Sie sich, bevor wir weitermachen.",
-        "speak": "Bitte melden Sie sich, bevor wir weitermachen."
-      },
-      {
-        "text": "Bitte melden Sie sich an, damit wir weitermachen können.",
-        "speak": "Bitte melden Sie sich an, damit wir weitermachen können."
-      },
-      {
-        "text": "Bitte melden Sie sich an, damit ich Ihre Anfrage bearbeiten kann.",
-        "speak": "Bitte melden Sie sich an, damit ich Ihre Anfrage bearbeiten kann."
-      },
-      {
-        "text": "Können Sie sich bitte anmelden, damit ich Ihnen weiterhelfen kann?",
-        "speak": "Können Sie sich bitte anmelden, damit ich Ihnen weiterhelfen kann?"
-      },
-      {
-        "text": "Sie müssen sich anmelden, damit ich Ihnen weiter behilflich sein kann.",
-        "speak": "Sie müssen sich anmelden, damit ich Ihnen weiter behilflich sein kann."
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
+    "NoAuth": {
+        "replies": [
+            {
+                "text": "Bitte melden Sie sich, bevor wir weitermachen.",
+                "speak": "Bitte melden Sie sich, bevor wir weitermachen."
+            },
+            {
+                "text": "Bitte melden Sie sich an, damit wir weitermachen können.",
+                "speak": "Bitte melden Sie sich an, damit wir weitermachen können."
+            },
+            {
+                "text": "Bitte melden Sie sich an, damit ich Ihre Anfrage bearbeiten kann.",
+                "speak": "Bitte melden Sie sich an, damit ich Ihre Anfrage bearbeiten kann."
+            },
+            {
+                "text": "Können Sie sich bitte anmelden, damit ich Ihnen weiterhelfen kann?",
+                "speak": "Können Sie sich bitte anmelden, damit ich Ihnen weiterhelfen kann?"
+            },
+            {
+                "text": "Sie müssen sich anmelden, damit ich Ihnen weiter behilflich sein kann.",
+                "speak": "Sie müssen sich anmelden, damit ich Ihnen weiter behilflich sein kann."
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
   "GreetingMessage": {
     "replies": [
       {
@@ -297,49 +297,49 @@
     ],
     "inputHint": "expectingInput"
   },
-  "EventCreated": {
-    "replies": [
-      {
-        "text": "Ich habe Folgendes zu Ihrem Kalender hinzugefügt: ",
-        "speak": "Ich habe Folgendes zu Ihrem Kalender hinzugefügt: "
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "EventCreationFailed": {
-    "replies": [
-      {
-        "text": "Die Erstellung des Termins ist fehlgeschlagen.",
-        "speak": "Die Erstellung des Termins ist fehlgeschlagen."
-      },
-      {
-        "text": "Es ist leider etwas schief gelaufen. Bitte versuchen Sie es erneut.",
-        "speak": "Es ist leider etwas schief gelaufen. Bitte versuchen Sie es erneut."
-      },
-      {
-        "text": "Der Termin konnte offenbar nicht erstellt werden. Bitte versuchen Sie es später erneut.",
-        "speak": "Der Termin konnte offenbar nicht erstellt werden. Bitte versuchen Sie es später erneut."
-      },
-      {
-        "text": "Die Erstellung des Termins ist fehlgeschlagen. Bitte versuchen Sie es erneut.",
-        "speak": "Die Erstellung des Termins ist fehlgeschlagen. Bitte versuchen Sie es erneut."
-      },
-      {
-        "text": "Bei der Terminerstellung ist ein Fehler aufgetreten. Möchten Sie es erneut probieren?",
-        "speak": "Bei der Terminerstellung ist ein Fehler aufgetreten. Möchten Sie es erneut probieren?"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "NothingToCancelMessage": {
-    "replies": [
-      {
-        "text": "Es liegt kein Termin vor, den ich absagen kann.",
-        "speak": "Es liegt kein Termin vor, den ich absagen kann."
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
+    "EventCreated": {
+        "replies": [
+            {
+                "text": "Ich habe Folgendes zu Ihrem Kalender hinzugefügt: ",
+                "speak": "Ich habe Folgendes zu Ihrem Kalender hinzugefügt: "
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
+    "EventCreationFailed": {
+        "replies": [
+            {
+                "text": "Die Erstellung des Termins ist fehlgeschlagen.",
+                "speak": "Die Erstellung des Termins ist fehlgeschlagen."
+            },
+            {
+                "text": "Es ist leider etwas schief gelaufen. Bitte versuchen Sie es erneut.",
+                "speak": "Es ist leider etwas schief gelaufen. Bitte versuchen Sie es erneut."
+            },
+            {
+                "text": "Der Termin konnte offenbar nicht erstellt werden. Bitte versuchen Sie es später erneut.",
+                "speak": "Der Termin konnte offenbar nicht erstellt werden. Bitte versuchen Sie es später erneut."
+            },
+            {
+                "text": "Die Erstellung des Termins ist fehlgeschlagen. Bitte versuchen Sie es erneut.",
+                "speak": "Die Erstellung des Termins ist fehlgeschlagen. Bitte versuchen Sie es erneut."
+            },
+            {
+                "text": "Bei der Terminerstellung ist ein Fehler aufgetreten. Möchten Sie es erneut probieren?",
+                "speak": "Bei der Terminerstellung ist ein Fehler aufgetreten. Möchten Sie es erneut probieren?"
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
+    "NothingToCancelMessage": {
+        "replies": [
+            {
+                "text": "Es liegt kein Termin vor, den ich absagen kann.",
+                "speak": "Es liegt kein Termin vor, den ich absagen kann."
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
   "EventWithStartTimeNotFound": {
     "replies": [
       {
@@ -409,24 +409,24 @@
     ],
     "inputHint": "expectingInput"
   },
-  "EventUpdated": {
-    "replies": [
-      {
-        "text": "Ich habe den Zeitpunkt Ihres Termins geändert.",
-        "speak": "Ich habe den Zeitpunkt Ihres Termins geändert."
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "EventDeleted": {
-    "replies": [
-      {
-        "text": "Ich habe den Termin gelöscht.",
-        "speak": "Ich habe den Termin gelöscht."
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
+    "EventUpdated": {
+        "replies": [
+            {
+                "text": "Ich habe den Zeitpunkt Ihres Termins geändert.",
+                "speak": "Ich habe den Zeitpunkt Ihres Termins geändert."
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
+    "EventDeleted": {
+        "replies": [
+            {
+                "text": "Ich habe den Termin gelöscht.",
+                "speak": "Ich habe den Termin gelöscht."
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
   "ConfirmDelete": {
     "replies": [
       {
@@ -490,15 +490,15 @@
     ],
     "inputHint": "expectingInput"
   },
-  "NotEventOrganizer": {
-    "replies": [
-      {
-        "text": "Ich kann den Termin nicht aktualisieren, weil Sie nicht der Organisator sind.",
-        "speak": "Ich kann den Termin nicht aktualisieren, weil Sie nicht der Organisator sind."
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
+    "NotEventOrganizer": {
+        "replies": [
+            {
+                "text": "Ich kann den Termin nicht aktualisieren, weil Sie nicht der Organisator sind.",
+                "speak": "Ich kann den Termin nicht aktualisieren, weil Sie nicht der Organisator sind."
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
   "SelectProvider": {
     "replies": [
       {
@@ -571,79 +571,79 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "ActionEnded": {
-    "replies": [
-      {
-        "text": "Sagen Sie Bescheid, wenn Sie bei etwas anderem meine Hilfe brauchen",
-        "speak": "Sagen Sie Bescheid, wenn Sie bei etwas anderem meine Hilfe brauchen."
-      },
-      {
-        "text": "Ich bin hier, wenn Sie mich brauchen.",
-        "speak": "Ich bin hier, wenn Sie mich brauchen."
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "CalendarErrorMessage": {
-    "replies": [
-      {
-        "text": "Entschuldigung, offenbar ist etwas schief gelaufen!",
-        "speak": "Entschuldigung, offenbar ist etwas schief gelaufen!"
-      },
-      {
-        "text": "Es ist ein Fehler aufgetreten. Geben Sie mir etwas Zeit und versuchen Sie es später erneut.",
-        "speak": "Es ist ein Fehler aufgetreten. Geben Sie mir etwas Zeit und versuchen Sie es später erneut."
-      },
-      {
-        "text": "Etwas ist schief gelaufen. Entschuldigung!",
-        "speak": "Etwas ist schief gelaufen. Entschuldigung!"
-      },
-      {
-        "text": "Ich glaube etwas ist schief gelaufen. Können Sie es bitte später noch einmal versuchen?",
-        "speak": "Ich glaube etwas ist schief gelaufen. Können Sie es bitte später noch einmal versuchen?"
-      },
-      {
-        "text": "Entschuldigung. Ich kann gerade nicht finden, wonach Sie suchen. Versuche Sie es bitte später erneut.",
-        "speak": "Entschuldigung. Ich kann gerade nicht finden, wonach Sie suchen. Versuche Sie es bitte später erneut."
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "CalendarNoMoreEvent": {
-    "replies": [
-      {
-        "text": "Keine weiteren Termine!",
-        "speak": "Keine weiteren Termine!"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "CalendarNoPreviousEvent": {
-    "replies": [
-      {
-        "text": "Das ist bereits die erste Seite!",
-        "speak": "Das ist bereits die erste Seite!"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "AuthFailed": {
-    "replies": [
-      {
-        "text": "Die Authentifizierung ist fehlgeschlagen. Bitte versuchen Sie es erneut.",
-        "speak": "Die Authentifizierung ist fehlgeschlagen. Bitte versuchen Sie es erneut."
-      },
-      {
-        "text": "Sie konnten nicht angemeldet werden. Bitte versuchen Sie es später erneut.",
-        "speak": "Sie konnten nicht angemeldet werden. Bitte versuchen Sie es später erneut."
-      },
-      {
-        "text": "Ihre Anmeldung ist fehlgeschlagen. Lass Sie uns das nochmal versuchen.",
-        "speak": "Ihre Anmeldung ist fehlgeschlagen. Lass Sie uns das nochmal versuchen."
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
+    "ActionEnded": {
+        "replies": [
+            {
+                "text": "Sagen Sie Bescheid, wenn Sie bei etwas anderem meine Hilfe brauchen",
+                "speak": "Sagen Sie Bescheid, wenn Sie bei etwas anderem meine Hilfe brauchen."
+            },
+            {
+                "text": "Ich bin hier, wenn Sie mich brauchen.",
+                "speak": "Ich bin hier, wenn Sie mich brauchen."
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
+    "CalendarErrorMessage": {
+        "replies": [
+            {
+                "text": "Entschuldigung, offenbar ist etwas schief gelaufen!",
+                "speak": "Entschuldigung, offenbar ist etwas schief gelaufen!"
+            },
+            {
+                "text": "Es ist ein Fehler aufgetreten. Geben Sie mir etwas Zeit und versuchen Sie es später erneut.",
+                "speak": "Es ist ein Fehler aufgetreten. Geben Sie mir etwas Zeit und versuchen Sie es später erneut."
+            },
+            {
+                "text": "Etwas ist schief gelaufen. Entschuldigung!",
+                "speak": "Etwas ist schief gelaufen. Entschuldigung!"
+            },
+            {
+                "text": "Ich glaube etwas ist schief gelaufen. Können Sie es bitte später noch einmal versuchen?",
+                "speak": "Ich glaube etwas ist schief gelaufen. Können Sie es bitte später noch einmal versuchen?"
+            },
+            {
+                "text": "Entschuldigung. Ich kann gerade nicht finden, wonach Sie suchen. Versuche Sie es bitte später erneut.",
+                "speak": "Entschuldigung. Ich kann gerade nicht finden, wonach Sie suchen. Versuche Sie es bitte später erneut."
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
+    "CalendarNoMoreEvent": {
+        "replies": [
+            {
+                "text": "Keine weiteren Termine!",
+                "speak": "Keine weiteren Termine!"
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
+    "CalendarNoPreviousEvent": {
+        "replies": [
+            {
+                "text": "Das ist bereits die erste Seite!",
+                "speak": "Das ist bereits die erste Seite!"
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
+    "AuthFailed": {
+        "replies": [
+            {
+                "text": "Die Authentifizierung ist fehlgeschlagen. Bitte versuchen Sie es erneut.",
+                "speak": "Die Authentifizierung ist fehlgeschlagen. Bitte versuchen Sie es erneut."
+            },
+            {
+                "text": "Sie konnten nicht angemeldet werden. Bitte versuchen Sie es später erneut.",
+                "speak": "Sie konnten nicht angemeldet werden. Bitte versuchen Sie es später erneut."
+            },
+            {
+                "text": "Ihre Anmeldung ist fehlgeschlagen. Lass Sie uns das nochmal versuchen.",
+                "speak": "Ihre Anmeldung ist fehlgeschlagen. Lass Sie uns das nochmal versuchen."
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
   "ReadOutPrompt": {
     "replies": [
       {
@@ -685,17 +685,17 @@
     ],
     "inputHint": "expectingInput"
   },
-  "ReadOutMessage": {
-    "replies": [
-      {
-        "text": "Details des Termins:",
-        "speak": "Details des Termins: {MeetingDetails}"
-      },
-      {
-        "text": "Thema des Termins:",
-        "speak": "Thema des Termins: {MeetingDetails}"
-      }
-    ],
-    "inputHint": "expectingInput"
-  }
+    "ReadOutMessage": {
+        "replies": [
+            {
+                "text": "Details des Termins:",
+                "speak": "Details des Termins: {MeetingDetails}"
+            },
+            {
+                "text": "Thema des Termins:",
+                "speak": "Thema des Termins: {MeetingDetails}"
+            }
+        ],
+        "inputHint": "acceptingInput"
+    }
 }
