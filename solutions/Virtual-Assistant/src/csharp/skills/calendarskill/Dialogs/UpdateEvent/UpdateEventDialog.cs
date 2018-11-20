@@ -164,7 +164,7 @@ namespace CalendarSkill
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                if (state.StartDate != null || state.StartTime != null)
+                if (state.StartDate != null || state.StartTime != null || state.MoveTimeSpan != 0)
                 {
                     return await sc.ContinueDialogAsync();
                 }
@@ -190,7 +190,7 @@ namespace CalendarSkill
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                if (state.StartDate != null || state.StartTime != null)
+                if (state.StartDate != null || state.StartTime != null || state.MoveTimeSpan != 0)
                 {
                     var originalEvent = state.Events[0];
                     var originalStartDateTime = TimeConverter.ConvertUtcToUserTime(originalEvent.StartTime, state.GetUserTimeZone());
@@ -205,7 +205,7 @@ namespace CalendarSkill
                             state.StartTime.Value.Minute,
                             state.StartTime.Value.Second);
                     }
-                    else if (state.StartDate != null)
+                    else if (state.StartDate != null && state.StartTime == null)
                     {
                         state.NewStartDateTime = new DateTime(
                             state.StartDate.Value.Year,
@@ -215,7 +215,7 @@ namespace CalendarSkill
                             originalStartDateTime.Minute,
                             originalStartDateTime.Second);
                     }
-                    else
+                    else if (state.StartDate == null && state.StartTime != null)
                     {
                         state.NewStartDateTime = new DateTime(
                             originalStartDateTime.Year,
@@ -224,6 +224,14 @@ namespace CalendarSkill
                             state.StartTime.Value.Hour,
                             state.StartTime.Value.Minute,
                             state.StartTime.Value.Second);
+                    }
+                    else if (state.MoveTimeSpan != 0)
+                    {
+                        state.NewStartDateTime = originalStartDateTime.AddSeconds(state.MoveTimeSpan);
+                    }
+                    else
+                    {
+                        return await sc.BeginDialogAsync(Actions.UpdateNewStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound));
                     }
 
                     state.NewStartDateTime = TimeZoneInfo.ConvertTimeToUtc(state.NewStartDateTime.Value, state.GetUserTimeZone());
@@ -420,10 +428,8 @@ namespace CalendarSkill
             }
             catch
             {
-                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarSharedResponses.CalendarErrorMessage, ResponseBuilder));
-                var state = await Accessor.GetAsync(sc.Context);
-                state.Clear();
-                return await sc.CancelAllDialogsAsync();
+                await HandleDialogExceptions(sc);
+                throw;
             }
         }
     }

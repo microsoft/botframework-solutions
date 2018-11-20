@@ -389,7 +389,7 @@ namespace CalendarSkill
 
                             if (entity.ContactName != null)
                             {
-                                state.AttendeesNameList = GetAttendeesFromEntity(entity, state.AttendeesNameList);
+                                state.AttendeesNameList = GetAttendeesFromEntity(entity, luisResult.Text, state.AttendeesNameList);
                             }
 
                             if (entity.FromDate != null)
@@ -498,7 +498,6 @@ namespace CalendarSkill
                                 state.Title = GetSubjectFromEntity(entity);
                             }
 
-
                             if (entity.FromDate != null)
                             {
                                 var date = GetDateFromDateTimeString(entity.FromDate[0], dc.Context.Activity.Locale, state.GetUserTimeZone());
@@ -507,7 +506,6 @@ namespace CalendarSkill
                                     state.OriginalStartDate = date;
                                 }
                             }
-
 
                             if (entity.ToDate != null)
                             {
@@ -546,6 +544,16 @@ namespace CalendarSkill
                                 {
                                     state.EndTime = time;
                                 }
+                            }
+
+                            if (entity.MoveEarlierTimeSpan != null)
+                            {
+                                state.MoveTimeSpan = GetMoveTimeSpanFromEntity(entity.MoveEarlierTimeSpan[0], dc.Context.Activity.Locale, false);
+                            }
+
+                            if (entity.MoveLaterTimeSpan != null)
+                            {
+                                state.MoveTimeSpan = GetMoveTimeSpanFromEntity(entity.MoveLaterTimeSpan[0], dc.Context.Activity.Locale, true);
                             }
 
                             break;
@@ -624,18 +632,23 @@ namespace CalendarSkill
             return entity.Subject[0];
         }
 
-        private List<string> GetAttendeesFromEntity(Calendar._Entities entity, List<string> attendees = null)
+        private List<string> GetAttendeesFromEntity(Calendar._Entities entity, string inputString, List<string> attendees = null)
         {
             if (attendees == null)
             {
                 attendees = new List<string>();
             }
 
-            foreach (var name in entity.ContactName)
+            // As luis result for email address often contains extra spaces for word breaking
+            // (e.g. send email to test@test.com, email address entity will be test @ test . com)
+            // So use original user input as email address.
+            var rawEntity = entity._instance.ContactName;
+            foreach (var name in rawEntity)
             {
-                if (!attendees.Contains(name))
+                var contactName = inputString.Substring(name.StartIndex, name.EndIndex - name.StartIndex);
+                if (!attendees.Contains(contactName))
                 {
-                    attendees.Add(name);
+                    attendees.Add(contactName);
                 }
             }
 
@@ -644,25 +657,39 @@ namespace CalendarSkill
 
         private int GetDurationFromEntity(Calendar._Entities entity, string local)
         {
-            foreach (var datetimeItem in entity.datetime)
+            var culture = local ?? English;
+            List<DateTimeResolution> result = RecognizeDateTime(entity.Duration[0], culture);
+            if (result != null)
             {
-                if (datetimeItem.Type == "duration")
+                if (result[0].Value != null)
                 {
-                    var culture = local ?? English;
-                    List<DateTimeResolution> result = RecognizeDateTime(entity.Duration[0], culture);
-                    if (result != null)
-                    {
-                        if (result[0].Value != null)
-                        {
-                            return int.Parse(result[0].Value);
-                        }
-                    }
-
-                    break;
+                    return int.Parse(result[0].Value);
                 }
             }
 
             return -1;
+        }
+
+        private int GetMoveTimeSpanFromEntity(string timeSpan, string local, bool later)
+        {
+            var culture = local ?? English;
+            List<DateTimeResolution> result = RecognizeDateTime(timeSpan, culture);
+            if (result != null)
+            {
+                if (result[0].Value != null)
+                {
+                    if (later)
+                    {
+                        return int.Parse(result[0].Value);
+                    }
+                    else
+                    {
+                        return -int.Parse(result[0].Value);
+                    }
+                }
+            }
+
+            return 0;
         }
 
         private string GetMeetingRoomFromEntity(Calendar._Entities entity)
