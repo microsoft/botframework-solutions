@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Graph;
@@ -7,7 +8,7 @@ namespace EmailSkill.Util
 {
     public class SpeakHelper
     {
-        public static string ToSpeechEmailListString(List<Message> messages)
+        public static string ToSpeechEmailListString(List<Message> messages, int maxReadSize)
         {
             string speakString = string.Empty;
 
@@ -17,9 +18,26 @@ namespace EmailSkill.Util
             }
 
             List<string> emailDetails = new List<string>();
-            for (int i = 0; i < messages.Count; i++)
+
+            int readSize = Math.Min(messages.Count, maxReadSize);
+            for (int i = 0; i < readSize; i++)
             {
-                var emailDetail = ToSpeechEmailDetailString(messages[i]);
+                var readFormat = string.Empty;
+
+                if (i == 0)
+                {
+                    readFormat = CommonStrings.FirstItem;
+                }
+                else if (i == 1)
+                {
+                    readFormat = CommonStrings.SecondItem;
+                }
+                else if (i == 2)
+                {
+                    readFormat = CommonStrings.ThirdItem;
+                }
+
+                var emailDetail = string.Format(readFormat, ToSpeechEmailDetailString(messages[i]));
                 emailDetails.Add(emailDetail);
             }
 

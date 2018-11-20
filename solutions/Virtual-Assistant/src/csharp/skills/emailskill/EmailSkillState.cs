@@ -26,6 +26,8 @@ namespace EmailSkill
             IsImportant = false;
             ConfirmRecipientIndex = 0;
             ShowEmailIndex = 0;
+            IsEmailReadMore = false;
+            IsRecipientReadMore = false;
             ShowRecipientIndex = 0;
             MsGraphToken = null;
             DirectlyToMe = false;
@@ -75,7 +77,11 @@ namespace EmailSkill
 
         public int ShowEmailIndex { get; set; }
 
+        public bool IsEmailReadMore { get; set; }
+
         public int ShowRecipientIndex { get; set; }
+
+        public bool IsRecipientReadMore { get; set; }
 
         public Email LuisResult { get; set; }
 
@@ -107,6 +113,8 @@ namespace EmailSkill
             Recipients.Clear();
             ConfirmRecipientIndex = 0;
             ShowEmailIndex = 0;
+            IsEmailReadMore = false;
+            IsRecipientReadMore = false;
             IsUnreadOnly = true;
             IsImportant = false;
             StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));

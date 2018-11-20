@@ -1,13 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-
 namespace EmailSkill
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Microsoft.Bot.Solutions.Data;
     using Microsoft.Graph;
 
     /// <summary>
@@ -108,9 +108,7 @@ namespace EmailSkill
                         done = true;
                     }
 
-                    // make size to 5 to save memory
-                    // 5 is the page size
-                    if (result.Count == 5)
+                    if (result.Count == ConfigData.MaxDisplaySize)
                     {
                         return result.OrderByDescending(me => me.ReceivedDateTime).ToList();
                     }

@@ -16,6 +16,7 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Authentication;
+using Microsoft.Bot.Solutions.Data;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
@@ -493,7 +494,7 @@ namespace EmailSkill
             if (generalTopIntent == General.Intent.Next || generalTopIntent == General.Intent.Previous)
             {
                 // TODO: The signature of validators has been changed per the sdk team, meaning this logic will need to be executed in a different way
-                if (pc.Options.Choices.Count > 5)
+                if (pc.Options.Choices.Count > ConfigData.MaxDisplaySize)
                 {
                     // prompt.End(UpdateUserDialogOptions.UpdateReason.TooMany);
                     pc.Recognized.Succeeded = true;
@@ -558,7 +559,7 @@ namespace EmailSkill
         {
             var state = await EmailStateAccessor.GetAsync(sc.Context);
             var pageIndex = state.ShowRecipientIndex;
-            var pageSize = 5;
+            var pageSize = ConfigData.MaxDisplaySize;
             var skip = pageSize * pageIndex;
 
             var options = new PromptOptions
@@ -723,7 +724,7 @@ namespace EmailSkill
             var result = new List<Message>();
             try
             {
-                const int pageSize = 5;
+                int pageSize = ConfigData.MaxDisplaySize;
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var token = state.MsGraphToken;
                 var serivce = ServiceManager.InitMailService(token, state.GetUserTimeZone());
@@ -762,8 +763,11 @@ namespace EmailSkill
         {
             var state = await EmailStateAccessor.GetAsync(sc.Context);
             var cardsData = new List<EmailCardData>();
-            foreach (var message in messages)
+
+            var startIndex = state.IsEmailReadMore ? ConfigData.MaxReadSize : 0;
+            for (int i = startIndex; i < messages.Count(); i++)
             {
+                var message = messages[i];
                 var nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(message.ToRecipients);
 
                 var emailCard = new EmailCardData
@@ -794,7 +798,7 @@ namespace EmailSkill
             var stringToken = new StringDictionary
             {
                 { "SearchType", searchType },
-                { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(messages) },
+                { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(messages, ConfigData.MaxReadSize) },
             };
 
             var reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
@@ -881,6 +885,8 @@ namespace EmailSkill
                 state.Recipients.Clear();
                 state.ConfirmRecipientIndex = 0;
                 state.ShowEmailIndex = 0;
+                state.IsEmailReadMore = false;
+                state.IsRecipientReadMore = false;
                 state.IsUnreadOnly = true;
                 state.IsImportant = false;
                 state.StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));

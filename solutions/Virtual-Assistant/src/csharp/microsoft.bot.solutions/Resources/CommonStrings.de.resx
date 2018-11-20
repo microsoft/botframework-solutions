@@ -225,4 +225,13 @@
   <data name="Yesterday" xml:space="preserve">
     <value>gestern</value>
   </data>
+  <data name="FirstItem" xml:space="preserve">
+    <value>der erste ist {0};</value>
+  </data>
+  <data name="SecondItem" xml:space="preserve">
+    <value>der zweite ist {0};</value>
+  </data>
+  <data name="ThirdItem" xml:space="preserve">
+    <value>der dritte ist {0};</value>
+  </data>
 </root>

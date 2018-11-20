@@ -10,10 +10,12 @@ using EmailSkill.Util;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Solutions.Data;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 
 namespace EmailSkill
 {
@@ -74,6 +76,23 @@ namespace EmailSkill
                 if (generalTopIntent == General.Intent.Previous && state.ShowEmailIndex > 0)
                 {
                     state.ShowEmailIndex--;
+                }
+
+                if (IsReadMoreIntent(topIntent, sc.Context.Activity.Text))
+                {
+                    if (ConfigData.IsFastReadMode())
+                    {
+                        state.ShowEmailIndex++;
+                    }
+                    else
+                    {
+                        if (state.IsEmailReadMore)
+                        {
+                            state.ShowEmailIndex++;
+                        }
+
+                        state.IsEmailReadMore = !state.IsEmailReadMore;
+                    }
                 }
 
                 return await sc.NextAsync();
@@ -170,6 +189,10 @@ namespace EmailSkill
                         sc.Context.Activity.CreateReply(EmailSharedResponses.CancellingMessage));
                     return await sc.EndDialogAsync(true);
                 }
+                else if (IsReadMoreIntent(topIntent, sc.Context.Activity.Text))
+                {
+                    return await sc.BeginDialogAsync(Actions.Show);
+                }
                 else if (topIntent == Email.Intent.ReadAloud && message == null)
                 {
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(ShowEmailResponses.ReadOutPrompt), });
@@ -198,6 +221,10 @@ namespace EmailSkill
 
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(ShowEmailResponses.ReadOutMorePrompt) });
                 }
+                else if (generalTopIntent == General.Intent.Previous || generalTopIntent == General.Intent.Next)
+                {
+                    return await sc.BeginDialogAsync(Actions.Show);
+                }
                 else
                 {
                     return await sc.NextAsync();
@@ -217,19 +244,26 @@ namespace EmailSkill
                 var luisResult = state.LuisResult;
 
                 var topIntent = luisResult?.TopIntent().intent;
+                var topGeneralIntent = state.GeneralLuisResult?.TopIntent().intent;
                 if (topIntent == null)
                 {
                     return await sc.EndDialogAsync(true);
                 }
-
-                if (topIntent == Email.Intent.Delete)
+                else if (topIntent == Email.Intent.Delete)
                 {
                     return await sc.BeginDialogAsync(nameof(DeleteEmailDialog));
                 }
-
-                if (topIntent == Email.Intent.ReadAloud || topIntent == Email.Intent.SelectItem)
+                else if (IsReadMoreIntent(topIntent, sc.Context.Activity.Text))
+                {
+                    return await sc.BeginDialogAsync(Actions.Show);
+                }
+                else if (topIntent == Email.Intent.ReadAloud || topIntent == Email.Intent.SelectItem)
                 {
                     return await sc.BeginDialogAsync(Actions.Read);
+                }
+                else if (topGeneralIntent == General.Intent.Previous || topGeneralIntent == General.Intent.Next)
+                {
+                    return await sc.BeginDialogAsync(Actions.Show);
                 }
                 else
                 {
@@ -241,6 +275,11 @@ namespace EmailSkill
             {
                 throw await HandleDialogExceptions(sc, ex);
             }
+        }
+
+        private bool IsReadMoreIntent(Email.Intent? topIntent, string userInput)
+        {
+            return topIntent == Email.Intent.ReadAloud && CommonUtil.IsReadMoreIntent(userInput);
         }
     }
 }
