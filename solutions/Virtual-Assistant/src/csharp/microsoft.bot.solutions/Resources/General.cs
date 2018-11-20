@@ -25,7 +25,8 @@ namespace Luis
             Next, 
             Previous, 
             Goodbye, 
-            Logout, 
+            Logout,
+            ReadMore,
             None
         };
         public Dictionary<Intent, IntentScore> Intents;

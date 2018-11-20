@@ -18,11 +18,11 @@ $PREBUILT:number
 - Hilfe
 - Hilf mir
 - Hilfe bitte
-- ich stecke
+- Ich stecke
 - Ich kann Sie nicht verstehen
 - Was soll ich sagen
-- Was können Sie mir helfen
-- Was können Sie tun
+- Was kannst du mir helfen
+- Was tun?
 - Was mache ich jetzt
 - Warum funktioniert das nicht
 - Kannst du mir helfen
@@ -33,7 +33,7 @@ $PREBUILT:number
 - Abbrechen
 - Ignorieren
 - Tue nicht
-- machen es nicht
+- Nicht machen
 - Tu das nicht
 - Ich möchte absagen
 - Vergessen Sie es
@@ -41,62 +41,62 @@ $PREBUILT:number
 - Ausfahrt
 
 # Restart
-- kann ich das noch einmal machen
+- Kann ich das wieder
 - Ich muss etwas ändern
 - Neu starten
-- Start über
+- Start von vorn
 - Rückgängig
 
 # Escalate
-- kann ich mit einer Person sprechen
+- Kann ich mit einer Person sprechen
 - Ich möchte mit einem Menschen sprechen
-- sprechen Sie mit einem Menschen
-- Transfer me please
-- Kontakt Unterstützung
+- Sprechen Sie mit einem Menschen
+- Überteilen Sie mich bitte
+- Kontaktaufnahme
 
 # Next
 - Voraus
-- vorwärts gehen
-- gehen Sie zum nächsten
+- Vorwärts
+- Gehen Sie zum nächsten
 - Nächsten
-- nächsten Punkt
-- Show Next
-- könntest du den nächsten zeigen
-- Ich muss zum nächsten gehen
-- gehen Sie bitte zum nächsten
-- zum nächsten übergehen
+- Nach dem Punkt
+- Show next
+- Könntest du den nächsten zeigen
+- Ich muss zum nächsten
+- Gehen Sie zum nächsten bitte
+- Zum nächsten
 - Mache weiter
-- gehen Sie zum nächsten
-- zur nächsten Seite
+- Gehen Sie zum nächsten
+- Zur nächsten Seite
 - Vorankommen
-- Schritt auf
-- Weiter geht es
-- nächsten ein
-- nächsten bitte
-- Zeig mir als nächstes
-- Zeige mir die nächste
-- zeigen die nächste
-- zeigen Sie den nächsten
-- die nächste e-Mail
+- Weiter gehen
+- Weiter gehen
+- Nächste
+- Weiter bitte
+- Zeigen Sie mir als nächstes
+- Zeigt mir den Nächsten
+- Zeigen Sie den nächsten
+- Zeigen Sie die nächste
+- Die nächste Email
 
 # Previous
 - Zurück
-- letzten einen
-- vorherige
-- der letzte
-- jährige ein
+- Letzter
+- Voriges
+- Die letzte
+- Alte
 - Last
-- zurück zum letzten
-- bringen Sie die vorherige
-- kommen Sie zum letzten
-- gehen Sie zu früheren
-- zum letzten gehen
-- zurückziehen
+- Zurück zum letzten
+- Die vorherige mitbringen
+- Zum letzten
+- Gehen Sie zu den vorherigen
+- Zum letzten
+- Umzug zurück
 - Vorherigen
-- Zeige mir vorher
-- vorherige bitte
-- der vorherige
-- Was ist der bisherige
+- Zeigen Sie mir vor
+- Vorigen bitte
+- Die vorherige
+- Was ist die vorherige
 
 # Goodbye
 - Gute Nacht
@@ -104,18 +104,44 @@ $PREBUILT:number
 - Auf Wiedersehen
 - Ok danke
 - Ok tschüss
-- Das ist es dank
+- Das war es Danke
 
 # Logout
-- SignOut
-- Vergiss mich
-- Abmelden
+- Unterschrift
+- Vergesst mich
+- Unterschreiben
 - logout
-- Abmelden
+- Log-out
+
+# ReadMore
+- Voraus
+- Könntest du den nächsten zeigen
+- Vorwärts
+- Mache weiter
+- Gehen Sie zum nächsten
+- Gehen Sie zum nächsten bitte
+- Zur nächsten Seite
+- Ich muss zum nächsten
+- Vorankommen
+- Weiter gehen
+- Weiter gehen
+- Zum nächsten
+- Nächsten
+- Nach dem Punkt
+- Nächste
+- Weiter bitte
+- Zeigen Sie mir als nächstes
+- Zeigt mir den Nächsten
+- Show next
+- Zeigen Sie den nächsten
+- Zeigen Sie die nächste
+- Die nächste Email
+
+
 
 # None
-- meine Wasserflasche ist grün
-- Schildkröten Schwimmen gerne im Ozean
-- papierflugzeuge am Himmel
+- Meine Wasserflasche ist grün
+- Schildkröten schwimmen gerne im Ozean
+- Papierflächen am Himmel
 
 > PhraseList

@@ -54,48 +54,6 @@ $PREBUILT:number
 - Transfiera me por favor
 - soporte de contacto
 
-# ConfirmYes
-- Absolutamente
-- Seguro
-- Definitivamente
-- Seguro
-- Eso creo
-- Hagámoslo
-- vamos a hacer eso
-- Venga, sí
-- Sí, por favor
-- Bien
-- Vale
-- Claro
-- Sí
-- sí que sería genial gracias
-- Por qué no
-- sí que es cierto
-- Sí
-- Sí
-- Adelante
-
-# ConfirmNo
-- de ninguna manera
-- Cerca
-- No
-- No, gracias
-- no
-- no está bien
-- No es posible
-- De nada
-- La verdad es que no
-- ahora no gracias
-- No, gracias
-
-# ConfirmMore
-- Más
-- me gustaría saber más
-- Muéstrame más
-- Más
-- más info
-- más información
-
 # Next
 - Avanzan
 - seguir adelante
@@ -147,6 +105,39 @@ $PREBUILT:number
 - Gracias
 - Bueno adiós
 - eso es todo gracias
+
+# Logout
+- SignOut
+- Olvídate de mí
+- iniciar sesión
+- Cerrar sesión
+- cerrar sesión
+
+# ReadMore
+- Avanzan
+- ¿podría mostrar el siguiente
+- seguir adelante
+- Sigue
+- ir al siguiente
+- ir a la siguiente, por favor
+- ir a la página siguiente
+- necesito ir al siguiente
+- Avanzar
+- seguir adelante
+- avanzar en la siguiente
+- pasar al siguiente
+- Próxima
+- siguiente elemento
+- siguiente uno
+- siguiente por favor
+- Muéstrame la próxima
+- Muéstrame la siguiente
+- Mostrar siguiente
+- Mostrar el siguiente
+- Mostrar el siguiente
+- el siguiente correo electrónico
+
+
 
 # None
 - mi botella de agua es verde
