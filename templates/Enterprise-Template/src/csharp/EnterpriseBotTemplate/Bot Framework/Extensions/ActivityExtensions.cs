@@ -35,7 +35,10 @@ namespace $safeprojectname$.Extensions
                         return false;
                     }
 
-                default:
+                case Channels.Directline:
+                case Channels.Emulator:
+                case Channels.Webchat:
+                case Channels.Msteams:
                     {
                         if (activity.Type == ActivityTypes.ConversationUpdate)
                         {
@@ -51,6 +54,11 @@ namespace $safeprojectname$.Extensions
                             return true;
                         }
 
+                        return false;
+                    }
+
+                default:
+                    {
                         return false;
                     }
             }

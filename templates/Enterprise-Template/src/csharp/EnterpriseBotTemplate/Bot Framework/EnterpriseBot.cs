@@ -8,7 +8,6 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using $safeprojectname$.Dialogs.Main;
-using $safeprojectname$.Extensions;
 
 namespace $safeprojectname$
 {
@@ -44,7 +43,7 @@ namespace $safeprojectname$
         /// <param name="turnContext">Bot Turn Context.</param>
         /// <param name="cancellationToken">Task CancellationToken.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             // Client notifying this bot took to long to respond (timed out)
             if (turnContext.Activity.Code == EndOfConversationCodes.BotTimedOut)
@@ -61,10 +60,7 @@ namespace $safeprojectname$
             }
             else
             {
-                if (turnContext.Activity.IsStartActivity())
-                {
-                    await dc.BeginDialogAsync(nameof(MainDialog));
-                }
+                await dc.BeginDialogAsync(nameof(MainDialog));
             }
         }
     }
