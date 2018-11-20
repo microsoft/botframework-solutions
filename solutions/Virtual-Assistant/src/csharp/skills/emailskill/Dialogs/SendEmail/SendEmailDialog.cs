@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Specialized;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.SendEmail.Resources;
 using EmailSkill.Dialogs.Shared.Resources;
+using EmailSkill.Util;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 
 namespace EmailSkill
@@ -111,17 +112,13 @@ namespace EmailSkill
                     // send user message.
                     await service.SendMessageAsync(state.Content, state.Subject, state.Recipients);
 
-                    var nameListString = $"To: {state.Recipients.FirstOrDefault()?.EmailAddress.Name}";
-                    if (state.Recipients.Count > 1)
-                    {
-                        nameListString += $" + {state.Recipients.Count - 1} more";
-                    }
+                    var nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(state.Recipients);
 
                     var emailCard = new EmailCardData
                     {
-                        Subject = "Subject: " + state.Subject,
-                        NameList = nameListString,
-                        EmailContent = "Content: " + state.Content,
+                        Subject = string.Format(CommonStrings.SubjectFormat, state.Subject),
+                        NameList = string.Format(CommonStrings.ToFormat, nameListString),
+                        EmailContent = string.Format(CommonStrings.ContentFormat, state.Content),
                     };
                     var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(EmailSharedResponses.SentSuccessfully, "Dialogs/Shared/Resources/Cards/EmailWithOutButtonCard.json", emailCard);
 
