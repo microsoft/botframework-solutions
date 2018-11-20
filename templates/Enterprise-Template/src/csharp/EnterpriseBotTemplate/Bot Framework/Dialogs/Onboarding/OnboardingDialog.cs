@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using $safeprojectname$.Dialogs.Shared;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Schema;
 
 namespace $safeprojectname$.Dialogs.Onboarding
 {
@@ -73,17 +72,10 @@ namespace $safeprojectname$.Dialogs.Onboarding
 
             await _responder.ReplyWith(sc.Context, OnboardingResponses.ResponseIds.HaveEmailMessage, new { email });
 
-            if (!string.IsNullOrEmpty(_state.Location))
+            return await sc.PromptAsync(DialogIds.LocationPrompt, new PromptOptions()
             {
-                return await sc.NextAsync(_state.Location);
-            }
-            else
-            {
-                return await sc.PromptAsync(DialogIds.LocationPrompt, new PromptOptions()
-                {
-                    Prompt = await _responder.RenderTemplate(sc.Context, sc.Context.Activity.Locale, OnboardingResponses.ResponseIds.LocationPrompt),
-                });
-            }
+                Prompt = await _responder.RenderTemplate(sc.Context, sc.Context.Activity.Locale, OnboardingResponses.ResponseIds.LocationPrompt),
+            });
         }
 
         public async Task<DialogTurnResult> FinishOnboardingDialog(WaterfallStepContext sc, CancellationToken cancellationToken)

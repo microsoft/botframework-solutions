@@ -18,32 +18,32 @@ namespace $safeprojectname$.Dialogs.Main
             ["default"] = new TemplateIdMap
             {
                 { ResponseIds.Cancelled,
-                    (context, data) => 
+                    (context, data) =>
                     MessageFactory.Text(
-                        text: MainStrings.CANCELLED, 
-                        ssml: MainStrings.CANCELLED, 
-                        inputHint: InputHints.IgnoringInput)
+                        text: MainStrings.CANCELLED,
+                        ssml: MainStrings.CANCELLED,
+                        inputHint: InputHints.AcceptingInput)
                 },
                 { ResponseIds.Completed,
-                    (context, data) => 
+                    (context, data) =>
                     MessageFactory.Text(
-                        text: MainStrings.COMPLETED, 
-                        ssml: MainStrings.COMPLETED, 
-                        inputHint: InputHints.IgnoringInput)
+                        text: MainStrings.COMPLETED,
+                        ssml: MainStrings.COMPLETED,
+                        inputHint: InputHints.AcceptingInput)
                 },
                 { ResponseIds.Confused,
-                    (context, data) => 
+                    (context, data) =>
                     MessageFactory.Text(
-                        text: MainStrings.CONFUSED, 
-                        ssml: MainStrings.CONFUSED, 
-                        inputHint: InputHints.IgnoringInput)
+                        text: MainStrings.CONFUSED,
+                        ssml: MainStrings.CONFUSED,
+                        inputHint: InputHints.AcceptingInput)
                 },
                 { ResponseIds.Greeting,
-                    (context, data) => 
+                    (context, data) =>
                     MessageFactory.Text(
-                        text: MainStrings.GREETING, 
-                        ssml: MainStrings.GREETING, 
-                        inputHint: InputHints.IgnoringInput)
+                        text: MainStrings.GREETING,
+                        ssml: MainStrings.GREETING,
+                        inputHint: InputHints.AcceptingInput)
                 },
                 { ResponseIds.Help, (context, data) => BuildHelpCard(context, data) },
                 { ResponseIds.Intro, (context, data) => BuildIntroCard(context, data) },

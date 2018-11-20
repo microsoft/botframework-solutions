@@ -11,7 +11,7 @@
 - Install the Azure Bot Service command line (CLI) tools. It's important to do this even if you've used the tools before to ensure you have the latest versions.
 
 ```shell
-npm install -g ludown luis-apis qnamaker botdispatch msbot luisgen chatdown
+npm install -g ludown luis-apis qnamaker botdispatch msbot chatdown
 ```
 
 - Install the Azure Command Line Tools (CLI) from [here](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)
@@ -19,6 +19,12 @@ npm install -g ludown luis-apis qnamaker botdispatch msbot luisgen chatdown
 - Install the AZ Extension for Bot Service
 ```shell
 az extension add -n botservice
+```
+
+- Install the LUISGen tool
+
+```shell
+dotnet tool install -g luisgen
 ```
 
 ## Configuration

@@ -35,7 +35,9 @@ namespace $safeprojectname$.Extensions
                         return false;
                     }
 
-                default:
+                case Channels.Emulator:
+                case Channels.Webchat:
+                case Channels.Msteams:
                     {
                         if (activity.Type == ActivityTypes.ConversationUpdate)
                         {
@@ -45,12 +47,12 @@ namespace $safeprojectname$.Extensions
                                 return true;
                             }
                         }
-                        else
-                        {
-                            // For other activity types, like event or message
-                            return true;
-                        }
 
+                        return false;
+                    }
+
+                default:
+                    {
                         return false;
                     }
             }

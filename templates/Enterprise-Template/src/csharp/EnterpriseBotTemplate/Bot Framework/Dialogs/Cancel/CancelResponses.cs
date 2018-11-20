@@ -19,14 +19,14 @@ namespace $safeprojectname$.Dialogs.Cancel
                     MessageFactory.Text(
                         text: CancelStrings.CANCEL_CONFIRMED,
                         ssml: CancelStrings.CANCEL_CONFIRMED,
-                        inputHint: InputHints.IgnoringInput)
+                        inputHint: InputHints.AcceptingInput)
                 },
                 { ResponseIds.CancelDeniedMessage,
                     (context, data) =>
                     MessageFactory.Text(
                         text: CancelStrings.CANCEL_DENIED,
                         ssml: CancelStrings.CANCEL_DENIED,
-                        inputHint: InputHints.IgnoringInput)
+                        inputHint: InputHints.AcceptingInput)
                 },
                 { ResponseIds.CancelPrompt,
                     (context, data) =>
