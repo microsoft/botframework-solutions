@@ -17,8 +17,6 @@ namespace Microsoft.Bot.Solutions.Dialogs
         void BuildAdaptiveCardGroupReply<T>(Activity reply, BotResponse response, string cardPath, string attachmentLayout, List<T> cardDataAdapters, StringDictionary tokens = null)
             where T : CardDataBase;
 
-        void BuildYesNoReply(Activity reply, BotResponse response, StringDictionary tokens = null);
-
         void BuildMessageReply(Activity reply, BotResponse response, StringDictionary tokens = null);
 
         void AddFormatter(IBotResponseFormatter formatter);
