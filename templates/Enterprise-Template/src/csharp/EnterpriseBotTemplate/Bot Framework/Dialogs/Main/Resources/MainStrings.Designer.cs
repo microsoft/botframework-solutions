@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EnterpriseBot.Dialogs.Main.Resources {
+namespace $safeprojectname$.Dialogs.Main.Resources {
     using System;
     
     
