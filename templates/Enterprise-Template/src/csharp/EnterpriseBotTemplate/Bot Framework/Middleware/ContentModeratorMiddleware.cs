@@ -64,8 +64,8 @@ namespace $safeprojectname$.Middleware
                 var byteArray = Encoding.UTF8.GetBytes(context.Activity.Text);
                 var textStream = new MemoryStream(byteArray);
 
-                var client = new ContentModeratorClient(new ApiKeyServiceClientCredentials(this.subscriptionKey));
-                client.BaseUrl = $"{this.region}.api.cognitive.microsoft.com";
+                var client = new ContentModeratorClient(new ApiKeyServiceClientCredentials(subscriptionKey));
+                client.Endpoint = $"{region}.api.cognitive.microsoft.com";
 
                 var screenResult = client.TextModeration.ScreenText(
                     language: "eng",

@@ -26,9 +26,15 @@ namespace $safeprojectname$.Dialogs.Shared
         {
             var activity = innerDc.Context.Activity;
 
-            if (CortanaHelper.IsLaunchActivity(activity) && string.IsNullOrEmpty(activity.Text))
+            if (activity.IsStartActivity() && string.IsNullOrEmpty(activity.Text))
             {
                 await OnStartAsync(innerDc);
+                return EndOfTurn;
+            }
+
+            if (activity.Value != null)
+            {
+                await OnEventAsync(innerDc);
                 return EndOfTurn;
             }
 
@@ -67,15 +73,6 @@ namespace $safeprojectname$.Dialogs.Shared
                 case ActivityTypes.Event:
                     {
                         await OnEventAsync(innerDc);
-                        break;
-                    }
-
-                case ActivityTypes.ConversationUpdate:
-                    {
-                        if (activity.From.Id != "default-user")
-                        {
-                            await OnStartAsync(innerDc);
-                        }
                         break;
                     }
 

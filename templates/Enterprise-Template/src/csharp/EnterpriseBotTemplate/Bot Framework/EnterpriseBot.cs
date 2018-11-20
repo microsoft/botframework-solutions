@@ -2,14 +2,13 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using $safeprojectname$.Extensions;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using $safeprojectname$.Dialogs.Main;
+using $safeprojectname$.Extensions;
 
 namespace $safeprojectname$
 {
@@ -45,35 +44,26 @@ namespace $safeprojectname$
         /// <param name="turnContext">Bot Turn Context.</param>
         /// <param name="cancellationToken">Task CancellationToken.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             // Client notifying this bot took to long to respond (timed out)
             if (turnContext.Activity.Code == EndOfConversationCodes.BotTimedOut)
             {
                 _services.TelemetryClient.TrackTrace($"Timeout in {turnContext.Activity.ChannelId} channel: Bot took too long to respond.");
-                // Don't respond because channel won't accept response and which may result in Exception
                 return;
             }
 
             var dc = await _dialogs.CreateContextAsync(turnContext);
-            var result = await dc.ContinueDialogAsync();
 
-            if (result.Status == DialogTurnStatus.Empty)
+            if (dc.ActiveDialog != null)
             {
-                // Handle Cortana's launch action
-                if (CortanaHelper.IsLaunchActivity(turnContext.Activity))
+                var result = await dc.ContinueDialogAsync();
+            }
+            else
+            {
+                if (turnContext.Activity.IsStartActivity())
                 {
                     await dc.BeginDialogAsync(nameof(MainDialog));
-                }
-                else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
-                {
-                    var activity = turnContext.Activity.AsConversationUpdateActivity();
-
-                    // if conversation update is not from the bot.
-                    if (!activity.MembersAdded.Any(m => m.Id == activity.Recipient.Id))
-                    {
-                        await dc.BeginDialogAsync(nameof(MainDialog));
-                    }
                 }
             }
         }

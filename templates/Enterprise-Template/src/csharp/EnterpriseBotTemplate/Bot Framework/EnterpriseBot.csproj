@@ -16,7 +16,7 @@
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.DependencyCollector" Version="2.8.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.5" />
-    <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="0.12.1-preview" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="1.0.0" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.1.5" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.1.5" />
@@ -34,6 +34,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Dialogs\Authentication\Resources\AuthenticationStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AuthenticationStrings.resx</DependentUpon>
+    </Compile>
     <Compile Update="Dialogs\Cancel\Resources\CancelStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -64,11 +69,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>OnboardingStrings.resx</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\SignIn\Resources\SignInStrings.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>SignInStrings.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -88,9 +88,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>OnboardingStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Dialogs\SignIn\Resources\SignInStrings.resx">
+    <EmbeddedResource Update="Dialogs\Authentication\Resources\AuthenticationStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>SignInStrings.Designer.cs</LastGenOutput>
+      <LastGenOutput>AuthenticationStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 
