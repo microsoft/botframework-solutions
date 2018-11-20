@@ -12,12 +12,6 @@ namespace $safeprojectname$.Dialogs.Onboarding
 {
     public class OnboardingDialog : EnterpriseDialog
     {
-        // Constants
-        public const string NamePrompt = "namePrompt";
-        public const string EmailPrompt = "emailPrompt";
-        public const string LocationPrompt = "locationPrompt";
-
-        // Fields
         private static OnboardingResponses _responder = new OnboardingResponses();
         private IStatePropertyAccessor<OnboardingState> _accessor;
         private OnboardingState _state;
@@ -37,9 +31,9 @@ namespace $safeprojectname$.Dialogs.Onboarding
             };
 
             AddDialog(new WaterfallDialog(InitialDialogId, onboarding));
-            AddDialog(new TextPrompt(NamePrompt));
-            AddDialog(new TextPrompt(EmailPrompt));
-            AddDialog(new TextPrompt(LocationPrompt));
+            AddDialog(new TextPrompt(DialogIds.NamePrompt));
+            AddDialog(new TextPrompt(DialogIds.EmailPrompt));
+            AddDialog(new TextPrompt(DialogIds.LocationPrompt));
         }
 
         public async Task<DialogTurnResult> AskForName(WaterfallStepContext sc, CancellationToken cancellationToken)
@@ -52,9 +46,9 @@ namespace $safeprojectname$.Dialogs.Onboarding
             }
             else
             {
-                return await sc.PromptAsync(NamePrompt, new PromptOptions()
+                return await sc.PromptAsync(DialogIds.NamePrompt, new PromptOptions()
                 {
-                    Prompt = await _responder.RenderTemplate(sc.Context, sc.Context.Activity.Locale, OnboardingResponses._namePrompt),
+                    Prompt = await _responder.RenderTemplate(sc.Context, sc.Context.Activity.Locale, OnboardingResponses.ResponseIds.NamePrompt),
                 });
             }
         }
@@ -64,19 +58,12 @@ namespace $safeprojectname$.Dialogs.Onboarding
             _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
             var name = _state.Name = (string)sc.Result;
 
-            await _responder.ReplyWith(sc.Context, OnboardingResponses._haveName, new { name });
+            await _responder.ReplyWith(sc.Context, OnboardingResponses.ResponseIds.HaveNameMessage, new { name });
 
-            if (!string.IsNullOrEmpty(_state.Email))
+            return await sc.PromptAsync(DialogIds.EmailPrompt, new PromptOptions()
             {
-                return await sc.NextAsync(_state.Email);
-            }
-            else
-            {
-                return await sc.PromptAsync(EmailPrompt, new PromptOptions()
-                {
-                    Prompt = await _responder.RenderTemplate(sc.Context, sc.Context.Activity.Locale, OnboardingResponses._emailPrompt),
-                });
-            }
+                Prompt = await _responder.RenderTemplate(sc.Context, sc.Context.Activity.Locale, OnboardingResponses.ResponseIds.EmailPrompt),
+            });
         }
 
         public async Task<DialogTurnResult> AskForLocation(WaterfallStepContext sc, CancellationToken cancellationToken)
@@ -84,7 +71,7 @@ namespace $safeprojectname$.Dialogs.Onboarding
             _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
             var email = _state.Email = (string)sc.Result;
 
-            await _responder.ReplyWith(sc.Context, OnboardingResponses._haveEmail, new { email });
+            await _responder.ReplyWith(sc.Context, OnboardingResponses.ResponseIds.HaveEmailMessage, new { email });
 
             if (!string.IsNullOrEmpty(_state.Location))
             {
@@ -92,9 +79,9 @@ namespace $safeprojectname$.Dialogs.Onboarding
             }
             else
             {
-                return await sc.PromptAsync(LocationPrompt, new PromptOptions()
+                return await sc.PromptAsync(DialogIds.LocationPrompt, new PromptOptions()
                 {
-                    Prompt = await _responder.RenderTemplate(sc.Context, sc.Context.Activity.Locale, OnboardingResponses._locationPrompt),
+                    Prompt = await _responder.RenderTemplate(sc.Context, sc.Context.Activity.Locale, OnboardingResponses.ResponseIds.LocationPrompt),
                 });
             }
         }
@@ -104,8 +91,15 @@ namespace $safeprojectname$.Dialogs.Onboarding
             _state = await _accessor.GetAsync(sc.Context);
             _state.Location = (string)sc.Result;
 
-            await _responder.ReplyWith(sc.Context, OnboardingResponses._haveLocation, new { _state.Name, _state.Location });
+            await _responder.ReplyWith(sc.Context, OnboardingResponses.ResponseIds.HaveLocationMessage, new { _state.Name, _state.Location });
             return await sc.EndDialogAsync();
+        }
+
+        private class DialogIds
+        {
+            public const string NamePrompt = "namePrompt";
+            public const string EmailPrompt = "emailPrompt";
+            public const string LocationPrompt = "locationPrompt";
         }
     }
 }

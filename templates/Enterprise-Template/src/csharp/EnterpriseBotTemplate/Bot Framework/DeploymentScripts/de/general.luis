@@ -1,0 +1,534 @@
+{
+  "intents": [
+    {
+      "name": "Greeting"
+    },
+    {
+      "name": "Help"
+    },
+    {
+      "name": "Cancel"
+    },
+    {
+      "name": "Restart"
+    },
+    {
+      "name": "Escalate"
+    },
+    {
+      "name": "Next"
+    },
+    {
+      "name": "Previous"
+    },
+    {
+      "name": "Goodbye"
+    },
+    {
+      "name": "Logout"
+    },
+    {
+      "name": "None"
+    }
+  ],
+  "entities": [],
+  "composites": [],
+  "closedLists": [],
+  "regex_entities": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "Hallo",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Hallo",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Guten Morgen",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Guten Abend",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hello bot",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Hiya",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Wie geht es dir",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Wie geht es dir heute",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Hallöchen",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Hilfe",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Hilf mir",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Hilfe bitte",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "ich stecke",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Ich kann Sie nicht verstehen",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Was soll ich sagen",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Was können Sie mir helfen",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Was können Sie tun",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Was mache ich jetzt",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Warum funktioniert das nicht",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Kannst du mir helfen",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Stoppen",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Abbrechen",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Abbrechen",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Ignorieren",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Tue nicht",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "machen es nicht",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Tu das nicht",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte absagen",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Vergessen Sie es",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Bitte stoppen",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Ausfahrt",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "kann ich das noch einmal machen",
+      "intent": "Restart",
+      "entities": []
+    },
+    {
+      "text": "Ich muss etwas ändern",
+      "intent": "Restart",
+      "entities": []
+    },
+    {
+      "text": "Neu starten",
+      "intent": "Restart",
+      "entities": []
+    },
+    {
+      "text": "Start über",
+      "intent": "Restart",
+      "entities": []
+    },
+    {
+      "text": "Rückgängig",
+      "intent": "Restart",
+      "entities": []
+    },
+    {
+      "text": "kann ich mit einer Person sprechen",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte mit einem Menschen sprechen",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "sprechen Sie mit einem Menschen",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "Transfer me please",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "Kontakt Unterstützung",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "Voraus",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "vorwärts gehen",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "gehen Sie zum nächsten",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "Nächsten",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "nächsten Punkt",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "Show Next",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "könntest du den nächsten zeigen",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "Ich muss zum nächsten gehen",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "gehen Sie bitte zum nächsten",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "zum nächsten übergehen",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "Mache weiter",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "gehen Sie zum nächsten",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "zur nächsten Seite",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "Vorankommen",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "Schritt auf",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "Weiter geht es",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "nächsten ein",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "nächsten bitte",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "Zeig mir als nächstes",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "Zeige mir die nächste",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "zeigen die nächste",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "zeigen Sie den nächsten",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "die nächste e-Mail",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "Zurück",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "letzten einen",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "vorherige",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "der letzte",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "jährige ein",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "Last",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "zurück zum letzten",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "bringen Sie die vorherige",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "kommen Sie zum letzten",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "gehen Sie zu früheren",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "zum letzten gehen",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "zurückziehen",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "Vorherigen",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "Zeige mir vorher",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "vorherige bitte",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "der vorherige",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "Was ist der bisherige",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "Gute Nacht",
+      "intent": "Goodbye",
+      "entities": []
+    },
+    {
+      "text": "Goodbye",
+      "intent": "Goodbye",
+      "entities": []
+    },
+    {
+      "text": "Auf Wiedersehen",
+      "intent": "Goodbye",
+      "entities": []
+    },
+    {
+      "text": "Ok danke",
+      "intent": "Goodbye",
+      "entities": []
+    },
+    {
+      "text": "Ok tschüss",
+      "intent": "Goodbye",
+      "entities": []
+    },
+    {
+      "text": "Das ist es dank",
+      "intent": "Goodbye",
+      "entities": []
+    },
+    {
+      "text": "SignOut",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "Vergiss mich",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "Abmelden",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "logout",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "Abmelden",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "meine Wasserflasche ist grün",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "Schildkröten Schwimmen gerne im Ozean",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "papierflugzeuge am Himmel",
+      "intent": "None",
+      "entities": []
+    }
+  ],
+  "patterns": [],
+  "patternAnyEntities": [],
+  "prebuiltEntities": [
+    {
+      "name": "datetimeV2",
+      "roles": []
+    },
+    {
+      "name": "number",
+      "roles": []
+    }
+  ],
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.1",
+  "name": "General",
+  "desc": "",
+  "culture": "en-us"
+}
