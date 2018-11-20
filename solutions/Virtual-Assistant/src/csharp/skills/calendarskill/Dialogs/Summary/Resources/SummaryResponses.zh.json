@@ -1,22 +1,22 @@
 ﻿{
- "CalendarNoMoreEvent": {
-    "replies": [
-      {
-        "text": "没有更多会议！",
-        "speak": "没有更多会议！"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "CalendarNoPreviousEvent": {
-    "replies": [
-      {
-        "text": "已经是第一页。",
-        "speak": "已经是第一页。"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
+    "CalendarNoMoreEvent": {
+        "replies": [
+            {
+                "text": "没有更多会议！",
+                "speak": "没有更多会议！"
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
+    "CalendarNoPreviousEvent": {
+        "replies": [
+            {
+                "text": "已经是第一页。",
+                "speak": "已经是第一页。"
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
   "ShowNoMeetingMessage": {
     "replies": [
       {
@@ -76,17 +76,17 @@
     ],
     "inputHint": "expectingInput"
   },
-  "ReadOutMessage": {
-    "replies": [
-      {
-        "text": "会议详情：",
-        "speak": "会议详情：{MeetingDetails}"
-      },
-      {
-        "text": "会议内容：",
-        "speak": "会议内容：{MeetingDetails}"
-      }
-    ],
-    "inputHint": "expectingInput"
-  }
+    "ReadOutMessage": {
+        "replies": [
+            {
+                "text": "会议详情：",
+                "speak": "会议详情：{MeetingDetails}"
+            },
+            {
+                "text": "会议内容：",
+                "speak": "会议内容：{MeetingDetails}"
+            }
+        ],
+        "inputHint": "acceptingInput"
+    }
 }
