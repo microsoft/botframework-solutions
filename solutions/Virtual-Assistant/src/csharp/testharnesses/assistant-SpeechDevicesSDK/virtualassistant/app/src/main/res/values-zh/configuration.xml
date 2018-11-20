@@ -1,0 +1,5 @@
+<resources>
+    <!--Default Preferences-->
+    <!--enter your custom wake word-->
+    <string name="keyword"></string>
+</resources>

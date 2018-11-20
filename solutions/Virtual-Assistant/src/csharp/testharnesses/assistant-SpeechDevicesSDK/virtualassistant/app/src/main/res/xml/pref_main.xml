@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/pref_header_bot">
+    <EditTextPreference
+        android:defaultValue="@string/default_directline_secret"
+        android:key="@string/key_directline_secret"
+        android:summary="@string/default_directline_secret"
+        android:title="@string/title_directline_secret" />
+    <EditTextPreference
+            android:defaultValue="@string/default_from_user_id"
+            android:key="@string/key_from_user_id"
+            android:summary="@string/default_from_user_id"
+            android:title="@string/title_from_user_id" />
+        <EditTextPreference
+            android:defaultValue="@string/default_from_bot_id"
+            android:key="@string/key_from_bot_id"
+            android:summary="@string/default_from_bot_id"
+            android:title="@string/title_from_bot_id" />
+        <ListPreference
+            android:defaultValue="en-us"
+            android:dialogTitle="@string/title_locale"
+            android:entries="@array/pref_locale"
+            android:entryValues="@array/pref_locale"
+            android:key="@string/key_locale"
+            android:summary="@string/summary_locale"
+            android:title="@string/title_locale" />
+        <ListPreference
+            android:defaultValue="ignoringInput"
+            android:dialogTitle="@string/title_inputhint"
+            android:entries="@array/pref_inputhint"
+            android:entryValues="@array/pref_inputhint"
+            android:key="@string/key_inputhint"
+            android:summary="@string/summary_inputhint"
+            android:title="@string/title_inputhint" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_header_speech">
+        <ListPreference
+            android:defaultValue="@string/default_devicegeometry"
+            android:dialogTitle="@string/title_devicegeometry"
+            android:entries="@array/pref_devicegeometry"
+            android:entryValues="@array/pref_devicegeometry"
+            android:key="@string/key_devicegeometry"
+            android:summary="@string/summary_devicegeometry"
+            android:title="@string/title_devicegeometry" />
+
+        <ListPreference
+            android:defaultValue="@string/default_selectedgeometry"
+            android:dialogTitle="@string/title_selectedgeometry"
+            android:entries="@array/pref_selectedgeometry"
+            android:entryValues="@array/pref_selectedgeometry"
+            android:key="@string/key_selectedgeometry"
+            android:summary="@string/summary_selectedgeometry"
+            android:title="@string/title_selectedgeometry" />
+
+        <ListPreference
+            android:defaultValue="@string/default_gender"
+            android:dialogTitle="@string/title_gender"
+            android:entries="@array/pref_gender"
+            android:entryValues="@array/pref_gender"
+            android:key="@string/key_gender"
+            android:summary="@string/summary_gender"
+            android:title="@string/title_gender" />
+
+        <CheckBoxPreference
+            android:defaultValue="@string/default_neural"
+            android:title="@string/title_neural"
+            android:summary="@string/summary_neural"
+            android:key = "@string/key_neural"
+            />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_header_location">
+
+        <EditTextPreference
+            android:defaultValue="@string/default_latitude"
+            android:key="@string/key_latitude"
+            android:summary="@string/default_latitude"
+            android:title="@string/title_latitude"
+            />
+        <EditTextPreference
+            android:defaultValue="@string/default_longitude"
+            android:key="@string/key_longitude"
+            android:summary="@string/default_longitude"
+            android:title="@string/title_longitude"
+            />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory android:title="@string/pref_header_about">
+
+        <Preference
+            android:selectable="false"
+            android:summary="@string/summary_about" />
+
+        <Preference android:title="@string/privacy_policy">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/url_privacy" />
+        </Preference>
+
+        <Preference android:title="@string/title_terms">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/url_terms" />
+        </Preference>
+    </PreferenceCategory>
+
+</PreferenceScreen>
