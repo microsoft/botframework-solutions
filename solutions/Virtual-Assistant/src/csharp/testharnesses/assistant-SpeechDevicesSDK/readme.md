@@ -2,7 +2,8 @@
 
 ## Overview
 
-This sample demonstrates how to integrate the [Speech Devices SDK](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/speech-devices-sdk-qsg) with a bot hosted on the [Microsoft Bot Framework Direct Line](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-direct-line?view=azure-bot-service-4.0&tabs=cscreatebot%2Ccsclientapp%2Ccsrunclient). This is built using an implementation of the [Virtual Assistant](https://github.com/Microsoft/AI/tree/master/solutions/Virtual-Assistant) and sends related events to the bot on conversation startup.
+This sample demonstrates how to integrate the [Speech Devices SDK](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/speech-devices-sdk-qsg) with a bot hosted on the [Microsoft Bot Framework Direct Line](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-direct-line?view=azure-bot-service-4.0&tabs=cscreatebot%2Ccsclientapp%2Ccsrunclient). This is built using an implementation of the [Virtual Assistant](https://github.com/Microsoft/AI/tree/master/solutions/Virtual-Assistant
+) and sends related events to the bot on conversation startup.
 
 * The client uses the Speech Devices SDK to demonstrate speech to text (both keyword & continuous recognition listening modes) and text to speech.
 * The client is connected via websocket to a Bot Framework Direct Line bot, and will parse bot responses into TTS.
@@ -12,7 +13,8 @@ This sample demonstrates how to integrate the [Speech Devices SDK](https://docs.
 
 ## Setup
 
-For basic setup of your DDK and running an Android application, visit the documentation for the [Speech Devices SDK](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/speech-devices-sdk-qsg) with a bot hosted on the [Microsoft Bot Framework Direct Line](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-direct-line?view=azure-bot-service-4.0&tabs=cscreatebot%2Ccsclientapp%2Ccsrunclient). This is built using an implementation of the [Virtual Assistant](https://github.com/Microsoft/AI/tree/master/solutions/Virtual-Assistant). This will explain what software to install, how to deploy an Android application on your DDK device, and install a custom wake word. You can deploy our sample application in the same method.
+For basic setup of your DDK and running an Android application, visit the documentation for the [Speech Devices SDK](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/speech-devices-sdk-qsg) with a bot hosted on the [Microsoft Bot Framework Direct Line](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-direct-line?view=azure-bot-service-4.0&tabs=cscreatebot%2Ccsclientapp%2Ccsrunclient). This is built using an implementation of the [Virtual Assistant](https://github.com/Microsoft/AI/tree/master/solutions/Virtual-Assistant
+). This will explain what software to install, how to deploy an Android application on your DDK device, and install a custom wake word. You can deploy our sample application in the same method.
 
 The settings screen of the sample application allows user to make quick configuration changes without needing to dive into the code. The default values for these can be set at `/res/values/configuration.xml`.
 You will also need to provide connection settings to the Speech Service and can find details to get a key at [Speech Service documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/get-started). 
@@ -36,8 +38,8 @@ If these settings are missing, the application will raise an alert and not start
 
 The application will switch between different recognition modes based on the input hints returned by the bot.
 
-| Input Hint        | Speech Recognizer           | Description  | Sample Utterance | 
-| ------------- |:-------------:| -----:|
+| Input Hint | Speech Recognizer | Description | Sample Utterance | 
+| ------------- |:-------------:| -----:| -----:|
 | Ignoring input      | No recognizer enabled | The bot is not expecting any response from the user and the microphone is closed. This may be used when a bot has multiple activities to send concurrently. | n/a |
 | Accepting input      | Keyword recognizer | The bot is passively awaiting a response from the user, it will open the microphone but not react unless the configured keyword has been uttered. | *"Assistant, send an email to Mark"* |
 | Expecting input      | Continuous recognizer | The bot is awaiting a response from the user and will leave the microphone open. This is useful for multi-turn dialogs where a user will have a natural conversation with their bot.| *"Send an email to Mark"* |
