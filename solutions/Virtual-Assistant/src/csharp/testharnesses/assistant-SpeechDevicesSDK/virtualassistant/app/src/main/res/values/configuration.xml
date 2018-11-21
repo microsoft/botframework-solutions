@@ -1,0 +1,47 @@
+<resources>
+    <!--Default Preferences-->
+    <!--Bot's Direct Line secret-->
+    <!--ID for user activities sent to bot-->
+    <string name="default_directline_secret" translatable="false"></string>
+    <string name="default_from_user_id" translatable="false"></string>
+    <string name="default_from_bot_id" translatable="false"></string>
+    <!--Locale for all activities sent to the both-->
+    <string name="default_locale" translatable="false"></string>
+    <!--The Input Hint that is set when a new conversation is started. Valid values: ignoringInput, acceptingInput, expectingInput-->
+    <!--ignoringInput will not enable any microphone-->
+    <!--acceptingInput will enable keyword recognition-->
+    <!--expectingInput will enable continuous recognition-->
+    <string name="default_inputhint" translatable="false"></string>
+    <!--Default latitude sent on conversation startup-->
+    <string name="default_latitude" translatable="false"></string>
+    <!--Default longitude sent on conversation startup-->
+    <string name="default_longitude" translatable="false"></string>
+    <!--Device Mic Configuration. Valid values: Circular6+1, Linear4-->
+    <string name="default_devicegeometry" translatable="false"></string>
+    <!--Software Mic Configuration. Valid values: Circular6+1, Circular3+1, Linear4, Linear2-->
+    <string name="default_selectedgeometry" translatable="false"></string>
+    <!--Gender of the TTS Voice. Valid values: Male, Female-->
+    <string name="default_gender" translatable="false"></string>
+    <!--Boolean to determine if Neural TTS is used. Valid values: true, false-->
+    <string name="default_neural" translatable="false"></string>
+
+    <!--Connection Settings-->
+    <!--enter your cognitive services key-->
+    <string name="speechsubscriptionkey" translatable="false"></string>
+    <!--enter your custom wake word-->
+    <string name="keyword" translatable="true"></string>
+    <!--Speech service access token endpoint-->
+    <string name="accesstokenuri" translatable="false"></string>
+    <!--enter your cognitive services tts endpoint-->
+    <string name="texttospeechserviceuri" translatable="false"></string>
+    <!--enter your cognitive service tts key-->
+    <string name="texttospeechkey" translatable="false"></string>
+    <!--enter your cognitive services region-->
+    <string name="speechregion" translatable="false"></string>
+
+    <!--If you have a key for Neural Text to Speech preview, you may provide Neural settings here-->
+    <string name="neuraltexttospeechkey" translatable="false"></string>
+    <string name="neuralmaletexttospeechserviceuri" translatable="false"></string>
+    <string name="neuralfemaletexttospeechserviceuri" translatable="false"></string>
+    <string name="neuralaccesstokenuri" translatable="false"></string>
+</resources>

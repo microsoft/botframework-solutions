@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#000000</color>
+    <color name="primaryDark">#000000</color>
+    <color name="accent">#E3008C</color>
+    <color name="senderBubble">#0CF</color>
+    <color name="receiverBubble">#444</color>
+    <color name="subtle">#ffffff</color>
+    <color name="senderText">#000000</color>
+    <color name="receiverText">#ffffff</color>
+    <color name="separator">#E6E6E6</color>
+    <color name="transparentBackground">#ddffffff</color>
+    <color name="buttonColor">#999999</color>
+</resources>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_devicegeometry">
+        <item>Circular6+1</item>
+        <item>Linear4</item>
+    </string-array>
+    <string-array name="pref_selectedgeometry">
+        <item>Circular6+1</item>
+        <item>Circular3+1</item>
+        <item>Linear4</item>
+        <item>Linear2</item>
+    </string-array>
+    <string-array name="pref_locale">
+        <item>de-de</item>
+        <item>en-us</item>
+        <item>es-es</item>
+        <item>fr-fr</item>
+        <item>it-it</item>
+        <item>zh-cn</item>
+    </string-array>
+    <string-array name="pref_inputhint">
+        <item>ignoringInput</item>
+        <item>acceptingInput</item>
+        <item>expectingInput</item>
+    </string-array>
+    <string-array name="pref_gender">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+</resources>
