@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using CalendarSkill.Common;
 using CalendarSkill.Dialogs.NextMeeting.Resources;
 using CalendarSkill.ServiceClients;
+using CalendarSkill.Util;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
-using CalendarSkill.Util;
 
 namespace CalendarSkill
 {

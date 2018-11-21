@@ -1,6 +1,6 @@
 ﻿using System;
-using Microsoft.Bot.Solutions.Resources;
 using System.Globalization;
+using Microsoft.Bot.Solutions.Resources;
 
 namespace CalendarSkill.Util
 {

@@ -128,7 +128,6 @@ namespace CalendarSkill
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult)
                 {
-
                     var newStartTime = (DateTime)state.NewStartDateTime;
                     var origin = state.Events[0];
                     var updateEvent = new EventModel(origin.Source);

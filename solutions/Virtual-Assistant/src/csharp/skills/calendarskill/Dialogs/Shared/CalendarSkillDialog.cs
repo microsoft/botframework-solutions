@@ -401,7 +401,6 @@ namespace CalendarSkill
                                 }
                             }
 
-
                             if (entity.ToDate != null)
                             {
                                 var date = GetDateFromDateTimeString(entity.ToDate[0], dc.Context.Activity.Locale, state.GetUserTimeZone());
@@ -463,7 +462,6 @@ namespace CalendarSkill
                             {
                                 state.Title = GetSubjectFromEntity(entity);
                             }
-
 
                             if (entity.FromDate != null)
                             {
@@ -627,6 +625,63 @@ namespace CalendarSkill
             }
         }
 
+        protected List<DateTimeResolution> RecognizeDateTime(string dateTimeString, string culture)
+        {
+            var results = DateTimeRecognizer.RecognizeDateTime(dateTimeString, culture);
+            if (results.Count > 0)
+            {
+                // Return list of resolutions from first match
+                var result = new List<DateTimeResolution>();
+                var values = (List<Dictionary<string, string>>)results[0].Resolution["values"];
+                foreach (var value in values)
+                {
+                    result.Add(ReadResolution(value));
+                }
+
+                return result;
+            }
+
+            return null;
+        }
+
+        protected DateTimeResolution ReadResolution(IDictionary<string, string> resolution)
+        {
+            var result = new DateTimeResolution();
+
+            if (resolution.TryGetValue("timex", out var timex))
+            {
+                result.Timex = timex;
+            }
+
+            if (resolution.TryGetValue("value", out var value))
+            {
+                result.Value = value;
+            }
+
+            if (resolution.TryGetValue("start", out var start))
+            {
+                result.Start = start;
+            }
+
+            if (resolution.TryGetValue("end", out var end))
+            {
+                result.End = end;
+            }
+
+            return result;
+        }
+
+        protected async Task HandleDialogExceptions(WaterfallStepContext sc)
+        {
+            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarSharedResponses.CalendarErrorMessage));
+
+            var state = await Accessor.GetAsync(sc.Context);
+            state.Clear();
+            await sc.CancelAllDialogsAsync();
+
+            return;
+        }
+
         private string GetSubjectFromEntity(Calendar._Entities entity)
         {
             return entity.Subject[0];
@@ -761,63 +816,6 @@ namespace CalendarSkill
             }
 
             return null;
-        }
-
-        protected List<DateTimeResolution> RecognizeDateTime(string dateTimeString, string culture)
-        {
-            var results = DateTimeRecognizer.RecognizeDateTime(dateTimeString, culture);
-            if (results.Count > 0)
-            {
-                // Return list of resolutions from first match
-                var result = new List<DateTimeResolution>();
-                var values = (List<Dictionary<string, string>>)results[0].Resolution["values"];
-                foreach (var value in values)
-                {
-                    result.Add(ReadResolution(value));
-                }
-
-                return result;
-            }
-
-            return null;
-        }
-
-        protected DateTimeResolution ReadResolution(IDictionary<string, string> resolution)
-        {
-            var result = new DateTimeResolution();
-
-            if (resolution.TryGetValue("timex", out var timex))
-            {
-                result.Timex = timex;
-            }
-
-            if (resolution.TryGetValue("value", out var value))
-            {
-                result.Value = value;
-            }
-
-            if (resolution.TryGetValue("start", out var start))
-            {
-                result.Start = start;
-            }
-
-            if (resolution.TryGetValue("end", out var end))
-            {
-                result.End = end;
-            }
-
-            return result;
-        }
-
-        protected async Task HandleDialogExceptions(WaterfallStepContext sc)
-        {
-            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarSharedResponses.CalendarErrorMessage));
-
-            var state = await Accessor.GetAsync(sc.Context);
-            state.Clear();
-            await sc.CancelAllDialogsAsync();
-
-            return;
         }
     }
 }

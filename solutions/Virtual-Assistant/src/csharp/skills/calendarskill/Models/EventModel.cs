@@ -636,6 +636,11 @@ namespace CalendarSkill
             set => source = value;
         }
 
+        public static bool IsSameDate(DateTime dateTime1, DateTime dateTime2)
+        {
+            return dateTime1.Year == dateTime2.Year && dateTime1.Month == dateTime2.Month && dateTime1.Day == dateTime2.Day;
+        }
+
         public CalendarCardData ToAdaptiveCardData(TimeZoneInfo timeZone, bool showDate = true)
         {
             var eventItem = this;
@@ -688,11 +693,6 @@ namespace CalendarSkill
                 MeetingLink = eventItem.OnlineMeetingUrl,
                 Speak = speakString,
             };
-        }
-
-        public static bool IsSameDate(DateTime dateTime1, DateTime dateTime2)
-        {
-            return dateTime1.Year == dateTime2.Year && dateTime1.Month == dateTime2.Month && dateTime1.Day == dateTime2.Day;
         }
 
         public string ToDurationString()
