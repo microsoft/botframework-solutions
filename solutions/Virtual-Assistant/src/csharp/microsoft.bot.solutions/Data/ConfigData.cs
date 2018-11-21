@@ -38,11 +38,5 @@ namespace Microsoft.Bot.Solutions.Data
                 }
             }
         }
-
-        // Fast read mode means MaxReadSize >= MaxDisplaySize. When user said read more, jump to the next page directly.
-        public static bool IsFastReadMode()
-        {
-            return MaxReadSize >= MaxDisplaySize;
-        }
     }
 }

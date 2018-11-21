@@ -185,24 +185,15 @@ namespace EmailSkill
 
                 if (IsReadMoreIntent(generalTopIntent, sc.Context.Activity.Text))
                 {
-                    // When read size == display size
-                    if (ConfigData.IsFastReadMode())
+                    if (state.MessageList.Count <= ConfigData.MaxReadSize)
                     {
+                        // Set readmore as false when return to next page
                         state.ShowEmailIndex++;
                         state.ReadEmailIndex = 0;
                     }
                     else
                     {
-                        if (state.MessageList.Count <= ConfigData.MaxReadSize)
-                        {
-                            // Set readmore as false when return to next page
-                            state.ShowEmailIndex++;
-                            state.ReadEmailIndex = 0;
-                        }
-                        else
-                        {
-                            state.ReadEmailIndex++;
-                        }
+                        state.ReadEmailIndex++;
                     }
                 }
 

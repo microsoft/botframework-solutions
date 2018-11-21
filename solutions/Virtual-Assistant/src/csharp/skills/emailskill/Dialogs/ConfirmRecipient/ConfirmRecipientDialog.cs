@@ -236,24 +236,15 @@ namespace EmailSkill
 
                         if (choiceResult == General.Intent.ReadMore.ToString())
                         {
-                            // When read size == display size
-                            if (ConfigData.IsFastReadMode())
+                            if (state.RecipientChoiceList.Count <= ConfigData.MaxReadSize)
                             {
+                                // Set readmore as false when return to next page
                                 state.ShowRecipientIndex++;
                                 state.ReadRecipientIndex = 0;
                             }
                             else
                             {
-                                if (state.RecipientChoiceList.Count <= ConfigData.MaxReadSize)
-                                {
-                                    // Set readmore as false when return to next page
-                                    state.ShowRecipientIndex++;
-                                    state.ReadRecipientIndex = 0;
-                                }
-                                else
-                                {
-                                    state.ReadRecipientIndex++;
-                                }
+                                state.ReadRecipientIndex++;
                             }
 
                             return await sc.BeginDialogAsync(Actions.ConfirmRecipient);
