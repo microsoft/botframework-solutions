@@ -1,0 +1,90 @@
+<resources>
+    <!--Main View-->
+    <string name="app_name">Virtual Assistant</string>
+
+    <string name="button_start">Start</string>
+    <string name="button_pause">Pause</string>
+    <string name="button_resume">Resume</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="action_startover">Start Over</string>
+
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="alert_startover_title">Alert</string>
+    <string name="alert_startover_message">Your connection to the Virtual Agent will be reset.</string>
+    <string name="alert_missingconfig_message">You are missing configuration settings to run this sample. Please update configuration.xml.</string>
+    <string name="alert_startover_neutralbutton">OK</string>
+
+    <string name="status_conversationstart">Connecting to your Virtual Assistant...</string>
+    <string name="status_notlistening">Not listening</string>
+    <string name="status_listening">Listening...</string>
+    <string name="status_keyword">Say</string>
+    <string name="status_keyword_detected">detected</string>
+    <string name="status_continuous"></string>
+
+    <string name="suggestedaction_introduction">\n Here are some things you can say...</string>
+    <string name="ellipses">...</string>
+    <string name="period">.</string>
+    <string name="delimiter">\n</string>
+
+    <!--Bot & Conversation Preferences View-->
+    <string name="pref_header_bot">Bot &amp; Conversation</string>
+
+    <string name="key_directline_secret">directlinesecret</string>
+    <string name="title_directline_secret">Direct Line Secret</string>
+
+    <string name="key_from_user_id">userid</string>
+    <string name="title_from_user_id">User Id</string>
+
+    <string name="key_from_bot_id">botid</string>
+    <string name="title_from_bot_id">Bot Id</string>
+
+    <string name="key_locale">locale</string>
+    <string name="title_locale">Locale</string>
+    <string name="summary_locale">Localization</string>
+
+    <string name="key_inputhint">defaultinputhint</string>
+    <string name="title_inputhint">Default Input Hint</string>
+    <string name="summary_inputhint">Microphone input</string>
+
+    <!--Speech Preferences View-->
+    <string name="pref_header_speech">Speech</string>
+
+    <string name="key_devicegeometry">devicegeometry</string>
+    <string name="title_devicegeometry">Device Geometry</string>
+    <string name="summary_devicegeometry">Physical mic configuration</string>
+
+    <string name="key_selectedgeometry">selectedgeometry</string>
+    <string name="title_selectedgeometry">Selected Geometry</string>
+    <string name="summary_selectedgeometry">Software mic configuration</string>
+
+    <string name="key_gender">gender</string>
+    <string name="title_gender">Gender</string>
+    <string name="summary_gender">The Virtual Assistant\'s gender</string>
+
+    <string name="key_neural">neural</string>
+    <string name="title_neural">Use Neural TTS (en-us only)</string>
+    <string name="summary_neural">Toggle whether to use Neural TTS Voice</string>
+
+    <!--Location Preferences View-->
+    <string name="pref_header_location">Location</string>
+
+    <string name="key_timezone">timezone</string>
+    <string name="title_timezone">Time Zone</string>
+
+    <string name="key_latitude">latitude</string>
+    <string name="title_latitude">Latitude</string>
+
+    <string name="key_longitude">longitude</string>
+    <string name="title_longitude">Longitude</string>
+
+
+    <!--About Preferences View-->
+    <string name="pref_header_about">About</string>
+    <string name="summary_about">This sample application shows how to integrate the Cognitive Services Speech Devices SDK with a bot hosted on the Microsoft Bot Framework Direct Line.</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="url_privacy">https://privacy.microsoft.com/en-us/privacystatement</string>
+    <string name="title_terms">Terms &amp; Conditions</string>
+    <string name="url_terms">https://www.microsoft.com/en-us/legal/intellectualproperty/copyright/default.aspx/</string>
+</resources>

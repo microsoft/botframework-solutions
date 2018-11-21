@@ -1,0 +1,86 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.microsoft.bot.solutions.speechdevices.samples.botapp"
+        minSdkVersion 22
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/jersey-module-version'
+    }
+}
+
+ext {
+    swagger_annotations_version = "1.5.15"
+    jackson_version = "2.9.6"
+    jersey_version = "1.18"
+    jodatime_version = "2.3"
+    junit_version = "4.8.1"
+    odata_version = "4.5.0"
+    retrofit_version = "2.4.0"
+    threetenbp_version = "1.3.5"
+    json_fire_version = "1.8.0"
+    okhttp_version = "2.7.5"
+    gson_version = "2.8.1"
+    threeten_version = "1.3.5"
+    gsonfire_version = "1.8.0"
+    apachecommons_version = "3.8"
+    okhttp3_version = "3.5.0"
+    android_sdk_version = "27.1.1"
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(":speechsdk")
+    implementation "com.android.support:appcompat-v7:$android_sdk_version"
+    implementation "com.android.support.constraint:constraint-layout:1.1.2"
+    implementation "com.android.support:support-v4:$android_sdk_version"
+    implementation "com.android.support:design:$android_sdk_version"
+    implementation "com.android.support:support-vector-drawable:$android_sdk_version"
+    //implementation "com.android.support:recyclerview-v7:$android_sdk_version"
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation files('src/main/jniLibs/com.microsoft.cognitiveservices.speech.jar')
+    implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
+    implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:2.1.5"
+    implementation "joda-time:joda-time:$jodatime_version"
+    implementation "com.squareup.okhttp:okhttp:$okhttp_version"
+    implementation "com.squareup.okhttp:logging-interceptor:$okhttp_version"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp3_version"
+    implementation "com.google.code.gson:gson:$gson_version"
+    implementation "io.gsonfire:gson-fire:$gsonfire_version"
+    implementation "org.threeten:threetenbp:$threetenbp_version"
+    implementation "javax.annotation:jsr250-api:1.0"
+    implementation "org.apache.commons:commons-lang3:$apachecommons_version"
+    implementation "com.googlecode.json-simple:json-simple:1.1"
+
+}
