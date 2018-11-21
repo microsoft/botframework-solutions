@@ -4,8 +4,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.Shared.Resources;
 using EmailSkill.Util;
+using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Solutions.Data;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
@@ -35,6 +37,7 @@ namespace EmailSkill
 
             var showEmail = new WaterfallStep[]
             {
+                IfClearContextStep,
                 ShowEmails,
             };
 

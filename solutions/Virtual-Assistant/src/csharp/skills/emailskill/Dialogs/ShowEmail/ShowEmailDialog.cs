@@ -51,58 +51,6 @@ namespace EmailSkill
             InitialDialogId = Actions.Show;
         }
 
-        public async Task<DialogTurnResult> IfClearContextStep(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                // clear context before show emails, and extract it from luis result again.
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var luisResult = state.LuisResult;
-
-                var topIntent = luisResult?.TopIntent().intent;
-                if (topIntent == Email.Intent.CheckMessages)
-                {
-                    await ClearConversationState(sc);
-                    await DigestEmailLuisResult(sc, luisResult);
-                }
-
-                var generalLuisResult = state.GeneralLuisResult;
-                var generalTopIntent = generalLuisResult?.TopIntent().intent;
-                if (generalTopIntent == General.Intent.Next)
-                {
-                    state.ShowEmailIndex++;
-                }
-
-                if (generalTopIntent == General.Intent.Previous && state.ShowEmailIndex > 0)
-                {
-                    state.ShowEmailIndex--;
-                }
-
-                if (IsReadMoreIntent(generalTopIntent, sc.Context.Activity.Text))
-                {
-                    if (ConfigData.IsFastReadMode())
-                    {
-                        state.ShowEmailIndex++;
-                    }
-                    else
-                    {
-                        if (state.IsEmailReadMore)
-                        {
-                            state.ShowEmailIndex++;
-                        }
-
-                        state.IsEmailReadMore = !state.IsEmailReadMore;
-                    }
-                }
-
-                return await sc.NextAsync();
-            }
-            catch (Exception ex)
-            {
-                throw await HandleDialogExceptions(sc, ex);
-            }
-        }
-
         public async Task<DialogTurnResult> ShowEmailsWithoutEnd(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -112,7 +60,7 @@ namespace EmailSkill
                 var messages = await GetMessagesAsync(sc);
                 if (messages.Count > 0)
                 {
-                    await ShowMailList(sc, messages);
+                    messages = await ShowMailList(sc, messages);
                     state.MessageList = messages;
                     return await sc.NextAsync();
                 }

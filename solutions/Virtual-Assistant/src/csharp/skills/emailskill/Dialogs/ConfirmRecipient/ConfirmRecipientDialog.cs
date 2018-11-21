@@ -167,13 +167,14 @@ namespace EmailSkill
                 if (sc.Options is UpdateUserDialogOptions updateUserDialogOptions)
                 {
                     state.ShowRecipientIndex = 0;
+                    state.ReadRecipientIndex = 0;
                     return await sc.BeginDialogAsync(Actions.UpdateRecipientName, updateUserDialogOptions);
                 }
 
                 // TODO: should be simplify
                 var selectOption = await GenerateOptions(personList, userList, sc);
 
-                var startIndex = state.IsRecipientReadMore ? ConfigData.MaxReadSize : 0;
+                var startIndex = ConfigData.MaxReadSize * state.ReadRecipientIndex;
                 var choices = new List<Choice>();
                 for (int i = startIndex; i < selectOption.Choices.Count; i++)
                 {
@@ -181,11 +182,14 @@ namespace EmailSkill
                 }
 
                 selectOption.Choices = choices;
+                state.RecipientChoiceList = choices;
 
                 // If no more recipient to show, start update name flow and reset the recipient paging index.
                 if (selectOption.Choices.Count == 0)
                 {
                     state.ShowRecipientIndex = 0;
+                    state.ReadRecipientIndex = 0;
+                    state.RecipientChoiceList.Clear();
                     return await sc.BeginDialogAsync(Actions.UpdateRecipientName, new UpdateUserDialogOptions(UpdateUserDialogOptions.UpdateReason.NotFound));
                 }
 
@@ -216,6 +220,7 @@ namespace EmailSkill
                     if (sc.Result == null)
                     {
                         state.ShowRecipientIndex = 0;
+                        state.ReadRecipientIndex = 0;
                         return await sc.BeginDialogAsync(Actions.ConfirmRecipient);
                     }
 
@@ -225,17 +230,31 @@ namespace EmailSkill
                         if (choiceResult == General.Intent.Next.ToString())
                         {
                             state.ShowRecipientIndex++;
+                            state.ReadRecipientIndex = 0;
                             return await sc.BeginDialogAsync(Actions.ConfirmRecipient);
                         }
 
                         if (choiceResult == General.Intent.ReadMore.ToString())
                         {
-                            if (state.IsRecipientReadMore)
+                            // When read size == display size
+                            if (ConfigData.IsFastReadMode())
                             {
                                 state.ShowRecipientIndex++;
+                                state.ReadRecipientIndex = 0;
                             }
-
-                            state.IsRecipientReadMore = !state.IsRecipientReadMore;
+                            else
+                            {
+                                if (state.RecipientChoiceList.Count <= ConfigData.MaxReadSize)
+                                {
+                                    // Set readmore as false when return to next page
+                                    state.ShowRecipientIndex++;
+                                    state.ReadRecipientIndex = 0;
+                                }
+                                else
+                                {
+                                    state.ReadRecipientIndex++;
+                                }
+                            }
 
                             return await sc.BeginDialogAsync(Actions.ConfirmRecipient);
                         }
@@ -243,6 +262,7 @@ namespace EmailSkill
                         if (choiceResult == UpdateUserDialogOptions.UpdateReason.TooMany.ToString())
                         {
                             state.ShowRecipientIndex++;
+                            state.ReadRecipientIndex = 0;
                             return await sc.BeginDialogAsync(Actions.ConfirmRecipient, new UpdateUserDialogOptions(UpdateUserDialogOptions.UpdateReason.TooMany));
                         }
 
@@ -251,11 +271,13 @@ namespace EmailSkill
                             if (state.ShowRecipientIndex > 0)
                             {
                                 state.ShowRecipientIndex--;
+                                state.ReadRecipientIndex = 0;
                             }
 
                             return await sc.BeginDialogAsync(Actions.ConfirmRecipient);
                         }
 
+                        // Find an recipient
                         var recipient = new Recipient();
                         var emailAddress = new EmailAddress
                         {
@@ -269,6 +291,11 @@ namespace EmailSkill
                         }
 
                         state.ConfirmRecipientIndex++;
+
+                        // Clean up data
+                        state.ShowRecipientIndex = 0;
+                        state.ReadRecipientIndex = 0;
+                        state.RecipientChoiceList.Clear();
                     }
 
                     if (state.ConfirmRecipientIndex < state.NameList.Count)

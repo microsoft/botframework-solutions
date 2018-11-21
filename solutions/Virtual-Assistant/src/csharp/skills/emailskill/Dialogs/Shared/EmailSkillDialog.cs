@@ -154,6 +154,66 @@ namespace EmailSkill
         }
 
         // Shared steps
+        protected async Task<DialogTurnResult> IfClearContextStep(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                // clear context before show emails, and extract it from luis result again.
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var luisResult = state.LuisResult;
+
+                var topIntent = luisResult?.TopIntent().intent;
+                if (topIntent == Email.Intent.CheckMessages)
+                {
+                    await ClearConversationState(sc);
+                    await DigestEmailLuisResult(sc, luisResult);
+                }
+
+                var generalLuisResult = state.GeneralLuisResult;
+                var generalTopIntent = generalLuisResult?.TopIntent().intent;
+                if (generalTopIntent == General.Intent.Next)
+                {
+                    state.ShowEmailIndex++;
+                    state.ReadEmailIndex = 0;
+                }
+
+                if (generalTopIntent == General.Intent.Previous && state.ShowEmailIndex > 0)
+                {
+                    state.ShowEmailIndex--;
+                    state.ReadEmailIndex = 0;
+                }
+
+                if (IsReadMoreIntent(generalTopIntent, sc.Context.Activity.Text))
+                {
+                    // When read size == display size
+                    if (ConfigData.IsFastReadMode())
+                    {
+                        state.ShowEmailIndex++;
+                        state.ReadEmailIndex = 0;
+                    }
+                    else
+                    {
+                        if (state.MessageList.Count <= ConfigData.MaxReadSize)
+                        {
+                            // Set readmore as false when return to next page
+                            state.ShowEmailIndex++;
+                            state.ReadEmailIndex = 0;
+                        }
+                        else
+                        {
+                            state.ReadEmailIndex++;
+                        }
+                    }
+                }
+
+                return await sc.NextAsync();
+            }
+            catch (Exception ex)
+            {
+                throw await HandleDialogExceptions(sc, ex);
+            }
+        }
+
         protected async Task<DialogTurnResult> GetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -440,7 +500,7 @@ namespace EmailSkill
                 var messages = await GetMessagesAsync(sc);
                 if (messages.Count > 0)
                 {
-                    await ShowMailList(sc, messages);
+                    messages = await ShowMailList(sc, messages);
                     state.MessageList = messages;
                 }
                 else
@@ -767,12 +827,13 @@ namespace EmailSkill
             return result;
         }
 
-        protected async Task ShowMailList(WaterfallStepContext sc, List<Message> messages)
+        protected async Task<List<Message>> ShowMailList(WaterfallStepContext sc, List<Message> messages)
         {
+            var updatedMessages = new List<Message>();
             var state = await EmailStateAccessor.GetAsync(sc.Context);
             var cardsData = new List<EmailCardData>();
 
-            var startIndex = state.IsEmailReadMore ? ConfigData.MaxReadSize : 0;
+            var startIndex = ConfigData.MaxReadSize * state.ReadEmailIndex;
             for (int i = startIndex; i < messages.Count(); i++)
             {
                 var message = messages[i];
@@ -791,6 +852,7 @@ namespace EmailSkill
                     Speak = SpeakHelper.ToSpeechEmailDetailString(message),
                 };
                 cardsData.Add(emailCard);
+                updatedMessages.Add(message);
             }
 
             var searchType = CommonStrings.Relevant;
@@ -811,6 +873,8 @@ namespace EmailSkill
 
             var reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
             await sc.Context.SendActivityAsync(reply);
+
+            return updatedMessages;
         }
 
         protected async Task<List<Person>> GetPeopleWorkWithAsync(WaterfallStepContext sc, string name)
@@ -893,8 +957,6 @@ namespace EmailSkill
                 state.Recipients.Clear();
                 state.ConfirmRecipientIndex = 0;
                 state.ShowEmailIndex = 0;
-                state.IsEmailReadMore = false;
-                state.IsRecipientReadMore = false;
                 state.IsUnreadOnly = true;
                 state.IsImportant = false;
                 state.StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
@@ -904,6 +966,9 @@ namespace EmailSkill
                 state.EmailList = new List<string>();
                 state.ShowRecipientIndex = 0;
                 state.LuisResultPassedFromSkill = null;
+                state.ReadEmailIndex = 0;
+                state.ReadRecipientIndex = 0;
+                state.RecipientChoiceList.Clear();
             }
             catch (Exception)
             {

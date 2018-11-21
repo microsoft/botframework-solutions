@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Solutions.Data;
 using Microsoft.Graph;
 
 namespace EmailSkill
@@ -26,9 +28,10 @@ namespace EmailSkill
             IsImportant = false;
             ConfirmRecipientIndex = 0;
             ShowEmailIndex = 0;
-            IsEmailReadMore = false;
-            IsRecipientReadMore = false;
             ShowRecipientIndex = 0;
+            ReadEmailIndex = 0;
+            ReadRecipientIndex = 0;
+            RecipientChoiceList = new List<Choice>();
             MsGraphToken = null;
             DirectlyToMe = false;
             StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
@@ -77,11 +80,13 @@ namespace EmailSkill
 
         public int ShowEmailIndex { get; set; }
 
-        public bool IsEmailReadMore { get; set; }
+        public int ReadEmailIndex { get; set; }
 
         public int ShowRecipientIndex { get; set; }
 
-        public bool IsRecipientReadMore { get; set; }
+        public int ReadRecipientIndex { get; set; }
+
+        public List<Choice> RecipientChoiceList { get; set; }
 
         public Email LuisResult { get; set; }
 
@@ -113,8 +118,9 @@ namespace EmailSkill
             Recipients.Clear();
             ConfirmRecipientIndex = 0;
             ShowEmailIndex = 0;
-            IsEmailReadMore = false;
-            IsRecipientReadMore = false;
+            ReadEmailIndex = 0;
+            ReadRecipientIndex = 0;
+            RecipientChoiceList.Clear();
             IsUnreadOnly = true;
             IsImportant = false;
             StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
