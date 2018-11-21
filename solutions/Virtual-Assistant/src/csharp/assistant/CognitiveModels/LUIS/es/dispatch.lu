@@ -49,61 +49,52 @@
 - [l_ToDo](../../../../skills/todoskill/CognitiveModels/LUIS/en/todo.lu#DeleteToDo)
 - [l_ToDo](../../../../skills/todoskill/CognitiveModels/LUIS/en/todo.lu#MarkToDo)
 - [l_ToDo](../../../../skills/todoskill/CognitiveModels/LUIS/en/todo.lu#ShowToDo)
-- Añadir a hacer a  {TaskContent} 
-- crear tarea que  {TaskContent} 
-- crear tarea para  {TaskContent} 
-- agregar una tarea a  {TaskContent} 
-- Añadir a hacer que  {TaskContent} 
-- crear para hacer para  {TaskContent} 
-- Agregar tarea a  {TaskContent} 
-- Agregar tarea que  {TaskContent} 
-- agregar una tarea que  {TaskContent} 
-- Añadir  {TaskContent} a mi a dos
-- crear una tarea para  {TaskContent} 
-- Añadir  {TaskContent} a mi lista de comestibles
-- crear para hacer eso  {TaskContent} 
-- Añadir  {TaskContent} a mis tareas
-- Añadir  {TaskContent} a mi lista de hacer
-- Añadir  {TaskContent} a mi lista de compras
-- crear una a hacer para  {TaskContent} 
-- crear una para hacer eso  {TaskContent} 
-- Añadir  {TaskContent} a mi lista de tareas
-- crear una tarea que  {TaskContent} 
-- Agregar un  {TaskType}  elemento que  {TaskContent} 
-- Recuérdame que  {TaskContent} 
-- Agregar un a hacer a  {TaskContent} 
-- Agregar un para hacer eso  {TaskContent} 
-- eliminar para hacer eso  {TaskContent} 
-- Recuérdame que  {TaskContent} 
-- quitar la tarea que  {TaskContent} 
-- quitar el para hacer  {TaskContent} 
-- eliminar tarea  {TaskContent} 
-- quitar el para hacer que  {TaskContent} 
-- quitar para hacer eso  {TaskContent} 
-- eliminar la tarea  {TaskContent} 
-- quitar tarea que  {TaskContent} 
-- eliminar el para hacerlo  {TaskContent} 
-- eliminar el para hacer  {TaskContent} 
-- quitar tarea  {TaskContent} 
-- Elimine la tarea que  {TaskContent} 
-- eliminar tarea que  {TaskContent} 
-- quitar para hacer  {TaskContent} 
-- quitar la tarea  {TaskContent} 
-- eliminar para hacer  {TaskContent} 
-- marcar la tarea  {TaskContent} como terminado
-- tarea completa  {TaskContent} 
-- Marca  {TaskContent} como terminado
-- marcar tarea  {TaskContent} como completa
-- Marca  {TaskContent} como se completó
-- marcar la tarea  {TaskContent} como se completó
-- marcar tarea  {TaskContent} como se completó
-- marcar la tarea  {TaskContent} como se hace
-- Marca  {TaskContent} como completa
-- Marca  {TaskContent} como se hace
-- completar la tarea  {TaskContent} 
-- marcar la tarea  {TaskContent} como completa
-- marcar tarea  {TaskContent} como se hace
-- marcar tarea  {TaskContent} como terminado
+- agregar una tarea para comprar  {ShopContent} 
+- Añadir a hacer que  {TaskContentPattern} 
+- agregar una tarea que compra  {ShopContent} 
+- crear una a hacer para  {TaskContentPattern} 
+- agregar una tarea que tienda  {ShopContent} 
+- Añadir  {TaskContentPattern}  a los  {ListType} Lista
+- Agregar compra  {ShopContent} a mi lista de compras
+- Agregar a para hacer esa compra  {ShopContent} 
+- agregar una para hacer esa tienda  {ShopContent} 
+- agregar una tarea que compre  {ShopContent} 
+- agregar una tarea a  {TaskContentPattern} 
+- Recuérdame comprar  {ShopContent} 
+- Recuérdame que compre  {ShopContent} 
+- Añadir  {TaskContentPattern} a mi lista de tareas
+- Añadir  {TaskContentPattern} a mis tareas
+- Agregar compra  {ShopContent} a mi lista de comestibles
+- Añadir  {TaskContentPattern} a mi a dos
+- Añadir una a hacer que comprar  {ShopContent} 
+- Añadir  {TaskContentPattern}  a mi  {ListType} Lista
+- Agregar tarea a  {TaskContentPattern} 
+- Añadir  {ShopVerb}   {ShopContent} a mi lista de compras
+- Añadir  {TaskContentPattern} a mi lista de comestibles
+- Recuérdame comprar  {ShopContent} 
+- Añadir  {TaskContentPattern}  Para  {ListType} Lista
+- crear tarea para  {TaskContentPattern} 
+- Añadir  {TaskContentPattern} a mi lista de hacer
+- Agregar un a hacer a  {TaskContentPattern} 
+- crear para hacer para  {TaskContentPattern} 
+- Recuérdame que  {TaskContentPattern} 
+- crear una tarea para  {TaskContentPattern} 
+- Añadir a hacer a  {TaskContentPattern} 
+- Añadir  {ShopVerb}   {ShopContent}  a mi  {ListType} Lista
+- Recuérdame que  {TaskContentPattern} 
+- eliminar para hacer  {TaskContentPattern} 
+- eliminar tarea  {TaskContentPattern} 
+- quitar la tarea  {TaskContentPattern} 
+- eliminar la tarea  {TaskContentPattern} 
+- quitar el para hacer  {TaskContentPattern} 
+- eliminar el para hacer  {TaskContentPattern} 
+- quitar para hacer  {TaskContentPattern} 
+- eliminar el para hacerlo  {TaskContentPattern} 
+- Marca  {TaskContentPattern} como terminado
+- marcar la tarea  {TaskContentPattern} como se completó
+- marcar tarea  {TaskContentPattern} como terminado
+- marcar la tarea  {TaskContentPattern} como terminado
+- tarea completa  {TaskContentPattern} 
 
 # l_PointOfInterest
 - [l_PointOfInterest](../../../../skills/pointofinterestskill/CognitiveModels/LUIS/en/poi_navigation_cancel_route.lu#NAVIGATION_CANCEL_ROUTE)

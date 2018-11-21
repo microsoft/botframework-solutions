@@ -49,61 +49,53 @@
 - [l_ToDo](../../../../skills/todoskill/CognitiveModels/LUIS/en/todo.lu#DeleteToDo)
 - [l_ToDo](../../../../skills/todoskill/CognitiveModels/LUIS/en/todo.lu#MarkToDo)
 - [l_ToDo](../../../../skills/todoskill/CognitiveModels/LUIS/en/todo.lu#ShowToDo)
-- Aggiungi a fare per  {TaskContent} 
-- creare attività che  {TaskContent} 
-- creare attività per  {TaskContent} 
-- aggiungere un'attività a  {TaskContent} 
-- aggiungere a farlo  {TaskContent} 
-- creare da fare per  {TaskContent} 
-- Aggiungi attività per  {TaskContent} 
-- aggiungere attività che  {TaskContent} 
-- aggiungere un'attività che  {TaskContent} 
-- Aggiungi  {TaskContent} al mio DOS
-- creare un'attività per  {TaskContent} 
-- Aggiungi  {TaskContent} alla mia lista della drogheria
-- creare per farlo  {TaskContent} 
-- Aggiungi  {TaskContent} ai miei compiti
-- Aggiungi  {TaskContent} alla mia lista di fare
-- Aggiungi  {TaskContent} alla mia lista della spesa
-- creare una da fare per  {TaskContent} 
-- creare un per farlo  {TaskContent} 
-- Aggiungi  {TaskContent} alla mia lista todo
-- creare un'attività che  {TaskContent} 
-- aggiungere un  {TaskType}  elemento che  {TaskContent} 
-- mi ricordano che  {TaskContent} 
-- aggiungere un da fare per  {TaskContent} 
-- aggiungere un per farlo  {TaskContent} 
-- eliminare per farlo  {TaskContent} 
-- Ricordami di  {TaskContent} 
-- rimuovere l'attività che  {TaskContent} 
-- rimuovere il fare  {TaskContent} 
-- Elimina attività  {TaskContent} 
-- rimuovere il per farlo  {TaskContent} 
-- rimuovere per farlo  {TaskContent} 
-- eliminare l'attività  {TaskContent} 
-- rimuovere attività che  {TaskContent} 
-- eliminare il per farlo  {TaskContent} 
-- eliminare il fare  {TaskContent} 
-- Rimuovi attività  {TaskContent} 
-- eliminare l'attività che  {TaskContent} 
-- eliminare attività che  {TaskContent} 
-- Rimuovi per fare  {TaskContent} 
-- rimuovere l'attività  {TaskContent} 
-- Elimina per fare  {TaskContent} 
-- contrassegnare l'attività  {TaskContent} come finito
-- attività completa  {TaskContent} 
-- Mark  {TaskContent} come finito
-- attività Mark  {TaskContent} come completo
-- Mark  {TaskContent} come completato
-- contrassegnare l'attività  {TaskContent} come completato
-- attività Mark  {TaskContent} come completato
-- contrassegnare l'attività  {TaskContent} come fatto
-- Mark  {TaskContent} come completo
-- Mark  {TaskContent} come fatto
-- completare l'attività  {TaskContent} 
-- contrassegnare l'attività  {TaskContent} come completo
-- attività Mark  {TaskContent} come fatto
-- attività Mark  {TaskContent} come finito
+- aggiungere un'attività al negozio  {ShopContent} 
+- aggiungere a farlo  {TaskContentPattern} 
+- aggiungere un'attività che acquista  {ShopContent} 
+- creare una da fare per  {TaskContentPattern} 
+- aggiungere un'attività che negozio  {ShopContent} 
+- Aggiungi  {TaskContentPattern}  per l'  {ListType} Elenco
+- Aggiungi acquisto  {ShopContent} alla mia lista della spesa
+- aggiungere un per fare che l'acquisto  {ShopContent} 
+- aggiungere un per fare quel negozio  {ShopContent} 
+- aggiungere un'attività che acquista  {ShopContent} 
+- aggiungere un'attività a  {TaskContentPattern} 
+- Ricordami di comprare  {ShopContent} 
+- Ricordami di fare acquisti  {ShopContent} 
+- Aggiungi  {TaskContentPattern} alla mia lista todo
+- Aggiungi  {TaskContentPattern} ai miei compiti
+- Aggiungi acquisto  {ShopContent} alla mia lista della drogheria
+- Aggiungi  {TaskContentPattern} al mio DOS
+- aggiungere un per farlo comprare  {ShopContent} 
+- Aggiungi  {TaskContentPattern}  al mio  {ListType} Elenco
+- Aggiungi attività per  {TaskContentPattern} 
+- Aggiungi  {ShopVerb}   {ShopContent} alla mia lista della spesa
+- Aggiungi  {TaskContentPattern} alla mia lista della drogheria
+- Ricordami di acquistare  {ShopContent} 
+- Aggiungi  {TaskContentPattern}  A  {ListType} Elenco
+- creare attività per  {TaskContentPattern} 
+- Aggiungi  {TaskContentPattern} alla mia lista di fare
+- aggiungere un da fare per  {TaskContentPattern} 
+- creare da fare per  {TaskContentPattern} 
+- Ricordami di  {TaskContentPattern} 
+- creare un'attività per  {TaskContentPattern} 
+- Aggiungi a fare per  {TaskContentPattern} 
+- Aggiungi  {ShopVerb}   {ShopContent}  al mio  {ListType} Elenco
+- mi ricordano che  {TaskContentPattern} 
+- Elimina per fare  {TaskContentPattern} 
+- Elimina attività  {TaskContentPattern} 
+- rimuovere l'attività  {TaskContentPattern} 
+- eliminare l'attività  {TaskContentPattern} 
+- rimuovere il fare  {TaskContentPattern} 
+- eliminare il fare  {TaskContentPattern} 
+- Rimuovi per fare  {TaskContentPattern} 
+- eliminare il per farlo  {TaskContentPattern} 
+- completare l'attività  {TaskContentPattern} 
+- Mark  {TaskContentPattern} come finito
+- contrassegnare l'attività  {TaskContentPattern} come completato
+- attività Mark  {TaskContentPattern} come finito
+- contrassegnare l'attività  {TaskContentPattern} come finito
+- attività completa  {TaskContentPattern} 
 
 # l_PointOfInterest
 - [l_PointOfInterest](../../../../skills/pointofinterestskill/CognitiveModels/LUIS/en/poi_navigation_cancel_route.lu#NAVIGATION_CANCEL_ROUTE)

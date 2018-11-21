@@ -49,64 +49,53 @@
 - [l_ToDo](../../../../skills/todoskill/CognitiveModels/LUIS/en/todo.lu#DeleteToDo)
 - [l_ToDo](../../../../skills/todoskill/CognitiveModels/LUIS/en/todo.lu#MarkToDo)
 - [l_ToDo](../../../../skills/todoskill/CognitiveModels/LUIS/en/todo.lu#ShowToDo)
-- 提醒我, {taskcontent} 
-- 提醒我 {taskcontent} 
-- 保存一个 {TaskType=所有} 
-- 添加到 {TaskContent} 
-- 创建任务, {TaskContent} 
-- 创建任务以 {TaskContent} 
-- 将任务添加到 {TaskContent} 
-- 添加此操作 {TaskContent} 
-- 创建以执行 {TaskContent} 
-- 将任务添加到 {TaskContent} 
-- 添加任务, {TaskContent} 
-- 添加一项 {TaskContent} 
-- 添加 {TaskContent} 到我的 dos
-- 创建任务以 {TaskContent} 
-- 添加 {TaskContent} 到我的杂货清单
-- 创建此操作 {TaskContent} 
-- 添加 {TaskContent} 到我的任务
-- 添加 {TaskContent} 到我要做的列表
-- 添加 {TaskContent} 到我的购物清单
-- 创建要执行的操作以 {TaskContent} 
-- 创建一个这样做 {TaskContent} 
-- 添加 {TaskContent} 到我的待办事项列表
-- 创建一个任务, {TaskContent} 
-- 添加一个 {TaskType} 项, {TaskContent} 
-- 提醒我, {TaskContent} 
-- 添加要执行的操作以 {TaskContent} 
-- 添加 a 以执行该操作 {TaskContent} 
-- 删除以执行该操作 {TaskContent} 
-- 提醒我 {TaskContent} 
-- 删除任务 {TaskContent} 
-- 删除要执行的操作 {TaskContent} 
-- 删除任务 {TaskContent} 
-- 移除要执行的操作, {TaskContent} 
-- 移除以执行该操作 {TaskContent} 
-- 删除任务 {TaskContent} 
-- 删除任务 {TaskContent} 
-- 删除要执行的操作, {TaskContent} 
-- 删除要执行的操作 {TaskContent} 
-- 删除任务 {TaskContent} 
-- 删除任务 {TaskContent} 
-- 删除任务 {TaskContent} 
-- 删除以执行 {TaskContent} 
-- 删除任务 {TaskContent} 
-- 删除以执行 {TaskContent} 
-- 标记任务 {TaskContent} 完工
-- 完成任务 {TaskContent} 
-- 马克 {TaskContent} 完工
-- 标记任务 {TaskContent} 为完整
-- 马克 {TaskContent} 完成后
-- 标记任务 {TaskContent} 完成后
-- 标记任务 {TaskContent} 完成后
-- 标记任务 {TaskContent} 如完成
-- 马克 {TaskContent} 为完整
-- 马克 {TaskContent} 如完成
-- 完成任务 {TaskContent} 
-- 标记任务 {TaskContent} 为完整
-- 标记任务 {TaskContent} 如完成
-- 标记任务 {TaskContent} 完工
+- 将任务添加到购物 {ShopContent} 
+- 添加这样做 {TaskContentPattern} 
+- 添加购买的任务 {ShopContent} 
+- 创建一个要做的事情 {TaskContentPattern} 
+- 添加购物的任务 {ShopContent} 
+- 添加 {TaskContentPattern} 到 {ListType} 列表
+- 添加购买 {ShopContent} 到我的购物清单
+- 添加一个来做的购买 {ShopContent} 
+- 添加一个做那家商店 {ShopContent} 
+- 添加购买的任务 {ShopContent} 
+- 将任务添加到 {TaskContentPattern} 
+- 提醒我买 {ShopContent} 
+- 提醒我去购物 {ShopContent} 
+- 添加 {TaskContentPattern} 到我的待办事项列表
+- 添加 {TaskContentPattern} 到我的任务
+- 添加购买 {ShopContent} 我的食品杂货清单
+- 添加 {TaskContentPattern} 到我的做
+- 添加一个做, 购买 {ShopContent} 
+- 添加 {TaskContentPattern} 到我的 {ListType} 列表
+- 将任务添加到 {TaskContentPattern} 
+- 添加 {ShopVerb}   {ShopContent} 到我的购物清单
+- 添加 {TaskContentPattern} 我的食品杂货清单
+- 提醒我购买 {ShopContent} 
+- 添加 {TaskContentPattern} 自 {ListType} 列表
+- 创建任务以 {TaskContentPattern} 
+- 添加 {TaskContentPattern} 到我的要做的列表
+- 添加一个要做的 {TaskContentPattern} 
+- 创建要做的事情 {TaskContentPattern} 
+- 提醒我 {TaskContentPattern} 
+- 创建一个任务 {TaskContentPattern} 
+- 添加到做 {TaskContentPattern} 
+- 添加 {ShopVerb}   {ShopContent} 到我的 {ListType} 列表
+- 提醒我, {TaskContentPattern}
+- 删除以执行 {TaskContentPattern} 
+- 删除任务 {TaskContentPattern} 
+- 删除任务 {TaskContentPattern} 
+- 删除任务 {TaskContentPattern} 
+- 删除要执行的操作 {TaskContentPattern} 
+- 删除要执行的操作 {TaskContentPattern} 
+- 删除要执行 {TaskContentPattern} 
+- 删除要执行的 {TaskContentPattern}
+- 完成任务 {TaskContentPattern} 
+- 马克 {TaskContentPattern} 已完成
+- 标记任务 {TaskContentPattern} 已完成
+- 标记任务 {TaskContentPattern} 已完成
+- 标记任务 {TaskContentPattern} 已完成
+- 完成任务 {TaskContentPattern} 
 
 
 # l_PointOfInterest

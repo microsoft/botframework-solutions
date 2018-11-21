@@ -49,61 +49,53 @@
 - [l_ToDo](../../../../skills/todoskill/CognitiveModels/LUIS/en/todo.lu#DeleteToDo)
 - [l_ToDo](../../../../skills/todoskill/CognitiveModels/LUIS/en/todo.lu#MarkToDo)
 - [l_ToDo](../../../../skills/todoskill/CognitiveModels/LUIS/en/todo.lu#ShowToDo)
-- add to do to {TaskContent}
-- create task that {TaskContent}
-- create task to {TaskContent}
-- add a task to {TaskContent}
-- add to do that {TaskContent}
-- create to do to {TaskContent}
-- add task to {TaskContent}
-- add task that {TaskContent}
-- add a task that {TaskContent}
-- add {TaskContent} to my to dos
-- create a task to {TaskContent}
-- add {TaskContent} to my grocery list
-- create to do that {TaskContent}
-- add {TaskContent} to my tasks
-- add {TaskContent} to my to do list
-- add {TaskContent} to my shopping list
-- create a to do to {TaskContent}
-- create a to do that {TaskContent}
-- add {TaskContent} to my todo list
-- create a task that {TaskContent}
-- add a {TaskType} item that {TaskContent}
-- remind me that {TaskContent}
-- add a to do to {TaskContent}
-- add a to do that {TaskContent}
-- delete to do that {TaskContent}
-- remind me to {TaskContent}
-- mark the task {TaskContent} as finished
-- complete task {TaskContent}
-- mark {TaskContent} as finished
-- mark task {TaskContent} as complete
-- mark {TaskContent} as completed
-- mark the task {TaskContent} as completed
-- mark task {TaskContent} as completed
-- mark the task {TaskContent} as done
-- mark {TaskContent} as complete
-- mark {TaskContent} as done
-- complete the task {TaskContent}
-- mark the task {TaskContent} as complete
-- mark task {TaskContent} as done
-- mark task {TaskContent} as finished
-- remove the task that {TaskContent}
-- remove the to do {TaskContent}
-- delete task {TaskContent}
-- remove the to do that {TaskContent}
-- remove to do that {TaskContent}
-- delete the task {TaskContent}
-- remove task that {TaskContent}
-- delete the to do that {TaskContent}
-- delete the to do {TaskContent}
-- remove task {TaskContent}
-- delete the task that {TaskContent}
-- delete task that {TaskContent}
-- remove to do {TaskContent}
-- remove the task {TaskContent}
-- delete to do {TaskContent}
+- add a task to shop {ShopContent}
+- add to do that {TaskContentPattern}
+- add a task that purchase {ShopContent}
+- create a to do to {TaskContentPattern}
+- add a task that shop {ShopContent}
+- add {TaskContentPattern} to the {ListType} list
+- add buy {ShopContent} to my shopping list
+- add a to do that purchase {ShopContent}
+- add a to do that shop {ShopContent}
+- add a task that buy {ShopContent}
+- add a task to {TaskContentPattern}
+- remind me to buy {ShopContent}
+- remind me to shop {ShopContent}
+- add {TaskContentPattern} to my todo list
+- add {TaskContentPattern} to my tasks
+- add buy {ShopContent} to my grocery list
+- add {TaskContentPattern} to my to dos
+- add a to do that buy {ShopContent}
+- add {TaskContentPattern} to my {ListType} list
+- add task to {TaskContentPattern}
+- add {ShopVerb} {ShopContent} to my shopping list
+- add {TaskContentPattern} to my grocery list
+- remind me to purchase {ShopContent}
+- add {TaskContentPattern} to {ListType} list
+- create task to {TaskContentPattern}
+- add {TaskContentPattern} to my to do list
+- add a to do to {TaskContentPattern}
+- create to do to {TaskContentPattern}
+- remind me to {TaskContentPattern}
+- create a task to {TaskContentPattern}
+- add to do to {TaskContentPattern}
+- add {ShopVerb} {ShopContent} to my {ListType} list
+- remind me that {TaskContentPattern}
+- delete to do {TaskContentPattern}
+- delete task {TaskContentPattern}
+- remove the task {TaskContentPattern}
+- delete the task {TaskContentPattern}
+- remove the to do {TaskContentPattern}
+- delete the to do {TaskContentPattern}
+- remove to do {TaskContentPattern}
+- delete the to do that {TaskContentPattern}
+- complete the task {TaskContentPattern}
+- mark {TaskContentPattern} as finished
+- mark the task {TaskContentPattern} as completed
+- mark task {TaskContentPattern} as finished
+- mark the task {TaskContentPattern} as finished
+- complete task {TaskContentPattern}
 
 # l_PointOfInterest
 - [l_PointOfInterest](../../../../skills/pointofinterestskill/CognitiveModels/LUIS/en/poi_navigation_cancel_route.lu#NAVIGATION_CANCEL_ROUTE)

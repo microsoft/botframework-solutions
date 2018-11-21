@@ -49,61 +49,54 @@
 - [l_ToDo](../../../../skills/todoskill/CognitiveModels/LUIS/de/todo.lu#DeleteToDo)
 - [l_ToDo](../../../../skills/todoskill/CognitiveModels/LUIS/de/todo.lu#MarkToDo)
 - [l_ToDo](../../../../skills/todoskill/CognitiveModels/LUIS/de/todo.lu#ShowToDo)
-- dazu beitragen,  {TaskContent} 
-- Aufgabe schaffen, die  {TaskContent} 
-- Aufgabe zu schaffen,  {TaskContent} 
-- Fügen Sie eine Aufgabe zu  {TaskContent} 
-- hinzu kommt, dass  {TaskContent} 
-- schaffen, zu tun, um  {TaskContent} 
-- Add Task to  {TaskContent} 
-- Add Task,  {TaskContent} 
-- Fügen Sie eine Aufgabe, die  {TaskContent} 
-- Hinzufügen  {TaskContent} to My to DOS
-- eine Aufgabe zu schaffen,  {TaskContent} 
-- Hinzufügen  {TaskContent} zu meiner lebensmittelliste
-- schaffen, das zu tun  {TaskContent} 
-- Hinzufügen  {TaskContent} zu meinen Aufgaben
-- Hinzufügen  {TaskContent} zu meiner to-do-Liste
-- Hinzufügen  {TaskContent} auf Meine Einkaufsliste
-- Erstellen Sie ein zu tun, um  {TaskContent} 
-- schaffen Sie ein, das zu tun  {TaskContent} 
-- Hinzufügen  {TaskContent} zu meiner TODO-Liste
-- eine Aufgabe schaffen, die  {TaskContent} 
-- fügen eine  {TaskType}  Punkt,  {TaskContent} 
-- mich daran erinnern, dass  {TaskContent} 
-- Fügen Sie eine zu tun, um  {TaskContent} 
-- Hinzufügen, dass  {TaskContent} 
-- löschen, um das zu tun  {TaskContent} 
-- erinnere mich an  {TaskContent}
-- Entfernen Sie die Aufgabe, die  {TaskContent} 
-- Entfernen Sie die to do  {TaskContent} 
-- Aufgabe löschen  {TaskContent} 
-- Entfernen Sie das zu tun  {TaskContent} 
-- entfernen, um das zu tun  {TaskContent} 
-- die Aufgabe löschen  {TaskContent} 
-- Aufgabe entfernen, die  {TaskContent} 
-- Löschen Sie das, um das zu tun  {TaskContent} 
-- Löschen Sie die to do  {TaskContent} 
-- Aufgabe abschaffen  {TaskContent} 
-- Löschen Sie die Aufgabe, die  {TaskContent} 
-- Lösch Aufgabe, die  {TaskContent} 
-- Entfernen zu tun  {TaskContent} 
-- die Aufgabe zu beseitigen  {TaskContent} 
-- Löschen zu tun  {TaskContent} 
-- Markieren die Aufgabe  {TaskContent} als fertig
-- komplette Aufgabe  {TaskContent} 
-- Mark  {TaskContent} als fertig
-- Mark Task  {TaskContent} als komplettes
-- Mark  {TaskContent} als abgeschlossen
-- Markieren die Aufgabe  {TaskContent} als abgeschlossen
-- Mark Task  {TaskContent} als abgeschlossen
-- Markieren die Aufgabe  {TaskContent} wie getan
-- Mark  {TaskContent} als komplettes
-- Mark  {TaskContent} wie getan
-- die Aufgabe zu erfüllen  {TaskContent} 
-- Markieren die Aufgabe  {TaskContent} als komplettes
-- Mark Task  {TaskContent} wie getan
-- Mark Task  {TaskContent} als fertig
+- Fügen Sie eine Aufgabe zum Einkaufen  {ShopContent} 
+- Dazu noch etwas  {TaskContentPattern} 
+- Fügen Sie eine Aufgabe, die Kauf  {ShopContent} 
+- Ein zu tun  {TaskContentPattern} 
+- Fügen Sie eine Aufgabe, dass Shop  {ShopContent} 
+- Hinzufügen  {TaskContentPattern}  Zum  {ListType} Liste
+- Hinzufügen kaufen  {ShopContent} Auf meine Einkaufsliste
+- Fügen Sie einen zu diesem Kauf  {ShopContent} 
+- Fügen Sie einen, um diesen Shop zu tun  {ShopContent} 
+- Fügen Sie eine Aufgabe, die kaufen  {ShopContent} 
+- Eine Aufgabe hinzufügen  {TaskContentPattern} 
+- Erinnern Sie mich zu kaufen  {ShopContent} 
+- Erinnern Sie mich an einkaufen  {ShopContent} 
+- Hinzufügen  {TaskContentPattern} Auf meine Todo-Liste
+- Hinzufügen  {TaskContentPattern} Zu meinen Aufgaben
+- Hinzufügen kaufen  {ShopContent} Auf meine Lebensmittelliste
+- Hinzufügen  {TaskContentPattern} Meinem to dos
+- Fügen Sie ein zu tun, dass kaufen  {ShopContent} 
+- Hinzufügen  {TaskContentPattern}  Meiner  {ListType} Liste
+- Aufgabe hinzufügen  {TaskContentPattern} 
+- Hinzufügen  {ShopVerb}   {ShopContent} Auf meine Einkaufsliste
+- Hinzufügen  {TaskContentPattern} Auf meine Lebensmittelliste
+- Erinnern Sie mich an Kauf  {ShopContent} 
+- Hinzufügen  {TaskContentPattern}  An  {ListType} Liste
+- Aufgabe zu schaffen  {TaskContentPattern} 
+- Hinzufügen  {TaskContentPattern} Auf meine zu tun Liste
+- Ein zu tun  {TaskContentPattern} 
+- erschaffen, um zu tun  {TaskContentPattern} 
+- Ich erinnere mich an  {TaskContentPattern} 
+- Eine Aufgabe zu schaffen  {TaskContentPattern} 
+- Dazu  {TaskContentPattern} 
+- Hinzufügen  {ShopVerb}   {ShopContent}  Meiner  {ListType} Liste
+- Ich erinnere mich daran, dass  {TaskContentPattern} 
+- Löschen zu tun  {TaskContentPattern} 
+- Aufgabe löschen  {TaskContentPattern} 
+- Die Aufgabe entfernen  {TaskContentPattern} 
+- Die Aufgabe löschen  {TaskContentPattern} 
+- Entfernen Sie die zu tun  {TaskContentPattern} 
+- Die löschen  {TaskContentPattern} 
+- Entfernen  {TaskContentPattern} 
+- Löschen Sie das  {TaskContentPattern} 
+- Aufgabe abgeschlossen  {TaskContentPattern} 
+- Mark  {TaskContentPattern} Wie fertig
+- Die Aufgabe markieren  {TaskContentPattern} Wie abgeschlossen
+- Aufgabe markieren  {TaskContentPattern} Wie fertig
+- Die Aufgabe markieren  {TaskContentPattern} Wie fertig
+- Komplettaufgabe  {TaskContentPattern} 
+
 
 # l_PointOfInterest
 - [l_PointOfInterest](../../../../skills/pointofinterestskill/CognitiveModels/LUIS/de/poi_navigation_cancel_route.lu#NAVIGATION_CANCEL_ROUTE)
