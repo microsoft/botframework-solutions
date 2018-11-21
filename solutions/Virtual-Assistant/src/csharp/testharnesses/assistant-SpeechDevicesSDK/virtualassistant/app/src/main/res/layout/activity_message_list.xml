@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:focusableInTouchMode="true"
+    android:animateLayoutChanges="true"
+    android:background="@drawable/background"
+    tools:context="com.microsoft.cognitiveservices.speech.samples.botapp.MainActivity">
+
+    <ListView
+        android:id="@+id/listview_message_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginLeft="4dp"
+
+        android:layout_weight="2"
+        android:background="@color/transparentBackground"
+        android:divider="#fff"
+        android:transcriptMode="alwaysScroll"
+        android:stackFromBottom="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    <LinearLayout
+        android:id="@+id/layout_chatbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:layout_marginBottom="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginLeft="4dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/recognizedText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@android:color/transparent"
+            android:maxLines="2"
+            android:layout_weight="2"
+            />
+
+
+        <Button
+            android:id="@+id/buttonStartConversation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="@string/button_start"
+            android:textAllCaps="true"
+            android:textColor="@color/buttonColor"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+</LinearLayout>
