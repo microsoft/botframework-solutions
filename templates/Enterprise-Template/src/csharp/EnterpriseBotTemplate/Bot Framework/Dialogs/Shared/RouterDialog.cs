@@ -26,39 +26,45 @@ namespace $safeprojectname$.Dialogs.Shared
         {
             var activity = innerDc.Context.Activity;
 
-            if (CortanaHelper.IsLaunchActivity(activity) && string.IsNullOrEmpty(activity.Text))
+            if (activity.IsStartActivity())
             {
                 await OnStartAsync(innerDc);
-                return EndOfTurn;
             }
 
             switch (activity.Type)
             {
                 case ActivityTypes.Message:
                     {
-                        var result = await innerDc.ContinueDialogAsync();
-
-                        switch (result.Status)
+                        if (activity.Value != null)
                         {
-                            case DialogTurnStatus.Empty:
-                                {
-                                    await RouteAsync(innerDc);
-                                    break;
-                                }
+                            await OnEventAsync(innerDc);
+                        }
+                        else if (!string.IsNullOrEmpty(activity.Text))
+                        {
+                            var result = await innerDc.ContinueDialogAsync();
 
-                            case DialogTurnStatus.Complete:
-                                {
-                                    await CompleteAsync(innerDc);
+                            switch (result.Status)
+                            {
+                                case DialogTurnStatus.Empty:
+                                    {
+                                        await RouteAsync(innerDc);
+                                        break;
+                                    }
 
-                                    // End active dialog
-                                    await innerDc.EndDialogAsync();
-                                    break;
-                                }
+                                case DialogTurnStatus.Complete:
+                                    {
+                                        await CompleteAsync(innerDc);
 
-                            default:
-                                {
-                                    break;
-                                }
+                                        // End active dialog
+                                        await innerDc.EndDialogAsync();
+                                        break;
+                                    }
+
+                                default:
+                                    {
+                                        break;
+                                    }
+                            }
                         }
 
                         break;
@@ -67,15 +73,6 @@ namespace $safeprojectname$.Dialogs.Shared
                 case ActivityTypes.Event:
                     {
                         await OnEventAsync(innerDc);
-                        break;
-                    }
-
-                case ActivityTypes.ConversationUpdate:
-                    {
-                        if (activity.From.Id != "default-user")
-                        {
-                            await OnStartAsync(innerDc);
-                        }
                         break;
                     }
 

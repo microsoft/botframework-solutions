@@ -126,6 +126,9 @@
   <data name="CONFUSED" xml:space="preserve">
     <value>Es tut mir leid, ich bin nicht in der Lage, damit zu helfen.</value>
   </data>
+  <data name="ERROR" xml:space="preserve">
+    <value>Sorry, es sieht so aus, als ob etwas schief gelaufen ist.</value>
+  </data>
   <data name="GREETING" xml:space="preserve">
     <value>Hallo!</value>
   </data>
