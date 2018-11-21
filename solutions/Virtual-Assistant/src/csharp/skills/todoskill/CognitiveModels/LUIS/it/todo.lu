@@ -103,7 +103,6 @@
 - aggiungere un'attività che acquista  {ShopContent} 
 - creare una da fare per  {TaskContentPattern} 
 - aggiungere un'attività che negozio  {ShopContent} 
-- Aggiungi  {TaskContentPattern}  per l'  {ListType} Elenco
 - Aggiungi acquisto  {ShopContent} alla mia lista della spesa
 - aggiungere un per fare che l'acquisto  {ShopContent} 
 - aggiungere un per fare quel negozio  {ShopContent} 
@@ -116,12 +115,9 @@
 - Aggiungi acquisto  {ShopContent} alla mia lista della drogheria
 - Aggiungi  {TaskContentPattern} al mio DOS
 - aggiungere un per farlo comprare  {ShopContent} 
-- Aggiungi  {TaskContentPattern}  al mio  {ListType} Elenco
 - Aggiungi attività per  {TaskContentPattern} 
-- Aggiungi  {ShopVerb}   {ShopContent} alla mia lista della spesa
 - Aggiungi  {TaskContentPattern} alla mia lista della drogheria
 - Ricordami di acquistare  {ShopContent} 
-- Aggiungi  {TaskContentPattern}  A  {ListType} Elenco
 - creare attività per  {TaskContentPattern} 
 - Aggiungi  {TaskContentPattern} alla mia lista di fare
 - aggiungere un da fare per  {TaskContentPattern} 
@@ -129,7 +125,6 @@
 - Ricordami di  {TaskContentPattern} 
 - creare un'attività per  {TaskContentPattern} 
 - Aggiungi a fare per  {TaskContentPattern} 
-- Aggiungi  {ShopVerb}   {ShopContent}  al mio  {ListType} Elenco
 - mi ricordano che  {TaskContentPattern} 
 
 

@@ -103,7 +103,6 @@
 - agregar una tarea que compra  {ShopContent} 
 - crear una a hacer para  {TaskContentPattern} 
 - agregar una tarea que tienda  {ShopContent} 
-- Añadir  {TaskContentPattern}  a los  {ListType} Lista
 - Agregar compra  {ShopContent} a mi lista de compras
 - Agregar a para hacer esa compra  {ShopContent} 
 - agregar una para hacer esa tienda  {ShopContent} 
@@ -116,12 +115,9 @@
 - Agregar compra  {ShopContent} a mi lista de comestibles
 - Añadir  {TaskContentPattern} a mi a dos
 - Añadir una a hacer que comprar  {ShopContent} 
-- Añadir  {TaskContentPattern}  a mi  {ListType} Lista
 - Agregar tarea a  {TaskContentPattern} 
-- Añadir  {ShopVerb}   {ShopContent} a mi lista de compras
 - Añadir  {TaskContentPattern} a mi lista de comestibles
 - Recuérdame comprar  {ShopContent} 
-- Añadir  {TaskContentPattern}  Para  {ListType} Lista
 - crear tarea para  {TaskContentPattern} 
 - Añadir  {TaskContentPattern} a mi lista de hacer
 - Agregar un a hacer a  {TaskContentPattern} 
@@ -129,7 +125,6 @@
 - Recuérdame que  {TaskContentPattern} 
 - crear una tarea para  {TaskContentPattern} 
 - Añadir a hacer a  {TaskContentPattern} 
-- Añadir  {ShopVerb}   {ShopContent}  a mi  {ListType} Lista
 - Recuérdame que  {TaskContentPattern} 
 
 

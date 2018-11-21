@@ -103,7 +103,6 @@
 - add a task that purchase {ShopContent}
 - create a to do to {TaskContentPattern}
 - add a task that shop {ShopContent}
-- add {TaskContentPattern} to the {ListType} list
 - add buy {ShopContent} to my shopping list
 - add a to do that purchase {ShopContent}
 - add a to do that shop {ShopContent}
@@ -116,12 +115,9 @@
 - add buy {ShopContent} to my grocery list
 - add {TaskContentPattern} to my to dos
 - add a to do that buy {ShopContent}
-- add {TaskContentPattern} to my {ListType} list
 - add task to {TaskContentPattern}
-- add {ShopVerb} {ShopContent} to my shopping list
 - add {TaskContentPattern} to my grocery list
 - remind me to purchase {ShopContent}
-- add {TaskContentPattern} to {ListType} list
 - create task to {TaskContentPattern}
 - add {TaskContentPattern} to my to do list
 - add a to do to {TaskContentPattern}
@@ -129,7 +125,6 @@
 - remind me to {TaskContentPattern}
 - create a task to {TaskContentPattern}
 - add to do to {TaskContentPattern}
-- add {ShopVerb} {ShopContent} to my {ListType} list
 - remind me that {TaskContentPattern}
 
 

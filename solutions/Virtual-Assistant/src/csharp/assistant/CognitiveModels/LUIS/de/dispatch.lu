@@ -54,7 +54,6 @@
 - Fügen Sie eine Aufgabe, die Kauf  {ShopContent} 
 - Ein zu tun  {TaskContentPattern} 
 - Fügen Sie eine Aufgabe, dass Shop  {ShopContent} 
-- Hinzufügen  {TaskContentPattern}  Zum  {ListType} Liste
 - Hinzufügen kaufen  {ShopContent} Auf meine Einkaufsliste
 - Fügen Sie einen zu diesem Kauf  {ShopContent} 
 - Fügen Sie einen, um diesen Shop zu tun  {ShopContent} 
@@ -67,12 +66,9 @@
 - Hinzufügen kaufen  {ShopContent} Auf meine Lebensmittelliste
 - Hinzufügen  {TaskContentPattern} Meinem to dos
 - Fügen Sie ein zu tun, dass kaufen  {ShopContent} 
-- Hinzufügen  {TaskContentPattern}  Meiner  {ListType} Liste
 - Aufgabe hinzufügen  {TaskContentPattern} 
-- Hinzufügen  {ShopVerb}   {ShopContent} Auf meine Einkaufsliste
 - Hinzufügen  {TaskContentPattern} Auf meine Lebensmittelliste
 - Erinnern Sie mich an Kauf  {ShopContent} 
-- Hinzufügen  {TaskContentPattern}  An  {ListType} Liste
 - Aufgabe zu schaffen  {TaskContentPattern} 
 - Hinzufügen  {TaskContentPattern} Auf meine zu tun Liste
 - Ein zu tun  {TaskContentPattern} 
@@ -80,7 +76,6 @@
 - Ich erinnere mich an  {TaskContentPattern} 
 - Eine Aufgabe zu schaffen  {TaskContentPattern} 
 - Dazu  {TaskContentPattern} 
-- Hinzufügen  {ShopVerb}   {ShopContent}  Meiner  {ListType} Liste
 - Ich erinnere mich daran, dass  {TaskContentPattern} 
 - Löschen zu tun  {TaskContentPattern} 
 - Aufgabe löschen  {TaskContentPattern} 

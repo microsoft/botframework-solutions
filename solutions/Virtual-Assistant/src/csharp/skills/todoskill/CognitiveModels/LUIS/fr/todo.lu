@@ -103,7 +103,6 @@
 - Ajouter une tâche qui achète  {ShopContent} 
 - créer un à faire pour  {TaskContentPattern} 
 - Ajouter une tâche qui Shop  {ShopContent} 
-- Ajouter  {TaskContentPattern}  à la  {ListType} Liste
 - Ajouter acheter  {ShopContent} à ma liste de courses
 - Ajouter un pour faire cet achat  {ShopContent} 
 - Ajouter un à faire ce magasin  {ShopContent} 
@@ -116,12 +115,9 @@
 - Ajouter acheter  {ShopContent} à ma liste d'épicerie
 - Ajouter  {TaskContentPattern} à mon dos
 - Ajouter un à faire que acheter  {ShopContent} 
-- Ajouter  {TaskContentPattern}  à mon  {ListType} Liste
 - Ajouter une tâche à  {TaskContentPattern} 
-- Ajouter  {ShopVerb}   {ShopContent} à ma liste de courses
 - Ajouter  {TaskContentPattern} à ma liste d'épicerie
 - me rappeler d'acheter  {ShopContent} 
-- Ajouter  {TaskContentPattern}  À  {ListType} Liste
 - créer une tâche pour  {TaskContentPattern} 
 - Ajouter  {TaskContentPattern} à ma liste à faire
 - Ajouter un à faire pour  {TaskContentPattern} 
@@ -129,7 +125,6 @@
 - me rappeler de  {TaskContentPattern} 
 - créer une tâche à  {TaskContentPattern} 
 - Ajouter à faire pour  {TaskContentPattern} 
-- Ajouter  {ShopVerb}   {ShopContent}  à mon  {ListType} Liste
 - me rappeler que  {TaskContentPattern} 
 
 
