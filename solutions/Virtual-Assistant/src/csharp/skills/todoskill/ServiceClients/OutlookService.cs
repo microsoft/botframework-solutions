@@ -7,6 +7,7 @@ namespace ToDoSkill.ServiceClients
     using System.Collections.Generic;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using Microsoft.Bot.Solutions.Resources;
     using Newtonsoft.Json.Linq;
 
     /// <summary>
@@ -14,9 +15,6 @@ namespace ToDoSkill.ServiceClients
     /// </summary>
     public class OutlookService : ITaskService
     {
-        private const string ToDoTaskFolder = "ToDo";
-        private const string GroceryTaskFolder = "Grocery";
-        private const string ShoppingTaskFolder = "Shopping";
         private readonly string graphBaseUrl = "https://graph.microsoft.com/beta/me/outlook/";
         private HttpClient httpClient;
         private Dictionary<string, string> taskFolderIds;
@@ -32,22 +30,22 @@ namespace ToDoSkill.ServiceClients
             try
             {
                 this.httpClient = ServiceHelper.GetHttpClient(token);
-                if (!taskFolderIds.ContainsKey(ToDoTaskFolder))
+                if (!taskFolderIds.ContainsKey(CommonStrings.ToDo))
                 {
-                    var taskFolderId = await GetOrCreateTaskFolderAsync(ToDoTaskFolder);
-                    taskFolderIds.Add(ToDoTaskFolder, taskFolderId);
+                    var taskFolderId = await GetOrCreateTaskFolderAsync(CommonStrings.ToDo);
+                    taskFolderIds.Add(CommonStrings.ToDo, taskFolderId);
                 }
 
-                if (!taskFolderIds.ContainsKey(GroceryTaskFolder))
+                if (!taskFolderIds.ContainsKey(CommonStrings.Grocery))
                 {
-                    var taskFolderId = await GetOrCreateTaskFolderAsync(GroceryTaskFolder);
-                    taskFolderIds.Add(GroceryTaskFolder, taskFolderId);
+                    var taskFolderId = await GetOrCreateTaskFolderAsync(CommonStrings.Grocery);
+                    taskFolderIds.Add(CommonStrings.Grocery, taskFolderId);
                 }
 
-                if (!taskFolderIds.ContainsKey(ShoppingTaskFolder))
+                if (!taskFolderIds.ContainsKey(CommonStrings.Shopping))
                 {
-                    var taskFolderId = await GetOrCreateTaskFolderAsync(ShoppingTaskFolder);
-                    taskFolderIds.Add(ShoppingTaskFolder, taskFolderId);
+                    var taskFolderId = await GetOrCreateTaskFolderAsync(CommonStrings.Shopping);
+                    taskFolderIds.Add(CommonStrings.Shopping, taskFolderId);
                 }
 
                 this.taskFolderIds = taskFolderIds;

@@ -7,10 +7,10 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.Dialogs.ShowToDo.Resources;
-using static ToDoSkill.ListTypes;
 
 namespace ToDoSkill
 {
@@ -59,7 +59,7 @@ namespace ToDoSkill
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                state.ListType = state.ListType ?? ListType.ToDo.ToString();
+                state.ListType = state.ListType ?? CommonStrings.ToDo;
                 if (!state.ListTypeIds.ContainsKey(state.ListType))
                 {
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
@@ -85,27 +85,40 @@ namespace ToDoSkill
                     Attachment toDoListAttachment = null;
                     if (topIntent == ToDo.Intent.ShowToDo)
                     {
-                        toDoListAttachment = ToAdaptiveCardAttachmentForShowToDos(
+                        toDoListAttachment = ToAdaptiveCardForShowToDos(
                             state.Tasks,
-                            state.AllTasks.Count,
-                            ToDoSharedResponses.ShowToDoTasks,
-                            ShowToDoResponses.ReadToDoTasks);
+                            state.Tasks.Count > state.ReadSize ? state.ReadSize : state.Tasks.Count,
+                            state.AllTasks.Count);
                     }
                     else if (generalTopIntent == General.Intent.Next)
                     {
-                        toDoListAttachment = ToAdaptiveCardAttachmentForShowToDos(
+                        toDoListAttachment = ToAdaptiveCardForNextPage(
                             state.Tasks,
-                            state.AllTasks.Count,
-                            ShowToDoResponses.ShowNextToDoTasks,
-                            null);
+                            state.Tasks.Count > state.ReadSize ? state.ReadSize : state.Tasks.Count);
                     }
                     else if (generalTopIntent == General.Intent.Previous)
                     {
-                        toDoListAttachment = ToAdaptiveCardAttachmentForShowToDos(
+                        toDoListAttachment = ToAdaptiveCardForPreviousPage(
                             state.Tasks,
-                            state.AllTasks.Count,
-                            ShowToDoResponses.ShowPreviousToDoTasks,
-                            null);
+                            state.Tasks.Count > state.ReadSize ? state.ReadSize : state.Tasks.Count);
+                    }
+                    else if (generalTopIntent == General.Intent.ReadMore)
+                    {
+                        if (state.ReadTaskIndex == 0)
+                        {
+                            toDoListAttachment = ToAdaptiveCardForNextPage(
+                            state.Tasks,
+                            state.Tasks.Count > state.ReadSize ? state.ReadSize : state.Tasks.Count);
+                        }
+                        else
+                        {
+                            var remainingTasksCount = state.Tasks.Count - (state.ReadTaskIndex * state.ReadSize);
+                            toDoListAttachment = ToAdaptiveCardForReadMore(
+                                state.Tasks,
+                                state.ReadTaskIndex * state.ReadSize,
+                                remainingTasksCount > state.ReadSize ? state.ReadSize : remainingTasksCount,
+                                state.AllTasks.Count);
+                        }
                     }
 
                     var toDoListReply = sc.Context.Activity.CreateReply();

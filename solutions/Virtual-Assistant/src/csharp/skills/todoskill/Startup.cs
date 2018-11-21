@@ -14,6 +14,7 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -53,6 +54,8 @@ namespace ToDoSkill
             var supportedProviders = Configuration.GetSection("SupportedProviders").Get<string[]>();
             ISkillConfiguration connectedServices = new SkillConfiguration(botConfig, supportedProviders, parameters, configuration);
             services.AddSingleton(sp => connectedServices);
+
+            var defaultLocale = Configuration.GetSection("defaultLocale").Get<string>();
 
             // Initialize Bot State
             var cosmosDbService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.CosmosDB) ?? throw new Exception("Please configure your CosmosDb service in your .bot file.");
@@ -120,7 +123,7 @@ namespace ToDoSkill
                 // Typing Middleware (automatically shows typing when the bot is responding/working)
                 var typingMiddleware = new ShowTypingMiddleware();
                 options.Middleware.Add(typingMiddleware);
-
+                options.Middleware.Add(new SetLocaleMiddleware(defaultLocale ?? "en"));
                 options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
             });
         }

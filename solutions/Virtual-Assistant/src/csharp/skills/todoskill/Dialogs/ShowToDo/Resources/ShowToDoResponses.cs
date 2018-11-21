@@ -23,7 +23,7 @@ namespace ToDoSkill.Dialogs.ShowToDo.Resources
         }
 
         // Generated accessors
-        public static BotResponse ReadToDoTasks => GetBotResponse();
+        public static BotResponse FirstToDoTasks => GetBotResponse();
 
         public static BotResponse ShowNextToDoTasks => GetBotResponse();
 

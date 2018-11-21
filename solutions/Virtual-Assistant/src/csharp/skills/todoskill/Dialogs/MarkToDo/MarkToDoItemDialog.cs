@@ -75,7 +75,7 @@ namespace ToDoSkill
                 var allTasksCount = state.AllTasks.Count;
                 var currentTaskIndex = state.ShowTaskPageIndex * state.PageSize;
                 state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));
-                var markToDoAttachment = ToAdaptiveCardAttachmentForOtherFlows(
+                var markToDoAttachment = ToAdaptiveCardForOtherFlows(
                     state.Tasks,
                     state.AllTasks.Count,
                     taskTopicToBeMarked,

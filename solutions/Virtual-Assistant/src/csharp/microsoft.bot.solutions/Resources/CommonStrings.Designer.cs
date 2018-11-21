@@ -178,6 +178,15 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Grocery.
+        /// </summary>
+        public static string Grocery {
+            get {
+                return ResourceManager.GetString("Grocery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to important.
         /// </summary>
         public static string Important {
@@ -268,6 +277,15 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Shopping.
+        /// </summary>
+        public static string Shopping {
+            get {
+                return ResourceManager.GetString("Shopping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to dddd, MMMM dd.
         /// </summary>
         public static string SpokenDateFormat {
@@ -327,6 +345,15 @@ namespace Microsoft.Bot.Solutions.Resources {
         public static string ToDetailsFormat {
             get {
                 return ResourceManager.GetString("ToDetailsFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ToDo.
+        /// </summary>
+        public static string ToDo {
+            get {
+                return ResourceManager.GetString("ToDo", resourceCulture);
             }
         }
         

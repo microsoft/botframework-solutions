@@ -9,10 +9,10 @@ namespace ToDoSkill
     using System.Net.Http;
     using System.Threading.Tasks;
     using System.Xml;
+    using Microsoft.Bot.Solutions.Resources;
     using Microsoft.Graph;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
-    using static global::ToDoSkill.ListTypes;
 
     /// <summary>
     /// To Do bot service.
@@ -22,9 +22,6 @@ namespace ToDoSkill
         private const string OneNoteNotebookName = "ToDoNotebook";
         private const string OneNoteSectionName = "ToDoSection";
         private readonly string graphBaseUrl = "https://graph.microsoft.com/v1.0/me";
-        private string toDoPageName = ListType.ToDo.ToString();
-        private string groceryPageName = ListType.Grocery.ToString();
-        private string shoppingPageName = ListType.Shopping.ToString();
         private HttpClient httpClient;
         private Dictionary<string, string> pageIds;
 
@@ -48,29 +45,29 @@ namespace ToDoSkill
                     httpClient = client;
                 }
 
-                if (!pageIds.ContainsKey(toDoPageName)
-                    || !pageIds.ContainsKey(groceryPageName)
-                    || !pageIds.ContainsKey(shoppingPageName))
+                if (!pageIds.ContainsKey(CommonStrings.ToDo)
+                    || !pageIds.ContainsKey(CommonStrings.Grocery)
+                    || !pageIds.ContainsKey(CommonStrings.Shopping))
                 {
                     var notebookId = await GetOrCreateNotebookAsync(OneNoteNotebookName);
                     var sectionId = await GetOrCreateSectionAsync(notebookId, OneNoteSectionName);
 
-                    if (!pageIds.ContainsKey(toDoPageName))
+                    if (!pageIds.ContainsKey(CommonStrings.ToDo))
                     {
-                        var toDoPageId = await GetOrCreatePageAsync(sectionId, toDoPageName);
-                        pageIds.Add(toDoPageName, toDoPageId);
+                        var toDoPageId = await GetOrCreatePageAsync(sectionId, CommonStrings.ToDo);
+                        pageIds.Add(CommonStrings.ToDo, toDoPageId);
                     }
 
-                    if (!pageIds.ContainsKey(groceryPageName))
+                    if (!pageIds.ContainsKey(CommonStrings.Grocery))
                     {
-                        var groceryPageId = await GetOrCreatePageAsync(sectionId, groceryPageName);
-                        pageIds.Add(groceryPageName, groceryPageId);
+                        var groceryPageId = await GetOrCreatePageAsync(sectionId, CommonStrings.Grocery);
+                        pageIds.Add(CommonStrings.Grocery, groceryPageId);
                     }
 
-                    if (!pageIds.ContainsKey(shoppingPageName))
+                    if (!pageIds.ContainsKey(CommonStrings.Shopping))
                     {
-                        var shoppingPageId = await GetOrCreatePageAsync(sectionId, shoppingPageName);
-                        pageIds.Add(shoppingPageName, shoppingPageId);
+                        var shoppingPageId = await GetOrCreatePageAsync(sectionId, CommonStrings.Shopping);
+                        pageIds.Add(CommonStrings.Shopping, shoppingPageId);
                     }
                 }
 

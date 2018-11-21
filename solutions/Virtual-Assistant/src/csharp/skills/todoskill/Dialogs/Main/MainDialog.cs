@@ -109,7 +109,9 @@ namespace ToDoSkill
 
                     case ToDo.Intent.None:
                         {
-                            if (generalTopIntent == General.Intent.Next || generalTopIntent == General.Intent.Previous)
+                            if (generalTopIntent == General.Intent.Next
+                                || generalTopIntent == General.Intent.Previous
+                                || generalTopIntent == General.Intent.ReadMore)
                             {
                                 await dc.BeginDialogAsync(nameof(ShowToDoItemDialog), skillOptions);
                             }

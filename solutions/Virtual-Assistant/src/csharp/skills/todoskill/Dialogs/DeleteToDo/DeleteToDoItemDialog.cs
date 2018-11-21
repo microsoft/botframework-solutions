@@ -106,7 +106,7 @@ namespace ToDoSkill
                     {
                         if (state.Tasks.Count > 0)
                         {
-                            var deletedToDoListAttachment = ToAdaptiveCardAttachmentForOtherFlows(
+                            var deletedToDoListAttachment = ToAdaptiveCardForOtherFlows(
                                 state.Tasks,
                                 state.AllTasks.Count,
                                 taskTopicToBeDeleted,

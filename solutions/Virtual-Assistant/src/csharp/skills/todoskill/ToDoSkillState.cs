@@ -16,6 +16,7 @@ namespace ToDoSkill
             TaskIndexes = new List<int>();
             MsGraphToken = null;
             ShowTaskPageIndex = 0;
+            ReadTaskIndex = 0;
             AllTasks = new List<TaskItem>();
             DeleteTaskConfirmation = false;
             MarkOrDeleteAllTasksFlag = false;
@@ -39,6 +40,14 @@ namespace ToDoSkill
         /// PageSize.
         /// </value>
         public int PageSize { get; } = 5;
+
+        /// <summary>
+        /// Gets ReadSize.
+        /// </summary>
+        /// <value>
+        /// ReadSize.
+        /// </value>
+        public int ReadSize { get; } = 5;
 
         /// <summary>
         /// Gets Luis intent score threshold.
@@ -87,6 +96,14 @@ namespace ToDoSkill
         /// ShowToDoPageIndex.
         /// </value>
         public int ShowTaskPageIndex { get; set; }
+
+        /// <summary>
+        /// Gets or sets ReadTaskIndex.
+        /// </summary>
+        /// <value>
+        /// ReadTaskIndex.
+        /// </value>
+        public int ReadTaskIndex { get; set; }
 
         /// <summary>
         /// Gets or sets ToDoTaskAllActivities.
