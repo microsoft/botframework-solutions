@@ -25,7 +25,6 @@ namespace $safeprojectname$
     public class Startup
     {
         private ILoggerFactory _loggerFactory;
-        private ILogger _logger;
         private bool _isProduction = false;
 
         public Startup(IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -46,17 +45,6 @@ namespace $safeprojectname$
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // Enable distributed tracing.
-            services.AddApplicationInsightsTelemetry(o =>
-            {
-                o.RequestCollectionOptions.EnableW3CDistributedTracing = true;
-                o.RequestCollectionOptions.InjectResponseHeaders = true;
-                o.RequestCollectionOptions.TrackExceptions = true;
-            });
-            services.AddSingleton<ITelemetryInitializer>(new OperationCorrelationTelemetryInitializer());
-            _logger = _loggerFactory.CreateLogger<Startup>();
-            _logger.LogInformation($"Configuring services for {nameof($safeprojectname$)}.  IsProduction: {_isProduction}.");
-
             // Load the connected services from .bot file.
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
             var botFileSecret = Configuration.GetSection("botFileSecret")?.Value;
@@ -89,8 +77,6 @@ namespace $safeprojectname$
             // Add the bot with options
             services.AddBot<$safeprojectname$>(options =>
             {
-                _logger.LogInformation($"Adding bot {nameof($safeprojectname$)}");
-
                 // Load the connected services from .bot file.
                 var environment = _isProduction ? "production" : "development";
                 var service = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.Endpoint && s.Name == environment);
@@ -126,7 +112,6 @@ namespace $safeprojectname$
                 options.Middleware.Add(typingMiddleware);
 
                 options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
-                _logger.LogTrace($"Bot added successfully.");
             });
         }
 
@@ -137,9 +122,9 @@ namespace $safeprojectname$
         /// <param name="env">Hosting Environment.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            // Uncomment to disable Application Insights.
-            // var configuration = app.ApplicationServices.GetService<Microsoft.ApplicationInsights.Extensibility.TelemetryConfiguration>();
-            // configuration.DisableTelemetry = true;
+            // Configure Application Insights
+            _loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Warning);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
