@@ -6,10 +6,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.ConfirmRecipient.Resources;
+using EmailSkill.Util;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Solutions.Data;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Graph;
@@ -171,6 +173,15 @@ namespace EmailSkill
                 // TODO: should be simplify
                 var selectOption = await GenerateOptions(personList, userList, sc);
 
+                var startIndex = state.IsRecipientReadMore ? ConfigData.MaxReadSize : 0;
+                var choices = new List<Choice>();
+                for (int i = startIndex; i < selectOption.Choices.Count; i++)
+                {
+                    choices.Add(selectOption.Choices[i]);
+                }
+
+                selectOption.Choices = choices;
+
                 // If no more recipient to show, start update name flow and reset the recipient paging index.
                 if (selectOption.Choices.Count == 0)
                 {
@@ -178,10 +189,13 @@ namespace EmailSkill
                     return await sc.BeginDialogAsync(Actions.UpdateRecipientName, new UpdateUserDialogOptions(UpdateUserDialogOptions.UpdateReason.NotFound));
                 }
 
+                selectOption.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(selectOption, ConfigData.MaxReadSize);
+
                 // Update prompt string to include the choices because the list style is none;
                 // TODO: should be removed if use adaptive card show choices.
                 var choiceString = GetSelectPromptString(selectOption, true);
                 selectOption.Prompt.Text = choiceString;
+
                 return await sc.PromptAsync(Actions.Choice, selectOption);
             }
             catch (Exception ex)
@@ -211,6 +225,18 @@ namespace EmailSkill
                         if (choiceResult == General.Intent.Next.ToString())
                         {
                             state.ShowRecipientIndex++;
+                            return await sc.BeginDialogAsync(Actions.ConfirmRecipient);
+                        }
+
+                        if (choiceResult == General.Intent.ReadMore.ToString())
+                        {
+                            if (state.IsRecipientReadMore)
+                            {
+                                state.ShowRecipientIndex++;
+                            }
+
+                            state.IsRecipientReadMore = !state.IsRecipientReadMore;
+
                             return await sc.BeginDialogAsync(Actions.ConfirmRecipient);
                         }
 

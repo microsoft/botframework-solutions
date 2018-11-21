@@ -78,7 +78,7 @@ namespace EmailSkill
                     state.ShowEmailIndex--;
                 }
 
-                if (IsReadMoreIntent(topIntent, sc.Context.Activity.Text))
+                if (IsReadMoreIntent(generalTopIntent, sc.Context.Activity.Text))
                 {
                     if (ConfigData.IsFastReadMode())
                     {
@@ -189,7 +189,7 @@ namespace EmailSkill
                         sc.Context.Activity.CreateReply(EmailSharedResponses.CancellingMessage));
                     return await sc.EndDialogAsync(true);
                 }
-                else if (IsReadMoreIntent(topIntent, sc.Context.Activity.Text))
+                else if (IsReadMoreIntent(generalTopIntent, sc.Context.Activity.Text))
                 {
                     return await sc.BeginDialogAsync(Actions.Show);
                 }
@@ -253,7 +253,7 @@ namespace EmailSkill
                 {
                     return await sc.BeginDialogAsync(nameof(DeleteEmailDialog));
                 }
-                else if (IsReadMoreIntent(topIntent, sc.Context.Activity.Text))
+                else if (IsReadMoreIntent(topGeneralIntent, sc.Context.Activity.Text))
                 {
                     return await sc.BeginDialogAsync(Actions.Show);
                 }
@@ -275,11 +275,6 @@ namespace EmailSkill
             {
                 throw await HandleDialogExceptions(sc, ex);
             }
-        }
-
-        private bool IsReadMoreIntent(Email.Intent? topIntent, string userInput)
-        {
-            return topIntent == Email.Intent.ReadAloud && CommonUtil.IsReadMoreIntent(userInput);
         }
     }
 }

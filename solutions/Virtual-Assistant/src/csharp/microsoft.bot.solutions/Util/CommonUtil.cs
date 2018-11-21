@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.Bot.Solutions.Resources;
 
 namespace Microsoft.Bot.Solutions.Util
 {
@@ -12,11 +10,9 @@ namespace Microsoft.Bot.Solutions.Util
 
         public static readonly int MaxDisplaySize = 6;
 
-        private const string _readMore = "more";
-
         public static bool IsReadMoreIntent(string userInput)
         {
-            return userInput.ToLowerInvariant().Contains(_readMore);
+            return userInput.ToLowerInvariant().Contains(CommonStrings.More);
         }
     }
 }

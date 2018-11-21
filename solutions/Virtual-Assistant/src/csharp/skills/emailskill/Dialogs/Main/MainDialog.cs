@@ -296,13 +296,7 @@ namespace EmailSkill
 
         private void GetReadingDisplayConfig()
         {
-            _skillConfig.Properties.TryGetValue("maxReadSize", out object maxReadSize);
             _skillConfig.Properties.TryGetValue("maxDisplaySize", out object maxDisplaySize);
-
-            if (maxReadSize != null)
-            {
-                ConfigData.MaxReadSize = int.Parse(maxReadSize as string);
-            }
 
             if (maxDisplaySize != null)
             {

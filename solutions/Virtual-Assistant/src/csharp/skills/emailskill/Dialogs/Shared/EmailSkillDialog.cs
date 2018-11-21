@@ -20,6 +20,7 @@ using Microsoft.Bot.Solutions.Data;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 using Microsoft.Graph;
 using Microsoft.Recognizers.Text;
 using Newtonsoft.Json.Linq;
@@ -504,8 +505,15 @@ namespace EmailSkill
                 {
                     // prompt.End(topIntent);
                     pc.Recognized.Succeeded = true;
-                    pc.Recognized.Value = new FoundChoice() { Value = topIntent.ToString() };
+                    pc.Recognized.Value = new FoundChoice() { Value = generalTopIntent.ToString() };
                 }
+
+                return true;
+            }
+            else if (IsReadMoreIntent(generalTopIntent, pc.Context.Activity.Text))
+            {
+                pc.Recognized.Succeeded = true;
+                pc.Recognized.Value = new FoundChoice() { Value = generalTopIntent.ToString() };
 
                 return true;
             }
@@ -607,7 +615,7 @@ namespace EmailSkill
 
             if (options.Choices.Count == 0)
             {
-                pageSize = 10;
+                pageSize = ConfigData.MaxDisplaySize;
                 options.Prompt = sc.Context.Activity.CreateReply(ConfirmRecipientResponses.ConfirmRecipientLastPage);
             }
 
@@ -636,7 +644,7 @@ namespace EmailSkill
 
                     options.Choices.Add(choice);
                 }
-                else if (skip >= 10)
+                else if (skip >= ConfigData.MaxDisplaySize)
                 {
                     return options;
                 }
@@ -1078,6 +1086,11 @@ namespace EmailSkill
             await ClearAllState(sc);
             await sc.CancelAllDialogsAsync();
             return ex;
+        }
+
+        protected bool IsReadMoreIntent(General.Intent? topIntent, string userInput)
+        {
+            return topIntent == General.Intent.ReadMore && CommonUtil.IsReadMoreIntent(userInput);
         }
     }
 }
