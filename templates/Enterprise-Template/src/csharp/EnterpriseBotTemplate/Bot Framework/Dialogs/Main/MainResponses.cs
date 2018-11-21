@@ -67,7 +67,7 @@ namespace $safeprojectname$.Dialogs.Main
                 Actions = new List<CardAction>()
                 {
                     new CardAction(type: ActionTypes.ImBack, title: "Test LUIS", value: "Hi"),
-                    new CardAction(type: ActionTypes.ImBack, title: "Test QnAMaker", value: "What is the Enterprise Bot Template?"),
+                    new CardAction(type: ActionTypes.ImBack, title: "Test QnA Maker", value: "What is the Enterprise Bot Template?"),
                     new CardAction(type: ActionTypes.OpenUrl, title: "Learn More", value: "https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-enterprise-template-overview?view=azure-bot-service-4.0")
                 }
             };
@@ -84,7 +84,7 @@ namespace $safeprojectname$.Dialogs.Main
                 Buttons = new List<CardAction>()
                 {
                     new CardAction(type: ActionTypes.ImBack, title: "Test LUIS", value: "Hello"),
-                    new CardAction(type: ActionTypes.ImBack, title: "Test QnAMaker", value: "What is the Enterprise Bot Template?"),
+                    new CardAction(type: ActionTypes.ImBack, title: "Test QnA Maker", value: "What is the Enterprise Bot Template?"),
                     new CardAction(type: ActionTypes.OpenUrl, title: "Learn More", value: "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"),
                 },
             }.ToAttachment();
