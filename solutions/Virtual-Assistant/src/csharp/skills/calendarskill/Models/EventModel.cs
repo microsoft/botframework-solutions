@@ -6,6 +6,8 @@ namespace CalendarSkill
     using System;
     using System.Collections.Generic;
     using global::CalendarSkill.Common;
+    using Microsoft.Bot.Solutions.Resources;
+    using Util;
 
     /// <summary>
     /// Source of event.
@@ -644,7 +646,7 @@ namespace CalendarSkill
                 textString += string.IsNullOrEmpty(eventItem.Attendees[0].DisplayName) ? eventItem.Attendees[0].Address : eventItem.Attendees[0].DisplayName;
                 if (eventItem.Attendees.Count > 1)
                 {
-                    textString += $" + {eventItem.Attendees.Count - 1} others";
+                    textString += string.Format(CommonStrings.AttendeesSummary, eventItem.Attendees.Count - 1);
                 }
             }
 
@@ -664,11 +666,11 @@ namespace CalendarSkill
 
             if (eventItem.IsAllDay == true)
             {
-                textString += "\nAll Day";
+                textString += $"\n{CommonStrings.AllDay}";
             }
             else
             {
-                textString += $"\n{TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone).ToString("h:mm tt")} - {TimeConverter.ConvertUtcToUserTime(eventItem.EndTime, timeZone).ToString("h:mm tt")}";
+                textString += $"\n{TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone).ToString(CommonStrings.DisplayTime)} - {TimeConverter.ConvertUtcToUserTime(eventItem.EndTime, timeZone).ToString(CommonStrings.DisplayTime)}";
             }
 
             if (eventItem.Location != null)
@@ -677,14 +679,7 @@ namespace CalendarSkill
             }
 
             string speakString = string.Empty;
-            if (eventItem.IsAllDay == true)
-            {
-                speakString = $"{eventItem.Title} at {TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone).ToString("MMMM dd all day")}";
-            }
-            else
-            {
-                speakString = $"{eventItem.Title} at {TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone).ToString("h:mm tt")}";
-            }
+            speakString = SpeakHelper.ToSpeechMeetingDetail(eventItem.Title, TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone), eventItem.IsAllDay == true);
 
             return new CalendarCardData
             {
@@ -703,28 +698,7 @@ namespace CalendarSkill
         public string ToDurationString()
         {
             TimeSpan t = EndTime.Subtract(StartTime);
-            if (t.TotalHours < 1)
-            {
-                return t.Minutes == 1 ? $"{t.Minutes} minute" : $"{t.Minutes} minutes";
-            }
-            else if (t.TotalDays < 1)
-            {
-                if (t.Minutes == 0)
-                {
-                    return t.Hours == 1 ? $"{t.Hours} hour" : $"{t.Hours} hours";
-                }
-                else
-                {
-                    string result = t.Hours == 1 ? $"{t.Hours} hour" : $"{t.Hours} hours";
-                    result += " and ";
-                    result += t.Minutes == 1 ? $"{t.Minutes} minute" : $"{t.Minutes} minutes";
-                    return result;
-                }
-            }
-            else
-            {
-                return t.Days == 1 ? $"{t.Days} day" : $"{t.Days} days";
-            }
+            return SpeakHelper.ToSpeechMeetingDuration(t);
         }
 
         public class Attendee
