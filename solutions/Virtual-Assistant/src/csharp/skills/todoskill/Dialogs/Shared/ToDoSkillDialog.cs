@@ -210,7 +210,6 @@ namespace ToDoSkill
                 state.TaskContentPattern = null;
                 state.TaskContentML = null;
                 state.TaskContent = null;
-                state.ListType = null;
                 await DigestToDoLuisResult(sc);
             }
 
