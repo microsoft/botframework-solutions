@@ -385,7 +385,7 @@ namespace EmailSkill
                     EmailContent = string.Format(CommonStrings.ContentFormat, state.Content),
                 };
 
-                var speech = SpeakHelper.ToSpeechEmailSendDetailString(emailCard.Subject, emailCard.NameList, emailCard.EmailContent);
+                var speech = SpeakHelper.ToSpeechEmailSendDetailString(state.Subject, nameListString, state.Content);
                 var stringToken = new StringDictionary
                 {
                     { "EmailDetails", speech },
