@@ -39,7 +39,7 @@ namespace ToDoSkill
         /// <value>
         /// PageSize.
         /// </value>
-        public int PageSize { get; } = 5;
+        public int PageSize { get; } = 6;
 
         /// <summary>
         /// Gets ReadSize.
@@ -47,7 +47,7 @@ namespace ToDoSkill
         /// <value>
         /// ReadSize.
         /// </value>
-        public int ReadSize { get; } = 5;
+        public int ReadSize { get; } = 3;
 
         /// <summary>
         /// Gets Luis intent score threshold.

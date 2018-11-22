@@ -611,9 +611,10 @@ namespace ToDoSkill
                     value += todo.Id + ",";
                 }
 
-                if (index >= startIndexOfTasksToBeRead && index < toBeReadTasksCount + startIndexOfTasksToBeRead)
+                index++;
+                if (index > startIndexOfTasksToBeRead && index <= toBeReadTasksCount + startIndexOfTasksToBeRead)
                 {
-                    toDoCard.Speak += (++index) + " " + todo.Topic + " ";
+                    toDoCard.Speak += index + " " + todo.Topic + " ";
                 }
             }
 
