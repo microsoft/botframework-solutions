@@ -655,11 +655,14 @@ namespace CalendarSkill
                 }
             }
 
-            if (showDate || !IsSameDate(eventItem.StartTime, eventItem.EndTime))
+            var userStartDateTime = TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone);
+            var userEndDateTime = TimeConverter.ConvertUtcToUserTime(eventItem.EndTime, timeZone);
+
+            if (showDate || !IsSameDate(userStartDateTime, userStartDateTime))
             {
-                var startDateString = TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone).ToString("dd-MM-yyyy");
-                var endDateString = TimeConverter.ConvertUtcToUserTime(eventItem.EndTime, timeZone).ToString("dd-MM-yyyy");
-                if (IsSameDate(eventItem.StartTime, eventItem.EndTime))
+                var startDateString = userStartDateTime.ToString("dd-MM-yyyy");
+                var endDateString = userEndDateTime.ToString("dd-MM-yyyy");
+                if (IsSameDate(userStartDateTime, userEndDateTime))
                 {
                     textString += $"\n{startDateString}";
                 }
@@ -675,7 +678,7 @@ namespace CalendarSkill
             }
             else
             {
-                textString += $"\n{TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone).ToString(CommonStrings.DisplayTime)} - {TimeConverter.ConvertUtcToUserTime(eventItem.EndTime, timeZone).ToString(CommonStrings.DisplayTime)}";
+                textString += $"\n{userStartDateTime.ToString(CommonStrings.DisplayTime)} - {TimeConverter.ConvertUtcToUserTime(eventItem.EndTime, timeZone).ToString(CommonStrings.DisplayTime)}";
             }
 
             if (eventItem.Location != null)
@@ -684,7 +687,7 @@ namespace CalendarSkill
             }
 
             string speakString = string.Empty;
-            speakString = SpeakHelper.ToSpeechMeetingDetail(eventItem.Title, TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone), eventItem.IsAllDay == true);
+            speakString = SpeakHelper.ToSpeechMeetingDetail(eventItem.Title, userStartDateTime, eventItem.IsAllDay == true);
 
             return new CalendarCardData
             {
