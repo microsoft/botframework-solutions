@@ -255,4 +255,7 @@
   <data name="TimeFormatMinutes" xml:space="preserve">
     <value>{0} minuti</value>
   </data>
+  <data name="DisplayFullDateFormat" xml:space="preserve">
+    <value>dd-MM-yyyy</value>
+  </data>
 </root>

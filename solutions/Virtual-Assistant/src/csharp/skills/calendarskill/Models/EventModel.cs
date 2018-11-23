@@ -660,8 +660,8 @@ namespace CalendarSkill
 
             if (showDate || !IsSameDate(userStartDateTime, userStartDateTime))
             {
-                var startDateString = userStartDateTime.ToString("dd-MM-yyyy");
-                var endDateString = userEndDateTime.ToString("dd-MM-yyyy");
+                var startDateString = userStartDateTime.ToString(CommonStrings.DisplayFullDateFormat);
+                var endDateString = userEndDateTime.ToString(CommonStrings.DisplayFullDateFormat);
                 if (IsSameDate(userStartDateTime, userEndDateTime))
                 {
                     textString += $"\n{startDateString}";

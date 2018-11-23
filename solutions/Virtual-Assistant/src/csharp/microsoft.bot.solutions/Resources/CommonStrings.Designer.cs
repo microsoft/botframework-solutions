@@ -151,6 +151,15 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to dd-MM-yyyy.
+        /// </summary>
+        public static string DisplayFullDateFormat {
+            get {
+                return ResourceManager.GetString("DisplayFullDateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to h:mm tt.
         /// </summary>
         public static string DisplayTime {
