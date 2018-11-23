@@ -13,6 +13,7 @@ using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 using ToDoSkill.Dialogs.Main.Resources;
 using ToDoSkill.Dialogs.Shared.Resources;
 
@@ -61,6 +62,9 @@ namespace ToDoSkill
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await _stateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
+
+            // Initialize the PageSize and ReadSize parameters in state from configuration
+            InitializeConfig(state);
 
             // If dispatch result is general luis model
             _services.LuisServices.TryGetValue("todo", out var luisService);
@@ -292,6 +296,32 @@ namespace ToDoSkill
             AddDialog(new DeleteToDoItemDialog(_services, _stateAccessor, _serviceManager));
             AddDialog(new ShowToDoItemDialog(_services, _stateAccessor, _serviceManager));
             AddDialog(new CancelDialog());
+        }
+
+        private void InitializeConfig(ToDoSkillState state)
+        {
+            // Initialize PageSize and ReadSize when the first input comes.
+            if (state.PageSize <= 0)
+            {
+                int pageSize = 0;
+                if (_services.Properties.ContainsKey("DisplaySize"))
+                {
+                    pageSize = int.Parse(_services.Properties["DisplaySize"].ToString());
+                }
+
+                state.PageSize = pageSize <= 0 ? Util.DefaultDisplaySize : pageSize;
+            }
+
+            if (state.ReadSize <= 0)
+            {
+                int readSize = 0;
+                if (_services.Properties.ContainsKey("ReadSize"))
+                {
+                    readSize = int.Parse(_services.Properties["ReadSize"].ToString());
+                }
+
+                state.ReadSize = readSize <= 0 ? Util.DefaultReadSize : readSize;
+            }
         }
 
         private class Events

@@ -11,7 +11,8 @@ namespace ToDoSkill
         /// </summary>
         public ToDoSkillState()
         {
-            Task = new TaskItem();
+            PageSize = 0;
+            ReadSize = 0;
             Tasks = new List<TaskItem>();
             TaskIndexes = new List<int>();
             MsGraphToken = null;
@@ -35,36 +36,20 @@ namespace ToDoSkill
         }
 
         /// <summary>
-        /// Gets PageSize.
+        /// Gets or sets PageSize.
         /// </summary>
         /// <value>
         /// PageSize.
         /// </value>
-        public int PageSize { get; } = 6;
+        public int PageSize { get; set; }
 
         /// <summary>
-        /// Gets ReadSize.
+        /// Gets or sets ReadSize.
         /// </summary>
         /// <value>
         /// ReadSize.
         /// </value>
-        public int ReadSize { get; } = 3;
-
-        /// <summary>
-        /// Gets Luis intent score threshold.
-        /// </summary>
-        /// <value>
-        /// Luis intent score threshold.
-        /// </value>
-        public double ScoreThreshold { get; } = 0.7;
-
-        /// <summary>
-        /// Gets or sets ToDoTaskActivity.
-        /// </summary>
-        /// <value>
-        /// ToDoTaskActivity.
-        /// </value>
-        public TaskItem Task { get; set; }
+        public int ReadSize { get; set; }
 
         /// <summary>
         /// Gets or sets ToDoTaskActivities.
@@ -231,7 +216,8 @@ namespace ToDoSkill
         /// </summary>
         public void Clear()
         {
-            Task = new TaskItem();
+            PageSize = 0;
+            ReadSize = 0;
             Tasks = new List<TaskItem>();
             TaskIndexes = new List<int>();
             MsGraphToken = null;

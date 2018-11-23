@@ -88,20 +88,20 @@ namespace ToDoSkill
                     {
                         toDoListAttachment = ToAdaptiveCardForShowToDos(
                             state.Tasks,
-                            state.Tasks.Count > state.ReadSize ? state.ReadSize : state.Tasks.Count,
+                            Math.Min(state.Tasks.Count, state.ReadSize),
                             state.AllTasks.Count);
                     }
                     else if (generalTopIntent == General.Intent.Next)
                     {
                         toDoListAttachment = ToAdaptiveCardForNextPage(
                             state.Tasks,
-                            state.Tasks.Count > state.ReadSize ? state.ReadSize : state.Tasks.Count);
+                            Math.Min(state.Tasks.Count, state.ReadSize));
                     }
                     else if (generalTopIntent == General.Intent.Previous)
                     {
                         toDoListAttachment = ToAdaptiveCardForPreviousPage(
                             state.Tasks,
-                            state.Tasks.Count > state.ReadSize ? state.ReadSize : state.Tasks.Count);
+                            Math.Min(state.Tasks.Count, state.ReadSize));
                     }
                     else if (generalTopIntent == General.Intent.ReadMore)
                     {
@@ -109,7 +109,7 @@ namespace ToDoSkill
                         {
                             toDoListAttachment = ToAdaptiveCardForNextPage(
                             state.Tasks,
-                            state.Tasks.Count > state.ReadSize ? state.ReadSize : state.Tasks.Count);
+                            Math.Min(state.Tasks.Count, state.ReadSize));
                         }
                         else
                         {
@@ -117,7 +117,7 @@ namespace ToDoSkill
                             toDoListAttachment = ToAdaptiveCardForReadMore(
                                 state.Tasks,
                                 state.ReadTaskIndex * state.ReadSize,
-                                remainingTasksCount > state.ReadSize ? state.ReadSize : remainingTasksCount,
+                                Math.Min(remainingTasksCount, state.ReadSize),
                                 state.AllTasks.Count);
                         }
                     }
