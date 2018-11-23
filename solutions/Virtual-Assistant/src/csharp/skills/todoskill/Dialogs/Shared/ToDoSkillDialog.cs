@@ -230,6 +230,15 @@ namespace ToDoSkill
                 var rangeCount = Math.Min(state.PageSize, state.AllTasks.Count);
                 state.Tasks = state.AllTasks.GetRange(0, rangeCount);
             }
+            else if (state.ListType != state.LastListType)
+            {
+                // LastListType is used to switch between list types in DeleteToDoItemDialog and MarkToDoItemDialog.
+                var service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
+                state.AllTasks = await service.GetTasksAsync(state.ListType);
+                state.ShowTaskPageIndex = 0;
+                var rangeCount = Math.Min(state.PageSize, state.AllTasks.Count);
+                state.Tasks = state.AllTasks.GetRange(0, rangeCount);
+            }
 
             if (state.AllTasks.Count <= 0)
             {
@@ -373,6 +382,7 @@ namespace ToDoSkill
             {
                 var state = await Accessor.GetAsync(sc.Context);
                 state.ListType = state.ListType ?? CommonStrings.ToDo;
+                state.LastListType = state.ListType;
                 if (!state.ListTypeIds.ContainsKey(state.ListType))
                 {
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));

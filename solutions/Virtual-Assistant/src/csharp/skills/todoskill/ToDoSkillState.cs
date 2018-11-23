@@ -25,6 +25,7 @@ namespace ToDoSkill
             GeneralLuisResult = null;
             ConversationDialogState = null;
             ListType = null;
+            LastListType = null;
             FoodOfGrocery = null;
             HasShopVerb = false;
             ShopContent = null;
@@ -170,6 +171,14 @@ namespace ToDoSkill
         public string ListType { get; set; }
 
         /// <summary>
+        /// Gets or sets LastListType.
+        /// </summary>
+        /// <value>
+        /// TaskType.
+        /// </value>
+        public string LastListType { get; set; }
+
+        /// <summary>
         /// Gets or sets FoodOfGrocery.
         /// </summary>
         /// <value>
@@ -235,6 +244,7 @@ namespace ToDoSkill
             GeneralLuisResult = null;
             ConversationDialogState = null;
             ListType = null;
+            LastListType = null;
             FoodOfGrocery = null;
             HasShopVerb = false;
             ShopContent = null;

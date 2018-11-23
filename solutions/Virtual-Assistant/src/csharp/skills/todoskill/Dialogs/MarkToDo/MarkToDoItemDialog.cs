@@ -49,6 +49,7 @@ namespace ToDoSkill
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
+                state.LastListType = state.ListType;
                 if (!state.ListTypeIds.ContainsKey(state.ListType))
                 {
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));

@@ -63,6 +63,7 @@ namespace ToDoSkill
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
+                state.LastListType = state.ListType;
                 if (state.DeleteTaskConfirmation)
                 {
                     if (!state.ListTypeIds.ContainsKey(state.ListType))
