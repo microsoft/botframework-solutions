@@ -24,19 +24,28 @@ namespace EmailSkill
             {
                 GetAuthToken,
                 AfterGetAuthToken,
+                CollectSelectedEmail,
                 PromptToDelete,
                 DeleteEmail,
             };
 
             var showEmail = new WaterfallStep[]
             {
-                PromptCollectMessage,
+                //PromptCollectMessage,
                 ShowEmails,
+            };
+
+            var updateSelectMessage = new WaterfallStep[]
+            {
+                UpdateMessage,
+                PromptUpdateMessage,
+                AfterUpdateMessage,
             };
 
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Actions.Delete, deleteEmail));
             AddDialog(new WaterfallDialog(Actions.Show, showEmail));
+            AddDialog(new WaterfallDialog(Actions.UpdateSelectMessage, updateSelectMessage));
             InitialDialogId = Actions.Delete;
         }
 

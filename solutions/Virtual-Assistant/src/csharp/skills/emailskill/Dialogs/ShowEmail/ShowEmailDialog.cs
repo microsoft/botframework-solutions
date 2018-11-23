@@ -125,6 +125,7 @@ namespace EmailSkill
         {
             try
             {
+                var skillOptions = (EmailSkillDialogOptions)sc.Options;
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var luisResult = state.LuisResult;
 
@@ -134,7 +135,7 @@ namespace EmailSkill
                     return await sc.EndDialogAsync(true);
                 }
 
-                return await sc.BeginDialogAsync(Actions.Read);
+                return await sc.BeginDialogAsync(Actions.Read, skillOptions);
             }
             catch (Exception ex)
             {
@@ -213,6 +214,7 @@ namespace EmailSkill
         {
             try
             {
+                var skillOptions = (EmailSkillDialogOptions)sc.Options;
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var luisResult = state.LuisResult;
 
@@ -224,12 +226,12 @@ namespace EmailSkill
 
                 if (topIntent == Email.Intent.Delete)
                 {
-                    return await sc.BeginDialogAsync(nameof(DeleteEmailDialog));
+                    return await sc.BeginDialogAsync(nameof(DeleteEmailDialog), skillOptions);
                 }
 
                 if (topIntent == Email.Intent.ReadAloud || topIntent == Email.Intent.SelectItem)
                 {
-                    return await sc.BeginDialogAsync(Actions.Read);
+                    return await sc.BeginDialogAsync(Actions.Read, skillOptions);
                 }
                 else
                 {

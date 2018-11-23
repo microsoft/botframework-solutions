@@ -166,6 +166,15 @@ namespace VirtualAssistant.Dialogs.Main.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ok, you&apos;re signed out..
+        /// </summary>
+        public static string LOGOUT {
+            get {
+                return ResourceManager.GetString("LOGOUT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Schedule a meeting.
         /// </summary>
         public static string MEETING_SUGGESTEDACTION {

@@ -278,7 +278,7 @@ namespace ToDoSkill
                 await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
             }
 
-            await dc.Context.SendActivityAsync("Ok, you're signed out.");
+            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(ToDoMainResponses.LogOut));
 
             return InterruptionAction.StartedDialog;
         }
