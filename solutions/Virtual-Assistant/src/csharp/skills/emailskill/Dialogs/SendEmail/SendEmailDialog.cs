@@ -105,9 +105,9 @@ namespace EmailSkill
                 if (confirmResult)
                 {
                     var state = await EmailStateAccessor.GetAsync(sc.Context);
-                    var token = state.MsGraphToken;
+                    var token = state.Token;
 
-                    var service = ServiceManager.InitMailService(token, state.GetUserTimeZone());
+                    var service = ServiceManager.InitMailService(token, state.GetUserTimeZone(), state.MailSourceType);
 
                     // send user message.
                     await service.SendMessageAsync(state.Content, state.Subject, state.Recipients);

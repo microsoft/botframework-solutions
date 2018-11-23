@@ -30,7 +30,7 @@ namespace EmailSkill
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
-            _serviceManager = serviceManager ?? new MailSkillServiceManager();
+            _serviceManager = serviceManager ?? new MailSkillServiceManager(services);
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(DialogState)));
             _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _serviceManager, _skillMode));

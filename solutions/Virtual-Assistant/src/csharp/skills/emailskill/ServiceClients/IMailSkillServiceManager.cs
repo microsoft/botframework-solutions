@@ -7,8 +7,8 @@ namespace EmailSkill
 {
     public interface IMailSkillServiceManager
     {
-        IUserService InitUserService(string token, TimeZoneInfo timeZoneInfo);
+        IUserService InitUserService(string token, TimeZoneInfo timeZoneInfo, MailSource source);
 
-        IMailService InitMailService(string token, TimeZoneInfo timeZoneInfo);
+        IMailService InitMailService(string token, TimeZoneInfo timeZoneInfo, MailSource source);
     }
 }

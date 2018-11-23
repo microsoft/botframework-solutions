@@ -11,19 +11,19 @@ namespace EmailSkill
     /// <summary>
     /// UserService.
     /// </summary>
-    public class UserService : IUserService
+    public class MSGraphUserService : IUserService
     {
         private IGraphServiceClient _graphClient;
         private TimeZoneInfo _timeZoneInfo;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserService"/> class.
+        /// Initializes a new instance of the <see cref="MSGraphUserService"/> class.
         /// Init service use token.
         /// </summary>
         /// <param name="serviceClient">serviceClient.</param>
         /// <param name="timeZoneInfo">timeZoneInfo.</param>
         /// <returns>User service itself.</returns>
-        public UserService(IGraphServiceClient serviceClient, TimeZoneInfo timeZoneInfo)
+        public MSGraphUserService(IGraphServiceClient serviceClient, TimeZoneInfo timeZoneInfo)
         {
             this._graphClient = serviceClient;
             this._timeZoneInfo = timeZoneInfo;

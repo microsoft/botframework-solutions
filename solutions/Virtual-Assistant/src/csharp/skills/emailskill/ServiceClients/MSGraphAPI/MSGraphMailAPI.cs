@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-
 namespace EmailSkill
 {
     using System;
@@ -13,19 +12,19 @@ namespace EmailSkill
     /// <summary>
     /// Mail service used to call real apis.
     /// </summary>
-    public class MailService : IMailService
+    public class MSGraphMailAPI : IMailService
     {
         private IGraphServiceClient _graphClient;
         private TimeZoneInfo _timeZoneInfo;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MailService"/> class.
+        /// Initializes a new instance of the <see cref="MSGraphMailAPI"/> class.
         /// Init service use token.
         /// </summary>
         /// <param name="serviceClient">serviceClient.</param>
         /// <param name="timeZoneInfo">timeZoneInfo.</param>
         /// <returns>User service itself.</returns>
-        public MailService(IGraphServiceClient serviceClient, TimeZoneInfo timeZoneInfo)
+        public MSGraphMailAPI(IGraphServiceClient serviceClient, TimeZoneInfo timeZoneInfo)
         {
             this._graphClient = serviceClient;
             this._timeZoneInfo = timeZoneInfo;

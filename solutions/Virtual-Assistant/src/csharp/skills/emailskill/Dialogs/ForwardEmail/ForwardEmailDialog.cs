@@ -63,13 +63,13 @@ namespace EmailSkill
                 {
                     var state = await EmailStateAccessor.GetAsync(sc.Context);
 
-                    var token = state.MsGraphToken;
+                    var token = state.Token;
                     var message = state.Message;
                     var id = message.FirstOrDefault()?.Id;
                     var content = state.Content;
                     var recipients = state.Recipients;
 
-                    var service = ServiceManager.InitMailService(token, state.GetUserTimeZone());
+                    var service = ServiceManager.InitMailService(token, state.GetUserTimeZone(), state.MailSourceType);
 
                     // send user message.
                     await service.ForwardMessageAsync(id, content, recipients);

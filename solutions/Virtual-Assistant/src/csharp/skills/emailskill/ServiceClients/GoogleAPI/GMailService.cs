@@ -1,0 +1,484 @@
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Mail;
+using System.Text;
+using System.Threading.Tasks;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Auth.OAuth2.Flows;
+using Google.Apis.Auth.OAuth2.Responses;
+using Google.Apis.Gmail.v1;
+using Google.Apis.Gmail.v1.Data;
+using Google.Apis.Services;
+using Google.Apis.Util.Store;
+using Microsoft.Graph;
+using MimeKit;
+using GmailMessage = Google.Apis.Gmail.v1.Data.Message;
+using MSMessage = Microsoft.Graph.Message;
+
+namespace EmailSkill
+{
+    /// <summary>
+    /// The Google Email API service.
+    /// </summary>
+    public class GMailService : IMailService
+    {
+        private static GmailService service;
+        private int pageSize = 5;
+        private string pageToken = string.Empty;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GMailService"/> class.
+        /// </summary>
+        /// <param name="config">config</param>
+        /// <param name="token">token</param>
+        public GMailService(GoogleClient config, string token)
+        {
+            // Create Gmail API service.
+            var flow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
+            {
+                ClientSecrets = new ClientSecrets
+                {
+                    ClientId = config.ClientId,
+                    ClientSecret = config.ClientSecret,
+                },
+                Scopes = config.Scopes,
+                DataStore = new FileDataStore("Store"),
+            });
+
+            var tokenRes = new TokenResponse
+            {
+                AccessToken = token,
+                ExpiresInSeconds = 3600,
+                IssuedUtc = DateTime.UtcNow,
+            };
+
+            var credential = new UserCredential(flow, Environment.UserName, tokenRes);
+            service = new GmailService(new BaseClientService.Initializer()
+            {
+                HttpClientInitializer = credential,
+                ApplicationName = config.ApplicationName,
+            });
+        }
+
+        /// <inheritdoc/>
+        public async Task ForwardMessageAsync(string id, string content, List<Recipient> recipients)
+        {
+            // getOriginalMessage
+            var (originMessage, threadId) = await this.GetMessageById(id);
+            var forward = new MimeMessage();
+            foreach (var recipient in recipients)
+            {
+                forward.To.Add(new MailboxAddress(recipient.EmailAddress.Address));
+            }
+
+            // set the reply subject
+            forward.Subject = "Fwd: " + originMessage.Subject;
+
+            // construct the References headers
+            foreach (var mid in originMessage.References)
+                forward.References.Add(mid);
+            if (!string.IsNullOrEmpty(originMessage.MessageId))
+            {
+                forward.References.Add(originMessage.MessageId);
+            }
+
+            // quote the original message text
+            using (var quoted = new StringWriter())
+            {
+                var sender = originMessage.Sender ?? originMessage.From.Mailboxes.FirstOrDefault();
+                quoted.WriteLine(content);
+                quoted.WriteLine();
+                quoted.WriteLine("---------- Forwarded message ----------");
+                quoted.WriteLine("From: {0}", originMessage.From);
+                quoted.WriteLine("Date: {0}", originMessage.Date);
+                quoted.WriteLine("Subject: {0}", originMessage.Subject);
+                quoted.WriteLine("To: {0}", originMessage.To);
+                if (originMessage.Cc.Count > 0)
+                {
+                    quoted.WriteLine("Cc: {0}", originMessage.Cc);
+                }
+
+                using (var reader = new StringReader(originMessage.TextBody))
+                {
+                    string line;
+
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        quoted.Write("> ");
+                        quoted.WriteLine(line);
+                    }
+                }
+
+                content = quoted.ToString();
+            }
+
+            Console.WriteLine(forward.ToString() + content);
+            await service.Users.Messages.Send(
+                new GmailMessage()
+            {
+                Raw = Base64UrlEncode(forward.ToString() + content),
+                ThreadId = threadId,
+            }, "me").ExecuteAsync();
+
+        }
+
+        /// <inheritdoc/>
+        public async Task SendMessageAsync(string content, string subject, List<Recipient> recipients)
+        {
+            // get from address
+            var user = service.Users.GetProfile("me").Execute();
+            var mess = new MailMessage();
+            mess.Subject = subject;
+            mess.From = new MailAddress(user.EmailAddress);
+            foreach (var re in recipients)
+            {
+                mess.To.Add(new MailAddress(re.EmailAddress.Address));
+            }
+
+            mess.ReplyToList.Add(new MailAddress(user.EmailAddress));
+            var adds = AlternateView.CreateAlternateViewFromString(content, new System.Net.Mime.ContentType("text/plain"));
+            adds.ContentType.CharSet = Encoding.UTF8.WebName;
+            mess.AlternateViews.Add(adds);
+            // mess.BodyTransferEncoding = System.Net.Mime.TransferEncoding.Base64;
+
+            var mime = MimeMessage.CreateFromMailMessage(mess);
+            await service.Users.Messages.Send(
+                new GmailMessage()
+            {
+                Raw = Base64UrlEncode(mime.ToString()),
+            }, "me").ExecuteAsync();
+        }
+
+        /// <inheritdoc/>
+        public async Task<List<MSMessage>> ReplyToMessageAsync(string id, string content)
+        {
+            var (originMessage, threadId) = await this.GetMessageById(id);
+            var reply = new MimeMessage();
+
+            // reply to the sender of the message
+            if (originMessage.ReplyTo.Count > 0)
+            {
+                reply.To.AddRange(originMessage.ReplyTo);
+            }
+            else if (originMessage.From.Count > 0)
+            {
+                reply.To.AddRange(originMessage.From);
+            }
+            else if (originMessage.Sender != null)
+            {
+                reply.To.Add(originMessage.Sender);
+            }
+
+            // set the reply subject
+            if (!originMessage.Subject.StartsWith("Re:", StringComparison.OrdinalIgnoreCase))
+                reply.Subject = "Re: " + originMessage.Subject;
+            else
+                reply.Subject = originMessage.Subject;
+
+            // construct the In-Reply-To and References headers
+            if (!string.IsNullOrEmpty(originMessage.MessageId))
+            {
+                reply.InReplyTo = originMessage.MessageId;
+                foreach (var mid in originMessage.References)
+                    reply.References.Add(mid);
+                reply.References.Add(originMessage.MessageId);
+            }
+
+            // quote the original message text
+            using (var quoted = new StringWriter())
+            {
+                var sender = originMessage.Sender ?? originMessage.From.Mailboxes.FirstOrDefault();
+                quoted.WriteLine("新添内容\n\r");
+                quoted.WriteLine("On {0}, {1} wrote:", originMessage.Date.ToString("f"), !string.IsNullOrEmpty(sender.Name) ? sender.Name : sender.Address);
+                using (var reader = new StringReader(originMessage.TextBody))
+                {
+                    string line;
+
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        quoted.Write("> ");
+                        quoted.WriteLine(line);
+                    }
+                }
+
+                content = quoted.ToString();
+            }
+
+            Console.WriteLine(reply.ToString() + content);
+            await service.Users.Messages.Send(
+                new GmailMessage()
+            {
+                Raw = Base64UrlEncode(reply.ToString() + content),
+                ThreadId = threadId,
+            }, "me").ExecuteAsync();
+            return null;
+        }
+
+        /// <inheritdoc/>
+        public async Task<List<MSMessage>> GetMyMessagesAsync(DateTime fromTime, DateTime toTime, bool getUnRead = false, bool isImportant = false, bool directlyToMe = false, string fromAddress = null, int skip = 0)
+        {
+            var user = service.Users.GetProfile("me").Execute();
+            var userAddress = user.EmailAddress;
+
+            string searchOperation = string.Empty;
+            searchOperation = this.AppendFilterString(searchOperation, "in:inbox");
+            if (getUnRead)
+            {
+                searchOperation = this.AppendFilterString(searchOperation, "is:unread");
+            }
+
+            if (isImportant)
+            {
+                searchOperation = this.AppendFilterString(searchOperation, "is:important");
+            }
+
+            if (directlyToMe)
+            {
+                searchOperation = this.AppendFilterString(searchOperation, $"deliveredto:{userAddress}");
+            }
+
+            if (fromAddress != null)
+            {
+                searchOperation = this.AppendFilterString(searchOperation, $"from:{fromAddress}");
+            }
+
+            if (fromTime != null)
+            {
+                searchOperation = this.AppendFilterString(searchOperation, $"after:{fromTime.Year}/{fromTime.Month}/{fromTime.Day}");
+            }
+
+            if (toTime != null)
+            {
+                searchOperation = this.AppendFilterString(searchOperation, $"before:{toTime.Year}/{toTime.Month}/{toTime.Day}");
+            }
+
+            var request = service.Users.Messages.List("me");
+            request.Q = searchOperation;
+            request.MaxResults = this.pageSize;
+
+            // deal with skip
+            if (skip != 0 && this.pageToken == string.Empty)
+            {
+                // call api and get the pageToken
+                var tempReq = service.Users.Messages.List("me");
+                tempReq.MaxResults = skip;
+                tempReq.Q = searchOperation;
+                var tempRes = tempReq.Execute();
+                if ( tempRes.NextPageToken != null && tempRes.NextPageToken != string.Empty)
+                {
+                    this.pageToken = tempRes.NextPageToken;
+                } else
+                {
+                    // no more message
+                    return new List<MSMessage>();
+                }
+
+                request.PageToken = this.pageToken;
+            }
+
+            ListMessagesResponse response = await request.ExecuteAsync();
+            List<MSMessage> result = new List<MSMessage>();
+
+            // response.Messages only have id and threadID
+            if (response.Messages != null)
+            {
+                var messages = await Task.WhenAll(response.Messages.Select(temp => {
+                    var req = service.Users.Messages.Get("me", temp.Id);
+                    req.Format = UsersResource.MessagesResource.GetRequest.FormatEnum.Raw;
+                    return req.ExecuteAsync();
+                }));
+                if (messages != null && messages.Length > 0)
+                {
+                    foreach (var m in messages)
+                    {
+                        // map to msgraph email
+                        var ms = this.MapMimeMessageToMSMessage(DecodeToMessage(m.Raw));
+                        ms.BodyPreview = m.Snippet;
+                        ms.Id = m.Id;
+                        ms.WebLink = $"https://mail.google.com/mail/#inbox/{m.Id}";
+                        result.Add(ms);
+                    }
+                }
+            }
+
+            if (response.NextPageToken != null && response.NextPageToken != string.Empty)
+            {
+                this.pageToken = response.NextPageToken;
+            } else
+            {
+                this.pageToken = string.Empty;
+            }
+
+            return result;
+        }
+
+        private async Task<(MimeMessage, string)> GetMessageById(string id)
+        {
+            var request = service.Users.Messages.Get("me", id);
+            request.Format = UsersResource.MessagesResource.GetRequest.FormatEnum.Raw;
+            var response = await request.ExecuteAsync();
+            var mime = DecodeToMessage(response.Raw);
+            return (mime, response.ThreadId);
+        }
+
+        private MSMessage MapMimeMessageToMSMessage(MimeMessage mime)
+        {
+            MSMessage message = new MSMessage();
+            message.ReceivedDateTime = mime.Date;
+            if (mime.To != null)
+            {
+                var to = new List<Recipient>();
+                foreach (var address in mime.To)
+                {
+                    to.Add(new Recipient
+                    {
+                        EmailAddress = new EmailAddress
+                        {
+                            Address = ((MailboxAddress)address).Address,
+                            Name = address.Name == string.Empty? ((MailboxAddress)address).Address : address.Name,
+                        },
+                    });
+                }
+
+                message.ToRecipients = to;
+            }
+
+            if (mime.From != null && mime.From.Count > 0)
+            {
+                message.From = new Recipient
+                {
+                    EmailAddress = new EmailAddress
+                    {
+                        Address = ((MailboxAddress)mime.From[0]).Address, // mime.From[0].ToString()
+                        Name = mime.From[0].Name == string.Empty ? ((MailboxAddress)mime.From[0]).Address : mime.From[0].Name,
+                    },
+                };
+                message.Sender = new Recipient
+                {
+                    EmailAddress = new EmailAddress
+                    {
+                        Address = ((MailboxAddress)mime.From[0]).Address,
+                        Name = mime.From[0].Name == string.Empty ? ((MailboxAddress)mime.From[0]).Address : mime.From[0].Name,
+                    },
+                };
+            }
+
+            if (mime.Sender != null)
+            {
+                message.Sender = new Recipient
+                {
+                    EmailAddress = new EmailAddress
+                    {
+                        Address = mime.Sender.Address,
+                        Name = mime.Sender.Name == string.Empty ? mime.Sender.Address: mime.Sender.Name,
+                    },
+                };
+            }
+
+            if (mime.Subject != null)
+            {
+                message.Subject = mime.Subject;
+            }
+
+            if (mime.Body != null)
+            {
+                var textBody = mime.BodyParts.OfType<TextPart>().FirstOrDefault();
+                message.Body = new ItemBody
+                {
+                    Content = textBody.Text,
+                    ContentType = BodyType.Text,
+                };
+            }
+
+            if (mime.Cc != null)
+            {
+                var cc = new List<Recipient>();
+                foreach (var address in mime.Cc)
+                {
+                    cc.Add(new Recipient
+                    {
+                        EmailAddress = new EmailAddress
+                        {
+                            Address = ((MailboxAddress)address).Address,
+                            Name = address.Name == string.Empty ? ((MailboxAddress)address).Address: address.Name,
+                        },
+                    });
+                }
+
+                message.CcRecipients = cc;
+            }
+
+            if (mime.ReplyTo != null)
+            {
+                var replyTo = new List<Recipient>();
+                foreach (var address in mime.ReplyTo)
+                {
+                    replyTo.Add(new Recipient
+                    {
+                        EmailAddress = new EmailAddress
+                        {
+                            Address = ((MailboxAddress)address).Address,
+                            Name = address.Name == string.Empty ? ((MailboxAddress)address).Address:address.Name,
+                        },
+                    });
+                }
+
+                message.ReplyTo = replyTo;
+            }
+
+            return message;
+        }
+
+        public Task DeleteMessageAsync(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string AppendFilterString(string old, string filterString)
+        {
+            string result = old;
+            if (string.IsNullOrEmpty(old))
+            {
+                result += filterString;
+            }
+            else
+            {
+                result += $" {filterString}";
+            }
+
+            return result;
+        }
+
+        private static string Base64UrlEncode(string text)
+        {
+            var textBytes = Encoding.UTF8.GetBytes(text);
+            return System.Convert.ToBase64String(textBytes)
+                .Replace('+', '-')
+                .Replace('/', '_')
+                .Replace("=", "");
+        }
+
+        // decode from base64url to utf-8 bytes
+        private static byte[] Base64UrlDecode(string text)
+        {
+            var temp = text.Replace('-', '+')
+                .Replace('_', '/');
+            byte[] textBytes = Convert.FromBase64String(temp);
+            return textBytes; // Encoding.UTF8.GetString(textBytes);
+        }
+
+        // decode to mimeMessage
+        private static MimeMessage DecodeToMessage(string text)
+        {
+            byte[] msg = Base64UrlDecode(text);
+            MemoryStream mm = new MemoryStream(msg);
+            MimeKit.MimeMessage mime = MimeKit.MimeMessage.Load(mm);
+            return mime;
+        }
+    }
+}
