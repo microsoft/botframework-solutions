@@ -453,10 +453,21 @@ namespace ToDoSkill
                     state.MarkOrDeleteAllTasksFlag = true;
                 }
 
-                if (entities.ordinal != null)
+                if (entities.ordinal != null || entities.number != null)
                 {
-                    var index = (int)entities.ordinal[0];
-                    if (index > 0 && index <= 5)
+                    var indexOfOrdinal = entities.ordinal == null ? 0 : (int)entities.ordinal[0];
+                    var indexOfNumber = entities.number == null ? 0 : (int)entities.number[0];
+                    int index = 0;
+                    if (indexOfOrdinal > 0 && indexOfOrdinal <= state.PageSize)
+                    {
+                        index = indexOfOrdinal;
+                    }
+                    else if (indexOfNumber > 0 && indexOfNumber <= state.PageSize)
+                    {
+                        index = indexOfNumber;
+                    }
+
+                    if (index > 0 && index <= state.PageSize)
                     {
                         if (state.TaskIndexes.Count > 0)
                         {
