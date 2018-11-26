@@ -120,10 +120,4 @@
   <data name="CANCEL_CONFIRMED" xml:space="preserve">
     <value>好的, 我们从头再来。</value>
   </data>
-  <data name="CANCEL_DENIED" xml:space="preserve">
-    <value>好的, 我们继续。</value>
-  </data>
-  <data name="CANCEL_PROMPT" xml:space="preserve">
-    <value>您确实要取消吗？</value>
-  </data>
 </root>

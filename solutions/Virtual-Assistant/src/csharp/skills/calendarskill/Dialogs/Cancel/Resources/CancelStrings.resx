@@ -120,10 +120,4 @@
   <data name="CANCEL_CONFIRMED" xml:space="preserve">
     <value>Ok, let's start over.</value>
   </data>
-  <data name="CANCEL_DENIED" xml:space="preserve">
-    <value>Ok, let's keep going.</value>
-  </data>
-  <data name="CANCEL_PROMPT" xml:space="preserve">
-    <value>Are you sure you want to cancel?</value>
-  </data>
 </root>

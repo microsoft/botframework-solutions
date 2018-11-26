@@ -25,49 +25,26 @@ namespace CalendarSkill
 
             var cancel = new WaterfallStep[]
             {
-                AskToCancel,
                 FinishCancelDialog,
             };
 
             AddDialog(new WaterfallDialog(InitialDialogId, cancel));
-            AddDialog(new ConfirmPrompt(CancelPrompt));
-        }
-
-        public async Task<DialogTurnResult> AskToCancel(WaterfallStepContext sc, CancellationToken cancellationToken)
-        {
-            return await sc.PromptAsync(CancelPrompt, new PromptOptions()
-            {
-                Prompt = await _responder.RenderTemplate(sc.Context, "en", CancelResponses._confirmPrompt),
-            });
         }
 
         public async Task<DialogTurnResult> FinishCancelDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             var state = await _accessor.GetAsync(sc.Context);
             state.Clear();
-            return await sc.EndDialogAsync((bool)sc.Result);
+            return await sc.EndDialogAsync(true);
         }
 
         protected override async Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
         {
-            var doCancel = (bool)result;
+            // If user chose to cancel
+            await _responder.ReplyWith(outerDc.Context, CancelResponses._cancelConfirmed);
 
-            if (doCancel)
-            {
-                // If user chose to cancel
-                await _responder.ReplyWith(outerDc.Context, CancelResponses._cancelConfirmed);
-
-                // Cancel all in outer stack of component i.e. the stack the component belongs to
-                return await outerDc.CancelAllDialogsAsync();
-            }
-            else
-            {
-                // else if user chose not to cancel
-                await _responder.ReplyWith(outerDc.Context, CancelResponses._cancelDenied);
-
-                // End this component. Will trigger reprompt/resume on outer stack
-                return await outerDc.EndDialogAsync();
-            }
+            // Cancel all in outer stack of component i.e. the stack the component belongs to
+            return await outerDc.CancelAllDialogsAsync();
         }
     }
 }
