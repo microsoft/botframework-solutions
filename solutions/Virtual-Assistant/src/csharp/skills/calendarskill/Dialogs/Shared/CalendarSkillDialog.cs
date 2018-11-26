@@ -607,6 +607,63 @@ namespace CalendarSkill
                             break;
                         }
 
+                    case Calendar.Intent.TimeRemaining:
+                        {
+                            if (entity.FromDate != null)
+                            {
+                                var date = GetDateFromDateTimeString(entity.FromDate[0], dc.Context.Activity.Locale, state.GetUserTimeZone());
+                                if (date != null)
+                                {
+                                    state.StartDate = date;
+                                }
+                            }
+
+                            if (entity.ToDate != null)
+                            {
+                                var date = GetDateFromDateTimeString(entity.ToDate[0], dc.Context.Activity.Locale, state.GetUserTimeZone());
+                                if (date != null)
+                                {
+                                    state.EndDate = date;
+                                }
+                            }
+
+                            if (entity.FromTime != null)
+                            {
+                                var time = GetTimeFromDateTimeString(entity.FromTime[0], dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
+                                if (time != null)
+                                {
+                                    state.StartTime = time;
+                                }
+
+                                time = GetTimeFromDateTimeString(entity.FromTime[0], dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
+                                if (time != null)
+                                {
+                                    state.EndTime = time;
+                                }
+                            }
+
+                            if (entity.ToTime != null)
+                            {
+                                var time = GetTimeFromDateTimeString(entity.ToTime[0], dc.Context.Activity.Locale, state.GetUserTimeZone());
+                                if (time != null)
+                                {
+                                    state.EndTime = time;
+                                }
+                            }
+
+                            if (entity.OrderReference != null)
+                            {
+                                state.OrderReference = entity.OrderReference[0];
+                            }
+
+                            if (entity.Subject != null)
+                            {
+                                state.Title = entity.Subject[0];
+                            }
+
+                            break;
+                        }
+
                     case Calendar.Intent.None:
                         {
                             break;

@@ -116,6 +116,12 @@ namespace CalendarSkill
                             break;
                         }
 
+                    case Calendar.Intent.TimeRemaining:
+                        {
+                            await dc.BeginDialogAsync(nameof(TimeRemainDialog), skillOptions);
+                            break;
+                        }
+
                     case Calendar.Intent.None:
                         {
                             if (generalTopIntent == General.Intent.Next || generalTopIntent == General.Intent.Previous)
@@ -301,6 +307,7 @@ namespace CalendarSkill
             AddDialog(new CreateEventDialog(_services, _stateAccessor, _serviceManager));
             AddDialog(new DeleteEventDialog(_services, _stateAccessor, _serviceManager));
             AddDialog(new NextMeetingDialog(_services, _stateAccessor, _serviceManager));
+            AddDialog(new TimeRemainDialog(_services, _stateAccessor, _serviceManager));
             AddDialog(new SummaryDialog(_services, _stateAccessor, _serviceManager));
             AddDialog(new UpdateEventDialog(_services, _stateAccessor, _serviceManager));
             AddDialog(new CancelDialog(_stateAccessor));

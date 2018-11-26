@@ -1,0 +1,47 @@
+{
+  "ShowNextMeetingTimeRemainedMessage": {
+    "replies": [
+      {
+        "text": "You have {RemainingHours} {RemainingMinutes} remained until next meeting.",
+        "speak": "You have {RemainingHours} {RemainingMinutes} remained until next meeting."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowSpecificDaysRemainedMessage": {
+    "replies": [
+      {
+        "text": "You have {RemainedDays} remained until your meeting at {Date}.",
+        "speak": "You have {RemainedDays} remained until your meeting at {DateSpeak}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowSpecificTimeRemainedMessage": {
+    "replies": [
+      {
+        "text": "You have {RemainingHours} {RemainingMinutes} remained until your meeting at {Time}.",
+        "speak": "You have {RemainingHours} {RemainingMinutes} remained until your meeting at {TimeSpeak}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowSpecificTitleRemainedMessage": {
+    "replies": [
+      {
+        "text": "You have {RemainingHours} {RemainingMinutes} remained until your meeting with a subject of \"{Title}\".",
+        "speak": "You have {RemainingHours} {RemainingMinutes} remained until your meeting with a subject of \"{Title}\"."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowNoMeetingMessage": {
+    "replies": [
+      {
+        "text": "You don't have any meetings.",
+        "speak": "You don't have any meetings."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}
