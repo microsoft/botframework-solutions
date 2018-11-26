@@ -177,6 +177,7 @@ namespace CalendarSkill
 
                 var calendarAPI = GraphClientHelper.GetCalendarService(state.APIToken, state.EventSource, ServiceManager.GetGoogleClient());
                 var calendarService = ServiceManager.InitCalendarService(calendarAPI, state.EventSource);
+                var searchByEntities = state.StartDate != null || state.StartTime != null || state.Title != null;
 
                 if (state.StartDate != null || state.StartTime != null)
                 {
@@ -225,7 +226,16 @@ namespace CalendarSkill
 
                 if (events.Count <= 0)
                 {
-                    return await sc.BeginDialogAsync(Actions.UpdateStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NoEvent));
+                    if (searchByEntities)
+                    {
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(DeleteEventResponses.EventWithStartTimeNotFound));
+                        state.Clear();
+                        return await sc.CancelAllDialogsAsync();
+                    }
+                    else
+                    {
+                        return await sc.BeginDialogAsync(Actions.UpdateStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NoEvent));
+                    }
                 }
                 else if (events.Count > 1)
                 {
