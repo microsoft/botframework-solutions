@@ -189,7 +189,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj" />
+    <ProjectReference Include="..\..\Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj" />
   </ItemGroup>
 
 </Project>

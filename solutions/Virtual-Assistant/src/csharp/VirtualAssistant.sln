@@ -33,6 +33,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DFCBFFD7
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Solutions.Tests", "tests\Microsoft.Bot.Solutions.Tests\Microsoft.Bot.Solutions.Tests.csproj", "{18366252-CEA5-4FB9-A022-ED957B491237}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutomotiveSkill", "skills\automotiveskill\AutomotiveSkill.csproj", "{A8546621-819F-42C3-8802-E1FF0B572467}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{18366252-CEA5-4FB9-A022-ED957B491237}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18366252-CEA5-4FB9-A022-ED957B491237}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18366252-CEA5-4FB9-A022-ED957B491237}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8546621-819F-42C3-8802-E1FF0B572467}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8546621-819F-42C3-8802-E1FF0B572467}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8546621-819F-42C3-8802-E1FF0B572467}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8546621-819F-42C3-8802-E1FF0B572467}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,6 +94,7 @@ Global
 		{1B4F6C4B-C813-476D-84C5-D9FD51678065} = {546AC410-598F-49FD-9583-F912DF35BDA5}
 		{699BA894-1429-4DB8-ABF6-826E3F143F49} = {546AC410-598F-49FD-9583-F912DF35BDA5}
 		{18366252-CEA5-4FB9-A022-ED957B491237} = {DFCBFFD7-4882-4C3B-9E21-83EE29CE59BF}
+		{A8546621-819F-42C3-8802-E1FF0B572467} = {1F423A0A-64D9-400C-B2B0-3AC378A5AB02}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7569C2D0-1323-45B5-8CFF-3ECACD9E0B82}
