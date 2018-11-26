@@ -160,8 +160,12 @@ namespace EmailSkill
 
                 if (!skillOptions.SubFlowMode)
                 {
+                    var state = await EmailStateAccessor.GetAsync(sc.Context);
+                    var luisResult = state.LuisResult;
+
                     // Clear email state data
                     await ClearConversationState(sc);
+                    await DigestEmailLuisResult(sc, luisResult);
                 }
 
                 return await sc.NextAsync();
