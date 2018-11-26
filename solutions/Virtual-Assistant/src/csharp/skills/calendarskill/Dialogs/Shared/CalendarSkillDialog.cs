@@ -401,7 +401,6 @@ namespace CalendarSkill
                                 }
                             }
 
-
                             if (entity.ToDate != null)
                             {
                                 var date = GetDateFromDateTimeString(entity.ToDate[0], dc.Context.Activity.Locale, state.GetUserTimeZone());
@@ -463,7 +462,6 @@ namespace CalendarSkill
                             {
                                 state.Title = GetSubjectFromEntity(entity);
                             }
-
 
                             if (entity.FromDate != null)
                             {
