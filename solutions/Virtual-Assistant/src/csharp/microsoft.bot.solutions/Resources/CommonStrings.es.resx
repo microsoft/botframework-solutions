@@ -225,4 +225,10 @@
   <data name="Yesterday" xml:space="preserve">
     <value>ayer</value>
   </data>
+  <data name="All" xml:space="preserve">
+    <value>todos</value>
+  </data>
+  <data name="High" xml:space="preserve">
+    <value>alto</value>
+  </data>
 </root>

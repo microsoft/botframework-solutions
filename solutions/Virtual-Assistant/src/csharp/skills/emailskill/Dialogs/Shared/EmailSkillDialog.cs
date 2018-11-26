@@ -152,6 +152,26 @@ namespace EmailSkill
         }
 
         // Shared steps
+        protected virtual async Task<DialogTurnResult> IfClearContextStep(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var skillOptions = (EmailSkillDialogOptions)sc.Options;
+
+                if (!skillOptions.SubFlowMode)
+                {
+                    // Clear email state data
+                    await ClearConversationState(sc);
+                }
+
+                return await sc.NextAsync();
+            }
+            catch (Exception ex)
+            {
+                throw await HandleDialogExceptions(sc, ex);
+            }
+        }
+
         protected async Task<DialogTurnResult> GetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -284,7 +304,16 @@ namespace EmailSkill
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                return await sc.BeginDialogAsync(Actions.UpdateSelectMessage);
+
+                var skillOptions = (EmailSkillDialogOptions)sc.Options;
+                skillOptions.SubFlowMode = true;
+
+                if (state.Message == null || state.Message.Count() == 0)
+                {
+                    return await sc.BeginDialogAsync(Actions.UpdateSelectMessage, skillOptions);
+                }
+
+                return await sc.NextAsync();
             }
             catch (Exception ex)
             {
@@ -439,6 +468,13 @@ namespace EmailSkill
                 if (messages.Count > 0)
                 {
                     await ShowMailList(sc, messages);
+
+                    // Give focus when there is only one email.
+                    if (messages.Count == 1)
+                    {
+                        state.Message.Add(messages[0]);
+                    }
+
                     state.MessageList = messages;
                 }
                 else
@@ -921,17 +957,23 @@ namespace EmailSkill
                 if (dc.Context.Activity.Text != null)
                 {
                     var words = dc.Context.Activity.Text.Split(' ');
-                    foreach (var word in words)
                     {
-                        switch (word)
+                        foreach (var word in words)
                         {
-                            case "high":
-                            case "important":
+                            var lowerInput = word.ToLower();
+
+                            if (lowerInput.Contains(CommonStrings.High) || lowerInput.Contains(CommonStrings.Important))
+                            {
                                 state.IsImportant = true;
-                                break;
-                            case "unread":
+                            }
+                            else if (lowerInput.Contains(CommonStrings.Unread))
+                            {
                                 state.IsUnreadOnly = true;
-                                break;
+                            }
+                            else if (lowerInput.Contains(CommonStrings.All))
+                            {
+                                state.IsUnreadOnly = false;
+                            }
                         }
                     }
                 }

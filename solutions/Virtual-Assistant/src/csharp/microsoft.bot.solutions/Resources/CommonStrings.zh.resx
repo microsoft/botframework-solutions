@@ -225,4 +225,10 @@
   <data name="Yesterday" xml:space="preserve">
     <value>昨天</value>
   </data>
+  <data name="All" xml:space="preserve">
+    <value>全部</value>
+  </data>
+  <data name="High" xml:space="preserve">
+    <value>特別</value>
+  </data>
 </root>

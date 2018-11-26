@@ -22,6 +22,7 @@ namespace EmailSkill
         {
             var deleteEmail = new WaterfallStep[]
             {
+                IfClearContextStep,
                 GetAuthToken,
                 AfterGetAuthToken,
                 CollectSelectedEmail,
@@ -31,7 +32,6 @@ namespace EmailSkill
 
             var showEmail = new WaterfallStep[]
             {
-                //PromptCollectMessage,
                 ShowEmails,
             };
 

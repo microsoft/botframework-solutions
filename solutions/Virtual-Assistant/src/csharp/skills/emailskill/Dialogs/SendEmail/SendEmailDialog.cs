@@ -24,6 +24,7 @@ namespace EmailSkill
         {
             var sendEmail = new WaterfallStep[]
            {
+                IfClearContextStep,
                 GetAuthToken,
                 AfterGetAuthToken,
                 CollectNameList,

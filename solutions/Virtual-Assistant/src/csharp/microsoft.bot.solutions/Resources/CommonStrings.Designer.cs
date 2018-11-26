@@ -61,6 +61,15 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to all.
+        /// </summary>
+        public static string All {
+            get {
+                return ResourceManager.GetString("All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to and.
         /// </summary>
         public static string And {
@@ -174,6 +183,15 @@ namespace Microsoft.Bot.Solutions.Resources {
         public static string FromDetailsFormat {
             get {
                 return ResourceManager.GetString("FromDetailsFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to high.
+        /// </summary>
+        public static string High {
+            get {
+                return ResourceManager.GetString("High", resourceCulture);
             }
         }
         
