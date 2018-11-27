@@ -35,6 +35,8 @@ namespace CalendarSkill.Dialogs.Main.Resources
 
         public static BotResponse FeatureNotAvailable => GetBotResponse();
 
+        public static BotResponse CancelMessage => GetBotResponse();
+
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {
             return _responseManager.GetBotResponse(propertyName);

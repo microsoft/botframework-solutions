@@ -246,7 +246,8 @@ namespace EmailSkill
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
-            await dc.BeginDialogAsync(nameof(CancelDialog));
+            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(EmailMainResponses.CancelMessage));
+            await CompleteAsync(dc);
             return InterruptionAction.StartedDialog;
         }
 
@@ -289,7 +290,6 @@ namespace EmailSkill
             AddDialog(new SendEmailDialog(_services, _stateAccessor, _dialogStateAccessor, _serviceManager));
             AddDialog(new ShowEmailDialog(_services, _stateAccessor, _dialogStateAccessor, _serviceManager));
             AddDialog(new ReplyEmailDialog(_services, _stateAccessor, _dialogStateAccessor, _serviceManager));
-            AddDialog(new CancelDialog(_stateAccessor));
         }
 
         private class Events

@@ -246,7 +246,8 @@ namespace ToDoSkill
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
-            await dc.BeginDialogAsync(nameof(CancelDialog));
+            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(ToDoMainResponses.CancelMessage));
+            await CompleteAsync(dc);
             return InterruptionAction.StartedDialog;
         }
 
@@ -289,7 +290,6 @@ namespace ToDoSkill
             AddDialog(new MarkToDoItemDialog(_services, _stateAccessor, _serviceManager));
             AddDialog(new DeleteToDoItemDialog(_services, _stateAccessor, _serviceManager));
             AddDialog(new ShowToDoItemDialog(_services, _stateAccessor, _serviceManager));
-            AddDialog(new CancelDialog());
         }
 
         private class Events
