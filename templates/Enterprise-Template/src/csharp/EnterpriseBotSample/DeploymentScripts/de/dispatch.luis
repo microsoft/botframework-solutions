@@ -1,0 +1,496 @@
+{
+  "intents": [
+    {
+      "name": "l_General"
+    },
+    {
+      "name": "q_FAQ"
+    }
+  ],
+  "entities": [],
+  "composites": [],
+  "closedLists": [],
+  "regex_entities": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "Stoppen",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Abbrechen",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Abbrechen",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Ignorieren",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Tue nicht",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "machen es nicht",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Tu das nicht",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte absagen",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Vergessen Sie es",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Bitte stoppen",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Ausfahrt",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "kann ich mit einer Person sprechen",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte mit einem Menschen sprechen",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "sprechen Sie mit einem Menschen",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Transfer me please",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Kontakt Unterstützung",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Gute Nacht",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Goodbye",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Auf Wiedersehen",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Ok danke",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Ok tschüss",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Das ist es dank",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Hallo",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Hallo",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Guten Morgen",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Guten Abend",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "hello bot",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Hiya",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Wie geht es dir",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Wie geht es dir heute",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Hallöchen",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Hilfe",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Hilf mir",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Hilfe bitte",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "ich stecke",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Ich kann Sie nicht verstehen",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Was soll ich sagen",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Was können Sie mir helfen",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Was können Sie tun",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Was mache ich jetzt",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Warum funktioniert das nicht",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Kannst du mir helfen",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "SignOut",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Vergiss mich",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Abmelden",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "logout",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Abmelden",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Voraus",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "vorwärts gehen",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "gehen Sie zum nächsten",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Nächsten",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "nächsten Punkt",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Show Next",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "könntest du den nächsten zeigen",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Ich muss zum nächsten gehen",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "gehen Sie bitte zum nächsten",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "zum nächsten übergehen",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Mache weiter",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "gehen Sie zum nächsten",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "zur nächsten Seite",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Vorankommen",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Schritt auf",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Weiter geht es",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "nächsten ein",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "nächsten bitte",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Zeig mir als nächstes",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Zeige mir die nächste",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "zeigen die nächste",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "zeigen Sie den nächsten",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "die nächste e-Mail",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Zurück",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "letzten einen",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "vorherige",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "der letzte",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "jährige ein",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Last",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "zurück zum letzten",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "bringen Sie die vorherige",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "kommen Sie zum letzten",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "gehen Sie zu früheren",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "zum letzten gehen",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "zurückziehen",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Vorherigen",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Zeige mir vorher",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "vorherige bitte",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "der vorherige",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Was ist der bisherige",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "kann ich das noch einmal machen",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Ich muss etwas ändern",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Neu starten",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Start über",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Rückgängig",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Was ist die Enterprise Bot Template?",
+      "intent": "q_FAQ",
+      "entities": []
+    },
+    {
+      "text": "Was ist die Enterprise Bot Vorlage?",
+      "intent": "q_FAQ",
+      "entities": []
+    }
+  ],
+  "patterns": [],
+  "patternAnyEntities": [],
+  "prebuiltEntities": [],
+  "luis_schema_version": "3.0.0",
+  "versionId": "Dispatch",
+  "name": "Dispatch",
+  "desc": "",
+  "culture": "de-de"
+}
