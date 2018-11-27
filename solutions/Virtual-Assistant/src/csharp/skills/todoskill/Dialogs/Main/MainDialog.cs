@@ -26,6 +26,7 @@ namespace ToDoSkill
         private ConversationState _conversationState;
         private ITaskService _serviceManager;
         private IStatePropertyAccessor<ToDoSkillState> _stateAccessor;
+        private IStatePropertyAccessor<ToDoSkillUserState> _userStateAccessor;
         private ToDoSkillResponseBuilder _responseBuilder = new ToDoSkillResponseBuilder();
 
         public MainDialog(
@@ -44,6 +45,7 @@ namespace ToDoSkill
 
             // Initialize state accessor
             _stateAccessor = _conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
+            _userStateAccessor = _userState.CreateProperty<ToDoSkillUserState>(nameof(ToDoSkillUserState));
 
             // RegisterDialogs
             RegisterDialogs();
