@@ -1,0 +1,18 @@
+{
+  "urls": [],
+  "qnaList": [
+    {
+      "id": 0,
+      "answer": "创建高质量的会话体验需要一组基本的功能。为了帮助您成功地构建出色的对话体验, 我们创建了此模板。此模板汇集了我们通过构建对话体验确定的所有最佳实践和支持组件。\r\n[Learn more](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-enterprise-template-overview?view=azure-bot-service-4.0)\r\n",
+      "source": "custom editorial",
+      "questions": [
+        "What is the Enterprise Bot Template?",
+        "这个模板是什么？",
+        "这是什么企业机器人模板？"
+      ],
+      "metadata": []
+    }
+  ],
+  "files": [],
+  "name": "faq"
+}
