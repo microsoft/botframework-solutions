@@ -157,16 +157,18 @@ namespace EmailSkill
             try
             {
                 var skillOptions = (EmailSkillDialogOptions)sc.Options;
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
 
                 if (!skillOptions.SubFlowMode)
                 {
-                    var state = await EmailStateAccessor.GetAsync(sc.Context);
                     var luisResult = state.LuisResult;
 
                     // Clear email state data
                     await ClearConversationState(sc);
                     await DigestEmailLuisResult(sc, luisResult);
                 }
+
+                await DigestFocusEmailAsync(sc);
 
                 return await sc.NextAsync();
             }
@@ -285,6 +287,7 @@ namespace EmailSkill
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var luisResult = state.LuisResult;
 
+                await DigestFocusEmailAsync(sc);
                 var focusedMessage = state.Message.FirstOrDefault();
 
                 // todo: should set updatename reason in stepContext.Result
@@ -913,19 +916,27 @@ namespace EmailSkill
         {
             try
             {
+                var skillOptions = (EmailSkillDialogOptions)sc.Options;
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
+
+                // Keep email display and focus data when in sub flow mode
+                if (!skillOptions.SubFlowMode)
+                {
+                    state.Message.Clear();
+                    state.ShowEmailIndex = 0;
+                    state.IsUnreadOnly = true;
+                    state.IsImportant = false;
+                    state.StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
+                    state.EndDateTime = DateTime.UtcNow;
+                    state.DirectlyToMe = false;
+                    state.UserSelectIndex = -1;
+                }
+
                 state.NameList.Clear();
-                state.Message.Clear();
                 state.Content = null;
                 state.Subject = null;
                 state.Recipients.Clear();
                 state.ConfirmRecipientIndex = 0;
-                state.ShowEmailIndex = 0;
-                state.IsUnreadOnly = true;
-                state.IsImportant = false;
-                state.StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
-                state.EndDateTime = DateTime.UtcNow;
-                state.DirectlyToMe = false;
                 state.SenderName = null;
                 state.EmailList = new List<string>();
                 state.ShowRecipientIndex = 0;
@@ -949,6 +960,18 @@ namespace EmailSkill
             {
                 // todo : should log error here.
                 throw;
+            }
+        }
+
+        protected async Task DigestFocusEmailAsync(WaterfallStepContext sc)
+        {
+            var state = await EmailStateAccessor.GetAsync(sc.Context);
+
+            // Get focus message if any
+            if (state.MessageList != null && state.UserSelectIndex >= 0 && state.UserSelectIndex < state.MessageList.Count())
+            {
+                state.Message.Clear();
+                state.Message.Add(state.MessageList[state.UserSelectIndex]);
             }
         }
 
@@ -1059,12 +1082,7 @@ namespace EmailSkill
                         var value = entity.ordinal[0];
                         if (Math.Abs(value - (int)value) < double.Epsilon)
                         {
-                            var num = (int)value;
-                            if (emailList != null && num > 0 && num <= emailList.Count)
-                            {
-                                state.Message.Clear();
-                                state.Message.Add(emailList[num - 1]);
-                            }
+                            state.UserSelectIndex = (int)value - 1;
                         }
                     }
                     catch
@@ -1081,12 +1099,7 @@ namespace EmailSkill
                         var value = entity.number[0];
                         if (Math.Abs(value - (int)value) < double.Epsilon)
                         {
-                            var num = (int)value;
-                            if (emailList != null && num > 0 && num <= emailList.Count)
-                            {
-                                state.Message.Clear();
-                                state.Message.Add(emailList[num - 1]);
-                            }
+                            state.UserSelectIndex = (int)value - 1;
                         }
                     }
                     catch

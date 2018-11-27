@@ -45,22 +45,23 @@ namespace EmailSkill
             var deleteEmail = new WaterfallStep[]
             {
                 DeleteEmail,
-                ShowEmailsWithoutEnd,
-                PromptToHandleMore,
-                HandleMore,
+                PromptToReshow
             };
 
             var forwardEmail = new WaterfallStep[]
             {
                 ForwardEmail,
-                ShowEmailsWithoutEnd,
-                PromptToHandleMore,
-                HandleMore,
+                PromptToReshow
             };
 
             var replyEmail = new WaterfallStep[]
             {
                 ReplyEmail,
+                PromptToReshow
+            };
+
+            var reshowEmail = new WaterfallStep[]
+            {
                 ShowEmailsWithoutEnd,
                 PromptToHandleMore,
                 HandleMore,
@@ -72,6 +73,7 @@ namespace EmailSkill
             AddDialog(new WaterfallDialog(Actions.Delete, deleteEmail));
             AddDialog(new WaterfallDialog(Actions.Forward, forwardEmail));
             AddDialog(new WaterfallDialog(Actions.Reply, replyEmail));
+            AddDialog(new WaterfallDialog(Actions.Reshow, reshowEmail));
             AddDialog(new DeleteEmailDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager));
             AddDialog(new ReplyEmailDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager));
             AddDialog(new ForwardEmailDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager));
@@ -210,6 +212,8 @@ namespace EmailSkill
                     return await sc.EndDialogAsync(true);
                 }
 
+                await DigestFocusEmailAsync(sc);
+
                 var message = state.Message.FirstOrDefault();
 
                 var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
@@ -220,9 +224,9 @@ namespace EmailSkill
                     return await sc.EndDialogAsync(true);
                 }
                 else if ((promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
-                   || (topIntent == Email.Intent.ReadAloud && message == null))
+                     || topIntent == Email.Intent.ReadAloud)
                 {
-                    if (state.MessageList.Count > 1)
+                    if (message == null && state.MessageList.Count > 1)
                     {
                         return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(ShowEmailResponses.ReadOutPrompt), });
                     }
@@ -279,6 +283,8 @@ namespace EmailSkill
                     return await sc.EndDialogAsync(true);
                 }
 
+                await DigestFocusEmailAsync(sc);
+
                 var skillOptions = (EmailSkillDialogOptions)sc.Options;
                 skillOptions.SubFlowMode = true;
 
@@ -296,7 +302,16 @@ namespace EmailSkill
                 }
                 else if (topIntent == Email.Intent.ReadAloud || topIntent == Email.Intent.SelectItem)
                 {
-                    return await sc.BeginDialogAsync(Actions.Read, skillOptions);
+                    var message = state.Message.FirstOrDefault();
+
+                    if (message == null)
+                    {
+                        return await sc.BeginDialogAsync(Actions.Reshow, skillOptions);
+                    }
+                    else
+                    {
+                        return await sc.BeginDialogAsync(Actions.Read, skillOptions);
+                    }
                 }
                 else
                 {
@@ -348,6 +363,19 @@ namespace EmailSkill
                 skillOptions.SubFlowMode = true;
 
                 return await sc.BeginDialogAsync(nameof(ReplyEmailDialog), skillOptions);
+            }
+            catch (Exception ex)
+            {
+                throw await HandleDialogExceptions(sc, ex);
+            }
+        }
+
+        protected async Task<DialogTurnResult> PromptToReshow(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var skillOptions = (EmailSkillDialogOptions)sc.Options;
+                return await sc.BeginDialogAsync(Actions.Reshow, skillOptions);
             }
             catch (Exception ex)
             {

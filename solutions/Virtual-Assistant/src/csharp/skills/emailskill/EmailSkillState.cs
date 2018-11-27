@@ -31,6 +31,7 @@ namespace EmailSkill
             DirectlyToMe = false;
             StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
             EndDateTime = DateTime.UtcNow;
+            UserSelectIndex = -1;
         }
 
         public DialogState ConversationDialogState { get; set; }
@@ -83,6 +84,8 @@ namespace EmailSkill
 
         public IRecognizerConvert LuisResultPassedFromSkill { get; set; }
 
+        public int UserSelectIndex { get; set; }
+
         public TimeZoneInfo GetUserTimeZone()
         {
             if ((UserInfo != null) && (UserInfo.Timezone != null))
@@ -116,6 +119,7 @@ namespace EmailSkill
             EmailList = new List<string>();
             ShowRecipientIndex = 0;
             LuisResultPassedFromSkill = null;
+            UserSelectIndex = -1;
         }
 
         public class UserInformation
