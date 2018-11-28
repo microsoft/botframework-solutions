@@ -225,9 +225,6 @@
   <data name="Yesterday" xml:space="preserve">
     <value>ieri</value>
   </data>
-  <data name="AllDay" xml:space="preserve">
-    <value>Tutto il giorno</value>
-  </data>
   <data name="AttendeesSummary" xml:space="preserve">
     <value>+ altri {0}</value>
   </data>

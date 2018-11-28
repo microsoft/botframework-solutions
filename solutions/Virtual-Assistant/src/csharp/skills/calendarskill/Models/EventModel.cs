@@ -5,6 +5,7 @@ namespace CalendarSkill
 {
     using System;
     using System.Collections.Generic;
+    using Dialogs.Shared.Resources.Strings;
     using global::CalendarSkill.Common;
     using Microsoft.Bot.Solutions.Resources;
     using Util;
@@ -674,7 +675,7 @@ namespace CalendarSkill
 
             if (eventItem.IsAllDay == true)
             {
-                textString += $"\n{CommonStrings.AllDay}";
+                textString += $"\n{CalendarCommonStrings.AllDay}";
             }
             else
             {

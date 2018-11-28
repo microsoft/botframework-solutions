@@ -61,15 +61,6 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All day.
-        /// </summary>
-        public static string AllDay {
-            get {
-                return ResourceManager.GetString("AllDay", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to and.
         /// </summary>
         public static string And {
