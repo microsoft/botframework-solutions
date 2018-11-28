@@ -124,18 +124,18 @@ namespace CalendarSkill
 
                     var searchDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, state.GetUserTimeZone());
 
-                    if (state.StartDate != null)
+                    if (state.StartDate.Any())
                     {
-                        searchDate = state.StartDate.Value;
+                        searchDate = state.StartDate.Last();
                     }
 
-                    var results = await GetEventsByTime(searchDate, state.StartTime, state.EndDate, state.EndTime, state.GetUserTimeZone(), calendarService);
+                    var results = await GetEventsByTime(new List<DateTime>() { searchDate }, state.StartTime, state.EndDate, state.EndTime, state.GetUserTimeZone(), calendarService);
                     var searchedEvents = new List<EventModel>();
-                    bool searchTodayMeeting = state.StartDate != null &&
-                        state.StartTime == null &&
-                        state.EndDate == null &&
-                        state.EndTime == null &&
-                        EventModel.IsSameDate(state.StartDate.Value, TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, state.GetUserTimeZone()));
+                    bool searchTodayMeeting = state.StartDate.Any() &&
+                        !state.StartTime.Any() &&
+                        !state.EndDate.Any() &&
+                        !state.EndTime.Any() &&
+                        EventModel.IsSameDate(searchDate, TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, state.GetUserTimeZone()));
                     foreach (var item in results)
                     {
                         if (!searchTodayMeeting || item.StartTime >= DateTime.UtcNow)
