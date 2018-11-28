@@ -248,6 +248,7 @@ namespace ToDoSkill
         {
             await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(ToDoMainResponses.CancelMessage));
             await CompleteAsync(dc);
+            await dc.CancelAllDialogsAsync();
             return InterruptionAction.StartedDialog;
         }
 
