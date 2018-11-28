@@ -72,6 +72,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>CalendarSharedResponses.tt</DependentUpon>
     </Compile>
+    <Compile Update="Dialogs\Shared\Resources\Strings\CalendarCommonStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CalendarCommonStrings.resx</DependentUpon>
+    </Compile>
     <Compile Update="Dialogs\Summary\Resources\SummaryResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -198,5 +203,12 @@
     <Content Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <EmbeddedResource Update="Dialogs\Shared\Resources\Strings\CalendarCommonStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CalendarCommonStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
