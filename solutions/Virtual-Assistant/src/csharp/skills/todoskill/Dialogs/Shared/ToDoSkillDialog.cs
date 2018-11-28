@@ -15,7 +15,6 @@ using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
 using Microsoft.Bot.Solutions.Extensions;
-using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using Newtonsoft.Json.Linq;
 using ToDoSkill.Dialogs.Shared.Resources;
@@ -219,7 +218,7 @@ namespace ToDoSkill
         protected async Task<DialogTurnResult> InitAllTasks(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await Accessor.GetAsync(sc.Context);
-            state.ListType = state.ListType ?? CommonStrings.ToDo;
+            state.ListType = state.ListType ?? ToDoStrings.ToDo;
 
             if (!state.ListTypeIds.ContainsKey(state.ListType))
             {
@@ -381,7 +380,7 @@ namespace ToDoSkill
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                state.ListType = state.ListType ?? CommonStrings.ToDo;
+                state.ListType = state.ListType ?? ToDoStrings.ToDo;
                 state.LastListType = state.ListType;
                 if (!state.ListTypeIds.ContainsKey(state.ListType))
                 {
@@ -482,17 +481,17 @@ namespace ToDoSkill
 
                 if (entities.ListType != null)
                 {
-                    if (entities.ListType[0].Equals(CommonStrings.Grocery, StringComparison.InvariantCultureIgnoreCase))
+                    if (entities.ListType[0].Equals(ToDoStrings.Grocery, StringComparison.InvariantCultureIgnoreCase))
                     {
-                        state.ListType = CommonStrings.Grocery;
+                        state.ListType = ToDoStrings.Grocery;
                     }
-                    else if (entities.ListType[0].Equals(CommonStrings.Shopping, StringComparison.InvariantCultureIgnoreCase))
+                    else if (entities.ListType[0].Equals(ToDoStrings.Shopping, StringComparison.InvariantCultureIgnoreCase))
                     {
-                        state.ListType = CommonStrings.Shopping;
+                        state.ListType = ToDoStrings.Shopping;
                     }
                     else
                     {
-                        state.ListType = CommonStrings.ToDo;
+                        state.ListType = ToDoStrings.ToDo;
                     }
                 }
 
@@ -859,21 +858,21 @@ namespace ToDoSkill
 
         private void ExtractListTypeAndTaskContent(ToDoSkillState state)
         {
-            if (state.ListType == CommonStrings.Grocery
+            if (state.ListType == ToDoStrings.Grocery
                 || (state.HasShopVerb && !string.IsNullOrEmpty(state.FoodOfGrocery)))
             {
-                state.ListType = CommonStrings.Grocery;
+                state.ListType = ToDoStrings.Grocery;
                 state.TaskContent = string.IsNullOrEmpty(state.ShopContent) ? state.TaskContentML ?? state.TaskContentPattern : state.ShopContent;
             }
-            else if (state.ListType == CommonStrings.Shopping
+            else if (state.ListType == ToDoStrings.Shopping
                 || (state.HasShopVerb && !string.IsNullOrEmpty(state.ShopContent)))
             {
-                state.ListType = CommonStrings.Shopping;
+                state.ListType = ToDoStrings.Shopping;
                 state.TaskContent = string.IsNullOrEmpty(state.ShopContent) ? state.TaskContentML ?? state.TaskContentPattern : state.ShopContent;
             }
             else
             {
-                state.ListType = CommonStrings.ToDo;
+                state.ListType = ToDoStrings.ToDo;
                 state.TaskContent = state.TaskContentML ?? state.TaskContentPattern;
             }
         }

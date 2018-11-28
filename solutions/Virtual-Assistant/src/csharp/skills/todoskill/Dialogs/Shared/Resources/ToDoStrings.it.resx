@@ -117,115 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="And" xml:space="preserve">
-    <value>et</value>
+  <data name="Grocery" xml:space="preserve">
+    <value>Alimentari</value>
   </data>
-  <data name="At" xml:space="preserve">
-    <value>À</value>
+  <data name="Shopping" xml:space="preserve">
+    <value>Shopping</value>
   </data>
-  <data name="AtTimeDetailsFormat" xml:space="preserve">
-    <value>{0} À {1}</value>
-  </data>
-  <data name="ContentFormat" xml:space="preserve">
-    <value>Contenu: {0}</value>
-  </data>
-  <data name="DaysFormat" xml:space="preserve">
-    <value>{0} il y a quelques jours</value>
-  </data>
-  <data name="DisplayDateFormat" xml:space="preserve">
-    <value>MMM d, yyyy</value>
-  </data>
-  <data name="DisplayDateFormat_CurrentYear" xml:space="preserve">
-    <value>MMM d</value>
-  </data>
-  <data name="DisplayTime" xml:space="preserve">
-    <value>h:mm tt</value>
-  </data>
-  <data name="EmptyContent" xml:space="preserve">
-    <value>contenu vide</value>
-  </data>
-  <data name="EmptySubject" xml:space="preserve">
-    <value>sujet vide</value>
-  </data>
-  <data name="Forward" xml:space="preserve">
-    <value>fw:</value>
-  </data>
-  <data name="ForwardReplyFormat" xml:space="preserve">
-    <value>FW: {0}</value>
-  </data>
-  <data name="FromDetailsFormat" xml:space="preserve">
-    <value>{0} de {1}</value>
-  </data>
-  <data name="Important" xml:space="preserve">
-    <value>important</value>
-  </data>
-  <data name="NotAvailable" xml:space="preserve">
-    <value>Non disponible</value>
-  </data>
-  <data name="Now" xml:space="preserve">
-    <value>nwo</value>
-  </data>
-  <data name="Or" xml:space="preserve">
-    <value>ou</value>
-  </data>
-  <data name="RecipientsSummary" xml:space="preserve">
-    <value> + {0} plus</value>
-  </data>
-  <data name="Relevant" xml:space="preserve">
-    <value>pertinentes</value>
-  </data>
-  <data name="RelevantFormat" xml:space="preserve">
-    <value>pertinentes {0}</value>
-  </data>
-  <data name="Reply" xml:space="preserve">
-    <value>re:</value>
-  </data>
-  <data name="ReplyReplyFormat" xml:space="preserve">
-    <value>RE: {0}</value>
-  </data>
-  <data name="SeparatorFormat" xml:space="preserve">
-    <value> {0} </value>
-  </data>
-  <data name="SpokenDateFormat" xml:space="preserve">
-    <value>dddd dd MMMM</value>
-  </data>
-  <data name="SpokenDatePrefix" xml:space="preserve">
-    <value>le</value>
-  </data>
-  <data name="SpokenTimePrefix_MoreThanOne" xml:space="preserve">
-    <value>à</value>
-  </data>
-  <data name="SpokenTimePrefix_One" xml:space="preserve">
-    <value>à</value>
-  </data>
-  <data name="SubjectFormat" xml:space="preserve">
-    <value>Objet: {0}</value>
-  </data>
-  <data name="To" xml:space="preserve">
-    <value>À: </value>
-  </data>
-  <data name="Today" xml:space="preserve">
-    <value>aujourd'hui</value>
-  </data>
-  <data name="ToDetailsFormat" xml:space="preserve">
-    <value>{0} à {1} et le contenu est {2}</value>
-  </data>
-  <data name="ToFormat" xml:space="preserve">
-    <value>À: {0}</value>
-  </data>
-  <data name="Tomorrow" xml:space="preserve">
-    <value>demain</value>
-  </data>
-  <data name="UnknownRecipient" xml:space="preserve">
-    <value>destinataire inconnu</value>
-  </data>
-  <data name="UnknownSender" xml:space="preserve">
-    <value>expéditeur inconnu</value>
-  </data>
-  <data name="Unread" xml:space="preserve">
-    <value>lus</value>
-  </data>
-  <data name="Yesterday" xml:space="preserve">
-    <value>hier</value>
+  <data name="ToDo" xml:space="preserve">
+    <value>ToDo</value>
   </data>
 </root>

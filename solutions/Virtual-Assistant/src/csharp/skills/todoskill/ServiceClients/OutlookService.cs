@@ -7,7 +7,7 @@ namespace ToDoSkill.ServiceClients
     using System.Collections.Generic;
     using System.Net.Http;
     using System.Threading.Tasks;
-    using Microsoft.Bot.Solutions.Resources;
+    using global::ToDoSkill.Dialogs.Shared.Resources;
     using Newtonsoft.Json.Linq;
 
     /// <summary>
@@ -24,28 +24,29 @@ namespace ToDoSkill.ServiceClients
         /// </summary>
         /// <param name="token">The token used for msgraph API call.</param>
         /// <param name="taskFolderIds">Task folder ids.</param>
+        /// <param name="client">The http client to call API.</param>
         /// <returns>Outlook task service itself.</returns>
         public async Task<ITaskService> InitAsync(string token, Dictionary<string, string> taskFolderIds, HttpClient client = null)
         {
             try
             {
                 this.httpClient = ServiceHelper.GetHttpClient(token);
-                if (!taskFolderIds.ContainsKey(CommonStrings.ToDo))
+                if (!taskFolderIds.ContainsKey(ToDoStrings.ToDo))
                 {
-                    var taskFolderId = await GetOrCreateTaskFolderAsync(CommonStrings.ToDo);
-                    taskFolderIds.Add(CommonStrings.ToDo, taskFolderId);
+                    var taskFolderId = await GetOrCreateTaskFolderAsync(ToDoStrings.ToDo);
+                    taskFolderIds.Add(ToDoStrings.ToDo, taskFolderId);
                 }
 
-                if (!taskFolderIds.ContainsKey(CommonStrings.Grocery))
+                if (!taskFolderIds.ContainsKey(ToDoStrings.Grocery))
                 {
-                    var taskFolderId = await GetOrCreateTaskFolderAsync(CommonStrings.Grocery);
-                    taskFolderIds.Add(CommonStrings.Grocery, taskFolderId);
+                    var taskFolderId = await GetOrCreateTaskFolderAsync(ToDoStrings.Grocery);
+                    taskFolderIds.Add(ToDoStrings.Grocery, taskFolderId);
                 }
 
-                if (!taskFolderIds.ContainsKey(CommonStrings.Shopping))
+                if (!taskFolderIds.ContainsKey(ToDoStrings.Shopping))
                 {
-                    var taskFolderId = await GetOrCreateTaskFolderAsync(CommonStrings.Shopping);
-                    taskFolderIds.Add(CommonStrings.Shopping, taskFolderId);
+                    var taskFolderId = await GetOrCreateTaskFolderAsync(ToDoStrings.Shopping);
+                    taskFolderIds.Add(ToDoStrings.Shopping, taskFolderId);
                 }
 
                 this.taskFolderIds = taskFolderIds;

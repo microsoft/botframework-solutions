@@ -9,7 +9,7 @@ namespace ToDoSkill
     using System.Net.Http;
     using System.Threading.Tasks;
     using System.Xml;
-    using Microsoft.Bot.Solutions.Resources;
+    using global::ToDoSkill.Dialogs.Shared.Resources;
     using Microsoft.Graph;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
@@ -45,29 +45,29 @@ namespace ToDoSkill
                     httpClient = client;
                 }
 
-                if (!pageIds.ContainsKey(CommonStrings.ToDo)
-                    || !pageIds.ContainsKey(CommonStrings.Grocery)
-                    || !pageIds.ContainsKey(CommonStrings.Shopping))
+                if (!pageIds.ContainsKey(ToDoStrings.ToDo)
+                    || !pageIds.ContainsKey(ToDoStrings.Grocery)
+                    || !pageIds.ContainsKey(ToDoStrings.Shopping))
                 {
                     var notebookId = await GetOrCreateNotebookAsync(OneNoteNotebookName);
                     var sectionId = await GetOrCreateSectionAsync(notebookId, OneNoteSectionName);
 
-                    if (!pageIds.ContainsKey(CommonStrings.ToDo))
+                    if (!pageIds.ContainsKey(ToDoStrings.ToDo))
                     {
-                        var toDoPageId = await GetOrCreatePageAsync(sectionId, CommonStrings.ToDo);
-                        pageIds.Add(CommonStrings.ToDo, toDoPageId);
+                        var toDoPageId = await GetOrCreatePageAsync(sectionId, ToDoStrings.ToDo);
+                        pageIds.Add(ToDoStrings.ToDo, toDoPageId);
                     }
 
-                    if (!pageIds.ContainsKey(CommonStrings.Grocery))
+                    if (!pageIds.ContainsKey(ToDoStrings.Grocery))
                     {
-                        var groceryPageId = await GetOrCreatePageAsync(sectionId, CommonStrings.Grocery);
-                        pageIds.Add(CommonStrings.Grocery, groceryPageId);
+                        var groceryPageId = await GetOrCreatePageAsync(sectionId, ToDoStrings.Grocery);
+                        pageIds.Add(ToDoStrings.Grocery, groceryPageId);
                     }
 
-                    if (!pageIds.ContainsKey(CommonStrings.Shopping))
+                    if (!pageIds.ContainsKey(ToDoStrings.Shopping))
                     {
-                        var shoppingPageId = await GetOrCreatePageAsync(sectionId, CommonStrings.Shopping);
-                        pageIds.Add(CommonStrings.Shopping, shoppingPageId);
+                        var shoppingPageId = await GetOrCreatePageAsync(sectionId, ToDoStrings.Shopping);
+                        pageIds.Add(ToDoStrings.Shopping, shoppingPageId);
                     }
                 }
 
