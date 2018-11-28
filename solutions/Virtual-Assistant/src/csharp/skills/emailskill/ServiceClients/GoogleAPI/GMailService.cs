@@ -34,9 +34,13 @@ namespace EmailSkill
         /// <summary>
         /// Initializes a new instance of the <see cref="GMailService"/> class.
         /// </summary>
-        /// <param name="config">config</param>
-        /// <param name="token">token</param>
-        public GMailService(GoogleClient config, string token)
+        /// <param name="baseClientService">baseClientService.</param>
+        public GMailService(GmailService baseClientService)
+        {
+            service = baseClientService;
+        }
+
+        public static GmailService GetServiceClient(GoogleClient config, string token)
         {
             // Create Gmail API service.
             var flow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
@@ -58,11 +62,13 @@ namespace EmailSkill
             };
 
             var credential = new UserCredential(flow, Environment.UserName, tokenRes);
-            service = new GmailService(new BaseClientService.Initializer()
+            var service = new GmailService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credential,
                 ApplicationName = config.ApplicationName,
             });
+
+            return service;
         }
 
         /// <inheritdoc/>

@@ -7,7 +7,6 @@ using CalendarSkill.Common;
 using CalendarSkill.Dialogs.DeleteEvent.Resources;
 using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
-using CalendarSkill.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
@@ -82,8 +81,7 @@ namespace CalendarSkill
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                var calendarAPI = GraphClientHelper.GetCalendarService(state.APIToken, state.EventSource, ServiceManager.GetGoogleClient());
-                var calendarService = ServiceManager.InitCalendarService(calendarAPI, state.EventSource);
+                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult)
                 {
@@ -117,8 +115,7 @@ namespace CalendarSkill
                     return await sc.EndDialogAsync(true);
                 }
 
-                var calendarAPI = GraphClientHelper.GetCalendarService(state.APIToken, state.EventSource, ServiceManager.GetGoogleClient());
-                var calendarService = ServiceManager.InitCalendarService(calendarAPI, state.EventSource);
+                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
                 if (state.StartDateTime == null)
                 {
                     return await sc.BeginDialogAsync(Actions.UpdateStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound));
@@ -175,8 +172,7 @@ namespace CalendarSkill
                 var state = await Accessor.GetAsync(sc.Context);
                 var events = new List<EventModel>();
 
-                var calendarAPI = GraphClientHelper.GetCalendarService(state.APIToken, state.EventSource, ServiceManager.GetGoogleClient());
-                var calendarService = ServiceManager.InitCalendarService(calendarAPI, state.EventSource);
+                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
                 var searchByEntities = state.StartDate.Any() || state.StartTime.Any() || state.Title != null;
 
                 if (state.StartDate.Any() || state.StartTime.Any())

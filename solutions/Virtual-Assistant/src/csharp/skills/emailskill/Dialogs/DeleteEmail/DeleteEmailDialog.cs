@@ -17,7 +17,7 @@ namespace EmailSkill
             ISkillConfiguration services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
-            IMailSkillServiceManager serviceManager)
+            IServiceManager serviceManager)
             : base(nameof(DeleteEmailDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager)
         {
             var deleteEmail = new WaterfallStep[]

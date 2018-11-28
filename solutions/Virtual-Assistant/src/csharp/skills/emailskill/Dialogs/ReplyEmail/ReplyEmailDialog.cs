@@ -18,7 +18,7 @@ namespace EmailSkill
             ISkillConfiguration services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
-            IMailSkillServiceManager serviceManager)
+            IServiceManager serviceManager)
             : base(nameof(ReplyEmailDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager)
         {
             var replyEmail = new WaterfallStep[]

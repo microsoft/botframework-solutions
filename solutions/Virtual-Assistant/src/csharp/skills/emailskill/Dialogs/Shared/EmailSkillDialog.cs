@@ -35,7 +35,7 @@ namespace EmailSkill
             ISkillConfiguration services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
-            IMailSkillServiceManager serviceManager)
+            IServiceManager serviceManager)
             : base(dialogId)
         {
             Services = services;
@@ -66,7 +66,7 @@ namespace EmailSkill
 
         protected IStatePropertyAccessor<DialogState> DialogStateAccessor { get; set; }
 
-        protected IMailSkillServiceManager ServiceManager { get; set; }
+        protected IServiceManager ServiceManager { get; set; }
 
         protected EmailSkillResponseBuilder ResponseBuilder { get; set; } = new EmailSkillResponseBuilder();
 
@@ -231,7 +231,7 @@ namespace EmailSkill
                     }
                     else
                     {
-                        throw new Exception($"The authentication provider \"{provider.ToString()}\" is not support by the Calendar Skill.");
+                        throw new Exception($"The authentication provider \"{provider.ToString()}\" is not support by the Email Skill.");
                     }
                 }
 

@@ -5,7 +5,7 @@ using System;
 
 namespace EmailSkill
 {
-    public interface IMailSkillServiceManager
+    public interface IServiceManager
     {
         IUserService InitUserService(string token, TimeZoneInfo timeZoneInfo, MailSource source);
 

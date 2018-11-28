@@ -3,7 +3,7 @@ using EmailSkill;
 
 namespace EmailSkillTest.Flow.Fakes
 {
-    public class MockMailServiceManager : IMailSkillServiceManager
+    public class MockServiceManager : IServiceManager
     {
         public IMailService InitMailService(string token, TimeZoneInfo timeZoneInfo, MailSource mailSource)
         {

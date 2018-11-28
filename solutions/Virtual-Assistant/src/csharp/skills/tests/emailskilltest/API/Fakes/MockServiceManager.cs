@@ -4,7 +4,7 @@ using Microsoft.Graph;
 
 namespace EmailSkillTest.API.Fakes
 {
-    public class MockMailSkillServiceManager : IMailSkillServiceManager
+    public class MockServiceManager : IServiceManager
     {
         public IMailService InitMailService(string token, TimeZoneInfo timeZoneInfo, MailSource source)
         {

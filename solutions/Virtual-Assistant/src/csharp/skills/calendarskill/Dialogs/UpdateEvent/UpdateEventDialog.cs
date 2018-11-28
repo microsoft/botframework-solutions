@@ -7,7 +7,6 @@ using CalendarSkill.Common;
 using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Dialogs.UpdateEvent.Resources;
-using CalendarSkill.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
@@ -136,8 +135,8 @@ namespace CalendarSkill
                     updateEvent.EndTime = (newStartTime + last).AddSeconds(1);
                     updateEvent.TimeZone = TimeZoneInfo.Utc;
                     updateEvent.Id = origin.Id;
-                    var calendarAPI = GraphClientHelper.GetCalendarService(state.APIToken, state.EventSource, ServiceManager.GetGoogleClient());
-                    var calendarService = ServiceManager.InitCalendarService(calendarAPI, state.EventSource);
+
+                    var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
                     var newEvent = await calendarService.UpdateEventById(updateEvent);
 
                     var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(UpdateEventResponses.EventUpdated, newEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", newEvent.ToAdaptiveCardData(state.GetUserTimeZone()));
@@ -308,8 +307,7 @@ namespace CalendarSkill
                     return await sc.EndDialogAsync(true);
                 }
 
-                var calendarAPI = GraphClientHelper.GetCalendarService(state.APIToken, state.EventSource, ServiceManager.GetGoogleClient());
-                var calendarService = ServiceManager.InitCalendarService(calendarAPI, state.EventSource);
+                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
                 return await sc.BeginDialogAsync(Actions.UpdateStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound));
             }
             catch
@@ -358,8 +356,8 @@ namespace CalendarSkill
             {
                 var state = await Accessor.GetAsync(sc.Context);
                 var events = new List<EventModel>();
-                var calendarAPI = GraphClientHelper.GetCalendarService(state.APIToken, state.EventSource, ServiceManager.GetGoogleClient());
-                var calendarService = ServiceManager.InitCalendarService(calendarAPI, state.EventSource);
+
+                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
                 var searchByEntities = state.OriginalStartDate.Any() || state.OriginalStartTime.Any() || state.Title != null;
 
                 if (state.OriginalStartDate.Any() || state.OriginalStartTime.Any())

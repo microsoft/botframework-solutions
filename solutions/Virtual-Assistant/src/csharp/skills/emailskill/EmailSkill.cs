@@ -20,17 +20,17 @@ namespace EmailSkill
         private readonly ISkillConfiguration _services;
         private readonly ConversationState _conversationState;
         private readonly UserState _userState;
-        private IMailSkillServiceManager _serviceManager;
+        private IServiceManager _serviceManager;
         private DialogSet _dialogs;
         private bool _skillMode;
 
-        public EmailSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, IMailSkillServiceManager serviceManager = null, bool skillMode = false)
+        public EmailSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, IServiceManager serviceManager = null, bool skillMode = false)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
-            _serviceManager = serviceManager ?? new MailSkillServiceManager(services);
+            _serviceManager = serviceManager ?? new ServiceManager(services);
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(DialogState)));
             _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _serviceManager, _skillMode));

@@ -2,17 +2,15 @@
 // Licensed under the MIT License.
 
 using System;
-using EmailSkill.ServiceClients.GoogleAPI;
 using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Graph;
 
 namespace EmailSkill
 {
-    public class MailSkillServiceManager : IMailSkillServiceManager
+    public class ServiceManager : IServiceManager
     {
         private ISkillConfiguration _skillConfig;
 
-        public MailSkillServiceManager(ISkillConfiguration config)
+        public ServiceManager(ISkillConfiguration config)
         {
             _skillConfig = config;
         }
@@ -23,11 +21,12 @@ namespace EmailSkill
             switch (source)
             {
                 case MailSource.Microsoft:
-                    IGraphServiceClient serviceClient = GraphClientHelper.GetAuthenticatedClient(token, timeZoneInfo);
+                    var serviceClient = GraphClient.GetAuthenticatedClient(token, timeZoneInfo);
                     return new MSGraphUserService(serviceClient, timeZoneInfo);
                 case MailSource.Google:
-                    GoogleClient googleClient = GoogleClientHelper.GetAuthenticatedClient(_skillConfig);
-                    return new GooglePeopleService(googleClient, token);
+                    var googleClient = GoogleClient.GetGoogleClient(_skillConfig);
+                    var googlePeopleClient = GooglePeopleService.GetServiceClient(googleClient, token);
+                    return new GooglePeopleService(googlePeopleClient);
                 default:
                     throw new Exception("Event Type not Defined");
             }
@@ -39,11 +38,12 @@ namespace EmailSkill
             switch (source)
             {
                 case MailSource.Microsoft:
-                    IGraphServiceClient serviceClient = GraphClientHelper.GetAuthenticatedClient(token, timeZoneInfo);
+                    var serviceClient = GraphClient.GetAuthenticatedClient(token, timeZoneInfo);
                     return new MSGraphMailAPI(serviceClient, timeZoneInfo);
                 case MailSource.Google:
-                    GoogleClient googleClient = GoogleClientHelper.GetAuthenticatedClient(_skillConfig);
-                    return new GMailService(googleClient, token);
+                    var googleClient = GoogleClient.GetGoogleClient(_skillConfig);
+                    var googleServiceClient = GMailService.GetServiceClient(googleClient, token);
+                    return new GMailService(googleServiceClient);
                 default:
                     throw new Exception("Event Type not Defined");
             }

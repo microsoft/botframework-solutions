@@ -18,7 +18,7 @@ namespace EmailSkill
             ISkillConfiguration services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
-            IMailSkillServiceManager serviceManager)
+            IServiceManager serviceManager)
             : base(nameof(ForwardEmailDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager)
         {
             var forwardEmail = new WaterfallStep[]
