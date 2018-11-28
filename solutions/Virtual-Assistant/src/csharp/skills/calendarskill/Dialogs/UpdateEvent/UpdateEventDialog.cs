@@ -14,6 +14,7 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 
 namespace CalendarSkill
 {
@@ -249,7 +250,8 @@ namespace CalendarSkill
                     foreach (var resolution in dateTimeResolutions)
                     {
                         var utcNow = DateTime.UtcNow;
-                        var dateTimeConvertType = resolution.Timex;
+                        var dateTimeConvertTypeString = resolution.Timex;
+                        var dateTimeConvertType = new TimexProperty(dateTimeConvertTypeString);
                         var dateTimeValue = DateTime.Parse(resolution.Value);
                         if (dateTimeValue == null)
                         {
@@ -262,7 +264,31 @@ namespace CalendarSkill
                             dateTimeValue = DateTime.SpecifyKind(dateTimeValue, DateTimeKind.Local);
                         }
 
-                        dateTimeValue = isRelativeTime ? TimeConverter.ConvertLuisLocalToUtc(dateTimeValue, state.GetUserTimeZone()) : TimeZoneInfo.ConvertTimeToUtc(dateTimeValue, state.GetUserTimeZone());
+                        dateTimeValue = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTimeValue, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTimeValue;
+                        var originalStartDateTime = TimeConverter.ConvertUtcToUserTime(state.Events[0].StartTime, state.GetUserTimeZone());
+                        if (dateTimeConvertType.Types.Contains(Constants.TimexTypes.Date) && !dateTimeConvertType.Types.Contains(Constants.TimexTypes.DateTime))
+                        {
+                            dateTimeValue = new DateTime(
+                                dateTimeValue.Year,
+                                dateTimeValue.Month,
+                                dateTimeValue.Day,
+                                originalStartDateTime.Hour,
+                                originalStartDateTime.Minute,
+                                originalStartDateTime.Second);
+                        }
+                        else if (dateTimeConvertType.Types.Contains(Constants.TimexTypes.Time) && !dateTimeConvertType.Types.Contains(Constants.TimexTypes.DateTime))
+                        {
+                            dateTimeValue = new DateTime(
+                                originalStartDateTime.Year,
+                                originalStartDateTime.Month,
+                                originalStartDateTime.Day,
+                                dateTimeValue.Hour,
+                                dateTimeValue.Minute,
+                                dateTimeValue.Second);
+                        }
+
+                        dateTimeValue = TimeZoneInfo.ConvertTimeToUtc(dateTimeValue, state.GetUserTimeZone());
+
                         if (newStartTime == null)
                         {
                             newStartTime = dateTimeValue;
