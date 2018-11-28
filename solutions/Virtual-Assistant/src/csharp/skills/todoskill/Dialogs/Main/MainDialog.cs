@@ -63,6 +63,10 @@ namespace ToDoSkill
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await _stateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
+            var userState = await _userStateAccessor.GetAsync(dc.Context, () => new ToDoSkillUserState());
+
+            // Recover the list type ids from UserState if ids are already stored before.
+            RecoverListTypeIds(userState, state);
 
             // If dispatch result is general luis model
             _services.LuisServices.TryGetValue("todo", out var luisService);
@@ -141,6 +145,9 @@ namespace ToDoSkill
                         }
                 }
             }
+
+            // Store the updated list type ids to UserState.
+            StoreListTypeIds(userState, state);
         }
 
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
@@ -292,6 +299,28 @@ namespace ToDoSkill
             AddDialog(new DeleteToDoItemDialog(_services, _stateAccessor, _serviceManager));
             AddDialog(new ShowToDoItemDialog(_services, _stateAccessor, _serviceManager));
             AddDialog(new CancelDialog());
+        }
+
+        private void RecoverListTypeIds(ToDoSkillUserState userState, ToDoSkillState state)
+        {
+            if (state.ListTypeIds.Count <= 0 && userState.ListTypeIds.Count > 0)
+            {
+                foreach (var listType in userState.ListTypeIds)
+                {
+                    state.ListTypeIds.Add(listType.Key, listType.Value);
+                }
+            }
+        }
+
+        private void StoreListTypeIds(ToDoSkillUserState userState, ToDoSkillState state)
+        {
+            if (state.ListTypeIds.Count > userState.ListTypeIds.Count)
+            {
+                foreach (var listType in state.ListTypeIds)
+                {
+                    userState.ListTypeIds.TryAdd(listType.Key, listType.Value);
+                }
+            }
         }
 
         private class Events

@@ -1,4 +1,5 @@
-﻿using Microsoft.Bot.Builder.Dialogs;
+﻿using System.Collections.Generic;
+using Microsoft.Bot.Builder.Dialogs;
 
 namespace ToDoSkill
 {
@@ -9,7 +10,7 @@ namespace ToDoSkill
         /// </summary>
         public ToDoSkillUserState()
         {
-            TaskContent = null;
+            ListTypeIds = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -18,14 +19,6 @@ namespace ToDoSkill
         /// <value>
         /// ToDoTaskContent.
         /// </value>
-        public string TaskContent { get; set; }
-
-        /// <summary>
-        /// Clear state.
-        /// </summary>
-        public void Clear()
-        {
-            TaskContent = null;
-        }
+        public Dictionary<string, string> ListTypeIds { get; set; }
     }
 }
