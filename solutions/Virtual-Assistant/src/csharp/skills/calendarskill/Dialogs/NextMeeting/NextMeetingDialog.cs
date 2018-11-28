@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CalendarSkill.Common;
 using CalendarSkill.Dialogs.NextMeeting.Resources;
 using CalendarSkill.ServiceClients;
+using CalendarSkill.Util;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
@@ -70,14 +71,8 @@ namespace CalendarSkill
                             { "EventName", nextEventList[0].Title },
                             { "PeopleCount", nextEventList[0].Attendees.Count.ToString() },
                         };
-                        if (nextEventList[0].IsAllDay == true)
-                        {
-                            speakParams.Add("EventTime", TimeConverter.ConvertUtcToUserTime(nextEventList[0].StartTime, state.GetUserTimeZone()).ToString("MMMM dd all day"));
-                        }
-                        else
-                        {
-                            speakParams.Add("EventTime", TimeConverter.ConvertUtcToUserTime(nextEventList[0].StartTime, state.GetUserTimeZone()).ToString("h:mm tt"));
-                        }
+
+                        speakParams.Add("EventTime", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(nextEventList[0].StartTime, state.GetUserTimeZone()), nextEventList[0].IsAllDay == true));
 
                         if (string.IsNullOrEmpty(nextEventList[0].Location))
                         {
