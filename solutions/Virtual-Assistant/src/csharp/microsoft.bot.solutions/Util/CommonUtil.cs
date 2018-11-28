@@ -9,10 +9,5 @@ namespace Microsoft.Bot.Solutions.Util
         public static readonly int MaxReadSize = 3;
 
         public static readonly int MaxDisplaySize = 6;
-
-        public static bool IsReadMoreIntent(string userInput)
-        {
-            return userInput.ToLowerInvariant().Contains(CommonStrings.More);
-        }
     }
 }

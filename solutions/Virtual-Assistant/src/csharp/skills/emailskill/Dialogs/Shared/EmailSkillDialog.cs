@@ -809,6 +809,14 @@ namespace EmailSkill
 
                 // Get user message.
                 result = await serivce.GetMyMessagesAsync(startDateTime, endDateTime, isUnreadOnly, isImportant, directlyToMe, mailAddress, skip);
+
+                // Go back to last page if next page didn't get anything
+                if (!result.Any() && state.ShowEmailIndex > 0)
+                {
+                    state.ShowEmailIndex--;
+                    skip = state.ShowEmailIndex * pageSize;
+                    result = await serivce.GetMyMessagesAsync(startDateTime, endDateTime, isUnreadOnly, isImportant, directlyToMe, mailAddress, skip);
+                }
             }
             catch (Exception ex)
             {
@@ -859,7 +867,7 @@ namespace EmailSkill
             var stringToken = new StringDictionary
             {
                 { "SearchType", searchType },
-                { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(messages, ConfigData.MaxReadSize) },
+                { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(updatedMessages, ConfigData.MaxReadSize) },
             };
 
             var reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
@@ -1146,7 +1154,8 @@ namespace EmailSkill
 
         protected bool IsReadMoreIntent(General.Intent? topIntent, string userInput)
         {
-            return topIntent == General.Intent.ReadMore && CommonUtil.IsReadMoreIntent(userInput);
+            bool isReadMoreUserInput = userInput.ToLowerInvariant().Contains(CommonStrings.More);
+            return topIntent == General.Intent.ReadMore && isReadMoreUserInput;
         }
     }
 }
