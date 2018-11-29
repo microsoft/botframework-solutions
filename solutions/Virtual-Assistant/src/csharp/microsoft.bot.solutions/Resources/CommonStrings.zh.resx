@@ -187,7 +187,7 @@
     <value>{0}</value>
   </data>
   <data name="SpokenDateFormat" xml:space="preserve">
-    <value>dddd dd MMMM</value>
+    <value>D</value>
   </data>
   <data name="SpokenDatePrefix" xml:space="preserve">
     <value>中。</value>
@@ -211,7 +211,7 @@
     <value>发送至: {0}</value>
   </data>
   <data name="Tomorrow" xml:space="preserve">
-    <value>早上</value>
+    <value>明天</value>
   </data>
   <data name="UnknownRecipient" xml:space="preserve">
     <value>未知收件人</value>
@@ -224,5 +224,35 @@
   </data>
   <data name="Yesterday" xml:space="preserve">
     <value>昨天</value>
+  </data>
+  <data name="TimeFormatDay" xml:space="preserve">
+    <value>{0}天</value>
+  </data>
+  <data name="TimeFormatDays" xml:space="preserve">
+    <value>{0}天</value>
+  </data>
+  <data name="TimeFormatHour" xml:space="preserve">
+    <value>{0}小时</value>
+  </data>
+  <data name="TimeFormatHourMinuteConnective" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TimeFormatHours" xml:space="preserve">
+    <value>{0}小时</value>
+  </data>
+  <data name="TimeFormatMinute" xml:space="preserve">
+    <value>{0}分钟</value>
+  </data>
+  <data name="TimeFormatMinutes" xml:space="preserve">
+    <value>{0}分钟</value>
+  </data>
+  <data name="AttendeesSummary" xml:space="preserve">
+    <value>+ {0}个其他参会者</value>
+  </data>
+  <data name="DateWithAllDay" xml:space="preserve">
+    <value>{0}全天</value>
+  </data>
+  <data name="DisplayFullDateFormat" xml:space="preserve">
+    <value>yyyy-MM-dd</value>
   </data>
 </root>

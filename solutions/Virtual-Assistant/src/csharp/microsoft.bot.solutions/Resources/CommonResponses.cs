@@ -29,6 +29,8 @@ namespace Microsoft.Bot.Solutions.Resources
 
         public static BotResponse ErrorMessage => GetBotResponse();
 
+        public static BotResponse ErrorMessage_SkillError => GetBotResponse();
+
         public static BotResponse SkillAuthenticationTitle => GetBotResponse();
 
         public static BotResponse SkillAuthenticationPrompt => GetBotResponse();

@@ -13,6 +13,7 @@ using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 using ToDoSkill.Dialogs.Main.Resources;
 using ToDoSkill.Dialogs.Shared.Resources;
 
@@ -68,6 +69,9 @@ namespace ToDoSkill
             // Recover the list type ids from UserState if ids are already stored before.
             RecoverListTypeIds(userState, state);
 
+            // Initialize the PageSize and ReadSize parameters in state from configuration
+            InitializeConfig(state);
+
             // If dispatch result is general luis model
             _services.LuisServices.TryGetValue("todo", out var luisService);
 
@@ -115,7 +119,9 @@ namespace ToDoSkill
 
                     case ToDo.Intent.None:
                         {
-                            if (generalTopIntent == General.Intent.Next || generalTopIntent == General.Intent.Previous)
+                            if (generalTopIntent == General.Intent.Next
+                                || generalTopIntent == General.Intent.Previous
+                                || generalTopIntent == General.Intent.ReadMore)
                             {
                                 await dc.BeginDialogAsync(nameof(ShowToDoItemDialog), skillOptions);
                             }
@@ -255,7 +261,9 @@ namespace ToDoSkill
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
-            await dc.BeginDialogAsync(nameof(CancelDialog));
+            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(ToDoMainResponses.CancelMessage));
+            await CompleteAsync(dc);
+            await dc.CancelAllDialogsAsync();
             return InterruptionAction.StartedDialog;
         }
 
@@ -298,7 +306,32 @@ namespace ToDoSkill
             AddDialog(new MarkToDoItemDialog(_services, _stateAccessor, _serviceManager));
             AddDialog(new DeleteToDoItemDialog(_services, _stateAccessor, _serviceManager));
             AddDialog(new ShowToDoItemDialog(_services, _stateAccessor, _serviceManager));
-            AddDialog(new CancelDialog());
+        }
+
+        private void InitializeConfig(ToDoSkillState state)
+        {
+            // Initialize PageSize and ReadSize when the first input comes.
+            if (state.PageSize <= 0)
+            {
+                int pageSize = 0;
+                if (_services.Properties.ContainsKey("DisplaySize"))
+                {
+                    pageSize = int.Parse(_services.Properties["DisplaySize"].ToString());
+                }
+
+                state.PageSize = pageSize <= 0 || pageSize > Util.MaxDisplaySize ? Util.MaxDisplaySize : pageSize;
+            }
+
+            if (state.ReadSize <= 0)
+            {
+                int readSize = 0;
+                if (_services.Properties.ContainsKey("ReadSize"))
+                {
+                    readSize = int.Parse(_services.Properties["ReadSize"].ToString());
+                }
+
+                state.ReadSize = readSize <= 0 || readSize > Util.MaxReadSize ? Util.MaxReadSize : readSize;
+            }
         }
 
         private void RecoverListTypeIds(ToDoSkillUserState userState, ToDoSkillState state)

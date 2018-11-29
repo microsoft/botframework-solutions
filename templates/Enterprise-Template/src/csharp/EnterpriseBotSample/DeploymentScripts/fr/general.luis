@@ -1,0 +1,534 @@
+{
+  "intents": [
+    {
+      "name": "Greeting"
+    },
+    {
+      "name": "Help"
+    },
+    {
+      "name": "Cancel"
+    },
+    {
+      "name": "Restart"
+    },
+    {
+      "name": "Escalate"
+    },
+    {
+      "name": "Next"
+    },
+    {
+      "name": "Previous"
+    },
+    {
+      "name": "Goodbye"
+    },
+    {
+      "name": "Logout"
+    },
+    {
+      "name": "None"
+    }
+  ],
+  "entities": [],
+  "composites": [],
+  "closedLists": [],
+  "regex_entities": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "Salut",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Salut",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Bonjour",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Bonsoir",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Bonjour bot",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Salut",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Comment vas-tu",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Comment vas-tu aujourd'hui",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Hé",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Aide",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Aide-moi",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "aide s'il vous plaît",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Je suis coincé",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Je ne comprends pas",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "que puis-je dire",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "que pouvez-vous m'aider avec",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "que pouvez-vous faire",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "que dois-je faire maintenant",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Pourquoi cela ne fonctionne-t-il pas",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Est-ce que vous pouvez m'aider",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Arrêter",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Annuler",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Annuler",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Mépris",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Ne pas",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Fais pas ça",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Fais pas ça",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Je voudrais annuler",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "C'est pas grave",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "s'il vous plaît arrêter",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Sortie",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "puis-je recommencer",
+      "intent": "Restart",
+      "entities": []
+    },
+    {
+      "text": "J'ai besoin de changer quelque chose",
+      "intent": "Restart",
+      "entities": []
+    },
+    {
+      "text": "Redémarrer",
+      "intent": "Restart",
+      "entities": []
+    },
+    {
+      "text": "recommencer",
+      "intent": "Restart",
+      "entities": []
+    },
+    {
+      "text": "Annuler",
+      "intent": "Restart",
+      "entities": []
+    },
+    {
+      "text": "puis-je parler à une personne",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "Je veux parler à un humain",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "parler à un humain",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "Transférez-moi svp",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "Contacter le support technique",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "Avance",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "aller de l'avant",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "aller à la prochaine",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "Prochaine",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "point suivant",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "afficher suivant",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "pourriez-vous montrer la prochaine",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "J'ai besoin d'aller à l'autre",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "allez à la prochaine s'il vous plaît",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "passer à la suivante",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "Allez",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "aller à la prochaine",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "aller à la page suivante",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "Avancer",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "aller de l'avant",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "passer à la prochaine",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "Next One",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "suivant s'il vous plaît",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "Montrez-moi la prochaine",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "Montrez-moi la prochaine",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "afficher la prochaine",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "afficher la suivante",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "le prochain Courriel",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "Retour",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "Last One",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "précédent",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "le dernier",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "Old One",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "Dernière",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "Retour à la dernière",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "Apportez le précédent",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "Venez à la dernière",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "aller à la précédente",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "aller à la dernière",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "reculer",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "Précédente",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "Montrez-moi précédent",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "précédent s'il vous plaît",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "le précédent",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "Quel est le précédent",
+      "intent": "Previous",
+      "entities": []
+    },
+    {
+      "text": "Bonne nuit",
+      "intent": "Goodbye",
+      "entities": []
+    },
+    {
+      "text": "Au revoir",
+      "intent": "Goodbye",
+      "entities": []
+    },
+    {
+      "text": "Au revoir",
+      "intent": "Goodbye",
+      "entities": []
+    },
+    {
+      "text": "Ok merci",
+      "intent": "Goodbye",
+      "entities": []
+    },
+    {
+      "text": "Ok salut",
+      "intent": "Goodbye",
+      "entities": []
+    },
+    {
+      "text": "C'est tout Merci",
+      "intent": "Goodbye",
+      "entities": []
+    },
+    {
+      "text": "SignOut",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "oubliez-moi",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "se déconnecter",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "Déconnexion",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "déconnexion",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "ma bouteille d'eau est verte",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "les tortues aiment nager dans l'océan",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "avions de papier dans le ciel",
+      "intent": "None",
+      "entities": []
+    }
+  ],
+  "patterns": [],
+  "patternAnyEntities": [],
+  "prebuiltEntities": [
+    {
+      "name": "datetimeV2",
+      "roles": []
+    },
+    {
+      "name": "number",
+      "roles": []
+    }
+  ],
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.1",
+  "name": "General",
+  "desc": "",
+  "culture": "en-us"
+}

@@ -16,6 +16,8 @@ namespace ToDoSkillTest.Flow
     [TestClass]
     public class AddToDoFlowTests : ToDoBotTestBase
     {
+        private const int PageSize = 6;
+
         [TestMethod]
         public async Task Test_AddToDoItem()
         {
@@ -72,7 +74,7 @@ namespace ToDoSkillTest.Flow
                 CollectionAssert.Contains(
                     this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", (FakeData.FakeTaskItems.Count + 1).ToString() } }),
                     adaptiveCardTitle.Text);
-                Assert.AreEqual(toDoChoiceCount, 5);
+                Assert.AreEqual(toDoChoiceCount, PageSize);
                 var toDoChoice = toDoChoices.Choices[0];
                 Assert.AreEqual(toDoChoice.Title, "Test Content");
             };

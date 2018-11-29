@@ -1,0 +1,526 @@
+{
+  "intents": [
+    {
+      "name": "l_General"
+    },
+    {
+      "name": "q_FAQ"
+    }
+  ],
+  "entities": [],
+  "composites": [],
+  "closedLists": [],
+  "regex_entities": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "不",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "不了",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "不要",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "中止",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "停止",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "别这样",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "取消",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "我想取消",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "无视",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "没关系",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "算了",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "请停止",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "与人交谈",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "叫你负责人来",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "我想和一个人谈谈",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "我能和一个人说话吗？",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "找个管事的",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "把你老板叫来",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "联系支持",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "请转移我",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "再见",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "好的，再见",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "好的，谢谢",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "就这样吧",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "晚安",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "没事了",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "谢谢",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "你今天感觉如何",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "你好",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "你好吗",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "哈啰",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "嗨",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "嘿",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "怎么样",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "您好 bot",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "早上好",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "晚上好",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "为什么不这样做",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "你可以帮我吗",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "你能做什么",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "你能帮我什么？",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "咋回事",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "帮助",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "帮助请",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "帮帮我",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "怎么回事",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "我不懂",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "我不明白",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "我现在该怎么办",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "我能说什么呢",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "我被卡住了",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "忘记我",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "注销",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "退出",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "下",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "下一封电子邮件",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "下一条",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "下一页",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "下一页请",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "下一项",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "你能展示下一张吗？",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "前进",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "我要去下一个",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "显示下一",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "显示下一个",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "显示下一页",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "移到下一个",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "继续",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "继续下一步",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "继续前进",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "让我看看下一个",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "请转到下一个",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "转到下一页",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "进展",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "上一张请",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "上一条",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "什么是以前",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "以前",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "前一个",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "回到最后一个",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "回去",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "带上一个",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "显示上一页",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "最后",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "最后一个",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "老一",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "走到最后",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "转到上一页",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "转到最后一个",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "退后",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "从头开始",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "再来一次",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "我能再做一次吗",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "我需要改变一些事情",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "撤消",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "重新 启动",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "重来",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "What is the Enterprise Bot Template?",
+      "intent": "q_FAQ",
+      "entities": []
+    },
+    {
+      "text": "这个模板是什么？",
+      "intent": "q_FAQ",
+      "entities": []
+    },
+    {
+      "text": "这是什么企业机器人模板？",
+      "intent": "q_FAQ",
+      "entities": []
+    }
+  ],
+  "patterns": [],
+  "patternAnyEntities": [],
+  "prebuiltEntities": [],
+  "luis_schema_version": "3.0.0",
+  "versionId": "Dispatch",
+  "name": "Dispatch",
+  "desc": "",
+  "culture": "en-us"
+}

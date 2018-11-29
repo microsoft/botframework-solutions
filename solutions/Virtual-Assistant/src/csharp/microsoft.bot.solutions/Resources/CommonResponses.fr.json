@@ -49,6 +49,16 @@
     "inputHint": "acceptingInput"
   },
 
+  "ErrorMessage_SkillError": {
+    "replies": [
+      {
+        "text": "Désolé, une erreur s'est produite lors de la tentative de communication avec le bot de compétence. Veuillez réessayer.",
+        "speak": "Désolé, une erreur s'est produite lors de la tentative de communication avec le bot de compétence. Veuillez réessayer."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+
   "SkillAuthenticationTitle": {
     "replies": [
       {

@@ -27,10 +27,11 @@ namespace EmailSkill
             ConfirmRecipientIndex = 0;
             ShowEmailIndex = 0;
             ShowRecipientIndex = 0;
-            MsGraphToken = null;
+            Token = null;
             DirectlyToMe = false;
             StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
             EndDateTime = DateTime.UtcNow;
+            MailSourceType = MailSource.Other;
         }
 
         public DialogState ConversationDialogState { get; set; }
@@ -67,7 +68,7 @@ namespace EmailSkill
 
         public DateTime EndDateTime { get; set; }
 
-        public string MsGraphToken { get; set; }
+        public string Token { get; set; }
 
         public int ConfirmRecipientIndex { get; set; }
 
@@ -82,6 +83,8 @@ namespace EmailSkill
         public General GeneralLuisResult { get; set; }
 
         public IRecognizerConvert LuisResultPassedFromSkill { get; set; }
+
+        public MailSource MailSourceType { get; set; }
 
         public TimeZoneInfo GetUserTimeZone()
         {
@@ -116,6 +119,7 @@ namespace EmailSkill
             EmailList = new List<string>();
             ShowRecipientIndex = 0;
             LuisResultPassedFromSkill = null;
+            MailSourceType = MailSource.Other;
         }
 
         public class UserInformation

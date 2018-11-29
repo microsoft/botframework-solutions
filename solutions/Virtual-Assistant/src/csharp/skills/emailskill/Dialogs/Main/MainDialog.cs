@@ -24,12 +24,12 @@ namespace EmailSkill
         private ISkillConfiguration _services;
         private UserState _userState;
         private ConversationState _conversationState;
-        private IMailSkillServiceManager _serviceManager;
+        private IServiceManager _serviceManager;
         private IStatePropertyAccessor<EmailSkillState> _stateAccessor;
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
         private EmailSkillResponseBuilder _responseBuilder = new EmailSkillResponseBuilder();
 
-        public MainDialog(ISkillConfiguration services, ConversationState conversationState, UserState userState, IMailSkillServiceManager serviceManager, bool skillMode)
+        public MainDialog(ISkillConfiguration services, ConversationState conversationState, UserState userState, IServiceManager serviceManager, bool skillMode)
             : base(nameof(MainDialog))
         {
             _skillMode = skillMode;
@@ -246,7 +246,9 @@ namespace EmailSkill
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
-            await dc.BeginDialogAsync(nameof(CancelDialog));
+            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(EmailMainResponses.CancelMessage));
+            await CompleteAsync(dc);
+            await dc.CancelAllDialogsAsync();
             return InterruptionAction.StartedDialog;
         }
 
@@ -289,7 +291,6 @@ namespace EmailSkill
             AddDialog(new SendEmailDialog(_services, _stateAccessor, _dialogStateAccessor, _serviceManager));
             AddDialog(new ShowEmailDialog(_services, _stateAccessor, _dialogStateAccessor, _serviceManager));
             AddDialog(new ReplyEmailDialog(_services, _stateAccessor, _dialogStateAccessor, _serviceManager));
-            AddDialog(new CancelDialog(_stateAccessor));
         }
 
         private class Events
