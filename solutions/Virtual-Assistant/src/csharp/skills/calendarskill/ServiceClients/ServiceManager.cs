@@ -39,7 +39,8 @@ namespace CalendarSkill
             switch (source)
             {
                 case EventSource.Microsoft:
-
+                    var serviceClient = GraphClient.GetAuthenticatedClient(token);
+                    return new MSGraphCalendarAPI(serviceClient);
                 case EventSource.Google:
                     GoogleClient googleClient = GoogleClient.GetGoogleClient(_skillConfig);
                     var googlePeopleClient = GoogleCalendarAPI.GetServiceClient(googleClient, token);
