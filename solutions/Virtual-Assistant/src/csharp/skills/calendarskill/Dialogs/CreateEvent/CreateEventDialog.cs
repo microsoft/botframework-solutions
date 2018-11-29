@@ -9,7 +9,6 @@ using CalendarSkill.Common;
 using CalendarSkill.Dialogs.CreateEvent.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Extensions;
-using CalendarSkill.ServiceClients;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -159,8 +158,7 @@ namespace CalendarSkill
                     return await sc.EndDialogAsync(true, cancellationToken);
                 }
 
-                var calendarAPI = GraphClientHelper.GetCalendarService(state.APIToken, state.EventSource, ServiceManager.GetGoogleClient());
-                ServiceManager.InitCalendarService(calendarAPI, state.EventSource);
+                ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
 
                 if (state.Attendees.Count == 0)
                 {
@@ -341,8 +339,8 @@ namespace CalendarSkill
                         TimeZone = TimeZoneInfo.Utc,
                         Location = state.Location,
                     };
-                    var calendarAPI = GraphClientHelper.GetCalendarService(state.APIToken, state.EventSource, ServiceManager.GetGoogleClient());
-                    var calendarService = ServiceManager.InitCalendarService(calendarAPI, state.EventSource);
+
+                    var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
                     if (await calendarService.CreateEvent(newEvent) != null)
                     {
                         var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(CreateEventResponses.EventCreated, newEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", newEvent.ToAdaptiveCardData(state.GetUserTimeZone()));
@@ -907,8 +905,7 @@ namespace CalendarSkill
             try
             {
                 var token = state.APIToken;
-                IGraphServiceClient serviceClient = GraphClientHelper.GetAuthenticatedClient(token, state.GetUserTimeZone());
-                var service = ServiceManager.InitUserService(serviceClient, state.GetUserTimeZone());
+                var service = ServiceManager.InitUserService(token, state.EventSource);
 
                 // Get users.
                 var userList = await service.GetUserAsync(name);
@@ -1089,8 +1086,7 @@ namespace CalendarSkill
             {
                 var state = await Accessor.GetAsync(sc.Context);
                 var token = state.APIToken;
-                IGraphServiceClient serviceClient = GraphClientHelper.GetAuthenticatedClient(token, state.GetUserTimeZone());
-                var service = ServiceManager.InitUserService(serviceClient, state.GetUserTimeZone());
+                var service = ServiceManager.InitUserService(token, state.EventSource);
 
                 // Get users.
                 var contactList = await service.GetContactsAsync(name);
@@ -1115,8 +1111,7 @@ namespace CalendarSkill
             {
                 var state = await Accessor.GetAsync(sc.Context);
                 var token = state.APIToken;
-                IGraphServiceClient serviceClient = GraphClientHelper.GetAuthenticatedClient(token, state.GetUserTimeZone());
-                var service = ServiceManager.InitUserService(serviceClient, state.GetUserTimeZone());
+                var service = ServiceManager.InitUserService(token, state.EventSource);
 
                 // Get users.
                 result = await service.GetPeopleAsync(name);

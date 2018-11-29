@@ -1,7 +1,6 @@
 ﻿// https://docs.microsoft.com/en-us/visualstudio/modeling/t4-include-directive?view=vs-2017
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using System;
 using System.IO;
 using System.Runtime.CompilerServices;
 using Microsoft.Bot.Solutions.Dialogs;
@@ -34,6 +33,8 @@ namespace CalendarSkill.Dialogs.Main.Resources
         public static BotResponse LogOut => GetBotResponse();
 
         public static BotResponse FeatureNotAvailable => GetBotResponse();
+
+        public static BotResponse CancelMessage => GetBotResponse();
 
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {

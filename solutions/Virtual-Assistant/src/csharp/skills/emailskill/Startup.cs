@@ -75,7 +75,7 @@ namespace EmailSkill
             services.AddSingleton(new BotStateSet(userState, conversationState));
 
             // Initialize Email client
-            services.AddSingleton<IMailSkillServiceManager, MailSkillServiceManager>();
+            services.AddSingleton<IServiceManager, ServiceManager>();
 
             // Add the bot with options
             services.AddBot<EmailSkill>(options =>
