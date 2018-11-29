@@ -158,6 +158,8 @@ namespace Microsoft.Bot.Solutions.Skills
                     // set up skill turn error handling
                     OnTurnError = async (context, exception) =>
                     {
+                        await context.SendActivityAsync(context.Activity.CreateReply($"Sorry, something went wrong trying to communicate with the skill. Please try again."));
+
                         // Log exception in AppInsights
                         skillConfiguration.TelemetryClient.TrackException(exception);
                     },
