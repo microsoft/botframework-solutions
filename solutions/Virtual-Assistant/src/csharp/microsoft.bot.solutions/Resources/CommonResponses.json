@@ -49,6 +49,16 @@
     "inputHint": "acceptingInput"
   },
 
+  "ErrorMessage_SkillError": {
+    "replies": [
+      {
+        "text": "Sorry, something went wrong trying to communicate with the skill. Please try again.",
+        "speak": "Sorry, something went wrong trying to communicate with the skill. Please try again."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+
   "SkillAuthenticationTitle": {
     "replies": [
       {

@@ -49,6 +49,16 @@
     "inputHint": "acceptingInput"
   },
 
+  "ErrorMessage_SkillError": {
+    "replies": [
+      {
+        "text": "Siamo spiacenti, qualcosa è andato storto nella comunicazione con lo skill. Per favore riprova.",
+        "speak": "Siamo spiacenti, qualcosa è andato storto nella comunicazione con lo skill. Per favore riprova."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+
   "SkillAuthenticationTitle": {
     "replies": [
       {
