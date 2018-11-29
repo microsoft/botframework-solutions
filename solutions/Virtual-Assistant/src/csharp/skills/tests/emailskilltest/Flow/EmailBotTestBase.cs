@@ -22,7 +22,7 @@ namespace EmailSkillTest.Flow
 
         public UserState UserState { get; set; }
 
-        public IMailSkillServiceManager ServiceManager { get; set; }
+        public IServiceManager ServiceManager { get; set; }
 
         public ISkillConfiguration Services { get; set; }
 
@@ -47,8 +47,8 @@ namespace EmailSkillTest.Flow
             this.Services = new MockSkillConfiguration();
 
             builder.RegisterInstance(new BotStateSet(this.UserState, this.ConversationState));
-            var fakeServiceManager = new MockMailServiceManager();
-            builder.RegisterInstance<IMailSkillServiceManager>(fakeServiceManager);
+            var fakeServiceManager = new MockServiceManager();
+            builder.RegisterInstance<IServiceManager>(fakeServiceManager);
 
             this.Container = builder.Build();
             this.ServiceManager = fakeServiceManager;

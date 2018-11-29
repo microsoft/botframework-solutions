@@ -33,7 +33,7 @@ namespace EmailSkillTest.API
 
             var mockGraphServiceClient = new MockGraphServiceClientGen();
             IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
-            MailService mailService = new MailService(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
+            MSGraphMailAPI mailService = new MSGraphMailAPI(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
 
             await mailService.SendMessageAsync("test content", "test subject", recipientList);
         }
@@ -81,7 +81,7 @@ namespace EmailSkillTest.API
             mockGraphServiceClient.MyMessages = messages;
             mockGraphServiceClient.SetMockBehavior();
             IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
-            MailService mailService = new MailService(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
+            MSGraphMailAPI mailService = new MSGraphMailAPI(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
 
             List<Message> result = await mailService.GetMyMessagesAsync(DateTime.Today.AddDays(-2), DateTime.Today.AddDays(1), getUnRead: false, isImportant: false, directlyToMe: false, fromAddress: "test@test.com", skip: 0);
 
@@ -106,7 +106,7 @@ namespace EmailSkillTest.API
         {
             var mockGraphServiceClient = new MockGraphServiceClientGen();
             IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
-            MailService mailService = new MailService(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
+            MSGraphMailAPI mailService = new MSGraphMailAPI(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
 
             await mailService.ReplyToMessageAsync("1", "test");
         }
@@ -116,7 +116,7 @@ namespace EmailSkillTest.API
         {
             var mockGraphServiceClient = new MockGraphServiceClientGen();
             IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
-            MailService mailService = new MailService(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
+            MSGraphMailAPI mailService = new MSGraphMailAPI(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
 
             Message msg = new Message();
             await mailService.UpdateMessage(msg);
@@ -127,7 +127,7 @@ namespace EmailSkillTest.API
         {
             var mockGraphServiceClient = new MockGraphServiceClientGen();
             IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
-            MailService mailService = new MailService(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
+            MSGraphMailAPI mailService = new MSGraphMailAPI(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
 
             List<Recipient> recipients = new List<Recipient>();
             await mailService.ForwardMessageAsync("1", "Test", recipients);
@@ -138,7 +138,7 @@ namespace EmailSkillTest.API
         {
             var mockGraphServiceClient = new MockGraphServiceClientGen();
             IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
-            MailService mailService = new MailService(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
+            MSGraphMailAPI mailService = new MSGraphMailAPI(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
 
             await mailService.DeleteMessageAsync("1");
         }

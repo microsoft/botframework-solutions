@@ -68,5 +68,14 @@
       }
     ],
     "inputHint": "acceptingInput"
+  },
+  "CancelMessage": {
+    "replies": [
+      {
+        "text": "好的, 我们从头再来。",
+        "speak": "好的, 我们从头再来。"
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }

@@ -45,8 +45,7 @@ namespace CalendarSkillTest.API
             mockGraphServiceClient.SetMockBehavior();
 
             IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
-            IServiceManager serviceManager = new ServiceManager(new SkillConfiguration());
-            IUserService userService = serviceManager.InitUserService(serviceClient, TimeZoneInfo.Local);
+            IUserService userService = new MSGraphUserService(serviceClient);
 
             var result = await userService.GetUserAsync("test");
 
@@ -90,8 +89,7 @@ namespace CalendarSkillTest.API
             mockGraphServiceClient.SetMockBehavior();
 
             IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
-            IServiceManager serviceManager = new ServiceManager(new SkillConfiguration());
-            IUserService userService = serviceManager.InitUserService(serviceClient, TimeZoneInfo.Local);
+            IUserService userService = new MSGraphUserService(serviceClient);
 
             var result = await userService.GetPeopleAsync("test");
 

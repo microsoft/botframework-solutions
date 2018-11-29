@@ -37,7 +37,7 @@ namespace EmailSkill
             ISkillConfiguration services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
-            IMailSkillServiceManager serviceManager)
+            IServiceManager serviceManager)
             : base(dialogId)
         {
             Services = services;
@@ -68,7 +68,7 @@ namespace EmailSkill
 
         protected IStatePropertyAccessor<DialogState> DialogStateAccessor { get; set; }
 
-        protected IMailSkillServiceManager ServiceManager { get; set; }
+        protected IServiceManager ServiceManager { get; set; }
 
         protected EmailSkillResponseBuilder ResponseBuilder { get; set; } = new EmailSkillResponseBuilder();
 
@@ -270,7 +270,22 @@ namespace EmailSkill
                 if (providerTokenResponse != null)
                 {
                     var state = await EmailStateAccessor.GetAsync(sc.Context);
-                    state.MsGraphToken = providerTokenResponse.TokenResponse.Token;
+                    state.Token = providerTokenResponse.TokenResponse.Token;
+
+                    var provider = providerTokenResponse.AuthenticationProvider;
+
+                    if (provider == OAuthProvider.AzureAD)
+                    {
+                        state.MailSourceType = MailSource.Microsoft;
+                    }
+                    else if (provider == OAuthProvider.Google)
+                    {
+                        state.MailSourceType = MailSource.Google;
+                    }
+                    else
+                    {
+                        throw new Exception($"The authentication provider \"{provider.ToString()}\" is not support by the Email Skill.");
+                    }
                 }
 
                 return await sc.NextAsync();
@@ -785,8 +800,8 @@ namespace EmailSkill
             {
                 int pageSize = ConfigData.MaxDisplaySize;
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var token = state.MsGraphToken;
-                var serivce = ServiceManager.InitMailService(token, state.GetUserTimeZone());
+                var token = state.Token;
+                var serivce = ServiceManager.InitMailService(token, state.GetUserTimeZone(), state.MailSourceType);
 
                 var isUnreadOnly = state.IsUnreadOnly;
                 var isImportant = state.IsImportant;
@@ -882,8 +897,8 @@ namespace EmailSkill
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var token = state.MsGraphToken;
-                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone());
+                var token = state.Token;
+                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
 
                 // Get users.
                 result = await service.GetPeopleAsync(name);
@@ -902,8 +917,8 @@ namespace EmailSkill
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var token = state.MsGraphToken;
-                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone());
+                var token = state.Token;
+                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
 
                 // Get users.
                 var userList = await service.GetUserAsync(name);
@@ -926,8 +941,8 @@ namespace EmailSkill
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var token = state.MsGraphToken;
-                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone());
+                var token = state.Token;
+                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
 
                 // Get users.
                 var contactsList = await service.GetContactsAsync(name);
@@ -965,6 +980,7 @@ namespace EmailSkill
                 state.EmailList = new List<string>();
                 state.ShowRecipientIndex = 0;
                 state.LuisResultPassedFromSkill = null;
+                state.MailSourceType = MailSource.Other;
                 state.ReadEmailIndex = 0;
                 state.ReadRecipientIndex = 0;
                 state.RecipientChoiceList.Clear();
