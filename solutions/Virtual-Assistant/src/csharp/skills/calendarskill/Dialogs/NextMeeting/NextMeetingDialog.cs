@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Common;
 using CalendarSkill.Dialogs.NextMeeting.Resources;
+using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
 using CalendarSkill.Util;
 using Microsoft.Bot.Builder;
@@ -40,6 +41,7 @@ namespace CalendarSkill
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
+                AskParameterModel askParameter = new AskParameterModel(state.AskParameterContent);
                 if (string.IsNullOrEmpty(state.APIToken))
                 {
                     return await sc.EndDialogAsync(true);
@@ -65,6 +67,43 @@ namespace CalendarSkill
                 {
                     if (nextEventList.Count == 1)
                     {
+                        if (askParameter.NeedDetail)
+                        {
+                            var responseParams = new StringDictionary()
+                            {
+                                { "EventName", nextEventList[0].Title },
+                                { "EventStartTime", TimeConverter.ConvertUtcToUserTime(nextEventList[0].StartTime, state.GetUserTimeZone()).ToString("h:mm tt") },
+                                { "EventEndTime", TimeConverter.ConvertUtcToUserTime(nextEventList[0].EndTime, state.GetUserTimeZone()).ToString("h:mm tt") },
+                                { "EventDuration", nextEventList[0].ToDurationString() },
+                                { "EventLocation", nextEventList[0].Location },
+                            };
+
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(NextMeetingResponses.BeforeShowEventDetails, ResponseBuilder, responseParams));
+
+                            if (askParameter.NeedTime)
+                            {
+                                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(NextMeetingResponses.ReadTime, ResponseBuilder, responseParams));
+                            }
+
+                            if (askParameter.NeedDuration)
+                            {
+                                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(NextMeetingResponses.ReadDuration, ResponseBuilder, responseParams));
+                            }
+
+                            if (askParameter.NeedLocation)
+                            {
+                                if (string.IsNullOrEmpty(responseParams["EventLocation"]))
+                                {
+                                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(NextMeetingResponses.ReadNoLocation));
+                                }
+                                else
+                                {
+                                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(NextMeetingResponses.ReadLocation, ResponseBuilder, responseParams));
+                                }
+                            }
+
+                        }
+
                         var speakParams = new StringDictionary()
                         {
                             { "EventName", nextEventList[0].Title },

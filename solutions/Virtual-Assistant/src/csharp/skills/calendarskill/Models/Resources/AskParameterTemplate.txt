@@ -1,11 +1,14 @@
 ﻿#English
 AskForDetail	what*about
-AskForDetail	what*
+AskForDetail	what is
+AskForDetail	what are
 AskForStartTime	when*start
 AskForEndTime	when*end
 AskForTime	when*
+AskForTime	what time
 AskForDuration	how long*
 AskForLocation	where*
+AskForLocation	waht*location
 AskForAttendee	who*with
 AskForTitle	what*title
 AskForContent	what*content

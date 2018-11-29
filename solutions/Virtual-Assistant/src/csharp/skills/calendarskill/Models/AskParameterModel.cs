@@ -77,6 +77,12 @@ namespace CalendarSkill.Models
             {
                 switch (type)
                 {
+                    case AskParameterType.AskForDetail:
+                        {
+                            //can set defuat here
+                            break;
+                        }
+
                     case AskParameterType.AskForStartTime:
                         {
                             NeedTime = true;
