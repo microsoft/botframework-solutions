@@ -1,9 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
-using System;
 using System.Collections.Generic;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 
@@ -16,35 +14,9 @@ namespace CalendarSkill
     {
         private IGraphServiceClient graphClient;
 
-        private TimeZoneInfo timeZoneInfo;
-
-        public MSGraphUserService(string token, TimeZoneInfo info)
-        {
-            graphClient = GetAuthenticatedClient(token, info);
-            timeZoneInfo = info;
-        }
-
-        public MSGraphUserService(IGraphServiceClient graphClient, TimeZoneInfo info)
+        public MSGraphUserService(IGraphServiceClient graphClient)
         {
             this.graphClient = graphClient;
-            timeZoneInfo = info;
-        }
-
-        // will be Deleted
-        public static GraphServiceClient GetAuthenticatedClient(string accessToken, TimeZoneInfo info)
-        {
-            var graphClient = new GraphServiceClient(
-                new DelegateAuthenticationProvider(
-                    async (requestMessage) =>
-                    {
-                        // Append the access token to the request.
-                        requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
-
-                        // Get event times in the current time zone.
-                        requestMessage.Headers.Add("Prefer", "outlook.timezone=\"" + info.Id + "\"");
-                        await Task.CompletedTask;
-                    }));
-            return graphClient;
         }
 
         /// <summary>

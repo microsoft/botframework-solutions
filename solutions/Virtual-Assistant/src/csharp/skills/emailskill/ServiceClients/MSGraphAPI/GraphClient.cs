@@ -5,7 +5,7 @@
     using System.Threading.Tasks;
     using Microsoft.Graph;
 
-    public class GraphClientHelper
+    public class GraphClient
     {
         /// <summary>
         /// Get an authenticated ms graph client use access token.
