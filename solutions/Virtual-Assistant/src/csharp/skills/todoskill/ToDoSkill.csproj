@@ -63,11 +63,23 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ToDoSharedResponses.tt</DependentUpon>
     </Compile>
+    <Compile Update="Dialogs\Shared\Resources\ToDoStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ToDoStrings.resx</DependentUpon>
+    </Compile>
     <Compile Update="Dialogs\ShowToDo\Resources\ShowToDoResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ShowToDoResponses.tt</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Dialogs\Shared\Resources\ToDoStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ToDoStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
