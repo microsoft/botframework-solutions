@@ -12,13 +12,13 @@ using Microsoft.Bot.Solutions.Skills;
 
 namespace CalendarSkill
 {
-    public class TimeRemainDialog : CalendarSkillDialog
+    public class TimeRemainingDialog : CalendarSkillDialog
     {
-        public TimeRemainDialog(
+        public TimeRemainingDialog(
             ISkillConfiguration services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager)
-            : base(nameof(TimeRemainDialog), services, accessor, serviceManager)
+            : base(nameof(TimeRemainingDialog), services, accessor, serviceManager)
         {
             var timeRemain = new WaterfallStep[]
             {
@@ -28,10 +28,10 @@ namespace CalendarSkill
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Actions.ShowTimeRemained, timeRemain));
+            AddDialog(new WaterfallDialog(Actions.ShowTimeRemaining, timeRemain));
 
             // Set starting dialog for component
-            InitialDialogId = Actions.ShowTimeRemained;
+            InitialDialogId = Actions.ShowTimeRemaining;
         }
 
         public async Task<DialogTurnResult> CheckTimeRemain(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -92,17 +92,17 @@ namespace CalendarSkill
                             { "RemainingHours", timeDiffHours > 1 ? $"{timeDiffHours.ToString()} hours" : $"{timeDiffHours.ToString()} hour" },
                             { "RemainingMinutes", timeDiffMinutes > 1 ? $"{timeDiffMinutes.ToString()} minutes" : $"{timeDiffMinutes.ToString()} minute" }
                         };
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(TimeRemainResponses.ShowNextMeetingTimeRemainedMessage, ResponseBuilder, tokens));
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(TimeRemainResponses.ShowNextMeetingTimeRemainingMessage, ResponseBuilder, tokens));
                     }
                     else if (state.StartDate != null)
                     {
                         var tokens = new StringDictionary()
                         {
-                            { "RemainDays", timeDiffDays > 1 ? $"{timeDiffDays.ToString()} days" : $"{timeDiffDays.ToString()} day" },
+                            { "RemainingDays", timeDiffDays > 1 ? $"{timeDiffDays.ToString()} days" : $"{timeDiffDays.ToString()} day" },
                             { "DateSpeak", state.StartDate.Value.ToSpeechDateString() },
                             { "Date", state.StartDate.Value.ToShortDateString() }
                         };
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(TimeRemainResponses.ShowSpecificDaysRemainedMessage, ResponseBuilder, tokens));
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(TimeRemainResponses.ShowSpecificDaysRemainingMessage, ResponseBuilder, tokens));
                     }
                     else if (state.StartTime != null)
                     {
@@ -113,7 +113,7 @@ namespace CalendarSkill
                             { "TimeSpeak", state.StartTime.Value.ToSpeechTimeString() },
                             { "Time", state.StartTime.Value.ToShortTimeString() }
                         };
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(TimeRemainResponses.ShowSpecificTimeRemainedMessage, ResponseBuilder, tokens));
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(TimeRemainResponses.ShowSpecificTimeRemainingMessage, ResponseBuilder, tokens));
                     }
                     else if (state.Title != null)
                     {
@@ -123,7 +123,7 @@ namespace CalendarSkill
                             { "RemainingMinutes", timeDiffMinutes > 1 ? $"{timeDiffMinutes.ToString()} minutes" : $"{timeDiffMinutes.ToString()} minute" },
                             { "Title", state.Title }
                         };
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(TimeRemainResponses.ShowSpecificTitleRemainedMessage, ResponseBuilder, tokens));
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(TimeRemainResponses.ShowSpecificTitleRemainingMessage, ResponseBuilder, tokens));
                     }
                 }
 

@@ -14,7 +14,7 @@
         public const string UpdateAddress = "UpdateAddress";
         public const string UpdateName = "UpdateName";
         public const string ConfirmAttendee = "ConfirmAttendee";
-        public const string ShowTimeRemained = "ShowTimeRemained";
+        public const string ShowTimeRemaining = "ShowTimeRemaining";
         public const string TakeFurtherAction = "TakeFurtherAction";
         public const string UpdateStartTime = "UpdateStartTime";
         public const string UpdateNewStartTime = "UpdateNewStartTime";

@@ -25,13 +25,13 @@ namespace CalendarSkill.Dialogs.TimeRemain.Resources
         // Generated accessors
         public static BotResponse ShowNoMeetingMessage => GetBotResponse();
 
-        public static BotResponse ShowNextMeetingTimeRemainedMessage => GetBotResponse();
+        public static BotResponse ShowNextMeetingTimeRemainingMessage => GetBotResponse();
 
-        public static BotResponse ShowSpecificDaysRemainedMessage => GetBotResponse();
+        public static BotResponse ShowSpecificDaysRemainingMessage => GetBotResponse();
 
-        public static BotResponse ShowSpecificTimeRemainedMessage => GetBotResponse();
+        public static BotResponse ShowSpecificTimeRemainingMessage => GetBotResponse();
 
-        public static BotResponse ShowSpecificTitleRemainedMessage => GetBotResponse();
+        public static BotResponse ShowSpecificTitleRemainingMessage => GetBotResponse();
 
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {

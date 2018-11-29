@@ -1,36 +1,36 @@
 {
-  "ShowNextMeetingTimeRemainedMessage": {
+  "ShowNextMeetingTimeRemainingMessage": {
     "replies": [
       {
-        "text": "You have {RemainingHours} {RemainingMinutes} remained until next meeting.",
-        "speak": "You have {RemainingHours} {RemainingMinutes} remained until next meeting."
+        "text": "You have {RemainingHours} {RemainingMinutes} remaining until next meeting.",
+        "speak": "You have {RemainingHours} {RemainingMinutes} remaining until next meeting."
       }
     ],
     "inputHint": "acceptingInput"
   },
-  "ShowSpecificDaysRemainedMessage": {
+  "ShowSpecificDaysRemainingMessage": {
     "replies": [
       {
-        "text": "You have {RemainedDays} remained until your meeting at {Date}.",
-        "speak": "You have {RemainedDays} remained until your meeting at {DateSpeak}."
+        "text": "You have {RemainingDays} remaining until your meeting at {Date}.",
+        "speak": "You have {RemainingDays} remaining until your meeting at {DateSpeak}."
       }
     ],
     "inputHint": "acceptingInput"
   },
-  "ShowSpecificTimeRemainedMessage": {
+  "ShowSpecificTimeRemainingMessage": {
     "replies": [
       {
-        "text": "You have {RemainingHours} {RemainingMinutes} remained until your meeting at {Time}.",
-        "speak": "You have {RemainingHours} {RemainingMinutes} remained until your meeting at {TimeSpeak}."
+        "text": "You have {RemainingHours} {RemainingMinutes} remaining until your meeting at {Time}.",
+        "speak": "You have {RemainingHours} {RemainingMinutes} remaining until your meeting at {TimeSpeak}."
       }
     ],
     "inputHint": "acceptingInput"
   },
-  "ShowSpecificTitleRemainedMessage": {
+  "ShowSpecificTitleRemainingMessage": {
     "replies": [
       {
-        "text": "You have {RemainingHours} {RemainingMinutes} remained until your meeting with a subject of \"{Title}\".",
-        "speak": "You have {RemainingHours} {RemainingMinutes} remained until your meeting with a subject of \"{Title}\"."
+        "text": "You have {RemainingHours} {RemainingMinutes} remaining until your meeting with a subject of \"{Title}\".",
+        "speak": "You have {RemainingHours} {RemainingMinutes} remaining until your meeting with a subject of \"{Title}\"."
       }
     ],
     "inputHint": "acceptingInput"
