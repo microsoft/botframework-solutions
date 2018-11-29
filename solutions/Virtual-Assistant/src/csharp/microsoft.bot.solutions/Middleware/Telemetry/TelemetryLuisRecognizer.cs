@@ -21,7 +21,7 @@ namespace Microsoft.Bot.Solutions
     ///    LuisIntent.add_calendar
     /// See <seealso cref="LuisRecognizer"/> for additional information.
     /// </summary>
-    public class TelemetryLuisRecognizer : LuisRecognizer
+    public class TelemetryLuisRecognizer : LuisRecognizer, ITelemetryLuisRecognizer
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TelemetryLuisRecognizer"/> class.

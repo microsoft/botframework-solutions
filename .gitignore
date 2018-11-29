@@ -336,7 +336,7 @@ ASALocalRun/
 **/appsettings.development.json
 
 # LUIS json files
-*.luis
+/solutions/**/*.luis
 
 # QnAMaker json files
-*.qna
+/solutions/**/*.qna

@@ -1,0 +1,496 @@
+{
+  "intents": [
+    {
+      "name": "l_General"
+    },
+    {
+      "name": "q_FAQ"
+    }
+  ],
+  "entities": [],
+  "composites": [],
+  "closedLists": [],
+  "regex_entities": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "Arrêter",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Annuler",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Annuler",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Mépris",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Ne pas",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Fais pas ça",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Fais pas ça",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Je voudrais annuler",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "C'est pas grave",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "s'il vous plaît arrêter",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Sortie",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "puis-je parler à une personne",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Je veux parler à un humain",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "parler à un humain",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Transférez-moi svp",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Contacter le support technique",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Bonne nuit",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Au revoir",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Au revoir",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Ok merci",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Ok salut",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "C'est tout Merci",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Salut",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Salut",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Bonjour",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Bonsoir",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Bonjour bot",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Salut",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Comment vas-tu",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Comment vas-tu aujourd'hui",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Hé",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Aide",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Aide-moi",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "aide s'il vous plaît",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Je suis coincé",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Je ne comprends pas",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "que puis-je dire",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "que pouvez-vous m'aider avec",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "que pouvez-vous faire",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "que dois-je faire maintenant",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Pourquoi cela ne fonctionne-t-il pas",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Est-ce que vous pouvez m'aider",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "SignOut",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "oubliez-moi",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "se déconnecter",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Déconnexion",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "déconnexion",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Avance",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "aller de l'avant",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "aller à la prochaine",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Prochaine",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "point suivant",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "afficher suivant",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "pourriez-vous montrer la prochaine",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "J'ai besoin d'aller à l'autre",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "allez à la prochaine s'il vous plaît",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "passer à la suivante",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Allez",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "aller à la prochaine",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "aller à la page suivante",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Avancer",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "aller de l'avant",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "passer à la prochaine",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Next One",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "suivant s'il vous plaît",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Montrez-moi la prochaine",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Montrez-moi la prochaine",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "afficher la prochaine",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "afficher la suivante",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "le prochain Courriel",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Retour",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Last One",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "précédent",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "le dernier",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Old One",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Dernière",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Retour à la dernière",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Apportez le précédent",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Venez à la dernière",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "aller à la précédente",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "aller à la dernière",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "reculer",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Précédente",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Montrez-moi précédent",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "précédent s'il vous plaît",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "le précédent",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Quel est le précédent",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "puis-je recommencer",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "J'ai besoin de changer quelque chose",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Redémarrer",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "recommencer",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Annuler",
+      "intent": "l_General",
+      "entities": []
+    },
+    {
+      "text": "Qu'est-ce que le modèle Enterprise bot?",
+      "intent": "q_FAQ",
+      "entities": []
+    },
+    {
+      "text": "Qu'est-ce que Enterprise bot template?",
+      "intent": "q_FAQ",
+      "entities": []
+    }
+  ],
+  "patterns": [],
+  "patternAnyEntities": [],
+  "prebuiltEntities": [],
+  "luis_schema_version": "3.0.0",
+  "versionId": "Dispatch",
+  "name": "Dispatch",
+  "desc": "",
+  "culture": "en-us"
+}

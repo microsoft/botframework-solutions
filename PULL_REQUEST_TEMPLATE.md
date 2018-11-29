@@ -11,3 +11,15 @@
 ## Testing Steps
 <!--- Include any instructions for testing your Pull Request-->
 <!--- Include sample utterances, steps, etc-->
+
+## Checklist
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have added or updated the appropriate unit tests
+- [ ] I have updated related documentation
+
+If this contains changes that needs to be replicated between the Enterprise Template <-> Virtual Assistant
+- [ ] A duplicate issue is filed to track future  work.
+
+If you have updated responses or `.lu` files:
+- [ ] All languages have been updated
+- [ ] You have tested deployment with your new models

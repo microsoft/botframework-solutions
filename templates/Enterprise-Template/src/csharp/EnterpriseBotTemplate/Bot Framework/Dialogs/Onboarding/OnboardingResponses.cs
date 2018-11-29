@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using $safeprojectname$.Dialogs.Onboarding.Resources;
-using $safeprojectname$.Extensions;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.TemplateManager;
 using Microsoft.Bot.Schema;
@@ -11,54 +10,68 @@ namespace $safeprojectname$.Dialogs.Onboarding
 {
     public class OnboardingResponses : TemplateManager
     {
-        public const string _namePrompt = "namePrompt";
-        public const string _haveName = "haveName";
-        public const string _emailPrompt = "emailPrompt";
-        public const string _haveEmail = "haveEmail";
-        public const string _locationPrompt = "locationPrompt";
-        public const string _haveLocation = "haveLocation";
-
         private static LanguageTemplateDictionary _responseTemplates = new LanguageTemplateDictionary
         {
             ["default"] = new TemplateIdMap
             {
-                {
-                    _namePrompt,
-                    (context, data) => CreateActivityFromString(OnboardingStrings.NAME_PROMPT, InputHints.ExpectingInput)
+                { ResponseIds.EmailPrompt,
+                    (context, data) =>
+                    MessageFactory.Text(
+                        text: OnboardingStrings.EMAIL_PROMPT,
+                        ssml: OnboardingStrings.EMAIL_PROMPT,
+                        inputHint: InputHints.ExpectingInput)
                 },
-                {
-                    _haveName,
-                    (context, data) => CreateActivityFromString(string.Format(OnboardingStrings.HAVE_NAME, data.name))
+                { ResponseIds.HaveEmailMessage,
+                    (context, data) =>
+                    MessageFactory.Text(
+                        text: string.Format(OnboardingStrings.HAVE_EMAIL, data.email),
+                        ssml: string.Format(OnboardingStrings.HAVE_EMAIL, data.email),
+                        inputHint: InputHints.IgnoringInput)
                 },
-                {
-                    _emailPrompt,
-                    (context, data) => CreateActivityFromString(OnboardingStrings.EMAIL_PROMPT, InputHints.ExpectingInput)
+                { ResponseIds.HaveLocationMessage,
+                    (context, data) =>
+                    MessageFactory.Text(
+                        text: string.Format(OnboardingStrings.HAVE_LOCATION, data.Name, data.Location),
+                        ssml: string.Format(OnboardingStrings.HAVE_LOCATION, data.Name, data.Location),
+                        inputHint: InputHints.IgnoringInput)
                 },
-                {
-                    _haveEmail,
-                    (context, data) => CreateActivityFromString(string.Format(OnboardingStrings.HAVE_EMAIL, data.email))
+                { ResponseIds.HaveNameMessage,
+                    (context, data) =>
+                    MessageFactory.Text(
+                        text: string.Format(OnboardingStrings.HAVE_NAME, data.name),
+                        ssml: string.Format(OnboardingStrings.HAVE_NAME, data.name),
+                        inputHint: InputHints.IgnoringInput)
                 },
-                {
-                    _locationPrompt,
-                    (context, data) => CreateActivityFromString(OnboardingStrings.LOCATION_PROMPT, InputHints.ExpectingInput)
+                { ResponseIds.NamePrompt,
+                    (context, data) =>
+                    MessageFactory.Text(
+                        text: OnboardingStrings.NAME_PROMPT,
+                        ssml: OnboardingStrings.NAME_PROMPT,
+                        inputHint: InputHints.ExpectingInput)
                 },
-                {
-                    _haveLocation,
-                    (context, data) => CreateActivityFromString(string.Format(OnboardingStrings.HAVE_LOCATION, data.Name, data.Location))
-                },
-            },
-            ["en"] = new TemplateIdMap { },
-            ["fr"] = new TemplateIdMap { },
+                { ResponseIds.LocationPrompt,
+                    (context, data) =>
+                    MessageFactory.Text(
+                        text: OnboardingStrings.LOCATION_PROMPT,
+                        ssml: OnboardingStrings.LOCATION_PROMPT,
+                        inputHint: InputHints.ExpectingInput)
+                }
+            }
         };
 
         public OnboardingResponses()
         {
-            this.Register(new DictionaryRenderer(_responseTemplates));
+            Register(new DictionaryRenderer(_responseTemplates));
         }
 
-        private static Activity CreateActivityFromString(string message, string inputHint = InputHints.IgnoringInput)
+        public class ResponseIds
         {
-            return MessageFactory.Text(message, ssml: message, inputHint:inputHint);
+            public const string EmailPrompt = "emailPrompt";
+            public const string HaveEmailMessage = "haveEmail";
+            public const string HaveNameMessage = "haveName";
+            public const string HaveLocationMessage = "haveLocation";
+            public const string LocationPrompt = "locationPrompt";
+            public const string NamePrompt = "namePrompt";
         }
     }
 }

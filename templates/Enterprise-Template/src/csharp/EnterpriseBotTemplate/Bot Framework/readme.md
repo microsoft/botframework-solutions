@@ -11,7 +11,7 @@
 - Install the Azure Bot Service command line (CLI) tools. It's important to do this even if you've used the tools before to ensure you have the latest versions.
 
 ```shell
-npm install -g ludown luis-apis qnamaker botdispatch msbot luisgen chatdown
+npm install -g ludown luis-apis qnamaker botdispatch msbot chatdown
 ```
 
 - Install the Azure Command Line Tools (CLI) from [here](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)
@@ -19,6 +19,12 @@ npm install -g ludown luis-apis qnamaker botdispatch msbot luisgen chatdown
 - Install the AZ Extension for Bot Service
 ```shell
 az extension add -n botservice
+```
+
+- Install the LUISGen tool
+
+```shell
+dotnet tool install -g luisgen
 ```
 
 ## Configuration
@@ -50,9 +56,7 @@ Enterprise Template Bots require the following dependencies for end to end opera
 
 Your new Bot project has a deployment recipe enabling the `msbot clone services` command to automate deployment of all the above services into your Azure subscription and ensure the .bot file in your project is updated with all of the services including keys enabling seamless operation of your Bot. It also has multiple configuration options for the following languages: Chinese, English, French, German, Italian, and Spanish.
 
-To generate the required deployment scripts for each language, run the `update_deployment_scripts.bat` batch file in the DeploymentScripts folder. Alternately, you can generate the scripts for each individual language separately by running the batch file in side the language folder (e.g. `DeploymentScripts\en\update_en.bat`)
-
-Once you have updated your language configured deployment scripts, run the following command referencing the folder of the language you want to use (e.g. `DeploymentScripts\en`).
+Run the following command referencing the folder of the language you want to use (e.g. `DeploymentScripts\en`).
 
 > Once deployed, review the Pricing Tiers for the created services and adjust to suit your scenario.
 

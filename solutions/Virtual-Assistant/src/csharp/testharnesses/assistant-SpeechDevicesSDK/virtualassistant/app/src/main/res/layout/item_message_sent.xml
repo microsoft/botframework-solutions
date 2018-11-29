@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="8dp">
+
+
+    <RelativeLayout
+        android:id="@+id/arrow"
+        android:layout_width="25dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintLeft_toRightOf="@id/text_message_body"
+        app:layout_constraintTop_toTopOf="@+id/text_message_body" />
+
+    <TextView
+        android:id="@+id/text_message_body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/rounded_rectangle_sender"
+        android:maxWidth="240dp"
+        android:minHeight="20dp"
+        android:padding="10dp"
+        android:text="hello bot"
+        android:textColor="@color/senderText"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/text_message_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="22:58"
+        android:textColor="@color/subtle"
+        android:textSize="10sp"
+        app:layout_constraintTop_toBottomOf="@+id/text_message_body"
+        app:layout_constraintRight_toRightOf="@id/text_message_body"
+        tools:layout_editor_absoluteX="344dp" />
+
+</android.support.constraint.ConstraintLayout>

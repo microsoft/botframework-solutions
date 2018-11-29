@@ -32,27 +32,21 @@
       <Folder Name="CognitiveModels" TargetFolderName="CognitiveModels">
         <Folder Name="LUIS" TargetFolderName="LUIS">
           <Folder Name="de" TargetFolderName="de">
-            <ProjectItem ReplaceParameters="false" TargetFileName="dispatch.lu">dispatch.lu</ProjectItem>
             <ProjectItem ReplaceParameters="false" TargetFileName="general.lu">general.lu</ProjectItem>
           </Folder>
           <Folder Name="en" TargetFolderName="en">
-            <ProjectItem ReplaceParameters="false" TargetFileName="dispatch.lu">dispatch.lu</ProjectItem>
             <ProjectItem ReplaceParameters="false" TargetFileName="general.lu">general.lu</ProjectItem>
           </Folder>
           <Folder Name="es" TargetFolderName="es">
-            <ProjectItem ReplaceParameters="false" TargetFileName="dispatch.lu">dispatch.lu</ProjectItem>
             <ProjectItem ReplaceParameters="false" TargetFileName="general.lu">general.lu</ProjectItem>
           </Folder>
           <Folder Name="fr" TargetFolderName="fr">
-            <ProjectItem ReplaceParameters="false" TargetFileName="dispatch.lu">dispatch.lu</ProjectItem>
             <ProjectItem ReplaceParameters="false" TargetFileName="general.lu">general.lu</ProjectItem>
           </Folder>
           <Folder Name="it" TargetFolderName="it">
-            <ProjectItem ReplaceParameters="false" TargetFileName="dispatch.lu">dispatch.lu</ProjectItem>
             <ProjectItem ReplaceParameters="false" TargetFileName="general.lu">general.lu</ProjectItem>
           </Folder>
-          <Folder Name="zh-cn" TargetFolderName="zh-cn">
-            <ProjectItem ReplaceParameters="false" TargetFileName="dispatch.lu">dispatch.lu</ProjectItem>
+          <Folder Name="zh" TargetFolderName="zh">
             <ProjectItem ReplaceParameters="false" TargetFileName="general.lu">general.lu</ProjectItem>
           </Folder>
         </Folder>
@@ -72,7 +66,7 @@
           <Folder Name="it" TargetFolderName="it">
             <ProjectItem ReplaceParameters="false" TargetFileName="faq.lu">faq.lu</ProjectItem>
           </Folder>
-          <Folder Name="zh-cn" TargetFolderName="zh-cn">
+          <Folder Name="zh" TargetFolderName="zh">
             <ProjectItem ReplaceParameters="false" TargetFileName="faq.lu">faq.lu</ProjectItem>
           </Folder>
         </Folder>
@@ -80,31 +74,55 @@
       <Folder Name="DeploymentScripts" TargetFolderName="DeploymentScripts">
         <Folder Name="de" TargetFolderName="de">
           <ProjectItem ReplaceParameters="false" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="update_de.bat">update_de.bat</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="dispatch.luis">dispatch.luis</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="faq.qna">faq.qna</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="general.luis">general.luis</ProjectItem>
         </Folder>
         <Folder Name="en" TargetFolderName="en">
           <ProjectItem ReplaceParameters="false" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="update_en.bat">update_en.bat</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="dispatch.luis">dispatch.luis</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="faq.qna">faq.qna</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="general.luis">general.luis</ProjectItem>
         </Folder>
         <Folder Name="es" TargetFolderName="es">
           <ProjectItem ReplaceParameters="false" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="update_es.bat">update_es.bat</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="dispatch.luis">dispatch.luis</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="faq.qna">faq.qna</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="general.luis">general.luis</ProjectItem>
         </Folder>
         <Folder Name="fr" TargetFolderName="fr">
           <ProjectItem ReplaceParameters="false" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="update_fr.bat">update_fr.bat</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="dispatch.luis">dispatch.luis</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="faq.qna">faq.qna</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="general.luis">general.luis</ProjectItem>
         </Folder>
         <Folder Name="it" TargetFolderName="it">
           <ProjectItem ReplaceParameters="false" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="update_it.bat">update_it.bat</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="dispatch.luis">dispatch.luis</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="faq.qna">faq.qna</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="general.luis">general.luis</ProjectItem>
         </Folder>
-        <Folder Name="zh-cn" TargetFolderName="zh-cn">
+        <Folder Name="zh" TargetFolderName="zh">
           <ProjectItem ReplaceParameters="false" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="update_zh.bat">update_zh.bat</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="dispatch.luis">dispatch.luis</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="faq.qna">faq.qna</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="general.luis">general.luis</ProjectItem>
         </Folder>
-        <ProjectItem ReplaceParameters="false" TargetFileName="update_deployment_scripts.bat">update_deployment_scripts.bat</ProjectItem>
       </Folder>
       <Folder Name="Dialogs" TargetFolderName="Dialogs">
+        <Folder Name="Authentication" TargetFolderName="Authentication">
+          <Folder Name="Resources" TargetFolderName="Resources">
+            <ProjectItem ReplaceParameters="true" TargetFileName="AuthenticationStrings.resx">AuthenticationStrings.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="AuthenticationStrings.de.resx">AuthenticationStrings.de.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="AuthenticationStrings.Designer.cs">AuthenticationStrings.Designer.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="AuthenticationStrings.es.resx">AuthenticationStrings.es.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="AuthenticationStrings.fr.resx">AuthenticationStrings.fr.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="AuthenticationStrings.it.resx">AuthenticationStrings.it.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="AuthenticationStrings.zh.resx">AuthenticationStrings.zh.resx</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="true" TargetFileName="AuthenticationDialog.cs">AuthenticationDialog.cs</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="AuthenticationResponses.cs">AuthenticationResponses.cs</ProjectItem>
+        </Folder>
         <Folder Name="Cancel" TargetFolderName="Cancel">
           <Folder Name="Resources" TargetFolderName="Resources">
             <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.resx">CancelStrings.resx</ProjectItem>
@@ -113,7 +131,7 @@
             <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.es.resx">CancelStrings.es.resx</ProjectItem>
             <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.fr.resx">CancelStrings.fr.resx</ProjectItem>
             <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.it.resx">CancelStrings.it.resx</ProjectItem>
-            <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.zh-cn.resx">CancelStrings.zh-cn.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.zh.resx">CancelStrings.zh.resx</ProjectItem>
           </Folder>
           <ProjectItem ReplaceParameters="true" TargetFileName="CancelDialog.cs">CancelDialog.cs</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="CancelResponses.cs">CancelResponses.cs</ProjectItem>
@@ -126,7 +144,7 @@
             <ProjectItem ReplaceParameters="true" TargetFileName="EscalateStrings.es.resx">EscalateStrings.es.resx</ProjectItem>
             <ProjectItem ReplaceParameters="true" TargetFileName="EscalateStrings.fr.resx">EscalateStrings.fr.resx</ProjectItem>
             <ProjectItem ReplaceParameters="true" TargetFileName="EscalateStrings.it.resx">EscalateStrings.it.resx</ProjectItem>
-            <ProjectItem ReplaceParameters="true" TargetFileName="EscalateStrings.zh-cn.resx">EscalateStrings.zh-cn.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="EscalateStrings.zh.resx">EscalateStrings.zh.resx</ProjectItem>
           </Folder>
           <ProjectItem ReplaceParameters="true" TargetFileName="EscalateDialog.cs">EscalateDialog.cs</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="EscalateResponses.cs">EscalateResponses.cs</ProjectItem>
@@ -145,7 +163,7 @@
             <ProjectItem ReplaceParameters="true" TargetFileName="MainStrings.es.resx">MainStrings.es.resx</ProjectItem>
             <ProjectItem ReplaceParameters="true" TargetFileName="MainStrings.fr.resx">MainStrings.fr.resx</ProjectItem>
             <ProjectItem ReplaceParameters="true" TargetFileName="MainStrings.it.resx">MainStrings.it.resx</ProjectItem>
-            <ProjectItem ReplaceParameters="true" TargetFileName="MainStrings.zh-cn.resx">MainStrings.zh-cn.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="MainStrings.zh.resx">MainStrings.zh.resx</ProjectItem>
           </Folder>
           <ProjectItem ReplaceParameters="true" TargetFileName="MainDialog.cs">MainDialog.cs</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="MainResponses.cs">MainResponses.cs</ProjectItem>
@@ -158,7 +176,7 @@
             <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingStrings.es.resx">OnboardingStrings.es.resx</ProjectItem>
             <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingStrings.fr.resx">OnboardingStrings.fr.resx</ProjectItem>
             <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingStrings.it.resx">OnboardingStrings.it.resx</ProjectItem>
-            <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingStrings.zh-cn.resx">OnboardingStrings.zh-cn.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingStrings.zh.resx">OnboardingStrings.zh.resx</ProjectItem>
           </Folder>
           <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingDialog.cs">OnboardingDialog.cs</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingResponses.cs">OnboardingResponses.cs</ProjectItem>
@@ -174,23 +192,13 @@
           <ProjectItem ReplaceParameters="true" TargetFileName="InterruptionStatus.cs">InterruptionStatus.cs</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="RouterDialog.cs">RouterDialog.cs</ProjectItem>
         </Folder>
-        <Folder Name="SignIn" TargetFolderName="SignIn">
-          <Folder Name="Resources" TargetFolderName="Resources">
-            <ProjectItem ReplaceParameters="true" TargetFileName="SignInStrings.resx">SignInStrings.resx</ProjectItem>
-            <ProjectItem ReplaceParameters="true" TargetFileName="SignInStrings.de.resx">SignInStrings.de.resx</ProjectItem>
-            <ProjectItem ReplaceParameters="true" TargetFileName="SignInStrings.Designer.cs">SignInStrings.Designer.cs</ProjectItem>
-            <ProjectItem ReplaceParameters="true" TargetFileName="SignInStrings.es.resx">SignInStrings.es.resx</ProjectItem>
-            <ProjectItem ReplaceParameters="true" TargetFileName="SignInStrings.fr.resx">SignInStrings.fr.resx</ProjectItem>
-            <ProjectItem ReplaceParameters="true" TargetFileName="SignInStrings.it.resx">SignInStrings.it.resx</ProjectItem>
-            <ProjectItem ReplaceParameters="true" TargetFileName="SignInStrings.zh-cn.resx">SignInStrings.zh-cn.resx</ProjectItem>
-          </Folder>
-          <ProjectItem ReplaceParameters="true" TargetFileName="SignInDialog.cs">SignInDialog.cs</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="SignInResponses.cs">SignInResponses.cs</ProjectItem>
-        </Folder>
+      </Folder>
+      <Folder Name="Extensions" TargetFolderName="Extensions">
+        <ProjectItem ReplaceParameters="true" TargetFileName="ActivityExtensions.cs">ActivityExtensions.cs</ProjectItem>
       </Folder>
       <Folder Name="Middleware" TargetFolderName="Middleware">
         <Folder Name="Telemetry" TargetFolderName="Telemetry">
-          <ProjectItem ReplaceParameters="false" TargetFileName="Example PowerBI Dashboard.pbit">Example PowerBI Dashboard.pbit</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Example Power BI Dashboard.pbit">Example Power BI Dashboard.pbit</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="LuisTelemetryConstants.cs">LuisTelemetryConstants.cs</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="QnATelemetryConstants.cs">QnATelemetryConstants.cs</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="TelemetryBotDependencyExtension.cs">TelemetryBotDependencyExtension.cs</ProjectItem>
