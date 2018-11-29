@@ -19,18 +19,23 @@ namespace CalendarSkill
 
         public IUserService InitUserService(string token, EventSource source)
         {
+            IUserService userService = null;
             switch (source)
             {
                 case EventSource.Microsoft:
                     var serviceClient = GraphClient.GetAuthenticatedClient(token);
-                    return new MSGraphUserService(serviceClient);
+                    userService = new MSGraphUserService(serviceClient);
+                    break;
                 case EventSource.Google:
                     var googleClient = GoogleClient.GetGoogleClient(_skillConfig);
                     var googlePeopleClient = GooglePeopleService.GetServiceClient(googleClient, token);
-                    return new GooglePeopleService(googlePeopleClient);
+                    userService = new GooglePeopleService(googlePeopleClient);
+                    break;
                 default:
                     throw new Exception("Event Type not Defined");
             }
+
+            return new UserService(userService);
         }
 
         public ICalendar InitCalendarService(string token, EventSource source)
