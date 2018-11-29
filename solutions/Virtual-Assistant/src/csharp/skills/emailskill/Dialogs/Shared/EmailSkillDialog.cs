@@ -956,7 +956,6 @@ namespace EmailSkill
                 state.EmailList = new List<string>();
                 state.ShowRecipientIndex = 0;
                 state.LuisResultPassedFromSkill = null;
-                state.MailSourceType = MailSource.Other;
             }
             catch (Exception)
             {
