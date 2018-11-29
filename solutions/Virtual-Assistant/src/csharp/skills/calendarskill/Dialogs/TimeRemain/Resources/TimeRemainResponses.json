@@ -2,35 +2,17 @@
   "ShowNextMeetingTimeRemainingMessage": {
     "replies": [
       {
-        "text": "You have {RemainingHours} {RemainingMinutes} remaining until next meeting.",
-        "speak": "You have {RemainingHours} {RemainingMinutes} remaining until next meeting."
+        "text": "You have {RemainingTime} remaining until next meeting.",
+        "speak": "You have {RemainingTime} remaining until next meeting."
       }
     ],
     "inputHint": "acceptingInput"
   },
-  "ShowSpecificDaysRemainingMessage": {
+  "ShowTimeRemainingMessage": {
     "replies": [
       {
-        "text": "You have {RemainingDays} remaining until your meeting at {Date}.",
-        "speak": "You have {RemainingDays} remaining until your meeting at {DateSpeak}."
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
-  "ShowSpecificTimeRemainingMessage": {
-    "replies": [
-      {
-        "text": "You have {RemainingHours} {RemainingMinutes} remaining until your meeting at {Time}.",
-        "speak": "You have {RemainingHours} {RemainingMinutes} remaining until your meeting at {TimeSpeak}."
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
-  "ShowSpecificTitleRemainingMessage": {
-    "replies": [
-      {
-        "text": "You have {RemainingHours} {RemainingMinutes} remaining until your meeting with a subject of \"{Title}\".",
-        "speak": "You have {RemainingHours} {RemainingMinutes} remaining until your meeting with a subject of \"{Title}\"."
+        "text": "You have {RemainingTime} remaining until your meeting {Title}{Time}.",
+        "speak": "You have {RemainingTime} remaining until your meeting {Title}{TimeSpeak}."
       }
     ],
     "inputHint": "acceptingInput"

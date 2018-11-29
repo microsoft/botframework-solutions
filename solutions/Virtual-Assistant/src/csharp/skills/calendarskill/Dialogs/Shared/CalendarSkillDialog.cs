@@ -682,7 +682,8 @@ namespace CalendarSkill
                         {
                             if (entity.FromDate != null)
                             {
-                                var date = GetDateFromDateTimeString(entity.FromDate[0], dc.Context.Activity.Locale, state.GetUserTimeZone());
+                                var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
+                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone());
                                 if (date != null)
                                 {
                                     state.StartDate = date;
@@ -691,7 +692,8 @@ namespace CalendarSkill
 
                             if (entity.ToDate != null)
                             {
-                                var date = GetDateFromDateTimeString(entity.ToDate[0], dc.Context.Activity.Locale, state.GetUserTimeZone());
+                                var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToDate[0]);
+                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone());
                                 if (date != null)
                                 {
                                     state.EndDate = date;
@@ -700,13 +702,14 @@ namespace CalendarSkill
 
                             if (entity.FromTime != null)
                             {
-                                var time = GetTimeFromDateTimeString(entity.FromTime[0], dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
+                                var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromTime[0]);
+                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (time != null)
                                 {
                                     state.StartTime = time;
                                 }
 
-                                time = GetTimeFromDateTimeString(entity.FromTime[0], dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
+                                time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
                                 if (time != null)
                                 {
                                     state.EndTime = time;
@@ -715,7 +718,8 @@ namespace CalendarSkill
 
                             if (entity.ToTime != null)
                             {
-                                var time = GetTimeFromDateTimeString(entity.ToTime[0], dc.Context.Activity.Locale, state.GetUserTimeZone());
+                                var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToTime[0]);
+                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone());
                                 if (time != null)
                                 {
                                     state.EndTime = time;
@@ -724,12 +728,12 @@ namespace CalendarSkill
 
                             if (entity.OrderReference != null)
                             {
-                                state.OrderReference = entity.OrderReference[0];
+                                state.OrderReference = entity._instance.OrderReference[0].Text;
                             }
 
                             if (entity.Subject != null)
                             {
-                                state.Title = entity.Subject[0];
+                                state.Title = entity._instance.Subject[0].Text;
                             }
 
                             break;

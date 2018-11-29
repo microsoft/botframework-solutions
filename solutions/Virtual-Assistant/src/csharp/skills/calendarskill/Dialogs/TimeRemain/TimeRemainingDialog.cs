@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Dialogs.TimeRemain.Resources;
@@ -58,11 +59,11 @@ namespace CalendarSkill
                         {
                             nextEventList.Add(item);
                         }
-                        else if (state.StartDate != null && itemUserTimeZoneTime.DayOfYear == state.StartDate.Value.DayOfYear)
+                        else if (state.StartDate.Any() && itemUserTimeZoneTime.DayOfYear == state.StartDate[0].DayOfYear)
                         {
                             nextEventList.Add(item);
                         }
-                        else if (state.StartTime != null && itemUserTimeZoneTime.DayOfYear == state.StartTime.Value.DayOfYear)
+                        else if (state.StartTime.Any() && itemUserTimeZoneTime.DayOfYear == state.StartTime[0].DayOfYear)
                         {
                             nextEventList.Add(item);
                         }
@@ -85,45 +86,94 @@ namespace CalendarSkill
                     var timeDiffMinutes = (int)timeDiff.TotalMinutes % 60;
                     var timeDiffHours = (int)timeDiff.TotalMinutes / 60;
                     var timeDiffDays = timeDiff.Days;
+
+                    var tokens = new StringDictionary()
+                    {
+                        { "RemainingTime", string.Empty },
+                        { "Title", string.Empty },
+                        { "Time", string.Empty},
+                        { "TimeSpeak", string.Empty }
+                    };
+
+                    var remainingMinutes = string.Empty;
+                    var remainingHours = string.Empty;
+                    var remainingDays = string.Empty;
+
+                    if (timeDiffMinutes > 0)
+                    {
+                        if (timeDiffMinutes > 1)
+                        {
+                            remainingMinutes = $"{timeDiffMinutes.ToString()} minutes ";
+                        }
+                        else
+                        {
+                            remainingMinutes = $"{timeDiffMinutes.ToString()} minute ";
+                        }
+                    }
+
+                    if (timeDiffHours > 0)
+                    {
+                        if (timeDiffHours > 1)
+                        {
+                            remainingHours = $"{timeDiffHours.ToString()} hours ";
+                        }
+                        else
+                        {
+                            remainingHours = $"{timeDiffHours.ToString()} hour ";
+                        }
+                    }
+
+                    if (timeDiffDays > 0)
+                    {
+                        if (timeDiffHours > 1)
+                        {
+                            remainingDays = $"{timeDiffDays.ToString()} days ";
+                        }
+                        else
+                        {
+                            remainingDays = $"{timeDiffDays.ToString()} day ";
+                        }
+                    }
+
+                    var remainingTime = $"{remainingDays}{remainingHours}{remainingMinutes}";
+                    tokens["RemainingTime"] = remainingTime;
                     if (state.OrderReference == "next")
                     {
-                        var tokens = new StringDictionary()
-                        {
-                            { "RemainingHours", timeDiffHours > 1 ? $"{timeDiffHours.ToString()} hours" : $"{timeDiffHours.ToString()} hour" },
-                            { "RemainingMinutes", timeDiffMinutes > 1 ? $"{timeDiffMinutes.ToString()} minutes" : $"{timeDiffMinutes.ToString()} minute" }
-                        };
                         await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(TimeRemainResponses.ShowNextMeetingTimeRemainingMessage, ResponseBuilder, tokens));
                     }
-                    else if (state.StartDate != null)
+                    else
                     {
-                        var tokens = new StringDictionary()
+                        var timeToken = string.Empty;
+                        var timeSpeakToken = string.Empty;
+
+                        if (state.StartDate.Any())
                         {
-                            { "RemainingDays", timeDiffDays > 1 ? $"{timeDiffDays.ToString()} days" : $"{timeDiffDays.ToString()} day" },
-                            { "DateSpeak", state.StartDate.Value.ToSpeechDateString() },
-                            { "Date", state.StartDate.Value.ToShortDateString() }
-                        };
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(TimeRemainResponses.ShowSpecificDaysRemainingMessage, ResponseBuilder, tokens));
-                    }
-                    else if (state.StartTime != null)
-                    {
-                        var tokens = new StringDictionary()
+                            timeSpeakToken += $"{state.StartDate[0].ToSpeechDateString()} ";
+                            timeToken += $"{state.StartDate[0].ToShortDateString()} ";
+                        }
+
+                        if (state.StartTime.Any())
                         {
-                            { "RemainingHours", timeDiffHours > 1 ? $"{timeDiffHours.ToString()} hours" : $"{timeDiffHours.ToString()} hour" },
-                            { "RemainingMinutes", timeDiffMinutes > 1 ? $"{timeDiffMinutes.ToString()} minutes" : $"{timeDiffMinutes.ToString()} minute" },
-                            { "TimeSpeak", state.StartTime.Value.ToSpeechTimeString() },
-                            { "Time", state.StartTime.Value.ToShortTimeString() }
-                        };
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(TimeRemainResponses.ShowSpecificTimeRemainingMessage, ResponseBuilder, tokens));
-                    }
-                    else if (state.Title != null)
-                    {
-                        var tokens = new StringDictionary()
+                            timeSpeakToken += $"{state.StartTime[0].ToSpeechTimeString()}";
+                            timeToken += $"{state.StartTime[0].ToShortTimeString()}";
+                        }
+
+                        if (timeSpeakToken.Length > 0)
                         {
-                            { "RemainingHours", timeDiffHours > 1 ? $"{timeDiffHours.ToString()} hours" : $"{timeDiffHours.ToString()} hour" },
-                            { "RemainingMinutes", timeDiffMinutes > 1 ? $"{timeDiffMinutes.ToString()} minutes" : $"{timeDiffMinutes.ToString()} minute" },
-                            { "Title", state.Title }
-                        };
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(TimeRemainResponses.ShowSpecificTitleRemainingMessage, ResponseBuilder, tokens));
+                            tokens["TimeSpeak"] = $"at {timeSpeakToken}";
+                        }
+
+                        if (timeToken.Length > 0)
+                        {
+                            tokens["Time"] = $"at {timeToken}";
+                        }
+
+                        if (state.Title != null)
+                        {
+                            tokens["Title"] = $"with a subject of \"{state.Title}\"";
+                        }
+
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(TimeRemainResponses.ShowTimeRemainingMessage, ResponseBuilder, tokens));
                     }
                 }
 
