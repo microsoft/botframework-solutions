@@ -2,8 +2,8 @@
   "ToDoWelcomeMessage": {
     "replies": [
       {
-        "text": "你好！我是To Do bot. 我可以帮助你管理代办事项列表，购物列表以及杂货列表。",
-        "speak": "你好！我是To Do bot. 我可以帮助你管理代办事项列表，购物列表以及杂货列表。"
+        "text": "你好！我是事务机器人. 我可以帮助你管理代办事项列表，购物列表以及杂货列表。",
+        "speak": "你好！我是事务机器人. 我可以帮助你管理代办事项列表，购物列表以及杂货列表。"
       }
     ],
     "inputHint": "acceptingInput"
@@ -71,6 +71,15 @@
       {
         "text": "此功能尚不可用。",
         "speak": "此功能尚不可用。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "CancelMessage": {
+    "replies": [
+      {
+        "text": "好的, 我们从头再来。",
+        "speak": "好的, 我们从头再来。"
       }
     ],
     "inputHint": "acceptingInput"
