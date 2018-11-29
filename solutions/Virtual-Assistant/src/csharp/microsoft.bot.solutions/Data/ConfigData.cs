@@ -4,10 +4,18 @@ namespace Microsoft.Bot.Solutions.Data
 {
     public class ConfigData
     {
-        private static int _maxReadSize = Util.CommonUtil.MaxReadSize;
-        private static int _maxDisplaySize = Util.CommonUtil.MaxDisplaySize;
+        private static ConfigData _instance = new ConfigData();
 
-        public static int MaxReadSize
+        private int _maxReadSize = Util.CommonUtil.MaxReadSize;
+        private int _maxDisplaySize = Util.CommonUtil.MaxDisplaySize;
+
+        private ConfigData()
+        {
+            _maxReadSize = Util.CommonUtil.MaxReadSize;
+            _maxDisplaySize = Util.CommonUtil.MaxDisplaySize;
+        }
+
+        public int MaxReadSize
         {
             get
             {
@@ -23,7 +31,7 @@ namespace Microsoft.Bot.Solutions.Data
             }
         }
 
-        public static int MaxDisplaySize
+        public int MaxDisplaySize
         {
             get
             {
@@ -37,6 +45,11 @@ namespace Microsoft.Bot.Solutions.Data
                     _maxDisplaySize = value;
                 }
             }
+        }
+
+        public static ConfigData GetInstance()
+        {
+            return _instance;
         }
     }
 }

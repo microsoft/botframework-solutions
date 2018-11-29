@@ -87,7 +87,7 @@ namespace EmailSkillTest.API
 
             // Test get 0-5 message per page
             Assert.IsTrue(result.Count >= 1);
-            Assert.IsTrue(result.Count <= ConfigData.MaxDisplaySize);
+            Assert.IsTrue(result.Count <= ConfigData.GetInstance().MaxDisplaySize);
 
             // Test ranking correctly by time
             Assert.IsTrue(result[0].Subject == "TestSubject5");

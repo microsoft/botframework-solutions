@@ -108,7 +108,7 @@ namespace EmailSkill
                         done = true;
                     }
 
-                    if (result.Count == ConfigData.MaxDisplaySize)
+                    if (result.Count == ConfigData.GetInstance().MaxDisplaySize)
                     {
                         return result.OrderByDescending(me => me.ReceivedDateTime).ToList();
                     }

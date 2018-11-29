@@ -174,7 +174,7 @@ namespace EmailSkill
                 // TODO: should be simplify
                 var selectOption = await GenerateOptions(personList, userList, sc);
 
-                var startIndex = ConfigData.MaxReadSize * state.ReadRecipientIndex;
+                var startIndex = ConfigData.GetInstance().MaxReadSize * state.ReadRecipientIndex;
                 var choices = new List<Choice>();
                 for (int i = startIndex; i < selectOption.Choices.Count; i++)
                 {
@@ -193,7 +193,7 @@ namespace EmailSkill
                     return await sc.BeginDialogAsync(Actions.UpdateRecipientName, new UpdateUserDialogOptions(UpdateUserDialogOptions.UpdateReason.NotFound));
                 }
 
-                selectOption.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(selectOption, ConfigData.MaxReadSize);
+                selectOption.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(selectOption, ConfigData.GetInstance().MaxReadSize);
 
                 // Update prompt string to include the choices because the list style is none;
                 // TODO: should be removed if use adaptive card show choices.
@@ -236,7 +236,7 @@ namespace EmailSkill
 
                         if (choiceResult == General.Intent.ReadMore.ToString())
                         {
-                            if (state.RecipientChoiceList.Count <= ConfigData.MaxReadSize)
+                            if (state.RecipientChoiceList.Count <= ConfigData.GetInstance().MaxReadSize)
                             {
                                 // Set readmore as false when return to next page
                                 state.ShowRecipientIndex++;

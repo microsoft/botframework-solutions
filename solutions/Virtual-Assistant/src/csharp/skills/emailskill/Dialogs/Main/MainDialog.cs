@@ -302,12 +302,12 @@ namespace EmailSkill
 
             if (maxDisplaySize != null)
             {
-                ConfigData.MaxDisplaySize = int.Parse(maxDisplaySize as string);
+                ConfigData.GetInstance().MaxDisplaySize = int.Parse(maxDisplaySize as string);
             }
 
             if (maxReadSize != null)
             {
-                ConfigData.MaxReadSize = int.Parse(maxReadSize as string);
+                ConfigData.GetInstance().MaxReadSize = int.Parse(maxReadSize as string);
             }
         }
 

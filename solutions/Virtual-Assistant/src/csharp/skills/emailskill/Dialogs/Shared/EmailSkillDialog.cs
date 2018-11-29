@@ -185,7 +185,7 @@ namespace EmailSkill
 
                 if (IsReadMoreIntent(generalTopIntent, sc.Context.Activity.Text))
                 {
-                    if (state.MessageList.Count <= ConfigData.MaxReadSize)
+                    if (state.MessageList.Count <= ConfigData.GetInstance().MaxReadSize)
                     {
                         // Set readmore as false when return to next page
                         state.ShowEmailIndex++;
@@ -561,7 +561,7 @@ namespace EmailSkill
             if (generalTopIntent == General.Intent.Next || generalTopIntent == General.Intent.Previous)
             {
                 // TODO: The signature of validators has been changed per the sdk team, meaning this logic will need to be executed in a different way
-                if (pc.Options.Choices.Count > ConfigData.MaxDisplaySize)
+                if (pc.Options.Choices.Count > ConfigData.GetInstance().MaxDisplaySize)
                 {
                     // prompt.End(UpdateUserDialogOptions.UpdateReason.TooMany);
                     pc.Recognized.Succeeded = true;
@@ -633,7 +633,7 @@ namespace EmailSkill
         {
             var state = await EmailStateAccessor.GetAsync(sc.Context);
             var pageIndex = state.ShowRecipientIndex;
-            var pageSize = ConfigData.MaxDisplaySize;
+            var pageSize = ConfigData.GetInstance().MaxDisplaySize;
             var skip = pageSize * pageIndex;
 
             var options = new PromptOptions
@@ -681,7 +681,7 @@ namespace EmailSkill
 
             if (options.Choices.Count == 0)
             {
-                pageSize = ConfigData.MaxDisplaySize;
+                pageSize = ConfigData.GetInstance().MaxDisplaySize;
                 options.Prompt = sc.Context.Activity.CreateReply(ConfirmRecipientResponses.ConfirmRecipientLastPage);
             }
 
@@ -710,7 +710,7 @@ namespace EmailSkill
 
                     options.Choices.Add(choice);
                 }
-                else if (skip >= ConfigData.MaxDisplaySize)
+                else if (skip >= ConfigData.GetInstance().MaxDisplaySize)
                 {
                     return options;
                 }
@@ -798,7 +798,7 @@ namespace EmailSkill
             var result = new List<Message>();
             try
             {
-                int pageSize = ConfigData.MaxDisplaySize;
+                int pageSize = ConfigData.GetInstance().MaxDisplaySize;
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var token = state.Token;
                 var serivce = ServiceManager.InitMailService(token, state.GetUserTimeZone(), state.MailSourceType);
@@ -847,7 +847,7 @@ namespace EmailSkill
             var state = await EmailStateAccessor.GetAsync(sc.Context);
             var cardsData = new List<EmailCardData>();
 
-            var startIndex = ConfigData.MaxReadSize * state.ReadEmailIndex;
+            var startIndex = ConfigData.GetInstance().MaxReadSize * state.ReadEmailIndex;
             for (int i = startIndex; i < messages.Count(); i++)
             {
                 var message = messages[i];
@@ -882,7 +882,7 @@ namespace EmailSkill
             var stringToken = new StringDictionary
             {
                 { "SearchType", searchType },
-                { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(updatedMessages, ConfigData.MaxReadSize) },
+                { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(updatedMessages, ConfigData.GetInstance().MaxReadSize) },
             };
 
             var reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
