@@ -19,7 +19,7 @@ namespace EmailSkill
             ISkillConfiguration services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
-            IMailSkillServiceManager serviceManager)
+            IServiceManager serviceManager)
             : base(nameof(SendEmailDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager)
         {
             var sendEmail = new WaterfallStep[]
@@ -106,9 +106,9 @@ namespace EmailSkill
                 if (confirmResult)
                 {
                     var state = await EmailStateAccessor.GetAsync(sc.Context);
-                    var token = state.MsGraphToken;
+                    var token = state.Token;
 
-                    var service = ServiceManager.InitMailService(token, state.GetUserTimeZone());
+                    var service = ServiceManager.InitMailService(token, state.GetUserTimeZone(), state.MailSourceType);
 
                     // send user message.
                     await service.SendMessageAsync(state.Content, state.Subject, state.Recipients);

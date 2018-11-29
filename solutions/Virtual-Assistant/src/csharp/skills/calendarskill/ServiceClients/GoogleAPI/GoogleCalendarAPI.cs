@@ -10,6 +10,7 @@ using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
+using GoogleCalendarService = Google.Apis.Calendar.v3.CalendarService;
 
 namespace CalendarSkill.ServiceClients.GoogleAPI
 {
@@ -18,14 +19,18 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
     /// </summary>
     public class GoogleCalendarAPI : ICalendar
     {
-        private static Google.Apis.Calendar.v3.CalendarService service;
+        private static GoogleCalendarService service;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GoogleCalendarAPI"/> class.
         /// </summary>
-        /// <param name="config">GoogleClient. </param>
-        /// <param name="token">access token. </param>
-        public GoogleCalendarAPI(GoogleClient config, string token)
+        /// <param name="googleCalendarService">GoogleClient. </param>
+        public GoogleCalendarAPI(GoogleCalendarService googleCalendarService)
+        {
+            service = googleCalendarService;
+        }
+
+        public static GoogleCalendarService GetServiceClient(GoogleClient config, string token)
         {
             var flow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
             {
@@ -47,18 +52,20 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
 
             var credential = new UserCredential(flow, Environment.UserName, tokenRes);
 
-            service = new Google.Apis.Calendar.v3.CalendarService(new BaseClientService.Initializer()
+            var calendarService = new GoogleCalendarService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credential,
                 ApplicationName = config.ApplicationName,
             });
+
+            return calendarService;
         }
 
         /// <inheritdoc/>
         public async Task<EventModel> CreateEvent(EventModel newEvent)
         {
             await Task.CompletedTask;
-            return new EventModel(await CreateEvent(newEvent.Value));
+            return new EventModel(CreateEvent(newEvent.Value));
         }
 
         /// <inheritdoc/>

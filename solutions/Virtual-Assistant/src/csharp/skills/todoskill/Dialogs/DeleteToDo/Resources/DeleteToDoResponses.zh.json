@@ -20,8 +20,8 @@
   "AfterTaskDeleted": {
     "replies": [
       {
-        "text": "已经为您删除所有事项。",
-        "speak": "已经为您删除所有事项。"
+        "text": "已经为您删除事项{taskContent}。",
+        "speak": "已经为您删除事项{taskContent}。"
       }
     ],
     "inputHint": "acceptingInput"

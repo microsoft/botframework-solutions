@@ -44,7 +44,7 @@ namespace EmailSkillTest.API
             mockGraphServiceClient.SetMockBehavior();
 
             IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
-            UserService userService = new UserService(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
+            MSGraphUserService userService = new MSGraphUserService(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
 
             var result = await userService.GetUserAsync("test");
 
@@ -88,7 +88,7 @@ namespace EmailSkillTest.API
             mockGraphServiceClient.SetMockBehavior();
 
             IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
-            UserService userService = new UserService(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
+            MSGraphUserService userService = new MSGraphUserService(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
 
             var result = await userService.GetPeopleAsync("test");
 
@@ -130,7 +130,7 @@ namespace EmailSkillTest.API
             mockGraphServiceClient.SetMockBehavior();
 
             IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
-            UserService userService = new UserService(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
+            MSGraphUserService userService = new MSGraphUserService(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
 
             var result = await userService.GetContactsAsync("test");
 

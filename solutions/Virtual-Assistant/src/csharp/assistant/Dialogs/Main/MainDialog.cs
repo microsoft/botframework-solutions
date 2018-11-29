@@ -127,6 +127,7 @@ namespace VirtualAssistant
 
                                 case General.Intent.Next:
                                 case General.Intent.Previous:
+                                case General.Intent.ReadMore:
                                     {
                                         var lastExecutedIntent = virtualAssistantState.LastIntent;
                                         if (lastExecutedIntent != null)

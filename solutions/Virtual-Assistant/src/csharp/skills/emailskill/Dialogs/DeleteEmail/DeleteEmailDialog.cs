@@ -17,7 +17,7 @@ namespace EmailSkill
             ISkillConfiguration services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
-            IMailSkillServiceManager serviceManager)
+            IServiceManager serviceManager)
             : base(nameof(DeleteEmailDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager)
         {
             var deleteEmail = new WaterfallStep[]
@@ -95,7 +95,7 @@ namespace EmailSkill
                 if (confirmResult == true)
                 {
                     var state = await EmailStateAccessor.GetAsync(sc.Context);
-                    var mailService = this.ServiceManager.InitMailService(state.MsGraphToken, state.GetUserTimeZone());
+                    var mailService = this.ServiceManager.InitMailService(state.Token, state.GetUserTimeZone(), state.MailSourceType);
                     var focusMessage = state.Message.FirstOrDefault();
                     await mailService.DeleteMessageAsync(focusMessage.Id);
                 }

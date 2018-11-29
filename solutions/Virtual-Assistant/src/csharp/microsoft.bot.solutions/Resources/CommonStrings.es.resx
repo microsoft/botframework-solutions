@@ -225,6 +225,36 @@
   <data name="Yesterday" xml:space="preserve">
     <value>ayer</value>
   </data>
+  <data name="AttendeesSummary" xml:space="preserve">
+    <value>+ {0} otros</value>
+  </data>
+  <data name="DateWithAllDay" xml:space="preserve">
+    <value>{0} todo el dia</value>
+  </data>
+  <data name="TimeFormatDay" xml:space="preserve">
+    <value>{0} dia</value>
+  </data>
+  <data name="TimeFormatDays" xml:space="preserve">
+    <value>{0} dias</value>
+  </data>
+  <data name="TimeFormatHour" xml:space="preserve">
+    <value>{0} hora</value>
+  </data>
+  <data name="TimeFormatHourMinuteConnective" xml:space="preserve">
+    <value> y </value>
+  </data>
+  <data name="TimeFormatHours" xml:space="preserve">
+    <value>{0} horas</value>
+  </data>
+  <data name="TimeFormatMinute" xml:space="preserve">
+    <value>{0} minuto</value>
+  </data>
+  <data name="TimeFormatMinutes" xml:space="preserve">
+    <value>{0} minutos</value>
+  </data>
+  <data name="DisplayFullDateFormat" xml:space="preserve">
+    <value>dd-MM-yyyy</value>
+  </data>
   <data name="All" xml:space="preserve">
     <value>todos</value>
   </data>

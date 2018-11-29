@@ -49,6 +49,7 @@ namespace ToDoSkill
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
+                state.LastListType = state.ListType;
                 if (!state.ListTypeIds.ContainsKey(state.ListType))
                 {
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
@@ -75,7 +76,7 @@ namespace ToDoSkill
                 var allTasksCount = state.AllTasks.Count;
                 var currentTaskIndex = state.ShowTaskPageIndex * state.PageSize;
                 state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));
-                var markToDoAttachment = ToAdaptiveCardAttachmentForOtherFlows(
+                var markToDoAttachment = ToAdaptiveCardForOtherFlows(
                     state.Tasks,
                     state.AllTasks.Count,
                     taskTopicToBeMarked,

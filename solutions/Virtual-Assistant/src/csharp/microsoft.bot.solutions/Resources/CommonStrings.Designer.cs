@@ -88,6 +88,15 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to + {0} others.
+        /// </summary>
+        public static string AttendeesSummary {
+            get {
+                return ResourceManager.GetString("AttendeesSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} at {1}.
         /// </summary>
         public static string AtTimeDetailsFormat {
@@ -102,6 +111,15 @@ namespace Microsoft.Bot.Solutions.Resources {
         public static string ContentFormat {
             get {
                 return ResourceManager.GetString("ContentFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} all day.
+        /// </summary>
+        public static string DateWithAllDay {
+            get {
+                return ResourceManager.GetString("DateWithAllDay", resourceCulture);
             }
         }
         
@@ -129,6 +147,15 @@ namespace Microsoft.Bot.Solutions.Resources {
         public static string DisplayDateFormat_CurrentYear {
             get {
                 return ResourceManager.GetString("DisplayDateFormat_CurrentYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to dd-MM-yyyy.
+        /// </summary>
+        public static string DisplayFullDateFormat {
+            get {
+                return ResourceManager.GetString("DisplayFullDateFormat", resourceCulture);
             }
         }
         
@@ -327,6 +354,69 @@ namespace Microsoft.Bot.Solutions.Resources {
         public static string SubjectFormat {
             get {
                 return ResourceManager.GetString("SubjectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} day.
+        /// </summary>
+        public static string TimeFormatDay {
+            get {
+                return ResourceManager.GetString("TimeFormatDay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} days.
+        /// </summary>
+        public static string TimeFormatDays {
+            get {
+                return ResourceManager.GetString("TimeFormatDays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} hour.
+        /// </summary>
+        public static string TimeFormatHour {
+            get {
+                return ResourceManager.GetString("TimeFormatHour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  and .
+        /// </summary>
+        public static string TimeFormatHourMinuteConnective {
+            get {
+                return ResourceManager.GetString("TimeFormatHourMinuteConnective", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} hours.
+        /// </summary>
+        public static string TimeFormatHours {
+            get {
+                return ResourceManager.GetString("TimeFormatHours", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} minute.
+        /// </summary>
+        public static string TimeFormatMinute {
+            get {
+                return ResourceManager.GetString("TimeFormatMinute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} minutes.
+        /// </summary>
+        public static string TimeFormatMinutes {
+            get {
+                return ResourceManager.GetString("TimeFormatMinutes", resourceCulture);
             }
         }
         
