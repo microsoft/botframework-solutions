@@ -14,19 +14,18 @@ namespace CalendarSkill
             UserInfo = new UserInformation();
             Title = null;
             Content = null;
-            StartDate = null;
+            StartDate = new List<DateTime>();
             StartDateString = null;
-            StartTime = null;
+            StartTime = new List<DateTime>();
             StartTimeString = null;
             StartDateTime = null;
-            EndDate = null;
-            EndTime = null;
+            EndDate = new List<DateTime>();
+            EndTime = new List<DateTime>();
             EndDateTime = null;
-            OriginalStartDate = null;
-            OriginalStartTime = null;
-            OriginalEndDate = null;
-            OriginalEndTime = null;
-            OrderReference = null;
+            OriginalStartDate = new List<DateTime>();
+            OriginalStartTime = new List<DateTime>();
+            OriginalEndDate = new List<DateTime>();
+            OriginalEndTime = new List<DateTime>();
             Location = null;
             Attendees = new List<EventModel.Attendee>();
             APIToken = null;
@@ -57,31 +56,31 @@ namespace CalendarSkill
         public string Content { get; set; }
 
         // user time zone
-        public DateTime? StartDate { get; set; }
+        public List<DateTime> StartDate { get; set; }
 
         // user time zone
-        public DateTime? StartTime { get; set; }
+        public List<DateTime> StartTime { get; set; }
 
         // UTC
         public DateTime? StartDateTime { get; set; }
 
         // user time zone
-        public DateTime? EndDate { get; set; }
+        public List<DateTime> EndDate { get; set; }
 
         // user time zone
-        public DateTime? EndTime { get; set; }
+        public List<DateTime> EndTime { get; set; }
 
         // user time zone
-        public DateTime? OriginalStartDate { get; set; }
+        public List<DateTime> OriginalStartDate { get; set; }
 
         // user time zone
-        public DateTime? OriginalStartTime { get; set; }
+        public List<DateTime> OriginalStartTime { get; set; }
 
         // user time zone
-        public DateTime? OriginalEndDate { get; set; }
+        public List<DateTime> OriginalEndDate { get; set; }
 
         // user time zone
-        public DateTime? OriginalEndTime { get; set; }
+        public List<DateTime> OriginalEndTime { get; set; }
 
         // the order reference, such as 'next'
         public string OrderReference { get; set; }
@@ -139,18 +138,18 @@ namespace CalendarSkill
             User = new User();
             Title = null;
             Content = null;
-            StartDate = null;
+            StartDate = new List<DateTime>();
             StartDateString = null;
-            StartTime = null;
+            StartTime = new List<DateTime>();
             StartTimeString = null;
             StartDateTime = null;
-            EndDate = null;
-            EndTime = null;
+            EndDate = new List<DateTime>();
+            EndTime = new List<DateTime>();
             EndDateTime = null;
-            OriginalStartDate = null;
-            OriginalStartTime = null;
-            OriginalEndDate = null;
-            OriginalEndTime = null;
+            OriginalStartDate = new List<DateTime>();
+            OriginalStartTime = new List<DateTime>();
+            OriginalEndDate = new List<DateTime>();
+            OriginalEndTime = new List<DateTime>();
             OrderReference = null;
             Location = null;
             Attendees = new List<EventModel.Attendee>();

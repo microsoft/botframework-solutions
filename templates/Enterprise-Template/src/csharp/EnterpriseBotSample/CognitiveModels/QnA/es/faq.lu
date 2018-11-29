@@ -1,0 +1,8 @@
+﻿> # QnA Definitions
+> 
+### ? ¿Qué es el Enterprise bot template?
+- ¿Qué es la plantilla de bot de Enterprise?
+	```markdown
+	La creación de una experiencia conversacional de alta calidad requiere un conjunto fundacional de capacidades. Para ayudarle a tener éxito con la creación de grandes experiencias conversacionales, hemos creado una plantilla **Enterprise bot template**. Esta plantilla reúne todas las mejores prácticas y componentes de apoyo que hemos identificado a través de la construcción de experiencias conversacionales. 
+	[Learn more](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-enterprise-template-overview?view=azure-bot-service-4.0) 
+	```

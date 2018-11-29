@@ -14,6 +14,7 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 
 namespace CalendarSkill
 {
@@ -128,7 +129,6 @@ namespace CalendarSkill
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult)
                 {
-
                     var newStartTime = (DateTime)state.NewStartDateTime;
                     var origin = state.Events[0];
                     var updateEvent = new EventModel(origin.Source);
@@ -164,7 +164,7 @@ namespace CalendarSkill
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                if (state.StartDate != null || state.StartTime != null || state.MoveTimeSpan != 0)
+                if (state.StartDate.Any() || state.StartTime.Any() || state.MoveTimeSpan != 0)
                 {
                     return await sc.ContinueDialogAsync();
                 }
@@ -190,40 +190,43 @@ namespace CalendarSkill
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                if (state.StartDate != null || state.StartTime != null || state.MoveTimeSpan != 0)
+                if (state.StartDate.Any() || state.StartTime.Any() || state.MoveTimeSpan != 0)
                 {
                     var originalEvent = state.Events[0];
                     var originalStartDateTime = TimeConverter.ConvertUtcToUserTime(originalEvent.StartTime, state.GetUserTimeZone());
+                    var userNow = TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, state.GetUserTimeZone());
 
-                    if (state.StartDate != null && state.StartTime != null)
+                    if (state.StartDate.Any() || state.StartTime.Any())
                     {
-                        state.NewStartDateTime = new DateTime(
-                            state.StartDate.Value.Year,
-                            state.StartDate.Value.Month,
-                            state.StartDate.Value.Day,
-                            state.StartTime.Value.Hour,
-                            state.StartTime.Value.Minute,
-                            state.StartTime.Value.Second);
-                    }
-                    else if (state.StartDate != null && state.StartTime == null)
-                    {
-                        state.NewStartDateTime = new DateTime(
-                            state.StartDate.Value.Year,
-                            state.StartDate.Value.Month,
-                            state.StartDate.Value.Day,
-                            originalStartDateTime.Hour,
-                            originalStartDateTime.Minute,
-                            originalStartDateTime.Second);
-                    }
-                    else if (state.StartDate == null && state.StartTime != null)
-                    {
-                        state.NewStartDateTime = new DateTime(
-                            originalStartDateTime.Year,
-                            originalStartDateTime.Month,
-                            originalStartDateTime.Day,
-                            state.StartTime.Value.Hour,
-                            state.StartTime.Value.Minute,
-                            state.StartTime.Value.Second);
+                        var newStartDate = state.StartDate.Any() ?
+                            state.StartDate.Last() :
+                            originalStartDateTime;
+
+                        var newStartTime = new List<DateTime>();
+                        if (state.StartTime.Any())
+                        {
+                            foreach (var time in state.StartTime)
+                            {
+                                var newStartDateTime = new DateTime(
+                                    newStartDate.Year,
+                                    newStartDate.Month,
+                                    newStartDate.Day,
+                                    time.Hour,
+                                    time.Minute,
+                                    time.Second);
+
+                                if (state.NewStartDateTime == null)
+                                {
+                                    state.NewStartDateTime = newStartDateTime;
+                                }
+
+                                if (newStartDateTime >= userNow)
+                                {
+                                    state.NewStartDateTime = newStartDateTime;
+                                    break;
+                                }
+                            }
+                        }
                     }
                     else if (state.MoveTimeSpan != 0)
                     {
@@ -241,19 +244,66 @@ namespace CalendarSkill
                 else if (sc.Result != null)
                 {
                     IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
-                    var newStartTime = DateTime.Parse(dateTimeResolutions.First().Value);
 
-                    var dateTimeConvertType = dateTimeResolutions.First().Timex;
+                    DateTime? newStartTime = null;
 
-                    if (newStartTime != null)
+                    foreach (var resolution in dateTimeResolutions)
                     {
+                        var utcNow = DateTime.UtcNow;
+                        var dateTimeConvertTypeString = resolution.Timex;
+                        var dateTimeConvertType = new TimexProperty(dateTimeConvertTypeString);
+                        var dateTimeValue = DateTime.Parse(resolution.Value);
+                        if (dateTimeValue == null)
+                        {
+                            continue;
+                        }
+
                         var isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeResolutions.First().Value, dateTimeResolutions.First().Timex);
                         if (isRelativeTime)
                         {
-                            newStartTime = DateTime.SpecifyKind(newStartTime, DateTimeKind.Local);
+                            dateTimeValue = DateTime.SpecifyKind(dateTimeValue, DateTimeKind.Local);
                         }
 
-                        state.NewStartDateTime = isRelativeTime ? TimeConverter.ConvertLuisLocalToUtc(newStartTime, state.GetUserTimeZone()) : TimeZoneInfo.ConvertTimeToUtc(newStartTime, state.GetUserTimeZone());
+                        dateTimeValue = isRelativeTime ? TimeZoneInfo.ConvertTime(dateTimeValue, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTimeValue;
+                        var originalStartDateTime = TimeConverter.ConvertUtcToUserTime(state.Events[0].StartTime, state.GetUserTimeZone());
+                        if (dateTimeConvertType.Types.Contains(Constants.TimexTypes.Date) && !dateTimeConvertType.Types.Contains(Constants.TimexTypes.DateTime))
+                        {
+                            dateTimeValue = new DateTime(
+                                dateTimeValue.Year,
+                                dateTimeValue.Month,
+                                dateTimeValue.Day,
+                                originalStartDateTime.Hour,
+                                originalStartDateTime.Minute,
+                                originalStartDateTime.Second);
+                        }
+                        else if (dateTimeConvertType.Types.Contains(Constants.TimexTypes.Time) && !dateTimeConvertType.Types.Contains(Constants.TimexTypes.DateTime))
+                        {
+                            dateTimeValue = new DateTime(
+                                originalStartDateTime.Year,
+                                originalStartDateTime.Month,
+                                originalStartDateTime.Day,
+                                dateTimeValue.Hour,
+                                dateTimeValue.Minute,
+                                dateTimeValue.Second);
+                        }
+
+                        dateTimeValue = TimeZoneInfo.ConvertTimeToUtc(dateTimeValue, state.GetUserTimeZone());
+
+                        if (newStartTime == null)
+                        {
+                            newStartTime = dateTimeValue;
+                        }
+
+                        if (dateTimeValue >= utcNow)
+                        {
+                            newStartTime = dateTimeValue;
+                            break;
+                        }
+                    }
+
+                    if (newStartTime != null)
+                    {
+                        state.NewStartDateTime = newStartTime;
 
                         return await sc.ContinueDialogAsync();
                     }
@@ -301,7 +351,7 @@ namespace CalendarSkill
             {
                 var state = await Accessor.GetAsync(sc.Context);
 
-                if (state.OriginalStartDate != null || state.OriginalStartTime != null || state.Title != null)
+                if (state.OriginalStartDate.Any() || state.OriginalStartTime.Any() || state.Title != null)
                 {
                     return await sc.NextAsync();
                 }
@@ -336,14 +386,15 @@ namespace CalendarSkill
                 var events = new List<EventModel>();
                 var calendarAPI = GraphClientHelper.GetCalendarService(state.APIToken, state.EventSource, ServiceManager.GetGoogleClient());
                 var calendarService = ServiceManager.InitCalendarService(calendarAPI, state.EventSource);
+                var searchByEntities = state.OriginalStartDate.Any() || state.OriginalStartTime.Any() || state.Title != null;
 
-                if (state.OriginalStartDate != null || state.OriginalStartTime != null)
+                if (state.OriginalStartDate.Any() || state.OriginalStartTime.Any())
                 {
                     events = await GetEventsByTime(state.OriginalStartDate, state.OriginalStartTime, state.OriginalEndDate, state.OriginalEndTime, state.GetUserTimeZone(), calendarService);
-                    state.OriginalStartDate = null;
-                    state.OriginalStartTime = null;
-                    state.OriginalEndDate = null;
-                    state.OriginalStartTime = null;
+                    state.OriginalStartDate = new List<DateTime>();
+                    state.OriginalStartTime = new List<DateTime>();
+                    state.OriginalEndDate = new List<DateTime>();
+                    state.OriginalStartTime = new List<DateTime>();
                 }
                 else if (state.Title != null)
                 {
@@ -352,7 +403,6 @@ namespace CalendarSkill
                 }
                 else
                 {
-                    DateTime? startTime = null;
                     sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
                     var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
                     try
@@ -360,22 +410,32 @@ namespace CalendarSkill
                         IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
                         if (dateTimeResolutions.Count > 0)
                         {
-                            startTime = DateTime.Parse(dateTimeResolutions.First().Value);
-                            var dateTimeConvertType = dateTimeResolutions.First().Timex;
-                            bool isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeResolutions.First().Value, dateTimeResolutions.First().Timex);
-                            startTime = isRelativeTime ? TimeZoneInfo.ConvertTime(startTime.Value, TimeZoneInfo.Local, state.GetUserTimeZone()) : startTime;
+                            foreach (var resolution in dateTimeResolutions)
+                            {
+                                var startTimeValue = DateTime.Parse(resolution.Value);
+                                if (startTimeValue == null)
+                                {
+                                    continue;
+                                }
+
+                                var dateTimeConvertType = resolution.Timex;
+                                bool isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeResolutions.First().Value, dateTimeResolutions.First().Timex);
+                                startTimeValue = isRelativeTime ? TimeZoneInfo.ConvertTime(startTimeValue, TimeZoneInfo.Local, state.GetUserTimeZone()) : startTimeValue;
+
+                                startTimeValue = TimeConverter.ConvertLuisLocalToUtc(startTimeValue, state.GetUserTimeZone());
+                                events = await calendarService.GetEventsByStartTime(startTimeValue);
+                                if (events != null && events.Count > 0)
+                                {
+                                    break;
+                                }
+                            }
                         }
                     }
                     catch
                     {
                     }
 
-                    if (startTime != null)
-                    {
-                        startTime = TimeConverter.ConvertLuisLocalToUtc(startTime.Value, state.GetUserTimeZone());
-                        events = await calendarService.GetEventsByStartTime(startTime.Value);
-                    }
-                    else
+                    if (events == null || events.Count <= 0)
                     {
                         state.Title = userInput;
                         events = await calendarService.GetEventsByTitle(userInput);
@@ -385,7 +445,16 @@ namespace CalendarSkill
                 state.Events = events;
                 if (events.Count <= 0)
                 {
-                    return await sc.BeginDialogAsync(Actions.UpdateStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NoEvent));
+                    if (searchByEntities)
+                    {
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(UpdateEventResponses.EventWithStartTimeNotFound));
+                        state.Clear();
+                        return await sc.CancelAllDialogsAsync();
+                    }
+                    else
+                    {
+                        return await sc.BeginDialogAsync(Actions.UpdateStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NoEvent));
+                    }
                 }
                 else if (events.Count > 1)
                 {
