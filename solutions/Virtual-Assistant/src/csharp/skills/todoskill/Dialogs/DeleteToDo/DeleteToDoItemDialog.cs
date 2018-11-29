@@ -63,6 +63,7 @@ namespace ToDoSkill
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
+                state.LastListType = state.ListType;
                 if (state.DeleteTaskConfirmation)
                 {
                     if (!state.ListTypeIds.ContainsKey(state.ListType))
@@ -106,7 +107,7 @@ namespace ToDoSkill
                     {
                         if (state.Tasks.Count > 0)
                         {
-                            var deletedToDoListAttachment = ToAdaptiveCardAttachmentForOtherFlows(
+                            var deletedToDoListAttachment = ToAdaptiveCardForOtherFlows(
                                 state.Tasks,
                                 state.AllTasks.Count,
                                 taskTopicToBeDeleted,

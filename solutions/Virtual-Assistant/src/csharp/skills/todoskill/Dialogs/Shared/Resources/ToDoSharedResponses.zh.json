@@ -109,8 +109,8 @@
   "ShowToDoTasks": {
     "replies": [
       {
-        "text": "您的列表有 {taskCount} 个任务：",
-        "speak": "您的列表有 {taskCount} 个任务："
+        "text": "您的列表有{taskCount}个任务：",
+        "speak": "您的列表有{taskCount}个任务："
       }
     ],
     "inputHint": "ignoringInput"
@@ -127,20 +127,20 @@
   "AskToDoContentText": {
     "replies": [
       {
-        "text": "当然。您想加入什么到待办事项表？",
+        "text": "当然。您想加入什么到事项表？",
         "speak": "当然。您想加入什么到待办事项表？"
       },
       {
-        "text": "好的，您想加入什么到待办事项表？",
-        "speak": "好的，您想加入什么到待办事项表？"
+        "text": "好的，您想加入什么到事项表？",
+        "speak": "好的，您想加入什么到事项表？"
       },
       {
-        "text": "好，您想加入什么到待办事项表？",
-        "speak": "好，您想加入什么到待办事项表？"
+        "text": "好，您想加入什么到事项表？",
+        "speak": "好，您想加入什么到事项表？"
       },
       {
-        "text": "您想加入什么到待办事项表？",
-        "speak": "您想加入什么到待办事项表？"
+        "text": "您想加入什么到事项表？",
+        "speak": "您想加入什么到事项表？"
       }
     ],
     "inputHint": "expectingInput"
