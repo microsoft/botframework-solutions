@@ -25,7 +25,7 @@ namespace EmailSkillTest.API
             this.mockDialogStateAccessor = new MockDialogStateAccessor();
             DialogStateAccessor = mockDialogStateAccessor.GetMock().Object;
 
-            ServiceManager = new MockMailSkillServiceManager();
+            ServiceManager = new MockServiceManager();
         }
 
         [ClassInitialize]
