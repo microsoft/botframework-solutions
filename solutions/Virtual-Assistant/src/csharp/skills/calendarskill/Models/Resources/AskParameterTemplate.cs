@@ -14,6 +14,7 @@ namespace CalendarSkill.Models.Resources
 
         static AskParameterTemplate()
         {
+            // Read the regexs from data file.
             templateMapping = new Dictionary<string, AskParameterType>();
             var dir = Path.GetDirectoryName(typeof(AskParameterTemplate).Assembly.Location);
             var resDir = Path.Combine(dir, @"Models\Resources\AskParameterTemplate.txt");
@@ -23,6 +24,7 @@ namespace CalendarSkill.Models.Resources
             {
                 if (line.StartsWith("#"))
                 {
+                    // Language tag, should skip and continue.
                     continue;
                 }
 
@@ -37,6 +39,8 @@ namespace CalendarSkill.Models.Resources
 
         public static List<AskParameterType> GetAskParameterTypes(string content)
         {
+            // return all parameter types that matches this content
+            // for example, when and where will match ask location and ask time
             List<AskParameterType> types = new List<AskParameterType>();
             if (string.IsNullOrEmpty(content))
             {

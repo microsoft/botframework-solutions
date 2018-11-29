@@ -67,6 +67,7 @@ namespace CalendarSkill
                 {
                     if (nextEventList.Count == 1)
                     {
+                        // if user asked for specific details
                         if (askParameter.NeedDetail)
                         {
                             var responseParams = new StringDictionary()
@@ -92,6 +93,7 @@ namespace CalendarSkill
 
                             if (askParameter.NeedLocation)
                             {
+                                // for some event there might be no localtion.
                                 if (string.IsNullOrEmpty(responseParams["EventLocation"]))
                                 {
                                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(NextMeetingResponses.ReadNoLocation));

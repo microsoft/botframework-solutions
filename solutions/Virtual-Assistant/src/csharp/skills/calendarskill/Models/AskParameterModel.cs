@@ -56,14 +56,6 @@ namespace CalendarSkill.Models
 
     public class AskParameterModel
     {
-        public bool NeedDetail { get; set; } = false;
-
-        public bool NeedTime { get; set; } = false;
-
-        public bool NeedDuration { get; set; } = false;
-
-        public bool NeedLocation { get; set; } = false;
-
         public AskParameterModel(string content)
         {
             if (string.IsNullOrEmpty(content))
@@ -79,12 +71,14 @@ namespace CalendarSkill.Models
                 {
                     case AskParameterType.AskForDetail:
                         {
-                            //can set defuat here
+                            // can set defuat here if needed
                             break;
                         }
 
                     case AskParameterType.AskForStartTime:
                         {
+                            // we do not support answer only start or end time for now
+                            // it will return the start and end time always when you ask about any time
                             NeedTime = true;
                             NeedDetail = true;
                             break;
@@ -92,6 +86,8 @@ namespace CalendarSkill.Models
 
                     case AskParameterType.AskForEndTime:
                         {
+                            // we do not support answer only start or end time for now
+                            // it will return the start and end time always when you ask about any time
                             NeedTime = true;
                             NeedDetail = true;
                             break;
@@ -125,5 +121,16 @@ namespace CalendarSkill.Models
                 }
             }
         }
+
+        // this is for if there is any detail we need to answer.
+        // this could be seen as the OR result of all the specific details
+        // if it is false, that means the user do not need any specific detail
+        public bool NeedDetail { get; set; } = false;
+
+        public bool NeedTime { get; set; } = false;
+
+        public bool NeedDuration { get; set; } = false;
+
+        public bool NeedLocation { get; set; } = false;
     }
 }
