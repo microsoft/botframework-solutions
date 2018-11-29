@@ -1,0 +1,21 @@
+﻿#English
+AskForDetail	what*about
+AskForDetail	what*
+AskForStartTime	when*start
+AskForEndTime	when*end
+AskForTime	when*
+AskForDuration	how long*
+AskForLocation	where*
+AskForAttendee	who*with
+AskForTitle	what*title
+AskForContent	what*content
+#Chinese
+AskForDetail	有关什么
+AskForStartTime	几点开始
+AskForEndTime	几点结束
+AskForTime	几点
+AskForDuration	多久
+AskForLocation	在哪
+AskForAttendee	谁参加
+AskForTitle	什么主题
+AskForContent	什么内容
