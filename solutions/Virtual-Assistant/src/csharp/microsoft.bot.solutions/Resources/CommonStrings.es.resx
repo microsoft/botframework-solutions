@@ -255,4 +255,10 @@
   <data name="DisplayFullDateFormat" xml:space="preserve">
     <value>dd-MM-yyyy</value>
   </data>
+  <data name="All" xml:space="preserve">
+    <value>todos</value>
+  </data>
+  <data name="High" xml:space="preserve">
+    <value>alto</value>
+  </data>
 </root>

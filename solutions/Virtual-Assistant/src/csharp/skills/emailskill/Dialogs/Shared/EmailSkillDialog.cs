@@ -152,6 +152,32 @@ namespace EmailSkill
         }
 
         // Shared steps
+        protected virtual async Task<DialogTurnResult> IfClearContextStep(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var skillOptions = (EmailSkillDialogOptions)sc.Options;
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+
+                if (!skillOptions.SubFlowMode)
+                {
+                    var luisResult = state.LuisResult;
+
+                    // Clear email state data
+                    await ClearConversationState(sc);
+                    await DigestEmailLuisResult(sc, luisResult);
+                }
+
+                await DigestFocusEmailAsync(sc);
+
+                return await sc.NextAsync();
+            }
+            catch (Exception ex)
+            {
+                throw await HandleDialogExceptions(sc, ex);
+            }
+        }
+
         protected async Task<DialogTurnResult> GetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -276,6 +302,7 @@ namespace EmailSkill
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var luisResult = state.LuisResult;
 
+                await DigestFocusEmailAsync(sc);
                 var focusedMessage = state.Message.FirstOrDefault();
 
                 // todo: should set updatename reason in stepContext.Result
@@ -299,7 +326,16 @@ namespace EmailSkill
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                return await sc.BeginDialogAsync(Actions.UpdateSelectMessage);
+
+                var skillOptions = (EmailSkillDialogOptions)sc.Options;
+                skillOptions.SubFlowMode = true;
+
+                if (state.Message == null || state.Message.Count() == 0)
+                {
+                    return await sc.BeginDialogAsync(Actions.UpdateSelectMessage, skillOptions);
+                }
+
+                return await sc.NextAsync();
             }
             catch (Exception ex)
             {
@@ -454,6 +490,13 @@ namespace EmailSkill
                 if (messages.Count > 0)
                 {
                     await ShowMailList(sc, messages);
+
+                    // Give focus when there is only one email.
+                    if (messages.Count == 1)
+                    {
+                        state.Message.Add(messages[0]);
+                    }
+
                     state.MessageList = messages;
                 }
                 else
@@ -888,24 +931,31 @@ namespace EmailSkill
         {
             try
             {
+                var skillOptions = (EmailSkillDialogOptions)sc.Options;
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
+
+                // Keep email display and focus data when in sub flow mode
+                if (!skillOptions.SubFlowMode)
+                {
+                    state.Message.Clear();
+                    state.ShowEmailIndex = 0;
+                    state.IsUnreadOnly = true;
+                    state.IsImportant = false;
+                    state.StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
+                    state.EndDateTime = DateTime.UtcNow;
+                    state.DirectlyToMe = false;
+                    state.UserSelectIndex = -1;
+                }
+
                 state.NameList.Clear();
-                state.Message.Clear();
                 state.Content = null;
                 state.Subject = null;
                 state.Recipients.Clear();
                 state.ConfirmRecipientIndex = 0;
-                state.ShowEmailIndex = 0;
-                state.IsUnreadOnly = true;
-                state.IsImportant = false;
-                state.StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
-                state.EndDateTime = DateTime.UtcNow;
-                state.DirectlyToMe = false;
                 state.SenderName = null;
                 state.EmailList = new List<string>();
                 state.ShowRecipientIndex = 0;
                 state.LuisResultPassedFromSkill = null;
-                state.MailSourceType = MailSource.Other;
             }
             catch (Exception)
             {
@@ -928,6 +978,18 @@ namespace EmailSkill
             }
         }
 
+        protected async Task DigestFocusEmailAsync(WaterfallStepContext sc)
+        {
+            var state = await EmailStateAccessor.GetAsync(sc.Context);
+
+            // Get focus message if any
+            if (state.MessageList != null && state.UserSelectIndex >= 0 && state.UserSelectIndex < state.MessageList.Count())
+            {
+                state.Message.Clear();
+                state.Message.Add(state.MessageList[state.UserSelectIndex]);
+            }
+        }
+
         protected async Task DigestEmailLuisResult(DialogContext dc, Email luisResult)
         {
             try
@@ -937,17 +999,23 @@ namespace EmailSkill
                 if (dc.Context.Activity.Text != null)
                 {
                     var words = dc.Context.Activity.Text.Split(' ');
-                    foreach (var word in words)
                     {
-                        switch (word)
+                        foreach (var word in words)
                         {
-                            case "high":
-                            case "important":
+                            var lowerInput = word.ToLower();
+
+                            if (lowerInput.Contains(CommonStrings.High) || lowerInput.Contains(CommonStrings.Important))
+                            {
                                 state.IsImportant = true;
-                                break;
-                            case "unread":
+                            }
+                            else if (lowerInput.Contains(CommonStrings.Unread))
+                            {
                                 state.IsUnreadOnly = true;
-                                break;
+                            }
+                            else if (lowerInput.Contains(CommonStrings.All))
+                            {
+                                state.IsUnreadOnly = false;
+                            }
                         }
                     }
                 }
@@ -1029,12 +1097,7 @@ namespace EmailSkill
                         var value = entity.ordinal[0];
                         if (Math.Abs(value - (int)value) < double.Epsilon)
                         {
-                            var num = (int)value;
-                            if (emailList != null && num > 0 && num <= emailList.Count)
-                            {
-                                state.Message.Clear();
-                                state.Message.Add(emailList[num - 1]);
-                            }
+                            state.UserSelectIndex = (int)value - 1;
                         }
                     }
                     catch
@@ -1051,12 +1114,7 @@ namespace EmailSkill
                         var value = entity.number[0];
                         if (Math.Abs(value - (int)value) < double.Epsilon)
                         {
-                            var num = (int)value;
-                            if (emailList != null && num > 0 && num <= emailList.Count)
-                            {
-                                state.Message.Clear();
-                                state.Message.Add(emailList[num - 1]);
-                            }
+                            state.UserSelectIndex = (int)value - 1;
                         }
                     }
                     catch
