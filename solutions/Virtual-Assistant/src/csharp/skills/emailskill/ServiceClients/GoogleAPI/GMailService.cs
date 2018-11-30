@@ -87,7 +87,10 @@ namespace EmailSkill
 
             // construct the References headers
             foreach (var mid in originMessage.References)
+            {
                 forward.References.Add(mid);
+            }
+
             if (!string.IsNullOrEmpty(originMessage.MessageId))
             {
                 forward.References.Add(originMessage.MessageId);
@@ -130,7 +133,6 @@ namespace EmailSkill
                 Raw = Base64UrlEncode(forward.ToString() + content),
                 ThreadId = threadId,
             }, "me").ExecuteAsync();
-
         }
 
         /// <inheritdoc/>
@@ -150,8 +152,8 @@ namespace EmailSkill
             var adds = AlternateView.CreateAlternateViewFromString(content, new System.Net.Mime.ContentType("text/plain"));
             adds.ContentType.CharSet = Encoding.UTF8.WebName;
             mess.AlternateViews.Add(adds);
-            // mess.BodyTransferEncoding = System.Net.Mime.TransferEncoding.Base64;
 
+            // mess.BodyTransferEncoding = System.Net.Mime.TransferEncoding.Base64;
             var mime = MimeMessage.CreateFromMailMessage(mess);
             await service.Users.Messages.Send(
                 new GmailMessage()
@@ -182,16 +184,23 @@ namespace EmailSkill
 
             // set the reply subject
             if (!originMessage.Subject.StartsWith("Re:", StringComparison.OrdinalIgnoreCase))
+            {
                 reply.Subject = "Re: " + originMessage.Subject;
+            }
             else
+            {
                 reply.Subject = originMessage.Subject;
+            }
 
             // construct the In-Reply-To and References headers
             if (!string.IsNullOrEmpty(originMessage.MessageId))
             {
                 reply.InReplyTo = originMessage.MessageId;
                 foreach (var mid in originMessage.References)
+                {
                     reply.References.Add(mid);
+                }
+
                 reply.References.Add(originMessage.MessageId);
             }
 
@@ -275,10 +284,11 @@ namespace EmailSkill
                 tempReq.MaxResults = skip;
                 tempReq.Q = searchOperation;
                 var tempRes = tempReq.Execute();
-                if ( tempRes.NextPageToken != null && tempRes.NextPageToken != string.Empty)
+                if (tempRes.NextPageToken != null && tempRes.NextPageToken != string.Empty)
                 {
                     this.pageToken = tempRes.NextPageToken;
-                } else
+                }
+                else
                 {
                     // no more message
                     return new List<MSMessage>();
@@ -293,7 +303,8 @@ namespace EmailSkill
             // response.Messages only have id and threadID
             if (response.Messages != null)
             {
-                var messages = await Task.WhenAll(response.Messages.Select(temp => {
+                var messages = await Task.WhenAll(response.Messages.Select(temp =>
+                {
                     var req = service.Users.Messages.Get("me", temp.Id);
                     req.Format = UsersResource.MessagesResource.GetRequest.FormatEnum.Raw;
                     return req.ExecuteAsync();
@@ -315,12 +326,60 @@ namespace EmailSkill
             if (response.NextPageToken != null && response.NextPageToken != string.Empty)
             {
                 this.pageToken = response.NextPageToken;
-            } else
+            }
+            else
             {
                 this.pageToken = string.Empty;
             }
 
             return result;
+        }
+
+        public Task DeleteMessageAsync(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string AppendFilterString(string old, string filterString)
+        {
+            string result = old;
+            if (string.IsNullOrEmpty(old))
+            {
+                result += filterString;
+            }
+            else
+            {
+                result += $" {filterString}";
+            }
+
+            return result;
+        }
+
+        private static string Base64UrlEncode(string text)
+        {
+            var textBytes = Encoding.UTF8.GetBytes(text);
+            return System.Convert.ToBase64String(textBytes)
+                .Replace('+', '-')
+                .Replace('/', '_')
+                .Replace("=", string.Empty);
+        }
+
+        // decode from base64url to utf-8 bytes
+        private static byte[] Base64UrlDecode(string text)
+        {
+            var temp = text.Replace('-', '+')
+                .Replace('_', '/');
+            byte[] textBytes = Convert.FromBase64String(temp);
+            return textBytes; // Encoding.UTF8.GetString(textBytes);
+        }
+
+        // decode to mimeMessage
+        private static MimeMessage DecodeToMessage(string text)
+        {
+            byte[] msg = Base64UrlDecode(text);
+            MemoryStream mm = new MemoryStream(msg);
+            MimeKit.MimeMessage mime = MimeKit.MimeMessage.Load(mm);
+            return mime;
         }
 
         private async Task<(MimeMessage, string)> GetMessageById(string id)
@@ -346,7 +405,7 @@ namespace EmailSkill
                         EmailAddress = new EmailAddress
                         {
                             Address = ((MailboxAddress)address).Address,
-                            Name = address.Name == string.Empty? ((MailboxAddress)address).Address : address.Name,
+                            Name = address.Name == string.Empty ? ((MailboxAddress)address).Address : address.Name,
                         },
                     });
                 }
@@ -381,7 +440,7 @@ namespace EmailSkill
                     EmailAddress = new EmailAddress
                     {
                         Address = mime.Sender.Address,
-                        Name = mime.Sender.Name == string.Empty ? mime.Sender.Address: mime.Sender.Name,
+                        Name = mime.Sender.Name == string.Empty ? mime.Sender.Address : mime.Sender.Name,
                     },
                 };
             }
@@ -411,7 +470,7 @@ namespace EmailSkill
                         EmailAddress = new EmailAddress
                         {
                             Address = ((MailboxAddress)address).Address,
-                            Name = address.Name == string.Empty ? ((MailboxAddress)address).Address: address.Name,
+                            Name = address.Name == string.Empty ? ((MailboxAddress)address).Address : address.Name,
                         },
                     });
                 }
@@ -429,7 +488,7 @@ namespace EmailSkill
                         EmailAddress = new EmailAddress
                         {
                             Address = ((MailboxAddress)address).Address,
-                            Name = address.Name == string.Empty ? ((MailboxAddress)address).Address:address.Name,
+                            Name = address.Name == string.Empty ? ((MailboxAddress)address).Address : address.Name,
                         },
                     });
                 }
@@ -438,53 +497,6 @@ namespace EmailSkill
             }
 
             return message;
-        }
-
-        public Task DeleteMessageAsync(string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string AppendFilterString(string old, string filterString)
-        {
-            string result = old;
-            if (string.IsNullOrEmpty(old))
-            {
-                result += filterString;
-            }
-            else
-            {
-                result += $" {filterString}";
-            }
-
-            return result;
-        }
-
-        private static string Base64UrlEncode(string text)
-        {
-            var textBytes = Encoding.UTF8.GetBytes(text);
-            return System.Convert.ToBase64String(textBytes)
-                .Replace('+', '-')
-                .Replace('/', '_')
-                .Replace("=", "");
-        }
-
-        // decode from base64url to utf-8 bytes
-        private static byte[] Base64UrlDecode(string text)
-        {
-            var temp = text.Replace('-', '+')
-                .Replace('_', '/');
-            byte[] textBytes = Convert.FromBase64String(temp);
-            return textBytes; // Encoding.UTF8.GetString(textBytes);
-        }
-
-        // decode to mimeMessage
-        private static MimeMessage DecodeToMessage(string text)
-        {
-            byte[] msg = Base64UrlDecode(text);
-            MemoryStream mm = new MemoryStream(msg);
-            MimeKit.MimeMessage mime = MimeKit.MimeMessage.Load(mm);
-            return mime;
         }
     }
 }

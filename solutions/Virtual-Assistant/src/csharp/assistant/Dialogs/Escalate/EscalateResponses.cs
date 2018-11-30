@@ -10,16 +10,19 @@ namespace VirtualAssistant
 {
     public class EscalateResponses : TemplateManager
     {
-        public const string SendPhone = "sendPhone";
-
         private LanguageTemplateDictionary _responseTemplates = new LanguageTemplateDictionary
         {
             ["default"] = new TemplateIdMap
             {
-                { SendPhone, (context, data) => SendAcceptingInputReply(context, EscalateStrings.PHONE_INFO) },
-            },
-            ["en"] = new TemplateIdMap { },
-            ["fr"] = new TemplateIdMap { },
+                {
+                    ResponseIds.SendEscalationMessage,
+                    (context, data) =>
+                    MessageFactory.Text(
+                        text: EscalateStrings.PHONE_INFO,
+                        ssml: EscalateStrings.PHONE_INFO,
+                        inputHint: InputHints.AcceptingInput)
+                },
+            }
         };
 
         public EscalateResponses()
@@ -27,13 +30,9 @@ namespace VirtualAssistant
             Register(new DictionaryRenderer(_responseTemplates));
         }
 
-        public static IMessageActivity SendAcceptingInputReply(ITurnContext turnContext, string text)
+        public class ResponseIds
         {
-            var reply = turnContext.Activity.CreateReply();
-            reply.InputHint = InputHints.AcceptingInput;
-            reply.Text = text;
-
-            return reply;
+            public const string SendEscalationMessage = "sendPhone";
         }
     }
 }

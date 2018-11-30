@@ -132,6 +132,9 @@
   <data name="EMAIL_SUGGESTEDACTION" xml:space="preserve">
     <value>Invia una email</value>
   </data>
+  <data name="ERROR" xml:space="preserve">
+    <value>Mi dispiace, sembra che qualcosa sia andato storto.</value>
+  </data>
   <data name="GREETING" xml:space="preserve">
     <value>Ehilà!</value>
   </data>
