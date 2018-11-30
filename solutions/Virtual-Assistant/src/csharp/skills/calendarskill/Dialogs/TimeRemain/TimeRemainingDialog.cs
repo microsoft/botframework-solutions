@@ -4,10 +4,12 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using CalendarSkill.Dialogs.TimeRemain.Resources;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 
 namespace CalendarSkill
@@ -101,11 +103,11 @@ namespace CalendarSkill
                     {
                         if (timeDiffMinutes > 1)
                         {
-                            remainingMinutes = $"{timeDiffMinutes.ToString()} minutes ";
+                            remainingMinutes = string.Format(CommonStrings.TimeFormatMinutes, timeDiffMinutes) + " ";
                         }
                         else
                         {
-                            remainingMinutes = $"{timeDiffMinutes.ToString()} minute ";
+                            remainingMinutes = string.Format(CommonStrings.TimeFormatMinute, timeDiffMinutes) + " ";
                         }
                     }
 
@@ -113,23 +115,23 @@ namespace CalendarSkill
                     {
                         if (timeDiffHours > 1)
                         {
-                            remainingHours = $"{timeDiffHours.ToString()} hours ";
+                            remainingHours = string.Format(CommonStrings.TimeFormatHours, timeDiffHours) + " ";
                         }
                         else
                         {
-                            remainingHours = $"{timeDiffHours.ToString()} hour ";
+                            remainingHours = string.Format(CommonStrings.TimeFormatHour, timeDiffHours) + " ";
                         }
                     }
 
                     if (timeDiffDays > 0)
                     {
-                        if (timeDiffHours > 1)
+                        if (timeDiffDays > 1)
                         {
-                            remainingDays = $"{timeDiffDays.ToString()} days ";
+                            remainingDays = string.Format(CommonStrings.TimeFormatDays, timeDiffDays) + " ";
                         }
                         else
                         {
-                            remainingDays = $"{timeDiffDays.ToString()} day ";
+                            remainingDays = string.Format(CommonStrings.TimeFormatDay, timeDiffDays) + " ";
                         }
                     }
 
@@ -158,17 +160,17 @@ namespace CalendarSkill
 
                         if (timeSpeakToken.Length > 0)
                         {
-                            tokens["TimeSpeak"] = $"at {timeSpeakToken}";
+                            tokens["TimeSpeak"] = CommonStrings.SpokenTimePrefix_One + " " + timeSpeakToken;
                         }
 
                         if (timeToken.Length > 0)
                         {
-                            tokens["Time"] = $"at {timeToken}";
+                            tokens["Time"] = CommonStrings.SpokenTimePrefix_One + " " + timeToken;
                         }
 
                         if (state.Title != null)
                         {
-                            tokens["Title"] = $"with a subject of \"{state.Title}\"";
+                            tokens["Title"] = string.Format(CalendarCommonStrings.WithTheSubject, state.Title);
                         }
 
                         await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(TimeRemainResponses.ShowTimeRemainingMessage, ResponseBuilder, tokens));

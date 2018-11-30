@@ -120,4 +120,7 @@
   <data name="AllDay" xml:space="preserve">
     <value>Toute la journée</value>
   </data>
+  <data name="WithTheSubject" xml:space="preserve">
+    <value>avec un sujet de {0}</value>
+  </data>
 </root>
