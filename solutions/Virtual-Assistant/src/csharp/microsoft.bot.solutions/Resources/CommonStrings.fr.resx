@@ -258,4 +258,10 @@
   <data name="DisplayFullDateFormat" xml:space="preserve">
     <value>dd-MM-yyyy</value>
   </data>
+  <data name="All" xml:space="preserve">
+    <value>tout</value>
+  </data>
+  <data name="High" xml:space="preserve">
+    <value>haute</value>
+  </data>
 </root>

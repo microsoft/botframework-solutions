@@ -14,6 +14,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Skills;
+using VirtualAssistant.Dialogs.Main.Resources;
 
 namespace VirtualAssistant
 {
@@ -340,7 +341,7 @@ namespace VirtualAssistant
                 await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
             }
 
-            await dc.Context.SendActivityAsync("Ok, you're signed out.");
+            await dc.Context.SendActivityAsync(MainStrings.LOGOUT);
 
             return InterruptionAction.StartedDialog;
         }
