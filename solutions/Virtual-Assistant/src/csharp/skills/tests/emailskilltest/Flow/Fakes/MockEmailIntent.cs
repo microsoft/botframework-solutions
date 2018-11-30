@@ -165,7 +165,7 @@ namespace EmailSkillTest.Flow.Fakes
             }
             else if (userInput == "test@test.com")
             {
-                this.Entities.EmailAddress = new string[] { "test@test.com"};
+                this.Entities.EmailAddress = new string[] { "test@test.com" };
 
                 this.Text = "test@test.com";
                 this.Entities._instance = new _Entities._Instance();

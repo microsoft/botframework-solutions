@@ -19,34 +19,13 @@ namespace ToDoSkillTest.Flow
         [TestMethod]
         public async Task Test_AddToDoItem()
         {
-            var triggerActivity = new Activity()
-            {
-                Type = ActivityTypes.ConversationUpdate,
-                MembersAdded = new List<ChannelAccount>()
-                {
-                    {
-                        new ChannelAccount()
-                        {
-                            Id = "test",
-                            Name = "Test"
-                        }
-                    }
-                }
-            };
             await this.GetTestFlow()
-                .Send(triggerActivity)
-                .AssertReplyOneOf(this.ShowWelcomleMessage())
                 .Send("Add a task")
                 .AssertReplyOneOf(this.CollectToDoContent())
                 .Send("Test Content")
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReply(this.ShowUpdatedToDoList())
                 .StartTestAsync();
-        }
-
-        private string[] ShowWelcomleMessage()
-        {
-            return this.ParseReplies(ToDoMainResponses.ToDoWelcomeMessage.Replies, new StringDictionary());
         }
 
         private string[] CollectToDoContent()

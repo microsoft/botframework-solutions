@@ -10,32 +10,34 @@ namespace ToDoSkillTest.Fakes
 {
     public class FakeToDoService : ITaskService
     {
-        private string pageId;
         private List<TaskItem> allToDoItems = new List<TaskItem>(FakeData.FakeTaskItems);
 
         public FakeToDoService()
         {
         }
 
-        public async Task<ITaskService> InitAsync(string token, Dictionary<string, string> listTypeIds, HttpClient client = null)
+        public Task<ITaskService> InitAsync(string token, Dictionary<string, string> listTypeIds, HttpClient client = null)
         {
             if (!listTypeIds.ContainsKey("ToDo"))
+            {
                 listTypeIds.Add("ToDo", "ToDo");
-            return this;
+            }
+
+            return Task.FromResult(this as ITaskService);
         }
 
-        public async Task<bool> DeleteTasksAsync(string listType, List<TaskItem> taskItems)
+        public Task<bool> DeleteTasksAsync(string listType, List<TaskItem> taskItems)
         {
             taskItems.ForEach(o => allToDoItems.Remove(allToDoItems.Find(x => x.Topic == o.Topic)));
-            return true;
+            return Task.FromResult(true);
         }
 
-        public async Task<List<TaskItem>> GetTasksAsync(string listType)
+        public Task<List<TaskItem>> GetTasksAsync(string listType)
         {
-            return this.allToDoItems;
+            return Task.FromResult(this.allToDoItems);
         }
 
-        public async Task<bool> AddTaskAsync(string listType, string taskText)
+        public Task<bool> AddTaskAsync(string listType, string taskText)
         {
             this.allToDoItems.Insert(0, new TaskItem()
             {
@@ -43,13 +45,13 @@ namespace ToDoSkillTest.Fakes
                 IsCompleted = true,
                 Id = "AddedToDiId"
             });
-            return true;
+            return Task.FromResult(true);
         }
 
-        public async Task<bool> MarkTasksCompletedAsync(string listType, List<TaskItem> taskItems)
+        public Task<bool> MarkTasksCompletedAsync(string listType, List<TaskItem> taskItems)
         {
             taskItems.ForEach(o => allToDoItems[allToDoItems.FindIndex(t => t.Id == o.Id)].IsCompleted = true);
-            return true;
+            return Task.FromResult(true);
         }
     }
 }
