@@ -4,6 +4,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
+using Microsoft.Bot.Solutions.Extensions;
 
 namespace Microsoft.Bot.Solutions
 {
@@ -34,6 +35,11 @@ namespace Microsoft.Bot.Solutions
             else
             {
                 var activity = innerDc.Context.Activity;
+
+                if (activity.IsStartActivity())
+                {
+                    await OnStartAsync(innerDc);
+                }
 
                 switch (activity.Type)
                 {
@@ -68,12 +74,6 @@ namespace Microsoft.Bot.Solutions
                     case ActivityTypes.Event:
                         {
                             await OnEventAsync(innerDc);
-                            break;
-                        }
-
-                    case ActivityTypes.ConversationUpdate:
-                        {
-                            await OnStartAsync(innerDc);
                             break;
                         }
 

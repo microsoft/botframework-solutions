@@ -22,7 +22,7 @@
     {
       "type": "TextBlock",
       "size": "default",
-      "isSubtle": "yes",
+      "isSubtle": true,
       "text": "Ora che hai eseguito correttamente l'assistente virtuale, segui i link di questa scheda adattabile per esplorare ulteriormente.",
       "speak": "Ora che il vostro installato e funzionante cominciamo.",
       "wrap": true,

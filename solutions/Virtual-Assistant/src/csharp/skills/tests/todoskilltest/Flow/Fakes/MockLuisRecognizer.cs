@@ -17,7 +17,7 @@ namespace ToDoSkillTest.Flow.Fakes
             throw new NotImplementedException();
         }
 
-        public async Task<T> RecognizeAsync<T>(ITurnContext turnContext, CancellationToken cancellationToken)
+        public Task<T> RecognizeAsync<T>(ITurnContext turnContext, CancellationToken cancellationToken)
             where T : IRecognizerConvert, new()
         {
             T mockResult = new T();
@@ -39,7 +39,7 @@ namespace ToDoSkillTest.Flow.Fakes
                 mockResult = (T)test;
             }
 
-            return mockResult;
+            return Task.FromResult(mockResult);
         }
     }
 }

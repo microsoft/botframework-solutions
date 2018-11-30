@@ -11,37 +11,39 @@ namespace VirtualAssistant
 {
     public class OnboardingResponses : TemplateManager
     {
-        public const string _namePrompt = "namePrompt";
-        public const string _haveName = "haveName";
-        public const string _emailPrompt = "emailPrompt";
-        public const string _haveEmail = "haveEmail";
-        public const string _locationPrompt = "locationPrompt";
-        public const string _haveLocation = "haveLocation";
-        public const string _linkedAccountsInfo = "linkedAccountsInfo";
-
         private static LanguageTemplateDictionary _responseTemplates = new LanguageTemplateDictionary
         {
             ["default"] = new TemplateIdMap
             {
                 {
-                    _namePrompt,
-                    (context, data) => OnboardingStrings.NAME_PROMPT
+                    ResponseIds.NamePrompt,
+                    (context, data) =>
+                    MessageFactory.Text(
+                        text: OnboardingStrings.NAME_PROMPT,
+                        ssml: OnboardingStrings.NAME_PROMPT,
+                        inputHint: InputHints.ExpectingInput)
                 },
                 {
-                    _locationPrompt,
-                    (context, data) => string.Format(OnboardingStrings.LOCATION_PROMPT, data.Name)
+                    ResponseIds.LocationPrompt,
+                    (context, data) =>
+                    MessageFactory.Text(
+                        text: string.Format(OnboardingStrings.LOCATION_PROMPT, data.Name),
+                        ssml: string.Format(OnboardingStrings.LOCATION_PROMPT, data.Name),
+                        inputHint: InputHints.ExpectingInput)
                 },
                 {
-                    _haveLocation,
-                    (context, data) => string.Format(OnboardingStrings.HAVE_LOCATION, data.Location)
+                    ResponseIds.HaveLocation,
+                    (context, data) =>
+                    MessageFactory.Text(
+                        text: string.Format(OnboardingStrings.HAVE_LOCATION, data.Location),
+                        ssml: string.Format(OnboardingStrings.HAVE_LOCATION, data.Location),
+                        inputHint: InputHints.IgnoringInput)
                 },
                 {
-                    _linkedAccountsInfo,
-                    (context, data) => ShowLinkedAccountsCard(context, data)
+                    ResponseIds.AddLinkedAccountsMessage,
+                    (context, data) => BuildLinkedAccountsCard(context, data)
                 },
-            },
-            ["en"] = new TemplateIdMap { },
-            ["fr"] = new TemplateIdMap { },
+            }
         };
 
         public OnboardingResponses()
@@ -49,16 +51,13 @@ namespace VirtualAssistant
             Register(new DictionaryRenderer(_responseTemplates));
         }
 
-        private static IMessageActivity ShowLinkedAccountsCard(ITurnContext context, dynamic data)
+        private static IMessageActivity BuildLinkedAccountsCard(ITurnContext context, dynamic data)
         {
-            var response = context.Activity.CreateReply();
-            response.Attachments = new List<Attachment>()
+            var attachment = new HeroCard()
             {
-                new HeroCard()
-                {
-                    Title = OnboardingStrings.LINKEDACCOUNTS_TITLE,
-                    Text = OnboardingStrings.LINKEDACCOUNTS_BODY,
-                    Images = new List<CardImage>()
+                Title = OnboardingStrings.LINKEDACCOUNTS_TITLE,
+                Text = OnboardingStrings.LINKEDACCOUNTS_BODY,
+                Images = new List<CardImage>()
                     {
                         new CardImage()
                         {
@@ -66,10 +65,17 @@ namespace VirtualAssistant
                             Alt = "Person holding mobile device.",
                         },
                     },
-                }.ToAttachment(),
-            };
+            }.ToAttachment();
 
-            return response;
+            return MessageFactory.Attachment(attachment, ssml: OnboardingStrings.LINKEDACCOUNTS_TITLE, inputHint: InputHints.AcceptingInput);
+        }
+
+        public class ResponseIds
+        {
+            public const string NamePrompt = "namePrompt";
+            public const string LocationPrompt = "locationPrompt";
+            public const string HaveLocation = "haveLocation";
+            public const string AddLinkedAccountsMessage = "linkedAccountsInfo";
         }
     }
 }
