@@ -76,6 +76,7 @@ namespace EmailSkill
                 var skillOptions = new EmailSkillDialogOptions
                 {
                     SkillMode = _skillMode,
+                    SubFlowMode = false
                 };
 
                 // switch on general intents
@@ -103,6 +104,12 @@ namespace EmailSkill
                     case Email.Intent.CheckMessages:
                         {
                             await dc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
+                            break;
+                        }
+
+                    case Email.Intent.Delete:
+                        {
+                            await dc.BeginDialogAsync(nameof(DeleteEmailDialog), skillOptions);
                             break;
                         }
 
@@ -293,6 +300,7 @@ namespace EmailSkill
             AddDialog(new SendEmailDialog(_skillConfig, _stateAccessor, _dialogStateAccessor, _serviceManager));
             AddDialog(new ShowEmailDialog(_skillConfig, _stateAccessor, _dialogStateAccessor, _serviceManager));
             AddDialog(new ReplyEmailDialog(_skillConfig, _stateAccessor, _dialogStateAccessor, _serviceManager));
+            AddDialog(new DeleteEmailDialog(_skillConfig, _stateAccessor, _dialogStateAccessor, _serviceManager));
         }
 
         private void GetReadingDisplayConfig()

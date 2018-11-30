@@ -8,6 +8,7 @@ namespace Microsoft.Bot.Solutions
     public interface ITelemetryQnAMaker
     {
         bool LogOriginalMessage { get; }
+
         bool LogUserName { get; }
 
         Task<QueryResult[]> GetAnswersAsync(ITurnContext context);

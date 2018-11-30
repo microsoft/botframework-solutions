@@ -41,7 +41,7 @@ namespace VirtualAssistant
         {
             return await sc.PromptAsync(NamePrompt, new PromptOptions()
             {
-                Prompt = await _responder.RenderTemplate(sc.Context, "en", OnboardingResponses._namePrompt),
+                Prompt = await _responder.RenderTemplate(sc.Context, "en", OnboardingResponses.ResponseIds.NamePrompt),
             });
         }
 
@@ -52,7 +52,7 @@ namespace VirtualAssistant
 
             return await sc.PromptAsync(LocationPrompt, new PromptOptions()
             {
-                Prompt = await _responder.RenderTemplate(sc.Context, "en", OnboardingResponses._locationPrompt, new { _state.Name }),
+                Prompt = await _responder.RenderTemplate(sc.Context, "en", OnboardingResponses.ResponseIds.LocationPrompt, new { _state.Name }),
             });
         }
 
@@ -61,8 +61,8 @@ namespace VirtualAssistant
             _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
             _state.Location = (string)sc.Result;
 
-            await _responder.ReplyWith(sc.Context, OnboardingResponses._haveLocation, new { _state.Location });
-            await _responder.ReplyWith(sc.Context, OnboardingResponses._linkedAccountsInfo);
+            await _responder.ReplyWith(sc.Context, OnboardingResponses.ResponseIds.HaveLocation, new { _state.Location });
+            await _responder.ReplyWith(sc.Context, OnboardingResponses.ResponseIds.AddLinkedAccountsMessage);
 
             return await sc.EndDialogAsync();
         }

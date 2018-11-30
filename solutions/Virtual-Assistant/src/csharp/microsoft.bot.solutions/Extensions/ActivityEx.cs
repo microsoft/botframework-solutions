@@ -3,6 +3,8 @@
 
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Cards;
 using Microsoft.Bot.Solutions.Dialogs;
@@ -14,6 +16,44 @@ namespace Microsoft.Bot.Solutions.Extensions
     /// </summary>
     public static class ActivityEx
     {
+        public static bool IsStartActivity(this Activity activity)
+        {
+            switch (activity.ChannelId)
+            {
+                case Channels.Skype:
+                    {
+                        if (activity.Type == ActivityTypes.ContactRelationUpdate && activity.Action == "add")
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    }
+
+                case Channels.Directline:
+                case Channels.Emulator:
+                case Channels.Webchat:
+                case Channels.Msteams:
+                    {
+                        if (activity.Type == ActivityTypes.ConversationUpdate)
+                        {
+                            // When bot is added to the conversation (triggers start only once per conversation)
+                            if (activity.MembersAdded.Any(m => m.Id == activity.Recipient.Id))
+                            {
+                                return true;
+                            }
+                        }
+
+                        return false;
+                    }
+
+                default:
+                    {
+                        return false;
+                    }
+            }
+        }
+
         public static Activity CreateReply(this Activity activity, BotResponse response, BotResponseBuilder responseBuilder = null, StringDictionary tokens = null)
         {
             var reply = activity.CreateReply();

@@ -25,11 +25,12 @@ namespace EmailSkill
         {
             var forwardEmail = new WaterfallStep[]
             {
+                IfClearContextStep,
                 GetAuthToken,
                 AfterGetAuthToken,
+                CollectSelectedEmail,
                 CollectNameList,
                 CollectRecipients,
-                CollectSelectedEmail,
                 CollectAdditionalText,
                 ConfirmBeforeSending,
                 ForwardEmail,

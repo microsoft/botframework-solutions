@@ -25,7 +25,7 @@ namespace ToDoSkillTest.API
         public async Task AddTaskTests()
         {
             var service = new OneNoteService();
-            var pageId = new Dictionary<string, string>() { { "ToDo", "ToDo" }, { "Grocery", "Grocery" }, {"Shopping", "Shopping"} };
+            var pageId = new Dictionary<string, string>() { { "ToDo", "ToDo" }, { "Grocery", "Grocery" }, { "Shopping", "Shopping" } };
 
             await service.InitAsync("test", pageId, mockClient);
 

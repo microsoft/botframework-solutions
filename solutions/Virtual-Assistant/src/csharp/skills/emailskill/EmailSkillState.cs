@@ -36,6 +36,7 @@ namespace EmailSkill
             DirectlyToMe = false;
             StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
             EndDateTime = DateTime.UtcNow;
+            UserSelectIndex = -1;
             MailSourceType = MailSource.Other;
         }
 
@@ -97,6 +98,8 @@ namespace EmailSkill
 
         public MailSource MailSourceType { get; set; }
 
+        public int UserSelectIndex { get; set; }
+
         public TimeZoneInfo GetUserTimeZone()
         {
             if ((UserInfo != null) && (UserInfo.Timezone != null))
@@ -134,6 +137,7 @@ namespace EmailSkill
             ShowRecipientIndex = 0;
             LuisResultPassedFromSkill = null;
             MailSourceType = MailSource.Other;
+            UserSelectIndex = -1;
         }
 
         public class UserInformation

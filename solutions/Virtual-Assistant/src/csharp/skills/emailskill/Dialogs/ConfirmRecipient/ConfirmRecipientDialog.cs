@@ -77,7 +77,18 @@ namespace EmailSkill
                 }
 
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                state.NameList[state.ConfirmRecipientIndex] = userInput;
+
+                if (IsEmail(userInput))
+                {
+                    if (!state.EmailList.Contains(userInput))
+                    {
+                        state.EmailList.Add(userInput);
+                    }
+                }
+                else
+                {
+                    state.NameList[state.ConfirmRecipientIndex] = userInput;
+                }
 
                 // should not return with value, next step use the return value for confirmation.
                 return await sc.EndDialogAsync();
