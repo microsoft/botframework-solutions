@@ -19,6 +19,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Apis" Version="1.36.1" />
+    <PackageReference Include="Google.Apis.Gmail.v1" Version="1.36.1.1342" />
+    <PackageReference Include="Google.Apis.People.v1" Version="1.25.0.830" />
     <PackageReference Include="Google.Apis.Calendar.v3" Version="1.35.2.1363" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.5" />
@@ -35,6 +38,7 @@
     <PackageReference Include="Microsoft.Graph" Version="1.11.0" />
     <PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003" PrivateAssets="all" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
+    <PackageReference Include="MimeKit" Version="2.0.7" />
   </ItemGroup>
 
   <ItemGroup>

@@ -18,6 +18,8 @@ namespace ToDoSkillTest.Flow
     [TestClass]
     public class DeleteToDoFlowTests : ToDoBotTestBase
     {
+        private const int PageSize = 6;
+
         [TestMethod]
         public async Task Test_DeleteToDoItem()
         {
@@ -46,7 +48,7 @@ namespace ToDoSkillTest.Flow
                 CollectionAssert.Contains(
                     this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", FakeData.FakeTaskItems.Count.ToString() } }),
                     adaptiveCardTitle.Text);
-                Assert.AreEqual(toDoChoiceCount, 5);
+                Assert.AreEqual(toDoChoiceCount, PageSize);
             };
         }
 
@@ -63,7 +65,7 @@ namespace ToDoSkillTest.Flow
                 CollectionAssert.Contains(
                     this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", (FakeData.FakeTaskItems.Count - 1).ToString() } }),
                     adaptiveCardTitle.Text);
-                Assert.AreEqual(toDoChoiceCount, 5);
+                Assert.AreEqual(toDoChoiceCount, PageSize);
                 var toDoChoice = toDoChoices.Choices[0];
                 Assert.AreEqual(toDoChoice.Title, FakeData.FakeTaskItems[1].Topic);
             };

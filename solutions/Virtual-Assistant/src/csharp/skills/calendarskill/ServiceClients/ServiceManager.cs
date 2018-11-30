@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 using System;
+using CalendarSkill.ServiceClients;
 using CalendarSkill.ServiceClients.GoogleAPI;
 using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Graph;
 
 namespace CalendarSkill
 {
@@ -17,36 +17,40 @@ namespace CalendarSkill
             _skillConfig = config;
         }
 
-        public IUserService InitUserService(IGraphServiceClient graphClient, TimeZoneInfo info)
+        public IUserService InitUserService(string token, EventSource source)
         {
-            return new MSGraphUserService(graphClient, info);
+            switch (source)
+            {
+                case EventSource.Microsoft:
+                    var serviceClient = GraphClient.GetAuthenticatedClient(token);
+                    return new MSGraphUserService(serviceClient);
+                case EventSource.Google:
+                    var googleClient = GoogleClient.GetGoogleClient(_skillConfig);
+                    var googlePeopleClient = GooglePeopleService.GetServiceClient(googleClient, token);
+                    return new GooglePeopleService(googlePeopleClient);
+                default:
+                    throw new Exception("Event Type not Defined");
+            }
         }
 
-        public GoogleClient GetGoogleClient()
+        public ICalendar InitCalendarService(string token, EventSource source)
         {
-            if (_skillConfig == null)
+            ICalendar calendarAPI = null;
+            switch (source)
             {
-                throw new ArgumentNullException(nameof(_skillConfig));
+                case EventSource.Microsoft:
+                    var serviceClient = GraphClient.GetAuthenticatedClient(token);
+                    calendarAPI = new MSGraphCalendarAPI(serviceClient);
+                    break;
+                case EventSource.Google:
+                    GoogleClient googleClient = GoogleClient.GetGoogleClient(_skillConfig);
+                    var googlePeopleClient = GoogleCalendarAPI.GetServiceClient(googleClient, token);
+                    calendarAPI = new GoogleCalendarAPI(googlePeopleClient);
+                    break;
+                default:
+                    throw new Exception("Event Type not Defined");
             }
 
-            _skillConfig.Properties.TryGetValue("googleAppName", out object appName);
-            _skillConfig.Properties.TryGetValue("googleClientId", out object clientId);
-            _skillConfig.Properties.TryGetValue("googleClientSecret", out object clientSecret);
-            _skillConfig.Properties.TryGetValue("googleScopes", out object scopes);
-
-            var googleClient = new GoogleClient
-            {
-                ApplicationName = appName as string,
-                ClientId = clientId as string,
-                ClientSecret = clientSecret as string,
-                Scopes = (scopes as string).Split(" "),
-            };
-
-            return googleClient;
-        }
-
-        public ICalendar InitCalendarService(ICalendar calendarAPI, EventSource source)
-        {
             return new CalendarService(calendarAPI, source);
         }
     }
