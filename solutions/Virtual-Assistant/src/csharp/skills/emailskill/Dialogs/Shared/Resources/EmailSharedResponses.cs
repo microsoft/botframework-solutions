@@ -14,12 +14,12 @@ namespace EmailSkill.Dialogs.Shared.Resources
     {
         private static readonly ResponseManager _responseManager;
 
-        static EmailSharedResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(EmailSharedResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\Shared\Resources");
-            _responseManager = new ResponseManager(resDir, "EmailSharedResponses");
-        }
+		static EmailSharedResponses()
+		{
+			var dir = Path.GetDirectoryName(typeof(EmailSharedResponses).Assembly.Location);
+			var resDir = Path.Combine(dir, "Dialogs", "Shared", "Resources");
+			_responseManager = new ResponseManager(resDir, "EmailSharedResponses");
+		}
 
         // Generated accessors
         public static BotResponse DidntUnderstandMessage => GetBotResponse();

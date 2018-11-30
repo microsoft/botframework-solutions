@@ -15,12 +15,12 @@ namespace Microsoft.Bot.Solutions.Resources
     {
         private static readonly ResponseManager _responseManager;
 
-        static CommonResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(CommonResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Resources");
-            _responseManager = new ResponseManager(resDir, "CommonResponses");
-        }
+		static CommonResponses()
+		{
+			var dir = Path.GetDirectoryName(typeof(CommonResponses).Assembly.Location);
+			var resDir = Path.Combine(dir, "Resources");
+			_responseManager = new ResponseManager(resDir, "CommonResponses");
+		}
 
         // Generated accessors
         public static BotResponse ConfirmUserInfo => GetBotResponse();

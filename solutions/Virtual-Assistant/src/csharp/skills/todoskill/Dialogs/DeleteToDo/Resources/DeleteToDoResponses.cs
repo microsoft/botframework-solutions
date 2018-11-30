@@ -15,12 +15,12 @@ namespace ToDoSkill.Dialogs.DeleteToDo.Resources
     {
         private static readonly ResponseManager _responseManager;
 
-        static DeleteToDoResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(DeleteToDoResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\DeleteToDo\Resources");
-            _responseManager = new ResponseManager(resDir, "DeleteToDoResponses");
-        }
+		static DeleteToDoResponses()
+		{
+			var dir = Path.GetDirectoryName(typeof(DeleteToDoResponses).Assembly.Location);
+			var resDir = Path.Combine(dir, "Dialogs", "DeleteToDo", "Resources");
+			_responseManager = new ResponseManager(resDir, "DeleteToDoResponses");
+		}
 
         // Generated accessors
         public static BotResponse AfterTaskDeleted => GetBotResponse();

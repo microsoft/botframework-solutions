@@ -1,114 +1,113 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
-  <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
-    <UserSecretsId>6a3184c3-074e-45b9-ad93-eceb8268ec01</UserSecretsId>
-  </PropertyGroup>
-
-  <PropertyGroup>
-      <AssemblyName>VirtualAssistant</AssemblyName>
-    <RootNamespace>VirtualAssistant</RootNamespace>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <CodeAnalysisRuleSet>..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <CodeAnalysisRuleSet>..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Google.Apis" Version="1.36.1" />
-    <PackageReference Include="Google.Apis.Gmail.v1" Version="1.36.1.1342" />
-    <PackageReference Include="Google.Apis.People.v1" Version="1.25.0.830" />
-    <PackageReference Include="Google.Apis.Calendar.v3" Version="1.35.2.1363" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.4.1" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.5" />
-    <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="1.0.0" />
-    <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.1.5" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.1.5" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.1.5" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.1.5" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.1.5" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.1.5" />
-    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.1.5" />
-    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.1.5" />
-    <PackageReference Include="Microsoft.Graph" Version="1.11.0" />
-    <PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003" PrivateAssets="all" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
-    <PackageReference Include="MimeKit" Version="2.0.7" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Dialogs\Escalate\Resources\EscalateStrings - Copy.Designer.cs">
-      <DependentUpon>EscalateStrings.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Dialogs\Escalate\Resources\EscalateStrings - Copy.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>EscalateStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Dialogs\Escalate\Resources\EscalateStrings.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>EscalateStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Dialogs\Main\Resources\MainStrings.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>MainStrings.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Dialogs\Escalate\Resources\EscalateStrings.fr.resx">
-      <Generator></Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Dialogs\Escalate\Resources\EscalateStrings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>EscalateStrings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Dialogs\Main\Resources\MainStrings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>MainStrings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Dialogs\Onboarding\Resources\OnboardingStrings.fr.resx">
-      <Generator></Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Dialogs\Onboarding\Resources\OnboardingStrings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>OnboardingStrings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Dialogs\Shared\Resources\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj" />
-    <ProjectReference Include="..\skills\calendarskill\CalendarSkill.csproj" />
-    <ProjectReference Include="..\skills\emailskill\EmailSkill.csproj" />
-    <ProjectReference Include="..\skills\pointofinterestskill\PointOfInterestSkill.csproj" />
-    <ProjectReference Include="..\skills\todoskill\ToDoSkill.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="*.bot">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="xcopy &quot;$(SolutionDir)skills\CalendarSkill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)skills\EmailSkill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)skills\PointOfInterestSkill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)skills\ToDoSkill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y" />
-  </Target>
-
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project Sdk="Microsoft.NET.Sdk.Web">
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.1</TargetFramework>
+        <UserSecretsId>6a3184c3-074e-45b9-ad93-eceb8268ec01</UserSecretsId>
+    </PropertyGroup>
+    <PropertyGroup>
+        <AssemblyName>VirtualAssistant</AssemblyName>
+        <RootNamespace>VirtualAssistant</RootNamespace>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <CodeAnalysisRuleSet>..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <CodeAnalysisRuleSet>..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Google.Apis" Version="1.36.1" />
+        <PackageReference Include="Google.Apis.Gmail.v1" Version="1.36.1.1342" />
+        <PackageReference Include="Google.Apis.People.v1" Version="1.25.0.830" />
+        <PackageReference Include="Google.Apis.Calendar.v3" Version="1.35.2.1363" />
+        <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.4.1" />
+        <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.5" />
+        <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="1.0.0" />
+        <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
+        <PackageReference Include="Microsoft.Bot.Builder" Version="4.1.5" />
+        <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.1.5" />
+        <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.1.5" />
+        <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.1.5" />
+        <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.1.5" />
+        <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.1.5" />
+        <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.1.5" />
+        <PackageReference Include="Microsoft.Bot.Configuration" Version="4.1.5" />
+        <PackageReference Include="Microsoft.Graph" Version="1.11.0" />
+        <PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003" PrivateAssets="all" />
+        <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
+        <PackageReference Include="MimeKit" Version="2.0.7" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Update="Dialogs\Escalate\Resources\EscalateStrings - Copy.Designer.cs">
+            <DependentUpon>EscalateStrings.resx</DependentUpon>
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+        </Compile>
+        <Compile Update="Dialogs\Escalate\Resources\EscalateStrings - Copy.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>EscalateStrings.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Dialogs\Escalate\Resources\EscalateStrings.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>EscalateStrings.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Dialogs\Main\Resources\MainStrings.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>MainStrings.resx</DependentUpon>
+        </Compile>
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Update="Dialogs\Escalate\Resources\EscalateStrings.fr.resx">
+            <Generator>
+            </Generator>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Dialogs\Escalate\Resources\EscalateStrings.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+            <LastGenOutput>EscalateStrings.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Dialogs\Main\Resources\MainStrings.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+            <LastGenOutput>MainStrings.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Dialogs\Onboarding\Resources\OnboardingStrings.fr.resx">
+            <Generator>
+            </Generator>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Dialogs\Onboarding\Resources\OnboardingStrings.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+            <LastGenOutput>OnboardingStrings.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+    </ItemGroup>
+    <ItemGroup>
+        <WCFMetadata Include="Connected Services" />
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Dialogs\Shared\Resources\" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj" />
+        <ProjectReference Include="..\skills\calendarskill\CalendarSkill.csproj" />
+        <ProjectReference Include="..\skills\emailskill\EmailSkill.csproj" />
+        <ProjectReference Include="..\skills\pointofinterestskill\PointOfInterestSkill.csproj" />
+        <ProjectReference Include="..\skills\todoskill\ToDoSkill.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="*.bot">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <CalendarSkillFiles Include="$(SolutionDir)skills\CalendarSkill\bin\$(ConfigurationName)\netcoreapp2.1\**\*.*" />
+        <EmailSkillFiles Include="$(SolutionDir)skills\EmailSkill\bin\$(ConfigurationName)\netcoreapp2.1\**\*.*" />
+        <PointOfInterestSkillFiles Include="$(SolutionDir)skills\PointOfInterestSkill\bin\$(ConfigurationName)\netcoreapp2.1\**\*.*" />
+        <TodoSkillFiles Include="$(SolutionDir)skills\ToDoSkill\bin\$(ConfigurationName)\netcoreapp2.1\**\*.*" />
+    </ItemGroup>
+    <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+        <Copy SourceFiles="@(CalendarSkillFiles)" DestinationFolder="$(TargetDir)" />
+        <Copy SourceFiles="@(EmailSkillFiles)" DestinationFolder="$(TargetDir)" />
+        <Copy SourceFiles="@(PointOfInterestSkillFiles)" DestinationFolder="$(TargetDir)" />
+        <Copy SourceFiles="@(TodoSkillFiles)" DestinationFolder="$(TargetDir)" />
+    </Target>
 </Project>

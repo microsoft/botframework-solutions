@@ -14,12 +14,12 @@ namespace EmailSkill.Dialogs.ForwardEmail.Resources
     {
         private static readonly ResponseManager _responseManager;
 
-        static ForwardEmailResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(ForwardEmailResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\ForwardEmail\Resources");
-            _responseManager = new ResponseManager(resDir, "ForwardEmailResponses");
-        }
+		static ForwardEmailResponses()
+		{
+			var dir = Path.GetDirectoryName(typeof(ForwardEmailResponses).Assembly.Location);
+			var resDir = Path.Combine(dir, "Dialogs", "ForwardEmail", "Resources");
+			_responseManager = new ResponseManager(resDir, "ForwardEmailResponses");
+		}
 
         // Generated accessors
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)

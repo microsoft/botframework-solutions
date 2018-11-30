@@ -15,12 +15,12 @@ namespace PointOfInterestSkill.Dialogs.Shared.Resources
     {
         private static readonly ResponseManager _responseManager;
 
-        static POISharedResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(POISharedResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\Shared\Resources");
-            _responseManager = new ResponseManager(resDir, "POISharedResponses");
-        }
+		static POISharedResponses()
+		{
+			var dir = Path.GetDirectoryName(typeof(POISharedResponses).Assembly.Location);
+			var resDir = Path.Combine(dir, "Dialogs", "Shared", "Resources");
+			_responseManager = new ResponseManager(resDir, "POISharedResponses");
+		}
 
         // Generated accessors
         public static BotResponse DidntUnderstandMessage => GetBotResponse();

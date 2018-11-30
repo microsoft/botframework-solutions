@@ -14,12 +14,12 @@ namespace CalendarSkill.Dialogs.CreateEvent.Resources
     {
         private static readonly ResponseManager _responseManager;
 
-        static CreateEventResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(CreateEventResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\CreateEvent\Resources");
-            _responseManager = new ResponseManager(resDir, "CreateEventResponses");
-        }
+		static CreateEventResponses()
+		{
+			var dir = Path.GetDirectoryName(typeof(CreateEventResponses).Assembly.Location);
+			var resDir = Path.Combine(dir, "Dialogs", "CreateEvent", "Resources");
+			_responseManager = new ResponseManager(resDir, "CreateEventResponses");
+		}
 
         // Generated accessors
         public static BotResponse NoTitle => GetBotResponse();

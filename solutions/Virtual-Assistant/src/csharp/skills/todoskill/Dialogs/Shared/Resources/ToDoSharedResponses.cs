@@ -15,12 +15,12 @@ namespace ToDoSkill.Dialogs.Shared.Resources
     {
         private static readonly ResponseManager _responseManager;
 
-        static ToDoSharedResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(ToDoSharedResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\Shared\Resources");
-            _responseManager = new ResponseManager(resDir, "ToDoSharedResponses");
-        }
+		static ToDoSharedResponses()
+		{
+			var dir = Path.GetDirectoryName(typeof(ToDoSharedResponses).Assembly.Location);
+			var resDir = Path.Combine(dir, "Dialogs", "Shared", "Resources");
+			_responseManager = new ResponseManager(resDir, "ToDoSharedResponses");
+		}
 
         // Generated accessors
         public static BotResponse DidntUnderstandMessage => GetBotResponse();

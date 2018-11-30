@@ -14,12 +14,12 @@ namespace CalendarSkill.Dialogs.UpdateEvent.Resources
     {
         private static readonly ResponseManager _responseManager;
 
-        static UpdateEventResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(UpdateEventResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\UpdateEvent\Resources");
-            _responseManager = new ResponseManager(resDir, "UpdateEventResponses");
-        }
+		static UpdateEventResponses()
+		{
+			var dir = Path.GetDirectoryName(typeof(UpdateEventResponses).Assembly.Location);
+			var resDir = Path.Combine(dir, "Dialogs", "UpdateEvent", "Resources");
+			_responseManager = new ResponseManager(resDir, "UpdateEventResponses");
+		}
 
         // Generated accessors
         public static BotResponse NotEventOrganizer => GetBotResponse();

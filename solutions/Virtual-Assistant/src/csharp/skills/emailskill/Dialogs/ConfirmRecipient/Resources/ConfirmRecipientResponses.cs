@@ -14,12 +14,12 @@ namespace EmailSkill.Dialogs.ConfirmRecipient.Resources
     {
         private static readonly ResponseManager _responseManager;
 
-        static ConfirmRecipientResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(ConfirmRecipientResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\ConfirmRecipient\Resources");
-            _responseManager = new ResponseManager(resDir, "ConfirmRecipientResponses");
-        }
+		static ConfirmRecipientResponses()
+		{
+			var dir = Path.GetDirectoryName(typeof(ConfirmRecipientResponses).Assembly.Location);
+			var resDir = Path.Combine(dir, "Dialogs", "ConfirmRecipient", "Resources");
+			_responseManager = new ResponseManager(resDir, "ConfirmRecipientResponses");
+		}
 
         // Generated accessors
         public static BotResponse PromptTooManyPeople => GetBotResponse();

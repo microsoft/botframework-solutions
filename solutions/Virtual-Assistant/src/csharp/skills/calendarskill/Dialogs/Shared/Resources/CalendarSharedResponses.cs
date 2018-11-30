@@ -14,12 +14,12 @@ namespace CalendarSkill.Dialogs.Shared.Resources
     {
         private static readonly ResponseManager _responseManager;
 
-        static CalendarSharedResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(CalendarSharedResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\Shared\Resources");
-            _responseManager = new ResponseManager(resDir, "CalendarSharedResponses");
-        }
+		static CalendarSharedResponses()
+		{
+			var dir = Path.GetDirectoryName(typeof(CalendarSharedResponses).Assembly.Location);
+			var resDir = Path.Combine(dir, "Dialogs", "Shared", "Resources");
+			_responseManager = new ResponseManager(resDir, "CalendarSharedResponses");
+		}
 
         // Generated accessors
         public static BotResponse DidntUnderstandMessage => GetBotResponse();

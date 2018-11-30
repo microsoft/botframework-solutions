@@ -15,12 +15,12 @@ namespace ToDoSkill.Dialogs.MarkToDo.Resources
     {
         private static readonly ResponseManager _responseManager;
 
-        static MarkToDoResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(MarkToDoResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\MarkToDo\Resources");
-            _responseManager = new ResponseManager(resDir, "MarkToDoResponses");
-        }
+		static MarkToDoResponses()
+		{
+			var dir = Path.GetDirectoryName(typeof(MarkToDoResponses).Assembly.Location);
+			var resDir = Path.Combine(dir, "Dialogs", "MarkToDo", "Resources");
+			_responseManager = new ResponseManager(resDir, "MarkToDoResponses");
+		}
 
         // Generated accessors
         public static BotResponse AfterToDoTaskCompleted => GetBotResponse();

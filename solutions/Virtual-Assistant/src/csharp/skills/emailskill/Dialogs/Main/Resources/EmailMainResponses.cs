@@ -15,12 +15,12 @@ namespace EmailSkill.Dialogs.Main.Resources
     {
         private static readonly ResponseManager _responseManager;
 
-        static EmailMainResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(EmailMainResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\Main\Resources");
-            _responseManager = new ResponseManager(resDir, "EmailMainResponses");
-        }
+		static EmailMainResponses()
+		{
+			var dir = Path.GetDirectoryName(typeof(EmailMainResponses).Assembly.Location);
+			var resDir = Path.Combine(dir, "Dialogs", "Main", "Resources");
+			_responseManager = new ResponseManager(resDir, "EmailMainResponses");
+		}
 
         // Generated accessors
         public static BotResponse EmailWelcomeMessage => GetBotResponse();

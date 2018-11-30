@@ -58,11 +58,12 @@ namespace VirtualAssistant
             Register(new DictionaryRenderer(_responseTemplates));
         }
 
-        public static IMessageActivity BuildIntroCard(ITurnContext turnContext, dynamic data)
-        {
-            var introCard = File.ReadAllText(@".\Dialogs\Main\Resources\Intro.json");
-            var card = AdaptiveCard.FromJson(introCard).Card;
-            var attachment = new Attachment(AdaptiveCard.ContentType, content: card);
+		public static IMessageActivity BuildIntroCard(ITurnContext turnContext, dynamic data)
+		{
+			var introPath = Path.Combine("Dialogs", "Main", "Resources", "Intro.json");
+			var introCard = File.ReadAllText(introPath);
+			var card = AdaptiveCard.FromJson(introCard).Card;
+			var attachment = new Attachment(AdaptiveCard.ContentType, content: card);
 
             return MessageFactory.Attachment(attachment, ssml: card.Speak, inputHint: InputHints.AcceptingInput);
         }

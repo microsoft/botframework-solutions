@@ -14,12 +14,12 @@ namespace CalendarSkill.Dialogs.NextMeeting.Resources
     {
         private static readonly ResponseManager _responseManager;
 
-        static NextMeetingResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(NextMeetingResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\NextMeeting\Resources");
-            _responseManager = new ResponseManager(resDir, "NextMeetingResponses");
-        }
+		static NextMeetingResponses()
+		{
+			var dir = Path.GetDirectoryName(typeof(NextMeetingResponses).Assembly.Location);
+			var resDir = Path.Combine(dir, "Dialogs", "NextMeeting", "Resources");
+			_responseManager = new ResponseManager(resDir, "NextMeetingResponses");
+		}
 
         // Generated accessors
         public static BotResponse ShowNoMeetingMessage => GetBotResponse();

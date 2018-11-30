@@ -14,12 +14,12 @@ namespace EmailSkill.Dialogs.ShowEmail.Resources
     {
         private static readonly ResponseManager _responseManager;
 
-        static ShowEmailResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(ShowEmailResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\ShowEmail\Resources");
-            _responseManager = new ResponseManager(resDir, "ShowEmailResponses");
-        }
+		static ShowEmailResponses()
+		{
+			var dir = Path.GetDirectoryName(typeof(ShowEmailResponses).Assembly.Location);
+			var resDir = Path.Combine(dir, "Dialogs", "ShowEmail", "Resources");
+			_responseManager = new ResponseManager(resDir, "ShowEmailResponses");
+		}
 
         // Generated accessors
         public static BotResponse EmailNotFound => GetBotResponse();

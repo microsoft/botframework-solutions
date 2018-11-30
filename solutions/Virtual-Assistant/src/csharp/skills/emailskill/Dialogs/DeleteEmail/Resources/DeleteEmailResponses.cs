@@ -14,12 +14,12 @@ namespace EmailSkill.Dialogs.DeleteEmail.Resources
     {
         private static readonly ResponseManager _responseManager;
 
-        static DeleteEmailResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(DeleteEmailResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\DeleteEmail\Resources");
-            _responseManager = new ResponseManager(resDir, "DeleteEmailResponses");
-        }
+		static DeleteEmailResponses()
+		{
+			var dir = Path.GetDirectoryName(typeof(DeleteEmailResponses).Assembly.Location);
+			var resDir = Path.Combine(dir, "Dialogs", "DeleteEmail", "Resources");
+			_responseManager = new ResponseManager(resDir, "DeleteEmailResponses");
+		}
 
         // Generated accessors
         public static BotResponse DeletePrompt => GetBotResponse();

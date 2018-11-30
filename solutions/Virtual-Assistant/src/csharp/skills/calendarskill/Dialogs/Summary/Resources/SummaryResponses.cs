@@ -14,12 +14,12 @@ namespace CalendarSkill.Dialogs.Summary.Resources
     {
         private static readonly ResponseManager _responseManager;
 
-        static SummaryResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(SummaryResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\Summary\Resources");
-            _responseManager = new ResponseManager(resDir, "SummaryResponses");
-        }
+		static SummaryResponses()
+		{
+			var dir = Path.GetDirectoryName(typeof(SummaryResponses).Assembly.Location);
+			var resDir = Path.Combine(dir, "Dialogs", "Summary", "Resources");
+			_responseManager = new ResponseManager(resDir, "SummaryResponses");
+		}
 
         // Generated accessors
         public static BotResponse CalendarNoMoreEvent => GetBotResponse();

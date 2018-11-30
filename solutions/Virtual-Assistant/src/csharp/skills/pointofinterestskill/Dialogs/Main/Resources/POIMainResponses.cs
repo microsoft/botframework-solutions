@@ -15,12 +15,12 @@ namespace PointOfInterestSkill.Dialogs.Main.Resources
     {
         private static readonly ResponseManager _responseManager;
 
-        static POIMainResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(POIMainResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\Main\Resources");
-            _responseManager = new ResponseManager(resDir, "POIMainResponses");
-        }
+		static POIMainResponses()
+		{
+			var dir = Path.GetDirectoryName(typeof(POIMainResponses).Assembly.Location);
+			var resDir = Path.Combine(dir, "Dialogs", "Main", "Resources");
+			_responseManager = new ResponseManager(resDir, "POIMainResponses");
+		}
 
         // Generated accessors
         public static BotResponse PointOfInterestWelcomeMessage => GetBotResponse();

@@ -14,12 +14,12 @@ namespace CalendarSkill.Dialogs.DeleteEvent.Resources
     {
         private static readonly ResponseManager _responseManager;
 
-        static DeleteEventResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(DeleteEventResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\DeleteEvent\Resources");
-            _responseManager = new ResponseManager(resDir, "DeleteEventResponses");
-        }
+		static DeleteEventResponses()
+		{
+			var dir = Path.GetDirectoryName(typeof(DeleteEventResponses).Assembly.Location);
+			var resDir = Path.Combine(dir, "Dialogs", "DeleteEvent", "Resources");
+			_responseManager = new ResponseManager(resDir, "DeleteEventResponses");
+		}
 
         // Generated accessors
         public static BotResponse ConfirmDelete => GetBotResponse();

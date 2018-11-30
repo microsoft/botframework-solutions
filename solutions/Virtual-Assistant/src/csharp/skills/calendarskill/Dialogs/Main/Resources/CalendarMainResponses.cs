@@ -14,12 +14,12 @@ namespace CalendarSkill.Dialogs.Main.Resources
     {
         private static readonly ResponseManager _responseManager;
 
-        static CalendarMainResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(CalendarMainResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\Main\Resources");
-            _responseManager = new ResponseManager(resDir, "CalendarMainResponses");
-        }
+		static CalendarMainResponses()
+		{
+			var dir = Path.GetDirectoryName(typeof(CalendarMainResponses).Assembly.Location);
+			var resDir = Path.Combine(dir, "Dialogs", "Main", "Resources");
+			_responseManager = new ResponseManager(resDir, "CalendarMainResponses");
+		}
 
         // Generated accessors
         public static BotResponse CalendarWelcomeMessage => GetBotResponse();

@@ -15,12 +15,12 @@ namespace ToDoSkill.Dialogs.Main.Resources
     {
         private static readonly ResponseManager _responseManager;
 
-        static ToDoMainResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(ToDoMainResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\Main\Resources");
-            _responseManager = new ResponseManager(resDir, "ToDoMainResponses");
-        }
+		static ToDoMainResponses()
+		{
+			var dir = Path.GetDirectoryName(typeof(ToDoMainResponses).Assembly.Location);
+			var resDir = Path.Combine(dir, "Dialogs", "Main", "Resources");
+			_responseManager = new ResponseManager(resDir, "ToDoMainResponses");
+		}
 
         // Generated accessors
         public static BotResponse ToDoWelcomeMessage => GetBotResponse();

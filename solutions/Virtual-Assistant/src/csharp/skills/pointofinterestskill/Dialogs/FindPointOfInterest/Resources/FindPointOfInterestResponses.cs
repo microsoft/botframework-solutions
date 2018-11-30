@@ -15,12 +15,12 @@ namespace PointOfInterestSkill.Dialogs.FindPointOfInterest.Resources
     {
         private static readonly ResponseManager _responseManager;
 
-        static FindPointOfInterestResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(FindPointOfInterestResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\FindPointOfInterest\Resources");
-            _responseManager = new ResponseManager(resDir, "FindPointOfInterestResponses");
-        }
+		static FindPointOfInterestResponses()
+		{
+			var dir = Path.GetDirectoryName(typeof(FindPointOfInterestResponses).Assembly.Location);
+			var resDir = Path.Combine(dir, "Dialogs", "FindPointOfInterest", "Resources");
+			_responseManager = new ResponseManager(resDir, "FindPointOfInterestResponses");
+		}
 
         // Generated accessors
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)

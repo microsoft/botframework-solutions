@@ -15,12 +15,12 @@ namespace PointOfInterestSkill.Dialogs.CancelRoute.Resources
     {
         private static readonly ResponseManager _responseManager;
 
-        static CancelRouteResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(CancelRouteResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\CancelRoute\Resources");
-            _responseManager = new ResponseManager(resDir, "CancelRouteResponses");
-        }
+		static CancelRouteResponses()
+		{
+			var dir = Path.GetDirectoryName(typeof(CancelRouteResponses).Assembly.Location);
+			var resDir = Path.Combine(dir, "Dialogs", "CancelRoute", "Resources");
+			_responseManager = new ResponseManager(resDir, "CancelRouteResponses");
+		}
 
         // Generated accessors
         public static BotResponse CancelActiveRoute => GetBotResponse();

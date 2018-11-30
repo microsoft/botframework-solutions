@@ -14,12 +14,12 @@ namespace EmailSkill.Dialogs.ReplyEmail.Resources
     {
         private static readonly ResponseManager _responseManager;
 
-        static ReplyEmailResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(ReplyEmailResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\ReplyEmail\Resources");
-            _responseManager = new ResponseManager(resDir, "ReplyEmailResponses");
-        }
+		static ReplyEmailResponses()
+		{
+			var dir = Path.GetDirectoryName(typeof(ReplyEmailResponses).Assembly.Location);
+			var resDir = Path.Combine(dir, "Dialogs", "ReplyEmail", "Resources");
+			_responseManager = new ResponseManager(resDir, "ReplyEmailResponses");
+		}
 
         // Generated accessors
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)

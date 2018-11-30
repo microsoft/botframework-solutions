@@ -15,12 +15,12 @@ namespace ToDoSkill.Dialogs.ShowToDo.Resources
     {
         private static readonly ResponseManager _responseManager;
 
-        static ShowToDoResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(ShowToDoResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\ShowToDo\Resources");
-            _responseManager = new ResponseManager(resDir, "ShowToDoResponses");
-        }
+		static ShowToDoResponses()
+		{
+			var dir = Path.GetDirectoryName(typeof(ShowToDoResponses).Assembly.Location);
+			var resDir = Path.Combine(dir, "Dialogs", "ShowToDo", "Resources");
+			_responseManager = new ResponseManager(resDir, "ShowToDoResponses");
+		}
 
         // Generated accessors
         public static BotResponse FirstToDoTasks => GetBotResponse();

@@ -15,12 +15,12 @@ namespace PointOfInterestSkill.Dialogs.Route.Resources
     {
         private static readonly ResponseManager _responseManager;
 
-        static RouteResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(RouteResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\Route\Resources");
-            _responseManager = new ResponseManager(resDir, "RouteResponses");
-        }
+		static RouteResponses()
+		{
+			var dir = Path.GetDirectoryName(typeof(RouteResponses).Assembly.Location);
+			var resDir = Path.Combine(dir, "Dialogs", "Route", "Resources");
+			_responseManager = new ResponseManager(resDir, "RouteResponses");
+		}
 
         // Generated accessors
         public static BotResponse MissingActiveLocationErrorMessage => GetBotResponse();

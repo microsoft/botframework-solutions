@@ -16,11 +16,11 @@ namespace Microsoft.Bot.Solutions.Tests.Resources
         private static readonly ResponseManager _responseManager;
 
 		static TestResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(TestResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Resources");
-            _responseManager = new ResponseManager(resDir, "TestResponses");
-        }
+		{
+			var dir = Path.GetDirectoryName(typeof(TestResponses).Assembly.Location);
+			var resDir = Path.Combine(dir, "Resources");
+			_responseManager = new ResponseManager(resDir, "TestResponses");
+		}
 
         // Generated accessors  
         public static BotResponse GetResponseText => GetBotResponse();

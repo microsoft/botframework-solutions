@@ -32,10 +32,10 @@ namespace CalendarSkill
             throw new InvalidTimeZoneException();
         }
 
-        private static void LoadData()
-        {
-            var dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var resDir = Path.Combine(dir, @"ServiceClients\WindowsIanaMapping");
+		private static void LoadData()
+		{
+			var dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+			var resDir = Path.Combine(dir, "ServiceClients", "WindowsIanaMapping");
 
             using (var mappingFile = new FileStream(resDir, FileMode.Open))
             using (var sr = new StreamReader(mappingFile))
