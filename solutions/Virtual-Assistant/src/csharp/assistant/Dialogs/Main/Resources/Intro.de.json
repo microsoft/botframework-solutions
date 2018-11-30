@@ -22,7 +22,7 @@
     {
       "type": "TextBlock",
       "size": "default",
-      "isSubtle": "yes",
+      "isSubtle": true,
       "text": "Nun, da Sie Ihren virtuellen Assistenten erfolgreich geführt haben, folgen Sie den Links in dieser adaptiven Karte, um weiter zu erforschen.",
       "speak": "Jetzt, wo Sie loslegen lassen.",
       "wrap": true,

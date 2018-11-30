@@ -22,7 +22,7 @@
     {
       "type": "TextBlock",
       "size": "default",
-      "isSubtle": "yes",
+      "isSubtle": true,
       "text": "现在您可以开始使用我了，请访问卡片上的选项了解更多",
       "speak": "现在您可以开始使用我了，请访问卡片上的选项了解更多",
       "wrap": true,

@@ -1,15 +1,15 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
+using System;
+using System.Collections.Generic;
+using CalendarSkill.Common;
+using CalendarSkill.Dialogs.Shared.Resources.Strings;
+using CalendarSkill.Util;
+using Microsoft.Bot.Solutions.Resources;
+
 namespace CalendarSkill
 {
-    using System;
-    using System.Collections.Generic;
-    using Dialogs.Shared.Resources.Strings;
-    using global::CalendarSkill.Common;
-    using Microsoft.Bot.Solutions.Resources;
-    using Util;
-
     /// <summary>
     /// Source of event.
     /// </summary>
