@@ -48,6 +48,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>EscalateStrings.resx</DependentUpon>
     </Compile>
+    <Compile Update="Dialogs\Escalate\Resources\EscalateStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EscalateStrings.resx</DependentUpon>
+    </Compile>
     <Compile Update="Dialogs\Main\Resources\MainStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -61,7 +66,7 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Dialogs\Escalate\Resources\EscalateStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>EscalateStrings - Copy.Designer.cs</LastGenOutput>
+      <LastGenOutput>EscalateStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Dialogs\Main\Resources\MainStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
