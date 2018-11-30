@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using System.IO;
+using AdaptiveCards;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.TemplateManager;
 using Microsoft.Bot.Schema;
@@ -13,29 +14,43 @@ namespace VirtualAssistant
 {
     public class MainResponses : TemplateManager
     {
-        // Constants
-        public const string Cancelled = "cancelled";
-        public const string Completed = "completed";
-        public const string Confused = "confused";
-        public const string Greeting = "greeting";
-        public const string Help = "help";
-        public const string Intro = "intro";
-        public const string NoActiveDialog = "noActiveDialog";
-
         private static LanguageTemplateDictionary _responseTemplates = new LanguageTemplateDictionary
         {
             ["default"] = new TemplateIdMap
             {
-                { Cancelled, (context, data) => SendAcceptingInputReply(context, MainStrings.CANCELLED) },
-                { NoActiveDialog, (context, data) => SendAcceptingInputReply(context, MainStrings.NO_ACTIVE_DIALOG) },
-                { Completed, (context, data) => SendAcceptingInputReply(context, MainStrings.COMPLETED) },
-                { Confused, (context, data) => SendAcceptingInputReply(context, MainStrings.CONFUSED) },
-                { Greeting, (context, data) => SendAcceptingInputReply(context, MainStrings.GREETING) },
-                { Help, (context, data) => SendHelpCard(context, data) },
-                { Intro, (context, data) => SendIntroCard(context, data) },
-            },
-            ["en"] = new TemplateIdMap { },
-            ["fr"] = new TemplateIdMap { },
+                {
+                    ResponseIds.Cancelled,
+                    (context, data) => MessageFactory.Text(MainStrings.CANCELLED, MainStrings.CANCELLED, InputHints.AcceptingInput)
+                },
+                {
+                    ResponseIds.NoActiveDialog,
+                    (context, data) => MessageFactory.Text(MainStrings.NO_ACTIVE_DIALOG, MainStrings.NO_ACTIVE_DIALOG, InputHints.AcceptingInput)
+                },
+                {
+                    ResponseIds.Completed,
+                    (context, data) => MessageFactory.Text(MainStrings.COMPLETED, MainStrings.COMPLETED, InputHints.AcceptingInput)
+                },
+                {
+                    ResponseIds.Confused,
+                    (context, data) => MessageFactory.Text(MainStrings.CONFUSED, MainStrings.CONFUSED, InputHints.AcceptingInput)
+                },
+                {
+                    ResponseIds.Greeting,
+                    (context, data) => MessageFactory.Text(MainStrings.GREETING, MainStrings.GREETING, InputHints.AcceptingInput)
+                },
+                {
+                    ResponseIds.Error,
+                    (context, data) => MessageFactory.Text(MainStrings.ERROR, MainStrings.ERROR, InputHints.AcceptingInput)
+                },
+                {
+                    ResponseIds.Help,
+                    (context, data) => BuildHelpCard(context, data)
+                },
+                {
+                    ResponseIds.Intro,
+                    (context, data) => BuildIntroCard(context, data)
+                },
+            }
         };
 
         public MainResponses()
@@ -43,55 +58,49 @@ namespace VirtualAssistant
             Register(new DictionaryRenderer(_responseTemplates));
         }
 
-        public static IMessageActivity SendIntroCard(ITurnContext turnContext, dynamic data)
+        public static IMessageActivity BuildIntroCard(ITurnContext turnContext, dynamic data)
         {
-            var response = turnContext.Activity.CreateReply();
-            var introCard = MainStrings.ResourceManager.GetObject("Intro").ToString();
+            var introCard = File.ReadAllText(@".\Dialogs\Main\Resources\Intro.json");
+            var card = AdaptiveCard.FromJson(introCard).Card;
+            var attachment = new Attachment(AdaptiveCard.ContentType, content: card);
 
-            response.Attachments = new List<Attachment>
+            return MessageFactory.Attachment(attachment, ssml: card.Speak, inputHint: InputHints.AcceptingInput);
+        }
+
+        public static IMessageActivity BuildHelpCard(ITurnContext turnContext, dynamic data)
+        {
+            var attachment = new HeroCard()
             {
-                new Attachment()
+                Title = MainStrings.HELP_TITLE,
+                Text = MainStrings.HELP_TEXT,
+            }.ToAttachment();
+
+            var response = MessageFactory.Attachment(attachment, ssml: MainStrings.HELP_TEXT, inputHint: InputHints.AcceptingInput);
+
+            response.SuggestedActions = new SuggestedActions
+            {
+                Actions = new List<CardAction>()
                 {
-                    ContentType = "application/vnd.microsoft.card.adaptive",
-                    Content = JsonConvert.DeserializeObject(introCard),
+                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.CALENDAR_SUGGESTEDACTION),
+                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.EMAIL_SUGGESTEDACTION),
+                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.MEETING_SUGGESTEDACTION),
+                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.POI_SUGGESTEDACTION),
                 },
             };
 
             return response;
         }
 
-        public static IMessageActivity SendHelpCard(ITurnContext turnContext, dynamic data)
+        public class ResponseIds
         {
-            var response = turnContext.Activity.CreateReply();
-            response.Attachments = new List<Attachment>()
-            {
-                new HeroCard()
-                {
-                    Title = MainStrings.HELP_TITLE,
-                    Text = MainStrings.HELP_TEXT,
-                }.ToAttachment(),
-            };
-
-            response.SuggestedActions = new SuggestedActions
-            {
-                Actions = new List<CardAction>()
-            {
-                new CardAction(type: ActionTypes.ImBack, title: MainStrings.CALENDAR_SUGGESTEDACTION),
-                new CardAction(type: ActionTypes.ImBack, title: MainStrings.EMAIL_SUGGESTEDACTION),
-                new CardAction(type: ActionTypes.ImBack, title: MainStrings.MEETING_SUGGESTEDACTION),
-                new CardAction(type: ActionTypes.ImBack, title: MainStrings.POI_SUGGESTEDACTION),
-            },
-            };
-            return response;
-        }
-
-        public static IMessageActivity SendAcceptingInputReply(ITurnContext turnContext, string text)
-        {
-            var reply = turnContext.Activity.CreateReply();
-            reply.InputHint = InputHints.AcceptingInput;
-            reply.Text = text;
-
-            return reply;
+            public const string Cancelled = "cancelled";
+            public const string Completed = "completed";
+            public const string Confused = "confused";
+            public const string Greeting = "greeting";
+            public const string Help = "help";
+            public const string Intro = "intro";
+            public const string Error = "error";
+            public const string NoActiveDialog = "noActiveDialog";
         }
     }
 }

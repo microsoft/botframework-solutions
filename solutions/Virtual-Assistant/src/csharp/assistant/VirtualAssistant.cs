@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -52,21 +51,22 @@ namespace VirtualAssistant
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
-            var dc = await _dialogs.CreateContextAsync(turnContext);
-            var result = await dc.ContinueDialogAsync();
-
-            if (result.Status == DialogTurnStatus.Empty)
+            // Client notifying this bot took to long to respond (timed out)
+            if (turnContext.Activity.Code == EndOfConversationCodes.BotTimedOut)
             {
-                if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
-                {
-                    var activity = turnContext.Activity.AsConversationUpdateActivity();
+                _services.TelemetryClient.TrackTrace($"Timeout in {turnContext.Activity.ChannelId} channel: Bot took too long to respond.");
+                return;
+            }
 
-                    // if conversation update is not from the bot.
-                    if (!activity.MembersAdded.Any(m => m.Id == activity.Recipient.Id))
-                    {
-                        await dc.BeginDialogAsync(nameof(MainDialog));
-                    }
-                }
+            var dc = await _dialogs.CreateContextAsync(turnContext);
+
+            if (dc.ActiveDialog != null)
+            {
+                var result = await dc.ContinueDialogAsync();
+            }
+            else
+            {
+                await dc.BeginDialogAsync(nameof(MainDialog));
             }
         }
     }

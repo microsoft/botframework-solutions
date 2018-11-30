@@ -57,7 +57,7 @@ namespace VirtualAssistant
             var onboardingState = await _onboardingState.GetAsync(dc.Context, () => new OnboardingState());
 
             var view = new MainResponses();
-            await view.ReplyWith(dc.Context, MainResponses.Intro);
+            await view.ReplyWith(dc.Context, MainResponses.ResponseIds.Intro);
 
             if (string.IsNullOrEmpty(onboardingState.Name))
             {
@@ -93,21 +93,21 @@ namespace VirtualAssistant
                                 case General.Intent.Greeting:
                                     {
                                         // send greeting response
-                                        await _responder.ReplyWith(dc.Context, MainResponses.Greeting);
+                                        await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Greeting);
                                         break;
                                     }
 
                                 case General.Intent.Help:
                                     {
                                         // send help response
-                                        await _responder.ReplyWith(dc.Context, MainResponses.Help);
+                                        await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Help);
                                         break;
                                     }
 
                                 case General.Intent.Cancel:
                                     {
                                         // if this was triggered, then there is no active dialog
-                                        await _responder.ReplyWith(dc.Context, MainResponses.NoActiveDialog);
+                                        await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.NoActiveDialog);
                                         break;
                                     }
 
@@ -146,7 +146,7 @@ namespace VirtualAssistant
                                 default:
                                     {
                                         // No intent was identified, send confused message
-                                        await _responder.ReplyWith(dc.Context, MainResponses.Confused);
+                                        await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Confused);
                                         break;
                                     }
                             }
@@ -183,12 +183,19 @@ namespace VirtualAssistant
 
                         break;
                     }
+
+                case Dispatch.Intent.None:
+                    {
+                        // No intent was identified, send confused message
+                        await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Confused);
+                        break;
+                    }
             }
         }
 
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            await _responder.ReplyWith(dc.Context, MainResponses.Completed);
+            await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Completed);
 
             // End active dialog
             await dc.EndDialogAsync(result);

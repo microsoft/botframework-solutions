@@ -22,7 +22,7 @@
     {
       "type": "TextBlock",
       "size": "default",
-      "isSubtle": "yes",
+      "isSubtle": true,
       "text": "Maintenant que vous avez réussi à exécuter votre assistant virtuel, suivez les liens dans cette carte adaptative pour explorer plus loin.",
       "speak": "Maintenant que votre place et en cours d'exécution nous allons commencer.",
       "wrap": true,
