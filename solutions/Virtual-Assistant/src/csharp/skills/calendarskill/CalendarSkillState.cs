@@ -41,7 +41,7 @@ namespace CalendarSkill
             ReadOutEvents = new List<EventModel>();
             Duration = 0;
             MoveTimeSpan = 0;
-            AskParameterContent = "";
+            AskParameterContent = string.Empty;
         }
 
         public User User { get; set; }
@@ -165,7 +165,7 @@ namespace CalendarSkill
             ReadOutEvents = new List<EventModel>();
             Duration = 0;
             MoveTimeSpan = 0;
-            AskParameterContent = "";
+            AskParameterContent = string.Empty;
         }
 
         public class UserInformation
