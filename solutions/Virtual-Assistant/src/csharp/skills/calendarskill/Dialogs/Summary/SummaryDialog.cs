@@ -70,7 +70,7 @@ namespace CalendarSkill
                 var generalLuisResult = state.GeneralLuisResult;
                 var topGeneralIntent = generalLuisResult?.TopIntent().intent;
 
-                if (topGeneralIntent == General.Intent.Next)
+                if (topGeneralIntent == General.Intent.Next && state.SummaryEvents != null)
                 {
                     if ((state.ShowEventIndex + 1) * CalendarSkillState.PageSize < state.SummaryEvents.Count)
                     {
@@ -83,7 +83,7 @@ namespace CalendarSkill
                     }
                 }
 
-                if (topGeneralIntent == General.Intent.Previous)
+                if (topGeneralIntent == General.Intent.Previous && state.SummaryEvents != null)
                 {
                     if (state.ShowEventIndex > 0)
                     {
