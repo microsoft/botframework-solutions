@@ -21,14 +21,14 @@ namespace AutomotiveSkill
     public class MainDialog : RouterDialog
     {
         private bool _skillMode;
-        private SkillConfiguration _services;
+        private ISkillConfiguration _services;
         private UserState _userState;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
         private IStatePropertyAccessor<AutomotiveSkillState> _stateAccessor;
         private AutomotiveSkillResponseBuilder _responseBuilder = new AutomotiveSkillResponseBuilder();
 
-        public MainDialog(SkillConfiguration services, ConversationState conversationState, UserState userState, IServiceManager serviceManager, bool skillMode)
+        public MainDialog(ISkillConfiguration services, ConversationState conversationState, UserState userState, IServiceManager serviceManager, bool skillMode)
             : base(nameof(MainDialog))
         {
             _skillMode = skillMode;
@@ -152,11 +152,13 @@ namespace AutomotiveSkill
             {
                 // Update state with luis result and entities
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new AutomotiveSkillState());
-                var luisResult = await _services.LuisServices["vehiclesettings"].RecognizeAsync(dc.Context, cancellationToken);
-                state.LuisResult = luisResult;
 
-                // If it's the top level intent that you don't "switch context" which is used by this Maluuba component
-                state.AddRecognizerResult(state.LuisResult, (state.DialogStateType == VehicleSettingStage.None) ? true : false);            
+                _services.LuisServices.TryGetValue("vehiclesettings", out var luisService);
+                var luisResult = await luisService.RecognizeAsync<VehicleSettings>(dc.Context, CancellationToken.None);
+                state.VehicleSettingsLuisResult = luisResult;
+
+                //var luisResult = await _services.LuisServices["vehiclesettings"].RecognizeAsync(dc.Context, cancellationToken);
+                //state.LuisResult = luisResult;                
             }
 
             return result;

@@ -5,9 +5,6 @@ namespace AutomotiveSkill
 {
     using Luis;
     using Microsoft.Bot.Builder;
-    using Microsoft.Bot.Builder.Dialogs;
-    using Microsoft.Graph;
-    using System;
     using System.Collections.Generic;
 
     public class AutomotiveSkillState
@@ -17,11 +14,12 @@ namespace AutomotiveSkill
 
         }
 
-        public RecognizerResult LuisResult { get; set; }
+        public VehicleSettings VehicleSettingsLuisResult { get; set; }
+        public VehicleSettingsNameSelection NameSelectionLuisResult { get; set; }
+        public VehicleSettingsValueSelection ValueSelectionLuisResult { get; set; }
+
 
         public string Intent { get; set; }
-
-        public VehicleSettingStage DialogStateType { get; set; } = VehicleSettingStage.None;
 
         public IDictionary<string, IList<string>> Entities { get; set; } = new Dictionary<string, IList<string>>();
         public IList<SettingChange> Changes { get; set; } = new List<SettingChange>();
@@ -50,26 +48,7 @@ namespace AutomotiveSkill
 
             return settingNames;
         }
-
-        public void AddRecognizerResult(RecognizerResult result, bool switchContext = false)
-        {
-            var (intent, score) = result.GetTopScoringIntent();
-            if (switchContext)
-            {
-                Intent = intent;
-                DialogStateType = VehicleSettingStage.None;
-                Entities.Clear();
-                Changes.Clear();
-                Statuses.Clear();
-            }
-            else
-            {
-                // Remove transient entity types.
-                Entities.Remove("INDEX");
-            }
-
-            RecognizerResultWrapper.AddEntitiesToMap(this.Entities, result);
-        }
+ 
         public IList<string> GetUniqueSettingValues()
         {
             IList<string> settingValues = new List<string>();

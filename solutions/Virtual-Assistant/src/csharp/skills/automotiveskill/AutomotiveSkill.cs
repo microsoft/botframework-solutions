@@ -18,13 +18,13 @@ namespace AutomotiveSkill
     public class AutomotiveSkill : IBot
     {
         private bool _skillMode;
-        private readonly SkillConfiguration _services;
+        private readonly ISkillConfiguration _services;
         private readonly ConversationState _conversationState;
         private readonly UserState _userState;
         private IServiceManager _serviceManager;
         private DialogSet _dialogs;
 
-        public AutomotiveSkill(SkillConfiguration services, ConversationState conversationState, UserState userState, ServiceManager serviceManager = null, bool skillMode = false)
+        public AutomotiveSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, ServiceManager serviceManager = null, bool skillMode = false)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));
@@ -35,7 +35,6 @@ namespace AutomotiveSkill
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(DialogState)));
             _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _serviceManager, _skillMode));
         }
-
 
         /// <summary>
         /// Run every turn of the conversation. Handles orchestration of messages.

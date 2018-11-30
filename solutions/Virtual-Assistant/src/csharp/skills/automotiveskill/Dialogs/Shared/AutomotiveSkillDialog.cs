@@ -22,7 +22,7 @@ namespace AutomotiveSkill
             
         public AutomotiveSkillDialog(
             string dialogId,
-            SkillConfiguration services,
+            ISkillConfiguration services,
             IStatePropertyAccessor<AutomotiveSkillState> accessor,
             IServiceManager serviceManager)
             : base(dialogId)
@@ -32,7 +32,7 @@ namespace AutomotiveSkill
             ServiceManager = serviceManager;
         }
 
-        protected SkillConfiguration Services { get; set; }
+        protected ISkillConfiguration Services { get; set; }
 
         protected IStatePropertyAccessor<AutomotiveSkillState> Accessor { get; set; }
 

@@ -9,6 +9,8 @@ namespace AutomotiveSkill
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.IO;
+    using global::AutomotiveSkill.Models;
+    using Luis;
 
     /// <summary>
     /// Filters the available device settings based on the NLU result and the state.
@@ -47,88 +49,73 @@ namespace AutomotiveSkill
             this.index_normalizer = new EntityNormalizer("Dialogs/VehicleSettings/Resources/normalization/index_map.tsv");
         }
 
-        public void Filter(AutomotiveSkillState state, RecognizerResultWrapper luisResult)
+        public void Filter(AutomotiveSkillState state, VehicleSettingStage settingStage, VehicleSettings luisResult)
         {
-            if (state.DialogStateType == VehicleSettingStage.None)
+            if (settingStage == VehicleSettingStage.None)
             {
                 PostProcessSettings(state, luisResult);
                 ApplyContentLogic(state);
             }
-            else if (state.DialogStateType == VehicleSettingStage.NameSelection)
-            {
-                if (Util.IsChangeIntent(state.Intent))
-                {
-                    state.Changes = ApplySelectionToSettings(state, luisResult, state.Changes);
-                }
-                else if (Util.IsCheckIntent(state.Intent))
-                {
-                    state.Statuses = ApplySelectionToSettings(state, luisResult, state.Statuses);
-                }
-            }
-            else if (state.DialogStateType == VehicleSettingStage.ValueSelection)
-            {
-                state.Changes = ApplySelectionToSettingValues(state, luisResult);
-            }
-            else if (state.DialogStateType == VehicleSettingStage.ChangeConfirmation)
-            {
-                ApplyConfirmation(state, luisResult);
-            }
+            //else if (settingStage == VehicleSettingStage.NameSelection)
+            //{
+            //    state.Changes = ApplySelectionToSettings(state, luisResult, state.Changes);
+            //}
+            //else if (settingStage == VehicleSettingStage.ValueSelection)
+            //{
+            //    state.Changes = ApplySelectionToSettingValues(state, luisResult);
+            //}          
         }
 
-        private void PostProcessSettings(AutomotiveSkillState state, RecognizerResultWrapper luisResult)
+        public void PostProcessSettings(AutomotiveSkillState state, VehicleSettings luisResult)
         {
             IList<SettingMatch> setting_matches = new List<SettingMatch>();
             var has_matching_value_for_any_setting = false;
             ISet<string> setting_names_to_remove = new HashSet<string>();
 
+            // The Setting entity will contain any identified vehicle setting that was present in the utterance, e.g. front right airflow
+            // The Value entity will contain any identified value relating to a vehicle setting that was present in the utterance, e.g. warm
             IList<AvailableSetting> selected_settings = new List<AvailableSetting>();
             if (state.Entities.ContainsKey("SETTING"))
             {
-                selected_settings = this.settingMatcher.MatchSettingNamesExactly(luisResult, "SETTING");
+                // If we have a Setting then try to find a match between the setting name provided and the available settings
+                selected_settings = this.settingMatcher.MatchSettingNamesExactly(luisResult, luisResult.Entities.SETTING);
 
+                // If we have not found a exact setting match but we have a value then combine Setting and Value together to identify a match
                 if (!selected_settings.Any() && state.Entities.ContainsKey("VALUE"))
                 {
                     // First try SETTING + VALUE entities combined to catch cases like "warm my seat",
-                    // where the value can help disambiguate which setting the user meant.
-                    IList<string> entityTypes = new List<string>
-                    {
-                        "SETTING",
-                        "VALUE",
-                    };
-                    selected_settings = this.settingMatcher.MatchSettingNames(luisResult, entityTypes,
-                  setting_name_score_threshold, setting_name_antonym_disamb_percentage_of_max, false);
+                    // where the value can help disambiguate which setting the user meant.                  
+
+                    List<string[]> entityValuesToMatch = new List<string[]>();
+                    entityValuesToMatch.Add(luisResult.Entities.SETTING);
+                    entityValuesToMatch.Add(luisResult.Entities.VALUE);
+
+                    selected_settings = this.settingMatcher.MatchSettingNames(entityValuesToMatch, 
+                        setting_name_score_threshold, setting_name_antonym_disamb_percentage_of_max, false);
                 }
 
+                // If we still haven't found a match then try to match with just the setting but not exactly this time
                 if (!selected_settings.Any())
                 {
-                    IList<string> entityTypes = new List<string>
-                    {
-                        "SETTING",
-                    };
-                    selected_settings = this.settingMatcher.MatchSettingNames(luisResult, entityTypes,
+                    selected_settings = this.settingMatcher.MatchSettingNames(new List<string[]> { luisResult.Entities.SETTING },
                   setting_name_score_threshold, setting_name_antonym_disamb_percentage_of_max, false);
                 }
+            }          
 
-            }
-            else if ("SETTING_STATUS_FOLLOWUP".Equals(state.DialogStateType)
-              && ("VEHICLE_SETTINGS_CHANGE".Equals(state.Intent) || "VEHICLE_SETTINGS_DECLARATIVE".Equals(state.Intent)))
-            {
-                // TODO get the settings from the Statuses on the state
-                //var arguments = query.dialogue().arguments<SettingNameSelectionArguments>();
-                //selected_settings = arguments.settings();
-            }
-
+            // Do we have a selected setting name?
             if (selected_settings.Any())
             {
-                IList<string> entity_types_for_value_disamb = new List<string>();
+                List<string[]> entityValuesToMatch = new List<string[]>();
+               
+                List<string> entity_types_for_value_disamb = new List<string>();
                 if (state.Entities.ContainsKey("VALUE"))
                 {
-                    entity_types_for_value_disamb.Add("VALUE");
+                    entityValuesToMatch.Add(luisResult.Entities.VALUE);
                 }
                 else if (state.Entities.ContainsKey("SETTING"))
                 {
                     // Sometimes the setting name itself is also a value, e.g., "defog"
-                    entity_types_for_value_disamb.Add("SETTING");
+                    entityValuesToMatch.Add(luisResult.Entities.SETTING);
                 }
 
                 foreach (var setting_info in selected_settings)
@@ -148,7 +135,14 @@ namespace AutomotiveSkill
                             selectable_values.Add(selectable);
                         }
 
-                        selected_values = this.settingMatcher.DisambiguateSettingValues(luisResult, entity_types_for_value_disamb,
+                        /* From the available setting values for the given setting name identify which one applies for this setting name
+                        e.g. Set (when users says set temperature to 21 degrees
+                        e.g. Increase (when user says increase temperature)
+                        e.g. Decrease (when user says decrease temperature)
+                        e.g. Off, Alert, Alert and Brake when user wants to control Park Assist
+                        */
+                        
+                        selected_values = this.settingMatcher.DisambiguateSettingValues(luisResult, entityValuesToMatch,
                             selectable_values, setting_value_antonym_disamb_threshold, setting_value_antonym_disamb_percentage_of_max);
 
                         // If we don't even have a VALUE entity, we can't match multiple values.
@@ -158,6 +152,7 @@ namespace AutomotiveSkill
                             selected_values.Clear();
                         }
 
+                        // For all selected values we return the canonical name for both the name and value 
                         foreach (var selected_value in selected_values)
                         {
                             SettingMatch match = new SettingMatch
@@ -187,11 +182,11 @@ namespace AutomotiveSkill
             {
                 // If we have no SETTING entity, match the VALUE entities against all the values of all the settings.
                 // This handles queries like "make it warmer" or "defog", where the value implies the setting.
-                IList<string> entityTypes = new List<string>
-                {
-                    "VALUE"
-                };
-                setting_matches = this.settingMatcher.MatchSettingValues(luisResult, entityTypes,
+
+                List<string[]> entityValuesToMatch = new List<string[]>();
+                entityValuesToMatch.Add(luisResult.Entities.VALUE);
+
+                setting_matches = this.settingMatcher.MatchSettingValues(luisResult, entityValuesToMatch,
                 setting_value_score_threshold, setting_value_antonym_disamb_percentage_of_max);
 
                 has_matching_value_for_any_setting = true;
@@ -219,67 +214,37 @@ namespace AutomotiveSkill
                 }
             }
             setting_matches = new_setting_matches;
+          
+            var (opt_amount, isRelative) = OptionalAmount(state, false);
 
-            if ("VEHICLE_SETTINGS_CHECK".Equals(state.Intent))
+            foreach (var setting_match in setting_matches)
             {
-                foreach (var setting_match in setting_matches)
+                SettingChange setting_change = new SettingChange
                 {
-                    SettingStatus setting_status = new SettingStatus
-                    {
-                        SettingName = setting_match.setting_name
-                    };
-                    state.Statuses.Add(setting_status);
-                }
+                    SettingName = setting_match.setting_name
+                };
 
+                var value_info = this.settingList.FindSettingValue(setting_match.setting_name, setting_match.value);               
+                setting_change.Value = setting_match.value;
+
+                if (opt_amount != null && value_info != null && value_info.ChangesSignOfAmount)
+                {
+                    (opt_amount, isRelative) = OptionalAmount(state, true);
+                }
+                setting_change.Amount = opt_amount;
+                setting_change.IsRelativeAmount = isRelative;
+
+                state.Changes.Add(setting_change);
             }
-            else
+
+            if (!setting_matches.Any() && opt_amount != null)
             {
-                var (opt_amount, isRelative) = OptionalAmount(state, false);
-
-                foreach (var setting_match in setting_matches)
+                SettingChange setting_change = new SettingChange
                 {
-                    SettingChange setting_change = new SettingChange
-                    {
-                        SettingName = setting_match.setting_name
-                    };
-
-                    var value_info = this.settingList.FindSettingValue(setting_match.setting_name, setting_match.value);
-                    if ("VEHICLE_SETTINGS_DECLARATIVE".Equals(state.Intent))
-                    {
-                        // If the user makes a declarative statement, it means that they're unhappy with the status quo.
-                        // So, we use the antonym of the value to get the opposite of the thing they're unhappy with,
-                        // which should hopefully make them happy.
-                        // If there is no antonym listed, then we want to return an empty value because we were unable to find
-                        // the correct value.
-                        if (value_info != null)
-                        {
-                            setting_change.Value = value_info.Antonym;
-                        }
-                    }
-                    else
-                    {
-                        setting_change.Value = setting_match.value;
-                    }
-
-                    if (opt_amount != null && value_info != null && value_info.ChangesSignOfAmount)
-                    {
-                        (opt_amount, isRelative) = OptionalAmount(state, true);
-                    }
-                    setting_change.Amount = opt_amount;
-                    setting_change.IsRelativeAmount = isRelative;
-
-                    state.Changes.Add(setting_change);
-                }
-
-                if (!setting_matches.Any() && opt_amount != null)
-                {
-                    SettingChange setting_change = new SettingChange
-                    {
-                        Amount = opt_amount,
-                        IsRelativeAmount = isRelative
-                    };
-                    state.Changes.Add(setting_change);
-                }
+                    Amount = opt_amount,
+                    IsRelativeAmount = isRelative
+                };
+                state.Changes.Add(setting_change);
             }
         }
 
@@ -393,9 +358,11 @@ namespace AutomotiveSkill
             }
         }
 
-        private void ApplyContentLogic(AutomotiveSkillState state)
+        public void ApplyContentLogic(AutomotiveSkillState state)
         {
-            if (Util.IsChangeIntent(state.Intent) && !Util.IsNullOrEmpty(state.Changes))
+            var topIntent = state.VehicleSettingsLuisResult.TopIntent();
+            
+            if (topIntent.intent == VehicleSettings.Intent.VEHICLE_SETTINGS_CHANGE && !Util.IsNullOrEmpty(state.Changes))
             {
                 IList<SettingChange> validChanges = new List<SettingChange>();
                 IList<SettingChange> invalidChanges = new List<SettingChange>();
@@ -560,16 +527,16 @@ namespace AutomotiveSkill
             return validity;
         }
 
-        private IList<T> ApplySelectionToSettings<T>(AutomotiveSkillState state, RecognizerResultWrapper luisResult, IList<T> changesOrStatuses) where T : SettingOperation
+        private IList<T> ApplySelectionToSettings<T>(AutomotiveSkillState state, VehicleSettings luisResult, IList<T> changesOrStatuses) where T : SettingOperation
         {
             var settingNames = state.GetUniqueSettingNames();
 
             IList<string> entityTypes = new List<string>();
-            if (luisResult.HasEntity("SETTING"))
+            if (luisResult.Entities.SETTING != null)
             {
                 entityTypes.Add("SETTING");
             }
-            else if (luisResult.HasEntity("VALUE"))
+            else if (luisResult.Entities.VALUE != null)
             {
                 entityTypes.Add("VALUE");
             }
@@ -619,12 +586,12 @@ namespace AutomotiveSkill
                 }
 
                 var setting_matcher = new SettingMatcher(this.settingList.CreateSubList(settings_to_select_from));
-                var selected_settings = setting_matcher.MatchSettingNamesExactly(luisResult, entityTypes[0]);
+                var selected_settings = setting_matcher.MatchSettingNamesExactly(luisResult, new string[] { luisResult.Entities.SETTING[0] });
 
                 if (!selected_settings.Any())
                 {
-                    selected_settings = setting_matcher.MatchSettingNames(luisResult, entityTypes,
-                        setting_name_score_threshold, setting_name_antonym_disamb_percentage_of_max, true);
+                   // selected_settings = setting_matcher.MatchSettingNames(luisResult, new string[] { luisResult.Entities.SETTING, luisResult.Entities.VALUE } ,
+                        //setting_name_score_threshold, setting_name_antonym_disamb_percentage_of_max, true);
                 }
 
                 foreach (var setting_info in selected_settings)
@@ -633,7 +600,7 @@ namespace AutomotiveSkill
                 }
             }
 
-            var (selectedIndices, hasIndexLast) = GetSelectedIndices(luisResult);
+            var (selectedIndices, hasIndexLast) = GetSelectedIndices(luisResult.Entities.INDEX);
             var hasAnyIndex = hasIndexLast || selectedIndices.Any();
 
             if (settingNames.Count() <= 1
@@ -697,7 +664,7 @@ namespace AutomotiveSkill
             return changesOrStatuses;
         }
 
-        private IList<SettingChange> ApplySelectionToSettingValues(AutomotiveSkillState state, RecognizerResultWrapper luisResult)
+        private IList<SettingChange> ApplySelectionToSettingValues(AutomotiveSkillState state, VehicleSettingsValueSelection luisResult)
         {
             var settingValues = state.GetUniqueSettingValues();
 
@@ -737,16 +704,16 @@ namespace AutomotiveSkill
                     selectableSettingValues.Add(selectable);
                 }
 
-                var selected_values = this.settingMatcher.DisambiguateSettingValues(luisResult, entityTypes,
-                    selectableSettingValues, setting_value_antonym_disamb_threshold, setting_value_antonym_disamb_percentage_of_max);
+                //var selected_values = this.settingMatcher.DisambiguateSettingValues(luisResult, entityTypes,
+                //    selectableSettingValues, setting_value_antonym_disamb_threshold, setting_value_antonym_disamb_percentage_of_max);
 
-                foreach (var selected_value in selected_values)
-                {
-                    selectedSettingValues.Add(selected_value.value.CanonicalName);
-                }
+                //foreach (var selected_value in selected_values)
+                //{
+                //    selectedSettingValues.Add(selected_value.value.CanonicalName);
+                //}
             }
 
-            var (selectedIndices, hasIndexLast) = GetSelectedIndices(luisResult);
+            var (selectedIndices, hasIndexLast) = GetSelectedIndices(luisResult.Entities.INDEX);
             var hasAnyIndex = hasIndexLast || selectedIndices.Any();
 
             if (settingValues.Count() <= 1
@@ -790,14 +757,14 @@ namespace AutomotiveSkill
             return state.Changes;
         }
 
-        private (ISet<int>, bool) GetSelectedIndices(RecognizerResultWrapper luisResult)
+        private (ISet<int>, bool) GetSelectedIndices(string[] entityValues)
         {
             ISet<int> selectedIndices = new HashSet<int>();
             bool hasIndexLast = false;
-            var indexEntityValues = luisResult.GetEntityValues("INDEX");
-            if (indexEntityValues.Any())
+
+            if (entityValues.Any())
             {
-                foreach (var indexEntityValue in indexEntityValues)
+                foreach (var indexEntityValue in entityValues)
                 {
                     var newIndexEntityValue = this.index_normalizer.Normalize(indexEntityValue);
                     if ("LAST".Equals(newIndexEntityValue))
@@ -819,16 +786,7 @@ namespace AutomotiveSkill
                 }
             }
             return (selectedIndices, hasIndexLast);
-        }
-
-        private void ApplyConfirmation(AutomotiveSkillState state, RecognizerResultWrapper luisResult)
-        {
-            if (state.Changes.Any() && "SETTING_CHANGE_CONFIRMATION_YES".Equals(luisResult.GetIntent()))
-            {
-                var change = state.Changes[0];
-                change.IsConfirmed = true;
-            }
-        }
+        }      
     }
 
     public class SettingMatcher
@@ -938,18 +896,16 @@ namespace AutomotiveSkill
             matchable.tokens_list.Add(tokens_per_name);
         }
 
-        private MatchableBagOfTokens MakeMatchableBagOfTokens(RecognizerResultWrapper luisResult, IList<string> entity_types)
+        private MatchableBagOfTokens MakeMatchableBagOfTokens(List<string[]> entity_types)
         {
             MatchableBagOfTokens matchable = new MatchableBagOfTokens();
 
-            IList<string> names = new List<string>();
-            foreach (var entityType in entity_types)
+            List<string> names = new List<string>();
+            foreach (string[] entityValues in entity_types)
             {
-                foreach (var entityValue in luisResult.GetEntityValues(entityType))
-                {
-                    names.Add(entityValue);
-                }
+                names.AddRange(entityValues);
             }
+
             string extracted_setting_name = string.Join(" ", names);
 
             AddNameToMatchable(matchable, extracted_setting_name);
@@ -1128,9 +1084,15 @@ namespace AutomotiveSkill
             return selected;
         }
 
-        public IList<AvailableSetting> MatchSettingNamesExactly(RecognizerResultWrapper luisResult, string entityType)
-        {
-            string entity_str = string.Join(" ", luisResult.GetEntityValues(entityType));
+        /// <summary>
+        /// See if the provided setting name can be exactly matched to a setting (e.g. temperature)
+        /// </summary>
+        /// <param name="luisResult"></param>
+        /// <param name="entityType"></param>
+        /// <returns></returns>
+        public IList<AvailableSetting> MatchSettingNamesExactly(VehicleSettings luisResult, string[] entityValues)
+        {          
+            string entity_str = string.Join(" ", entityValues);
 
             if (this.pre_processed_canonical_name_map.TryGetValue(entity_str, out var setting_info))
             {
@@ -1142,13 +1104,13 @@ namespace AutomotiveSkill
             }
         }
 
-        public IList<AvailableSetting> MatchSettingNames(RecognizerResultWrapper luisResult,
-            IList<string> entity_types,
+        public IList<AvailableSetting> MatchSettingNames(
+            List<string[]> entityValuesToMatch,
             double semantic_threshold,
             double antonym_disamb_percentage_of_max,
             bool use_coverage_filter)
         {
-            var matchable_entity_bag = this.MakeMatchableBagOfTokens(luisResult, entity_types);
+            var matchable_entity_bag = this.MakeMatchableBagOfTokens(entityValuesToMatch);
             if (matchable_entity_bag.IsEmpty())
             {
                 return new List<AvailableSetting>();
@@ -1183,12 +1145,12 @@ namespace AutomotiveSkill
             return selected_settings;
         }
 
-        public IList<SettingMatch> MatchSettingValues(RecognizerResultWrapper luisResult,
-            IList<string> entity_types,
+        public IList<SettingMatch> MatchSettingValues(VehicleSettings luisResult,
+            List<string[]> entity_types,
             double semantic_threshold,
             double antonym_disamb_percentage_of_max)
         {
-            var matchable_entity_bag = this.MakeMatchableBagOfTokens(luisResult, entity_types);
+            var matchable_entity_bag = this.MakeMatchableBagOfTokens(entity_types);
             if (matchable_entity_bag.IsEmpty())
             {
                 return new List<SettingMatch>();
@@ -1219,8 +1181,8 @@ namespace AutomotiveSkill
             return matches;
         }
 
-        public IList<SelectableSettingValue> DisambiguateSettingValues(RecognizerResultWrapper luisResult,
-            IList<string> entity_types,
+        public IList<SelectableSettingValue> DisambiguateSettingValues(VehicleSettings luisResult,
+            List<string[]> entity_types,
             IList<SelectableSettingValue> values,
             double antonym_disamb_threshold,
             double antonym_disamb_percentage_of_max)
@@ -1232,7 +1194,7 @@ namespace AutomotiveSkill
 
             // Not using semantic matching because we expect the values to be antonyms of each other, e.g., "on" and "off"
 
-            var matchable_entity_bag = this.MakeMatchableBagOfTokens(luisResult, entity_types);
+            var matchable_entity_bag = this.MakeMatchableBagOfTokens(entity_types);
             if (matchable_entity_bag.IsEmpty())
             {
                 return new List<SelectableSettingValue>();
@@ -1242,7 +1204,10 @@ namespace AutomotiveSkill
             IDictionary<string, SelectableSettingValue> value_search_index = new Dictionary<string, SelectableSettingValue>();
             foreach (var selectable_value in values)
             {
+                // Get all of the alternative names for adjusting this given setting, e.g. higher, hike, increase for temperature
                 var alternative_names = this.settingList.GetAlternativeNamesForSettingValue(selectable_value.canonicalSettingName, selectable_value.value.CanonicalName);
+
+                // Add these candidates to the bag
                 matchable_candidate_bags.Add(this.MakeMatchableBagOfTokens(
                 this.PreProcessName(selectable_value.value.CanonicalName),
                       alternative_names,
@@ -1251,6 +1216,7 @@ namespace AutomotiveSkill
                 value_search_index.Add(selectable_value.value.CanonicalName, selectable_value);
             }
 
+            // Antonyms are the opposite of a given word - e.g. hot and cold. Dismabiguate the 
             var matching_bags = this.DisambiguateAntonyms(matchable_entity_bag, matchable_candidate_bags,
                 antonym_disamb_threshold, antonym_disamb_percentage_of_max, true);
 
@@ -1302,61 +1268,5 @@ namespace AutomotiveSkill
             }
             return score_final;
         }
-    }
-    /// <summary>
-    /// Precomputed information about a bag of tokens.
-    /// We purposely disregard the order of the tokens because we want e.g.,
-    /// "left rear temperature" to match "rear left temperature".
-    /// </summary>
-    public class MatchableBagOfTokens
-    {
-        public string canonical_setting_name;
-        public string canonical_value_name;
-        public IList<string> tokens = new List<string>();
-        // The tokens_list contains a list of tokenized setting names
-        // An element in the tokens_list is a set of tokens for a setting name
-        public IList<IList<string>> tokens_list = new List<IList<string>>();
-
-        public bool IsEmpty()
-        {
-            return !tokens.Any() && !tokens_list.Any();
-        }
-    }
-
-    public class ScoredMatchableBagOfTokens
-    {
-        public MatchableBagOfTokens option;
-        public double score = 0.0;
-    }
-
-    public class MatchResult
-    {
-        public MatchableBagOfTokens element;
-        public double score = 0.0;
-    }
-
-    /// <summary>
-    /// A matching setting-value pair.
-    /// </summary>
-    public class SettingMatch
-    {
-        public string setting_name;
-        public string value;
-    }
-
-    /// <summary>
-    /// A setting value that can be selected from a list.
-    /// </summary>
-    public class SelectableSettingValue
-    {
-        /// <summary>
-        /// The canonical name of the setting this value belongs to.
-        /// </summary>
-        public string canonicalSettingName;
-
-        /// <summary>
-        /// The setting value.
-        /// </summary>
-        public AvailableSettingValue value;
-    }
+    }   
 }

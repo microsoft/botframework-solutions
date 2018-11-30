@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using automotiveskill.Dialogs.Cancel.Resources;
+using AutomotiveSkill.Dialogs.Cancel.Resources;
 using Microsoft.Bot.Builder.TemplateManager;
 
 namespace AutomotiveSkill

@@ -4,13 +4,16 @@
 namespace AutomotiveSkill
 {
     using global::AutomotiveSkill.Dialogs.VehicleSettings.Resources;
+    using Luis;
     using Microsoft.Bot.Builder;
     using Microsoft.Bot.Builder.Dialogs;
+    using Microsoft.Bot.Builder.Dialogs.Choices;
     using Microsoft.Bot.Schema;
     using Microsoft.Bot.Solutions.Cards;
     using Microsoft.Bot.Solutions.Dialogs;
     using Microsoft.Bot.Solutions.Extensions;
     using Microsoft.Bot.Solutions.Skills;
+    using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.IO;
@@ -31,13 +34,12 @@ namespace AutomotiveSkill
 
         private readonly IRecognizer vehicleSettingNameSelectionLuisRecognizer;
         private readonly IRecognizer vehicleSettingValueSelectionLuisRecognizer;
-        private readonly IRecognizer vehicleSettingChangeConfirmationLuisRecognizer;
 
         private readonly SettingList settingList;
         private readonly SettingFilter settingFilter;
 
         public VehicleSettingsDialog(
-            SkillConfiguration services,
+            ISkillConfiguration services,
             IStatePropertyAccessor<AutomotiveSkillState> accessor,
             IServiceManager serviceManager)
             : base(nameof(VehicleSettingsDialog), services, accessor, serviceManager)
@@ -45,7 +47,6 @@ namespace AutomotiveSkill
             // Initialise supporting LUIS models for followup questions
             vehicleSettingNameSelectionLuisRecognizer = services.LuisServices["vehiclesettings_name_selection"];
             vehicleSettingValueSelectionLuisRecognizer = services.LuisServices["vehiclesettings_value_selection"];
-            vehicleSettingChangeConfirmationLuisRecognizer = services.LuisServices["vehiclesettings_change_confirmation"];
 
             // JSON resource files provided metatadata as to the available car settings, names and the values that can be set
             var resDir = Path.Combine(Path.GetDirectoryName(typeof(VehicleSettingsDialog).Assembly.Location), 
@@ -66,12 +67,12 @@ namespace AutomotiveSkill
 
             // Prompts
             AddDialog(new TextPrompt(Actions.SettingSelectionPrompt, SettingSelectionValidator));
-            AddDialog(new TextPrompt(Actions.SettingConfirmationPrompt, SettingConfirmationValidator));
+            AddDialog(new ConfirmPrompt(Actions.SettingConfirmationPrompt));
 
             // Set starting dialog for component
             InitialDialogId = Actions.ProcessVehicleSettingChange;
         }
-       
+
         /// <summary>
         /// Top level processing, is the user trying to check or change a setting?
         /// </summary>
@@ -81,18 +82,12 @@ namespace AutomotiveSkill
         public async Task<DialogTurnResult> ProcessSetting(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await Accessor.GetAsync(sc.Context);
+            var luisResult = state.VehicleSettingsLuisResult;
+            var topIntent = luisResult?.TopIntent().intent;
 
-            var luisResult = state.LuisResult;
-            var topIntent = luisResult?.GetTopScoringIntent();
-
-            if (topIntent == null)
+            switch (topIntent.Value)
             {
-                return await sc.EndDialogAsync(true);
-            }
-
-            switch (topIntent.Value.intent)
-            {
-                case "VEHICLE_SETTINGS_CHANGE":
+                case VehicleSettings.Intent.VEHICLE_SETTINGS_CHANGE:
 
                     return await sc.NextAsync();
 
@@ -110,23 +105,51 @@ namespace AutomotiveSkill
         private async Task<DialogTurnResult> ProcessVehicleSettingsChange(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await Accessor.GetAsync(sc.Context);
-            state.DialogStateType = VehicleSettingStage.None;
 
-            settingFilter.Filter(state, new RecognizerResultWrapper(state.LuisResult));
+            var luisResult = state.VehicleSettingsLuisResult;
+            if (luisResult.Entities.AMOUNT != null)
+            {
+                state.Entities.Add(nameof(luisResult.Entities.AMOUNT), luisResult.Entities.AMOUNT);
+            }
+
+            if (luisResult.Entities.INDEX != null)
+            {
+                state.Entities.Add(nameof(luisResult.Entities.INDEX), luisResult.Entities.INDEX);
+            }
+
+            if (luisResult.Entities.SETTING != null)
+            {
+                state.Entities.Add(nameof(luisResult.Entities.SETTING), luisResult.Entities.SETTING);
+            }
+
+            if (luisResult.Entities.TYPE != null)
+            {
+                state.Entities.Add(nameof(luisResult.Entities.TYPE), luisResult.Entities.TYPE);
+            }
+
+            if (luisResult.Entities.UNIT != null)
+            {
+                state.Entities.Add(nameof(luisResult.Entities.UNIT), luisResult.Entities.UNIT);
+            }
+
+            if (luisResult.Entities.VALUE != null)
+            {
+                state.Entities.Add(nameof(luisResult.Entities.VALUE), luisResult.Entities.VALUE);
+            }
+
+            settingFilter.PostProcessSettings(state, state.VehicleSettingsLuisResult);
+            settingFilter.ApplyContentLogic(state);
 
             var settingValues = state.GetUniqueSettingValues();
             if (!settingValues.Any())
             {
                 // This shouldn't happen because the SettingFilter would just add all possible values to let the user select from them.
                 await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(VehicleSettingsResponses.VehicleSettingsMissingSettingValue));
-                state.DialogStateType = VehicleSettingStage.None;
                 return await sc.EndDialogAsync();
             }
             else if (settingValues.Count() > 1)
             {
                 // We have found multiple setting values which we need to prompt the user to resolve
-
-                state.DialogStateType = VehicleSettingStage.ValueSelection;
                 string settingName = string.Empty;
 
                 if (state.Changes.Any())
@@ -147,7 +170,7 @@ namespace AutomotiveSkill
                     promptReplacements.Add($"item{i}Text", $"{i + 1}. {settingValues[i]}");
                 }
 
-                // Prompt the user on the setting calue
+                // Prompt the user on the setting value
                 var prompt = sc.Context.Activity.CreateAdaptiveCardReply(
                     VehicleSettingsResponses.VehicleSettingsSettingValueSelection,
                     "Dialogs/VehicleSettings/Resources/Cards/ListSelection.json",
@@ -158,16 +181,16 @@ namespace AutomotiveSkill
                 return await sc.PromptAsync(Actions.SettingSelectionPrompt, new PromptOptions { Prompt = prompt });            
             }
 
-            // We only hae one setting value so proceed to next step
+            // We only have one setting value so proceed to next step
             return await sc.NextAsync();
         }
 
         private async Task<bool> SettingSelectionValidator(PromptValidatorContext<string> promptContext, CancellationToken cancellationToken)
         {
             var state = await Accessor.GetAsync(promptContext.Context);
-            await RunLuisForFollowUp(promptContext.Context, state);
+            await RunLuisForFollowUp(promptContext.Context, VehicleSettingStage.ValueSelection, state);
 
-            settingFilter.Filter(state, new RecognizerResultWrapper(state.LuisResult));
+            settingFilter.Filter(state,VehicleSettingStage.ValueSelection, state.VehicleSettingsLuisResult);
 
             return true;
         }
@@ -196,7 +219,6 @@ namespace AutomotiveSkill
                     // Check confirmation first.
                     if (availableSettingValue != null && availableSettingValue.RequiresConfirmation)
                     {                        
-                        state.DialogStateType = VehicleSettingStage.ChangeConfirmation;
                         var promptTemplate = VehicleSettingsResponses.VehicleSettingsSettingChangeConfirmation;
                         var promptReplacements = new StringDictionary {
                                     { "settingName", change.SettingName },
@@ -223,103 +245,103 @@ namespace AutomotiveSkill
                     }
                     else
                     {
-                        // No confirmation required
+                        // No confirmation required so we skip to sending the change
                         return await sc.NextAsync();
                     }
                 }
                 else
                 {
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(VehicleSettingsResponses.VehicleSettingsSettingChangeUnsupported));
-                    state.DialogStateType = VehicleSettingStage.None;
                     return await sc.EndDialogAsync();
                 }
             }
             else
             {
                 await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(VehicleSettingsResponses.VehicleSettingsSettingChangeUnsupported));
-                state.DialogStateType = VehicleSettingStage.None;
                 return await sc.EndDialogAsync();
-            }
-        }
-
-        private async Task<bool> SettingConfirmationValidator(PromptValidatorContext<string> promptContext, CancellationToken cancellationToken)
-        {
-            var state = await Accessor.GetAsync(promptContext.Context);
-            await RunLuisForFollowUp(promptContext.Context, state);
-
-            if (state.LuisResult != null && "SETTING_CHANGE_CONFIRMATION_NO".Equals(state.LuisResult.GetTopScoringIntent().intent))
-            {
-                await promptContext.Context.SendActivityAsync(promptContext.Context.Activity.CreateReply(VehicleSettingsResponses.VehicleSettingsSettingChangeConfirmationDenied));
-                state.DialogStateType = VehicleSettingStage.None;
-
-                return false;
-            }
-            else
-            {
-                return true;
             }
         }
 
         public async Task<DialogTurnResult> SendChange(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await Accessor.GetAsync(sc.Context);
-            var change = state.Changes[0];
 
-            // Sending the change.
-            if (change.Amount != null)
+            var settingChangeConfirmed = false;
+            // If we skip the ConfirmPrompt due to no confirmation needed then Result will be NULL
+            if (sc.Result == null)
             {
-                var promptReplacements = new StringDictionary {
+                settingChangeConfirmed = true;
+            }
+            else
+            {
+                settingChangeConfirmed = (bool)sc.Result;
+            }
+
+            if (settingChangeConfirmed)
+            {      
+                var change = state.Changes[0];
+
+                // If the change involves an amount then we add this to the change event
+                if (change.Amount != null)
+                {
+                    var promptReplacements = new StringDictionary {
                                         { "settingName", change.SettingName },
                                         { "amount", change.Amount.Amount.ToString() },
                                         { "unit", UnitToString(change.Amount.Unit) },
                                     };
-                if (change.IsRelativeAmount)
-                {
-                    if (change.Amount.Amount < 0)
+                    if (change.IsRelativeAmount)
                     {
-                        promptReplacements["increasingDecreasing"] = "Decreasing";
-                        promptReplacements["amount"] = (-change.Amount.Amount).ToString();
+                        if (change.Amount.Amount < 0)
+                        {
+                            promptReplacements["increasingDecreasing"] = VehicleSettingsStrings.DECREASING;
+                            promptReplacements["amount"] = (-change.Amount.Amount).ToString();
+                        }
+                        else
+                        {
+                            promptReplacements["increasingDecreasing"] = VehicleSettingsStrings.INCREASING;
+                        }
+
+                        // Send an event to the device along with the text confirmation
+                        await SendActionToDevice(sc, change, promptReplacements);
+
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(
+                            VehicleSettingsResponses.VehicleSettingsChangingRelativeAmount, ResponseBuilder));
                     }
                     else
                     {
-                        promptReplacements["increasingDecreasing"] = "Increasing";
+                        // Send an event to the device along with the text confirmation
+                        await SendActionToDevice(sc, change, promptReplacements);
+
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(
+                            VehicleSettingsResponses.VehicleSettingsChangingAmount, ResponseBuilder, promptReplacements));
+                    }
+                }
+                else
+                {
+                    // Binary event (on/off)
+
+                    BotResponse promptTemplate;
+                    var promptReplacements = new StringDictionary { { "settingName", change.SettingName } };
+                    if (SettingValueToSpeakableIngForm.TryGetValue(change.Value.ToLowerInvariant(), out var valueIngForm))
+                    {
+                        promptTemplate = VehicleSettingsResponses.VehicleSettingsChangingValueKnown;
+                        promptReplacements["valueIngForm"] = valueIngForm;
+                    }
+                    else
+                    {
+                        promptTemplate = VehicleSettingsResponses.VehicleSettingsChangingValue;
+                        promptReplacements["value"] = change.Value;
                     }
 
                     // Send an event to the device along with the text confirmation
                     await SendActionToDevice(sc, change, promptReplacements);
 
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(
-                        VehicleSettingsResponses.VehicleSettingsChangingRelativeAmount, ResponseBuilder));
-                }
-                else
-                {
-                    // Send an event to the device along with the text confirmation
-                    await SendActionToDevice(sc, change, promptReplacements);
-
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(
-                        VehicleSettingsResponses.VehicleSettingsChangingAmount, ResponseBuilder, promptReplacements));
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(promptTemplate, ResponseBuilder, promptReplacements));
                 }
             }
             else
             {
-                BotResponse promptTemplate;
-                var promptReplacements = new StringDictionary { { "settingName", change.SettingName }};
-                if (SettingValueToSpeakableIngForm.TryGetValue(change.Value.ToLowerInvariant(), out var valueIngForm))
-                {
-                    promptTemplate = VehicleSettingsResponses.VehicleSettingsChangingValueKnown;
-                    promptReplacements["valueIngForm"] = valueIngForm;
-                }
-                else
-                {
-                    promptTemplate = VehicleSettingsResponses.VehicleSettingsChangingValue;
-                    promptReplacements["value"] = change.Value;
-                }
-
-                // Send an event to the device along with the text confirmation
-                await SendActionToDevice(sc, change, promptReplacements);
-
-                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(promptTemplate, ResponseBuilder, promptReplacements));
-
+                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(VehicleSettingsResponses.VehicleSettingsSettingChangeConfirmationDenied));
             }
 
             return await sc.EndDialogAsync();
@@ -347,28 +369,16 @@ namespace AutomotiveSkill
             await sc.Context.SendActivityAsync(actionEvent);
         }
 
-        private async Task RunLuisForFollowUp(ITurnContext query, AutomotiveSkillState state)
+        private async Task RunLuisForFollowUp(ITurnContext query, VehicleSettingStage settingStage, AutomotiveSkillState state)
         {
-            IRecognizer luisRecognizer = null;
-            if (state.DialogStateType == VehicleSettingStage.NameSelection)
+            if (settingStage == VehicleSettingStage.NameSelection)
             {
-                luisRecognizer = vehicleSettingNameSelectionLuisRecognizer;
+                state.NameSelectionLuisResult = await vehicleSettingNameSelectionLuisRecognizer.RecognizeAsync<VehicleSettingsNameSelection>(query, CancellationToken.None);
             }
-            else if (state.DialogStateType == VehicleSettingStage.ValueSelection)
+            else if (settingStage == VehicleSettingStage.ValueSelection)
             {
-                luisRecognizer = vehicleSettingValueSelectionLuisRecognizer;
-            }
-            else if (state.DialogStateType == VehicleSettingStage.ChangeConfirmation)
-            {
-                luisRecognizer = vehicleSettingChangeConfirmationLuisRecognizer;
-            }
-            
-            if (luisRecognizer != null)
-            {
-                var luisResult = await luisRecognizer.RecognizeAsync(query, CancellationToken.None);
-                state.LuisResult = luisResult;
-                state.AddRecognizerResult(luisResult, false);
-            }
+                state.ValueSelectionLuisResult = await vehicleSettingValueSelectionLuisRecognizer.RecognizeAsync<VehicleSettingsValueSelection>(query, CancellationToken.None);
+            }                             
         }
 
     }

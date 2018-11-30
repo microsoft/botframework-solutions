@@ -116,12 +116,21 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>VehicleSettingsResponses.tt</DependentUpon>
     </Compile>
+    <Compile Update="Dialogs\VehicleSettings\Resources\VehicleSettingsStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>VehicleSettingsStrings.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Update="Dialogs\Cancel\Resources\CancelStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CancelStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Dialogs\VehicleSettings\Resources\VehicleSettingsStrings.resx">
+      <LastGenOutput>VehicleSettingsStrings.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
 
@@ -139,7 +148,7 @@
     <Content Update="Dialogs\Main\Resources\AutomotiveSkillMainResponses.en.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\Shared\Resources\AutomotiveSkillSharedResponses.en.json">
+    <Content Update="Dialogs\Shared\Resources\AutomotiveSkillSharedResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\VehicleSettings\Resources\available_settings.json">
