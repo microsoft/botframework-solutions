@@ -17,26 +17,12 @@ namespace ToDoSkillTest.Flow
     [TestClass]
     public class MarkToDoFlowTests : ToDoBotTestBase
     {
+        private const int PageSize = 6;
+
         [TestMethod]
         public async Task Test_MarkToDoItem()
         {
-            var triggerActivity = new Activity()
-            {
-                Type = ActivityTypes.ConversationUpdate,
-                MembersAdded = new List<ChannelAccount>()
-                {
-                    {
-                        new ChannelAccount()
-                        {
-                            Id = "test",
-                            Name = "Test"
-                        }
-                    }
-                }
-            };
             await this.GetTestFlow()
-                .Send(triggerActivity)
-                .AssertReplyOneOf(this.ShowWelcomleMessage())
                 .Send("Show my todos")
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReply(this.ShowToDoList())
@@ -44,11 +30,6 @@ namespace ToDoSkillTest.Flow
                 .Send("mark the second task as completed")
                 .AssertReply(this.AfterTaskMarkedCardMessage())
                 .StartTestAsync();
-        }
-
-        private string[] ShowWelcomleMessage()
-        {
-            return this.ParseReplies(ToDoMainResponses.ToDoWelcomeMessage.Replies, new StringDictionary());
         }
 
         private Action<IActivity> ShowToDoList()
@@ -64,7 +45,7 @@ namespace ToDoSkillTest.Flow
                 CollectionAssert.Contains(
                     this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", FakeData.FakeTaskItems.Count.ToString() } }),
                     adaptiveCardTitle.Text);
-                Assert.AreEqual(toDoChoiceCount, 5);
+                Assert.AreEqual(toDoChoiceCount, PageSize);
             };
         }
 
@@ -81,7 +62,7 @@ namespace ToDoSkillTest.Flow
                 CollectionAssert.Contains(
                     this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", FakeData.FakeTaskItems.Count.ToString() } }),
                     adaptiveCardTitle.Text);
-                Assert.AreEqual(toDoChoiceCount, 5);
+                Assert.AreEqual(toDoChoiceCount, PageSize);
                 Assert.IsTrue(toDoChoices.Value.Contains(FakeData.FakeTaskItems[1].Id));
             };
         }

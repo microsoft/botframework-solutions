@@ -120,8 +120,71 @@
   <data name="And" xml:space="preserve">
     <value>y</value>
   </data>
+  <data name="At" xml:space="preserve">
+    <value>en</value>
+  </data>
+  <data name="AtTimeDetailsFormat" xml:space="preserve">
+    <value>{0} en {1}</value>
+  </data>
+  <data name="ContentFormat" xml:space="preserve">
+    <value>Contenido: {0}</value>
+  </data>
+  <data name="DaysFormat" xml:space="preserve">
+    <value>{0} hace días</value>
+  </data>
+  <data name="DisplayDateFormat" xml:space="preserve">
+    <value>MMM d, yyyy</value>
+  </data>
+  <data name="DisplayDateFormat_CurrentYear" xml:space="preserve">
+    <value>MMM d</value>
+  </data>
+  <data name="DisplayTime" xml:space="preserve">
+    <value>h:mm tt</value>
+  </data>
+  <data name="EmptyContent" xml:space="preserve">
+    <value>contenido vacío</value>
+  </data>
+  <data name="EmptySubject" xml:space="preserve">
+    <value>sujeto vacío</value>
+  </data>
+  <data name="Forward" xml:space="preserve">
+    <value>fw:</value>
+  </data>
+  <data name="ForwardReplyFormat" xml:space="preserve">
+    <value>FW: {0}</value>
+  </data>
+  <data name="FromDetailsFormat" xml:space="preserve">
+    <value>{0} de {1}</value>
+  </data>
+  <data name="Important" xml:space="preserve">
+    <value>importante</value>
+  </data>
+  <data name="NotAvailable" xml:space="preserve">
+    <value>No disponible</value>
+  </data>
+  <data name="Now" xml:space="preserve">
+    <value>nwo</value>
+  </data>
   <data name="Or" xml:space="preserve">
     <value>o</value>
+  </data>
+  <data name="RecipientsSummary" xml:space="preserve">
+    <value> + {0} more</value>
+  </data>
+  <data name="Relevant" xml:space="preserve">
+    <value>relevante</value>
+  </data>
+  <data name="RelevantFormat" xml:space="preserve">
+    <value>relevant {0}</value>
+  </data>
+  <data name="Reply" xml:space="preserve">
+    <value>re:</value>
+  </data>
+  <data name="ReplyReplyFormat" xml:space="preserve">
+    <value>RE: {0}</value>
+  </data>
+  <data name="SeparatorFormat" xml:space="preserve">
+    <value> {0} </value>
   </data>
   <data name="SpokenDateFormat" xml:space="preserve">
     <value>dddd dd 'de' MMMM</value>
@@ -135,10 +198,67 @@
   <data name="SpokenTimePrefix_One" xml:space="preserve">
     <value>a la</value>
   </data>
+  <data name="SubjectFormat" xml:space="preserve">
+    <value>Asunto: {0}</value>
+  </data>
   <data name="Today" xml:space="preserve">
     <value>hoy</value>
   </data>
+  <data name="ToDetailsFormat" xml:space="preserve">
+    <value>{0} para {1} y el contenido es {2}</value>
+  </data>
+  <data name="ToFormat" xml:space="preserve">
+    <value>Para: {0}</value>
+  </data>
   <data name="Tomorrow" xml:space="preserve">
     <value>mañana</value>
+  </data>
+  <data name="UnknownRecipient" xml:space="preserve">
+    <value>destinatario desconocido</value>
+  </data>
+  <data name="UnknownSender" xml:space="preserve">
+    <value>remitente desconocido</value>
+  </data>
+  <data name="Unread" xml:space="preserve">
+    <value>leídos</value>
+  </data>
+  <data name="Yesterday" xml:space="preserve">
+    <value>ayer</value>
+  </data>
+  <data name="AttendeesSummary" xml:space="preserve">
+    <value>+ {0} otros</value>
+  </data>
+  <data name="DateWithAllDay" xml:space="preserve">
+    <value>{0} todo el dia</value>
+  </data>
+  <data name="TimeFormatDay" xml:space="preserve">
+    <value>{0} dia</value>
+  </data>
+  <data name="TimeFormatDays" xml:space="preserve">
+    <value>{0} dias</value>
+  </data>
+  <data name="TimeFormatHour" xml:space="preserve">
+    <value>{0} hora</value>
+  </data>
+  <data name="TimeFormatHourMinuteConnective" xml:space="preserve">
+    <value> y </value>
+  </data>
+  <data name="TimeFormatHours" xml:space="preserve">
+    <value>{0} horas</value>
+  </data>
+  <data name="TimeFormatMinute" xml:space="preserve">
+    <value>{0} minuto</value>
+  </data>
+  <data name="TimeFormatMinutes" xml:space="preserve">
+    <value>{0} minutos</value>
+  </data>
+  <data name="DisplayFullDateFormat" xml:space="preserve">
+    <value>dd-MM-yyyy</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>todos</value>
+  </data>
+  <data name="High" xml:space="preserve">
+    <value>alto</value>
   </data>
 </root>

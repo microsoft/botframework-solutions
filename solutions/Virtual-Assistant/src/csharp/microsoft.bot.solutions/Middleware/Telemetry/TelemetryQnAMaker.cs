@@ -17,7 +17,7 @@ namespace Microsoft.Bot.Solutions
     /// The Custom Event name this logs is "QnaMessage"
     /// See <seealso cref="QnaMaker"/> for additional information.
     /// </summary>
-    public class TelemetryQnAMaker : QnAMaker
+    public class TelemetryQnAMaker : QnAMaker, ITelemetryQnAMaker
     {
         public static readonly string QnaMsgEvent = "QnaMessage";
 

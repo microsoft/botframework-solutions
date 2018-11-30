@@ -10,22 +10,22 @@
   },
   "ConfirmDeleteFailed": {
     "replies": [
-      {
-        "text": "您确定从日程表中删除下列会议？请说 ‘是’ 或者 ‘否’ 或类似词语。",
-        "speak": "您确定从日程表中删除下列会议？请说 ‘是’ 或者 ‘否’ 或类似词语。"
-      }
+        {
+            "text": "您确定从日程表中删除下列会议？请说 ‘是’ 或者 ‘不’ 或类似词语。",
+            "speak": "您确定从日程表中删除下列会议？请说 ‘是’ 或者 ‘不’ 或类似词语。"
+        }
     ],
     "inputHint": "expectingInput"
   },
-  "EventDeleted": {
-    "replies": [
-      {
-        "text": "已经删除会议。",
-        "speak": "已经删除会议。"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
+    "EventDeleted": {
+        "replies": [
+            {
+                "text": "已经删除会议。",
+                "speak": "已经删除会议。"
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
   "EventWithStartTimeNotFound": {
     "replies": [
 

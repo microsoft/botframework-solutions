@@ -22,7 +22,7 @@
     {
       "type": "TextBlock",
       "size": "default",
-      "isSubtle": "yes",
+      "isSubtle": true,
       "text": "Ahora que ha ejecutado correctamente su asistente virtual, siga los enlaces de esta tarjeta adaptativa para explorar más.",
       "speak": "Ahora que su funcionamiento vamos a empezar.",
       "wrap": true,

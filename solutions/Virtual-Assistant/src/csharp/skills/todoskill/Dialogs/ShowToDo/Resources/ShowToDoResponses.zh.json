@@ -1,9 +1,9 @@
 ﻿{
-  "ReadToDoTasks": {
+  "FirstToDoTasks": {
     "replies": [
       {
-        "text": "前 {taskCount} 个是：",
-        "speak": "前 {taskCount} 个是："
+        "text": "前{taskCount}个是：",
+        "speak": "前{taskCount}个是："
       }
     ],
     "inputHint": "ignoringInput"

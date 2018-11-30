@@ -348,7 +348,7 @@ namespace PointOfInterestSkill
                 await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
             }
 
-            await dc.Context.SendActivityAsync("Ok, you're signed out.");
+            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(POIMainResponses.LogOut));
 
             return InterruptionAction.StartedDialog;
         }

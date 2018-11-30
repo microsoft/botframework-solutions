@@ -106,6 +106,15 @@ namespace VirtualAssistant.Dialogs.Main.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sorry, it looks like something went wrong..
+        /// </summary>
+        public static string ERROR {
+            get {
+                return ResourceManager.GetString("ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hi there!.
         /// </summary>
         public static string GREETING {
@@ -162,6 +171,15 @@ namespace VirtualAssistant.Dialogs.Main.Resources {
         public static string Intro {
             get {
                 return ResourceManager.GetString("Intro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ok, you&apos;re signed out..
+        /// </summary>
+        public static string LOGOUT {
+            get {
+                return ResourceManager.GetString("LOGOUT", resourceCulture);
             }
         }
         

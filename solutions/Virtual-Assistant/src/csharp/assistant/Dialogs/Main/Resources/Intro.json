@@ -22,7 +22,7 @@
     {
       "type": "TextBlock",
       "size": "default",
-      "isSubtle": "yes",
+      "isSubtle": true,
       "text": "Now that you have successfully run your Virtual Assistant, follow the links in this Adaptive Card to explore further.",
       "speak": "Now that your up and running let's get started.",
       "wrap": true,

@@ -15,6 +15,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Skills;
+using VirtualAssistant.Dialogs.Main.Resources;
 
 namespace VirtualAssistant
 {
@@ -28,6 +29,7 @@ namespace VirtualAssistant
         private EndpointService _endpointService;
         private IStatePropertyAccessor<OnboardingState> _onboardingState;
         private IStatePropertyAccessor<Dictionary<string, object>> _parametersAccessor;
+        private IStatePropertyAccessor<VirtualAssistantState> _virtualAssistantState;
         private MainResponses _responder = new MainResponses();
         private SkillRouter _skillRouter;
 
@@ -41,6 +43,7 @@ namespace VirtualAssistant
             _endpointService = endpointService;
             _onboardingState = _userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             _parametersAccessor = _userState.CreateProperty<Dictionary<string, object>>("userInfo");
+            _virtualAssistantState = _conversationState.CreateProperty<VirtualAssistantState>(nameof(VirtualAssistantState));
             var dialogState = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
 
             AddDialog(new OnboardingDialog(_services, _onboardingState));
@@ -56,7 +59,7 @@ namespace VirtualAssistant
             var onboardingState = await _onboardingState.GetAsync(dc.Context, () => new OnboardingState());
 
             var view = new MainResponses();
-            await view.ReplyWith(dc.Context, MainResponses.Intro);
+            await view.ReplyWith(dc.Context, MainResponses.ResponseIds.Intro);
 
             if (string.IsNullOrEmpty(onboardingState.Name))
             {
@@ -68,6 +71,7 @@ namespace VirtualAssistant
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var parameters = await _parametersAccessor.GetAsync(dc.Context, () => new Dictionary<string, object>());
+            var virtualAssistantState = await _virtualAssistantState.GetAsync(dc.Context, () => new VirtualAssistantState());
 
             // get current activity locale
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
@@ -95,21 +99,21 @@ namespace VirtualAssistant
                                 case General.Intent.Greeting:
                                     {
                                         // send greeting response
-                                        await _responder.ReplyWith(dc.Context, MainResponses.Greeting);
+                                        await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Greeting);
                                         break;
                                     }
 
                                 case General.Intent.Help:
                                     {
                                         // send help response
-                                        await _responder.ReplyWith(dc.Context, MainResponses.Help);
+                                        await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Help);
                                         break;
                                     }
 
                                 case General.Intent.Cancel:
                                     {
                                         // if this was triggered, then there is no active dialog
-                                        await _responder.ReplyWith(dc.Context, MainResponses.NoActiveDialog);
+                                        await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.NoActiveDialog);
                                         break;
                                     }
 
@@ -126,11 +130,29 @@ namespace VirtualAssistant
                                         break;
                                     }
 
+                                case General.Intent.Next:
+                                case General.Intent.Previous:
+                                case General.Intent.ReadMore:
+                                    {
+                                        var lastExecutedIntent = virtualAssistantState.LastIntent;
+                                        if (lastExecutedIntent != null)
+                                        {
+                                            var matchedSkill = _skillRouter.IdentifyRegisteredSkill(lastExecutedIntent);
+                                            await RouteToSkillAsync(dc, new SkillDialogOptions()
+                                            {
+                                                SkillDefinition = matchedSkill,
+                                                Parameters = parameters,
+                                            });
+                                        }
+
+                                        break;
+                                    }
+
                                 case General.Intent.None:
                                 default:
                                     {
                                         // No intent was identified, send confused message
-                                        await _responder.ReplyWith(dc.Context, MainResponses.Confused);
+                                        await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Confused);
                                         break;
                                     }
                             }
@@ -144,6 +166,7 @@ namespace VirtualAssistant
                 case Dispatch.Intent.l_ToDo:
                 case Dispatch.Intent.l_PointOfInterest:
                     {
+                        virtualAssistantState.LastIntent = intent.ToString();
                         var matchedSkill = _skillRouter.IdentifyRegisteredSkill(intent.ToString());
 
                         await RouteToSkillAsync(dc, new SkillDialogOptions()
@@ -166,12 +189,19 @@ namespace VirtualAssistant
 
                         break;
                     }
+
+                case Dispatch.Intent.None:
+                    {
+                        // No intent was identified, send confused message
+                        await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Confused);
+                        break;
+                    }
             }
         }
 
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            await _responder.ReplyWith(dc.Context, MainResponses.Completed);
+            await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Completed);
 
             // End active dialog
             await dc.EndDialogAsync(result);
@@ -316,7 +346,7 @@ namespace VirtualAssistant
                 await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
             }
 
-            await dc.Context.SendActivityAsync("Ok, you're signed out.");
+            await dc.Context.SendActivityAsync(MainStrings.LOGOUT);
 
             return InterruptionAction.StartedDialog;
         }

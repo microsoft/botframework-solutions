@@ -22,7 +22,7 @@ namespace EmailSkill
             ISkillConfiguration services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
-            IMailSkillServiceManager serviceManager)
+            IServiceManager serviceManager)
             : base(nameof(ConfirmRecipientDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager)
         {
             var confirmRecipient = new WaterfallStep[]
@@ -75,7 +75,18 @@ namespace EmailSkill
                 }
 
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                state.NameList[state.ConfirmRecipientIndex] = userInput;
+
+                if (IsEmail(userInput))
+                {
+                    if (!state.EmailList.Contains(userInput))
+                    {
+                        state.EmailList.Add(userInput);
+                    }
+                }
+                else
+                {
+                    state.NameList[state.ConfirmRecipientIndex] = userInput;
+                }
 
                 // should not return with value, next step use the return value for confirmation.
                 return await sc.EndDialogAsync();

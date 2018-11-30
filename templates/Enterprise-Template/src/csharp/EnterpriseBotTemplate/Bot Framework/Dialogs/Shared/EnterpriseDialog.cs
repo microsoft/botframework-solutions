@@ -83,7 +83,7 @@ namespace $safeprojectname$.Dialogs.Shared
         protected virtual async Task<InterruptionStatus> OnHelp(DialogContext dc)
         {
             var view = new MainResponses();
-            await view.ReplyWith(dc.Context, MainResponses.Help);
+            await view.ReplyWith(dc.Context, MainResponses.ResponseIds.Help);
 
             // Signal the conversation was interrupted and should immediately continue
             return InterruptionStatus.Interrupted;

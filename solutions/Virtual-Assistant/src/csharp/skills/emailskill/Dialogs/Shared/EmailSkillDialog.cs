@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.ConfirmRecipient.Resources;
-using EmailSkill.Dialogs.SendEmail.Resources;
 using EmailSkill.Dialogs.Shared.Resources;
-using EmailSkill.Dialogs.ShowEmail.Resources;
 using EmailSkill.Extensions;
+using EmailSkill.Util;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -19,6 +17,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Graph;
 using Microsoft.Recognizers.Text;
@@ -36,7 +35,7 @@ namespace EmailSkill
             ISkillConfiguration services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
-            IMailSkillServiceManager serviceManager)
+            IServiceManager serviceManager)
             : base(dialogId)
         {
             Services = services;
@@ -67,7 +66,7 @@ namespace EmailSkill
 
         protected IStatePropertyAccessor<DialogState> DialogStateAccessor { get; set; }
 
-        protected IMailSkillServiceManager ServiceManager { get; set; }
+        protected IServiceManager ServiceManager { get; set; }
 
         protected EmailSkillResponseBuilder ResponseBuilder { get; set; } = new EmailSkillResponseBuilder();
 
@@ -153,6 +152,32 @@ namespace EmailSkill
         }
 
         // Shared steps
+        protected virtual async Task<DialogTurnResult> IfClearContextStep(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var skillOptions = (EmailSkillDialogOptions)sc.Options;
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+
+                if (!skillOptions.SubFlowMode)
+                {
+                    var luisResult = state.LuisResult;
+
+                    // Clear email state data
+                    await ClearConversationState(sc);
+                    await DigestEmailLuisResult(sc, luisResult);
+                }
+
+                await DigestFocusEmailAsync(sc);
+
+                return await sc.NextAsync();
+            }
+            catch (Exception ex)
+            {
+                throw await HandleDialogExceptions(sc, ex);
+            }
+        }
+
         protected async Task<DialogTurnResult> GetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -218,7 +243,22 @@ namespace EmailSkill
                 if (providerTokenResponse != null)
                 {
                     var state = await EmailStateAccessor.GetAsync(sc.Context);
-                    state.MsGraphToken = providerTokenResponse.TokenResponse.Token;
+                    state.Token = providerTokenResponse.TokenResponse.Token;
+
+                    var provider = providerTokenResponse.AuthenticationProvider;
+
+                    if (provider == OAuthProvider.AzureAD)
+                    {
+                        state.MailSourceType = MailSource.Microsoft;
+                    }
+                    else if (provider == OAuthProvider.Google)
+                    {
+                        state.MailSourceType = MailSource.Google;
+                    }
+                    else
+                    {
+                        throw new Exception($"The authentication provider \"{provider.ToString()}\" is not support by the Email Skill.");
+                    }
                 }
 
                 return await sc.NextAsync();
@@ -262,6 +302,7 @@ namespace EmailSkill
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var luisResult = state.LuisResult;
 
+                await DigestFocusEmailAsync(sc);
                 var focusedMessage = state.Message.FirstOrDefault();
 
                 // todo: should set updatename reason in stepContext.Result
@@ -285,14 +326,16 @@ namespace EmailSkill
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                if (state.Message.Count == 0)
+
+                var skillOptions = (EmailSkillDialogOptions)sc.Options;
+                skillOptions.SubFlowMode = true;
+
+                if (state.Message == null || state.Message.Count() == 0)
                 {
-                    return await sc.BeginDialogAsync(Actions.UpdateSelectMessage);
+                    return await sc.BeginDialogAsync(Actions.UpdateSelectMessage, skillOptions);
                 }
-                else
-                {
-                    return await sc.NextAsync();
-                }
+
+                return await sc.NextAsync();
             }
             catch (Exception ex)
             {
@@ -335,11 +378,17 @@ namespace EmailSkill
 
                 var emailCard = new EmailCardData
                 {
-                    Subject = "Subject: " + state.Subject,
-                    NameList = nameListString,
-                    EmailContent = "Content: " + state.Content,
+                    Subject = string.Format(CommonStrings.SubjectFormat, state.Subject),
+                    NameList = string.Format(CommonStrings.ToFormat, nameListString),
+                    EmailContent = string.Format(CommonStrings.ContentFormat, state.Content),
                 };
-                var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(EmailSharedResponses.ConfirmSend, "Dialogs/Shared/Resources/Cards/EmailWithOutButtonCard.json", emailCard, ResponseBuilder);
+
+                var speech = SpeakHelper.ToSpeechEmailSendDetailString(emailCard.Subject, emailCard.NameList, emailCard.EmailContent);
+                var stringToken = new StringDictionary
+                {
+                    { "EmailDetails", speech },
+                };
+                var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(EmailSharedResponses.ConfirmSend, "Dialogs/Shared/Resources/Cards/EmailWithOutButtonCard.json", emailCard, ResponseBuilder, stringToken);
 
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = replyMessage, RetryPrompt = sc.Context.Activity.CreateReply(EmailSharedResponses.ConfirmSendFailed, ResponseBuilder), });
             }
@@ -441,6 +490,13 @@ namespace EmailSkill
                 if (messages.Count > 0)
                 {
                     await ShowMailList(sc, messages);
+
+                    // Give focus when there is only one email.
+                    if (messages.Count == 1)
+                    {
+                        state.Message.Add(messages[0]);
+                    }
+
                     state.MessageList = messages;
                 }
                 else
@@ -545,7 +601,7 @@ namespace EmailSkill
             {
                 if (i == recipients.Count - 1)
                 {
-                    result += " and " + recipients[i].EmailAddress.Name;
+                    result += string.Format(CommonStrings.SeparatorFormat, CommonStrings.And) + recipients[i].EmailAddress.Name;
                 }
                 else
                 {
@@ -582,7 +638,7 @@ namespace EmailSkill
                 var choice = new Choice()
                 {
                     Value = $"**{user.DisplayName}: {mailAddress}**",
-                    Synonyms = new List<string> { (i + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
+                    Synonyms = new List<string> { (options.Choices.Count + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
                 };
                 var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
                 if (!string.IsNullOrEmpty(userName))
@@ -619,7 +675,7 @@ namespace EmailSkill
                 var choice = new Choice()
                 {
                     Value = $"{user.DisplayName}: {mailAddress}",
-                    Synonyms = new List<string> { (i + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
+                    Synonyms = new List<string> { (options.Choices.Count + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
                 };
                 var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
                 if (!string.IsNullOrEmpty(userName))
@@ -672,24 +728,21 @@ namespace EmailSkill
         protected async Task<string> GetPreviewNameListString(WaterfallStepContext sc, string actionType)
         {
             var state = await EmailStateAccessor.GetAsync(sc.Context);
-            var nameListString = "To: ";
+            var nameListString = string.Empty;
 
             switch (actionType)
             {
                 case Actions.Send:
-                    nameListString += string.Join(";", state.Recipients.Select(r => r.EmailAddress.Name));
-                    return nameListString;
+                    nameListString = DisplayHelper.ToDisplayRecipientsString(state.Recipients);
+                    break;
                 case Actions.Reply:
                 case Actions.Forward:
                 default:
-                    nameListString += state.Recipients.FirstOrDefault()?.EmailAddress.Name;
-                    if (state.Recipients.Count > 1)
-                    {
-                        nameListString += $" + {state.Recipients.Count - 1} more";
-                    }
-
-                    return nameListString;
+                    nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(state.Recipients);
+                    break;
             }
+
+            return nameListString;
         }
 
         protected async Task<bool> GetPreviewSubject(WaterfallStepContext sc, string actionType)
@@ -703,11 +756,11 @@ namespace EmailSkill
                 switch (actionType)
                 {
                     case Actions.Reply:
-                        state.Subject = focusedMessage.Subject.ToLower().StartsWith("re:") ? focusedMessage.Subject : "RE: " + focusedMessage?.Subject;
+                        state.Subject = focusedMessage.Subject.ToLower().StartsWith(CommonStrings.Reply) ? focusedMessage.Subject : string.Format(CommonStrings.ReplyReplyFormat, focusedMessage?.Subject);
                         state.Recipients = focusedMessage.ToRecipients.ToList();
                         break;
                     case Actions.Forward:
-                        state.Subject = focusedMessage.Subject.ToLower().StartsWith("fw:") ? focusedMessage.Subject : "FW: " + focusedMessage?.Subject;
+                        state.Subject = focusedMessage.Subject.ToLower().StartsWith(CommonStrings.Forward) ? focusedMessage.Subject : string.Format(CommonStrings.ForwardReplyFormat, focusedMessage?.Subject);
                         break;
                     case Actions.Send:
                     default:
@@ -730,8 +783,8 @@ namespace EmailSkill
             {
                 const int pageSize = 5;
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var token = state.MsGraphToken;
-                var serivce = ServiceManager.InitMailService(token, state.GetUserTimeZone());
+                var token = state.Token;
+                var serivce = ServiceManager.InitMailService(token, state.GetUserTimeZone(), state.MailSourceType);
 
                 var isUnreadOnly = state.IsUnreadOnly;
                 var isImportant = state.IsImportant;
@@ -769,38 +822,40 @@ namespace EmailSkill
             var cardsData = new List<EmailCardData>();
             foreach (var message in messages)
             {
-                var nameListString = $"To: {message.ToRecipients.FirstOrDefault()?.EmailAddress.Name}";
-                if (message.ToRecipients != null && message.ToRecipients.Count() > 1)
-                {
-                    nameListString += $" + {message.ToRecipients.Count() - 1} more";
-                }
+                var nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(message.ToRecipients);
 
                 var emailCard = new EmailCardData
                 {
                     Subject = message.Subject,
                     Sender = message.Sender.EmailAddress.Name,
-                    NameList = nameListString,
+                    NameList = string.Format(CommonStrings.ToFormat, nameListString),
                     EmailContent = message.BodyPreview,
                     EmailLink = message.WebLink,
                     ReceivedDateTime = message.ReceivedDateTime == null
-                    ? "Not available"
+                    ? CommonStrings.NotAvailable
                     : message.ReceivedDateTime.Value.UtcDateTime.ToRelativeString(state.GetUserTimeZone()),
-                    Speak = message?.Subject + " From " + message.Sender.EmailAddress.Name,
+                    Speak = SpeakHelper.ToSpeechEmailDetailString(message),
                 };
                 cardsData.Add(emailCard);
             }
 
-            var searchType = "relevant";
+            var searchType = CommonStrings.Relevant;
             if (state.IsUnreadOnly)
             {
-                searchType += " unread";
+                searchType = string.Format(CommonStrings.RelevantFormat, CommonStrings.Unread);
             }
             else if (state.IsImportant)
             {
-                searchType += " important";
+                searchType = string.Format(CommonStrings.RelevantFormat, CommonStrings.Important);
             }
 
-            var reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, new StringDictionary { { "SearchType", searchType } });
+            var stringToken = new StringDictionary
+            {
+                { "SearchType", searchType },
+                { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(messages) },
+            };
+
+            var reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
             await sc.Context.SendActivityAsync(reply);
         }
 
@@ -810,8 +865,8 @@ namespace EmailSkill
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var token = state.MsGraphToken;
-                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone());
+                var token = state.Token;
+                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
 
                 // Get users.
                 result = await service.GetPeopleAsync(name);
@@ -830,8 +885,8 @@ namespace EmailSkill
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var token = state.MsGraphToken;
-                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone());
+                var token = state.Token;
+                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
 
                 // Get users.
                 var userList = await service.GetUserAsync(name);
@@ -854,8 +909,8 @@ namespace EmailSkill
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var token = state.MsGraphToken;
-                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone());
+                var token = state.Token;
+                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
 
                 // Get users.
                 var contactsList = await service.GetContactsAsync(name);
@@ -876,19 +931,27 @@ namespace EmailSkill
         {
             try
             {
+                var skillOptions = (EmailSkillDialogOptions)sc.Options;
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
+
+                // Keep email display and focus data when in sub flow mode
+                if (!skillOptions.SubFlowMode)
+                {
+                    state.Message.Clear();
+                    state.ShowEmailIndex = 0;
+                    state.IsUnreadOnly = true;
+                    state.IsImportant = false;
+                    state.StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
+                    state.EndDateTime = DateTime.UtcNow;
+                    state.DirectlyToMe = false;
+                    state.UserSelectIndex = -1;
+                }
+
                 state.NameList.Clear();
-                state.Message.Clear();
                 state.Content = null;
                 state.Subject = null;
                 state.Recipients.Clear();
                 state.ConfirmRecipientIndex = 0;
-                state.ShowEmailIndex = 0;
-                state.IsUnreadOnly = true;
-                state.IsImportant = false;
-                state.StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
-                state.EndDateTime = DateTime.UtcNow;
-                state.DirectlyToMe = false;
                 state.SenderName = null;
                 state.EmailList = new List<string>();
                 state.ShowRecipientIndex = 0;
@@ -915,6 +978,18 @@ namespace EmailSkill
             }
         }
 
+        protected async Task DigestFocusEmailAsync(WaterfallStepContext sc)
+        {
+            var state = await EmailStateAccessor.GetAsync(sc.Context);
+
+            // Get focus message if any
+            if (state.MessageList != null && state.UserSelectIndex >= 0 && state.UserSelectIndex < state.MessageList.Count())
+            {
+                state.Message.Clear();
+                state.Message.Add(state.MessageList[state.UserSelectIndex]);
+            }
+        }
+
         protected async Task DigestEmailLuisResult(DialogContext dc, Email luisResult)
         {
             try
@@ -924,17 +999,23 @@ namespace EmailSkill
                 if (dc.Context.Activity.Text != null)
                 {
                     var words = dc.Context.Activity.Text.Split(' ');
-                    foreach (var word in words)
                     {
-                        switch (word)
+                        foreach (var word in words)
                         {
-                            case "high":
-                            case "important":
+                            var lowerInput = word.ToLower();
+
+                            if (lowerInput.Contains(CommonStrings.High) || lowerInput.Contains(CommonStrings.Important))
+                            {
                                 state.IsImportant = true;
-                                break;
-                            case "unread":
+                            }
+                            else if (lowerInput.Contains(CommonStrings.Unread))
+                            {
                                 state.IsUnreadOnly = true;
-                                break;
+                            }
+                            else if (lowerInput.Contains(CommonStrings.All))
+                            {
+                                state.IsUnreadOnly = false;
+                            }
                         }
                     }
                 }
@@ -1016,12 +1097,7 @@ namespace EmailSkill
                         var value = entity.ordinal[0];
                         if (Math.Abs(value - (int)value) < double.Epsilon)
                         {
-                            var num = (int)value;
-                            if (emailList != null && num > 0 && num <= emailList.Count)
-                            {
-                                state.Message.Clear();
-                                state.Message.Add(emailList[num - 1]);
-                            }
+                            state.UserSelectIndex = (int)value - 1;
                         }
                     }
                     catch
@@ -1038,12 +1114,7 @@ namespace EmailSkill
                         var value = entity.number[0];
                         if (Math.Abs(value - (int)value) < double.Epsilon)
                         {
-                            var num = (int)value;
-                            if (emailList != null && num > 0 && num <= emailList.Count)
-                            {
-                                state.Message.Clear();
-                                state.Message.Add(emailList[num - 1]);
-                            }
+                            state.UserSelectIndex = (int)value - 1;
                         }
                     }
                     catch

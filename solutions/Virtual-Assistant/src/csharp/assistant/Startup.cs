@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,7 +13,6 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;
@@ -96,8 +96,9 @@ namespace VirtualAssistant
                 // Catches any errors that occur during a conversation turn and logs them to AppInsights.
                 options.OnTurnError = async (context, exception) =>
                 {
-                    // TODO: Localize this string
-                    await context.SendActivityAsync("Sorry, it looks like something went wrong. Please try again.");
+                    CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
+                    var responseBuilder = new MainResponses();
+                    await responseBuilder.ReplyWith(context, MainResponses.ResponseIds.Error);
                     await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Virtual Assistant Error: {exception.Message} | {exception.StackTrace}"));
                     connectedServices.TelemetryClient.TrackException(exception);
                 };
@@ -111,7 +112,7 @@ namespace VirtualAssistant
 
                 // Typing Middleware (automatically shows typing when the bot is responding/working)
                 options.Middleware.Add(new ShowTypingMiddleware());
-                options.Middleware.Add(new SetLocaleMiddleware(defaultLocale ?? "en"));
+                options.Middleware.Add(new SetLocaleMiddleware(defaultLocale ?? "en-us"));
                 options.Middleware.Add(new EventDebuggerMiddleware());
                 options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
 

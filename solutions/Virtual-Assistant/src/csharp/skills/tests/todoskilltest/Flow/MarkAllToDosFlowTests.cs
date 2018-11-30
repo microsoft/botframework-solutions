@@ -17,26 +17,12 @@ namespace ToDoSkillTest.Flow
     [TestClass]
     public class MarkAllToDosFlowTests : ToDoBotTestBase
     {
+        private const int PageSize = 6;
+
         [TestMethod]
         public async Task Test_MarkAllToDoItems()
         {
-            var triggerActivity = new Activity()
-            {
-                Type = ActivityTypes.ConversationUpdate,
-                MembersAdded = new List<ChannelAccount>()
-                {
-                    {
-                        new ChannelAccount()
-                        {
-                            Id = "test",
-                            Name = "Test"
-                        }
-                    }
-                }
-            };
             await this.GetTestFlow()
-                .Send(triggerActivity)
-                .AssertReplyOneOf(this.ShowWelcomleMessage())
                 .Send("Show my todos")
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReply(this.ShowToDoList())
@@ -44,11 +30,6 @@ namespace ToDoSkillTest.Flow
                 .Send("mark all my tasks as complete")
                 .AssertReply(this.AfterAllTasksMarkedCardMessage())
                 .StartTestAsync();
-        }
-
-        private string[] ShowWelcomleMessage()
-        {
-            return this.ParseReplies(ToDoMainResponses.ToDoWelcomeMessage.Replies, new StringDictionary());
         }
 
         private Action<IActivity> ShowToDoList()
@@ -64,7 +45,7 @@ namespace ToDoSkillTest.Flow
                 CollectionAssert.Contains(
                     this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", FakeData.FakeTaskItems.Count.ToString() } }),
                     adaptiveCardTitle.Text);
-                Assert.AreEqual(toDoChoiceCount, 5);
+                Assert.AreEqual(toDoChoiceCount, PageSize);
             };
         }
 
@@ -77,7 +58,7 @@ namespace ToDoSkillTest.Flow
                 var responseCard = messageActivity.Attachments[0].Content as AdaptiveCard;
                 var adaptiveCardTitle = responseCard.Body[0] as AdaptiveTextBlock;
                 var toDoChoices = responseCard.Body[1] as AdaptiveChoiceSetInput;
-                FakeData.FakeTaskItems.GetRange(0, 5).ForEach(o => Assert.IsTrue(toDoChoices.Value.Contains(o.Id)));
+                FakeData.FakeTaskItems.GetRange(0, PageSize).ForEach(o => Assert.IsTrue(toDoChoices.Value.Contains(o.Id)));
             };
         }
 

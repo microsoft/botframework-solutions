@@ -56,32 +56,32 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "EventCreationFailed": {
-    "replies": [
+    "EventCreationFailed": {
+        "replies": [
 
-      {
-        "text": "Event creation failed",
-        "speak": "Event creation failed"
-      },
-      {
-        "text": "Something went wrong, try again please.",
-        "speak": "Something went wrong, try again please."
-      },
-      {
-        "text": "It seems the event could not be created, please try again later.",
-        "speak": "It seems the event could not be created, please try again later."
-      },
-      {
-        "text": "Creation of the event failed, please try again.",
-        "speak": "Creation of the event failed, please try again."
-      },
-      {
-        "text": "An error occured with creating the event.",
-        "speak": "An error occured with creating the event."
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
+            {
+                "text": "Event creation failed",
+                "speak": "Event creation failed"
+            },
+            {
+                "text": "Something went wrong, try again please.",
+                "speak": "Something went wrong, try again please."
+            },
+            {
+                "text": "It seems the event could not be created, please try again later.",
+                "speak": "It seems the event could not be created, please try again later."
+            },
+            {
+                "text": "Creation of the event failed, please try again.",
+                "speak": "Creation of the event failed, please try again."
+            },
+            {
+                "text": "An error occured with creating the event.",
+                "speak": "An error occured with creating the event."
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
   "NoAttendeesMS": {
     "replies": [
 

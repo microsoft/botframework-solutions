@@ -5,7 +5,6 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using CalendarSkill.ServiceClients.GoogleAPI;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
@@ -46,29 +45,14 @@ namespace CalendarSkill
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             var dc = await _dialogs.CreateContextAsync(turnContext);
-            var result = await dc.ContinueDialogAsync();
 
-            if (result.Status == DialogTurnStatus.Empty)
+            if (dc.ActiveDialog != null)
             {
-                if (!_skillMode)
-                {
-                    // if localMode, check for conversation update from user before starting dialog
-                    if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
-                    {
-                        var activity = turnContext.Activity.AsConversationUpdateActivity();
-
-                        // if conversation update is not from the bot.
-                        if (!activity.MembersAdded.Any(m => m.Id == activity.Recipient.Id))
-                        {
-                            await dc.BeginDialogAsync(nameof(MainDialog));
-                        }
-                    }
-                }
-                else
-                {
-                    // if skillMode, begin dialog
-                    await dc.BeginDialogAsync(nameof(MainDialog));
-                }
+                var result = await dc.ContinueDialogAsync();
+            }
+            else
+            {
+                await dc.BeginDialogAsync(nameof(MainDialog));
             }
         }
     }

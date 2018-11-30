@@ -11,11 +11,13 @@ namespace ToDoSkill
         /// </summary>
         public ToDoSkillState()
         {
-            Task = new TaskItem();
+            PageSize = 0;
+            ReadSize = 0;
             Tasks = new List<TaskItem>();
             TaskIndexes = new List<int>();
             MsGraphToken = null;
             ShowTaskPageIndex = 0;
+            ReadTaskIndex = 0;
             AllTasks = new List<TaskItem>();
             DeleteTaskConfirmation = false;
             MarkOrDeleteAllTasksFlag = false;
@@ -24,6 +26,7 @@ namespace ToDoSkill
             GeneralLuisResult = null;
             ConversationDialogState = null;
             ListType = null;
+            LastListType = null;
             FoodOfGrocery = null;
             HasShopVerb = false;
             ShopContent = null;
@@ -33,28 +36,20 @@ namespace ToDoSkill
         }
 
         /// <summary>
-        /// Gets PageSize.
+        /// Gets or sets PageSize.
         /// </summary>
         /// <value>
         /// PageSize.
         /// </value>
-        public int PageSize { get; } = 5;
+        public int PageSize { get; set; }
 
         /// <summary>
-        /// Gets Luis intent score threshold.
+        /// Gets or sets ReadSize.
         /// </summary>
         /// <value>
-        /// Luis intent score threshold.
+        /// ReadSize.
         /// </value>
-        public double ScoreThreshold { get; } = 0.7;
-
-        /// <summary>
-        /// Gets or sets ToDoTaskActivity.
-        /// </summary>
-        /// <value>
-        /// ToDoTaskActivity.
-        /// </value>
-        public TaskItem Task { get; set; }
+        public int ReadSize { get; set; }
 
         /// <summary>
         /// Gets or sets ToDoTaskActivities.
@@ -87,6 +82,14 @@ namespace ToDoSkill
         /// ShowToDoPageIndex.
         /// </value>
         public int ShowTaskPageIndex { get; set; }
+
+        /// <summary>
+        /// Gets or sets ReadTaskIndex.
+        /// </summary>
+        /// <value>
+        /// ReadTaskIndex.
+        /// </value>
+        public int ReadTaskIndex { get; set; }
 
         /// <summary>
         /// Gets or sets ToDoTaskAllActivities.
@@ -153,6 +156,14 @@ namespace ToDoSkill
         public string ListType { get; set; }
 
         /// <summary>
+        /// Gets or sets LastListType.
+        /// </summary>
+        /// <value>
+        /// TaskType.
+        /// </value>
+        public string LastListType { get; set; }
+
+        /// <summary>
         /// Gets or sets FoodOfGrocery.
         /// </summary>
         /// <value>
@@ -205,7 +216,8 @@ namespace ToDoSkill
         /// </summary>
         public void Clear()
         {
-            Task = new TaskItem();
+            PageSize = 0;
+            ReadSize = 0;
             Tasks = new List<TaskItem>();
             TaskIndexes = new List<int>();
             MsGraphToken = null;
@@ -218,6 +230,7 @@ namespace ToDoSkill
             GeneralLuisResult = null;
             ConversationDialogState = null;
             ListType = null;
+            LastListType = null;
             FoodOfGrocery = null;
             HasShopVerb = false;
             ShopContent = null;

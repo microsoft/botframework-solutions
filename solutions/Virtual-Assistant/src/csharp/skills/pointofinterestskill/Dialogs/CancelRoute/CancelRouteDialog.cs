@@ -46,6 +46,8 @@ namespace PointOfInterestSkill
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
 
+                state.ClearLuisResults();
+
                 return await sc.EndDialogAsync();
             }
             catch

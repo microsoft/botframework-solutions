@@ -36,11 +36,11 @@ namespace Microsoft.Bot.Solutions.Tests.Extensions
             {
                 // US English
                 new DateTimeTestData("en-US"){ InputDateTime = today,
-                    ExpectedDateSpeech = "today", ExpectedDateSpeechWithSuffix = "today",
+                    ExpectedDateSpeech = "Today", ExpectedDateSpeechWithSuffix = "Today",
                     ExpectedTimeSpeech = string.Format($"{today:h:mm tt}"), ExpectedTimeSpeechWithSuffix = string.Format($"at {today:h:mm tt}")},
 
                 new DateTimeTestData("en-US"){ InputDateTime = tomorrow,
-                    ExpectedDateSpeech = "tomorrow", ExpectedDateSpeechWithSuffix = "tomorrow",
+                    ExpectedDateSpeech = "Tomorrow", ExpectedDateSpeechWithSuffix = "Tomorrow",
                     ExpectedTimeSpeech = string.Format($"{tomorrow:h:mm tt}"), ExpectedTimeSpeechWithSuffix = string.Format($"at {tomorrow:h:mm tt}")},
 
                 new DateTimeTestData("en-US"){ InputDateTime = specificDate,

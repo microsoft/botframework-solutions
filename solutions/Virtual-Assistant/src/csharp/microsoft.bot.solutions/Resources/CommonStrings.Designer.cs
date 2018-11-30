@@ -61,6 +61,15 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to all.
+        /// </summary>
+        public static string All {
+            get {
+                return ResourceManager.GetString("All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to and.
         /// </summary>
         public static string And {
@@ -70,11 +79,236 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to at.
+        /// </summary>
+        public static string At {
+            get {
+                return ResourceManager.GetString("At", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to + {0} others.
+        /// </summary>
+        public static string AttendeesSummary {
+            get {
+                return ResourceManager.GetString("AttendeesSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} at {1}.
+        /// </summary>
+        public static string AtTimeDetailsFormat {
+            get {
+                return ResourceManager.GetString("AtTimeDetailsFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Content: {0}.
+        /// </summary>
+        public static string ContentFormat {
+            get {
+                return ResourceManager.GetString("ContentFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} all day.
+        /// </summary>
+        public static string DateWithAllDay {
+            get {
+                return ResourceManager.GetString("DateWithAllDay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} days ago.
+        /// </summary>
+        public static string DaysFormat {
+            get {
+                return ResourceManager.GetString("DaysFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MMM d, yyyy.
+        /// </summary>
+        public static string DisplayDateFormat {
+            get {
+                return ResourceManager.GetString("DisplayDateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MMM d.
+        /// </summary>
+        public static string DisplayDateFormat_CurrentYear {
+            get {
+                return ResourceManager.GetString("DisplayDateFormat_CurrentYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to dd-MM-yyyy.
+        /// </summary>
+        public static string DisplayFullDateFormat {
+            get {
+                return ResourceManager.GetString("DisplayFullDateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to h:mm tt.
+        /// </summary>
+        public static string DisplayTime {
+            get {
+                return ResourceManager.GetString("DisplayTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to empty content.
+        /// </summary>
+        public static string EmptyContent {
+            get {
+                return ResourceManager.GetString("EmptyContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to empty subject.
+        /// </summary>
+        public static string EmptySubject {
+            get {
+                return ResourceManager.GetString("EmptySubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to fw:.
+        /// </summary>
+        public static string Forward {
+            get {
+                return ResourceManager.GetString("Forward", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FW: {0}.
+        /// </summary>
+        public static string ForwardReplyFormat {
+            get {
+                return ResourceManager.GetString("ForwardReplyFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} from {1}.
+        /// </summary>
+        public static string FromDetailsFormat {
+            get {
+                return ResourceManager.GetString("FromDetailsFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to high.
+        /// </summary>
+        public static string High {
+            get {
+                return ResourceManager.GetString("High", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to important.
+        /// </summary>
+        public static string Important {
+            get {
+                return ResourceManager.GetString("Important", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not available.
+        /// </summary>
+        public static string NotAvailable {
+            get {
+                return ResourceManager.GetString("NotAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Now.
+        /// </summary>
+        public static string Now {
+            get {
+                return ResourceManager.GetString("Now", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to or.
         /// </summary>
         public static string Or {
             get {
                 return ResourceManager.GetString("Or", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  + {0} more.
+        /// </summary>
+        public static string RecipientsSummary {
+            get {
+                return ResourceManager.GetString("RecipientsSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to relevant.
+        /// </summary>
+        public static string Relevant {
+            get {
+                return ResourceManager.GetString("Relevant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to relevant {0}.
+        /// </summary>
+        public static string RelevantFormat {
+            get {
+                return ResourceManager.GetString("RelevantFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to re:.
+        /// </summary>
+        public static string Reply {
+            get {
+                return ResourceManager.GetString("Reply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RE: {0}.
+        /// </summary>
+        public static string ReplyReplyFormat {
+            get {
+                return ResourceManager.GetString("ReplyReplyFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  {0} .
+        /// </summary>
+        public static string SeparatorFormat {
+            get {
+                return ResourceManager.GetString("SeparatorFormat", resourceCulture);
             }
         }
         
@@ -115,7 +349,79 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to today.
+        ///   Looks up a localized string similar to Subject: {0}.
+        /// </summary>
+        public static string SubjectFormat {
+            get {
+                return ResourceManager.GetString("SubjectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} day.
+        /// </summary>
+        public static string TimeFormatDay {
+            get {
+                return ResourceManager.GetString("TimeFormatDay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} days.
+        /// </summary>
+        public static string TimeFormatDays {
+            get {
+                return ResourceManager.GetString("TimeFormatDays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} hour.
+        /// </summary>
+        public static string TimeFormatHour {
+            get {
+                return ResourceManager.GetString("TimeFormatHour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  and .
+        /// </summary>
+        public static string TimeFormatHourMinuteConnective {
+            get {
+                return ResourceManager.GetString("TimeFormatHourMinuteConnective", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} hours.
+        /// </summary>
+        public static string TimeFormatHours {
+            get {
+                return ResourceManager.GetString("TimeFormatHours", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} minute.
+        /// </summary>
+        public static string TimeFormatMinute {
+            get {
+                return ResourceManager.GetString("TimeFormatMinute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} minutes.
+        /// </summary>
+        public static string TimeFormatMinutes {
+            get {
+                return ResourceManager.GetString("TimeFormatMinutes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Today.
         /// </summary>
         public static string Today {
             get {
@@ -124,11 +430,65 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to tomorrow.
+        ///   Looks up a localized string similar to {0} to {1} and content is {2}.
+        /// </summary>
+        public static string ToDetailsFormat {
+            get {
+                return ResourceManager.GetString("ToDetailsFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To: {0}.
+        /// </summary>
+        public static string ToFormat {
+            get {
+                return ResourceManager.GetString("ToFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tomorrow.
         /// </summary>
         public static string Tomorrow {
             get {
                 return ResourceManager.GetString("Tomorrow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to unknown recipient.
+        /// </summary>
+        public static string UnknownRecipient {
+            get {
+                return ResourceManager.GetString("UnknownRecipient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to unknown sender.
+        /// </summary>
+        public static string UnknownSender {
+            get {
+                return ResourceManager.GetString("UnknownSender", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to unread.
+        /// </summary>
+        public static string Unread {
+            get {
+                return ResourceManager.GetString("Unread", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yesterday.
+        /// </summary>
+        public static string Yesterday {
+            get {
+                return ResourceManager.GetString("Yesterday", resourceCulture);
             }
         }
     }
