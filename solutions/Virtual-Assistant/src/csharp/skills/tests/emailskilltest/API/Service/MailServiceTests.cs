@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using EmailSkill;
 using EmailSkillTest.API.Fakes;
+using Microsoft.Bot.Solutions.Data;
 using Microsoft.Graph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -86,7 +87,7 @@ namespace EmailSkillTest.API
 
             // Test get 0-5 message per page
             Assert.IsTrue(result.Count >= 1);
-            Assert.IsTrue(result.Count <= 5);
+            Assert.IsTrue(result.Count <= ConfigData.GetInstance().MaxDisplaySize);
 
             // Test ranking correctly by time
             Assert.IsTrue(result[0].Subject == "TestSubject5");

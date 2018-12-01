@@ -34,6 +34,7 @@ namespace EmailSkill
 
             var showEmail = new WaterfallStep[]
             {
+                IfClearContextStep,
                 ShowEmails,
             };
 
