@@ -310,7 +310,7 @@ namespace ToDoSkill
                     pageSize = int.Parse(_services.Properties["DisplaySize"].ToString());
                 }
 
-                state.PageSize = pageSize <= 0 || pageSize > Util.MaxDisplaySize ? Util.MaxDisplaySize : pageSize;
+                state.PageSize = pageSize <= 0 || pageSize > CommonUtil.MaxDisplaySize ? CommonUtil.MaxDisplaySize : pageSize;
             }
 
             if (state.ReadSize <= 0)
@@ -321,7 +321,7 @@ namespace ToDoSkill
                     readSize = int.Parse(_services.Properties["ReadSize"].ToString());
                 }
 
-                state.ReadSize = readSize <= 0 || readSize > Util.MaxReadSize ? Util.MaxReadSize : readSize;
+                state.ReadSize = readSize <= 0 || readSize > CommonUtil.MaxReadSize ? CommonUtil.MaxReadSize : readSize;
             }
         }
 

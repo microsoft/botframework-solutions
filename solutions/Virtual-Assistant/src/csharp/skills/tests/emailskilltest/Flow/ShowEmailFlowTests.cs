@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using EmailSkill.Dialogs.Shared.Resources;
 using EmailSkill.Dialogs.ShowEmail.Resources;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EmailSkillTest.Flow

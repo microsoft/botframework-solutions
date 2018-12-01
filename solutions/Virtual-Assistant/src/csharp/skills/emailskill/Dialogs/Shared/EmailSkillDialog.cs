@@ -16,9 +16,11 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Authentication;
+using Microsoft.Bot.Solutions.Data;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 using Microsoft.Graph;
 using Microsoft.Recognizers.Text;
 using Newtonsoft.Json.Linq;
@@ -159,16 +161,44 @@ namespace EmailSkill
                 var skillOptions = (EmailSkillDialogOptions)sc.Options;
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
 
-                if (!skillOptions.SubFlowMode)
-                {
-                    var luisResult = state.LuisResult;
+                var luisResult = state.LuisResult;
+                var skillLuisResult = luisResult?.TopIntent().intent;
+                var generalLuisResult = state.GeneralLuisResult;
+                var generalTopIntent = generalLuisResult?.TopIntent().intent;
 
+                if (skillOptions == null || !skillOptions.SubFlowMode)
+                {
                     // Clear email state data
                     await ClearConversationState(sc);
                     await DigestEmailLuisResult(sc, luisResult);
                 }
 
-                await DigestFocusEmailAsync(sc);
+                if (skillLuisResult == Email.Intent.None && generalTopIntent == General.Intent.Next)
+                {
+                    state.ShowEmailIndex++;
+                    state.ReadEmailIndex = 0;
+                }
+                else if (skillLuisResult == Email.Intent.None && generalTopIntent == General.Intent.Previous && state.ShowEmailIndex > 0)
+                {
+                    state.ShowEmailIndex--;
+                    state.ReadEmailIndex = 0;
+                }
+                else if (IsReadMoreIntent(generalTopIntent, sc.Context.Activity.Text))
+                {
+                    if (state.MessageList.Count <= ConfigData.GetInstance().MaxReadSize)
+                    {
+                        state.ShowEmailIndex++;
+                        state.ReadEmailIndex = 0;
+                    }
+                    else
+                    {
+                        state.ReadEmailIndex++;
+                    }
+                }
+                else
+                {
+                    await DigestFocusEmailAsync(sc);
+                }
 
                 return await sc.NextAsync();
             }
@@ -273,7 +303,8 @@ namespace EmailSkill
         {
             try
             {
-                return await sc.BeginDialogAsync(Actions.Show);
+                var skillOptions = (EmailSkillDialogOptions)sc.Options;
+                return await sc.BeginDialogAsync(Actions.Show, skillOptions);
             }
             catch (Exception ex)
             {
@@ -299,6 +330,7 @@ namespace EmailSkill
         {
             try
             {
+                var skillOptions = (EmailSkillDialogOptions)sc.Options;
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var luisResult = state.LuisResult;
 
@@ -308,7 +340,7 @@ namespace EmailSkill
                 // todo: should set updatename reason in stepContext.Result
                 if (focusedMessage == null)
                 {
-                    return await sc.BeginDialogAsync(Actions.UpdateSelectMessage);
+                    return await sc.BeginDialogAsync(Actions.UpdateSelectMessage, skillOptions);
                 }
                 else
                 {
@@ -383,7 +415,7 @@ namespace EmailSkill
                     EmailContent = string.Format(CommonStrings.ContentFormat, state.Content),
                 };
 
-                var speech = SpeakHelper.ToSpeechEmailSendDetailString(emailCard.Subject, emailCard.NameList, emailCard.EmailContent);
+                var speech = SpeakHelper.ToSpeechEmailSendDetailString(state.Subject, nameListString, state.Content);
                 var stringToken = new StringDictionary
                 {
                     { "EmailDetails", speech },
@@ -454,6 +486,7 @@ namespace EmailSkill
         {
             try
             {
+                var skillOptions = (EmailSkillDialogOptions)sc.Options;
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
 
                 // ensure state.nameList is not null or empty
@@ -462,7 +495,7 @@ namespace EmailSkill
                     var userInput = sc.Result.ToString();
                     if (userInput == null)
                     {
-                        return await sc.BeginDialogAsync(nameof(ConfirmRecipientDialog));
+                        return await sc.BeginDialogAsync(nameof(ConfirmRecipientDialog), skillOptions);
                     }
 
                     var nameList = userInput.Split(new[] { ",", "and" }, options: StringSplitOptions.None)
@@ -472,7 +505,7 @@ namespace EmailSkill
                     state.NameList = nameList;
                 }
 
-                return await sc.BeginDialogAsync(nameof(ConfirmRecipientDialog));
+                return await sc.BeginDialogAsync(nameof(ConfirmRecipientDialog), skillOptions);
             }
             catch (Exception ex)
             {
@@ -489,14 +522,13 @@ namespace EmailSkill
                 var messages = await GetMessagesAsync(sc);
                 if (messages.Count > 0)
                 {
-                    await ShowMailList(sc, messages);
+                    messages = await ShowMailList(sc, messages);
 
                     // Give focus when there is only one email.
                     if (messages.Count == 1)
                     {
                         state.Message.Add(messages[0]);
                     }
-
                     state.MessageList = messages;
                 }
                 else
@@ -551,7 +583,7 @@ namespace EmailSkill
             if (generalTopIntent == General.Intent.Next || generalTopIntent == General.Intent.Previous)
             {
                 // TODO: The signature of validators has been changed per the sdk team, meaning this logic will need to be executed in a different way
-                if (pc.Options.Choices.Count > 5)
+                if (pc.Options.Choices.Count > ConfigData.GetInstance().MaxDisplaySize)
                 {
                     // prompt.End(UpdateUserDialogOptions.UpdateReason.TooMany);
                     pc.Recognized.Succeeded = true;
@@ -561,8 +593,15 @@ namespace EmailSkill
                 {
                     // prompt.End(topIntent);
                     pc.Recognized.Succeeded = true;
-                    pc.Recognized.Value = new FoundChoice() { Value = topIntent.ToString() };
+                    pc.Recognized.Value = new FoundChoice() { Value = generalTopIntent.ToString() };
                 }
+
+                return true;
+            }
+            else if (IsReadMoreIntent(generalTopIntent, pc.Context.Activity.Text))
+            {
+                pc.Recognized.Succeeded = true;
+                pc.Recognized.Value = new FoundChoice() { Value = generalTopIntent.ToString() };
 
                 return true;
             }
@@ -616,7 +655,7 @@ namespace EmailSkill
         {
             var state = await EmailStateAccessor.GetAsync(sc.Context);
             var pageIndex = state.ShowRecipientIndex;
-            var pageSize = 5;
+            var pageSize = ConfigData.GetInstance().MaxDisplaySize;
             var skip = pageSize * pageIndex;
 
             var options = new PromptOptions
@@ -664,7 +703,7 @@ namespace EmailSkill
 
             if (options.Choices.Count == 0)
             {
-                pageSize = 10;
+                pageSize = ConfigData.GetInstance().MaxDisplaySize;
                 options.Prompt = sc.Context.Activity.CreateReply(ConfirmRecipientResponses.ConfirmRecipientLastPage);
             }
 
@@ -693,7 +732,7 @@ namespace EmailSkill
 
                     options.Choices.Add(choice);
                 }
-                else if (skip >= 10)
+                else if (skip >= ConfigData.GetInstance().MaxDisplaySize)
                 {
                     return options;
                 }
@@ -781,7 +820,7 @@ namespace EmailSkill
             var result = new List<Message>();
             try
             {
-                const int pageSize = 5;
+                int pageSize = ConfigData.GetInstance().MaxDisplaySize;
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var token = state.Token;
                 var serivce = ServiceManager.InitMailService(token, state.GetUserTimeZone(), state.MailSourceType);
@@ -807,6 +846,14 @@ namespace EmailSkill
 
                 // Get user message.
                 result = await serivce.GetMyMessagesAsync(startDateTime, endDateTime, isUnreadOnly, isImportant, directlyToMe, mailAddress, skip);
+
+                // Go back to last page if next page didn't get anything
+                if (!result.Any() && state.ShowEmailIndex > 0)
+                {
+                    state.ShowEmailIndex--;
+                    skip = state.ShowEmailIndex * pageSize;
+                    result = await serivce.GetMyMessagesAsync(startDateTime, endDateTime, isUnreadOnly, isImportant, directlyToMe, mailAddress, skip);
+                }
             }
             catch (Exception ex)
             {
@@ -816,12 +863,16 @@ namespace EmailSkill
             return result;
         }
 
-        protected async Task ShowMailList(WaterfallStepContext sc, List<Message> messages)
+        protected async Task<List<Message>> ShowMailList(WaterfallStepContext sc, List<Message> messages)
         {
+            var updatedMessages = new List<Message>();
             var state = await EmailStateAccessor.GetAsync(sc.Context);
             var cardsData = new List<EmailCardData>();
-            foreach (var message in messages)
+
+            var startIndex = ConfigData.GetInstance().MaxReadSize * state.ReadEmailIndex;
+            for (int i = startIndex; i < messages.Count(); i++)
             {
+                var message = messages[i];
                 var nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(message.ToRecipients);
 
                 var emailCard = new EmailCardData
@@ -837,6 +888,7 @@ namespace EmailSkill
                     Speak = SpeakHelper.ToSpeechEmailDetailString(message),
                 };
                 cardsData.Add(emailCard);
+                updatedMessages.Add(message);
             }
 
             var searchType = CommonStrings.Relevant;
@@ -852,11 +904,13 @@ namespace EmailSkill
             var stringToken = new StringDictionary
             {
                 { "SearchType", searchType },
-                { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(messages) },
+                { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(updatedMessages, ConfigData.GetInstance().MaxReadSize) },
             };
 
             var reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
             await sc.Context.SendActivityAsync(reply);
+
+            return updatedMessages;
         }
 
         protected async Task<List<Person>> GetPeopleWorkWithAsync(WaterfallStepContext sc, string name)
@@ -935,7 +989,7 @@ namespace EmailSkill
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
 
                 // Keep email display and focus data when in sub flow mode
-                if (!skillOptions.SubFlowMode)
+                if (skillOptions == null || !skillOptions.SubFlowMode)
                 {
                     state.Message.Clear();
                     state.ShowEmailIndex = 0;
@@ -956,6 +1010,9 @@ namespace EmailSkill
                 state.EmailList = new List<string>();
                 state.ShowRecipientIndex = 0;
                 state.LuisResultPassedFromSkill = null;
+                state.ReadEmailIndex = 0;
+                state.ReadRecipientIndex = 0;
+                state.RecipientChoiceList.Clear();
             }
             catch (Exception)
             {
@@ -1146,6 +1203,12 @@ namespace EmailSkill
             await ClearAllState(sc);
             await sc.CancelAllDialogsAsync();
             return ex;
+        }
+
+        protected bool IsReadMoreIntent(General.Intent? topIntent, string userInput)
+        {
+            bool isReadMoreUserInput = userInput.ToLowerInvariant().Contains(CommonStrings.More);
+            return topIntent == General.Intent.ReadMore && isReadMoreUserInput;
         }
     }
 }

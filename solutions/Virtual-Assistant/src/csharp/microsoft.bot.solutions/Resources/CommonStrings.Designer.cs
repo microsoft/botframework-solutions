@@ -187,6 +187,15 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to the first one is {0};.
+        /// </summary>
+        public static string FirstItem {
+            get {
+                return ResourceManager.GetString("FirstItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to fw:.
         /// </summary>
         public static string Forward {
@@ -228,6 +237,15 @@ namespace Microsoft.Bot.Solutions.Resources {
         public static string Important {
             get {
                 return ResourceManager.GetString("Important", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to more.
+        /// </summary>
+        public static string More {
+            get {
+                return ResourceManager.GetString("More", resourceCulture);
             }
         }
         
@@ -300,6 +318,15 @@ namespace Microsoft.Bot.Solutions.Resources {
         public static string ReplyReplyFormat {
             get {
                 return ResourceManager.GetString("ReplyReplyFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the second one is {0};.
+        /// </summary>
+        public static string SecondItem {
+            get {
+                return ResourceManager.GetString("SecondItem", resourceCulture);
             }
         }
         
@@ -417,6 +444,15 @@ namespace Microsoft.Bot.Solutions.Resources {
         public static string TimeFormatMinutes {
             get {
                 return ResourceManager.GetString("TimeFormatMinutes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the third one is {0};.
+        /// </summary>
+        public static string ThirdItem {
+            get {
+                return ResourceManager.GetString("ThirdItem", resourceCulture);
             }
         }
         
