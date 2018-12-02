@@ -264,10 +264,12 @@ namespace EmailSkill
                 }
                 else if (topIntent == Email.Intent.Forward)
                 {
+                    await DigestEmailLuisResult(sc, luisResult, true);
                     return await sc.BeginDialogAsync(Actions.Forward, skillOptions);
                 }
                 else if (topIntent == Email.Intent.Reply)
                 {
+                    await DigestEmailLuisResult(sc, luisResult, true);
                     return await sc.BeginDialogAsync(Actions.Reply, skillOptions);
                 }
                 else if (topIntent == Email.Intent.ReadAloud || topIntent == Email.Intent.SelectItem)
