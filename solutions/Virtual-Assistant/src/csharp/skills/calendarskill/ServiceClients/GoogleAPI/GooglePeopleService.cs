@@ -65,9 +65,9 @@ namespace CalendarSkill
         }
 
         // To do: finish contact search
-        public async Task<List<Contact>> GetContactsAsync(string name)
+        public Task<List<Contact>> GetContactsAsync(string name)
         {
-            return new List<Contact>();
+            return Task.FromResult(new List<Contact>());
         }
 
         // get people work with
@@ -97,9 +97,9 @@ namespace CalendarSkill
         }
 
         // search people in domain
-        public async Task<List<User>> GetUserAsync(string name)
+        public Task<List<User>> GetUserAsync(string name)
         {
-            return new List<User>();
+            return Task.FromResult(new List<User>());
         }
 
         private MsPerson GooglePersonToMsPerson(GooglePerson person)

@@ -255,4 +255,22 @@
   <data name="DisplayFullDateFormat" xml:space="preserve">
     <value>dd-MM-yyyy</value>
   </data>
+  <data name="All" xml:space="preserve">
+    <value>all</value>
+  </data>
+  <data name="High" xml:space="preserve">
+    <value>high</value>
+  </data>
+  <data name="FirstItem" xml:space="preserve">
+    <value>the first one is {0};</value>
+  </data>
+  <data name="More" xml:space="preserve">
+    <value>more</value>
+  </data>
+  <data name="SecondItem" xml:space="preserve">
+    <value>the second one is {0};</value>
+  </data>
+  <data name="ThirdItem" xml:space="preserve">
+    <value>the third one is {0};</value>
+  </data>
 </root>

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.Bot.Solutions.Resources;
 
 namespace Microsoft.Bot.Solutions.Util
 {
-    public class Util
+    public class CommonUtil
     {
         public static readonly double ScoreThreshold = 0.5f;
 

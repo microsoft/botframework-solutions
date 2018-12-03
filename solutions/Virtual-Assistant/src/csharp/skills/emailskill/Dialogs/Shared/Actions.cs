@@ -12,6 +12,8 @@
 
         public const string Show = "show";
 
+        public const string Reshow = "reshow";
+
         public const string Read = "read";
 
         public const string Delete = "delete";

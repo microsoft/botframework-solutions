@@ -23,6 +23,7 @@ namespace EmailSkill
         {
             var replyEmail = new WaterfallStep[]
             {
+                IfClearContextStep,
                 GetAuthToken,
                 AfterGetAuthToken,
                 CollectSelectedEmail,
@@ -33,6 +34,7 @@ namespace EmailSkill
 
             var showEmail = new WaterfallStep[]
             {
+                IfClearContextStep,
                 ShowEmails,
             };
 

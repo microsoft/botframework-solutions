@@ -255,4 +255,22 @@
   <data name="DisplayFullDateFormat" xml:space="preserve">
     <value>yyyy-MM-dd</value>
   </data>
+  <data name="All" xml:space="preserve">
+    <value>全部</value>
+  </data>
+  <data name="High" xml:space="preserve">
+    <value>高</value>
+  </data>
+  <data name="FirstItem" xml:space="preserve">
+    <value>第一个是{0};</value>
+  </data>
+  <data name="More" xml:space="preserve">
+    <value>多</value>
+  </data>
+  <data name="SecondItem" xml:space="preserve">
+    <value>第二个是{0};</value>
+  </data>
+  <data name="ThirdItem" xml:space="preserve">
+    <value>第三个是{0};</value>
+  </data>
 </root>
