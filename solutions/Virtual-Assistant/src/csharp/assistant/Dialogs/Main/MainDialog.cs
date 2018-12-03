@@ -14,6 +14,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Skills;
+using VirtualAssistant.ServiceClients;
 
 namespace VirtualAssistant
 {
@@ -346,56 +347,101 @@ namespace VirtualAssistant
             var command = dc.Context.Activity.Text;
             var response = dc.Context.Activity.CreateReply();
 
-            switch (command)
+            if (command.StartsWith("play") || command.StartsWith("播放"))
             {
-                case "change radio station to 99.7":
-                case "将收音机调到99.7 FM":
+                NetEaseMusicClient client = new NetEaseMusicClient();
+                List<Song> list_Song = await client.SearchSongAsync(command).ConfigureAwait(false);
+                if (list_Song.Count > 0)
+                {
+                    // Create an attachment.
+                    //var attachment = new Attachment
+                    //{
+                    //    ContentUrl = list_Song[0].Url,
+                    //    ContentType = "audio/mp4",
+                    //    ThumbnailUrl = list_Song[0].Pic,
+                    //    Name = list_Song[0].Name,
+                    //};
+                    var audioCard = new AudioCard()
                     {
-                        response.Type = ActivityTypes.Event;
-                        response.Name = "TuneRadio";
-                        response.Value = "99.7 FM";
-                        await dc.Context.SendActivityAsync(response);
+                        Image = new ThumbnailUrl
+                        {
+                            Url = list_Song[0].Pic,
+                        },
+                        Media = new List<MediaUrl>
+                        {
+                            new MediaUrl()
+                            {
+                                Url = list_Song[0].Url,
+                            },
+                        },
+                        Title = list_Song[0].Name,
+                        Subtitle = list_Song[0].Singer,
+                        Autostart = true,
+                    };
+                    response.Text = "歌手：" + list_Song[0].Singer + "\t\t歌名：" + list_Song[0].Name;
+                    response.Attachments = new List<Attachment>() { audioCard.ToAttachment() };
+                }                        
+                else
+                {
+                    response.Text = "对不起，没有找到你想要找的歌曲";
+                }
+                
+                await dc.Context.SendActivityAsync(response);
+                handled = true;
+            }
+            else
+            {
+                switch (command)
+                {
+                    case "change radio station to 99.7":
+                    case "将收音机调到99.7 FM":
+                        {
+                            response.Type = ActivityTypes.Event;
+                            response.Name = "TuneRadio";
+                            response.Value = "99.7 FM";
+                            await dc.Context.SendActivityAsync(response);
 
-                        handled = true;
-                        break;
-                    }
+                            handled = true;
+                            break;
+                        }
 
-                case "turn off cruise control":
-                case "打开巡航控制器":
-                case "关闭巡航控制器":
-                    {
-                        response.Type = ActivityTypes.Event;
-                        response.Name = "ToggleCruiseControl";
-                        await dc.Context.SendActivityAsync(response);
+                    case "turn off cruise control":
+                    case "打开巡航控制器":
+                    case "关闭巡航控制器":
+                        {
+                            response.Type = ActivityTypes.Event;
+                            response.Name = "ToggleCruiseControl";
+                            await dc.Context.SendActivityAsync(response);
 
-                        handled = true;
-                        break;
-                    }
+                            handled = true;
+                            break;
+                        }
 
-                case "change temperature to 23 degrees":
-                case "将温度设定为23度":
-                case "将温度设定为二十三度":
-                    {
-                        response.Type = ActivityTypes.Event;
-                        response.Name = "ChangeTemperature";
-                        response.Value = "23";
-                        await dc.Context.SendActivityAsync(response);
+                    case "change temperature to 23 degrees":
+                    case "将温度设定为23度":
+                    case "将温度设定为二十三度":
+                        {
+                            response.Type = ActivityTypes.Event;
+                            response.Name = "ChangeTemperature";
+                            response.Value = "23";
+                            await dc.Context.SendActivityAsync(response);
 
-                        handled = true;
-                        break;
-                    }
+                            handled = true;
+                            break;
+                        }
 
-                case "play the song rainbow by jay chou":
-                case "播放周杰伦的歌曲彩虹":
-                    {
-                        response.Type = ActivityTypes.Event;
-                        response.Name = "PlayMusic";
-                        response.Value = "彩虹 - 周杰伦";
-                        await dc.Context.SendActivityAsync(response);
+                    case "play the song rainbow by jay chou":
+                    case "播放周杰伦的歌曲彩虹":
+                        {
+                            response.Type = ActivityTypes.Event;
+                            response.Name = "PlayMusic";
+                            response.Value = "彩虹 - 周杰伦";
+                            await dc.Context.SendActivityAsync(response);
 
-                        handled = true;
-                        break;
-                    }
+                            handled = true;
+                            break;
+                        }
+                }
             }
 
             if (handled)
