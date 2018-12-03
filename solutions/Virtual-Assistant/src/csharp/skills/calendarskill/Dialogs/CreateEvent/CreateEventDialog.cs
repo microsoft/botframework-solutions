@@ -694,10 +694,14 @@ namespace CalendarSkill
                                 }
 
                                 state.StartDate.Add(isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime);
-                                return await sc.EndDialogAsync(cancellationToken: cancellationToken);
                             }
                         }
                     }
+                }
+
+                if (state.StartDate.Any())
+                {
+                    return await sc.EndDialogAsync(cancellationToken: cancellationToken);
                 }
 
                 return await sc.BeginDialogAsync(Actions.UpdateStartDateForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotADateTime), cancellationToken);
