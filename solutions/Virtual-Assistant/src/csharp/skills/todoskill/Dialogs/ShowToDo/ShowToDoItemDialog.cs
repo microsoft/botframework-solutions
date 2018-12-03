@@ -17,9 +17,10 @@ namespace ToDoSkill
     {
         public ShowToDoItemDialog(
             ISkillConfiguration services,
-            IStatePropertyAccessor<ToDoSkillState> accessor,
+            IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
+            IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
             ITaskService serviceManager)
-            : base(nameof(ShowToDoItemDialog), services, accessor, serviceManager)
+            : base(nameof(ShowToDoItemDialog), services, toDoStateAccessor, userStateAccessor, serviceManager)
         {
             var showToDoTasks = new WaterfallStep[]
            {
@@ -57,18 +58,13 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 state.ListType = state.ListType ?? ToDoStrings.ToDo;
                 state.LastListType = state.ListType;
-                if (!state.ListTypeIds.ContainsKey(state.ListType))
-                {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
-                }
-
+                var service = await InitListTypeIds(sc);
                 var topIntent = state.LuisResult?.TopIntent().intent;
                 if (topIntent == ToDo.Intent.ShowToDo)
                 {
-                    var service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
                     state.AllTasks = await service.GetTasksAsync(state.ListType);
                 }
 
@@ -154,7 +150,7 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 var topIntent = state.GeneralLuisResult?.TopIntent().intent;
 
                 sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);

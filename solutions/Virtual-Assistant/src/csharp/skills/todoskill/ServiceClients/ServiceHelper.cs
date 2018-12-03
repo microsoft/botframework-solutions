@@ -10,8 +10,10 @@ namespace ToDoSkill
     using System.Net.Http.Headers;
     using System.Text;
     using System.Text.RegularExpressions;
+    using System.Threading.Tasks;
     using System.Xml;
     using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
+    using Microsoft.Graph;
     using Newtonsoft.Json;
 
     /// <summary>
@@ -265,6 +267,24 @@ namespace ToDoSkill
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             return httpClient;
+        }
+
+        /// <summary>
+        /// Get an authenticated ms graph client use access token.
+        /// </summary>
+        /// <param name="accessToken">access token.</param>
+        /// <returns>Authenticated graph service client.</returns>
+        public static IGraphServiceClient GetAuthenticatedClient(string accessToken)
+        {
+            GraphServiceClient graphClient = new GraphServiceClient(
+                new DelegateAuthenticationProvider(
+                    async (requestMessage) =>
+                    {
+                        // Append the access token to the request.
+                        requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
+                        await Task.CompletedTask;
+                    }));
+            return graphClient;
         }
     }
 }

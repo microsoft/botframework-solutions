@@ -30,12 +30,14 @@ namespace ToDoSkill
         public ToDoSkillDialog(
             string dialogId,
             ISkillConfiguration services,
-            IStatePropertyAccessor<ToDoSkillState> accessor,
+            IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
+            IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
             ITaskService serviceManager)
             : base(dialogId)
         {
             Services = services;
-            Accessor = accessor;
+            ToDoStateAccessor = toDoStateAccessor;
+            UserStateAccessor = UserStateAccessor;
             ServiceManager = serviceManager;
 
             if (!Services.AuthenticationConnections.Any())
@@ -50,7 +52,9 @@ namespace ToDoSkill
 
         protected ISkillConfiguration Services { get; set; }
 
-        protected IStatePropertyAccessor<ToDoSkillState> Accessor { get; set; }
+        protected IStatePropertyAccessor<ToDoSkillState> ToDoStateAccessor { get; set; }
+
+        protected IStatePropertyAccessor<ToDoSkillUserState> UserStateAccessor { get; set; }
 
         protected ITaskService ServiceManager { get; set; }
 
@@ -59,6 +63,7 @@ namespace ToDoSkill
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
             await DigestToDoLuisResult(dc);
+            await RecoverListTypeIdsAsync(dc);
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }
 
@@ -134,7 +139,7 @@ namespace ToDoSkill
 
                 if (providerTokenResponse != null)
                 {
-                    var state = await Accessor.GetAsync(sc.Context);
+                    var state = await ToDoStateAccessor.GetAsync(sc.Context);
                     state.MsGraphToken = providerTokenResponse.TokenResponse.Token;
                 }
 
@@ -149,7 +154,7 @@ namespace ToDoSkill
 
         protected async Task<DialogTurnResult> ClearContext(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await ToDoStateAccessor.GetAsync(sc.Context);
             var topIntent = state.LuisResult?.TopIntent().intent;
             var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
 
@@ -217,22 +222,14 @@ namespace ToDoSkill
 
         protected async Task<DialogTurnResult> InitAllTasks(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await ToDoStateAccessor.GetAsync(sc.Context);
             state.ListType = state.ListType ?? ToDoStrings.ToDo;
 
-            if (!state.ListTypeIds.ContainsKey(state.ListType))
+            // LastListType is used to switch between list types in DeleteToDoItemDialog and MarkToDoItemDialog.
+            if (!state.ListTypeIds.ContainsKey(state.ListType)
+                || state.ListType != state.LastListType)
             {
-                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
-                var service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
-                state.AllTasks = await service.GetTasksAsync(state.ListType);
-                state.ShowTaskPageIndex = 0;
-                var rangeCount = Math.Min(state.PageSize, state.AllTasks.Count);
-                state.Tasks = state.AllTasks.GetRange(0, rangeCount);
-            }
-            else if (state.ListType != state.LastListType)
-            {
-                // LastListType is used to switch between list types in DeleteToDoItemDialog and MarkToDoItemDialog.
-                var service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
+                var service = await InitListTypeIds(sc);
                 state.AllTasks = await service.GetTasksAsync(state.ListType);
                 state.ShowTaskPageIndex = 0;
                 var rangeCount = Math.Min(state.PageSize, state.AllTasks.Count);
@@ -257,7 +254,7 @@ namespace ToDoSkill
 
         protected async Task<DialogTurnResult> AskToDoTaskIndex(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await ToDoStateAccessor.GetAsync(sc.Context);
             if (!string.IsNullOrEmpty(state.TaskContentPattern)
                 || !string.IsNullOrEmpty(state.TaskContentML)
                 || state.MarkOrDeleteAllTasksFlag
@@ -276,7 +273,7 @@ namespace ToDoSkill
 
         protected async Task<DialogTurnResult> AfterAskToDoTaskIndex(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await ToDoStateAccessor.GetAsync(sc.Context);
             var matchedIndexes = Enumerable.Range(0, state.AllTasks.Count)
                 .Where(i => state.AllTasks[i].Topic.Equals(state.TaskContentPattern, StringComparison.OrdinalIgnoreCase)
                 || state.AllTasks[i].Topic.Equals(state.TaskContentML, StringComparison.OrdinalIgnoreCase))
@@ -328,7 +325,7 @@ namespace ToDoSkill
 
         protected async Task<DialogTurnResult> AskToDoTaskContent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await this.Accessor.GetAsync(sc.Context);
+            var state = await this.ToDoStateAccessor.GetAsync(sc.Context);
             if (!string.IsNullOrEmpty(state.TaskContentPattern)
                 || !string.IsNullOrEmpty(state.TaskContentML)
                 || !string.IsNullOrEmpty(state.ShopContent))
@@ -346,7 +343,7 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 if (string.IsNullOrEmpty(state.TaskContentPattern)
                     && string.IsNullOrEmpty(state.TaskContentML)
                     && string.IsNullOrEmpty(state.ShopContent))
@@ -379,15 +376,10 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 state.ListType = state.ListType ?? ToDoStrings.ToDo;
                 state.LastListType = state.ListType;
-                if (!state.ListTypeIds.ContainsKey(state.ListType))
-                {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
-                }
-
-                var service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
+                var service = await InitListTypeIds(sc);
                 await service.AddTaskAsync(state.ListType, state.TaskContent);
                 state.AllTasks = await service.GetTasksAsync(state.ListType);
                 state.ShowTaskPageIndex = 0;
@@ -444,7 +436,7 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await Accessor.GetAsync(dc.Context);
+                var state = await ToDoStateAccessor.GetAsync(dc.Context);
                 var luisResult = state.LuisResult;
                 var entities = luisResult.Entities;
                 if (entities.ContainsAll != null)
@@ -851,9 +843,32 @@ namespace ToDoSkill
 
         protected async Task HandleDialogExceptions(WaterfallStepContext sc)
         {
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await ToDoStateAccessor.GetAsync(sc.Context);
             state.Clear();
             await sc.CancelAllDialogsAsync();
+        }
+
+        protected async Task<ITaskService> InitListTypeIds(WaterfallStepContext sc)
+        {
+            var state = await ToDoStateAccessor.GetAsync(sc.Context);
+            ITaskService service;
+            if (!state.ListTypeIds.ContainsKey(state.ListType))
+            {
+                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
+                service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
+                var emailService = new MailService(state.MsGraphToken);
+
+                // ToDo: generate mail message based on locale
+                await emailService.SendMessageAsync("A", "B");
+                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.AfterOneNoteSetupMessage));
+                await StoreListTypeIdsAsync(sc);
+            }
+            else
+            {
+                service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
+            }
+
+            return service;
         }
 
         private void ExtractListTypeAndTaskContent(ToDoSkillState state)
@@ -874,6 +889,32 @@ namespace ToDoSkill
             {
                 state.ListType = ToDoStrings.ToDo;
                 state.TaskContent = state.TaskContentML ?? state.TaskContentPattern;
+            }
+        }
+
+        private async Task RecoverListTypeIdsAsync(DialogContext dc)
+        {
+            var userState = await UserStateAccessor.GetAsync(dc.Context);
+            var state = await ToDoStateAccessor.GetAsync(dc.Context);
+            if (state.ListTypeIds.Count <= 0 && userState.ListTypeIds.Count > 0)
+            {
+                foreach (var listType in userState.ListTypeIds)
+                {
+                    state.ListTypeIds.Add(listType.Key, listType.Value);
+                }
+            }
+        }
+
+        private async Task StoreListTypeIdsAsync(DialogContext dc)
+        {
+            var userState = await UserStateAccessor.GetAsync(dc.Context);
+            var state = await ToDoStateAccessor.GetAsync(dc.Context);
+            if (state.ListTypeIds.Count > userState.ListTypeIds.Count)
+            {
+                foreach (var listType in state.ListTypeIds)
+                {
+                    userState.ListTypeIds.TryAdd(listType.Key, listType.Value);
+                }
             }
         }
     }

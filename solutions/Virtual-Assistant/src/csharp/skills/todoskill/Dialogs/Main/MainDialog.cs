@@ -26,7 +26,7 @@ namespace ToDoSkill
         private UserState _userState;
         private ConversationState _conversationState;
         private ITaskService _serviceManager;
-        private IStatePropertyAccessor<ToDoSkillState> _stateAccessor;
+        private IStatePropertyAccessor<ToDoSkillState> _toDoStateAccessor;
         private IStatePropertyAccessor<ToDoSkillUserState> _userStateAccessor;
         private ToDoSkillResponseBuilder _responseBuilder = new ToDoSkillResponseBuilder();
 
@@ -45,7 +45,7 @@ namespace ToDoSkill
             _serviceManager = serviceManager;
 
             // Initialize state accessor
-            _stateAccessor = _conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
+            _toDoStateAccessor = _conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
             _userStateAccessor = _userState.CreateProperty<ToDoSkillUserState>(nameof(ToDoSkillUserState));
 
             // RegisterDialogs
@@ -63,11 +63,7 @@ namespace ToDoSkill
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await _stateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
-            var userState = await _userStateAccessor.GetAsync(dc.Context, () => new ToDoSkillUserState());
-
-            // Recover the list type ids from UserState if ids are already stored before.
-            RecoverListTypeIds(userState, state);
+            var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
 
             // Initialize the PageSize and ReadSize parameters in state from configuration
             InitializeConfig(state);
@@ -151,9 +147,6 @@ namespace ToDoSkill
                         }
                 }
             }
-
-            // Store the updated list type ids to UserState.
-            StoreListTypeIds(userState, state);
         }
 
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
@@ -180,7 +173,7 @@ namespace ToDoSkill
             {
                 case Events.SkillBeginEvent:
                     {
-                        var state = await _stateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
+                        var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
 
                         if (dc.Context.Activity.Value is Dictionary<string, object> userData)
                         {
@@ -217,7 +210,7 @@ namespace ToDoSkill
             {
                 // Update state with email luis result and entities
                 var toDoLuisResult = await _services.LuisServices["todo"].RecognizeAsync<ToDo>(dc.Context, cancellationToken);
-                var state = await _stateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
+                var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
                 state.LuisResult = toDoLuisResult;
 
                 // check luis intent
@@ -302,10 +295,10 @@ namespace ToDoSkill
 
         private void RegisterDialogs()
         {
-            AddDialog(new AddToDoItemDialog(_services, _stateAccessor, _serviceManager));
-            AddDialog(new MarkToDoItemDialog(_services, _stateAccessor, _serviceManager));
-            AddDialog(new DeleteToDoItemDialog(_services, _stateAccessor, _serviceManager));
-            AddDialog(new ShowToDoItemDialog(_services, _stateAccessor, _serviceManager));
+            AddDialog(new AddToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager));
+            AddDialog(new MarkToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager));
+            AddDialog(new DeleteToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager));
+            AddDialog(new ShowToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager));
         }
 
         private void InitializeConfig(ToDoSkillState state)
@@ -331,28 +324,6 @@ namespace ToDoSkill
                 }
 
                 state.ReadSize = readSize <= 0 || readSize > Util.MaxReadSize ? Util.MaxReadSize : readSize;
-            }
-        }
-
-        private void RecoverListTypeIds(ToDoSkillUserState userState, ToDoSkillState state)
-        {
-            if (state.ListTypeIds.Count <= 0 && userState.ListTypeIds.Count > 0)
-            {
-                foreach (var listType in userState.ListTypeIds)
-                {
-                    state.ListTypeIds.Add(listType.Key, listType.Value);
-                }
-            }
-        }
-
-        private void StoreListTypeIds(ToDoSkillUserState userState, ToDoSkillState state)
-        {
-            if (state.ListTypeIds.Count > userState.ListTypeIds.Count)
-            {
-                foreach (var listType in state.ListTypeIds)
-                {
-                    userState.ListTypeIds.TryAdd(listType.Key, listType.Value);
-                }
             }
         }
 
