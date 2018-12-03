@@ -20,7 +20,6 @@ using Microsoft.Bot.Solutions.Data;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Bot.Solutions.Util;
 using Microsoft.Graph;
 using Microsoft.Recognizers.Text;
 using Newtonsoft.Json.Linq;
@@ -72,73 +71,6 @@ namespace EmailSkill
 
         protected EmailSkillResponseBuilder ResponseBuilder { get; set; } = new EmailSkillResponseBuilder();
 
-        protected static (List<Person> formattedPersonList, List<Person> formattedUserList) FormatRecipientList(List<Person> personList, List<Person> userList)
-        {
-            // Remove dup items
-            List<Person> formattedPersonList = new List<Person>();
-            List<Person> formattedUserList = new List<Person>();
-
-            foreach (var person in personList)
-            {
-                var mailAddress = person.ScoredEmailAddresses.FirstOrDefault()?.Address ?? person.UserPrincipalName;
-
-                bool isDup = false;
-                foreach (var formattedPerson in formattedPersonList)
-                {
-                    var formattedMailAddress = formattedPerson.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedPerson.UserPrincipalName;
-
-                    if (mailAddress.Equals(formattedMailAddress, StringComparison.OrdinalIgnoreCase))
-                    {
-                        isDup = true;
-                        break;
-                    }
-                }
-
-                if (!isDup)
-                {
-                    formattedPersonList.Add(person);
-                }
-            }
-
-            foreach (var user in userList)
-            {
-                var mailAddress = user.ScoredEmailAddresses.FirstOrDefault()?.Address ?? user.UserPrincipalName;
-
-                bool isDup = false;
-                foreach (var formattedPerson in formattedPersonList)
-                {
-                    var formattedMailAddress = formattedPerson.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedPerson.UserPrincipalName;
-
-                    if (mailAddress.Equals(formattedMailAddress, StringComparison.OrdinalIgnoreCase))
-                    {
-                        isDup = true;
-                        break;
-                    }
-                }
-
-                if (!isDup)
-                {
-                    foreach (var formattedUser in formattedUserList)
-                    {
-                        var formattedMailAddress = formattedUser.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedUser.UserPrincipalName;
-
-                        if (mailAddress.Equals(formattedMailAddress))
-                        {
-                            isDup = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (!isDup)
-                {
-                    formattedUserList.Add(user);
-                }
-            }
-
-            return (formattedPersonList, formattedUserList);
-        }
-
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await EmailStateAccessor.GetAsync(dc.Context);
@@ -173,6 +105,25 @@ namespace EmailSkill
                     await DigestEmailLuisResult(sc, luisResult, true);
                 }
 
+                return await sc.NextAsync();
+            }
+            catch (Exception ex)
+            {
+                throw await HandleDialogExceptions(sc, ex);
+            }
+        }
+
+        protected virtual async Task<DialogTurnResult> PagingStep(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+
+                var luisResult = state.LuisResult;
+                var skillLuisResult = luisResult?.TopIntent().intent;
+                var generalLuisResult = state.GeneralLuisResult;
+                var generalTopIntent = generalLuisResult?.TopIntent().intent;
+
                 if (skillLuisResult == Email.Intent.None && generalTopIntent == General.Intent.Next)
                 {
                     state.ShowEmailIndex++;
@@ -195,10 +146,8 @@ namespace EmailSkill
                         state.ReadEmailIndex++;
                     }
                 }
-                else
-                {
-                    await DigestFocusEmailAsync(sc);
-                }
+
+                await DigestFocusEmailAsync(sc);
 
                 return await sc.NextAsync();
             }
@@ -1164,6 +1113,7 @@ namespace EmailSkill
                             if (entity.SenderName != null)
                             {
                                 state.SenderName = entity.SenderName[0];
+                                state.IsUnreadOnly = false;
                             }
 
                             break;
@@ -1213,6 +1163,7 @@ namespace EmailSkill
                             if (entity.SenderName != null)
                             {
                                 state.SenderName = entity.SenderName[0];
+                                state.IsUnreadOnly = false;
                             }
 
                             break;
