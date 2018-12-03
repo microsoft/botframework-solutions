@@ -44,7 +44,6 @@ namespace EmailSkill
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
-            turnContext.Activity.Locale = "en-us";
             var dc = await _dialogs.CreateContextAsync(turnContext);
 
             if (dc.ActiveDialog != null)
