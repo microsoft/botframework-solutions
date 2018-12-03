@@ -13,6 +13,7 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;

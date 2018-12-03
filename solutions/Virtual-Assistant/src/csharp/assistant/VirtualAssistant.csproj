@@ -107,6 +107,15 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="LocaleConfigurations\LamilVADispatchit.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="LocaleConfigurations\LamilVADispatchzh.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="xcopy &quot;$(SolutionDir)skills\CalendarSkill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)skills\EmailSkill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)skills\PointOfInterestSkill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)skills\ToDoSkill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y" />
   </Target>
