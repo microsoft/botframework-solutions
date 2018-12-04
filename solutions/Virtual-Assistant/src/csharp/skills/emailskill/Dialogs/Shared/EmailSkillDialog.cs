@@ -178,10 +178,6 @@ namespace EmailSkill
                     // Wait for the tokens/response event
                     return await sc.PromptAsync(SkillModeAuth, new PromptOptions());
                 }
-                else if (sc.Context.Activity.ChannelId == "test")
-                {
-                    return await sc.NextAsync();
-                }
                 else
                 {
                     return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = sc.Context.Activity.CreateReply(EmailSharedResponses.NoAuth, ResponseBuilder), });
@@ -1031,7 +1027,7 @@ namespace EmailSkill
                     }
                 }
 
-                if (entity.number != null && (entity.ordinal == null || (entity.ordinal != null && entity.ordinal.Length == 0)))
+                if (entity.number != null && (entity.ordinal == null || entity.ordinal.Length == 0))
                 {
                     try
                     {
@@ -1164,6 +1160,9 @@ namespace EmailSkill
                             {
                                 state.SenderName = entity.SenderName[0];
                                 state.IsUnreadOnly = false;
+
+                                // Clear focus email if there is any.
+                                state.Message.Clear();
                             }
 
                             break;
@@ -1200,7 +1199,7 @@ namespace EmailSkill
 
         protected bool IsReadMoreIntent(General.Intent? topIntent, string userInput)
         {
-            bool isReadMoreUserInput = userInput.ToLowerInvariant().Contains(CommonStrings.More);
+            bool isReadMoreUserInput = userInput == null ? false : userInput.ToLowerInvariant().Contains(CommonStrings.More);
             return topIntent == General.Intent.ReadMore && isReadMoreUserInput;
         }
     }
