@@ -15,6 +15,7 @@ using Google.Apis.Gmail.v1;
 using Google.Apis.Gmail.v1.Data;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
+using Microsoft.Bot.Solutions.Data;
 using Microsoft.Graph;
 using MimeKit;
 using GmailMessage = Google.Apis.Gmail.v1.Data.Message;
@@ -28,7 +29,7 @@ namespace EmailSkill
     public class GMailService : IMailService
     {
         private static GmailService service;
-        private int pageSize = 5;
+        private int pageSize;
         private string pageToken = string.Empty;
 
         /// <summary>
@@ -38,6 +39,7 @@ namespace EmailSkill
         public GMailService(GmailService baseClientService)
         {
             service = baseClientService;
+            pageSize = ConfigData.GetInstance().MaxDisplaySize;
         }
 
         public static GmailService GetServiceClient(GoogleClient config, string token)

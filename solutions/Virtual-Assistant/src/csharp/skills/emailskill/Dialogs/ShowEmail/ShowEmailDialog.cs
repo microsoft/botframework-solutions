@@ -80,41 +80,6 @@ namespace EmailSkill
             InitialDialogId = Actions.Show;
         }
 
-        protected override async Task<DialogTurnResult> IfClearContextStep(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                // clear context before show emails, and extract it from luis result again.
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var luisResult = state.LuisResult;
-
-                var topIntent = luisResult?.TopIntent().intent;
-                if (topIntent == Email.Intent.CheckMessages)
-                {
-                    await ClearConversationState(sc);
-                    await DigestEmailLuisResult(sc, luisResult);
-                }
-
-                var generalLuisResult = state.GeneralLuisResult;
-                var generalTopIntent = generalLuisResult?.TopIntent().intent;
-                if (generalTopIntent == General.Intent.Next)
-                {
-                    state.ShowEmailIndex++;
-                }
-
-                if (generalTopIntent == General.Intent.Previous && state.ShowEmailIndex > 0)
-                {
-                    state.ShowEmailIndex--;
-                }
-
-                return await sc.NextAsync();
-            }
-            catch (Exception ex)
-            {
-                throw await HandleDialogExceptions(sc, ex);
-            }
-        }
-
         protected async Task<DialogTurnResult> ShowEmailsWithoutEnd(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -124,7 +89,7 @@ namespace EmailSkill
                 var messages = await GetMessagesAsync(sc);
                 if (messages.Count > 0)
                 {
-                    await ShowMailList(sc, messages);
+                    messages = await ShowMailList(sc, messages);
 
                     // Give focus when there is only one email.
                     if (messages.Count == 1)
@@ -198,6 +163,7 @@ namespace EmailSkill
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var skillOptions = (EmailSkillDialogOptions)sc.Options;
 
                 sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
                 var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
@@ -213,7 +179,6 @@ namespace EmailSkill
                 }
 
                 await DigestFocusEmailAsync(sc);
-
                 var message = state.Message.FirstOrDefault();
 
                 var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
@@ -224,7 +189,7 @@ namespace EmailSkill
                     return await sc.EndDialogAsync(true);
                 }
                 else if ((promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
-                     || topIntent == Email.Intent.ReadAloud)
+                     || (topIntent == Email.Intent.ReadAloud && !IsReadMoreIntent(generalTopIntent, sc.Context.Activity.Text)))
                 {
                     if (message == null && state.MessageList.Count > 1)
                     {
@@ -233,7 +198,7 @@ namespace EmailSkill
                 }
 
                 if ((topIntent == Email.Intent.SelectItem
-                    || topIntent == Email.Intent.ReadAloud
+                    || (topIntent == Email.Intent.ReadAloud && !IsReadMoreIntent(generalTopIntent, sc.Context.Activity.Text))
                     || (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true))
                     && message != null)
                 {
@@ -278,6 +243,7 @@ namespace EmailSkill
                 var luisResult = state.LuisResult;
 
                 var topIntent = luisResult?.TopIntent().intent;
+                var topGeneralIntent = state.GeneralLuisResult?.TopIntent().intent;
                 if (topIntent == null)
                 {
                     return await sc.EndDialogAsync(true);
@@ -288,7 +254,11 @@ namespace EmailSkill
                 var skillOptions = (EmailSkillDialogOptions)sc.Options;
                 skillOptions.SubFlowMode = true;
 
-                if (topIntent == Email.Intent.Delete)
+                if (IsReadMoreIntent(topGeneralIntent, sc.Context.Activity.Text))
+                {
+                    return await sc.BeginDialogAsync(Actions.Show, skillOptions);
+                }
+                else if (topIntent == Email.Intent.Delete)
                 {
                     return await sc.BeginDialogAsync(Actions.Delete, skillOptions);
                 }
@@ -312,6 +282,10 @@ namespace EmailSkill
                     {
                         return await sc.BeginDialogAsync(Actions.Read, skillOptions);
                     }
+                }
+                else if (topIntent == Email.Intent.None && (topGeneralIntent == General.Intent.Previous || topGeneralIntent == General.Intent.Next))
+                {
+                    return await sc.BeginDialogAsync(Actions.Show, skillOptions);
                 }
                 else
                 {

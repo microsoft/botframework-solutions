@@ -264,4 +264,16 @@
   <data name="High" xml:space="preserve">
     <value>haute</value>
   </data>
+  <data name="FirstItem" xml:space="preserve">
+    <value>le premier est {0};</value>
+  </data>
+  <data name="More" xml:space="preserve">
+    <value>plus</value>
+  </data>
+  <data name="SecondItem" xml:space="preserve">
+    <value>le second est {0};</value>
+  </data>
+  <data name="ThirdItem" xml:space="preserve">
+    <value>le troisième est {0};</value>
+  </data>
 </root>

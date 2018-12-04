@@ -13,6 +13,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Data;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
@@ -22,7 +23,7 @@ namespace EmailSkill
     public class MainDialog : RouterDialog
     {
         private bool _skillMode;
-        private ISkillConfiguration _services;
+        private ISkillConfiguration _skillConfig;
         private UserState _userState;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
@@ -30,11 +31,11 @@ namespace EmailSkill
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
         private EmailSkillResponseBuilder _responseBuilder = new EmailSkillResponseBuilder();
 
-        public MainDialog(ISkillConfiguration services, ConversationState conversationState, UserState userState, IServiceManager serviceManager, bool skillMode)
+        public MainDialog(ISkillConfiguration skillConfiguration, ConversationState conversationState, UserState userState, IServiceManager serviceManager, bool skillMode)
             : base(nameof(MainDialog))
         {
             _skillMode = skillMode;
-            _services = services;
+            _skillConfig = skillConfiguration;
             _conversationState = conversationState;
             _userState = userState;
             _serviceManager = serviceManager;
@@ -44,6 +45,7 @@ namespace EmailSkill
             _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
 
             RegisterDialogs();
+            GetReadingDisplayConfig();
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -303,11 +305,27 @@ namespace EmailSkill
 
         private void RegisterDialogs()
         {
-            AddDialog(new ForwardEmailDialog(_services, _stateAccessor, _dialogStateAccessor, _serviceManager));
-            AddDialog(new SendEmailDialog(_services, _stateAccessor, _dialogStateAccessor, _serviceManager));
-            AddDialog(new ShowEmailDialog(_services, _stateAccessor, _dialogStateAccessor, _serviceManager));
-            AddDialog(new ReplyEmailDialog(_services, _stateAccessor, _dialogStateAccessor, _serviceManager));
-            AddDialog(new DeleteEmailDialog(_services, _stateAccessor, _dialogStateAccessor, _serviceManager));
+            AddDialog(new ForwardEmailDialog(_skillConfig, _stateAccessor, _dialogStateAccessor, _serviceManager));
+            AddDialog(new SendEmailDialog(_skillConfig, _stateAccessor, _dialogStateAccessor, _serviceManager));
+            AddDialog(new ShowEmailDialog(_skillConfig, _stateAccessor, _dialogStateAccessor, _serviceManager));
+            AddDialog(new ReplyEmailDialog(_skillConfig, _stateAccessor, _dialogStateAccessor, _serviceManager));
+            AddDialog(new DeleteEmailDialog(_skillConfig, _stateAccessor, _dialogStateAccessor, _serviceManager));
+        }
+
+        private void GetReadingDisplayConfig()
+        {
+            _skillConfig.Properties.TryGetValue("displaySize", out object maxDisplaySize);
+            _skillConfig.Properties.TryGetValue("readSize", out object maxReadSize);
+
+            if (maxDisplaySize != null)
+            {
+                ConfigData.GetInstance().MaxDisplaySize = int.Parse(maxDisplaySize as string);
+            }
+
+            if (maxReadSize != null)
+            {
+                ConfigData.GetInstance().MaxReadSize = int.Parse(maxReadSize as string);
+            }
         }
 
         private class Events
