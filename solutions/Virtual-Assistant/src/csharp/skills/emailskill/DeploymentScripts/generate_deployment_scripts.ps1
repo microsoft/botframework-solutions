@@ -7,10 +7,10 @@ $basePath = "$($PSScriptRoot)\.."
 $outputPath = "$($PSScriptRoot)\$($langCode)"
 
 # lu file paths
-$calendarLUPath = "$($basePath)\..\skills\calendarskill\CognitiveModels\LUIS\$($langCode)\calendar.lu"
-$generalLUPath = "$($basePath)\CognitiveModels\LUIS\$($langCode)\general.lu"
+$emailLUPath = "$($basePath)\CognitiveModels\LUIS\$($langCode)\email.lu"
+$generalLUPath = "$($basePath)\..\..\assistant\CognitiveModels\LUIS\$($langCode)\general.lu"
 
-$luArr = @($calendarLUPath, $generalLUPath)
+$luArr = @($emailLUPath, $generalLUPath)
 $hasDuplicates = 0
 
 Write-Host "Updating $($locale) deployment scripts ..."
@@ -29,7 +29,7 @@ foreach ($lu in $luArr)
 
 if ($hasDuplicates -eq 0) 
 {
-	Write-Host "Generating $($locale) LUIS and QnA Maker models from .lu files ..."
-	ludown parse toluis -c $($locale) -o $outputPath --in $calendarLUPath --out calendar.luis -n Calendar
+	Write-Host "Generating $($locale) LUIS models from .lu files ..."
+	ludown parse toluis -c $($locale) -o $outputPath --in $emailLUPath --out email.luis -n Email
 	ludown parse toluis -c $($locale) -o $outputPath --in $generalLUPath --out general.luis -n General
 }

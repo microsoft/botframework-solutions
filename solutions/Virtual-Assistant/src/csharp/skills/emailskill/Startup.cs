@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using EmailSkill.Dialogs.Shared.Resources;
 using Microsoft.AspNetCore.Builder;
@@ -53,7 +54,7 @@ namespace EmailSkill
             var supportedProviders = Configuration.GetSection("supportedProviders")?.Get<string[]>();
             var languageModels = Configuration.GetSection("languageModels").Get<Dictionary<string, Dictionary<string, string>>>();
             var connectedServices = new SkillConfiguration(botConfig, languageModels, supportedProviders, parameters, configuration);
-            services.AddSingleton(sp => connectedServices);
+            services.AddSingleton<ISkillConfiguration>(sp => connectedServices);
 
             var defaultLocale = Configuration.GetSection("defaultLocale").Get<string>();
 
@@ -101,6 +102,7 @@ namespace EmailSkill
                 // Catches any errors that occur during a conversation turn and logs them to AppInsights.
                 options.OnTurnError = async (context, exception) =>
                 {
+                    CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
                     await context.SendActivityAsync(context.Activity.CreateReply(EmailSharedResponses.EmailErrorMessage));
                     await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Email Skill Error: {exception.Message} | {exception.StackTrace}"));
                     connectedServices.TelemetryClient?.TrackException(exception);

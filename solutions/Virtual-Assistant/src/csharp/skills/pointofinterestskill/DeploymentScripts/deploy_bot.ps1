@@ -18,10 +18,13 @@ Param(
 
 $localeArr = $locales.Split(',')
 
+Write-Host "Changing to project directory ..."
+cd "$($PSScriptRoot)\..\"
+
 Write-Host "Updating deployment scripts..."
 foreach ($locale in $localeArr) 
 {
-	Invoke-Expression "$($PSScriptRoot)\update_locale_deployment_script.ps1 -locale $($locale)"
+	Invoke-Expression "$($PSScriptRoot)\generate_deployment_scripts.ps1 -locale $($locale)"
 }
 
 Write-Host "Deploying common resources..."

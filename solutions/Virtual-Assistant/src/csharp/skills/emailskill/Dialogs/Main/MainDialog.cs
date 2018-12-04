@@ -63,7 +63,7 @@ namespace EmailSkill
 
             // get current activity locale
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            var localeConfig = _services.LocaleConfigurations[locale];
+            var localeConfig = _skillConfig.LocaleConfigurations[locale];
 
             // If dispatch result is general luis model
             localeConfig.LuisServices.TryGetValue("email", out var luisService);
@@ -216,7 +216,7 @@ namespace EmailSkill
             {
                 // get current activity locale
                 var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localeConfig = _services.LocaleConfigurations[locale];
+                var localeConfig = _skillConfig.LocaleConfigurations[locale];
 
                 // Update state with email luis result and entities
                 var emailLuisResult = await localeConfig.LuisServices["email"].RecognizeAsync<Email>(dc.Context, cancellationToken);

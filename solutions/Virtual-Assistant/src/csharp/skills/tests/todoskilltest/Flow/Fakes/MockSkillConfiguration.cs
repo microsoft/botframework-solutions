@@ -10,7 +10,7 @@ namespace ToDoSkillTest.Flow.Fakes
     {
         public MockSkillConfiguration()
         {
-            this.LocaleConfigurations.Add("en-us", new LocaleConfiguration()
+            this.LocaleConfigurations.Add("en", new LocaleConfiguration()
             {
                 Locale = "en-us",
                 LuisServices = new Dictionary<string, IRecognizer>()

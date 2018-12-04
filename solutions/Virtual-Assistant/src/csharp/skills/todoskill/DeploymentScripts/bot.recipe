@@ -5,7 +5,7 @@
       "type": "endpoint",
       "id": "1",
       "name": "development",
-      "url": "http://localhost:3979/api/messages"
+      "url": "http://localhost:3980/api/messages"
     },
     {
       "type": "endpoint",

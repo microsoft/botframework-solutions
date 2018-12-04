@@ -7,8 +7,8 @@ $basePath = "$($PSScriptRoot)\.."
 $outputPath = "$($PSScriptRoot)\$($langCode)"
 
 # lu file paths
-$poiLUPath = "$($basePath)\..\skills\pointofinterestskill\CognitiveModels\LUIS\$($langCode)\pointofinterest.lu"
-$generalLUPath = "$($basePath)\CognitiveModels\LUIS\$($langCode)\general.lu"
+$poiLUPath = "$($basePath)\CognitiveModels\LUIS\$($langCode)\pointofinterest.lu"
+$generalLUPath = "$($basePath)\..\..\assistant\CognitiveModels\LUIS\$($langCode)\general.lu"
 
 $luArr = @($poiLUPath, $generalLUPath)
 $hasDuplicates = 0

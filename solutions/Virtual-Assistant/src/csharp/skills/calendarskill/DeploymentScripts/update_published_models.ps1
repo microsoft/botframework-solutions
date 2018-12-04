@@ -11,7 +11,7 @@ $botFiles = get-childitem $basePath -recurse | where {$_.extension -eq ".bot"}
 Write-Host "Updating deployment scripts..."
 foreach ($locale in $localeArr) 
 {
-	Invoke-Expression "$($PSScriptRoot)\update_locale_deployment_script.ps1 -locale $($locale)"
+	Invoke-Expression "$($PSScriptRoot)\generate_deployment_scripts.ps1 -locale $($locale)"
 }
 
 foreach ($botFile in $botFiles)
