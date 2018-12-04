@@ -18,21 +18,23 @@ $dispatchLUPath = "$($basePath)\CognitiveModels\LUIS\$($langCode)\dispatch.lu"
 $luArr = @($calendarLUPath, $emailLUPath, $todoLUPath, $poiLUPath,$generalLUPath, $dispatchLUPath)
 $hasDuplicates = 0
 
-# Write-Host "Updating $($locale) deployment scripts..."
-# 
-# foreach($lu in $luArr) {
-# 	$duplicates = Get-Content $lu | Group-Object | Where-Object { $_.Count -gt 1 } | Select -ExpandProperty Name
-# 
-# 	if ($duplicates.Count -gt 1) {
-# 
-# 		Write-Host "$($duplicates.Count - 1) duplicate utterances found in $($lu):"
-# 		Write-Host $duplicates 
-# 		$hasDuplicates = 1
-# 	}
-# }
+Write-Host "Updating $($locale) deployment scripts ..."
 
-if($hasDuplicates -eq 0) {
-	# Generating de-de LUIS and QnA Maker models from .lu files ..
+foreach ($lu in $luArr) 
+{
+	$duplicates = Get-Content $lu | Group-Object | Where-Object { $_.Count -gt 1 } | Select -ExpandProperty Name
+
+	if ($duplicates.Count -gt 1) 
+	{
+		Write-Host "$($duplicates.Count - 1) duplicate utterances found in $($lu):"
+		Write-Host $duplicates 
+		$hasDuplicates = 1
+	}
+}
+
+if ($hasDuplicates -eq 0) 
+{
+	Write-Host "Generating $($locale) LUIS and QnA Maker models from .lu files ..."
 	ludown parse toqna  -o $outputPath --in $faqLUPath -n faq.qna 
 	ludown parse toluis -c $($locale) -o $outputPath --in $calendarLUPath --out calendar.luis -n Calendar
 	ludown parse toluis -c $($locale) -o $outputPath --in $emailLUPath --out email.luis -n Email

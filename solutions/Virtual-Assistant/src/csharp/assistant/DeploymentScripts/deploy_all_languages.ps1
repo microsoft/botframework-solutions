@@ -16,13 +16,16 @@ Param(
     [string] $appSecret
 )
 
+$localeArr = $locales.Split(',')
+
 Write-Host "Updating deployment scripts..."
-Invoke-Expression "$($PSScriptRoot)\update_all_deployment_scripts.ps1"
+foreach ($locale in $localeArr) 
+{
+	Invoke-Expression "$($PSScriptRoot)\update_locale_deployment_script.ps1 -locale $($locale)"
+}
 
 Write-Host "Deploying common resources..."
 msbot clone services -n $name -l $location --luisAuthoringKey $luisAuthoringKey --folder "$($PSScriptRoot)" --appId $appId --appSecret $appSecret --force
-
-$localeArr = $locales.Split(',');
 
 foreach ($locale in $localeArr)
 {
