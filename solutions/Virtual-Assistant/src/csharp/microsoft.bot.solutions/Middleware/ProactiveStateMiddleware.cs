@@ -9,6 +9,10 @@ using static Microsoft.Bot.Solutions.Models.Proactive.ProactiveModel;
 
 namespace Microsoft.Bot.Solutions.Middleware
 {
+    /// <summary>
+    /// A Middleware for saving the proactive model data
+    /// This middleware will refresh user's latest conversation reference and save it to state.
+    /// </summary>
     public class ProactiveStateMiddleware : IMiddleware
     {
         private ProactiveState _proactiveState;
