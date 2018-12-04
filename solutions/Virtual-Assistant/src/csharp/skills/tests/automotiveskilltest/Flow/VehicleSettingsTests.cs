@@ -20,27 +20,111 @@ namespace AutomotiveSkillTest.Flow
         {
             await this.GetTestFlow()
                 .Send("set temperature to 21 degrees")                
-                .AssertReply(this.CheckForEvent())
-                .AssertReply(this.CheckForSettingReply())               
+                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckReply("Setting Temperature to 21°."))
                 .StartTestAsync();
         }
 
-        private Action<IActivity> CheckForEvent()
+        [TestMethod]
+        public async Task Test_LaneAssistOffConfirmYes()
+        {
+            await this.GetTestFlow()
+                .Send("turn lane assist off")
+                .AssertReply(this.CheckReply("Lane Change Alert is an Active Safety feature. Set it to Off? (1) Yes or (2) No"))
+                .Send("yes")
+                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckReply("Setting Lane Change Alert to Off."))
+                .AssertReply(this.CheckForEndOfConversation())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_LaneAssistOffConfirmNo()
+        {
+            await this.GetTestFlow()
+                .Send("turn lane assist off")
+                .AssertReply(this.CheckReply("Lane Change Alert is an Active Safety feature. Set it to Off? (1) Yes or (2) No"))
+                .Send("no")
+                .AssertReply(this.CheckReply("Ok, not making any changes."))
+                .AssertReply(this.CheckForEndOfConversation())              
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_WarmUpBackOfCar()
+        {
+            await this.GetTestFlow()
+                .Send("warm up the back of the car")
+                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckReply("Increasing Rear Combined Set Temperature."))               
+                .StartTestAsync();
+        }
+        
+        [TestMethod]
+        public async Task Test_DefogWindscreen()
+        {
+            await this.GetTestFlow()
+                .Send("defog my windshield")
+                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckReply("Setting Rear Window Defogger to On."))
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_AirOnFeet()
+        {
+            await this.GetTestFlow()
+                .Send("put the air on my feet")
+                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckReply("Setting Front Combined Air Delivery Mode Control to Floor."))
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_ACOff()
+        {
+            await this.GetTestFlow()
+                .Send("turn off the ac")
+                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckReply("Setting Front and Rear HVAC to All Off."))
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_ForwardAutomticBraking50()
+        {
+            await this.GetTestFlow()
+                .Send("increase forward automatic braking to 50%")
+                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckReply("Setting Front and Rear HVAC to All Off."))
+                .StartTestAsync();
+        }
+
+        private Action<IActivity> CheckForSettingEvent()
         {
             return activity =>
             {
                 var eventReceived = activity.AsEventActivity();
-                Assert.IsNotNull(eventReceived);             
+                Assert.IsNotNull(eventReceived,"Activity received is not an Event as expected");             
             };
         }
 
-        private Action<IActivity> CheckForSettingReply()
+        private Action<IActivity> CheckForEndOfConversation()
+        {
+            return activity =>
+            {
+                var eventReceived = activity.AsEndOfConversationActivity();
+                Assert.IsNotNull(eventReceived, "End of Conversation Activity not received.");
+            };
+        }      
+
+        private Action<IActivity> CheckReply(string expectedResponse)
         {
             return activity =>
             {
                 var messageReceived = activity.AsMessageActivity();
-                Assert.IsNotNull(messageReceived);
-                Assert.AreEqual<string>(messageReceived.Text, "Setting Temperature to 21°.");
+                Assert.IsNotNull(messageReceived, "Activity received is not of type Message");
+                Assert.AreEqual<string>(expectedResponse, messageReceived.Text);
             };
         }
     }

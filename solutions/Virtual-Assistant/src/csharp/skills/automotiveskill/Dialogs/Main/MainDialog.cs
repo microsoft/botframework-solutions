@@ -153,12 +153,37 @@ namespace AutomotiveSkill
                 // Update state with luis result and entities
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new AutomotiveSkillState());
 
-                _services.LuisServices.TryGetValue("vehiclesettings", out var luisService);
-                var luisResult = await luisService.RecognizeAsync<VehicleSettings>(dc.Context, CancellationToken.None);
-                state.VehicleSettingsLuisResult = luisResult;
+                var vehicleSettingsLuisResult = await _services.LuisServices["vehiclesettings"].RecognizeAsync<VehicleSettings>(dc.Context, CancellationToken.None);
+                state.VehicleSettingsLuisResult = vehicleSettingsLuisResult;
 
-                //var luisResult = await _services.LuisServices["vehiclesettings"].RecognizeAsync(dc.Context, cancellationToken);
-                //state.LuisResult = luisResult;                
+                // check luis intent
+                _services.LuisServices.TryGetValue("general", out var luisService);
+
+                if (luisService == null)
+                {
+                    throw new Exception("The specified LUIS Model could not be found in your Skill configuration.");
+                }
+                else
+                {
+                    var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);                   
+                    var topIntent = luisResult.TopIntent().intent;
+
+                    // check intent
+                    switch (topIntent)
+                    {
+                        case General.Intent.Cancel:
+                            {
+                                result = await OnCancel(dc);
+                                break;
+                            }
+
+                        case General.Intent.Help:
+                            {
+                                result = await OnHelp(dc);
+                                break;
+                            }                     
+                    }
+                }
             }
 
             return result;

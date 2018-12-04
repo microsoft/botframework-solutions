@@ -13,6 +13,7 @@ namespace AutomotiveSkill
     using Microsoft.Bot.Solutions.Dialogs;
     using Microsoft.Bot.Solutions.Extensions;
     using Microsoft.Bot.Solutions.Skills;
+    using Microsoft.Recognizers.Text;
     using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
@@ -63,10 +64,12 @@ namespace AutomotiveSkill
                 ProcessChange,
                 SendChange
             };
-            AddDialog(new WaterfallDialog(Actions.ProcessVehicleSettingChange, processVehicleSettingChangeWaterfall));        
+            AddDialog(new WaterfallDialog(Actions.ProcessVehicleSettingChange, processVehicleSettingChangeWaterfall));
 
             // Prompts
-            AddDialog(new TextPrompt(Actions.SettingSelectionPrompt, SettingSelectionValidator));
+            AddDialog(new ChoicePrompt(Actions.SettingNameSelectionPrompt,SettingNameSelectionValidator, Culture.English) { Style = ListStyle.Inline, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = true } });
+            AddDialog(new ChoicePrompt(Actions.SettingValueSelectionPrompt, SettingValueSelectionValidator, Culture.English) { Style = ListStyle.Inline, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = true } });
+
             AddDialog(new ConfirmPrompt(Actions.SettingConfirmationPrompt));
 
             // Set starting dialog for component
@@ -82,6 +85,11 @@ namespace AutomotiveSkill
         public async Task<DialogTurnResult> ProcessSetting(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await Accessor.GetAsync(sc.Context);
+
+            // Ensure we don't have state from a previous instantiation
+            state.Changes.Clear();
+            state.Entities.Clear();
+
             var luisResult = state.VehicleSettingsLuisResult;
             var topIntent = luisResult?.TopIntent().intent;
 
@@ -89,7 +97,86 @@ namespace AutomotiveSkill
             {
                 case VehicleSettings.Intent.VEHICLE_SETTINGS_CHANGE:
 
-                    return await sc.NextAsync();
+                    // Process the LUIS result and add entities to the State accessors for ease of access                    
+                    if (luisResult.Entities.AMOUNT != null)
+                    {
+                        state.Entities.Add(nameof(luisResult.Entities.AMOUNT), luisResult.Entities.AMOUNT);
+                    }
+
+                    if (luisResult.Entities.INDEX != null)
+                    {
+                        state.Entities.Add(nameof(luisResult.Entities.INDEX), luisResult.Entities.INDEX);
+                    }
+
+                    if (luisResult.Entities.SETTING != null)
+                    {
+                        state.Entities.Add(nameof(luisResult.Entities.SETTING), luisResult.Entities.SETTING);
+                    }
+
+                    if (luisResult.Entities.TYPE != null)
+                    {
+                        state.Entities.Add(nameof(luisResult.Entities.TYPE), luisResult.Entities.TYPE);
+                    }
+
+                    if (luisResult.Entities.UNIT != null)
+                    {
+                        state.Entities.Add(nameof(luisResult.Entities.UNIT), luisResult.Entities.UNIT);
+                    }
+
+                    if (luisResult.Entities.VALUE != null)
+                    {
+                        state.Entities.Add(nameof(luisResult.Entities.VALUE), luisResult.Entities.VALUE);
+                    }
+
+                    // Perform post-processing on the entities
+                    settingFilter.PostProcessSettingName(state);
+
+                    // Perform content logic and remove entities that don't make sense
+                    settingFilter.ApplyContentLogic(state);
+
+                    var settingNames = state.GetUniqueSettingNames();
+                    if (!settingNames.Any())
+                    {
+                        // missing setting name
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(VehicleSettingsResponses.VehicleSettingsMissingSettingName));
+                        return await sc.EndDialogAsync();
+                    }
+                    else if (settingNames.Count() > 1)
+                    {
+                        // If we have more than one setting name matching prompt the user to choose
+                        var options = new PromptOptions()
+                        {
+                            Choices = new List<Choice>(),
+                        };
+
+                        for (var i = 0; i < settingNames.Count; ++i)
+                        {
+                            var item = settingNames[i];
+                            var choice = new Choice()
+                            {
+                                Value = item,
+                                Synonyms = new List<string> { (i + 1).ToString(), item },
+                            };
+                            options.Choices.Add(choice);
+                        }
+                        
+                        var card = new HeroCard
+                        {
+                            Images = new List<CardImage> { new CardImage("https://comps.canstockphoto.co.uk/air-conditioning-service-car-icon-clipart-vector_csp51589258.jpg") },
+                            Text = "Please choose from one of the available settings shown below",
+                            Buttons = options.Choices.Select(choice =>
+                                new CardAction(ActionTypes.ImBack, choice.Value, value: choice.Value)).ToList(),
+                        };
+
+                        options.Prompt = (Activity)MessageFactory.Attachment(card.ToAttachment());
+                        
+                        return await sc.PromptAsync(Actions.SettingNameSelectionPrompt, options);
+                    }
+                    else
+                    {
+                        // Only one setting detected so move on to next stage
+                        return await sc.NextAsync();
+                    }
 
                 default:
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(VehicleSettingsResponses.VehicleSettingsOutOfDomain));
@@ -98,101 +185,146 @@ namespace AutomotiveSkill
         }
 
         /// <summary>
-        /// Process a request to change a setting on a vehicle
+        /// When we've had to prompt the user to clarify the setting name we need to validate the input and run the pre-processing again
+        /// </summary>
+        /// <param name="promptContext"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        private async Task<bool> SettingNameSelectionValidator(PromptValidatorContext<FoundChoice> promptContext, CancellationToken cancellationToken)
+        {
+            var state = await Accessor.GetAsync(promptContext.Context);
+
+            if (promptContext.Recognized != null && promptContext.Recognized.Succeeded)
+            {
+                string userChoice = promptContext.Recognized.Value.Value;
+                // Use the value selection LUIS model to perform validation of the users entered setting value
+                VehicleSettingsNameSelection nameSelectionResult = await vehicleSettingNameSelectionLuisRecognizer.RecognizeAsync<VehicleSettingsNameSelection>(promptContext.Context, CancellationToken.None);
+                
+                if (nameSelectionResult.Entities.SETTING != null)
+                {
+                    // We have a clarified setting so remove the previous entity extraction and change identification work
+                    state.Entities.Clear();
+                    state.Changes.Clear();
+
+                    state.Entities.Add(nameof(nameSelectionResult.Entities.SETTING), nameSelectionResult.Entities.SETTING);
+
+                    // Perform post-processing on the entities
+                    settingFilter.PostProcessSettingName(state);
+
+                    // Perform content logic and remove entities that don't make sense
+                    settingFilter.ApplyContentLogic(state);
+
+                    return true;
+                }
+            }          
+
+            return false;
+        }
+
+        /// <summary>
+        /// Once we have a setting we need to process the corresponding value
         /// </summary>
         /// <param name="sc"></param>
         /// <returns></returns>
         private async Task<DialogTurnResult> ProcessVehicleSettingsChange(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await Accessor.GetAsync(sc.Context);
-
-            var luisResult = state.VehicleSettingsLuisResult;
-            if (luisResult.Entities.AMOUNT != null)
+            
+            if (state.Changes.Any())
             {
-                state.Entities.Add(nameof(luisResult.Entities.AMOUNT), luisResult.Entities.AMOUNT);
+                var settingValues = state.GetUniqueSettingValues();
+                if (!settingValues.Any())
+                {
+                    // This shouldn't happen because the SettingFilter would just add all possible values to let the user select from them.
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(VehicleSettingsResponses.VehicleSettingsOutOfDomain));
+                    return await sc.EndDialogAsync();
+                }
+                else
+                {
+                    // We have found multiple settings which we need to prompt the user to resolve
+                    if (settingValues.Count() > 1)
+                    {
+                        string settingName = state.Changes.First().SettingName;
+
+                        // If we have more than one setting name matching prompt the user to choose
+                        var options = new PromptOptions()
+                        {
+                            Choices = new List<Choice>(),
+                        };
+
+                        for (var i = 0; i < settingValues.Count; ++i)
+                        {
+                            var item = settingValues[i];
+                            var choice = new Choice()
+                            {
+                                Value = item,
+                                Synonyms = new List<string> { (i + 1).ToString(), item },
+                            };
+                            options.Choices.Add(choice);
+                        }
+
+                        BotResponse promptTemplate = VehicleSettingsResponses.VehicleSettingsSettingValueSelectionPre;
+                        var promptReplacements = new StringDictionary { { "settingName", settingName } };
+                        options.Prompt = sc.Context.Activity.CreateReply(promptTemplate, ResponseBuilder, promptReplacements);
+                        
+                        var card = new HeroCard
+                        {
+                            Images = new List<CardImage> { new CardImage("https://comps.canstockphoto.co.uk/air-conditioning-service-car-icon-clipart-vector_csp51589258.jpg") },
+                            Text = VehicleSettingsResponses.VehicleSettingsSettingValueSelection.Reply.Text,
+                            Buttons = options.Choices.Select(choice =>
+                                new CardAction(ActionTypes.ImBack, choice.Value, value: choice.Value)).ToList(),
+                        };
+
+                        options.Prompt.Attachments.Add(card.ToAttachment());
+
+                        return await sc.PromptAsync(Actions.SettingValueSelectionPrompt, options);
+                    }
+                    else
+                    {
+                        // We only have one setting value so proceed to next step
+                        return await sc.NextAsync();                        
+                    }
+                }
             }
-
-            if (luisResult.Entities.INDEX != null)
+            else
             {
-                state.Entities.Add(nameof(luisResult.Entities.INDEX), luisResult.Entities.INDEX);
-            }
-
-            if (luisResult.Entities.SETTING != null)
-            {
-                state.Entities.Add(nameof(luisResult.Entities.SETTING), luisResult.Entities.SETTING);
-            }
-
-            if (luisResult.Entities.TYPE != null)
-            {
-                state.Entities.Add(nameof(luisResult.Entities.TYPE), luisResult.Entities.TYPE);
-            }
-
-            if (luisResult.Entities.UNIT != null)
-            {
-                state.Entities.Add(nameof(luisResult.Entities.UNIT), luisResult.Entities.UNIT);
-            }
-
-            if (luisResult.Entities.VALUE != null)
-            {
-                state.Entities.Add(nameof(luisResult.Entities.VALUE), luisResult.Entities.VALUE);
-            }
-
-            settingFilter.PostProcessSettings(state, state.VehicleSettingsLuisResult);
-            settingFilter.ApplyContentLogic(state);
-
-            var settingValues = state.GetUniqueSettingValues();
-            if (!settingValues.Any())
-            {
-                // This shouldn't happen because the SettingFilter would just add all possible values to let the user select from them.
-                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(VehicleSettingsResponses.VehicleSettingsMissingSettingValue));
+                // No setting value was understood
+                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(VehicleSettingsResponses.VehicleSettingsOutOfDomain));
                 return await sc.EndDialogAsync();
             }
-            else if (settingValues.Count() > 1)
-            {
-                // We have found multiple setting values which we need to prompt the user to resolve
-                string settingName = string.Empty;
-
-                if (state.Changes.Any())
-                {
-                    settingName = state.Changes[0].SettingName;
-                }
-
-                var promptReplacements = new StringDictionary {
-                        { "settingName", settingName },
-                        { "postText", VehicleSettingsResponses.VehicleSettingsSettingValueSelectionPost.Reply.Text },
-                    };
-
-                promptReplacements.Add("preText", new BotResponseBuilder().Format(
-                    VehicleSettingsResponses.VehicleSettingsSettingValueSelectionPre.Reply.Text, promptReplacements));
-
-                for (var i = 0; i < settingValues.Count(); ++i)
-                {
-                    promptReplacements.Add($"item{i}Text", $"{i + 1}. {settingValues[i]}");
-                }
-
-                // Prompt the user on the setting value
-                var prompt = sc.Context.Activity.CreateAdaptiveCardReply(
-                    VehicleSettingsResponses.VehicleSettingsSettingValueSelection,
-                    "Dialogs/VehicleSettings/Resources/Cards/ListSelection.json",
-                    new VehicleSettingsCardDataBase(),
-                    null,
-                    promptReplacements);
-
-                return await sc.PromptAsync(Actions.SettingSelectionPrompt, new PromptOptions { Prompt = prompt });            
-            }
-
-            // We only have one setting value so proceed to next step
-            return await sc.NextAsync();
         }
 
-        private async Task<bool> SettingSelectionValidator(PromptValidatorContext<string> promptContext, CancellationToken cancellationToken)
+        /// <summary>
+        /// Take the users input for setting validation and validate it matches the chosen setting - e.g. off for park assist or 21c for temperature
+        /// </summary>
+        /// <param name="promptContext"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        private async Task<bool> SettingValueSelectionValidator(PromptValidatorContext<FoundChoice> promptContext, CancellationToken cancellationToken)
         {
             var state = await Accessor.GetAsync(promptContext.Context);
-            await RunLuisForFollowUp(promptContext.Context, VehicleSettingStage.ValueSelection, state);
 
-            settingFilter.Filter(state,VehicleSettingStage.ValueSelection, state.VehicleSettingsLuisResult);
+            if (promptContext.Recognized != null && promptContext.Recognized.Succeeded)
+            {
+                // Use the value selection LUIS model to perform validation of the users entered setting value
+                VehicleSettingsValueSelection valueSelectionResult = await vehicleSettingValueSelectionLuisRecognizer.RecognizeAsync<VehicleSettingsValueSelection>(promptContext.Context, CancellationToken.None);
 
-            return true;
+                List<string> valueEntities = new List<string>();
+                if (valueSelectionResult.Entities.VALUE != null)
+                {
+                    valueEntities.AddRange(valueSelectionResult.Entities.VALUE);
+                }
+                else if (valueSelectionResult.Entities.SETTING != null)
+                {
+                    valueEntities.AddRange(valueSelectionResult.Entities.SETTING);
+                }
+
+                settingFilter.ApplySelectionToSettingValues(state, valueEntities);
+
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -367,20 +499,7 @@ namespace AutomotiveSkill
             actionEvent.Value = settingDetail;
 
             await sc.Context.SendActivityAsync(actionEvent);
-        }
-
-        private async Task RunLuisForFollowUp(ITurnContext query, VehicleSettingStage settingStage, AutomotiveSkillState state)
-        {
-            if (settingStage == VehicleSettingStage.NameSelection)
-            {
-                state.NameSelectionLuisResult = await vehicleSettingNameSelectionLuisRecognizer.RecognizeAsync<VehicleSettingsNameSelection>(query, CancellationToken.None);
-            }
-            else if (settingStage == VehicleSettingStage.ValueSelection)
-            {
-                state.ValueSelectionLuisResult = await vehicleSettingValueSelectionLuisRecognizer.RecognizeAsync<VehicleSettingsValueSelection>(query, CancellationToken.None);
-            }                             
-        }
-
+        }    
     }
 
     public class VehicleSettingsCardDataBase : CardDataBase

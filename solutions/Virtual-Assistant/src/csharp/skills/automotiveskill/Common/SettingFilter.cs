@@ -36,7 +36,6 @@ namespace AutomotiveSkill
         private readonly EntityNormalizer amount_normalizer;
         private readonly EntityNormalizer type_normalizer;
         private readonly EntityNormalizer unit_normalizer;
-        private readonly EntityNormalizer index_normalizer;
 
         public SettingFilter(SettingList settingList)
         {
@@ -46,27 +45,14 @@ namespace AutomotiveSkill
             this.amount_normalizer = new EntityNormalizer("Dialogs/VehicleSettings/Resources/normalization/amount_percentage.tsv");
             this.type_normalizer = new EntityNormalizer("Dialogs/VehicleSettings/Resources/normalization/amount_type.tsv");
             this.unit_normalizer = new EntityNormalizer("Dialogs/VehicleSettings/Resources/normalization/amount_unit.tsv");
-            this.index_normalizer = new EntityNormalizer("Dialogs/VehicleSettings/Resources/normalization/index_map.tsv");
-        }
+        }    
 
-        public void Filter(AutomotiveSkillState state, VehicleSettingStage settingStage, VehicleSettings luisResult)
-        {
-            if (settingStage == VehicleSettingStage.None)
-            {
-                PostProcessSettings(state, luisResult);
-                ApplyContentLogic(state);
-            }
-            //else if (settingStage == VehicleSettingStage.NameSelection)
-            //{
-            //    state.Changes = ApplySelectionToSettings(state, luisResult, state.Changes);
-            //}
-            //else if (settingStage == VehicleSettingStage.ValueSelection)
-            //{
-            //    state.Changes = ApplySelectionToSettingValues(state, luisResult);
-            //}          
-        }
-
-        public void PostProcessSettings(AutomotiveSkillState state, VehicleSettings luisResult)
+        /// <summary>
+        /// Take the entities provided by LUIS (Setting and Value) to try and identify the vehicle setting we need to process
+        /// </summary>
+        /// <param name="state"></param>
+        /// <param name="luisResult"></param>
+        public void PostProcessSettingName(AutomotiveSkillState state)
         {
             IList<SettingMatch> setting_matches = new List<SettingMatch>();
             var has_matching_value_for_any_setting = false;
@@ -75,10 +61,11 @@ namespace AutomotiveSkill
             // The Setting entity will contain any identified vehicle setting that was present in the utterance, e.g. front right airflow
             // The Value entity will contain any identified value relating to a vehicle setting that was present in the utterance, e.g. warm
             IList<AvailableSetting> selected_settings = new List<AvailableSetting>();
+
             if (state.Entities.ContainsKey("SETTING"))
             {
                 // If we have a Setting then try to find a match between the setting name provided and the available settings
-                selected_settings = this.settingMatcher.MatchSettingNamesExactly(luisResult, luisResult.Entities.SETTING);
+                selected_settings = this.settingMatcher.MatchSettingNamesExactly(state.Entities["SETTING"].First());
 
                 // If we have not found a exact setting match but we have a value then combine Setting and Value together to identify a match
                 if (!selected_settings.Any() && state.Entities.ContainsKey("VALUE"))
@@ -86,43 +73,46 @@ namespace AutomotiveSkill
                     // First try SETTING + VALUE entities combined to catch cases like "warm my seat",
                     // where the value can help disambiguate which setting the user meant.                  
 
-                    List<string[]> entityValuesToMatch = new List<string[]>();
-                    entityValuesToMatch.Add(luisResult.Entities.SETTING);
-                    entityValuesToMatch.Add(luisResult.Entities.VALUE);
+                    List<string> entityValuesToMatch = new List<string>();
+                    entityValuesToMatch.AddRange(state.Entities["SETTING"]);
+                    entityValuesToMatch.AddRange(state.Entities["VALUE"]);
 
-                    selected_settings = this.settingMatcher.MatchSettingNames(entityValuesToMatch, 
+                    selected_settings = this.settingMatcher.MatchSettingNames(entityValuesToMatch,
                         setting_name_score_threshold, setting_name_antonym_disamb_percentage_of_max, false);
                 }
 
                 // If we still haven't found a match then try to match with just the setting but not exactly this time
                 if (!selected_settings.Any())
                 {
-                    selected_settings = this.settingMatcher.MatchSettingNames(new List<string[]> { luisResult.Entities.SETTING },
-                  setting_name_score_threshold, setting_name_antonym_disamb_percentage_of_max, false);
+                    List<string> entityValuesToMatch = new List<string>();
+                    entityValuesToMatch.AddRange(state.Entities["SETTING"]);
+
+                    selected_settings = this.settingMatcher.MatchSettingNames(entityValuesToMatch,
+                        setting_name_score_threshold, setting_name_antonym_disamb_percentage_of_max, false);
                 }
-            }          
+            }
 
             // Do we have a selected setting name?
             if (selected_settings.Any())
             {
-                List<string[]> entityValuesToMatch = new List<string[]>();
-               
+                List<string> entityValuesToMatch = new List<string>();
+
                 List<string> entity_types_for_value_disamb = new List<string>();
                 if (state.Entities.ContainsKey("VALUE"))
                 {
-                    entityValuesToMatch.Add(luisResult.Entities.VALUE);
+                    entityValuesToMatch.AddRange(state.Entities["VALUE"]);
                 }
                 else if (state.Entities.ContainsKey("SETTING"))
                 {
                     // Sometimes the setting name itself is also a value, e.g., "defog"
-                    entityValuesToMatch.Add(luisResult.Entities.SETTING);
+                    entityValuesToMatch.AddRange(state.Entities["SETTING"]);
                 }
 
                 foreach (var setting_info in selected_settings)
                 {
                     IList<SelectableSettingValue> selected_values = new List<SelectableSettingValue>();
 
-                    if (entity_types_for_value_disamb.Any())
+                    if (entityValuesToMatch.Any())
                     {
                         IList<SelectableSettingValue> selectable_values = new List<SelectableSettingValue>();
                         foreach (var value in setting_info.Values)
@@ -141,8 +131,8 @@ namespace AutomotiveSkill
                         e.g. Decrease (when user says decrease temperature)
                         e.g. Off, Alert, Alert and Brake when user wants to control Park Assist
                         */
-                        
-                        selected_values = this.settingMatcher.DisambiguateSettingValues(luisResult, entityValuesToMatch,
+
+                        selected_values = this.settingMatcher.DisambiguateSettingValues(entityValuesToMatch,
                             selectable_values, setting_value_antonym_disamb_threshold, setting_value_antonym_disamb_percentage_of_max);
 
                         // If we don't even have a VALUE entity, we can't match multiple values.
@@ -176,17 +166,16 @@ namespace AutomotiveSkill
 
                     AddAll(setting_names_to_remove, setting_info.IncludedSettings);
                 }
-
             }
             else if (state.Entities.ContainsKey("VALUE") && !state.Entities.ContainsKey("SETTING"))
             {
                 // If we have no SETTING entity, match the VALUE entities against all the values of all the settings.
                 // This handles queries like "make it warmer" or "defog", where the value implies the setting.
 
-                List<string[]> entityValuesToMatch = new List<string[]>();
-                entityValuesToMatch.Add(luisResult.Entities.VALUE);
+                List<string> entityValuesToMatch = new List<string>();
+                entityValuesToMatch.AddRange(state.Entities["VALUE"]);
 
-                setting_matches = this.settingMatcher.MatchSettingValues(luisResult, entityValuesToMatch,
+                setting_matches = this.settingMatcher.MatchSettingValues(entityValuesToMatch,
                 setting_value_score_threshold, setting_value_antonym_disamb_percentage_of_max);
 
                 has_matching_value_for_any_setting = true;
@@ -214,7 +203,7 @@ namespace AutomotiveSkill
                 }
             }
             setting_matches = new_setting_matches;
-          
+
             var (opt_amount, isRelative) = OptionalAmount(state, false);
 
             foreach (var setting_match in setting_matches)
@@ -224,7 +213,7 @@ namespace AutomotiveSkill
                     SettingName = setting_match.setting_name
                 };
 
-                var value_info = this.settingList.FindSettingValue(setting_match.setting_name, setting_match.value);               
+                var value_info = this.settingList.FindSettingValue(setting_match.setting_name, setting_match.value);
                 setting_change.Value = setting_match.value;
 
                 if (opt_amount != null && value_info != null && value_info.ChangesSignOfAmount)
@@ -246,6 +235,357 @@ namespace AutomotiveSkill
                 };
                 state.Changes.Add(setting_change);
             }
+        }   
+
+        /// <summary>
+        /// Further process the entities and remove those that are invalid based on the entity to ensure we prompt for values and don't accept incorrect values
+        /// </summary>
+        /// <param name="state"></param>
+        public void ApplyContentLogic(AutomotiveSkillState state)
+        {
+            if (state.Changes != null && state.Changes.Count > 0)
+            { 
+                IList<SettingChange> validChanges = new List<SettingChange>();
+                IList<SettingChange> invalidChanges = new List<SettingChange>();
+                foreach (var change in state.Changes)
+                {
+                    var validity = ValidateChange(change);
+                    if ("VALID".Equals(validity))
+                    {
+                        validChanges.Add(change);
+                    }
+                    else if (VALUE_RELATED_VALIDITIES.Contains(validity))
+                    {
+                        var settingInfo = settingList.FindSetting(change.SettingName);
+                        if (settingInfo != null && !Util.IsNullOrEmpty(settingInfo.Values))
+                        {
+                            IList<SettingChange> validReplacements = new List<SettingChange>();
+                            string replacementValidity = null;
+                            foreach (var valueInfo in settingInfo.Values)
+                            {
+                                var newChange = (SettingChange)change.Clone();
+                                newChange.Value = valueInfo.CanonicalName;
+                                validity = ValidateChange(newChange);
+                                if ("VALID".Equals(validity))
+                                {
+                                    validReplacements.Add(newChange);
+                                }
+                                else if (replacementValidity == null)
+                                {
+                                    replacementValidity = validity;
+                                }
+                            }
+                            if (!Util.IsNullOrEmpty(validReplacements))
+                            {
+                                state.Entities.Remove("VALUE");
+                                foreach (var replacement in validReplacements)
+                                {
+                                    validChanges.Add(replacement);
+                                }
+                            }
+                            else
+                            {
+                                invalidChanges.Add(change);
+                            }
+                        }
+                        else
+                        {
+                            invalidChanges.Add(change);
+                        }
+
+                    }
+                    else
+                    {
+                        invalidChanges.Add(change);
+                    }
+                }
+
+                if (validChanges.Any())
+                {
+                    state.Changes = validChanges;
+                }
+                else
+                {
+                    state.Changes = invalidChanges;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="setting"></param>
+        /// <returns></returns>
+        private string ValidateChange(SettingChange setting)
+        {
+            var validity = "VALID";
+
+            if (string.IsNullOrEmpty(setting.SettingName))
+            {
+                return "INVALID_MISSING_SETTING";
+            }
+
+            if (string.IsNullOrEmpty(setting.Value) && setting.Amount == null)
+            {
+                return "INVALID_MISSING_VALUE";
+            }
+
+            var settingInfo = settingList.FindSetting(setting.SettingName);
+            if (settingInfo == null)
+            {
+                return "INVALID_SETTING_NAME";
+            }
+
+            AvailableSettingValue settingValueInfo = null;
+            foreach (var valueInfo in settingInfo.Values)
+            {
+                if (Util.NullSafeEquals(setting.Value, valueInfo.CanonicalName)
+                        || (string.IsNullOrEmpty(setting.Value) && "SET".Equals(valueInfo.CanonicalName.ToUpperInvariant())))
+                {
+                    settingValueInfo = valueInfo;
+                    setting.Value = valueInfo.CanonicalName;
+                    break;
+                }
+            }
+            if (settingValueInfo == null)
+            {
+                return "INVALID_SETTING_VALUE_COMBINATION";
+            }
+
+            if (setting.Amount == null)
+            {
+                if (settingValueInfo.RequiresAmount)
+                {
+                    validity = "INVALID_MISSING_AMOUNT";
+                }
+                return validity;
+            }
+
+            if (!settingInfo.AllowsAmount || Util.IsNullOrEmpty(settingInfo.Amounts))
+            {
+                return "INVALID_EXTRA_AMOUNT";
+            }
+
+            AvailableSettingAmount settingAmountInfo = null;
+            foreach (var amountInfo in settingInfo.Amounts)
+            {
+                if (Util.NullSafeEquals(setting.Amount.Unit, amountInfo.Unit))
+                {
+                    settingAmountInfo = amountInfo;
+                    break;
+                }
+            }
+            if (settingAmountInfo == null)
+            {
+                if ("%".Equals(setting.Amount.Unit))
+                {
+                    settingAmountInfo = new AvailableSettingAmount()
+                    {
+                        Unit = "%",
+                        Min = 0,
+                        Max = 100,
+                    };
+                }
+                else
+                {
+                    return "INVALID_AMOUNT_UNIT";
+                }
+            }
+
+            if (!setting.IsRelativeAmount)
+            {
+                if (setting.Amount.Amount < settingAmountInfo.Min || setting.Amount.Amount > settingAmountInfo.Max)
+                {
+                    return "INVALID_AMOUNT_OUT_OF_RANGE";
+                }
+
+            }
+            else if (settingAmountInfo.Min != null && settingAmountInfo.Max != null)
+            {
+                var maxRelative = settingAmountInfo.Max - settingAmountInfo.Min;
+                var minRelative = -maxRelative;
+                if (setting.Amount.Amount < minRelative || setting.Amount.Amount > maxRelative)
+                {
+                    return "INVALID_AMOUNT_OUT_OF_RANGE";
+                }
+            }
+
+            return validity;
+        }
+
+        private IList<T> ApplySelectionToSettings<T>(AutomotiveSkillState state, List<string> settingEntities, IList<T> changesOrStatuses) where T : SettingOperation
+        {
+            var settingNames = state.GetUniqueSettingNames();
+
+            ISet<string> selectedSettingNames = new HashSet<string>();
+            if (settingEntities.Any() && settingNames.Any())
+            {
+                IList<AvailableSetting> resolvedSettings = new List<AvailableSetting>();
+                foreach (var settingName in settingNames)
+                {
+                    var setting = this.settingList.FindSetting(settingName);
+                    if (setting != null)
+                    {
+                        resolvedSettings.Add(setting);
+                    }
+                    else
+                    {
+                        setting = new AvailableSetting
+                        {
+                            CanonicalName = settingName
+                        };
+                        resolvedSettings.Add(setting);
+                    }
+                }
+
+                IList<AvailableSetting> settings_to_select_from = Util.CopyList(resolvedSettings);
+                foreach (var setting in resolvedSettings)
+                {
+                    if (setting.IncludedSettings != null)
+                    {
+                        foreach (var included_setting_name in setting.IncludedSettings)
+                        {
+                            if (!settingNames.Contains(included_setting_name))
+                            {
+                                var included_setting = this.settingList.FindSetting(included_setting_name);
+                                if (included_setting == null)
+                                {
+                                    // Unreachable.
+                                    throw new Exception("The included settings of setting \"" + setting.CanonicalName
+                                        + "\" must be canonical names of other settings, but \"" + included_setting_name
+                                        + "\" is not and this should already have been checked when loading the SettingList.");
+                                }
+                                settings_to_select_from.Add(included_setting);
+                            }
+                        }
+                    }
+                }
+
+                var setting_matcher = new SettingMatcher(this.settingList.CreateSubList(settings_to_select_from));
+                var selected_settings = setting_matcher.MatchSettingNamesExactly(settingEntities.First());
+
+                if (!selected_settings.Any())
+                {
+                    selected_settings = setting_matcher.MatchSettingNames(settingEntities,
+                        setting_name_score_threshold, setting_name_antonym_disamb_percentage_of_max, true);
+                }
+
+                foreach (var setting_info in selected_settings)
+                {
+                    selectedSettingNames.Add(setting_info.CanonicalName);
+                }
+            }
+
+            IList<T> newCandidates = new List<T>();
+            ISet<string> addedSettingNames = new HashSet<string>();
+            foreach (var candidate in changesOrStatuses)
+            {
+                if (candidate == null)
+                {
+                    continue;
+                }
+
+                if (selectedSettingNames.Contains(candidate.SettingName))
+                {
+                    newCandidates.Add(candidate);
+                    addedSettingNames.Add(candidate.SettingName);
+                }
+            }
+
+            // If NLP tells us to select something that isn't on the list,
+            // it's because it's included in one of the settings on the list.
+            foreach (var selectedName in selectedSettingNames)
+            {
+                if (!addedSettingNames.Contains(selectedName))
+                {
+                    // This search is inefficient, but the lists will be short, so it doesn't matter.
+                    foreach (var candidate in changesOrStatuses)
+                    {
+                        var supportedSetting = settingList.FindSetting(candidate.SettingName);
+                        if (supportedSetting != null && supportedSetting.IncludedSettings != null && supportedSetting.IncludedSettings.Contains(selectedName))
+                        {
+                            var newCandidate = (T)candidate.Clone();
+                            newCandidate.SettingName = selectedName;
+                            newCandidates.Add(newCandidate);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (!Util.IsNullOrEmpty(newCandidates))
+            {
+                return newCandidates;
+            }
+
+            return changesOrStatuses;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="state"></param>
+        /// <param name="entityValues"></param>
+        /// <returns></returns>
+        public IList<SettingChange> ApplySelectionToSettingValues(AutomotiveSkillState state, List<string> entityValues)
+        {
+            var settingValues = state.GetUniqueSettingValues();
+
+            ISet<string> selectedSettingValues = new HashSet<string>();
+            if (entityValues.Any() && settingValues.Any())
+            {
+                IList<SelectableSettingValue> selectableSettingValues = new List<SelectableSettingValue>();
+                foreach (var change in state.Changes)
+                {
+                    SelectableSettingValue selectable = new SelectableSettingValue
+                    {
+                        canonicalSettingName = change.SettingName
+                    };
+                    var availableValue = this.settingList.FindSettingValue(change.SettingName, change.Value);
+                    if (availableValue != null)
+                    {
+                        selectable.value = availableValue;
+                    }
+                    else
+                    {
+                        availableValue = new AvailableSettingValue
+                        {
+                            CanonicalName = change.Value
+                        };
+                        selectable.value = availableValue;
+                    }
+                    selectableSettingValues.Add(selectable);
+                }
+
+                var selected_values = this.settingMatcher.DisambiguateSettingValues(entityValues,
+                    selectableSettingValues, setting_value_antonym_disamb_threshold, setting_value_antonym_disamb_percentage_of_max);
+
+                foreach (var selected_value in selected_values)
+                {
+                    selectedSettingValues.Add(selected_value.value.CanonicalName);
+                }
+            }
+
+            IList<SettingChange> newCandidates = new List<SettingChange>();
+            foreach (var candidate in state.Changes)
+            {
+                if (candidate == null)
+                {
+                    continue;
+                }
+
+                if (selectedSettingValues.Contains(candidate.Value))
+                {
+                    newCandidates.Add(candidate);
+                }
+            }
+
+            if (!Util.IsNullOrEmpty(newCandidates))
+            {
+                return newCandidates;
+            }
+
+            return state.Changes;
         }
 
         private (SettingAmount amount, bool isRelative) OptionalAmount(AutomotiveSkillState state, bool change_sign_of_amount)
@@ -358,435 +698,6 @@ namespace AutomotiveSkill
             }
         }
 
-        public void ApplyContentLogic(AutomotiveSkillState state)
-        {
-            var topIntent = state.VehicleSettingsLuisResult.TopIntent();
-            
-            if (topIntent.intent == VehicleSettings.Intent.VEHICLE_SETTINGS_CHANGE && !Util.IsNullOrEmpty(state.Changes))
-            {
-                IList<SettingChange> validChanges = new List<SettingChange>();
-                IList<SettingChange> invalidChanges = new List<SettingChange>();
-                foreach (var change in state.Changes)
-                {
-                    var validity = ValidateChange(change);
-                    if ("VALID".Equals(validity))
-                    {
-                        validChanges.Add(change);
-                    }
-                    else if (VALUE_RELATED_VALIDITIES.Contains(validity))
-                    {
-                        var settingInfo = settingList.FindSetting(change.SettingName);
-                        if (settingInfo != null && !Util.IsNullOrEmpty(settingInfo.Values))
-                        {
-                            IList<SettingChange> validReplacements = new List<SettingChange>();
-                            string replacementValidity = null;
-                            foreach (var valueInfo in settingInfo.Values)
-                            {
-                                var newChange = (SettingChange)change.Clone();
-                                newChange.Value = valueInfo.CanonicalName;
-                                validity = ValidateChange(newChange);
-                                if ("VALID".Equals(validity))
-                                {
-                                    validReplacements.Add(newChange);
-                                }
-                                else if (replacementValidity == null)
-                                {
-                                    replacementValidity = validity;
-                                }
-                            }
-                            if (!Util.IsNullOrEmpty(validReplacements))
-                            {
-                                state.Entities.Remove("VALUE");
-                                foreach (var replacement in validReplacements)
-                                {
-                                    validChanges.Add(replacement);
-                                }
-                            }
-                            else
-                            {
-                                invalidChanges.Add(change);
-                            }
-                        }
-                        else
-                        {
-                            invalidChanges.Add(change);
-                        }
-
-                    }
-                    else
-                    {
-                        invalidChanges.Add(change);
-                    }
-                }
-
-                if (validChanges.Any())
-                {
-                    state.Changes = validChanges;
-                }
-                else
-                {
-                    state.Changes = invalidChanges;
-                }
-            }
-        }
-
-        private string ValidateChange(SettingChange setting)
-        {
-            var validity = "VALID";
-
-            if (string.IsNullOrEmpty(setting.SettingName))
-            {
-                return "INVALID_MISSING_SETTING";
-            }
-
-            if (string.IsNullOrEmpty(setting.Value) && setting.Amount == null)
-            {
-                return "INVALID_MISSING_VALUE";
-            }
-
-            var settingInfo = settingList.FindSetting(setting.SettingName);
-            if (settingInfo == null)
-            {
-                return "INVALID_SETTING_NAME";
-            }
-
-            AvailableSettingValue settingValueInfo = null;
-            foreach (var valueInfo in settingInfo.Values)
-            {
-                if (Util.NullSafeEquals(setting.Value, valueInfo.CanonicalName)
-                        || (string.IsNullOrEmpty(setting.Value) && "SET".Equals(valueInfo.CanonicalName.ToUpperInvariant())))
-                {
-                    settingValueInfo = valueInfo;
-                    setting.Value = valueInfo.CanonicalName;
-                    break;
-                }
-            }
-            if (settingValueInfo == null)
-            {
-                return "INVALID_SETTING_VALUE_COMBINATION";
-            }
-
-            if (setting.Amount == null)
-            {
-                if (settingValueInfo.RequiresAmount)
-                {
-                    validity = "INVALID_MISSING_AMOUNT";
-                }
-                return validity;
-            }
-
-            if (!settingInfo.AllowsAmount || Util.IsNullOrEmpty(settingInfo.Amounts))
-            {
-                return "INVALID_EXTRA_AMOUNT";
-            }
-
-            AvailableSettingAmount settingAmountInfo = null;
-            foreach (var amountInfo in settingInfo.Amounts)
-            {
-                if (Util.NullSafeEquals(setting.Amount.Unit, amountInfo.Unit))
-                {
-                    settingAmountInfo = amountInfo;
-                    break;
-                }
-            }
-            if (settingAmountInfo == null)
-            {
-                if ("%".Equals(setting.Amount.Unit))
-                {
-                    settingAmountInfo = new AvailableSettingAmount()
-                    {
-                        Unit = "%",
-                        Min = 0,
-                        Max = 100,
-                    };
-                }
-                else
-                {
-                    return "INVALID_AMOUNT_UNIT";
-                }
-            }
-
-            if (!setting.IsRelativeAmount)
-            {
-                if (setting.Amount.Amount < settingAmountInfo.Min || setting.Amount.Amount > settingAmountInfo.Max)
-                {
-                    return "INVALID_AMOUNT_OUT_OF_RANGE";
-                }
-
-            }
-            else if (settingAmountInfo.Min != null && settingAmountInfo.Max != null)
-            {
-                var maxRelative = settingAmountInfo.Max - settingAmountInfo.Min;
-                var minRelative = -maxRelative;
-                if (setting.Amount.Amount < minRelative || setting.Amount.Amount > maxRelative)
-                {
-                    return "INVALID_AMOUNT_OUT_OF_RANGE";
-                }
-            }
-
-            return validity;
-        }
-
-        private IList<T> ApplySelectionToSettings<T>(AutomotiveSkillState state, VehicleSettings luisResult, IList<T> changesOrStatuses) where T : SettingOperation
-        {
-            var settingNames = state.GetUniqueSettingNames();
-
-            IList<string> entityTypes = new List<string>();
-            if (luisResult.Entities.SETTING != null)
-            {
-                entityTypes.Add("SETTING");
-            }
-            else if (luisResult.Entities.VALUE != null)
-            {
-                entityTypes.Add("VALUE");
-            }
-
-            ISet<string> selectedSettingNames = new HashSet<string>();
-            if (entityTypes.Any() && settingNames.Any())
-            {
-                IList<AvailableSetting> resolvedSettings = new List<AvailableSetting>();
-                foreach (var settingName in settingNames)
-                {
-                    var setting = this.settingList.FindSetting(settingName);
-                    if (setting != null)
-                    {
-                        resolvedSettings.Add(setting);
-                    }
-                    else
-                    {
-                        setting = new AvailableSetting
-                        {
-                            CanonicalName = settingName
-                        };
-                        resolvedSettings.Add(setting);
-                    }
-                }
-
-                IList<AvailableSetting> settings_to_select_from = Util.CopyList(resolvedSettings);
-                foreach (var setting in resolvedSettings)
-                {
-                    if (setting.IncludedSettings != null)
-                    {
-                        foreach (var included_setting_name in setting.IncludedSettings)
-                        {
-                            if (!settingNames.Contains(included_setting_name))
-                            {
-                                var included_setting = this.settingList.FindSetting(included_setting_name);
-                                if (included_setting == null)
-                                {
-                                    // Unreachable.
-                                    throw new Exception("The included settings of setting \"" + setting.CanonicalName
-                                        + "\" must be canonical names of other settings, but \"" + included_setting_name
-                                        + "\" is not and this should already have been checked when loading the SettingList.");
-                                }
-                                settings_to_select_from.Add(included_setting);
-                            }
-                        }
-                    }
-                }
-
-                var setting_matcher = new SettingMatcher(this.settingList.CreateSubList(settings_to_select_from));
-                var selected_settings = setting_matcher.MatchSettingNamesExactly(luisResult, new string[] { luisResult.Entities.SETTING[0] });
-
-                if (!selected_settings.Any())
-                {
-                   // selected_settings = setting_matcher.MatchSettingNames(luisResult, new string[] { luisResult.Entities.SETTING, luisResult.Entities.VALUE } ,
-                        //setting_name_score_threshold, setting_name_antonym_disamb_percentage_of_max, true);
-                }
-
-                foreach (var setting_info in selected_settings)
-                {
-                    selectedSettingNames.Add(setting_info.CanonicalName);
-                }
-            }
-
-            var (selectedIndices, hasIndexLast) = GetSelectedIndices(luisResult.Entities.INDEX);
-            var hasAnyIndex = hasIndexLast || selectedIndices.Any();
-
-            if (settingNames.Count() <= 1
-                    || !(hasAnyIndex || selectedSettingNames.Any()))
-            {
-                return changesOrStatuses;
-            }
-
-            // Indices are relative to settingNames, because that's what's shown to the user.
-            for (var i = 0; i < settingNames.Count(); ++i)
-            {
-                if ((hasIndexLast && i == settingNames.Count() - 1)
-                        || selectedIndices.Contains(i))
-                {
-                    selectedSettingNames.Add(settingNames[i]);
-                }
-            }
-
-            IList<T> newCandidates = new List<T>();
-            ISet<string> addedSettingNames = new HashSet<string>();
-            foreach (var candidate in changesOrStatuses)
-            {
-                if (candidate == null)
-                {
-                    continue;
-                }
-
-                if (selectedSettingNames.Contains(candidate.SettingName))
-                {
-                    newCandidates.Add(candidate);
-                    addedSettingNames.Add(candidate.SettingName);
-                }
-            }
-
-            // If NLP tells us to select something that isn't on the list,
-            // it's because it's included in one of the settings on the list.
-            foreach (var selectedName in selectedSettingNames)
-            {
-                if (!addedSettingNames.Contains(selectedName))
-                {
-                    // This search is inefficient, but the lists will be short, so it doesn't matter.
-                    foreach (var candidate in changesOrStatuses)
-                    {
-                        var supportedSetting = settingList.FindSetting(candidate.SettingName);
-                        if (supportedSetting != null && supportedSetting.IncludedSettings != null && supportedSetting.IncludedSettings.Contains(selectedName))
-                        {
-                            var newCandidate = (T)candidate.Clone();
-                            newCandidate.SettingName = selectedName;
-                            newCandidates.Add(newCandidate);
-                            break;
-                        }
-                    }
-                }
-            }
-
-            if (!Util.IsNullOrEmpty(newCandidates))
-            {
-                return newCandidates;
-            }
-
-            return changesOrStatuses;
-        }
-
-        private IList<SettingChange> ApplySelectionToSettingValues(AutomotiveSkillState state, VehicleSettingsValueSelection luisResult)
-        {
-            var settingValues = state.GetUniqueSettingValues();
-
-            IList<string> entityTypes = new List<string>();
-            if (state.Entities.ContainsKey("VALUE"))
-            {
-                entityTypes.Add("VALUE");
-            }
-            else if (state.Entities.ContainsKey("SETTING"))
-            {
-                entityTypes.Add("SETTING");
-            }
-
-            ISet<string> selectedSettingValues = new HashSet<string>();
-            if (entityTypes.Any() && settingValues.Any())
-            {
-                IList<SelectableSettingValue> selectableSettingValues = new List<SelectableSettingValue>();
-                foreach (var change in state.Changes)
-                {
-                    SelectableSettingValue selectable = new SelectableSettingValue
-                    {
-                        canonicalSettingName = change.SettingName
-                    };
-                    var availableValue = this.settingList.FindSettingValue(change.SettingName, change.Value);
-                    if (availableValue != null)
-                    {
-                        selectable.value = availableValue;
-                    }
-                    else
-                    {
-                        availableValue = new AvailableSettingValue
-                        {
-                            CanonicalName = change.Value
-                        };
-                        selectable.value = availableValue;
-                    }
-                    selectableSettingValues.Add(selectable);
-                }
-
-                //var selected_values = this.settingMatcher.DisambiguateSettingValues(luisResult, entityTypes,
-                //    selectableSettingValues, setting_value_antonym_disamb_threshold, setting_value_antonym_disamb_percentage_of_max);
-
-                //foreach (var selected_value in selected_values)
-                //{
-                //    selectedSettingValues.Add(selected_value.value.CanonicalName);
-                //}
-            }
-
-            var (selectedIndices, hasIndexLast) = GetSelectedIndices(luisResult.Entities.INDEX);
-            var hasAnyIndex = hasIndexLast || selectedIndices.Any();
-
-            if (settingValues.Count() <= 1
-              || !(hasAnyIndex || selectedSettingValues.Any()))
-            {
-                return state.Changes;
-            }
-
-            // Indices are relative to settingValues, because that's what's shown to the user.
-            if (!Util.IsNullOrEmpty(settingValues))
-            {
-                for (var i = 0; i < settingValues.Count(); ++i)
-                {
-                    if ((hasIndexLast && i == settingValues.Count() - 1)
-                            || selectedIndices.Contains(i))
-                    {
-                        selectedSettingValues.Add(settingValues[i]);
-                    }
-                }
-            }
-
-            IList<SettingChange> newCandidates = new List<SettingChange>();
-            foreach (var candidate in state.Changes)
-            {
-                if (candidate == null)
-                {
-                    continue;
-                }
-
-                if (selectedSettingValues.Contains(candidate.Value))
-                {
-                    newCandidates.Add(candidate);
-                }
-            }
-
-            if (!Util.IsNullOrEmpty(newCandidates))
-            {
-                return newCandidates;
-            }
-
-            return state.Changes;
-        }
-
-        private (ISet<int>, bool) GetSelectedIndices(string[] entityValues)
-        {
-            ISet<int> selectedIndices = new HashSet<int>();
-            bool hasIndexLast = false;
-
-            if (entityValues.Any())
-            {
-                foreach (var indexEntityValue in entityValues)
-                {
-                    var newIndexEntityValue = this.index_normalizer.Normalize(indexEntityValue);
-                    if ("LAST".Equals(newIndexEntityValue))
-                    {
-                        hasIndexLast = true;
-                    }
-                    else
-                    {
-                        try
-                        {
-                            // Humans speak in one-based indices, but we need zero-based indices.
-                            selectedIndices.Add(int.Parse(newIndexEntityValue) - 1);
-                        }
-                        catch (FormatException)
-                        { }
-                        catch (OverflowException)
-                        { }
-                    }
-                }
-            }
-            return (selectedIndices, hasIndexLast);
-        }      
     }
 
     public class SettingMatcher
@@ -896,17 +807,11 @@ namespace AutomotiveSkill
             matchable.tokens_list.Add(tokens_per_name);
         }
 
-        private MatchableBagOfTokens MakeMatchableBagOfTokens(List<string[]> entity_types)
+        private MatchableBagOfTokens MakeMatchableBagOfTokens(List<string> entity_types)
         {
             MatchableBagOfTokens matchable = new MatchableBagOfTokens();
 
-            List<string> names = new List<string>();
-            foreach (string[] entityValues in entity_types)
-            {
-                names.AddRange(entityValues);
-            }
-
-            string extracted_setting_name = string.Join(" ", names);
+            string extracted_setting_name = string.Join(" ", entity_types);
 
             AddNameToMatchable(matchable, extracted_setting_name);
 
@@ -1090,11 +995,9 @@ namespace AutomotiveSkill
         /// <param name="luisResult"></param>
         /// <param name="entityType"></param>
         /// <returns></returns>
-        public IList<AvailableSetting> MatchSettingNamesExactly(VehicleSettings luisResult, string[] entityValues)
-        {          
-            string entity_str = string.Join(" ", entityValues);
-
-            if (this.pre_processed_canonical_name_map.TryGetValue(entity_str, out var setting_info))
+        public IList<AvailableSetting> MatchSettingNamesExactly(string entityValue)
+        {                     
+            if (this.pre_processed_canonical_name_map.TryGetValue(entityValue, out var setting_info))
             {
                 return new List<AvailableSetting> { setting_info };
             }
@@ -1105,7 +1008,7 @@ namespace AutomotiveSkill
         }
 
         public IList<AvailableSetting> MatchSettingNames(
-            List<string[]> entityValuesToMatch,
+            List<string> entityValuesToMatch,
             double semantic_threshold,
             double antonym_disamb_percentage_of_max,
             bool use_coverage_filter)
@@ -1145,8 +1048,7 @@ namespace AutomotiveSkill
             return selected_settings;
         }
 
-        public IList<SettingMatch> MatchSettingValues(VehicleSettings luisResult,
-            List<string[]> entity_types,
+        public IList<SettingMatch> MatchSettingValues( List<string> entity_types,
             double semantic_threshold,
             double antonym_disamb_percentage_of_max)
         {
@@ -1181,8 +1083,8 @@ namespace AutomotiveSkill
             return matches;
         }
 
-        public IList<SelectableSettingValue> DisambiguateSettingValues(VehicleSettings luisResult,
-            List<string[]> entity_types,
+        public IList<SelectableSettingValue> DisambiguateSettingValues(
+            List<string> entity_types,
             IList<SelectableSettingValue> values,
             double antonym_disamb_threshold,
             double antonym_disamb_percentage_of_max)

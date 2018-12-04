@@ -157,6 +157,9 @@
     <Content Update="Dialogs\VehicleSettings\Resources\Cards\ListSelection.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Update="Dialogs\VehicleSettings\Resources\Cards\SettingChoice.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Update="Dialogs\VehicleSettings\Resources\setting_alternative_names.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

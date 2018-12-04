@@ -6,7 +6,8 @@
         public const string ProcessVehicleSettingChange = "processVehicleSettingChange";
         public const string ProcessVehicleSettingCheck = "processVehicleSettingCheck";
 
-        public const string SettingSelectionPrompt = "settingSelectionPrompt";
+        public const string SettingNameSelectionPrompt = "settingNameSelectionPrompt";
+        public const string SettingValueSelectionPrompt = "settingValueSelectionPrompt";
         public const string SettingConfirmationPrompt = "settingConfirmationPrompt";
     }
 }

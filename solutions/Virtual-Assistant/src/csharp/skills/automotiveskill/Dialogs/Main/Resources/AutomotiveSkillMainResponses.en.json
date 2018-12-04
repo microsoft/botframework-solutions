@@ -2,8 +2,8 @@
   "WelcomeMessage": {
     "replies": [
       {
-        "text": "Welcome to the Automotive Skill!",
-        "speak": "Welcome to the Automotive Skill!"
+        "text": "Welcome to the Automotive Skill! Right now I can help you with vehicle setting control - Climate Control, Active Safety and Audio.",
+        "speak": "Welcome to the Automotive Skill! Right now I can help you with vehicle setting control - Climate Control, Active Safety and Audio."
       }
     ],
     "inputHint": "expectingInput"
@@ -11,12 +11,15 @@
   "HelpMessage": {
     "replies": [
       {
-        "text": "Use this response to let user know what your skill can do.",
-        "speak": "Use this response to let user know what your skill can do."
+        "text": "Right now I can help you with vehicle setting control - Climate Control, Active Safety and Audio.",
+        "speak": "Right now I can help you with vehicle setting control - Climate Control, Active Safety and Audio."
       }
     ],
     "suggestedActions": [
-      "Sample suggested action"
+      "set temperature to 21 degrees",
+      "warm up the back of the car",
+      "put the air on my feet",
+      "increase forward automatic braking to 50%"
     ],
     "inputHint": "expectingInput"
   },

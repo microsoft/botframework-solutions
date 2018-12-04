@@ -15,17 +15,7 @@ namespace AutomotiveSkillTest.Flow.Fakes
 
         public Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
-
-
-            //    //RecognizerResult result = new RecognizerResult();
-            //    //result.Entities
-
-
-
-            //    //var luisResult = mockEmail as RecognizerResult;                
-
-            //    //return Task.FromResult(mockResult);
-            return null;
+            throw new NotImplementedException();
         }
 
         public Task<T> RecognizeAsync<T>(ITurnContext turnContext, CancellationToken cancellationToken)
@@ -37,9 +27,9 @@ namespace AutomotiveSkillTest.Flow.Fakes
             var text = turnContext.Activity.Text;
             if (t.Name.Equals(typeof(VehicleSettings).Name))
             {
-                var mockEmail = new MockVehicleSettingsIntent(text);
+                var mockVehicle = new MockVehicleSettingsIntent(text);
 
-                var test = mockEmail as object;
+                var test = mockVehicle as object;
                 mockResult = (T)test;
             }
             else if (t.Name.Equals(typeof(General).Name))
