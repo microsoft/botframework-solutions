@@ -41,6 +41,7 @@ namespace CalendarSkill
             ReadOutEvents = new List<EventModel>();
             Duration = 0;
             MoveTimeSpan = 0;
+            AskParameterContent = string.Empty;
         }
 
         public User User { get; set; }
@@ -120,6 +121,8 @@ namespace CalendarSkill
 
         public int MoveTimeSpan { get; set; }
 
+        public string AskParameterContent { get; set; }
+
         public TimeZoneInfo GetUserTimeZone()
         {
             if ((UserInfo != null) && (UserInfo.Timezone != null))
@@ -162,6 +165,7 @@ namespace CalendarSkill
             ReadOutEvents = new List<EventModel>();
             Duration = 0;
             MoveTimeSpan = 0;
+            AskParameterContent = string.Empty;
         }
 
         public class UserInformation
