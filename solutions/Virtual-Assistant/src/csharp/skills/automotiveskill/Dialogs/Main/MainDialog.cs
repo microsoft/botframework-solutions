@@ -78,6 +78,7 @@ namespace AutomotiveSkill
                 switch (intent)
                 {
                     case VehicleSettings.Intent.VEHICLE_SETTINGS_CHANGE:
+                    case VehicleSettings.Intent.VEHICLE_SETTINGS_DECLARATIVE:
                     case VehicleSettings.Intent.VEHICLE_SETTINGS_CHECK:
                         await dc.BeginDialogAsync(nameof(VehicleSettingsDialog), skillOptions);
 

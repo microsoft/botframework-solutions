@@ -55,11 +55,6 @@
       "type": "luis",
       "id": "vehiclesettings_value_selection",
       "name": "vehiclesettings_value_selection"
-    },
-    {
-      "type": "luis",
-      "id": "vehiclesettings_change_confirmation",
-      "name": "vehiclesettings_change_confirmation"
     }
   ]
 }

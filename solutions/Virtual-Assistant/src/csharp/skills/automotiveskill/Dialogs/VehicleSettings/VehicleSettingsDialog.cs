@@ -39,6 +39,8 @@ namespace AutomotiveSkill
         private readonly SettingList settingList;
         private readonly SettingFilter settingFilter;
 
+        private string automotiveCarSettingImage = "https://msp2l1160225102310.blob.core.windows.net/ms-p2-l1-160225-1023-13-assets/Windows_Edu_inTune_539_v8_ContentPlacement-Choose3_img.jpg";
+
         public VehicleSettingsDialog(
             ISkillConfiguration services,
             IStatePropertyAccessor<AutomotiveSkillState> accessor,
@@ -96,6 +98,7 @@ namespace AutomotiveSkill
             switch (topIntent.Value)
             {
                 case VehicleSettings.Intent.VEHICLE_SETTINGS_CHANGE:
+                case VehicleSettings.Intent.VEHICLE_SETTINGS_DECLARATIVE:
 
                     // Process the LUIS result and add entities to the State accessors for ease of access                    
                     if (luisResult.Entities.AMOUNT != null)
@@ -162,7 +165,7 @@ namespace AutomotiveSkill
                         
                         var card = new HeroCard
                         {
-                            Images = new List<CardImage> { new CardImage("https://comps.canstockphoto.co.uk/air-conditioning-service-car-icon-clipart-vector_csp51589258.jpg") },
+                            Images = new List<CardImage> { new CardImage(automotiveCarSettingImage) },
                             Text = "Please choose from one of the available settings shown below",
                             Buttons = options.Choices.Select(choice =>
                                 new CardAction(ActionTypes.ImBack, choice.Value, value: choice.Value)).ToList(),
@@ -176,7 +179,7 @@ namespace AutomotiveSkill
                     {
                         // Only one setting detected so move on to next stage
                         return await sc.NextAsync();
-                    }
+                    }                
 
                 default:
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(VehicleSettingsResponses.VehicleSettingsOutOfDomain));
@@ -203,7 +206,11 @@ namespace AutomotiveSkill
                 if (nameSelectionResult.Entities.SETTING != null)
                 {
                     // We have a clarified setting so remove the previous entity extraction and change identification work
-                    state.Entities.Clear();
+                    if (state.Entities.ContainsKey(nameof(nameSelectionResult.Entities.SETTING)))
+                    {
+                        state.Entities.Remove(nameof(nameSelectionResult.Entities.SETTING));
+                    }
+
                     state.Changes.Clear();
 
                     state.Entities.Add(nameof(nameSelectionResult.Entities.SETTING), nameSelectionResult.Entities.SETTING);
@@ -269,7 +276,7 @@ namespace AutomotiveSkill
                         
                         var card = new HeroCard
                         {
-                            Images = new List<CardImage> { new CardImage("https://comps.canstockphoto.co.uk/air-conditioning-service-car-icon-clipart-vector_csp51589258.jpg") },
+                            Images = new List<CardImage> { new CardImage(automotiveCarSettingImage) },
                             Text = VehicleSettingsResponses.VehicleSettingsSettingValueSelection.Reply.Text,
                             Buttons = options.Choices.Select(choice =>
                                 new CardAction(ActionTypes.ImBack, choice.Value, value: choice.Value)).ToList(),
