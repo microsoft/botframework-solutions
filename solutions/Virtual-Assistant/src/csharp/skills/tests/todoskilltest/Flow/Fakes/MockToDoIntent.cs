@@ -39,9 +39,31 @@ namespace ToDoSkillTest.Flow.Fakes
                     this.Entities.ordinal = new double[] { 2 };
                 }
 
+                if (userInput.Contains("one"))
+                {
+                    this.Entities.number = new double[] { 1 };
+                }
+                else if (userInput.Contains("two"))
+                {
+                    this.Entities.number = new double[] { 2 };
+                }
+                else if (userInput.Contains("three"))
+                {
+                    this.Entities.number = new double[] { 3 };
+                }
+
                 if (userInput.Contains("all"))
                 {
                     this.Entities.ContainsAll = new string[] { "all" };
+                }
+
+                if (userInput.Contains("shopping"))
+                {
+                    this.Entities.ListType = new string[] { "shopping" };
+                }
+                else if (userInput.Contains("grocery"))
+                {
+                    this.Entities.ListType = new string[] { "grocery" };
                 }
 
                 if (userInput.ToLower().Contains("add"))

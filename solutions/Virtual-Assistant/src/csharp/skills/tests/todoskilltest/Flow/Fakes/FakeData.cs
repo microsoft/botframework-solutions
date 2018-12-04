@@ -65,5 +65,115 @@ namespace ToDoSkillTest.Flow.Fakes
                 IsCompleted = true
             }
         };
+
+        public static List<TaskItem> FakeShoppingItems = new List<TaskItem>
+        {
+            new TaskItem()
+            {
+                Id = "ShoppingItem1",
+                Topic = "Buy Shoes 1",
+                IsCompleted = false
+            },
+
+            new TaskItem()
+            {
+                Id = "ShoppingItem2",
+                Topic = "Buy Shoes 2",
+                IsCompleted = false
+            },
+
+            new TaskItem()
+            {
+                Id = "ShoppingItem3",
+                Topic = "Buy Shoes 3",
+                IsCompleted = true
+            },
+
+            new TaskItem()
+            {
+                Id = "ShoppingItem4",
+                Topic = "Buy Shoes 4",
+                IsCompleted = false
+            },
+
+            new TaskItem()
+            {
+                Id = "ShoppingItem5",
+                Topic = "Buy Shoes 5",
+                IsCompleted = false
+            },
+
+            new TaskItem()
+            {
+                Id = "ShoppingItem6",
+                Topic = "Buy Shoes 6",
+                IsCompleted = true
+            },
+            new TaskItem()
+            {
+                Id = "ShoppingItem7",
+                Topic = "Buy Shoes 7",
+                IsCompleted = false
+            },
+
+            new TaskItem()
+            {
+                Id = "ShoppingItem8",
+                Topic = "Buy Shoes 8",
+                IsCompleted = false
+            }
+        };
+
+        public static List<TaskItem> FakeGroceryItems = new List<TaskItem>
+        {
+            new TaskItem()
+            {
+                Id = "GroceryItem1",
+                Topic = "Buy Milk 1",
+                IsCompleted = false
+            },
+
+            new TaskItem()
+            {
+                Id = "GroceryItem2",
+                Topic = "Buy Milk 2",
+                IsCompleted = false
+            },
+
+            new TaskItem()
+            {
+                Id = "GroceryItem3",
+                Topic = "Buy Milk 3",
+                IsCompleted = false
+            },
+
+            new TaskItem()
+            {
+                Id = "GroceryItem4",
+                Topic = "Buy Milk 4",
+                IsCompleted = false
+            },
+
+            new TaskItem()
+            {
+                Id = "GroceryItem5",
+                Topic = "Buy Milk 5",
+                IsCompleted = false
+            },
+
+            new TaskItem()
+            {
+                Id = "GroceryItem6",
+                Topic = "Buy Milk 6",
+                IsCompleted = true
+            },
+
+            new TaskItem()
+            {
+                Id = "GroceryItem7",
+                Topic = "Buy Milk 7",
+                IsCompleted = false
+            }
+        };
     }
 }
