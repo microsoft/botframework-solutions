@@ -1,19 +1,19 @@
 # all msbot clone parameters and locales
 Param(
 	[string] [Parameter(Mandatory=$true)]$name,
-    [string] [Parameter(Mandatory=$true)]$location,
+	[string] [Parameter(Mandatory=$true)]$location,
 	[string] [Parameter(Mandatory=$true)]$luisAuthoringKey,
-    [string] $locales = "de-de,en-us,es-es,fr-fr,it-it,zh-cn",
+	[string] $locales = "de-de,en-us,es-es,fr-fr,it-it,zh-cn",
 	[string] $luisAuthoringRegion,
 	[string] $luisPublishRegion,
-    [string] $subscriptionId,
-    [string] $insightsRegion,
-    [string] $groupName,
-    [string] $sdkLanguage,
-    [string] $sdkVersion,
-    [string] $prefix,
-    [string] $appId,        
-    [string] $appSecret
+	[string] $subscriptionId,
+	[string] $insightsRegion,
+	[string] $groupName,
+	[string] $sdkLanguage,
+	[string] $sdkVersion,
+	[string] $prefix,
+	[string] $appId,        
+	[string] $appSecret
 )
 
 $localeArr = $locales.Split(',')
