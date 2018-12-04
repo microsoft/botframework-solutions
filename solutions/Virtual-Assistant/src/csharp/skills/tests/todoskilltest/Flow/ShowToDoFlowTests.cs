@@ -38,8 +38,8 @@ namespace ToDoSkillTest.Flow
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
                 var responseCard = messageActivity.Attachments[0].Content as AdaptiveCard;
                 var adaptiveCardTitle = responseCard.Body[0] as AdaptiveTextBlock;
-                var toDoChoices = responseCard.Body[1] as AdaptiveChoiceSetInput;
-                var toDoChoiceCount = toDoChoices.Choices.Count;
+                var toDoChoices = responseCard.Body[1] as AdaptiveContainer;
+                var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
                     this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", FakeData.FakeTaskItems.Count.ToString() } }),
                     adaptiveCardTitle.Text);

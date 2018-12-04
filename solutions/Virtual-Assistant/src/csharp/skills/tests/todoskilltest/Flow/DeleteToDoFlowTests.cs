@@ -43,8 +43,8 @@ namespace ToDoSkillTest.Flow
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
                 var responseCard = messageActivity.Attachments[0].Content as AdaptiveCard;
                 var adaptiveCardTitle = responseCard.Body[0] as AdaptiveTextBlock;
-                var toDoChoices = responseCard.Body[1] as AdaptiveChoiceSetInput;
-                var toDoChoiceCount = toDoChoices.Choices.Count;
+                var toDoChoices = responseCard.Body[1] as AdaptiveContainer;
+                var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
                     this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", FakeData.FakeTaskItems.Count.ToString() } }),
                     adaptiveCardTitle.Text);
@@ -60,14 +60,14 @@ namespace ToDoSkillTest.Flow
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
                 var responseCard = messageActivity.Attachments[0].Content as AdaptiveCard;
                 var adaptiveCardTitle = responseCard.Body[0] as AdaptiveTextBlock;
-                var toDoChoices = responseCard.Body[1] as AdaptiveChoiceSetInput;
-                var toDoChoiceCount = toDoChoices.Choices.Count;
+                var toDoChoices = responseCard.Body[1] as AdaptiveContainer;
+                var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
                     this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", (FakeData.FakeTaskItems.Count - 1).ToString() } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
-                var toDoChoice = toDoChoices.Choices[0];
-                Assert.AreEqual(toDoChoice.Title, FakeData.FakeTaskItems[1].Topic);
+                var toDoChoice = ((toDoChoices.Items[0] as AdaptiveColumnSet).Columns[1] as AdaptiveColumn).Items[0] as AdaptiveTextBlock;
+                Assert.AreEqual(toDoChoice.Text, FakeData.FakeTaskItems[1].Topic);
             };
         }
 

@@ -556,25 +556,28 @@ namespace ToDoSkill
             };
             body.Add(textBlock);
 
-            var choiceSet = new AdaptiveChoiceSetInput
-            {
-                IsMultiSelect = true,
-            };
-
-            var value = Guid.NewGuid().ToString() + ",";
+            var container = new AdaptiveContainer();
             var index = 0;
             foreach (var todo in todos)
             {
-                var choice = new AdaptiveChoice
-                {
-                    Title = todo.Topic,
-                    Value = todo.Id,
-                };
-                choiceSet.Choices.Add(choice);
-                if (todo.IsCompleted)
-                {
-                    value += todo.Id + ",";
-                }
+                var columnSet = new AdaptiveColumnSet();
+                columnSet.Id = todo.Id;
+
+                var icon = new AdaptiveImage();
+                icon.UrlString = todo.IsCompleted ? "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAAmJLR0QAAKqNIzIAAAAHdElNRQfiDAMKKhgxjYNuAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE4LTEyLTAzVDEwOjQyOjI0KzAxOjAw3NT2SAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOC0xMi0wM1QxMDo0MjoyNCswMTowMK2JTvQAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAA/0lEQVQ4T6WTzQmEMBCFx0XQErypHXj0KliCPYgNiUcLsAev3uxAvVqComTzhrgu/i1hPxjykuG9SBJJSMIwFESkVfAAA6JpGoqiiEzTRKDs32MYBi3LQnVdk/TympBmTtMBHnhfSMDOumweDpCBPHliXVcax1HNdg8H/GKaJt7RcRy1svMzYJ5nsm2bte/7PH5zCijLknArAGbLsljD3HUd6yMijmM+WYA5qqqqj/Y8T3V34EHv9AVZlvGYJAmP0kx937O+4hSQ5zmlacradd1HM7g8xKIoqG1bGoZBrdzDAXieR4IgUOqazcMBeNu6bJ7/fyZcCUJkT6vgEUKINxqN2iFI/P1RAAAAAElFTkSuQmCC"
+                    : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAAmJLR0QAAKqNIzIAAAAHdElNRQfiDAMKKhgxjYNuAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE4LTEyLTAzVDEwOjQyOjI0KzAxOjAw3NT2SAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOC0xMi0wM1QxMDo0MjoyNCswMTowMK2JTvQAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAAfklEQVQ4T+2TSwrAIAwFn3odr6CH9wxeR9O80OxaSuiimw4IfpjBhUKUWqsACA06JHEy50TvHTlnrLX0/J5SCvbeGGNAXduT1prVItChm1lgNYo7Fni69hXuWCClZIsI7ljgDX/gDOi7sEUEdyzw6UN6/5n4MRjRs9CgIyJyADPLkD0WLCrjAAAAAElFTkSuQmCC";
+                var iconColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                iconColumn.Items.Add(icon);
+                columnSet.Columns.Add(iconColumn);
+
+                var content = new AdaptiveTextBlock(todo.Topic);
+                var contentColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                contentColumn.Items.Add(content);
+                columnSet.Columns.Add(contentColumn);
+
+                container.Items.Add(columnSet);
 
                 if (index < toBeReadTasksCount)
                 {
@@ -582,9 +585,7 @@ namespace ToDoSkill
                 }
             }
 
-            value = value.Remove(value.Length - 1);
-            choiceSet.Value = value;
-            body.Add(choiceSet);
+            body.Add(container);
             toDoCard.Body = body;
 
             var attachment = new Attachment()
@@ -610,25 +611,27 @@ namespace ToDoSkill
             };
             body.Add(textBlock);
 
-            var choiceSet = new AdaptiveChoiceSetInput
-            {
-                IsMultiSelect = true,
-            };
-
-            var value = Guid.NewGuid().ToString() + ",";
+            var container = new AdaptiveContainer();
             var index = 0;
             foreach (var todo in todos)
             {
-                var choice = new AdaptiveChoice
-                {
-                    Title = todo.Topic,
-                    Value = todo.Id,
-                };
-                choiceSet.Choices.Add(choice);
-                if (todo.IsCompleted)
-                {
-                    value += todo.Id + ",";
-                }
+                var columnSet = new AdaptiveColumnSet();
+
+                var icon = new AdaptiveImage();
+                icon.UrlString = todo.IsCompleted ? "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAAmJLR0QAAKqNIzIAAAAHdElNRQfiDAMKKhgxjYNuAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE4LTEyLTAzVDEwOjQyOjI0KzAxOjAw3NT2SAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOC0xMi0wM1QxMDo0MjoyNCswMTowMK2JTvQAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAA/0lEQVQ4T6WTzQmEMBCFx0XQErypHXj0KliCPYgNiUcLsAev3uxAvVqComTzhrgu/i1hPxjykuG9SBJJSMIwFESkVfAAA6JpGoqiiEzTRKDs32MYBi3LQnVdk/TympBmTtMBHnhfSMDOumweDpCBPHliXVcax1HNdg8H/GKaJt7RcRy1svMzYJ5nsm2bte/7PH5zCijLknArAGbLsljD3HUd6yMijmM+WYA5qqqqj/Y8T3V34EHv9AVZlvGYJAmP0kx937O+4hSQ5zmlacradd1HM7g8xKIoqG1bGoZBrdzDAXieR4IgUOqazcMBeNu6bJ7/fyZcCUJkT6vgEUKINxqN2iFI/P1RAAAAAElFTkSuQmCC"
+                    : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAAmJLR0QAAKqNIzIAAAAHdElNRQfiDAMKKhgxjYNuAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE4LTEyLTAzVDEwOjQyOjI0KzAxOjAw3NT2SAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOC0xMi0wM1QxMDo0MjoyNCswMTowMK2JTvQAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAAfklEQVQ4T+2TSwrAIAwFn3odr6CH9wxeR9O80OxaSuiimw4IfpjBhUKUWqsACA06JHEy50TvHTlnrLX0/J5SCvbeGGNAXduT1prVItChm1lgNYo7Fni69hXuWCClZIsI7ljgDX/gDOi7sEUEdyzw6UN6/5n4MRjRs9CgIyJyADPLkD0WLCrjAAAAAElFTkSuQmCC";
+                var iconColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                iconColumn.Items.Add(icon);
+                columnSet.Columns.Add(iconColumn);
+
+                var content = new AdaptiveTextBlock(todo.Topic);
+                var contentColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                contentColumn.Items.Add(content);
+                columnSet.Columns.Add(contentColumn);
+
+                container.Items.Add(columnSet);
 
                 index++;
                 if (index > startIndexOfTasksToBeRead && index <= toBeReadTasksCount + startIndexOfTasksToBeRead)
@@ -637,9 +640,7 @@ namespace ToDoSkill
                 }
             }
 
-            value = value.Remove(value.Length - 1);
-            choiceSet.Value = value;
-            body.Add(choiceSet);
+            body.Add(container);
             toDoCard.Body = body;
 
             var attachment = new Attachment()
@@ -667,25 +668,27 @@ namespace ToDoSkill
             };
             body.Add(textBlock);
 
-            var choiceSet = new AdaptiveChoiceSetInput
-            {
-                IsMultiSelect = true,
-            };
-
-            var value = Guid.NewGuid().ToString() + ",";
+            var container = new AdaptiveContainer();
             var index = 0;
             foreach (var todo in todos)
             {
-                var choice = new AdaptiveChoice
-                {
-                    Title = todo.Topic,
-                    Value = todo.Id,
-                };
-                choiceSet.Choices.Add(choice);
-                if (todo.IsCompleted)
-                {
-                    value += todo.Id + ",";
-                }
+                var columnSet = new AdaptiveColumnSet();
+
+                var icon = new AdaptiveImage();
+                icon.UrlString = todo.IsCompleted ? "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAAmJLR0QAAKqNIzIAAAAHdElNRQfiDAMKKhgxjYNuAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE4LTEyLTAzVDEwOjQyOjI0KzAxOjAw3NT2SAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOC0xMi0wM1QxMDo0MjoyNCswMTowMK2JTvQAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAA/0lEQVQ4T6WTzQmEMBCFx0XQErypHXj0KliCPYgNiUcLsAev3uxAvVqComTzhrgu/i1hPxjykuG9SBJJSMIwFESkVfAAA6JpGoqiiEzTRKDs32MYBi3LQnVdk/TympBmTtMBHnhfSMDOumweDpCBPHliXVcax1HNdg8H/GKaJt7RcRy1svMzYJ5nsm2bte/7PH5zCijLknArAGbLsljD3HUd6yMijmM+WYA5qqqqj/Y8T3V34EHv9AVZlvGYJAmP0kx937O+4hSQ5zmlacradd1HM7g8xKIoqG1bGoZBrdzDAXieR4IgUOqazcMBeNu6bJ7/fyZcCUJkT6vgEUKINxqN2iFI/P1RAAAAAElFTkSuQmCC"
+                    : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAAmJLR0QAAKqNIzIAAAAHdElNRQfiDAMKKhgxjYNuAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE4LTEyLTAzVDEwOjQyOjI0KzAxOjAw3NT2SAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOC0xMi0wM1QxMDo0MjoyNCswMTowMK2JTvQAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAAfklEQVQ4T+2TSwrAIAwFn3odr6CH9wxeR9O80OxaSuiimw4IfpjBhUKUWqsACA06JHEy50TvHTlnrLX0/J5SCvbeGGNAXduT1prVItChm1lgNYo7Fni69hXuWCClZIsI7ljgDX/gDOi7sEUEdyzw6UN6/5n4MRjRs9CgIyJyADPLkD0WLCrjAAAAAElFTkSuQmCC";
+                var iconColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                iconColumn.Items.Add(icon);
+                columnSet.Columns.Add(iconColumn);
+
+                var content = new AdaptiveTextBlock(todo.Topic);
+                var contentColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                contentColumn.Items.Add(content);
+                columnSet.Columns.Add(contentColumn);
+
+                container.Items.Add(columnSet);
 
                 if (index < toBeReadTasksCount)
                 {
@@ -693,9 +696,7 @@ namespace ToDoSkill
                 }
             }
 
-            value = value.Remove(value.Length - 1);
-            choiceSet.Value = value;
-            body.Add(choiceSet);
+            body.Add(container);
             toDoCard.Body = body;
 
             var attachment = new Attachment()
@@ -723,25 +724,27 @@ namespace ToDoSkill
             };
             body.Add(textBlock);
 
-            var choiceSet = new AdaptiveChoiceSetInput
-            {
-                IsMultiSelect = true,
-            };
-
-            var value = Guid.NewGuid().ToString() + ",";
+            var container = new AdaptiveContainer();
             var index = 0;
             foreach (var todo in todos)
             {
-                var choice = new AdaptiveChoice
-                {
-                    Title = todo.Topic,
-                    Value = todo.Id,
-                };
-                choiceSet.Choices.Add(choice);
-                if (todo.IsCompleted)
-                {
-                    value += todo.Id + ",";
-                }
+                var columnSet = new AdaptiveColumnSet();
+
+                var icon = new AdaptiveImage();
+                icon.UrlString = todo.IsCompleted ? "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAAmJLR0QAAKqNIzIAAAAHdElNRQfiDAMKKhgxjYNuAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE4LTEyLTAzVDEwOjQyOjI0KzAxOjAw3NT2SAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOC0xMi0wM1QxMDo0MjoyNCswMTowMK2JTvQAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAA/0lEQVQ4T6WTzQmEMBCFx0XQErypHXj0KliCPYgNiUcLsAev3uxAvVqComTzhrgu/i1hPxjykuG9SBJJSMIwFESkVfAAA6JpGoqiiEzTRKDs32MYBi3LQnVdk/TympBmTtMBHnhfSMDOumweDpCBPHliXVcax1HNdg8H/GKaJt7RcRy1svMzYJ5nsm2bte/7PH5zCijLknArAGbLsljD3HUd6yMijmM+WYA5qqqqj/Y8T3V34EHv9AVZlvGYJAmP0kx937O+4hSQ5zmlacradd1HM7g8xKIoqG1bGoZBrdzDAXieR4IgUOqazcMBeNu6bJ7/fyZcCUJkT6vgEUKINxqN2iFI/P1RAAAAAElFTkSuQmCC"
+                    : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAAmJLR0QAAKqNIzIAAAAHdElNRQfiDAMKKhgxjYNuAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE4LTEyLTAzVDEwOjQyOjI0KzAxOjAw3NT2SAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOC0xMi0wM1QxMDo0MjoyNCswMTowMK2JTvQAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAAfklEQVQ4T+2TSwrAIAwFn3odr6CH9wxeR9O80OxaSuiimw4IfpjBhUKUWqsACA06JHEy50TvHTlnrLX0/J5SCvbeGGNAXduT1prVItChm1lgNYo7Fni69hXuWCClZIsI7ljgDX/gDOi7sEUEdyzw6UN6/5n4MRjRs9CgIyJyADPLkD0WLCrjAAAAAElFTkSuQmCC";
+                var iconColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                iconColumn.Items.Add(icon);
+                columnSet.Columns.Add(iconColumn);
+
+                var content = new AdaptiveTextBlock(todo.Topic);
+                var contentColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                contentColumn.Items.Add(content);
+                columnSet.Columns.Add(contentColumn);
+
+                container.Items.Add(columnSet);
 
                 if (index < toBeReadTasksCount)
                 {
@@ -749,9 +752,7 @@ namespace ToDoSkill
                 }
             }
 
-            value = value.Remove(value.Length - 1);
-            choiceSet.Value = value;
-            body.Add(choiceSet);
+            body.Add(container);
             toDoCard.Body = body;
 
             var attachment = new Attachment()
@@ -781,28 +782,30 @@ namespace ToDoSkill
                 Text = showText,
             };
             body.Add(textBlock);
-            var choiceSet = new AdaptiveChoiceSetInput
-            {
-                IsMultiSelect = true,
-            };
-            var value = Guid.NewGuid().ToString() + ",";
+
+            var container = new AdaptiveContainer();
             foreach (var todo in todos)
             {
-                var choice = new AdaptiveChoice
-                {
-                    Title = todo.Topic,
-                    Value = todo.Id,
-                };
-                choiceSet.Choices.Add(choice);
-                if (todo.IsCompleted)
-                {
-                    value += todo.Id + ",";
-                }
+                var columnSet = new AdaptiveColumnSet();
+
+                var icon = new AdaptiveImage();
+                icon.UrlString = todo.IsCompleted ? "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAAmJLR0QAAKqNIzIAAAAHdElNRQfiDAMKKhgxjYNuAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE4LTEyLTAzVDEwOjQyOjI0KzAxOjAw3NT2SAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOC0xMi0wM1QxMDo0MjoyNCswMTowMK2JTvQAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAA/0lEQVQ4T6WTzQmEMBCFx0XQErypHXj0KliCPYgNiUcLsAev3uxAvVqComTzhrgu/i1hPxjykuG9SBJJSMIwFESkVfAAA6JpGoqiiEzTRKDs32MYBi3LQnVdk/TympBmTtMBHnhfSMDOumweDpCBPHliXVcax1HNdg8H/GKaJt7RcRy1svMzYJ5nsm2bte/7PH5zCijLknArAGbLsljD3HUd6yMijmM+WYA5qqqqj/Y8T3V34EHv9AVZlvGYJAmP0kx937O+4hSQ5zmlacradd1HM7g8xKIoqG1bGoZBrdzDAXieR4IgUOqazcMBeNu6bJ7/fyZcCUJkT6vgEUKINxqN2iFI/P1RAAAAAElFTkSuQmCC"
+                    : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAAmJLR0QAAKqNIzIAAAAHdElNRQfiDAMKKhgxjYNuAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE4LTEyLTAzVDEwOjQyOjI0KzAxOjAw3NT2SAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOC0xMi0wM1QxMDo0MjoyNCswMTowMK2JTvQAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAAfklEQVQ4T+2TSwrAIAwFn3odr6CH9wxeR9O80OxaSuiimw4IfpjBhUKUWqsACA06JHEy50TvHTlnrLX0/J5SCvbeGGNAXduT1prVItChm1lgNYo7Fni69hXuWCClZIsI7ljgDX/gDOi7sEUEdyzw6UN6/5n4MRjRs9CgIyJyADPLkD0WLCrjAAAAAElFTkSuQmCC";
+                var iconColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                iconColumn.Items.Add(icon);
+                columnSet.Columns.Add(iconColumn);
+
+                var content = new AdaptiveTextBlock(todo.Topic);
+                var contentColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                contentColumn.Items.Add(content);
+                columnSet.Columns.Add(contentColumn);
+
+                container.Items.Add(columnSet);
             }
 
-            value = value.Remove(value.Length - 1);
-            choiceSet.Value = value;
-            body.Add(choiceSet);
+            body.Add(container);
             toDoCard.Body = body;
 
             var attachment = new Attachment()
