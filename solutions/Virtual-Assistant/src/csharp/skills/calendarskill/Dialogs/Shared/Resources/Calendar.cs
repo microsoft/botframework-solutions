@@ -57,6 +57,7 @@ namespace Luis
             public string[] FromTime;
             public string[] ToDate;
             public string[] ToTime;
+            public string[] AskParameter;
 
             // Built-in entities
             public DateTimeSpec[] datetime;
@@ -85,6 +86,7 @@ namespace Luis
                 public InstanceData[] FromTime;
                 public InstanceData[] ToDate;
                 public InstanceData[] ToTime;
+                public InstanceData[] AskParameter;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;
