@@ -34,5 +34,50 @@
       }
     ],
     "inputHint": "acceptingInput"
+  },
+  "BeforeShowEventDetails": {
+    "replies": [
+      {
+        "text": "Here is the details of your event {EventName}:",
+        "speak": "Here is the details of your event {EventName}"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ReadTime": {
+    "replies": [
+      {
+        "text": "It starts at {EventStartTime}, and ends at {EventEndTime}.",
+        "speak": "It starts at {EventStartTime}, and ends at {EventEndTime}"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ReadDuration": {
+    "replies": [
+      {
+        "text": "It lasts for {EventDuration}.",
+        "speak": "It lasts for {EventDuration}"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ReadLocation": {
+    "replies": [
+      {
+        "text": "It holds at {EventLocation}.",
+        "speak": "It holds at {EventLocation}"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ReadNoLocation": {
+    "replies": [
+      {
+        "text": "It has no location, probably holds online.",
+        "speak": "It has no location, probably holds online"
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }
