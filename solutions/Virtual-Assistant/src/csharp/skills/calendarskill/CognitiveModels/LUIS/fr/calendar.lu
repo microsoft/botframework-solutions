@@ -20,7 +20,6 @@
 - Changer {FromTime=10 heures} réunion pour commencer {MoveLaterTimeSpan=20 minutes} Plus tard
 - Changer {FromTime=10h} réunion pour commencer {MoveLaterTimeSpan=20 minutes} Plus tard
 - Changer {FromTime=16h} {Subject=Déjeuner} Nomination
-- Changer {FromTime=16h} {Subject=Déjeuner} Nomination
 - Changer {FromTime=17 h} Nomination {MoveEarlierTimeSpan=1 heure} Plus tôt
 - Changer {FromTime=17h} Nomination {MoveEarlierTimeSpan=1 heure} Plus tôt
 - modifier un rendez-vous
@@ -80,7 +79,6 @@
 - changecalendarentry
 - Retardez l'événement de la réunion en {MoveLaterTimeSpan=1 heures}
 - retarder la {OrderReference=Prochaine} réunion par {MoveEarlierTimeSpan=30 minutes}
-- modifier le calendrier
 - prolonger la réunion de {FromTime=9 heures} À {ToTime=12 heures}
 - Laisser {FromTime=17 h} réunion à partir de {ToTime=3}
 - Laisser {OrderReference=Prochaine} réunion à partir de {ToTime=10 heures}
@@ -119,7 +117,6 @@
 - déplacer mon {FromTime=douze p. M.} réunion en avant {MoveEarlierTimeSpan=deux heures}
 - déplacer mon {FromTime=12 h.} {MoveEarlierTimeSpan=trente minutes} jusqu'
 - Déplacer {Subject=réunion de planification de parti} De {FromDate=Samedi} À {ToDate=Vendredi} À {ToTime=13h}
-- Déplacer {Subject=réunion de planification de parti} De {FromDate=Samedi} À {ToDate=Vendredi} À {ToTime=13h}
 - Déplacer {Subject=rendez-vous chaussure} À {ToDate=Mardi} À {FromTime=Un}
 - s'il vous plaît déplacer ce à {ToTime=15h00}
 - s'il vous plaît déplacer ce à {ToTime=15h}
@@ -138,7 +135,6 @@
 - mise à jour de la réunion {FromTime=de 8h à 12h} À {ToTime=7H-11h} {ToDate=Aujourd'hui}
 - mettre à jour mon rendez-vous
 - mettre à jour mon calendrier
-- mettre à jour mon calendrier à partir {FromTime=14h} À {ToTime=16h} {ToDate=Aujourd'hui}
 - mettre à jour mon calendrier à partir {FromTime=14h} À {ToTime=16h} {ToDate=Aujourd'hui}
 - mettre à jour mon calendrier à partir {FromTime=18h} À {ToTime=19h}
 - mettre à jour mon {Subject=rendez-vous Camping}
@@ -205,7 +201,6 @@
 
 ## ConnectToMeeting
 - Ajoutez-moi à la conférence téléphonique
-- Ajoutez-moi à la conférence téléphonique
 - Conférence d'appel
 - appel conférence téléphonique
 - Appeler {Subject=Genpact} Conférence téléphonique
@@ -221,7 +216,6 @@
 - Connectez-moi à la conférence téléphonique avec {ContactName=Tony}
 - Connectez-moi à {Subject=réunion de marketing}
 - Connectez-moi à la {Subject=Réunion budgétaire} Conférence téléphonique
-- Connectez-moi à la conférence téléphonique
 - Connectez-moi à la {Subject=réunion de marketing}
 - Connectez-moi avec conférence téléphonique
 - Connectez-moi avec mon {FromTime=2} o réunion d'horloge
@@ -258,7 +252,6 @@
 - commencer la réunion
 - commencer ma conférence
 - commencer ma réunion
-- commencer la réunion
 
 
 ## ContactMeetingAttendees
@@ -325,7 +318,6 @@
 - Ajouter un événement
 - Ajouter un événement à mon calendrier
 - Ajouter {Subject=anniversaire Sunsety Mama}
-- Ajouter un rendez-vous
 - Ajouter un rendez-vous pour {Subject=lincare} {FromDate=mercredi prochain} À {MeetingRoom=chambre familiale}
 - Ajouter {Subject=Musée des enfants} Sur {FromDate=20 février}
 - Ajouter {Subject=fête de Noël} {FromDate=12 15 20 12}
@@ -334,7 +326,6 @@
 - Ajouter {Subject=dentiste rendez-vous} à mon calendrier {FromDate=Demain} De {FromTime=3} À {ToTime=4:30}
 - Ajouter {Subject=Dîner} au calendrier
 - Ajouter {Subject=dîner avec maman} À {DestinationCalendar=Personnel}
-- Ajouter un événement
 - Ajouter un événement au calendrier
 - Ajouter {Subject=Parti} À {Location=Marie-Jeanne s} Pour {FromDate=Samedi} {FromTime=soir à 7}
 - Ajouter {Subject=Journée de la photo} À {Location=École} à mon calendrier pour {FromDate=vendredi, le 8 novembre} De {FromTime=8 heures} À {ToTime=9:30 AM}
@@ -387,7 +378,6 @@
 - créer un rendez-vous à partir {FromDate=1//2013} À {ToDate=1//2013}
 - créer un événement
 - créer un événement à {FromTime=13h}
-- créer un rendez-vous
 - créer un rendez-vous à {FromTime=3 p. M.}
 - créer un rendez-vous à {FromTime=15h}
 - créer un rendez-vous pour {Duration=30 minutes}
@@ -401,7 +391,6 @@
 - faire un rendez-vous calendrier pour {FromDate=Demain} À {FromTime=Midi} Appelé {Subject=dentiste rendez-vous}
 - prendre rendez-vous
 - prendre rendez-vous pour {FromDate=jeudi prochain}
-- prendre rendez-vous
 - nouvel évènement
 - nouvelle réunion
 - nouveau calendrier
@@ -424,7 +413,6 @@
 - Horaire {Subject=Randonnée} Pour {FromDate=Vendredi} Par {ToDate=Dimanche}
 - fixer un rendez-vous
 - fixer un rendez-vous pour {FromDate=Demain}
-- fixer un rendez-vous
 - configurer un rendez-vous
 
 
@@ -433,7 +421,6 @@
 - pouvez-vous annuler le {PositionReference=1er} Un
 - annuler une réunion
 - annuler tous les événements
-- annuler un rendez-vous
 - annuler un rendez-vous
 - annuler un rendez-vous {FromDate=Aujourd'hui}
 - annuler les rendez-vous
@@ -466,14 +453,11 @@
 - annuler le calendrier
 - annuler l'événement
 - annuler le {Subject=réunion du groupe}
-- annuler la réunion
 - annuler la réunion avec {ContactName=Shawn}
 - annuler le {Subject=nourriture de ramassage de Ted}
 - annulez l'événement sans titre sur {FromDate=mai vingt huitième}
-- annuler cette réunion
 - Annuler {FromDate=Aujourd'hui} 's rendez-vous
 - Annuler {FromDate=Demain} 's plan
-- effacer tous mes rendez-vous
 - effacer tous mes rendez-vous
 - effacer tous mes rendez-vous {FromDate=Aujourd'hui}
 - effacer tous les rendez-vous de mon calendrier pour {FromDate=Aujourd'hui}
@@ -485,7 +469,6 @@
 - décliner ma réunion sur {FromDate=Lundi}
 - Supprimer
 - supprimer une réunion
-- supprimer un rendez-vous
 - supprimer un rendez-vous
 - Supprimer {Subject=calendrier d'anniversaire}
 - supprimer un événement de calendrier
@@ -500,7 +483,6 @@
 - supprimer le rendez-vous avec {RelationshipName=Maman}
 - supprimer le rendez-vous avec {ContactName=Petter}
 - supprimer la réunion planifiée avec {ContactName=Jay}
-- supprimer ce rendez-vous
 - deletecalendarentry
 - Jetez le rendez-vous avec {ContactName=Joseph}
 - rejeter la réunion

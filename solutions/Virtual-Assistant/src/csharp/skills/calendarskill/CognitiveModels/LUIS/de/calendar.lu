@@ -578,7 +578,6 @@
 - Was ist {ContactName=Clarence} Auf {FromDate=Montag} Auf {FromTime=Uhr}
 - Was ist {ContactName=Jim} "Fahrplan {FromDate=Diese Woche}
 - Was ist mein {PositionReference=1.} Sitzung {FromDate=Heute}
-- Was ist mein Terminplan {FromDate=Morgen}
 - Was ist mein Zeitplan {FromDate=Morgen}
 - Was auf meinem Kalender steht {FromDate=Heute}
 - Was ist {ContactName=Paul} Tun {FromDate=Heute}
@@ -827,9 +826,7 @@
 - Ich möchte zurück
 - Bitte zurück
 - Rückkehr zurück
-- Bitte zurück
 - Zurück zu {OrderReference=Vorherigen} Schritt
-- Zurück zum {OrderReference=Vorherigen} Schritt
 - Wir sollten zurück
 
 
@@ -858,7 +855,6 @@
 - Was ist mein {OrderReference=Nächsten} Sitzung
 - Was ist {OrderReference=Nächsten} Auf meinem Kalender
 - Was ist auf meinem {OrderReference=Nächsten} Sitzung
-- Was ist mein {OrderReference=Nächsten} Termin
 - Was ist meine nächste Veranstaltung
 - Was ist mein nächstes Treffen
 - Was ist mein nächster Zeitplan
@@ -884,7 +880,6 @@
 - {AskParameter=Wo es geht ' s} Meine {OrderReference=Nächsten} Termin
 - Wo ist mein {OrderReference=Nächsten} Sitzung
 - Wo muss ich sein {OrderReference=Nächsten}
-- Wo muss ich sein {OrderReference=Nächsten}
 - {AskParameter=Wo ist} Meine {OrderReference=Nächsten} Termin
 - {AskParameter=Wo ist} Meine {OrderReference=Nächsten} Termin mit Miss {ContactName=Pierre}
 - Wo ist mein {OrderReference=Nächsten} Termin mit {ContactName=ms pierre}
@@ -892,7 +887,6 @@
 - {AskParameter=Wo ist} Meine {OrderReference=Nächsten} Ereignis
 - {AskParameter=Wo ist} Meine {OrderReference=Nächsten} Sitzung
 - {AskParameter=Wo ist} Meine {OrderReference=Nächsten} Treffen mit ms {ContactName=Pierre}
-- {AskParameter=Wo ist} Meine {OrderReference=Nächsten} Sitzung
 - Das ist mein {OrderReference=Nächsten} Ereignis
 - Die wird mein {OrderReference=Nächsten} {Subject=Flug}
 - {AskParameter=Wer alle anwesend sein werden} Am {OrderReference=Weiter 5} Sitzungen
@@ -969,7 +963,6 @@
 - Wie lange bis zu meinem {OrderReference=Nächsten} Termin
 - Wie lange bis zum {OrderReference=Nächsten} Sitzung
 - Wie lange bis {Subject=Weihnachten}
-- Wie lange bis zu meinem {OrderReference=Nächsten} Termin
 - Wie lange bis zu meinem {OrderReference=Nächsten} Sitzung
 - Wie lange bis zum {Subject=Sozialen}
 - Wie lange werde ich auf die {OrderReference=Nächsten} Termin
