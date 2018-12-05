@@ -7,17 +7,40 @@ using CalendarSkill.Dialogs.Summary.Resources;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using CalendarSkillTest.Flow.Utterances;
+using CalendarSkillTest.Flow.Fakes;
 
 namespace CalendarSkillTest.Flow
 {
     [TestClass]
     public class SummaryCalendarFlowTests : CalendarBotTestBase
     {
+        [TestInitialize]
+        public void SetupLuisService()
+        {
+            this.Services.LuisServices.Add("calendar", new MockLuisRecognizer(new FindMeetingTestUtterances()));
+        }
+
         [TestMethod]
         public async Task Test_CalendarSummary()
         {
             await this.GetTestFlow()
-                .Send("What should I do today")
+                .Send(FindMeetingTestUtterances.BaseFindMeeting)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.FoundEventPrompt())
+                .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(this.ReadOutMorePrompt())
+                .Send("No")
+                .AssertReplyOneOf(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_CalendarSummaryByTimeRange()
+        {
+            await this.GetTestFlow()
+                .Send("Whats on my schedule next week?")
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundEventPrompt())

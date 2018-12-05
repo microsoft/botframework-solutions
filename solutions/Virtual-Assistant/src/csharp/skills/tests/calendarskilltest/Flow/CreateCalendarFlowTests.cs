@@ -7,17 +7,25 @@ using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using CalendarSkillTest.Flow.Utterances;
+using CalendarSkillTest.Flow.Fakes;
 
 namespace CalendarSkillTest.Flow
 {
     [TestClass]
     public class CreateCalendarFlowTests : CalendarBotTestBase
     {
+        [TestInitialize]
+        public void SetupLuisService()
+        {
+            this.Services.LuisServices.Add("calendar", new MockLuisRecognizer(new CreateMeetingTestUtterances()));
+        }
+
         [TestMethod]
         public async Task Test_CalendarCreate()
         {
             await this.GetTestFlow()
-                    .Send("Create a meeting")
+                    .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
                     .AssertReply(this.ShowAuth())
                     .Send(this.GetAuthResponse())
                     .AssertReplyOneOf(this.AskForParticpantsPrompt())

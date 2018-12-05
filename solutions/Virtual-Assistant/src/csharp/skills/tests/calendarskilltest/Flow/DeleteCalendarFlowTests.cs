@@ -6,17 +6,25 @@ using CalendarSkill.Dialogs.DeleteEvent.Resources;
 using CalendarSkill.Dialogs.Main.Resources;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using CalendarSkillTest.Flow.Utterances;
+using CalendarSkillTest.Flow.Fakes;
 
 namespace CalendarSkillTest.Flow
 {
     [TestClass]
     public class DeleteCalendarFlowTests : CalendarBotTestBase
     {
+        [TestInitialize]
+        public void SetupLuisService()
+        {
+            this.Services.LuisServices.Add("calendar", new MockLuisRecognizer(new DeleteMeetingTestUtterances()));
+        }
+
         [TestMethod]
         public async Task Test_CalendarDelete()
         {
             await this.GetTestFlow()
-                .Send("delete meeting")
+                .Send(DeleteMeetingTestUtterances.BaseDeleteMeeting)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.AskForDeletePrompt())
