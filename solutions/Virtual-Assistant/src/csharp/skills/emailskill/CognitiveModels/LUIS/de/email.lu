@@ -15,8 +15,6 @@
 - Eine Fahne zum {OrderReference=Last} E-Mail
 - Fügen Sie eine Fahne zu dieser E-Mail
 - Fahne hinzufügen
-- Fahne hinzufügen
-- Fahne hinzufügen
 - Fahne in die E-Mail einfügen {SenderName=John} Gerade zu mir geschickt
 - Fahne zu dieser E-Mail hinzufügen
 - Fahne zu dieser Nachricht hinzufügen
@@ -38,7 +36,6 @@
 - Eine Flagge auf die neue E-Mail setzen
 - Die Email von {SenderName=Thomas} sollte markiert werden
 - Die Email an {ContactName=Barb} muss markiert werden
-- Diese E-Mail muss markiert werden
 - Diese E-Mail muss markiert werden
 - Diese E-Mail sollte markiert sein
 - Flagge einschalten
@@ -148,7 +145,6 @@
 - Mehr dazu {ContactName=Ashley} E-Mail
 - Weitere E-Mails
 - Mehr in den E-Mail-Körper
-- Weitere
 - Weitere Informationen hinzufügen
 - Weitere Informationen zum Text
 - Weitere Informationen zur SMS hinzufügen
@@ -156,7 +152,6 @@
 - Mehr zu den {OrderReference=Last} E-Mail
 - Weitere Informationen
 - Hinzufügen {Attachment=Foto}
-- Weitere
 - Etwas hinzufügen
 - Fügen Sie zu einer E-Mail
 - In die Nachricht
@@ -169,7 +164,6 @@
 - Kann ich es wieder tun
 - Kann ich mit einer Person sprechen
 - Kannst du mir helfen?
-- Abbrechen
 - Kontaktaufnahme
 - {EmailAddress=dingmaomaobjtu@gmail.com}
 - Ignorieren
@@ -192,7 +186,6 @@
 - Hilf mir
 - Hilfe bitte
 - Hallöchen
-- Hallo
 - Hiya
 - Wie geht es dir
 - Wie geht es dir heute

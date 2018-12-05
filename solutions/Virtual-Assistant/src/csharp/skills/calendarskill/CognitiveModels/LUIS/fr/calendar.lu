@@ -592,7 +592,6 @@
 - Quel est mon {PositionReference=1er} Réunion {FromDate=Aujourd'hui}
 - Quel est mon horaire pour {FromDate=Demain}
 - Quel est mon horaire {FromDate=Demain}
-- ce qui est sur mon calendrier {FromDate=Aujourd'hui}
 - Quoi {ContactName=Paul} Faire {FromDate=Aujourd'hui}
 - Quel est le calendrier avant que
 - Quelles sont les réunions que j'ai {FromDate=La semaine prochaine}
@@ -628,7 +627,6 @@
 - Quand est {Subject=Concert} sur mon calendrier
 - Quand est {Subject=ifeomas Basketball} {FromDate=Aujourd'hui}
 - Quand est {Subject=Déjeuner} Avec {ContactName=Margot}
-- Quand est mon {PositionReference=1er} Réunion {FromDate=Demain}
 - Quand est mon rendez-vous avec {ContactName=Mel étés}
 - Quand est mon {Subject=Daily stand up} Avec {ContactName=Mike}
 - Quand est mon {PositionReference=Cinquième} {Subject=Kick-off}
@@ -844,7 +842,6 @@
 - Je voudrais revenir
 - s'il vous plaît revenir en arrière
 - Veuillez retourner
-- Retour
 - retour retour
 - retour s'il vous plaît
 - Revenir à {OrderReference=Précédente} Étape
@@ -877,7 +874,6 @@
 - Quel est mon {OrderReference=Prochaine} Réunion
 - qu'est-ce que {OrderReference=Prochaine} sur mon calendrier
 - ce qui est sur mon {OrderReference=Prochaine} Réunion
-- Quel est mon {OrderReference=Prochaine} Nomination
 - Quel est mon prochain évènement
 - Quelle est ma prochaine réunion
 - Quel est mon prochain horaire
@@ -902,7 +898,6 @@
 - {AskParameter=Quand est} Mon {OrderReference=Prochaine} {Subject=Voyage}
 - {AskParameter=où est} Mon {OrderReference=Prochaine} Nomination
 - où est mon {OrderReference=Prochaine} Réunion
-- où dois-je être {OrderReference=Prochaine}
 - où dois-je être {OrderReference=Prochaine}
 - {AskParameter=Où se trouve} Mon {OrderReference=Prochaine} Nomination
 - {AskParameter=Où se trouve} Mon {OrderReference=Prochaine} rendez-vous avec Miss {ContactName=Pierre}
@@ -975,7 +970,6 @@
 - que puis-je accomplir aujourd'hui
 - Quel est mon Résumé de la réunion aujourd'hui
 - Quelle est ma réunion aujourd'hui
-- ce qui est sur mon calendrier
 - que dois-je faire aujourd'hui
 
 
@@ -1008,8 +1002,6 @@
 - Combien de minutes de libre ai-je avant {OrderReference=Prochaine} rendez-vous programmé
 - Combien de temps ai-je encore avant {Subject=ramasser Luca de l'école}
 - Combien de temps ai-je jusqu'à ce que {Subject=ramasser Luca de l'école}
-- Combien de temps jusqu'à ce que mon {OrderReference=Prochaine} Nomination
-- Combien de temps jusqu'à ce que mon {OrderReference=Prochaine} Réunion
 - Combien de temps avant {Subject=Déjeuner}
 - Combien de temps avant mon {OrderReference=Prochaine} Nomination
 - Combien de temps avant {OrderReference=Prochaine} Nomination

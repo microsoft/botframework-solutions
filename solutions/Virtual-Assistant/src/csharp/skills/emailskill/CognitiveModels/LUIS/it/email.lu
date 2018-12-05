@@ -21,7 +21,6 @@
 - Aggiungi bandiera a questa email
 - Aggiungi flag a questo messaggio
 - Bandiera
-- bandiera
 - bandiera su
 - contrassegna l'email corrente
 - contrassegnare l'e-mail
@@ -39,7 +38,6 @@
 - l'email da {SenderName=Thomas} deve essere contrassegnato
 - l'e-mail per {ContactName=Barb} deve essere segnalato
 - Questa e-mail devono essere contrassegnati
-- Questa e-mail deve essere segnalata
 - Questa e-mail deve essere segnalata
 - Turn flag on
 
@@ -154,7 +152,6 @@
 - Aggiungi altro al messaggio di testo
 - Aggiunga più all'email
 - aggiungere più alla {OrderReference=Ultima} Posta elettronica
-- Aggiungi altro al messaggio
 - Aggiungi {Attachment=Foto}
 - aggiungere un po' di più
 - aggiungere qualcosa
@@ -175,7 +172,6 @@
 - Ignorare
 - Non
 - Non farlo
-- Non farlo
 - modifica e-mail in modo che io possa digitare un messaggio aggiuntivo
 - Uscita
 - dimenticare me
@@ -186,14 +182,11 @@
 - Buongiorno
 - Buona notte
 - Addio
-- Ciao
 - Ciao bot
 - Guida
 - Aiutami
 - aiuto per favore
 - Ehi
-- Ciao
-- Ciao
 - Come stai
 - Come stai oggi
 - non ho ancora finito. Ho bisogno di aggiungere qualche dettaglio in più
@@ -223,7 +216,6 @@
 - non è completo, bisogno di più contenuti
 - Ultima
 - logout
-- Logout
 - più testo
 - spostare indietro
 - necessità di aggiungere informazioni al messaggio precedente
@@ -245,7 +237,6 @@
 - parlare con un essere umano
 - Questo è tutto grazie
 - Transfer me please
-- Annulla
 - {EmailAddress=V-qiowu@microsoft.com}
 - cosa posso dire
 - Cosa potete fare
