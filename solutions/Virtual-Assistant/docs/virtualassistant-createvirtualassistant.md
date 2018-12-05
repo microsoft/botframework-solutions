@@ -92,6 +92,12 @@ You can also specify which languages you would like to deploy for your scenario 
   ...DeploymentScripts\deploy_bot.ps1 -locales "en-us,zh-cn"
 ```
 
+If you would like to add support for additional languages after your initial deployment, you can specify the `-languagesOnly` parameter to deploy only the services for the new language(s).
+
+```
+  ...DeploymentScripts\deploy_bot.ps1 -locales "fr-fr,it-it" -languagesOnly
+```
+
 You will be prompted to provide the following parameters:
    - Name - A name for your bot and resource group. This must be **unique**.
    - Location - The Azure region for your services.
