@@ -20,6 +20,9 @@ namespace CalendarSkillTest.Flow
         [TestInitialize]
         public void SetupLuisService()
         {
+            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
+            serviceManager.FakeUserList = MockUserService.FakeDefaultUsers();
+            serviceManager.FakePeopleList = MockUserService.FakeDefaultPeople();
             this.Services.LuisServices.Add("calendar", new MockLuisRecognizer(new FindMeetingTestUtterances()));
         }
 

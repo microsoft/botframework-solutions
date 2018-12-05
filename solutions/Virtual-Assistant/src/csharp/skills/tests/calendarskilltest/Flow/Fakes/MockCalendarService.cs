@@ -8,9 +8,9 @@ namespace CalendarSkillTest.Flow.Fakes
 {
     public class MockCalendarService : ICalendar
     {
-        public MockCalendarService(List<EventModel> eventModels)
+        public MockCalendarService(List<EventModel> fakeEventModels)
         {
-            this.FakeEvents = eventModels ?? new List<EventModel>();
+            this.FakeEvents = fakeEventModels ?? new List<EventModel>();
         }
 
         public List<EventModel> FakeEvents { get; set; }

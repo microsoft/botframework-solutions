@@ -21,6 +21,8 @@ namespace CalendarSkillTest.Flow
             this.Services.LuisServices.Add("calendar", new MockLuisRecognizer(new CreateMeetingTestUtterances()));
             var serviceManager = this.ServiceManager as MockCalendarServiceManager;
             serviceManager.FakeEventList = MockCalendarService.FakeDefaultEvents();
+            serviceManager.FakeUserList = MockUserService.FakeDefaultUsers();
+            serviceManager.FakePeopleList = MockUserService.FakeDefaultPeople();
         }
 
         [TestMethod]
@@ -31,21 +33,48 @@ namespace CalendarSkillTest.Flow
                     .AssertReply(this.ShowAuth())
                     .Send(this.GetAuthResponse())
                     .AssertReplyOneOf(this.AskForParticpantsPrompt())
-                    .Send("test@test.com")
+                    .Send(Strings.Strings.DefaultUserEmail)
                     .AssertReplyOneOf(this.AskForSubjectPrompt())
-                    .Send("test subject")
+                    .Send(Strings.Strings.DefaultEventName)
                     .AssertReplyOneOf(this.AskForContentPrompt())
-                    .Send("test content")
+                    .Send(Strings.Strings.DefaultContent)
                     .AssertReplyOneOf(this.AskForDatePrompt())
-                    .Send("tomorrow")
+                    .Send(Strings.Strings.DefaultDate)
                     .AssertReplyOneOf(this.AskForStartTimePrompt())
-                    .Send("at 9 AM")
+                    .Send(Strings.Strings.DefaultTime)
                     .AssertReplyOneOf(this.AskForDurationPrompt())
-                    .Send("one hour")
+                    .Send(Strings.Strings.DefaultDuration)
                     .AssertReplyOneOf(this.AskForLocationPrompt())
-                    .Send("office")
+                    .Send(Strings.Strings.DefaultLocation)
                     .AssertReply(this.ShowCalendarList())
-                    .Send("Yes")
+                    .Send(Strings.Strings.ConfirmYes)
+                    .AssertReply(this.ShowCalendarList())
+                    .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_CalendarCreateWeekday()
+        {
+            await this.GetTestFlow()
+                    .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
+                    .AssertReply(this.ShowAuth())
+                    .Send(this.GetAuthResponse())
+                    .AssertReplyOneOf(this.AskForParticpantsPrompt())
+                    .Send(Strings.Strings.DefaultUserEmail)
+                    .AssertReplyOneOf(this.AskForSubjectPrompt())
+                    .Send(Strings.Strings.DefaultEventName)
+                    .AssertReplyOneOf(this.AskForContentPrompt())
+                    .Send(Strings.Strings.DefaultContent)
+                    .AssertReplyOneOf(this.AskForDatePrompt())
+                    .Send(Strings.Strings.WeekdayDate)
+                    .AssertReplyOneOf(this.AskForStartTimePrompt())
+                    .Send(Strings.Strings.DefaultTime)
+                    .AssertReplyOneOf(this.AskForDurationPrompt())
+                    .Send(Strings.Strings.DefaultDuration)
+                    .AssertReplyOneOf(this.AskForLocationPrompt())
+                    .Send(Strings.Strings.DefaultLocation)
+                    .AssertReply(this.ShowCalendarList())
+                    .Send(Strings.Strings.ConfirmYes)
                     .AssertReply(this.ShowCalendarList())
                     .StartTestAsync();
         }

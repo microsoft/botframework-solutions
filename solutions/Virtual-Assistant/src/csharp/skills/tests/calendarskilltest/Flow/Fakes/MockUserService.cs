@@ -9,10 +9,10 @@ namespace CalendarSkillTest.Flow.Fakes
 {
     public class MockUserService : IUserService
     {
-        public MockUserService()
+        public MockUserService(List<User> fakeUsers, List<Person> fakePeople)
         {
-            this.Users = FakeUsers();
-            this.People = FakePeople();
+            this.Users = fakeUsers ?? new List<User>();
+            this.People = fakePeople ?? new List<Person>();
         }
 
         public List<Person> People { get; set; }
@@ -35,7 +35,7 @@ namespace CalendarSkillTest.Flow.Fakes
             return await Task.FromResult(this.Users);
         }
 
-        private List<Person> FakePeople()
+        public static List<Person> FakeDefaultPeople()
         {
             var people = new List<Person>();
 
@@ -57,7 +57,7 @@ namespace CalendarSkillTest.Flow.Fakes
             return people;
         }
 
-        private List<User> FakeUsers()
+        public static List<User> FakeDefaultUsers()
         {
             var users = new List<User>();
 
