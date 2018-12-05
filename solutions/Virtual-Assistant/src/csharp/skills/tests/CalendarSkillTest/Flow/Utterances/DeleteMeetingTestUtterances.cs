@@ -10,18 +10,36 @@ namespace CalendarSkillTest.Flow.Utterances
     {
         public DeleteMeetingTestUtterances()
         {
-            this.Add(BaseDeleteMeeting, GetBaseDeleteMeetingIntent());
+            this.Add(BaseDeleteMeeting, GetBaseDeleteMeetingIntent(BaseDeleteMeeting));
         }
 
         public static string BaseDeleteMeeting { get; } = "delete meeting";
 
-        private Calendar GetBaseDeleteMeetingIntent()
+        private Calendar GetBaseDeleteMeetingIntent(
+            string userInput,
+            Calendar.Intent intents = Calendar.Intent.DeleteCalendarEntry,
+            string[] subject = null,
+            string[] contactName = null,
+            string[] fromDate = null,
+            string[] toDate = null,
+            string[] fromTime = null,
+            string[] toTime = null,
+            string[] duration = null,
+            string[] meetingRoom = null,
+            string[] location = null)
         {
-            var intent = new Calendar();
-            intent.Intents = new Dictionary<Luis.Calendar.Intent, IntentScore>();
-            intent.Intents.Add(Calendar.Intent.DeleteCalendarEntry, new IntentScore() { Score = TopIntentScore });
-            intent.Entities = new Calendar._Entities();
-            return intent;
+            return GetCalendarIntent(
+                userInput,
+                intents,
+                subject: subject,
+                contactName: contactName,
+                fromDate: fromDate,
+                toDate: toDate,
+                fromTime: fromTime,
+                toTime: toTime,
+                duration: duration,
+                meetingRoom: meetingRoom,
+                location: location);
         }
     }
 }

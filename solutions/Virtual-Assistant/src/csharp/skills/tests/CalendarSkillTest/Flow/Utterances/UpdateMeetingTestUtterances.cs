@@ -10,18 +10,28 @@ namespace CalendarSkillTest.Flow.Utterances
     {
         public UpdateMeetingTestUtterances()
         {
-            this.Add(BaseUpdateMeeting, GetBaseUpdateMeetingIntent());
+            this.Add(BaseUpdateMeeting, GetBaseUpdateMeetingIntent(BaseUpdateMeeting));
         }
 
         public static string BaseUpdateMeeting { get; } = "update meeting";
 
-        private Calendar GetBaseUpdateMeetingIntent()
+        private Calendar GetBaseUpdateMeetingIntent(
+            string userInput,
+            Calendar.Intent intents = Calendar.Intent.ChangeCalendarEntry,
+            string[] subject = null,
+            string[] fromDate = null,
+            string[] toDate = null,
+            string[] fromTime = null,
+            string[] toTime = null)
         {
-            var intent = new Calendar();
-            intent.Intents = new Dictionary<Luis.Calendar.Intent, IntentScore>();
-            intent.Intents.Add(Calendar.Intent.ChangeCalendarEntry, new IntentScore() { Score = TopIntentScore });
-            intent.Entities = new Calendar._Entities();
-            return intent;
+            return GetCalendarIntent(
+                userInput,
+                intents,
+                subject: subject,
+                fromDate: fromDate,
+                toDate: toDate,
+                fromTime: fromTime,
+                toTime: toTime);
         }
     }
 }

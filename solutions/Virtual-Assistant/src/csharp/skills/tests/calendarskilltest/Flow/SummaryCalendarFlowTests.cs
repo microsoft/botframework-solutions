@@ -40,7 +40,7 @@ namespace CalendarSkillTest.Flow
         public async Task Test_CalendarSummaryByTimeRange()
         {
             await this.GetTestFlow()
-                .Send("Whats on my schedule next week?")
+                .Send(FindMeetingTestUtterances.BaseFindMeetingByTimeRange)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundEventPrompt())

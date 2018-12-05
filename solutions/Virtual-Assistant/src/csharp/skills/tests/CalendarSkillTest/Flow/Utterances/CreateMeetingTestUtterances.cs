@@ -10,18 +10,36 @@ namespace CalendarSkillTest.Flow.Utterances
     {
         public CreateMeetingTestUtterances()
         {
-            this.Add(BaseCreateMeeting, GetBaseCreateMeetingIntent());
+            this.Add(BaseCreateMeeting, GetCreateMeetingIntent(BaseCreateMeeting));
         }
 
         public static string BaseCreateMeeting { get; } = "Create a meeting";
 
-        private Calendar GetBaseCreateMeetingIntent()
+        private Calendar GetCreateMeetingIntent(
+            string userInput,
+            Calendar.Intent intents = Calendar.Intent.CreateCalendarEntry,
+            string[] subject = null,
+            string[] contactName = null,
+            string[] fromDate = null,
+            string[] toDate = null,
+            string[] fromTime = null,
+            string[] toTime = null,
+            string[] duration = null,
+            string[] meetingRoom = null,
+            string[] location = null)
         {
-            var intent = new Calendar();
-            intent.Intents = new Dictionary<Luis.Calendar.Intent, IntentScore>();
-            intent.Intents.Add(Calendar.Intent.CreateCalendarEntry, new IntentScore() { Score = TopIntentScore });
-            intent.Entities = new Calendar._Entities();
-            return intent;
+            return GetCalendarIntent(
+                userInput,
+                intents,
+                subject: subject,
+                contactName: contactName,
+                fromDate: fromDate,
+                toDate: toDate,
+                fromTime: fromTime,
+                toTime: toTime,
+                duration: duration,
+                meetingRoom: meetingRoom,
+                location: location);
         }
     }
 }

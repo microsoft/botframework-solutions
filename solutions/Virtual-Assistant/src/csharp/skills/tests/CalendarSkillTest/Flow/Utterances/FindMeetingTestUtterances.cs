@@ -10,30 +10,39 @@ namespace CalendarSkillTest.Flow.Utterances
     {
         public FindMeetingTestUtterances()
         {
-            this.Add(BaseFindMeeting, GetBaseFindMeetingIntent());
-            this.Add(BaseNextMeeting, GetBaseNextMeetingIntent());
+            this.Add(BaseFindMeeting, GetBaseFindMeetingIntent(BaseFindMeeting));
+            this.Add(BaseNextMeeting, GetBaseNextMeetingIntent(BaseNextMeeting));
+            this.Add(BaseFindMeetingByTimeRange, GetBaseFindMeetingIntent(
+                BaseFindMeetingByTimeRange,
+                fromDate: new string[] { "next week" }));
         }
 
         public static string BaseFindMeeting { get; } = "What should I do today";
 
+        public static string BaseFindMeetingByTimeRange { get; } = "What's on my schedule next week";
+
         public static string BaseNextMeeting { get; } = "what is my next meeting";
 
-        private Calendar GetBaseFindMeetingIntent()
+        private Calendar GetBaseFindMeetingIntent(
+            string userInput,
+            Calendar.Intent intents = Calendar.Intent.FindCalendarEntry,
+            string[] fromDate = null,
+            string[] toDate = null,
+            string[] fromTime = null,
+            string[] toTime = null)
         {
-            var intent = new Calendar();
-            intent.Intents = new Dictionary<Luis.Calendar.Intent, IntentScore>();
-            intent.Intents.Add(Calendar.Intent.FindCalendarEntry, new IntentScore() { Score = TopIntentScore });
-            intent.Entities = new Calendar._Entities();
-            return intent;
+            return GetCalendarIntent(
+                userInput,
+                intents,
+                fromDate: fromDate,
+                toDate: toDate,
+                fromTime: fromTime,
+                toTime: toTime);
         }
 
-        private Calendar GetBaseNextMeetingIntent()
+        private Calendar GetBaseNextMeetingIntent(string userinput, Calendar.Intent intents = Calendar.Intent.NextMeeting)
         {
-            var intent = new Calendar();
-            intent.Intents = new Dictionary<Luis.Calendar.Intent, IntentScore>();
-            intent.Intents.Add(Calendar.Intent.NextMeeting, new IntentScore() { Score = TopIntentScore });
-            intent.Entities = new Calendar._Entities();
-            return intent;
+            return GetCalendarIntent(userinput, intents);
         }
     }
 }
