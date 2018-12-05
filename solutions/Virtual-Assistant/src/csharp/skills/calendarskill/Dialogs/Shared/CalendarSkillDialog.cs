@@ -550,6 +550,11 @@ namespace CalendarSkill
 
                     case Calendar.Intent.NextMeeting:
                         {
+                            if (entity.AskParameter != null)
+                            {
+                                state.AskParameterContent = GetAskParameterFromEntity(entity);
+                            }
+
                             break;
                         }
 
@@ -819,6 +824,11 @@ namespace CalendarSkill
         private string GetSubjectFromEntity(Calendar._Entities entity)
         {
             return entity.Subject[0];
+        }
+
+        private string GetAskParameterFromEntity(Calendar._Entities entity)
+        {
+            return entity.AskParameter[0];
         }
 
         private List<string> GetAttendeesFromEntity(Calendar._Entities entity, string inputString, List<string> attendees = null)
