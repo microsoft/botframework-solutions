@@ -70,6 +70,24 @@ namespace ToDoSkill.Dialogs.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Task Notebook.
+        /// </summary>
+        public static string OneNoteBookName {
+            get {
+                return ResourceManager.GetString("OneNoteBookName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Task Section.
+        /// </summary>
+        public static string OneNoteSectionName {
+            get {
+                return ResourceManager.GetString("OneNoteSectionName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Shopping.
         /// </summary>
         public static string Shopping {

@@ -19,8 +19,6 @@ namespace ToDoSkill
     /// </summary>
     public class OneNoteService : ITaskService
     {
-        private const string OneNoteNotebookName = "ToDoNotebook";
-        private const string OneNoteSectionName = "ToDoSection";
         private readonly string graphBaseUrl = "https://graph.microsoft.com/v1.0/me";
         private HttpClient httpClient;
         private Dictionary<string, string> pageIds;
@@ -49,8 +47,8 @@ namespace ToDoSkill
                     || !pageIds.ContainsKey(ToDoStrings.Grocery)
                     || !pageIds.ContainsKey(ToDoStrings.Shopping))
                 {
-                    var notebookId = await GetOrCreateNotebookAsync(OneNoteNotebookName);
-                    var sectionId = await GetOrCreateSectionAsync(notebookId, OneNoteSectionName);
+                    var notebookId = await GetOrCreateNotebookAsync(ToDoStrings.OneNoteBookName);
+                    var sectionId = await GetOrCreateSectionAsync(notebookId, ToDoStrings.OneNoteSectionName);
 
                     if (!pageIds.ContainsKey(ToDoStrings.ToDo))
                     {

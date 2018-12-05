@@ -37,7 +37,7 @@ namespace ToDoSkill
         {
             Services = services;
             ToDoStateAccessor = toDoStateAccessor;
-            UserStateAccessor = UserStateAccessor;
+            UserStateAccessor = userStateAccessor;
             ServiceManager = serviceManager;
 
             if (!Services.AuthenticationConnections.Any())
@@ -894,8 +894,8 @@ namespace ToDoSkill
 
         private async Task RecoverListTypeIdsAsync(DialogContext dc)
         {
-            var userState = await UserStateAccessor.GetAsync(dc.Context);
-            var state = await ToDoStateAccessor.GetAsync(dc.Context);
+            var userState = await UserStateAccessor.GetAsync(dc.Context, () => new ToDoSkillUserState());
+            var state = await ToDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
             if (state.ListTypeIds.Count <= 0 && userState.ListTypeIds.Count > 0)
             {
                 foreach (var listType in userState.ListTypeIds)

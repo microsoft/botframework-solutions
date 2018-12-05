@@ -120,6 +120,12 @@
   <data name="Grocery" xml:space="preserve">
     <value>Épicerie</value>
   </data>
+  <data name="OneNoteBookName" xml:space="preserve">
+    <value>Cahier des tâches</value>
+  </data>
+  <data name="OneNoteSectionName" xml:space="preserve">
+    <value>Section des tâches</value>
+  </data>
   <data name="Shopping" xml:space="preserve">
     <value>magasinage</value>
   </data>
