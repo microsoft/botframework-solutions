@@ -4,6 +4,7 @@ Param(
 	[string] [Parameter(Mandatory=$true)]$location,
 	[string] [Parameter(Mandatory=$true)]$luisAuthoringKey,
 	[string] $locales = "de-de,en-us,es-es,fr-fr,it-it,zh-cn",
+	[switch] $languagesOnly,
 	[string] $luisAuthoringRegion,
 	[string] $luisPublishRegion,
 	[string] $subscriptionId,
@@ -27,8 +28,12 @@ foreach ($locale in $localeArr)
 	Invoke-Expression "$($PSScriptRoot)\generate_deployment_scripts.ps1 -locale $($locale)"
 }
 
-Write-Host "Deploying common resources..."
-msbot clone services -n $name -l $location --luisAuthoringKey $luisAuthoringKey --folder "$($PSScriptRoot)" --appId $appId --appSecret $appSecret --force
+# if languagesOnly is not set, deploy the bot and all common resources.
+if (!$languagesOnly)
+{
+	Write-Host "Deploying common resources..."
+	msbot clone services -n $name -l $location --luisAuthoringKey $luisAuthoringKey --folder "$($PSScriptRoot)" --appId $appId --appSecret $appSecret --force
+}
 
 foreach ($locale in $localeArr)
 {
