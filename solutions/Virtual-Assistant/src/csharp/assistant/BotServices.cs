@@ -33,6 +33,7 @@ namespace VirtualAssistant
         /// <param name="languageModels">The locale specifc language model configs for each supported language.</param>
         public BotServices(BotConfiguration botConfiguration, Dictionary<string, Dictionary<string, string>> languageModels, List<SkillDefinition> skills)
         {
+            // Create service clients for each service in the .bot file.
             foreach (var service in botConfiguration.Services)
             {
                 switch (service.Type)
@@ -73,6 +74,7 @@ namespace VirtualAssistant
                 }
             }
 
+            // Create locale configuration object for each language config in appsettings.json
             foreach (var language in languageModels)
             {
                 var localeConfig = new LocaleConfiguration
@@ -123,6 +125,7 @@ namespace VirtualAssistant
                 LocaleConfigurations.Add(language.Key, localeConfig);
             }
 
+            // Create a skill configurations for each skill in appsettings.json
             foreach (var skill in skills)
             {
                 var skillConfig = new SkillConfiguration()
@@ -162,16 +165,60 @@ namespace VirtualAssistant
             }
         }
 
+        /// <summary>
+        /// Gets the CosmosDb configuration used by the bot.
+        /// </summary>
+        /// <value>
+        /// A <see cref="CosmosDbStorageOptions"/> instance created based on configuration in the .bot file.
+        /// </value>
         public CosmosDbStorageOptions CosmosDbOptions { get; }
 
+        /// <summary>
+        /// Gets or sets the OAuth connections used by the bot.
+        /// </summary>
+        /// <value>
+        /// Created based on the configuration of the Authentication generic service in the .bot file.
+        /// The key for each item is the Connection Name, and the value is the OAuth provider.
+        /// e.g. "Microsoft":"Azure Active Directory v2".
+        /// </value>
         public Dictionary<string, string> AuthenticationConnections { get; set; } = new Dictionary<string, string>();
 
+        /// <summary>
+        /// Gets the set of AppInsights Telemetry Client used.
+        /// </summary>
+        /// <remarks>The AppInsights Telemetry Client should not be modified while the bot is running.</remarks>
+        /// <value>
+        /// A <see cref="TelemetryClient"/> client instance created based on configuration in the .bot file.
+        /// </value>
         public TelemetryClient TelemetryClient { get; }
 
+        /// <summary>
+        /// Gets or sets the cognitive model configurations for each locale.
+        /// </summary>
+        /// <value>
+        /// Created based on the locale configuration .bot file(s) in the LocaleConfigurations folder.
+        /// The key for each item is the two letter language code for the locale (e.g. "en").
+        /// The value is a <see cref="LocaleConfiguration"/> containing localized Dispatch, LUIS, and QnA Maker service clients.
+        /// </value>
         public Dictionary<string, LocaleConfiguration> LocaleConfigurations { get; set; } = new Dictionary<string, LocaleConfiguration>();
 
+        /// <summary>
+        /// Gets or sets the skill definitions for the bot.
+        /// </summary>
+        /// <value>
+        /// Created based on the "skills" section of appSettings.json.
+        /// Contains the information needed to invoke a skill.
+        /// </value>
         public List<SkillDefinition> SkillDefinitions { get; set; } = new List<SkillDefinition>();
 
+        /// <summary>
+        /// Gets or sets the Skill Configurations for the bot.
+        /// </summary>
+        /// <value>
+        /// Created based on the skill definitions from appsettings.json, the locale configurations, and shared bot services.
+        /// The key for each item is the skill Id.
+        /// The value is an <see cref="ISkillConfiguration"/> object containing all the service clients used by the skill. 
+        /// </value>
         public Dictionary<string, ISkillConfiguration> SkillConfigurations { get; set; } = new Dictionary<string, ISkillConfiguration>();
     }
 }
