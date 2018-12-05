@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using EmailSkill;
+using EmailSkill.Util;
 using EmailSkillTest.API.Fakes;
 using Microsoft.Graph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -85,7 +86,7 @@ namespace EmailSkillTest.API
             List<Person> originPersonList = personData;
             List<Person> originUserList = GetPersonLists(2, 7);
 
-            (var personList, var userList) = EmailSkillDialog.FormatRecipientList(originPersonList, originUserList);
+            (var personList, var userList) = DisplayHelper.FormatRecipientList(originPersonList, originUserList);
 
             Assert.AreEqual(personList.Count, 6);
             Assert.AreEqual(userList.Count, 1);
