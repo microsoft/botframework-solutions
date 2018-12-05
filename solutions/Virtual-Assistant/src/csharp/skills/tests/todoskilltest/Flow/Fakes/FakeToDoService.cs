@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -42,15 +43,15 @@ namespace ToDoSkillTest.Fakes
 
         public Task<bool> DeleteTasksAsync(string listType, List<TaskItem> taskItems)
         {
-            if (listType == "ToDo")
+            if (listType.Equals("todo", StringComparison.InvariantCultureIgnoreCase))
             {
                 taskItems.ForEach(o => allToDoItems.Remove(allToDoItems.Find(x => x.Topic == o.Topic)));
             }
-            else if (listType == "Shopping")
+            else if (listType.Equals("shopping", StringComparison.InvariantCultureIgnoreCase))
             {
                 taskItems.ForEach(o => allShoppingItems.Remove(allShoppingItems.Find(x => x.Topic == o.Topic)));
             }
-            else if (listType == "Grocery")
+            else
             {
                 taskItems.ForEach(o => allGroceryItems.Remove(allGroceryItems.Find(x => x.Topic == o.Topic)));
             }
@@ -60,11 +61,11 @@ namespace ToDoSkillTest.Fakes
 
         public Task<List<TaskItem>> GetTasksAsync(string listType)
         {
-            if (listType == "ToDo")
+            if (listType.Equals("todo", StringComparison.InvariantCultureIgnoreCase))
             {
                 return Task.FromResult(this.allToDoItems);
             }
-            else if (listType == "Shopping")
+            else if (listType.Equals("shopping", StringComparison.InvariantCultureIgnoreCase))
             {
                 return Task.FromResult(this.allShoppingItems);
             }
@@ -76,7 +77,7 @@ namespace ToDoSkillTest.Fakes
 
         public Task<bool> AddTaskAsync(string listType, string taskText)
         {
-            if (listType == "ToDo")
+            if (listType.Equals("todo", StringComparison.InvariantCultureIgnoreCase))
             {
                 this.allToDoItems.Insert(0, new TaskItem()
                 {
@@ -85,7 +86,7 @@ namespace ToDoSkillTest.Fakes
                     Id = "AddedToDiId"
                 });
             }
-            else if (listType == "Shopping")
+            else if (listType.Equals("shopping", StringComparison.InvariantCultureIgnoreCase))
             {
                 this.allShoppingItems.Insert(0, new TaskItem()
                 {
@@ -109,11 +110,11 @@ namespace ToDoSkillTest.Fakes
 
         public Task<bool> MarkTasksCompletedAsync(string listType, List<TaskItem> taskItems)
         {
-            if (listType == "ToDo")
+            if (listType.Equals("todo", StringComparison.InvariantCultureIgnoreCase))
             {
                 taskItems.ForEach(o => allToDoItems[allToDoItems.FindIndex(t => t.Id == o.Id)].IsCompleted = true);
             }
-            else if (listType == "Shopping")
+            else if (listType.Equals("shopping", StringComparison.InvariantCultureIgnoreCase))
             {
                 taskItems.ForEach(o => allShoppingItems[allShoppingItems.FindIndex(t => t.Id == o.Id)].IsCompleted = true);
             }

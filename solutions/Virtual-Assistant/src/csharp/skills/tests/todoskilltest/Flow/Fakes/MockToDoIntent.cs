@@ -1,4 +1,5 @@
 ﻿using Luis;
+using System;
 
 namespace ToDoSkillTest.Flow.Fakes
 {
@@ -30,55 +31,56 @@ namespace ToDoSkillTest.Flow.Fakes
         {
             if (userInput != null)
             {
-                if (userInput.Contains("first"))
+                if (userInput.Contains("first", StringComparison.InvariantCultureIgnoreCase))
                 {
                     this.Entities.ordinal = new double[] { 1 };
                 }
-                else if (userInput.Contains("second"))
+                else if (userInput.Contains("second", StringComparison.InvariantCultureIgnoreCase))
                 {
                     this.Entities.ordinal = new double[] { 2 };
                 }
 
-                if (userInput.Contains("one"))
+                if (userInput.Contains("one", StringComparison.InvariantCultureIgnoreCase))
                 {
                     this.Entities.number = new double[] { 1 };
                 }
-                else if (userInput.Contains("two"))
+                else if (userInput.Contains("two", StringComparison.InvariantCultureIgnoreCase))
                 {
                     this.Entities.number = new double[] { 2 };
                 }
-                else if (userInput.Contains("three"))
+                else if (userInput.Contains("three", StringComparison.InvariantCultureIgnoreCase))
                 {
                     this.Entities.number = new double[] { 3 };
                 }
 
-                if (userInput.Contains("all"))
+                if (userInput.Contains("all", StringComparison.InvariantCultureIgnoreCase))
                 {
                     this.Entities.ContainsAll = new string[] { "all" };
                 }
 
-                if (userInput.Contains("shopping"))
+                if (userInput.Contains("shopping", StringComparison.InvariantCultureIgnoreCase))
                 {
                     this.Entities.ListType = new string[] { "shopping" };
                 }
-                else if (userInput.Contains("grocery"))
+                else if (userInput.Contains("grocery", StringComparison.InvariantCultureIgnoreCase))
                 {
                     this.Entities.ListType = new string[] { "grocery" };
                 }
 
-                if (userInput.ToLower().Contains("add"))
+                if (userInput.ToLower().Contains("add", StringComparison.InvariantCultureIgnoreCase))
                 {
                     return (ToDo.Intent.AddToDo, 0.90);
                 }
-                else if (userInput.ToLower().Contains("delete") || userInput.ToLower().Contains("remove"))
+                else if (userInput.ToLower().Contains("delete", StringComparison.InvariantCultureIgnoreCase)
+                    || userInput.ToLower().Contains("remove", StringComparison.InvariantCultureIgnoreCase))
                 {
                     return (ToDo.Intent.DeleteToDo, 0.90);
                 }
-                else if (userInput.ToLower().Contains("mark"))
+                else if (userInput.ToLower().Contains("mark", StringComparison.InvariantCultureIgnoreCase))
                 {
                     return (ToDo.Intent.MarkToDo, 0.90);
                 }
-                else if (userInput.ToLower().Contains("show"))
+                else if (userInput.ToLower().Contains("show", StringComparison.InvariantCultureIgnoreCase))
                 {
                     return (ToDo.Intent.ShowToDo, 0.90);
                 }
