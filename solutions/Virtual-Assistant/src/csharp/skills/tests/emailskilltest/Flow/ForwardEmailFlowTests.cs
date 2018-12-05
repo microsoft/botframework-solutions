@@ -10,17 +10,13 @@ namespace EmailSkillTest.Flow
     [TestClass]
     public class ForwardEmailFlowTests : EmailBotTestBase
     {
-        [TestInitialize]
-        public override void Initialize()
-        {
-            base.Initialize();
-        }
-
         [TestMethod]
         public async Task Test_NotSendingEmail()
         {
             await this.GetTestFlow()
                 .Send("Forward Email")
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowEmailList())
                 .AssertReply(this.AssertSelectOneOfTheMessage())
                 .Send("The first one")
@@ -39,6 +35,8 @@ namespace EmailSkillTest.Flow
         {
             await this.GetTestFlow()
                 .Send("Forward Email")
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowEmailList())
                 .AssertReply(this.AssertSelectOneOfTheMessage())
                 .Send("The first one")
@@ -105,6 +103,15 @@ namespace EmailSkillTest.Flow
         private string[] CollectEmailContentMessage()
         {
             return this.ParseReplies(EmailSharedResponses.NoEmailContent.Replies, new StringDictionary());
+        }
+
+        private Action<IActivity> ShowAuth()
+        {
+            return activity =>
+            {
+                var eventActivity = activity.AsEventActivity();
+                Assert.AreEqual(eventActivity.Name, "tokens/request");
+            };
         }
     }
 }

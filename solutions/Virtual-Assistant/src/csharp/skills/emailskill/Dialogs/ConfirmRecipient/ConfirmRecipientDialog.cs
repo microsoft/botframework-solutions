@@ -129,7 +129,7 @@ namespace EmailSkill
                     // do nothing when get user failed. because can not use token to ensure user use a work account.
                 }
 
-                (var personList, var userList) = FormatRecipientList(originPersonList, originUserList);
+                (var personList, var userList) = DisplayHelper.FormatRecipientList(originPersonList, originUserList);
 
                 // todo: should set updatename reason in stepContext.Result
                 if (personList.Count > 10)

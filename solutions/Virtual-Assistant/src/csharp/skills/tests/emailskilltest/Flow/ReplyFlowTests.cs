@@ -10,17 +10,13 @@ namespace EmailSkillTest.Flow
     [TestClass]
     public class ReplyFlowTests : EmailBotTestBase
     {
-        [TestInitialize]
-        public override void Initialize()
-        {
-            base.Initialize();
-        }
-
         [TestMethod]
         public async Task Test_NotSendingEmail()
         {
             await this.GetTestFlow()
                 .Send("Reply an Email")
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.NoFocusMessage())
                 .Send("The first email")
@@ -66,6 +62,15 @@ namespace EmailSkillTest.Flow
         private string[] CollectEmailContentMessage()
         {
             return this.ParseReplies(EmailSharedResponses.NoEmailContent.Replies, new StringDictionary());
+        }
+
+        private Action<IActivity> ShowAuth()
+        {
+            return activity =>
+            {
+                var eventActivity = activity.AsEventActivity();
+                Assert.AreEqual(eventActivity.Name, "tokens/request");
+            };
         }
     }
 }
