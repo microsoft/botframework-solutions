@@ -107,6 +107,7 @@ namespace EmailSkill
 
                     case Email.Intent.SearchMessages:
                     case Email.Intent.CheckMessages:
+                    case Email.Intent.ReadAloud:
                         {
                             await dc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
                             break;

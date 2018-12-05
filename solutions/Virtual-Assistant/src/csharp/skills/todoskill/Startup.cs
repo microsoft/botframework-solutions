@@ -126,7 +126,7 @@ namespace ToDoSkill
                 // Typing Middleware (automatically shows typing when the bot is responding/working)
                 var typingMiddleware = new ShowTypingMiddleware();
                 options.Middleware.Add(typingMiddleware);
-                options.Middleware.Add(new SetLocaleMiddleware(defaultLocale ?? "en"));
+                options.Middleware.Add(new SetLocaleMiddleware(defaultLocale ?? "en-us"));
                 options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
             });
         }

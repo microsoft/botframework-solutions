@@ -62,6 +62,7 @@ namespace EmailSkill
 
             var reshowEmail = new WaterfallStep[]
             {
+                PagingStep,
                 ShowEmailsWithoutEnd,
                 PromptToHandleMore,
                 HandleMore,
@@ -256,7 +257,7 @@ namespace EmailSkill
 
                 if (IsReadMoreIntent(topGeneralIntent, sc.Context.Activity.Text))
                 {
-                    return await sc.BeginDialogAsync(Actions.Show, skillOptions);
+                    return await sc.BeginDialogAsync(Actions.Reshow, skillOptions);
                 }
                 else if (topIntent == Email.Intent.Delete)
                 {
@@ -264,10 +265,12 @@ namespace EmailSkill
                 }
                 else if (topIntent == Email.Intent.Forward)
                 {
+                    await DigestEmailLuisResult(sc, luisResult, true);
                     return await sc.BeginDialogAsync(Actions.Forward, skillOptions);
                 }
                 else if (topIntent == Email.Intent.Reply)
                 {
+                    await DigestEmailLuisResult(sc, luisResult, true);
                     return await sc.BeginDialogAsync(Actions.Reply, skillOptions);
                 }
                 else if (topIntent == Email.Intent.ReadAloud || topIntent == Email.Intent.SelectItem)
@@ -285,7 +288,7 @@ namespace EmailSkill
                 }
                 else if (topIntent == Email.Intent.None && (topGeneralIntent == General.Intent.Previous || topGeneralIntent == General.Intent.Next))
                 {
-                    return await sc.BeginDialogAsync(Actions.Show, skillOptions);
+                    return await sc.BeginDialogAsync(Actions.Reshow, skillOptions);
                 }
                 else
                 {

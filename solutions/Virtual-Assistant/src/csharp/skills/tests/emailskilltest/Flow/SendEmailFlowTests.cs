@@ -12,12 +12,6 @@ namespace EmailSkillTest.Flow
     [TestClass]
     public class SendEmailFlowTests : EmailBotTestBase
     {
-        [TestInitialize]
-        public override void Initialize()
-        {
-            base.Initialize();
-        }
-
         [TestMethod]
         public async Task Test_NotSendingEmail()
         {
@@ -26,6 +20,8 @@ namespace EmailSkillTest.Flow
 
             await this.GetTestFlow()
                 .Send("Send Email")
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(testRecipient)
                 .AssertReply(this.CollectSubjectMessage(recipientDict))
@@ -34,7 +30,7 @@ namespace EmailSkillTest.Flow
                 .Send("TestContent")
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send("No")
-                .AssertReplyOneOf(this.NotSendingMessage())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -46,6 +42,8 @@ namespace EmailSkillTest.Flow
 
             await this.GetTestFlow()
                 .Send("Send Email")
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(testRecipient)
                 .AssertReply(this.CollectRecipients())
@@ -56,7 +54,7 @@ namespace EmailSkillTest.Flow
                 .Send("TestContent")
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send("No")
-                .AssertReplyOneOf(this.NotSendingMessage())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -68,6 +66,8 @@ namespace EmailSkillTest.Flow
 
             await this.GetTestFlow()
                 .Send("Send Email")
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(testRecipient)
                 .AssertReply(this.CollectRecipients())
@@ -78,7 +78,7 @@ namespace EmailSkillTest.Flow
                 .Send("TestContent")
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send("No")
-                .AssertReplyOneOf(this.NotSendingMessage())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -90,13 +90,15 @@ namespace EmailSkillTest.Flow
 
             await this.GetTestFlow()
                 .Send("Send email to " + testRecipient)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReply(this.CollectSubjectMessage(recipientDict))
                 .Send("TestSubjcet")
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send("TestContent")
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send("No")
-                .AssertReplyOneOf(this.NotSendingMessage())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -110,6 +112,8 @@ namespace EmailSkillTest.Flow
 
             await this.GetTestFlow()
                 .Send("Send email to " + testRecipient)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReply(this.RecipientNotFoundMessage(recipientDict))
                 .Send(testRecipientConfirm)
                 .AssertReply(this.CollectSubjectMessage(recipientConfirmDict))
@@ -118,13 +122,21 @@ namespace EmailSkillTest.Flow
                 .Send("TestContent")
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send("No")
-                .AssertReplyOneOf(this.NotSendingMessage())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
         private string[] NotSendingMessage()
         {
             return this.ParseReplies(EmailSharedResponses.ActionEnded.Replies, new StringDictionary());
+        }
+
+        private Action<IActivity> ActionEndMessage()
+        {
+            return activity =>
+            {
+                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
+            };
         }
 
         private Action<IActivity> AssertComfirmBeforeSendingPrompt()
@@ -191,6 +203,15 @@ namespace EmailSkillTest.Flow
         private string[] CollectEmailContentMessage()
         {
             return this.ParseReplies(SendEmailResponses.NoMessageBody.Replies, new StringDictionary());
+        }
+
+        private Action<IActivity> ShowAuth()
+        {
+            return activity =>
+            {
+                var eventActivity = activity.AsEventActivity();
+                Assert.AreEqual(eventActivity.Name, "tokens/request");
+            };
         }
     }
 }
