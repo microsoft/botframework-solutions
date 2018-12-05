@@ -82,6 +82,9 @@ namespace CalendarSkill
         // user time zone
         public List<DateTime> OriginalEndTime { get; set; }
 
+        // the order reference, such as 'next'
+        public string OrderReference { get; set; }
+
         // UTC
         public DateTime? EndDateTime { get; set; }
 
@@ -147,6 +150,7 @@ namespace CalendarSkill
             OriginalStartTime = new List<DateTime>();
             OriginalEndDate = new List<DateTime>();
             OriginalEndTime = new List<DateTime>();
+            OrderReference = null;
             Location = null;
             Attendees = new List<EventModel.Attendee>();
             APIToken = null;

@@ -108,6 +108,12 @@ namespace CalendarSkill
                             break;
                         }
 
+                    case Calendar.Intent.ConnectToMeeting:
+                        {
+                            await dc.BeginDialogAsync(nameof(ConnectToMeetingDialog), skillOptions);
+                            break;
+                        }
+
                     case Calendar.Intent.FindCalendarEntry:
                     case Calendar.Intent.Summary:
                         {
@@ -304,6 +310,7 @@ namespace CalendarSkill
             AddDialog(new NextMeetingDialog(_services, _stateAccessor, _serviceManager));
             AddDialog(new SummaryDialog(_services, _stateAccessor, _serviceManager));
             AddDialog(new UpdateEventDialog(_services, _stateAccessor, _serviceManager));
+            AddDialog(new ConnectToMeetingDialog(_services, _stateAccessor, _serviceManager));
         }
 
         private class Events
