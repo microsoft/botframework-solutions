@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using EmailSkill.Dialogs.Shared.Resources;
 using EmailSkill.Dialogs.ShowEmail.Resources;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EmailSkillTest.Flow
@@ -12,24 +11,20 @@ namespace EmailSkillTest.Flow
     [TestClass]
     public class ShowEmailFlowTests : EmailBotTestBase
     {
-        [TestInitialize]
-        public override void Initialize()
-        {
-            base.Initialize();
-        }
-
         [TestMethod]
         public async Task Test_NotSendingEmailWithOrdinalSelection()
         {
             await this.GetTestFlow()
                 .Send("Show Emails")
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send("The first one")
                 .AssertReply(this.AssertSelectOneOfTheMessage())
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send("No")
-                .AssertReplyOneOf(this.ActionEndMessage())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -38,13 +33,15 @@ namespace EmailSkillTest.Flow
         {
             await this.GetTestFlow()
                 .Send("Show Emails")
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send("1")
                 .AssertReply(this.AssertSelectOneOfTheMessage())
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send("No")
-                .AssertReplyOneOf(this.ActionEndMessage())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -53,9 +50,12 @@ namespace EmailSkillTest.Flow
             return this.ParseReplies(EmailSharedResponses.SentSuccessfully.Replies, new StringDictionary());
         }
 
-        private string[] ActionEndMessage()
+        private Action<IActivity> ActionEndMessage()
         {
-            return this.ParseReplies(EmailSharedResponses.ActionEnded.Replies, new StringDictionary());
+            return activity =>
+            {
+                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
+            };
         }
 
         private string[] ReadOutPrompt()
@@ -105,6 +105,15 @@ namespace EmailSkillTest.Flow
                 var messageActivity = activity.AsMessageActivity();
                 CollectionAssert.Contains(this.ParseReplies(EmailSharedResponses.ShowEmailPrompt.Replies, new StringDictionary()), messageActivity.Text);
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
+            };
+        }
+
+        private Action<IActivity> ShowAuth()
+        {
+            return activity =>
+            {
+                var eventActivity = activity.AsEventActivity();
+                Assert.AreEqual(eventActivity.Name, "tokens/request");
             };
         }
     }
