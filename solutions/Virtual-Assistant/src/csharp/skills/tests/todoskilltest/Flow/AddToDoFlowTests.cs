@@ -47,15 +47,23 @@ namespace ToDoSkillTest.Flow
                 var messageActivity = activity.AsMessageActivity();
                 Assert.AreEqual(1, messageActivity.Attachments.Count);
                 var responseCard = messageActivity.Attachments[0].Content as AdaptiveCard;
+                Assert.IsNotNull(responseCard);
                 var adaptiveCardTitle = responseCard.Body[0] as AdaptiveTextBlock;
+                Assert.IsNotNull(adaptiveCardTitle);
                 var toDoChoices = responseCard.Body[1] as AdaptiveContainer;
+                Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
                     this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", (FakeData.FakeTaskItems.Count + 1).ToString() } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
-                var toDoChoice = ((toDoChoices.Items[0] as AdaptiveColumnSet).Columns[1] as AdaptiveColumn).Items[0] as AdaptiveTextBlock;
-                Assert.AreEqual(toDoChoice.Text, "Test Content");
+                var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;
+                Assert.IsNotNull(columnSet);
+                var column = columnSet.Columns[1] as AdaptiveColumn;
+                Assert.IsNotNull(column);
+                var content = column.Items[0] as AdaptiveTextBlock;
+                Assert.IsNotNull(content);
+                Assert.AreEqual(content.Text, "Test Content");
             };
         }
     }

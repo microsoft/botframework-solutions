@@ -47,8 +47,11 @@ namespace ToDoSkillTest.Flow
                 var messageActivity = activity.AsMessageActivity();
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
                 var responseCard = messageActivity.Attachments[0].Content as AdaptiveCard;
+                Assert.IsNotNull(responseCard);
                 var adaptiveCardTitle = responseCard.Body[0] as AdaptiveTextBlock;
+                Assert.IsNotNull(adaptiveCardTitle);
                 var toDoChoices = responseCard.Body[1] as AdaptiveContainer;
+                Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
                     this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", FakeData.FakeTaskItems.Count.ToString() } }),
@@ -64,15 +67,23 @@ namespace ToDoSkillTest.Flow
                 var messageActivity = activity.AsMessageActivity();
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
                 var responseCard = messageActivity.Attachments[0].Content as AdaptiveCard;
+                Assert.IsNotNull(responseCard);
                 var adaptiveCardTitle = responseCard.Body[0] as AdaptiveTextBlock;
+                Assert.IsNotNull(adaptiveCardTitle);
                 var toDoChoices = responseCard.Body[1] as AdaptiveContainer;
+                Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
                     this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", (FakeData.FakeTaskItems.Count - 1).ToString() } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
-                var toDoChoice = ((toDoChoices.Items[0] as AdaptiveColumnSet).Columns[1] as AdaptiveColumn).Items[0] as AdaptiveTextBlock;
-                Assert.AreEqual(toDoChoice.Text, FakeData.FakeTaskItems[1].Topic);
+                var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;
+                Assert.IsNotNull(columnSet);
+                var column = columnSet.Columns[1] as AdaptiveColumn;
+                Assert.IsNotNull(column);
+                var content = column.Items[0] as AdaptiveTextBlock;
+                Assert.IsNotNull(content);
+                Assert.AreEqual(content.Text, FakeData.FakeTaskItems[1].Topic);
                 var speak = string.Format("I have deleted the item {0} for you.You have {1} items on your list:", FakeData.FakeTaskItems[0].Topic, FakeData.FakeTaskItems.Count - 1);
                 Assert.AreEqual(speak, responseCard.Speak);
             };
@@ -85,15 +96,23 @@ namespace ToDoSkillTest.Flow
                 var messageActivity = activity.AsMessageActivity();
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
                 var responseCard = messageActivity.Attachments[0].Content as AdaptiveCard;
+                Assert.IsNotNull(responseCard);
                 var adaptiveCardTitle = responseCard.Body[0] as AdaptiveTextBlock;
+                Assert.IsNotNull(adaptiveCardTitle);
                 var toDoChoices = responseCard.Body[1] as AdaptiveContainer;
+                Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
                     this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", (FakeData.FakeShoppingItems.Count - 1).ToString() } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
-                var toDoChoice = ((toDoChoices.Items[0] as AdaptiveColumnSet).Columns[1] as AdaptiveColumn).Items[0] as AdaptiveTextBlock;
-                Assert.AreEqual(toDoChoice.Text, FakeData.FakeShoppingItems[0].Topic);
+                var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;
+                Assert.IsNotNull(columnSet);
+                var column = columnSet.Columns[1] as AdaptiveColumn;
+                Assert.IsNotNull(column);
+                var content = column.Items[0] as AdaptiveTextBlock;
+                Assert.IsNotNull(content);
+                Assert.AreEqual(content.Text, FakeData.FakeShoppingItems[0].Topic);
                 var speak = string.Format("I have deleted the item {0} for you.You have {1} items on your list:", FakeData.FakeShoppingItems[1].Topic, FakeData.FakeShoppingItems.Count - 1);
                 Assert.AreEqual(speak, responseCard.Speak);
             };

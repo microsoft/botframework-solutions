@@ -39,8 +39,11 @@ namespace ToDoSkillTest.Flow
                 var messageActivity = activity.AsMessageActivity();
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
                 var responseCard = messageActivity.Attachments[0].Content as AdaptiveCard;
+                Assert.IsNotNull(responseCard);
                 var adaptiveCardTitle = responseCard.Body[0] as AdaptiveTextBlock;
+                Assert.IsNotNull(adaptiveCardTitle);
                 var toDoChoices = responseCard.Body[1] as AdaptiveContainer;
+                Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
                     this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", FakeData.FakeTaskItems.Count.ToString() } }),
@@ -56,9 +59,21 @@ namespace ToDoSkillTest.Flow
                 var messageActivity = activity.AsMessageActivity();
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
                 var responseCard = messageActivity.Attachments[0].Content as AdaptiveCard;
+                Assert.IsNotNull(responseCard);
                 var adaptiveCardTitle = responseCard.Body[0] as AdaptiveTextBlock;
+                Assert.IsNotNull(adaptiveCardTitle);
                 var toDoChoices = responseCard.Body[1] as AdaptiveContainer;
-                toDoChoices.Items.ForEach(o => Assert.AreEqual(((o as AdaptiveColumnSet).Columns[0].Items[0] as AdaptiveImage).UrlString, "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAAmJLR0QAAKqNIzIAAAAHdElNRQfiDAMKKhgxjYNuAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE4LTEyLTAzVDEwOjQyOjI0KzAxOjAw3NT2SAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOC0xMi0wM1QxMDo0MjoyNCswMTowMK2JTvQAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAA/0lEQVQ4T6WTzQmEMBCFx0XQErypHXj0KliCPYgNiUcLsAev3uxAvVqComTzhrgu/i1hPxjykuG9SBJJSMIwFESkVfAAA6JpGoqiiEzTRKDs32MYBi3LQnVdk/TympBmTtMBHnhfSMDOumweDpCBPHliXVcax1HNdg8H/GKaJt7RcRy1svMzYJ5nsm2bte/7PH5zCijLknArAGbLsljD3HUd6yMijmM+WYA5qqqqj/Y8T3V34EHv9AVZlvGYJAmP0kx937O+4hSQ5zmlacradd1HM7g8xKIoqG1bGoZBrdzDAXieR4IgUOqazcMBeNu6bJ7/fyZcCUJkT6vgEUKINxqN2iFI/P1RAAAAAElFTkSuQmCC"));
+                Assert.IsNotNull(toDoChoices);
+                foreach (var choice in toDoChoices.Items)
+                {
+                    var columnSet = choice as AdaptiveColumnSet;
+                    Assert.IsNotNull(columnSet);
+                    var column = columnSet.Columns[0];
+                    Assert.IsNotNull(column);
+                    var image = column.Items[0] as AdaptiveImage;
+                    Assert.IsNotNull(image);
+                    Assert.AreEqual(image.UrlString, FakeData.ImageSource);
+                }
             };
         }
 
