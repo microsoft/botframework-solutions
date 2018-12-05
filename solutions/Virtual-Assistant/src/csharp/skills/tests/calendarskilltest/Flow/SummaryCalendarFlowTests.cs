@@ -9,6 +9,8 @@ using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CalendarSkillTest.Flow.Utterances;
 using CalendarSkillTest.Flow.Fakes;
+using System.Collections.Generic;
+using CalendarSkill;
 
 namespace CalendarSkillTest.Flow
 {
@@ -24,6 +26,8 @@ namespace CalendarSkillTest.Flow
         [TestMethod]
         public async Task Test_CalendarSummary()
         {
+            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
+            serviceManager.FakeEventList = MockCalendarService.FakeDefaultEvents();
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseFindMeeting)
                 .AssertReply(this.ShowAuth())
@@ -39,6 +43,8 @@ namespace CalendarSkillTest.Flow
         [TestMethod]
         public async Task Test_CalendarSummaryByTimeRange()
         {
+            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
+            serviceManager.FakeEventList = new List<EventModel>() { MockCalendarService.CreateEventModel(startDateTime: DateTime.UtcNow.AddDays(7), endDateTime: DateTime.UtcNow.AddDays(8)) };
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseFindMeetingByTimeRange)
                 .AssertReply(this.ShowAuth())

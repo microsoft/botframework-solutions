@@ -8,12 +8,12 @@ namespace CalendarSkillTest.Flow.Fakes
 {
     public class MockCalendarService : ICalendar
     {
-        public MockCalendarService()
+        public MockCalendarService(List<EventModel> eventModels)
         {
-            this.UpcomingEvents = FakeGetUpcomingEvents();
+            this.FakeEvents = eventModels ?? new List<EventModel>();
         }
 
-        public List<EventModel> UpcomingEvents { get; set; }
+        public List<EventModel> FakeEvents { get; set; }
 
         public async Task<EventModel> CreateEvent(EventModel newEvent)
         {
@@ -22,22 +22,22 @@ namespace CalendarSkillTest.Flow.Fakes
 
         public async Task<List<EventModel>> GetUpcomingEvents()
         {
-            return await Task.FromResult(this.UpcomingEvents);
+            return await Task.FromResult(this.FakeEvents);
         }
 
         public async Task<List<EventModel>> GetEventsByTime(DateTime startTime, DateTime endTime)
         {
-            return await Task.FromResult(this.UpcomingEvents);
+            return await Task.FromResult(this.FakeEvents);
         }
 
         public async Task<List<EventModel>> GetEventsByStartTime(DateTime startTime)
         {
-            return await Task.FromResult(this.UpcomingEvents);
+            return await Task.FromResult(this.FakeEvents);
         }
 
         public async Task<List<EventModel>> GetEventsByTitle(string title)
         {
-            return await Task.FromResult(this.UpcomingEvents);
+            return await Task.FromResult(this.FakeEvents);
         }
 
         public async Task<EventModel> UpdateEventById(EventModel updateEvent)
@@ -52,47 +52,89 @@ namespace CalendarSkillTest.Flow.Fakes
             await Task.CompletedTask;
         }
 
-        private List<EventModel> FakeGetUpcomingEvents()
+        public static List<EventModel> FakeDefaultEvents()
         {
             var eventList = new List<EventModel>();
+
+            eventList.Add(CreateEventModel());
+
+            return eventList;
+        }
+
+        public static EventModel CreateEventModel(
+            EmailAddress[] emailAddress = null,
+            string eventName = null,
+            string content = null,
+            DateTime? startDateTime = null,
+            DateTime? endDateTime = null,
+            string locationString = null,
+            bool isOrganizer = true,
+            bool isCancelled = false)
+        {
             var attendees = new List<Attendee>();
 
-            attendees.Add(new Attendee
+            if (emailAddress != null)
             {
-                EmailAddress = new EmailAddress
+                foreach (var email in emailAddress)
                 {
-                    Address = "test1@outlook.com",
-                },
-                Type = AttendeeType.Required,
-            });
+                    attendees.Add(new Attendee
+                    {
+                        EmailAddress = email,
+                        Type = AttendeeType.Required,
+                    });
+                }
+            }
+            else
+            {
+                attendees.Add(new Attendee
+                {
+                    EmailAddress = new EmailAddress
+                    {
+                        Address = Strings.Strings.DefaultUserEmail,
+                        Name = Strings.Strings.DefaultUserName,
+                    },
+                    Type = AttendeeType.Required,
+                });
+            }
 
             // Event Name
-            string eventName = "test title";
+            eventName = eventName ?? Strings.Strings.DefaultEventName;
 
             // Event body
             var body = new ItemBody
             {
-                Content = "test body",
+                Content = content ?? Strings.Strings.DefaultContent,
                 ContentType = BodyType.Text,
             };
 
             // Event start and end time
             // Another example date format: `new DateTime(2017, 12, 1, 9, 30, 0).ToString("o")`
+
+            if (startDateTime == null)
+            {
+                startDateTime = DateTime.UtcNow;
+            }
+
+            if (endDateTime == null)
+            {
+                endDateTime = startDateTime.Value.AddHours(1);
+            }
+
             var startTimeTimeZone = new DateTimeTimeZone
             {
-                DateTime = new DateTime(2019, 11, 11, 9, 30, 0).ToString("o"),
+                DateTime = startDateTime.Value.ToString("o"),
                 TimeZone = TimeZoneInfo.Local.Id,
             };
             var endTimeTimeZone = new DateTimeTimeZone
             {
-                DateTime = new DateTime(2019, 11, 11, 10, 30, 0).ToString("o"),
+                DateTime = endDateTime.Value.ToString("o"),
                 TimeZone = TimeZoneInfo.Local.Id,
             };
 
             // Event location
             var location = new Location
             {
-                DisplayName = "office 12",
+                DisplayName = locationString ?? Strings.Strings.DefaultLocation,
             };
 
             // Add the event.
@@ -105,13 +147,11 @@ namespace CalendarSkillTest.Flow.Fakes
                 Body = body,
                 Start = startTimeTimeZone,
                 End = endTimeTimeZone,
-                IsOrganizer = true,
+                IsOrganizer = isOrganizer,
+                IsCancelled = isCancelled,
             };
 
-            EventModel createdEventModel = new EventModel(createdEvent);
-            eventList.Add(createdEventModel);
-
-            return eventList;
+            return new EventModel(createdEvent);
         }
     }
 }

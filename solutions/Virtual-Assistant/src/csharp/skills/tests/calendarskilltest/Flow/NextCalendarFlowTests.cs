@@ -19,6 +19,8 @@ namespace CalendarSkillTest.Flow
         public void SetupLuisService()
         {
             this.Services.LuisServices.Add("calendar", new MockLuisRecognizer(new FindMeetingTestUtterances()));
+            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
+            serviceManager.FakeEventList = MockCalendarService.FakeDefaultEvents();
         }
 
         [TestMethod]
