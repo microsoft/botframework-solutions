@@ -92,7 +92,9 @@ namespace EmailSkill
             }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled);
             }
 
             await ClearConversationState(sc);

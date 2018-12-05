@@ -3,6 +3,7 @@
     using System;
     using System.Net.Http.Headers;
     using System.Threading.Tasks;
+    using Microsoft.Bot.Solutions.Skills;
     using Microsoft.Graph;
 
     public class GraphClient
@@ -28,6 +29,17 @@
                         await Task.CompletedTask;
                     }));
             return graphClient;
+        }
+
+        public static SkillException HandleGraphAPIException(ServiceException ex)
+        {
+            var skillExceptionType = SkillExceptionType.Other;
+            if (ex.Message.Contains("erroraccessdenied", StringComparison.InvariantCultureIgnoreCase))
+            {
+                skillExceptionType = SkillExceptionType.APIAccessDenied;
+            }
+
+            return new SkillException(skillExceptionType, ex.Message, ex);
         }
     }
 }

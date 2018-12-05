@@ -28,10 +28,10 @@ namespace EmailSkill
             : base(nameof(ConfirmRecipientDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager)
         {
             var confirmRecipient = new WaterfallStep[]
-           {
+            {
                 ConfirmRecipient,
                 AfterConfirmRecipient,
-           };
+            };
 
             var updateRecipientName = new WaterfallStep[]
             {
@@ -62,7 +62,9 @@ namespace EmailSkill
             }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled);
             }
         }
 
@@ -95,7 +97,9 @@ namespace EmailSkill
             }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled);
             }
         }
 
@@ -213,10 +217,23 @@ namespace EmailSkill
 
                 return await sc.PromptAsync(Actions.Choice, selectOption);
             }
+            catch (SkillException skillEx)
+            {
+                await HandleDialogExceptions(sc, skillEx);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+            }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled);
             }
+        }
+
+        protected override Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
+        {
+            return outerDc.CancelAllDialogsAsync();
         }
 
         public async Task<DialogTurnResult> AfterConfirmRecipient(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -327,7 +344,9 @@ namespace EmailSkill
             }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled);
             }
         }
     }

@@ -60,7 +60,9 @@ namespace EmailSkill
             }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled);
             }
         }
 
@@ -94,7 +96,9 @@ namespace EmailSkill
             }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled);
             }
         }
 
@@ -126,9 +130,17 @@ namespace EmailSkill
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
             }
+            catch (SkillException ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+            }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled);
             }
 
             await ClearConversationState(sc);

@@ -42,8 +42,17 @@ namespace EmailSkill
             var filterString = $"startswith(displayName, '{name}') or startswith(givenName,'{name}') or startswith(surname,'{name}') or startswith(mail,'{name}') or startswith(userPrincipalName,'{name}')";
             optionList.Add(new QueryOption("$filter", filterString));
 
+            IGraphServiceUsersCollectionPage users = null;
+
             // Get the current user's profile.
-            var users = await this._graphClient.Users.Request(optionList).GetAsync();
+            try
+            {
+                users = await this._graphClient.Users.Request(optionList).GetAsync();
+            }
+            catch (ServiceException ex)
+            {
+                throw GraphClient.HandleGraphAPIException(ex);
+            }
 
             if (users?.Count > 0)
             {
@@ -79,8 +88,17 @@ namespace EmailSkill
             var filterString = $"\"{name}\"";
             optionList.Add(new QueryOption("$search", filterString));
 
+            IUserPeopleCollectionPage users = null;
+
             // Get the current user's profile.
-            var users = await this._graphClient.Me.People.Request(optionList).GetAsync();
+            try
+            {
+                users = await this._graphClient.Me.People.Request(optionList).GetAsync();
+            }
+            catch (ServiceException ex)
+            {
+                throw GraphClient.HandleGraphAPIException(ex);
+            }
 
             if (users?.Count > 0)
             {
@@ -112,8 +130,17 @@ namespace EmailSkill
             var filterString = $"startswith(displayName, '{name}') or startswith(givenName,'{name}') or startswith(surname,'{name}')";
             optionList.Add(new QueryOption("$filter", filterString));
 
+            IUserContactsCollectionPage contacts = null;
+
             // Get the current user's profile.
-            var contacts = await this._graphClient.Me.Contacts.Request(optionList).GetAsync();
+            try
+            {
+                contacts = await this._graphClient.Me.Contacts.Request(optionList).GetAsync();
+            }
+            catch (ServiceException ex)
+            {
+                throw GraphClient.HandleGraphAPIException(ex);
+            }
 
             if (contacts?.Count > 0)
             {

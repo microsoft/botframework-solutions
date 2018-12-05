@@ -20,7 +20,6 @@ using Microsoft.Bot.Solutions.Data;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Bot.Solutions.Util;
 using Microsoft.Graph;
 using Microsoft.Recognizers.Text;
 using Newtonsoft.Json.Linq;
@@ -153,6 +152,11 @@ namespace EmailSkill
             return await base.OnContinueDialogAsync(dc, cancellationToken);
         }
 
+        protected override Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
+        {
+            return outerDc.CancelAllDialogsAsync();
+        }
+
         // Shared steps
         protected virtual async Task<DialogTurnResult> IfClearContextStep(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -204,7 +208,9 @@ namespace EmailSkill
             }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled);
             }
         }
 
@@ -240,7 +246,9 @@ namespace EmailSkill
             }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled);
             }
         }
 
@@ -295,7 +303,9 @@ namespace EmailSkill
             }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled);
             }
         }
 
@@ -308,7 +318,9 @@ namespace EmailSkill
             }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled);
             }
         }
 
@@ -317,12 +329,14 @@ namespace EmailSkill
             try
             {
                 return await sc.PromptAsync(
-                Actions.Prompt,
-                new PromptOptions() { Prompt = sc.Context.Activity.CreateReply(EmailSharedResponses.NoFocusMessage, ResponseBuilder), });
+                    Actions.Prompt,
+                    new PromptOptions() { Prompt = sc.Context.Activity.CreateReply(EmailSharedResponses.NoFocusMessage, ResponseBuilder) });
             }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled);
             }
         }
 
@@ -349,7 +363,9 @@ namespace EmailSkill
             }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled);
             }
         }
 
@@ -371,7 +387,9 @@ namespace EmailSkill
             }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled);
             }
         }
 
@@ -426,7 +444,9 @@ namespace EmailSkill
             }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled);
             }
         }
 
@@ -458,7 +478,9 @@ namespace EmailSkill
             }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled);
             }
         }
 
@@ -478,7 +500,9 @@ namespace EmailSkill
             }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled);
             }
         }
 
@@ -509,7 +533,9 @@ namespace EmailSkill
             }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled);
             }
         }
 
@@ -529,6 +555,7 @@ namespace EmailSkill
                     {
                         state.Message.Add(messages[0]);
                     }
+
                     state.MessageList = messages;
                 }
                 else
@@ -538,9 +565,17 @@ namespace EmailSkill
 
                 return await sc.EndDialogAsync(true);
             }
+            catch (SkillException ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+            }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled);
             }
         }
 
@@ -818,46 +853,40 @@ namespace EmailSkill
         protected async Task<List<Message>> GetMessagesAsync(WaterfallStepContext sc)
         {
             var result = new List<Message>();
-            try
+
+            int pageSize = ConfigData.GetInstance().MaxDisplaySize;
+            var state = await EmailStateAccessor.GetAsync(sc.Context);
+            var token = state.Token;
+            var serivce = ServiceManager.InitMailService(token, state.GetUserTimeZone(), state.MailSourceType);
+
+            var isUnreadOnly = state.IsUnreadOnly;
+            var isImportant = state.IsImportant;
+            var startDateTime = state.StartDateTime;
+            var endDateTime = state.EndDateTime;
+            var directlyToMe = state.DirectlyToMe;
+            var skip = state.ShowEmailIndex * pageSize;
+            string mailAddress = null;
+            if (!string.IsNullOrEmpty(state.SenderName))
             {
-                int pageSize = ConfigData.GetInstance().MaxDisplaySize;
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var token = state.Token;
-                var serivce = ServiceManager.InitMailService(token, state.GetUserTimeZone(), state.MailSourceType);
-
-                var isUnreadOnly = state.IsUnreadOnly;
-                var isImportant = state.IsImportant;
-                var startDateTime = state.StartDateTime;
-                var endDateTime = state.EndDateTime;
-                var directlyToMe = state.DirectlyToMe;
-                var skip = state.ShowEmailIndex * pageSize;
-                string mailAddress = null;
-                if (!string.IsNullOrEmpty(state.SenderName))
+                var searchResult = await GetPeopleWorkWithAsync(sc, state.SenderName);
+                var user = searchResult.FirstOrDefault();
+                if (user != null)
                 {
-                    var searchResult = await GetPeopleWorkWithAsync(sc, state.SenderName);
-                    var user = searchResult.FirstOrDefault();
-                    if (user != null)
-                    {
-                        // maybe we should only show unread email from somebody
-                        // isRead = true;
-                        mailAddress = user.ScoredEmailAddresses.FirstOrDefault()?.Address ?? user.UserPrincipalName;
-                    }
-                }
-
-                // Get user message.
-                result = await serivce.GetMyMessagesAsync(startDateTime, endDateTime, isUnreadOnly, isImportant, directlyToMe, mailAddress, skip);
-
-                // Go back to last page if next page didn't get anything
-                if (!result.Any() && state.ShowEmailIndex > 0)
-                {
-                    state.ShowEmailIndex--;
-                    skip = state.ShowEmailIndex * pageSize;
-                    result = await serivce.GetMyMessagesAsync(startDateTime, endDateTime, isUnreadOnly, isImportant, directlyToMe, mailAddress, skip);
+                    // maybe we should only show unread email from somebody
+                    // isRead = true;
+                    mailAddress = user.ScoredEmailAddresses.FirstOrDefault()?.Address ?? user.UserPrincipalName;
                 }
             }
-            catch (Exception ex)
+
+            // Get user message.
+            result = await serivce.GetMyMessagesAsync(startDateTime, endDateTime, isUnreadOnly, isImportant, directlyToMe, mailAddress, skip);
+
+            // Go back to last page if next page didn't get anything
+            if (!result.Any() && state.ShowEmailIndex > 0)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                state.ShowEmailIndex--;
+                skip = state.ShowEmailIndex * pageSize;
+                result = await serivce.GetMyMessagesAsync(startDateTime, endDateTime, isUnreadOnly, isImportant, directlyToMe, mailAddress, skip);
             }
 
             return result;
@@ -916,21 +945,12 @@ namespace EmailSkill
         protected async Task<List<Person>> GetPeopleWorkWithAsync(WaterfallStepContext sc, string name)
         {
             var result = new List<Person>();
-            try
-            {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var token = state.Token;
-                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
+            var state = await EmailStateAccessor.GetAsync(sc.Context);
+            var token = state.Token;
+            var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
 
-                // Get users.
-                result = await service.GetPeopleAsync(name);
-            }
-            catch (Exception ex)
-            {
-                throw await HandleDialogExceptions(sc, ex);
-            }
-
-            return result;
+            // Get users.
+            return await service.GetPeopleAsync(name);
         }
 
         protected async Task<List<Person>> GetUserAsync(WaterfallStepContext sc, string name)
@@ -960,22 +980,15 @@ namespace EmailSkill
         protected async Task<List<Person>> GetContactsAsync(WaterfallStepContext sc, string name)
         {
             var result = new List<Person>();
-            try
-            {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var token = state.Token;
-                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
+            var state = await EmailStateAccessor.GetAsync(sc.Context);
+            var token = state.Token;
+            var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
 
-                // Get users.
-                var contactsList = await service.GetContactsAsync(name);
-                foreach (var contact in contactsList)
-                {
-                    result.Add(contact.ToPerson());
-                }
-            }
-            catch (Exception ex)
+            // Get users.
+            var contactsList = await service.GetContactsAsync(name);
+            foreach (var contact in contactsList)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                result.Add(contact.ToPerson());
             }
 
             return result;
@@ -1196,19 +1209,61 @@ namespace EmailSkill
             return Regex.IsMatch(email, @"^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$");
         }
 
-        // This method is called by any waterfall step that throws an exception to ensure consistency
-        protected async Task<Exception> HandleDialogExceptions(WaterfallStepContext sc, Exception ex)
-        {
-            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.EmailErrorMessage));
-            await ClearAllState(sc);
-            await sc.CancelAllDialogsAsync();
-            return ex;
-        }
-
         protected bool IsReadMoreIntent(General.Intent? topIntent, string userInput)
         {
             bool isReadMoreUserInput = userInput.ToLowerInvariant().Contains(CommonStrings.More);
             return topIntent == General.Intent.ReadMore && isReadMoreUserInput;
+        }
+
+        // This method is called by any waterfall step that throws an exception to ensure consistency
+        protected async Task HandleDialogExceptions(WaterfallStepContext sc, Exception ex)
+        {
+            // send trace back to emulator
+            var trace = new Activity(type: ActivityTypes.Trace, text: $"DialogException: {ex.Message}, StackTrace: {ex.StackTrace}");
+            await sc.Context.SendActivityAsync(trace);
+
+            // log exception
+            Services.TelemetryClient.TrackException(ex, AssembleTelemetryData(sc));
+
+            // send error message to bot user
+            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.EmailErrorMessage));
+
+            // clear state
+            await ClearAllState(sc);
+        }
+
+        // This method is called by any waterfall step that throws a SkillException to ensure consistency
+        protected async Task HandleDialogExceptions(WaterfallStepContext sc, SkillException ex)
+        {
+            // send trace back to emulator
+            var trace = new Activity(type: ActivityTypes.Trace, text: $"DialogException: {ex.Message}, StackTrace: {ex.StackTrace}");
+            await sc.Context.SendActivityAsync(trace);
+
+            // log exception
+            Services.TelemetryClient.TrackException(ex, AssembleTelemetryData(sc));
+
+            // send error message to bot user
+            if (ex.ExceptionType == SkillExceptionType.APIAccessDenied)
+            {
+                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.EmailErrorMessage_BotProblem));
+            }
+            else
+            {
+                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.EmailErrorMessage));
+            }
+
+            // clear state
+            await ClearAllState(sc);
+        }
+
+        private IDictionary<string, string> AssembleTelemetryData(WaterfallStepContext sc)
+        {
+            var telemetryData = new Dictionary<string, string>();
+            telemetryData.Add("activityId", sc.Context.Activity.Id);
+            telemetryData.Add("userId", sc.Context.Activity.From.Id);
+            telemetryData.Add("activeDialog", sc.ActiveDialog.ToString());
+
+            return telemetryData;
         }
     }
 }
