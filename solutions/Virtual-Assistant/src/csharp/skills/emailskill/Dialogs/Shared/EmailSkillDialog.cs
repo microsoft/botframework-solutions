@@ -71,84 +71,17 @@ namespace EmailSkill
 
         protected EmailSkillResponseBuilder ResponseBuilder { get; set; } = new EmailSkillResponseBuilder();
 
-        protected static (List<Person> formattedPersonList, List<Person> formattedUserList) FormatRecipientList(List<Person> personList, List<Person> userList)
-        {
-            // Remove dup items
-            List<Person> formattedPersonList = new List<Person>();
-            List<Person> formattedUserList = new List<Person>();
-
-            foreach (var person in personList)
-            {
-                var mailAddress = person.ScoredEmailAddresses.FirstOrDefault()?.Address ?? person.UserPrincipalName;
-
-                bool isDup = false;
-                foreach (var formattedPerson in formattedPersonList)
-                {
-                    var formattedMailAddress = formattedPerson.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedPerson.UserPrincipalName;
-
-                    if (mailAddress.Equals(formattedMailAddress, StringComparison.OrdinalIgnoreCase))
-                    {
-                        isDup = true;
-                        break;
-                    }
-                }
-
-                if (!isDup)
-                {
-                    formattedPersonList.Add(person);
-                }
-            }
-
-            foreach (var user in userList)
-            {
-                var mailAddress = user.ScoredEmailAddresses.FirstOrDefault()?.Address ?? user.UserPrincipalName;
-
-                bool isDup = false;
-                foreach (var formattedPerson in formattedPersonList)
-                {
-                    var formattedMailAddress = formattedPerson.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedPerson.UserPrincipalName;
-
-                    if (mailAddress.Equals(formattedMailAddress, StringComparison.OrdinalIgnoreCase))
-                    {
-                        isDup = true;
-                        break;
-                    }
-                }
-
-                if (!isDup)
-                {
-                    foreach (var formattedUser in formattedUserList)
-                    {
-                        var formattedMailAddress = formattedUser.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedUser.UserPrincipalName;
-
-                        if (mailAddress.Equals(formattedMailAddress))
-                        {
-                            isDup = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (!isDup)
-                {
-                    formattedUserList.Add(user);
-                }
-            }
-
-            return (formattedPersonList, formattedUserList);
-        }
-
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await EmailStateAccessor.GetAsync(dc.Context);
-            await DigestEmailLuisResult(dc, state.LuisResult);
+            await DigestEmailLuisResult(dc, state.LuisResult, true);
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }
 
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await EmailStateAccessor.GetAsync(dc.Context);
-            await DigestEmailLuisResult(dc, state.LuisResult);
+            await DigestEmailLuisResult(dc, state.LuisResult, false);
             return await base.OnContinueDialogAsync(dc, cancellationToken);
         }
 
@@ -174,8 +107,27 @@ namespace EmailSkill
                 {
                     // Clear email state data
                     await ClearConversationState(sc);
-                    await DigestEmailLuisResult(sc, luisResult);
+                    await DigestEmailLuisResult(sc, luisResult, true);
                 }
+
+                return await sc.NextAsync();
+            }
+            catch (Exception ex)
+            {
+                throw await HandleDialogExceptions(sc, ex);
+            }
+        }
+
+        protected virtual async Task<DialogTurnResult> PagingStep(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+
+                var luisResult = state.LuisResult;
+                var skillLuisResult = luisResult?.TopIntent().intent;
+                var generalLuisResult = state.GeneralLuisResult;
+                var generalTopIntent = generalLuisResult?.TopIntent().intent;
 
                 if (skillLuisResult == Email.Intent.None && generalTopIntent == General.Intent.Next)
                 {
@@ -199,10 +151,8 @@ namespace EmailSkill
                         state.ReadEmailIndex++;
                     }
                 }
-                else
-                {
-                    await DigestFocusEmailAsync(sc);
-                }
+
+                await DigestFocusEmailAsync(sc);
 
                 return await sc.NextAsync();
             }
@@ -234,10 +184,6 @@ namespace EmailSkill
 
                     // Wait for the tokens/response event
                     return await sc.PromptAsync(SkillModeAuth, new PromptOptions());
-                }
-                else if (sc.Context.Activity.ChannelId == "test")
-                {
-                    return await sc.NextAsync();
                 }
                 else
                 {
@@ -522,11 +468,18 @@ namespace EmailSkill
                         return await sc.BeginDialogAsync(nameof(ConfirmRecipientDialog), skillOptions);
                     }
 
-                    var nameList = userInput.Split(new[] { ",", "and" }, options: StringSplitOptions.None)
+                    if (IsEmail(userInput))
+                    {
+                        state.EmailList.Add(userInput);
+                    }
+                    else
+                    {
+                        var nameList = userInput.Split(new[] { ",", CommonStrings.And }, options: StringSplitOptions.None)
                         .Select(x => x.Trim())
                         .Where(x => !string.IsNullOrWhiteSpace(x))
                         .ToList();
-                    state.NameList = nameList;
+                        state.NameList = nameList;
+                    }
                 }
 
                 return await sc.BeginDialogAsync(nameof(ConfirmRecipientDialog), skillOptions);
@@ -1060,104 +1013,15 @@ namespace EmailSkill
             }
         }
 
-        protected async Task DigestEmailLuisResult(DialogContext dc, Email luisResult)
+        protected async Task DigestEmailLuisResult(DialogContext dc, Email luisResult, bool isBeginDialog)
         {
             try
             {
                 var state = await EmailStateAccessor.GetAsync(dc.Context);
 
-                if (dc.Context.Activity.Text != null)
-                {
-                    var words = dc.Context.Activity.Text.Split(' ');
-                    {
-                        foreach (var word in words)
-                        {
-                            var lowerInput = word.ToLower();
-
-                            if (lowerInput.Contains(CommonStrings.High) || lowerInput.Contains(CommonStrings.Important))
-                            {
-                                state.IsImportant = true;
-                            }
-                            else if (lowerInput.Contains(CommonStrings.Unread))
-                            {
-                                state.IsUnreadOnly = true;
-                            }
-                            else if (lowerInput.Contains(CommonStrings.All))
-                            {
-                                state.IsUnreadOnly = false;
-                            }
-                        }
-                    }
-                }
+                var intent = luisResult.TopIntent().intent;
 
                 var entity = luisResult.Entities;
-                if (entity.ContactName != null)
-                {
-                    foreach (var name in entity.ContactName)
-                    {
-                        if (!state.NameList.Contains(name))
-                        {
-                            state.NameList.Add(name);
-                        }
-                    }
-                }
-
-                if (entity.EmailSubject != null)
-                {
-                    state.Subject = entity.EmailSubject[0];
-                }
-
-                if (entity.Message != null)
-                {
-                    state.Content = entity.Message[0];
-                }
-
-                if (entity.SenderName != null)
-                {
-                    state.SenderName = entity.SenderName[0];
-                }
-
-                if (entity.EmailAddress != null)
-                {
-                    // As luis result for email address often contains extra spaces for word breaking
-                    // (e.g. send email to test@test.com, email address entity will be test @ test . com)
-                    // So use original user input as email address.
-                    var rawEntity = luisResult.Entities._instance.EmailAddress;
-                    foreach (var emailAddress in rawEntity)
-                    {
-                        var email = luisResult.Text.Substring(emailAddress.StartIndex, emailAddress.EndIndex - emailAddress.StartIndex);
-                        if (IsEmail(email) && !state.EmailList.Contains(email))
-                        {
-                            state.EmailList.Add(email);
-                        }
-                    }
-                }
-
-                if (entity.datetime != null)
-                {
-                    // todo: enable date time
-                    // case "builtin.datetimeV2.date":
-                    // case "builtin.datetimeV2.datetime":
-                    // foreach (dynamic value in resolution["values"])
-                    // {
-                    //    var start = value["value"].ToString();
-                    //    var dateTime = DateTime.Parse(start);
-                    //    state.StartDateTime = dateTime;
-                    //    state.EndDateTime = DateTime.UtcNow;
-                    // }
-
-                    // break;
-                    // case "builtin.datetimeV2.datetimerange":
-                    // foreach (dynamic value in resolution["values"])
-                    // {
-                    //    var start = value["start"].ToString();
-                    //    var end = value["end"].ToString();
-                    //    state.StartDateTime = DateTime.Parse(start);
-                    //    state.EndDateTime = DateTime.Parse(end);
-                    // }
-
-                    // break;
-                }
 
                 if (entity.ordinal != null)
                 {
@@ -1176,7 +1040,7 @@ namespace EmailSkill
                     }
                 }
 
-                if (entity.number != null && entity.ordinal == null)
+                if (entity.number != null && (entity.ordinal == null || entity.ordinal.Length == 0))
                 {
                     try
                     {
@@ -1191,6 +1055,134 @@ namespace EmailSkill
                     {
                         // ignored
                     }
+                }
+
+                if (!isBeginDialog)
+                {
+                    return;
+                }
+
+                switch (intent)
+                {
+                    case Email.Intent.CheckMessages:
+                    case Email.Intent.SearchMessages:
+                        {
+                            // Get email search type
+                            if (dc.Context.Activity.Text != null)
+                            {
+                                var words = dc.Context.Activity.Text.Split(' ');
+                                {
+                                    foreach (var word in words)
+                                    {
+                                        var lowerInput = word.ToLower();
+
+                                        if (lowerInput.Contains(CommonStrings.High) || lowerInput.Contains(CommonStrings.Important))
+                                        {
+                                            state.IsImportant = true;
+                                        }
+                                        else if (lowerInput.Contains(CommonStrings.Unread))
+                                        {
+                                            state.IsUnreadOnly = true;
+                                        }
+                                        else if (lowerInput.Contains(CommonStrings.All))
+                                        {
+                                            state.IsUnreadOnly = false;
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (entity.ContactName != null)
+                            {
+                                foreach (var name in entity.ContactName)
+                                {
+                                    if (!state.NameList.Contains(name))
+                                    {
+                                        state.NameList.Add(name);
+                                    }
+                                }
+                            }
+
+                            if (entity.EmailAddress != null)
+                            {
+                                // As luis result for email address often contains extra spaces for word breaking
+                                // (e.g. send email to test@test.com, email address entity will be test @ test . com)
+                                // So use original user input as email address.
+                                var rawEntity = luisResult.Entities._instance.EmailAddress;
+                                foreach (var emailAddress in rawEntity)
+                                {
+                                    var email = luisResult.Text.Substring(emailAddress.StartIndex, emailAddress.EndIndex - emailAddress.StartIndex);
+                                    if (IsEmail(email) && !state.EmailList.Contains(email))
+                                    {
+                                        state.EmailList.Add(email);
+                                    }
+                                }
+                            }
+
+                            if (entity.SenderName != null)
+                            {
+                                state.SenderName = entity.SenderName[0];
+                                state.IsUnreadOnly = false;
+                            }
+
+                            break;
+                        }
+
+                    case Email.Intent.SendEmail:
+                    case Email.Intent.Forward:
+                    case Email.Intent.Reply:
+                        {
+                            if (entity.EmailSubject != null)
+                            {
+                                state.Subject = entity.EmailSubject[0];
+                            }
+
+                            if (entity.Message != null)
+                            {
+                                state.Content = entity.Message[0];
+                            }
+
+                            if (entity.ContactName != null)
+                            {
+                                foreach (var name in entity.ContactName)
+                                {
+                                    if (!state.NameList.Contains(name))
+                                    {
+                                        state.NameList.Add(name);
+                                    }
+                                }
+                            }
+
+                            if (entity.EmailAddress != null)
+                            {
+                                // As luis result for email address often contains extra spaces for word breaking
+                                // (e.g. send email to test@test.com, email address entity will be test @ test . com)
+                                // So use original user input as email address.
+                                var rawEntity = luisResult.Entities._instance.EmailAddress;
+                                foreach (var emailAddress in rawEntity)
+                                {
+                                    var email = luisResult.Text.Substring(emailAddress.StartIndex, emailAddress.EndIndex - emailAddress.StartIndex);
+                                    if (IsEmail(email) && !state.EmailList.Contains(email))
+                                    {
+                                        state.EmailList.Add(email);
+                                    }
+                                }
+                            }
+
+                            if (entity.SenderName != null)
+                            {
+                                state.SenderName = entity.SenderName[0];
+                                state.IsUnreadOnly = false;
+
+                                // Clear focus email if there is any.
+                                state.Message.Clear();
+                            }
+
+                            break;
+                        }
+
+                    default:
+                        break;
                 }
             }
             catch
@@ -1211,7 +1203,7 @@ namespace EmailSkill
 
         protected bool IsReadMoreIntent(General.Intent? topIntent, string userInput)
         {
-            bool isReadMoreUserInput = userInput.ToLowerInvariant().Contains(CommonStrings.More);
+            bool isReadMoreUserInput = userInput == null ? false : userInput.ToLowerInvariant().Contains(CommonStrings.More);
             return topIntent == General.Intent.ReadMore && isReadMoreUserInput;
         }
 
