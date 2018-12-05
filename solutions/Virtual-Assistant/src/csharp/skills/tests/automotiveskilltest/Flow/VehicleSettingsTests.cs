@@ -75,6 +75,8 @@ namespace AutomotiveSkillTest.Flow
         {
             await this.GetTestFlow()
                 .Send("put the air on my feet")
+                .AssertReply(this.CheckReply(" (1) Front Combined Air Delivery Mode Control(2) Rear Combined Air Delivery Mode Control"))
+                .Send("front combined air delivery mode control")
                 .AssertReply(this.CheckForSettingEvent())
                 .AssertReply(this.CheckReply("Setting Front Combined Air Delivery Mode Control to Floor."))
                 .StartTestAsync();
@@ -91,12 +93,36 @@ namespace AutomotiveSkillTest.Flow
         }
 
         [TestMethod]
-        public async Task Test_ForwardAutomticBraking50()
+        public async Task Test_FeelingCold()
         {
             await this.GetTestFlow()
-                .Send("increase forward automatic braking to 50%")
+                .Send("I'm feeling cold")
                 .AssertReply(this.CheckForSettingEvent())
-                .AssertReply(this.CheckReply("Setting Front and Rear HVAC to All Off."))
+                .AssertReply(this.CheckReply("Increasing Temperature."))
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_FeelingColdInTheBack()
+        {
+            await this.GetTestFlow()
+                .Send("it's feeling cold in the back")
+                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckReply("Increasing Rear Combined Set Temperature."))
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_AdjustEqualizer()
+        {
+            await this.GetTestFlow()
+                .Send("adjust equalizer")
+                .AssertReply(this.CheckReply(" (1) Equalizer (Bass)(2) Equalizer (Midrange)(3) Equalizer (Treble)(4) Equalizer (Surround)(5) Air Recirculation"))
+                .Send("Equalizer (Bass)")
+                .AssertReply(this.CheckReply("Here are the settings for Equalizer (Bass): (1) Decrease(2) Increase"))                
+                 .Send("Decrease")
+                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckReply("Decreasing Equalizer (Bass)."))
                 .StartTestAsync();
         }
 

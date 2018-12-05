@@ -1,5 +1,5 @@
 ﻿
-# Enterprise Bot Template - Deploying your Bot
+Automotive Skill - Deploying your Skill for non-skill model usage
 
 > [!NOTE]
 > This topics applies to v4 version of the SDK. 

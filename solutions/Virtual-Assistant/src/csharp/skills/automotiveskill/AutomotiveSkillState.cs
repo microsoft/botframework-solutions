@@ -11,15 +11,9 @@ namespace AutomotiveSkill
     {
         public AutomotiveSkillState()
         {
-
         }
 
         public VehicleSettings VehicleSettingsLuisResult { get; set; }
-        public VehicleSettingsNameSelection NameSelectionLuisResult { get; set; }
-        public VehicleSettingsValueSelection ValueSelectionLuisResult { get; set; }
-
-
-        public string Intent { get; set; }
 
         public IDictionary<string, IList<string>> Entities { get; set; } = new Dictionary<string, IList<string>>();
         public IList<SettingChange> Changes { get; set; } = new List<SettingChange>();
@@ -64,13 +58,5 @@ namespace AutomotiveSkill
 
             return settingValues;
         }
-    }
-
-    public enum VehicleSettingStage
-    {
-        None = 0,
-        NameSelection,
-        ValueSelection,
-        ChangeConfirmation
     }
 }

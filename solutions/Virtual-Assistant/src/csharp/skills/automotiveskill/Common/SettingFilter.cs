@@ -44,14 +44,14 @@ namespace AutomotiveSkill
             this.amount_normalizer = new EntityNormalizer("Dialogs/VehicleSettings/Resources/normalization/amount_percentage.tsv");
             this.type_normalizer = new EntityNormalizer("Dialogs/VehicleSettings/Resources/normalization/amount_type.tsv");
             this.unit_normalizer = new EntityNormalizer("Dialogs/VehicleSettings/Resources/normalization/amount_unit.tsv");
-        }    
+        }
 
         /// <summary>
         /// Take the entities provided by LUIS (Setting and Value) to try and identify the vehicle setting we need to process
         /// </summary>
         /// <param name="state"></param>
         /// <param name="luisResult"></param>
-        public void PostProcessSettingName(AutomotiveSkillState state)
+        public void PostProcessSettingName(AutomotiveSkillState state, bool declarative = false)
         {
             IList<SettingMatch> setting_matches = new List<SettingMatch>();
             var has_matching_value_for_any_setting = false;
@@ -213,7 +213,22 @@ namespace AutomotiveSkill
                 };
 
                 var value_info = this.settingList.FindSettingValue(setting_match.setting_name, setting_match.value);
-                setting_change.Value = setting_match.value;
+                if (declarative)
+                {
+                    // If the user makes a declarative statement, it means that they're unhappy with the status quo.
+                    // So, we use the antonym of the value to get the opposite of the thing they're unhappy with,
+                    // which should hopefully make them happy.
+                    // If there is no antonym listed, then we want to return an empty value because we were unable to find
+                    // the correct value.
+                    if (value_info != null)
+                    {
+                        setting_change.Value = value_info.Antonym;
+                    }
+                }
+                else
+                {
+                    setting_change.Value = setting_match.value;
+                }
 
                 if (opt_amount != null && value_info != null && value_info.ChangesSignOfAmount)
                 {

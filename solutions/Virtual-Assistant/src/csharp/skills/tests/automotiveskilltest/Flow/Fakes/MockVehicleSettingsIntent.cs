@@ -29,7 +29,11 @@ namespace AutomotiveSkillTest.Flow.Fakes
         }
         
         private (Intent intent, double score) ProcessUserInput()
-        {           
+        {
+            var intentScore = new Microsoft.Bot.Builder.IntentScore();
+            intentScore.Score = 0.9909704;
+            intentScore.Properties = new Dictionary<string, object>();
+
             switch (userInput.ToLower())
             {
                 case "set temperature to 21 degrees":                                
@@ -62,16 +66,29 @@ namespace AutomotiveSkillTest.Flow.Fakes
                     this.Entities.AMOUNT = new string[] { "50" };
                     this.Entities.UNIT = new string[] { "%" };
                     break;
+                case "i'm feeling cold":                   
+                    this.Entities.VALUE = new string[] { "cold" };
+                    this.Intents.Add(VehicleSettings.Intent.VEHICLE_SETTINGS_DECLARATIVE, intentScore);
+                    break;
+                case "it's feeling cold in the back":
+                    this.Entities.SETTING = new string[] { "back" };
+                    this.Entities.VALUE = new string[] { "cold" };
+                    this.Intents.Add(VehicleSettings.Intent.VEHICLE_SETTINGS_DECLARATIVE, intentScore);
+                    break;
+                case "adjust equalizer":
+                    this.Entities.SETTING = new string[] { "equalizer" };
+                    break;
                 default:
                     return (VehicleSettings.Intent.None, 0.0);
             }
 
-            var intentScore = new Microsoft.Bot.Builder.IntentScore();
-            intentScore.Score = 0.9909704;
-            intentScore.Properties = new Dictionary<string, object>();
-            this.Intents.Add(VehicleSettings.Intent.VEHICLE_SETTINGS_CHANGE, intentScore);
+            // Default is setting change apart from declarative used ocassionally above
+            if (this.Intents.Count == 0)
+            {
+                this.Intents.Add(VehicleSettings.Intent.VEHICLE_SETTINGS_CHANGE, intentScore);
+            }
 
-            return (VehicleSettings.Intent.VEHICLE_SETTINGS_CHANGE, intentScore.Score.Value);
+            return this.TopIntent();
         }
     }
 }

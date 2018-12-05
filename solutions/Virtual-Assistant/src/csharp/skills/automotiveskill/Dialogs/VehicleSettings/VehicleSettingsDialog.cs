@@ -131,8 +131,8 @@ namespace AutomotiveSkill
                         state.Entities.Add(nameof(luisResult.Entities.VALUE), luisResult.Entities.VALUE);
                     }
 
-                    // Perform post-processing on the entities
-                    settingFilter.PostProcessSettingName(state);
+                    // Perform post-processing on the entities, if it's declarative we indicate for special processing (opposite of the condition they've expressed)
+                    settingFilter.PostProcessSettingName(state, topIntent.Value == VehicleSettings.Intent.VEHICLE_SETTINGS_DECLARATIVE ? true : false);
 
                     // Perform content logic and remove entities that don't make sense
                     settingFilter.ApplyContentLogic(state);
@@ -199,7 +199,8 @@ namespace AutomotiveSkill
 
             if (promptContext.Recognized != null && promptContext.Recognized.Succeeded)
             {
-                string userChoice = promptContext.Recognized.Value.Value;
+                string userChoice = promptContext.Recognized.Value.Value;              
+                
                 // Use the value selection LUIS model to perform validation of the users entered setting value
                 VehicleSettingsNameSelection nameSelectionResult = await vehicleSettingNameSelectionLuisRecognizer.RecognizeAsync<VehicleSettingsNameSelection>(promptContext.Context, CancellationToken.None);
                 

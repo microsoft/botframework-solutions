@@ -32,6 +32,20 @@ namespace AutomotiveSkillTest.Flow.Fakes
                 var test = mockVehicle as object;
                 mockResult = (T)test;
             }
+            else if (t.Name.Equals(typeof(VehicleSettingsNameSelection).Name))
+            {
+                var mockVehicleNameIntent = new MockVehicleSettingsNameIntent(text);
+
+                var test = mockVehicleNameIntent as object;
+                mockResult = (T)test;
+            }
+            else if (t.Name.Equals(typeof(VehicleSettingsValueSelection).Name))
+            {
+                var mockVehicleValueIntent = new MockVehicleSettingsValueIntent(text);
+
+                var test = mockVehicleValueIntent as object;
+                mockResult = (T)test;
+            }
             else if (t.Name.Equals(typeof(General).Name))
             {
                 var mockGeneralIntent = new MockGeneralIntent(text);

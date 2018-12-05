@@ -26,6 +26,11 @@ namespace AutomotiveSkill
             this.defaultAlternativeValueNames = defaultAlternativeValueNames;
         }
 
+        /// <summary>
+        /// Provides access to the available settings that are stored in the available_settings JSON file
+        /// </summary>
+        /// <param name="availableSettingsPath"></param>
+        /// <param name="settingAlternativeNamesPath"></param>
         public SettingList(string availableSettingsPath, string settingAlternativeNamesPath)
         {
             using (StreamReader reader = new StreamReader(availableSettingsPath))
@@ -48,6 +53,11 @@ namespace AutomotiveSkill
             }
         }
 
+        /// <summary>
+        /// Build out available settings
+        /// </summary>
+        /// <param name="availableSettings"></param>
+        /// <param name="errorMsgPrefix"></param>
         private void BuildSettingSearchIndexes(IList<AvailableSetting> availableSettings, string errorMsgPrefix)
         {
             foreach (var availableSetting in availableSettings)
