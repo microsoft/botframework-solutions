@@ -63,7 +63,7 @@ namespace CalendarSkill
                         {
                             nextEventList.Add(item);
                         }
-                        else if (state.StartTime.Any() && itemUserTimeZoneTime.DayOfYear == state.StartTime[0].DayOfYear)
+                        else if (state.StartTime.Any() && itemUserTimeZoneTime == state.StartTime[0])
                         {
                             nextEventList.Add(item);
                         }
