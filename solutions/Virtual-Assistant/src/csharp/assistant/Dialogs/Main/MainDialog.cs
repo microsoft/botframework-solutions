@@ -15,6 +15,7 @@ using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Skills;
 using VirtualAssistant.ServiceClients;
+using System.Text.RegularExpressions;
 
 namespace VirtualAssistant
 {
@@ -354,13 +355,6 @@ namespace VirtualAssistant
                 if (list_Song.Count > 0)
                 {
                     // Create an attachment.
-                    //var attachment = new Attachment
-                    //{
-                    //    ContentUrl = list_Song[0].Url,
-                    //    ContentType = "audio/mp4",
-                    //    ThumbnailUrl = list_Song[0].Pic,
-                    //    Name = list_Song[0].Name,
-                    //};
                     var audioCard = new AudioCard()
                     {
                         Image = new ThumbnailUrl
@@ -385,9 +379,48 @@ namespace VirtualAssistant
                 {
                     response.Text = "对不起，没有找到你想要找的歌曲";
                 }
-                
                 await dc.Context.SendActivityAsync(response);
                 handled = true;
+            }
+            else if (command.StartsWith("查询"))
+            {
+                
+                BaiduMapClient baiduMapClient = new BaiduMapClient();
+                // only support "查询附近价格小于500的餐馆"
+                PoiQuery query = new PoiQuery
+                {
+                    Query = "餐馆",
+                    //上海
+                    Location = new Coordinate
+                    {
+                        Lat = 31.2,
+                        Lng = 121.4,
+                    },
+                    Price_section = "0,500",
+                };
+                List<Poi> places = await baiduMapClient.PoiSearch(query).ConfigureAwait(false);
+                response.Attachments = new List<Attachment>();
+                if (places.Count > 0)
+                {
+                    for (var i = 0; i < places.Count && i < 4; ++i)
+                    {
+                        var card = new HeroCard
+                        {
+                            Title = places[i].Name,
+                            Subtitle = "人均价格：" + places[i].Detail_info.Price.ToString(),
+                            Text = places[i].Address,
+                            Images = new List<CardImage> { new CardImage(places[i].Detail_info.Detail_url) }
+                        };
+                        response.Attachments.Add(card.ToAttachment());
+                    }
+                }
+                else
+                {
+                    response.Text = "对不起，没有找到你想要找的歌曲";
+                }
+                await dc.Context.SendActivityAsync(response);
+                handled = true;
+
             }
             else
             {
