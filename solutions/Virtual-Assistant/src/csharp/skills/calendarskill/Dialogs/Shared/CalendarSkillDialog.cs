@@ -407,7 +407,7 @@ namespace CalendarSkill
                     }
                 }
 
-                if (entity.number != null && entity.ordinal != null && entity.ordinal.Length == 0)
+                if (entity.number != null && (entity.ordinal == null || entity.ordinal.Length == 0))
                 {
                     try
                     {
