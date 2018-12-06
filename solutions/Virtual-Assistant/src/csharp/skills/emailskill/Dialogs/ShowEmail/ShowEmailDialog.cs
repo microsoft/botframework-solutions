@@ -389,18 +389,5 @@ namespace EmailSkill
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
-
-        protected override Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
-        {
-            var resultString = result?.ToString();
-            if (!string.IsNullOrWhiteSpace(resultString) && resultString.Equals(CommonUtil.DialogTurnResultCancelAllDialogs, StringComparison.InvariantCultureIgnoreCase))
-            {
-                return outerDc.CancelAllDialogsAsync();
-            }
-            else
-            {
-                return base.EndComponentAsync(outerDc, result, cancellationToken);
-            }
-        }
     }
 }
