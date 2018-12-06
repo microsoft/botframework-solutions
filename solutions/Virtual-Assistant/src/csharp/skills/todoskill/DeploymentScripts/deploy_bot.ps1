@@ -19,9 +19,6 @@ Param(
 
 $localeArr = $locales.Split(',')
 
-Write-Host "Changing to project directory ..."
-cd "$($PSScriptRoot)\..\"
-
 Write-Host "Updating deployment scripts..."
 foreach ($locale in $localeArr) 
 {
@@ -39,6 +36,9 @@ foreach ($locale in $localeArr)
 
 if (!$languagesOnly)
 {
+	Write-Host "Changing to project directory ..."
+	cd "$($PSScriptRoot)\..\"
+
 	Write-Host "Deploying common resources..."
 	msbot clone services -n $name -l $location --luisAuthoringKey $luisAuthoringKey --folder "$($PSScriptRoot)" --appId $appId --appSecret $appSecret --force
 }
