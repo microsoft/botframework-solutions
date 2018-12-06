@@ -1,22 +1,22 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.Bot.Solutions.Data;
+using Microsoft.Graph;
+
 namespace EmailSkill
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Microsoft.Bot.Solutions.Data;
-    using Microsoft.Graph;
-
     /// <summary>
     /// Mail service used to call real apis.
     /// </summary>
     public class MSGraphMailAPI : IMailService
     {
-        private IGraphServiceClient _graphClient;
-        private TimeZoneInfo _timeZoneInfo;
+        private readonly IGraphServiceClient _graphClient;
+        private readonly TimeZoneInfo _timeZoneInfo;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MSGraphMailAPI"/> class.
@@ -44,87 +44,94 @@ namespace EmailSkill
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         public async Task<List<Message>> GetMyMessagesAsync(DateTime fromTime, DateTime toTime, bool getUnRead = false, bool isImportant = false, bool directlyToMe = false, string fromAddress = null, int skip = 0)
         {
-            var optionList = new List<QueryOption>();
-            var filterString = string.Empty;
-            if (getUnRead)
+            try
             {
-                filterString = this.AppendFilterString(filterString, "isread:false");
-            }
-
-            if (isImportant)
-            {
-                filterString = this.AppendFilterString(filterString, "importance:high");
-            }
-
-            if (directlyToMe)
-            {
-                User me = await this._graphClient.Me.Request().GetAsync();
-                var address = me.Mail ?? me.UserPrincipalName;
-                filterString = this.AppendFilterString(filterString, $"to:{address}");
-            }
-
-            if (!string.IsNullOrEmpty(fromAddress))
-            {
-                filterString = this.AppendFilterString(filterString, $"from:{fromAddress}");
-            }
-
-            if (!string.IsNullOrEmpty(filterString))
-            {
-                optionList.Add(new QueryOption("$search", $"\"{filterString}\""));
-            }
-
-            // skip can't be used with search
-            // optionList.Add(new QueryOption("$skip", $"{page}"));
-
-            // some message don't have receiveddatetime. use last modified datetime.
-            // optionList.Add(new QueryOption(GraphQueryConstants.Orderby, "lastModifiedDateTime desc"));
-            // only get emails from Inbox folder.
-            IMailFolderMessagesCollectionPage messages =
-                optionList.Count != 0 ?
-                await this._graphClient.Me.MailFolders.Inbox.Messages.Request(optionList).GetAsync() :
-                await this._graphClient.Me.MailFolders.Inbox.Messages.Request().GetAsync();
-            List<Message> result = new List<Message>();
-
-            var done = false;
-            while (messages?.Count > 0 && !done)
-            {
-                var messagesList = messages?.OrderByDescending(message => message.ReceivedDateTime).ToList();
-                foreach (Message message in messagesList)
+                var optionList = new List<QueryOption>();
+                var filterString = string.Empty;
+                if (getUnRead)
                 {
-                    var receivedDateTime = message.ReceivedDateTime;
-                    if (receivedDateTime > fromTime && receivedDateTime < toTime)
+                    filterString = this.AppendFilterString(filterString, "isread:false");
+                }
+
+                if (isImportant)
+                {
+                    filterString = this.AppendFilterString(filterString, "importance:high");
+                }
+
+                if (directlyToMe)
+                {
+                    User me = await this._graphClient.Me.Request().GetAsync();
+                    var address = me.Mail ?? me.UserPrincipalName;
+                    filterString = this.AppendFilterString(filterString, $"to:{address}");
+                }
+
+                if (!string.IsNullOrEmpty(fromAddress))
+                {
+                    filterString = this.AppendFilterString(filterString, $"from:{fromAddress}");
+                }
+
+                if (!string.IsNullOrEmpty(filterString))
+                {
+                    optionList.Add(new QueryOption("$search", $"\"{filterString}\""));
+                }
+
+                // skip can't be used with search
+                // optionList.Add(new QueryOption("$skip", $"{page}"));
+
+                // some message don't have receiveddatetime. use last modified datetime.
+                // optionList.Add(new QueryOption(GraphQueryConstants.Orderby, "lastModifiedDateTime desc"));
+                // only get emails from Inbox folder.
+                IMailFolderMessagesCollectionPage messages =
+                    optionList.Count != 0 ?
+                    await this._graphClient.Me.MailFolders.Inbox.Messages.Request(optionList).GetAsync() :
+                    await this._graphClient.Me.MailFolders.Inbox.Messages.Request().GetAsync();
+                List<Message> result = new List<Message>();
+
+                var done = false;
+                while (messages?.Count > 0 && !done)
+                {
+                    var messagesList = messages?.OrderByDescending(message => message.ReceivedDateTime).ToList();
+                    foreach (Message message in messagesList)
                     {
-                        if (skip > 0)
+                        var receivedDateTime = message.ReceivedDateTime;
+                        if (receivedDateTime > fromTime && receivedDateTime < toTime)
                         {
-                            skip--;
+                            if (skip > 0)
+                            {
+                                skip--;
+                            }
+                            else
+                            {
+                                result.Add(message);
+                            }
                         }
                         else
                         {
-                            result.Add(message);
+                            done = true;
                         }
+
+                        if (result.Count == ConfigData.GetInstance().MaxDisplaySize)
+                        {
+                            return result.OrderByDescending(me => me.ReceivedDateTime).ToList();
+                        }
+                    }
+
+                    if (messages.NextPageRequest != null)
+                    {
+                        messages = await messages.NextPageRequest.GetAsync();
                     }
                     else
                     {
                         done = true;
                     }
-
-                    if (result.Count == ConfigData.GetInstance().MaxDisplaySize)
-                    {
-                        return result.OrderByDescending(me => me.ReceivedDateTime).ToList();
-                    }
                 }
 
-                if (messages.NextPageRequest != null)
-                {
-                    messages = await messages.NextPageRequest.GetAsync();
-                }
-                else
-                {
-                    done = true;
-                }
+                return result.OrderByDescending(message => message.ReceivedDateTime).ToList();
             }
-
-            return result.OrderByDescending(message => message.ReceivedDateTime).ToList();
+            catch (ServiceException ex)
+            {
+                throw GraphClient.HandleGraphAPIException(ex);
+            }
         }
 
         /// <summary>
@@ -183,7 +190,14 @@ namespace EmailSkill
             };
 
             // Send the message.
-            await this._graphClient.Me.SendMail(email, true).Request().PostAsync();
+            try
+            {
+                await this._graphClient.Me.SendMail(email, true).Request().PostAsync();
+            }
+            catch (ServiceException ex)
+            {
+                throw GraphClient.HandleGraphAPIException(ex);
+            }
 
             // This operation doesn't return anything.
         }
@@ -198,8 +212,15 @@ namespace EmailSkill
         {
             List<Message> items = new List<Message>();
 
-            // Reply to the message.
-            await this._graphClient.Me.Messages[id].ReplyAll(text).Request().PostAsync();
+            try
+            {
+                // Reply to the message.
+                await this._graphClient.Me.Messages[id].ReplyAll(text).Request().PostAsync();
+            }
+            catch (ServiceException ex)
+            {
+                throw GraphClient.HandleGraphAPIException(ex);
+            }
 
             // This operation doesn't return anything.
             return items;
@@ -212,10 +233,17 @@ namespace EmailSkill
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task<Message> UpdateMessage(Message updatedMessage)
         {
-            // Update the message.
-            var result = await this._graphClient.Me.Messages[updatedMessage.Id].Request().UpdateAsync(updatedMessage);
+            try
+            {
+                // Update the message.
+                var result = await this._graphClient.Me.Messages[updatedMessage.Id].Request().UpdateAsync(updatedMessage);
 
-            return result;
+                return result;
+            }
+            catch (ServiceException ex)
+            {
+                throw GraphClient.HandleGraphAPIException(ex);
+            }
         }
 
         /// <summary>
@@ -240,8 +268,15 @@ namespace EmailSkill
                 });
             }
 
-            // This operation doesn't return anything.
-            await this._graphClient.Me.Messages[id].Forward(comment, re).Request().PostAsync();
+            try
+            {
+                // This operation doesn't return anything.
+                await this._graphClient.Me.Messages[id].Forward(comment, re).Request().PostAsync();
+            }
+            catch (ServiceException ex)
+            {
+                throw GraphClient.HandleGraphAPIException(ex);
+            }
         }
 
         /// <summary>
