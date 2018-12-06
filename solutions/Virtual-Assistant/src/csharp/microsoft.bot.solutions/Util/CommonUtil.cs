@@ -4,10 +4,12 @@ namespace Microsoft.Bot.Solutions.Util
 {
     public class CommonUtil
     {
-        public static readonly double ScoreThreshold = 0.5f;
+        public const double ScoreThreshold = 0.5f;
 
-        public static readonly int MaxReadSize = 3;
+        public const int MaxReadSize = 3;
 
-        public static readonly int MaxDisplaySize = 6;
+        public const int MaxDisplaySize = 6;
+
+        public const string DialogTurnResultCancelAllDialogs = "cancelAllDialogs";
     }
 }

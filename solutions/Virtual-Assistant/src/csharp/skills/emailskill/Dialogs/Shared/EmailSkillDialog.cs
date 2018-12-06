@@ -20,6 +20,7 @@ using Microsoft.Bot.Solutions.Data;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 using Microsoft.Graph;
 using Microsoft.Recognizers.Text;
 using Newtonsoft.Json.Linq;
@@ -87,7 +88,15 @@ namespace EmailSkill
 
         protected override Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
         {
-            return outerDc.CancelAllDialogsAsync();
+            var resultString = result?.ToString();
+            if (!string.IsNullOrWhiteSpace(resultString) && resultString.Equals(CommonUtil.DialogTurnResultCancelAllDialogs, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return outerDc.CancelAllDialogsAsync();
+            }
+            else
+            {
+                return base.EndComponentAsync(outerDc, result, cancellationToken);
+            }
         }
 
         // Shared steps
@@ -116,7 +125,7 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -162,7 +171,7 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -196,7 +205,7 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -253,7 +262,7 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -268,7 +277,7 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -284,7 +293,7 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -313,7 +322,7 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -337,7 +346,7 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -394,7 +403,7 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -428,7 +437,7 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -450,7 +459,7 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -490,7 +499,7 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -524,13 +533,13 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
             catch (Exception ex)
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 

@@ -8,6 +8,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 
 namespace EmailSkill
 {
@@ -68,7 +69,7 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -89,7 +90,7 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -116,7 +117,20 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        protected override Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
+        {
+            var resultString = result?.ToString();
+            if (!string.IsNullOrWhiteSpace(resultString) && resultString.Equals(CommonUtil.DialogTurnResultCancelAllDialogs, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return outerDc.CancelAllDialogsAsync();
+            }
+            else
+            {
+                return base.EndComponentAsync(outerDc, result, cancellationToken);
             }
         }
     }

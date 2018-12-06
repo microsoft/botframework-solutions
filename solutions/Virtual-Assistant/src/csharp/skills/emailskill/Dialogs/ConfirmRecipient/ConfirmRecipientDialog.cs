@@ -14,6 +14,7 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Solutions.Data;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 using Microsoft.Graph;
 
 namespace EmailSkill
@@ -64,7 +65,7 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -99,7 +100,7 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -221,19 +222,14 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, skillEx);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
             catch (Exception ex)
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
-        }
-
-        protected override Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
-        {
-            return outerDc.CancelAllDialogsAsync();
         }
 
         public async Task<DialogTurnResult> AfterConfirmRecipient(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -346,7 +342,19 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        protected override Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
+        {
+            if (result.ToString().Equals(CommonUtil.DialogTurnResultCancelAllDialogs, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return outerDc.CancelAllDialogsAsync();
+            }
+            else
+            {
+                return base.EndComponentAsync(outerDc, result, cancellationToken);
             }
         }
     }

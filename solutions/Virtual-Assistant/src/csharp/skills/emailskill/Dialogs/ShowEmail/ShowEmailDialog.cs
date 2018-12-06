@@ -14,6 +14,7 @@ using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 
 namespace EmailSkill
 {
@@ -62,7 +63,6 @@ namespace EmailSkill
 
             var reshowEmail = new WaterfallStep[]
             {
-                PagingStep,
                 ShowEmailsWithoutEnd,
                 PromptToHandleMore,
                 HandleMore,
@@ -111,13 +111,13 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
             catch (Exception ex)
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -131,7 +131,7 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -145,7 +145,7 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -169,7 +169,7 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -248,13 +248,13 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
             catch (Exception ex)
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -279,7 +279,7 @@ namespace EmailSkill
 
                 if (IsReadMoreIntent(topGeneralIntent, sc.Context.Activity.Text))
                 {
-                    return await sc.BeginDialogAsync(Actions.Reshow, skillOptions);
+                    return await sc.BeginDialogAsync(Actions.Show, skillOptions);
                 }
                 else if (topIntent == Email.Intent.Delete)
                 {
@@ -287,12 +287,10 @@ namespace EmailSkill
                 }
                 else if (topIntent == Email.Intent.Forward)
                 {
-                    await DigestEmailLuisResult(sc, luisResult, true);
                     return await sc.BeginDialogAsync(Actions.Forward, skillOptions);
                 }
                 else if (topIntent == Email.Intent.Reply)
                 {
-                    await DigestEmailLuisResult(sc, luisResult, true);
                     return await sc.BeginDialogAsync(Actions.Reply, skillOptions);
                 }
                 else if (topIntent == Email.Intent.ReadAloud || topIntent == Email.Intent.SelectItem)
@@ -310,7 +308,7 @@ namespace EmailSkill
                 }
                 else if (topIntent == Email.Intent.None && (topGeneralIntent == General.Intent.Previous || topGeneralIntent == General.Intent.Next))
                 {
-                    return await sc.BeginDialogAsync(Actions.Reshow, skillOptions);
+                    return await sc.BeginDialogAsync(Actions.Show, skillOptions);
                 }
                 else
                 {
@@ -322,7 +320,7 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -339,7 +337,7 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -356,7 +354,7 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -373,7 +371,7 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -388,7 +386,20 @@ namespace EmailSkill
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        protected override Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
+        {
+            var resultString = result?.ToString();
+            if (!string.IsNullOrWhiteSpace(resultString) && resultString.Equals(CommonUtil.DialogTurnResultCancelAllDialogs, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return outerDc.CancelAllDialogsAsync();
+            }
+            else
+            {
+                return base.EndComponentAsync(outerDc, result, cancellationToken);
             }
         }
     }
