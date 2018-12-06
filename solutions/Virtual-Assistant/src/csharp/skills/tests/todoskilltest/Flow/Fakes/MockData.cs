@@ -5,9 +5,9 @@ using ToDoSkill;
 
 namespace ToDoSkillTest.Flow.Fakes
 {
-    public static class FakeData
+    public static class MockData
     {
-        public static List<TaskItem> FakeTaskItems = new List<TaskItem>
+        public static List<TaskItem> MockTaskItems = new List<TaskItem>
         {
             new TaskItem()
             {
@@ -66,7 +66,7 @@ namespace ToDoSkillTest.Flow.Fakes
             }
         };
 
-        public static List<TaskItem> FakeShoppingItems = new List<TaskItem>
+        public static List<TaskItem> MockShoppingItems = new List<TaskItem>
         {
             new TaskItem()
             {
@@ -124,7 +124,7 @@ namespace ToDoSkillTest.Flow.Fakes
             }
         };
 
-        public static List<TaskItem> FakeGroceryItems = new List<TaskItem>
+        public static List<TaskItem> MockGroceryItems = new List<TaskItem>
         {
             new TaskItem()
             {

@@ -1,16 +1,15 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using AdaptiveCards;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ToDoSkill.Dialogs.Main.Resources;
 using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.Dialogs.ShowToDo.Resources;
 using ToDoSkillTest.Flow.Fakes;
+using ToDoSkillTest.Flow.Utterances;
 
 namespace ToDoSkillTest.Flow
 {
@@ -19,18 +18,33 @@ namespace ToDoSkillTest.Flow
     {
         private const int PageSize = 6;
 
+        [TestInitialize]
+        public void SetupLuisService()
+        {
+            this.Services.LuisServices.Add("todo", new MockLuisRecognizer(new MarkToDoFlowTestUtterances()));
+        }
+
         [TestMethod]
         public async Task Test_MarkToDoItem()
         {
             await this.GetTestFlow()
-                .Send("Show my todos")
+                .Send(MarkToDoFlowTestUtterances.BaseShowTasks)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReply(this.ShowToDoList())
                 .AssertReplyOneOf(this.ShowMoreTasks())
-                .Send("mark the second task as completed")
+                .AssertReply(this.ActionEndMessage())
+                .Send(MarkToDoFlowTestUtterances.MarkTaskAsCompleted)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReply(this.AfterTaskMarkedCardMessage())
-                .Send("mark task three in my grocery list as completed")
+                .AssertReply(this.ActionEndMessage())
+                .Send(MarkToDoFlowTestUtterances.MarkTaskAsCompletedWithListType)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReply(this.AfterGroceryItemMarkedCompletedCardMessage())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -48,7 +62,7 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", FakeData.FakeTaskItems.Count.ToString() } }),
+                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", MockData.MockTaskItems.Count.ToString() } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
             };
@@ -68,7 +82,7 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", FakeData.FakeTaskItems.Count.ToString() } }),
+                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", MockData.MockTaskItems.Count.ToString() } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
                 var columnSet = toDoChoices.Items[1] as AdaptiveColumnSet;
@@ -76,7 +90,7 @@ namespace ToDoSkillTest.Flow
                 var column = columnSet.Columns[0];
                 Assert.IsNotNull(column);
                 var image = column.Items[0] as AdaptiveImage;
-                Assert.AreEqual(image.UrlString, FakeData.ImageSource);
+                Assert.AreEqual(image.UrlString, MockData.ImageSource);
             };
         }
 
@@ -94,7 +108,7 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", FakeData.FakeGroceryItems.Count.ToString() } }),
+                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", MockData.MockGroceryItems.Count.ToString() } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
                 var columnSet = toDoChoices.Items[2] as AdaptiveColumnSet;
@@ -102,7 +116,7 @@ namespace ToDoSkillTest.Flow
                 var column = columnSet.Columns[0];
                 Assert.IsNotNull(column);
                 var image = column.Items[0] as AdaptiveImage;
-                Assert.AreEqual(image.UrlString, FakeData.ImageSource);
+                Assert.AreEqual(image.UrlString, MockData.ImageSource);
             };
         }
 
@@ -119,6 +133,22 @@ namespace ToDoSkillTest.Flow
         private string[] AfterDialogCompleted()
         {
             return this.ParseReplies(ToDoSharedResponses.ActionEnded.Replies, new StringDictionary());
+        }
+
+        private Action<IActivity> ShowAuth()
+        {
+            return activity =>
+            {
+                Assert.AreEqual(activity.Type, ActivityTypes.Event);
+            };
+        }
+
+        private Action<IActivity> ActionEndMessage()
+        {
+            return activity =>
+            {
+                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
+            };
         }
     }
 }

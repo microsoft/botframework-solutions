@@ -1,17 +1,16 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using AdaptiveCards;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToDoSkill.Dialogs.DeleteToDo.Resources;
-using ToDoSkill.Dialogs.Main.Resources;
 using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.Dialogs.ShowToDo.Resources;
 using ToDoSkillTest.Flow.Fakes;
+using ToDoSkillTest.Flow.Utterances;
 
 namespace ToDoSkillTest.Flow
 {
@@ -20,23 +19,37 @@ namespace ToDoSkillTest.Flow
     {
         private const int PageSize = 6;
 
+        [TestInitialize]
+        public void SetupLuisService()
+        {
+            this.Services.LuisServices.Add("todo", new MockLuisRecognizer(new DeleteToDoFlowTestUtterances()));
+        }
+
         [TestMethod]
         public async Task Test_DeleteToDoItem()
         {
             await this.GetTestFlow()
-                .Send("Show my todos")
+                .Send(DeleteToDoFlowTestUtterances.BaseShowTasks)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReply(this.ShowToDoList())
                 .AssertReplyOneOf(this.ShowMoreTasks())
-                .Send("Delete the first task")
+                .AssertReply(this.ActionEndMessage())
+                .Send(DeleteToDoFlowTestUtterances.DeleteSpecificTask)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.CollectConfirmationForToDo())
                 .Send("yes")
                 .AssertReply(this.AfterTaskDeletedCardMessage())
-                .AssertReplyOneOf(this.AfterDialogCompleted())
-                .Send("Delete the second task in my shopping list")
+                .AssertReply(this.ActionEndMessage())
+                .Send(DeleteToDoFlowTestUtterances.DeleteSpecificTaskWithListType)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.CollectConfirmationForShopping())
                 .Send("yes")
                 .AssertReply(this.AfterShoppingItemDeletedCardMessage())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -54,7 +67,7 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", FakeData.FakeTaskItems.Count.ToString() } }),
+                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", MockData.MockTaskItems.Count.ToString() } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
             };
@@ -74,7 +87,7 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", (FakeData.FakeTaskItems.Count - 1).ToString() } }),
+                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", (MockData.MockTaskItems.Count - 1).ToString() } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
                 var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;
@@ -83,8 +96,8 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(column);
                 var content = column.Items[0] as AdaptiveTextBlock;
                 Assert.IsNotNull(content);
-                Assert.AreEqual(content.Text, FakeData.FakeTaskItems[1].Topic);
-                var speak = string.Format("I have deleted the item {0} for you.You have {1} items on your list:", FakeData.FakeTaskItems[0].Topic, FakeData.FakeTaskItems.Count - 1);
+                Assert.AreEqual(content.Text, MockData.MockTaskItems[1].Topic);
+                var speak = string.Format("I have deleted the item {0} for you.You have {1} items on your list:", MockData.MockTaskItems[0].Topic, MockData.MockTaskItems.Count - 1);
                 Assert.AreEqual(speak, responseCard.Speak);
             };
         }
@@ -103,7 +116,7 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", (FakeData.FakeShoppingItems.Count - 1).ToString() } }),
+                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", (MockData.MockShoppingItems.Count - 1).ToString() } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
                 var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;
@@ -112,20 +125,20 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(column);
                 var content = column.Items[0] as AdaptiveTextBlock;
                 Assert.IsNotNull(content);
-                Assert.AreEqual(content.Text, FakeData.FakeShoppingItems[0].Topic);
-                var speak = string.Format("I have deleted the item {0} for you.You have {1} items on your list:", FakeData.FakeShoppingItems[1].Topic, FakeData.FakeShoppingItems.Count - 1);
+                Assert.AreEqual(content.Text, MockData.MockShoppingItems[0].Topic);
+                var speak = string.Format("I have deleted the item {0} for you.You have {1} items on your list:", MockData.MockShoppingItems[1].Topic, MockData.MockShoppingItems.Count - 1);
                 Assert.AreEqual(speak, responseCard.Speak);
             };
         }
 
         private string[] CollectConfirmationForToDo()
         {
-            return this.ParseReplies(DeleteToDoResponses.AskDeletionConfirmation.Replies, new StringDictionary() { { "toDoTask", FakeData.FakeTaskItems[0].Topic } });
+            return this.ParseReplies(DeleteToDoResponses.AskDeletionConfirmation.Replies, new StringDictionary() { { "toDoTask", MockData.MockTaskItems[0].Topic } });
         }
 
         private string[] CollectConfirmationForShopping()
         {
-            return this.ParseReplies(DeleteToDoResponses.AskDeletionConfirmation.Replies, new StringDictionary() { { "toDoTask", FakeData.FakeShoppingItems[1].Topic } });
+            return this.ParseReplies(DeleteToDoResponses.AskDeletionConfirmation.Replies, new StringDictionary() { { "toDoTask", MockData.MockShoppingItems[1].Topic } });
         }
 
         private string[] SettingUpOneNote()
@@ -141,6 +154,22 @@ namespace ToDoSkillTest.Flow
         private string[] AfterDialogCompleted()
         {
             return this.ParseReplies(ToDoSharedResponses.ActionEnded.Replies, new StringDictionary());
+        }
+
+        private Action<IActivity> ShowAuth()
+        {
+            return activity =>
+            {
+                Assert.AreEqual(activity.Type, ActivityTypes.Event);
+            };
+        }
+
+        private Action<IActivity> ActionEndMessage()
+        {
+            return activity =>
+            {
+                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
+            };
         }
     }
 }

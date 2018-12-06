@@ -1,15 +1,14 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using AdaptiveCards;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ToDoSkill.Dialogs.Main.Resources;
 using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkillTest.Flow.Fakes;
+using ToDoSkillTest.Flow.Utterances;
 
 namespace ToDoSkillTest.Flow
 {
@@ -18,15 +17,24 @@ namespace ToDoSkillTest.Flow
     {
         private const int PageSize = 6;
 
+        [TestInitialize]
+        public void SetupLuisService()
+        {
+            this.Services.LuisServices.Add("todo", new MockLuisRecognizer(new AddToDoFlowTestUtterances()));
+        }
+
         [TestMethod]
         public async Task Test_AddToDoItem()
         {
             await this.GetTestFlow()
-                .Send("Add a task")
+                .Send(AddToDoFlowTestUtterances.BaseAddTask)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.CollectToDoContent())
-                .Send("Test Content")
+                .Send(AddToDoFlowTestUtterances.TaskContent)
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReply(this.ShowUpdatedToDoList())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -54,7 +62,7 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", (FakeData.FakeTaskItems.Count + 1).ToString() } }),
+                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", (MockData.MockTaskItems.Count + 1).ToString() } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
                 var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;
@@ -63,7 +71,23 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(column);
                 var content = column.Items[0] as AdaptiveTextBlock;
                 Assert.IsNotNull(content);
-                Assert.AreEqual(content.Text, "Test Content");
+                Assert.AreEqual(content.Text, AddToDoFlowTestUtterances.TaskContent);
+            };
+        }
+
+        private Action<IActivity> ShowAuth()
+        {
+            return activity =>
+            {
+                Assert.AreEqual(activity.Type, ActivityTypes.Event);
+            };
+        }
+
+        private Action<IActivity> ActionEndMessage()
+        {
+            return activity =>
+            {
+                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
             };
         }
     }
