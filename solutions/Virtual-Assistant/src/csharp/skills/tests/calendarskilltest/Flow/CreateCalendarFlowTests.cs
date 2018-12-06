@@ -9,6 +9,8 @@ using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CalendarSkillTest.Flow.Utterances;
 using CalendarSkillTest.Flow.Fakes;
+using Newtonsoft.Json;
+using Microsoft.Bot.Solutions.Resources;
 
 namespace CalendarSkillTest.Flow
 {
@@ -72,7 +74,7 @@ namespace CalendarSkillTest.Flow
                     .Send(Strings.Strings.DefaultDuration)
                     .AssertReplyOneOf(this.AskForLocationPrompt())
                     .Send(Strings.Strings.DefaultLocation)
-                    .AssertReply(this.ShowCalendarList())
+                    .AssertReply(this.CheckCreatedMeetingInFuture())
                     .Send(Strings.Strings.ConfirmYes)
                     .AssertReply(this.ShowCalendarList())
                     .StartTestAsync();
@@ -137,6 +139,48 @@ namespace CalendarSkillTest.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
+            };
+        }
+
+        private Action<IActivity> CheckCreatedMeetingInFuture()
+        {
+            return activity =>
+            {
+                var messageActivity = activity.AsMessageActivity();
+                Assert.AreEqual(messageActivity.Attachments.Count, 1);
+
+                // get meeting information from adaptive card
+                // the sample json of attachment content:
+                // {{
+                //   "type": "AdaptiveCard",
+                //   "version": "1.0",
+                //   "id": "CalendarCardNoJoinButton",
+                //   "speak": "test title at 9:00 AM",
+                //   "body": [
+                //     {
+                //       "type": "Container",
+                //       "items": [
+                //         {
+                //           "type": "TextBlock",
+                //           "size": "large",
+                //           "weight": "bolder",
+                //            "text": "test title",
+                //           "maxLines": 1
+                //         },
+                //         {
+                //           "type": "TextBlock",
+                //           "text": "test@test.com\n07-12-2018\n9:00 AM - 10:00 AM\ntest location"
+                //         }
+                //       ]
+                //     }
+                //   ]
+                // }}
+                var meetingCardJsonString = ((Newtonsoft.Json.Linq.JObject)messageActivity.Attachments[0].Content).Last.First.First.Last.First.Last["text"];
+                var meetingInfoList = meetingCardJsonString.ToString().Split("\n");
+                var dateString = meetingInfoList[1];
+                DateTime date = DateTime.ParseExact(dateString, CommonStrings.DisplayFullDateFormat, null);
+                DateTime utcToday = DateTime.UtcNow.Date;
+                Assert.IsTrue(date >= utcToday);
             };
         }
     }
