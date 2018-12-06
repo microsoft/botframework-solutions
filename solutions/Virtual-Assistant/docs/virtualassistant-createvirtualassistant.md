@@ -80,19 +80,19 @@ Your Virtual Assistant project has a deployment recipe enabling the `msbot clone
 
 To deploy your Virtual Assistant including all dependencies - e.g. CosmosDb, Application Insights, etc. run the following command from a command prompt within your project folder. Ensure you update the authoring key from the previous step and choose the Azure datacenter location you wish to use (e.g. westus or westeurope). You must check that the LUIS authoring key retrieved on the previous step is for the region you specify below (e.g. westus for luis.ai or westeurope for eu.luis.ai)
 
-Run this PowerShell script to deploy your shared resources and LUIS and QnA Maker instance for all supported languages (English, Chinese, German, French, Italian, and Spanish):
+Run this PowerShell script to deploy your shared resources and LUIS and QnA Maker resources in English:
 
 ```
   ...DeploymentScripts\deploy_bot.ps1
 ```
 
-You can also specify which languages you would like to deploy for your scenario by adding the `-locales` parameter:
+If you would like to support different languages for your scenario add the `-locales` parameter. The following languages are supported: English (en-us), Chinese (zh-cn), German (de-de), French (fr-fr), Italian (it-it), and Spanish (es-es).
 
 ```
   ...DeploymentScripts\deploy_bot.ps1 -locales "en-us,zh-cn"
 ```
 
-If you would like to add support for additional languages after your initial deployment, you can specify the `-languagesOnly` parameter to deploy only the services for the new language(s).
+If you would like to add support for additional languages **after your initial deployment**, you can specify the `-languagesOnly` parameter to deploy only the services for the new language(s).
 
 ```
   ...DeploymentScripts\deploy_bot.ps1 -locales "fr-fr,it-it" -languagesOnly
