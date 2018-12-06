@@ -79,10 +79,10 @@ namespace VirtualAssistant
                             {
                                 var authentication = service as GenericService;
 
-                                //if (!string.IsNullOrEmpty(authentication.Configuration["Azure Active Directory v2"]))
-                                //{
-                                //    AuthConnectionName = authentication.Configuration["Azure Active Directory v2"];
-                                //}
+                                if (!string.IsNullOrEmpty(authentication.Configuration["Azure Active Directory v2"]))
+                                {
+                                    AuthConnectionName = authentication.Configuration["Azure Active Directory v2"];
+                                }
                             }
 
                             break;

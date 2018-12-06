@@ -41,6 +41,15 @@ namespace VirtualAssistant.ServiceClients
         public Detail Detail_info { get; set; }
     };
 
+    public class Route
+    {
+        public int Distance { get; set; }
+
+        public int Duration { get; set; }
+
+        public int Traffic_condition { get; set; }
+    };
+
     public class Coordinate
     {
         public double Lng { get; set; }
