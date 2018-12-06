@@ -15,6 +15,7 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Middleware;
+using Microsoft.Bot.Solutions.Models.Proactive;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -67,10 +68,12 @@ namespace VirtualAssistant
             var dataStore = new CosmosDbStorage(cosmosOptions);
             var userState = new UserState(dataStore);
             var conversationState = new ConversationState(dataStore);
+            var proactiveState = new ProactiveState(dataStore);
 
             services.AddSingleton(dataStore);
             services.AddSingleton(userState);
             services.AddSingleton(conversationState);
+            services.AddSingleton(proactiveState);
             services.AddSingleton(new BotStateSet(userState, conversationState));
 
             var environment = _isProduction ? "production" : "development";
@@ -116,6 +119,9 @@ namespace VirtualAssistant
                 options.Middleware.Add(new SetLocaleMiddleware(defaultLocale ?? "en-us"));
                 options.Middleware.Add(new EventDebuggerMiddleware());
                 options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
+
+                // TODO: uncomment the following line to enable auto save of proactive state
+                // options.Middleware.Add(new ProactiveStateMiddleware(proactiveState));
 
                 //// Translator is an optional component for scenarios when an Assistant needs to work beyond native language support
                 // var translatorKey = Configuration.GetValue<string>("translatorKey");

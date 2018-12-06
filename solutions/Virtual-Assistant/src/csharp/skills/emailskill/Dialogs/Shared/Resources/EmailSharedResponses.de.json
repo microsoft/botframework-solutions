@@ -177,6 +177,15 @@
     ],
     "inputHint": "acceptingInput"
   },
+  "EmailErrorMessage_BotProblem": {
+    "replies": [
+      {
+        "text": "Sorry, im Moment stimmt der Bot nicht. Der Entwickler wurde darüber informiert, so dass Sie die Aktion bald wieder ausführen können.",
+        "speak": "Sorry, im Moment stimmt der Bot nicht. Der Entwickler wurde darüber informiert, so dass Sie die Aktion bald wieder ausführen können."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
   "NoSubject": {
     "replies": [
       {
