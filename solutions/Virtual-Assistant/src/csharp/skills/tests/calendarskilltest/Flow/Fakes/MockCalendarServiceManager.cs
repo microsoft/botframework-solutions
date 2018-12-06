@@ -8,20 +8,28 @@ namespace CalendarSkillTest.Flow.Fakes
 {
     public class MockCalendarServiceManager : IServiceManager
     {
-        public List<EventModel> FakeEventList { get; set; }
+        public MockCalendarService CalendarService { get; set; }
 
-        public List<User> FakeUserList { get; set; }
+        public MockUserService UserService { get; set; }
 
-        public List<Person> FakePeopleList { get; set; }
+        public void SetupCalendarService(List<EventModel> fakeEventList)
+        {
+            CalendarService = new MockCalendarService(fakeEventList);
+        }
+
+        public void SetupUserService(List<User> fakeUserList, List<Person> fakePersonList)
+        {
+            UserService = new MockUserService(fakeUserList, fakePersonList);
+        }
 
         public ICalendar InitCalendarService(string token, EventSource source)
         {
-            return new MockCalendarService(FakeEventList);
+            return CalendarService;
         }
 
         public IUserService InitUserService(string token, EventSource source)
         {
-            return new MockUserService(FakeUserList, FakePeopleList);
+            return UserService;
         }
     }
 }

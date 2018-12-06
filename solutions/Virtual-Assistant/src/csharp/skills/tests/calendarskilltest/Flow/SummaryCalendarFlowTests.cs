@@ -21,8 +21,7 @@ namespace CalendarSkillTest.Flow
         public void SetupLuisService()
         {
             var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.FakeUserList = MockUserService.FakeDefaultUsers();
-            serviceManager.FakePeopleList = MockUserService.FakeDefaultPeople();
+            serviceManager.SetupUserService(MockUserService.FakeDefaultUsers(), MockUserService.FakeDefaultPeople());
             this.Services.LuisServices.Add("calendar", new MockLuisRecognizer(new FindMeetingTestUtterances()));
         }
 
@@ -30,7 +29,7 @@ namespace CalendarSkillTest.Flow
         public async Task Test_CalendarSummary()
         {
             var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.FakeEventList = MockCalendarService.FakeDefaultEvents();
+            serviceManager.SetupCalendarService(MockCalendarService.FakeDefaultEvents());
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseFindMeeting)
                 .AssertReply(this.ShowAuth())
@@ -47,7 +46,7 @@ namespace CalendarSkillTest.Flow
         public async Task Test_CalendarSummaryByTimeRange()
         {
             var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.FakeEventList = new List<EventModel>() { MockCalendarService.CreateEventModel(startDateTime: DateTime.UtcNow.AddDays(7), endDateTime: DateTime.UtcNow.AddDays(8)) };
+            serviceManager.SetupCalendarService(new List<EventModel>() { MockCalendarService.CreateEventModel(startDateTime: DateTime.UtcNow.AddDays(7), endDateTime: DateTime.UtcNow.AddDays(8)) });
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseFindMeetingByTimeRange)
                 .AssertReply(this.ShowAuth())
