@@ -1,0 +1,47 @@
+﻿{
+  "ShowNextMeetingTimeRemainedMessage": {
+    "replies": [
+      {
+        "text": "您还有 {RemainingHours} {RemainingMinutes} 空闲时间直到下次会议.",
+        "speak": "您还有 {RemainingHours} {RemainingMinutes} 空闲时间直到下次会议."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowSpecificDaysRemainedMessage": {
+    "replies": [
+      {
+        "text": "您还有 {RemainedDays} 剩余时间直到日期为 {Date} 的会议.",
+        "speak": "您还有 {RemainedDays} 剩余时间直到日期为 {DateSpeak} 的会议."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowSpecificTimeRemainedMessage": {
+    "replies": [
+      {
+        "text": "您还有 {RemainingHours} {RemainingMinutes} 剩余时间直到您 {Time} 开始进行的会议.",
+        "speak": "您还有 {RemainingHours} {RemainingMinutes} 剩余时间直到您 {TimeSpeak} 开始进行的会议."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowSpecificTitleRemainedMessage": {
+    "replies": [
+      {
+        "text": "您还有 {RemainingHours} {RemainingMinutes} 剩余时间直到您标题为 \"{Title}\" 的会议.",
+        "speak": "您还有 {RemainingHours} {RemainingMinutes} 剩余时间直到您标题为 \"{Title}\" 的会议."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowNoMeetingMessage": {
+    "replies": [
+      {
+        "text": "你没有任何会议。",
+        "speak": "你没有任何会议。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}

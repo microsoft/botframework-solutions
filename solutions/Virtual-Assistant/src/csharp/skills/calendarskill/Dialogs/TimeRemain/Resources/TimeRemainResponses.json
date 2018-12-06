@@ -1,0 +1,29 @@
+{
+  "ShowNextMeetingTimeRemainingMessage": {
+    "replies": [
+      {
+        "text": "You have {RemainingTime} remaining until next meeting.",
+        "speak": "You have {RemainingTime} remaining until next meeting."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowTimeRemainingMessage": {
+    "replies": [
+      {
+        "text": "You have {RemainingTime} remaining until your meeting {Title}{Time}.",
+        "speak": "You have {RemainingTime} remaining until your meeting {Title}{TimeSpeak}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowNoMeetingMessage": {
+    "replies": [
+      {
+        "text": "You don't have any meetings.",
+        "speak": "You don't have any meetings."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}
