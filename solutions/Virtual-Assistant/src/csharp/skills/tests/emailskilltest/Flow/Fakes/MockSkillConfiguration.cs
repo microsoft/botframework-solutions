@@ -10,8 +10,8 @@ namespace EmailSkillTest.Flow.Fakes
     {
         public MockSkillConfiguration()
         {
-            this.LuisServices.Add("general", new MockLuisRecognizer());
-            this.LuisServices.Add("email", new MockLuisRecognizer());
+            this.LuisServices.Add("general", new MockGeneralLuisRecognizer());
+            this.LuisServices.Add("email", new MockEmailLuisRecognizer());
 
             this.AuthenticationConnections.Add("Google", "Google");
 

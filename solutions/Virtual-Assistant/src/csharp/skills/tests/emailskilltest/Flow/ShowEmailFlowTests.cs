@@ -3,6 +3,8 @@ using System.Collections.Specialized;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.Shared.Resources;
 using EmailSkill.Dialogs.ShowEmail.Resources;
+using EmailSkillTest.Flow.Fakes;
+using EmailSkillTest.Flow.Utterances;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -11,19 +13,28 @@ namespace EmailSkillTest.Flow
     [TestClass]
     public class ShowEmailFlowTests : EmailBotTestBase
     {
+        [TestInitialize]
+        public void SetupLuisService()
+        {
+            var luisServices = this.Services.LuisServices;
+            luisServices.Clear();
+            luisServices.Add("email", new MockEmailLuisRecognizer(new ShowEmailUtterances()));
+            luisServices.Add("general", new MockGeneralLuisRecognizer());
+        }
+
         [TestMethod]
         public async Task Test_NotSendingEmailWithOrdinalSelection()
         {
             await this.GetTestFlow()
-                .Send("Show Emails")
+                .Send(ShowEmailUtterances.ShowEmails)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
-                .Send("The first one")
+                .Send(BaseTestUtterances.FirstOne)
                 .AssertReply(this.AssertSelectOneOfTheMessage())
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
-                .Send("No")
+                .Send(GeneralTestUtterances.No)
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
@@ -32,15 +43,15 @@ namespace EmailSkillTest.Flow
         public async Task Test_NotSendingEmailWithNumberSelection()
         {
             await this.GetTestFlow()
-                .Send("Show Emails")
+                .Send(ShowEmailUtterances.ShowEmails)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
-                .Send("1")
+                .Send(BaseTestUtterances.NumberOne)
                 .AssertReply(this.AssertSelectOneOfTheMessage())
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
-                .Send("No")
+                .Send(GeneralTestUtterances.No)
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
