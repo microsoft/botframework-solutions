@@ -80,35 +80,85 @@ Your Virtual Assistant project has a deployment recipe enabling the `msbot clone
 
 To deploy your Virtual Assistant including all dependencies - e.g. CosmosDb, Application Insights, etc. run the following command from a command prompt within your project folder. Ensure you update the authoring key from the previous step and choose the Azure datacenter location you wish to use (e.g. westus or westeurope). You must check that the LUIS authoring key retrieved on the previous step is for the region you specify below (e.g. westus for luis.ai or westeurope for eu.luis.ai)
 
-The first command prepares the deployment scripts in English from the source LU files and must be performed before msbot clone. Other language deployments are available depending on your scenario and we are working on a combined multi-language architecture.
+Run this PowerShell script to deploy your shared resources and LUIS and QnA Maker resources in English:
 
-Ensure you open a command prompt and navigate to the assistant directory before running these commands.
-
-```shell
-DeploymentScripts\en\update_en.bat
-msbot clone services --name "MyCustomAssistantName" --luisAuthoringKey "YOUR_AUTHORING_KEY" --folder "DeploymentScripts\en" --location "YOUR_REGION"
+```
+  ...DeploymentScripts\deploy_bot.ps1
 ```
 
-> There is a known issue with some users whereby you might experience the following error when running deployment `ERROR: Unable to provision MSA id automatically. Please pass them in as parameters and try again`. In this situation, please browse to https://apps.dev.microsoft.com and manually create a new application retrieving the ApplicationID and Password/Secret. Run the above msbot clone services command but provide two new arguments `appId` and `appSecret` passing the values you've just retrieved.
+If you would like to support different languages for your scenario add the `-locales` parameter. The following languages are supported: English (en-us), Chinese (zh-cn), German (de-de), French (fr-fr), Italian (it-it), and Spanish (es-es).
+
+```
+  ...DeploymentScripts\deploy_bot.ps1 -locales "en-us,zh-cn"
+```
+
+If you would like to add support for additional languages **after your initial deployment**, you can specify the `-languagesOnly` parameter to deploy only the services for the new language(s).
+
+```
+  ...DeploymentScripts\deploy_bot.ps1 -locales "fr-fr,it-it" -languagesOnly
+```
+
+You will be prompted to provide the following parameters:
+   - Name - A name for your bot and resource group. This must be **unique**.
+   - Location - The Azure region for your services.
+   - LUIS Authoring Key - Refer to above documentation for retrieving this key.
 
 The msbot tool will outline the deployment plan including location and SKU. Ensure you review before proceeding.
 
 ![Deployment Confirmation](./media/virtualassistant-deploymentplan.png)
 
->After deployment is complete, it's **imperative** that you make a note of the .bot file secret provided as this will be required for later steps.
+> There is a known issue with some users whereby you might experience the following error when running deployment `ERROR: Unable to provision MSA id automatically. Please pass them in as parameters and try again`. In this situation, please browse to https://apps.dev.microsoft.com and manually create a new application retrieving the ApplicationID and Password/Secret. Run the above msbot clone services command but provide two new arguments `appId` and `appSecret` passing the values you've just retrieved.
+
+> After deployment is complete, it's **imperative** that you make a note of the .bot file secret provided as this will be required for later steps.
+
 
 - Update your `appsettings.json` file with the newly created .bot file name and .bot file secret.
 - Run the following command and retrieve the InstrumentationKey for your Application Insights instance and update `InstrumentationKey` in your `appsettings.json` file.
 
-`msbot list --bot YOURBOTFILE.bot --secret YOUR_BOT_SECRET`
+```
+msbot list --bot YOURBOTFILE.bot --secret YOUR_BOT_SECRET
+```
 
-        {
-          "botFilePath": ".\\YOURBOTFILE.bot",
-          "botFileSecret": "YOUR_BOT_SECRET",
-          "ApplicationInsights": {
-            "InstrumentationKey": "YOUR_INSTRUMENTATION_KEY"
-          }
-        }
+```
+  {
+    "botFilePath": ".\\YOURBOTFILE.bot",
+    "botFileSecret": "YOUR_BOT_SECRET",
+    "ApplicationInsights": {
+      "InstrumentationKey": "YOUR_INSTRUMENTATION_KEY"
+    }
+  }
+```
+
+- Finally, add the .bot file paths for each of your language configurations:
+
+```
+"defaultLocale": "en-us",
+  "languageModels": {
+    "en": {
+      "botFilePath": ".\\LocaleConfigurations\\YOUR_EN_BOT_PATH.bot",
+      "botFileSecret": ""
+    },
+    "de": {
+      "botFilePath": ".\\LocaleConfigurations\\YOUR_DE_BOT_PATH.bot",
+      "botFileSecret": ""
+    },
+    "es": {
+      "botFilePath": ".\\LocaleConfigurations\\YOUR_ES_BOT_PATH.bot",
+      "botFileSecret": ""
+    },
+    "fr": {
+      "botFilePath": ".\\LocaleConfigurations\\YOUR_FR_BOT_PATH.bot",
+      "botFileSecret": ""
+    },
+    "it": {
+      "botFilePath": ".\\LocaleConfigurations\\YOUR_IT_BOT_PATH.bot",
+      "botFileSecret": ""
+    },
+    "zh": {
+      "botFilePath": ".\\LocaleConfigurations\\YOUR_ZH_BOT_PATH.bot",
+      "botFileSecret": ""
+    }
+```
 
 ## Skill Configuration
 
