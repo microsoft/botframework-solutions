@@ -125,5 +125,10 @@ namespace ToDoSkillTest.Fakes
 
             return Task.FromResult(true);
         }
+
+        public Task<string> GetTaskWebLink()
+        {
+            return Task.FromResult(MockData.MockOneNoteWebLink);
+        }
     }
 }

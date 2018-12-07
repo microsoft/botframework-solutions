@@ -26,6 +26,7 @@ namespace ToDoSkill
         private UserState _userState;
         private ConversationState _conversationState;
         private ITaskService _serviceManager;
+        private IMailService _mailService;
         private IStatePropertyAccessor<ToDoSkillState> _toDoStateAccessor;
         private IStatePropertyAccessor<ToDoSkillUserState> _userStateAccessor;
         private ToDoSkillResponseBuilder _responseBuilder = new ToDoSkillResponseBuilder();
@@ -35,6 +36,7 @@ namespace ToDoSkill
             ConversationState conversationState,
             UserState userState,
             ITaskService serviceManager,
+            IMailService mailService,
             bool skillMode)
             : base(nameof(MainDialog))
         {
@@ -43,6 +45,7 @@ namespace ToDoSkill
             _conversationState = conversationState;
             _userState = userState;
             _serviceManager = serviceManager;
+            _mailService = mailService;
 
             // Initialize state accessor
             _toDoStateAccessor = _conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
@@ -295,10 +298,10 @@ namespace ToDoSkill
 
         private void RegisterDialogs()
         {
-            AddDialog(new AddToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager));
-            AddDialog(new MarkToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager));
-            AddDialog(new DeleteToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager));
-            AddDialog(new ShowToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager));
+            AddDialog(new AddToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager, _mailService));
+            AddDialog(new MarkToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager, _mailService));
+            AddDialog(new DeleteToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager, _mailService));
+            AddDialog(new ShowToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager, _mailService));
         }
 
         private void InitializeConfig(ToDoSkillState state)

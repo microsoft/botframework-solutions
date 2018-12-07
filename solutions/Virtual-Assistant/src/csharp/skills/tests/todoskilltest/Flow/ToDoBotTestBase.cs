@@ -25,7 +25,11 @@ namespace ToDoSkillTest.Flow
 
         public IStatePropertyAccessor<ToDoSkillState> ToDoStateAccessor { get; set; }
 
+        public IStatePropertyAccessor<ToDoSkillUserState> UserStateAccessor { get; set; }
+
         public ITaskService ToDoService { get; set; }
+
+        public IMailService MailService { get; set; }
 
         public MockSkillConfiguration Services { get; set; }
 
@@ -39,14 +43,20 @@ namespace ToDoSkillTest.Flow
             this.ConversationState = new ConversationState(new MemoryStorage());
             this.UserState = new UserState(new MemoryStorage());
             this.ToDoStateAccessor = this.ConversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
+            this.UserStateAccessor = this.UserState.CreateProperty<ToDoSkillUserState>(nameof(ToDoSkillUserState));
             this.Services = new MockSkillConfiguration();
 
             builder.RegisterInstance(new BotStateSet(this.UserState, this.ConversationState));
-            var fakeToDoService = new MockToDoService();
-            builder.RegisterInstance<ITaskService>(fakeToDoService);
+
+            var mockToDoService = new MockToDoService();
+            builder.RegisterInstance<ITaskService>(mockToDoService);
+
+            var mockMailService = new MockMailService();
+            builder.RegisterInstance<IMailService>(mockMailService);
 
             this.Container = builder.Build();
-            this.ToDoService = fakeToDoService;
+            this.ToDoService = mockToDoService;
+            this.MailService = mockMailService;
 
             this.BotResponseBuilder = new BotResponseBuilder();
             this.BotResponseBuilder.AddFormatter(new TextBotResponseFormatter());
@@ -68,6 +78,7 @@ namespace ToDoSkillTest.Flow
             {
                 var bot = this.BuildBot() as ToDoSkill.ToDoSkill;
                 var state = await this.ToDoStateAccessor.GetAsync(context, () => new ToDoSkillState());
+                var userState = await this.UserStateAccessor.GetAsync(context, () => new ToDoSkillUserState());
                 await bot.OnTurnAsync(context, CancellationToken.None);
             });
 
@@ -76,7 +87,7 @@ namespace ToDoSkillTest.Flow
 
         public override IBot BuildBot()
         {
-            return new ToDoSkill.ToDoSkill(this.Services, this.ConversationState, this.UserState, this.ToDoService, true);
+            return new ToDoSkill.ToDoSkill(this.Services, this.ConversationState, this.UserState, this.ToDoService, this.MailService, true);
         }
     }
 }

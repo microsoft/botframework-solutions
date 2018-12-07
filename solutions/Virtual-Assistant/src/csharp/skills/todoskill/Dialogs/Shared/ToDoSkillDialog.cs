@@ -32,13 +32,15 @@ namespace ToDoSkill
             ISkillConfiguration services,
             IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
             IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
-            ITaskService serviceManager)
+            ITaskService serviceManager,
+            IMailService mailService)
             : base(dialogId)
         {
             Services = services;
             ToDoStateAccessor = toDoStateAccessor;
             UserStateAccessor = userStateAccessor;
             ServiceManager = serviceManager;
+            MailService = mailService;
 
             if (!Services.AuthenticationConnections.Any())
             {
@@ -57,6 +59,8 @@ namespace ToDoSkill
         protected IStatePropertyAccessor<ToDoSkillUserState> UserStateAccessor { get; set; }
 
         protected ITaskService ServiceManager { get; set; }
+
+        protected IMailService MailService { get; set; }
 
         protected ToDoSkillResponseBuilder ResponseBuilder { get; set; }
 
@@ -859,7 +863,7 @@ namespace ToDoSkill
                 service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
                 var taskWebLink = await service.GetTaskWebLink();
                 var emailContent = string.Format(ToDoStrings.EmailContent, taskWebLink);
-                var emailService = new MailService(state.MsGraphToken);
+                var emailService = await MailService.InitAsync(state.MsGraphToken);
                 await emailService.SendMessageAsync(emailContent, ToDoStrings.EmailSubject);
 
                 if (ServiceManager is OneNoteService)

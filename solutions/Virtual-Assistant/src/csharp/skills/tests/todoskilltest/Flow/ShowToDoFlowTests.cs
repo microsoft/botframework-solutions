@@ -32,6 +32,7 @@ namespace ToDoSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.ShowToDoList())
                 .AssertReplyOneOf(this.ShowMoreTasks())
                 .AssertReply(this.ActionEndMessage())
@@ -61,6 +62,11 @@ namespace ToDoSkillTest.Flow
         private string[] SettingUpOneNote()
         {
             return this.ParseReplies(ToDoSharedResponses.SettingUpOneNoteMessage.Replies, new StringDictionary());
+        }
+
+        private string[] AfterSettingUpOneNote()
+        {
+            return this.ParseReplies(ToDoSharedResponses.AfterOneNoteSetupMessage.Replies, new StringDictionary());
         }
 
         private string[] ShowMoreTasks()

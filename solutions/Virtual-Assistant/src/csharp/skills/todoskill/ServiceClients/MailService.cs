@@ -12,7 +12,7 @@ namespace ToDoSkill
     /// <summary>
     /// Mail service used to call real apis.
     /// </summary>
-    public class MailService
+    public class MailService : IMailService
     {
         private readonly string graphBaseUrl = "https://graph.microsoft.com/v1.0/me";
         private HttpClient httpClient;
@@ -23,11 +23,12 @@ namespace ToDoSkill
         /// Init service use token.
         /// </summary>
         /// <param name="token">access token.</param>
-        /// <returns>User service itself.</returns>
-        public MailService(string token)
+        /// <returns>Mail service itself.</returns>
+        public async Task<IMailService> InitAsync(string token)
         {
             httpClient = ServiceHelper.GetHttpClient(token);
             graphServiceClient = ServiceHelper.GetAuthenticatedClient(token);
+            return await Task.Run(() => this);
         }
 
         /// <summary>

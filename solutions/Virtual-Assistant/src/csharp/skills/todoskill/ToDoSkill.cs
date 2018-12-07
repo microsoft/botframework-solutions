@@ -2,12 +2,10 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Skills;
 using ToDoSkill.ServiceClients;
 using static ToDoSkill.ServiceProviderTypes;
@@ -23,10 +21,11 @@ namespace ToDoSkill
         private readonly ConversationState _conversationState;
         private readonly UserState _userState;
         private ITaskService _serviceManager;
+        private IMailService _mailService;
         private DialogSet _dialogs;
         private bool _skillMode;
 
-        public ToDoSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, ITaskService serviceManager = null, bool skillMode = false)
+        public ToDoSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, ITaskService serviceManager = null, IMailService mailService = null, bool skillMode = false)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));
@@ -42,9 +41,10 @@ namespace ToDoSkill
             }
 
             _serviceManager = serviceManager ?? taskService;
+            _mailService = mailService ?? new MailService();
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(DialogState)));
-            _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _serviceManager, _skillMode));
+            _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _serviceManager, _mailService, _skillMode));
         }
 
         /// <summary>
