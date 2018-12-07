@@ -82,7 +82,7 @@ namespace EmailSkill
                     {
                         var recipientConfirmedMessage = sc.Context.Activity.CreateReply(EmailSharedResponses.RecipientConfirmed, null, new StringDictionary() { { "UserName", await GetNameListStringAsync(sc) } });
                         noMessageBodyMessage.Text = recipientConfirmedMessage.Text + " " + noMessageBodyMessage.Text;
-                        noMessageBodyMessage.Speak += recipientConfirmedMessage.Speak + " " + noMessageBodyMessage.Speak;
+                        noMessageBodyMessage.Speak = recipientConfirmedMessage.Speak + " " + noMessageBodyMessage.Speak;
                     }
 
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = noMessageBodyMessage });

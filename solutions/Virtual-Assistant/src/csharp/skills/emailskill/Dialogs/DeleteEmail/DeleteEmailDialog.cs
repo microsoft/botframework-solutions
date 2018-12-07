@@ -70,25 +70,6 @@ namespace EmailSkill
             }
         }
 
-        public async Task<DialogTurnResult> PromptCollectMessage(WaterfallStepContext sc, CancellationToken cancellationToken)
-        {
-            try
-            {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var focusedMessage = state.Message.FirstOrDefault();
-                if (focusedMessage != null)
-                {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(DeleteEmailResponses.DeletePrompt) });
-                }
-
-                return await sc.NextAsync();
-            }
-            catch (Exception ex)
-            {
-                throw await HandleDialogExceptions(sc, ex);
-            }
-        }
-
         public async Task<DialogTurnResult> DeleteEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -100,6 +81,7 @@ namespace EmailSkill
                     var mailService = this.ServiceManager.InitMailService(state.Token, state.GetUserTimeZone(), state.MailSourceType);
                     var focusMessage = state.Message.FirstOrDefault();
                     await mailService.DeleteMessageAsync(focusMessage.Id);
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(DeleteEmailResponses.DeleteSuccessfully));
                 }
                 else
                 {

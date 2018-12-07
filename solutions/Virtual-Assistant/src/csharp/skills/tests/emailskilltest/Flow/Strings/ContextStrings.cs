@@ -6,16 +6,24 @@ namespace EmailSkillTest.Flow.Strings
 {
     public class ContextStrings
     {
-        public static string TestEmailAdress { get; } = "test@test.com";
+        public const string TestEmailAdress = "test@test.com";
 
-        public static string Nobody { get; } = "Nobody";
+        public const string Nobody = "Nobody";
 
-        public static string TestRecipient { get; } = "Test Test";
+        public const string TestRecipient = "Test Test";
 
-        public static string TestRecipientWithDup { get; } = "TestDup Test";
+        public const string TestRecipientWithDup = "TestDup Test";
 
-        public static string TestSubjcet { get; } = "TestSubjcet";
+        public const string TestSubjcet = "TestSubjcet";
 
-        public static string TestContent { get; } = "TestContent";
+        public const string TestContent = "TestContent";
+
+        public const string TestBody = "TestBody";
+
+        public const string WebLink = "http://www.test.com";
+
+        public const string TestSender = "TestSender";
+
+        public const string TestSenderAddress = "testsender@test.com";
     }
 }

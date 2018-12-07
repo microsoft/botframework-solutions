@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
+using EmailSkill.Dialogs.DeleteEmail.Resources;
 using EmailSkill.Dialogs.Shared.Resources;
 using EmailSkillTest.Flow.Fakes;
 using EmailSkillTest.Flow.Strings;
@@ -11,66 +12,47 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace EmailSkillTest.Flow
 {
     [TestClass]
-    public class ReplyFlowTests : EmailBotTestBase
+    public class DeleteEmailFlowTests : EmailBotTestBase
     {
         [TestInitialize]
         public void SetupLuisService()
         {
             var luisServices = this.Services.LuisServices;
             luisServices.Clear();
-            luisServices.Add("email", new MockEmailLuisRecognizer(new ReplyEmailUtterances()));
+            luisServices.Add("email", new MockEmailLuisRecognizer(new DeleteEmailUtterances()));
             luisServices.Add("general", new MockGeneralLuisRecognizer());
         }
 
         [TestMethod]
-        public async Task Test_NotSendingEmail()
+        public async Task Test_NotDeleteEmail()
         {
             await this.GetTestFlow()
-                .Send(ReplyEmailUtterances.ReplyEmails)
+                .Send(DeleteEmailUtterances.DeleteEmails)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.NoFocusMessage())
                 .Send(BaseTestUtterances.FirstOne)
-                .AssertReplyOneOf(this.CollectEmailContentMessage())
-                .Send(ContextStrings.TestContent)
-                .AssertReply(this.AssertComfirmBeforeSendingPrompt())
+                .AssertReplyOneOf(this.DeleteConfirm())
                 .Send(GeneralTestUtterances.No)
                 .AssertReplyOneOf(this.NotSendingMessage())
                 .StartTestAsync();
         }
 
         [TestMethod]
-        public async Task Test_SendingEmail()
+        public async Task Test_DeleteEmail()
         {
             await this.GetTestFlow()
-                .Send(ReplyEmailUtterances.ReplyEmails)
+                .Send(DeleteEmailUtterances.DeleteEmails)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.NoFocusMessage())
                 .Send(BaseTestUtterances.FirstOne)
-                .AssertReplyOneOf(this.CollectEmailContentMessage())
-                .Send(ContextStrings.TestContent)
-                .AssertReply(this.AssertComfirmBeforeSendingPrompt())
+                .AssertReplyOneOf(this.DeleteConfirm())
                 .Send(GeneralTestUtterances.Yes)
-                .AssertReplyOneOf(this.AfterSendingMessage())
-                .StartTestAsync();
-        }
-
-        [TestMethod]
-        public async Task Test_ReplyEmailWithContent()
-        {
-            await this.GetTestFlow()
-                .Send(ReplyEmailUtterances.ReplyEmailsWithContent)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReply(this.ShowEmailList())
-                .AssertReplyOneOf(this.NoFocusMessage())
-                .Send(BaseTestUtterances.FirstOne)
-                .AssertReply(this.AssertComfirmBeforeSendingPrompt())
-                .Send(GeneralTestUtterances.Yes)
-                .AssertReplyOneOf(this.AfterSendingMessage())
+                .AssertReplyOneOf(this.DeleteSuccess())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -84,9 +66,22 @@ namespace EmailSkillTest.Flow
             return this.ParseReplies(EmailSharedResponses.NoFocusMessage.Replies, new StringDictionary());
         }
 
-        private string[] AfterSendingMessage()
+        private string[] DeleteSuccess()
         {
-            return this.ParseReplies(EmailSharedResponses.SentSuccessfully.Replies, new StringDictionary());
+            return this.ParseReplies(DeleteEmailResponses.DeleteSuccessfully.Replies, new StringDictionary());
+        }
+
+        private string[] DeleteConfirm()
+        {
+            return this.ParseReplies(DeleteEmailResponses.DeleteConfirm.Replies, new StringDictionary());
+        }
+
+        private Action<IActivity> ActionEndMessage()
+        {
+            return activity =>
+            {
+                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
+            };
         }
 
         private Action<IActivity> AssertComfirmBeforeSendingPrompt()
@@ -108,11 +103,6 @@ namespace EmailSkillTest.Flow
                 CollectionAssert.Contains(replies, messageActivity.Text);
                 Assert.AreNotEqual(messageActivity.Attachments.Count, 0);
             };
-        }
-
-        private string[] CollectEmailContentMessage()
-        {
-            return this.ParseReplies(EmailSharedResponses.NoEmailContent.Replies, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()

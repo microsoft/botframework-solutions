@@ -54,6 +54,8 @@ namespace EmailSkillTest.Flow.Utterances
         {
             var emailIntent = new Email();
 
+            emailIntent.Text = userInput;
+
             emailIntent.Intents = new Dictionary<Intent, IntentScore>();
             emailIntent.Intents.Add(intent, new IntentScore() { Score = TopIntentScore });
 
@@ -69,7 +71,6 @@ namespace EmailSkillTest.Flow.Utterances
 
             if (!string.IsNullOrEmpty(userInput))
             {
-                emailIntent.Text = userInput;
                 emailIntent.Entities.EmailAddress = emailAdress;
                 if (emailAdress != null)
                 {

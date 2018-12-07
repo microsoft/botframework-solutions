@@ -62,6 +62,40 @@ namespace EmailSkillTest.Flow
                 .StartTestAsync();
         }
 
+        [TestMethod]
+        public async Task Test_ForwardEmailToRecipient()
+        {
+            await this.GetTestFlow()
+                .Send(ForwardEmailUtterances.ForwardEmailsToRecipient)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReply(this.ShowEmailList())
+                .AssertReply(this.AssertSelectOneOfTheMessage())
+                .Send(BaseTestUtterances.FirstOne)
+                .AssertReplyOneOf(this.CollectEmailContentMessage())
+                .Send(ContextStrings.TestContent)
+                .AssertReply(this.AssertComfirmBeforeSendingPrompt())
+                .Send(GeneralTestUtterances.Yes)
+                .AssertReplyOneOf(this.AfterSendingMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_ForwardEmailToRecipientWithContent()
+        {
+            await this.GetTestFlow()
+                .Send(ForwardEmailUtterances.ForwardEmailsToRecipientWithContent)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReply(this.ShowEmailList())
+                .AssertReply(this.AssertSelectOneOfTheMessage())
+                .Send(BaseTestUtterances.FirstOne)
+                .AssertReply(this.AssertComfirmBeforeSendingPrompt())
+                .Send(GeneralTestUtterances.Yes)
+                .AssertReplyOneOf(this.AfterSendingMessage())
+                .StartTestAsync();
+        }
+
         private string[] AfterSendingMessage()
         {
             return this.ParseReplies(EmailSharedResponses.SentSuccessfully.Replies, new StringDictionary());
