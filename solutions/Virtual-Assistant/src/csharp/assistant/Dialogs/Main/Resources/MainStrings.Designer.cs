@@ -152,21 +152,25 @@ namespace VirtualAssistant.Dialogs.Main.Resources {
         
         /// <summary>
         ///   Looks up a localized string similar to {
-        ///  &quot;$schema&quot;: &quot;http://adaptivecards.io/schemas/adaptive-card.json&quot;,
         ///  &quot;type&quot;: &quot;AdaptiveCard&quot;,
-        ///  &quot;version&quot;: &quot;1.0&quot;,
-        ///  &quot;speak&quot;: &quot;Welcome to your Virtual Assistant! Now that you&apos;re up and running, let&apos;s get started.&quot;,
         ///  &quot;body&quot;: [
         ///    {
         ///      &quot;type&quot;: &quot;Image&quot;,
-        ///      &quot;url&quot;: &quot;https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtB3AwMUeNoq4gUBGe6Ocj8kyh3bXa9ZbV7u1fVKQoyKFHdkqU&quot;,
-        ///      &quot;size&quot;: &quot;stretch&quot;
+        ///      &quot;horizontalAlignment&quot;: &quot;Center&quot;,
+        ///      &quot;url&quot;: &quot;https://virtualasspc5f.blob.core.windows.net/images/BMW%20lcon%402x.png&quot;,
+        ///      &quot;size&quot;: &quot;Large&quot;,
+        ///      &quot;width&quot;: &quot;150px&quot;,
+        ///      &quot;height&quot;: &quot;150px&quot;
         ///    },
         ///    {
-        ///      &quot;type&quot;: &quot;TextBlock&quot;,
-        ///      &quot;spacing&quot;: &quot;medium&quot;,
-        ///      &quot;size&quot;: &quot;default&quot;,
-        ///     [rest of string was truncated]&quot;;.
+        ///      &quot;type&quot;: &quot;Container&quot;,
+        ///      &quot;items&quot;: [
+        ///        {
+        ///          &quot;type&quot;: &quot;TextBlock&quot;,
+        ///          &quot;horizontalAlignment&quot;: &quot;Center&quot;,
+        ///          &quot;size&quot;: &quot;ExtraLarge&quot;,
+        ///          &quot;weight&quot;: &quot;Lighter&quot;,
+        ///          &quot;color&quot;: &quot;Li [rest of string was truncated]&quot;;.
         /// </summary>
         public static string Intro {
             get {

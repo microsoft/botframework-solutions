@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
@@ -347,20 +348,13 @@ namespace VirtualAssistant
             var command = dc.Context.Activity.Text;
             var response = dc.Context.Activity.CreateReply();
 
-            if (command.StartsWith("play") || command.StartsWith("播放"))
+            if (command.Contains("播放"))
             {
                 NetEaseMusicClient client = new NetEaseMusicClient();
                 List<Song> list_Song = await client.SearchSongAsync(command).ConfigureAwait(false);
                 if (list_Song.Count > 0)
                 {
                     // Create an attachment.
-                    //var attachment = new Attachment
-                    //{
-                    //    ContentUrl = list_Song[0].Url,
-                    //    ContentType = "audio/mp4",
-                    //    ThumbnailUrl = list_Song[0].Pic,
-                    //    Name = list_Song[0].Name,
-                    //};
                     var audioCard = new AudioCard()
                     {
                         Image = new ThumbnailUrl
@@ -385,7 +379,109 @@ namespace VirtualAssistant
                 {
                     response.Text = "对不起，没有找到你想要找的歌曲";
                 }
-                
+                await dc.Context.SendActivityAsync(response);
+                handled = true;
+            }
+            else if (command.Contains("查询"))
+            {
+
+                BaiduMapClient baiduMapClient = new BaiduMapClient();
+                Regex regex = new Regex("查询附近价格(大于|小于)([0-9]*)的(.*)");
+                if (regex.IsMatch(command))
+                {
+                    string compare = regex.Match(command).Groups[1].ToString();
+                    string price = regex.Match(command).Groups[2].ToString();
+                    string querystr = regex.Match(command).Groups[3].ToString();
+
+                    if (compare == "大于")
+                    {
+                        price = price + ",99999999";
+                    }
+                    else
+                    {
+                        price = "0," + price;
+                    }
+                    PoiQuery query = new PoiQuery
+                    {
+                        Query = querystr,
+                        //上海
+                        Location = new Coordinate
+                        {
+                            Lat = 31.2,
+                            Lng = 121.4,
+                        },
+                        Price_section = price,
+                    };
+                    List<Poi> places = await baiduMapClient.PoiSearchAsync(query).ConfigureAwait(false);
+                    response.Attachments = new List<Attachment>();
+                    if (places.Count > 0)
+                    {
+                        for (var i = 0; i < places.Count && i < 4; ++i)
+                        {
+                            string AddressUrl = "http://api.map.baidu.com/geocoder?address={ADDRESS}&output=html&src=webapp.baidu.openAPIdemo";
+                            AddressUrl = AddressUrl.Replace("{ADDRESS}", places[i].Address);
+                            var card = new HeroCard
+                            {
+                                Title = places[i].Name,
+                                Subtitle = "人均价格：" + places[i].Detail_info.Price.ToString(),
+                                Text = places[i].Address,
+                                Buttons = new List<CardAction>
+                                {
+                                    new CardAction(ActionTypes.OpenUrl, "Here", value: AddressUrl)
+
+                                }
+                            };
+                            response.Attachments.Add(card.ToAttachment());
+                        }
+                    }
+                    else
+                    {
+                        response.Text = "对不起, 没有找到您想要的资源";
+                    }
+                }
+                else
+                {
+                    response.Text = "对不起, 我不明白您在说什么";
+                }
+
+                await dc.Context.SendActivityAsync(response);
+                handled = true;
+
+            }
+            else if (command.Contains("导航到"))
+            {
+                //"帮我导航到徐家汇汇港广场"
+                int index = command.IndexOf("导航到");
+                string place = command.Substring(index + 3);
+                BaiduMapClient baiduMapClient = new BaiduMapClient();
+                List<Poi> places = await baiduMapClient.PlaceSearchAsync(place, "上海").ConfigureAwait(false);
+                if (places.Count > 0)
+                {
+                    Coordinate currentLocation = new Coordinate
+                    {
+                        Lat = 31.2,
+                        Lng = 121.4,
+                    };
+                    List<Route> routes = await baiduMapClient.GetDirectionAsync(currentLocation, places[0].Location).ConfigureAwait(false);
+                    if (routes.Count > 0)
+                    {
+                        string AddressUrl = "http://api.map.baidu.com/geocoder?address={ADDRESS}&output=html&src=webapp.baidu.openAPIdemo";
+                        AddressUrl = AddressUrl.Replace("{ADDRESS}", places[0].Address);
+                        var card = new HeroCard
+                        {
+                            Title = "您到" + place + "距离有" + (double)routes[0].Distance/1000 + "公里, 需要" + routes[0].Duration/60 + "分钟",
+                            Buttons = new List<CardAction>
+                            {
+                                new CardAction(ActionTypes.OpenUrl, "Here", value: AddressUrl)
+                            }
+                        };
+                        response.Attachments.Add(card.ToAttachment());
+                    }
+                }
+                else
+                {
+                    response.Text = "对不起, 没有找到您想要的地址";
+                }
                 await dc.Context.SendActivityAsync(response);
                 handled = true;
             }
@@ -437,7 +533,6 @@ namespace VirtualAssistant
                             response.Name = "PlayMusic";
                             response.Value = "彩虹 - 周杰伦";
                             await dc.Context.SendActivityAsync(response);
-
                             handled = true;
                             break;
                         }
