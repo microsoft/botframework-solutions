@@ -146,7 +146,6 @@ namespace VirtualAssistant
         {
             _isProduction = env.IsProduction();
             app.UseDefaultFiles()
-                .UseDeveloperExceptionPage()
                 .UseStaticFiles()
                 .UseBotFramework();
         }
