@@ -17,28 +17,34 @@ Param(
 	[string] $appSecret
 )
 
-$localeArr = $locales.Split(',')
-
-Write-Host "Updating deployment scripts..."
-foreach ($locale in $localeArr) 
-{
-	Invoke-Expression "$($PSScriptRoot)\generate_deployment_scripts.ps1 -locale $($locale)"
-}
-
-foreach ($locale in $localeArr)
-{
-    Write-Host "Deploying $($locale) resources..."
-	$langCode = ($locale -split "-")[0]
-	md -Force "$($PSScriptRoot)\..\LocaleConfigurations" 
-	cd "$($PSScriptRoot)\..\LocaleConfigurations"
-    msbot clone services -n "$($name)$($langCode)" -l $location --luisAuthoringKey $luisAuthoringKey --groupName $name --folder "$($PSScriptRoot)\$($langCode)" --force
-}
-
 if (!$languagesOnly)
 {
+	# Change to project directory for .bot file
 	Write-Host "Changing to project directory ..."
 	cd "$($PSScriptRoot)\..\"
 
+	# Deploy the common resources (Azure Bot Service, App Insights, Azure Storage, Cosmos DB, etc)
 	Write-Host "Deploying common resources..."
-	msbot clone services -n $name -l $location --luisAuthoringKey $luisAuthoringKey --folder "$($PSScriptRoot)" --appId $appId --appSecret $appSecret --force
+	msbot clone services -n $name -l $location --luisAuthoringKey $luisAuthoringKey --folder "$($PSScriptRoot)" --appId $appId --appSecret $appSecret --force --quiet
 }
+
+$localeArr = $locales.Split(',')
+
+foreach ($locale in $localeArr)
+{	
+	# Update deployment scripts for the locale
+	Invoke-Expression "$($PSScriptRoot)\generate_deployment_scripts.ps1 -locale $($locale)"
+
+	# Get language code from locale (first two characters, i.e. "en")
+	$langCode = ($locale -split "-")[0]
+
+	# Create LocaleConfigurations folder and change directory
+	md -Force "$($PSScriptRoot)\..\LocaleConfigurations" > $null
+	cd "$($PSScriptRoot)\..\LocaleConfigurations" > $null
+
+	# Deploy Dispatch, LUIS (calendar, email, todo, and general), and QnA Maker for the locale
+    Write-Host "Deploying $($locale) resources..."
+    msbot clone services -n "$($name)$($langCode)" -l $location --luisAuthoringKey $luisAuthoringKey --groupName $name --force --quiet --folder "$($PSScriptRoot)\$($langCode)" | Out-Null
+}
+
+Write-Host "Done."
