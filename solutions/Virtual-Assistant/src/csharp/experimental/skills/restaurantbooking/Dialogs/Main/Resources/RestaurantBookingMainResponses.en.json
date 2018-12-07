@@ -1,0 +1,66 @@
+{
+  "WelcomeMessage": {
+    "replies": [
+      {
+        "text": "Welcome to your new skill!",
+        "speak": "Welcome to your new skill!"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "HelpMessage": {
+    "replies": [
+      {
+        "text": "Use this response to let user know what your skill can do.",
+        "speak": "Use this response to let user know what your skill can do."
+      }
+    ],
+    "suggestedActions": [
+      "Sample suggested action"
+    ],
+    "inputHint": "expectingInput"
+  },
+  "GreetingMessage": {
+    "replies": [
+      {
+        "text": "Hi!",
+        "speak": "Hi!"
+      },
+      {
+        "text": "I'm here!",
+        "speak": "I'm here!"
+      },
+      {
+        "text": "Hi there!",
+        "speak": "Hi there!"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "LogOut": {
+    "replies": [
+      {
+        "text": "Your sign out was successful.",
+        "speak": "Your sign out was successful."
+      },
+      {
+        "text": "You have successfully sign out.",
+        "speak": "You have successfully sign out."
+      },
+      {
+        "text": "You have been logged out.",
+        "speak": "You have been logged out."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "FeatureNotAvailable": {
+    "replies": [
+      {
+        "text": "This feature is not yet available in this skill. Please try asking something else.",
+        "speak": "This feature is not yet available in this skill. Please try asking something else."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}
