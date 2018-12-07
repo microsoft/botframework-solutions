@@ -109,7 +109,7 @@ The msbot tool will outline the deployment plan including location and SKU. Ensu
 
 > There is a known issue with some users whereby you might experience the following error when running deployment `ERROR: Unable to provision MSA id automatically. Please pass them in as parameters and try again`. In this situation, please browse to https://apps.dev.microsoft.com and manually create a new application retrieving the ApplicationID and Password/Secret. Run the above msbot clone services command but provide two new arguments `appId` and `appSecret` passing the values you've just retrieved.
 
-> After deployment is complete, it's **imperative** that you make a note of the .bot file secret provided as this will be required for later steps.
+> After deployment is complete, it's **imperative** that you make a note of the .bot file secret provided as this will be required for later steps. The secret can be found near the top of the execution output and will be in purple text.
 
 
 - Update your `appsettings.json` file with the newly created .bot file name and .bot file secret.
