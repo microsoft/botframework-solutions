@@ -379,16 +379,6 @@ namespace CalendarSkill
                     return await sc.NextAsync(cancellationToken: cancellationToken);
                 }
 
-                if (state.EventSource == EventSource.Microsoft)
-                {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoAttendeesMS) }, cancellationToken);
-                }
-
-                if (sc.Result != null)
-                {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.WrongAddress) }, cancellationToken);
-                }
-
                 return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoAttendees) }, cancellationToken);
             }
             catch
