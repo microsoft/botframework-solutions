@@ -88,6 +88,11 @@ namespace CalendarSkill
             doc.LoadHtml(body);
 
             var number = doc.DocumentNode.SelectSingleNode("//a[contains(@href, 'tel')]");
+            if (number == null || string.IsNullOrEmpty(number.InnerText))
+            {
+                return null;
+            }
+
             const string telToken = "&#43;";
             return number.InnerText.Replace(telToken, string.Empty);
         }
