@@ -8,6 +8,9 @@ using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CalendarSkillTest.Flow.Utterances;
 using CalendarSkillTest.Flow.Fakes;
+using Microsoft.Bot.Solutions.Skills;
+using System.Collections.Generic;
+using Microsoft.Bot.Builder;
 
 namespace CalendarSkillTest.Flow
 {
@@ -17,7 +20,16 @@ namespace CalendarSkillTest.Flow
         [TestInitialize]
         public void SetupLuisService()
         {
-            this.Services.LuisServices.Add("calendar", new MockLuisRecognizer(new UpdateMeetingTestUtterances()));
+            this.Services.LocaleConfigurations.Add("en", new LocaleConfiguration()
+            {
+                Locale = "en-us",
+                LuisServices = new Dictionary<string, IRecognizer>()
+                {
+                    { "general", new MockLuisRecognizer() },
+                    { "calendar", new MockLuisRecognizer(new UpdateMeetingTestUtterances()) }
+                }
+            });
+
             var serviceManager = this.ServiceManager as MockCalendarServiceManager;
             serviceManager.SetupCalendarService(MockCalendarService.FakeDefaultEvents());
             serviceManager.SetupUserService(MockUserService.FakeDefaultUsers(), MockUserService.FakeDefaultPeople());

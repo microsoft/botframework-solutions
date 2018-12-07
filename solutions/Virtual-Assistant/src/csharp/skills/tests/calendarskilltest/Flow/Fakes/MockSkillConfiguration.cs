@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.ApplicationInsights;
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Azure;
-using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Solutions.Skills;
-using Moq;
-using CalendarSkillTest.Flow.Utterances;
 
 namespace CalendarSkillTest.Flow.Fakes
 {
@@ -15,18 +9,10 @@ namespace CalendarSkillTest.Flow.Fakes
     {
         public MockSkillConfiguration()
         {
-            this.LocaleConfigurations.Add("en", new LocaleConfiguration()
+            this.AuthenticationConnections = new Dictionary<string, string>
             {
-                Locale = "en-us",
-                LuisServices = new Dictionary<string, IRecognizer>()
-                {
-                    { "general", new MockLuisRecognizer() },
-                    { "calendar", new MockLuisRecognizer() }
-                }
-            });
-
-            this.AuthenticationConnections = new Dictionary<string, string>();
-            this.AuthenticationConnections.Add("Microsoft", "Microsoft");
+                { "Microsoft", "Microsoft" }
+            };
 
             this.TelemetryClient = null;
             this.CosmosDbOptions = null;
