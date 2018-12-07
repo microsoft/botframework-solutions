@@ -197,6 +197,11 @@ namespace CalendarSkill
                         {
                             foreach (var resolution in dateTimeResolutions)
                             {
+                                if (resolution.Value == null)
+                                {
+                                    continue;
+                                }
+
                                 var startTimeValue = DateTime.Parse(resolution.Value);
                                 if (startTimeValue == null)
                                 {

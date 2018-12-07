@@ -7,6 +7,7 @@ using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Solutions.Skills;
 using Moq;
+using CalendarSkillTest.Flow.Utterances;
 
 namespace CalendarSkillTest.Flow.Fakes
 {
@@ -15,7 +16,6 @@ namespace CalendarSkillTest.Flow.Fakes
         public MockSkillConfiguration()
         {
             this.LuisServices.Add("general", new MockLuisRecognizer());
-            this.LuisServices.Add("calendar", new MockLuisRecognizer());
             this.AuthenticationConnections = new Dictionary<string, string>();
             this.AuthenticationConnections.Add("Microsoft", "Microsoft");
 
