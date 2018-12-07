@@ -78,11 +78,7 @@ namespace VirtualAssistant
                             if (service.Name == "Authentication")
                             {
                                 var authentication = service as GenericService;
-
-                                if (!string.IsNullOrEmpty(authentication.Configuration["Azure Active Directory v2"]))
-                                {
-                                    AuthConnectionName = authentication.Configuration["Azure Active Directory v2"];
-                                }
+                                AuthConnectionName = "Office365";
                             }
 
                             break;
