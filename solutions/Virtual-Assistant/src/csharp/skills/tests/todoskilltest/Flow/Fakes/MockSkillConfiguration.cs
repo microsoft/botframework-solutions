@@ -20,7 +20,8 @@ namespace ToDoSkillTest.Flow.Fakes
                 }
             });
 
-            this.AuthenticationConnections.Add("Test", "Test");
+            this.AuthenticationConnections = new Dictionary<string, string>();
+            this.AuthenticationConnections.Add("Microsoft", "Microsoft");
 
             this.TelemetryClient = null;
             this.CosmosDbOptions = null;

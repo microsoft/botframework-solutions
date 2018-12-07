@@ -7,6 +7,7 @@ using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Solutions.Skills;
 using Moq;
+using CalendarSkillTest.Flow.Utterances;
 
 namespace CalendarSkillTest.Flow.Fakes
 {

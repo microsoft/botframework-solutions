@@ -5,6 +5,8 @@ using Autofac;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -40,7 +42,7 @@ namespace ToDoSkillTest.Flow
             this.Services = new MockSkillConfiguration();
 
             builder.RegisterInstance(new BotStateSet(this.UserState, this.ConversationState));
-            var fakeToDoService = new FakeToDoService();
+            var fakeToDoService = new MockToDoService();
             builder.RegisterInstance<ITaskService>(fakeToDoService);
 
             this.Container = builder.Build();
@@ -48,6 +50,13 @@ namespace ToDoSkillTest.Flow
 
             this.BotResponseBuilder = new BotResponseBuilder();
             this.BotResponseBuilder.AddFormatter(new TextBotResponseFormatter());
+        }
+
+        public Activity GetAuthResponse()
+        {
+            ProviderTokenResponse providerTokenResponse = new ProviderTokenResponse();
+            providerTokenResponse.TokenResponse = new TokenResponse(token: "test");
+            return new Activity(ActivityTypes.Event, name: "tokens/response", value: providerTokenResponse);
         }
 
         public TestFlow GetTestFlow()
@@ -67,7 +76,7 @@ namespace ToDoSkillTest.Flow
 
         public override IBot BuildBot()
         {
-            return new ToDoSkill.ToDoSkill(this.Services, this.ConversationState, this.UserState, this.ToDoService);
+            return new ToDoSkill.ToDoSkill(this.Services, this.ConversationState, this.UserState, this.ToDoService, true);
         }
     }
 }
