@@ -88,7 +88,7 @@ namespace CalendarSkillTest.Flow
 
         private string[] AskForParticpantsPrompt()
         {
-            return this.ParseReplies(CreateEventResponses.NoAttendeesMS.Replies, new StringDictionary());
+            return this.ParseReplies(CreateEventResponses.NoAttendees.Replies, new StringDictionary());
         }
 
         private string[] AskForSubjectPrompt()
