@@ -38,6 +38,10 @@ namespace ToDoSkill.Dialogs.Shared.Resources
 
         public static BotResponse AfterOneNoteSetupMessage => GetBotResponse();
 
+        public static BotResponse SettingUpOutlookMessage => GetBotResponse();
+
+        public static BotResponse AfterOutlookSetupMessage => GetBotResponse();
+
         public static BotResponse ShowToDoTasks => GetBotResponse();
 
         public static BotResponse AskToDoTaskIndex => GetBotResponse();

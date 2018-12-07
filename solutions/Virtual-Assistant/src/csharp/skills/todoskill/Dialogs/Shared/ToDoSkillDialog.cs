@@ -854,13 +854,30 @@ namespace ToDoSkill
             ITaskService service;
             if (!state.ListTypeIds.ContainsKey(state.ListType))
             {
-                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
-                service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
-                var emailService = new MailService(state.MsGraphToken);
+                if (ServiceManager is OneNoteService)
+                {
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
+                }
+                else
+                {
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOutlookMessage));
+                }
 
-                // ToDo: generate mail message based on locale
-                await emailService.SendMessageAsync("A", "B");
-                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.AfterOneNoteSetupMessage));
+                service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
+                var taskWebLink = await service.GetTaskWebLink();
+                var emailContent = string.Format(ToDoStrings.EmailContent, taskWebLink);
+                var emailService = new MailService(state.MsGraphToken);
+                await emailService.SendMessageAsync(emailContent, ToDoStrings.EmailSubject);
+
+                if (ServiceManager is OneNoteService)
+                {
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.AfterOneNoteSetupMessage));
+                }
+                else
+                {
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.AfterOutlookSetupMessage));
+                }
+
                 await StoreListTypeIdsAsync(sc);
             }
             else
@@ -907,8 +924,8 @@ namespace ToDoSkill
 
         private async Task StoreListTypeIdsAsync(DialogContext dc)
         {
-            var userState = await UserStateAccessor.GetAsync(dc.Context);
-            var state = await ToDoStateAccessor.GetAsync(dc.Context);
+            var userState = await UserStateAccessor.GetAsync(dc.Context, () => new ToDoSkillUserState());
+            var state = await ToDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
             if (state.ListTypeIds.Count > userState.ListTypeIds.Count)
             {
                 foreach (var listType in state.ListTypeIds)

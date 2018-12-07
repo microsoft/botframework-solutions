@@ -61,6 +61,24 @@ namespace ToDoSkill.Dialogs.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please refer to the link {0} to see the lists created for you..
+        /// </summary>
+        public static string EmailContent {
+            get {
+                return ResourceManager.GetString("EmailContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lists are created for you.
+        /// </summary>
+        public static string EmailSubject {
+            get {
+                return ResourceManager.GetString("EmailSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Grocery.
         /// </summary>
         public static string Grocery {

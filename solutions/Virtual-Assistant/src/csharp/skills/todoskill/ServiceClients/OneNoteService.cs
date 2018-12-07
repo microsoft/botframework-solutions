@@ -155,6 +155,17 @@ namespace ToDoSkill
             return result.IsSuccessStatusCode;
         }
 
+        /// <summary>
+        /// Get task web link.
+        /// </summary>
+        /// <returns>Task web link.</returns>
+        public async Task<string> GetTaskWebLink()
+        {
+            var notebooksUrl = $"{graphBaseUrl}/onenote/notebooks";
+            var onenoteNotebook = await GetOneNoteNotebookAsync($"{notebooksUrl}?filter=name eq '{ToDoStrings.OneNoteBookName}'");
+            return onenoteNotebook?[0]?.Links?.OneNoteWebUrl?.Href;
+        }
+
         private async Task<string> CreateOneNoteNotebookAsync(string createNotebookUrl, string notebookName)
         {
             var makeSectionContent = await httpClient.GetStringAsync(createNotebookUrl);

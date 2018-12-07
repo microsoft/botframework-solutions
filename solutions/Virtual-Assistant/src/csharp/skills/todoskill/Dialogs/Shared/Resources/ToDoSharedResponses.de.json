@@ -274,6 +274,33 @@
     ],
     "inputHint": "ignoringInput"
   },
+  "AfterOneNoteSetupMessage": {
+    "replies": [
+      {
+        "text": "Alles gesetzt. Ich habe Ihnen eine E-Mail mit einem Link zu Ihrem neuen OneNote geschickt. Ich bin bereit, dein To Do zu notieren.",
+        "speak": "Alles gesetzt. Ich habe Ihnen eine E-Mail mit einem Link zu Ihrem neuen OneNote geschickt. Ich bin bereit, dein To Do zu notieren."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "SettingUpOutlookMessage": {
+    "replies": [
+      {
+        "text": "Ich habe festgestellt, dass Sie keine Outlook-Task-Ordner mehr haben, ich erstelle neue Task-Ordner für Sie, einschließlich eines To Do Ordners.",
+        "speak": "Ich habe festgestellt, dass Sie keine Outlook-Task-Ordner mehr haben, ich erstelle neue Task-Ordner für Sie, einschließlich eines To Do Ordners."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "AfterOutlookSetupMessage": {
+    "replies": [
+      {
+        "text": "Alles gesetzt. Ich habe Ihnen eine E-Mail mit einem Link zu Ihren neuen Outlook-Task-Ordnern geschickt. Ich bin bereit, dein To Do zu notieren.",
+        "speak": "Alles gesetzt. Ich habe Ihnen eine E-Mail mit einem Link zu Ihren neuen Outlook-Task-Ordnern geschickt. Ich bin bereit, dein To Do zu notieren."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
   "ShowingMoreTasks": {
     "replies": [
       {
