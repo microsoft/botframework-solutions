@@ -630,7 +630,7 @@
       }
     ],
     "canonicalName": "Equalizer (Bass)",
-    "categories": [ "CSM" ],
+    "categories": [ "Audio" ],
     "values": [
       {
         "canonicalName": "Set",
@@ -656,7 +656,7 @@
       }
     ],
     "canonicalName": "Equalizer (Midrange)",
-    "categories": [ "CSM" ],
+    "categories": [ "Audio" ],
     "values": [
       {
         "canonicalName": "Set",
@@ -682,7 +682,7 @@
       }
     ],
     "canonicalName": "Equalizer (Treble)",
-    "categories": [ "CSM" ],
+    "categories": [ "Audio" ],
     "values": [
       {
         "canonicalName": "Set",
@@ -708,7 +708,7 @@
       }
     ],
     "canonicalName": "Equalizer (Surround)",
-    "categories": [ "CSM" ],
+    "categories": [ "Audio" ],
     "values": [
       {
         "canonicalName": "Set",
@@ -728,7 +728,7 @@
     "allowsAmount": true,
     "amounts": [ { "unit": "" } ],
     "canonicalName": "Set Volume",
-    "categories": [ "CSM" ],
+    "categories": [ "Audio" ],
     "values": [
       {
         "canonicalName": "Set",

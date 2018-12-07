@@ -43,18 +43,18 @@
     },
     {
       "type": "luis",
-      "id": "vehiclesettings",
-      "name": "vehiclesettings"
+      "id": "settings",
+      "name": "settings"
     },
     {
       "type": "luis",
-      "id": "vehiclesettings_name_selection",
-      "name": "vehiclesettings_name_selection"
+      "id": "settings_name",
+      "name": "settings_name"
     },
     {
       "type": "luis",
-      "id": "vehiclesettings_value_selection",
-      "name": "vehiclesettings_value_selection"
+      "id": "settings_value",
+      "name": "settings_value"
     }
   ]
 }

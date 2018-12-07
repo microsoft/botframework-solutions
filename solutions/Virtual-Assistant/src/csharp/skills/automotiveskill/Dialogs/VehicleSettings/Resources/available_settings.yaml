@@ -460,7 +460,7 @@
 
 - canonicalName: Equalizer (Bass)
   categories:
-    - CSM
+    - Audio
   values:
     - canonicalName: Set
       requiresAmount: true
@@ -476,7 +476,7 @@
 
 - canonicalName: Equalizer (Midrange)
   categories:
-    - CSM
+    - Audio
   values:
     - canonicalName: Set
       requiresAmount: true
@@ -492,7 +492,7 @@
 
 - canonicalName: Equalizer (Treble)
   categories:
-    - CSM
+    - Audio
   values:
     - canonicalName: Set
       requiresAmount: true
@@ -508,7 +508,7 @@
 
 - canonicalName: Equalizer (Surround)
   categories:
-    - CSM
+    - Audio
   values:
     - canonicalName: Set
       requiresAmount: true
@@ -524,7 +524,7 @@
 
 - canonicalName: Set Volume
   categories:
-    - CSM
+    - Audio
   values:
     - canonicalName: Set
       requiresAmount: true

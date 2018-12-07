@@ -200,10 +200,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CognitiveModels\LUIS\en\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="Dialogs\VehicleSettings\Resources\Cards\ListSelection.json" />
   </ItemGroup>
 

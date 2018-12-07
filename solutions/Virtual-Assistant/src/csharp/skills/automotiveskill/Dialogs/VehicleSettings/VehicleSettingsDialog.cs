@@ -48,8 +48,8 @@ namespace AutomotiveSkill
             : base(nameof(VehicleSettingsDialog), services, accessor, serviceManager)
         {
             // Initialise supporting LUIS models for followup questions
-            vehicleSettingNameSelectionLuisRecognizer = services.LuisServices["vehiclesettings_name_selection"];
-            vehicleSettingValueSelectionLuisRecognizer = services.LuisServices["vehiclesettings_value_selection"];
+            vehicleSettingNameSelectionLuisRecognizer = services.LuisServices["settings_name"];
+            vehicleSettingValueSelectionLuisRecognizer = services.LuisServices["settings_value"];
 
             // JSON resource files provided metatadata as to the available car settings, names and the values that can be set
             var resDir = Path.Combine(Path.GetDirectoryName(typeof(VehicleSettingsDialog).Assembly.Location), 
@@ -180,6 +180,11 @@ namespace AutomotiveSkill
                         // Only one setting detected so move on to next stage
                         return await sc.NextAsync();
                     }                
+
+                case VehicleSettings.Intent.VEHICLE_SETTINGS_CHECK:
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply("The skill doesn't support checking vehicle settings quite yet!"));
+                    return await sc.EndDialogAsync(true, cancellationToken);
+                    break;
 
                 default:
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(VehicleSettingsResponses.VehicleSettingsOutOfDomain));
@@ -501,9 +506,12 @@ namespace AutomotiveSkill
 
         private async Task SendActionToDevice(WaterfallStepContext sc, SettingChange setting, StringDictionary settingDetail )
         {
+            // remove whitespace to create Event Name and prefix with Automotive Skill
+            string reducedName = $"AutomotiveSkill.{Regex.Replace(setting.SettingName, @"\s+", "")}";
+
             var actionEvent = sc.Context.Activity.CreateReply();
             actionEvent.Type = ActivityTypes.Event;
-            actionEvent.Name = setting.SettingName;
+            actionEvent.Name = reducedName;
             actionEvent.Value = settingDetail;
 
             await sc.Context.SendActivityAsync(actionEvent);

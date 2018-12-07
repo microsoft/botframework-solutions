@@ -58,7 +58,7 @@ namespace AutomotiveSkill
             var state = await _stateAccessor.GetAsync(dc.Context, () => new AutomotiveSkillState());
 
             // If dispatch result is general luis model
-            _services.LuisServices.TryGetValue("vehiclesettings", out var luisService);
+            _services.LuisServices.TryGetValue("settings", out var luisService);
 
             if (luisService == null)
             {
@@ -154,7 +154,7 @@ namespace AutomotiveSkill
                 // Update state with luis result and entities
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new AutomotiveSkillState());
 
-                var vehicleSettingsLuisResult = await _services.LuisServices["vehiclesettings"].RecognizeAsync<VehicleSettings>(dc.Context, CancellationToken.None);
+                var vehicleSettingsLuisResult = await _services.LuisServices["settings"].RecognizeAsync<VehicleSettings>(dc.Context, CancellationToken.None);
                 state.VehicleSettingsLuisResult = vehicleSettingsLuisResult;
 
                 // check luis intent
