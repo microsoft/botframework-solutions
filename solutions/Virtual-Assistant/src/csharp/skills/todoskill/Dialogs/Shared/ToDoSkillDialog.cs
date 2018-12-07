@@ -95,10 +95,6 @@ namespace ToDoSkill
                     // Wait for the tokens/response event
                     return await sc.PromptAsync(SkillModeAuth, new PromptOptions());
                 }
-                else if (sc.Context.Activity.ChannelId == "test")
-                {
-                    return await sc.NextAsync();
-                }
                 else
                 {
                     return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = sc.Context.Activity.CreateReply(ToDoSharedResponses.NoAuth, ResponseBuilder) });
@@ -548,25 +544,26 @@ namespace ToDoSkill
             };
             body.Add(textBlock);
 
-            var choiceSet = new AdaptiveChoiceSetInput
-            {
-                IsMultiSelect = true,
-            };
-
-            var value = Guid.NewGuid().ToString() + ",";
+            var container = new AdaptiveContainer();
             var index = 0;
             foreach (var todo in todos)
             {
-                var choice = new AdaptiveChoice
-                {
-                    Title = todo.Topic,
-                    Value = todo.Id,
-                };
-                choiceSet.Choices.Add(choice);
-                if (todo.IsCompleted)
-                {
-                    value += todo.Id + ",";
-                }
+                var columnSet = new AdaptiveColumnSet();
+
+                var icon = new AdaptiveImage();
+                icon.UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource;
+                var iconColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                iconColumn.Items.Add(icon);
+                columnSet.Columns.Add(iconColumn);
+
+                var content = new AdaptiveTextBlock(todo.Topic);
+                var contentColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                contentColumn.Items.Add(content);
+                columnSet.Columns.Add(contentColumn);
+
+                container.Items.Add(columnSet);
 
                 if (index < toBeReadTasksCount)
                 {
@@ -574,9 +571,7 @@ namespace ToDoSkill
                 }
             }
 
-            value = value.Remove(value.Length - 1);
-            choiceSet.Value = value;
-            body.Add(choiceSet);
+            body.Add(container);
             toDoCard.Body = body;
 
             var attachment = new Attachment()
@@ -602,25 +597,26 @@ namespace ToDoSkill
             };
             body.Add(textBlock);
 
-            var choiceSet = new AdaptiveChoiceSetInput
-            {
-                IsMultiSelect = true,
-            };
-
-            var value = Guid.NewGuid().ToString() + ",";
+            var container = new AdaptiveContainer();
             var index = 0;
             foreach (var todo in todos)
             {
-                var choice = new AdaptiveChoice
-                {
-                    Title = todo.Topic,
-                    Value = todo.Id,
-                };
-                choiceSet.Choices.Add(choice);
-                if (todo.IsCompleted)
-                {
-                    value += todo.Id + ",";
-                }
+                var columnSet = new AdaptiveColumnSet();
+
+                var icon = new AdaptiveImage();
+                icon.UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource;
+                var iconColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                iconColumn.Items.Add(icon);
+                columnSet.Columns.Add(iconColumn);
+
+                var content = new AdaptiveTextBlock(todo.Topic);
+                var contentColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                contentColumn.Items.Add(content);
+                columnSet.Columns.Add(contentColumn);
+
+                container.Items.Add(columnSet);
 
                 index++;
                 if (index > startIndexOfTasksToBeRead && index <= toBeReadTasksCount + startIndexOfTasksToBeRead)
@@ -629,9 +625,7 @@ namespace ToDoSkill
                 }
             }
 
-            value = value.Remove(value.Length - 1);
-            choiceSet.Value = value;
-            body.Add(choiceSet);
+            body.Add(container);
             toDoCard.Body = body;
 
             var attachment = new Attachment()
@@ -659,25 +653,26 @@ namespace ToDoSkill
             };
             body.Add(textBlock);
 
-            var choiceSet = new AdaptiveChoiceSetInput
-            {
-                IsMultiSelect = true,
-            };
-
-            var value = Guid.NewGuid().ToString() + ",";
+            var container = new AdaptiveContainer();
             var index = 0;
             foreach (var todo in todos)
             {
-                var choice = new AdaptiveChoice
-                {
-                    Title = todo.Topic,
-                    Value = todo.Id,
-                };
-                choiceSet.Choices.Add(choice);
-                if (todo.IsCompleted)
-                {
-                    value += todo.Id + ",";
-                }
+                var columnSet = new AdaptiveColumnSet();
+
+                var icon = new AdaptiveImage();
+                icon.UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource;
+                var iconColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                iconColumn.Items.Add(icon);
+                columnSet.Columns.Add(iconColumn);
+
+                var content = new AdaptiveTextBlock(todo.Topic);
+                var contentColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                contentColumn.Items.Add(content);
+                columnSet.Columns.Add(contentColumn);
+
+                container.Items.Add(columnSet);
 
                 if (index < toBeReadTasksCount)
                 {
@@ -685,9 +680,7 @@ namespace ToDoSkill
                 }
             }
 
-            value = value.Remove(value.Length - 1);
-            choiceSet.Value = value;
-            body.Add(choiceSet);
+            body.Add(container);
             toDoCard.Body = body;
 
             var attachment = new Attachment()
@@ -715,25 +708,26 @@ namespace ToDoSkill
             };
             body.Add(textBlock);
 
-            var choiceSet = new AdaptiveChoiceSetInput
-            {
-                IsMultiSelect = true,
-            };
-
-            var value = Guid.NewGuid().ToString() + ",";
+            var container = new AdaptiveContainer();
             var index = 0;
             foreach (var todo in todos)
             {
-                var choice = new AdaptiveChoice
-                {
-                    Title = todo.Topic,
-                    Value = todo.Id,
-                };
-                choiceSet.Choices.Add(choice);
-                if (todo.IsCompleted)
-                {
-                    value += todo.Id + ",";
-                }
+                var columnSet = new AdaptiveColumnSet();
+
+                var icon = new AdaptiveImage();
+                icon.UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource;
+                var iconColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                iconColumn.Items.Add(icon);
+                columnSet.Columns.Add(iconColumn);
+
+                var content = new AdaptiveTextBlock(todo.Topic);
+                var contentColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                contentColumn.Items.Add(content);
+                columnSet.Columns.Add(contentColumn);
+
+                container.Items.Add(columnSet);
 
                 if (index < toBeReadTasksCount)
                 {
@@ -741,9 +735,7 @@ namespace ToDoSkill
                 }
             }
 
-            value = value.Remove(value.Length - 1);
-            choiceSet.Value = value;
-            body.Add(choiceSet);
+            body.Add(container);
             toDoCard.Body = body;
 
             var attachment = new Attachment()
@@ -773,28 +765,29 @@ namespace ToDoSkill
                 Text = showText,
             };
             body.Add(textBlock);
-            var choiceSet = new AdaptiveChoiceSetInput
-            {
-                IsMultiSelect = true,
-            };
-            var value = Guid.NewGuid().ToString() + ",";
+
+            var container = new AdaptiveContainer();
             foreach (var todo in todos)
             {
-                var choice = new AdaptiveChoice
-                {
-                    Title = todo.Topic,
-                    Value = todo.Id,
-                };
-                choiceSet.Choices.Add(choice);
-                if (todo.IsCompleted)
-                {
-                    value += todo.Id + ",";
-                }
+                var columnSet = new AdaptiveColumnSet();
+
+                var icon = new AdaptiveImage();
+                icon.UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource;
+                var iconColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                iconColumn.Items.Add(icon);
+                columnSet.Columns.Add(iconColumn);
+
+                var content = new AdaptiveTextBlock(todo.Topic);
+                var contentColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                contentColumn.Items.Add(content);
+                columnSet.Columns.Add(contentColumn);
+
+                container.Items.Add(columnSet);
             }
 
-            value = value.Remove(value.Length - 1);
-            choiceSet.Value = value;
-            body.Add(choiceSet);
+            body.Add(container);
             toDoCard.Body = body;
 
             var attachment = new Attachment()
