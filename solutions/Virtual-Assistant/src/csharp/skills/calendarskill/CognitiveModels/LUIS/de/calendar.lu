@@ -15,15 +15,11 @@
 - Vorwärts bringen {FromTime=4 Uhr} Termin {MoveEarlierTimeSpan=2 Stunden}
 - Können Sie es ändern, um {ToTime=17 Uhr}
 - Können Sie diesen Termin auf {ToTime=17 Uhr}
-- Können Sie diesen Termin auf {ToTime=17 Uhr}
 - Können Sie ein Meeting aktualisieren
 - Ändern {FromTime=10 am} Treffen zum Start {MoveLaterTimeSpan=20 Minute} Später
 - Ändern {FromTime=10am} Treffen zum Start {MoveLaterTimeSpan=20 Minute} Später
 - Ändern {FromTime=16 Uhr} {Subject=Mittagessen} Termin
-- Ändern {FromTime=16 Uhr} {Subject=Mittagessen} Termin
 - Ändern {FromTime=17 Uhr} Termin {MoveEarlierTimeSpan=1 Stunde} Früheren
-- Ändern {FromTime=17 Uhr} Termin {MoveEarlierTimeSpan=1 Stunde} Früheren
-- Termin ändern
 - Termin ändern
 - Ändern {Subject=Großveranstaltung} An {ToDate=Morgen}
 - Kalender ändern
@@ -33,7 +29,6 @@
 - Ändern {Subject=Zahnarzt appt} An {MoveLaterTimeSpan=eine Stunde} Später
 - Änderung der Veranstaltungszeit
 - Ändern Sie es auf {ToTime=17 Uhr}
-- Ändern Sie es auf {ToTime=17 Uhr}
 - Ändern {SlotAttribute=Lage}
 - Ändern {Subject=Mittagessen appt} An {ToTime=2}
 - Ändern {Subject=Mittagstermin} Von {FromTime=11-12} An {ToTime=12-1 30}
@@ -42,7 +37,6 @@
 - Ändern {Subject=Marketinggespräch} Von {FromDate=Jeden Dienstag} An {ToDate=Alle Wochenenden}
 - Wechselsitzung {FromTime=Von 14-15 Uhr} An {ToTime=16-17 Uhr} {ToDate=Heute}
 - Wechselsitzung {FromTime=Von 14-15 Uhr} An {ToTime=13-17 Uhr} {ToDate=Heute}
-- Wechseln Sie meine {FromTime=23 Uhr} Termin {SlotAttribute=Lage} An {Location=cal anderson park}
 - Wechseln Sie meine {FromTime=23 Uhr} Termin {SlotAttribute=Lage} An {Location=cal anderson park}
 - Wechseln Sie meine {FromTime=15 Uhr} Veranstaltung zu {ToTime=16 Uhr}
 - Wechseln Sie meine {FromTime=15:00 Uhr} Veranstaltung zu {ToTime=16 Uhr}
@@ -110,7 +104,6 @@
 - Bewegen Sie mein Treffen durch {MoveEarlierTimeSpan=Eine halbe Stunde}
 - move my {OrderReference=Nächsten} Sitzung
 - move my {OrderReference=Nächsten} Treffen durch {MoveLaterTimeSpan=30 Minute}
-- move my {OrderReference=Nächsten} Treffen durch {MoveLaterTimeSpan=30 Minute}
 - Mein nächstes Treffen ausziehen {MoveLaterTimeSpan=30 Minute}
 - move my {OrderReference=Nächsten} Treffen durch {MoveEarlierTimeSpan=10 Minute}
 - move my {OrderReference=Nächsten} Treffen durch {MoveEarlierTimeSpan=30 Minute}
@@ -118,7 +111,6 @@
 - move my {FromTime=Zwölf S. M.} Termin durch {MoveLaterTimeSpan=Zwei Stunden}
 - move my {FromTime=Zwölf S. M.} Treffen nach vorne {MoveEarlierTimeSpan=Zwei Stunden}
 - move my {FromTime=12 S. m.} {MoveEarlierTimeSpan=30 Minute} Aufstehen
-- Verschieben {Subject=Parteitag der Planung} Von {FromDate=Samstag} An {ToDate=Freitag} Auf {ToTime=13 Uhr}
 - Verschieben {Subject=Parteitag der Planung} Von {FromDate=Samstag} An {ToDate=Freitag} Auf {ToTime=13 Uhr}
 - Verschieben {Subject=Schuh-Termin} An {ToDate=Dienstag} Auf {FromTime=Eine}
 - Bitte bewegen Sie dies auf {ToTime=15 Uhr}
@@ -139,7 +131,6 @@
 - Aktualisieren Sie meine Terminvereinbarung
 - Aktualisieren Sie meinen Kalender
 - Aktualisieren Sie meinen Kalender von {FromTime=14 Uhr} An {ToTime=16 Uhr} {ToDate=Heute}
-- Aktualisieren Sie meinen Kalender von {FromTime=14 Uhr} An {ToTime=16 Uhr} {ToDate=Heute}
 - Aktualisieren Sie meinen Kalender von {FromTime=18 Uhr} An {ToTime=19 Uhr}
 - Aktualisieren Sie meine {Subject=Campingtermin}
 - Aktualisieren Sie meine Veranstaltung
@@ -159,7 +150,6 @@
 - Ich bin auf {FromDate=Montag} Auf {FromTime=21 Uhr}
 - Ich bin verfügbar {FromDate=Morgen} Auf {FromTime=17:30 Uhr}
 - Ich bin auf der {FromDate=6. Februar}
-- Ich bin beschäftigt {FromDate=Dieses Wochenende}
 - Ich bin beschäftigt {FromDate=Dieses Wochenende}
 - Ich bin frei
 - Ich bin frei bei {FromTime=17 Uhr} {FromDate=Heute}
@@ -206,11 +196,8 @@
 ## ConnectToMeeting
 - Fügen Sie mich in die Telefonkonferenz
 - Fügen Sie mich in die Telefonkonferenz ein
-- Telefonkonferenz
-- Telefonkonferenz
 - Aufrufen {Subject=Genpakt} Telefonkonferenz
 - Aufrufen {Subject=Harris Konferenz}
-- Telefonkonferenz
 - Aufruf {Subject=Marketinggespräch}
 - Aufruf zur Sitzung
 - Rufen Sie die {Subject=Morgenbreifing} Tagungsnummer
@@ -221,7 +208,6 @@
 - Verbinden Sie mich mit dem Konferenzgespräch {ContactName=Tony}
 - Verbinden Sie mich mit {Subject=Marketinggespräch}
 - Verbinden Sie mich mit dem {Subject=Haushaltssitzung} Telefonkonferenz
-- Verbinden Sie mich mit der Telefonkonferenz
 - Verbinden Sie mich mit dem {Subject=Marketinggespräch}
 - Verbinden Sie mich mit Konferenzgespräch
 - Verbinden Sie mich mit meinem {FromTime=2} Das Treffen der Uhr
@@ -251,7 +237,6 @@
 - Teilnahme an der Konferenz
 - Teilnahme am Treffen
 - Der {OrderReference=Nächsten} {Subject=Lynk}
-- Link mitmachen {OrderReference=Nächsten} Sitzung
 - Link mitmachen {OrderReference=Nächsten} Sitzung
 - lync join {OrderReference=Nächsten} Sitzung
 - {MeetingRoom=Nokia Konferenzraum} Beitreten
@@ -325,7 +310,6 @@
 - Ein Event hinzufügen
 - Ein Ereignis in meinen Kalender einfügen
 - Hinzufügen {Subject=Jubiläums-roopeschen-Mama}
-- Termin hinzufügen
 - Ad-Verabredung für {Subject=Lincare} {FromDate=Nächster Mittwoch} An {MeetingRoom=Familienzimmer}
 - Hinzufügen {Subject=Kindermuseum} Auf {FromDate=20. Februar}
 - Hinzufügen {Subject=Weihnachtsfeier} {FromDate=12 15 20 12}
@@ -387,7 +371,6 @@
 - Termin aus {FromDate=halb-2013} An {ToDate=halb-2013}
 - Veranstaltung schaffen
 - Ein Event schaffen {FromTime=13 Uhr}
-- Termin schaffen
 - Termin schaffen {FromTime=3 S. M.}
 - Termin schaffen {FromTime=15:00 Uhr}
 - Termin für {Duration=30 Minute}
@@ -401,7 +384,6 @@
 - Einen Kalendertermin für {FromDate=Morgen} Auf {FromTime=Uhr} Aufgerufen {Subject=Zahnarzt-Termin}
 - Termin vereinbaren
 - Termin für {FromDate=Am nächsten Donnerstag}
-- Termin vereinbaren
 - Neue Veranstaltung
 - Neues Treffen
 - Neuer Zeitplan
@@ -423,9 +405,7 @@
 - Planen Sie meinen Urlaub von {FromDate=Heute} {FromTime=17 Uhr} An {ToDate=Morgen} {ToTime=17 Uhr}
 - Zeitplan {Subject=Wandern} Für {FromDate=Freitag} Durch {ToDate=Sonntag}
 - Termin gesetzt
-- Termin für {FromDate=Morgen}
 - Termin vereinbart
-- Termin vereinbaren
 
 
 ## DeleteCalendarEntry
@@ -436,7 +416,6 @@
 - Termine absagen
 - Termin stornieren
 - Termin stornieren {FromDate=Heute}
-- Termine absagen
 - Kalendereintrag stornieren
 - Abbrechen {Subject=Abendessen}
 - Abbrechen {Subject=Arztbesuch} {FromDate=Montag}
@@ -450,7 +429,6 @@
 - Absage an meine {Subject=Abenteuerlust zu Seetour}
 - Meinen Termin kündigen
 - Meinen Termin absagen unter {FromTime=21 Uhr}
-- Meinen Termin absagen unter {FromTime=21 Uhr}
 - Meinen Termin absagen {FromDate=Oktober 4}
 - Absage an meine {Subject=Fahrstunde fahren} {FromDate=Morgen}
 - Ich kann meine Veranstaltung abbrechen
@@ -462,7 +440,6 @@
 - Absage an meine {FromTime=Drei} Termin am Uhrtag
 - Streichung des Termins
 - Absage an dieses Treffen
-- Termine absagen
 - Kalender abbrechen
 - Die Veranstaltung abbrechen
 - Die {Subject=Fraktionssitzung}
@@ -470,10 +447,8 @@
 - Das Treffen mit {ContactName=Shawn}
 - Die {Subject=Lebensmittel ab ted abholen}
 - Die unbetitelte Veranstaltung auf {FromDate=Zwanzigste}
-- Absage an dieses Treffen
 - Abbrechen {FromDate=Heute} ' s Ernennung
 - Abbrechen {FromDate=Morgen} "Der Plan
-- Alle meine Termine klar
 - Alle meine Termine klar
 - Alle meine Termine klar {FromDate=Heute}
 - Alle Termine aus meinem Kalender für {FromDate=Heute}
@@ -486,10 +461,8 @@
 - Löschen
 - Treffen löschen
 - Termin löschen
-- Termin löschen
 - Löschen {Subject=Geburtstagskalender}
 - Kalender löschen
-- Treffen löschen
 - Löschen Sie mein Event
 - Mein Treffen löschen
 - Löschen Sie meine Sitzung unter {FromTime=Nacht}
@@ -500,7 +473,6 @@
 - Löschen Sie den Termin mit {RelationshipName=Mutter}
 - Löschen Sie den Termin mit {ContactName=Petter}
 - Das geplante Treffen mit {ContactName=Jay}
-- Löschen Sie diesen Termin
 - Delettecalendareintrag
 - Verwerfen Sie den Termin mit {ContactName=Joseph}
 - Treffen ablegen
@@ -575,7 +547,6 @@
 - Was ist mein {PositionReference=1.} Sitzung {FromDate=Morgen}
 - Was ist mein Terminplan {FromDate=Morgen}
 - Wie mein Terminplan aussieht {FromDate=Morgen}
-- Was ist mein Terminplan {FromDate=Morgen}
 - Was ist auf meinem Kalender
 - Was ist auf meinem Kalender für {FromDate=Heute}
 - Was ist auf meinem Kalender {FromDate=Heute}
@@ -601,14 +572,12 @@
 - Was muss ich tun {FromTime=Heute Nachmittag}
 - Was muss ich tun {FromDate=Morgen}
 - Was habe ich {FromDate=Morgen}
-- Was habe ich {FromTime=Heute Nachmittag}
 - Was habe ich drauf {FromDate=Morgen}
 - Was ich mache {FromDate=Nächste Woche}
 - Was ich mache {FromDate=Dieses Wochenende}
 - Was ist {ContactName=Clarence} Auf {FromDate=Montag} Auf {FromTime=Uhr}
 - Was ist {ContactName=Jim} "Fahrplan {FromDate=Diese Woche}
 - Was ist mein {PositionReference=1.} Sitzung {FromDate=Heute}
-- Was ist mein Terminplan {FromDate=Morgen}
 - Was ist mein Zeitplan {FromDate=Morgen}
 - Was auf meinem Kalender steht {FromDate=Heute}
 - Was ist {ContactName=Paul} Tun {FromDate=Heute}
@@ -692,7 +661,6 @@
 - Wo ist mein {PositionReference=Ersten} Termin {FromDate=Morgen}
 - Wo ist mein {PositionReference=Her} Veranstaltung mit {ContactName=James} Auf {FromDate=Donnerstag}
 - Wo ist mein {PositionReference=Her} Veranstaltung mit {ContactName=John} {FromDate=Freitag}
-- Wo ist mein Treffen
 - Wo ist mein Treffen {ContactName=Stephanie}
 - Wo ist mein {PositionReference=Dritten} {Subject=Shiproom} Mit {ContactName=Mike}
 - Wo ist diese Begegnung
@@ -793,7 +761,6 @@
 - Wie viel Zeit ist für {Subject=Besorgungen} Während meiner {Subject=Mittagspause}
 - Wie viel Zeit offen {FromDate=Heute}
 - Wie viel Auszeit {Subject=Mittagessen}
-- Wie viel Zeit habe ich für {Subject=Mittagessen} {FromDate=Heute}
 - Wie viel Zeit muss ich haben {Subject=Lebensmittel abholen}
 - Wird es lange dauern
 - ist mein {Subject=Mittagessen} Lange genug für Fehler
@@ -820,7 +787,6 @@
 - Können Sie reservieren {MeetingRoom=Zimmer 258} Sofort
 - Besprechungsraum für {FromDate=Morgen}
 - Finden Sie einen kostenlosen Tagungsraum für {FromDate=Nächster Dienstag}
-- Einen neuen Tagungsort finden
 - Einen Tagungsraum finden Sie unter {FromTime=3} An {ToTime=5} {ToDate=Morgen}
 - Finden Sie mir einen leeren Konferenzraum
 - Helfen Sie mir, einen Konferenzraum zu buchen
@@ -849,8 +815,6 @@
 - Einen Schritt zurück
 - Zurück die {OrderReference=Last} Schritt
 - Kann man zurück
-- Zurück
-- Gehen Sie einen Schritt zurück
 - Gehen Sie einen Schritt zurück
 - Gehen Sie bitte zurück
 - Gehen Sie zurück die {OrderReference=Vorherigen} Schritt
@@ -860,13 +824,9 @@
 - Ich muss zurück
 - Ich will zurück
 - Ich möchte zurück
-- Gehen Sie bitte zurück
 - Bitte zurück
-- Zurück
 - Rückkehr zurück
-- Bitte zurück
 - Zurück zu {OrderReference=Vorherigen} Schritt
-- Zurück zum {OrderReference=Vorherigen} Schritt
 - Wir sollten zurück
 
 
@@ -895,7 +855,6 @@
 - Was ist mein {OrderReference=Nächsten} Sitzung
 - Was ist {OrderReference=Nächsten} Auf meinem Kalender
 - Was ist auf meinem {OrderReference=Nächsten} Sitzung
-- Was ist mein {OrderReference=Nächsten} Termin
 - Was ist meine nächste Veranstaltung
 - Was ist mein nächstes Treffen
 - Was ist mein nächster Zeitplan
@@ -921,7 +880,6 @@
 - {AskParameter=Wo es geht ' s} Meine {OrderReference=Nächsten} Termin
 - Wo ist mein {OrderReference=Nächsten} Sitzung
 - Wo muss ich sein {OrderReference=Nächsten}
-- Wo muss ich sein {OrderReference=Nächsten}
 - {AskParameter=Wo ist} Meine {OrderReference=Nächsten} Termin
 - {AskParameter=Wo ist} Meine {OrderReference=Nächsten} Termin mit Miss {ContactName=Pierre}
 - Wo ist mein {OrderReference=Nächsten} Termin mit {ContactName=ms pierre}
@@ -929,7 +887,6 @@
 - {AskParameter=Wo ist} Meine {OrderReference=Nächsten} Ereignis
 - {AskParameter=Wo ist} Meine {OrderReference=Nächsten} Sitzung
 - {AskParameter=Wo ist} Meine {OrderReference=Nächsten} Treffen mit ms {ContactName=Pierre}
-- {AskParameter=Wo ist} Meine {OrderReference=Nächsten} Sitzung
 - Das ist mein {OrderReference=Nächsten} Ereignis
 - Die wird mein {OrderReference=Nächsten} {Subject=Flug}
 - {AskParameter=Wer alle anwesend sein werden} Am {OrderReference=Weiter 5} Sitzungen
@@ -1006,7 +963,6 @@
 - Wie lange bis zu meinem {OrderReference=Nächsten} Termin
 - Wie lange bis zum {OrderReference=Nächsten} Sitzung
 - Wie lange bis {Subject=Weihnachten}
-- Wie lange bis zu meinem {OrderReference=Nächsten} Termin
 - Wie lange bis zu meinem {OrderReference=Nächsten} Sitzung
 - Wie lange bis zum {Subject=Sozialen}
 - Wie lange werde ich auf die {OrderReference=Nächsten} Termin
