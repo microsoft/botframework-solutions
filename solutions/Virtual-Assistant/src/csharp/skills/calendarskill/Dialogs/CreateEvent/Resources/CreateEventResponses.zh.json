@@ -2,8 +2,8 @@
   "NoTitle": {
     "replies": [
       {
-        "text": "好的，我将发送会议给{UserName}, 会议主题是什么？",
-        "speak": "好的，我将发送会议给{UserName}, 会议主题是什么？"
+        "text": "好的，我将发送会议给{UserName}，会议主题是什么？",
+        "speak": "好的，我将发送会议给{UserName}，会议主题是什么？"
       }
     ],
     "inputHint": "expectingInput"
@@ -78,29 +78,11 @@
         ],
         "inputHint": "acceptingInput"
     },
-  "NoAttendeesMS": {
+  "NoAttendees": {
     "replies": [
       {
         "text": "谁将参加会议？",
         "speak": "谁将参加会议？"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "WrongAddress": {
-    "replies": [
-      {
-        "text": "这不是一个正确的邮件地址，请重试。 (请输入电子邮件地址，例如: Alice@example.com)",
-        "speak": "这不是一个正确的邮件地址，请重试。 (请输入电子邮件地址，例如: Alice@example.com)"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "NoAttendees": {
-    "replies": [
-      {
-        "text": "谁将参加会议？ (请输入电子邮件地址，例如: Alice@example.com)",
-        "speak": "谁将参加会议？ (请输入电子邮件地址，例如: Alice@example.com)"
       }
     ],
     "inputHint": "expectingInput"
