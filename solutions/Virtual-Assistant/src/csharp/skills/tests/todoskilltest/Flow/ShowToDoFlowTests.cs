@@ -1,16 +1,15 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using AdaptiveCards;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ToDoSkill.Dialogs.Main.Resources;
 using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.Dialogs.ShowToDo.Resources;
 using ToDoSkillTest.Flow.Fakes;
+using ToDoSkillTest.Flow.Utterances;
 
 namespace ToDoSkillTest.Flow
 {
@@ -19,14 +18,23 @@ namespace ToDoSkillTest.Flow
     {
         private const int PageSize = 6;
 
+        [TestInitialize]
+        public void SetupLuisService()
+        {
+            this.Services.LuisServices.Add("todo", new MockLuisRecognizer(new ShowToDoFlowTestUtterances()));
+        }
+
         [TestMethod]
         public async Task Test_ShowToDoItems()
         {
             await this.GetTestFlow()
-                .Send("Show my todos")
+                .Send(ShowToDoFlowTestUtterances.BaseShowTasks)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReply(this.ShowToDoList())
                 .AssertReplyOneOf(this.ShowMoreTasks())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -37,11 +45,14 @@ namespace ToDoSkillTest.Flow
                 var messageActivity = activity.AsMessageActivity();
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
                 var responseCard = messageActivity.Attachments[0].Content as AdaptiveCard;
+                Assert.IsNotNull(responseCard);
                 var adaptiveCardTitle = responseCard.Body[0] as AdaptiveTextBlock;
-                var toDoChoices = responseCard.Body[1] as AdaptiveChoiceSetInput;
-                var toDoChoiceCount = toDoChoices.Choices.Count;
+                Assert.IsNotNull(adaptiveCardTitle);
+                var toDoChoices = responseCard.Body[1] as AdaptiveContainer;
+                Assert.IsNotNull(toDoChoices);
+                var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", FakeData.FakeTaskItems.Count.ToString() } }),
+                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", MockData.MockTaskItems.Count.ToString() } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
             };
@@ -55,6 +66,22 @@ namespace ToDoSkillTest.Flow
         private string[] ShowMoreTasks()
         {
             return this.ParseReplies(ShowToDoResponses.ShowingMoreTasks.Replies, new StringDictionary());
+        }
+
+        private Action<IActivity> ShowAuth()
+        {
+            return activity =>
+            {
+                Assert.AreEqual(activity.Type, ActivityTypes.Event);
+            };
+        }
+
+        private Action<IActivity> ActionEndMessage()
+        {
+            return activity =>
+            {
+                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
+            };
         }
     }
 }
