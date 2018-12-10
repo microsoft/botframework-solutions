@@ -441,7 +441,22 @@ namespace EmailSkill
             }
         }
 
-        protected async Task<DialogTurnResult> CollectNameList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> CollectRecipient(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var skillOptions = (EmailSkillDialogOptions)sc.Options;
+                return await sc.BeginDialogAsync(Actions.CollectRecipient, skillOptions);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        protected async Task<DialogTurnResult> PromptRecipientCollection(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -463,7 +478,7 @@ namespace EmailSkill
             }
         }
 
-        protected async Task<DialogTurnResult> CollectRecipients(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> GetRecipients(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -474,9 +489,9 @@ namespace EmailSkill
                 if (state.IsNoRecipientAvailable())
                 {
                     var userInput = sc.Result.ToString();
-                    if (userInput == null)
+                    if (string.IsNullOrWhiteSpace(userInput))
                     {
-                        return await sc.BeginDialogAsync(nameof(ConfirmRecipientDialog), skillOptions);
+                        return await sc.BeginDialogAsync(Actions.CollectRecipient, skillOptions);
                     }
 
                     if (IsEmail(userInput))
@@ -656,6 +671,15 @@ namespace EmailSkill
             var pageIndex = state.ShowRecipientIndex;
             var pageSize = ConfigData.GetInstance().MaxDisplaySize;
             var skip = pageSize * pageIndex;
+
+            // Go back to the last page when reaching the end.
+            if (skip >= personList.Count + userList.Count && pageIndex > 0)
+            {
+                state.ShowRecipientIndex--;
+                state.ReadRecipientIndex = 0;
+                pageIndex = state.ShowRecipientIndex;
+                skip = pageSize * pageIndex;
+            }
 
             var options = new PromptOptions
             {

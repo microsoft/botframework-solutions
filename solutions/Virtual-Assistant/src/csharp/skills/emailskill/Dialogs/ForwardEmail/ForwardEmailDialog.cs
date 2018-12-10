@@ -30,8 +30,7 @@ namespace EmailSkill
                 GetAuthToken,
                 AfterGetAuthToken,
                 CollectSelectedEmail,
-                CollectNameList,
-                CollectRecipients,
+                CollectRecipient,
                 CollectAdditionalText,
                 ConfirmBeforeSending,
                 ForwardEmail,
@@ -41,6 +40,12 @@ namespace EmailSkill
             {
                 IfClearContextStep,
                 ShowEmails,
+            };
+
+            var collectRecipients = new WaterfallStep[]
+            {
+                PromptRecipientCollection,
+                GetRecipients,
             };
 
             var updateSelectMessage = new WaterfallStep[]
@@ -53,6 +58,7 @@ namespace EmailSkill
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Actions.Forward, forwardEmail));
             AddDialog(new WaterfallDialog(Actions.Show, showEmail));
+            AddDialog(new WaterfallDialog(Actions.CollectRecipient, collectRecipients));
             AddDialog(new WaterfallDialog(Actions.UpdateSelectMessage, updateSelectMessage));
             AddDialog(new ConfirmRecipientDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager));
 

@@ -233,6 +233,30 @@ namespace EmailSkillTest.Flow
                 .StartTestAsync();
         }
 
+        [TestMethod]
+        public async Task Test_SendEmailToEmpty()
+        {
+            string testRecipient = ContextStrings.TestRecipient;
+            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient } };
+
+            await this.GetTestFlow()
+                .Send(SendEmailUtterances.SendEmails)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.CollectRecipientsMessage())
+                .Send(ContextStrings.TestEmptyRecipient)
+                .AssertReplyOneOf(this.CollectRecipientsMessage())
+                .Send(ContextStrings.TestRecipient)
+                .AssertReply(this.CollectSubjectMessage(recipientDict))
+                .Send(ContextStrings.TestSubjcet)
+                .AssertReplyOneOf(this.CollectEmailContentMessage())
+                .Send(ContextStrings.TestContent)
+                .AssertReply(this.AssertComfirmBeforeSendingPrompt())
+                .Send(GeneralTestUtterances.No)
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
         private string[] AfterSendingMessage()
         {
             return this.ParseReplies(EmailSharedResponses.SentSuccessfully.Replies, new StringDictionary());
