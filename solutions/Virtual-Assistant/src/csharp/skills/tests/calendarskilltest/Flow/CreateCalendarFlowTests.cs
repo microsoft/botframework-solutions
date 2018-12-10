@@ -7,35 +7,76 @@ using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using CalendarSkillTest.Flow.Utterances;
+using CalendarSkillTest.Flow.Fakes;
+using Newtonsoft.Json;
+using Microsoft.Bot.Solutions.Resources;
+using CalendarSkillTest.Flow.Models;
 
 namespace CalendarSkillTest.Flow
 {
     [TestClass]
     public class CreateCalendarFlowTests : CalendarBotTestBase
     {
+        [TestInitialize]
+        public void SetupLuisService()
+        {
+            this.Services.LuisServices.Add("calendar", new MockLuisRecognizer(new CreateMeetingTestUtterances()));
+            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
+            serviceManager.SetupCalendarService(MockCalendarService.FakeDefaultEvents());
+            serviceManager.SetupUserService(MockUserService.FakeDefaultUsers(), MockUserService.FakeDefaultPeople());
+        }
+
         [TestMethod]
         public async Task Test_CalendarCreate()
         {
             await this.GetTestFlow()
-                    .Send("Create a meeting")
+                    .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
                     .AssertReply(this.ShowAuth())
                     .Send(this.GetAuthResponse())
                     .AssertReplyOneOf(this.AskForParticpantsPrompt())
-                    .Send("test@test.com")
+                    .Send(Strings.Strings.DefaultUserEmail)
                     .AssertReplyOneOf(this.AskForSubjectPrompt())
-                    .Send("test subject")
+                    .Send(Strings.Strings.DefaultEventName)
                     .AssertReplyOneOf(this.AskForContentPrompt())
-                    .Send("test content")
+                    .Send(Strings.Strings.DefaultContent)
                     .AssertReplyOneOf(this.AskForDatePrompt())
-                    .Send("tomorrow")
+                    .Send(Strings.Strings.DefaultDate)
                     .AssertReplyOneOf(this.AskForStartTimePrompt())
-                    .Send("at 9 AM")
+                    .Send(Strings.Strings.DefaultTime)
                     .AssertReplyOneOf(this.AskForDurationPrompt())
-                    .Send("one hour")
+                    .Send(Strings.Strings.DefaultDuration)
                     .AssertReplyOneOf(this.AskForLocationPrompt())
-                    .Send("office")
+                    .Send(Strings.Strings.DefaultLocation)
                     .AssertReply(this.ShowCalendarList())
-                    .Send("Yes")
+                    .Send(Strings.Strings.ConfirmYes)
+                    .AssertReply(this.ShowCalendarList())
+                    .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_CalendarCreateWeekday()
+        {
+            await this.GetTestFlow()
+                    .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
+                    .AssertReply(this.ShowAuth())
+                    .Send(this.GetAuthResponse())
+                    .AssertReplyOneOf(this.AskForParticpantsPrompt())
+                    .Send(Strings.Strings.DefaultUserEmail)
+                    .AssertReplyOneOf(this.AskForSubjectPrompt())
+                    .Send(Strings.Strings.DefaultEventName)
+                    .AssertReplyOneOf(this.AskForContentPrompt())
+                    .Send(Strings.Strings.DefaultContent)
+                    .AssertReplyOneOf(this.AskForDatePrompt())
+                    .Send(Strings.Strings.WeekdayDate)
+                    .AssertReplyOneOf(this.AskForStartTimePrompt())
+                    .Send(Strings.Strings.DefaultTime)
+                    .AssertReplyOneOf(this.AskForDurationPrompt())
+                    .Send(Strings.Strings.DefaultDuration)
+                    .AssertReplyOneOf(this.AskForLocationPrompt())
+                    .Send(Strings.Strings.DefaultLocation)
+                    .AssertReply(this.CheckCreatedMeetingInFuture())
+                    .Send(Strings.Strings.ConfirmYes)
                     .AssertReply(this.ShowCalendarList())
                     .StartTestAsync();
         }
@@ -47,7 +88,7 @@ namespace CalendarSkillTest.Flow
 
         private string[] AskForParticpantsPrompt()
         {
-            return this.ParseReplies(CreateEventResponses.NoAttendeesMS.Replies, new StringDictionary());
+            return this.ParseReplies(CreateEventResponses.NoAttendees.Replies, new StringDictionary());
         }
 
         private string[] AskForSubjectPrompt()
@@ -99,6 +140,24 @@ namespace CalendarSkillTest.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
+            };
+        }
+
+        private Action<IActivity> CheckCreatedMeetingInFuture()
+        {
+            return activity =>
+            {
+                var messageActivity = activity.AsMessageActivity();
+                Assert.AreEqual(messageActivity.Attachments.Count, 1);
+
+                var meetingCardJsonString = ((Newtonsoft.Json.Linq.JObject)messageActivity.Attachments[0].Content).ToString();
+                var meetingCard = JsonConvert.DeserializeObject<MeetingAdaptiveCard>(meetingCardJsonString);
+                var meetingInfoList = meetingCard.body[0].items[1].text.Split("\n");
+                var dateString = meetingInfoList[1];
+                DateTime date = DateTime.ParseExact(dateString, CommonStrings.DisplayFullDateFormat, null);
+                DateTime utcToday = DateTime.UtcNow.Date;
+                Assert.IsTrue(date >= utcToday);
+
             };
         }
     }

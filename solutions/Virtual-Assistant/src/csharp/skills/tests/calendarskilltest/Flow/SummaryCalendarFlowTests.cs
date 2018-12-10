@@ -7,17 +7,48 @@ using CalendarSkill.Dialogs.Summary.Resources;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using CalendarSkillTest.Flow.Utterances;
+using CalendarSkillTest.Flow.Fakes;
+using System.Collections.Generic;
+using CalendarSkill;
 
 namespace CalendarSkillTest.Flow
 {
     [TestClass]
     public class SummaryCalendarFlowTests : CalendarBotTestBase
     {
+        [TestInitialize]
+        public void SetupLuisService()
+        {
+            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
+            serviceManager.SetupUserService(MockUserService.FakeDefaultUsers(), MockUserService.FakeDefaultPeople());
+            this.Services.LuisServices.Add("calendar", new MockLuisRecognizer(new FindMeetingTestUtterances()));
+        }
+
         [TestMethod]
         public async Task Test_CalendarSummary()
         {
+            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
+            serviceManager.SetupCalendarService(MockCalendarService.FakeDefaultEvents());
             await this.GetTestFlow()
-                .Send("What should I do today")
+                .Send(FindMeetingTestUtterances.BaseFindMeeting)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.FoundEventPrompt())
+                .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(this.ReadOutMorePrompt())
+                .Send("No")
+                .AssertReplyOneOf(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_CalendarSummaryByTimeRange()
+        {
+            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
+            serviceManager.SetupCalendarService(new List<EventModel>() { MockCalendarService.CreateEventModel(startDateTime: DateTime.UtcNow.AddDays(7), endDateTime: DateTime.UtcNow.AddDays(8)) });
+            await this.GetTestFlow()
+                .Send(FindMeetingTestUtterances.BaseFindMeetingByTimeRange)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundEventPrompt())

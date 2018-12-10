@@ -21,6 +21,7 @@
   <ItemGroup>
     <PackageReference Include="Google.Apis.Calendar.v3" Version="1.35.2.1354" />
     <PackageReference Include="Google.Apis.People.v1" Version="1.25.0.830" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.8.10" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.5" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
@@ -53,6 +54,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>DeleteEventResponses.tt</DependentUpon>
     </Compile>
+    <Compile Update="Dialogs\JoinEvent\Resources\JoinEventResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>JoinEventResponses.tt</DependentUpon>
+    </Compile>
     <Compile Update="Dialogs\Main\Resources\CalendarMainResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -77,6 +83,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>SummaryResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TimeRemainResponses.tt</DependentUpon>
     </Compile>
     <Compile Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.cs">
       <DesignTime>True</DesignTime>
@@ -108,6 +119,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DeleteEventResponses.cs</LastGenOutput>
     </None>
+    <None Update="Dialogs\JoinEvent\Resources\JoinEventResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>JoinEventResponses.cs</LastGenOutput>
+    </None>
     <None Update="Dialogs\Main\Resources\CalendarMainResponses.tt">
       <LastGenOutput>CalendarMainResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -123,6 +138,10 @@
     <None Update="Dialogs\Summary\Resources\SummaryResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SummaryResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TimeRemainResponses.cs</LastGenOutput>
     </None>
     <None Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -151,6 +170,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\DeleteEvent\Resources\DeleteEventResponses.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\JoinEvent\Resources\JoinEventResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Main\Resources\CalendarMainResponses.zh.json">
@@ -187,6 +209,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Summary\Resources\SummaryResponses.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.zh.json">
