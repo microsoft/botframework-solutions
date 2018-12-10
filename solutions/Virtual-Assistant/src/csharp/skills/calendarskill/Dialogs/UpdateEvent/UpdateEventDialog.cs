@@ -140,11 +140,11 @@ namespace CalendarSkill
 
                     if (!string.IsNullOrEmpty(state.RecursiveToken))
                     {
-                        if (origin.Source == EventSource.Microsoft)
+                        if (origin.Source == EventSource.Microsoft && !string.IsNullOrEmpty(((Microsoft.Graph.Event)origin.Value).SeriesMasterId))
                         {
                             updateEvent.Id = ((Microsoft.Graph.Event)origin.Value).SeriesMasterId;
                         }
-                        else if (origin.Source == EventSource.Google)
+                        else if (origin.Source == EventSource.Google && !string.IsNullOrEmpty(((Google.Apis.Calendar.v3.Data.Event)origin.Value).RecurringEventId))
                         {
                             updateEvent.Id = ((Google.Apis.Calendar.v3.Data.Event)origin.Value).RecurringEventId;
                         }
