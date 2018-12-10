@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using EmailSkill;
+using EmailSkillTest.Flow.Strings;
 using Microsoft.Graph;
 
 namespace EmailSkillTest.Flow.Fakes
@@ -11,7 +12,7 @@ namespace EmailSkillTest.Flow.Fakes
         public MockMailService()
         {
             this.MyMessages = FakeMyMessages();
-            this.RepliedMessages = FakeRepliedMessages();
+            this.RepliedMessages = FakeMessages();
         }
 
         public List<Message> MyMessages { get; set; }
@@ -25,7 +26,23 @@ namespace EmailSkillTest.Flow.Fakes
 
         public Task<List<Message>> GetMyMessagesAsync(DateTime startDateTime, DateTime endDateTime, bool isRead, bool isImportant, bool directlyToMe, string mailAddress, int skip)
         {
-            return Task.FromResult(this.MyMessages);
+            var messages = new List<Message>();
+            foreach (var message in this.MyMessages)
+            {
+                if (mailAddress != null)
+                {
+                    if (message.Sender.EmailAddress.Address.Equals(mailAddress))
+                    {
+                        messages.Add(message);
+                    }
+                }
+                else
+                {
+                    messages.Add(message);
+                }
+            }
+
+            return Task.FromResult(messages);
         }
 
         public async Task ForwardMessageAsync(string id, string content, List<Recipient> recipients)
@@ -43,40 +60,20 @@ namespace EmailSkillTest.Flow.Fakes
             await Task.CompletedTask;
         }
 
-        private List<Message> FakeMyMessages()
+        public List<Message> FakeMyMessages()
         {
             List<Message> messages = new List<Message>();
             for (int i = 0; i < 5; i++)
             {
-                var message = new Message()
-                {
-                    Subject = "TestSubject" + i,
-                    BodyPreview = "TestBodyPreview" + i,
-                    Body = new ItemBody()
-                    {
-                        Content = "TestBody" + i,
-                        ContentType = BodyType.Text,
-                    },
-                    ReceivedDateTime = DateTime.UtcNow.AddHours(-1),
-                    WebLink = "http://www.test.com",
-                    Sender = new Recipient()
-                    {
-                        EmailAddress = new EmailAddress()
-                        {
-                            Name = "TestSender" + i,
-                        },
-                    },
-                };
-
-                var recipients = new List<Recipient>();
-                var recipient = new Recipient()
-                {
-                    EmailAddress = new EmailAddress(),
-                };
-                recipient.EmailAddress.Address = i + "test@test.com";
-                recipient.EmailAddress.Name = "Test Test";
-                recipients.Add(recipient);
-                message.ToRecipients = recipients;
+                var message = FakeMessage(
+                    subject: ContextStrings.TestSubjcet + i,
+                    bodyPreview: ContextStrings.TestBody + i,
+                    content: ContextStrings.TestBody + i,
+                    webLink: ContextStrings.WebLink + i,
+                    senderName: ContextStrings.TestSender + i,
+                    senderAddress: i + ContextStrings.TestSenderAddress,
+                    recipientName: ContextStrings.TestRecipient,
+                    recipientAddress: ContextStrings.TestEmailAdress);
 
                 messages.Add(message);
             }
@@ -84,10 +81,55 @@ namespace EmailSkillTest.Flow.Fakes
             return messages;
         }
 
-        private List<Message> FakeRepliedMessages()
+        public List<Message> FakeMessages()
         {
             List<Message> messages = new List<Message>();
             return messages;
+        }
+
+        public Message FakeMessage(
+            string subject = ContextStrings.TestSubjcet,
+            string bodyPreview = ContextStrings.TestBody,
+            string content = ContextStrings.TestBody,
+            string webLink = ContextStrings.WebLink,
+            string senderName = ContextStrings.TestSender,
+            string senderAddress = ContextStrings.TestSenderAddress,
+            string recipientName = ContextStrings.TestRecipient,
+            string recipientAddress = ContextStrings.TestEmailAdress
+            )
+        {
+            var message = new Message()
+            {
+                Subject = subject,
+                BodyPreview = bodyPreview,
+                Body = new ItemBody()
+                {
+                    Content = content,
+                    ContentType = BodyType.Text,
+                },
+                ReceivedDateTime = DateTime.UtcNow.AddHours(-1),
+                WebLink = webLink,
+                Sender = new Recipient()
+                {
+                    EmailAddress = new EmailAddress()
+                    {
+                        Name = senderName,
+                        Address = senderAddress
+                    },
+                },
+            };
+
+            var recipients = new List<Recipient>();
+            var recipient = new Recipient()
+            {
+                EmailAddress = new EmailAddress(),
+            };
+            recipient.EmailAddress.Address = recipientAddress;
+            recipient.EmailAddress.Name = recipientName;
+            recipients.Add(recipient);
+            message.ToRecipients = recipients;
+
+            return message;
         }
     }
 }

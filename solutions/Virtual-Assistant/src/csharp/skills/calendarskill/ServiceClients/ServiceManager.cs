@@ -48,7 +48,7 @@ namespace CalendarSkill
                     calendarAPI = new MSGraphCalendarAPI(serviceClient);
                     break;
                 case EventSource.Google:
-                    GoogleClient googleClient = GoogleClient.GetGoogleClient(_skillConfig);
+                    var googleClient = GoogleClient.GetGoogleClient(_skillConfig);
                     var googlePeopleClient = GoogleCalendarAPI.GetServiceClient(googleClient, token);
                     calendarAPI = new GoogleCalendarAPI(googlePeopleClient);
                     break;

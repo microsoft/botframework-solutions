@@ -379,16 +379,6 @@ namespace CalendarSkill
                     return await sc.NextAsync(cancellationToken: cancellationToken);
                 }
 
-                if (state.EventSource == EventSource.Microsoft)
-                {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoAttendeesMS) }, cancellationToken);
-                }
-
-                if (sc.Result != null)
-                {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.WrongAddress) }, cancellationToken);
-                }
-
                 return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoAttendees) }, cancellationToken);
             }
             catch
@@ -694,10 +684,14 @@ namespace CalendarSkill
                                 }
 
                                 state.StartDate.Add(isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime);
-                                return await sc.EndDialogAsync(cancellationToken: cancellationToken);
                             }
                         }
                     }
+                }
+
+                if (state.StartDate.Any())
+                {
+                    return await sc.EndDialogAsync(cancellationToken: cancellationToken);
                 }
 
                 return await sc.BeginDialogAsync(Actions.UpdateStartDateForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotADateTime), cancellationToken);

@@ -4,6 +4,7 @@ using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Configuration;
 
@@ -15,7 +16,7 @@ namespace Microsoft.Bot.Solutions.Skills
         {
         }
 
-        public SkillConfiguration(BotConfiguration botConfiguration, string[] supportedProviders, string[] parameters, Dictionary<string, object> configuration)
+        public SkillConfiguration(BotConfiguration botConfiguration, Dictionary<string, Dictionary<string, string>> languageModels, string[] supportedProviders = null, string[] parameters = null, Dictionary<string, object> configuration = null)
         {
             if (supportedProviders != null && supportedProviders.Count() > 0)
             {
@@ -31,14 +32,6 @@ namespace Microsoft.Bot.Solutions.Skills
                             var appInsights = service as AppInsightsService;
                             var telemetryConfig = new TelemetryConfiguration(appInsights.InstrumentationKey);
                             TelemetryClient = new TelemetryClient(telemetryConfig);
-                            break;
-                        }
-
-                    case ServiceTypes.Luis:
-                        {
-                            var luis = service as LuisService;
-                            var luisApp = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.GetEndpoint());
-                            LuisServices.Add(service.Id, new TelemetryLuisRecognizer(luisApp));
                             break;
                         }
 
@@ -62,6 +55,56 @@ namespace Microsoft.Bot.Solutions.Skills
                             break;
                         }
                 }
+            }
+
+            foreach (var language in languageModels)
+            {
+                var localeConfig = new LocaleConfiguration
+                {
+                    Locale = language.Key
+                };
+
+                var path = language.Value["botFilePath"];
+                var secret = language.Value["botFileSecret"];
+                var config = BotConfiguration.Load(path, !string.IsNullOrEmpty(secret) ? secret : null);
+
+                foreach (var service in config.Services)
+                {
+                    switch (service.Type)
+                    {
+                        case ServiceTypes.Dispatch:
+                            {
+                                var dispatch = service as DispatchService;
+                                var dispatchApp = new LuisApplication(dispatch.AppId, dispatch.SubscriptionKey, dispatch.GetEndpoint());
+                                localeConfig.DispatchRecognizer = new TelemetryLuisRecognizer(dispatchApp);
+                                break;
+                            }
+
+                        case ServiceTypes.Luis:
+                            {
+                                var luis = service as LuisService;
+                                var luisApp = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.GetEndpoint());
+                                localeConfig.LuisServices.Add(service.Id, new TelemetryLuisRecognizer(luisApp));
+                                break;
+                            }
+
+                        case ServiceTypes.QnA:
+                            {
+                                var qna = service as QnAMakerService;
+                                var qnaEndpoint = new QnAMakerEndpoint()
+                                {
+                                    KnowledgeBaseId = qna.KbId,
+                                    EndpointKey = qna.EndpointKey,
+                                    Host = qna.Hostname,
+                                };
+                                var qnaMaker = new TelemetryQnAMaker(qnaEndpoint);
+                                localeConfig.QnAServices.Add(qna.Id, qnaMaker);
+                                break;
+                            }
+                    }
+                }
+
+                LocaleConfigurations.Add(language.Key, localeConfig);
             }
 
             if (parameters != null)
@@ -90,7 +133,7 @@ namespace Microsoft.Bot.Solutions.Skills
 
         public override CosmosDbStorageOptions CosmosDbOptions { get; set; }
 
-        public override Dictionary<string, IRecognizer> LuisServices { get; set; } = new Dictionary<string, IRecognizer>();
+        public override Dictionary<string, LocaleConfiguration> LocaleConfigurations { get; set; } = new Dictionary<string, LocaleConfiguration>();
 
         public override Dictionary<string, object> Properties { get; set; } = new Dictionary<string, object>();
     }

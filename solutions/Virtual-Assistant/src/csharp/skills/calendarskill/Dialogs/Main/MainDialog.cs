@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Dialogs.Main.Resources;
@@ -62,8 +63,12 @@ namespace CalendarSkill
         {
             var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
 
+            // get current activity locale
+            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            var localeConfig = _services.LocaleConfigurations[locale];
+
             // If dispatch result is general luis model
-            _services.LuisServices.TryGetValue("calendar", out var luisService);
+            localeConfig.LuisServices.TryGetValue("calendar", out var luisService);
 
             if (luisService == null)
             {
@@ -71,7 +76,7 @@ namespace CalendarSkill
             }
             else
             {
-                var result = await luisService.RecognizeAsync<Calendar>(dc.Context, CancellationToken.None);
+                var result = await luisService.RecognizeAsync<Luis.Calendar>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
                 var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
 
@@ -83,45 +88,51 @@ namespace CalendarSkill
                 // switch on general intents
                 switch (intent)
                 {
-                    case Calendar.Intent.FindMeetingRoom:
-                    case Calendar.Intent.CreateCalendarEntry:
+                    case Luis.Calendar.Intent.FindMeetingRoom:
+                    case Luis.Calendar.Intent.CreateCalendarEntry:
                         {
                             await dc.BeginDialogAsync(nameof(CreateEventDialog), skillOptions);
                             break;
                         }
 
-                    case Calendar.Intent.DeleteCalendarEntry:
+                    case Luis.Calendar.Intent.DeleteCalendarEntry:
                         {
                             await dc.BeginDialogAsync(nameof(DeleteEventDialog), skillOptions);
                             break;
                         }
 
-                    case Calendar.Intent.NextMeeting:
+                    case Luis.Calendar.Intent.NextMeeting:
                         {
                             await dc.BeginDialogAsync(nameof(NextMeetingDialog), skillOptions);
                             break;
                         }
 
-                    case Calendar.Intent.ChangeCalendarEntry:
+                    case Luis.Calendar.Intent.ChangeCalendarEntry:
                         {
                             await dc.BeginDialogAsync(nameof(UpdateEventDialog), skillOptions);
                             break;
                         }
 
-                    case Calendar.Intent.FindCalendarEntry:
-                    case Calendar.Intent.Summary:
+                    case Luis.Calendar.Intent.ConnectToMeeting:
+                        {
+                            await dc.BeginDialogAsync(nameof(ConnectToMeetingDialog), skillOptions);
+                            break;
+                        }
+
+                    case Luis.Calendar.Intent.FindCalendarEntry:
+                    case Luis.Calendar.Intent.Summary:
                         {
                             await dc.BeginDialogAsync(nameof(SummaryDialog), skillOptions);
                             break;
                         }
 
-                    case Calendar.Intent.TimeRemaining:
+                    case Luis.Calendar.Intent.TimeRemaining:
                         {
                             await dc.BeginDialogAsync(nameof(TimeRemainingDialog), skillOptions);
                             break;
                         }
 
-                    case Calendar.Intent.None:
+                    case Luis.Calendar.Intent.None:
                         {
                             if (generalTopIntent == General.Intent.Next || generalTopIntent == General.Intent.Previous)
                             {
@@ -217,13 +228,17 @@ namespace CalendarSkill
 
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
+                // get current activity locale
+                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                var localeConfig = _services.LocaleConfigurations[locale];
+
                 // Update state with email luis result and entities
-                var calendarLuisResult = await _services.LuisServices["calendar"].RecognizeAsync<Calendar>(dc.Context, cancellationToken);
+                var calendarLuisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<Luis.Calendar>(dc.Context, cancellationToken);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
                 state.LuisResult = calendarLuisResult;
 
                 // check luis intent
-                _services.LuisServices.TryGetValue("general", out var luisService);
+                localeConfig.LuisServices.TryGetValue("general", out var luisService);
 
                 if (luisService == null)
                 {
@@ -311,6 +326,7 @@ namespace CalendarSkill
             AddDialog(new TimeRemainingDialog(_services, _stateAccessor, _serviceManager));
             AddDialog(new SummaryDialog(_services, _stateAccessor, _serviceManager));
             AddDialog(new UpdateEventDialog(_services, _stateAccessor, _serviceManager));
+            AddDialog(new ConnectToMeetingDialog(_services, _stateAccessor, _serviceManager));
         }
 
         private class Events

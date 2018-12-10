@@ -205,12 +205,10 @@
 
 ## ConnectToMeeting
 - Aggiungimi alla chiamata in conferenza
-- Aggiungimi alla chiamata in conferenza
 - Conferenza di chiamata
 - chiamata in conferenza
 - Chiamare {Subject=Genpact} chiamata in conferenza
 - Chiamare {Subject=Conferenza Harris}
-- chiamata in conferenza
 - chiamare in {Subject=riunione di marketing}
 - chiamata in riunione
 - chiamare il {Subject=Morning breifing} numero di conferenza
@@ -221,7 +219,6 @@
 - connettermi alla Conference Call con {ContactName=Tony}
 - connettermi a {Subject=riunione di marketing}
 - collegarmi al {Subject=riunione del preventivo} chiamata in conferenza
-- connettermi alla chiamata in conferenza
 - collegarmi al {Subject=riunione di marketing}
 - connettermi con Conference Call
 - collegare me con il mio {FromTime=2} o riunione dell'orologio
@@ -249,7 +246,6 @@
 - Unirsi {FromTime=Prossima} incontro sul link
 - Unisciti al {Subject=riunione del preventivo} chiamata in conferenza
 - partecipa alla conferenza
-- Unisciti alla riunione
 - Unisciti al {OrderReference=Prossima} {Subject=Lync meeting}
 - link Unisciti al mio {OrderReference=Prossima} Riunione
 - link Join {OrderReference=Prossima} Riunione
@@ -419,13 +415,11 @@
 - pianificare una riunione su {FromDate=Novembre. 3} Da {FromTime=3-16}
 - pianificare una riunione su {FromDate=Novembre. 3} Da {FromTime=15:00} - {ToTime=16}
 - pianificare una riunione con {ContactName=Ryan} dalle 3 alle 16 del {FromDate=25 ottobre}
-- fissare un appuntamento
 - Pianificazione {Subject=Campagna} Da {FromDate=Venerdì} A {ToDate=Domenica}
 - Pianificazione {Subject=Campeggio} Per {FromDate=Venerdì}
 - Pianificazione {Subject=appuntamento medico}
 - programmare la mia vacanza da {FromDate=Oggi} {FromTime=17} A {ToDate=Domani} {ToTime=17}
 - Pianificazione {Subject=Vagante} Per {FromDate=Venerdì} Attraverso {ToDate=Domenica}
-- fissare un appuntamento
 - fissare un appuntamento per {FromDate=Domani}
 - imposta appuntamento
 - impostare un appuntamento
@@ -465,7 +459,6 @@
 - cancellare il mio {FromTime=Tre} ore appuntamento
 - annullare l'appuntamento
 - annullare la riunione
-- annullare l'appuntamento
 - Annulla il calendario
 - Annulla l'evento
 - Annulla il {Subject=riunione del gruppo}
@@ -476,7 +469,6 @@
 - Annulla questa riunione
 - Annulla {FromDate=Oggi} ' s appuntamento
 - Annulla {FromDate=Domani} piano s
-- Cancella tutti i miei appuntamenti
 - Cancella tutti i miei appuntamenti
 - Cancella tutti i miei appuntamenti {FromDate=Oggi}
 - Cancella tutti gli appuntamenti dal mio calendario per {FromDate=Oggi}
@@ -496,7 +488,6 @@
 - Cancella il mio evento
 - Cancella la mia riunione
 - Cancella la mia riunione a {FromTime=Notte}
-- Cancella il mio programma
 - cancellare il mio programma per {FromDate=Oggi}
 - eliminare l'appuntamento
 - eliminare il {PositionReference=1º} uno dal mio calendario
@@ -613,7 +604,6 @@
 - che cosa è {ContactName=Jim} programma del {FromDate=questa settimana}
 - Qual è il mio {PositionReference=1º} Riunione {FromDate=Oggi}
 - Qual è il mio programma per {FromDate=Domani}
-- Qual è il mio programma {FromDate=Domani}
 - ciò che è sul mio calendario {FromDate=Oggi}
 - che cosa è {ContactName=Paul} Facendo {FromDate=Oggi}
 - Qual è il programma prima che
@@ -798,7 +788,6 @@
 - quanto tempo c'è per {Subject=Commissioni} durante la mia {Subject=pausa pranzo}
 - quanto tempo è aperto {FromDate=Oggi}
 - quanto tempo su {Subject=Pranzo}
-- quanto tempo ho per {Subject=Pranzo} {FromDate=Oggi}
 - quanto tempo dovrò {Subject=pick up generi alimentari}
 - sta andando a durare a lungo
 - è il mio {Subject=Pranzo} abbastanza a lungo per commissioni
@@ -854,8 +843,6 @@
 - indietro di un passo
 - indietro il {OrderReference=Ultima} Passo
 - si può tornare indietro
-- Indietro
-- tornare indietro di un passo
 - tornare indietro di un passo
 - Torna indietro per favore
 - tornare indietro il {OrderReference=Precedente} Passo
@@ -934,7 +921,6 @@
 - {AskParameter=Dov'è} Mio {OrderReference=Prossima} Evento
 - {AskParameter=Dov'è} Mio {OrderReference=Prossima} Riunione
 - {AskParameter=Dov'è} Mio {OrderReference=Prossima} incontro con MS {ContactName=Pierre}
-- {AskParameter=Dov'è} Mio {OrderReference=Prossima} Riunione
 - che è il mio {OrderReference=Prossima} Evento
 - che sarà il mio {OrderReference=Prossima} {Subject=Volo}
 - {AskParameter=che tutti saranno presenti} alla {OrderReference=prossimi 5} Riunioni
