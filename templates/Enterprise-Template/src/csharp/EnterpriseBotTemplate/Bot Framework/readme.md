@@ -89,5 +89,8 @@ Testing can be performed end to end locally, when your ready to deploy your Bot 
 az bot publish --name "$safeprojectname$" --resource-group "$safeprojectname$"
 ```
 
+## Analytics
+Now that your bot is collecting telemetry, you can use a sample PowerBI dashboard to view [advanced conversational analytics](https://github.com/Microsoft/AI/tree/master/solutions/analytics).
+
 ## Next Steps
-Find more documentation for enabling more scenarios and further customization [here](http://aka.ms/ent_docs).
+Find [additional documentation](http://aka.ms/ent_docs) for enabling more scenarios and further customization.
