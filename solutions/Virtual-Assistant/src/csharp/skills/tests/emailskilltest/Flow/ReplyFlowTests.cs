@@ -16,7 +16,7 @@ namespace EmailSkillTest.Flow
         [TestInitialize]
         public void SetupLuisService()
         {
-            var luisServices = this.Services.LuisServices;
+            var luisServices = this.Services.LocaleConfigurations["en"].LuisServices;
             luisServices.Clear();
             luisServices.Add("email", new MockEmailLuisRecognizer(new ReplyEmailUtterances()));
             luisServices.Add("general", new MockGeneralLuisRecognizer());

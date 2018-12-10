@@ -12,6 +12,7 @@ namespace EmailSkillTest.Flow.Fakes
         {
             this.LocaleConfigurations.Add("en", new LocaleConfiguration()
             {
+                Locale = "en-us",
                 LuisServices = new Dictionary<string, IRecognizer>
                 {
                     { "general", new MockGeneralLuisRecognizer() },
