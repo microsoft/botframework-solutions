@@ -20,6 +20,7 @@ using Microsoft.Recognizers.Text.DateTime;
 using Newtonsoft.Json.Linq;
 using static Microsoft.Recognizers.Text.Culture;
 using Microsoft.Bot.Builder.AI.Luis;
+using CalendarSkill.Dialogs.Shared.Resources.Strings;
 
 namespace CalendarSkill
 {
@@ -649,6 +650,17 @@ namespace CalendarSkill
                             if (entity.MoveLaterTimeSpan != null)
                             {
                                 state.MoveTimeSpan = GetMoveTimeSpanFromEntity(entity.MoveLaterTimeSpan[0], dc.Context.Activity.Locale, true);
+                            }
+
+                            if (entity.datetime != null)
+                            {
+                                var match = entity._instance.datetime.ToList().Find(w => w.Text.ToLower() == CalendarCommonStrings.DailyToken
+                                || w.Text.ToLower() == CalendarCommonStrings.WeeklyToken
+                                || w.Text.ToLower() == CalendarCommonStrings.MonthlyToken);
+                                if (match != null)
+                                {
+                                    state.RecursiveToken = match.Text.ToLower();
+                                }
                             }
 
                             break;

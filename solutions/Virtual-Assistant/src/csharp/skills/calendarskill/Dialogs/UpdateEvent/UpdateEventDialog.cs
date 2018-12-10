@@ -138,11 +138,16 @@ namespace CalendarSkill
                     updateEvent.TimeZone = TimeZoneInfo.Utc;
                     updateEvent.Id = origin.Id;
 
-                    if (sc.Context.Activity.Text.Contains(CalendarCommonStrings.DailyToken)
-                        || sc.Context.Activity.Text.Contains(CalendarCommonStrings.WeeklyToken)
-                        || sc.Context.Activity.Text.Contains(CalendarCommonStrings.MonthlyToken))
+                    if (!string.IsNullOrEmpty(state.RecursiveToken))
                     {
-                        updateEvent.Id = ((Microsoft.Graph.Event)origin.Value).SeriesMasterId;
+                        if (origin.Source == EventSource.Microsoft)
+                        {
+                            updateEvent.Id = ((Microsoft.Graph.Event)origin.Value).SeriesMasterId;
+                        }
+                        else if (origin.Source == EventSource.Google)
+                        {
+                            updateEvent.Id = ((Google.Apis.Calendar.v3.Data.Event)origin.Value).RecurringEventId;
+                        }
                     }
 
                     var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);

@@ -42,6 +42,7 @@ namespace CalendarSkill
             Duration = 0;
             MoveTimeSpan = 0;
             AskParameterContent = string.Empty;
+            RecursiveToken = string.Empty;
         }
 
         public User User { get; set; }
@@ -126,6 +127,8 @@ namespace CalendarSkill
 
         public string AskParameterContent { get; set; }
 
+        public string RecursiveToken { get; set; }
+
         public TimeZoneInfo GetUserTimeZone()
         {
             if ((UserInfo != null) && (UserInfo.Timezone != null))
@@ -170,6 +173,7 @@ namespace CalendarSkill
             Duration = 0;
             MoveTimeSpan = 0;
             AskParameterContent = string.Empty;
+            RecursiveToken = string.Empty;
         }
 
         public class UserInformation
