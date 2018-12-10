@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CalendarSkill.Common;
 using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
+using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using CalendarSkill.Dialogs.UpdateEvent.Resources;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -136,6 +137,13 @@ namespace CalendarSkill
                     updateEvent.EndTime = (newStartTime + last).AddSeconds(1);
                     updateEvent.TimeZone = TimeZoneInfo.Utc;
                     updateEvent.Id = origin.Id;
+
+                    if (sc.Context.Activity.Text.Contains(CalendarCommonStrings.DailyToken)
+                        || sc.Context.Activity.Text.Contains(CalendarCommonStrings.WeeklyToken)
+                        || sc.Context.Activity.Text.Contains(CalendarCommonStrings.MonthlyToken))
+                    {
+                        updateEvent.Id = ((Microsoft.Graph.Event)origin.Value).SeriesMasterId;
+                    }
 
                     var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
                     var newEvent = await calendarService.UpdateEventById(updateEvent);

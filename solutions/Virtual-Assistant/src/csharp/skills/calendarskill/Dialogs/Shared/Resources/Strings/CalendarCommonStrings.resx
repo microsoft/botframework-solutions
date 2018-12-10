@@ -120,4 +120,13 @@
   <data name="AllDay" xml:space="preserve">
     <value>All day</value>
   </data>
+  <data name="DailyToken" xml:space="preserve">
+    <value>daily</value>
+  </data>
+  <data name="MonthlyToken" xml:space="preserve">
+    <value>monthly</value>
+  </data>
+  <data name="WeeklyToken" xml:space="preserve">
+    <value>weekly</value>
+  </data>
 </root>
