@@ -19,6 +19,7 @@ namespace $safeprojectname$
         private readonly BotServices _services;
         private readonly ConversationState _conversationState;
         private readonly UserState _userState;
+        private readonly IBotTelemetryClient _telemetryClient;
         private DialogSet _dialogs;
 
         /// <summary>
@@ -27,14 +28,15 @@ namespace $safeprojectname$
         /// <param name="botServices">Bot services.</param>
         /// <param name="conversationState">Bot conversation state.</param>
         /// <param name="userState">Bot user state.</param>
-        public $safeprojectname$(BotServices botServices, ConversationState conversationState, UserState userState)
+        public $safeprojectname$(BotServices botServices, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient)
         {
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
             _services = botServices ?? throw new ArgumentNullException(nameof(botServices));
+            _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClieny));
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof($safeprojectname$)));
-            _dialogs.Add(new MainDialog(_services, _conversationState, _userState));
+            _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _telemetryClient));
         }
 
         /// <summary>
