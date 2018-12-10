@@ -1,15 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using EmailSkillTest.Flow.Utterances;
 using Luis;
 using Microsoft.Bot.Builder;
 
 namespace EmailSkillTest.Flow.Fakes
 {
-    public class MockLuisRecognizer : IRecognizer
+    public class MockGeneralLuisRecognizer : IRecognizer
     {
-        public MockLuisRecognizer()
+        private GeneralTestUtterances generalUtterancesManager;
+
+        public MockGeneralLuisRecognizer()
         {
+            this.generalUtterancesManager = new GeneralTestUtterances();
         }
 
         public Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, CancellationToken cancellationToken)
@@ -20,24 +25,12 @@ namespace EmailSkillTest.Flow.Fakes
         public Task<T> RecognizeAsync<T>(ITurnContext turnContext, CancellationToken cancellationToken)
             where T : IRecognizerConvert, new()
         {
-            var mockResult = new T();
-
-            var t = typeof(T);
             var text = turnContext.Activity.Text;
-            if (t.Name.Equals(typeof(Email).Name))
-            {
-                var mockEmail = new MockEmailIntent(text);
 
-                var test = mockEmail as object;
-                mockResult = (T)test;
-            }
-            else if (t.Name.Equals(typeof(General).Name))
-            {
-                var mockGeneralIntent = new MockGeneralIntent(text);
+            General mockGeneral = generalUtterancesManager.GetValueOrDefault(text, generalUtterancesManager.GetBaseNoneIntent());
 
-                var test = mockGeneralIntent as object;
-                mockResult = (T)test;
-            }
+            var test = mockGeneral as object;
+            var mockResult = (T)test;
 
             return Task.FromResult(mockResult);
         }
