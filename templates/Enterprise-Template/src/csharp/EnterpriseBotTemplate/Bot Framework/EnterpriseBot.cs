@@ -33,7 +33,7 @@ namespace $safeprojectname$
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
             _services = botServices ?? throw new ArgumentNullException(nameof(botServices));
-            _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClieny));
+            _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof($safeprojectname$)));
             _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _telemetryClient));
