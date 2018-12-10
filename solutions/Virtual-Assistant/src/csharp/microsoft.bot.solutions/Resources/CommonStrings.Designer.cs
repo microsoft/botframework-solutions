@@ -151,7 +151,7 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to dd-MM-yyyy.
+        ///   Looks up a localized string similar to MM-dd-yyyy.
         /// </summary>
         public static string DisplayFullDateFormat {
             get {
@@ -385,6 +385,15 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to the third one is {0};.
+        /// </summary>
+        public static string ThirdItem {
+            get {
+                return ResourceManager.GetString("ThirdItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} day.
         /// </summary>
         public static string TimeFormatDay {
@@ -444,15 +453,6 @@ namespace Microsoft.Bot.Solutions.Resources {
         public static string TimeFormatMinutes {
             get {
                 return ResourceManager.GetString("TimeFormatMinutes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to the third one is {0};.
-        /// </summary>
-        public static string ThirdItem {
-            get {
-                return ResourceManager.GetString("ThirdItem", resourceCulture);
             }
         }
         

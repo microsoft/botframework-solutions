@@ -253,7 +253,7 @@
     <value>{0} minutes</value>
   </data>
   <data name="DisplayFullDateFormat" xml:space="preserve">
-    <value>dd-MM-yyyy</value>
+    <value>MM-dd-yyyy</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>all</value>
