@@ -32,7 +32,7 @@ namespace Microsoft.Bot.Solutions.Middleware
                         continue;
                     }
 
-                    if (activity.Attachments[0].ContentType.Equals("application/vnd.microsoft.card.signin", StringComparison.InvariantCultureIgnoreCase))
+                    if (!activity.Attachments[0].ContentType.Equals("application/vnd.microsoft.card.signin", StringComparison.InvariantCultureIgnoreCase))
                     {
                         continue;
                     }
