@@ -13,6 +13,7 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Models.Proactive;
 using Microsoft.Bot.Solutions.Skills;
@@ -47,8 +48,9 @@ namespace VirtualAssistant
             services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded."));
 
             // Initializes your bot service clients and adds a singleton that your Bot can access through dependency injection.
+            var languageModels = Configuration.GetSection("languageModels").Get<Dictionary<string, Dictionary<string, string>>>();
             var skills = Configuration.GetSection("skills").Get<List<SkillDefinition>>();
-            var connectedServices = new BotServices(botConfig, skills);
+            var connectedServices = new BotServices(botConfig, languageModels, skills);
             services.AddSingleton(sp => connectedServices);
 
             var defaultLocale = Configuration.GetSection("defaultLocale").Get<string>();

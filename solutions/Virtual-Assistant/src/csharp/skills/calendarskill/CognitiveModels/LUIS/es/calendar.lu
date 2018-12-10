@@ -205,7 +205,6 @@
 
 ## ConnectToMeeting
 - agregarme a la llamada de conferencia
-- agregarme a la llamada de conferencia
 - Conferencia de llamadas
 - llamada de conferencia
 - Llamar {Subject=Genpact} Conferencia Telefónica
@@ -221,7 +220,6 @@
 - Conécteme a una llamada de conferencia con {ContactName=Tony}
 - conectarme a {Subject=reunión de marketing}
 - conectarme a la {Subject=reunión de presupuesto} Conferencia Telefónica
-- Conécteme a la llamada de conferencia
 - conectarme a la {Subject=reunión de marketing}
 - Conécteme con la llamada de conferencia
 - Conécteme con mi {FromTime=2} o reunión del reloj
@@ -248,7 +246,6 @@
 - Unirse {FromTime=Próxima} Reunión
 - Unirse {FromTime=Próxima} reunión en enlace
 - Únase a la {Subject=reunión de presupuesto} Conferencia Telefónica
-- Únase a la Conferencia
 - Únase a la reunión
 - Únase a la {OrderReference=Próxima} {Subject=Lync Meeting}
 - enlace unirse a mi {OrderReference=Próxima} Reunión
@@ -474,7 +471,6 @@
 - Cancelar {FromDate=Hoy} ' s cita
 - Cancelar {FromDate=Mañana} ' s plan
 - borrar todas mis citas
-- borrar todas mis citas
 - borrar todas mis citas {FromDate=Hoy}
 - borrar todas las citas de mi calendario para {FromDate=Hoy}
 - borrar mi calendario
@@ -580,7 +576,6 @@
 - ¿Qué está en mi calendario para {FromDate=Hoy}
 - What ' s en mi calendario {FromDate=Hoy}
 - lo que está en mi agenda
-- ¿Cuál es mi horario para {FromDate=Mañana}
 - lo que está en mi agenda {FromDate=Hoy}
 - ¿Cuál es la reunión {FromDate=Hoy} Entre {FromTime=10} Y {ToTime=12:00}
 - ¿Qué estoy haciendo {FromDate=La próxima semana}
@@ -608,8 +603,6 @@
 - Qué es {ContactName=Clarence} haciendo en {FromDate=Lunes} En {FromTime=Mediodía}
 - Qué es {ContactName=Jim} Horario del {FromDate=esta semana}
 - ¿Cuál es mi {PositionReference=Primera} Reunión {FromDate=Hoy}
-- ¿Cuál es mi horario para {FromDate=Mañana}
-- ¿Cuál es mi horario {FromDate=Mañana}
 - lo que está en mi calendario {FromDate=Hoy}
 - Qué es {ContactName=Paul} Haciendo {FromDate=Hoy}
 - ¿Cuál es el horario antes de que
@@ -617,7 +610,6 @@
 - ¿Cuál fue mi {PositionReference=Primera} Cita
 - Qué pasa {FromDate=esta semana}
 - Qué pasa {FromDate=Mañana}
-- ¿Cuál es mi {PositionReference=Primera} Reunión {FromDate=Mañana}
 
 
 ## FindCalendarWhen
@@ -692,7 +684,6 @@
 - ¿Dónde está mi {PositionReference=Primera} Cita {FromDate=Mañana}
 - ¿Dónde está mi {PositionReference=Adelante} evento con {ContactName=James} En {FromDate=Jueves}
 - ¿Dónde está mi {PositionReference=Adelante} evento con {ContactName=John} {FromDate=Viernes}
-- ¿Dónde está mi reunión
 - ¿Dónde está mi reunión con {ContactName=Stephanie}
 - ¿Dónde está mi {PositionReference=Tercer} {Subject=shiproom} Con {ContactName=Mike}
 - ¿Dónde está esa reunión
@@ -856,17 +847,13 @@
 - volver a la {OrderReference=Anterior} Paso
 - volver a la {OrderReference=Última} Paso
 - volver al menú principal
-- volver a la {OrderReference=Anterior} Paso
 - necesito volver
 - Quiero volver
 - me gustaría volver
 - por favor, vuelve
 - por favor regrese
-- Volver
 - volver atrás
-- volver por favor
 - Volver a {OrderReference=Anterior} Paso
-- volver a la {OrderReference=Anterior} Paso
 - deberíamos volver
 
 
@@ -895,7 +882,6 @@
 - ¿Cuál es mi {OrderReference=Próxima} Reunión
 - ¿Qué es {OrderReference=Próxima} en mi calendario
 - lo que está en mi {OrderReference=Próxima} Reunión
-- ¿Cuál es mi {OrderReference=Próxima} Cita
 - ¿Cuál es mi próximo evento?
 - ¿Cuál es mi próxima reunión
 - ¿Cuál es mi próximo horario
@@ -1006,7 +992,6 @@
 - ¿Cuánto tiempo hasta que mi {OrderReference=Próxima} Cita
 - ¿Cuánto tiempo hasta que el {OrderReference=Próxima} Reunión
 - ¿Cuánto tiempo hasta {Subject=Navidad}
-- ¿Cuánto tiempo hasta que mi {OrderReference=Próxima} Cita
 - ¿Cuánto tiempo hasta que mi {OrderReference=Próxima} Reunión
 - ¿Cuánto tiempo hasta que el {Subject=Social}
 - ¿Cuánto tiempo voy a esperar a que el {OrderReference=Próxima} Cita

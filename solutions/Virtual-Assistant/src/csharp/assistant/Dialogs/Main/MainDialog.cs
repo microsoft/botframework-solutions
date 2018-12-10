@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -72,9 +73,13 @@ namespace VirtualAssistant
             var parameters = await _parametersAccessor.GetAsync(dc.Context, () => new Dictionary<string, object>());
             var virtualAssistantState = await _virtualAssistantState.GetAsync(dc.Context, () => new VirtualAssistantState());
 
+            // get current activity locale
+            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            var localeConfig = _services.LocaleConfigurations[locale];
+
             // No dialog is currently on the stack and we haven't responded to the user
             // Check dispatch result
-            var dispatchResult = await _services.DispatchRecognizer.RecognizeAsync<Dispatch>(dc.Context, CancellationToken.None);
+            var dispatchResult = await localeConfig.DispatchRecognizer.RecognizeAsync<Dispatch>(dc.Context, CancellationToken.None);
             var intent = dispatchResult.TopIntent().intent;
 
             switch (intent)
@@ -82,7 +87,7 @@ namespace VirtualAssistant
                 case Dispatch.Intent.l_General:
                     {
                         // If dispatch result is general luis model
-                        var luisService = _services.LuisServices["general"];
+                        var luisService = localeConfig.LuisServices["general"];
                         var luisResult = await luisService.RecognizeAsync<General>(dc.Context, CancellationToken.None);
                         var luisIntent = luisResult?.TopIntent().intent;
 
@@ -175,7 +180,7 @@ namespace VirtualAssistant
 
                 case Dispatch.Intent.q_FAQ:
                     {
-                        var qnaService = _services.QnAServices["faq"];
+                        var qnaService = localeConfig.QnAServices["faq"];
                         var answers = await qnaService.GetAnswersAsync(dc.Context);
                         if (answers != null && answers.Count() > 0)
                         {
