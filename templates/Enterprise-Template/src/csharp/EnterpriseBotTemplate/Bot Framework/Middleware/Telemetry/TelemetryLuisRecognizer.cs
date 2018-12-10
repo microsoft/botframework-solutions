@@ -121,10 +121,10 @@ namespace $safeprojectname$.Middleware.Telemetry
 
                 // Add the intent score and conversation id properties
                 var telemetryProperties = new Dictionary<string, string>()
-                    {
-                        { LuisTelemetryConstants.IntentProperty, topLuisIntent.intent },
-                        { LuisTelemetryConstants.IntentScoreProperty, intentScore },
-                    };
+                {
+                    { LuisTelemetryConstants.IntentProperty, topLuisIntent.intent },
+                    { LuisTelemetryConstants.IntentScoreProperty, intentScore },
+                };
 
 
                 if (dialogId != null)
