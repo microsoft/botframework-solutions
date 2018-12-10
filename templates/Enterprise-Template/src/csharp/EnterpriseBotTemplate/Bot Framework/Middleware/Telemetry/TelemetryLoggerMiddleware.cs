@@ -87,17 +87,6 @@ namespace $safeprojectname$.Middleware.Telemetry
             {
                 var activity = context.Activity;
 
-                // Context properties for App Insights
-                if (!string.IsNullOrEmpty(activity.Conversation.Id))
-                {
-                    _telemetryClient.Context.Session.Id = activity.Conversation.Id;
-                }
-
-                if (!string.IsNullOrEmpty(activity.From.Id))
-                {
-                    _telemetryClient.Context.User.Id = activity.From.Id;
-                }
-
                 // Log the Application Insights Bot Message Received
                 _telemetryClient.TrackEvent(BotMsgReceiveEvent, this.FillReceiveEventProperties(activity));
             }
@@ -168,8 +157,8 @@ namespace $safeprojectname$.Middleware.Telemetry
                     { TelemetryConstants.RecipientNameProperty, activity.Recipient.Name },
                 };
 
-        // For some customers, logging user name within Application Insights might be an issue so have provided a config setting to disable this feature
-        if (LogUserName && !string.IsNullOrWhiteSpace(activity.From.Name))
+            // For some customers, logging user name within Application Insights might be an issue so have provided a config setting to disable this feature
+            if (LogUserName && !string.IsNullOrWhiteSpace(activity.From.Name))
             {
                 properties.Add(TelemetryConstants.FromNameProperty, activity.From.Name);
             }
@@ -200,8 +189,8 @@ namespace $safeprojectname$.Middleware.Telemetry
                     { TelemetryConstants.LocaleProperty, activity.Locale },
                 };
 
-        // For some customers, logging user name within Application Insights might be an issue so have provided a config setting to disable this feature
-        if (LogUserName && !string.IsNullOrWhiteSpace(activity.Recipient.Name))
+            // For some customers, logging user name within Application Insights might be an issue so have provided a config setting to disable this feature
+            if (LogUserName && !string.IsNullOrWhiteSpace(activity.Recipient.Name))
             {
                 properties.Add(TelemetryConstants.RecipientNameProperty, activity.Recipient.Name);
             }
@@ -234,8 +223,8 @@ namespace $safeprojectname$.Middleware.Telemetry
                     { TelemetryConstants.LocaleProperty, activity.Locale },
                 };
 
-        // For some customers, logging the utterances within Application Insights might be an so have provided a config setting to disable this feature
-        if (LogOriginalMessage && !string.IsNullOrWhiteSpace(activity.Text))
+            // For some customers, logging the utterances within Application Insights might be an so have provided a config setting to disable this feature
+            if (LogOriginalMessage && !string.IsNullOrWhiteSpace(activity.Text))
             {
                 properties.Add(TelemetryConstants.TextProperty, activity.Text);
             }
@@ -259,7 +248,7 @@ namespace $safeprojectname$.Middleware.Telemetry
                     { TelemetryConstants.ConversationNameProperty, activity.Conversation.Name },
                 };
 
-        return properties;
+            return properties;
         }
     }
 }
