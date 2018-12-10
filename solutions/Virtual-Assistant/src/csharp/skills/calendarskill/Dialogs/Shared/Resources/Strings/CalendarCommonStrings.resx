@@ -129,4 +129,7 @@
   <data name="WeeklyToken" xml:space="preserve">
     <value>weekly</value>
   </data>
+  <data name="WithTheSubject" xml:space="preserve">
+    <value>with a subject of {0}</value>
+  </data>
 </root>

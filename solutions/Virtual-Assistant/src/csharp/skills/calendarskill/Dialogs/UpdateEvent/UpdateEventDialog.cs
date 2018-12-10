@@ -265,7 +265,7 @@ namespace CalendarSkill
                             continue;
                         }
 
-                        var isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeResolutions.First().Value, dateTimeResolutions.First().Timex);
+                        var isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, resolution.Value, dateTimeConvertTypeString);
                         if (isRelativeTime)
                         {
                             dateTimeValue = DateTime.SpecifyKind(dateTimeValue, DateTimeKind.Local);
@@ -418,6 +418,11 @@ namespace CalendarSkill
                         {
                             foreach (var resolution in dateTimeResolutions)
                             {
+                                if (resolution.Value == null)
+                                {
+                                    continue;
+                                }
+
                                 var startTimeValue = DateTime.Parse(resolution.Value);
                                 if (startTimeValue == null)
                                 {

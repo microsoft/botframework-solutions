@@ -2,6 +2,9 @@
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.Shared.Resources;
+using EmailSkillTest.Flow.Fakes;
+using EmailSkillTest.Flow.Strings;
+using EmailSkillTest.Flow.Utterances;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -11,24 +14,63 @@ namespace EmailSkillTest.Flow
     public class ReplyFlowTests : EmailBotTestBase
     {
         [TestInitialize]
-        public override void Initialize()
+        public void SetupLuisService()
         {
-            base.Initialize();
+            var luisServices = this.Services.LocaleConfigurations["en"].LuisServices;
+            luisServices.Clear();
+            luisServices.Add("email", new MockEmailLuisRecognizer(new ReplyEmailUtterances()));
+            luisServices.Add("general", new MockGeneralLuisRecognizer());
         }
 
         [TestMethod]
         public async Task Test_NotSendingEmail()
         {
             await this.GetTestFlow()
-                .Send("Reply an Email")
+                .Send(ReplyEmailUtterances.ReplyEmails)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.NoFocusMessage())
-                .Send("The first email")
+                .Send(BaseTestUtterances.FirstOne)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
-                .Send("TestContent")
+                .Send(ContextStrings.TestContent)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
-                .Send("No")
+                .Send(GeneralTestUtterances.No)
                 .AssertReplyOneOf(this.NotSendingMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_SendingEmail()
+        {
+            await this.GetTestFlow()
+                .Send(ReplyEmailUtterances.ReplyEmails)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReply(this.ShowEmailList())
+                .AssertReplyOneOf(this.NoFocusMessage())
+                .Send(BaseTestUtterances.FirstOne)
+                .AssertReplyOneOf(this.CollectEmailContentMessage())
+                .Send(ContextStrings.TestContent)
+                .AssertReply(this.AssertComfirmBeforeSendingPrompt())
+                .Send(GeneralTestUtterances.Yes)
+                .AssertReplyOneOf(this.AfterSendingMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_ReplyEmailWithContent()
+        {
+            await this.GetTestFlow()
+                .Send(ReplyEmailUtterances.ReplyEmailsWithContent)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReply(this.ShowEmailList())
+                .AssertReplyOneOf(this.NoFocusMessage())
+                .Send(BaseTestUtterances.FirstOne)
+                .AssertReply(this.AssertComfirmBeforeSendingPrompt())
+                .Send(GeneralTestUtterances.Yes)
+                .AssertReplyOneOf(this.AfterSendingMessage())
                 .StartTestAsync();
         }
 
@@ -40,6 +82,11 @@ namespace EmailSkillTest.Flow
         private string[] NoFocusMessage()
         {
             return this.ParseReplies(EmailSharedResponses.NoFocusMessage.Replies, new StringDictionary());
+        }
+
+        private string[] AfterSendingMessage()
+        {
+            return this.ParseReplies(EmailSharedResponses.SentSuccessfully.Replies, new StringDictionary());
         }
 
         private Action<IActivity> AssertComfirmBeforeSendingPrompt()
@@ -66,6 +113,15 @@ namespace EmailSkillTest.Flow
         private string[] CollectEmailContentMessage()
         {
             return this.ParseReplies(EmailSharedResponses.NoEmailContent.Replies, new StringDictionary());
+        }
+
+        private Action<IActivity> ShowAuth()
+        {
+            return activity =>
+            {
+                var eventActivity = activity.AsEventActivity();
+                Assert.AreEqual(eventActivity.Name, "tokens/request");
+            };
         }
     }
 }

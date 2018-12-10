@@ -95,5 +95,16 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
                 return ResourceManager.GetString("WeeklyToken", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to with a subject of {0}.
+        /// </summary>
+        public static string WithTheSubject
+        {
+            get
+            {
+                return ResourceManager.GetString("WithTheSubject", resourceCulture);
+            }
+        }
     }
 }

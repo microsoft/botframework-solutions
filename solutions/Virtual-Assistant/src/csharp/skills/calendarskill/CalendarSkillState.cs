@@ -41,6 +41,7 @@ namespace CalendarSkill
             ReadOutEvents = new List<EventModel>();
             Duration = 0;
             MoveTimeSpan = 0;
+            AskParameterContent = string.Empty;
         }
 
         public User User { get; set; }
@@ -82,6 +83,9 @@ namespace CalendarSkill
         // user time zone
         public List<DateTime> OriginalEndTime { get; set; }
 
+        // the order reference, such as 'next'
+        public string OrderReference { get; set; }
+
         // UTC
         public DateTime? EndDateTime { get; set; }
 
@@ -120,6 +124,8 @@ namespace CalendarSkill
 
         public int MoveTimeSpan { get; set; }
 
+        public string AskParameterContent { get; set; }
+
         public TimeZoneInfo GetUserTimeZone()
         {
             if ((UserInfo != null) && (UserInfo.Timezone != null))
@@ -147,6 +153,7 @@ namespace CalendarSkill
             OriginalStartTime = new List<DateTime>();
             OriginalEndDate = new List<DateTime>();
             OriginalEndTime = new List<DateTime>();
+            OrderReference = null;
             Location = null;
             Attendees = new List<EventModel.Attendee>();
             APIToken = null;
@@ -162,6 +169,7 @@ namespace CalendarSkill
             ReadOutEvents = new List<EventModel>();
             Duration = 0;
             MoveTimeSpan = 0;
+            AskParameterContent = string.Empty;
         }
 
         public class UserInformation

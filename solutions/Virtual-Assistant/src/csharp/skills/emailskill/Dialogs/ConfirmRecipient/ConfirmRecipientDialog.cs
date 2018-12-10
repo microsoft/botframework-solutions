@@ -14,6 +14,7 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Solutions.Data;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 using Microsoft.Graph;
 
 namespace EmailSkill
@@ -28,10 +29,10 @@ namespace EmailSkill
             : base(nameof(ConfirmRecipientDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager)
         {
             var confirmRecipient = new WaterfallStep[]
-           {
+            {
                 ConfirmRecipient,
                 AfterConfirmRecipient,
-           };
+            };
 
             var updateRecipientName = new WaterfallStep[]
             {
@@ -62,7 +63,9 @@ namespace EmailSkill
             }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -95,7 +98,9 @@ namespace EmailSkill
             }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -129,7 +134,7 @@ namespace EmailSkill
                     // do nothing when get user failed. because can not use token to ensure user use a work account.
                 }
 
-                (var personList, var userList) = FormatRecipientList(originPersonList, originUserList);
+                (var personList, var userList) = DisplayHelper.FormatRecipientList(originPersonList, originUserList);
 
                 // todo: should set updatename reason in stepContext.Result
                 if (personList.Count > 10)
@@ -213,9 +218,17 @@ namespace EmailSkill
 
                 return await sc.PromptAsync(Actions.Choice, selectOption);
             }
+            catch (SkillException skillEx)
+            {
+                await HandleDialogExceptions(sc, skillEx);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -327,7 +340,9 @@ namespace EmailSkill
             }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
     }

@@ -3,13 +3,24 @@ using System.Threading;
 using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
+using CalendarSkillTest.Flow.Utterances;
+using System.Collections.Generic;
 
 namespace CalendarSkillTest.Flow.Fakes
 {
     public class MockLuisRecognizer : IRecognizer
     {
+        private BaseTestUtterances utterancesManager;
+        private GeneralTestUtterances generalUtterancesManager;
+
+        public MockLuisRecognizer(BaseTestUtterances utterancesManager)
+        {
+            this.utterancesManager = utterancesManager;
+        }
+
         public MockLuisRecognizer()
         {
+            this.generalUtterancesManager = new GeneralTestUtterances();
         }
 
         public Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, CancellationToken cancellationToken)
@@ -26,14 +37,14 @@ namespace CalendarSkillTest.Flow.Fakes
             var text = turnContext.Activity.Text;
             if (t.Name.Equals(typeof(Calendar).Name))
             {
-                MockCalendarIntent mockCalendar = new MockCalendarIntent(text);
+                Calendar mockCalendar = utterancesManager.GetValueOrDefault(text, utterancesManager.GetBaseNoneIntent());
 
                 var test = mockCalendar as object;
                 mockResult = (T)test;
             }
             else if (t.Name.Equals(typeof(General).Name))
             {
-                MockGeneralIntent mockGeneralIntent = new MockGeneralIntent(text);
+                General mockGeneralIntent = generalUtterancesManager.GetValueOrDefault(text, generalUtterancesManager.GetBaseNoneIntent());
 
                 var test = mockGeneralIntent as object;
                 mockResult = (T)test;

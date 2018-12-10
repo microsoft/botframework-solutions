@@ -5,6 +5,7 @@
         public const string Login = "login";
         public const string Prompt = "prompt";
         public const string Choice = "choice";
+        public const string ConnectToMeeting = "ConnectToMeeting";
         public const string EventChoice = "event_choice";
         public const string ShowEventsSummary = "showEventsSummary";
         public const string ShowNextEvent = "showNextEvent";
@@ -14,6 +15,7 @@
         public const string UpdateAddress = "UpdateAddress";
         public const string UpdateName = "UpdateName";
         public const string ConfirmAttendee = "ConfirmAttendee";
+        public const string ShowTimeRemaining = "ShowTimeRemaining";
         public const string TakeFurtherAction = "TakeFurtherAction";
         public const string UpdateStartTime = "UpdateStartTime";
         public const string UpdateNewStartTime = "UpdateNewStartTime";
