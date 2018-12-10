@@ -34,7 +34,7 @@ namespace $safeprojectname$.Middleware.Telemetry
         // Application Insights Custom Event name, logged when a message is deleted by the bot (rare case)
         public static readonly string BotMsgDeleteEvent = "BotMessageDelete";
 
-        private TelemetryClient _telemetryClient;
+        private IBotTelemetryClient _telemetryClient;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TelemetryLoggerMiddleware"/> class.
@@ -43,14 +43,9 @@ namespace $safeprojectname$.Middleware.Telemetry
         /// <param name="logUserName"> (Optional) Enable/Disable logging user name within Application Insights.</param>
         /// <param name="logOriginalMessage"> (Optional) Enable/Disable logging original message name within Application Insights.</param>
         /// <param name="config"> (Optional) TelemetryConfiguration to use for Application Insights.</param>
-        public TelemetryLoggerMiddleware(string instrumentationKey, bool logUserName = false, bool logOriginalMessage = false, TelemetryConfiguration config = null)
+        public TelemetryLoggerMiddleware(IBotTelemetryClient telemetryClient, bool logUserName = false, bool logOriginalMessage = false, TelemetryConfiguration config = null)
         {
-            if (string.IsNullOrWhiteSpace(instrumentationKey))
-            {
-                throw new ArgumentNullException(nameof(instrumentationKey));
-            }
-
-            _telemetryClient = new TelemetryClient();
+            _telemetryClient = telemetryClient;
             LogUserName = logUserName;
             LogOriginalMessage = logOriginalMessage;
         }
@@ -165,16 +160,16 @@ namespace $safeprojectname$.Middleware.Telemetry
         {
             var properties = new Dictionary<string, string>()
                 {
-                    { TelemetryConstants.ActivityIDProperty, activity.Id },
-                    { TelemetryConstants.ChannelProperty, activity.ChannelId },
+                    { TelemetryConstants.ChannelIdProperty, activity.ChannelId },
                     { TelemetryConstants.FromIdProperty, activity.From.Id },
-                    { TelemetryConstants.ConversationIdProperty, activity.Conversation.Id },
                     { TelemetryConstants.ConversationNameProperty, activity.Conversation.Name },
                     { TelemetryConstants.LocaleProperty, activity.Locale },
+                    { TelemetryConstants.RecipientIdProperty, activity.Recipient.Id },
+                    { TelemetryConstants.RecipientNameProperty, activity.Recipient.Name },
                 };
 
-            // For some customers, logging user name within Application Insights might be an issue so have provided a config setting to disable this feature
-            if (LogUserName && !string.IsNullOrWhiteSpace(activity.From.Name))
+        // For some customers, logging user name within Application Insights might be an issue so have provided a config setting to disable this feature
+        if (LogUserName && !string.IsNullOrWhiteSpace(activity.From.Name))
             {
                 properties.Add(TelemetryConstants.FromNameProperty, activity.From.Name);
             }
@@ -198,17 +193,15 @@ namespace $safeprojectname$.Middleware.Telemetry
         {
             var properties = new Dictionary<string, string>()
                 {
-                    { TelemetryConstants.ActivityIDProperty, activity.ReplyToId },
-                    { TelemetryConstants.ReplyActivityIDProperty, activity.Id },
-                    { TelemetryConstants.ChannelProperty, activity.ChannelId },
+                    { TelemetryConstants.ChannelIdProperty, activity.ChannelId },
+                    { TelemetryConstants.ReplyActivityIDProperty, activity.ReplyToId },
                     { TelemetryConstants.RecipientIdProperty, activity.Recipient.Id },
-                    { TelemetryConstants.ConversationIdProperty, activity.Conversation.Id },
                     { TelemetryConstants.ConversationNameProperty, activity.Conversation.Name },
                     { TelemetryConstants.LocaleProperty, activity.Locale },
                 };
 
-            // For some customers, logging user name within Application Insights might be an issue so have provided a config setting to disable this feature
-            if (LogUserName && !string.IsNullOrWhiteSpace(activity.Recipient.Name))
+        // For some customers, logging user name within Application Insights might be an issue so have provided a config setting to disable this feature
+        if (LogUserName && !string.IsNullOrWhiteSpace(activity.Recipient.Name))
             {
                 properties.Add(TelemetryConstants.RecipientNameProperty, activity.Recipient.Name);
             }
@@ -234,16 +227,15 @@ namespace $safeprojectname$.Middleware.Telemetry
         {
             var properties = new Dictionary<string, string>()
                 {
-                    { TelemetryConstants.ActivityIDProperty, activity.Id },
-                    { TelemetryConstants.ChannelProperty, activity.ChannelId },
+                    { TelemetryConstants.ChannelIdProperty, activity.ChannelId },
                     { TelemetryConstants.RecipientIdProperty, activity.Recipient.Id },
                     { TelemetryConstants.ConversationIdProperty, activity.Conversation.Id },
                     { TelemetryConstants.ConversationNameProperty, activity.Conversation.Name },
                     { TelemetryConstants.LocaleProperty, activity.Locale },
                 };
 
-            // For some customers, logging the utterances within Application Insights might be an so have provided a config setting to disable this feature
-            if (LogOriginalMessage && !string.IsNullOrWhiteSpace(activity.Text))
+        // For some customers, logging the utterances within Application Insights might be an so have provided a config setting to disable this feature
+        if (LogOriginalMessage && !string.IsNullOrWhiteSpace(activity.Text))
             {
                 properties.Add(TelemetryConstants.TextProperty, activity.Text);
             }
@@ -261,14 +253,13 @@ namespace $safeprojectname$.Middleware.Telemetry
         {
             var properties = new Dictionary<string, string>()
                 {
-                    { TelemetryConstants.ActivityIDProperty, activity.Id },
-                    { TelemetryConstants.ChannelProperty, activity.ChannelId },
+                    { TelemetryConstants.ChannelIdProperty, activity.ChannelId },
                     { TelemetryConstants.RecipientIdProperty, activity.Recipient.Id },
                     { TelemetryConstants.ConversationIdProperty, activity.Conversation.Id },
                     { TelemetryConstants.ConversationNameProperty, activity.Conversation.Name },
                 };
 
-            return properties;
+        return properties;
         }
     }
 }
