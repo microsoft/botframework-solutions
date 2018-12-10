@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Solutions.Middleware
@@ -15,7 +17,7 @@ namespace Microsoft.Bot.Solutions.Middleware
             {
                 foreach (var activity in activities)
                 {
-                    if (activity.ChannelId != "msteams")
+                    if (activity.ChannelId != Channels.Msteams)
                     {
                         continue;
                     }
@@ -30,7 +32,7 @@ namespace Microsoft.Bot.Solutions.Middleware
                         continue;
                     }
 
-                    if (activity.Attachments[0].ContentType != "application/vnd.microsoft.card.signin")
+                    if (activity.Attachments[0].ContentType.Equals("application/vnd.microsoft.card.signin", StringComparison.InvariantCultureIgnoreCase))
                     {
                         continue;
                     }
