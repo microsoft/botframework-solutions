@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using CalendarSkill.Common;
 using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using CalendarSkill.Util;
@@ -642,7 +643,7 @@ namespace CalendarSkill
             return dateTime1.Year == dateTime2.Year && dateTime1.Month == dateTime2.Month && dateTime1.Day == dateTime2.Day;
         }
 
-        public CalendarCardData ToAdaptiveCardData(TimeZoneInfo timeZone, bool showDate = true)
+        public CalendarCardData ToAdaptiveCardData(TimeZoneInfo timeZone, bool showDate = true, string culture = "")
         {
             var eventItem = this;
 
@@ -661,8 +662,10 @@ namespace CalendarSkill
 
             if (showDate || !IsSameDate(userStartDateTime, userStartDateTime))
             {
-                var startDateString = userStartDateTime.ToString(CommonStrings.DisplayFullDateFormat);
-                var endDateString = userEndDateTime.ToString(CommonStrings.DisplayFullDateFormat);
+                CultureInfo cultureInfo = (CultureInfo)CultureInfo.CurrentUICulture.Clone();
+                cultureInfo.DateTimeFormat.DateSeparator = "-";
+                var startDateString = userStartDateTime.ToString("d", cultureInfo);
+                var endDateString = userEndDateTime.ToString("d", cultureInfo);
                 if (IsSameDate(userStartDateTime, userEndDateTime))
                 {
                     textString += $"\n{startDateString}";
