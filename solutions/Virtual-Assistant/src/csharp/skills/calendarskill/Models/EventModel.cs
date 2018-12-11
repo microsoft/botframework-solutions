@@ -1,12 +1,15 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
+using System;
+using System.Collections.Generic;
+using CalendarSkill.Common;
+using CalendarSkill.Dialogs.Shared.Resources.Strings;
+using CalendarSkill.Util;
+using Microsoft.Bot.Solutions.Resources;
+
 namespace CalendarSkill
 {
-    using System;
-    using System.Collections.Generic;
-    using global::CalendarSkill.Common;
-
     /// <summary>
     /// Source of event.
     /// </summary>
@@ -634,6 +637,11 @@ namespace CalendarSkill
             set => source = value;
         }
 
+        public static bool IsSameDate(DateTime dateTime1, DateTime dateTime2)
+        {
+            return dateTime1.Year == dateTime2.Year && dateTime1.Month == dateTime2.Month && dateTime1.Day == dateTime2.Day;
+        }
+
         public CalendarCardData ToAdaptiveCardData(TimeZoneInfo timeZone, bool showDate = true)
         {
             var eventItem = this;
@@ -644,22 +652,34 @@ namespace CalendarSkill
                 textString += string.IsNullOrEmpty(eventItem.Attendees[0].DisplayName) ? eventItem.Attendees[0].Address : eventItem.Attendees[0].DisplayName;
                 if (eventItem.Attendees.Count > 1)
                 {
-                    textString += $" + {eventItem.Attendees.Count - 1} others";
+                    textString += string.Format(CommonStrings.AttendeesSummary, eventItem.Attendees.Count - 1);
                 }
             }
 
-            if (showDate)
+            var userStartDateTime = TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone);
+            var userEndDateTime = TimeConverter.ConvertUtcToUserTime(eventItem.EndTime, timeZone);
+
+            if (showDate || !IsSameDate(userStartDateTime, userStartDateTime))
             {
-                textString += $"\n{TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone).ToString("dd-MM-yyyy")}";
+                var startDateString = userStartDateTime.ToString(CommonStrings.DisplayFullDateFormat);
+                var endDateString = userEndDateTime.ToString(CommonStrings.DisplayFullDateFormat);
+                if (IsSameDate(userStartDateTime, userEndDateTime))
+                {
+                    textString += $"\n{startDateString}";
+                }
+                else
+                {
+                    textString += $"\n{startDateString} - {endDateString}";
+                }
             }
 
             if (eventItem.IsAllDay == true)
             {
-                textString += "\nAll Day";
+                textString += $"\n{CalendarCommonStrings.AllDay}";
             }
             else
             {
-                textString += $"\n{TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone).ToString("h:mm tt")} - {TimeConverter.ConvertUtcToUserTime(eventItem.EndTime, timeZone).ToString("h:mm tt")}";
+                textString += $"\n{userStartDateTime.ToString(CommonStrings.DisplayTime)} - {TimeConverter.ConvertUtcToUserTime(eventItem.EndTime, timeZone).ToString(CommonStrings.DisplayTime)}";
             }
 
             if (eventItem.Location != null)
@@ -668,49 +688,21 @@ namespace CalendarSkill
             }
 
             string speakString = string.Empty;
-            if (eventItem.IsAllDay == true)
-            {
-                speakString = $"{eventItem.Title} at {TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone).ToString("MMMM dd all day")}";
-            }
-            else
-            {
-                speakString = $"{eventItem.Title} at {TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone).ToString("h:mm tt")}";
-            }
+            speakString = SpeakHelper.ToSpeechMeetingDetail(eventItem.Title, userStartDateTime, eventItem.IsAllDay == true);
 
             return new CalendarCardData
             {
                 Title = eventItem.Title,
                 Content = textString,
                 MeetingLink = eventItem.OnlineMeetingUrl,
-                Speak = $"{eventItem.Title} at {TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone).ToString("h:mm tt")}",
+                Speak = speakString,
             };
         }
 
         public string ToDurationString()
         {
             TimeSpan t = EndTime.Subtract(StartTime);
-            if (t.TotalHours < 1)
-            {
-                return t.Minutes == 1 ? $"{t.Minutes} minute" : $"{t.Minutes} minutes";
-            }
-            else if (t.TotalDays < 1)
-            {
-                if (t.Minutes == 0)
-                {
-                    return t.Hours == 1 ? $"{t.Hours} hour" : $"{t.Hours} hours";
-                }
-                else
-                {
-                    string result = t.Hours == 1 ? $"{t.Hours} hour" : $"{t.Hours} hours";
-                    result += " and ";
-                    result += t.Minutes == 1 ? $"{t.Minutes} minute" : $"{t.Minutes} minutes";
-                    return result;
-                }
-            }
-            else
-            {
-                return t.Days == 1 ? $"{t.Days} day" : $"{t.Days} days";
-            }
+            return SpeakHelper.ToSpeechMeetingDuration(t);
         }
 
         public class Attendee

@@ -2,55 +2,76 @@
 // Licensed under the MIT License.
 
 using $safeprojectname$.Dialogs.Onboarding.Resources;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.TemplateManager;
+using Microsoft.Bot.Schema;
 
-namespace $safeprojectname$
+namespace $safeprojectname$.Dialogs.Onboarding
 {
     public class OnboardingResponses : TemplateManager
     {
-        public const string _namePrompt = "namePrompt";
-        public const string _haveName = "haveName";
-        public const string _emailPrompt = "emailPrompt";
-        public const string _haveEmail = "haveEmail";
-        public const string _locationPrompt = "locationPrompt";
-        public const string _haveLocation = "haveLocation";
-
         private static LanguageTemplateDictionary _responseTemplates = new LanguageTemplateDictionary
         {
             ["default"] = new TemplateIdMap
             {
-                {
-                    _namePrompt,
-                    (context, data) => OnboardingStrings.NAME_PROMPT
+                { ResponseIds.EmailPrompt,
+                    (context, data) =>
+                    MessageFactory.Text(
+                        text: OnboardingStrings.EMAIL_PROMPT,
+                        ssml: OnboardingStrings.EMAIL_PROMPT,
+                        inputHint: InputHints.ExpectingInput)
                 },
-                {
-                    _haveName,
-                    (context, data) => string.Format(OnboardingStrings.HAVE_NAME, data.name)
+                { ResponseIds.HaveEmailMessage,
+                    (context, data) =>
+                    MessageFactory.Text(
+                        text: string.Format(OnboardingStrings.HAVE_EMAIL, data.email),
+                        ssml: string.Format(OnboardingStrings.HAVE_EMAIL, data.email),
+                        inputHint: InputHints.IgnoringInput)
                 },
-                {
-                    _emailPrompt,
-                    (context, data) => OnboardingStrings.EMAIL_PROMPT
+                { ResponseIds.HaveLocationMessage,
+                    (context, data) =>
+                    MessageFactory.Text(
+                        text: string.Format(OnboardingStrings.HAVE_LOCATION, data.Name, data.Location),
+                        ssml: string.Format(OnboardingStrings.HAVE_LOCATION, data.Name, data.Location),
+                        inputHint: InputHints.IgnoringInput)
                 },
-                {
-                    _haveEmail,
-                    (context, data) => string.Format(OnboardingStrings.HAVE_EMAIL, data.email)
+                { ResponseIds.HaveNameMessage,
+                    (context, data) =>
+                    MessageFactory.Text(
+                        text: string.Format(OnboardingStrings.HAVE_NAME, data.name),
+                        ssml: string.Format(OnboardingStrings.HAVE_NAME, data.name),
+                        inputHint: InputHints.IgnoringInput)
                 },
-                {
-                    _locationPrompt,
-                    (context, data) => OnboardingStrings.LOCATION_PROMPT
+                { ResponseIds.NamePrompt,
+                    (context, data) =>
+                    MessageFactory.Text(
+                        text: OnboardingStrings.NAME_PROMPT,
+                        ssml: OnboardingStrings.NAME_PROMPT,
+                        inputHint: InputHints.ExpectingInput)
                 },
-                {
-                    _haveLocation,
-                    (context, data) => string.Format(OnboardingStrings.HAVE_LOCATION, data.Name, data.Location)
-                },
-            },
-            ["en"] = new TemplateIdMap { },
-            ["fr"] = new TemplateIdMap { },
+                { ResponseIds.LocationPrompt,
+                    (context, data) =>
+                    MessageFactory.Text(
+                        text: OnboardingStrings.LOCATION_PROMPT,
+                        ssml: OnboardingStrings.LOCATION_PROMPT,
+                        inputHint: InputHints.ExpectingInput)
+                }
+            }
         };
 
         public OnboardingResponses()
         {
-            this.Register(new DictionaryRenderer(_responseTemplates));
+            Register(new DictionaryRenderer(_responseTemplates));
+        }
+
+        public class ResponseIds
+        {
+            public const string EmailPrompt = "emailPrompt";
+            public const string HaveEmailMessage = "haveEmail";
+            public const string HaveNameMessage = "haveName";
+            public const string HaveLocationMessage = "haveLocation";
+            public const string LocationPrompt = "locationPrompt";
+            public const string NamePrompt = "namePrompt";
         }
     }
 }

@@ -6,7 +6,7 @@
                 "speak": "No more meetings!"
             }
         ],
-        "inputHint": "expectingInput"
+        "inputHint": "acceptingInput"
     },
     "CalendarNoPreviousEvent": {
         "replies": [
@@ -15,7 +15,7 @@
                 "speak": "This is already the first page!"
             }
         ],
-        "inputHint": "expectingInput"
+        "inputHint": "acceptingInput"
     },
     "ShowNoMeetingMessage": {
         "replies": [
@@ -24,16 +24,16 @@
                 "speak": "You don't have any meetings."
             }
         ],
-        "inputHint": "ignoringInput"
+        "inputHint": "acceptingInput"
     },
     "ShowOneMeetingSummaryMessage": {
         "replies": [
-          {
-            "text": "I found only one event for you today:",
-            "speak": "I found only one event for you today: {EventName1} for {EventDuration}."
-          }
+            {
+                "text": "I found only one event for you today:",
+                "speak": "I found only one event for you today: {EventName1} for {EventDuration}."
+            }
         ],
-        "inputHint": "ignoringInput"
+        "inputHint": "acceptingInput"
     },
     "ShowMultipleMeetingSummaryMessage": {
         "replies": [
@@ -42,7 +42,7 @@
                 "speak": "I found {Count} events for you: the first is {EventName1} for {EventDuration} and the last meeting is {EventName2} at {EventTime}"
             }
         ],
-        "inputHint": "ignoringInput"
+        "inputHint": "acceptingInput"
     },
     "ReadOutPrompt": {
         "replies": [
@@ -96,15 +96,15 @@
     },
     "ReadOutMessage": {
         "replies": [
-          {
-            "text": "Details of meeting:",
-            "speak": "Details of event: {MeetingDetails}"
-          },
-          {
-            "text": "Content of meeting:",
-            "speak": "Content of event: {MeetingDetails}"
-          }
+            {
+                "text": "Details of meeting:",
+                "speak": "Details of event: {MeetingDetails}"
+            },
+            {
+                "text": "Content of meeting:",
+                "speak": "Content of event: {MeetingDetails}"
+            }
         ],
-        "inputHint": "expectingInput"
+        "inputHint": "acceptingInput"
     }
 }

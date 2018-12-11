@@ -3,8 +3,14 @@
 
 using System;
 using System.Linq;
+using $safeprojectname$.Dialogs.Main.Resources;
+using $safeprojectname$.Middleware.Telemetry;
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DependencyCollector;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
@@ -12,15 +18,20 @@ using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace $safeprojectname$
 {
     public class Startup
     {
+        private ILoggerFactory _loggerFactory;
         private bool _isProduction = false;
 
-        public Startup(IHostingEnvironment env)
+        public Startup(IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            _isProduction = env.IsProduction();
+            _loggerFactory = loggerFactory;
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -37,7 +48,7 @@ namespace $safeprojectname$
             // Load the connected services from .bot file.
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
             var botFileSecret = Configuration.GetSection("botFileSecret")?.Value;
-            var botConfig = BotConfiguration.Load(botFilePath ?? @".\$safeprojectname$.bot", botFileSecret);
+            var botConfig = BotConfiguration.Load(botFilePath, botFileSecret);
             services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded."));
 
             // Initializes your bot service clients and adds a singleton that your Bot can access through dependency injection.
@@ -85,7 +96,7 @@ namespace $safeprojectname$
                 // Catches any errors that occur during a conversation turn and logs them to AppInsights.
                 options.OnTurnError = async (context, exception) =>
                 {
-                    await context.SendActivityAsync("Sorry, it looks like something went wrong.");
+                    await context.SendActivityAsync(MainStrings.ERROR);
                     connectedServices.TelemetryClient.TrackException(exception);
                 };
 
@@ -111,7 +122,14 @@ namespace $safeprojectname$
         /// <param name="env">Hosting Environment.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            _isProduction = env.IsProduction();
+            // Configure Application Insights
+            _loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Warning);
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();

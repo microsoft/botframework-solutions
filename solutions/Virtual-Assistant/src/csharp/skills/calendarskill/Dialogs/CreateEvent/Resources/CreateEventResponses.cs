@@ -1,7 +1,6 @@
 ﻿// https://docs.microsoft.com/en-us/visualstudio/modeling/t4-include-directive?view=vs-2017
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using System;
 using System.IO;
 using System.Runtime.CompilerServices;
 using Microsoft.Bot.Solutions.Dialogs;
@@ -36,10 +35,6 @@ namespace CalendarSkill.Dialogs.CreateEvent.Resources
         public static BotResponse EventCreated => GetBotResponse();
 
         public static BotResponse EventCreationFailed => GetBotResponse();
-
-        public static BotResponse NoAttendeesMS => GetBotResponse();
-
-        public static BotResponse WrongAddress => GetBotResponse();
 
         public static BotResponse NoAttendees => GetBotResponse();
 

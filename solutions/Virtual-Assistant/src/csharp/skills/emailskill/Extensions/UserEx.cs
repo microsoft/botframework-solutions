@@ -16,6 +16,11 @@ namespace EmailSkill.Extensions
         /// <returns>Person Instance.</returns>
         public static Person ToPerson(this User user)
         {
+            if (user == null)
+            {
+                return null;
+            }
+
             var person = new Person
             {
                 DisplayName = user.DisplayName,
@@ -33,6 +38,33 @@ namespace EmailSkill.Extensions
             person.ScoredEmailAddresses = emailAddresses;
             person.ImAddress = user.ImAddresses?.FirstOrDefault();
             person.JobTitle = user.JobTitle;
+            return person;
+        }
+
+        public static Person ToPerson(this Contact contact)
+        {
+            if (contact == null)
+            {
+                return null;
+            }
+
+            var person = new Person
+            {
+                DisplayName = contact.DisplayName,
+                UserPrincipalName = null,
+                Surname = contact.Surname,
+            };
+            var emailAddresses = new List<ScoredEmailAddress>
+            {
+                new ScoredEmailAddress()
+                {
+                    Address = contact.EmailAddresses?.FirstOrDefault()?.Address,
+                    RelevanceScore = 1.0,
+                },
+            };
+            person.ScoredEmailAddresses = emailAddresses;
+            person.ImAddress = contact.ImAddresses?.FirstOrDefault();
+            person.JobTitle = contact.JobTitle;
             return person;
         }
     }

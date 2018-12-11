@@ -14,7 +14,7 @@ Device integration requires creation of a lightweight host app which runs on the
 The host app is responsible for the following capabilities. These can of course be extended depending on the device capabilities.
     - Open and closing the microphone has indicated through the InputHint on messages returned by the Assistant
     - Audio playback of responses created by the Text-to-Speech service
-    - Rendering of Adaptive Cards on the device through a broad range of Renderers supplied with the Adaptive Cards SDK
+    - Rendering of Adaptive Cards on the device through a broad range of renderers supplied with the Adaptive Cards SDK
     - Processing events received from the Assistant, often to perform on device operations (e.g. change navigation destination)
     - Accessing the on-device secret store to store and retrieve a token for communication with the assistant
     - Integration with the Unified Speech SDK where on-device speech capabilities are required

@@ -1,10 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
 using System.Collections.Generic;
+using $safeprojectname$.Middleware.Telemetry;
 using Microsoft.ApplicationInsights;
-using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Configuration;
@@ -34,8 +33,7 @@ namespace $safeprojectname$
                     case ServiceTypes.AppInsights:
                         {
                             var appInsights = service as AppInsightsService;
-                            var telemetryConfig = new TelemetryConfiguration(appInsights.InstrumentationKey);
-                            TelemetryClient = new TelemetryClient(telemetryConfig);
+                            TelemetryClient = new TelemetryClient();
                             break;
                         }
 

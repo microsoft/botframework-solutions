@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Specialized;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.SendEmail.Resources;
 using EmailSkill.Dialogs.Shared.Resources;
+using EmailSkill.Util;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 
 namespace EmailSkill
 {
@@ -18,11 +20,12 @@ namespace EmailSkill
             ISkillConfiguration services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
-            IMailSkillServiceManager serviceManager)
+            IServiceManager serviceManager)
             : base(nameof(SendEmailDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager)
         {
             var sendEmail = new WaterfallStep[]
            {
+                IfClearContextStep,
                 GetAuthToken,
                 AfterGetAuthToken,
                 CollectNameList,
@@ -49,7 +52,7 @@ namespace EmailSkill
                     return await sc.NextAsync();
                 }
 
-                var recipientConfirmedMessage = sc.Context.Activity.CreateReply(EmailSharedResponses.RecipientConfirmed, null, new StringDictionary() { { "UserName", await GetNameListString(sc) } });
+                var recipientConfirmedMessage = sc.Context.Activity.CreateReply(EmailSharedResponses.RecipientConfirmed, null, new StringDictionary() { { "UserName", await GetNameListStringAsync(sc) } });
                 var noSubjectMessage = sc.Context.Activity.CreateReply(SendEmailResponses.NoSubject);
                 noSubjectMessage.Text = recipientConfirmedMessage.Text + " " + noSubjectMessage.Text;
                 noSubjectMessage.Speak = recipientConfirmedMessage.Speak + " " + noSubjectMessage.Speak;
@@ -58,7 +61,9 @@ namespace EmailSkill
             }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -78,9 +83,9 @@ namespace EmailSkill
                     var noMessageBodyMessage = sc.Context.Activity.CreateReply(SendEmailResponses.NoMessageBody);
                     if (sc.Result == null)
                     {
-                        var recipientConfirmedMessage = sc.Context.Activity.CreateReply(EmailSharedResponses.RecipientConfirmed, null, new StringDictionary() { { "UserName", await GetNameListString(sc) } });
+                        var recipientConfirmedMessage = sc.Context.Activity.CreateReply(EmailSharedResponses.RecipientConfirmed, null, new StringDictionary() { { "UserName", await GetNameListStringAsync(sc) } });
                         noMessageBodyMessage.Text = recipientConfirmedMessage.Text + " " + noMessageBodyMessage.Text;
-                        noMessageBodyMessage.Speak += recipientConfirmedMessage.Speak + " " + noMessageBodyMessage.Speak;
+                        noMessageBodyMessage.Speak = recipientConfirmedMessage.Speak + " " + noMessageBodyMessage.Speak;
                     }
 
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = noMessageBodyMessage });
@@ -92,7 +97,9 @@ namespace EmailSkill
             }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -104,33 +111,37 @@ namespace EmailSkill
                 if (confirmResult)
                 {
                     var state = await EmailStateAccessor.GetAsync(sc.Context);
-                    var token = state.MsGraphToken;
+                    var token = state.Token;
 
-                    var service = ServiceManager.InitMailService(token, state.GetUserTimeZone());
+                    var service = ServiceManager.InitMailService(token, state.GetUserTimeZone(), state.MailSourceType);
 
                     // send user message.
                     await service.SendMessageAsync(state.Content, state.Subject, state.Recipients);
 
-                    var nameListString = $"To: {state.Recipients.FirstOrDefault()?.EmailAddress.Name}";
-                    if (state.Recipients.Count > 1)
-                    {
-                        nameListString += $" + {state.Recipients.Count - 1} more";
-                    }
+                    var nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(state.Recipients);
 
                     var emailCard = new EmailCardData
                     {
-                        Subject = "Subject: " + state.Subject,
-                        NameList = nameListString,
-                        EmailContent = "Content: " + state.Content,
+                        Subject = string.Format(CommonStrings.SubjectFormat, state.Subject),
+                        NameList = string.Format(CommonStrings.ToFormat, nameListString),
+                        EmailContent = string.Format(CommonStrings.ContentFormat, state.Content),
                     };
                     var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(EmailSharedResponses.SentSuccessfully, "Dialogs/Shared/Resources/Cards/EmailWithOutButtonCard.json", emailCard);
 
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
             }
+            catch (SkillException ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
 
             await ClearConversationState(sc);

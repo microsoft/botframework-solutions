@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -21,23 +20,27 @@ namespace VirtualAssistant
         private readonly BotConfiguration _botConfig;
         private readonly ConversationState _conversationState;
         private readonly UserState _userState;
+        private readonly EndpointService _endpointService;
         private DialogSet _dialogs;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VirtualAssistant"/> class.
         /// </summary>
+        /// <param name="botConfig">Bot configuration.</param>
         /// <param name="botServices">Bot services.</param>
         /// <param name="conversationState">Bot conversation state.</param>
         /// <param name="userState">Bot user state.</param>
-        public VirtualAssistant(BotServices botServices, BotConfiguration botConfig, ConversationState conversationState, UserState userState)
+        /// <param name="endpointService">Bot endpoint service.</param>
+        public VirtualAssistant(BotServices botServices, BotConfiguration botConfig, ConversationState conversationState, UserState userState, EndpointService endpointService)
         {
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
             _services = botServices ?? throw new ArgumentNullException(nameof(botServices));
+            _endpointService = endpointService ?? throw new ArgumentNullException(nameof(endpointService));
             _botConfig = botConfig;
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(VirtualAssistant)));
-            _dialogs.Add(new MainDialog(_services, _botConfig, _conversationState, _userState));
+            _dialogs.Add(new MainDialog(_services, _botConfig, _conversationState, _userState, _endpointService));
         }
 
         /// <summary>
@@ -48,21 +51,22 @@ namespace VirtualAssistant
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
-            var dc = await _dialogs.CreateContextAsync(turnContext);
-            var result = await dc.ContinueDialogAsync();
-
-            if (result.Status == DialogTurnStatus.Empty)
+            // Client notifying this bot took to long to respond (timed out)
+            if (turnContext.Activity.Code == EndOfConversationCodes.BotTimedOut)
             {
-                if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
-                {
-                    var activity = turnContext.Activity.AsConversationUpdateActivity();
+                _services.TelemetryClient.TrackTrace($"Timeout in {turnContext.Activity.ChannelId} channel: Bot took too long to respond.");
+                return;
+            }
 
-                    // if conversation update is not from the bot.
-                    if (!activity.MembersAdded.Any(m => m.Id == activity.Recipient.Id))
-                    {
-                        await dc.BeginDialogAsync(nameof(MainDialog));
-                    }
-                }
+            var dc = await _dialogs.CreateContextAsync(turnContext);
+
+            if (dc.ActiveDialog != null)
+            {
+                var result = await dc.ContinueDialogAsync();
+            }
+            else
+            {
+                await dc.BeginDialogAsync(nameof(MainDialog));
             }
         }
     }

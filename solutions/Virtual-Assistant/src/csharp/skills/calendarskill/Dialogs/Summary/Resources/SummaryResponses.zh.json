@@ -1,92 +1,110 @@
 ﻿{
- "CalendarNoMoreEvent": {
-    "replies": [
-      {
-        "text": "没有更多会议！",
-        "speak": "没有更多会议！"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "CalendarNoPreviousEvent": {
-    "replies": [
-      {
-        "text": "已经是第一页。",
-        "speak": "已经是第一页。"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "ShowNoMeetingMessage": {
-    "replies": [
-      {
-        "text": "你没有任何会议。",
-        "speak": "你没有任何会议。"
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
-  "ShowOneMeetingSummaryMessage": {
-    "replies": [
-      {
-        "text": "找到了{Count}个会议：",
-        "speak": "找到了{Count}个会议： 第一个会议是 {EventName} 会议时间 {EventDuration}."
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
-  "ReadOutPrompt": {
-    "replies": [
-      {
-        "text": "想听听哪一个？",
-        "speak": "想听听哪一个？"
-      },
-      {
-        "text": "你希望我读出哪个会议的内容？",
-        "speak": "你希望我读出哪个会议的内容？"
-      },
-      {
-        "text": "你希望我读出的会议内容？",
-        "speak": "你希望我读出的会议内容？"
-      },
-      {
-        "text": "您想要哪个会议的更多详细信息？",
-        "speak": "您想要哪个会议的更多详细信息？"
-      },
-      {
-        "text": "您想知道哪一个的内容？",
-        "speak": "您想知道哪一个的内容？"
-      },
-      {
-        "text": "您想要读出哪个会议内容？",
-        "speak": "您想要读出哪个会议内容？"
-      },
-      {
-        "text": "你想听听哪一个？",
-        "speak": "你想听听哪一个？"
-      },
-      {
-        "text": "你想让我给你哪个会议的详细信息？",
-        "speak": "你想让我给你哪个会议的详细信息？"
-      },
-      {
-        "text": "我应该给你读哪个会议内容？",
-        "speak": "我应该给你读哪个会议内容？"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "ReadOutMessage": {
-    "replies": [
-      {
-        "text": "会议详情：",
-        "speak": "会议详情：{MeetingDetails}"
-      },
-      {
-        "text": "会议内容：",
-        "speak": "会议内容：{MeetingDetails}"
-      }
-    ],
-    "inputHint": "expectingInput"
-  }
+    "CalendarNoMoreEvent": {
+        "replies": [
+            {
+                "text": "没有更多会议！",
+                "speak": "没有更多会议！"
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
+    "CalendarNoPreviousEvent": {
+        "replies": [
+            {
+                "text": "已经是第一页。",
+                "speak": "已经是第一页。"
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
+    "ShowNoMeetingMessage": {
+        "replies": [
+            {
+                "text": "你没有任何会议。",
+                "speak": "你没有任何会议。"
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
+    "ShowOneMeetingSummaryMessage": {
+        "replies": [
+            {
+                "text": "我找到了{Count}个会议：",
+                "speak": "我找到了{Count}个会议：{EventName1}，持续时间{EventDuration}。"
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
+    "ShowMultipleMeetingSummaryMessage": {
+        "replies": [
+            {
+                "text": "我找到了{Count}个会议：",
+                "speak": "我找到了{Count}个会议：第一个是{EventName1}，持续时间{EventDuration}。最后一个会议是{EventName2}，在{EventTime}。"
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
+    "ReadOutPrompt": {
+        "replies": [
+            {
+                "text": "想听听哪一个？",
+                "speak": "想听听哪一个？"
+            },
+            {
+                "text": "你希望我读出哪个会议的内容？",
+                "speak": "你希望我读出哪个会议的内容？"
+            },
+            {
+                "text": "你希望我读出的会议内容？",
+                "speak": "你希望我读出的会议内容？"
+            },
+            {
+                "text": "您想要哪个会议的更多详细信息？",
+                "speak": "您想要哪个会议的更多详细信息？"
+            },
+            {
+                "text": "您想知道哪一个的内容？",
+                "speak": "您想知道哪一个的内容？"
+            },
+            {
+                "text": "您想要读出哪个会议内容？",
+                "speak": "您想要读出哪个会议内容？"
+            },
+            {
+                "text": "你想听听哪一个？",
+                "speak": "你想听听哪一个？"
+            },
+            {
+                "text": "你想让我给你哪个会议的详细信息？",
+                "speak": "你想让我给你哪个会议的详细信息？"
+            },
+            {
+                "text": "我应该给你读哪个会议内容？",
+                "speak": "我应该给你读哪个会议内容？"
+            }
+        ],
+        "inputHint": "expectingInput"
+    },
+    "ReadOutMorePrompt": {
+        "replies": [
+            {
+                "text": "你想知道更多详细的会议信息吗？",
+                "speak": "你想知道更多详细的会议信息吗？"
+            }
+        ],
+        "inputHint": "expectingInput"
+    },
+    "ReadOutMessage": {
+        "replies": [
+            {
+                "text": "会议详情：",
+                "speak": "会议详情：{MeetingDetails}"
+            },
+            {
+                "text": "会议内容：",
+                "speak": "会议内容：{MeetingDetails}"
+            }
+        ],
+        "inputHint": "acceptingInput"
+    }
 }

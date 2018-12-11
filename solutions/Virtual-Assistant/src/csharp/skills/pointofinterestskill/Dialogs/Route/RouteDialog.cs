@@ -182,6 +182,8 @@ namespace PointOfInterestSkill
                     return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(RouteResponses.PromptToStartRoute, ResponseBuilder) });
                 }
 
+                state.ClearLuisResults();
+
                 return await sc.EndDialogAsync();
             }
             catch

@@ -49,6 +49,16 @@
     "inputHint": "acceptingInput"
   },
 
+  "ErrorMessage_SkillError": {
+    "replies": [
+      {
+        "text": "Entschuldigung, bei dem Versuch, mit der Fähigkeit zu kommunizieren, ist ein Fehler aufgetreten. Bitte versuche es erneut.",
+        "speak": "Entschuldigung, bei dem Versuch, mit der Fähigkeit zu kommunizieren, ist ein Fehler aufgetreten. Bitte versuche es erneut."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+
   "SkillAuthenticationTitle": {
     "replies": [
       {

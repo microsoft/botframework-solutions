@@ -20,6 +20,8 @@
 
   <ItemGroup>
     <PackageReference Include="Google.Apis.Calendar.v3" Version="1.35.2.1354" />
+    <PackageReference Include="Google.Apis.People.v1" Version="1.25.0.830" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.8.10" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.5" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
@@ -36,16 +38,12 @@
     <PackageReference Include="Microsoft.Bot.Schema" Version="4.1.5" />
     <PackageReference Include="Microsoft.Graph" Version="1.10.0" />
     <PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Recognizers.Text.DataTypes.TimexExpression" Version="1.1.3" />
     <PackageReference Include="Microsoft.Recognizers.Text.DateTime" Version="1.1.2" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Dialogs\Cancel\Resources\CancelStrings.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>CancelStrings.resx</DependentUpon>
-    </Compile>
     <Compile Update="Dialogs\CreateEvent\Resources\CreateEventResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -55,6 +53,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>DeleteEventResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Dialogs\JoinEvent\Resources\JoinEventResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>JoinEventResponses.tt</DependentUpon>
     </Compile>
     <Compile Update="Dialogs\Main\Resources\CalendarMainResponses.cs">
       <DesignTime>True</DesignTime>
@@ -71,23 +74,26 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>CalendarSharedResponses.tt</DependentUpon>
     </Compile>
+    <Compile Update="Dialogs\Shared\Resources\Strings\CalendarCommonStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CalendarCommonStrings.resx</DependentUpon>
+    </Compile>
     <Compile Update="Dialogs\Summary\Resources\SummaryResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>SummaryResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TimeRemainResponses.tt</DependentUpon>
     </Compile>
     <Compile Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>UpdateEventResponses.tt</DependentUpon>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Dialogs\Cancel\Resources\CancelStrings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>CancelStrings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -113,6 +119,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DeleteEventResponses.cs</LastGenOutput>
     </None>
+    <None Update="Dialogs\JoinEvent\Resources\JoinEventResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>JoinEventResponses.cs</LastGenOutput>
+    </None>
     <None Update="Dialogs\Main\Resources\CalendarMainResponses.tt">
       <LastGenOutput>CalendarMainResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -129,9 +139,19 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SummaryResponses.cs</LastGenOutput>
     </None>
+    <None Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TimeRemainResponses.cs</LastGenOutput>
+    </None>
     <None Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>UpdateEventResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Models\Resources\AskParameterTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ServiceClients\WindowsIanaMapping">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
@@ -150,6 +170,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\DeleteEvent\Resources\DeleteEventResponses.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\JoinEvent\Resources\JoinEventResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Main\Resources\CalendarMainResponses.zh.json">
@@ -188,11 +211,24 @@
     <Content Update="Dialogs\Summary\Resources\SummaryResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.zh.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <EmbeddedResource Update="Dialogs\Shared\Resources\Strings\CalendarCommonStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CalendarCommonStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

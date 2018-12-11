@@ -3,11 +3,12 @@
 
 using System.Threading;
 using System.Threading.Tasks;
+using $safeprojectname$.Extensions;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 
-namespace $safeprojectname$
+namespace $safeprojectname$.Dialogs.Shared
 {
     public abstract class RouterDialog : ComponentDialog
     {
@@ -16,39 +17,54 @@ namespace $safeprojectname$
         {
         }
 
-        protected override Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default(CancellationToken)) => OnContinueDialogAsync(innerDc, cancellationToken);
+        protected override Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return OnContinueDialogAsync(innerDc, cancellationToken);
+        }
 
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var activity = innerDc.Context.Activity;
 
+            if (activity.IsStartActivity())
+            {
+                await OnStartAsync(innerDc);
+            }
+
             switch (activity.Type)
             {
                 case ActivityTypes.Message:
                     {
-                        var result = await innerDc.ContinueDialogAsync();
-
-                        switch (result.Status)
+                        if (activity.Value != null)
                         {
-                            case DialogTurnStatus.Empty:
-                                {
-                                    await RouteAsync(innerDc);
-                                    break;
-                                }
+                            await OnEventAsync(innerDc);
+                        }
+                        else if (!string.IsNullOrEmpty(activity.Text))
+                        {
+                            var result = await innerDc.ContinueDialogAsync();
 
-                            case DialogTurnStatus.Complete:
-                                {
-                                    await CompleteAsync(innerDc);
+                            switch (result.Status)
+                            {
+                                case DialogTurnStatus.Empty:
+                                    {
+                                        await RouteAsync(innerDc);
+                                        break;
+                                    }
 
-                                    // End active dialog
-                                    await innerDc.EndDialogAsync();
-                                    break;
-                                }
+                                case DialogTurnStatus.Complete:
+                                    {
+                                        await CompleteAsync(innerDc);
 
-                            default:
-                                {
-                                    break;
-                                }
+                                        // End active dialog
+                                        await innerDc.EndDialogAsync();
+                                        break;
+                                    }
+
+                                default:
+                                    {
+                                        break;
+                                    }
+                            }
                         }
 
                         break;
@@ -57,12 +73,6 @@ namespace $safeprojectname$
                 case ActivityTypes.Event:
                     {
                         await OnEventAsync(innerDc);
-                        break;
-                    }
-
-                case ActivityTypes.ConversationUpdate:
-                    {
-                        await OnStartAsync(innerDc);
                         break;
                     }
 
@@ -76,9 +86,15 @@ namespace $safeprojectname$
             return EndOfTurn;
         }
 
-        protected override Task OnEndDialogAsync(ITurnContext context, DialogInstance instance, DialogReason reason, CancellationToken cancellationToken = default(CancellationToken)) => base.OnEndDialogAsync(context, instance, reason, cancellationToken);
+        protected override Task OnEndDialogAsync(ITurnContext context, DialogInstance instance, DialogReason reason, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return base.OnEndDialogAsync(context, instance, reason, cancellationToken);
+        }
 
-        protected override Task OnRepromptDialogAsync(ITurnContext turnContext, DialogInstance instance, CancellationToken cancellationToken = default(CancellationToken)) => base.OnRepromptDialogAsync(turnContext, instance, cancellationToken);
+        protected override Task OnRepromptDialogAsync(ITurnContext turnContext, DialogInstance instance, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return base.OnRepromptDialogAsync(turnContext, instance, cancellationToken);
+        }
 
         /// <summary>
         /// Called when the inner dialog stack is empty.
@@ -94,7 +110,10 @@ namespace $safeprojectname$
         /// <param name="innerDc">The dialog context for the component.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected virtual Task CompleteAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken)) => Task.CompletedTask;
+        protected virtual Task CompleteAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return Task.CompletedTask;
+        }
 
         /// <summary>
         /// Called when an event activity is received.
@@ -102,7 +121,10 @@ namespace $safeprojectname$
         /// <param name="innerDc">The dialog context for the component.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected virtual Task OnEventAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken)) => Task.CompletedTask;
+        protected virtual Task OnEventAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return Task.CompletedTask;
+        }
 
         /// <summary>
         /// Called when a system activity is received.
@@ -110,7 +132,10 @@ namespace $safeprojectname$
         /// <param name="innerDc">The dialog context for the component.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected virtual Task OnSystemMessageAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken)) => Task.CompletedTask;
+        protected virtual Task OnSystemMessageAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return Task.CompletedTask;
+        }
 
         /// <summary>
         /// Called when a conversation update activity is received.
@@ -118,6 +143,9 @@ namespace $safeprojectname$
         /// <param name="innerDc">The dialog context for the component.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected virtual Task OnStartAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken)) => Task.CompletedTask;
+        protected virtual Task OnStartAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return Task.CompletedTask;
+        }
     }
 }

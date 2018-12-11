@@ -17,15 +17,15 @@
     ],
     "inputHint": "expectingInput"
   },
-  "EventDeleted": {
-    "replies": [
-      {
-        "text": "I have deleted the event.",
-        "speak": "I have deleted the event."
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
+    "EventDeleted": {
+        "replies": [
+            {
+                "text": "I have deleted the event.",
+                "speak": "I have deleted the event."
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
   "EventWithStartTimeNotFound": {
     "replies": [
 
@@ -40,14 +40,6 @@
       {
         "text": "No event can be found with the event time or title, can you try again?",
         "speak": "No event can be found with the event time or title, can you try again?"
-      },
-      {
-        "text": "It seems there is no event with that name, try again please.",
-        "speak": "It seems there is no event with that name, try again please."
-      },
-      {
-        "text": "It seems there is no event at this time, please try again",
-        "speak": "It seems there is no event at this time, please try again"
       }
     ],
     "inputHint": "expectingInput"

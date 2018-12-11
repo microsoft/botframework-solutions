@@ -24,8 +24,8 @@ Onboarding | An example OnBoarding flow enabling your Assistant to greet the use
 [Point of Interest Skill](./virtualassistant-skills-pointofinterest.md) | The preview Point of Interest (PoI) skill provides a comprehensive language model for finding points of interest and requesting directions. The skill currently provides integration into Azure Maps.
 [Calendar Skill](./virtualassistant-skills-productivity-calendar.md) | The preview Calendar Skill provides a comprehensive language model for common calendar related activities, The skill is currently integrated into Microsoft Graph (Office 365/Outlook.com) with support for Google APIs to follow soon..
 [Email Skill](./virtualassistant-skills-productivity-email.md) | The preview Email Skill provides a comprehensive language model for common email related activities, The skill is currently integrated into Microsoft Graph (Office 365/Outlook.com) with support for Google APIs to follow soon.
-[ToDo Skill](./virtualassistant-skills-productivity-tasks.md) | The preview ToDo Skill provides a comprehensive language model for common task related activities, The skill is currently integrated into OneNote with Microsoft Graph (outlookTask) support to follow soon.
-[Device Integration](./virtualassistant-deviceintegration.md) | Our Azure Bot Service SDKs (DirectLine) along with Adaptive Card and Speech SDKs enable easy cross platform integration to devices. Additional device integration examples and platform including Edge are planned.
+[ToDo Skill](./virtualassistant-skills-productivity-todo.md) | The preview ToDo Skill provides a comprehensive language model for common task related activities, The skill is currently integrated into OneNote with Microsoft Graph (outlookTask) support to follow soon.
+[Device Integration](./virtualassistant-deviceintegration.md) | Our Azure Bot Service SDKs (Direct Line) along with Adaptive Card and Speech SDKs enable easy cross platform integration to devices. Additional device integration examples and platform including Edge are planned.
 [Test Harnesses](./virtualassistant-testing.md) | In addition to the Bot Framework Emulator, a WebChat based test harness is provided enabling more complex authentication scenarios to be tested. A simple Console based test harness demonstrates the approach to exchange messages to help frame the ease of device integration.
 [Automated Deployment](./virtualassistant-createvirtualassistant.md) | All the Azure resources required for your Assistant are automatically deployed: Bot registration, Azure App Service, LUIS, QnAMaker, Content Moderator, CosmosDB, Azure Storage, and Application Insights. Additionally, LUIS models for all skills, QnAMaker, and Dispatch models are created, trained, and published to enable immediate testing.
 Automotive Language Model | An Automotive language model covering core domains such as telephone, navigation and control of in-car features is coming soon
@@ -67,7 +67,7 @@ The Virtual Assistant enables you to deliver your own unique experience but also
 Our Virtual Assistant architecture is flexible and can be integrated with existing investments you may have made into device based Speech or Natural Language processing capabilities and of course integrate with your existing back-end systems and APIs.
 
 ### Adaptive Cards
-[Adaptive Cards](https://adaptivecards.io/) provide the ability for your Virtual Assistant to return User Experience elements (e.g. Cards, Images, Buttons) alongside text base responses. If the device or conversation canvas has a screen these Adaptive Cards can be rendered across a broad range of devices and platforms providing supporting User Experience where appropriate. Examples of Adaptive Cards can be found [here](https://adaptivecards.io/samples/) with information on Rendering options in the documentation [here](https://docs.microsoft.com/en-us/adaptive-cards/rendering-cards/getting-started).
+[Adaptive Cards](https://adaptivecards.io/) provide the ability for your Virtual Assistant to return User Experience elements (e.g. Cards, Images, Buttons) alongside text base responses. If the device or conversation canvas has a screen these Adaptive Cards can be rendered across a broad range of devices and platforms providing supporting User Experience where appropriate. [Samples of Adaptive Cards](https://adaptivecards.io/samples/) are available to try out, as well as documentation on how to [render cards within your own application](https://docs.microsoft.com/en-us/adaptive-cards/rendering-cards/getting-started).
 
 ### Skills
 In addition to the base assistant, there exists a broad set of common capabilities which require each developer to build themselves. Productivity is a great example where each organisation would need to create Language Models (LUIS), Dialogs (Code), Integration (Code) and Language Generation (Responses) to enable popular Calendar, Task or email experiences.
@@ -78,7 +78,7 @@ Our Virtual Assistant solution includes a new Skill capability enabling new capa
 
 All aspects of each Skill (Language Model, Dialogs, Integration Code and Language Generation) are completely customisable by developers as the full source code is provided on GitHub along with the Virtual Assistant.
 
-Initial previews of the [Email](./virtualassistant-skills-productivity-email.md), [Calendar](./virtualassistant-skills-productivity-calendar.md), [Task](./virtualassistant-skills-productivity-task.md) and [Point of Interest Skills](./virtualassistant-skills-pointofinterest.md) are now available. 
+Initial previews of the [Email](./virtualassistant-skills-productivity-email.md), [Calendar](./virtualassistant-skills-productivity-calendar.md), [ToDo](./virtualassistant-skills-productivity-todo.md) and [Point of Interest](./virtualassistant-skills-pointofinterest.md) Skills are now available. 
 
 ## Documentation
 
@@ -86,6 +86,7 @@ Initial previews of the [Email](./virtualassistant-skills-productivity-email.md)
     - [Detailed Overview](./virtualassistant-detailedoverview.md)
     - [Create your Virtual Assistant](./virtualassistant-createvirtualassistant.md)
     - [Testing your Virtual Assistant](./virtualassistant-testing.md)
+    - [Personalizing your Virtual Assistant](./virtualassistant-personalization.md)
     - [Linked Accounts](./virtualassistant-linkedaccounts.md)
     - [Integrating into a device](./virtualassistant-deviceintegration.md)
     - [Events](./virtualassistant-events.md)
@@ -95,7 +96,6 @@ Initial previews of the [Email](./virtualassistant-skills-productivity-email.md)
 - Skills
     - [Overview](./virtualassistant-skills.md)
     - [Skill Authentication](./virtualassistant-authentication.md)
-    - [Adding a Skill](./virtualassistant-addingaskill.md)
     - [Creating a Skill](./virtualassistant-skillenablement.md)
     - [Productivity - Calendar Skill](./virtualassistant-skills-productivity-calendar.md)
     - [Productivity - Email Skill](./virtualassistant-skills-productivity-email.md)

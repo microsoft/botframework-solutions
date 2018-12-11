@@ -9,16 +9,14 @@ The Virtual Assistant solution is under ongoing development within an open-sourc
 Follow the instructions below to build, deploy and configure your Assistant.
 
 ### Prerequisites
-- - Ensure you have updated [.NET Core](https://www.microsoft.com/net/download) to the latest version.
-- 
+- Ensure you have updated [.NET Core](https://www.microsoft.com/net/download) to the latest version.
 - [Node.js](https://nodejs.org/) version 8.5 or higher.
-
 - Install the Azure Bot Service command line (CLI) tools. It's important to do this even if you have earlier versions as the Virtual Assistant makes use of new deployment capabilities.
 
 ```shell
 npm install -g botdispatch chatdown ludown luis-apis luisgen msbot qnamaker  
 ```
-- Install the Azure Command Line Tools (CLI) from [here](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)
+- Install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)
 
 - Install the Az Extension for Bot Service
 ```shell
@@ -26,7 +24,7 @@ az extension add -n botservice
 ```
 
 - Retrieve your LUIS Authoring Key
-  - Review [this](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation page for the correct LUIS portal for the region you plan to deploy to. Note that www.luis.ai refers to the US region and an authoring key retrieved from this portal will not work with a europe deployment. 
+   - Review the [LUIS regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation page for the correct LUIS portal for the region you plan to deploy to. Note that www.luis.ai refers to the US region and an authoring key retrieved from this portal will not work with a europe deployment. 
    - Once signed in click on your name in the top right hand corner.
    - Choose Settings and make a note of the Authoring Key for the next step.
 
@@ -38,7 +36,8 @@ Once the Solution has been cloned you will see the following folder structure.
 
     | - Virtual-Assistant
         | - Assistant
-        | - LinkedAccounts.Web
+        | - LinkedAccounts
+        | - Microsoft.Bot.Solutions
         | - Skills
             | - CalendarSkill
             | - DemoSkill
@@ -49,7 +48,7 @@ Once the Solution has been cloned you will see the following folder structure.
         | - TestHarnesses
             | - Assistant-ConsoleDirectLineSample
             | - Assistant-WebTest
-        | - Microsoft.Bot.Solutions
+        | - Tests
       | - VirtualAssistant.sln
 
 ### Build the Solution
@@ -79,53 +78,92 @@ az account set --subscription "YOUR_SUBSCRIPTION_NAME"
 
 Your Virtual Assistant project has a deployment recipe enabling the `msbot clone services` command to automate deployment of all the above services into your Azure subscription and ensure the .bot file in your project is updated with all of the services including keys enabling seamless operation of your Virtual Assistant.
 
-To deploy your Virtual Assistant including all dependencies - e.g. CosmosDb, Application Insights, etc. run the following command from a command prompt within your project folder. Ensure you update the authoring key from the previous step and choose the Azure datacenter location you wish to use (e.g. westus or westeurope). Ensure the LUIS authoring key retrieved on the previous step is for the region you specify below (e.g. westus for luis.ai or westeurope for eu.luis.ai)
+To deploy your Virtual Assistant including all dependencies - e.g. CosmosDb, Application Insights, etc. run the following command from a command prompt within your project folder. Ensure you update the authoring key from the previous step and choose the Azure datacenter location you wish to use (e.g. westus or westeurope). You must check that the LUIS authoring key retrieved on the previous step is for the region you specify below (e.g. westus for luis.ai or westeurope for eu.luis.ai)
 
-```shell
-msbot clone services --name "MyCustomAssistantName" --luisAuthoringKey "YOUR_AUTHORING_KEY" --folder "DeploymentScripts\en\msbotClone" --location "YOUR_REGION"
+Run this PowerShell script to deploy your shared resources and LUIS and QnA Maker resources in English:
+
+```
+  ...DeploymentScripts\deploy_bot.ps1
 ```
 
-> There is a known issue with some users whereby you might experience the following error when running deployment `ERROR: Unable to provision MSA id automatically. Please pass them in as parameters and try again`. In this situation, please browse to https://apps.dev.microsoft.com and manually create a new application retrieving the ApplicationID and Password/Secret. Run the above msbot clone services command but provide two new arguments `appId` and `appSecret` passing the values you've just retrieved.
+If you would like to support different languages for your scenario add the `-locales` parameter. The following languages are supported: English (en-us), Chinese (zh-cn), German (de-de), French (fr-fr), Italian (it-it), and Spanish (es-es).
+
+```
+  ...DeploymentScripts\deploy_bot.ps1 -locales "en-us,zh-cn"
+```
+
+If you would like to add support for additional languages **after your initial deployment**, you can specify the `-languagesOnly` parameter to deploy only the services for the new language(s).
+
+```
+  ...DeploymentScripts\deploy_bot.ps1 -locales "fr-fr,it-it" -languagesOnly
+```
+
+You will be prompted to provide the following parameters:
+   - Name - A name for your bot and resource group. This must be **unique**.
+   - Location - The Azure region for your services.
+   - LUIS Authoring Key - Refer to above documentation for retrieving this key.
 
 The msbot tool will outline the deployment plan including location and SKU. Ensure you review before proceeding.
 
 ![Deployment Confirmation](./media/virtualassistant-deploymentplan.png)
 
->After deployment is complete, it's **imperative** that you make a note of the .bot file secret provided as this will be required for later steps.
+> There is a known issue with some users whereby you might experience the following error when running deployment `ERROR: Unable to provision MSA id automatically. Please pass them in as parameters and try again`. In this situation, please browse to https://apps.dev.microsoft.com and manually create a new application retrieving the ApplicationID and Password/Secret. Run the above msbot clone services command but provide two new arguments `appId` and `appSecret` passing the values you've just retrieved.
+
+> After deployment is complete, it's **imperative** that you make a note of the .bot file secret provided as this will be required for later steps. The secret can be found near the top of the execution output and will be in purple text.
+
 
 - Update your `appsettings.json` file with the newly created .bot file name and .bot file secret.
 - Run the following command and retrieve the InstrumentationKey for your Application Insights instance and update `InstrumentationKey` in your `appsettings.json` file.
 
-`msbot list --bot YOURBOTFILE.bot --secret YOUR_BOT_SECRET`
+```
+msbot list --bot YOURBOTFILE.bot --secret YOUR_BOT_SECRET
+```
 
-        {
-          "botFilePath": ".\\YOURBOTFILE.bot",
-          "botFileSecret": "YOUR_BOT_SECRET",
-          "ApplicationInsights": {
-            "InstrumentationKey": "YOUR_INSTRUMENTATION_KEY"
-          }
-        }
+```
+  {
+    "botFilePath": ".\\YOURBOTFILE.bot",
+    "botFileSecret": "YOUR_BOT_SECRET",
+    "ApplicationInsights": {
+      "InstrumentationKey": "YOUR_INSTRUMENTATION_KEY"
+    }
+  }
+```
+
+- Finally, add the .bot file paths for each of your language configurations:
+
+```
+"defaultLocale": "en-us",
+  "languageModels": {
+    "en": {
+      "botFilePath": ".\\LocaleConfigurations\\YOUR_EN_BOT_PATH.bot",
+      "botFileSecret": ""
+    },
+    "de": {
+      "botFilePath": ".\\LocaleConfigurations\\YOUR_DE_BOT_PATH.bot",
+      "botFileSecret": ""
+    },
+    "es": {
+      "botFilePath": ".\\LocaleConfigurations\\YOUR_ES_BOT_PATH.bot",
+      "botFileSecret": ""
+    },
+    "fr": {
+      "botFilePath": ".\\LocaleConfigurations\\YOUR_FR_BOT_PATH.bot",
+      "botFileSecret": ""
+    },
+    "it": {
+      "botFilePath": ".\\LocaleConfigurations\\YOUR_IT_BOT_PATH.bot",
+      "botFileSecret": ""
+    },
+    "zh": {
+      "botFilePath": ".\\LocaleConfigurations\\YOUR_ZH_BOT_PATH.bot",
+      "botFileSecret": ""
+    }
+```
 
 ## Skill Configuration
 
-The Virtual Assistant Solution is fully integrated with all available skills out of the box. Skill configuration can be found in your appSettings.json file. An example of the Skill Configuration entries is shown below for reference.
+The Virtual Assistant Solution is fully integrated with all available skills out of the box. Skill configuration can be found in your appSettings.json file and is detailed further in the [Adding A Skill] documentation](virtualassistant-addingaskill.md)
 
-```
-"skills": [
-    {
-      "type": "skill",
-      "id": "calendarSkill",
-      "name": "calendarSkill",
-      "assembly": "CalendarSkill.CalendarSkill, CalendarSkill, Version=1.0.0.0, Culture=neutral",
-      "dispatchIntent": "l_Calendar",
-      "authConnectionName": "",
-      "luisServiceId": "calendar",
-      "parameters": [
-        "IPA.Timezone"
-      ]
-    }
-]
-```
 ## Skill Authentication
 
 If you wish to make use of the Calendar, Email and Task Skills you need to configure an Authentication Connection enabling uses of your Assistant to authenticate against services such as Office 365 and securely store a token which can be retrieved by your assistant when a user asks a question such as *"What's my day look like today"* to then use against an API like Microsoft Graph.
@@ -136,11 +174,11 @@ The [Add Authentication to your bot](https://docs.microsoft.com/en-us/azure/bot-
 - Under Platforms, click Add Platform.
   - In the Add Platform pop-up, click Web.
   - Leave Allow Implicit Flow checked.
-  - For Redirect URL, enter https://token.botframework.com/.auth/web/redirect
+  - For Redirect URL, enter `https://token.botframework.com/.auth/web/redirect`
   - Leave Logout URL blank.
 - Under Microsoft Graph Permissions, you can need to add additional *delegated* permissions.
 - Each of the Skills require a specific set of Scopes, refer to the documentation for each skill or use the following list of Scopes that contain the scopes needed for all skills. 
-  - `Calendars.ReadWrite`, `Mail.ReadWrite`, `Mail.Send`, `Notes.ReadWrite`, `People.Read`, `User.Read`, `Contacts.Read`
+  - `Calendars.ReadWrite`, `Mail.ReadWrite`, `Mail.Send`, `Tasks.ReadWrite`, `Notes.ReadWrite`, `People.Read`, `User.Read`, `Contacts.Read`
 
 Next you need to create the Authentication Connection for your Bot. Ensure you use the same combination of Scopes that you provided in the above command. The first command shown below will retrieve the appId (ApplicationId) and appPassword (Client Secret) that you need to complete this step.
 
@@ -149,7 +187,7 @@ The commands shown below assume you have used the deployment process and your re
 ```shell
 msbot get production --secret YOUR_SECRET
 
-az bot authsetting create --resource-group YOUR_BOT_NAME --name YOUR_BOT_NAME --setting-name "YOUR_AUTH_CONNECTION_NAME" --client-id "YOUR_APPLICATION_ID" --client-secret "YOUR_APPLICATION_PASSWORD" --provider-scope-string "Calendars.ReadWrite Mail.ReadWrite Mail.Send Notes.ReadWrite People.Read User.Read Contacts.Read" --service Aadv2
+az bot authsetting create --resource-group YOUR_BOT_NAME --name YOUR_BOT_NAME --setting-name "YOUR_AUTH_CONNECTION_DISPLAY_NAME" --client-id "YOUR_APPLICATION_ID" --client-secret "YOUR_APPLICATION_PASSWORD" --service Aadv2 --parameters clientId="YOUR_APPLICATION_ID" clientSecret="YOUR_APPLICATION_PASSWORD" tenantId=common --provider-scope-string "Calendars.ReadWrite Mail.ReadWrite Mail.Send Tasks.ReadWrite Notes.ReadWrite People.Read User.Read Contacts.Read" 
 ```
 
 The final step is to update your .bot file and associated Skills (in appSettings.config) with the Authentication connection name, this is used by the Assistant to enable Authentication prompts or use of Linked Accounts.

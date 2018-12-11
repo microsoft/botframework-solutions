@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using CalendarSkill.Common;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Dialogs.Summary.Resources;
+using CalendarSkill.ServiceClients;
+using CalendarSkill.Util;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -20,7 +22,7 @@ namespace CalendarSkill
     public class SummaryDialog : CalendarSkillDialog
     {
         public SummaryDialog(
-            SkillConfiguration services,
+            ISkillConfiguration services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager)
             : base(nameof(SummaryDialog), services, accessor, serviceManager)
@@ -60,7 +62,7 @@ namespace CalendarSkill
 
                 var topIntent = luisResult?.TopIntent().intent;
 
-                if (topIntent == Calendar.Intent.Summary)
+                if (topIntent == Calendar.Intent.Summary || topIntent == Calendar.Intent.FindCalendarEntry)
                 {
                     state.SummaryEvents = null;
                 }
@@ -68,7 +70,7 @@ namespace CalendarSkill
                 var generalLuisResult = state.GeneralLuisResult;
                 var topGeneralIntent = generalLuisResult?.TopIntent().intent;
 
-                if (topGeneralIntent == General.Intent.Next)
+                if (topGeneralIntent == General.Intent.Next && state.SummaryEvents != null)
                 {
                     if ((state.ShowEventIndex + 1) * CalendarSkillState.PageSize < state.SummaryEvents.Count)
                     {
@@ -81,7 +83,7 @@ namespace CalendarSkill
                     }
                 }
 
-                if (topGeneralIntent == General.Intent.Previous)
+                if (topGeneralIntent == General.Intent.Previous && state.SummaryEvents != null)
                 {
                     if (state.ShowEventIndex > 0)
                     {
@@ -112,6 +114,7 @@ namespace CalendarSkill
                 var state = await Accessor.GetAsync(sc.Context);
                 if (state.SummaryEvents == null)
                 {
+                    // this will lead to error when test
                     if (string.IsNullOrEmpty(state.APIToken))
                     {
                         return await sc.EndDialogAsync(true);
@@ -121,16 +124,21 @@ namespace CalendarSkill
 
                     var searchDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, state.GetUserTimeZone());
 
-                    if (state.StartDate != null)
+                    if (state.StartDate.Any())
                     {
-                        searchDate = state.StartDate.Value;
+                        searchDate = state.StartDate.Last();
                     }
 
-                    var results = await GetEventsByTime(searchDate, state.StartTime, state.EndDate, state.EndTime, state.GetUserTimeZone(), calendarService);
+                    var results = await GetEventsByTime(new List<DateTime>() { searchDate }, state.StartTime, state.EndDate, state.EndTime, state.GetUserTimeZone(), calendarService);
                     var searchedEvents = new List<EventModel>();
+                    bool searchTodayMeeting = state.StartDate.Any() &&
+                        !state.StartTime.Any() &&
+                        !state.EndDate.Any() &&
+                        !state.EndTime.Any() &&
+                        EventModel.IsSameDate(searchDate, TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, state.GetUserTimeZone()));
                     foreach (var item in results)
                     {
-                        if (item.StartTime >= DateTime.UtcNow)
+                        if (!searchTodayMeeting || item.StartTime >= DateTime.UtcNow)
                         {
                             searchedEvents.Add(item);
                         }
@@ -157,14 +165,7 @@ namespace CalendarSkill
                         else
                         {
                             responseParams.Add("EventName2", searchedEvents[searchedEvents.Count - 1].Title);
-                            if (searchedEvents[searchedEvents.Count - 1].IsAllDay == true)
-                            {
-                                responseParams.Add("EventTime", TimeConverter.ConvertUtcToUserTime(searchedEvents[searchedEvents.Count - 1].StartTime, state.GetUserTimeZone()).ToString("MMMM dd all day"));
-                            }
-                            else
-                            {
-                                responseParams.Add("EventTime", TimeConverter.ConvertUtcToUserTime(searchedEvents[searchedEvents.Count - 1].StartTime, state.GetUserTimeZone()).ToString("h:mm tt"));
-                            }
+                            responseParams.Add("EventTime", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(searchedEvents[searchedEvents.Count - 1].StartTime, state.GetUserTimeZone()), searchedEvents[searchedEvents.Count - 1].IsAllDay == true));
 
                             await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowMultipleMeetingSummaryMessage, ResponseBuilder, responseParams));
                         }
@@ -244,19 +245,19 @@ namespace CalendarSkill
                 }
                 else if ((promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true) || (topIntent == Luis.Calendar.Intent.ReadAloud && eventItem == null))
                 {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.ReadOutPrompt), });
-                }
-                else if (eventItem != null)
-                {
-                    string speakString = string.Empty;
-                    if (eventItem.IsAllDay == true)
+                    if (state.SummaryEvents.Count == 1)
                     {
-                        speakString = $"{eventItem.Title} at {TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, state.GetUserTimeZone()).ToString("MMMM dd all day")}";
+                        eventItem = state.SummaryEvents[0];
                     }
                     else
                     {
-                        speakString = $"{eventItem.Title} at {TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, state.GetUserTimeZone()).ToString("h:mm tt")}";
+                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.ReadOutPrompt), });
                     }
+                }
+
+                if (eventItem != null)
+                {
+                    var speakString = SpeakHelper.ToSpeechMeetingDetail(eventItem.Title, TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, state.GetUserTimeZone()), eventItem.IsAllDay == true);
 
                     var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(SummaryResponses.ReadOutMessage, eventItem.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", eventItem.ToAdaptiveCardData(state.GetUserTimeZone()), null, new StringDictionary() { { "MeetingDetails", speakString } });
                     await sc.Context.SendActivityAsync(replyMessage);

@@ -3,10 +3,15 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.Shared.Resources;
+using EmailSkill.Util;
+using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Solutions.Data;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 
 namespace EmailSkill
 {
@@ -16,16 +21,17 @@ namespace EmailSkill
             ISkillConfiguration services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
-            IMailSkillServiceManager serviceManager)
+            IServiceManager serviceManager)
             : base(nameof(ForwardEmailDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager)
         {
             var forwardEmail = new WaterfallStep[]
             {
+                IfClearContextStep,
                 GetAuthToken,
                 AfterGetAuthToken,
+                CollectSelectedEmail,
                 CollectNameList,
                 CollectRecipients,
-                CollectSelectedEmail,
                 CollectAdditionalText,
                 ConfirmBeforeSending,
                 ForwardEmail,
@@ -33,6 +39,7 @@ namespace EmailSkill
 
             var showEmail = new WaterfallStep[]
             {
+                IfClearContextStep,
                 ShowEmails,
             };
 
@@ -61,28 +68,24 @@ namespace EmailSkill
                 {
                     var state = await EmailStateAccessor.GetAsync(sc.Context);
 
-                    var token = state.MsGraphToken;
+                    var token = state.Token;
                     var message = state.Message;
                     var id = message.FirstOrDefault()?.Id;
                     var content = state.Content;
                     var recipients = state.Recipients;
 
-                    var service = ServiceManager.InitMailService(token, state.GetUserTimeZone());
+                    var service = ServiceManager.InitMailService(token, state.GetUserTimeZone(), state.MailSourceType);
 
                     // send user message.
                     await service.ForwardMessageAsync(id, content, recipients);
 
-                    var nameListString = $"To: {state.Recipients.FirstOrDefault()?.EmailAddress.Name}";
-                    if (state.Recipients.Count > 1)
-                    {
-                        nameListString += $" + {state.Recipients.Count - 1} more";
-                    }
+                    var nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(state.Recipients);
 
                     var emailCard = new EmailCardData
                     {
-                        Subject = "Subject: FW: " + message.FirstOrDefault()?.Subject,
-                        NameList = nameListString,
-                        EmailContent = "Content: " + state.Content,
+                        Subject = string.Format(CommonStrings.SubjectFormat, string.Format(CommonStrings.ForwardReplyFormat, message.FirstOrDefault()?.Subject)),
+                        NameList = string.Format(CommonStrings.ToFormat, nameListString),
+                        EmailContent = string.Format(CommonStrings.ContentFormat, state.Content),
                     };
                     var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(EmailSharedResponses.SentSuccessfully, "Dialogs/Shared/Resources/Cards/EmailWithOutButtonCard.json", emailCard);
 
@@ -95,7 +98,9 @@ namespace EmailSkill
             }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
 
             await ClearConversationState(sc);

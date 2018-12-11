@@ -50,6 +50,15 @@ namespace LinkedAccounts.Web
 
             services.AddSingleton<ICredentialProvider>(new ConfigurationCredentialProvider(Configuration));
 
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromSeconds(120);
+                options.Cookie.HttpOnly = true;
+            });
+
             services.AddMvc();
         }
 
@@ -70,12 +79,15 @@ namespace LinkedAccounts.Web
 
             app.UseAuthentication();
 
+            app.UseSession();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
         }
     }
 }

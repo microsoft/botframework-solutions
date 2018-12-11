@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Bot.Solutions.Resources;
 
 namespace Microsoft.Bot.Solutions.Extensions
 {
@@ -26,7 +27,7 @@ namespace Microsoft.Bot.Solutions.Extensions
                     string value;
                     if (i == list.Count - 2)
                     {
-                        value = " " + finalSeparator + " ";
+                        value = string.Format(CommonStrings.SeparatorFormat, finalSeparator);
                     }
                     else
                     {

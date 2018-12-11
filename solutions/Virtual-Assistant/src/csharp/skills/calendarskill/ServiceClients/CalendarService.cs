@@ -4,8 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CalendarSkill.ServiceClients.GoogleAPI;
-using Microsoft.Bot.Solutions.Skills;
 
 namespace CalendarSkill
 {
@@ -13,26 +11,9 @@ namespace CalendarSkill
     {
         private ICalendar calendarAPI;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CalendarService"/> class.
-        /// </summary>
-        /// <param name="token">the access token.</param>
-        /// <param name="source">the calendar provider.</param>
-        /// <param name="config">the config for the Google application.</param>
-        public CalendarService(string token, EventSource source, GoogleClient config)
+        public CalendarService(ICalendar calendarAPI, EventSource source)
         {
-            switch (source)
-            {
-                case EventSource.Microsoft:
-                    calendarAPI = new MSGraphCalendarAPI(token);
-                    break;
-                case EventSource.Google:
-                    // Todo: Google API timezone?
-                    calendarAPI = new GoogleCalendarAPI(config, token);
-                    break;
-                default:
-                    throw new Exception("Event Type not Defined");
-            }
+            this.calendarAPI = calendarAPI;
         }
 
         /// <inheritdoc/>

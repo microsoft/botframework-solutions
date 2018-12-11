@@ -16,6 +16,7 @@
   <ItemGroup>
     <PackageReference Include="AdaptiveCards" Version="1.0.3" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.7.2" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="1.0.0" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.1.5" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.1.5" />
     <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.1.5" />
@@ -61,7 +62,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resources\CommonResponses.tt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <LastGenOutput>CommonResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>

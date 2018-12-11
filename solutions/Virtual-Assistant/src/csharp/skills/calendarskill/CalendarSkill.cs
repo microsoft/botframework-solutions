@@ -5,7 +5,6 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using CalendarSkill.ServiceClients.GoogleAPI;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
@@ -18,14 +17,14 @@ namespace CalendarSkill
     /// </summary>
     public class CalendarSkill : IBot
     {
-        private readonly SkillConfiguration _services;
+        private readonly ISkillConfiguration _services;
         private readonly UserState _userState;
         private readonly ConversationState _conversationState;
         private readonly IServiceManager _serviceManager;
-        private DialogSet _dialogs;
         private bool _skillMode;
+        private DialogSet _dialogs;
 
-        public CalendarSkill(SkillConfiguration services, ConversationState conversationState, UserState userState, IServiceManager serviceManager = null, bool skillMode = false)
+        public CalendarSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, IServiceManager serviceManager = null, bool skillMode = false)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));
@@ -46,29 +45,14 @@ namespace CalendarSkill
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             var dc = await _dialogs.CreateContextAsync(turnContext);
-            var result = await dc.ContinueDialogAsync();
 
-            if (result.Status == DialogTurnStatus.Empty)
+            if (dc.ActiveDialog != null)
             {
-                if (!_skillMode)
-                {
-                    // if localMode, check for conversation update from user before starting dialog
-                    if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
-                    {
-                        var activity = turnContext.Activity.AsConversationUpdateActivity();
-
-                        // if conversation update is not from the bot.
-                        if (!activity.MembersAdded.Any(m => m.Id == activity.Recipient.Id))
-                        {
-                            await dc.BeginDialogAsync(nameof(MainDialog));
-                        }
-                    }
-                }
-                else
-                {
-                    // if skillMode, begin dialog
-                    await dc.BeginDialogAsync(nameof(MainDialog));
-                }
+                var result = await dc.ContinueDialogAsync();
+            }
+            else
+            {
+                await dc.BeginDialogAsync(nameof(MainDialog));
             }
         }
     }

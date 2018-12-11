@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 
@@ -11,27 +10,11 @@ namespace CalendarSkill
 {
     public class MSGraphCalendarAPI : ICalendar
     {
-        private readonly GraphServiceClient _graphClient;
+        private readonly IGraphServiceClient _graphClient;
 
-        public MSGraphCalendarAPI(string token)
+        public MSGraphCalendarAPI(IGraphServiceClient serviceClient)
         {
-            _graphClient = GetAuthenticatedClient(token);
-        }
-
-        public static GraphServiceClient GetAuthenticatedClient(string accessToken)
-        {
-            var graphClient = new GraphServiceClient(
-                new DelegateAuthenticationProvider(
-                    async (requestMessage) =>
-                    {
-                        // Append the access token to the request.
-                        requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
-
-                        // Get event times in the current time zone.
-                        requestMessage.Headers.Add("Prefer", "outlook.timezone=\"" + TimeZoneInfo.Utc.Id + "\"");
-                        await Task.CompletedTask;
-                    }));
-            return graphClient;
+            _graphClient = serviceClient;
         }
 
         /// <inheritdoc/>

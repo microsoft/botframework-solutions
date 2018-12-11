@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.Main.Resources;
@@ -12,6 +13,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Data;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
@@ -21,19 +23,19 @@ namespace EmailSkill
     public class MainDialog : RouterDialog
     {
         private bool _skillMode;
-        private ISkillConfiguration _services;
+        private ISkillConfiguration _skillConfig;
         private UserState _userState;
         private ConversationState _conversationState;
-        private IMailSkillServiceManager _serviceManager;
+        private IServiceManager _serviceManager;
         private IStatePropertyAccessor<EmailSkillState> _stateAccessor;
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
         private EmailSkillResponseBuilder _responseBuilder = new EmailSkillResponseBuilder();
 
-        public MainDialog(ISkillConfiguration services, ConversationState conversationState, UserState userState, IMailSkillServiceManager serviceManager, bool skillMode)
+        public MainDialog(ISkillConfiguration skillConfiguration, ConversationState conversationState, UserState userState, IServiceManager serviceManager, bool skillMode)
             : base(nameof(MainDialog))
         {
             _skillMode = skillMode;
-            _services = services;
+            _skillConfig = skillConfiguration;
             _conversationState = conversationState;
             _userState = userState;
             _serviceManager = serviceManager;
@@ -43,6 +45,7 @@ namespace EmailSkill
             _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
 
             RegisterDialogs();
+            GetReadingDisplayConfig();
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -58,8 +61,12 @@ namespace EmailSkill
         {
             var state = await _stateAccessor.GetAsync(dc.Context, () => new EmailSkillState());
 
+            // get current activity locale
+            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            var localeConfig = _skillConfig.LocaleConfigurations[locale];
+
             // If dispatch result is general luis model
-            _services.LuisServices.TryGetValue("email", out var luisService);
+            localeConfig.LuisServices.TryGetValue("email", out var luisService);
 
             if (luisService == null)
             {
@@ -69,10 +76,12 @@ namespace EmailSkill
             {
                 var result = await luisService.RecognizeAsync<Email>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
+                var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
 
                 var skillOptions = new EmailSkillDialogOptions
                 {
                     SkillMode = _skillMode,
+                    SubFlowMode = false
                 };
 
                 // switch on general intents
@@ -98,17 +107,31 @@ namespace EmailSkill
 
                     case Email.Intent.SearchMessages:
                     case Email.Intent.CheckMessages:
+                    case Email.Intent.ReadAloud:
                         {
                             await dc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
                             break;
                         }
 
+                    case Email.Intent.Delete:
+                        {
+                            await dc.BeginDialogAsync(nameof(DeleteEmailDialog), skillOptions);
+                            break;
+                        }
+
                     case Email.Intent.None:
                         {
-                            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(EmailSharedResponses.DidntUnderstandMessage));
-                            if (_skillMode)
+                            if (generalTopIntent == General.Intent.Next || generalTopIntent == General.Intent.Previous)
                             {
-                                await CompleteAsync(dc);
+                                await dc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
+                            }
+                            else
+                            {
+                                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(EmailSharedResponses.DidntUnderstandMessage));
+                                if (_skillMode)
+                                {
+                                    await CompleteAsync(dc);
+                                }
                             }
 
                             break;
@@ -192,13 +215,17 @@ namespace EmailSkill
 
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
+                // get current activity locale
+                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                var localeConfig = _skillConfig.LocaleConfigurations[locale];
+
                 // Update state with email luis result and entities
-                var emailLuisResult = await _services.LuisServices["email"].RecognizeAsync<Email>(dc.Context, cancellationToken);
+                var emailLuisResult = await localeConfig.LuisServices["email"].RecognizeAsync<Email>(dc.Context, cancellationToken);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new EmailSkillState());
                 state.LuisResult = emailLuisResult;
 
                 // check luis intent
-                _services.LuisServices.TryGetValue("general", out var luisService);
+                localeConfig.LuisServices.TryGetValue("general", out var luisService);
 
                 if (luisService == null)
                 {
@@ -238,7 +265,9 @@ namespace EmailSkill
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
-            await dc.BeginDialogAsync(nameof(CancelDialog));
+            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(EmailMainResponses.CancelMessage));
+            await CompleteAsync(dc);
+            await dc.CancelAllDialogsAsync();
             return InterruptionAction.StartedDialog;
         }
 
@@ -277,11 +306,27 @@ namespace EmailSkill
 
         private void RegisterDialogs()
         {
-            AddDialog(new ForwardEmailDialog(_services, _stateAccessor, _dialogStateAccessor, _serviceManager));
-            AddDialog(new SendEmailDialog(_services, _stateAccessor, _dialogStateAccessor, _serviceManager));
-            AddDialog(new ShowEmailDialog(_services, _stateAccessor, _dialogStateAccessor, _serviceManager));
-            AddDialog(new ReplyEmailDialog(_services, _stateAccessor, _dialogStateAccessor, _serviceManager));
-            AddDialog(new CancelDialog());
+            AddDialog(new ForwardEmailDialog(_skillConfig, _stateAccessor, _dialogStateAccessor, _serviceManager));
+            AddDialog(new SendEmailDialog(_skillConfig, _stateAccessor, _dialogStateAccessor, _serviceManager));
+            AddDialog(new ShowEmailDialog(_skillConfig, _stateAccessor, _dialogStateAccessor, _serviceManager));
+            AddDialog(new ReplyEmailDialog(_skillConfig, _stateAccessor, _dialogStateAccessor, _serviceManager));
+            AddDialog(new DeleteEmailDialog(_skillConfig, _stateAccessor, _dialogStateAccessor, _serviceManager));
+        }
+
+        private void GetReadingDisplayConfig()
+        {
+            _skillConfig.Properties.TryGetValue("displaySize", out object maxDisplaySize);
+            _skillConfig.Properties.TryGetValue("readSize", out object maxReadSize);
+
+            if (maxDisplaySize != null)
+            {
+                ConfigData.GetInstance().MaxDisplaySize = int.Parse(maxDisplaySize as string);
+            }
+
+            if (maxReadSize != null)
+            {
+                ConfigData.GetInstance().MaxReadSize = int.Parse(maxReadSize as string);
+            }
         }
 
         private class Events

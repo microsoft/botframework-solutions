@@ -3,13 +3,13 @@
 
 using System.Threading;
 using System.Threading.Tasks;
+using $safeprojectname$.Dialogs.Shared;
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace $safeprojectname$
+namespace $safeprojectname$.Dialogs.Escalate
 {
     public class EscalateDialog : EnterpriseDialog
     {
-        // Fields
         private EscalateResponses _responder = new EscalateResponses();
 
         public EscalateDialog(BotServices botServices)
@@ -27,7 +27,7 @@ namespace $safeprojectname$
 
         private async Task<DialogTurnResult> SendPhone(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            await _responder.ReplyWith(sc.Context, EscalateResponses.SendPhone);
+            await _responder.ReplyWith(sc.Context, EscalateResponses.ResponseIds.SendPhoneMessage);
             return await sc.EndDialogAsync();
         }
     }

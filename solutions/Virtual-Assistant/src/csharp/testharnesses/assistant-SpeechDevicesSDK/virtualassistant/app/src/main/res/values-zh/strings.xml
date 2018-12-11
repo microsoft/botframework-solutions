@@ -1,0 +1,90 @@
+<resources>
+    <!--Main View-->
+    <string name="app_name">智能助手</string>
+
+    <string name="button_start">开始</string>
+    <string name="button_pause">暂停</string>
+    <string name="button_resume">继续</string>
+
+    <string name="action_settings">设置</string>
+    <string name="action_startover">重新开始</string>
+
+    <string name="title_activity_settings">设置</string>
+
+    <string name="alert_startover_title">警报</string>
+    <string name="alert_startover_message">您与智能助手的连接将重设。</string>
+    <string name="alert_missingconfig_message">您缺了运行次示例的配置设置。请更新configuration.xml .</string>
+    <string name="alert_startover_neutralbutton">OK</string>
+
+    <string name="status_conversationstart">正在连接到您的智能助手。。。</string>
+    <string name="status_notlistening">没在听</string>
+    <string name="status_listening">正在听...</string>
+    <string name="status_keyword">说 </string>
+    <string name="status_keyword_detected"> 检测到</string>
+    <string name="status_continuous"></string>
+
+    <string name="suggestedaction_introduction">\n 您可以这样说...</string>
+    <string name="ellipses">...</string>
+    <string name="period">.</string>
+    <string name="delimiter">\n</string>
+
+    <!--Bot & Conversation Preferences View-->
+    <string name="pref_header_bot">智能助手的对话</string>
+
+    <string name="key_directline_secret">directlinesecret</string>
+    <string name="title_directline_secret">Direct Line Secret</string>
+
+    <string name="key_from_user_id">userid</string>
+    <string name="title_from_user_id">用户 Id</string>
+
+    <string name="key_from_bot_id">botid</string>
+    <string name="title_from_bot_id">智能助手 Id</string>
+
+    <string name="key_locale">locale</string>
+    <string name="title_locale">区域设置</string>
+    <string name="summary_locale">本地化</string>
+
+    <string name="key_inputhint">defaultinputhint</string>
+    <string name="title_inputhint">默认输入提示</string>
+    <string name="summary_inputhint">麦克风输入</string>
+
+    <!--Speech Preferences View-->
+    <string name="pref_header_speech">语音</string>
+
+    <string name="key_devicegeometry">devicegeometry</string>
+    <string name="title_devicegeometry">设备几何</string>
+    <string name="summary_devicegeometry">麦克风硬件配置</string>
+
+    <string name="key_selectedgeometry">selectedgeometry</string>
+    <string name="title_selectedgeometry">所需几何配置</string>
+    <string name="summary_selectedgeometry">麦克风软件设置</string>
+
+    <string name="key_gender">gender</string>
+    <string name="title_gender">性别</string>
+    <string name="summary_gender">智能助手的性别</string>
+
+    <string name="key_neural">neural</string>
+    <string name="title_neural">Use Neural TTS (en-us only)</string>
+    <string name="summary_neural">Toggle whether to use Neural TTS Voice</string>
+
+    <!--Location Preferences View-->
+    <string name="pref_header_location">地点</string>
+
+    <string name="key_timezone">timezone</string>
+    <string name="title_timezone">时区</string>
+
+    <string name="key_latitude">latitude</string>
+    <string name="title_latitude">维度</string>
+
+    <string name="key_longitude">longitude</string>
+    <string name="title_longitude">经度</string>
+
+
+    <!--About Preferences View-->
+    <string name="pref_header_about">About</string>
+    <string name="summary_about">此实例应用程序展示了如何将微软认知服务的语音设备SDK与微软机器人框架Direct Line上的对话式机器人集成。</string>
+    <string name="privacy_policy">隐私政策</string>
+    <string name="url_privacy">https://privacy.microsoft.com/en-us/privacystatement</string>
+    <string name="title_terms">条款和条件</string>
+    <string name="url_terms">https://www.microsoft.com/en-us/legal/intellectualproperty/copyright/default.aspx/</string>
+</resources>

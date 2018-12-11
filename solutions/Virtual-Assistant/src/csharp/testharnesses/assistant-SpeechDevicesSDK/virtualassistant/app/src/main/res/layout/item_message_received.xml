@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="8dp">
+
+    <ImageView
+        android:id="@+id/image_message_profile"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/botlogo"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintTop_toTopOf="@id/text_message_body" />
+
+    <RelativeLayout
+        android:id="@+id/arrow"
+        android:layout_width="24dp"
+        android:layout_height="28dp"
+        app:layout_constraintRight_toLeftOf="@id/text_message_body"
+        app:layout_constraintTop_toTopOf="@+id/text_message_body" />
+
+    <TextView
+        android:id="@+id/text_message_body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/rounded_rectangle_receiver"
+        android:maxWidth="240dp"
+        android:minHeight="20dp"
+        android:padding="10dp"
+        android:text="hello human"
+
+        android:textColor="@color/receiverText"
+        app:layout_constraintTop_toTopOf="@id/image_message_profile"
+        app:layout_constraintLeft_toRightOf="@+id/image_message_profile" />
+
+
+    <TextView
+        android:id="@+id/text_message_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="22:58"
+        android:textColor="@color/subtle"
+        android:textSize="10sp"
+        app:layout_constraintTop_toBottomOf="@+id/text_message_body"
+        app:layout_constraintLeft_toLeftOf="@id/text_message_body"
+        tools:layout_editor_absoluteX="40dp" />
+</android.support.constraint.ConstraintLayout>

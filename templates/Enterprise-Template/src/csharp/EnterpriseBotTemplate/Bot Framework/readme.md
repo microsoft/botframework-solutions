@@ -11,7 +11,7 @@
 - Install the Azure Bot Service command line (CLI) tools. It's important to do this even if you've used the tools before to ensure you have the latest versions.
 
 ```shell
-npm install -g ludown luis-apis qnamaker botdispatch msbot luisgen chatdown
+npm install -g ludown luis-apis qnamaker botdispatch msbot chatdown
 ```
 
 - Install the Azure Command Line Tools (CLI) from [here](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)
@@ -19,6 +19,12 @@ npm install -g ludown luis-apis qnamaker botdispatch msbot luisgen chatdown
 - Install the AZ Extension for Bot Service
 ```shell
 az extension add -n botservice
+```
+
+- Install the LUISGen tool
+
+```shell
+dotnet tool install -g luisgen
 ```
 
 ## Configuration
@@ -48,14 +54,14 @@ Enterprise Template Bots require the following dependencies for end to end opera
 - Azure Cognitive Services - QnAMaker (including Azure Search, Azure Web App)
 - Azure Cognitive Services - Content Moderator (optional manual step)
 
-Your new Bot project has a deployment recipe enabling the `msbot clone services` command to automate deployment of all the above services into your Azure subscription and ensure the .bot file in your project is updated with all of the services including keys enabling seamless operation of your Bot.
+Your new Bot project has a deployment recipe enabling the `msbot clone services` command to automate deployment of all the above services into your Azure subscription and ensure the .bot file in your project is updated with all of the services including keys enabling seamless operation of your Bot. It also has multiple configuration options for the following languages: Chinese, English, French, German, Italian, and Spanish.
+
+Run the following command referencing the folder of the language you want to use (e.g. `DeploymentScripts\en`).
 
 > Once deployed, review the Pricing Tiers for the created services and adjust to suit your scenario.
 
-The README.md within your created project contains an example msbot clone services command line updated with your created Bot name and a generic version is shown below. Ensure you update the authoring key from the previous step and choose the Azure datacenter location you wish to use (e.g. westus or westeurope).
-
 ```shell
-msbot clone services --name "$safeprojectname$" --luisAuthoringKey "YOUR_AUTHORING_KEY" --folder "DeploymentScripts\msbotClone" --location "westus"
+msbot clone services --name "$safeprojectname$" --luisAuthoringKey "YOUR_AUTHORING_KEY" --folder "DeploymentScripts\YOUR_LOCALE_FOLDER" --location "westus"
 ```
 
 Once this is complete ensure that you make a note of the .bot file secret provided as this will be required for later steps. At this time, take the secret and update the `botFileSecret` entry in your `appsettings.json` file. This will ensure your Bot can decrypt the secrets.
@@ -63,7 +69,7 @@ Once this is complete ensure that you make a note of the .bot file secret provid
 Update your appsettings.json file with the .bot file path, .bot file secret, and AppInsights intrumentation key (this can be found in the generated .bot file).
     
         {
-          "botFilePath": ".\\$safeprojectname$.bot",
+          "botFilePath": ".\\YOUR_BOT_PATH.bot",
           "botFileSecret": "YOUR_BOT_KEY",
           "ApplicationInsights": {
             "InstrumentationKey": "YOUR_INSTRUMENTATION_KEY"

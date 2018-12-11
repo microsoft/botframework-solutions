@@ -62,6 +62,17 @@ namespace PointOfInterestSkill
             LastUtteredNumber = null;
         }
 
+        /// <summary>
+        /// Clear LUIS results in state for next dialog turn.
+        /// </summary>
+        public void ClearLuisResults()
+        {
+            SearchText = string.Empty;
+            SearchAddress = string.Empty;
+            SearchDescriptor = string.Empty;
+            LastUtteredNumber = null;
+        }
+
         public void CheckForValidCurrentCoordinates()
         {
             if (CurrentCoordinates == null)

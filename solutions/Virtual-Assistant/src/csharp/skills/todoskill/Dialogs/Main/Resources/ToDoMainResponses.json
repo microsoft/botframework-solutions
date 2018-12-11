@@ -27,7 +27,7 @@
       "Mark the second task as complete",
       "Delete the third task"
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "GreetingMessage": {
     "replies": [
@@ -77,6 +77,15 @@
       {
         "text": "This feature is not yet available in the ToDo Skill. Please try asking something else.",
         "speak": "This feature is not yet available in the ToDo Skill. Please try asking something else."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "CancelMessage": {
+    "replies": [
+      {
+        "text": "Ok, let's start over.",
+        "speak": "Ok, let's start over."
       }
     ],
     "inputHint": "acceptingInput"

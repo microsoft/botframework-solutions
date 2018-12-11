@@ -18,7 +18,7 @@
         "speak": "你能再试一次问我，我没听懂你的意思。"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "NoAuth": {
     "replies": [
@@ -36,7 +36,7 @@
         "speak": "您的登录失败，请稍后再试。"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "CancellingMessage": {
     "replies": [
@@ -70,7 +70,7 @@
         "speak": "如果你需要我的帮助，我就在这里。"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "ToDoErrorMessage": {
     "replies": [
@@ -95,7 +95,7 @@
         "speak": "抱歉，我现在找不到你想要的东西。请稍后再试。"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "SettingUpOneNoteMessage": {
     "replies": [
@@ -104,16 +104,16 @@
         "speak": "我正在配置您的列表, 这不会花费很长时间。"
       }
     ],
-    "inputHint": "acceptingInput"
+    "inputHint": "ignoringInput"
   },
   "ShowToDoTasks": {
     "replies": [
       {
-        "text": "您的列表有 {taskCount} 个任务：",
-        "speak": "您的列表有 {taskCount} 个任务："
+        "text": "您的列表有{taskCount}个任务：",
+        "speak": "您的列表有{taskCount}个任务："
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "ignoringInput"
   },
   "AskToDoTaskIndex": {
     "replies": [
@@ -127,20 +127,20 @@
   "AskToDoContentText": {
     "replies": [
       {
-        "text": "当然。您想加入什么到待办事项表？",
+        "text": "当然。您想加入什么到事项表？",
         "speak": "当然。您想加入什么到待办事项表？"
       },
       {
-        "text": "好的，您想加入什么到待办事项表？",
-        "speak": "好的，您想加入什么到待办事项表？"
+        "text": "好的，您想加入什么到事项表？",
+        "speak": "好的，您想加入什么到事项表？"
       },
       {
-        "text": "好，您想加入什么到待办事项表？",
-        "speak": "好，您想加入什么到待办事项表？"
+        "text": "好，您想加入什么到事项表？",
+        "speak": "好，您想加入什么到事项表？"
       },
       {
-        "text": "您想加入什么到待办事项表？",
-        "speak": "您想加入什么到待办事项表？"
+        "text": "您想加入什么到事项表？",
+        "speak": "您想加入什么到事项表？"
       }
     ],
     "inputHint": "expectingInput"
@@ -152,7 +152,7 @@
         "speak": "已经为您加入此任务。"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "NoTasksInList": {
     "replies": [
@@ -161,6 +161,6 @@
         "speak": "您的事项表是空的."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   }
 }

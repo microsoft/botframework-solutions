@@ -2,33 +2,52 @@
 // Licensed under the MIT License.
 
 using $safeprojectname$.Dialogs.Cancel.Resources;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.TemplateManager;
+using Microsoft.Bot.Schema;
 
-namespace $safeprojectname$
+namespace $safeprojectname$.Dialogs.Cancel
 {
     public class CancelResponses : TemplateManager
     {
-        // Constants
-        public const string _confirmPrompt = "Cancel.ConfirmCancelPrompt";
-        public const string _cancelConfirmed = "Cancel.CancelConfirmed";
-        public const string _cancelDenied = "Cancel.CancelDenied";
-
-        // Fields
         private static LanguageTemplateDictionary _responseTemplates = new LanguageTemplateDictionary
         {
             ["default"] = new TemplateIdMap
             {
-                { _confirmPrompt, (context, data) => CancelStrings.CANCEL_PROMPT },
-                { _cancelConfirmed, (context, data) => CancelStrings.CANCEL_CONFIRMED },
-                { _cancelDenied, (context, data) => CancelStrings.CANCEL_DENIED },
-            },
-            ["en"] = new TemplateIdMap { },
-            ["fr"] = new TemplateIdMap { },
+                { ResponseIds.CancelConfirmedMessage,
+                    (context, data) =>
+                    MessageFactory.Text(
+                        text: CancelStrings.CANCEL_CONFIRMED,
+                        ssml: CancelStrings.CANCEL_CONFIRMED,
+                        inputHint: InputHints.AcceptingInput)
+                },
+                { ResponseIds.CancelDeniedMessage,
+                    (context, data) =>
+                    MessageFactory.Text(
+                        text: CancelStrings.CANCEL_DENIED,
+                        ssml: CancelStrings.CANCEL_DENIED,
+                        inputHint: InputHints.AcceptingInput)
+                },
+                { ResponseIds.CancelPrompt,
+                    (context, data) =>
+                    MessageFactory.Text(
+                        text: CancelStrings.CANCEL_PROMPT,
+                        ssml: CancelStrings.CANCEL_PROMPT,
+                        inputHint: InputHints.ExpectingInput)
+                },
+            }
         };
 
         public CancelResponses()
         {
             Register(new DictionaryRenderer(_responseTemplates));
+        }
+
+        public class ResponseIds
+        {
+            public const string CancelPrompt = "cancelPrompt";
+            public const string CancelConfirmedMessage = "cancelConfirmed";
+            public const string CancelDeniedMessage = "cancelDenied";
         }
     }
 }

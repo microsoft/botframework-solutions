@@ -10,7 +10,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Microsoft.CognitiveServices.ContentModerator;
 
-namespace $safeprojectname$
+namespace $safeprojectname$.Middleware
 {
     /// <summary>
     /// Middleware component to run Content Moderator Service on all incoming activities.
@@ -64,8 +64,8 @@ namespace $safeprojectname$
                 var byteArray = Encoding.UTF8.GetBytes(context.Activity.Text);
                 var textStream = new MemoryStream(byteArray);
 
-                var client = new ContentModeratorClient(new ApiKeyServiceClientCredentials(this.subscriptionKey));
-                client.BaseUrl = $"{this.region}.api.cognitive.microsoft.com";
+                var client = new ContentModeratorClient(new ApiKeyServiceClientCredentials(subscriptionKey));
+                client.Endpoint = $"{region}.api.cognitive.microsoft.com";
 
                 var screenResult = client.TextModeration.ScreenText(
                     language: "eng",

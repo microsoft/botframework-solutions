@@ -2,8 +2,8 @@
   "NoTitle": {
     "replies": [
       {
-        "text": "好的，我将发送会议给{UserName}, 会议主题是什么？",
-        "speak": "好的，我将发送会议给{UserName}, 会议主题是什么？"
+        "text": "好的，我将发送会议给{UserName}，会议主题是什么？",
+        "speak": "好的，我将发送会议给{UserName}，会议主题是什么？"
       }
     ],
     "inputHint": "expectingInput"
@@ -38,8 +38,8 @@
   "ConfirmCreateFailed": {
     "replies": [
       {
-        "text": "我准备好创建会议。请确认下列会议内容。请说 ‘是’ 或者 ‘否’ 或类似词语。",
-        "speak": "我准备好创建会议。请确认下列会议内容。请说 ‘是’ 或者 ‘否’ 或类似词语。"
+        "text": "我准备好创建会议。请确认下列会议内容。请说 ‘是’ 或者 ‘不’ 或类似词语。",
+        "speak": "我准备好创建会议。请确认下列会议内容。请说 ‘是’ 或者 ‘不’ 或类似词语。"
       }
     ],
     "inputHint": "expectingInput"
@@ -53,54 +53,36 @@
     ],
     "inputHint": "expectingInput"
   },
-  "EventCreationFailed": {
-    "replies": [
-      {
-        "text": "会议创建失败",
-        "speak": "会议创建失败"
-      },
-      {
-        "text": "发生错误，请重试。",
-        "speak": "发生错误，请重试。"
-      },
-      {
-        "text": "不能创建会议，请稍后重试。",
-        "speak": "不能创建会议，请稍后重试。"
-      },
-      {
-        "text": "创建会议失败，请稍后重试。",
-        "speak": "创建会议失败，请稍后重试。"
-      },
-      {
-        "text": "创建会议时发生错误，请稍后重试？",
-        "speak": "创建会议时发生错误，请稍后重试？"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "NoAttendeesMS": {
+    "EventCreationFailed": {
+        "replies": [
+            {
+                "text": "会议创建失败",
+                "speak": "会议创建失败"
+            },
+            {
+                "text": "发生错误，请重试。",
+                "speak": "发生错误，请重试。"
+            },
+            {
+                "text": "不能创建会议，请稍后重试。",
+                "speak": "不能创建会议，请稍后重试。"
+            },
+            {
+                "text": "创建会议失败，请稍后重试。",
+                "speak": "创建会议失败，请稍后重试。"
+            },
+            {
+                "text": "创建会议时发生错误，请稍后重试？",
+                "speak": "创建会议时发生错误，请稍后重试？"
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
+  "NoAttendees": {
     "replies": [
       {
         "text": "谁将参加会议？",
         "speak": "谁将参加会议？"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "WrongAddress": {
-    "replies": [
-      {
-        "text": "这不是一个正确的邮件地址，请重试。 (请输入电子邮件地址，例如: Alice@example.com)",
-        "speak": "这不是一个正确的邮件地址，请重试。 (请输入电子邮件地址，例如: Alice@example.com)"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "NoAttendees": {
-    "replies": [
-      {
-        "text": "谁将参加会议？ (请输入电子邮件地址，例如: Alice@example.com)",
-        "speak": "谁将参加会议？ (请输入电子邮件地址，例如: Alice@example.com)"
       }
     ],
     "inputHint": "expectingInput"

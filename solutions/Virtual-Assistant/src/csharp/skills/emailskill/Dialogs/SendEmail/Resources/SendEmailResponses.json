@@ -6,7 +6,7 @@
         "speak": "Alright, I will send this to {UserName}."
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "NoSubject": {
     "replies": [

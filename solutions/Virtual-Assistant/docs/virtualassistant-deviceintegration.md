@@ -18,14 +18,15 @@ A device can take the Adaptive Card response in JSON format and render to the ta
 
 Events provides a powerful way for a device to send information from the Device (as a result of a button press, or a device start) but also to receive actions that the Virtual Assistant wishes to perform (e.g. change the navigation destination, control a device feature, etc.). See the [Events section](./virtualassistant-events.md) for more information.
 
-## DirectLine SDK
+## Direct Line SDK
 
-The DirectLine REST API is documented [here](https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-direct-line-3-0-api-reference?view=azure-bot-service-3.0) and includes links to SDKs.
+The [Direct Line REST API](https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-direct-line-3-0-api-reference?view=azure-bot-service-3.0) documentation includes links to SDKs.
 
 ## Adaptive Card SDK
 
-The Adaptive Card documentation including information on available platform Renderers is available [here](https://docs.microsoft.com/en-us/adaptive-cards/rendering-cards/getting-started). If your platform isn't shown it's possible to plugin your own custom Renderer for your particular platform.
+You can [render Adaptive Cards](https://docs.microsoft.com/en-us/adaptive-cards/rendering-cards/getting-started) within your own application. If your platform isn't available, it's possible to plug in your own custom renderer for your particular platform.
 
 ## Speech SDK
 
-The [Unified Speech Cognitive Services](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/overview) provide a broad range of Speech-To-Text, Text-To-Speech, Translation and Custom Voice capabilities which can easily be plugged into your Virtual Assistant. SDK information can be found [here](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/speech-sdk-reference) along with supported languages [here](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/supported-languages).  In addition we have integration with the [Speech Devices SDK](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/speech-devices-sdk-qsg) enabling custom wake word detection along with linear/circular microphone arrays. 
+The [Unified Speech Cognitive Services](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/overview) provide a broad range of Speech-To-Text, Text-To-Speech, Translation and Custom Voice capabilities which can easily be plugged into your Virtual Assistant. 
+The [Speech Software Development Kit (SDK)](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/speech-sdk-reference) is available for reference, making it easier to develop speech-enabled software. Different Speech SDK functions have a variety of [language support](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/supported-languages).   In addition, we have integration with the [Speech Devices SDK](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/speech-devices-sdk-qsg) enabling custom wake word detection along with linear/circular microphone arrays.

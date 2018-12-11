@@ -21,7 +21,7 @@ namespace Luis
             None, 
             ShowToDo
         };
-        public Dictionary<Intent, IntentScore> Intents;
+        public virtual Dictionary<Intent, IntentScore> Intents { get; set; }
 
         public class _Entities
         {
@@ -31,6 +31,7 @@ namespace Luis
             public string[] TaskContentML;
 
             // Built-in entities
+            public double[] number;
             public double[] ordinal;
 
             // Lists
@@ -47,6 +48,7 @@ namespace Luis
                 public InstanceData[] ContainsAll;
                 public InstanceData[] ListType;
                 public InstanceData[] TaskContentML;
+                public InstanceData[] number;
                 public InstanceData[] ordinal;
                 public InstanceData[] FoodOfGrocery;
                 public InstanceData[] ShopVerb;
@@ -56,7 +58,7 @@ namespace Luis
             [JsonProperty("$instance")]
             public _Instance _instance;
         }
-        public _Entities Entities;
+        public virtual _Entities Entities { get; set; }
 
         [JsonExtensionData(ReadData = true, WriteData = true)]
         public IDictionary<string, object> Properties {get; set; }
@@ -71,7 +73,7 @@ namespace Luis
             Properties = app.Properties;
         }
 
-        public (Intent intent, double score) TopIntent()
+        public virtual (Intent intent, double score) TopIntent()
         {
             Intent maxIntent = Intent.None;
             var max = 0.0;

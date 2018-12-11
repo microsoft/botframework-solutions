@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Dialogs.Main.Resources;
@@ -12,7 +13,6 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
-using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
@@ -22,7 +22,7 @@ namespace CalendarSkill
     public class MainDialog : RouterDialog
     {
         private bool _skillMode;
-        private SkillConfiguration _services;
+        private ISkillConfiguration _services;
         private UserState _userState;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
@@ -30,7 +30,7 @@ namespace CalendarSkill
         private CalendarSkillResponseBuilder _responseBuilder = new CalendarSkillResponseBuilder();
 
         public MainDialog(
-            SkillConfiguration services,
+            ISkillConfiguration services,
             ConversationState conversationState,
             UserState userState,
             IServiceManager serviceManager,
@@ -63,8 +63,12 @@ namespace CalendarSkill
         {
             var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
 
+            // get current activity locale
+            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            var localeConfig = _services.LocaleConfigurations[locale];
+
             // If dispatch result is general luis model
-            _services.LuisServices.TryGetValue("calendar", out var luisService);
+            localeConfig.LuisServices.TryGetValue("calendar", out var luisService);
 
             if (luisService == null)
             {
@@ -72,8 +76,9 @@ namespace CalendarSkill
             }
             else
             {
-                var result = await luisService.RecognizeAsync<Calendar>(dc.Context, CancellationToken.None);
+                var result = await luisService.RecognizeAsync<Luis.Calendar>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
+                var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
 
                 var skillOptions = new CalendarSkillDialogOptions
                 {
@@ -83,44 +88,63 @@ namespace CalendarSkill
                 // switch on general intents
                 switch (intent)
                 {
-                    case Calendar.Intent.FindMeetingRoom:
-                    case Calendar.Intent.CreateCalendarEntry:
+                    case Luis.Calendar.Intent.FindMeetingRoom:
+                    case Luis.Calendar.Intent.CreateCalendarEntry:
                         {
                             await dc.BeginDialogAsync(nameof(CreateEventDialog), skillOptions);
                             break;
                         }
 
-                    case Calendar.Intent.DeleteCalendarEntry:
+                    case Luis.Calendar.Intent.DeleteCalendarEntry:
                         {
                             await dc.BeginDialogAsync(nameof(DeleteEventDialog), skillOptions);
                             break;
                         }
 
-                    case Calendar.Intent.NextMeeting:
+                    case Luis.Calendar.Intent.NextMeeting:
                         {
                             await dc.BeginDialogAsync(nameof(NextMeetingDialog), skillOptions);
                             break;
                         }
 
-                    case Calendar.Intent.ChangeCalendarEntry:
+                    case Luis.Calendar.Intent.ChangeCalendarEntry:
                         {
                             await dc.BeginDialogAsync(nameof(UpdateEventDialog), skillOptions);
                             break;
                         }
 
-                    case Calendar.Intent.FindCalendarEntry:
-                    case Calendar.Intent.Summary:
+                    case Luis.Calendar.Intent.ConnectToMeeting:
+                        {
+                            await dc.BeginDialogAsync(nameof(ConnectToMeetingDialog), skillOptions);
+                            break;
+                        }
+
+                    case Luis.Calendar.Intent.FindCalendarEntry:
+                    case Luis.Calendar.Intent.Summary:
                         {
                             await dc.BeginDialogAsync(nameof(SummaryDialog), skillOptions);
                             break;
                         }
 
-                    case Calendar.Intent.None:
+                    case Luis.Calendar.Intent.TimeRemaining:
                         {
-                            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage));
-                            if (_skillMode)
+                            await dc.BeginDialogAsync(nameof(TimeRemainingDialog), skillOptions);
+                            break;
+                        }
+
+                    case Luis.Calendar.Intent.None:
+                        {
+                            if (generalTopIntent == General.Intent.Next || generalTopIntent == General.Intent.Previous)
                             {
-                                await CompleteAsync(dc);
+                                await dc.BeginDialogAsync(nameof(SummaryDialog), skillOptions);
+                            }
+                            else
+                            {
+                                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage));
+                                if (_skillMode)
+                                {
+                                    await CompleteAsync(dc);
+                                }
                             }
 
                             break;
@@ -204,13 +228,17 @@ namespace CalendarSkill
 
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
+                // get current activity locale
+                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                var localeConfig = _services.LocaleConfigurations[locale];
+
                 // Update state with email luis result and entities
-                var calendarLuisResult = await _services.LuisServices["calendar"].RecognizeAsync<Calendar>(dc.Context, cancellationToken);
+                var calendarLuisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<Luis.Calendar>(dc.Context, cancellationToken);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
                 state.LuisResult = calendarLuisResult;
 
                 // check luis intent
-                _services.LuisServices.TryGetValue("general", out var luisService);
+                localeConfig.LuisServices.TryGetValue("general", out var luisService);
 
                 if (luisService == null)
                 {
@@ -251,7 +279,9 @@ namespace CalendarSkill
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
-            await dc.BeginDialogAsync(nameof(CancelDialog));
+            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(CalendarMainResponses.CancelMessage));
+            await CompleteAsync(dc);
+            await dc.CancelAllDialogsAsync();
             return InterruptionAction.StartedDialog;
         }
 
@@ -293,9 +323,10 @@ namespace CalendarSkill
             AddDialog(new CreateEventDialog(_services, _stateAccessor, _serviceManager));
             AddDialog(new DeleteEventDialog(_services, _stateAccessor, _serviceManager));
             AddDialog(new NextMeetingDialog(_services, _stateAccessor, _serviceManager));
+            AddDialog(new TimeRemainingDialog(_services, _stateAccessor, _serviceManager));
             AddDialog(new SummaryDialog(_services, _stateAccessor, _serviceManager));
             AddDialog(new UpdateEventDialog(_services, _stateAccessor, _serviceManager));
-            AddDialog(new CancelDialog(_stateAccessor));
+            AddDialog(new ConnectToMeetingDialog(_services, _stateAccessor, _serviceManager));
         }
 
         private class Events

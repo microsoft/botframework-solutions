@@ -10,7 +10,7 @@
       "Show latest email",
       "Send an email to somebody"
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "HelpMessage": {
     "replies": [
@@ -24,7 +24,7 @@
       "Send an email to somebody",
       "Forward the second email to somebody"
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "GreetingMessage": {
     "replies": [
@@ -65,6 +65,15 @@
       {
         "text": "This feature is not yet available in the Email Skill. Please try asking something else.",
         "speak": "This feature is not yet available in the Email Skill. Please try asking something else."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "CancelMessage": {
+    "replies": [
+      {
+        "text": "Ok, let's start over.",
+        "speak": "Ok, let's start over."
       }
     ],
     "inputHint": "acceptingInput"

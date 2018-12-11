@@ -1,7 +1,6 @@
 ﻿// https://docs.microsoft.com/en-us/visualstudio/modeling/t4-include-directive?view=vs-2017
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using System;
 using System.IO;
 using System.Runtime.CompilerServices;
 using Microsoft.Bot.Solutions.Dialogs;
@@ -36,6 +35,8 @@ namespace EmailSkill.Dialogs.Shared.Resources
         public static BotResponse ActionEnded => GetBotResponse();
 
         public static BotResponse EmailErrorMessage => GetBotResponse();
+
+        public static BotResponse EmailErrorMessage_BotProblem => GetBotResponse();
 
         public static BotResponse SentSuccessfully => GetBotResponse();
 
