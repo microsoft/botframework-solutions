@@ -29,41 +29,15 @@ namespace ToDoSkillTest.Flow
         public async Task Test_DeleteAllToDoItems()
         {
             await this.GetTestFlow()
-                .Send(DeleteToDoFlowTestUtterances.BaseShowTasks)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.SettingUpOneNote())
-                .AssertReply(this.ShowToDoList())
-                .AssertReplyOneOf(this.ShowMoreTasks())
-                .AssertReply(this.ActionEndMessage())
                 .Send(DeleteToDoFlowTestUtterances.DeleteAllTasks)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReply(this.CollectConfirmation())
                 .Send("yes")
                 .AssertReply(this.AfterAllTasksDeletedTextMessage())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
-        }
-
-        private Action<IActivity> ShowToDoList()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-                Assert.AreEqual(messageActivity.Attachments.Count, 1);
-                var responseCard = messageActivity.Attachments[0].Content as AdaptiveCard;
-                Assert.IsNotNull(responseCard);
-                var adaptiveCardTitle = responseCard.Body[0] as AdaptiveTextBlock;
-                Assert.IsNotNull(adaptiveCardTitle);
-                var toDoChoices = responseCard.Body[1] as AdaptiveContainer;
-                Assert.IsNotNull(toDoChoices);
-                var toDoChoiceCount = toDoChoices.Items.Count;
-                CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", MockData.MockTaskItems.Count.ToString() } }),
-                    adaptiveCardTitle.Text);
-                Assert.AreEqual(toDoChoiceCount, PageSize);
-            };
         }
 
         private Action<IActivity> CollectConfirmation()
@@ -91,11 +65,6 @@ namespace ToDoSkillTest.Flow
         private string[] SettingUpOneNote()
         {
             return this.ParseReplies(ToDoSharedResponses.SettingUpOneNoteMessage.Replies, new StringDictionary());
-        }
-
-        private string[] ShowMoreTasks()
-        {
-            return this.ParseReplies(ShowToDoResponses.ShowingMoreTasks.Replies, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()

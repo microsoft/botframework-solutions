@@ -28,47 +28,57 @@ namespace ToDoSkillTest.Flow
         public async Task Test_MarkToDoItem()
         {
             await this.GetTestFlow()
-                .Send(MarkToDoFlowTestUtterances.BaseShowTasks)
+                .Send(MarkToDoFlowTestUtterances.BaseMarkTask)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
-                .AssertReply(this.ShowToDoList())
-                .AssertReplyOneOf(this.ShowMoreTasks())
+                .AssertReplyOneOf(this.CollectTaskIndex())
+                .Send(MarkToDoFlowTestUtterances.TaskContent)
+                .AssertReply(this.AfterTaskMarkedCardMessage(0))
                 .AssertReply(this.ActionEndMessage())
-                .Send(MarkToDoFlowTestUtterances.MarkTaskAsCompleted)
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_MarkToDoItem_By_Specific_Index()
+        {
+            await this.GetTestFlow()
+                .Send(MarkToDoFlowTestUtterances.MarkSpecificTaskAsCompleted)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
-                .AssertReply(this.AfterTaskMarkedCardMessage())
+                .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReply(this.AfterTaskMarkedCardMessage(1))
                 .AssertReply(this.ActionEndMessage())
-                .Send(MarkToDoFlowTestUtterances.MarkTaskAsCompletedWithListType)
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_MarkToDoItem_By_Specific_Index_And_ListType()
+        {
+            await this.GetTestFlow()
+                .Send(MarkToDoFlowTestUtterances.MarkSpecificTaskAsCompletedWithListType)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReply(this.AfterGroceryItemMarkedCompletedCardMessage())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
-        private Action<IActivity> ShowToDoList()
+        [TestMethod]
+        public async Task Test_MarkToDoItem_By_Specific_Content()
         {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-                Assert.AreEqual(messageActivity.Attachments.Count, 1);
-                var responseCard = messageActivity.Attachments[0].Content as AdaptiveCard;
-                Assert.IsNotNull(responseCard);
-                var adaptiveCardTitle = responseCard.Body[0] as AdaptiveTextBlock;
-                Assert.IsNotNull(adaptiveCardTitle);
-                var toDoChoices = responseCard.Body[1] as AdaptiveContainer;
-                Assert.IsNotNull(toDoChoices);
-                var toDoChoiceCount = toDoChoices.Items.Count;
-                CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", MockData.MockTaskItems.Count.ToString() } }),
-                    adaptiveCardTitle.Text);
-                Assert.AreEqual(toDoChoiceCount, PageSize);
-            };
+            await this.GetTestFlow()
+                .Send(MarkToDoFlowTestUtterances.MarkTaskAsCompletedByContent)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReply(this.AfterTaskMarkedCardMessage(0))
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
         }
 
-        private Action<IActivity> AfterTaskMarkedCardMessage()
+        private Action<IActivity> AfterTaskMarkedCardMessage(int index)
         {
             return activity =>
             {
@@ -85,7 +95,7 @@ namespace ToDoSkillTest.Flow
                     this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", MockData.MockTaskItems.Count.ToString() } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
-                var columnSet = toDoChoices.Items[1] as AdaptiveColumnSet;
+                var columnSet = toDoChoices.Items[index] as AdaptiveColumnSet;
                 Assert.IsNotNull(columnSet);
                 var column = columnSet.Columns[0];
                 Assert.IsNotNull(column);
@@ -120,19 +130,14 @@ namespace ToDoSkillTest.Flow
             };
         }
 
+        private string[] CollectTaskIndex()
+        {
+            return this.ParseReplies(ToDoSharedResponses.AskToDoTaskIndex.Replies, new StringDictionary());
+        }
+
         private string[] SettingUpOneNote()
         {
             return this.ParseReplies(ToDoSharedResponses.SettingUpOneNoteMessage.Replies, new StringDictionary());
-        }
-
-        private string[] ShowMoreTasks()
-        {
-            return this.ParseReplies(ShowToDoResponses.ShowingMoreTasks.Replies, new StringDictionary());
-        }
-
-        private string[] AfterDialogCompleted()
-        {
-            return this.ParseReplies(ToDoSharedResponses.ActionEnded.Replies, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()
