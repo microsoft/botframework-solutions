@@ -438,8 +438,7 @@ namespace VirtualAssistant
                                 Text = places[i].Address,
                                 Buttons = new List<CardAction>
                                 {
-                                    new CardAction(ActionTypes.OpenUrl, "Here", value: AddressUrl)
-
+                                    new CardAction(ActionTypes.OpenUrl, "查看地图", value: AddressUrl)
                                 }
                             };
                             response.Attachments.Add(card.ToAttachment());
@@ -483,7 +482,7 @@ namespace VirtualAssistant
                             Title = "您到" + place + "距离有" + (double)routes[0].Distance/1000 + "公里, 需要" + routes[0].Duration/60 + "分钟",
                             Buttons = new List<CardAction>
                             {
-                                new CardAction(ActionTypes.OpenUrl, "Here", value: AddressUrl)
+                                new CardAction(ActionTypes.OpenUrl, "查看地图", value: AddressUrl)
                             }
                         };
                         response.Attachments.Add(card.ToAttachment());
