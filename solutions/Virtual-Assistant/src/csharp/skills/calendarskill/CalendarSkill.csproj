@@ -140,8 +140,8 @@
       <LastGenOutput>SummaryResponses.cs</LastGenOutput>
     </None>
     <None Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.tt">
-      <LastGenOutput>TimeRemainResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TimeRemainResponses.cs</LastGenOutput>
     </None>
     <None Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

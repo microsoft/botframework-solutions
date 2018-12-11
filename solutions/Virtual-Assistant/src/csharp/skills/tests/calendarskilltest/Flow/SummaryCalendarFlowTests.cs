@@ -11,6 +11,8 @@ using CalendarSkillTest.Flow.Utterances;
 using CalendarSkillTest.Flow.Fakes;
 using System.Collections.Generic;
 using CalendarSkill;
+using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Builder;
 
 namespace CalendarSkillTest.Flow
 {
@@ -22,7 +24,16 @@ namespace CalendarSkillTest.Flow
         {
             var serviceManager = this.ServiceManager as MockCalendarServiceManager;
             serviceManager.SetupUserService(MockUserService.FakeDefaultUsers(), MockUserService.FakeDefaultPeople());
-            this.Services.LuisServices.Add("calendar", new MockLuisRecognizer(new FindMeetingTestUtterances()));
+
+            this.Services.LocaleConfigurations.Add("en", new LocaleConfiguration()
+            {
+                Locale = "en-us",
+                LuisServices = new Dictionary<string, IRecognizer>()
+                {
+                    { "general", new MockLuisRecognizer() },
+                    { "calendar", new MockLuisRecognizer(new FindMeetingTestUtterances()) }
+                }
+            });
         }
 
         [TestMethod]
