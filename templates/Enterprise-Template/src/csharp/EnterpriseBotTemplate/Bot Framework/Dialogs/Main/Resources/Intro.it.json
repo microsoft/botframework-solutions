@@ -20,7 +20,7 @@
     {
       "type": "TextBlock",
       "size": "default",
-      "isSubtle": "yes",
+      "isSubtle": true,
       "text": "Ora che avete eseguito con successo il vostro bot, seguire i collegamenti in questa scheda adattabile per espandere la vostra conoscenza del Bot Framework.",
       "wrap": true,
       "maxLines": 0

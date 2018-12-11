@@ -135,6 +135,24 @@
   <data name="GREETING_WITH_NAME" xml:space="preserve">
     <value>Hé, {0}!</value>
   </data>
+  <data name="HELP_BTN_TEXT_1" xml:space="preserve">
+    <value>Test LUIS</value>
+  </data>
+  <data name="HELP_BTN_TEXT_2" xml:space="preserve">
+    <value>Test QnA Maker</value>
+  </data>
+  <data name="HELP_BTN_TEXT_3" xml:space="preserve">
+    <value>Pour en savoir plus</value>
+  </data>
+  <data name="HELP_BTN_VALUE_1" xml:space="preserve">
+    <value>Hello</value>
+  </data>
+  <data name="HELP_BTN_VALUE_2" xml:space="preserve">
+    <value>What is the Enterprise Bot Template?</value>
+  </data>
+  <data name="HELP_BTN_VALUE_3" xml:space="preserve">
+    <value>https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0</value>
+  </data>
   <data name="HELP_TEXT" xml:space="preserve">
     <value>Je suis ton assistante virtuelle! Je peux effectuer un certain nombre de tâches à travers mes compétences connectées. En ce moment je peux vous aider avec le calendrier, email, la tâche et le point d'intérêt des questions. Ou vous pouvez m'aider à faire plus en créant votre propre!</value>
   </data>
