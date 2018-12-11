@@ -39,8 +39,6 @@
 - l'e-mail de {SenderName=Thomas} doit être signalé
 - l'e-mail à {ContactName=Barb} doit être signalé
 - cet e-mail doit être signalé
-- cet e-mail doit être signalé
-- cet e-mail doit être signalé
 - activer l'indicateur
 
 
@@ -83,8 +81,6 @@
 - afficher mes e-mails
 - Si je reçois un nouveau message
 - Si j'ai un nouveau message
-- Si je reçois un nouveau message
-
 
 ## Delete
 - pouvez-vous m'aider à le supprimer
@@ -154,7 +150,6 @@
 - Ajouter plus au message texte
 - Ajouter plus à l'e-mail
 - Ajouter plus à la {OrderReference=Dernière} Messagerie
-- Ajouter plus au message
 - Ajouter {Attachment=Photo}
 - Ajouter un peu plus
 - ajouter quelque chose
@@ -169,12 +164,10 @@
 - puis-je le refaire
 - puis-je parler à une personne
 - Est-ce que vous pouvez m'aider?
-- Annuler
 - Contacter le support technique
 - {EmailAddress=dingmaomaobjtu@gmail.com}
 - Mépris
 - Ne pas
-- Fais pas ça
 - Fais pas ça
 - modifier le courriel pour que je puisse taper un message supplémentaire
 - Sortie
@@ -185,15 +178,12 @@
 - Bonsoir
 - Bonjour
 - Bonne nuit
-- Au revoir
 - Salut
 - Bonjour bot
 - Aide
 - Aide-moi
 - aide s'il vous plaît
 - Hé
-- Salut
-- Salut
 - Comment vas-tu
 - Comment vas-tu aujourd'hui
 - Je n'ai pas encore fini. J'ai besoin d'ajouter plus de détails
@@ -223,7 +213,6 @@
 - Il n'est pas complet, besoin de plus de contenu
 - Dernière
 - déconnexion
-- Déconnexion
 - plus de texte
 - reculer
 - besoin d'ajouter des informations au message précédent
@@ -245,7 +234,6 @@
 - parler à un humain
 - C'est tout Merci
 - Transférez-moi svp
-- Annuler
 - {EmailAddress=V-qiowu@microsoft.com}
 - que puis-je dire
 - que pouvez-vous faire

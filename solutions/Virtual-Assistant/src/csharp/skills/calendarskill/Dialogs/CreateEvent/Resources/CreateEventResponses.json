@@ -82,32 +82,12 @@
         ],
         "inputHint": "acceptingInput"
     },
-  "NoAttendeesMS": {
+  "NoAttendees": {
     "replies": [
 
       {
         "text": "Who will join?",
         "speak": "Who will join?"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "WrongAddress": {
-    "replies": [
-
-      {
-        "text": "That doesn't look like an email address, please try again. (Please enter Email address like: Alice@example.com)",
-        "speak": "That doesn't look like an email address, please try again. (Please enter Email address like: Alice@example.com)"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "NoAttendees": {
-    "replies": [
-
-      {
-        "text": "Who are the participants? (Please enter Email address like: Alice@example.com)",
-        "speak": "Who are the participants? (Please enter Email address like: Alice@example.com)"
       }
     ],
     "inputHint": "expectingInput"

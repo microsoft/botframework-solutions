@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Skills;
 
 namespace VirtualAssistant
@@ -29,8 +29,11 @@ namespace VirtualAssistant
         /// Initializes a new instance of the <see cref="BotServices"/> class.
         /// </summary>
         /// <param name="botConfiguration">The <see cref="BotConfiguration"/> instance for the bot.</param>
-        public BotServices(BotConfiguration botConfiguration, List<SkillDefinition> skills)
+        /// <param name="skills">List of <see cref="SkillDefinition"/> for loading skill configurations.</param>
+        /// <param name="languageModels">The locale specifc language model configs for each supported language.</param>
+        public BotServices(BotConfiguration botConfiguration, Dictionary<string, Dictionary<string, string>> languageModels, List<SkillDefinition> skills)
         {
+            // Create service clients for each service in the .bot file.
             foreach (var service in botConfiguration.Services)
             {
                 switch (service.Type)
@@ -40,47 +43,6 @@ namespace VirtualAssistant
                             var appInsights = service as AppInsightsService;
                             var telemetryConfig = new TelemetryConfiguration(appInsights.InstrumentationKey);
                             TelemetryClient = new TelemetryClient(telemetryConfig);
-                            break;
-                        }
-
-                    case ServiceTypes.Dispatch:
-                        {
-                            var dispatch = service as DispatchService;
-                            var dispatchApp = new LuisApplication(dispatch.AppId, dispatch.SubscriptionKey, dispatch.GetEndpoint());
-                            DispatchRecognizer = new TelemetryLuisRecognizer(dispatchApp);
-                            break;
-                        }
-
-                    case ServiceTypes.Luis:
-                        {
-                            var luis = service as LuisService;
-                            var luisApp = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.GetEndpoint());
-                            LuisServices.Add(service.Id, new TelemetryLuisRecognizer(luisApp));
-                            break;
-                        }
-
-                    case ServiceTypes.QnA:
-                        {
-                            var qna = service as QnAMakerService;
-                            var qnaEndpoint = new QnAMakerEndpoint()
-                            {
-                                KnowledgeBaseId = qna.KbId,
-                                EndpointKey = qna.EndpointKey,
-                                Host = qna.Hostname,
-                            };
-                            var qnaMaker = new TelemetryQnAMaker(qnaEndpoint);
-                            QnAServices.Add(qna.Id, qnaMaker);
-                            break;
-                        }
-
-                    case ServiceTypes.Generic:
-                        {
-                            if (service.Name == "Authentication")
-                            {
-                                var authentication = service as GenericService;
-                                AuthenticationConnections = authentication.Configuration;
-                            }
-
                             break;
                         }
 
@@ -98,17 +60,87 @@ namespace VirtualAssistant
 
                             break;
                         }
+
+                    case ServiceTypes.Generic:
+                        {
+                            if (service.Name == "Authentication")
+                            {
+                                var authentication = service as GenericService;
+                                AuthenticationConnections = authentication.Configuration;
+                            }
+
+                            break;
+                        }
                 }
             }
 
+            // Create locale configuration object for each language config in appsettings.json
+            foreach (var language in languageModels)
+            {
+                var localeConfig = new LocaleConfiguration
+                {
+                    Locale = language.Key
+                };
+
+                var path = language.Value["botFilePath"];
+                var secret = language.Value["botFileSecret"];
+                var config = BotConfiguration.Load(path, !string.IsNullOrEmpty(secret) ? secret : null);
+
+                foreach (var service in config.Services)
+                {
+                    switch (service.Type)
+                    {
+                        case ServiceTypes.Dispatch:
+                            {
+                                var dispatch = service as DispatchService;
+                                var dispatchApp = new LuisApplication(dispatch.AppId, dispatch.SubscriptionKey, dispatch.GetEndpoint());
+                                localeConfig.DispatchRecognizer = new TelemetryLuisRecognizer(dispatchApp);
+                                break;
+                            }
+
+                        case ServiceTypes.Luis:
+                            {
+                                var luis = service as LuisService;
+                                var luisApp = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.GetEndpoint());
+                                localeConfig.LuisServices.Add(service.Id, new TelemetryLuisRecognizer(luisApp));
+                                break;
+                            }
+
+                        case ServiceTypes.QnA:
+                            {
+                                var qna = service as QnAMakerService;
+                                var qnaEndpoint = new QnAMakerEndpoint()
+                                {
+                                    KnowledgeBaseId = qna.KbId,
+                                    EndpointKey = qna.EndpointKey,
+                                    Host = qna.Hostname,
+                                };
+                                var qnaMaker = new TelemetryQnAMaker(qnaEndpoint);
+                                localeConfig.QnAServices.Add(qna.Id, qnaMaker);
+                                break;
+                            }
+                    }
+                }
+
+                LocaleConfigurations.Add(language.Key, localeConfig);
+            }
+
+            // Create a skill configurations for each skill in appsettings.json
             foreach (var skill in skills)
             {
                 var skillConfig = new SkillConfiguration()
                 {
                     CosmosDbOptions = CosmosDbOptions,
                     TelemetryClient = TelemetryClient,
-                    LuisServices = LuisServices.Where(l => skill.LuisServiceIds.Contains(l.Key) == true).ToDictionary(l => l.Key, l => l.Value as IRecognizer),
                 };
+
+                foreach (var localeConfig in LocaleConfigurations)
+                {
+                    skillConfig.LocaleConfigurations.Add(localeConfig.Key, new LocaleConfiguration
+                    {
+                        LuisServices = localeConfig.Value.LuisServices.Where(l => skill.LuisServiceIds.Contains(l.Key) == true).ToDictionary(l => l.Key, l => l.Value)
+                    });
+                }
 
                 if (skill.SupportedProviders != null)
                 {
@@ -133,8 +165,22 @@ namespace VirtualAssistant
             }
         }
 
+        /// <summary>
+        /// Gets the CosmosDb configuration used by the bot.
+        /// </summary>
+        /// <value>
+        /// A <see cref="CosmosDbStorageOptions"/> instance created based on configuration in the .bot file.
+        /// </value>
         public CosmosDbStorageOptions CosmosDbOptions { get; }
 
+        /// <summary>
+        /// Gets or sets the OAuth connections used by the bot.
+        /// </summary>
+        /// <value>
+        /// Created based on the configuration of the Authentication generic service in the .bot file.
+        /// The key for each item is the Connection Name, and the value is the OAuth provider.
+        /// e.g. "Microsoft":"Azure Active Directory v2".
+        /// </value>
         public Dictionary<string, string> AuthenticationConnections { get; set; } = new Dictionary<string, string>();
 
         /// <summary>
@@ -147,40 +193,32 @@ namespace VirtualAssistant
         public TelemetryClient TelemetryClient { get; }
 
         /// <summary>
-        /// Gets the set of Dispatch LUIS Recognizer used.
+        /// Gets or sets the cognitive model configurations for each locale.
         /// </summary>
-        /// <remarks>The Dispatch LUIS Recognizer should not be modified while the bot is running.</remarks>
         /// <value>
-        /// A <see cref="LuisRecognizer"/> client instance created based on configuration in the .bot file.
+        /// Created based on the locale configuration .bot file(s) in the LocaleConfigurations folder.
+        /// The key for each item is the two letter language code for the locale (e.g. "en").
+        /// The value is a <see cref="LocaleConfiguration"/> containing localized Dispatch, LUIS, and QnA Maker service clients.
         /// </value>
-        public TelemetryLuisRecognizer DispatchRecognizer { get; }
+        public Dictionary<string, LocaleConfiguration> LocaleConfigurations { get; set; } = new Dictionary<string, LocaleConfiguration>();
 
         /// <summary>
-        /// Gets the set of LUIS Services used.
-        /// Given there can be multiple <see cref="TelemetryLuisRecognizer"/> services used in a single bot,
-        /// LuisServices is represented as a dictionary.  This is also modeled in the
-        /// ".bot" file since the elements are named.
+        /// Gets or sets the skill definitions for the bot.
         /// </summary>
-        /// <remarks>The LUIS services collection should not be modified while the bot is running.</remarks>
         /// <value>
-        /// A <see cref="LuisRecognizer"/> client instance created based on configuration in the .bot file.
+        /// Created based on the "skills" section of appSettings.json.
+        /// Contains the information needed to invoke a skill.
         /// </value>
-        public Dictionary<string, TelemetryLuisRecognizer> LuisServices { get; } = new Dictionary<string, TelemetryLuisRecognizer>();
-
-        /// <summary>
-        /// Gets the set of QnAMaker Services used.
-        /// Given there can be multiple <see cref="TelemetryQnAMaker"/> services used in a single bot,
-        /// QnAServices is represented as a dictionary.  This is also modeled in the
-        /// ".bot" file since the elements are named.
-        /// </summary>
-        /// <remarks>The QnAMaker services collection should not be modified while the bot is running.</remarks>
-        /// <value>
-        /// A <see cref="TelemetryQnAMaker"/> client instance created based on configuration in the .bot file.
-        /// </value>
-        public Dictionary<string, TelemetryQnAMaker> QnAServices { get; } = new Dictionary<string, TelemetryQnAMaker>();
-
         public List<SkillDefinition> SkillDefinitions { get; set; } = new List<SkillDefinition>();
 
+        /// <summary>
+        /// Gets or sets the Skill Configurations for the bot.
+        /// </summary>
+        /// <value>
+        /// Created based on the skill definitions from appsettings.json, the locale configurations, and shared bot services.
+        /// The key for each item is the skill Id.
+        /// The value is an <see cref="ISkillConfiguration"/> object containing all the service clients used by the skill. 
+        /// </value>
         public Dictionary<string, ISkillConfiguration> SkillConfigurations { get; set; } = new Dictionary<string, ISkillConfiguration>();
     }
 }

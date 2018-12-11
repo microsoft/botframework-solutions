@@ -1,10 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using AdaptiveCards;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Skills;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.Dialogs.ShowToDo.Resources;
@@ -22,7 +25,15 @@ namespace ToDoSkillTest.Flow
         [TestInitialize]
         public void SetupLuisService()
         {
-            this.Services.LuisServices.Add("todo", new MockLuisRecognizer(new ShowToDoFlowTestUtterances()));
+            this.Services.LocaleConfigurations.Add("en", new LocaleConfiguration()
+            {
+                Locale = "en-us",
+                LuisServices = new Dictionary<string, IRecognizer>()
+                {
+                    { "general", new MockLuisRecognizer() },
+                    { "todo", new MockLuisRecognizer(new ShowToDoFlowTestUtterances()) }
+                }
+            });
         }
 
         [TestMethod]
