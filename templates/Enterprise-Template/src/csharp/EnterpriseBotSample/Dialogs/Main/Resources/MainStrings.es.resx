@@ -135,6 +135,24 @@
   <data name="GREETING_WITH_NAME" xml:space="preserve">
     <value>Hola {0}</value>
   </data>
+  <data name="HELP_BTN_TEXT_1" xml:space="preserve">
+    <value>Prueba LUIS</value>
+  </data>
+  <data name="HELP_BTN_TEXT_2" xml:space="preserve">
+    <value>Prueba QnA Maker</value>
+  </data>
+  <data name="HELP_BTN_TEXT_3" xml:space="preserve">
+    <value>Aprende más</value>
+  </data>
+  <data name="HELP_BTN_VALUE_1" xml:space="preserve">
+    <value>Hello</value>
+  </data>
+  <data name="HELP_BTN_VALUE_2" xml:space="preserve">
+    <value>What is the Enterprise Bot Template?</value>
+  </data>
+  <data name="HELP_BTN_VALUE_3" xml:space="preserve">
+    <value>https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0</value>
+  </data>
   <data name="HELP_TEXT" xml:space="preserve">
     <value>¡ Soy tu asistente virtual! Puedo realizar una serie de tareas a través de mis habilidades conectadas. En este momento puedo ayudarle con el calendario, correo electrónico, tarea y preguntas de punto de interés. ¡ O usted puede ayudarme a hacer más creando su propio!</value>
   </data>
