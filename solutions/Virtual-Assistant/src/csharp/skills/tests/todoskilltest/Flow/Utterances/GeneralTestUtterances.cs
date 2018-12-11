@@ -6,13 +6,6 @@ namespace ToDoSkillTest.Flow.Utterances
 {
     public class GeneralTestUtterances : Dictionary<string, General>
     {
-        public static double TopIntentScore { get; } = 0.9;
-
-        public General GetBaseNoneIntent()
-        {
-            return GetGeneralIntent();
-        }
-
         public GeneralTestUtterances()
         {
             this.Add(ShowNext, GetGeneralIntent(
@@ -28,11 +21,18 @@ namespace ToDoSkillTest.Flow.Utterances
                 General.Intent.ReadMore));
         }
 
-        public static string ShowNext = "show next";
+        public static double TopIntentScore { get; } = 0.9;
 
-        public static string ShowPrevious = "show previous";
+        public static string ShowNext { get; } = "show next";
 
-        public static string ReadMore = "read more";
+        public static string ShowPrevious { get; } = "show previous";
+
+        public static string ReadMore { get; } = "read more";
+
+        public General GetBaseNoneIntent()
+        {
+            return GetGeneralIntent();
+        }
 
         public General GetGeneralIntent(
             string userInput = null,

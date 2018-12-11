@@ -30,7 +30,7 @@ namespace ToDoSkillTest.Flow
                 Locale = "en-us",
                 LuisServices = new Dictionary<string, IRecognizer>()
                 {
-                    { "general", new MockLuisRecognizer() },
+                    { "general", new MockLuisRecognizer(new GeneralTestUtterances()) },
                     { "todo", new MockLuisRecognizer(new DeleteToDoFlowTestUtterances()) }
                 }
             });

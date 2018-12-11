@@ -7,7 +7,20 @@ namespace ToDoSkillTest.Flow.Fakes
 {
     public static class MockData
     {
-        public static List<TaskItem> MockTaskItems = new List<TaskItem>
+        public enum DataChangeType
+        {
+            /// <summary>
+            /// Remove all the items in the list.
+            /// </summary>
+            KeepZeroItem,
+
+            /// <summary>
+            /// Remove all the items in the list except the first one.
+            /// </summary>
+            KeepOneItem,
+        }
+
+        public static List<TaskItem> MockTaskItems { get; set; } = new List<TaskItem>
         {
             new TaskItem()
             {
@@ -66,7 +79,7 @@ namespace ToDoSkillTest.Flow.Fakes
             }
         };
 
-        public static List<TaskItem> MockShoppingItems = new List<TaskItem>
+        public static List<TaskItem> MockShoppingItems { get; set; } = new List<TaskItem>
         {
             new TaskItem()
             {
@@ -117,7 +130,7 @@ namespace ToDoSkillTest.Flow.Fakes
             }
         };
 
-        public static List<TaskItem> MockGroceryItems = new List<TaskItem>
+        public static List<TaskItem> MockGroceryItems { get; set; } = new List<TaskItem>
         {
             new TaskItem()
             {
@@ -183,12 +196,6 @@ namespace ToDoSkillTest.Flow.Fakes
             }
         };
 
-        public static string ImageSource = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAAmJLR0QAAKqNIzIAAAAHdElNRQfiDAMKKhgxjYNuAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE4LTEyLTAzVDEwOjQyOjI0KzAxOjAw3NT2SAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOC0xMi0wM1QxMDo0MjoyNCswMTowMK2JTvQAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAA/0lEQVQ4T6WTzQmEMBCFx0XQErypHXj0KliCPYgNiUcLsAev3uxAvVqComTzhrgu/i1hPxjykuG9SBJJSMIwFESkVfAAA6JpGoqiiEzTRKDs32MYBi3LQnVdk/TympBmTtMBHnhfSMDOumweDpCBPHliXVcax1HNdg8H/GKaJt7RcRy1svMzYJ5nsm2bte/7PH5zCijLknArAGbLsljD3HUd6yMijmM+WYA5qqqqj/Y8T3V34EHv9AVZlvGYJAmP0kx937O+4hSQ5zmlacradd1HM7g8xKIoqG1bGoZBrdzDAXieR4IgUOqazcMBeNu6bJ7/fyZcCUJkT6vgEUKINxqN2iFI/P1RAAAAAElFTkSuQmCC";
-
-        public enum DataChangeType
-        {
-            KeepZeroItem,
-            KeepOneItem,
-        }
+        public static string ImageSource { get; } = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAAmJLR0QAAKqNIzIAAAAHdElNRQfiDAMKKhgxjYNuAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE4LTEyLTAzVDEwOjQyOjI0KzAxOjAw3NT2SAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOC0xMi0wM1QxMDo0MjoyNCswMTowMK2JTvQAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAA/0lEQVQ4T6WTzQmEMBCFx0XQErypHXj0KliCPYgNiUcLsAev3uxAvVqComTzhrgu/i1hPxjykuG9SBJJSMIwFESkVfAAA6JpGoqiiEzTRKDs32MYBi3LQnVdk/TympBmTtMBHnhfSMDOumweDpCBPHliXVcax1HNdg8H/GKaJt7RcRy1svMzYJ5nsm2bte/7PH5zCijLknArAGbLsljD3HUd6yMijmM+WYA5qqqqj/Y8T3V34EHv9AVZlvGYJAmP0kx937O+4hSQ5zmlacradd1HM7g8xKIoqG1bGoZBrdzDAXieR4IgUOqazcMBeNu6bJ7/fyZcCUJkT6vgEUKINxqN2iFI/P1RAAAAAElFTkSuQmCC";
     }
 }

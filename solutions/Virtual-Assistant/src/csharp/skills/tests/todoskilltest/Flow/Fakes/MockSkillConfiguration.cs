@@ -10,7 +10,6 @@ namespace ToDoSkillTest.Flow.Fakes
     {
         public MockSkillConfiguration()
         {
-            this.LuisServices.Add("general", new MockLuisRecognizer(new Utterances.GeneralTestUtterances()));
             this.AuthenticationConnections = new Dictionary<string, string>();
             this.AuthenticationConnections.Add("Microsoft", "Microsoft");
 
