@@ -610,7 +610,7 @@ $PREBUILT:ordinal
 > # Phrase list definitions
 
 $Email:phraseList
-- email, courrier, et courrier, email, email, email
+- email, courrier, et courrier
 
 > # List entities
 
