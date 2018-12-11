@@ -12,7 +12,8 @@ namespace AutomotiveSkill
     {
         private readonly IDictionary<string, string> map;
 
-        public EntityNormalizer(string path) {
+        public EntityNormalizer(string path)
+        {
             map = File.ReadAllLines(path, Encoding.UTF8)
                 .Where(FilterIsBlankOrComment)
                 .Select(line => line.Split("\t"))
@@ -26,6 +27,7 @@ namespace AutomotiveSkill
             {
                 return norm;
             }
+
             return formated;
         }
 
@@ -36,6 +38,7 @@ namespace AutomotiveSkill
             {
                 return normalized;
             }
+
             return null;
         }
 

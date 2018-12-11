@@ -8,49 +8,49 @@ namespace AutomotiveSkill
     using System.Globalization;
     using System.Linq;
     using System.Text.RegularExpressions;
-    using global::AutomotiveSkill.Models;
     using global::AutomotiveSkill.Common;
+    using global::AutomotiveSkill.Models;
 
     /// <summary>
     /// Filters the available device settings based on the NLU result and the state.
     /// </summary>
     public class SettingFilter
     {
-        private static readonly double setting_name_score_threshold = 0.6;
-        private static readonly double setting_name_antonym_disamb_percentage_of_max = 0.9;
-        private static readonly double setting_value_score_threshold = 0.6;
-        private static readonly double setting_value_antonym_disamb_threshold = 0.1;
-        private static readonly double setting_value_antonym_disamb_percentage_of_max = 0.9;
-        private static readonly Regex to_as_2_pattern = new Regex("^2[0-9][0-9]$", RegexOptions.Compiled);
-        private static readonly IList<string> VALUE_RELATED_VALIDITIES = new List<string>()
+        private static readonly double SettingNameScoreThreshold = 0.6;
+        private static readonly double SettingNameAntonymDisambPercentageOfMax = 0.9;
+        private static readonly double SettingValueScoreThreshold = 0.6;
+        private static readonly double SettingValueAntonymDisambThreshold = 0.1;
+        private static readonly double SettingValueAntonymDisambPercentageOfMax = 0.9;
+        private static readonly Regex ToAs2Pattern = new Regex("^2[0-9][0-9]$", RegexOptions.Compiled);
+        private static readonly IList<ValidationStatus> ValueRelatedValidities = new List<ValidationStatus>()
         {
-            "INVALID_MISSING_VALUE",
-            "INVALID_SETTING_VALUE_COMBINATION",
-            "INVALID_VALUE",
+            ValidationStatus.InvalidMissingValue,
+            ValidationStatus.InvalidSettingValueCombination,
+            ValidationStatus.InvalidValue
         };
 
         private readonly SettingList settingList;
         private readonly SettingMatcher settingMatcher;
         private readonly NumberNormalizer numberNormalizer;
-        private readonly EntityNormalizer amount_normalizer;
-        private readonly EntityNormalizer type_normalizer;
-        private readonly EntityNormalizer unit_normalizer;
+        private readonly EntityNormalizer amountNormalizer;
+        private readonly EntityNormalizer typeNormalizer;
+        private readonly EntityNormalizer unitNormalizer;
 
         public SettingFilter(SettingList settingList)
         {
             this.settingList = settingList;
             this.settingMatcher = new SettingMatcher(this.settingList);
             this.numberNormalizer = new NumberNormalizer();
-            this.amount_normalizer = new EntityNormalizer("Dialogs/VehicleSettings/Resources/normalization/amount_percentage.tsv");
-            this.type_normalizer = new EntityNormalizer("Dialogs/VehicleSettings/Resources/normalization/amount_type.tsv");
-            this.unit_normalizer = new EntityNormalizer("Dialogs/VehicleSettings/Resources/normalization/amount_unit.tsv");
+            this.amountNormalizer = new EntityNormalizer("Dialogs/VehicleSettings/Resources/normalization/amount_percentage.tsv");
+            this.typeNormalizer = new EntityNormalizer("Dialogs/VehicleSettings/Resources/normalization/amount_type.tsv");
+            this.unitNormalizer = new EntityNormalizer("Dialogs/VehicleSettings/Resources/normalization/amount_unit.tsv");
         }
 
         /// <summary>
-        /// Take the entities provided by LUIS (Setting and Value) to try and identify the vehicle setting we need to process
+        /// Take the entities provided by LUIS (Setting and Value) to try and identify the vehicle setting we need to process.
         /// </summary>
-        /// <param name="state"></param>
-        /// <param name="luisResult"></param>
+        /// <param name="state">State object.</param>
+        /// <param name="declarative">Indicates if special process for declarative utterances should be performed.</param>
         public void PostProcessSettingName(AutomotiveSkillState state, bool declarative = false)
         {
             IList<SettingMatch> setting_matches = new List<SettingMatch>();
@@ -69,15 +69,16 @@ namespace AutomotiveSkill
                 // If we have not found a exact setting match but we have a value then combine Setting and Value together to identify a match
                 if (!selected_settings.Any() && state.Entities.ContainsKey("VALUE"))
                 {
-                    // First try SETTING + VALUE entities combined to catch cases like "warm my seat",
-                    // where the value can help disambiguate which setting the user meant.                  
+                    /* First try SETTING + VALUE entities combined to catch cases like "warm my seat",
+                       where the value can help disambiguate which setting the user meant.*/
 
                     List<string> entityValuesToMatch = new List<string>();
                     entityValuesToMatch.AddRange(state.Entities["SETTING"]);
                     entityValuesToMatch.AddRange(state.Entities["VALUE"]);
 
-                    selected_settings = this.settingMatcher.MatchSettingNames(entityValuesToMatch,
-                        setting_name_score_threshold, setting_name_antonym_disamb_percentage_of_max, false);
+                    selected_settings = this.settingMatcher.MatchSettingNames(
+                        entityValuesToMatch, SettingNameScoreThreshold,
+                        SettingNameAntonymDisambPercentageOfMax, false);
                 }
 
                 // If we still haven't found a match then try to match with just the setting but not exactly this time
@@ -86,8 +87,9 @@ namespace AutomotiveSkill
                     List<string> entityValuesToMatch = new List<string>();
                     entityValuesToMatch.AddRange(state.Entities["SETTING"]);
 
-                    selected_settings = this.settingMatcher.MatchSettingNames(entityValuesToMatch,
-                        setting_name_score_threshold, setting_name_antonym_disamb_percentage_of_max, false);
+                    selected_settings = this.settingMatcher.MatchSettingNames(
+                        entityValuesToMatch, SettingNameScoreThreshold,
+                        SettingNameAntonymDisambPercentageOfMax, false);
                 }
             }
 
@@ -118,8 +120,8 @@ namespace AutomotiveSkill
                         {
                             SelectableSettingValue selectable = new SelectableSettingValue
                             {
-                                canonicalSettingName = setting_info.CanonicalName,
-                                value = value
+                                CanonicalSettingName = setting_info.CanonicalName,
+                                Value = value
                             };
                             selectable_values.Add(selectable);
                         }
@@ -131,8 +133,9 @@ namespace AutomotiveSkill
                         e.g. Off, Alert, Alert and Brake when user wants to control Park Assist
                         */
 
-                        selected_values = this.settingMatcher.DisambiguateSettingValues(entityValuesToMatch,
-                            selectable_values, setting_value_antonym_disamb_threshold, setting_value_antonym_disamb_percentage_of_max);
+                        selected_values = this.settingMatcher.DisambiguateSettingValues(
+                            entityValuesToMatch, selectable_values,
+                            SettingValueAntonymDisambThreshold, SettingValueAntonymDisambPercentageOfMax);
 
                         // If we don't even have a VALUE entity, we can't match multiple values.
                         // If the SETTING entity is really also a value, then it must match only one value.
@@ -141,13 +144,13 @@ namespace AutomotiveSkill
                             selected_values.Clear();
                         }
 
-                        // For all selected values we return the canonical name for both the name and value 
+                        // For all selected values we return the canonical name for both the name and value
                         foreach (var selected_value in selected_values)
                         {
                             SettingMatch match = new SettingMatch
                             {
-                                setting_name = setting_info.CanonicalName,
-                                value = selected_value.value.CanonicalName
+                                SettingName = setting_info.CanonicalName,
+                                Value = selected_value.Value.CanonicalName
                             };
                             setting_matches.Add(match);
                             has_matching_value_for_any_setting = true;
@@ -158,7 +161,7 @@ namespace AutomotiveSkill
                     {
                         SettingMatch match = new SettingMatch
                         {
-                            setting_name = setting_info.CanonicalName
+                            SettingName = setting_info.CanonicalName
                         };
                         setting_matches.Add(match);
                     }
@@ -168,20 +171,20 @@ namespace AutomotiveSkill
             }
             else if (state.Entities.ContainsKey("VALUE") && !state.Entities.ContainsKey("SETTING"))
             {
-                // If we have no SETTING entity, match the VALUE entities against all the values of all the settings.
-                // This handles queries like "make it warmer" or "defog", where the value implies the setting.
-
+                /*  If we have no SETTING entity, match the VALUE entities against all the values of all the settings.
+                    This handles queries like "make it warmer" or "defog", where the value implies the setting.*/
                 List<string> entityValuesToMatch = new List<string>();
                 entityValuesToMatch.AddRange(state.Entities["VALUE"]);
 
-                setting_matches = this.settingMatcher.MatchSettingValues(entityValuesToMatch,
-                setting_value_score_threshold, setting_value_antonym_disamb_percentage_of_max);
+                setting_matches = this.settingMatcher.MatchSettingValues(
+                    entityValuesToMatch, SettingValueScoreThreshold,
+                    SettingValueAntonymDisambPercentageOfMax);
 
                 has_matching_value_for_any_setting = true;
 
                 foreach (var match in setting_matches)
                 {
-                    var setting_info = this.settingList.FindSetting(match.setting_name);
+                    var setting_info = this.settingList.FindSetting(match.SettingName);
                     if (setting_info != null)
                     {
                         AddAll(setting_names_to_remove, setting_info.IncludedSettings);
@@ -195,12 +198,13 @@ namespace AutomotiveSkill
             IList<SettingMatch> new_setting_matches = new List<SettingMatch>();
             foreach (var match in setting_matches)
             {
-                if ((!has_matching_value_for_any_setting || !string.IsNullOrEmpty(match.value))
-                    && !setting_names_to_remove.Contains(match.setting_name))
+                if ((!has_matching_value_for_any_setting || !string.IsNullOrEmpty(match.Value))
+                    && !setting_names_to_remove.Contains(match.SettingName))
                 {
                     new_setting_matches.Add(match);
                 }
             }
+
             setting_matches = new_setting_matches;
 
             var (opt_amount, isRelative) = OptionalAmount(state, false);
@@ -209,10 +213,10 @@ namespace AutomotiveSkill
             {
                 SettingChange setting_change = new SettingChange
                 {
-                    SettingName = setting_match.setting_name
+                    SettingName = setting_match.SettingName
                 };
 
-                var value_info = this.settingList.FindSettingValue(setting_match.setting_name, setting_match.value);
+                var value_info = this.settingList.FindSettingValue(setting_match.SettingName, setting_match.Value);
                 if (declarative)
                 {
                     // If the user makes a declarative statement, it means that they're unhappy with the status quo.
@@ -227,13 +231,14 @@ namespace AutomotiveSkill
                 }
                 else
                 {
-                    setting_change.Value = setting_match.value;
+                    setting_change.Value = setting_match.Value;
                 }
 
                 if (opt_amount != null && value_info != null && value_info.ChangesSignOfAmount)
                 {
                     (opt_amount, isRelative) = OptionalAmount(state, true);
                 }
+
                 setting_change.Amount = opt_amount;
                 setting_change.IsRelativeAmount = isRelative;
 
@@ -249,46 +254,47 @@ namespace AutomotiveSkill
                 };
                 state.Changes.Add(setting_change);
             }
-        }   
+        }
 
         /// <summary>
-        /// Further process the entities and remove those that are invalid based on the entity to ensure we prompt for values and don't accept incorrect values
+        /// Further process the entities and remove those that are invalid based on the entity to ensure we prompt for values and don't accept incorrect values.
         /// </summary>
-        /// <param name="state"></param>
+        /// <param name="state">State object.</param>
         public void ApplyContentLogic(AutomotiveSkillState state)
         {
             if (state.Changes != null && state.Changes.Count > 0)
-            { 
+            {
                 IList<SettingChange> validChanges = new List<SettingChange>();
                 IList<SettingChange> invalidChanges = new List<SettingChange>();
                 foreach (var change in state.Changes)
                 {
                     var validity = ValidateChange(change);
-                    if ("VALID".Equals(validity))
+                    if (validity == ValidationStatus.Valid)
                     {
                         validChanges.Add(change);
                     }
-                    else if (VALUE_RELATED_VALIDITIES.Contains(validity))
+                    else if (ValueRelatedValidities.Contains(validity))
                     {
                         var settingInfo = settingList.FindSetting(change.SettingName);
                         if (settingInfo != null && !Util.IsNullOrEmpty(settingInfo.Values))
                         {
                             IList<SettingChange> validReplacements = new List<SettingChange>();
-                            string replacementValidity = null;
+                            ValidationStatus replacementValidity = ValidationStatus.None;
                             foreach (var valueInfo in settingInfo.Values)
                             {
                                 var newChange = (SettingChange)change.Clone();
                                 newChange.Value = valueInfo.CanonicalName;
                                 validity = ValidateChange(newChange);
-                                if ("VALID".Equals(validity))
+                                if (validity == ValidationStatus.Valid)
                                 {
                                     validReplacements.Add(newChange);
                                 }
-                                else if (replacementValidity == null)
+                                else if (replacementValidity == ValidationStatus.None)
                                 {
                                     replacementValidity = validity;
                                 }
                             }
+
                             if (!Util.IsNullOrEmpty(validReplacements))
                             {
                                 state.Entities.Remove("VALUE");
@@ -306,7 +312,6 @@ namespace AutomotiveSkill
                         {
                             invalidChanges.Add(change);
                         }
-
                     }
                     else
                     {
@@ -326,28 +331,97 @@ namespace AutomotiveSkill
         }
 
         /// <summary>
-        /// 
+        /// Apply the selecting setting value to the setting values.
         /// </summary>
-        /// <param name="setting"></param>
-        /// <returns></returns>
-        private string ValidateChange(SettingChange setting)
+        /// <param name="state">State object.</param>
+        /// <param name="entityValues">List of entity values.</param>
+        /// <returns>Setting.</returns>
+        public IList<SettingChange> ApplySelectionToSettingValues(AutomotiveSkillState state, List<string> entityValues)
         {
-            var validity = "VALID";
+            var settingValues = state.GetUniqueSettingValues();
+
+            ISet<string> selectedSettingValues = new HashSet<string>();
+            if (entityValues.Any() && settingValues.Any())
+            {
+                IList<SelectableSettingValue> selectableSettingValues = new List<SelectableSettingValue>();
+                foreach (var change in state.Changes)
+                {
+                    SelectableSettingValue selectable = new SelectableSettingValue
+                    {
+                        CanonicalSettingName = change.SettingName
+                    };
+                    var availableValue = this.settingList.FindSettingValue(change.SettingName, change.Value);
+                    if (availableValue != null)
+                    {
+                        selectable.Value = availableValue;
+                    }
+                    else
+                    {
+                        availableValue = new AvailableSettingValue
+                        {
+                            CanonicalName = change.Value
+                        };
+                        selectable.Value = availableValue;
+                    }
+
+                    selectableSettingValues.Add(selectable);
+                }
+
+                var selected_values = this.settingMatcher.DisambiguateSettingValues(
+                    entityValues,
+                    selectableSettingValues, SettingValueAntonymDisambThreshold, SettingValueAntonymDisambPercentageOfMax);
+
+                foreach (var selected_value in selected_values)
+                {
+                    selectedSettingValues.Add(selected_value.Value.CanonicalName);
+                }
+            }
+
+            IList<SettingChange> newCandidates = new List<SettingChange>();
+            foreach (var candidate in state.Changes)
+            {
+                if (candidate == null)
+                {
+                    continue;
+                }
+
+                if (selectedSettingValues.Contains(candidate.Value))
+                {
+                    newCandidates.Add(candidate);
+                }
+            }
+
+            if (!Util.IsNullOrEmpty(newCandidates))
+            {
+                return newCandidates;
+            }
+
+            return state.Changes;
+        }
+
+        /// <summary>
+        /// Validate a change.
+        /// </summary>
+        /// <param name="setting">A setting for validation.</param>
+        /// <returns>Validation Status enumeration.</returns>
+        private ValidationStatus ValidateChange(SettingChange setting)
+        {
+            ValidationStatus validity = ValidationStatus.Valid;
 
             if (string.IsNullOrEmpty(setting.SettingName))
             {
-                return "INVALID_MISSING_SETTING";
+                return ValidationStatus.InvalidMissingSetting;
             }
 
             if (string.IsNullOrEmpty(setting.Value) && setting.Amount == null)
             {
-                return "INVALID_MISSING_VALUE";
+                return ValidationStatus.InvalidMissingValue;
             }
 
             var settingInfo = settingList.FindSetting(setting.SettingName);
             if (settingInfo == null)
             {
-                return "INVALID_SETTING_NAME";
+                return ValidationStatus.InvalidSettingName;
             }
 
             AvailableSettingValue settingValueInfo = null;
@@ -361,23 +435,25 @@ namespace AutomotiveSkill
                     break;
                 }
             }
+
             if (settingValueInfo == null)
             {
-                return "INVALID_SETTING_VALUE_COMBINATION";
+                return ValidationStatus.InvalidSettingValueCombination;
             }
 
             if (setting.Amount == null)
             {
                 if (settingValueInfo.RequiresAmount)
                 {
-                    validity = "INVALID_MISSING_AMOUNT";
+                    validity = ValidationStatus.InvalidMissingAmount;
                 }
+
                 return validity;
             }
 
             if (!settingInfo.AllowsAmount || Util.IsNullOrEmpty(settingInfo.Amounts))
             {
-                return "INVALID_EXTRA_AMOUNT";
+                return ValidationStatus.InvalidExtraAmount;
             }
 
             AvailableSettingAmount settingAmountInfo = null;
@@ -389,6 +465,7 @@ namespace AutomotiveSkill
                     break;
                 }
             }
+
             if (settingAmountInfo == null)
             {
                 if ("%".Equals(setting.Amount.Unit))
@@ -402,7 +479,7 @@ namespace AutomotiveSkill
                 }
                 else
                 {
-                    return "INVALID_AMOUNT_UNIT";
+                    return ValidationStatus.InvalidAmountUnit;
                 }
             }
 
@@ -410,9 +487,8 @@ namespace AutomotiveSkill
             {
                 if (setting.Amount.Amount < settingAmountInfo.Min || setting.Amount.Amount > settingAmountInfo.Max)
                 {
-                    return "INVALID_AMOUNT_OUT_OF_RANGE";
+                    return ValidationStatus.InvalidAmountOutOfRange;
                 }
-
             }
             else if (settingAmountInfo.Min != null && settingAmountInfo.Max != null)
             {
@@ -420,14 +496,15 @@ namespace AutomotiveSkill
                 var minRelative = -maxRelative;
                 if (setting.Amount.Amount < minRelative || setting.Amount.Amount > maxRelative)
                 {
-                    return "INVALID_AMOUNT_OUT_OF_RANGE";
+                    return ValidationStatus.InvalidAmountOutOfRange;
                 }
             }
 
             return validity;
         }
 
-        private IList<T> ApplySelectionToSettings<T>(AutomotiveSkillState state, List<string> settingEntities, IList<T> changesOrStatuses) where T : SettingOperation
+        private IList<T> ApplySelectionToSettings<T>(AutomotiveSkillState state, List<string> settingEntities, IList<T> changesOrStatuses)
+            where T : SettingOperation
         {
             var settingNames = state.GetUniqueSettingNames();
 
@@ -469,6 +546,7 @@ namespace AutomotiveSkill
                                         + "\" must be canonical names of other settings, but \"" + included_setting_name
                                         + "\" is not and this should already have been checked when loading the SettingList.");
                                 }
+
                                 settings_to_select_from.Add(included_setting);
                             }
                         }
@@ -480,8 +558,9 @@ namespace AutomotiveSkill
 
                 if (!selected_settings.Any())
                 {
-                    selected_settings = setting_matcher.MatchSettingNames(settingEntities,
-                        setting_name_score_threshold, setting_name_antonym_disamb_percentage_of_max, true);
+                    selected_settings = setting_matcher.MatchSettingNames(
+                        settingEntities,
+                        SettingNameScoreThreshold, SettingNameAntonymDisambPercentageOfMax, true);
                 }
 
                 foreach (var setting_info in selected_settings)
@@ -536,78 +615,11 @@ namespace AutomotiveSkill
         }
 
         /// <summary>
-        /// 
+        /// If we have an amount then perform normalization.
         /// </summary>
-        /// <param name="state"></param>
-        /// <param name="entityValues"></param>
-        /// <returns></returns>
-        public IList<SettingChange> ApplySelectionToSettingValues(AutomotiveSkillState state, List<string> entityValues)
-        {
-            var settingValues = state.GetUniqueSettingValues();
-
-            ISet<string> selectedSettingValues = new HashSet<string>();
-            if (entityValues.Any() && settingValues.Any())
-            {
-                IList<SelectableSettingValue> selectableSettingValues = new List<SelectableSettingValue>();
-                foreach (var change in state.Changes)
-                {
-                    SelectableSettingValue selectable = new SelectableSettingValue
-                    {
-                        canonicalSettingName = change.SettingName
-                    };
-                    var availableValue = this.settingList.FindSettingValue(change.SettingName, change.Value);
-                    if (availableValue != null)
-                    {
-                        selectable.value = availableValue;
-                    }
-                    else
-                    {
-                        availableValue = new AvailableSettingValue
-                        {
-                            CanonicalName = change.Value
-                        };
-                        selectable.value = availableValue;
-                    }
-                    selectableSettingValues.Add(selectable);
-                }
-
-                var selected_values = this.settingMatcher.DisambiguateSettingValues(entityValues,
-                    selectableSettingValues, setting_value_antonym_disamb_threshold, setting_value_antonym_disamb_percentage_of_max);
-
-                foreach (var selected_value in selected_values)
-                {
-                    selectedSettingValues.Add(selected_value.value.CanonicalName);
-                }
-            }
-
-            IList<SettingChange> newCandidates = new List<SettingChange>();
-            foreach (var candidate in state.Changes)
-            {
-                if (candidate == null)
-                {
-                    continue;
-                }
-
-                if (selectedSettingValues.Contains(candidate.Value))
-                {
-                    newCandidates.Add(candidate);
-                }
-            }
-
-            if (!Util.IsNullOrEmpty(newCandidates))
-            {
-                return newCandidates;
-            }
-
-            return state.Changes;
-        }
-
-        /// <summary>
-        /// If we have an amount then perform normalization. 
-        /// </summary>
-        /// <param name="state"></param>
-        /// <param name="change_sign_of_amount"></param>
-        /// <returns></returns>
+        /// <param name="state">State.</param>
+        /// <param name="change_sign_of_amount">Indicate whether to change sign on amount.</param>
+        /// <returns>SettingAmount and relative indication.</returns>
         private (SettingAmount amount, bool isRelative) OptionalAmount(AutomotiveSkillState state, bool change_sign_of_amount)
         {
             SettingAmount optional_amount = null;
@@ -617,7 +629,7 @@ namespace AutomotiveSkill
             {
                 foreach (var amount_entity_value in amountEntityValues)
                 {
-                    var normalized_amount = this.amount_normalizer.NormalizeOrNull(amount_entity_value);
+                    var normalized_amount = this.amountNormalizer.NormalizeOrNull(amount_entity_value);
                     if (normalized_amount != null)
                     {
                         optional_amount = new SettingAmount
@@ -640,23 +652,23 @@ namespace AutomotiveSkill
                         {
                             optional_amount.Amount = double.Parse(normalized_amount, CultureInfo.InvariantCulture);
                         }
-
                     }
                     else
                     {
                         foreach (var chunk in this.numberNormalizer.SplitNumbers(amount_entity_value))
                         {
-                            if (chunk.numeric_value != null)
+                            if (chunk.NumericValue != null)
                             {
                                 optional_amount = new SettingAmount();
-                                optional_amount.Amount = chunk.numeric_value.Value;
+                                optional_amount.Amount = chunk.NumericValue.Value;
 
                                 // Deal with ASR error that transcribes "to 24" as "224"
-                                if (!state.Entities.ContainsKey("TYPE") && to_as_2_pattern.Match(amount_entity_value).Success)
+                                if (!state.Entities.ContainsKey("TYPE") && ToAs2Pattern.Match(amount_entity_value).Success)
                                 {
                                     optional_amount.Amount = optional_amount.Amount - 200;
                                     isRelative = false;
                                 }
+
                                 break;
                             }
                         }
@@ -668,7 +680,7 @@ namespace AutomotiveSkill
                         {
                             foreach (var typeEntityValue in typeEntityValues)
                             {
-                                var normalized_type = this.type_normalizer.NormalizeOrNull(typeEntityValue);
+                                var normalized_type = this.typeNormalizer.NormalizeOrNull(typeEntityValue);
                                 if (normalized_type != null)
                                 {
                                     isRelative = "DELTA".Equals(normalized_type);
@@ -681,7 +693,7 @@ namespace AutomotiveSkill
                         {
                             foreach (var unitEntityValue in unitEntityValues)
                             {
-                                var normalized_unit = this.unit_normalizer.NormalizeOrNull(unitEntityValue);
+                                var normalized_unit = this.unitNormalizer.NormalizeOrNull(unitEntityValue);
                                 if (normalized_unit != null)
                                 {
                                     optional_amount.Unit = normalized_unit;
@@ -690,6 +702,7 @@ namespace AutomotiveSkill
                                 {
                                     optional_amount.Unit = unitEntityValue;
                                 }
+
                                 break;
                             }
                         }
@@ -717,6 +730,5 @@ namespace AutomotiveSkill
                 }
             }
         }
-
-    }      
+    }
 }

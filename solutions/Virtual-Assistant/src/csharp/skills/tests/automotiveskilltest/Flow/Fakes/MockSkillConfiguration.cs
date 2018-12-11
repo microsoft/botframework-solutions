@@ -14,9 +14,9 @@ namespace AutomotiveSkillTest.Flow.Fakes
         public MockSkillConfiguration()
         {
             this.LuisServices.Add("general", new MockLuisRecognizer());
-            this.LuisServices.Add("vehiclesettings", new MockLuisRecognizer());
-            this.LuisServices.Add("vehiclesettings_name_selection", new MockLuisRecognizer());
-            this.LuisServices.Add("vehiclesettings_value_selection", new MockLuisRecognizer());
+            this.LuisServices.Add("settings", new MockLuisRecognizer());
+            this.LuisServices.Add("settings_name", new MockLuisRecognizer());
+            this.LuisServices.Add("settings_value", new MockLuisRecognizer());
 
             this.TelemetryClient = null;
             this.CosmosDbOptions = null;

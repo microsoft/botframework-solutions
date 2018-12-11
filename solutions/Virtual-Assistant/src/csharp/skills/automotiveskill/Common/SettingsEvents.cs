@@ -17,7 +17,7 @@ namespace AutomotiveSkill
             var settingEvent = Activity.CreateEventActivity();
             settingEvent.Name = SettingStatusRequestEvent;
             settingEvent.Value = settingName;
-            return (Activity) settingEvent;
+            return (Activity)settingEvent;
         }
 
         public static Activity CreateSettingChangeRequestEvent(SettingChange settingChange)
@@ -25,7 +25,7 @@ namespace AutomotiveSkill
             var settingEvent = Activity.CreateEventActivity();
             settingEvent.Name = SettingChangeRequestEvent;
             settingEvent.Value = settingChange;
-            return (Activity) settingEvent;
+            return (Activity)settingEvent;
         }
     }
 }

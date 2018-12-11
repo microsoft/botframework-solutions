@@ -1,4 +1,4 @@
-﻿    // Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 using System;
@@ -141,7 +141,7 @@ namespace AutomotiveSkill
                         }
 
                         break;
-                    }              
+                    }
             }
         }
 
@@ -166,7 +166,7 @@ namespace AutomotiveSkill
                 }
                 else
                 {
-                    var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);                   
+                    var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
                     var topIntent = luisResult.TopIntent().intent;
 
                     // check intent
@@ -182,7 +182,7 @@ namespace AutomotiveSkill
                             {
                                 result = await OnHelp(dc);
                                 break;
-                            }                     
+                            }
                     }
                 }
             }
@@ -200,7 +200,7 @@ namespace AutomotiveSkill
         {
             await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(AutomotiveSkillMainResponses.HelpMessage));
             return InterruptionAction.MessageSentToUser;
-        }       
+        }
 
         private void RegisterDialogs()
         {

@@ -1,36 +1,36 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using AutomotiveSkill.Dialogs.Shared.Resources;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Skills;
+using Newtonsoft.Json.Linq;
+
 namespace AutomotiveSkill
 {
-    using global::AutomotiveSkill.Dialogs.Shared.Resources;
-    using Microsoft.Bot.Builder;
-    using Microsoft.Bot.Builder.Dialogs;
-    using Microsoft.Bot.Schema;
-    using Microsoft.Bot.Solutions.Extensions;
-    using Microsoft.Bot.Solutions.Skills;
-    using Newtonsoft.Json.Linq;
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
-
     public class AutomotiveSkillDialog : ComponentDialog
     {
         // Constants
         public const string SkillModeAuth = "SkillAuth";
         public const string LocalModeAuth = "LocalAuth";
-            
+
         public AutomotiveSkillDialog(
             string dialogId,
             ISkillConfiguration services,
             IStatePropertyAccessor<AutomotiveSkillState> accessor,
             IServiceManager serviceManager)
             : base(dialogId)
-        {
-            Services = services;
-            Accessor = accessor;
-            ServiceManager = serviceManager;
-        }
+                {
+                    Services = services;
+                    Accessor = accessor;
+                    ServiceManager = serviceManager;
+                }
 
         protected ISkillConfiguration Services { get; set; }
 
@@ -39,18 +39,6 @@ namespace AutomotiveSkill
         protected IServiceManager ServiceManager { get; set; }
 
         protected AutomotiveSkillResponseBuilder ResponseBuilder { get; set; } = new AutomotiveSkillResponseBuilder();
-
-        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var state = await Accessor.GetAsync(dc.Context);
-            return await base.OnBeginDialogAsync(dc, options, cancellationToken);
-        }
-
-        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var state = await Accessor.GetAsync(dc.Context);
-            return await base.OnContinueDialogAsync(dc, cancellationToken);
-        }
 
         // Shared steps
         public async Task<DialogTurnResult> GetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -91,6 +79,18 @@ namespace AutomotiveSkill
             await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(AutomotiveSkillSharedResponses.ErrorMessage));
             await sc.CancelAllDialogsAsync();
             return ex;
+        }
+
+        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await Accessor.GetAsync(dc.Context);
+            return await base.OnBeginDialogAsync(dc, options, cancellationToken);
+        }
+
+        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await Accessor.GetAsync(dc.Context);
+            return await base.OnContinueDialogAsync(dc, cancellationToken);
         }
     }
 }

@@ -8,7 +8,9 @@ namespace AutomotiveSkill
 
     public class Util
     {
-        private Util() { }
+        private Util()
+        {
+        }
 
         public static bool NullSafeEquals(string lhs, string rhs)
         {
@@ -27,6 +29,7 @@ namespace AutomotiveSkill
             {
                 copy.Add(element);
             }
+
             return copy;
         }
 

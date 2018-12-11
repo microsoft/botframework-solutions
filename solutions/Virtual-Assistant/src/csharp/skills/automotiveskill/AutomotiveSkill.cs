@@ -17,10 +17,10 @@ namespace AutomotiveSkill
     /// </summary>
     public class AutomotiveSkill : IBot
     {
-        private bool _skillMode;
         private readonly ISkillConfiguration _services;
         private readonly ConversationState _conversationState;
         private readonly UserState _userState;
+        private bool _skillMode;
         private IServiceManager _serviceManager;
         private DialogSet _dialogs;
 

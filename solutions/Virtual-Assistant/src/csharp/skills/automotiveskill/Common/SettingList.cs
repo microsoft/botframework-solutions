@@ -3,34 +3,29 @@
 
 namespace AutomotiveSkill
 {
-    using Newtonsoft.Json;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// List of available settings and their alternative names.
     /// </summary>
     public class SettingList
     {
-        private static readonly string defaultAlternativeValueNamesKey = "*DEFAULT*";
+        private static readonly string DefaultAlternativeValueNamesKey = "*DEFAULT*";
 
         private readonly IList<string> availableSettingNames = new List<string>();
         private readonly IDictionary<string, AvailableSetting> availableSettingMap = new Dictionary<string, AvailableSetting>();
         private readonly IDictionary<string, SettingAlternativeNames> alternativeNameMap;
         private readonly IDictionary<string, IList<string>> defaultAlternativeValueNames;
 
-        private SettingList(IDictionary<string, SettingAlternativeNames> alternativeNameMap, IDictionary<string, IList<string>> defaultAlternativeValueNames)
-        {
-            this.alternativeNameMap = alternativeNameMap;
-            this.defaultAlternativeValueNames = defaultAlternativeValueNames;
-        }
-
         /// <summary>
-        /// Provides access to the available settings that are stored in the available_settings JSON file
+        /// Initializes a new instance of the <see cref="SettingList"/> class.
+        /// Provides access to the available settings that are stored in the available_settings JSON file.
         /// </summary>
-        /// <param name="availableSettingsPath"></param>
-        /// <param name="settingAlternativeNamesPath"></param>
+        /// <param name="availableSettingsPath">Path to available settings file.</param>
+        /// <param name="settingAlternativeNamesPath">Path to alternative names file.</param>
         public SettingList(string availableSettingsPath, string settingAlternativeNamesPath)
         {
             using (StreamReader reader = new StreamReader(availableSettingsPath))
@@ -45,56 +40,18 @@ namespace AutomotiveSkill
                 string json = reader.ReadToEnd();
                 this.alternativeNameMap = JsonConvert.DeserializeObject<Dictionary<string, SettingAlternativeNames>>(json);
 
-                if (this.alternativeNameMap.TryGetValue(defaultAlternativeValueNamesKey, out SettingAlternativeNames settingAlternativeNames))
+                if (this.alternativeNameMap.TryGetValue(DefaultAlternativeValueNamesKey, out SettingAlternativeNames settingAlternativeNames))
                 {
                     this.defaultAlternativeValueNames = settingAlternativeNames.AlternativeValueNames;
-                    this.alternativeNameMap.Remove(defaultAlternativeValueNamesKey);
+                    this.alternativeNameMap.Remove(DefaultAlternativeValueNamesKey);
                 }
             }
         }
 
-        /// <summary>
-        /// Build out available settings
-        /// </summary>
-        /// <param name="availableSettings"></param>
-        /// <param name="errorMsgPrefix"></param>
-        private void BuildSettingSearchIndexes(IList<AvailableSetting> availableSettings, string errorMsgPrefix)
+        private SettingList(IDictionary<string, SettingAlternativeNames> alternativeNameMap, IDictionary<string, IList<string>> defaultAlternativeValueNames)
         {
-            foreach (var availableSetting in availableSettings)
-            {
-                if (availableSetting.CanonicalName == null)
-                {
-                    throw new JsonSerializationException($"{errorMsgPrefix}: The canonical name of an available setting was null.");
-                }
-
-                // Set the antonym relation to be symmetric
-                var valuesMap = availableSetting.Values.ToDictionary(v => v.CanonicalName, v => v);
-                foreach (var value in availableSetting.Values)
-                {
-                    if (!string.IsNullOrEmpty(value.Antonym))
-                    {
-                        if(valuesMap.TryGetValue(value.Antonym, out var antonymValue))
-                        {
-                            if (string.IsNullOrEmpty(antonymValue.Antonym))
-                            {
-                                antonymValue.Antonym = value.CanonicalName;
-                            } else
-                            {
-                                if (!antonymValue.Antonym.Equals(value.CanonicalName))
-                                {
-                                    throw new JsonSerializationException($"{errorMsgPrefix}: The available setting values '{value.CanonicalName}' and '{antonymValue.CanonicalName}' do not have symmetric antonyms.");
-                                }
-                            }
-                        } else
-                        {
-                            throw new JsonSerializationException($"{errorMsgPrefix}: The antonym '{value.Antonym}' of '{value.CanonicalName}' was not a canonical name of an available setting value.");
-                        }
-                    }
-                }
-
-                this.availableSettingNames.Add(availableSetting.CanonicalName);
-                this.availableSettingMap.Add(availableSetting.CanonicalName, availableSetting);
-            }
+            this.alternativeNameMap = alternativeNameMap;
+            this.defaultAlternativeValueNames = defaultAlternativeValueNames;
         }
 
         /// <summary>
@@ -155,6 +112,7 @@ namespace AutomotiveSkill
                     }
                 }
             }
+
             return null;
         }
 
@@ -221,6 +179,52 @@ namespace AutomotiveSkill
             }
 
             return alternativeNames;
+        }
+
+        /// <summary>
+        /// Build out available settings.
+        /// </summary>
+        /// <param name="availableSettings">Available settings.</param>
+        /// <param name="errorMsgPrefix">Prefix for error message.</param>
+        private void BuildSettingSearchIndexes(IList<AvailableSetting> availableSettings, string errorMsgPrefix)
+        {
+            foreach (var availableSetting in availableSettings)
+            {
+                if (availableSetting.CanonicalName == null)
+                {
+                    throw new JsonSerializationException($"{errorMsgPrefix}: The canonical name of an available setting was null.");
+                }
+
+                // Set the antonym relation to be symmetric
+                var valuesMap = availableSetting.Values.ToDictionary(v => v.CanonicalName, v => v);
+                foreach (var value in availableSetting.Values)
+                {
+                    if (!string.IsNullOrEmpty(value.Antonym))
+                    {
+                        if (valuesMap.TryGetValue(value.Antonym, out var antonymValue))
+                        {
+                            if (string.IsNullOrEmpty(antonymValue.Antonym))
+                            {
+                                antonymValue.Antonym = value.CanonicalName;
+                            }
+                            else
+                            {
+                                if (!antonymValue.Antonym.Equals(value.CanonicalName))
+                                {
+                                    throw new JsonSerializationException($"{errorMsgPrefix}: The available setting values '{value.CanonicalName}' and '{antonymValue.CanonicalName}' do not have symmetric antonyms.");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            throw new JsonSerializationException($"{errorMsgPrefix}: The antonym '{value.Antonym}' of '{value.CanonicalName}' was not a canonical name of an available setting value.");
+                        }
+                    }
+                }
+
+                this.availableSettingNames.Add(availableSetting.CanonicalName);
+                this.availableSettingMap.Add(availableSetting.CanonicalName, availableSetting);
+            }
         }
     }
 }

@@ -24,18 +24,18 @@
 
   <ItemGroup>
     <None Remove="Dialogs\VehicleSettings\Resources\available_settings.yaml" />
-    <None Remove="Dialogs\VehicleSettings\Resources\normalization\amount_percentage.tsv" />
-    <None Remove="Dialogs\VehicleSettings\Resources\normalization\amount_type.tsv" />
-    <None Remove="Dialogs\VehicleSettings\Resources\normalization\amount_unit.tsv" />
-    <None Remove="Dialogs\VehicleSettings\Resources\normalization\color.tsv" />
-    <None Remove="Dialogs\VehicleSettings\Resources\normalization\feel.tsv" />
-    <None Remove="Dialogs\VehicleSettings\Resources\normalization\hand_side.tsv" />
-    <None Remove="Dialogs\VehicleSettings\Resources\normalization\illumination.tsv" />
-    <None Remove="Dialogs\VehicleSettings\Resources\normalization\index_map.tsv" />
-    <None Remove="Dialogs\VehicleSettings\Resources\normalization\occurrence.tsv" />
-    <None Remove="Dialogs\VehicleSettings\Resources\normalization\perception_type.tsv" />
-    <None Remove="Dialogs\VehicleSettings\Resources\normalization\sound.tsv" />
-    <None Remove="Dialogs\VehicleSettings\Resources\normalization\vehicle_part.tsv" />
+    <None Remove="Dialogs\VehicleSettings\Resources\Normalization\amount_percentage.tsv" />
+    <None Remove="Dialogs\VehicleSettings\Resources\Normalization\amount_type.tsv" />
+    <None Remove="Dialogs\VehicleSettings\Resources\Normalization\amount_unit.tsv" />
+    <None Remove="Dialogs\VehicleSettings\Resources\Normalization\color.tsv" />
+    <None Remove="Dialogs\VehicleSettings\Resources\Normalization\feel.tsv" />
+    <None Remove="Dialogs\VehicleSettings\Resources\Normalization\hand_side.tsv" />
+    <None Remove="Dialogs\VehicleSettings\Resources\Normalization\illumination.tsv" />
+    <None Remove="Dialogs\VehicleSettings\Resources\Normalization\index_map.tsv" />
+    <None Remove="Dialogs\VehicleSettings\Resources\Normalization\occurrence.tsv" />
+    <None Remove="Dialogs\VehicleSettings\Resources\Normalization\perception_type.tsv" />
+    <None Remove="Dialogs\VehicleSettings\Resources\Normalization\sound.tsv" />
+    <None Remove="Dialogs\VehicleSettings\Resources\Normalization\vehicle_part.tsv" />
     <None Remove="Dialogs\VehicleSettings\Resources\setting_alternative_names.yaml" />
   </ItemGroup>
 
@@ -43,40 +43,40 @@
     <Content Include="Dialogs\VehicleSettings\Resources\available_settings.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dialogs\VehicleSettings\Resources\normalization\amount_percentage.tsv">
+    <Content Include="Dialogs\VehicleSettings\Resources\Normalization\amount_percentage.tsv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dialogs\VehicleSettings\Resources\normalization\amount_type.tsv">
+    <Content Include="Dialogs\VehicleSettings\Resources\Normalization\amount_type.tsv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dialogs\VehicleSettings\Resources\normalization\amount_unit.tsv">
+    <Content Include="Dialogs\VehicleSettings\Resources\Normalization\amount_unit.tsv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dialogs\VehicleSettings\Resources\normalization\color.tsv">
+    <Content Include="Dialogs\VehicleSettings\Resources\Normalization\color.tsv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dialogs\VehicleSettings\Resources\normalization\feel.tsv">
+    <Content Include="Dialogs\VehicleSettings\Resources\Normalization\feel.tsv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dialogs\VehicleSettings\Resources\normalization\hand_side.tsv">
+    <Content Include="Dialogs\VehicleSettings\Resources\Normalization\hand_side.tsv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dialogs\VehicleSettings\Resources\normalization\illumination.tsv">
+    <Content Include="Dialogs\VehicleSettings\Resources\Normalization\illumination.tsv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dialogs\VehicleSettings\Resources\normalization\index_map.tsv">
+    <Content Include="Dialogs\VehicleSettings\Resources\Normalization\index_map.tsv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dialogs\VehicleSettings\Resources\normalization\occurrence.tsv">
+    <Content Include="Dialogs\VehicleSettings\Resources\Normalization\occurrence.tsv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dialogs\VehicleSettings\Resources\normalization\perception_type.tsv">
+    <Content Include="Dialogs\VehicleSettings\Resources\Normalization\perception_type.tsv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dialogs\VehicleSettings\Resources\normalization\sound.tsv">
+    <Content Include="Dialogs\VehicleSettings\Resources\Normalization\sound.tsv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dialogs\VehicleSettings\Resources\normalization\vehicle_part.tsv">
+    <Content Include="Dialogs\VehicleSettings\Resources\Normalization\vehicle_part.tsv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Dialogs\VehicleSettings\Resources\setting_alternative_names.yaml">
@@ -86,7 +86,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="1.0.0" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.1.5" />
@@ -100,6 +100,10 @@
     <PackageReference Include="Microsoft.Bot.Connector" Version="4.1.5" />
     <PackageReference Include="Microsoft.Bot.Schema" Version="4.1.5" />
     <PackageReference Include="Microsoft.Graph" Version="1.12.0" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.1-beta.61">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

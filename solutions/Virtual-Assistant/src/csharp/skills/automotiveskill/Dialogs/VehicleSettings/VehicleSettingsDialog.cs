@@ -1,30 +1,29 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+using AutomotiveSkill.Dialogs.VehicleSettings.Resources;
+using Luis;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Cards;
+using Microsoft.Bot.Solutions.Dialogs;
+using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Recognizers.Text;
+
 namespace AutomotiveSkill
 {
-    using global::AutomotiveSkill.Dialogs.VehicleSettings.Resources;
-    using Luis;
-    using Microsoft.Bot.Builder;
-    using Microsoft.Bot.Builder.Dialogs;
-    using Microsoft.Bot.Builder.Dialogs.Choices;
-    using Microsoft.Bot.Schema;
-    using Microsoft.Bot.Solutions.Cards;
-    using Microsoft.Bot.Solutions.Dialogs;
-    using Microsoft.Bot.Solutions.Extensions;
-    using Microsoft.Bot.Solutions.Skills;
-    using Microsoft.Recognizers.Text;
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.Specialized;
-    using System.IO;
-    using System.Linq;
-    using System.Text.RegularExpressions;
-    using System.Threading;
-    using System.Threading.Tasks;
-
     public class VehicleSettingsDialog : AutomotiveSkillDialog
-    {    
+    {
         private static readonly Regex WordRequiresAn = new Regex("^([aio]|e(?!u)|u(?![^aeoiu])).*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex WordCharacter = new Regex("^\\w", RegexOptions.Compiled);
         private static readonly IReadOnlyDictionary<string, string> SettingValueToSpeakableIngForm = new Dictionary<string, string>
@@ -52,12 +51,13 @@ namespace AutomotiveSkill
             vehicleSettingValueSelectionLuisRecognizer = services.LuisServices["settings_value"];
 
             // JSON resource files provided metatadata as to the available car settings, names and the values that can be set
-            var resDir = Path.Combine(Path.GetDirectoryName(typeof(VehicleSettingsDialog).Assembly.Location), 
+            var resDir = Path.Combine(
+                Path.GetDirectoryName(typeof(VehicleSettingsDialog).Assembly.Location),
                 "Dialogs\\VehicleSettings\\Resources\\");
 
             settingList = new SettingList(resDir + "available_settings.json", resDir + "setting_alternative_names.json");
             settingFilter = new SettingFilter(settingList);
-           
+
             // Setting Change waterfall
             var processVehicleSettingChangeWaterfall = new WaterfallStep[]
             {
@@ -69,7 +69,7 @@ namespace AutomotiveSkill
             AddDialog(new WaterfallDialog(Actions.ProcessVehicleSettingChange, processVehicleSettingChangeWaterfall));
 
             // Prompts
-            AddDialog(new ChoicePrompt(Actions.SettingNameSelectionPrompt,SettingNameSelectionValidator, Culture.English) { Style = ListStyle.Inline, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = true } });
+            AddDialog(new ChoicePrompt(Actions.SettingNameSelectionPrompt, SettingNameSelectionValidator, Culture.English) { Style = ListStyle.Inline, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = true } });
             AddDialog(new ChoicePrompt(Actions.SettingValueSelectionPrompt, SettingValueSelectionValidator, Culture.English) { Style = ListStyle.Inline, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = true } });
 
             AddDialog(new ConfirmPrompt(Actions.SettingConfirmationPrompt));
@@ -79,11 +79,11 @@ namespace AutomotiveSkill
         }
 
         /// <summary>
-        /// Top level processing, is the user trying to check or change a setting?
+        /// Top level processing, is the user trying to check or change a setting?.
         /// </summary>
-        /// <param name="sc"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="sc">Step Context.</param>
+        /// <param name="cancellationToken">Cancellation Token.</param>
+        /// <returns>Dialog Turn Result.</returns>
         public async Task<DialogTurnResult> ProcessSetting(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await Accessor.GetAsync(sc.Context);
@@ -100,7 +100,7 @@ namespace AutomotiveSkill
                 case VehicleSettings.Intent.VEHICLE_SETTINGS_CHANGE:
                 case VehicleSettings.Intent.VEHICLE_SETTINGS_DECLARATIVE:
 
-                    // Process the LUIS result and add entities to the State accessors for ease of access                    
+                    // Process the LUIS result and add entities to the State accessors for ease of access
                     if (luisResult.Entities.AMOUNT != null)
                     {
                         state.Entities.Add(nameof(luisResult.Entities.AMOUNT), luisResult.Entities.AMOUNT);
@@ -162,7 +162,7 @@ namespace AutomotiveSkill
                             };
                             options.Choices.Add(choice);
                         }
-                        
+
                         var card = new HeroCard
                         {
                             Images = new List<CardImage> { new CardImage(automotiveCarSettingImage) },
@@ -172,19 +172,18 @@ namespace AutomotiveSkill
                         };
 
                         options.Prompt = (Activity)MessageFactory.Attachment(card.ToAttachment());
-                        
+
                         return await sc.PromptAsync(Actions.SettingNameSelectionPrompt, options);
                     }
                     else
                     {
                         // Only one setting detected so move on to next stage
                         return await sc.NextAsync();
-                    }                
+                    }
 
                 case VehicleSettings.Intent.VEHICLE_SETTINGS_CHECK:
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply("The skill doesn't support checking vehicle settings quite yet!"));
                     return await sc.EndDialogAsync(true, cancellationToken);
-                    break;
 
                 default:
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(VehicleSettingsResponses.VehicleSettingsOutOfDomain));
@@ -193,22 +192,22 @@ namespace AutomotiveSkill
         }
 
         /// <summary>
-        /// When we've had to prompt the user to clarify the setting name we need to validate the input and run the pre-processing again
+        /// When we've had to prompt the user to clarify the setting name we need to validate the input and run the pre-processing again.
         /// </summary>
-        /// <param name="promptContext"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="promptContext">Prompt context to validate.</param>
+        /// <param name="cancellationToken">Cancellation Token.</param>
+        /// <returns>Whether setting was validated.</returns>
         private async Task<bool> SettingNameSelectionValidator(PromptValidatorContext<FoundChoice> promptContext, CancellationToken cancellationToken)
         {
             var state = await Accessor.GetAsync(promptContext.Context);
 
             if (promptContext.Recognized != null && promptContext.Recognized.Succeeded)
             {
-                string userChoice = promptContext.Recognized.Value.Value;              
-                
+                string userChoice = promptContext.Recognized.Value.Value;
+
                 // Use the value selection LUIS model to perform validation of the users entered setting value
                 VehicleSettingsNameSelection nameSelectionResult = await vehicleSettingNameSelectionLuisRecognizer.RecognizeAsync<VehicleSettingsNameSelection>(promptContext.Context, CancellationToken.None);
-                
+
                 if (nameSelectionResult.Entities.SETTING != null)
                 {
                     // We have a clarified setting so remove the previous entity extraction and change identification work
@@ -229,20 +228,20 @@ namespace AutomotiveSkill
 
                     return true;
                 }
-            }          
+            }
 
             return false;
         }
 
         /// <summary>
-        /// Once we have a setting we need to process the corresponding value
+        /// Once we have a setting we need to process the corresponding value.
         /// </summary>
-        /// <param name="sc"></param>
-        /// <returns></returns>
+        /// <param name="sc">Step Context.</param>
+        /// <returns>Dialog Turn Result.</returns>
         private async Task<DialogTurnResult> ProcessVehicleSettingsChange(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await Accessor.GetAsync(sc.Context);
-            
+
             if (state.Changes.Any())
             {
                 var settingValues = state.GetUniqueSettingValues();
@@ -279,7 +278,7 @@ namespace AutomotiveSkill
                         BotResponse promptTemplate = VehicleSettingsResponses.VehicleSettingsSettingValueSelectionPre;
                         var promptReplacements = new StringDictionary { { "settingName", settingName } };
                         options.Prompt = sc.Context.Activity.CreateReply(promptTemplate, ResponseBuilder, promptReplacements);
-                        
+
                         var card = new HeroCard
                         {
                             Images = new List<CardImage> { new CardImage(automotiveCarSettingImage) },
@@ -295,7 +294,7 @@ namespace AutomotiveSkill
                     else
                     {
                         // We only have one setting value so proceed to next step
-                        return await sc.NextAsync();                        
+                        return await sc.NextAsync();
                     }
                 }
             }
@@ -308,11 +307,11 @@ namespace AutomotiveSkill
         }
 
         /// <summary>
-        /// Take the users input for setting validation and validate it matches the chosen setting - e.g. off for park assist or 21c for temperature
+        /// Take the users input for setting validation and validate it matches the chosen setting - e.g. off for park assist or 21c for temperature.
         /// </summary>
-        /// <param name="promptContext"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="promptContext">Prompt Context.</param>
+        /// <param name="cancellationToken">Cancellation Token.</param>
+        /// <returns>Whether prompt value was validated.</returns>
         private async Task<bool> SettingValueSelectionValidator(PromptValidatorContext<FoundChoice> promptContext, CancellationToken cancellationToken)
         {
             var state = await Accessor.GetAsync(promptContext.Context);
@@ -341,12 +340,12 @@ namespace AutomotiveSkill
         }
 
         /// <summary>
-        /// Process the change that we are about to perform. If required the user is prompted for confirmation
+        /// Process the change that we are about to perform. If required the user is prompted for confirmation.
         /// </summary>
-        /// <param name="sc"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        public async Task<DialogTurnResult> ProcessChange(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        /// <param name="sc">Step Context.</param>
+        /// <param name="cancellationToken">Cancellation Token.</param>
+        /// <returns>Dialog Turn Result.</returns>
+        private async Task<DialogTurnResult> ProcessChange(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await Accessor.GetAsync(sc.Context);
 
@@ -357,18 +356,18 @@ namespace AutomotiveSkill
                 if (change.OperationStatus == SettingOperationStatus.TO_DO)
                 {
                     // TODO - Validation of change would go here, for now we just apply the change
-
                     var availableSetting = this.settingList.FindSetting(change.SettingName);
                     var availableSettingValue = this.settingList.FindSettingValue(availableSetting, change.Value);
 
                     // Check confirmation first.
                     if (availableSettingValue != null && availableSettingValue.RequiresConfirmation)
-                    {                        
+                    {
                         var promptTemplate = VehicleSettingsResponses.VehicleSettingsSettingChangeConfirmation;
-                        var promptReplacements = new StringDictionary {
+                        var promptReplacements = new StringDictionary
+                        {
                                     { "settingName", change.SettingName },
                                     { "value", change.Value },
-                                };
+                        };
 
                         if (availableSetting != null && availableSetting.Categories != null && availableSetting.Categories.Any())
                         {
@@ -407,11 +406,12 @@ namespace AutomotiveSkill
             }
         }
 
-        public async Task<DialogTurnResult> SendChange(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> SendChange(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await Accessor.GetAsync(sc.Context);
 
             var settingChangeConfirmed = false;
+
             // If we skip the ConfirmPrompt due to no confirmation needed then Result will be NULL
             if (sc.Result == null)
             {
@@ -423,17 +423,18 @@ namespace AutomotiveSkill
             }
 
             if (settingChangeConfirmed)
-            {      
+            {
                 var change = state.Changes[0];
 
                 // If the change involves an amount then we add this to the change event
                 if (change.Amount != null)
                 {
-                    var promptReplacements = new StringDictionary {
+                    var promptReplacements = new StringDictionary
+                    {
                                         { "settingName", change.SettingName },
                                         { "amount", change.Amount.Amount.ToString() },
                                         { "unit", UnitToString(change.Amount.Unit) },
-                                    };
+                    };
                     if (change.IsRelativeAmount)
                     {
                         if (change.Amount.Amount < 0)
@@ -464,7 +465,6 @@ namespace AutomotiveSkill
                 else
                 {
                     // Binary event (on/off)
-
                     BotResponse promptTemplate;
                     var promptReplacements = new StringDictionary { { "settingName", change.SettingName } };
                     if (SettingValueToSpeakableIngForm.TryGetValue(change.Value.ToLowerInvariant(), out var valueIngForm))
@@ -490,7 +490,7 @@ namespace AutomotiveSkill
             }
 
             return await sc.EndDialogAsync();
-        }    
+        }
 
         private string UnitToString(string unit)
         {
@@ -504,10 +504,10 @@ namespace AutomotiveSkill
             }
         }
 
-        private async Task SendActionToDevice(WaterfallStepContext sc, SettingChange setting, StringDictionary settingDetail )
+        private async Task SendActionToDevice(WaterfallStepContext sc, SettingChange setting, StringDictionary settingDetail)
         {
             // remove whitespace to create Event Name and prefix with Automotive Skill
-            string reducedName = $"AutomotiveSkill.{Regex.Replace(setting.SettingName, @"\s+", "")}";
+            string reducedName = $"AutomotiveSkill.{Regex.Replace(setting.SettingName, @"\s+", string.Empty)}";
 
             var actionEvent = sc.Context.Activity.CreateReply();
             actionEvent.Type = ActivityTypes.Event;
@@ -515,9 +515,6 @@ namespace AutomotiveSkill
             actionEvent.Value = settingDetail;
 
             await sc.Context.SendActivityAsync(actionEvent);
-        }    
+        }
     }
-
-    public class VehicleSettingsCardDataBase : CardDataBase
-    { }
 }

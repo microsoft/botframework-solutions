@@ -25,7 +25,7 @@ namespace AutomotiveSkillTest.Flow
         }
 
         [TestMethod]
-        public async Task Test_SettingFilter_Temperature()
+        public void Test_SettingFilter_Temperature()
         {
             AutomotiveSkillState state = new AutomotiveSkillState();
             state.Entities.Add("SETTING", new List<string>{ "temperature"});
@@ -36,12 +36,10 @@ namespace AutomotiveSkillTest.Flow
 
             Assert.AreEqual("Temperature", state.Changes[0].SettingName);
             Assert.AreEqual(21, state.Changes[0].Amount.Amount);
-
-
         }
 
         [TestMethod]
-        public async Task Test_SettingFilter_Defog()
+        public void Test_SettingFilter_Defog()
         {
             AutomotiveSkillState state = new AutomotiveSkillState();
             state.Entities.Add("SETTING", new List<string> { "defog" });
@@ -53,7 +51,7 @@ namespace AutomotiveSkillTest.Flow
         }
 
         [TestMethod]
-        public async Task Test_SettingFilter_ColdInTheBack()
+        public void Test_SettingFilter_ColdInTheBack()
         {
             AutomotiveSkillState state = new AutomotiveSkillState();
             state.Entities.Add("SETTING", new List<string> { "back" });
@@ -66,7 +64,7 @@ namespace AutomotiveSkillTest.Flow
         }
 
         [TestMethod]
-        public async Task Test_SettingFilter_PassengerFeelingCold()
+        public void Test_SettingFilter_PassengerFeelingCold()
         {
             AutomotiveSkillState state = new AutomotiveSkillState();
             state.Entities.Add("SETTING", new List<string> { "passenger" });
@@ -79,7 +77,7 @@ namespace AutomotiveSkillTest.Flow
         }
 
         [TestMethod]
-        public async Task Test_SettingFilter_FeetFeelingCold()
+        public void Test_SettingFilter_FeetFeelingCold()
         {
             AutomotiveSkillState state = new AutomotiveSkillState();
             state.Entities.Add("SETTING", new List<string> { "feet" });

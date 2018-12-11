@@ -3,6 +3,9 @@
 
 namespace AutomotiveSkill
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using global::AutomotiveSkill.Dialogs.Shared.Resources;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -17,9 +20,6 @@ namespace AutomotiveSkill
     using Microsoft.Bot.Solutions.Skills;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class Startup
     {

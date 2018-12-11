@@ -3,9 +3,9 @@
 
 namespace AutomotiveSkill
 {
+    using System.Collections.Generic;
     using Luis;
     using Microsoft.Bot.Builder;
-    using System.Collections.Generic;
 
     public class AutomotiveSkillState
     {
@@ -16,7 +16,9 @@ namespace AutomotiveSkill
         public VehicleSettings VehicleSettingsLuisResult { get; set; }
 
         public IDictionary<string, IList<string>> Entities { get; set; } = new Dictionary<string, IList<string>>();
+
         public IList<SettingChange> Changes { get; set; } = new List<SettingChange>();
+
         public IList<SettingStatus> Statuses { get; set; } = new List<SettingStatus>();
 
         public IList<string> GetUniqueSettingNames()
@@ -42,7 +44,7 @@ namespace AutomotiveSkill
 
             return settingNames;
         }
- 
+
         public IList<string> GetUniqueSettingValues()
         {
             IList<string> settingValues = new List<string>();
