@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using CalendarSkill.Common;
 using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
-using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using CalendarSkill.Dialogs.UpdateEvent.Resources;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -138,7 +137,7 @@ namespace CalendarSkill
                     updateEvent.TimeZone = TimeZoneInfo.Utc;
                     updateEvent.Id = origin.Id;
 
-                    if (!string.IsNullOrEmpty(state.RecursiveToken))
+                    if (!string.IsNullOrEmpty(state.RecurrencePattern))
                     {
                         if (origin.Source == EventSource.Microsoft && !string.IsNullOrEmpty(((Microsoft.Graph.Event)origin.Value).SeriesMasterId))
                         {

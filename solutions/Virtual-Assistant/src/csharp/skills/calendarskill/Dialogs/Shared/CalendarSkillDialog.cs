@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 using CalendarSkill.Common;
 using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
+using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using Luis;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
@@ -19,8 +21,6 @@ using Microsoft.Recognizers.Text;
 using Microsoft.Recognizers.Text.DateTime;
 using Newtonsoft.Json.Linq;
 using static Microsoft.Recognizers.Text.Culture;
-using Microsoft.Bot.Builder.AI.Luis;
-using CalendarSkill.Dialogs.Shared.Resources.Strings;
 
 namespace CalendarSkill
 {
@@ -659,7 +659,7 @@ namespace CalendarSkill
                                 || w.Text.ToLower() == CalendarCommonStrings.MonthlyToken);
                                 if (match != null)
                                 {
-                                    state.RecursiveToken = match.Text.ToLower();
+                                    state.RecurrencePattern = match.Text.ToLower();
                                 }
                             }
 
