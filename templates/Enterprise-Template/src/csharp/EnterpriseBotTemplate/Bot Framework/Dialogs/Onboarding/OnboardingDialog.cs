@@ -30,14 +30,10 @@ namespace $safeprojectname$.Dialogs.Onboarding
                 FinishOnboardingDialog,
             };
 
-            // In order to capture Waterfall Dialog telemetry, set the telemetry client
-            // to the new WaterfallDialog and add it
+            // To capture built-in waterfall dialog telemetry, set the telemetry client 
+            // to the new waterfall dialog and add it to the component dialog
             TelemetryClient = telemetryClient;
-
-            var onboardingWaterfallDialog = new WaterfallDialog(InitialDialogId, onboarding);
-            onboardingWaterfallDialog.TelemetryClient = telemetryClient;
-
-            AddDialog(onboardingWaterfallDialog);
+            AddDialog(new WaterfallDialog(InitialDialogId, onboarding) { TelemetryClient = telemetryClient });
             AddDialog(new TextPrompt(DialogIds.NamePrompt));
             AddDialog(new TextPrompt(DialogIds.EmailPrompt));
             AddDialog(new TextPrompt(DialogIds.LocationPrompt));

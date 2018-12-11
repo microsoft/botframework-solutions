@@ -135,7 +135,7 @@ namespace $safeprojectname$
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UserBotApplicationInsights()
+            app.UseBotApplicationInsights()
                 .UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();
