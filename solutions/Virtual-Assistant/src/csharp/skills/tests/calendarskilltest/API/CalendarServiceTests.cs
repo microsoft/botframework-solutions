@@ -8,6 +8,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CalendarSkillTest.API
 {
+    // this will test all logic in CalendarService only.
+    // only have success test now
+    // todo: add more error test
     [TestClass]
     public class BaseCalendarServiceTests
     {
@@ -86,6 +89,9 @@ namespace CalendarSkillTest.API
         }
     }
 
+    // this will test all logic in MSGraph Calendar service
+    // only have success test now
+    // todo: add more error test
     [TestClass]
     public class MSGrapghCalendarServiceTests
     {
@@ -169,6 +175,9 @@ namespace CalendarSkillTest.API
         }
     }
 
+    // this will test all logic in Google Calendar service
+    // only have success test now
+    // todo: add more error test
     [TestClass]
     public class GoogleCalendarServiceTests
     {

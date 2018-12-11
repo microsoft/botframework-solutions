@@ -45,7 +45,6 @@ namespace CalendarSkillTest.API.Fakes
                 }
 
                 MockEventsResource.MockPatchRequest mockPatchRequest = new MockEventsResource.MockPatchRequest(mockCalendarService.Object, body, calendarId, eventId);
-                //Mock<IClientServiceRequest<Event>> mockClientServiceRequest = new Mock<IClientServiceRequest<Event>>();
 
                 return mockPatchRequest;
             });
@@ -122,8 +121,11 @@ namespace CalendarSkillTest.API.Fakes
                 }
             }
 
-            public class MockListRequest : EventsResource.ListRequest, IClientServiceRequest<Events>
+            public class MockListRequest : EventsResource.ListRequest, IClientServiceRequest<Events> // To make excute work.
             {
+                // using some data to test
+                // todo:
+                // Use data file instead, make test better
                 private IList<Event> BuildInEvents;
 
                 public MockListRequest(IClientService service, string calendarId) : base(service, calendarId)
@@ -257,6 +259,10 @@ namespace CalendarSkillTest.API.Fakes
                         throw new Exception("Calendar ID not support");
                     }
 
+                    // todo:
+                    // will add test for id not exist.
+                    // for now "delete_event" is set as the only legal id.
+                    // we can change this to real data set in future and make not found logic real.
                     if (EventId != "delete_event")
                     {
                         throw new Exception("Event id not found");
