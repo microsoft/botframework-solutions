@@ -137,16 +137,9 @@ namespace CalendarSkill
                     updateEvent.TimeZone = TimeZoneInfo.Utc;
                     updateEvent.Id = origin.Id;
 
-                    if (!string.IsNullOrEmpty(state.RecurrencePattern))
+                    if (!string.IsNullOrEmpty(state.RecurrencePattern) && !string.IsNullOrEmpty(origin.RecurringId))
                     {
-                        if (origin.Source == EventSource.Microsoft && !string.IsNullOrEmpty(((Microsoft.Graph.Event)origin.Value).SeriesMasterId))
-                        {
-                            updateEvent.Id = ((Microsoft.Graph.Event)origin.Value).SeriesMasterId;
-                        }
-                        else if (origin.Source == EventSource.Google && !string.IsNullOrEmpty(((Google.Apis.Calendar.v3.Data.Event)origin.Value).RecurringEventId))
-                        {
-                            updateEvent.Id = ((Google.Apis.Calendar.v3.Data.Event)origin.Value).RecurringEventId;
-                        }
+                        updateEvent.Id = origin.RecurringId;
                     }
 
                     var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
