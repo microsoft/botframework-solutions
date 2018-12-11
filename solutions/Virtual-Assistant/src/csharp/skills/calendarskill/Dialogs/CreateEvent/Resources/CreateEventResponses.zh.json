@@ -151,15 +151,6 @@
     ],
     "inputHint": "expectingInput"
   },
-  "FindUserErrorMessage": {
-    "replies": [
-      {
-        "text": "找不到叫{UserName}的人。请重试或取消。",
-        "speak": "找不到叫{UserName}的人。请重试或取消。"
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
   "ConfirmRecipient": {
     "replies": [
       {

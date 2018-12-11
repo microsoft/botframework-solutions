@@ -156,15 +156,6 @@
     ],
     "inputHint": "expectingInput"
   },
-  "FindUserErrorMessage": {
-    "replies": [
-      {
-        "text": "I can't find the person named {UserName} right now. Please try again or cancel.",
-        "speak": "I can't find the person named {UserName} right now. Please try again or cancel."
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
   "ConfirmRecipient": {
     "replies": [
       {

@@ -240,7 +240,6 @@ namespace CalendarSkill
                 var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
                 if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarSharedResponses.CancellingMessage));
                     return await sc.EndDialogAsync(true);
                 }
                 else if ((promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true) || (topIntent == Luis.Calendar.Intent.ReadAloud && eventItem == null))
@@ -295,7 +294,7 @@ namespace CalendarSkill
                 }
                 else
                 {
-                    return await sc.EndDialogAsync("true");
+                    return await sc.EndDialogAsync(true);
                 }
             }
             catch

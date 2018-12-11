@@ -27,5 +27,7 @@ namespace CalendarSkillTest.Flow.Strings
         public static string ConfirmNo { get; } = "no";
 
         public static string WeekdayDate { get; } = "Friday";
+
+        public static string FirstOne { get; } = "first one";
     }
 }

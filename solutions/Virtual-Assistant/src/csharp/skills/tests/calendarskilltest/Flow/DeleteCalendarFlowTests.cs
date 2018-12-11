@@ -49,11 +49,6 @@ namespace CalendarSkillTest.Flow
                 .StartTestAsync();
         }
 
-        private string[] WelcomePrompt()
-        {
-            return this.ParseReplies(CalendarMainResponses.CalendarWelcomeMessage.Replies, new StringDictionary());
-        }
-
         private string[] AskForDeletePrompt()
         {
             return this.ParseReplies(DeleteEventResponses.NoDeleteStartTime.Replies, new StringDictionary());

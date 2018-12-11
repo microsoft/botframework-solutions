@@ -47,11 +47,6 @@ namespace CalendarSkillTest.Flow
                 .StartTestAsync();
         }
 
-        private string[] WelcomePrompt()
-        {
-            return this.ParseReplies(CalendarMainResponses.CalendarWelcomeMessage.Replies, new StringDictionary());
-        }
-
         private string[] NextMeetingPrompt()
         {
             return this.ParseReplies(NextMeetingResponses.ShowNextMeetingMessage.Replies, new StringDictionary());

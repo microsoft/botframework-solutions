@@ -48,8 +48,28 @@ namespace CalendarSkillTest.Flow
                 .AssertReplyOneOf(this.FoundEventPrompt())
                 .AssertReply(this.ShowCalendarList())
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
-                .Send("No")
-                .AssertReplyOneOf(this.ActionEndMessage())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_CalendarSummaryReadOutWithOneMeeting()
+        {
+            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
+            serviceManager.SetupCalendarService(MockCalendarService.FakeDefaultEvents());
+            await this.GetTestFlow()
+                .Send(FindMeetingTestUtterances.BaseFindMeeting)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.FoundEventPrompt())
+                .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(this.ReadOutMorePrompt())
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(this.ShowReadOutEventList())
+                .AssertReplyOneOf(this.ReadOutMorePrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -65,19 +85,17 @@ namespace CalendarSkillTest.Flow
                 .AssertReplyOneOf(this.FoundEventPrompt())
                 .AssertReply(this.ShowCalendarList())
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
-                .Send("No")
-                .AssertReplyOneOf(this.ActionEndMessage())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
-        private string[] ActionEndMessage()
+        private Action<IActivity> ActionEndMessage()
         {
-            return this.ParseReplies(CalendarSharedResponses.CancellingMessage.Replies, new StringDictionary());
-        }
-
-        private string[] WelcomePrompt()
-        {
-            return this.ParseReplies(CalendarMainResponses.CalendarWelcomeMessage.Replies, new StringDictionary());
+            return activity =>
+            {
+                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
+            };
         }
 
         private string[] FoundEventPrompt()
@@ -85,7 +103,7 @@ namespace CalendarSkillTest.Flow
             var responseParams = new StringDictionary()
             {
                 { "Count", "1" },
-                { "EventName1", "test title" },
+                { "EventName1", Strings.Strings.DefaultEventName },
                 { "EventDuration", "1 hour" },
             };
 
@@ -113,5 +131,21 @@ namespace CalendarSkillTest.Flow
         {
             return this.ParseReplies(SummaryResponses.ReadOutMorePrompt.Replies, new StringDictionary());
         }
+
+        private string[] ReadOutPrompt()
+        {
+            return this.ParseReplies(SummaryResponses.ReadOutPrompt.Replies, new StringDictionary());
+        }
+
+        private Action<IActivity> ShowReadOutEventList()
+        {
+            return activity =>
+            {
+                var messageActivity = activity.AsMessageActivity();
+                CollectionAssert.Contains(this.ParseReplies(SummaryResponses.ReadOutMessage.Replies, new StringDictionary() { { "MeetingDetails", string.Empty } }), messageActivity.Text);
+                Assert.AreEqual(messageActivity.Attachments.Count, 1);
+            };
+        }
+
     }
 }

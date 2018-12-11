@@ -11,9 +11,12 @@ namespace CalendarSkillTest.Flow.Utterances
         public CreateMeetingTestUtterances()
         {
             this.Add(BaseCreateMeeting, GetCreateMeetingIntent(BaseCreateMeeting));
+            this.Add(CreateMeetingWithTitleEntity, GetCreateMeetingIntent(CreateMeetingWithTitleEntity, subject: new string[] { "test title" }));
         }
 
         public static string BaseCreateMeeting { get; } = "Create a meeting";
+
+        public static string CreateMeetingWithTitleEntity { get; } = "Create a meeting about test title";
 
         private Calendar GetCreateMeetingIntent(
             string userInput,

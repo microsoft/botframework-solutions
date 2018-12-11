@@ -40,31 +40,6 @@
     ],
     "inputHint": "expectingInput"
   },
-  "CancellingMessage": {
-    "replies": [
-      {
-        "text": "当然，我们可以稍后再做。",
-        "speak": "当然，我们可以稍后再做。"
-      },
-      {
-        "text": "当然，我们可以稍后再开始。",
-        "speak": "当然，我们可以稍后再开始。"
-      },
-      {
-        "text": "没问题，你可以换一个时间再试一次。",
-        "speak": "没问题，你可以换一个时间再试一次。"
-      },
-      {
-        "text": "好的，请在需要我帮助时告诉我。",
-        "speak": "好的，请在需要我帮助时告诉我。"
-      },
-      {
-        "text": "当然，如果你需要我的帮助，我就在这里。",
-        "speak": "当然，如果你需要我的帮助，我就在这里。"
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
     "NoAuth": {
         "replies": [
             {

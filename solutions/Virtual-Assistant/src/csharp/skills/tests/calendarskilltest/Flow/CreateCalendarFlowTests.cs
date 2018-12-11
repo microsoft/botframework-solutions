@@ -66,6 +66,31 @@ namespace CalendarSkillTest.Flow
         }
 
         [TestMethod]
+        public async Task Test_CalendarCreateWithTitleEntity()
+        {
+            await this.GetTestFlow()
+                    .Send(CreateMeetingTestUtterances.CreateMeetingWithTitleEntity)
+                    .AssertReply(this.ShowAuth())
+                    .Send(this.GetAuthResponse())
+                    .AssertReplyOneOf(this.AskForParticpantsPrompt())
+                    .Send(Strings.Strings.DefaultUserEmail)
+                    .AssertReplyOneOf(this.AskForContentPrompt())
+                    .Send(Strings.Strings.DefaultContent)
+                    .AssertReplyOneOf(this.AskForDatePrompt())
+                    .Send(Strings.Strings.DefaultDate)
+                    .AssertReplyOneOf(this.AskForStartTimePrompt())
+                    .Send(Strings.Strings.DefaultTime)
+                    .AssertReplyOneOf(this.AskForDurationPrompt())
+                    .Send(Strings.Strings.DefaultDuration)
+                    .AssertReplyOneOf(this.AskForLocationPrompt())
+                    .Send(Strings.Strings.DefaultLocation)
+                    .AssertReply(this.ShowCalendarList())
+                    .Send(Strings.Strings.ConfirmYes)
+                    .AssertReply(this.ShowCalendarList())
+                    .StartTestAsync();
+        }
+
+        [TestMethod]
         public async Task Test_CalendarCreateWeekday()
         {
             await this.GetTestFlow()
@@ -90,11 +115,6 @@ namespace CalendarSkillTest.Flow
                     .Send(Strings.Strings.ConfirmYes)
                     .AssertReply(this.ShowCalendarList())
                     .StartTestAsync();
-        }
-
-        private string[] WelcomePrompt()
-        {
-            return this.ParseReplies(CalendarMainResponses.CalendarWelcomeMessage.Replies, new StringDictionary());
         }
 
         private string[] AskForParticpantsPrompt()

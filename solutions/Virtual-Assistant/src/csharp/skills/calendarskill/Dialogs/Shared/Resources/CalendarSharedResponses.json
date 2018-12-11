@@ -40,61 +40,6 @@
     ],
     "inputHint": "expectingInput"
   },
-  "CancellingMessage": {
-    "replies": [
-      {
-        "text": "Alright, let me know when you need my help.",
-        "speak": "Alright, let me know when you need my help."
-      },
-      {
-        "text": "Sure, I'm here if you need me.",
-        "speak": "Sure, I'm here if you need me."
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
-    "NoAuth": {
-        "replies": [
-            {
-                "text": "Please log in before taking further action.",
-                "speak": "Please log in before taking further action."
-            },
-            {
-                "text": "Please log in so I can take further action.",
-                "speak": "Please log in so I can take further action."
-            },
-            {
-                "text": "Please log in so I can proceed with your request.",
-                "speak": "Please log in so I can proceed with your request."
-            },
-            {
-                "text": "Can you log in so I can help you out further?",
-                "speak": "Can you log in so I can help you out further?"
-            },
-            {
-                "text": "You need to log in so I can take further action.",
-                "speak": "You need to log in so I can take further action."
-            }
-        ],
-        "inputHint": "acceptingInput"
-    },
-    "AuthFailed": {
-        "replies": [
-            {
-                "text": "Authentication failed. Please try again",
-                "speak": "Authentication failed. Please try again."
-            },
-            {
-                "text": "You failed to log in. Please try again later.",
-                "speak": "You failed to log in. please try again later."
-            },
-            {
-                "text": "Your log in failed. Let's try this again.",
-                "speak": "Your log in failed. Let's try this again."
-            }
-        ],
-        "inputHint": "acceptingInput"
-    },
   "ActionEnded": {
     "replies": [
       {
