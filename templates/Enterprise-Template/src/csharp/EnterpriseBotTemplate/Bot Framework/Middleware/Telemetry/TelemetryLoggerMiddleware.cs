@@ -39,13 +39,13 @@ namespace $safeprojectname$.Middleware.Telemetry
         /// <summary>
         /// Initializes a new instance of the <see cref="TelemetryLoggerMiddleware"/> class.
         /// </summary>
-        /// <param name="instrumentationKey">The Application Insights instrumentation key.  See Application Insights for more information.</param>
+        /// <param name="telemetryClient">The IBotTelemetryClient implementation used for registering telemetry events.</param>
         /// <param name="logUserName"> (Optional) Enable/Disable logging user name within Application Insights.</param>
         /// <param name="logOriginalMessage"> (Optional) Enable/Disable logging original message name within Application Insights.</param>
         /// <param name="config"> (Optional) TelemetryConfiguration to use for Application Insights.</param>
         public TelemetryLoggerMiddleware(IBotTelemetryClient telemetryClient, bool logUserName = false, bool logOriginalMessage = false, TelemetryConfiguration config = null)
         {
-            _telemetryClient = telemetryClient;
+            _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
             LogUserName = logUserName;
             LogOriginalMessage = logOriginalMessage;
         }

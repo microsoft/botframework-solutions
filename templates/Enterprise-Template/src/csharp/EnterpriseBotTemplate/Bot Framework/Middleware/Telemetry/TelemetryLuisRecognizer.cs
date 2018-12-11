@@ -69,7 +69,7 @@ namespace $safeprojectname$.Middleware.Telemetry
 
 
         /// <summary>
-        /// Analyze the current message text and return results of the analysis (Suggested actions and intents).
+        /// Return results of the analysis (Suggested actions and intents), passing the dialog id from dialog context to the TelemetryClient.
         /// </summary>
         /// <param name="dialogContext">Dialog context object containing information for the dialog being executed.</param>
         /// <param name="logOriginalMessage">Determines if the original message is logged into Application Insights.  This is a privacy consideration.</param>
@@ -85,7 +85,7 @@ namespace $safeprojectname$.Middleware.Telemetry
         }
 
         /// <summary>
-        /// Analyze the current message text and return results of the analysis (Suggested actions and intents).
+        /// Return results of the analysis (Suggested actions and intents), using the turn context. This is missing a dialog id used for telemetry..
         /// </summary>
         /// <param name="context">Context object containing information for a single turn of conversation with a user.</param>
         /// <param name="logOriginalMessage">Determines if the original message is logged into Application Insights.  This is a privacy consideration.</param>
