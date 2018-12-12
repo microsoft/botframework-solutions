@@ -47,8 +47,8 @@ namespace AutomotiveSkill
             : base(nameof(VehicleSettingsDialog), services, accessor, serviceManager)
         {
             // Initialise supporting LUIS models for followup questions
-            vehicleSettingNameSelectionLuisRecognizer = services.LuisServices["settings_name"];
-            vehicleSettingValueSelectionLuisRecognizer = services.LuisServices["settings_value"];
+            vehicleSettingNameSelectionLuisRecognizer = services.LocaleConfigurations["en"].LuisServices["settings_name"];
+            vehicleSettingValueSelectionLuisRecognizer = services.LocaleConfigurations["en"].LuisServices["settings_value"];
 
             // JSON resource files provided metatadata as to the available car settings, names and the values that can be set
             var resDir = Path.Combine(

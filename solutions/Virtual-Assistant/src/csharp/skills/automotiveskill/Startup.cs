@@ -50,7 +50,8 @@ namespace AutomotiveSkill
             var parameters = Configuration.GetSection("Parameters")?.Get<string[]>();
             var configuration = Configuration.GetSection("Configuration")?.Get<Dictionary<string, object>>();
             var supportedProviders = Configuration.GetSection("SupportedProviders")?.Get<string[]>();
-            ISkillConfiguration connectedServices = new SkillConfiguration(botConfig, supportedProviders, parameters, configuration);
+            var languageModels = Configuration.GetSection("languageModels").Get<Dictionary<string, Dictionary<string, string>>>();
+            ISkillConfiguration connectedServices = new SkillConfiguration(botConfig, languageModels, supportedProviders, parameters, configuration);
             services.AddSingleton(sp => connectedServices);
 
             // Initialize Bot State

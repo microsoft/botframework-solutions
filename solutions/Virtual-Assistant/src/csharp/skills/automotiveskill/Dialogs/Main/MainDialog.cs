@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using AutomotiveSkill.Dialogs.Main.Resources;
@@ -57,8 +58,12 @@ namespace AutomotiveSkill
         {
             var state = await _stateAccessor.GetAsync(dc.Context, () => new AutomotiveSkillState());
 
+            // get current activity locale
+            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            var localeConfig = _services.LocaleConfigurations[locale];
+
             // If dispatch result is general luis model
-            _services.LuisServices.TryGetValue("settings", out var luisService);
+            localeConfig.LuisServices.TryGetValue("settings", out var luisService);
 
             if (luisService == null)
             {
@@ -154,11 +159,16 @@ namespace AutomotiveSkill
                 // Update state with luis result and entities
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new AutomotiveSkillState());
 
-                var vehicleSettingsLuisResult = await _services.LuisServices["settings"].RecognizeAsync<VehicleSettings>(dc.Context, CancellationToken.None);
+                // get current activity locale
+                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                var localeConfig = _services.LocaleConfigurations[locale];
+
+                // Update state with vehiclesettings luis result and entities
+                var vehicleSettingsLuisResult = await localeConfig.LuisServices["settings"].RecognizeAsync<VehicleSettings>(dc.Context, cancellationToken);                
                 state.VehicleSettingsLuisResult = vehicleSettingsLuisResult;
 
                 // check luis intent
-                _services.LuisServices.TryGetValue("general", out var luisService);
+                localeConfig.LuisServices.TryGetValue("general", out var luisService);
 
                 if (luisService == null)
                 {

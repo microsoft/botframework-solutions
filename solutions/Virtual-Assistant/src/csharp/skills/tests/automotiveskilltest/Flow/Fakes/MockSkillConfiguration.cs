@@ -13,10 +13,17 @@ namespace AutomotiveSkillTest.Flow.Fakes
     {
         public MockSkillConfiguration()
         {
-            this.LuisServices.Add("general", new MockLuisRecognizer());
-            this.LuisServices.Add("settings", new MockLuisRecognizer());
-            this.LuisServices.Add("settings_name", new MockLuisRecognizer());
-            this.LuisServices.Add("settings_value", new MockLuisRecognizer());
+            this.LocaleConfigurations.Add("en", new LocaleConfiguration()
+            {
+                Locale = "en-us",
+                LuisServices = new Dictionary<string, IRecognizer>
+                {
+                    { "general", new MockLuisRecognizer() },
+                    { "settings", new MockLuisRecognizer() },
+                    { "settings_name", new MockLuisRecognizer() },
+                    { "settings_value", new MockLuisRecognizer() }
+                }
+            });         
 
             this.TelemetryClient = null;
             this.CosmosDbOptions = null;
@@ -26,7 +33,7 @@ namespace AutomotiveSkillTest.Flow.Fakes
 
         public override CosmosDbStorageOptions CosmosDbOptions { get; set; }
 
-        public override Dictionary<string, IRecognizer> LuisServices { get; set; } = new Dictionary<string, IRecognizer>();
+        public override Dictionary<string, LocaleConfiguration> LocaleConfigurations { get; set; } = new Dictionary<string, LocaleConfiguration>();
 
         public override Dictionary<string, object> Properties { get; set; } = new Dictionary<string, object>();
 
