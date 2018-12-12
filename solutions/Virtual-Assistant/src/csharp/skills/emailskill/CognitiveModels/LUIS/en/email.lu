@@ -497,7 +497,7 @@
 - send an email to {ContactName=graham} , {ContactName=daniel} and {ContactName=meghan}
 - send an email to {ContactName=jason marx}
 - send an email to {ContactName=kanda} -san and {ContactName=yi}
-- send an email to {ContactName=kane} about {EmailSubject=hello}, saying {Message=i'm here}
+- send an email to {ContactName=kane} about {EmailSubject=hello} saying {Message=i'm here}
 - send an email to {ContactName=kane} with the subject of {EmailSubject=i am running late}
 - send an email to {ContactName=lily} which subject is {EmailSubject=i'm late}
 - send an email to {ContactName=lu} , {ContactName=yue} and {ContactName=qiong}
