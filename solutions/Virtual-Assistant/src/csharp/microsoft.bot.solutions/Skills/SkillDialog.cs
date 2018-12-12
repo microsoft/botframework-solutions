@@ -148,7 +148,7 @@ namespace Microsoft.Bot.Solutions.Skills
                 try
                 {
                     var skillType = Type.GetType(skillDefinition.Assembly);
-                    _activatedSkill = (IBot)Activator.CreateInstance(skillType, skillConfiguration, conversationState, userState, null, true);
+                    _activatedSkill = (IBot)Activator.CreateInstance(skillType, skillConfiguration, conversationState, userState, TelemetryClient, null, true);
                 }
                 catch (Exception e)
                 {
