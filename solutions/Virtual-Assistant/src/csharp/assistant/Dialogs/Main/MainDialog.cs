@@ -11,6 +11,7 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Dialogs;
@@ -374,23 +375,12 @@ namespace VirtualAssistant
                     };
                     response.Text = "歌手：" + list_Song[0].Singer + "\t\t歌名：" + list_Song[0].Name;
                     response.Attachments = new List<Attachment>() { audioCard.ToAttachment() };
-
-                    // send event to update UI
-                    var eventResponse = dc.Context.Activity.CreateReply();
-                    eventResponse.Type = ActivityTypes.Event;
-                    eventResponse.Name = "PlayMusic";
-
-                    var singerPart = !string.IsNullOrWhiteSpace(list_Song[0].Singer) ? list_Song[0].Singer + " - " : string.Empty;
-
-                    eventResponse.Value = singerPart + list_Song[0].Name;
-                    await dc.Context.SendActivityAsync(eventResponse).ConfigureAwait(false);
-                }
+                }                        
                 else
                 {
                     response.Text = "对不起，没有找到你想要找的歌曲";
                 }
-
-                await dc.Context.SendActivityAsync(response).ConfigureAwait(false);
+                await dc.Context.SendActivityAsync(response);
                 handled = true;
             }
             else if (command.Contains("查询"))
@@ -416,29 +406,41 @@ namespace VirtualAssistant
                     {
                         Query = querystr,
                         //上海
+                        //Location = new Coordinate
+                        //{
+                        //    Lat = 31.2,
+                        //    Lng = 121.4,
+                        //},
+                        //苏州
                         Location = new Coordinate
                         {
-                            Lat = 31.2,
-                            Lng = 121.4,
+                            Lat = 31.269764,
+                            Lng = 120.740552,
                         },
                         Price_section = price,
                     };
                     List<Poi> places = await baiduMapClient.PoiSearchAsync(query).ConfigureAwait(false);
                     response.Attachments = new List<Attachment>();
+                    response.AttachmentLayout = "carousel";
                     if (places.Count > 0)
                     {
                         for (var i = 0; i < places.Count && i < 4; ++i)
                         {
                             string AddressUrl = "http://api.map.baidu.com/geocoder?address={ADDRESS}&output=html&src=webapp.baidu.openAPIdemo";
                             AddressUrl = AddressUrl.Replace("{ADDRESS}", places[i].Address);
+                            var imageStr = await baiduMapClient.GetLocationImageAsync(places[i].Location, places[i].Name).ConfigureAwait(false);
+
                             var card = new HeroCard
                             {
                                 Title = places[i].Name,
                                 Subtitle = "人均价格：" + places[i].Detail_info.Price.ToString(),
                                 Text = places[i].Address,
-                                Buttons = new List<CardAction>
+                                Images = new List<CardImage>
                                 {
-                                    new CardAction(ActionTypes.OpenUrl, "查看地图", value: AddressUrl)
+                                    new CardImage()
+                                    {
+                                        Url = "data:image/png;base64,"+ imageStr,
+                                    }
                                 }
                             };
                             response.Attachments.Add(card.ToAttachment());
@@ -464,25 +466,30 @@ namespace VirtualAssistant
                 int index = command.IndexOf("导航到");
                 string place = command.Substring(index + 3);
                 BaiduMapClient baiduMapClient = new BaiduMapClient();
-                List<Poi> places = await baiduMapClient.PlaceSearchAsync(place, "上海").ConfigureAwait(false);
+                List<Poi> places = await baiduMapClient.PlaceSearchAsync(place, "苏州").ConfigureAwait(false);
+
                 if (places.Count > 0)
                 {
                     Coordinate currentLocation = new Coordinate
                     {
-                        Lat = 31.2,
-                        Lng = 121.4,
+                        Lat = 31.269764,
+                        Lng = 120.740552,
                     };
                     List<Route> routes = await baiduMapClient.GetDirectionAsync(currentLocation, places[0].Location).ConfigureAwait(false);
                     if (routes.Count > 0)
                     {
                         string AddressUrl = "http://api.map.baidu.com/geocoder?address={ADDRESS}&output=html&src=webapp.baidu.openAPIdemo";
                         AddressUrl = AddressUrl.Replace("{ADDRESS}", places[0].Address);
+                        var imageStr = await baiduMapClient.GetLocationImageAsync(places[0].Location, places[0].Name).ConfigureAwait(false);
                         var card = new HeroCard
                         {
                             Title = "您到" + place + "距离有" + (double)routes[0].Distance/1000 + "公里, 需要" + routes[0].Duration/60 + "分钟",
-                            Buttons = new List<CardAction>
+                            Images = new List<CardImage>
                             {
-                                new CardAction(ActionTypes.OpenUrl, "查看地图", value: AddressUrl)
+                                new CardImage()
+                                {
+                                   Url = "data:image/png;base64,"+ imageStr,
+                                }
                             }
                         };
                         response.Attachments.Add(card.ToAttachment());
