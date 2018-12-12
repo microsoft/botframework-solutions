@@ -8,6 +8,7 @@ namespace ToDoSkill.ServiceClients
     using System.Net.Http;
     using System.Threading.Tasks;
     using global::ToDoSkill.Dialogs.Shared.Resources;
+    using Microsoft.Graph;
     using Newtonsoft.Json.Linq;
 
     /// <summary>
@@ -52,9 +53,9 @@ namespace ToDoSkill.ServiceClients
                 this.taskFolderIds = taskFolderIds;
                 return this;
             }
-            catch (Exception ex)
+            catch (ServiceException ex)
             {
-                throw ex;
+                throw ServiceHelper.HandleGraphAPIException(ex);
             }
         }
 
@@ -70,9 +71,9 @@ namespace ToDoSkill.ServiceClients
                 var requestUrl = this.graphBaseUrl + "taskFolders/" + taskFolderIds[listType] + "/tasks";
                 return await this.ExecuteTasksGetAsync(requestUrl);
             }
-            catch (Exception ex)
+            catch (ServiceException ex)
             {
-                throw ex;
+                throw ServiceHelper.HandleGraphAPIException(ex);
             }
         }
 
@@ -89,9 +90,9 @@ namespace ToDoSkill.ServiceClients
                 var requestUrl = this.graphBaseUrl + "taskFolders/" + taskFolderIds[listType] + "/tasks";
                 return await this.ExecuteTaskAddAsync(requestUrl, taskText);
             }
-            catch (Exception ex)
+            catch (ServiceException ex)
             {
-                throw ex;
+                throw ServiceHelper.HandleGraphAPIException(ex);
             }
         }
 
@@ -108,9 +109,9 @@ namespace ToDoSkill.ServiceClients
                 var requestUrl = this.graphBaseUrl + "tasks";
                 return await this.ExecuteTasksMarkAsync(requestUrl, taskItems);
             }
-            catch (Exception ex)
+            catch (ServiceException ex)
             {
-                throw ex;
+                throw ServiceHelper.HandleGraphAPIException(ex);
             }
         }
 
@@ -127,64 +128,43 @@ namespace ToDoSkill.ServiceClients
                 var requestUrl = this.graphBaseUrl + "tasks";
                 return await this.ExecuteTasksDeleteAsync(requestUrl, taskItems);
             }
-            catch (Exception ex)
+            catch (ServiceException ex)
             {
-                throw ex;
+                throw ServiceHelper.HandleGraphAPIException(ex);
             }
         }
 
         private async Task<string> GetOrCreateTaskFolderAsync(string taskFolderName)
         {
-            try
+            var taskFolderId = await GetTaskFolderAsync(taskFolderName);
+            if (string.IsNullOrEmpty(taskFolderId))
             {
-                var taskFolderId = await GetTaskFolderAsync(taskFolderName);
-                if (string.IsNullOrEmpty(taskFolderId))
-                {
-                    taskFolderId = await CreateTaskFolderAsync(taskFolderName);
-                }
+                taskFolderId = await CreateTaskFolderAsync(taskFolderName);
+            }
 
-                return taskFolderId;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            return taskFolderId;
         }
 
         private async Task<string> GetTaskFolderAsync(string taskFolderName)
         {
-            try
+            var taskFolderIdNameDic = await this.GetTaskFoldersAsync(this.graphBaseUrl + "taskFolders");
+            foreach (var taskFolderIdNamePair in taskFolderIdNameDic)
             {
-                var taskFolderIdNameDic = await this.GetTaskFoldersAsync(this.graphBaseUrl + "taskFolders");
-                foreach (var taskFolderIdNamePair in taskFolderIdNameDic)
+                if (taskFolderIdNamePair.Value.Equals(taskFolderName, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    if (taskFolderIdNamePair.Value.Equals(taskFolderName, StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        return taskFolderIdNamePair.Key;
-                    }
+                    return taskFolderIdNamePair.Key;
                 }
+            }
 
-                return null;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            return null;
         }
 
         private async Task<string> CreateTaskFolderAsync(string taskFolderName)
         {
-            try
-            {
-                var httpRequestMessage = ServiceHelper.GenerateCreateTaskFolderHttpRequest(this.graphBaseUrl + "taskFolders", taskFolderName);
-                var result = await this.httpClient.SendAsync(httpRequestMessage);
-                dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
-                return (string)responseContent.id;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            var httpRequestMessage = ServiceHelper.GenerateCreateTaskFolderHttpRequest(this.graphBaseUrl + "taskFolders", taskFolderName);
+            var result = await this.httpClient.SendAsync(httpRequestMessage);
+            dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
+            return (string)responseContent.id;
         }
 
         private async Task<Dictionary<string, string>> GetTaskFoldersAsync(string url)
@@ -233,7 +213,7 @@ namespace ToDoSkill.ServiceClients
                 var result = await this.httpClient.SendAsync(httpRequestMessage);
                 if (!result.IsSuccessStatusCode)
                 {
-                    throw new Exception();
+                    return false;
                 }
             }
 
@@ -248,7 +228,7 @@ namespace ToDoSkill.ServiceClients
                 var result = await this.httpClient.SendAsync(httpRequestMessage);
                 if (!result.IsSuccessStatusCode)
                 {
-                    throw new Exception();
+                    return false;
                 }
             }
 

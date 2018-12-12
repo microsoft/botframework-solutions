@@ -1,4 +1,4 @@
-{
+ï»¿{
   "DidntUnderstandMessage": {
     "replies": [
       {
@@ -6,16 +6,16 @@
         "speak": "Entschuldigung, ich habe nicht verstanden was Sie meinen."
       },
       {
-        "text": "Ich habe das leider nicht verstanden. Können Sie Ihr Anliegen bitte noch einmal anders formulieren?",
-        "speak": "Ich habe das leider nicht verstanden. Können Sie Ihr Anliegen bitte noch einmal anders formulieren?"
+        "text": "Ich habe das leider nicht verstanden. Ké°Šnen Sie Ihr Anliegen bitte noch einmal anders formulieren?",
+        "speak": "Ich habe das leider nicht verstanden. Ké°Šnen Sie Ihr Anliegen bitte noch einmal anders formulieren?"
       },
       {
-        "text": "Können Sie bitte Ihre Frage umformulieren?",
-        "speak": "Können Sie bitte Ihre Frage umformulieren?"
+        "text": "Ké°Šnen Sie bitte Ihre Frage umformulieren?",
+        "speak": "Ké°Šnen Sie bitte Ihre Frage umformulieren?"
       },
       {
-        "text": "Könnten Sie mir die Frage bitte noch einmal stellen? Ich habe nicht ganz verstanden, was Sie meinen.",
-        "speak": "Könnten Sie mir die Frage bitte noch einmal stellen? Ich habe nicht ganz verstanden, was Sie meinen."
+        "text": "Ké°Šnten Sie mir die Frage bitte noch einmal stellen? Ich habe nicht ganz verstanden, was Sie meinen.",
+        "speak": "Ké°Šnten Sie mir die Frage bitte noch einmal stellen? Ich habe nicht ganz verstanden, was Sie meinen."
       }
     ],
     "inputHint": "acceptingInput"
@@ -38,6 +38,40 @@
     ],
     "inputHint": "acceptingInput"
   },
+  "ToDoErrorMessage": {
+    "replies": [
+      {
+        "text": "Sorry, es sieht so aus, als wï¿½re etwas schief gelaufen!",
+        "speak": "Sorry, es sieht so aus, als wï¿½re etwas schief gelaufen!"
+      },
+      {
+        "text": "Ein Fehler ist aufgetreten. Gib mir etwas Zeit und versuche es spï¿½ter noch einmal.",
+        "speak": "Ein Fehler ist aufgetreten. Gib mir etwas Zeit und versuche es spï¿½ter noch einmal."
+      },
+      {
+        "text": "Irgendetwas ist schief gelaufen. Sorry!",
+        "speak": "Irgendetwas ist schief gelaufen. Sorry!"
+      },
+      {
+        "text": "Ein Fehler ist aufgetreten. Geben Sie mir etwas Zeit und versuche es spï¿½ter noch einmal.",
+        "speak": "Ein Fehler ist aufgetreten. Geben Sie mir etwas Zeit und versuche es spï¿½ter noch einmal."
+      },
+      {
+        "text": "Sorry, ich glaube, ich kann jetzt nicht finden, was Sie suchen. Versuchen Sie es spï¿½ter noch einmal.",
+        "speak": "Sorry, ich glaube, ich kann jetzt nicht finden, was Sie suchen. Versuchen Sie es spï¿½ter noch einmal."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ToDoErrorMessage_BotProblem": {
+    "replies": [
+      {
+        "text": "Sorry, im Moment stimmt der Bot nicht. Der Entwickler wurde darï¿½ber informiert, so dass Sie die Aktion bald wieder ausfï¿½hren kï¿½nnen.",
+        "speak": "Sorry, im Moment stimmt der Bot nicht. Der Entwickler wurde darï¿½ber informiert, so dass Sie die Aktion bald wieder ausfï¿½hren kï¿½nnen."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
   "GoodbyeMessage": {
     "replies": [
       {
@@ -50,8 +84,8 @@
   "CancellingMessage": {
     "replies": [
       {
-        "text": "Natürlich. Das können wir gern später machen.",
-        "speak": "Natürlich. Das können wir gern später machen."
+        "text": "Naté»µlich. Das ké°Šnen wir gern spé‹er machen.",
+        "speak": "Naté»µlich. Das ké°Šnen wir gern spé‹er machen."
       }
     ],
     "inputHint": "acceptingInput"
@@ -59,20 +93,20 @@
   "AskToDoContentText": {
     "replies": [
       {
-        "text": "Natürlich. Was möchten Sie gerne zu Ihrer Liste hinzufügen?",
-        "speak": "Natürlich. Was möchten Sie gerne zu Ihrer Liste hinzufügen?"
+        "text": "Naté»µlich. Was mé¯¿hten Sie gerne zu Ihrer Liste hinzufé»¦en?",
+        "speak": "Naté»µlich. Was mé¯¿hten Sie gerne zu Ihrer Liste hinzufé»¦en?"
       },
       {
-        "text": "Ok, was darf ich zu Ihrer Liste hinzufügen?",
-        "speak": "Ok, was darf ich zu Ihrer Liste hinzufügen?"
+        "text": "Ok, was darf ich zu Ihrer Liste hinzufé»¦en?",
+        "speak": "Ok, was darf ich zu Ihrer Liste hinzufé»¦en?"
       },
       {
-        "text": "In Ordnung, was möchten Sie gerne zu Ihrer Liste hinzufügen?",
-        "speak": "In Ordnung, was möchten Sie gerne zu Ihrer Liste hinzufügen?"
+        "text": "In Ordnung, was mé¯¿hten Sie gerne zu Ihrer Liste hinzufé»¦en?",
+        "speak": "In Ordnung, was mé¯¿hten Sie gerne zu Ihrer Liste hinzufé»¦en?"
       },
       {
-        "text": "Was möchten Sie gerne zu Ihrer Liste hinzufügen?",
-        "speak": "Was möchten Sie gerne zu Ihrer Liste hinzufügen?"
+        "text": "Was mé¯¿hten Sie gerne zu Ihrer Liste hinzufé»¦en?",
+        "speak": "Was mé¯¿hten Sie gerne zu Ihrer Liste hinzufé»¦en?"
       }
     ],
     "inputHint": "expectingInput"
@@ -80,8 +114,8 @@
   "AfterToDoTaskAdded": {
     "replies": [
       {
-        "text": "Ich habe die Aufgabe {taskContent} zu Ihrer Liste hinzugefügt.",
-        "speak": "Ich habe die Aufgabe {taskContent} zu Ihrer Liste hinzugefügt."
+        "text": "Ich habe die Aufgabe {taskContent} zu Ihrer Liste hinzugefé»¦t.",
+        "speak": "Ich habe die Aufgabe {taskContent} zu Ihrer Liste hinzugefé»¦t."
       }
     ],
     "inputHint": "acceptingInput"
@@ -89,8 +123,8 @@
   "AskToDoTaskIndex": {
     "replies": [
       {
-        "text": "Welche Aufgabe möchten Sie gerne für diese Aktion auswählen?",
-        "speak": "Welche Aufgabe möchten Sie gerne für diese Aktion auswählen?"
+        "text": "Welche Aufgabe mé¯¿hten Sie gerne fé»µ diese Aktion auswé‹’len?",
+        "speak": "Welche Aufgabe mé¯¿hten Sie gerne fé»µ diese Aktion auswé‹’len?"
       }
     ],
     "inputHint": "expectingInput"
@@ -98,8 +132,8 @@
   "ShowToDoTasks": {
     "replies": [
       {
-        "text": "Sie haben {taskCount} Einträge auf Ihrer Liste:",
-        "speak": "Sie haben {taskCount} Einträge auf Ihrer Liste:"
+        "text": "Sie haben {taskCount} Eintré‹‘e auf Ihrer Liste:",
+        "speak": "Sie haben {taskCount} Eintré‹‘e auf Ihrer Liste:"
       }
     ],
     "inputHint": "ignoringInput"
@@ -116,8 +150,8 @@
   "ShowNextToDoTasks": {
     "replies": [
       {
-        "text": "Sie können folgendes tun:",
-        "speak": "Sie können folgendes tun:"
+        "text": "Sie ké°Šnen folgendes tun:",
+        "speak": "Sie ké°Šnen folgendes tun:"
       }
     ],
     "inputHint": "ignoringInput"
@@ -134,12 +168,12 @@
   "NoToDoTasksPrompt": {
     "replies": [
       {
-        "text": "Ihre To Do Liste ist leer. Möchten Sie eine erste Aufgabe auf die Liste setzen?",
-        "speak": "Ihre To Do Liste ist leer. Möchten Sie eine erste Aufgabe auf die Liste setzen?"
+        "text": "Ihre To Do Liste ist leer. Mé¯¿hten Sie eine erste Aufgabe auf die Liste setzen?",
+        "speak": "Ihre To Do Liste ist leer. Mé¯¿hten Sie eine erste Aufgabe auf die Liste setzen?"
       },
       {
-        "text": "In Ihrer To Do Liste befinden sich keine Aufgaben. Möchten Sie einen neuen Eintrag zu Ihrer Liste hinzufügen?",
-        "speak": "In Ihrer To Do Liste befinden sich keine Aufgaben. Möchten Sie einen neuen Eintrag zu Ihrer Liste hinzufügen?"
+        "text": "In Ihrer To Do Liste befinden sich keine Aufgaben. Mé¯¿hten Sie einen neuen Eintrag zu Ihrer Liste hinzufé»¦en?",
+        "speak": "In Ihrer To Do Liste befinden sich keine Aufgaben. Mé¯¿hten Sie einen neuen Eintrag zu Ihrer Liste hinzufé»¦en?"
       }
     ],
     "inputHint": "expectingInput"
@@ -147,8 +181,8 @@
   "AfterToDoTaskCompleted": {
     "replies": [
       {
-        "text": "Ich habe die Aufgabe {taskContent} für Sie als abgeschlossen markiert.",
-        "speak": "Ich habe die Aufgabe {taskContent} für Sie als abgeschlossen markiert."
+        "text": "Ich habe die Aufgabe {taskContent} fé»µ Sie als abgeschlossen markiert.",
+        "speak": "Ich habe die Aufgabe {taskContent} fé»µ Sie als abgeschlossen markiert."
       }
     ],
     "inputHint": "acceptingInput"
@@ -156,8 +190,8 @@
   "AfterAllToDoTasksCompleted": {
     "replies": [
       {
-        "text": "Ich habe für Sie alle Aufgaben als abgeschlossen markiert.",
-        "speak": "Ich habe für Sie alle Aufgaben als abgeschlossen markiert."
+        "text": "Ich habe fé»µ Sie alle Aufgaben als abgeschlossen markiert.",
+        "speak": "Ich habe fé»µ Sie alle Aufgaben als abgeschlossen markiert."
       }
     ],
     "inputHint": "acceptingInput"
@@ -165,8 +199,8 @@
   "AskDeletionConfirmation": {
     "replies": [
       {
-        "text": "Sind Sie sicher, dass Sie den folgenden Eintrag löschen möchten: {toDoTask}?",
-        "speak": "Sind Sie sicher, dass Sie den folgenden Eintrag löschen möchten: {toDoTask}?"
+        "text": "Sind Sie sicher, dass Sie den folgenden Eintrag lé°chen mé¯¿hten: {toDoTask}?",
+        "speak": "Sind Sie sicher, dass Sie den folgenden Eintrag lé°chen mé¯¿hten: {toDoTask}?"
       }
     ],
     "inputHint": "expectingInput"
@@ -174,8 +208,8 @@
   "AskDeletionAllConfirmation": {
     "replies": [
       {
-        "text": "Sind Sie sicher, dass Sie alle Ihre Aufgaben löschen möchten?",
-        "speak": "Sind Sie sicher, dass Sie alle Ihre Aufgaben löschen möchten?"
+        "text": "Sind Sie sicher, dass Sie alle Ihre Aufgaben lé°chen mé¯¿hten?",
+        "speak": "Sind Sie sicher, dass Sie alle Ihre Aufgaben lé°chen mé¯¿hten?"
       }
     ],
     "inputHint": "expectingInput"
@@ -183,8 +217,8 @@
   "AfterTaskDeleted": {
     "replies": [
       {
-        "text": "Ich habe die Aufgabe {taskContent} für Sie gelöscht.",
-        "speak": "Ich habe die Aufgabe {taskContent} für Sie gelöscht."
+        "text": "Ich habe die Aufgabe {taskContent} fé»µ Sie gelé°cht.",
+        "speak": "Ich habe die Aufgabe {taskContent} fé»µ Sie gelé°cht."
       }
     ],
     "inputHint": "acceptingInput"
@@ -192,8 +226,8 @@
   "AfterAllTasksDeleted": {
     "replies": [
       {
-        "text": "Ich habe Ihre To Do Liste für Sie geleert.",
-        "speak": "Ich habe Ihre To Do Liste für Sie geleert."
+        "text": "Ich habe Ihre To Do Liste fé»µ Sie geleert.",
+        "speak": "Ich habe Ihre To Do Liste fé»µ Sie geleert."
       }
     ],
     "inputHint": "acceptingInput"
@@ -214,15 +248,15 @@
   "ToDoHelpMessage": {
     "replies": [
       {
-        "text": "Ich kann Ihnen Ihre Aufgaben vorlesen, einen neuen Eintrag erstellen, diese als abgeschlossen markieren oder einen Eintrag löschen.",
-        "speak": "Ich kann Ihnen Ihre Aufgaben vorlesen, einen neuen Eintrag erstellen, diese als abgeschlossen markieren oder einen Eintrag löschen."
+        "text": "Ich kann Ihnen Ihre Aufgaben vorlesen, einen neuen Eintrag erstellen, diese als abgeschlossen markieren oder einen Eintrag lé°chen.",
+        "speak": "Ich kann Ihnen Ihre Aufgaben vorlesen, einen neuen Eintrag erstellen, diese als abgeschlossen markieren oder einen Eintrag lé°chen."
       }
     ],
     "suggestedActions": [
       "Lese die Aufgaben vor.",
-      "Erstelle einen neuen Eintrag für mich.",
+      "Erstelle einen neuen Eintrag fé»µ mich.",
       "Markiere den zweiten Eintrag als abgeschlossen.",
-      "Lösche die dritte Aufgabe."
+      "Lé°che die dritte Aufgabe."
     ],
     "inputHint": "acceptingInput"
   },
@@ -277,8 +311,8 @@
   "ShowingMoreTasks": {
     "replies": [
       {
-        "text": "Sie haben noch mehr Aufgaben auf der Liste. Wenn Sie mehr erfahren möchten, dann fragen Sie mich bitte mit \"Nächster\" oder \"Mehr\" Aufgaben.",
-        "speak": "Sie haben noch mehr Aufgaben auf der Liste. Wenn Sie mehr erfahren möchten, dann fragen Sie mich bitte mit \"Nächster\" oder \"Mehr\" Aufgaben."
+        "text": "Sie haben noch mehr Aufgaben auf der Liste. Wenn Sie mehr erfahren mé¯¿hten, dann fragen Sie mich bitte mit \"Né‹hster\" oder \"Mehr\" Aufgaben.",
+        "speak": "Sie haben noch mehr Aufgaben auf der Liste. Wenn Sie mehr erfahren mé¯¿hten, dann fragen Sie mich bitte mit \"Né‹hster\" oder \"Mehr\" Aufgaben."
       }
     ],
     "inputHint": "acceptingInput"

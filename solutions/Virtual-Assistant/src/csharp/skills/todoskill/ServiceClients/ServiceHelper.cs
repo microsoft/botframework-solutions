@@ -12,6 +12,8 @@ namespace ToDoSkill
     using System.Text.RegularExpressions;
     using System.Xml;
     using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
+    using Microsoft.Bot.Solutions.Skills;
+    using Microsoft.Graph;
     using Newtonsoft.Json;
 
     /// <summary>
@@ -19,6 +21,8 @@ namespace ToDoSkill
     /// </summary>
     public class ServiceHelper
     {
+        private const string APIErrorAccessDenied = "erroraccessdenied";
+
         private static readonly Regex ComplexTokensRegex = new Regex(@"\{[^{\}]+(?=})\}", RegexOptions.Compiled);
         private static readonly List<IBotResponseFormatter> ResponseFormatters = new List<IBotResponseFormatter>();
         private static readonly IBotResponseFormatter DefaultFormatter = new DefaultBotResponseFormatter();
@@ -265,6 +269,17 @@ namespace ToDoSkill
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             return httpClient;
+        }
+
+        public static SkillException HandleGraphAPIException(ServiceException ex)
+        {
+            var skillExceptionType = SkillExceptionType.Other;
+            if (ex.Message.Contains(APIErrorAccessDenied, StringComparison.InvariantCultureIgnoreCase))
+            {
+                skillExceptionType = SkillExceptionType.APIAccessDenied;
+            }
+
+            return new SkillException(skillExceptionType, ex.Message, ex);
         }
     }
 }
