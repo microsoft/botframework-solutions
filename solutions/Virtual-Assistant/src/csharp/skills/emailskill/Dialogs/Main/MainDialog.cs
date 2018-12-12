@@ -31,13 +31,14 @@ namespace EmailSkill
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
         private EmailSkillResponseBuilder _responseBuilder = new EmailSkillResponseBuilder();
 
-        public MainDialog(ISkillConfiguration skillConfiguration, ConversationState conversationState, UserState userState, IServiceManager serviceManager, bool skillMode)
-            : base(nameof(MainDialog))
+        public MainDialog(ISkillConfiguration skillConfiguration, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, IServiceManager serviceManager, bool skillMode)
+            : base(nameof(MainDialog), telemetryClient)
         {
             _skillMode = skillMode;
             _skillConfig = skillConfiguration;
             _conversationState = conversationState;
             _userState = userState;
+            TelemetryClient = telemetryClient;
             _serviceManager = serviceManager;
 
             // Initialize state accessor

@@ -33,14 +33,16 @@ namespace CalendarSkill
             ISkillConfiguration services,
             ConversationState conversationState,
             UserState userState,
+            IBotTelemetryClient telemetryClient,
             IServiceManager serviceManager,
             bool skillMode)
-            : base(nameof(MainDialog))
+            : base(nameof(MainDialog), telemetryClient)
         {
             _skillMode = skillMode;
             _services = services;
             _userState = userState;
             _conversationState = conversationState;
+            TelemetryClient = telemetryClient;
             _serviceManager = serviceManager;
 
             // Initialize state accessor

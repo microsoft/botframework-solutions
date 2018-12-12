@@ -29,12 +29,13 @@ namespace Microsoft.Bot.Solutions.Skills
         private bool _skillInitialized;
         private bool _useCachedTokens;
 
-        public SkillDialog(Dictionary<string, ISkillConfiguration> skills, IStatePropertyAccessor<DialogState> accessor, EndpointService endpointService, bool useCachedTokens = true)
+        public SkillDialog(Dictionary<string, ISkillConfiguration> skills, IStatePropertyAccessor<DialogState> accessor, EndpointService endpointService, IBotTelemetryClient telemetryClient, bool useCachedTokens = true)
             : base(nameof(SkillDialog))
         {
             _skills = skills;
             _accessor = accessor;
             _endpointService = endpointService;
+            TelemetryClient = telemetryClient;
             _useCachedTokens = useCachedTokens;
             _dialogs = new DialogSet(_accessor);
         }

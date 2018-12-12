@@ -19,7 +19,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.5" />
 
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
@@ -29,6 +29,7 @@
     <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.2.0" />
     <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.2.0" />
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.2.0" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.2.0" />
     <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.2.0" />
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.2.0" />

@@ -100,7 +100,9 @@ namespace CalendarSkill
                 // Telemetry Middleware (logs activity messages in Application Insights)
                 var appInsightsService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.AppInsights) ?? throw new Exception("Please configure your AppInsights connection in your .bot file.");
                 var instrumentationKey = (appInsightsService as AppInsightsService).InstrumentationKey;
-                var appInsightsLogger = new TelemetryLoggerMiddleware(instrumentationKey, logUserName: true, logOriginalMessage: true);
+                var sp = services.BuildServiceProvider();
+                var telemetryClient = sp.GetService<IBotTelemetryClient>();
+                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logUserName: true, logOriginalMessage: true);
                 options.Middleware.Add(appInsightsLogger);
 
                 // Catches any errors that occur during a conversation turn and logs them to AppInsights.
@@ -109,7 +111,7 @@ namespace CalendarSkill
                     CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
                     await context.SendActivityAsync(context.Activity.CreateReply(CalendarSharedResponses.CalendarErrorMessage));
                     await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Calendar Skill Error: {exception.Message} | {exception.StackTrace}"));
-                    connectedServices.TelemetryClient.TrackException(exception);
+                    telemetryClient.TrackException(exception);
                 };
 
                 // Transcript Middleware (saves conversation history in a standard format)
@@ -135,7 +137,8 @@ namespace CalendarSkill
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             _isProduction = env.IsProduction();
-            app.UseDefaultFiles()
+            app.UseBotApplicationInsights()
+                .UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();
         }

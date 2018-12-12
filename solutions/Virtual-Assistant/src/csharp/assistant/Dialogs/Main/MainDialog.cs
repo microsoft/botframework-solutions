@@ -34,7 +34,7 @@ namespace VirtualAssistant
         private SkillRouter _skillRouter;
 
         public MainDialog(BotServices services, BotConfiguration botConfig, ConversationState conversationState, UserState userState, EndpointService endpointService, IBotTelemetryClient telemetryClient)
-            : base(nameof(MainDialog))
+            : base(nameof(MainDialog), telemetryClient)
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _botConfig = botConfig;
@@ -48,8 +48,8 @@ namespace VirtualAssistant
             var dialogState = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
 
             AddDialog(new OnboardingDialog(_services, _onboardingState, telemetryClient));
-            AddDialog(new EscalateDialog(_services));
-            AddDialog(new CustomSkillDialog(_services.SkillConfigurations, dialogState, endpointService));
+            AddDialog(new EscalateDialog(_services, telemetryClient));
+            AddDialog(new CustomSkillDialog(_services.SkillConfigurations, dialogState, endpointService, telemetryClient));
 
             // Initialize skill dispatcher
             _skillRouter = new SkillRouter(_services.SkillDefinitions);

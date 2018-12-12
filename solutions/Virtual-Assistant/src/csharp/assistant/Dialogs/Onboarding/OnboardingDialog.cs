@@ -21,7 +21,7 @@ namespace VirtualAssistant
         private OnboardingState _state;
 
         public OnboardingDialog(BotServices botServices, IStatePropertyAccessor<OnboardingState> accessor, IBotTelemetryClient telemetryClient)
-            : base(botServices, nameof(OnboardingDialog))
+            : base(botServices, nameof(OnboardingDialog), telemetryClient)
         {
             _accessor = accessor;
             InitialDialogId = nameof(OnboardingDialog);

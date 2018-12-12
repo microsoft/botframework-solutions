@@ -81,6 +81,7 @@ namespace Microsoft.Bot.Solutions
             {
                 throw new ArgumentNullException(nameof(dialogContext));
             }
+
             return await RecognizeInternalAsync(dialogContext.Context, logOriginalMessage, dialogContext.ActiveDialog?.Id, cancellationToken);
         }
 

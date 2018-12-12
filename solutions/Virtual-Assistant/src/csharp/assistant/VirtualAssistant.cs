@@ -32,6 +32,7 @@ namespace VirtualAssistant
         /// <param name="conversationState">Bot conversation state.</param>
         /// <param name="userState">Bot user state.</param>
         /// <param name="endpointService">Bot endpoint service.</param>
+        /// <param name="telemetryClient">Bot telemetry client.</param>
         public VirtualAssistant(BotServices botServices, BotConfiguration botConfig, ConversationState conversationState, UserState userState, EndpointService endpointService, IBotTelemetryClient telemetryClient)
         {
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));

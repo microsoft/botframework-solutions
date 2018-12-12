@@ -34,15 +34,17 @@ namespace ToDoSkill
             ISkillConfiguration services,
             ConversationState conversationState,
             UserState userState,
+            IBotTelemetryClient telemetryClient,
             ITaskService serviceManager,
             bool skillMode)
-            : base(nameof(MainDialog))
+            : base(nameof(MainDialog), telemetryClient)
         {
             _skillMode = skillMode;
             _services = services;
             _conversationState = conversationState;
             _userState = userState;
             _serviceManager = serviceManager;
+            TelemetryClient = telemetryClient;
 
             // Initialize state accessor
             _stateAccessor = _conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
