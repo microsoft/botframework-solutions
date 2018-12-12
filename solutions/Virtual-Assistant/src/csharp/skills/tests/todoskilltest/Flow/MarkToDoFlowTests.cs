@@ -111,7 +111,7 @@ namespace ToDoSkillTest.Flow
                 var column = columnSet.Columns[0];
                 Assert.IsNotNull(column);
                 var image = column.Items[0] as AdaptiveImage;
-                Assert.AreEqual(image.UrlString, MockData.ImageSource);
+                Assert.AreEqual(image.UrlString, IconImageSource.CheckIconSource);
             };
         }
 
@@ -137,7 +137,7 @@ namespace ToDoSkillTest.Flow
                 var column = columnSet.Columns[0];
                 Assert.IsNotNull(column);
                 var image = column.Items[0] as AdaptiveImage;
-                Assert.AreEqual(image.UrlString, MockData.ImageSource);
+                Assert.AreEqual(image.UrlString, IconImageSource.CheckIconSource);
             };
         }
 

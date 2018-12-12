@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using ToDoSkill;
 using ToDoSkillTest.Flow.Fakes;
-using static ToDoSkillTest.Flow.Fakes.MockData;
 
 namespace ToDoSkillTest.Fakes
 {
@@ -22,13 +21,13 @@ namespace ToDoSkillTest.Fakes
         {
         }
 
-        public void ChangeData(DataChangeType type)
+        public void ChangeData(DataOperationType.OperationType type)
         {
-            if (type == DataChangeType.KeepZeroItem)
+            if (type == DataOperationType.OperationType.KeepZeroItem)
             {
                 allToDoItems.Clear();
             }
-            else if (type == DataChangeType.KeepOneItem)
+            else if (type == DataOperationType.OperationType.KeepOneItem)
             {
                 allToDoItems.RemoveRange(1, allToDoItems.Count - 1);
             }

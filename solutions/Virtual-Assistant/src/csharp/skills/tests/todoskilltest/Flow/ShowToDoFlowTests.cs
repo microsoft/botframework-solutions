@@ -148,7 +148,7 @@ namespace ToDoSkillTest.Flow
         [TestMethod]
         public async Task Test_ShowEmptyTasks()
         {
-            (this.ToDoService as MockToDoService).ChangeData(MockData.DataChangeType.KeepZeroItem);
+            (this.ToDoService as MockToDoService).ChangeData(DataOperationType.OperationType.KeepZeroItem);
             await this.GetTestFlow()
                 .Send(ShowToDoFlowTestUtterances.ShowToDoList)
                 .AssertReply(this.ShowAuth())

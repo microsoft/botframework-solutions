@@ -68,7 +68,7 @@ namespace ToDoSkillTest.Flow
                     Assert.IsNotNull(column);
                     var image = column.Items[0] as AdaptiveImage;
                     Assert.IsNotNull(image);
-                    Assert.AreEqual(image.UrlString, MockData.ImageSource);
+                    Assert.AreEqual(image.UrlString, IconImageSource.CheckIconSource);
                 }
             };
         }

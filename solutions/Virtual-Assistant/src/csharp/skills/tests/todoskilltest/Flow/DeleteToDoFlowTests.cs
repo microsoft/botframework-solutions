@@ -101,7 +101,7 @@ namespace ToDoSkillTest.Flow
         [TestMethod]
         public async Task Test_DeleteToDoItem_Check_Empty_List()
         {
-            (this.ToDoService as MockToDoService).ChangeData(MockData.DataChangeType.KeepOneItem);
+            (this.ToDoService as MockToDoService).ChangeData(DataOperationType.OperationType.KeepOneItem);
             await this.GetTestFlow()
                 .Send(DeleteToDoFlowTestUtterances.DeleteSpecificTask)
                 .AssertReply(this.ShowAuth())
