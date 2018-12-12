@@ -6,10 +6,14 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using CalendarSkill.Dialogs.Shared.Resources;
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DependencyCollector;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
@@ -46,6 +50,9 @@ namespace CalendarSkill
             var botFileSecret = Configuration.GetSection("botFileSecret")?.Value;
             var botConfig = BotConfiguration.Load(botFilePath ?? @".\CalendarSkill.bot", botFileSecret);
             services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded."));
+
+            // Use Application Insights
+            services.AddBotApplicationInsights(botConfig);
 
             // Initializes your bot service clients and adds a singleton that your Bot can access through dependency injection.
             var parameters = Configuration.GetSection("parameters")?.Get<string[]>();

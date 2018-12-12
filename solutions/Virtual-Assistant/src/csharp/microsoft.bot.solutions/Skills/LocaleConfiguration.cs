@@ -28,9 +28,9 @@ namespace Microsoft.Bot.Solutions.Skills
         /// </summary>
         /// <remarks>The LUIS services collection should not be modified while the bot is running.</remarks>
         /// <value>
-        /// A <see cref="LuisRecognizer"/> client instance created based on configuration in the .bot file.
+        /// A <see cref="ITelemetryLuisRecognizer"/> client instance created based on configuration in the .bot file.
         /// </value>
-        public Dictionary<string, IRecognizer> LuisServices { get; set; } = new Dictionary<string, IRecognizer>();
+        public Dictionary<string, ITelemetryLuisRecognizer> LuisServices { get; set; } = new Dictionary<string, ITelemetryLuisRecognizer>();
 
         /// <summary>
         /// Gets or sets the QnAMaker Services used.
@@ -40,8 +40,8 @@ namespace Microsoft.Bot.Solutions.Skills
         /// </summary>
         /// <remarks>The QnAMaker services collection should not be modified while the bot is running.</remarks>
         /// <value>
-        /// A <see cref="TelemetryQnAMaker"/> client instance created based on configuration in the .bot file.
+        /// A <see cref="ITelemetryQnAMaker"/> client instance created based on configuration in the .bot file.
         /// </value>
-        public Dictionary<string, QnAMaker> QnAServices { get; set; } = new Dictionary<string, QnAMaker>();
+        public Dictionary<string, ITelemetryQnAMaker> QnAServices { get; set; } = new Dictionary<string, ITelemetryQnAMaker>();
     }
 }

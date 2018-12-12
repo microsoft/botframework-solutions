@@ -33,7 +33,7 @@ namespace VirtualAssistant
         private MainResponses _responder = new MainResponses();
         private SkillRouter _skillRouter;
 
-        public MainDialog(BotServices services, BotConfiguration botConfig, ConversationState conversationState, UserState userState, EndpointService endpointService)
+        public MainDialog(BotServices services, BotConfiguration botConfig, ConversationState conversationState, UserState userState, EndpointService endpointService, IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog))
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
@@ -41,12 +41,13 @@ namespace VirtualAssistant
             _conversationState = conversationState;
             _userState = userState;
             _endpointService = endpointService;
+            TelemetryClient = telemetryClient;
             _onboardingState = _userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             _parametersAccessor = _userState.CreateProperty<Dictionary<string, object>>("userInfo");
             _virtualAssistantState = _conversationState.CreateProperty<VirtualAssistantState>(nameof(VirtualAssistantState));
             var dialogState = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
 
-            AddDialog(new OnboardingDialog(_services, _onboardingState));
+            AddDialog(new OnboardingDialog(_services, _onboardingState, telemetryClient));
             AddDialog(new EscalateDialog(_services));
             AddDialog(new CustomSkillDialog(_services.SkillConfigurations, dialogState, endpointService));
 
@@ -79,7 +80,7 @@ namespace VirtualAssistant
 
             // No dialog is currently on the stack and we haven't responded to the user
             // Check dispatch result
-            var dispatchResult = await localeConfig.DispatchRecognizer.RecognizeAsync<Dispatch>(dc.Context, CancellationToken.None);
+            var dispatchResult = await localeConfig.DispatchRecognizer.RecognizeAsync<Dispatch>(dc, true, CancellationToken.None);
             var intent = dispatchResult.TopIntent().intent;
 
             switch (intent)
@@ -88,7 +89,7 @@ namespace VirtualAssistant
                     {
                         // If dispatch result is general luis model
                         var luisService = localeConfig.LuisServices["general"];
-                        var luisResult = await luisService.RecognizeAsync<General>(dc.Context, CancellationToken.None);
+                        var luisResult = await luisService.RecognizeAsync<General>(dc, true, CancellationToken.None);
                         var luisIntent = luisResult?.TopIntent().intent;
 
                         // switch on general intents
