@@ -11,6 +11,7 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Dialogs;
@@ -347,12 +348,38 @@ namespace VirtualAssistant
             var handled = false;
             var command = dc.Context.Activity.Text;
             var response = dc.Context.Activity.CreateReply();
+            Coordinate currentLocation = new Coordinate();
+            var parameters = await _parametersAccessor.GetAsync(dc.Context, () => new Dictionary<string, object>()).ConfigureAwait(false);
+            var onboardingData = await _onboardingState.GetAsync(dc.Context, () => new OnboardingState()).ConfigureAwait(false);
+            var currentRegion = onboardingData.Location;
+            if (parameters.ContainsKey("IPA.Location"))
+            {
+                var locationStr = parameters["IPA.Location"].ToString();
+                if (!string.IsNullOrEmpty(locationStr))
+                {
+                    var coords = locationStr.Split(',');
+                    if (coords.Length == 2)
+                    {
+                        if (double.TryParse(coords[0], out var lat) && double.TryParse(coords[1], out var lng))
+                        {
+                            currentLocation.Lat = lat;
+                            currentLocation.Lng = lng;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // If not set in event, hard coded to Suzhou
+                currentLocation.Lat = 31.269764;
+                currentLocation.Lng = 120.740552;
+            }
 
             if (command.Contains("播放"))
             {
                 NetEaseMusicClient client = new NetEaseMusicClient();
                 List<Song> list_Song = await client.SearchSongAsync(command).ConfigureAwait(false);
-                if (list_Song.Count > 0)
+                if (list_Song != null &&　list_Song.Count > 0)
                 {
                     // Create an attachment.
                     var audioCard = new AudioCard()
@@ -372,7 +399,6 @@ namespace VirtualAssistant
                         Subtitle = list_Song[0].Singer,
                         Autostart = true,
                     };
-                    response.Text = "歌手：" + list_Song[0].Singer + "\t\t歌名：" + list_Song[0].Name;
                     response.Attachments = new List<Attachment>() { audioCard.ToAttachment() };
 
                     // send event to update UI
@@ -412,34 +438,33 @@ namespace VirtualAssistant
                     {
                         price = "0," + price;
                     }
+
                     PoiQuery query = new PoiQuery
                     {
                         Query = querystr,
-                        //上海
-                        Location = new Coordinate
-                        {
-                            Lat = 31.2,
-                            Lng = 121.4,
-                        },
+                        Location = currentLocation,
                         Price_section = price,
                     };
                     List<Poi> places = await baiduMapClient.PoiSearchAsync(query).ConfigureAwait(false);
                     response.Attachments = new List<Attachment>();
-                    if (places.Count > 0)
+                    response.AttachmentLayout = "carousel";
+                    if (places != null &&　places.Count > 0)
                     {
                         for (var i = 0; i < places.Count && i < 4; ++i)
                         {
-                            string AddressUrl = "http://api.map.baidu.com/geocoder?address={ADDRESS}&output=html&src=webapp.baidu.openAPIdemo";
-                            AddressUrl = AddressUrl.Replace("{ADDRESS}", places[i].Address);
+                            var imageStr = await baiduMapClient.GetLocationImageAsync(places[i].Location, places[i].Name).ConfigureAwait(false);
                             var card = new HeroCard
                             {
                                 Title = places[i].Name,
                                 Subtitle = "人均价格：" + places[i].Detail_info.Price.ToString(),
                                 Text = places[i].Address,
-                                Buttons = new List<CardAction>
+                                Images = new List<CardImage>
                                 {
-                                    new CardAction(ActionTypes.OpenUrl, "查看地图", value: AddressUrl)
-                                }
+                                    new CardImage()
+                                    {
+                                        Url = "data:image/png;base64,"+ imageStr,
+                                    },
+                                },
                             };
                             response.Attachments.Add(card.ToAttachment());
                         }
@@ -454,36 +479,35 @@ namespace VirtualAssistant
                     response.Text = "对不起, 我不明白您在说什么";
                 }
 
-                await dc.Context.SendActivityAsync(response);
+                await dc.Context.SendActivityAsync(response).ConfigureAwait(false);
                 handled = true;
 
             }
             else if (command.Contains("导航到"))
             {
-                //"帮我导航到徐家汇汇港广场"
+                // "帮我导航到徐家汇汇港广场"
                 int index = command.IndexOf("导航到");
                 string place = command.Substring(index + 3);
                 BaiduMapClient baiduMapClient = new BaiduMapClient();
-                List<Poi> places = await baiduMapClient.PlaceSearchAsync(place, "上海").ConfigureAwait(false);
+
+                List<Poi> places = await baiduMapClient.PlaceSearchAsync(place, currentRegion).ConfigureAwait(false);
+
                 if (places.Count > 0)
                 {
-                    Coordinate currentLocation = new Coordinate
-                    {
-                        Lat = 31.2,
-                        Lng = 121.4,
-                    };
                     List<Route> routes = await baiduMapClient.GetDirectionAsync(currentLocation, places[0].Location).ConfigureAwait(false);
                     if (routes.Count > 0)
                     {
-                        string AddressUrl = "http://api.map.baidu.com/geocoder?address={ADDRESS}&output=html&src=webapp.baidu.openAPIdemo";
-                        AddressUrl = AddressUrl.Replace("{ADDRESS}", places[0].Address);
+                        var imageStr = await baiduMapClient.GetLocationImageAsync(places[0].Location, places[0].Name).ConfigureAwait(false);
                         var card = new HeroCard
                         {
-                            Title = "您到" + place + "距离有" + (double)routes[0].Distance/1000 + "公里, 需要" + routes[0].Duration/60 + "分钟",
-                            Buttons = new List<CardAction>
+                            Title = "您到" + place + "距离有" + ((double)routes[0].Distance/1000) + "公里, 需要" + (routes[0].Duration/60) + "分钟",
+                            Images = new List<CardImage>
                             {
-                                new CardAction(ActionTypes.OpenUrl, "查看地图", value: AddressUrl)
-                            }
+                                new CardImage()
+                                {
+                                   Url = "data:image/png;base64," + imageStr,
+                                },
+                            },
                         };
                         response.Attachments.Add(card.ToAttachment());
                     }
@@ -492,7 +516,8 @@ namespace VirtualAssistant
                 {
                     response.Text = "对不起, 没有找到您想要的地址";
                 }
-                await dc.Context.SendActivityAsync(response);
+
+                await dc.Context.SendActivityAsync(response).ConfigureAwait(false);
                 handled = true;
             }
             else

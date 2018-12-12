@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -11,6 +12,17 @@ namespace VirtualAssistant.ServiceClients
 {
     public class BaiduMapClient
     {
+        public async Task<string> GetLocationImageAsync(Coordinate location, string name)
+        {
+            var url = "http://api.map.baidu.com/staticimage/v2?ak=AGC1l7lGc2qIriDhu7wwE4tsbNt4uZUS&center={LOCATION}&width=300&height=200&zoom=15&markers={MARKER}";
+            url = url.Replace("{LOCATION}", location.Lng + "," + location.Lat);
+            url = url.Replace("{MARKER}", name);
+
+            var httpClient = new HttpClient();
+            var response = await httpClient.GetByteArrayAsync(url).ConfigureAwait(false);
+            return System.Convert.ToBase64String(response);
+        }
+
         public async Task<List<Poi>> PoiSearchAsync(PoiQuery query)
         {
             var url = "http://api.map.baidu.com/place/v2/search?query={QUERY}&location={LOCATION}&filter=industry_type:cater|sort_name:price|sort_rule:0|price_section:{PRICE_SECTION}&scope=2&radius=1000&output=json&ak=AGC1l7lGc2qIriDhu7wwE4tsbNt4uZUS";

@@ -15,7 +15,7 @@ namespace VirtualAssistant.ServiceClients
     {
         public async Task<List<Song>> SearchSongAsync(string query)
         {
-            var url = "https://api.bzqll.com/music/tencent/search?key=579621905&s={query}&limit={n}&offset=0&type=song";
+            var url = "https://api.bzqll.com/music/tencent/search?key=579621905&s={query}&limit=1&offset=0&type=song";
             url = url.Replace("{query}", query);
 
             var httpClient = new HttpClient();
