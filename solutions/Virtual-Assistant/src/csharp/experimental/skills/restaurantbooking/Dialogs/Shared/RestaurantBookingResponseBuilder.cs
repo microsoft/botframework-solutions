@@ -1,14 +1,14 @@
-﻿using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
-
-namespace RestaurantBooking
+﻿namespace RestaurantBooking
 {
+    using Microsoft.Bot.Solutions.Dialogs;
+    using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
+
     public class RestaurantBookingResponseBuilder : BotResponseBuilder
     {
         public RestaurantBookingResponseBuilder()
            : base()
         {
-            AddFormatter(new TextBotResponseFormatter());
+            this.AddFormatter(new TextBotResponseFormatter());
         }
     }
 }

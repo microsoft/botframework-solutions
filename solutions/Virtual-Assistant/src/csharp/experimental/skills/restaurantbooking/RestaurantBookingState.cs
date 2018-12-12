@@ -1,9 +1,10 @@
-﻿using Luis;
+﻿using System;
+using System.Collections.Generic;
+using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Graph;
-using System;
-using System.Collections.Generic;
+using RestaurantBooking.Models;
 
 namespace RestaurantBooking
 {
@@ -11,9 +12,16 @@ namespace RestaurantBooking
     {
         public RestaurantBookingState()
         {
-
         }
 
-        public Skill LuisResult { get; set; }
+        public Reservation ReservationResult { get; set; }
+
+        public RecognizerResult LuisResult { get; set; }
+
+        public ReservationBooking Booking { get; set; }
+
+        public List<BookingPlace> Restaurants { get; set; }
+
+        public List<FoodTypeInfo> Cuisine { get; set; }
     }
 }

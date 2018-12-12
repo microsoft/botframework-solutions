@@ -1,4 +1,6 @@
-﻿using RestaurantBooking.Dialogs.Shared.Resources;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -9,9 +11,7 @@ using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Recognizers.Text;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+using RestaurantBooking.Dialogs.Shared.Resources;
 
 namespace RestaurantBooking
 {
@@ -21,37 +21,26 @@ namespace RestaurantBooking
         public const string SkillModeAuth = "SkillAuth";
         public const string LocalModeAuth = "LocalAuth";
 
-        // Fields
-        protected SkillConfiguration _services;
-        protected IStatePropertyAccessor<RestaurantBookingState> _accessor;
-        protected IServiceManager _serviceManager;
-        protected RestaurantBookingResponseBuilder _responseBuilder = new RestaurantBookingResponseBuilder();
-
         public RestaurantBookingDialog(
-            string dialogId,
-            SkillConfiguration services,
-            IStatePropertyAccessor<RestaurantBookingState> accessor,
-            IServiceManager serviceManager)
-            : base(dialogId)
+        string dialogId,
+        ISkillConfiguration services,
+        IStatePropertyAccessor<RestaurantBookingState> accessor,
+        IServiceManager serviceManager)
+        : base(dialogId)
         {
-            _services = services;
-            _accessor = accessor;
-            _serviceManager = serviceManager;            
+            Services = services;
+            Accessor = accessor;
+            ServiceManager = serviceManager;
         }
 
-        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var state = await _accessor.GetAsync(dc.Context);
-            await DigestLuisResult(dc, state.LuisResult);
-            return await base.OnBeginDialogAsync(dc, options, cancellationToken);
-        }
+        // Fields
+        protected ISkillConfiguration Services { get; set; }
 
-        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var state = await _accessor.GetAsync(dc.Context);
-            await DigestLuisResult(dc, state.LuisResult);
-            return await base.OnContinueDialogAsync(dc, cancellationToken);
-        }
+        protected IStatePropertyAccessor<RestaurantBookingState> Accessor { get; set; }
+
+        protected IServiceManager ServiceManager { get; set; }
+
+        protected RestaurantBookingResponseBuilder ResponseBuilder { get; set; } = new RestaurantBookingResponseBuilder();
 
         // Shared steps
         public async Task<DialogTurnResult> GetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -114,7 +103,7 @@ namespace RestaurantBooking
 
                 if (tokenResponse != null)
                 {
-                    var state = await _accessor.GetAsync(sc.Context);
+                    var state = await Accessor.GetAsync(sc.Context);
                 }
 
                 return await sc.NextAsync();
@@ -123,6 +112,45 @@ namespace RestaurantBooking
             {
                 throw await HandleDialogExceptions(sc, ex);
             }
+        }
+
+        // Helpers
+        public async Task DigestLuisResult(DialogContext dc, Reservation luisResult)
+        {
+            try
+            {
+                var state = await Accessor.GetAsync(dc.Context);
+
+                // extract entities and store in state here.
+            }
+            catch
+            {
+                // put log here
+            }
+        }
+
+        // This method is called by any waterfall step that throws an exception to ensure consistency
+        public async Task<Exception> HandleDialogExceptions(WaterfallStepContext sc, Exception ex)
+        {
+            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(RestaurantBookingSharedResponses.ErrorMessage));
+            await sc.CancelAllDialogsAsync();
+            return ex;
+        }
+
+        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await Accessor.GetAsync(dc.Context);
+
+            // await DigestLuisResult(dc, state.LuisResult);
+            return await base.OnBeginDialogAsync(dc, options, cancellationToken);
+        }
+
+        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await Accessor.GetAsync(dc.Context);
+
+            // await DigestLuisResult(dc, state.LuisResult);
+            return await base.OnContinueDialogAsync(dc, cancellationToken);
         }
 
         // Validators
@@ -142,30 +170,6 @@ namespace RestaurantBooking
         private Task<bool> AuthPromptValidator(PromptValidatorContext<TokenResponse> pc, CancellationToken cancellationToken)
         {
             return Task.FromResult(true);
-        }
-
-
-        // Helpers
-        public async Task DigestLuisResult(DialogContext dc, Skill luisResult)
-        {
-            try
-            {
-                var state = await _accessor.GetAsync(dc.Context);
-
-                // extract entities and store in state here.
-            }
-            catch
-            {
-                // put log here
-            }
-        }
-
-        // This method is called by any waterfall step that throws an exception to ensure consistency
-        public async Task<Exception> HandleDialogExceptions(WaterfallStepContext sc, Exception ex)
-        {
-            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(RestaurantBookingSharedResponses.ErrorMessage));
-            await sc.CancelAllDialogsAsync();
-            return ex;
         }
     }
 }

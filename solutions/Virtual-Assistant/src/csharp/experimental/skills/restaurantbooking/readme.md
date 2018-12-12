@@ -1,5 +1,5 @@
 ﻿
-# Enterprise Bot Template - Deploying your Bot
+# Restaurant Booking Experimental Skill 
 
 > [!NOTE]
 > This topics applies to v4 version of the SDK. 
@@ -55,7 +55,7 @@ Your new Bot project has a deployment recipe enabling the `msbot clone services`
 The README.md within your created project contains an example msbot clone services command line updated with your created Bot name and a generic version is shown below. Ensure you update the authoring key from the previous step and choose the Azure datacenter location you wish to use (e.g. westus or westeurope).
 
 ```shell
-msbot clone services --name "SkillTemplate" --luisAuthoringKey "YOUR_AUTHORING_KEY" --folder "DeploymentScripts\msbotClone" --location "westus"
+msbot clone services --name "restaurantbooking" --luisAuthoringKey "YOUR_AUTHORING_KEY" --folder "DeploymentScripts\en" --location "westus"
 ```
 
 Once this is complete ensure that you make a note of the .bot file secret provided as this will be required for later steps. At this time, take the secret and update the `botFileSecret` entry in your `appsettings.json` file. This will ensure your Bot can decrypt the secrets.

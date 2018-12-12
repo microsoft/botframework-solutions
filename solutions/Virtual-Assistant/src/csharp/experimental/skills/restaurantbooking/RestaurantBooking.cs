@@ -1,26 +1,26 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Skills;
-
 namespace RestaurantBooking
 {
+    using System;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Microsoft.Bot.Builder;
+    using Microsoft.Bot.Builder.Dialogs;
+    using Microsoft.Bot.Schema;
+    using Microsoft.Bot.Solutions.Skills;
+
     /// <summary>
     /// Main entry point and orchestration for bot.
     /// </summary>
     public class RestaurantBooking : IBot
     {
-        private bool _skillMode;
         private readonly ISkillConfiguration _services;
         private readonly ConversationState _conversationState;
         private readonly UserState _userState;
+        private bool _skillMode;
         private IServiceManager _serviceManager;
         private DialogSet _dialogs;
 
@@ -35,7 +35,6 @@ namespace RestaurantBooking
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(DialogState)));
             _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _serviceManager, _skillMode));
         }
-
 
         /// <summary>
         /// Run every turn of the conversation. Handles orchestration of messages.
