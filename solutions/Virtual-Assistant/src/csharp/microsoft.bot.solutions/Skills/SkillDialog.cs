@@ -23,6 +23,7 @@ namespace Microsoft.Bot.Solutions.Skills
         private Dictionary<string, ISkillConfiguration> _skills;
         private IStatePropertyAccessor<DialogState> _accessor;
         private EndpointService _endpointService;
+        private IBotTelemetryClient _telemetryClient;
         private DialogSet _dialogs;
         private InProcAdapter _inProcAdapter;
         private IBot _activatedSkill;
@@ -35,7 +36,7 @@ namespace Microsoft.Bot.Solutions.Skills
             _skills = skills;
             _accessor = accessor;
             _endpointService = endpointService;
-            TelemetryClient = telemetryClient;
+            _telemetryClient = telemetryClient;
             _useCachedTokens = useCachedTokens;
             _dialogs = new DialogSet(_accessor);
         }
@@ -148,7 +149,7 @@ namespace Microsoft.Bot.Solutions.Skills
                 try
                 {
                     var skillType = Type.GetType(skillDefinition.Assembly);
-                    _activatedSkill = (IBot)Activator.CreateInstance(skillType, skillConfiguration, conversationState, userState, TelemetryClient, null, true);
+                    _activatedSkill = (IBot)Activator.CreateInstance(skillType, skillConfiguration, conversationState, userState, _telemetryClient, null, true);
                 }
                 catch (Exception e)
                 {
