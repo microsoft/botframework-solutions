@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CalendarSkill.Extensions;
 using Microsoft.Graph;
 
 namespace CalendarSkill
@@ -19,12 +20,48 @@ namespace CalendarSkill
             this.graphClient = graphClient;
         }
 
+        public async Task<List<PersonModel>> GetPeopleAsync(string name)
+        {
+            List<Person> persons = await GetMSPeopleAsync(name);
+            List<PersonModel> result = new List<PersonModel>();
+            foreach (Person person in persons)
+            {
+                result.Add(new PersonModel(person));
+            }
+
+            return result;
+        }
+
+        public async Task<List<PersonModel>> GetUserAsync(string name)
+        {
+            List<User> users = await GetMSUserAsync(name);
+            List<PersonModel> result = new List<PersonModel>();
+            foreach (User user in users)
+            {
+                result.Add(new PersonModel(user.ToPerson()));
+            }
+
+            return result;
+        }
+
+        public async Task<List<PersonModel>> GetContactsAsync(string name)
+        {
+            List<Contact> contacts = await GetMSContactsAsync(name);
+            List<PersonModel> result = new List<PersonModel>();
+            foreach (Contact contact in contacts)
+            {
+                result.Add(new PersonModel(contact.ToPerson()));
+            }
+
+            return result;
+        }
+
         /// <summary>
         /// GetUsersAsync.
         /// </summary>
         /// <param name="name">name.</param>
         /// <returns>Task contains List of Users.</returns>
-        public async Task<List<User>> GetUserAsync(string name)
+        private async Task<List<User>> GetMSUserAsync(string name)
         {
             var items = new List<User>();
             var optionList = new List<QueryOption>();
@@ -61,7 +98,7 @@ namespace CalendarSkill
         /// </summary>
         /// <param name="name">person name.</param>
         /// <returns>the persons list.</returns>
-        public async Task<List<Person>> GetPeopleAsync(string name)
+        private async Task<List<Person>> GetMSPeopleAsync(string name)
         {
             var items = new List<Person>();
             var optionList = new List<QueryOption>();
@@ -94,7 +131,7 @@ namespace CalendarSkill
         /// </summary>
         /// <param name="name">name.</param>
         /// <returns>Task contains List of Contacts.</returns>
-        public async Task<List<Contact>> GetContactsAsync(string name)
+        private async Task<List<Contact>> GetMSContactsAsync(string name)
         {
             List<Contact> items = new List<Contact>();
 
@@ -122,26 +159,6 @@ namespace CalendarSkill
                         break;
                     }
                 }
-            }
-
-            return items;
-        }
-
-        /// <summary>
-        /// Get the current user's profile.
-        /// </summary>
-        /// <returns>the current user's profile.</returns>
-        public async Task<List<User>> GetMe()
-        {
-            var items = new List<User>();
-
-            // Get the current user's profile.
-            var me = await graphClient.Me.Request().GetAsync();
-
-            if (me != null)
-            {
-                // Get user properties.
-                items.Add(me);
             }
 
             return items;
