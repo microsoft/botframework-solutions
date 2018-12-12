@@ -379,7 +379,7 @@ namespace VirtualAssistant
             {
                 NetEaseMusicClient client = new NetEaseMusicClient();
                 List<Song> list_Song = await client.SearchSongAsync(command).ConfigureAwait(false);
-                if (list_Song.Count > 0)
+                if (list_Song != null &&　list_Song.Count > 0)
                 {
                     // Create an attachment.
                     var audioCard = new AudioCard()
