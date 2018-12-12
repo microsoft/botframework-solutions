@@ -61,5 +61,5 @@
 #*.PDF   diff=astextplain
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
-#*.lu	 diff=astextplain
-#*.LU	 diff=astextplain
+#*.lu    diff
+#*.LU	   diff
