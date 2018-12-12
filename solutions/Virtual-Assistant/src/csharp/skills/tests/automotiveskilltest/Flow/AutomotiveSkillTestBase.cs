@@ -28,27 +28,17 @@ namespace AutomotiveSkillTest.Flow
 
         public override void Initialize()
         {
-            this.Configuration = new BuildConfig().Configuration;
-            var builder = new ContainerBuilder();
-            builder.RegisterInstance<IConfiguration>(this.Configuration);
-            var botFilePath = this.Configuration.GetSection("botFilePath")?.Value;
-            var botFileSecret = this.Configuration.GetSection("botFileSecret")?.Value;
-            var options = BotConfiguration.Load(botFilePath ?? @".\AutomotiveSkillTest.bot", botFileSecret);
-            builder.RegisterInstance(options);
+           var builder = new ContainerBuilder();
 
             this.ConversationState = new ConversationState(new MemoryStorage());
             this.UserState = new UserState(new MemoryStorage());
             this.AutomotiveSkillStateAccessor = this.ConversationState.CreateProperty<AutomotiveSkillState>(nameof(AutomotiveSkillState));
-
-            var parameters = this.Configuration.GetSection("Parameters")?.Get<string[]>();
-            var configuration = this.Configuration.GetSection("Configuration")?.Get<Dictionary<string, object>>();
             this.Services = new MockSkillConfiguration();
 
-            builder.RegisterInstance(new BotStateSet(this.UserState, this.ConversationState));           
+            builder.RegisterInstance(new BotStateSet(this.UserState, this.ConversationState));
 
             this.Container = builder.Build();
-            this.Options = options;
-
+            
             this.BotResponseBuilder = new BotResponseBuilder();
             this.BotResponseBuilder.AddFormatter(new TextBotResponseFormatter());
         }

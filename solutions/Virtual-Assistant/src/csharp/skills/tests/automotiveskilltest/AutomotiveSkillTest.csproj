@@ -29,12 +29,6 @@
     <ProjectReference Include="..\testframework\TestFramework.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="AutomotiveSkillTest.bot">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="xcopy ..\..\automotiveskill\Dialogs\VehicleSettings\Resources $(OutDir)\Dialogs\VehicleSettings\Resources /s /y&#xD;&#xA;xcopy ..\..\automotiveskill\Dialogs\Shared\Resources $(OutDir)\Dialogs\Shared\Resources /s /y" />
   </Target>
