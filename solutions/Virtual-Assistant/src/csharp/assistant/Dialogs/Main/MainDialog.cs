@@ -399,7 +399,6 @@ namespace VirtualAssistant
                         Subtitle = list_Song[0].Singer,
                         Autostart = true,
                     };
-                    response.Text = "歌手：" + list_Song[0].Singer + "\t\t歌名：" + list_Song[0].Name;
                     response.Attachments = new List<Attachment>() { audioCard.ToAttachment() };
 
                     // send event to update UI
