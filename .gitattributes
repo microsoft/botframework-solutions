@@ -62,4 +62,4 @@
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
 #*.LU    diff=astextplain
-#*.lu	  diff=astextplain
+#*.lu   diff=astextplain
