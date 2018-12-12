@@ -165,5 +165,144 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+
+  "BookRestaurantFlowStartMessage": {
+    "replies": [
+      {
+        "text": "Sure thing {UserName}, I can help you getting a reservation.",
+        "speak": "Sure thing {UserName}, I can help you getting a reservation."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "BookRestaurantFoodSelectionPrompt": {
+    "replies": [
+      {
+        "text": "What type of restaurant would you like me to reserve for you?",
+        "speak": "What type of restaurant would you like me to reserve for you? {FoodTypeList}. You can also say concierge to talk to an agent."
+      }
+    ],
+    "suggestedActions": [
+      "Concierge",
+      "Cancel"
+    ],
+    "inputHint": "expectingInput"
+  },
+  "BookRestaurantFoodSelectionEcho": {
+    "replies": [
+      {
+        "text": "{FoodType} sounds great!",
+        "speak": "{FoodType} sounds great!"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "BookRestaurantAttendeePrompt": {
+    "replies": [
+      {
+        "text": "For how many people?",
+        "speak": "For how many people?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "BookRestaurantReservationMeetingInfoPrompt": {
+    "replies": [
+      {
+        "text": "I see an appointment in your calendar for {MeetingDate} at {MeetingTime} and {AttendeeList} accepted your request. Is this still correct?",
+        "speak": "I see an appointment in your calendar for {MeetingDateSpeak} at {MeetingTime} and {AttendeeList} accepted your request. Is this still correct?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "BookRestaurantDatePrompt": {
+    "replies": [
+      {
+        "text": "What day would you want your reservation?",
+        "speak": "What day would you want your reservation?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "BookRestaurantTimePrompt": {
+    "replies": [
+      {
+        "text": "At what time?",
+        "speak": "At what time?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "BookRestaurantDateTimeEcho": {
+    "replies": [
+      {
+        "text": "Got it! The reservation will be for {Date} at {Time}.",
+        "speak": "Got it! The reservation will be for {Date} at {Time}."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "BookRestaurantConfirmationPrompt": {
+    "replies": [
+      {
+        "text": "Reservation request summary:|Food type:|Date:|Time:|For:|Did I get it right?",
+        "speak": "Ok. Let me make sure I have this right, you want me to make a reservation for {pluralizeAmount: 'AttendeeCount', pluralizeResource: 'People'} at a {text: 'FoodType'} restaurant for {text: 'ReservationDateSpeak'} starting at {text: 'ReservationTime'}. Is this correct?"
+      }
+    ],
+    "suggestedActions": [
+      "Yes",
+      "No"
+    ],
+    "inputHint": "expectingInput"
+  },
+  "BookRestaurantAcceptedMessage": {
+    "replies": [
+      {
+        "text": "Reservation request confirmed:|Restaurant:|Location:|Date:|Time:|For:|{AttendeeCount} people.|I also sent you an email to {UserEmail} and added the meeting to your calendar.",
+        "speak": "Pardon the interruption, I just got word that {Restaurant} has confirmed your reservation for {AttendeeCount} people for {ReservationDateSpeak} at {ReservationTime}. I also added the reservation to your calendar"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "BookRestaurantRestaurantSearching": {
+    "replies": [
+      {
+        "text": "Sure, let me look into it.",
+        "speak": "Sure, let me look into it."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "BookRestaurantRestaurantSelectionPrompt": {
+    "replies": [
+      {
+        "text": "I have found {RestaurantCount} nice options.",
+        "speak": "I have found {RestaurantCount} nice options. {RestaurantList}. You can also say concierge to talk to an agent."
+      }
+    ],
+    "suggestedActions": [
+      "Concierge",
+      "Cancel"
+    ],
+    "inputHint": "expectingInput"
+  },
+  "BookRestaurantBookingPlaceSelectionEcho": {
+    "replies": [
+      {
+        "text": "Great, I’m working on a reservation at {BookingPlaceName}. I will reach out to them for a confirmation.  \r\n  This might take a while, I will get back to you in a bit. ",
+        "speak": "Great, I’m working on a reservation at {BookingPlaceName}. I will reach out to them for a confirmation.  \r\n  This might take a while, I will get back to you in a bit. "
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "FoodTypeSelectionErrorMessage": {
+    "replies": [
+      {
+        "text": "I am unable to get your favorite food type. You can try again by specifying what type of cuisine you want me to look into.",
+        "speak": "Hmmm.... I am unable to get your favorite food type. You can try again by specifying what type of cuisine you want me to look into."
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }

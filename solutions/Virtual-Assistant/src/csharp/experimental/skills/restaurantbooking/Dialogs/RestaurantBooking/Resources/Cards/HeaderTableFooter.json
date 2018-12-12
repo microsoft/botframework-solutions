@@ -1,0 +1,50 @@
+﻿{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "speak": "{Speak}",
+  "id": "HeaderTableFooter",
+  "body": [
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "{HeaderText}",
+          "wrap": true,
+          "size": "medium"
+        },
+        {
+          "type": "FactSet",
+          "facts": [
+            {
+              "title": "{Row1Title}",
+              "value": "{Row1Value}"
+            },
+            {
+              "title": "{Row2Title}",
+              "value": "{Row2Value}"
+            },
+            {
+              "title": "{Row3Title}",
+              "value": "{Row3Value}"
+            },
+            {
+              "title": "{Row4Title}",
+              "value": "{Row4Value}"
+            },
+            {
+              "title": "{Row5Title}",
+              "value": "{Row5Value}"
+            }
+          ]
+        },
+        {
+          "type": "TextBlock",
+          "text": "{FooterText}",
+          "wrap": true
+        }
+      ]
+    }
+  ]
+}

@@ -5,8 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using RestaurantBooking.Dialogs.Main.Resources;
-using RestaurantBooking.Dialogs.Shared.Resources;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -15,6 +13,8 @@ using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
+using RestaurantBooking.Dialogs.Main.Resources;
+using RestaurantBooking.Dialogs.Shared.Resources;
 
 namespace RestaurantBooking
 {
@@ -59,7 +59,7 @@ namespace RestaurantBooking
             var state = await _stateAccessor.GetAsync(dc.Context, () => new RestaurantBookingState());
 
             // If dispatch result is general luis model
-            _services.LuisServices.TryGetValue("skill", out var luisService);
+            _services.LuisServices.TryGetValue("restaurantreservation", out var luisService);
 
             if (luisService == null)
             {
@@ -67,8 +67,8 @@ namespace RestaurantBooking
             }
             else
             {
-                var result = await luisService.RecognizeAsync<Skill>(dc.Context, CancellationToken.None);
-                var intent = result?.TopIntent().intent;
+                var result = await luisService.RecognizeAsync(dc.Context, CancellationToken.None);
+                var intent = result?.GetTopScoringIntent().intent;
 
                 var skillOptions = new RestaurantBookingDialogOptions
                 {
@@ -78,7 +78,7 @@ namespace RestaurantBooking
                 // switch on general intents
                 switch (intent)
                 {
-                    case Skill.Intent.None:
+                    case "Reservation":
                         {
                             await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(RestaurantBookingSharedResponses.DidntUnderstandMessage));
                             if (_skillMode)
@@ -151,6 +151,7 @@ namespace RestaurantBooking
 
                             await dc.Context.SendActivityAsync(response);
                         }
+
                         break;
                     }
             }
@@ -163,9 +164,11 @@ namespace RestaurantBooking
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
                 // Update state with luis result and entities
-                var skillLuisResult = await _services.LuisServices["skill"].RecognizeAsync<Skill>(dc.Context, cancellationToken);
+                var skillLuisResult = await _services.LuisServices["restaurantreservation"].RecognizeAsync<Reservation>(dc.Context, cancellationToken);
+                var skillLuisResult2 = await _services.LuisServices["restaurantreservation"].RecognizeAsync(dc.Context, cancellationToken);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new RestaurantBookingState());
-                state.LuisResult = skillLuisResult;
+                state.ReservationResult = skillLuisResult;
+                state.LuisResult = skillLuisResult2;
 
                 // check luis intent
                 _services.LuisServices.TryGetValue("general", out var luisService);
@@ -192,7 +195,7 @@ namespace RestaurantBooking
                             {
                                 result = await OnHelp(dc);
                                 break;
-                            }                     
+                            }
                     }
                 }
             }
@@ -210,7 +213,7 @@ namespace RestaurantBooking
         {
             await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(RestaurantBookingMainResponses.HelpMessage));
             return InterruptionAction.MessageSentToUser;
-        }     
+        }
 
         private void RegisterDialogs()
         {
