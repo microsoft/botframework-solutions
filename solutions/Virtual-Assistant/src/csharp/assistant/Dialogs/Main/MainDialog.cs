@@ -375,12 +375,20 @@ namespace VirtualAssistant
                     };
                     response.Text = "歌手：" + list_Song[0].Singer + "\t\t歌名：" + list_Song[0].Name;
                     response.Attachments = new List<Attachment>() { audioCard.ToAttachment() };
+
+                    // send event to update UI
+                    var eventResponse = dc.Context.Activity.CreateReply();
+                    eventResponse.Type = ActivityTypes.Event;
+                    eventResponse.Name = "PlayMusic";
+                    var singerPart = !string.IsNullOrWhiteSpace(list_Song[0].Singer) ? list_Song[0].Singer + " - " : string.Empty;
+                    eventResponse.Value = singerPart + list_Song[0].Name;
+                    await dc.Context.SendActivityAsync(eventResponse).ConfigureAwait(false);
                 }                        
                 else
                 {
                     response.Text = "对不起，没有找到你想要找的歌曲";
                 }
-                await dc.Context.SendActivityAsync(response);
+                await dc.Context.SendActivityAsync(response).ConfigureAwait(false);
                 handled = true;
             }
             else if (command.Contains("查询"))
