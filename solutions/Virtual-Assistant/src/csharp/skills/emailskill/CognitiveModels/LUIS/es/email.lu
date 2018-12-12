@@ -489,7 +489,7 @@
 - Enviar un correo electrónico a {ContactName=Graham} , {ContactName=Daniel} Y {ContactName=Meghan}
 - Enviar un correo electrónico a {ContactName=Jason Marx}
 - Enviar un correo electrónico a {ContactName=Kanda} -San y {ContactName=Comer}
-- Enviar un correo electrónico a {ContactName=Kane} Sobre {EmailSubject=Hola}Diciendo {Message=Estoy aquí}
+- Enviar un correo electrónico a {ContactName=Kane} Sobre {EmailSubject=Hola} Diciendo {Message=Estoy aquí}
 - Enviar un correo electrónico a {ContactName=Kane} con el tema de {EmailSubject=llego tarde}
 - Enviar un correo electrónico a {ContactName=Lily} Qué tema es {EmailSubject=llego tarde}
 - Enviar un correo electrónico a {ContactName=Leer} , {ContactName=Yue} Y {ContactName=Qiong}
