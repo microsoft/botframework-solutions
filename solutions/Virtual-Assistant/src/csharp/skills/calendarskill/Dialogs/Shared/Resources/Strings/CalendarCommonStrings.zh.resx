@@ -130,6 +130,6 @@
     <value>每周</value>
   </data>
   <data name="WithTheSubject" xml:space="preserve">
-    <value>以 {0} 为标题</value>
+    <value>以{0}为标题</value>
   </data>
 </root>
