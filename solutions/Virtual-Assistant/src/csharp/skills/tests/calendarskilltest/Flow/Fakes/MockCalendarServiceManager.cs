@@ -1,8 +1,6 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using CalendarSkill;
-using CalendarSkill.ServiceClients.GoogleAPI;
 using Microsoft.Graph;
-using System.Collections.Generic;
 
 namespace CalendarSkillTest.Flow.Fakes
 {

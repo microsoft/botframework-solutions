@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using CalendarSkillTest.Flow.Utterances;
 using Luis;
 using Microsoft.Bot.Builder;
-using CalendarSkillTest.Flow.Utterances;
-using System.Collections.Generic;
 
 namespace CalendarSkillTest.Flow.Fakes
 {

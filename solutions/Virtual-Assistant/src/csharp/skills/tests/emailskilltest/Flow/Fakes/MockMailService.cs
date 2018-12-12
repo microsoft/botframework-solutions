@@ -95,8 +95,7 @@ namespace EmailSkillTest.Flow.Fakes
             string senderName = ContextStrings.TestSender,
             string senderAddress = ContextStrings.TestSenderAddress,
             string recipientName = ContextStrings.TestRecipient,
-            string recipientAddress = ContextStrings.TestEmailAdress
-            )
+            string recipientAddress = ContextStrings.TestEmailAdress)
         {
             var message = new Message()
             {

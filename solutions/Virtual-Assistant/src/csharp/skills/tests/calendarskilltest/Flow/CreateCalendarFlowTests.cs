@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 using CalendarSkill.Dialogs.CreateEvent.Resources;
 using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
-using Microsoft.Bot.Schema;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using CalendarSkillTest.Flow.Utterances;
 using CalendarSkillTest.Flow.Fakes;
-using Newtonsoft.Json;
-using Microsoft.Bot.Solutions.Resources;
 using CalendarSkillTest.Flow.Models;
-using Microsoft.Bot.Solutions.Skills;
+using CalendarSkillTest.Flow.Utterances;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Skills;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 
 namespace CalendarSkillTest.Flow
 {
@@ -168,7 +168,6 @@ namespace CalendarSkillTest.Flow
                 DateTime date = DateTime.ParseExact(dateString, CommonStrings.DisplayFullDateFormat, null);
                 DateTime utcToday = DateTime.UtcNow.Date;
                 Assert.IsTrue(date >= utcToday);
-
             };
         }
     }

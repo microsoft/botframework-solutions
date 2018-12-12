@@ -4,12 +4,12 @@ using System.Collections.Specialized;
 using System.Threading.Tasks;
 using CalendarSkill.Dialogs.DeleteEvent.Resources;
 using CalendarSkill.Dialogs.Main.Resources;
-using Microsoft.Bot.Schema;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using CalendarSkillTest.Flow.Utterances;
 using CalendarSkillTest.Flow.Fakes;
-using Microsoft.Bot.Solutions.Skills;
+using CalendarSkillTest.Flow.Utterances;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Skills;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CalendarSkillTest.Flow
 {
