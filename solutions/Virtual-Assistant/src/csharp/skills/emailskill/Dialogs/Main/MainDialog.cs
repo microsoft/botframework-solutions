@@ -307,11 +307,11 @@ namespace EmailSkill
 
         private void RegisterDialogs()
         {
-            AddDialog(new ForwardEmailDialog(_skillConfig, _stateAccessor, _dialogStateAccessor, _serviceManager));
-            AddDialog(new SendEmailDialog(_skillConfig, _stateAccessor, _dialogStateAccessor, _serviceManager));
-            AddDialog(new ShowEmailDialog(_skillConfig, _stateAccessor, _dialogStateAccessor, _serviceManager));
-            AddDialog(new ReplyEmailDialog(_skillConfig, _stateAccessor, _dialogStateAccessor, _serviceManager));
-            AddDialog(new DeleteEmailDialog(_skillConfig, _stateAccessor, _dialogStateAccessor, _serviceManager));
+            AddDialog(new ForwardEmailDialog(_skillConfig, _stateAccessor, _dialogStateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new SendEmailDialog(_skillConfig, _stateAccessor, _dialogStateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new ShowEmailDialog(_skillConfig, _stateAccessor, _dialogStateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new ReplyEmailDialog(_skillConfig, _stateAccessor, _dialogStateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new DeleteEmailDialog(_skillConfig, _stateAccessor, _dialogStateAccessor, _serviceManager, TelemetryClient));
         }
 
         private void GetReadingDisplayConfig()

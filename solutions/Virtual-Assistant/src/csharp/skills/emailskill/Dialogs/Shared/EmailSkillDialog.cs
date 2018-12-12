@@ -37,13 +37,15 @@ namespace EmailSkill
             ISkillConfiguration services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
-            IServiceManager serviceManager)
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient)
             : base(dialogId)
         {
             Services = services;
             EmailStateAccessor = emailStateAccessor;
             DialogStateAccessor = dialogStateAccessor;
             ServiceManager = serviceManager;
+            TelemetryClient = telemetryClient;
 
             if (!Services.AuthenticationConnections.Any())
             {
