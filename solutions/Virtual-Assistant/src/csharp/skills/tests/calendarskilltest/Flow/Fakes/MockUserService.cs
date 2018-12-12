@@ -42,16 +42,16 @@ namespace CalendarSkillTest.Flow.Fakes
             var addressList = new List<ScoredEmailAddress>();
             var emailAddress = new ScoredEmailAddress()
             {
-                Address = "test@test.com",
+                Address = Strings.Strings.DefaultUserEmail,
                 RelevanceScore = 1,
             };
             addressList.Add(emailAddress);
 
             people.Add(new Person()
             {
-                UserPrincipalName = "test@test.com",
+                UserPrincipalName = Strings.Strings.DefaultUserEmail,
                 ScoredEmailAddresses = addressList,
-                DisplayName = "Test Test",
+                DisplayName = Strings.Strings.DefaultUserName,
             });
 
             return people;
@@ -61,15 +61,61 @@ namespace CalendarSkillTest.Flow.Fakes
         {
             var users = new List<User>();
 
-            var emailAddressStr = "test@test.com";
+            var emailAddressStr = Strings.Strings.DefaultUserEmail;
             users.Add(new User()
             {
-                UserPrincipalName = "test@test.com",
+                UserPrincipalName = Strings.Strings.DefaultUserEmail,
                 Mail = emailAddressStr,
-                DisplayName = "Test Test",
+                DisplayName = Strings.Strings.DefaultUserName,
             });
 
             return users;
+        }
+
+        public static List<User> FakeMultipleUsers(int count)
+        {
+            var users = new List<User>();
+
+            for (int i = 0; i < count; i++)
+            {
+                var emailAddressStr = string.Format(Strings.Strings.UserEmailAddress, i);
+                var userNameStr = string.Format(Strings.Strings.UserName, i);
+                users.Add(new User()
+                {
+                    UserPrincipalName = userNameStr,
+                    Mail = emailAddressStr,
+                    DisplayName = userNameStr,
+                });
+            }
+
+            return users;
+        }
+
+        public static List<Person> FakeMultiplePeoples(int count)
+        {
+            var people = new List<Person>();
+
+            for (int i = 0; i < count; i++)
+            {
+                var emailAddressStr = string.Format(Strings.Strings.UserEmailAddress, i);
+                var userNameStr = string.Format(Strings.Strings.UserName, i);
+                var addressList = new List<ScoredEmailAddress>();
+                var emailAddress = new ScoredEmailAddress()
+                {
+                    Address = emailAddressStr,
+                    RelevanceScore = 1,
+                };
+                addressList.Add(emailAddress);
+
+                people.Add(new Person()
+                {
+                    UserPrincipalName = emailAddressStr,
+                    ScoredEmailAddresses = addressList,
+                    DisplayName = userNameStr,
+                });
+            }
+
+            return people;
         }
     }
 }

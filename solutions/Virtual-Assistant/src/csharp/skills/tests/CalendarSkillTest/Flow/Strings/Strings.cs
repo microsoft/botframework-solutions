@@ -16,9 +16,11 @@ namespace CalendarSkillTest.Flow.Strings
 
         public static string DefaultLocation { get; } = "test location";
 
-        public static string DefaultDate { get; } = "tomorrow";
+        public static string DefaultStartDate { get; } = "tomorrow";
 
-        public static string DefaultTime { get; } = "at 9 AM";
+        public static string DefaultStartTime { get; } = "9 AM";
+
+        public static string DefaultEndTime { get; } = "10 AM";
 
         public static string DefaultDuration { get; } = "one hour";
 
@@ -29,5 +31,9 @@ namespace CalendarSkillTest.Flow.Strings
         public static string WeekdayDate { get; } = "Friday";
 
         public static string FirstOne { get; } = "first one";
+
+        public static string UserName { get; } = "test name {0}";
+
+        public static string UserEmailAddress { get; } = "test{0}@test.com";
     }
 }

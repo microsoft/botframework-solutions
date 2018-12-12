@@ -61,6 +61,18 @@ namespace CalendarSkillTest.Flow.Fakes
             return eventList;
         }
 
+        public static List<EventModel> FakeMultipleEvents(int count)
+        {
+            var eventList = new List<EventModel>();
+
+            for (int i = 0; i < count; i++)
+            {
+                eventList.Add(CreateEventModel());
+            }
+
+            return eventList;
+        }
+
         public static EventModel CreateEventModel(
             EmailAddress[] emailAddress = null,
             string eventName = null,
