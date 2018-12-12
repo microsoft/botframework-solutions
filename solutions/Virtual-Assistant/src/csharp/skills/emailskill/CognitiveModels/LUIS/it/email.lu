@@ -488,7 +488,7 @@
 - inviare una e-mail a {ContactName=Graham} , {ContactName=Daniel} E {ContactName=Meghan}
 - inviare una e-mail a {ContactName=Jason Marx}
 - inviare una e-mail a {ContactName=Kanda} -San e {ContactName=Mangiare}
-- inviare una e-mail a {ContactName=Kane} Circa {EmailSubject=Ciao}Dicendo {Message=Sono qui}
+- inviare una e-mail a {ContactName=Kane} Circa {EmailSubject=Ciao} Dicendo {Message=Sono qui}
 - inviare una e-mail a {ContactName=Kane} con l'oggetto di {EmailSubject=sono in ritardo}
 - inviare una e-mail a {ContactName=Lily} quale soggetto è {EmailSubject=sono in ritardo}
 - inviare una e-mail a {ContactName=Leggere} , {ContactName=Yue} E {ContactName=Qiong}

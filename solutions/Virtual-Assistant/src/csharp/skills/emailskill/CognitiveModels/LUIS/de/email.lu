@@ -490,7 +490,7 @@
 - Senden Sie eine E-Mail an {ContactName=Graham} , {ContactName=Daniel} Und {ContactName=Meghan}
 - Senden Sie eine E-Mail an {ContactName=Jason marx}
 - Senden Sie eine E-Mail an {ContactName=Kanda} -san und {ContactName=Essen}
-- Senden Sie eine E-Mail an {ContactName=Kane} Über {EmailSubject=Hallo}Sagen {Message=Ich bin hier}
+- Senden Sie eine E-Mail an {ContactName=Kane} Über {EmailSubject=Hallo} Sagen {Message=Ich bin hier}
 - Senden Sie eine E-Mail an {ContactName=Kane} Zum Thema {EmailSubject=Ich laufe spät}
 - Senden Sie eine E-Mail an {ContactName=Lily} Weltiges Thema ist {EmailSubject=Ich bin spät}
 - Senden Sie eine E-Mail an {ContactName=Lesen} , {ContactName=Yue} Und {ContactName=Qiong}
