@@ -10,6 +10,7 @@ using CalendarSkillTest.Flow.Utterances;
 using CalendarSkillTest.Flow.Fakes;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Builder;
+using CalendarSkill;
 
 namespace CalendarSkillTest.Flow
 {
@@ -35,16 +36,79 @@ namespace CalendarSkillTest.Flow
         }
 
         [TestMethod]
-        public async Task Test_CalendarDelete()
+        public async Task Test_CalendarDeleteByTitle()
         {
             await this.GetTestFlow()
                 .Send(DeleteMeetingTestUtterances.BaseDeleteMeeting)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.AskForDeletePrompt())
-                .Send("test subject")
+                .Send(Strings.Strings.DefaultEventName)
                 .AssertReply(this.ShowCalendarList())
-                .Send("Yes")
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(this.DeleteEventPrompt())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_CalendarDeleteByStartTime()
+        {
+            DateTime now = DateTime.Now;
+            DateTime startTime = new DateTime(now.Year, now.Month, now.Day, 18, 0, 0);
+            startTime = startTime.AddDays(1);
+            startTime = TimeZoneInfo.ConvertTimeToUtc(startTime);
+            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
+            serviceManager.SetupCalendarService(new List<EventModel>
+            {
+                MockCalendarService.CreateEventModel(
+                    startDateTime: startTime,
+                    endDateTime: startTime.AddHours(1))
+            });
+            await this.GetTestFlow()
+                .Send(DeleteMeetingTestUtterances.BaseDeleteMeeting)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.AskForDeletePrompt())
+                .Send("tomorrow 6 pm")
+                .AssertReply(this.ShowCalendarList())
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(this.DeleteEventPrompt())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_CalendarDeleteWithStartTimeEntity()
+        {
+            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
+            DateTime now = DateTime.Now;
+            DateTime startTime = new DateTime(now.Year, now.Month, now.Day, 18, 0, 0);
+            startTime = startTime.AddDays(1);
+            startTime = TimeZoneInfo.ConvertTimeToUtc(startTime);
+            serviceManager.SetupCalendarService(new List<EventModel>()
+            {
+                MockCalendarService.CreateEventModel(
+                    startDateTime: startTime,
+                    endDateTime: startTime.AddHours(1))
+            });
+            await this.GetTestFlow()
+                .Send(DeleteMeetingTestUtterances.DeleteMeetingWithStartTime)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReply(this.ShowCalendarList())
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(this.DeleteEventPrompt())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_CalendarDeleteWithTitleEntity()
+        {
+            await this.GetTestFlow()
+                .Send(DeleteMeetingTestUtterances.DeleteMeetingWithTitle)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReply(this.ShowCalendarList())
+                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.DeleteEventPrompt())
                 .StartTestAsync();
         }

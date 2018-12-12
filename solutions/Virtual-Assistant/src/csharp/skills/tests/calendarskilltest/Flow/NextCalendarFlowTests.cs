@@ -11,6 +11,7 @@ using CalendarSkillTest.Flow.Utterances;
 using CalendarSkillTest.Flow.Fakes;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Builder;
+using CalendarSkill;
 
 namespace CalendarSkillTest.Flow
 {
@@ -36,7 +37,7 @@ namespace CalendarSkillTest.Flow
         }
 
         [TestMethod]
-        public async Task Test_CalendarDelete()
+        public async Task Test_CalendarOneNextMeeting()
         {
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseNextMeeting)
@@ -44,6 +45,34 @@ namespace CalendarSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.NextMeetingPrompt())
                 .AssertReply(this.ShowCalendarList())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_CalendarNoNextMeetings()
+        {
+            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
+            serviceManager.SetupCalendarService(new List<EventModel>());
+            await this.GetTestFlow()
+                .Send(FindMeetingTestUtterances.BaseNextMeeting)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.NoMeetingResponse())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_CalendarMultipleMeetings()
+        {
+            int eventCount = 3;
+            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
+            serviceManager.SetupCalendarService(MockCalendarService.FakeMultipleNextEvents(eventCount));
+            await this.GetTestFlow()
+                .Send(FindMeetingTestUtterances.BaseNextMeeting)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.NextMeetingPrompt())
+                .AssertReply(this.ShowCalendarList(eventCount))
                 .StartTestAsync();
         }
 
@@ -60,13 +89,18 @@ namespace CalendarSkillTest.Flow
             };
         }
 
-        private Action<IActivity> ShowCalendarList()
+        private Action<IActivity> ShowCalendarList(int eventCount = 1)
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                Assert.AreEqual(messageActivity.Attachments.Count, 1);
+                Assert.AreEqual(messageActivity.Attachments.Count, eventCount);
             };
+        }
+
+        private string[] NoMeetingResponse()
+        {
+            return this.ParseReplies(NextMeetingResponses.ShowNoMeetingMessage.Replies, new StringDictionary());
         }
     }
 }

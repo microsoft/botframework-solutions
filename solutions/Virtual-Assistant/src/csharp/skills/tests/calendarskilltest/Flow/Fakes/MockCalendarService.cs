@@ -73,6 +73,22 @@ namespace CalendarSkillTest.Flow.Fakes
             return eventList;
         }
 
+        public static List<EventModel> FakeMultipleNextEvents(int count)
+        {
+            var eventList = new List<EventModel>();
+            DateTime startDateTime = DateTime.UtcNow.AddHours(1);
+            DateTime endDateTime = startDateTime.AddHours(1);
+
+            for (int i = 0; i < count; i++)
+            {
+                eventList.Add(CreateEventModel(
+                    startDateTime: startDateTime,
+                    endDateTime: endDateTime));
+            }
+
+            return eventList;
+        }
+
         public static EventModel CreateEventModel(
             EmailAddress[] emailAddress = null,
             string eventName = null,

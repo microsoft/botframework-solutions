@@ -589,13 +589,13 @@ namespace CalendarSkill
                                 var date = GetTimeFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (date != null)
                                 {
-                                    state.StartDate = date;
+                                    state.OriginalStartDate = date;
                                 }
 
                                 date = GetTimeFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
                                 if (date != null)
                                 {
-                                    state.EndDate = date;
+                                    state.OriginalEndDate = date;
                                 }
                             }
 
