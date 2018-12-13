@@ -45,12 +45,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Microsoft.Bot.Solutions">
-      <HintPath>..\..\..\microsoft.bot.solutions\bin\Debug\netcoreapp2.1\Microsoft.Bot.Solutions.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Dialogs\Cancel\Resources\CancelStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -191,6 +185,10 @@
 
   <ItemGroup>
     <Folder Include="Dialogs\RestaurantBooking\Resources\Cards\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\microsoft.bot.solutions\Microsoft.Bot.Solutions.csproj" />
   </ItemGroup>
 
 </Project>
