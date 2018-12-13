@@ -70,10 +70,39 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to daily.
+        /// </summary>
+        public static string DailyToken {
+            get {
+                return ResourceManager.GetString("DailyToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to monthly.
+        /// </summary>
+        public static string MonthlyToken {
+            get {
+                return ResourceManager.GetString("MonthlyToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to weekly.
+        /// </summary>
+        public static string WeeklyToken {
+            get {
+                return ResourceManager.GetString("WeeklyToken", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to with a subject of {0}.
         /// </summary>
-        public static string WithTheSubject {
-            get {
+        public static string WithTheSubject
+        {
+            get
+            {
                 return ResourceManager.GetString("WithTheSubject", resourceCulture);
             }
         }

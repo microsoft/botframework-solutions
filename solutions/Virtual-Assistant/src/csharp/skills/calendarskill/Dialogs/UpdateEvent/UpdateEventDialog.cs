@@ -137,6 +137,11 @@ namespace CalendarSkill
                     updateEvent.TimeZone = TimeZoneInfo.Utc;
                     updateEvent.Id = origin.Id;
 
+                    if (!string.IsNullOrEmpty(state.RecurrencePattern) && !string.IsNullOrEmpty(origin.RecurringId))
+                    {
+                        updateEvent.Id = origin.RecurringId;
+                    }
+
                     var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
                     var newEvent = await calendarService.UpdateEventById(updateEvent);
 
