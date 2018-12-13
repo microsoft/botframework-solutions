@@ -31,12 +31,14 @@ namespace ToDoSkill
             string dialogId,
             ISkillConfiguration services,
             IStatePropertyAccessor<ToDoSkillState> accessor,
-            ITaskService serviceManager)
+            ITaskService serviceManager,
+            IBotTelemetryClient telemetryClient)
             : base(dialogId)
         {
             Services = services;
             Accessor = accessor;
             ServiceManager = serviceManager;
+            TelemetryClient = telemetryClient;
 
             if (!Services.AuthenticationConnections.Any())
             {

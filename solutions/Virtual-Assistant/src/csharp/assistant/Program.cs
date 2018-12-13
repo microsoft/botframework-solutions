@@ -16,8 +16,7 @@ namespace VirtualAssistant
         public static IWebHost BuildWebHost(string[] args)
         {
             return WebHost.CreateDefaultBuilder(args)
-                            .UseApplicationInsights()
-                            .UseStartup<Startup>()
+                            .UseStartup<Startup>() // Note: Application Insights is added in Startup.  Disabling is also handled there.
                             .Build();
         }
     }
