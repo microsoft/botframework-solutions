@@ -119,22 +119,6 @@
   "ActionEnded": {
     "replies": [
       {
-        "text": "Anything else I can help you with?",
-        "speak": "Anything else I can help you with?"
-      },
-      {
-        "text": "Is there is anything else I can help you out with?",
-        "speak": "Is there is anything else I can help you out with?"
-      },
-      {
-        "text": "Anything else you would like to take action on?",
-        "speak": "Anything else you would like to take action on?"
-      },
-      {
-        "text": "Let me know if you need my help with anything else.",
-        "speak": "Let me know if you need my help with anything else."
-      },
-      {
         "text": "I'm here if you need me.",
         "speak": "I'm here if you need me."
       }
@@ -288,8 +272,8 @@
   "BookRestaurantBookingPlaceSelectionEcho": {
     "replies": [
       {
-        "text": "Great, I’m working on a reservation at {BookingPlaceName}. I will reach out to them for a confirmation.  \r\n  This might take a while, I will get back to you in a bit. ",
-        "speak": "Great, I’m working on a reservation at {BookingPlaceName}. I will reach out to them for a confirmation.  \r\n  This might take a while, I will get back to you in a bit. "
+        "text": "Great, I'm working on a reservation at {BookingPlaceName}. I will reach out to them for a confirmation.  \r\n  This might take a while, I will get back to you in a bit. ",
+        "speak": "Great, I'm working on a reservation at {BookingPlaceName}. I will reach out to them for a confirmation.  \r\n  This might take a while, I will get back to you in a bit. "
       }
     ],
     "inputHint": "acceptingInput"
@@ -299,6 +283,15 @@
       {
         "text": "I am unable to get your favorite food type. You can try again by specifying what type of cuisine you want me to look into.",
         "speak": "Hmmm.... I am unable to get your favorite food type. You can try again by specifying what type of cuisine you want me to look into."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "BookRestaurantRestaurantNegativeConfirm": {
+    "replies": [
+      {
+        "text": "Ok, I won't go ahead let me know if you change your mind later.",
+        "speak": "Ok, I won't go ahead let me know if you change your mind later."
       }
     ],
     "inputHint": "acceptingInput"

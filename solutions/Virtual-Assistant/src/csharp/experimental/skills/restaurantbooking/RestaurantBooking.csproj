@@ -110,58 +110,61 @@
     <Content Update="Dialogs\RestaurantBooking\Resources\Cards\HeaderTableFooter.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Update="Dialogs\RestaurantBooking\Resources\Cards\ImageHeaderTableFooter.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Update="Dialogs\RestaurantBooking\Resources\Cards\TitleImageTextButton.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Shared\Resources\RestaurantBookingSharedResponses.en.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\assets\en\images\bamboo-garden.jpg">
+    <Content Update="wwwroot\assets\en\images\restaurants\bamboo-garden.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\assets\en\images\biryani-house.jpg">
+    <Content Update="wwwroot\assets\en\images\restaurants\biryani-house.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\assets\en\images\chens.jpg">
+    <Content Update="wwwroot\assets\en\images\restaurants\chens.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\assets\en\images\cuisines\chinese.jpg">
+    <Content Update="wwwroot\assets\en\images\restaurants\cuisines\chinese.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\assets\en\images\cuisines\german.jpg">
+    <Content Update="wwwroot\assets\en\images\restaurants\cuisines\german.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\assets\en\images\cuisines\indian.jpg">
+    <Content Update="wwwroot\assets\en\images\restaurants\cuisines\indian.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\assets\en\images\cuisines\italian.jpg">
+    <Content Update="wwwroot\assets\en\images\restaurants\cuisines\italian.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\assets\en\images\euro-bistro.jpg">
+    <Content Update="wwwroot\assets\en\images\restaurants\euro-bistro.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\assets\en\images\german-gourmet.jpg">
+    <Content Update="wwwroot\assets\en\images\restaurants\german-gourmet.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\assets\en\images\kanishka-cuisine.jpg">
+    <Content Update="wwwroot\assets\en\images\restaurants\kanishka-cuisine.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\assets\en\images\maharani-inside.jpg">
+    <Content Update="wwwroot\assets\en\images\restaurants\maharani-inside.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\assets\en\images\mamma-mia-pizza.jpg">
+    <Content Update="wwwroot\assets\en\images\restaurants\mamma-mia-pizza.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\assets\en\images\mandarin.jpg">
+    <Content Update="wwwroot\assets\en\images\restaurants\mandarin.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\assets\en\images\the-bavarian.jpg">
+    <Content Update="wwwroot\assets\en\images\restaurants\the-bavarian.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\assets\en\images\tonys.jpg">
+    <Content Update="wwwroot\assets\en\images\restaurants\tonys.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\assets\en\images\tuscani-grill.jpg">
+    <Content Update="wwwroot\assets\en\images\restaurants\tuscani-grill.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

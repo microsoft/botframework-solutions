@@ -22,11 +22,11 @@ namespace RestaurantBooking
         public const string LocalModeAuth = "LocalAuth";
 
         public RestaurantBookingDialog(
-        string dialogId,
-        ISkillConfiguration services,
-        IStatePropertyAccessor<RestaurantBookingState> accessor,
-        IServiceManager serviceManager)
-        : base(dialogId)
+           string dialogId,
+           ISkillConfiguration services,
+           IStatePropertyAccessor<RestaurantBookingState> accessor,
+           IServiceManager serviceManager)
+           : base(nameof(RestaurantBookingDialog))
         {
             Services = services;
             Accessor = accessor;
