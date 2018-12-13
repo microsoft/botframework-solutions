@@ -4,6 +4,7 @@
 using System;
 using System.Linq;
 using $safeprojectname$.Dialogs.Main.Resources;
+using $safeprojectname$.Middleware;
 using $safeprojectname$.Middleware.Telemetry;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DependencyCollector;
@@ -50,6 +51,9 @@ namespace $safeprojectname$
             var botFileSecret = Configuration.GetSection("botFileSecret")?.Value;
             var botConfig = BotConfiguration.Load(botFilePath, botFileSecret);
             services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded."));
+            
+            // Get default locale from appsettings.json
+            var defaultLocale = Configuration.GetSection("defaultLocale").Get<string>();
 
             // Initializes your bot service clients and adds a singleton that your Bot can access through dependency injection.
             var connectedServices = new BotServices(botConfig);
@@ -108,9 +112,12 @@ namespace $safeprojectname$
                 options.Middleware.Add(transcriptMiddleware);
 
                 // Typing Middleware (automatically shows typing when the bot is responding/working)
-                var typingMiddleware = new ShowTypingMiddleware();
-                options.Middleware.Add(typingMiddleware);
+                options.Middleware.Add(new ShowTypingMiddleware());
 
+                // Locale Middleware (sets UI culture based on Activity.Locale)
+                options.Middleware.Add(new SetLocaleMiddleware(defaultLocale ?? "en-us"));
+
+                // Autosave State Middleware (saves bot state after each turn)
                 options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
             });
         }
