@@ -47,6 +47,7 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.DeleteEventPrompt())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -73,6 +74,7 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.DeleteEventPrompt())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -97,6 +99,7 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.DeleteEventPrompt())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -110,6 +113,7 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.DeleteEventPrompt())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -137,6 +141,14 @@ namespace CalendarSkillTest.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
+            };
+        }
+
+        private Action<IActivity> ActionEndMessage()
+        {
+            return activity =>
+            {
+                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
             };
         }
     }

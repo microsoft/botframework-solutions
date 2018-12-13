@@ -45,6 +45,7 @@ namespace CalendarSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.NextMeetingPrompt())
                 .AssertReply(this.ShowCalendarList())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -58,6 +59,7 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.NoMeetingResponse())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -73,6 +75,7 @@ namespace CalendarSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.NextMeetingPrompt())
                 .AssertReply(this.ShowCalendarList(eventCount))
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -101,6 +104,14 @@ namespace CalendarSkillTest.Flow
         private string[] NoMeetingResponse()
         {
             return this.ParseReplies(NextMeetingResponses.ShowNoMeetingMessage.Replies, new StringDictionary());
+        }
+
+        private Action<IActivity> ActionEndMessage()
+        {
+            return activity =>
+            {
+                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
+            };
         }
     }
 }
