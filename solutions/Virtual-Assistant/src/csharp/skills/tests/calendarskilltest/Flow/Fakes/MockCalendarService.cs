@@ -140,7 +140,7 @@ namespace CalendarSkillTest.Flow.Fakes
 
             if (startDateTime == null)
             {
-                startDateTime = DateTime.UtcNow;
+                startDateTime = DateTime.UtcNow.AddDays(1);
             }
 
             if (endDateTime == null)

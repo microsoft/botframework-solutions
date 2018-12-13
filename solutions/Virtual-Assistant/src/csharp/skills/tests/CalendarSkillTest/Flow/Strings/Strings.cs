@@ -35,5 +35,7 @@ namespace CalendarSkillTest.Flow.Strings
         public static string UserName { get; } = "test name {0}";
 
         public static string UserEmailAddress { get; } = "test{0}@test.com";
+
+        public static string Next { get; } = "next";
     }
 }
