@@ -118,10 +118,10 @@ namespace ToDoSkill
             try
             {
                 var pageContentUrl = await this.GetDefaultToDoPageAsync(listType);
-                var todoContent = await httpClient.GetStringAsync(pageContentUrl.ContentUrl + "/?includeIDs=true");
+                var todoContent = await ExecuteContentFetchAsync(pageContentUrl.ContentUrl + "/?includeIDs=true");
                 var httpRequestMessage = ServiceHelper.GenerateAddToDoHttpRequest(taskText, todoContent, pageContentUrl.ContentUrl);
-                var result = await httpClient.SendAsync(httpRequestMessage);
-                return result.IsSuccessStatusCode;
+                var result = await ExecuteSendAsync(httpRequestMessage);
+                return result;
             }
             catch (ServiceException ex)
             {
@@ -141,8 +141,8 @@ namespace ToDoSkill
             {
                 var pageContentUrl = await this.GetDefaultToDoPageAsync(listType);
                 var httpRequestMessage = ServiceHelper.GenerateMarkToDosHttpRequest(taskItems, pageContentUrl.ContentUrl);
-                var result = await httpClient.SendAsync(httpRequestMessage);
-                return result.IsSuccessStatusCode;
+                var result = await ExecuteSendAsync(httpRequestMessage);
+                return result;
             }
             catch (ServiceException ex)
             {
@@ -162,8 +162,8 @@ namespace ToDoSkill
             {
                 var pageContentUrl = await this.GetDefaultToDoPageAsync(listType);
                 var httpRequestMessage = ServiceHelper.GenerateDeleteToDosHttpRequest(taskItems, pageContentUrl.ContentUrl);
-                var result = await httpClient.SendAsync(httpRequestMessage);
-                return result.IsSuccessStatusCode;
+                var result = await ExecuteSendAsync(httpRequestMessage);
+                return result;
             }
             catch (ServiceException ex)
             {
@@ -173,11 +173,20 @@ namespace ToDoSkill
 
         private async Task<string> CreateOneNoteNotebookAsync(string createNotebookUrl, string notebookName)
         {
-            var makeSectionContent = await httpClient.GetStringAsync(createNotebookUrl);
+            var makeSectionContent = await ExecuteContentFetchAsync(createNotebookUrl);
             var httpRequestMessage = ServiceHelper.GenerateCreateNotebookHttpRequest(makeSectionContent, createNotebookUrl, notebookName);
             var result = await httpClient.SendAsync(httpRequestMessage);
             dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
-            return (string)responseContent.id;
+
+            if (result.IsSuccessStatusCode)
+            {
+                return (string)responseContent.id;
+            }
+            else
+            {
+                ServiceException serviceException = ServiceHelper.GenerateServiceException(responseContent);
+                throw serviceException;
+            }
         }
 
         private async Task<string> GetOrCreateNotebookAsync(string notebookName)
@@ -199,11 +208,20 @@ namespace ToDoSkill
 
         private async Task<string> CreateOneNoteSectionAsync(string sectionContentUrl, string sectionTitle)
         {
-            var makeSectionContent = await httpClient.GetStringAsync(sectionContentUrl);
+            var makeSectionContent = await ExecuteContentFetchAsync(sectionContentUrl);
             var httpRequestMessage = ServiceHelper.GenerateCreateSectionHttpRequest(makeSectionContent, sectionContentUrl, sectionTitle);
             var result = await httpClient.SendAsync(httpRequestMessage);
             dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
-            return (string)responseContent.id;
+
+            if (result.IsSuccessStatusCode)
+            {
+                return (string)responseContent.id;
+            }
+            else
+            {
+                ServiceException serviceException = ServiceHelper.GenerateServiceException(responseContent);
+                throw serviceException;
+            }
         }
 
         private async Task<string> GetOrCreateSectionAsync(string notebookId, string sectionTitle)
@@ -226,8 +244,8 @@ namespace ToDoSkill
         private async Task<bool> CreateOneNotePageAsync(string sectionUrl, string pageTitle)
         {
             var httpRequestMessage = ServiceHelper.GenerateCreatePageHttpRequest(pageTitle, sectionUrl);
-            var result = await httpClient.SendAsync(httpRequestMessage);
-            return result.IsSuccessStatusCode;
+            var result = await ExecuteSendAsync(httpRequestMessage);
+            return result;
         }
 
         private async Task<string> GetOrCreatePageAsync(string sectionId, string pageTitle)
@@ -264,7 +282,7 @@ namespace ToDoSkill
 
         private async Task<List<TaskItem>> GetToDoContentAsync(string pageContentUrl)
         {
-            var todoContent = await httpClient.GetStringAsync(pageContentUrl + "?includeIDs=true");
+            var todoContent = await ExecuteContentFetchAsync(pageContentUrl + "?includeIDs=true");
             var doc = new XmlDocument();
             doc.LoadXml(todoContent);
             XmlNode root = doc.DocumentElement;
@@ -300,9 +318,47 @@ namespace ToDoSkill
 
         private async Task<string> ExecuteGraphFetchAsync(string url)
         {
-            var result = await httpClient.GetStringAsync(url);
-            dynamic content = JObject.Parse(result);
-            return JsonConvert.SerializeObject((object)content.value);
+            var result = await this.httpClient.GetAsync(url);
+            dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
+            if (result.IsSuccessStatusCode)
+            {
+                return JsonConvert.SerializeObject((object)responseContent.value);
+            }
+            else
+            {
+                ServiceException serviceException = ServiceHelper.GenerateServiceException(responseContent);
+                throw serviceException;
+            }
+        }
+
+        private async Task<dynamic> ExecuteContentFetchAsync(string url)
+        {
+            var result = await httpClient.GetAsync(url);
+            dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
+            if (result.IsSuccessStatusCode)
+            {
+                return responseContent;
+            }
+            else
+            {
+                ServiceException serviceException = ServiceHelper.GenerateServiceException(responseContent);
+                throw serviceException;
+            }
+        }
+
+        private async Task<bool> ExecuteSendAsync(HttpRequestMessage request)
+        {
+            var result = await httpClient.SendAsync(request);
+            if (result.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else
+            {
+                dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
+                ServiceException serviceException = ServiceHelper.GenerateServiceException(responseContent);
+                throw serviceException;
+            }
         }
     }
 }

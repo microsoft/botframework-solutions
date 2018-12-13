@@ -15,6 +15,7 @@ namespace ToDoSkill
     using Microsoft.Bot.Solutions.Skills;
     using Microsoft.Graph;
     using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// To Do skill helper class.
@@ -274,12 +275,21 @@ namespace ToDoSkill
         public static SkillException HandleGraphAPIException(ServiceException ex)
         {
             var skillExceptionType = SkillExceptionType.Other;
-            if (ex.Message.Contains(APIErrorAccessDenied, StringComparison.InvariantCultureIgnoreCase))
+            if (ex.Error.Code.Equals(APIErrorAccessDenied, StringComparison.InvariantCultureIgnoreCase))
             {
                 skillExceptionType = SkillExceptionType.APIAccessDenied;
             }
 
             return new SkillException(skillExceptionType, ex.Message, ex);
+        }
+
+        public static ServiceException GenerateServiceException(dynamic errorResponse)
+        {
+            var errorObject = errorResponse.error;
+            Error error = new Error();
+            error.Code = errorObject.code.ToString();
+            error.Message = errorObject.message.ToString();
+            return new ServiceException(error);
         }
     }
 }

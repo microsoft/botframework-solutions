@@ -164,7 +164,15 @@ namespace ToDoSkill.ServiceClients
             var httpRequestMessage = ServiceHelper.GenerateCreateTaskFolderHttpRequest(this.graphBaseUrl + "taskFolders", taskFolderName);
             var result = await this.httpClient.SendAsync(httpRequestMessage);
             dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
-            return (string)responseContent.id;
+            if (result.IsSuccessStatusCode)
+            {
+                return (string)responseContent.id;
+            }
+            else
+            {
+                ServiceException serviceException = ServiceHelper.GenerateServiceException(responseContent);
+                throw serviceException;
+            }
         }
 
         private async Task<Dictionary<string, string>> GetTaskFoldersAsync(string url)
@@ -202,7 +210,16 @@ namespace ToDoSkill.ServiceClients
         {
             var httpRequestMessage = ServiceHelper.GenerateAddOutlookTaskHttpRequest(url, taskText);
             var result = await this.httpClient.SendAsync(httpRequestMessage);
-            return result.IsSuccessStatusCode;
+            if (result.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else
+            {
+                dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
+                ServiceException serviceException = ServiceHelper.GenerateServiceException(responseContent);
+                throw serviceException;
+            }
         }
 
         private async Task<bool> ExecuteTasksMarkAsync(string url, List<TaskItem> taskItems)
@@ -213,7 +230,9 @@ namespace ToDoSkill.ServiceClients
                 var result = await this.httpClient.SendAsync(httpRequestMessage);
                 if (!result.IsSuccessStatusCode)
                 {
-                    return false;
+                    dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
+                    ServiceException serviceException = ServiceHelper.GenerateServiceException(responseContent);
+                    throw serviceException;
                 }
             }
 
@@ -228,7 +247,9 @@ namespace ToDoSkill.ServiceClients
                 var result = await this.httpClient.SendAsync(httpRequestMessage);
                 if (!result.IsSuccessStatusCode)
                 {
-                    return false;
+                    dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
+                    ServiceException serviceException = ServiceHelper.GenerateServiceException(responseContent);
+                    throw serviceException;
                 }
             }
 
@@ -237,9 +258,17 @@ namespace ToDoSkill.ServiceClients
 
         private async Task<dynamic> ExecuteGraphFetchAsync(string url)
         {
-            var result = await this.httpClient.GetStringAsync(url);
-            dynamic content = JObject.Parse(result);
-            return content.value;
+            var result = await this.httpClient.GetAsync(url);
+            dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
+            if (result.IsSuccessStatusCode)
+            {
+                return responseContent.value;
+            }
+            else
+            {
+                ServiceException serviceException = ServiceHelper.GenerateServiceException(responseContent);
+                throw serviceException;
+            }
         }
     }
 }
