@@ -1,17 +1,17 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using Microsoft.Bot.Solutions.Dialogs;
+using Newtonsoft.Json;
+
 namespace RestaurantBooking.Dialogs.Shared.Resources
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
-    using System.Runtime.CompilerServices;
-    using Microsoft.Bot.Solutions.Dialogs;
-    using Newtonsoft.Json;
-
     /// <summary>
     /// Calendar bot responses class.
     /// </summary>
@@ -64,6 +64,8 @@ namespace RestaurantBooking.Dialogs.Shared.Resources
         public static BotResponse BookRestaurantBookingPlaceSelectionEcho => GetBotResponse();
 
         public static BotResponse FoodTypeSelectionErrorMessage => GetBotResponse();
+
+        public static BotResponse BookRestaurantRestaurantNegativeConfirm => GetBotResponse();
 
         private static Dictionary<string, Dictionary<string, BotResponse>> JsonResponses
         {

@@ -26,12 +26,16 @@ namespace RestaurantBooking
         private IUrlResolver _urlResolver;
 
         public BookingDialog(
-          ISkillConfiguration services,
-          IStatePropertyAccessor<RestaurantBookingState> accessor,
-          IServiceManager serviceManager,
-          IHttpContextAccessor httpContext)
-          : base(nameof(BookingDialog), services, accessor, serviceManager)
-       {
+           ISkillConfiguration services,
+           IStatePropertyAccessor<RestaurantBookingState> accessor,
+           IServiceManager serviceManager,
+           IHttpContextAccessor httpContext)
+            : base(nameof(BookingDialog), services, accessor, serviceManager)
+        {
+            Services = services;
+            Accessor = accessor;
+            ServiceManager = serviceManager;
+
             // Restaurant Booking waterfall
             var bookingWaterfall = new WaterfallStep[]
             {
@@ -126,8 +130,6 @@ namespace RestaurantBooking
 
             state.Cuisine = foodTypes;
 
-            foodTypes.Add(new FoodTypeInfo { TypeName = BotStrings.CallConcierge, ImageUrl = _urlResolver.GetImageUrl(RestaurantImages.Concierge) });
-
             // Create a card for each restaurant
             var cardsData = new List<TitleImageTextButtonCardData>();
             foodTypes.ForEach(ft => cardsData.Add(
@@ -142,7 +144,7 @@ namespace RestaurantBooking
 
             var reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(
                 RestaurantBookingSharedResponses.BookRestaurantFoodSelectionPrompt,
-                "Resources/Cards/TitleImageTextButton.json",
+                @"Dialogs\RestaurantBooking\Resources\Cards\TitleImageTextButton.json",
                 AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, tokens);
 
             // Prompt for restaurant choice
@@ -430,7 +432,7 @@ namespace RestaurantBooking
             };
             botResponse.Reply.Text = string.Empty;
 
-            var reply = sc.Context.Activity.CreateAdaptiveCardReply(botResponse, "Resources/Cards/HeaderTableFooter.json", cardData, ResponseBuilder, tokens);
+            var reply = sc.Context.Activity.CreateAdaptiveCardReply(botResponse, @"Dialogs\RestaurantBooking\Resources\Cards\HeaderTableFooter.json", cardData, ResponseBuilder, tokens);
             return await sc.PromptAsync(Actions.ConfirmSelectionBeforeBookingStep, new PromptOptions { Prompt = reply }, cancellationToken);
         }
 
@@ -447,8 +449,9 @@ namespace RestaurantBooking
             }
             else if (prompt.Recognized.Succeeded == true && prompt.Recognized.Value == false)
             {
-                // TODO: implement NO path
-                // await SetConversationStateValue(prompt.Context, _reservationDataStateKey, await CreateNewReservationInfo(prompt.Context), cancellationToken);
+                var reply = prompt.Context.Activity.CreateReply(RestaurantBookingSharedResponses.BookRestaurantRestaurantNegativeConfirm);
+                await prompt.Context.SendActivityAsync(reply, cancellationToken);
+                reservation.Confirmed = false;
             }
             else
             {
@@ -482,7 +485,7 @@ namespace RestaurantBooking
             }
 
             // Prompt for restaurant
-            var restaurants = SeedReservationSampleData.GetListOfRestaurants(reservation.Category, "Munich", _urlResolver);
+            var restaurants = SeedReservationSampleData.GetListOfRestaurants(reservation.Category, "London", _urlResolver);
             state.Restaurants = restaurants;
 
             var restaurantOptionsForSpeak = new StringBuilder();
@@ -491,9 +494,6 @@ namespace RestaurantBooking
                 restaurantOptionsForSpeak.Append(restaurants[i].Name);
                 restaurantOptionsForSpeak.Append(i == restaurants.Count - 2 ? $" {BotStrings.Or} " : ", ");
             }
-
-            // Append call concierge as the last option
-            restaurants.Add(new BookingPlace { Name = BotStrings.CallConcierge, PictureUrl = _urlResolver.GetImageUrl(RestaurantImages.Concierge), Location = " ? " });
 
             var restaurantResponse = RestaurantBookingSharedResponses.BookRestaurantRestaurantSelectionPrompt;
 
@@ -517,7 +517,7 @@ namespace RestaurantBooking
                 }));
 
             var reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(
-                restaurantResponse, "Resources/Cards/TitleImageTextButton.json", AttachmentLayoutTypes.Carousel, cardData, ResponseBuilder, tokens);
+                restaurantResponse, @"Dialogs\RestaurantBooking\Resources\Cards\TitleImageTextButton.json", AttachmentLayoutTypes.Carousel, cardData, ResponseBuilder, tokens);
 
             return await sc.PromptAsync(Actions.RestaurantPrompt, new PromptOptions { Prompt = reply }, cancellationToken);
         }
@@ -553,6 +553,48 @@ namespace RestaurantBooking
             var reservation = state.Booking;
 
             // TODO Process reservation request here.
+            // Simulate the booking process through a delay;
+            await Task.Delay(16000);
+
+            // Send an update to the user (this would be done asynchronously and through a proactive notification
+            var tokens = new StringDictionary
+                {
+                    { "BookingPlace", reservation.BookingPlace.Name},
+                    { "Location", reservation.BookingPlace.Location},
+                    { "ReservationDate", reservation.Date?.ToShortDateString() },
+                    { "ReservationDateSpeak", reservation.Date?.ToSpeakString(true) },
+                    { "ReservationTime", reservation.Time?.ToShortTimeString() },
+                    { "AttendeeCount", reservation.AttendeeCount},
+                };
+
+            var response = RestaurantBookingSharedResponses.BookRestaurantAcceptedMessage;
+            var cardDataLabels = response.Reply.Text.Split("|");
+            response.Reply.Text = string.Empty;
+            var cardData = new ImageHeaderTableFooterCardData
+            {
+                ImageUrl = reservation.BookingPlace.PictureUrl,
+                ImageSize = AdaptiveImageSize.Stretch,
+                ImageAlign = AdaptiveHorizontalAlignment.Center,
+                HeaderText = cardDataLabels[0],
+                Row1Title = cardDataLabels[1],
+                Row1Value = reservation.BookingPlace.Name,
+                Row2Title = cardDataLabels[2],
+                Row2Value = reservation.BookingPlace.Location,
+                Row3Title = cardDataLabels[3],
+                Row3Value = reservation.Date?.ToShortDateString(),
+                Row4Title = cardDataLabels[4],
+                Row4Value = reservation.Time?.ToShortTimeString(),
+                Row5Title = cardDataLabels[5],
+                Row5Value = cardDataLabels[6],
+                FooterText = cardDataLabels[7]
+            };
+
+            var reply = sc.Context.Activity.CreateAdaptiveCardReply(
+                response, @"Dialogs\RestaurantBooking\Resources\Cards\ImageHeaderTableFooter.json", cardData,
+                ResponseBuilder, tokens);
+
+            await sc.Context.SendActivityAsync(reply);
+
             return await sc.EndDialogAsync(cancellationToken: cancellationToken);
         }
 
@@ -627,20 +669,15 @@ namespace RestaurantBooking
                         }
 
                         break;
-
-                    // TODO: excluding for now because it confuses the time with the attendee count.
-                    // case LuisEntities.BuiltInNumber:
-                    //    var value = recognizerResult.TryGetNormalizedEntityValue(luisEntity.Category);
-                    //    if (string.IsNullOrEmpty(reservation.AttendeeCount))
-                    //    {
-                    //        reservation.AttendeeCount = value;
-                    //    }
-
-                    // break;
                 }
             }
         }
 
+        /// <summary>
+        /// Initialise the ReservationBooking object that we use to track progress.
+        /// </summary>
+        /// <param name="context">TurnContext.</param>
+        /// <returns>New ReservationBooking.</returns>
         private async Task<ReservationBooking> CreateNewReservationInfo(ITurnContext context)
         {
             var restaurantReservation = new ReservationBooking
@@ -650,6 +687,11 @@ namespace RestaurantBooking
             return restaurantReservation;
         }
 
+        /// <summary>
+        /// Retrieve Normalised entity value.
+        /// </summary>
+        /// <param name="context">Turn Context.</param>
+        /// <returns>Entities mapped to data structure./returns>
         private async Task<Dictionary<string, string>> GetNormalizedEntityValue(ITurnContext context)
         {
             var state = await Accessor.GetAsync(context);

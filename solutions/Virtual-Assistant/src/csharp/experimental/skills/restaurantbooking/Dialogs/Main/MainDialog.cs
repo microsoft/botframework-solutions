@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
@@ -25,11 +26,12 @@ namespace RestaurantBooking
         private UserState _userState;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
+        private IHttpContextAccessor _httpContext;
         private IStatePropertyAccessor<RestaurantBookingState> _stateAccessor;
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
         private RestaurantBookingResponseBuilder _responseBuilder = new RestaurantBookingResponseBuilder();
 
-        public MainDialog(ISkillConfiguration services, ConversationState conversationState, UserState userState, IServiceManager serviceManager, bool skillMode)
+        public MainDialog(ISkillConfiguration services, ConversationState conversationState, UserState userState, IServiceManager serviceManager, IHttpContextAccessor httpContext, bool skillMode)
             : base(nameof(MainDialog))
         {
             _skillMode = skillMode;
@@ -37,6 +39,7 @@ namespace RestaurantBooking
             _conversationState = conversationState;
             _userState = userState;
             _serviceManager = serviceManager;
+            _httpContext = httpContext;
 
             // Initialize state accessor
             _stateAccessor = _conversationState.CreateProperty<RestaurantBookingState>(nameof(RestaurantBookingState));
@@ -59,7 +62,7 @@ namespace RestaurantBooking
             var state = await _stateAccessor.GetAsync(dc.Context, () => new RestaurantBookingState());
 
             // If dispatch result is general luis model
-            _services.LocaleConfigurations["en"].LuisServices.TryGetValue("restaurantreservation", out var luisService);
+            _services.LocaleConfigurations["en"].LuisServices.TryGetValue("reservation", out var luisService);
 
             if (luisService == null)
             {
@@ -80,11 +83,7 @@ namespace RestaurantBooking
                 {
                     case "Reservation":
                         {
-                            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(RestaurantBookingSharedResponses.DidntUnderstandMessage));
-                            if (_skillMode)
-                            {
-                                await CompleteAsync(dc);
-                            }
+                            await dc.BeginDialogAsync(nameof(RestaurantBookingDialog), skillOptions);
 
                             break;
                         }
@@ -161,10 +160,12 @@ namespace RestaurantBooking
         {
             var result = InterruptionAction.NoAction;
 
-            if (dc.Context.Activity.Type == ActivityTypes.Message)
+            // Only interested in evaluating interruptions where we have messages and Text fields
+            // Events and Adaptive card postbacks (Value field populated only) will be skipped for interruption and passed on.
+            if (dc.Context.Activity.Type == ActivityTypes.Message && !string.IsNullOrWhiteSpace(dc.Context.Activity.Text))
             {
                 // Update state with luis result and entities
-                var skillLuisResult = await _services.LocaleConfigurations["en"].LuisServices["restaurantreservation"].RecognizeAsync(dc.Context, cancellationToken);
+                var skillLuisResult = await _services.LocaleConfigurations["en"].LuisServices["reservation"].RecognizeAsync(dc.Context, cancellationToken);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new RestaurantBookingState());
                 state.LuisResult = skillLuisResult;
 
@@ -216,6 +217,7 @@ namespace RestaurantBooking
         private void RegisterDialogs()
         {
             AddDialog(new CancelDialog());
+            AddDialog(new BookingDialog(_services, _stateAccessor, _serviceManager, _httpContext));
         }
 
         private class Events
