@@ -31,7 +31,9 @@ Sentiment must be enabled for each application.  To enable sentiment:
 3. Click on the specific application you want to enable sentiment.
 4. Select **Manage** on the upper menu.
 5. Select **Publish Settings** on the side menu. It should resemble the below.
-![Enabling Sentiment](media/enable_sentiment.PNG)
+ 
+![Enabling Sentiment](media/enable_sentiment.png)
+
 6. **Enable** the *Use sentiment analysis to determine if a user's utterance is positive, negative, or neutral* checkbox.
 7. Select **Publish** and repeat for each LUIS application.
 
@@ -68,6 +70,7 @@ You will need to replace `<app-insights-application-id>` with your Application I
 2. Navigate to your Application Insights resource.
 3. Select **API Access**.
 4. Copy the Application ID.
+
 ![Appinsightsapplicationid](media/appinsightsapplicationid.png)
 
 ```
