@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
@@ -68,11 +69,15 @@ namespace ToDoSkill
         {
             var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
 
+            // get current activity locale
+            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            var localeConfig = _services.LocaleConfigurations[locale];
+
             // Initialize the PageSize and ReadSize parameters in state from configuration
             InitializeConfig(state);
 
             // If dispatch result is general luis model
-            _services.LuisServices.TryGetValue("todo", out var luisService);
+            localeConfig.LuisServices.TryGetValue("todo", out var luisService);
 
             if (luisService == null)
             {
@@ -211,13 +216,17 @@ namespace ToDoSkill
 
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
+                // get current activity locale
+                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                var localeConfig = _services.LocaleConfigurations[locale];
+
                 // Update state with email luis result and entities
-                var toDoLuisResult = await _services.LuisServices["todo"].RecognizeAsync<ToDo>(dc.Context, cancellationToken);
+                var toDoLuisResult = await localeConfig.LuisServices["todo"].RecognizeAsync<ToDo>(dc.Context, cancellationToken);
                 var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
                 state.LuisResult = toDoLuisResult;
 
                 // check luis intent
-                _services.LuisServices.TryGetValue("general", out var luisService);
+                localeConfig.LuisServices.TryGetValue("general", out var luisService);
 
                 if (luisService == null)
                 {

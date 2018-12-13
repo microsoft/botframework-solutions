@@ -8,7 +8,6 @@ using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
 using Luis;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
@@ -20,6 +19,7 @@ using Microsoft.Recognizers.Text;
 using Microsoft.Recognizers.Text.DateTime;
 using Newtonsoft.Json.Linq;
 using static Microsoft.Recognizers.Text.Culture;
+using Microsoft.Bot.Builder.AI.Luis;
 
 namespace CalendarSkill
 {
@@ -407,7 +407,7 @@ namespace CalendarSkill
                     }
                 }
 
-                if (entity.number != null && entity.ordinal != null && entity.ordinal.Length == 0)
+                if (entity.number != null && (entity.ordinal == null || entity.ordinal.Length == 0))
                 {
                     try
                     {
@@ -453,10 +453,16 @@ namespace CalendarSkill
                             if (entity.FromDate != null)
                             {
                                 var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
-                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone());
+                                var date = GetTimeFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (date != null)
                                 {
                                     state.StartDate = date;
+                                }
+
+                                date = GetTimeFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
+                                if (date != null)
+                                {
+                                    state.EndDate = date;
                                 }
                             }
 
@@ -528,10 +534,16 @@ namespace CalendarSkill
                             if (entity.FromDate != null)
                             {
                                 var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
-                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone());
+                                var date = GetTimeFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (date != null)
                                 {
                                     state.StartDate = date;
+                                }
+
+                                date = GetTimeFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
+                                if (date != null)
+                                {
+                                    state.EndDate = date;
                                 }
                             }
 
@@ -542,6 +554,12 @@ namespace CalendarSkill
                                 if (time != null)
                                 {
                                     state.StartTime = time;
+                                }
+
+                                time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
+                                if (time != null)
+                                {
+                                    state.EndTime = time;
                                 }
                             }
 
@@ -568,10 +586,16 @@ namespace CalendarSkill
                             if (entity.FromDate != null)
                             {
                                 var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
-                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone());
+                                var date = GetTimeFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (date != null)
                                 {
-                                    state.OriginalStartDate = date;
+                                    state.StartDate = date;
+                                }
+
+                                date = GetTimeFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
+                                if (date != null)
+                                {
+                                    state.EndDate = date;
                                 }
                             }
 
@@ -636,10 +660,16 @@ namespace CalendarSkill
                             if (entity.FromDate != null)
                             {
                                 var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
-                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone());
+                                var date = GetTimeFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (date != null)
                                 {
                                     state.StartDate = date;
+                                }
+
+                                date = GetTimeFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
+                                if (date != null)
+                                {
+                                    state.EndDate = date;
                                 }
                             }
 
@@ -682,6 +712,7 @@ namespace CalendarSkill
                             break;
                         }
 
+                    case Calendar.Intent.ConnectToMeeting:
                     case Calendar.Intent.TimeRemaining:
                         {
                             if (entity.FromDate != null)

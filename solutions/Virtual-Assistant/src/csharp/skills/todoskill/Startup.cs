@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -49,11 +50,12 @@ namespace ToDoSkill
             services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded."));
 
             // Initializes your bot service clients and adds a singleton that your Bot can access through dependency injection.
-            var parameters = Configuration.GetSection("Parameters")?.Get<string[]>();
-            var configuration = Configuration.GetSection("Configuration")?.GetChildren()?.ToDictionary(x => x.Key, y => y.Value as object);
-            var supportedProviders = Configuration.GetSection("SupportedProviders").Get<string[]>();
-            ISkillConfiguration connectedServices = new SkillConfiguration(botConfig, supportedProviders, parameters, configuration);
-            services.AddSingleton(sp => connectedServices);
+            var parameters = Configuration.GetSection("parameters")?.Get<string[]>();
+            var configuration = Configuration.GetSection("configuration")?.GetChildren()?.ToDictionary(x => x.Key, y => y.Value as object);
+            var supportedProviders = Configuration.GetSection("supportedProviders")?.Get<string[]>();
+            var languageModels = Configuration.GetSection("languageModels").Get<Dictionary<string, Dictionary<string, string>>>();
+            ISkillConfiguration connectedServices = new SkillConfiguration(botConfig, languageModels, supportedProviders, parameters, configuration);
+            services.AddSingleton<ISkillConfiguration>(sp => connectedServices);
 
             var defaultLocale = Configuration.GetSection("defaultLocale").Get<string>();
 
@@ -110,6 +112,7 @@ namespace ToDoSkill
                 // Catches any errors that occur during a conversation turn and logs them to AppInsights.
                 options.OnTurnError = async (context, exception) =>
                 {
+                    CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
                     await context.SendActivityAsync(context.Activity.CreateReply(ToDoSharedResponses.ToDoErrorMessage));
                     await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"To Do Skill Error: {exception.Message} | {exception.StackTrace}"));
                     connectedServices.TelemetryClient.TrackException(exception);

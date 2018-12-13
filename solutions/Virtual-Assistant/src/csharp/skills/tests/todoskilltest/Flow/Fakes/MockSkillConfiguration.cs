@@ -10,7 +10,6 @@ namespace ToDoSkillTest.Flow.Fakes
     {
         public MockSkillConfiguration()
         {
-            this.LuisServices.Add("general", new MockLuisRecognizer());
             this.AuthenticationConnections = new Dictionary<string, string>();
             this.AuthenticationConnections.Add("Microsoft", "Microsoft");
 
@@ -22,7 +21,7 @@ namespace ToDoSkillTest.Flow.Fakes
 
         public override CosmosDbStorageOptions CosmosDbOptions { get; set; }
 
-        public override Dictionary<string, IRecognizer> LuisServices { get; set; } = new Dictionary<string, IRecognizer>();
+        public override Dictionary<string, LocaleConfiguration> LocaleConfigurations { get; set; } = new Dictionary<string, LocaleConfiguration>();
 
         public override Dictionary<string, object> Properties { get; set; } = new Dictionary<string, object>();
 

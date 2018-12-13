@@ -20,7 +20,7 @@
     {
       "type": "TextBlock",
       "size": "default",
-      "isSubtle": "yes",
+      "isSubtle": true,
       "text": "Maintenant que vous avez réussi à exécuter votre bot, suivez les liens dans cette carte Adaptive pour développer vos connaissances du Bot Framework.",
       "wrap": true,
       "maxLines": 0

@@ -5,6 +5,7 @@
         public const string Login = "login";
         public const string Prompt = "prompt";
         public const string Choice = "choice";
+        public const string ConnectToMeeting = "ConnectToMeeting";
         public const string EventChoice = "event_choice";
         public const string ShowEventsSummary = "showEventsSummary";
         public const string ShowNextEvent = "showNextEvent";
