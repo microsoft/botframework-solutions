@@ -34,15 +34,17 @@ namespace ToDoSkill
             ISkillConfiguration services,
             ConversationState conversationState,
             UserState userState,
+            IBotTelemetryClient telemetryClient,
             ITaskService serviceManager,
             bool skillMode)
-            : base(nameof(MainDialog))
+            : base(nameof(MainDialog), telemetryClient)
         {
             _skillMode = skillMode;
             _services = services;
             _conversationState = conversationState;
             _userState = userState;
             _serviceManager = serviceManager;
+            TelemetryClient = telemetryClient;
 
             // Initialize state accessor
             _stateAccessor = _conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
@@ -299,13 +301,13 @@ namespace ToDoSkill
 
             return InterruptionAction.StartedDialog;
         }
-
+        
         private void RegisterDialogs()
         {
-            AddDialog(new AddToDoItemDialog(_services, _stateAccessor, _serviceManager));
-            AddDialog(new MarkToDoItemDialog(_services, _stateAccessor, _serviceManager));
-            AddDialog(new DeleteToDoItemDialog(_services, _stateAccessor, _serviceManager));
-            AddDialog(new ShowToDoItemDialog(_services, _stateAccessor, _serviceManager));
+            AddDialog(new AddToDoItemDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new MarkToDoItemDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new DeleteToDoItemDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new ShowToDoItemDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
         }
 
         private void InitializeConfig(ToDoSkillState state)

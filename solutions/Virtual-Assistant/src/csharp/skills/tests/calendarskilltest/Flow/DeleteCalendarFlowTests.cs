@@ -8,6 +8,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CalendarSkillTest.Flow.Utterances;
 using CalendarSkillTest.Flow.Fakes;
+using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Builder;
 
@@ -22,7 +23,7 @@ namespace CalendarSkillTest.Flow
             this.Services.LocaleConfigurations.Add("en", new LocaleConfiguration()
             {
                 Locale = "en-us",
-                LuisServices = new Dictionary<string, IRecognizer>()
+                LuisServices = new Dictionary<string, ITelemetryLuisRecognizer>()
                 {
                     { "general", new MockLuisRecognizer() },
                     { "calendar", new MockLuisRecognizer(new DeleteMeetingTestUtterances()) }

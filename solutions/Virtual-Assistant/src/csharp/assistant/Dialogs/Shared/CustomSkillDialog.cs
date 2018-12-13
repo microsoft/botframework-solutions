@@ -10,10 +10,10 @@ namespace VirtualAssistant
 {
     public class CustomSkillDialog : ComponentDialog
     {
-        public CustomSkillDialog(Dictionary<string, ISkillConfiguration> skills, IStatePropertyAccessor<DialogState> accessor, EndpointService endpointService)
+        public CustomSkillDialog(Dictionary<string, ISkillConfiguration> skills, IStatePropertyAccessor<DialogState> accessor, EndpointService endpointService, IBotTelemetryClient telemetryClient)
             : base(nameof(CustomSkillDialog))
         {
-            AddDialog(new SkillDialog(skills, accessor, endpointService));
+            AddDialog(new SkillDialog(skills, accessor, endpointService, telemetryClient));
         }
 
         protected override Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
