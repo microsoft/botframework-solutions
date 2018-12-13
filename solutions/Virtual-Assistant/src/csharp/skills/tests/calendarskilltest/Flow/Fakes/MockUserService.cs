@@ -19,44 +19,6 @@ namespace CalendarSkillTest.Flow.Fakes
 
         public List<User> Users { get; set; }
 
-        public async Task<List<Contact>> GetContactsAsync(string name)
-        {
-            List<Contact> items = new List<Contact>();
-            return await Task.FromResult(items);
-        }
-
-        public async Task<List<Person>> GetPeopleAsync(string name)
-        {
-            return await Task.FromResult(this.People);
-        }
-
-        public async Task<List<User>> GetUserAsync(string name)
-        {
-            return await Task.FromResult(this.Users);
-        }
-
-        public static List<Person> FakeDefaultPeople()
-        {
-            var people = new List<Person>();
-
-            var addressList = new List<ScoredEmailAddress>();
-            var emailAddress = new ScoredEmailAddress()
-            {
-                Address = Strings.Strings.DefaultUserEmail,
-                RelevanceScore = 1,
-            };
-            addressList.Add(emailAddress);
-
-            people.Add(new Person()
-            {
-                UserPrincipalName = Strings.Strings.DefaultUserEmail,
-                ScoredEmailAddresses = addressList,
-                DisplayName = Strings.Strings.DefaultUserName,
-            });
-
-            return people;
-        }
-
         public static List<User> FakeDefaultUsers()
         {
             var users = new List<User>();
@@ -116,6 +78,44 @@ namespace CalendarSkillTest.Flow.Fakes
             }
 
             return people;
+        }
+
+        public static List<Person> FakeDefaultPeople()
+        {
+            var people = new List<Person>();
+
+            var addressList = new List<ScoredEmailAddress>();
+            var emailAddress = new ScoredEmailAddress()
+            {
+                Address = Strings.Strings.DefaultUserEmail,
+                RelevanceScore = 1,
+            };
+            addressList.Add(emailAddress);
+
+            people.Add(new Person()
+            {
+                UserPrincipalName = Strings.Strings.DefaultUserEmail,
+                ScoredEmailAddresses = addressList,
+                DisplayName = Strings.Strings.DefaultUserName,
+            });
+
+            return people;
+        }
+
+        public async Task<List<Contact>> GetContactsAsync(string name)
+        {
+            List<Contact> items = new List<Contact>();
+            return await Task.FromResult(items);
+        }
+
+        public async Task<List<Person>> GetPeopleAsync(string name)
+        {
+            return await Task.FromResult(this.People);
+        }
+
+        public async Task<List<User>> GetUserAsync(string name)
+        {
+            return await Task.FromResult(this.Users);
         }
     }
 }

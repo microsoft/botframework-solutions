@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using CalendarSkill.Dialogs.Main.Resources;
-using CalendarSkill.Dialogs.NextMeeting.Resources;
-using CalendarSkill.Dialogs.Shared.Resources;
-using Microsoft.Bot.Schema;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using CalendarSkillTest.Flow.Utterances;
-using CalendarSkillTest.Flow.Fakes;
-using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Bot.Builder;
 using CalendarSkill;
+using CalendarSkill.Dialogs.NextMeeting.Resources;
+using CalendarSkillTest.Flow.Fakes;
+using CalendarSkillTest.Flow.Utterances;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Skills;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CalendarSkillTest.Flow
 {

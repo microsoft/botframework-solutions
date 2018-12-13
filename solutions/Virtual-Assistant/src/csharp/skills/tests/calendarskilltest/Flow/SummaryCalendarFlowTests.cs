@@ -1,18 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using CalendarSkill.Dialogs.Main.Resources;
-using CalendarSkill.Dialogs.Shared.Resources;
-using CalendarSkill.Dialogs.Summary.Resources;
-using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Authentication;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using CalendarSkillTest.Flow.Utterances;
-using CalendarSkillTest.Flow.Fakes;
-using System.Collections.Generic;
 using CalendarSkill;
-using Microsoft.Bot.Solutions.Skills;
+using CalendarSkill.Dialogs.Summary.Resources;
+using CalendarSkillTest.Flow.Fakes;
+using CalendarSkillTest.Flow.Utterances;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Skills;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CalendarSkillTest.Flow
 {
