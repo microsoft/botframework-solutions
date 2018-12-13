@@ -27,6 +27,7 @@ namespace EmailSkill
                 GetAuthToken,
                 AfterGetAuthToken,
                 CollectSelectedEmail,
+                AfterCollectSelectedEmail,
                 PromptToDelete,
                 DeleteEmail,
             };
@@ -57,7 +58,7 @@ namespace EmailSkill
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var skillOptions = (EmailSkillDialogOptions)sc.Options;
 
-                var focusedMessage = state.Message.FirstOrDefault();
+                var focusedMessage = state.Message?.FirstOrDefault();
                 if (focusedMessage != null)
                 {
                     return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(DeleteEmailResponses.DeleteConfirm) });

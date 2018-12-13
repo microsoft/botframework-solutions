@@ -30,6 +30,7 @@ namespace EmailSkill
                 GetAuthToken,
                 AfterGetAuthToken,
                 CollectSelectedEmail,
+                AfterCollectSelectedEmail,
                 CollectNameList,
                 CollectRecipients,
                 CollectAdditionalText,
@@ -39,7 +40,7 @@ namespace EmailSkill
 
             var showEmail = new WaterfallStep[]
             {
-                IfClearContextStep,
+                PagingStep,
                 ShowEmails,
             };
 

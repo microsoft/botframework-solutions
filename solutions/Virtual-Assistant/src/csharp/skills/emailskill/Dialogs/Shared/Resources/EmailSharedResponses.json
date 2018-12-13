@@ -237,12 +237,12 @@
   "EmailNotFound": {
     "replies": [
       {
-        "text": "You have no new email.",
-        "speak": "You have no new email."
+        "text": "You have no relative email.",
+        "speak": "You have no relative email."
       },
       {
-        "text": "I did not retrieve any new emails at this time. You can try again later.",
-        "speak": "I did not retrieve any new emails at this time. You can try again later."
+        "text": "I did not retrieve any relative emails at this time. You can try again later.",
+        "speak": "I did not retrieve any relative emails at this time. You can try again later."
       }
     ],
     "inputHint": "acceptingInput"

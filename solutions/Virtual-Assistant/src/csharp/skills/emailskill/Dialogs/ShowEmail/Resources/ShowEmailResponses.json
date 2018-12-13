@@ -1,54 +1,50 @@
 {
-  "EmailNotFound": {
-    "replies": [
-      {
-        "text": "You have no new email.",
-        "speak": "You have no new email."
-      },
-      {
-        "text": "I did not retrieve any new emails at this time. You can try again later.",
-        "speak": "I did not retrieve any new emails at this time. You can try again later."
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
   "ReadOutPrompt": {
     "replies": [
       {
-        "text": "Which one do you want to hear?",
-        "speak": "Which one do you want to hear?"
+        "text": "Which one do you want to hear? You can also forward, reply or delete any of this.",
+        "speak": "Which one do you want to hear? You can also forward, reply or delete any of this."
       },
       {
-        "text": "Which email would you like me to read out?",
-        "speak": "Which email would you like me to read out?"
+        "text": "Which email would you like me to read out? You can also forward, reply or delete any of this.",
+        "speak": "Which email would you like me to read out? You can also forward, reply or delete any of this."
       },
       {
-        "text": "Any email you would like me to read out?",
-        "speak": "Any email you would like me to read out?"
+        "text": "Any email you would like me to read out? You can also forward, reply or delete any of this.",
+        "speak": "Any email you would like me to read out? You can also forward, reply or delete any of this."
       },
       {
-        "text": "Which email do you want more details on?",
-        "speak": "Which email do you want more details on?"
+        "text": "Which email do you want more details on? You can also forward, reply or delete any of this.",
+        "speak": "Which email do you want more details on? You can also forward, reply or delete any of this."
       },
       {
-        "text": "Which one would you like to know the content of?",
-        "speak": "Which one would you like to know the content of?"
+        "text": "Which one would you like to know the content of? You can also forward, reply or delete any of this.",
+        "speak": "Which one would you like to know the content of? You can also forward, reply or delete any of this."
       },
       {
-        "text": "Which email do you want me to read out?",
-        "speak": "Which email do you want me to read out?"
+        "text": "Which email do you want me to read out? You can also forward, reply or delete any of this.",
+        "speak": "Which email do you want me to read out? You can also forward, reply or delete any of this."
       },
       {
-        "text": "Which one do you want to hear about?",
-        "speak": "Which one do you want to hear about?"
+        "text": "Which one do you want to hear about? You can also forward, reply or delete any of this.",
+        "speak": "Which one do you want to hear about? You can also forward, reply or delete any of this."
       },
       {
-        "text": "Which email do you want me to give you the details?",
-        "speak": "Which email do you want me to give you the details?"
+        "text": "Which email do you want me to give you the details? You can also forward, reply or delete any of this.",
+        "speak": "Which email do you want me to give you the details? You can also forward, reply or delete any of this."
       },
       {
-        "text": "Which email should I read to you?",
-        "speak": "Which email should I read to you?"
+        "text": "Which email should I read to you? You can also forward, reply or delete any of this.",
+        "speak": "Which email should I read to you? You can also forward, reply or delete any of this."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ReadOutOnlyOnePrompt": {
+    "replies": [
+      {
+        "text": "Do you want to hear this one? You can also forward, reply or delete any of this.",
+        "speak": "Do you want to hear this one? You can also forward, reply or delete any of this."
       }
     ],
     "inputHint": "expectingInput"
@@ -69,8 +65,8 @@
   "ReadOutMorePrompt": {
     "replies": [
       {
-        "text": "Do you want to hear more? Which one do you want to hear?",
-        "speak": "Do you want to hear more? Which one do you want to hear?"
+        "text": "Do you want to hear more? You can also read, forward, reply or delete any of this.",
+        "speak": "Do you want to hear more? You can also read, forward, reply or delete any of this."
       }
     ],
     "inputHint": "expectingInput"

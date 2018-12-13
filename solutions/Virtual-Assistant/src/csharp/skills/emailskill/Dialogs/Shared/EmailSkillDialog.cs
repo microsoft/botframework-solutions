@@ -285,6 +285,12 @@ namespace EmailSkill
         {
             try
             {
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                if (state.MessageList.Count == 0)
+                {
+                    return await sc.EndDialogAsync(true);
+                }
+
                 return await sc.PromptAsync(
                     Actions.Prompt,
                     new PromptOptions() { Prompt = sc.Context.Activity.CreateReply(EmailSharedResponses.NoFocusMessage, ResponseBuilder) });
@@ -338,6 +344,28 @@ namespace EmailSkill
                 if (state.Message == null || state.Message.Count() == 0)
                 {
                     return await sc.BeginDialogAsync(Actions.UpdateSelectMessage, skillOptions);
+                }
+
+                return await sc.NextAsync();
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        protected async Task<DialogTurnResult> AfterCollectSelectedEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+
+                // End the dialog when there is no focused email
+                if (state.Message.Count == 0)
+                {
+                    return await sc.EndDialogAsync(true);
                 }
 
                 return await sc.NextAsync();
@@ -730,10 +758,6 @@ namespace EmailSkill
                     }
 
                     options.Choices.Add(choice);
-                }
-                else if (skip >= ConfigData.GetInstance().MaxDisplaySize)
-                {
-                    return options;
                 }
                 else
                 {

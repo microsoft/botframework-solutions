@@ -32,9 +32,13 @@ namespace EmailSkillTest.Flow.Utterances
                 subject: new string[] { ContextStrings.TestSubjcet },
                 message: new string[] { ContextStrings.TestContent }));
             this.Add(SendEmailToMultiRecipient, CreateIntent(
-                SendEmailToRecipientWithSubjectAndContext,
+                SendEmailToMultiRecipient,
                 intent: Email.Intent.SendEmail,
                 contactName: new string[] { ContextStrings.TestRecipient, ContextStrings.TestRecipientWithDup }));
+            this.Add(SendEmailToDupRecipient, CreateIntent(
+                SendEmailToDupRecipient,
+                intent: Email.Intent.SendEmail,
+                contactName: new string[] { ContextStrings.TestRecipientWithDup }));
         }
 
         public static string SendEmails { get; } = "Send Emails";
@@ -50,5 +54,7 @@ namespace EmailSkillTest.Flow.Utterances
         public static string SendEmailToRecipientWithSubjectAndContext { get; } = "Send email to " + ContextStrings.TestRecipient + " title is " + ContextStrings.TestSubjcet + " saying that " + ContextStrings.TestContent;
 
         public static string SendEmailToMultiRecipient { get; } = "Send email to " + ContextStrings.TestRecipient + " and " + ContextStrings.TestRecipientWithDup;
+
+        public static string SendEmailToDupRecipient { get; } = "Send email to " + ContextStrings.TestRecipientWithDup;
     }
 }

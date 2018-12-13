@@ -63,6 +63,7 @@ namespace EmailSkill
 
             var reshowEmail = new WaterfallStep[]
             {
+                PagingStep,
                 ShowEmailsWithoutEnd,
                 PromptToHandleMore,
                 HandleMore,
@@ -125,7 +126,16 @@ namespace EmailSkill
         {
             try
             {
-                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(ShowEmailResponses.ReadOutPrompt) });
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+
+                if (state.MessageList.Count == 1)
+                {
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(ShowEmailResponses.ReadOutOnlyOnePrompt) });
+                }
+                else
+                {
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(ShowEmailResponses.ReadOutPrompt) });
+                }
             }
             catch (Exception ex)
             {
@@ -279,7 +289,7 @@ namespace EmailSkill
 
                 if (IsReadMoreIntent(topGeneralIntent, sc.Context.Activity.Text))
                 {
-                    return await sc.BeginDialogAsync(Actions.Show, skillOptions);
+                    return await sc.BeginDialogAsync(Actions.Reshow, skillOptions);
                 }
                 else if (topIntent == Email.Intent.Delete)
                 {
@@ -308,7 +318,7 @@ namespace EmailSkill
                 }
                 else if (topIntent == Email.Intent.None && (topGeneralIntent == General.Intent.Previous || topGeneralIntent == General.Intent.Next))
                 {
-                    return await sc.BeginDialogAsync(Actions.Show, skillOptions);
+                    return await sc.BeginDialogAsync(Actions.Reshow, skillOptions);
                 }
                 else
                 {

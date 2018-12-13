@@ -12,8 +12,10 @@ namespace EmailSkillTest.Flow.Utterances
         {
             this.Add(NextPage, CreateIntent(Intent.Next));
             this.Add(PreviousPage, CreateIntent(Intent.Previous));
+            this.Add(ReadMore, CreateIntent(Intent.ReadMore));
             this.Add(Yes, CreateIntent(Intent.None));
             this.Add(No, CreateIntent(Intent.None));
+            this.Add(Cancel, CreateIntent(Intent.Cancel));
         }
 
         public static double TopIntentScore { get; } = 0.9;
@@ -21,6 +23,10 @@ namespace EmailSkillTest.Flow.Utterances
         public static string NextPage { get; } = "Next page";
 
         public static string PreviousPage { get; } = "Previous page";
+
+        public static string ReadMore { get; } = "Read more";
+
+        public static string Cancel { get; } = "Cancel";
 
         public static string Yes { get; } = "Yes";
 
