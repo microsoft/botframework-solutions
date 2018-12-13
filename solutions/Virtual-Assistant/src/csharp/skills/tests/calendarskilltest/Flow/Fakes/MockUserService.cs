@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using CalendarSkill;
+using CalendarSkill.Extensions;
 using Microsoft.Graph;
 
 namespace CalendarSkillTest.Flow.Fakes
@@ -28,15 +29,23 @@ namespace CalendarSkillTest.Flow.Fakes
         public async Task<List<PersonModel>> GetPeopleAsync(string name)
         {
             List<PersonModel> items = new List<PersonModel>();
+            foreach (Person people in this.People)
+            {
+                items.Add(new PersonModel(people));
+            }
+
             return await Task.FromResult(items);
-            //return await Task.FromResult(this.People);
         }
 
         public async Task<List<PersonModel>> GetUserAsync(string name)
         {
             List<PersonModel> items = new List<PersonModel>();
+            foreach (User user in this.Users)
+            {
+                items.Add(new PersonModel(user.ToPerson()));
+            }
+
             return await Task.FromResult(items);
-            //return await Task.FromResult(this.Users);
         }
 
         public static List<Person> FakeDefaultPeople()
