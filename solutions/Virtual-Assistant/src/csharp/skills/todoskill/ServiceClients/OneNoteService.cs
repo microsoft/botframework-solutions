@@ -334,7 +334,7 @@ namespace ToDoSkill
         private async Task<dynamic> ExecuteContentFetchAsync(string url)
         {
             var result = await httpClient.GetAsync(url);
-            dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
+            var responseContent = await result.Content.ReadAsStringAsync();
             if (result.IsSuccessStatusCode)
             {
                 return responseContent;
