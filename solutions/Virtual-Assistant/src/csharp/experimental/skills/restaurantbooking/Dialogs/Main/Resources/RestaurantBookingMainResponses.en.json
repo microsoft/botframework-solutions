@@ -2,23 +2,24 @@
   "WelcomeMessage": {
     "replies": [
       {
-        "text": "Welcome to your new skill!",
-        "speak": "Welcome to your new skill!"
+        "text": "Welcome to the experimental Restaurant Booking skill",
+        "speak": "Welcome to the experimental Restaurant Booking skill"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "HelpMessage": {
     "replies": [
       {
-        "text": "Use this response to let user know what your skill can do.",
-        "speak": "Use this response to let user know what your skill can do."
+        "text": "I can help you with booking a table!",
+        "speak": "I can help you with booking a table."
       }
     ],
     "suggestedActions": [
-      "Sample suggested action"
+      "Book an italian restaurant tomorrow at 7pm",
+      "I'd like schnitzel"
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "acceptingInput"
   },
   "GreetingMessage": {
     "replies": [

@@ -1,17 +1,17 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using Microsoft.Bot.Solutions.Dialogs;
+using Newtonsoft.Json;
+
 namespace RestaurantBooking.Dialogs.Main.Resources
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
-    using System.Runtime.CompilerServices;
-    using Microsoft.Bot.Solutions.Dialogs;
-    using Newtonsoft.Json;
-
     /// <summary>
     /// Calendar bot responses class.
     /// </summary>

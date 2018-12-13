@@ -14,8 +14,6 @@ namespace RestaurantBooking
         {
         }
 
-        public Reservation ReservationResult { get; set; }
-
         public RecognizerResult LuisResult { get; set; }
 
         public ReservationBooking Booking { get; set; }

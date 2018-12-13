@@ -85,3 +85,25 @@ az bot publish --name "SkillTemplate" --resource-group "SkillTemplate"
 
 ## Next Steps
 Find more documentation for enabling more scenarios and further customization [here](http://aka.ms/ent_docs).
+
+
+##
+
+ {
+      "type": "skill",
+      "id": "pointOfInterestSkill",
+      "name": "pointOfInterestSkill",
+      "assembly": "PointOfInterestSkill.PointOfInterestSkill, PointOfInterestSkill, Version=1.0.0.0, Culture=neutral",
+      "dispatchIntent": "l_PointOfInterest",
+      "luisServiceIds": [
+        "pointofinterest",
+        "general"
+      ],
+      "parameters": [
+        "IPA.Location",
+        "IPA.Timezone"
+      ],
+      "configuration": {
+        "AzureMapsKey": ""
+      }
+    }

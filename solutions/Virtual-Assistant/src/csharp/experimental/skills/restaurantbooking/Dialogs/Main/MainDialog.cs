@@ -59,7 +59,7 @@ namespace RestaurantBooking
             var state = await _stateAccessor.GetAsync(dc.Context, () => new RestaurantBookingState());
 
             // If dispatch result is general luis model
-            _services.LuisServices.TryGetValue("restaurantreservation", out var luisService);
+            _services.LocaleConfigurations["en"].LuisServices.TryGetValue("restaurantreservation", out var luisService);
 
             if (luisService == null)
             {
@@ -164,14 +164,12 @@ namespace RestaurantBooking
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
                 // Update state with luis result and entities
-                var skillLuisResult = await _services.LuisServices["restaurantreservation"].RecognizeAsync<Reservation>(dc.Context, cancellationToken);
-                var skillLuisResult2 = await _services.LuisServices["restaurantreservation"].RecognizeAsync(dc.Context, cancellationToken);
+                var skillLuisResult = await _services.LocaleConfigurations["en"].LuisServices["restaurantreservation"].RecognizeAsync(dc.Context, cancellationToken);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new RestaurantBookingState());
-                state.ReservationResult = skillLuisResult;
-                state.LuisResult = skillLuisResult2;
+                state.LuisResult = skillLuisResult;
 
                 // check luis intent
-                _services.LuisServices.TryGetValue("general", out var luisService);
+                _services.LocaleConfigurations["en"].LuisServices.TryGetValue("general", out var luisService);
 
                 if (luisService == null)
                 {

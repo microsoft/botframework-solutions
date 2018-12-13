@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -65,20 +63,28 @@ namespace RestaurantBooking
             _urlResolver = new UrlResolver(httpContext);
         }
 
+        /// <summary>
+        /// Initialise the Dialog.
+        /// </summary>
+        /// <param name="sc">Waterfall Step Context.</param>
+        /// <param name="cancellationToken">Cancellation Token.</param>
+        /// <returns>Dialog Turn Result.</returns>
         private async Task<DialogTurnResult> Init(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await Accessor.GetAsync(sc.Context);
             var luisResult = state.LuisResult;
 
+            // Populate the Reservation with information provided in the intial utterance
+            // Steps will then be skipped if information has been provided already
             var reservation = await CreateNewReservationInfo(sc.Context);
-
             UpdateReservationInfoFromEntities(reservation, luisResult);
 
             state.Booking = reservation;
 
+            // TODO - Future integration into VA and pass User profile information through as Parameter.
             var tokens = new StringDictionary
             {
-                { "UserName", "Darren" }
+                { "UserName", "Jane" }
             };
 
             await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(RestaurantBookingSharedResponses.BookRestaurantFlowStartMessage, ResponseBuilder, tokens));
@@ -86,16 +92,24 @@ namespace RestaurantBooking
             return await sc.NextAsync(sc.Values, cancellationToken);
         }
 
+        /// <summary>
+        /// Prompt for the Food type if not already provided on the initial utterance.
+        /// </summary>
+        /// <param name="sc">Waterfall Step Context.</param>
+        /// <param name="cancellationToken">Cancellation Token.</param>
+        /// <returns>Dialog Turn Result.</returns>
         private async Task<DialogTurnResult> AskForFoodType(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             var state = await Accessor.GetAsync(sc.Context);
-
             var reservation = state.Booking;
+
+            // If we already have a Cuisine provided we skip to next step
             if (reservation.Category != null)
             {
                 return await sc.NextAsync(sc.Values, cancellationToken);
             }
 
+            // Fixed test data provided at this time
             var foodTypes = SeedReservationSampleData
                 .GetListOfDefaultFoodTypes()
                 .Select(
@@ -114,6 +128,7 @@ namespace RestaurantBooking
 
             foodTypes.Add(new FoodTypeInfo { TypeName = BotStrings.CallConcierge, ImageUrl = _urlResolver.GetImageUrl(RestaurantImages.Concierge) });
 
+            // Create a card for each restaurant
             var cardsData = new List<TitleImageTextButtonCardData>();
             foodTypes.ForEach(ft => cardsData.Add(
                 new TitleImageTextButtonCardData
@@ -130,13 +145,19 @@ namespace RestaurantBooking
                 "Resources/Cards/TitleImageTextButton.json",
                 AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, tokens);
 
+            // Prompt for restaurant choice
             return await sc.PromptAsync(Actions.AskForFoodType, new PromptOptions { Prompt = reply }, cancellationToken);
         }
 
+        /// <summary>
+        /// Validate the Food Type when we have prmpted the user.
+        /// </summary>
+        /// <param name="prompt">Prompt Validator Context.</param>
+        /// <param name="cancellationToken">Cancellation Token.</param>
+        /// <returns>Dialog Turn Result.</returns>
         private async Task<bool> ValidateFoodType(PromptValidatorContext<string> prompt, CancellationToken cancellationToken)
         {
             var state = await Accessor.GetAsync(prompt.Context);
-
             var reservation = state.Booking;
             var foodTypes = state.Cuisine;
 
@@ -159,6 +180,13 @@ namespace RestaurantBooking
             return true;
         }
 
+        /// <summary>
+        /// If the user has an meeting in their calendar at a similar time then we prompt and pre-fill information (e.g. attendee count).
+        /// Could also pull out peoples names/email for notification.
+        /// </summary>
+        /// <param name="sc">Waterfall Step Context.</param>
+        /// <param name="cancellationToken">Cancellation Token.</param>
+        /// <returns>Dialog Turn Result.</returns>
         private async Task<DialogTurnResult> AskForMeetingConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             var state = await Accessor.GetAsync(sc.Context);
@@ -216,6 +244,12 @@ namespace RestaurantBooking
             return true;
         }
 
+        /// <summary>
+        /// Prompt for Date if not already provided.
+        /// </summary>
+        /// <param name="sc">Waterfall Step Context.</param>
+        /// <param name="cancellationToken">Cancellation Token.</param>
+        /// <returns>Dialog Turn Result.</returns>
         private async Task<DialogTurnResult> AskForDate(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             var state = await Accessor.GetAsync(sc.Context);
@@ -260,6 +294,12 @@ namespace RestaurantBooking
             return true;
         }
 
+        /// <summary>
+        /// Prompt for Time if not already provided.
+        /// </summary>
+        /// <param name="sc">Waterfall Step Context.</param>
+        /// <param name="cancellationToken">Cancellation Token.</param>
+        /// <returns>Dialog Turn Result.</returns>
         private async Task<DialogTurnResult> AskForTime(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             var state = await Accessor.GetAsync(sc.Context);
@@ -304,6 +344,12 @@ namespace RestaurantBooking
             await context.SendActivityAsync(reply);
         }
 
+        /// <summary>
+        /// Prompt for Attendee Count if not already provided.
+        /// </summary>
+        /// <param name="sc">Waterfall Step Context.</param>
+        /// <param name="cancellationToken">Cancellation Token.</param>
+        /// <returns>Dialog Turn Result.</returns>
         private async Task<DialogTurnResult> AskForAttendeeCount(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             var state = await Accessor.GetAsync(sc.Context);
@@ -347,6 +393,12 @@ namespace RestaurantBooking
             return true;
         }
 
+        /// <summary>
+        /// Confirm the selection before moving on to Restaurant choice.
+        /// </summary>
+        /// <param name="sc">Waterfall Step Context.</param>
+        /// <param name="cancellationToken">Cancellation Token.</param>
+        /// <returns>Dialog Turn Result.</returns>
         private async Task<DialogTurnResult> ConfirmSelectionBeforeBooking(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             var state = await Accessor.GetAsync(sc.Context);
@@ -406,6 +458,12 @@ namespace RestaurantBooking
             return true;
         }
 
+        /// <summary>
+        /// Prompt for Restaurant to book.
+        /// </summary>
+        /// <param name="sc">Waterfall Step Context.</param>
+        /// <param name="cancellationToken">Cancellation Token.</param>
+        /// <returns>Dialog Turn Result.</returns>
         private async Task<DialogTurnResult> AskForRestaurant(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             var state = await Accessor.GetAsync(sc.Context);
@@ -483,19 +541,23 @@ namespace RestaurantBooking
             return true;
         }
 
+        /// <summary>
+        /// Make the reservation.
+        /// </summary>
+        /// <param name="sc">Waterfall Step Context.</param>
+        /// <param name="cancellationToken">Cancellation Token.</param>
+        /// <returns>Dialog Turn Result.</returns>
         private async Task<DialogTurnResult> ProcessReservationAsync(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             var state = await Accessor.GetAsync(sc.Context);
             var reservation = state.Booking;
 
-            // Process reservation request here.
+            // TODO Process reservation request here.
             return await sc.EndDialogAsync(cancellationToken: cancellationToken);
         }
 
         private string BotImageForFoodType(string type)
         {
-            // TODO (gmusa 20180523): As a part of a future refactor of Common,
-            // move these 'types' into typed references instead of magic string matching
             string foodTypeImage;
 
             switch (type.ToLower())
@@ -583,7 +645,7 @@ namespace RestaurantBooking
         {
             var restaurantReservation = new ReservationBooking
             {
-                // User = await _ipaServicesProxy.GetUser(channelData.BmwId)
+                // Default initialisation of reservation goes here
             };
             return restaurantReservation;
         }
