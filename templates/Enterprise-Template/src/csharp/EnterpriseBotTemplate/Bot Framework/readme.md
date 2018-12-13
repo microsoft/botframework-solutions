@@ -90,7 +90,7 @@ az bot publish --name "$safeprojectname$" --resource-group "$safeprojectname$"
 ```
 
 ## Analytics
-Now that your bot is collecting telemetry, you can use a sample PowerBI dashboard to view [advanced conversational analytics](https://github.com/Microsoft/AI/tree/master/solutions/analytics).
+The Enterprise Template is configured to collect telemetry into Application Insights. This can be imported into a Power BI dashboard to view [advanced conversational analytics](https://aka.ms/botPowerBiTemplate).
 
 ## Next Steps
 Find [additional documentation](http://aka.ms/ent_docs) for enabling more scenarios and further customization.
