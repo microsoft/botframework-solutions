@@ -170,8 +170,8 @@
   "BookRestaurantFlowStartMessage": {
     "replies": [
       {
-        "text": "Sure thing {UserName}, I can help you getting a reservation.",
-        "speak": "Sure thing {UserName}, I can help you getting a reservation."
+        "text": "Sure thing {UserName}, I can help you with making reservation.",
+        "speak": "Sure thing {UserName}, I can help you with making a reservation."
       }
     ],
     "inputHint": "ignoringInput"
@@ -179,12 +179,11 @@
   "BookRestaurantFoodSelectionPrompt": {
     "replies": [
       {
-        "text": "What type of restaurant would you like me to reserve for you?",
-        "speak": "What type of restaurant would you like me to reserve for you? {FoodTypeList}. You can also say concierge to talk to an agent."
+        "text": "What type of restaurant are you interested in?",
+        "speak": "What type of restaurant are you interested in? {FoodTypeList}"
       }
     ],
     "suggestedActions": [
-      "Concierge",
       "Cancel"
     ],
     "inputHint": "expectingInput"
@@ -201,8 +200,8 @@
   "BookRestaurantAttendeePrompt": {
     "replies": [
       {
-        "text": "For how many people?",
-        "speak": "For how many people?"
+        "text": "How many people?",
+        "speak": "How many people?"
       }
     ],
     "inputHint": "expectingInput"
@@ -219,8 +218,8 @@
   "BookRestaurantDatePrompt": {
     "replies": [
       {
-        "text": "What day would you want your reservation?",
-        "speak": "What day would you want your reservation?"
+        "text": "What day would you like for your reservation?",
+        "speak": "What day would you like for your reservation?"
       }
     ],
     "inputHint": "expectingInput"
@@ -278,11 +277,10 @@
     "replies": [
       {
         "text": "I have found {RestaurantCount} nice options.",
-        "speak": "I have found {RestaurantCount} nice options. {RestaurantList}. You can also say concierge to talk to an agent."
+        "speak": "I have found {RestaurantCount} nice options. {RestaurantList}."
       }
     ],
     "suggestedActions": [
-      "Concierge",
       "Cancel"
     ],
     "inputHint": "expectingInput"

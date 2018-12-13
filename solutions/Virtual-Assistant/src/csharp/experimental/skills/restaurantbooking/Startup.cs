@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 using System;
@@ -33,6 +33,9 @@ namespace RestaurantBooking
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
+            if (env.IsDevelopment())
+                builder.AddUserSecrets<Startup>();
+
             Configuration = builder.Build();
         }
 
@@ -51,7 +54,8 @@ namespace RestaurantBooking
             var configuration = Configuration.GetSection("Configuration")?.Get<Dictionary<string, object>>();
 
             var supportedProviders = Configuration.GetSection("SupportedProviders")?.Get<string[]>();
-            ISkillConfiguration connectedServices = new SkillConfiguration(botConfig, supportedProviders, parameters, configuration);
+            var languageModels = Configuration.GetSection("languageModels").Get<Dictionary<string, Dictionary<string, string>>>();
+            ISkillConfiguration connectedServices = new SkillConfiguration(botConfig, languageModels, supportedProviders, parameters, configuration);
             services.AddSingleton(sp => connectedServices);
 
             // Initialize Bot State

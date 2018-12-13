@@ -43,8 +43,8 @@
     },
     {
       "type": "luis",
-      "id": "restaurantreservation",
-      "name": "restaurantreservation"
+      "id": "reservation",
+      "name": "reservation"
     }
   ]
 }
