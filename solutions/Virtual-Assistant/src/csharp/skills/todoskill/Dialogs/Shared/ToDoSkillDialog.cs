@@ -18,7 +18,7 @@ using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using Newtonsoft.Json.Linq;
 using ToDoSkill.Dialogs.Shared.Resources;
-using static ToDoSkill.ListTypes;
+using ToDoSkill.Dialogs.ShowToDo.Resources;
 
 namespace ToDoSkill
 {
@@ -90,10 +90,6 @@ namespace ToDoSkill
                     // Wait for the tokens/response event
                     return await sc.PromptAsync(SkillModeAuth, new PromptOptions());
                 }
-                else if (sc.Context.Activity.ChannelId == "test")
-                {
-                    return await sc.NextAsync();
-                }
                 else
                 {
                     return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = sc.Context.Activity.CreateReply(ToDoSharedResponses.NoAuth, ResponseBuilder) });
@@ -156,6 +152,7 @@ namespace ToDoSkill
             if (topIntent == ToDo.Intent.ShowToDo)
             {
                 state.ShowTaskPageIndex = 0;
+                state.ReadTaskIndex = 0;
                 state.Tasks = new List<TaskItem>();
                 state.AllTasks = new List<TaskItem>();
                 state.ListType = null;
@@ -163,6 +160,7 @@ namespace ToDoSkill
             }
             else if (generalTopIntent == General.Intent.Next)
             {
+                state.ReadTaskIndex = 0;
                 if ((state.ShowTaskPageIndex + 1) * state.PageSize < state.AllTasks.Count)
                 {
                     state.ShowTaskPageIndex++;
@@ -170,7 +168,24 @@ namespace ToDoSkill
             }
             else if (generalTopIntent == General.Intent.Previous && state.ShowTaskPageIndex > 0)
             {
+                state.ReadTaskIndex = 0;
                 state.ShowTaskPageIndex--;
+            }
+            else if (generalTopIntent == General.Intent.ReadMore)
+            {
+                if ((state.ReadTaskIndex + 1) * state.ReadSize < state.Tasks.Count)
+                {
+                    state.ReadTaskIndex++;
+                }
+                else
+                {
+                    // Go to next page if having more pages.
+                    state.ReadTaskIndex = 0;
+                    if ((state.ShowTaskPageIndex + 1) * state.PageSize < state.AllTasks.Count)
+                    {
+                        state.ShowTaskPageIndex++;
+                    }
+                }
             }
             else if (topIntent == ToDo.Intent.AddToDo)
             {
@@ -190,7 +205,6 @@ namespace ToDoSkill
                 state.TaskContentPattern = null;
                 state.TaskContentML = null;
                 state.TaskContent = null;
-                state.ListType = null;
                 await DigestToDoLuisResult(sc);
             }
 
@@ -200,11 +214,20 @@ namespace ToDoSkill
         protected async Task<DialogTurnResult> InitAllTasks(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await Accessor.GetAsync(sc.Context);
-            state.ListType = state.ListType ?? ListType.ToDo.ToString();
+            state.ListType = state.ListType ?? ToDoStrings.ToDo;
 
             if (!state.ListTypeIds.ContainsKey(state.ListType))
             {
                 await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
+                var service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
+                state.AllTasks = await service.GetTasksAsync(state.ListType);
+                state.ShowTaskPageIndex = 0;
+                var rangeCount = Math.Min(state.PageSize, state.AllTasks.Count);
+                state.Tasks = state.AllTasks.GetRange(0, rangeCount);
+            }
+            else if (state.ListType != state.LastListType)
+            {
+                // LastListType is used to switch between list types in DeleteToDoItemDialog and MarkToDoItemDialog.
                 var service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
                 state.AllTasks = await service.GetTasksAsync(state.ListType);
                 state.ShowTaskPageIndex = 0;
@@ -353,7 +376,8 @@ namespace ToDoSkill
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                state.ListType = state.ListType ?? ListType.ToDo.ToString();
+                state.ListType = state.ListType ?? ToDoStrings.ToDo;
+                state.LastListType = state.ListType;
                 if (!state.ListTypeIds.ContainsKey(state.ListType))
                 {
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
@@ -365,7 +389,7 @@ namespace ToDoSkill
                 state.ShowTaskPageIndex = 0;
                 var rangeCount = Math.Min(state.PageSize, state.AllTasks.Count);
                 state.Tasks = state.AllTasks.GetRange(0, rangeCount);
-                var toDoListAttachment = ToAdaptiveCardAttachmentForOtherFlows(
+                var toDoListAttachment = ToAdaptiveCardForOtherFlows(
                     state.Tasks,
                     state.AllTasks.Count,
                     state.TaskContent,
@@ -424,10 +448,21 @@ namespace ToDoSkill
                     state.MarkOrDeleteAllTasksFlag = true;
                 }
 
-                if (entities.ordinal != null)
+                if (entities.ordinal != null || entities.number != null)
                 {
-                    var index = (int)entities.ordinal[0];
-                    if (index > 0 && index <= 5)
+                    var indexOfOrdinal = entities.ordinal == null ? 0 : (int)entities.ordinal[0];
+                    var indexOfNumber = entities.number == null ? 0 : (int)entities.number[0];
+                    int index = 0;
+                    if (indexOfOrdinal > 0 && indexOfOrdinal <= state.PageSize)
+                    {
+                        index = indexOfOrdinal;
+                    }
+                    else if (indexOfNumber > 0 && indexOfNumber <= state.PageSize)
+                    {
+                        index = indexOfNumber;
+                    }
+
+                    if (index > 0 && index <= state.PageSize)
                     {
                         if (state.TaskIndexes.Count > 0)
                         {
@@ -442,17 +477,17 @@ namespace ToDoSkill
 
                 if (entities.ListType != null)
                 {
-                    if (entities.ListType[0].Equals(ListType.Grocery.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                    if (entities.ListType[0].Equals(ToDoStrings.Grocery, StringComparison.InvariantCultureIgnoreCase))
                     {
-                        state.ListType = ListType.Grocery.ToString();
+                        state.ListType = ToDoStrings.Grocery;
                     }
-                    else if (entities.ListType[0].Equals(ListType.Shopping.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                    else if (entities.ListType[0].Equals(ToDoStrings.Shopping, StringComparison.InvariantCultureIgnoreCase))
                     {
-                        state.ListType = ListType.Shopping.ToString();
+                        state.ListType = ToDoStrings.Shopping;
                     }
                     else
                     {
-                        state.ListType = ListType.ToDo.ToString();
+                        state.ListType = ToDoStrings.ToDo;
                     }
                 }
 
@@ -499,55 +534,55 @@ namespace ToDoSkill
             }
         }
 
-        protected Microsoft.Bot.Schema.Attachment ToAdaptiveCardAttachmentForShowToDos(
+        protected Attachment ToAdaptiveCardForShowToDos(
            List<TaskItem> todos,
-           int allTaskCount,
-           BotResponse botResponse1,
-           BotResponse botResponse2)
+           int toBeReadTasksCount,
+           int allTasksCount)
         {
             var toDoCard = new AdaptiveCard();
-            var speakText = Format(botResponse1.Reply.Speak, new StringDictionary() { { "taskCount", allTaskCount.ToString() } });
-            if (botResponse2 != null)
-            {
-                speakText += Format(botResponse2.Reply.Speak, new StringDictionary() { { "taskCount", todos.Count.ToString() } });
-            }
-
-            var showText = Format(botResponse1.Reply.Text, new StringDictionary() { { "taskCount", allTaskCount.ToString() } });
+            var speakText = Format(ToDoSharedResponses.ShowToDoTasks.Reply.Speak, new StringDictionary() { { "taskCount", allTasksCount.ToString() } })
+                + Format(ShowToDoResponses.FirstToDoTasks.Reply.Speak, new StringDictionary() { { "taskCount", toBeReadTasksCount.ToString() } });
             toDoCard.Speak = speakText;
+
             var body = new List<AdaptiveElement>();
+            var showText = Format(ToDoSharedResponses.ShowToDoTasks.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() } });
             var textBlock = new AdaptiveTextBlock
             {
                 Text = showText,
             };
             body.Add(textBlock);
-            var choiceSet = new AdaptiveChoiceSetInput
-            {
-                IsMultiSelect = true,
-            };
-            var value = Guid.NewGuid().ToString() + ",";
+
+            var container = new AdaptiveContainer();
             var index = 0;
             foreach (var todo in todos)
             {
-                var choice = new AdaptiveChoice
-                {
-                    Title = todo.Topic,
-                    Value = todo.Id,
-                };
-                choiceSet.Choices.Add(choice);
-                if (todo.IsCompleted)
-                {
-                    value += todo.Id + ",";
-                }
+                var columnSet = new AdaptiveColumnSet();
 
-                toDoCard.Speak += (++index) + "." + todo.Topic + " ";
+                var icon = new AdaptiveImage();
+                icon.UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource;
+                var iconColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                iconColumn.Items.Add(icon);
+                columnSet.Columns.Add(iconColumn);
+
+                var content = new AdaptiveTextBlock(todo.Topic);
+                var contentColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                contentColumn.Items.Add(content);
+                columnSet.Columns.Add(contentColumn);
+
+                container.Items.Add(columnSet);
+
+                if (index < toBeReadTasksCount)
+                {
+                    toDoCard.Speak += (++index) + " " + todo.Topic + " ";
+                }
             }
 
-            value = value.Remove(value.Length - 1);
-            choiceSet.Value = value;
-            body.Add(choiceSet);
+            body.Add(container);
             toDoCard.Body = body;
 
-            var attachment = new Microsoft.Bot.Schema.Attachment()
+            var attachment = new Attachment()
             {
                 ContentType = AdaptiveCard.ContentType,
                 Content = toDoCard,
@@ -555,7 +590,171 @@ namespace ToDoSkill
             return attachment;
         }
 
-        protected Microsoft.Bot.Schema.Attachment ToAdaptiveCardAttachmentForOtherFlows(
+        protected Attachment ToAdaptiveCardForReadMore(
+           List<TaskItem> todos,
+           int startIndexOfTasksToBeRead,
+           int toBeReadTasksCount,
+           int allTasksCount)
+        {
+            var toDoCard = new AdaptiveCard();
+            var body = new List<AdaptiveElement>();
+            var showText = Format(ToDoSharedResponses.ShowToDoTasks.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() } });
+            var textBlock = new AdaptiveTextBlock
+            {
+                Text = showText,
+            };
+            body.Add(textBlock);
+
+            var container = new AdaptiveContainer();
+            var index = 0;
+            foreach (var todo in todos)
+            {
+                var columnSet = new AdaptiveColumnSet();
+
+                var icon = new AdaptiveImage();
+                icon.UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource;
+                var iconColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                iconColumn.Items.Add(icon);
+                columnSet.Columns.Add(iconColumn);
+
+                var content = new AdaptiveTextBlock(todo.Topic);
+                var contentColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                contentColumn.Items.Add(content);
+                columnSet.Columns.Add(contentColumn);
+
+                container.Items.Add(columnSet);
+
+                index++;
+                if (index > startIndexOfTasksToBeRead && index <= toBeReadTasksCount + startIndexOfTasksToBeRead)
+                {
+                    toDoCard.Speak += index + " " + todo.Topic + " ";
+                }
+            }
+
+            body.Add(container);
+            toDoCard.Body = body;
+
+            var attachment = new Attachment()
+            {
+                ContentType = AdaptiveCard.ContentType,
+                Content = toDoCard,
+            };
+            return attachment;
+        }
+
+        protected Attachment ToAdaptiveCardForNextPage(
+           List<TaskItem> todos,
+           int toBeReadTasksCount)
+        {
+            var toDoCard = new AdaptiveCard();
+            var speakText = Format(ShowToDoResponses.ShowNextToDoTasks.Reply.Speak, new StringDictionary() { })
+                + Format(ShowToDoResponses.FirstToDoTasks.Reply.Speak, new StringDictionary() { { "taskCount", toBeReadTasksCount.ToString() } });
+            toDoCard.Speak = speakText;
+
+            var body = new List<AdaptiveElement>();
+            var showText = Format(ShowToDoResponses.ShowNextToDoTasks.Reply.Text, new StringDictionary() { });
+            var textBlock = new AdaptiveTextBlock
+            {
+                Text = showText,
+            };
+            body.Add(textBlock);
+
+            var container = new AdaptiveContainer();
+            var index = 0;
+            foreach (var todo in todos)
+            {
+                var columnSet = new AdaptiveColumnSet();
+
+                var icon = new AdaptiveImage();
+                icon.UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource;
+                var iconColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                iconColumn.Items.Add(icon);
+                columnSet.Columns.Add(iconColumn);
+
+                var content = new AdaptiveTextBlock(todo.Topic);
+                var contentColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                contentColumn.Items.Add(content);
+                columnSet.Columns.Add(contentColumn);
+
+                container.Items.Add(columnSet);
+
+                if (index < toBeReadTasksCount)
+                {
+                    toDoCard.Speak += (++index) + " " + todo.Topic + " ";
+                }
+            }
+
+            body.Add(container);
+            toDoCard.Body = body;
+
+            var attachment = new Attachment()
+            {
+                ContentType = AdaptiveCard.ContentType,
+                Content = toDoCard,
+            };
+            return attachment;
+        }
+
+        protected Attachment ToAdaptiveCardForPreviousPage(
+           List<TaskItem> todos,
+           int toBeReadTasksCount)
+        {
+            var toDoCard = new AdaptiveCard();
+            var speakText = Format(ShowToDoResponses.ShowPreviousToDoTasks.Reply.Speak, new StringDictionary() { })
+                + Format(ShowToDoResponses.FirstToDoTasks.Reply.Speak, new StringDictionary() { { "taskCount", toBeReadTasksCount.ToString() } });
+            toDoCard.Speak = speakText;
+
+            var body = new List<AdaptiveElement>();
+            var showText = Format(ShowToDoResponses.ShowPreviousToDoTasks.Reply.Text, new StringDictionary() { });
+            var textBlock = new AdaptiveTextBlock
+            {
+                Text = showText,
+            };
+            body.Add(textBlock);
+
+            var container = new AdaptiveContainer();
+            var index = 0;
+            foreach (var todo in todos)
+            {
+                var columnSet = new AdaptiveColumnSet();
+
+                var icon = new AdaptiveImage();
+                icon.UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource;
+                var iconColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                iconColumn.Items.Add(icon);
+                columnSet.Columns.Add(iconColumn);
+
+                var content = new AdaptiveTextBlock(todo.Topic);
+                var contentColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                contentColumn.Items.Add(content);
+                columnSet.Columns.Add(contentColumn);
+
+                container.Items.Add(columnSet);
+
+                if (index < toBeReadTasksCount)
+                {
+                    toDoCard.Speak += (++index) + " " + todo.Topic + " ";
+                }
+            }
+
+            body.Add(container);
+            toDoCard.Body = body;
+
+            var attachment = new Attachment()
+            {
+                ContentType = AdaptiveCard.ContentType,
+                Content = toDoCard,
+            };
+            return attachment;
+        }
+
+        protected Attachment ToAdaptiveCardForOtherFlows(
             List<TaskItem> todos,
             int allTaskCount,
             string taskContent,
@@ -574,31 +773,32 @@ namespace ToDoSkill
                 Text = showText,
             };
             body.Add(textBlock);
-            var choiceSet = new AdaptiveChoiceSetInput
-            {
-                IsMultiSelect = true,
-            };
-            var value = Guid.NewGuid().ToString() + ",";
+
+            var container = new AdaptiveContainer();
             foreach (var todo in todos)
             {
-                var choice = new AdaptiveChoice
-                {
-                    Title = todo.Topic,
-                    Value = todo.Id,
-                };
-                choiceSet.Choices.Add(choice);
-                if (todo.IsCompleted)
-                {
-                    value += todo.Id + ",";
-                }
+                var columnSet = new AdaptiveColumnSet();
+
+                var icon = new AdaptiveImage();
+                icon.UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource;
+                var iconColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                iconColumn.Items.Add(icon);
+                columnSet.Columns.Add(iconColumn);
+
+                var content = new AdaptiveTextBlock(todo.Topic);
+                var contentColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                contentColumn.Items.Add(content);
+                columnSet.Columns.Add(contentColumn);
+
+                container.Items.Add(columnSet);
             }
 
-            value = value.Remove(value.Length - 1);
-            choiceSet.Value = value;
-            body.Add(choiceSet);
+            body.Add(container);
             toDoCard.Body = body;
 
-            var attachment = new Microsoft.Bot.Schema.Attachment()
+            var attachment = new Attachment()
             {
                 ContentType = AdaptiveCard.ContentType,
                 Content = toDoCard,
@@ -651,21 +851,21 @@ namespace ToDoSkill
 
         private void ExtractListTypeAndTaskContent(ToDoSkillState state)
         {
-            if (state.ListType == ListType.Grocery.ToString()
+            if (state.ListType == ToDoStrings.Grocery
                 || (state.HasShopVerb && !string.IsNullOrEmpty(state.FoodOfGrocery)))
             {
-                state.ListType = ListType.Grocery.ToString();
+                state.ListType = ToDoStrings.Grocery;
                 state.TaskContent = string.IsNullOrEmpty(state.ShopContent) ? state.TaskContentML ?? state.TaskContentPattern : state.ShopContent;
             }
-            else if (state.ListType == ListType.Shopping.ToString()
+            else if (state.ListType == ToDoStrings.Shopping
                 || (state.HasShopVerb && !string.IsNullOrEmpty(state.ShopContent)))
             {
-                state.ListType = ListType.Shopping.ToString();
+                state.ListType = ToDoStrings.Shopping;
                 state.TaskContent = string.IsNullOrEmpty(state.ShopContent) ? state.TaskContentML ?? state.TaskContentPattern : state.ShopContent;
             }
             else
             {
-                state.ListType = ListType.ToDo.ToString();
+                state.ListType = ToDoStrings.ToDo;
                 state.TaskContent = state.TaskContentML ?? state.TaskContentPattern;
             }
         }

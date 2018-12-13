@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -14,6 +15,7 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Middleware;
+using Microsoft.Bot.Solutions.Models.Proactive;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -46,8 +48,9 @@ namespace VirtualAssistant
             services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded."));
 
             // Initializes your bot service clients and adds a singleton that your Bot can access through dependency injection.
+            var languageModels = Configuration.GetSection("languageModels").Get<Dictionary<string, Dictionary<string, string>>>();
             var skills = Configuration.GetSection("skills").Get<List<SkillDefinition>>();
-            var connectedServices = new BotServices(botConfig, skills);
+            var connectedServices = new BotServices(botConfig, languageModels, skills);
             services.AddSingleton(sp => connectedServices);
 
             var defaultLocale = Configuration.GetSection("defaultLocale").Get<string>();
@@ -65,10 +68,12 @@ namespace VirtualAssistant
             var dataStore = new CosmosDbStorage(cosmosOptions);
             var userState = new UserState(dataStore);
             var conversationState = new ConversationState(dataStore);
+            var proactiveState = new ProactiveState(dataStore);
 
             services.AddSingleton(dataStore);
             services.AddSingleton(userState);
             services.AddSingleton(conversationState);
+            services.AddSingleton(proactiveState);
             services.AddSingleton(new BotStateSet(userState, conversationState));
 
             var environment = _isProduction ? "production" : "development";
@@ -95,7 +100,9 @@ namespace VirtualAssistant
                 // Catches any errors that occur during a conversation turn and logs them to AppInsights.
                 options.OnTurnError = async (context, exception) =>
                 {
-                    await context.SendActivityAsync("Sorry, it looks like something went wrong. Please try again.");
+                    CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
+                    var responseBuilder = new MainResponses();
+                    await responseBuilder.ReplyWith(context, MainResponses.ResponseIds.Error);
                     await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Virtual Assistant Error: {exception.Message} | {exception.StackTrace}"));
                     connectedServices.TelemetryClient.TrackException(exception);
                 };
@@ -109,9 +116,13 @@ namespace VirtualAssistant
 
                 // Typing Middleware (automatically shows typing when the bot is responding/working)
                 options.Middleware.Add(new ShowTypingMiddleware());
-                options.Middleware.Add(new SetLocaleMiddleware(defaultLocale ?? "en"));
+                options.Middleware.Add(new SetLocaleMiddleware(defaultLocale ?? "en-us"));
+                options.Middleware.Add(new TeamsAuthenticationMiddleware());
                 options.Middleware.Add(new EventDebuggerMiddleware());
                 options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
+
+                // TODO: uncomment the following line to enable auto save of proactive state
+                // options.Middleware.Add(new ProactiveStateMiddleware(proactiveState));
 
                 //// Translator is an optional component for scenarios when an Assistant needs to work beyond native language support
                 // var translatorKey = Configuration.GetValue<string>("translatorKey");

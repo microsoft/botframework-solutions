@@ -23,9 +23,7 @@ namespace CalendarSkillTest.API
         {
             EventModel newEvent = new EventModel(EventSource.Microsoft);
 
-            ICalendar mockCalendarService = new MockCalendarService("test token");
-            IServiceManager serviceManager = new ServiceManager(new SkillConfiguration());
-            ICalendar calendarService = serviceManager.InitCalendarService(mockCalendarService, EventSource.Microsoft);
+            ICalendar calendarService = new MockCalendarService("test token");
 
             await calendarService.CreateEvent(newEvent);
         }
@@ -33,9 +31,7 @@ namespace CalendarSkillTest.API
         [TestMethod]
         public async Task GetUpComingEventsTest()
         {
-            ICalendar mockCalendarService = new MockCalendarService("test token");
-            IServiceManager serviceManager = new ServiceManager(new SkillConfiguration());
-            ICalendar calendarService = serviceManager.InitCalendarService(mockCalendarService, EventSource.Microsoft);
+            ICalendar calendarService = new MockCalendarService("test token");
 
             await calendarService.GetUpcomingEvents();
         }
@@ -43,9 +39,7 @@ namespace CalendarSkillTest.API
         [TestMethod]
         public async Task GetEventsByTimeTest()
         {
-            ICalendar mockCalendarService = new MockCalendarService("test token");
-            IServiceManager serviceManager = new ServiceManager(new SkillConfiguration());
-            ICalendar calendarService = serviceManager.InitCalendarService(mockCalendarService, EventSource.Microsoft);
+            ICalendar calendarService = new MockCalendarService("test token");
 
             await calendarService.GetEventsByTime(DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc), DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc));
         }
@@ -53,9 +47,7 @@ namespace CalendarSkillTest.API
         [TestMethod]
         public async Task GetEventsByStartTimeTest()
         {
-            ICalendar mockCalendarService = new MockCalendarService("test token");
-            IServiceManager serviceManager = new ServiceManager(new SkillConfiguration());
-            ICalendar calendarService = serviceManager.InitCalendarService(mockCalendarService, EventSource.Microsoft);
+            ICalendar calendarService = new MockCalendarService("test token");
 
             await calendarService.GetEventsByStartTime(DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc));
         }
@@ -63,9 +55,7 @@ namespace CalendarSkillTest.API
         [TestMethod]
         public async Task GetEventsByTitle()
         {
-            ICalendar mockCalendarService = new MockCalendarService("test token");
-            IServiceManager serviceManager = new ServiceManager(new SkillConfiguration());
-            ICalendar calendarService = serviceManager.InitCalendarService(mockCalendarService, EventSource.Microsoft);
+            ICalendar calendarService = new MockCalendarService("test token");
 
             await calendarService.GetEventsByTitle("test");
         }
@@ -73,9 +63,7 @@ namespace CalendarSkillTest.API
         [TestMethod]
         public async Task DeleteEventsById()
         {
-            ICalendar mockCalendarService = new MockCalendarService("test token");
-            IServiceManager serviceManager = new ServiceManager(new SkillConfiguration());
-            ICalendar calendarService = serviceManager.InitCalendarService(mockCalendarService, EventSource.Microsoft);
+            ICalendar calendarService = new MockCalendarService("test token");
 
             await calendarService.DeleteEventById("test id");
         }
@@ -83,9 +71,7 @@ namespace CalendarSkillTest.API
         [TestMethod]
         public async Task UpdateEventsById()
         {
-            ICalendar mockCalendarService = new MockCalendarService("test token");
-            IServiceManager serviceManager = new ServiceManager(new SkillConfiguration());
-            ICalendar calendarService = serviceManager.InitCalendarService(mockCalendarService, EventSource.Microsoft);
+            ICalendar calendarService = new MockCalendarService("test token");
 
             EventModel eventModel = new EventModel(EventSource.Microsoft);
             eventModel.Id = "test";

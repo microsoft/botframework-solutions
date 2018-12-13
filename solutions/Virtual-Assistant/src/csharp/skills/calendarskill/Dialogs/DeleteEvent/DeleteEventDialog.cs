@@ -7,7 +7,6 @@ using CalendarSkill.Common;
 using CalendarSkill.Dialogs.DeleteEvent.Resources;
 using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
-using CalendarSkill.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
@@ -82,8 +81,7 @@ namespace CalendarSkill
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                var calendarAPI = GraphClientHelper.GetCalendarService(state.APIToken, state.EventSource, ServiceManager.GetGoogleClient());
-                var calendarService = ServiceManager.InitCalendarService(calendarAPI, state.EventSource);
+                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult)
                 {
@@ -117,8 +115,7 @@ namespace CalendarSkill
                     return await sc.EndDialogAsync(true);
                 }
 
-                var calendarAPI = GraphClientHelper.GetCalendarService(state.APIToken, state.EventSource, ServiceManager.GetGoogleClient());
-                var calendarService = ServiceManager.InitCalendarService(calendarAPI, state.EventSource);
+                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
                 if (state.StartDateTime == null)
                 {
                     return await sc.BeginDialogAsync(Actions.UpdateStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound));
@@ -141,7 +138,7 @@ namespace CalendarSkill
             {
                 var state = await Accessor.GetAsync(sc.Context);
 
-                if (state.StartDate != null || state.StartTime != null || state.Title != null)
+                if (state.StartDate.Any() || state.StartTime.Any() || state.Title != null)
                 {
                     return await sc.NextAsync();
                 }
@@ -175,14 +172,14 @@ namespace CalendarSkill
                 var state = await Accessor.GetAsync(sc.Context);
                 var events = new List<EventModel>();
 
-                var calendarAPI = GraphClientHelper.GetCalendarService(state.APIToken, state.EventSource, ServiceManager.GetGoogleClient());
-                var calendarService = ServiceManager.InitCalendarService(calendarAPI, state.EventSource);
+                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+                var searchByEntities = state.StartDate.Any() || state.StartTime.Any() || state.Title != null;
 
-                if (state.StartDate != null || state.StartTime != null)
+                if (state.StartDate.Any() || state.StartTime.Any())
                 {
                     events = await GetEventsByTime(state.StartDate, state.StartTime, state.EndDate, state.EndTime, state.GetUserTimeZone(), calendarService);
-                    state.StartDate = null;
-                    state.StartTime = null;
+                    state.StartDate = new List<DateTime>();
+                    state.StartTime = new List<DateTime>();
                 }
                 else if (state.Title != null)
                 {
@@ -191,7 +188,6 @@ namespace CalendarSkill
                 }
                 else
                 {
-                    DateTime? startTime = null;
                     sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
                     var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
                     try
@@ -199,22 +195,37 @@ namespace CalendarSkill
                         IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
                         if (dateTimeResolutions.Count > 0)
                         {
-                            startTime = DateTime.Parse(dateTimeResolutions.First().Value);
-                            var dateTimeConvertType = dateTimeResolutions.First().Timex;
-                            bool isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeResolutions.First().Value, dateTimeResolutions.First().Timex);
-                            startTime = isRelativeTime ? TimeZoneInfo.ConvertTime(startTime.Value, TimeZoneInfo.Local, state.GetUserTimeZone()) : startTime;
+                            foreach (var resolution in dateTimeResolutions)
+                            {
+                                if (resolution.Value == null)
+                                {
+                                    continue;
+                                }
+
+                                var startTimeValue = DateTime.Parse(resolution.Value);
+                                if (startTimeValue == null)
+                                {
+                                    continue;
+                                }
+
+                                var dateTimeConvertType = resolution.Timex;
+                                bool isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeResolutions.First().Value, dateTimeResolutions.First().Timex);
+                                startTimeValue = isRelativeTime ? TimeZoneInfo.ConvertTime(startTimeValue, TimeZoneInfo.Local, state.GetUserTimeZone()) : startTimeValue;
+
+                                startTimeValue = TimeConverter.ConvertLuisLocalToUtc(startTimeValue, state.GetUserTimeZone());
+                                events = await calendarService.GetEventsByStartTime(startTimeValue);
+                                if (events != null && events.Count > 0)
+                                {
+                                    break;
+                                }
+                            }
                         }
                     }
                     catch
                     {
                     }
 
-                    if (startTime != null)
-                    {
-                        startTime = TimeConverter.ConvertLuisLocalToUtc(startTime.Value, state.GetUserTimeZone());
-                        events = await calendarService.GetEventsByStartTime(startTime.Value);
-                    }
-                    else
+                    if (events == null || events.Count <= 0)
                     {
                         state.Title = userInput;
                         events = await calendarService.GetEventsByTitle(userInput);
@@ -225,7 +236,16 @@ namespace CalendarSkill
 
                 if (events.Count <= 0)
                 {
-                    return await sc.BeginDialogAsync(Actions.UpdateStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NoEvent));
+                    if (searchByEntities)
+                    {
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(DeleteEventResponses.EventWithStartTimeNotFound));
+                        state.Clear();
+                        return await sc.CancelAllDialogsAsync();
+                    }
+                    else
+                    {
+                        return await sc.BeginDialogAsync(Actions.UpdateStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NoEvent));
+                    }
                 }
                 else if (events.Count > 1)
                 {

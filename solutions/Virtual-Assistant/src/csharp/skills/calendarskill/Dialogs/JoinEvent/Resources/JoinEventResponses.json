@@ -1,0 +1,38 @@
+{
+  "NoMeetingTimeProvided": {
+    "replies": [
+      {
+        "text": "Please specify the meeting you want to join.",
+        "speak": "Please specify the meeting you want to join."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "MeetingNotFound": {
+    "replies": [
+      {
+        "text": "I couldn't find any meetings.",
+        "speak": "I couldn't find any meetings."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "NoDialInNumber": {
+    "replies": [
+      {
+        "text": "I couldn't find a dial in number for your meeting.",
+        "speak": "I couldn't find a dial in number for your meeting."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "CallingIn": {
+    "replies": [
+      {
+        "text": "Calling into your meeting at {CallNumber}.",
+        "speak": "Calling into your meeting."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}

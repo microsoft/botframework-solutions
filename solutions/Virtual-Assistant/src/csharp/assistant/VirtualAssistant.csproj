@@ -19,6 +19,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Apis" Version="1.36.1" />
+    <PackageReference Include="Google.Apis.Gmail.v1" Version="1.36.1.1342" />
+    <PackageReference Include="Google.Apis.People.v1" Version="1.25.0.830" />
     <PackageReference Include="Google.Apis.Calendar.v3" Version="1.35.2.1363" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.5" />
@@ -35,20 +38,21 @@
     <PackageReference Include="Microsoft.Graph" Version="1.11.0" />
     <PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003" PrivateAssets="all" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
+    <PackageReference Include="MimeKit" Version="2.0.7" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Dialogs\Cancel\Resources\CancelStrings.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>CancelStrings.resx</DependentUpon>
-    </Compile>
     <Compile Update="Dialogs\Escalate\Resources\EscalateStrings - Copy.Designer.cs">
       <DependentUpon>EscalateStrings.resx</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
     <Compile Update="Dialogs\Escalate\Resources\EscalateStrings - Copy.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EscalateStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Dialogs\Escalate\Resources\EscalateStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>EscalateStrings.resx</DependentUpon>
@@ -58,27 +62,15 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>MainStrings.resx</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\SignIn\Resources\SignInStrings.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>SignInStrings.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Dialogs\Cancel\Resources\CancelStrings.fr.resx">
-      <Generator></Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Dialogs\Cancel\Resources\CancelStrings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>CancelStrings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Update="Dialogs\Escalate\Resources\EscalateStrings.fr.resx">
       <Generator></Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Dialogs\Escalate\Resources\EscalateStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>EscalateStrings - Copy.Designer.cs</LastGenOutput>
+      <LastGenOutput>EscalateStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Dialogs\Main\Resources\MainStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -90,10 +82,6 @@
     <EmbeddedResource Update="Dialogs\Onboarding\Resources\OnboardingStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>OnboardingStrings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Dialogs\SignIn\Resources\SignInStrings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>SignInStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 
@@ -115,6 +103,9 @@
 
   <ItemGroup>
     <None Update="*.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="LocaleConfigurations\*.bot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

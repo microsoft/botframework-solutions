@@ -228,4 +228,52 @@
   <data name="Yesterday" xml:space="preserve">
     <value>hier</value>
   </data>
+  <data name="AttendeesSummary" xml:space="preserve">
+    <value>+ {0} autres</value>
+  </data>
+  <data name="DateWithAllDay" xml:space="preserve">
+    <value>{0} toute la journée</value>
+  </data>
+  <data name="TimeFormatDay" xml:space="preserve">
+    <value>{0} jour</value>
+  </data>
+  <data name="TimeFormatDays" xml:space="preserve">
+    <value>{0} jours</value>
+  </data>
+  <data name="TimeFormatHour" xml:space="preserve">
+    <value>{0} heure</value>
+  </data>
+  <data name="TimeFormatHourMinuteConnective" xml:space="preserve">
+    <value> et </value>
+  </data>
+  <data name="TimeFormatHours" xml:space="preserve">
+    <value>{0} heures</value>
+  </data>
+  <data name="TimeFormatMinute" xml:space="preserve">
+    <value>{0} minute</value>
+  </data>
+  <data name="TimeFormatMinutes" xml:space="preserve">
+    <value>{0} minutes</value>
+  </data>
+  <data name="DisplayFullDateFormat" xml:space="preserve">
+    <value>dd-MM-yyyy</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>tout</value>
+  </data>
+  <data name="High" xml:space="preserve">
+    <value>haute</value>
+  </data>
+  <data name="FirstItem" xml:space="preserve">
+    <value>le premier est {0};</value>
+  </data>
+  <data name="More" xml:space="preserve">
+    <value>plus</value>
+  </data>
+  <data name="SecondItem" xml:space="preserve">
+    <value>le second est {0};</value>
+  </data>
+  <data name="ThirdItem" xml:space="preserve">
+    <value>le troisième est {0};</value>
+  </data>
 </root>

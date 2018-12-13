@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Solutions.Data;
 using Microsoft.Graph;
 
 namespace EmailSkill
@@ -27,10 +29,15 @@ namespace EmailSkill
             ConfirmRecipientIndex = 0;
             ShowEmailIndex = 0;
             ShowRecipientIndex = 0;
-            MsGraphToken = null;
+            Token = null;
+            ReadEmailIndex = 0;
+            ReadRecipientIndex = 0;
+            RecipientChoiceList = new List<Choice>();
             DirectlyToMe = false;
             StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
             EndDateTime = DateTime.UtcNow;
+            UserSelectIndex = -1;
+            MailSourceType = MailSource.Other;
         }
 
         public DialogState ConversationDialogState { get; set; }
@@ -67,7 +74,7 @@ namespace EmailSkill
 
         public DateTime EndDateTime { get; set; }
 
-        public string MsGraphToken { get; set; }
+        public string Token { get; set; }
 
         public int ConfirmRecipientIndex { get; set; }
 
@@ -75,13 +82,23 @@ namespace EmailSkill
 
         public int ShowEmailIndex { get; set; }
 
+        public int ReadEmailIndex { get; set; }
+
         public int ShowRecipientIndex { get; set; }
+
+        public int ReadRecipientIndex { get; set; }
+
+        public List<Choice> RecipientChoiceList { get; set; }
 
         public Email LuisResult { get; set; }
 
         public General GeneralLuisResult { get; set; }
 
         public IRecognizerConvert LuisResultPassedFromSkill { get; set; }
+
+        public MailSource MailSourceType { get; set; }
+
+        public int UserSelectIndex { get; set; }
 
         public TimeZoneInfo GetUserTimeZone()
         {
@@ -107,6 +124,9 @@ namespace EmailSkill
             Recipients.Clear();
             ConfirmRecipientIndex = 0;
             ShowEmailIndex = 0;
+            ReadEmailIndex = 0;
+            ReadRecipientIndex = 0;
+            RecipientChoiceList.Clear();
             IsUnreadOnly = true;
             IsImportant = false;
             StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
@@ -116,6 +136,8 @@ namespace EmailSkill
             EmailList = new List<string>();
             ShowRecipientIndex = 0;
             LuisResultPassedFromSkill = null;
+            MailSourceType = MailSource.Other;
+            UserSelectIndex = -1;
         }
 
         public class UserInformation

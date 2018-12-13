@@ -5,6 +5,8 @@ using Autofac;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -17,48 +19,55 @@ namespace ToDoSkillTest.Flow
 {
     public class ToDoBotTestBase : BotTestBase
     {
-        public ConversationState conversationState { get; set; }
+        public ConversationState ConversationState { get; set; }
 
-        public UserState userState { get; set; }
+        public UserState UserState { get; set; }
 
-        public IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor;
+        public IStatePropertyAccessor<ToDoSkillState> ToDoStateAccessor { get; set; }
 
-        public ITaskService toDoService { get; set; }
+        public ITaskService ToDoService { get; set; }
 
-        public MockSkillConfiguration services { get; set; }
+        public MockSkillConfiguration Services { get; set; }
 
-        public BotConfiguration options { get; set; }
+        public BotConfiguration Options { get; set; }
 
         [TestInitialize]
         public override void Initialize()
         {
             var builder = new ContainerBuilder();
 
-            this.conversationState = new ConversationState(new MemoryStorage());
-            this.userState = new UserState(new MemoryStorage());
-            this.toDoStateAccessor = this.conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
-            this.services = new MockSkillConfiguration();
+            this.ConversationState = new ConversationState(new MemoryStorage());
+            this.UserState = new UserState(new MemoryStorage());
+            this.ToDoStateAccessor = this.ConversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
+            this.Services = new MockSkillConfiguration();
 
-            builder.RegisterInstance(new BotStateSet(this.userState, this.conversationState));
-            var fakeToDoService = new FakeToDoService();
+            builder.RegisterInstance(new BotStateSet(this.UserState, this.ConversationState));
+            var fakeToDoService = new MockToDoService();
             builder.RegisterInstance<ITaskService>(fakeToDoService);
 
             this.Container = builder.Build();
-            this.toDoService = fakeToDoService;
+            this.ToDoService = fakeToDoService;
 
             this.BotResponseBuilder = new BotResponseBuilder();
             this.BotResponseBuilder.AddFormatter(new TextBotResponseFormatter());
         }
 
+        public Activity GetAuthResponse()
+        {
+            ProviderTokenResponse providerTokenResponse = new ProviderTokenResponse();
+            providerTokenResponse.TokenResponse = new TokenResponse(token: "test");
+            return new Activity(ActivityTypes.Event, name: "tokens/response", value: providerTokenResponse);
+        }
+
         public TestFlow GetTestFlow()
         {
             var adapter = new TestAdapter()
-                .Use(new AutoSaveStateMiddleware(this.conversationState));
+                .Use(new AutoSaveStateMiddleware(this.ConversationState));
 
             var testFlow = new TestFlow(adapter, async (context, token) =>
             {
                 var bot = this.BuildBot() as ToDoSkill.ToDoSkill;
-                var state = await this.toDoStateAccessor.GetAsync(context, () => new ToDoSkillState());
+                var state = await this.ToDoStateAccessor.GetAsync(context, () => new ToDoSkillState());
                 await bot.OnTurnAsync(context, CancellationToken.None);
             });
 
@@ -67,7 +76,7 @@ namespace ToDoSkillTest.Flow
 
         public override IBot BuildBot()
         {
-            return new ToDoSkill.ToDoSkill(this.services, this.conversationState, this.userState, this.toDoService);
+            return new ToDoSkill.ToDoSkill(this.Services, this.ConversationState, this.UserState, this.ToDoService, true);
         }
     }
 }

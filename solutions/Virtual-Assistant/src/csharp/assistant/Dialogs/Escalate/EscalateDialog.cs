@@ -9,7 +9,6 @@ namespace VirtualAssistant
 {
     public class EscalateDialog : EnterpriseDialog
     {
-        // Fields
         private EscalateResponses _responder = new EscalateResponses();
 
         public EscalateDialog(BotServices botServices)
@@ -19,15 +18,15 @@ namespace VirtualAssistant
 
             var escalate = new WaterfallStep[]
             {
-                SendPhone,
+                SendEscalationMessage,
             };
 
             AddDialog(new WaterfallDialog(InitialDialogId, escalate));
         }
 
-        private async Task<DialogTurnResult> SendPhone(WaterfallStepContext sc, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> SendEscalationMessage(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            await _responder.ReplyWith(sc.Context, EscalateResponses.SendPhone);
+            await _responder.ReplyWith(sc.Context, EscalateResponses.ResponseIds.SendEscalationMessage);
             return await sc.EndDialogAsync();
         }
     }

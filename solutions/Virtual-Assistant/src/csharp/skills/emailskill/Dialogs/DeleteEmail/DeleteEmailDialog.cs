@@ -8,6 +8,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 
 namespace EmailSkill
 {
@@ -17,26 +18,35 @@ namespace EmailSkill
             ISkillConfiguration services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
-            IMailSkillServiceManager serviceManager)
+            IServiceManager serviceManager)
             : base(nameof(DeleteEmailDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager)
         {
             var deleteEmail = new WaterfallStep[]
             {
+                IfClearContextStep,
                 GetAuthToken,
                 AfterGetAuthToken,
+                CollectSelectedEmail,
                 PromptToDelete,
                 DeleteEmail,
             };
 
             var showEmail = new WaterfallStep[]
             {
-                PromptCollectMessage,
                 ShowEmails,
+            };
+
+            var updateSelectMessage = new WaterfallStep[]
+            {
+                UpdateMessage,
+                PromptUpdateMessage,
+                AfterUpdateMessage,
             };
 
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Actions.Delete, deleteEmail));
             AddDialog(new WaterfallDialog(Actions.Show, showEmail));
+            AddDialog(new WaterfallDialog(Actions.UpdateSelectMessage, updateSelectMessage));
             InitialDialogId = Actions.Delete;
         }
 
@@ -45,36 +55,21 @@ namespace EmailSkill
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var skillOptions = (EmailSkillDialogOptions)sc.Options;
+
                 var focusedMessage = state.Message.FirstOrDefault();
                 if (focusedMessage != null)
                 {
                     return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(DeleteEmailResponses.DeleteConfirm) });
                 }
 
-                return await sc.BeginDialogAsync(Actions.Show);
+                return await sc.BeginDialogAsync(Actions.Show, skillOptions);
             }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
-            }
-        }
+                await HandleDialogExceptions(sc, ex);
 
-        public async Task<DialogTurnResult> PromptCollectMessage(WaterfallStepContext sc, CancellationToken cancellationToken)
-        {
-            try
-            {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var focusedMessage = state.Message.FirstOrDefault();
-                if (focusedMessage != null)
-                {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(DeleteEmailResponses.DeletePrompt) });
-                }
-
-                return await sc.NextAsync();
-            }
-            catch (Exception ex)
-            {
-                throw await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -86,9 +81,10 @@ namespace EmailSkill
                 if (confirmResult == true)
                 {
                     var state = await EmailStateAccessor.GetAsync(sc.Context);
-                    var mailService = this.ServiceManager.InitMailService(state.MsGraphToken, state.GetUserTimeZone());
+                    var mailService = this.ServiceManager.InitMailService(state.Token, state.GetUserTimeZone(), state.MailSourceType);
                     var focusMessage = state.Message.FirstOrDefault();
                     await mailService.DeleteMessageAsync(focusMessage.Id);
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(DeleteEmailResponses.DeleteSuccessfully));
                 }
                 else
                 {
@@ -99,7 +95,9 @@ namespace EmailSkill
             }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
     }

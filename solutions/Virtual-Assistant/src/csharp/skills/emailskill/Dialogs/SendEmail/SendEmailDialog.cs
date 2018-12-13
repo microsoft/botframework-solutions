@@ -10,6 +10,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 
 namespace EmailSkill
 {
@@ -19,11 +20,12 @@ namespace EmailSkill
             ISkillConfiguration services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
-            IMailSkillServiceManager serviceManager)
+            IServiceManager serviceManager)
             : base(nameof(SendEmailDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager)
         {
             var sendEmail = new WaterfallStep[]
            {
+                IfClearContextStep,
                 GetAuthToken,
                 AfterGetAuthToken,
                 CollectNameList,
@@ -59,7 +61,9 @@ namespace EmailSkill
             }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -81,7 +85,7 @@ namespace EmailSkill
                     {
                         var recipientConfirmedMessage = sc.Context.Activity.CreateReply(EmailSharedResponses.RecipientConfirmed, null, new StringDictionary() { { "UserName", await GetNameListStringAsync(sc) } });
                         noMessageBodyMessage.Text = recipientConfirmedMessage.Text + " " + noMessageBodyMessage.Text;
-                        noMessageBodyMessage.Speak += recipientConfirmedMessage.Speak + " " + noMessageBodyMessage.Speak;
+                        noMessageBodyMessage.Speak = recipientConfirmedMessage.Speak + " " + noMessageBodyMessage.Speak;
                     }
 
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = noMessageBodyMessage });
@@ -93,7 +97,9 @@ namespace EmailSkill
             }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -105,9 +111,9 @@ namespace EmailSkill
                 if (confirmResult)
                 {
                     var state = await EmailStateAccessor.GetAsync(sc.Context);
-                    var token = state.MsGraphToken;
+                    var token = state.Token;
 
-                    var service = ServiceManager.InitMailService(token, state.GetUserTimeZone());
+                    var service = ServiceManager.InitMailService(token, state.GetUserTimeZone(), state.MailSourceType);
 
                     // send user message.
                     await service.SendMessageAsync(state.Content, state.Subject, state.Recipients);
@@ -125,9 +131,17 @@ namespace EmailSkill
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
             }
+            catch (SkillException ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
 
             await ClearConversationState(sc);

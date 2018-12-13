@@ -2,24 +2,34 @@
 using CalendarSkill;
 using CalendarSkill.ServiceClients.GoogleAPI;
 using Microsoft.Graph;
+using System.Collections.Generic;
 
 namespace CalendarSkillTest.Flow.Fakes
 {
     public class MockCalendarServiceManager : IServiceManager
     {
-        public ICalendar InitCalendarService(ICalendar calendarAPI, EventSource source)
+        public MockCalendarService CalendarService { get; set; }
+
+        public MockUserService UserService { get; set; }
+
+        public void SetupCalendarService(List<EventModel> fakeEventList)
         {
-            return new MockCalendarService();
+            CalendarService = new MockCalendarService(fakeEventList);
         }
 
-        public IUserService InitUserService(IGraphServiceClient graphClient, TimeZoneInfo info)
+        public void SetupUserService(List<User> fakeUserList, List<Person> fakePersonList)
         {
-            return new MockUserService();
+            UserService = new MockUserService(fakeUserList, fakePersonList);
         }
 
-        public GoogleClient GetGoogleClient()
+        public ICalendar InitCalendarService(string token, EventSource source)
         {
-            return new GoogleClient();
+            return CalendarService;
+        }
+
+        public IUserService InitUserService(string token, EventSource source)
+        {
+            return UserService;
         }
     }
 }
