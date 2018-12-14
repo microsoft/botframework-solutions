@@ -1,0 +1,4335 @@
+[
+  {
+    "type": "conversationUpdate",
+    "membersAdded": [
+      {
+        "id": "1",
+        "name": "Bot"
+      }
+    ],
+    "channelId": "emulator",
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "id": "51ebb620-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:00+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "timestamp": "2018-12-14T14:27:00.865Z",
+    "from": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "name": "User"
+    },
+    "locale": "",
+    "serviceUrl": "http://localhost:58764"
+  },
+  {
+    "type": "conversationUpdate",
+    "membersAdded": [
+      {
+        "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+        "name": "User"
+      }
+    ],
+    "channelId": "emulator",
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "id": "51eeea70-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:00+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "timestamp": "2018-12-14T14:27:00.886Z",
+    "from": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "name": "User"
+    },
+    "locale": "",
+    "serviceUrl": "http://localhost:58764"
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:27:07.146Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "Welcome to the Automotive Skill! Right now I can help you with vehicle setting control - Climate Control, Active Safety and Audio.",
+    "speak": "Welcome to the Automotive Skill! Right now I can help you with vehicle setting control - Climate Control, Active Safety and Audio.",
+    "inputHint": "expectingInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "51ebb620-ffac-11e8-b259-57ae05b40a01",
+    "id": "55a9f6a0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:07+00:00"
+  },
+  {
+    "type": "message",
+    "text": "Set temperature to 21 degrees",
+    "from": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "name": "User"
+    },
+    "locale": "",
+    "textFormat": "plain",
+    "timestamp": "2018-12-14T14:27:25.057Z",
+    "channelData": {
+      "clientActivityId": "1544797620731.05590151829959322.0"
+    },
+    "entities": [
+      {
+        "type": "ClientCapabilities",
+        "requiresBotState": true,
+        "supportsTts": true,
+        "supportsListening": true
+      }
+    ],
+    "channelId": "emulator",
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "id": "6056f710-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:25+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:58764"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "6056f710-ffac-11e8-b259-57ae05b40a01",
+    "id": "60bd8110-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:25+00:00",
+    "timestamp": "2018-12-14T14:27:25.729Z",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:27:26.589Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "6056f710-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Set temperature to 21 degrees",
+        "alteredText": null,
+        "intents": {
+          "VEHICLE_SETTINGS_CHANGE": {
+            "score": 0.996921062
+          }
+        },
+        "entities": {
+          "$instance": {
+            "AMOUNT": [
+              {
+                "startIndex": 19,
+                "endIndex": 21,
+                "text": "21",
+                "type": "AMOUNT",
+                "score": 0.9993271
+              }
+            ],
+            "SETTING": [
+              {
+                "startIndex": 4,
+                "endIndex": 15,
+                "text": "temperature",
+                "type": "SETTING",
+                "score": 0.993568361
+              }
+            ],
+            "UNIT": [
+              {
+                "startIndex": 22,
+                "endIndex": 29,
+                "text": "degrees",
+                "type": "UNIT",
+                "score": 0.9845726
+              }
+            ]
+          },
+          "AMOUNT": [
+            "21"
+          ],
+          "SETTING": [
+            "temperature"
+          ],
+          "UNIT": [
+            "degrees"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "1dfc44a9-be62-4c79-a259-487f470498f5"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "Set temperature to 21 degrees",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "VEHICLE_SETTINGS_CHANGE",
+          "score": 0.996921062
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "21",
+            "type": "AMOUNT",
+            "startIndex": 19,
+            "endIndex": 20,
+            "score": 0.9993271
+          },
+          {
+            "entity": "temperature",
+            "type": "SETTING",
+            "startIndex": 4,
+            "endIndex": 14,
+            "score": 0.993568361
+          },
+          {
+            "entity": "degrees",
+            "type": "UNIT",
+            "startIndex": 22,
+            "endIndex": 28,
+            "score": 0.9845726
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "6140bad0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:26+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:27:27.491Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "6056f710-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Set temperature to 21 degrees",
+        "alteredText": null,
+        "intents": {
+          "Help": {
+            "score": 0.0304742977
+          }
+        },
+        "entities": {
+          "$instance": {
+            "number": [
+              {
+                "startIndex": 19,
+                "endIndex": 21,
+                "text": "21",
+                "type": "builtin.number",
+                "subtype": "integer"
+              }
+            ]
+          },
+          "number": [
+            21
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "fd1a33f9-a804-4406-a53f-3707f3fa600a"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "Set temperature to 21 degrees",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Help",
+          "score": 0.0304742977
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "21",
+            "type": "builtin.number",
+            "startIndex": 19,
+            "endIndex": 20,
+            "resolution": {
+              "subtype": "integer",
+              "value": "21"
+            }
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "61ca5d30-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:27+00:00",
+    "locale": ""
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "6056f710-ffac-11e8-b259-57ae05b40a01",
+    "id": "61fc69b0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:27+00:00",
+    "timestamp": "2018-12-14T14:27:27.819Z",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:27:27.966Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "6056f710-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Set temperature to 21 degrees",
+        "alteredText": null,
+        "intents": {
+          "VEHICLE_SETTINGS_CHANGE": {
+            "score": 0.996921062
+          }
+        },
+        "entities": {
+          "$instance": {
+            "AMOUNT": [
+              {
+                "startIndex": 19,
+                "endIndex": 21,
+                "text": "21",
+                "type": "AMOUNT",
+                "score": 0.9993271
+              }
+            ],
+            "SETTING": [
+              {
+                "startIndex": 4,
+                "endIndex": 15,
+                "text": "temperature",
+                "type": "SETTING",
+                "score": 0.993568361
+              }
+            ],
+            "UNIT": [
+              {
+                "startIndex": 22,
+                "endIndex": 29,
+                "text": "degrees",
+                "type": "UNIT",
+                "score": 0.9845726
+              }
+            ]
+          },
+          "AMOUNT": [
+            "21"
+          ],
+          "SETTING": [
+            "temperature"
+          ],
+          "UNIT": [
+            "degrees"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "1dfc44a9-be62-4c79-a259-487f470498f5"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "Set temperature to 21 degrees",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "VEHICLE_SETTINGS_CHANGE",
+          "score": 0.996921062
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "21",
+            "type": "AMOUNT",
+            "startIndex": 19,
+            "endIndex": 20,
+            "score": 0.9993271
+          },
+          {
+            "entity": "temperature",
+            "type": "SETTING",
+            "startIndex": 4,
+            "endIndex": 14,
+            "score": 0.993568361
+          },
+          {
+            "entity": "degrees",
+            "type": "UNIT",
+            "startIndex": 22,
+            "endIndex": 28,
+            "score": 0.9845726
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "6212d7e0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:27+00:00",
+    "locale": ""
+  },
+  {
+    "type": "event",
+    "timestamp": "2018-12-14T14:27:28.566Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "6056f710-ffac-11e8-b259-57ae05b40a01",
+    "value": [
+      {
+        "Key": "amount",
+        "Value": "21"
+      },
+      {
+        "Key": "settingname",
+        "Value": "Temperature"
+      },
+      {
+        "Key": "unit",
+        "Value": "°"
+      }
+    ],
+    "name": "AutomotiveSkill.Temperature",
+    "id": "626e6560-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:28+00:00"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "6056f710-ffac-11e8-b259-57ae05b40a01",
+    "id": "634e3e10-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:30+00:00",
+    "timestamp": "2018-12-14T14:27:30.033Z",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:27:30.196Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "Setting Temperature to 21°.",
+    "speak": "Setting Temperature to 21°.",
+    "inputHint": "ignoringInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "6056f710-ffac-11e8-b259-57ae05b40a01",
+    "id": "63674450-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:30+00:00"
+  },
+  {
+    "type": "message",
+    "text": "It's feeling cold in the back",
+    "from": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "name": "User"
+    },
+    "locale": "",
+    "textFormat": "plain",
+    "timestamp": "2018-12-14T14:27:39.216Z",
+    "channelData": {
+      "clientActivityId": "1544797620731.05590151829959322.2"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "id": "68c77500-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:39+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:58764"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "68c77500-ffac-11e8-b259-57ae05b40a01",
+    "id": "69321db0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:39+00:00",
+    "timestamp": "2018-12-14T14:27:39.915Z",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:27:40.135Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "68c77500-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "It's feeling cold in the back",
+        "alteredText": null,
+        "intents": {
+          "VEHICLE_SETTINGS_DECLARATIVE": {
+            "score": 0.992201149
+          }
+        },
+        "entities": {
+          "$instance": {
+            "SETTING": [
+              {
+                "startIndex": 25,
+                "endIndex": 29,
+                "text": "back",
+                "type": "SETTING",
+                "score": 0.948953569
+              }
+            ],
+            "VALUE": [
+              {
+                "startIndex": 13,
+                "endIndex": 17,
+                "text": "cold",
+                "type": "VALUE",
+                "score": 0.99465704
+              }
+            ]
+          },
+          "SETTING": [
+            "back"
+          ],
+          "VALUE": [
+            "cold"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "1dfc44a9-be62-4c79-a259-487f470498f5"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "It's feeling cold in the back",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "VEHICLE_SETTINGS_DECLARATIVE",
+          "score": 0.992201149
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "back",
+            "type": "SETTING",
+            "startIndex": 25,
+            "endIndex": 28,
+            "score": 0.948953569
+          },
+          {
+            "entity": "cold",
+            "type": "VALUE",
+            "startIndex": 13,
+            "endIndex": 16,
+            "score": 0.99465704
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "6953af70-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:40+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:27:40.600Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "68c77500-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "It's feeling cold in the back",
+        "alteredText": null,
+        "intents": {
+          "Previous": {
+            "score": 0.210233852
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "fd1a33f9-a804-4406-a53f-3707f3fa600a"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "It's feeling cold in the back",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Previous",
+          "score": 0.210233852
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "699aa380-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:40+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:27:41.156Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "68c77500-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "It's feeling cold in the back",
+        "alteredText": null,
+        "intents": {
+          "VEHICLE_SETTINGS_DECLARATIVE": {
+            "score": 0.992201149
+          }
+        },
+        "entities": {
+          "$instance": {
+            "SETTING": [
+              {
+                "startIndex": 25,
+                "endIndex": 29,
+                "text": "back",
+                "type": "SETTING",
+                "score": 0.948953569
+              }
+            ],
+            "VALUE": [
+              {
+                "startIndex": 13,
+                "endIndex": 17,
+                "text": "cold",
+                "type": "VALUE",
+                "score": 0.99465704
+              }
+            ]
+          },
+          "SETTING": [
+            "back"
+          ],
+          "VALUE": [
+            "cold"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "1dfc44a9-be62-4c79-a259-487f470498f5"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "It's feeling cold in the back",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "VEHICLE_SETTINGS_DECLARATIVE",
+          "score": 0.992201149
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "back",
+            "type": "SETTING",
+            "startIndex": 25,
+            "endIndex": 28,
+            "score": 0.948953569
+          },
+          {
+            "entity": "cold",
+            "type": "VALUE",
+            "startIndex": 13,
+            "endIndex": 16,
+            "score": 0.99465704
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "69ef7a40-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:41+00:00",
+    "locale": ""
+  },
+  {
+    "type": "event",
+    "timestamp": "2018-12-14T14:27:41.444Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "68c77500-ffac-11e8-b259-57ae05b40a01",
+    "value": [
+      {
+        "Key": "settingname",
+        "Value": "Rear Combined Set Temperature"
+      },
+      {
+        "Key": "valueingform",
+        "Value": "Increasing"
+      }
+    ],
+    "name": "AutomotiveSkill.RearCombinedSetTemperature",
+    "id": "6a1b6c40-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:41+00:00"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "68c77500-ffac-11e8-b259-57ae05b40a01",
+    "id": "6aa3d620-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:42+00:00",
+    "timestamp": "2018-12-14T14:27:42.338Z",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:27:42.544Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "Increasing Rear Combined Set Temperature.",
+    "speak": "Increasing Rear Combined Set Temperature.",
+    "inputHint": "ignoringInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "68c77500-ffac-11e8-b259-57ae05b40a01",
+    "id": "6ac34500-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:42+00:00"
+  },
+  {
+    "type": "message",
+    "text": "The passenger is freezing",
+    "from": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "name": "User"
+    },
+    "locale": "",
+    "textFormat": "plain",
+    "timestamp": "2018-12-14T14:27:50.031Z",
+    "channelData": {
+      "clientActivityId": "1544797620731.05590151829959322.4"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "id": "6f39b1f0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:50+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:58764"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "6f39b1f0-ffac-11e8-b259-57ae05b40a01",
+    "id": "6f9e6730-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:50+00:00",
+    "timestamp": "2018-12-14T14:27:50.691Z",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:27:50.891Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "6f39b1f0-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "The passenger is freezing",
+        "alteredText": null,
+        "intents": {
+          "VEHICLE_SETTINGS_DECLARATIVE": {
+            "score": 0.996031761
+          }
+        },
+        "entities": {
+          "$instance": {
+            "SETTING": [
+              {
+                "startIndex": 4,
+                "endIndex": 13,
+                "text": "passenger",
+                "type": "SETTING",
+                "score": 0.998317838
+              }
+            ],
+            "VALUE": [
+              {
+                "startIndex": 17,
+                "endIndex": 25,
+                "text": "freezing",
+                "type": "VALUE",
+                "score": 0.9999699
+              }
+            ]
+          },
+          "SETTING": [
+            "passenger"
+          ],
+          "VALUE": [
+            "freezing"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "1dfc44a9-be62-4c79-a259-487f470498f5"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "The passenger is freezing",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "VEHICLE_SETTINGS_DECLARATIVE",
+          "score": 0.996031761
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "passenger",
+            "type": "SETTING",
+            "startIndex": 4,
+            "endIndex": 12,
+            "score": 0.998317838
+          },
+          {
+            "entity": "freezing",
+            "type": "VALUE",
+            "startIndex": 17,
+            "endIndex": 24,
+            "score": 0.9999699
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "6fbcebb0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:50+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:27:51.359Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "6f39b1f0-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "The passenger is freezing",
+        "alteredText": null,
+        "intents": {
+          "Help": {
+            "score": 0.02469582
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "fd1a33f9-a804-4406-a53f-3707f3fa600a"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "The passenger is freezing",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Help",
+          "score": 0.02469582
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "700454f0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:51+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:27:51.918Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "6f39b1f0-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "The passenger is freezing",
+        "alteredText": null,
+        "intents": {
+          "VEHICLE_SETTINGS_DECLARATIVE": {
+            "score": 0.996031761
+          }
+        },
+        "entities": {
+          "$instance": {
+            "SETTING": [
+              {
+                "startIndex": 4,
+                "endIndex": 13,
+                "text": "passenger",
+                "type": "SETTING",
+                "score": 0.998317838
+              }
+            ],
+            "VALUE": [
+              {
+                "startIndex": 17,
+                "endIndex": 25,
+                "text": "freezing",
+                "type": "VALUE",
+                "score": 0.9999699
+              }
+            ]
+          },
+          "SETTING": [
+            "passenger"
+          ],
+          "VALUE": [
+            "freezing"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "1dfc44a9-be62-4c79-a259-487f470498f5"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "The passenger is freezing",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "VEHICLE_SETTINGS_DECLARATIVE",
+          "score": 0.996031761
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "passenger",
+            "type": "SETTING",
+            "startIndex": 4,
+            "endIndex": 12,
+            "score": 0.998317838
+          },
+          {
+            "entity": "freezing",
+            "type": "VALUE",
+            "startIndex": 17,
+            "endIndex": 24,
+            "score": 0.9999699
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "7059a0e0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:51+00:00",
+    "locale": ""
+  },
+  {
+    "type": "event",
+    "timestamp": "2018-12-14T14:27:52.380Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "6f39b1f0-ffac-11e8-b259-57ae05b40a01",
+    "value": [
+      {
+        "Key": "settingname",
+        "Value": "Front Right Set Temperature"
+      },
+      {
+        "Key": "valueingform",
+        "Value": "Increasing"
+      }
+    ],
+    "name": "AutomotiveSkill.FrontRightSetTemperature",
+    "id": "70a01fc0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:52+00:00"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "6f39b1f0-ffac-11e8-b259-57ae05b40a01",
+    "id": "70f8ee20-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:52+00:00",
+    "timestamp": "2018-12-14T14:27:52.962Z",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:27:53.580Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "Increasing Front Right Set Temperature.",
+    "speak": "Increasing Front Right Set Temperature.",
+    "inputHint": "ignoringInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "6f39b1f0-ffac-11e8-b259-57ae05b40a01",
+    "id": "71573ac0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:53+00:00"
+  },
+  {
+    "type": "message",
+    "text": "temperature",
+    "from": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "name": "User"
+    },
+    "locale": "",
+    "textFormat": "plain",
+    "timestamp": "2018-12-14T14:27:57.902Z",
+    "channelData": {
+      "clientActivityId": "1544797620731.05590151829959322.6"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "id": "73eab6e0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:57+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:58764"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "73eab6e0-ffac-11e8-b259-57ae05b40a01",
+    "id": "7460d140-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:58+00:00",
+    "timestamp": "2018-12-14T14:27:58.676Z",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:27:58.921Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "73eab6e0-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "temperature",
+        "alteredText": null,
+        "intents": {
+          "VEHICLE_SETTINGS_CHANGE": {
+            "score": 0.99605006
+          }
+        },
+        "entities": {
+          "$instance": {
+            "SETTING": [
+              {
+                "startIndex": 0,
+                "endIndex": 11,
+                "text": "temperature",
+                "type": "SETTING",
+                "score": 0.9840682
+              }
+            ]
+          },
+          "SETTING": [
+            "temperature"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "1dfc44a9-be62-4c79-a259-487f470498f5"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "temperature",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "VEHICLE_SETTINGS_CHANGE",
+          "score": 0.99605006
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "temperature",
+            "type": "SETTING",
+            "startIndex": 0,
+            "endIndex": 10,
+            "score": 0.9840682
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "74863390-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:58+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:27:59.426Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "73eab6e0-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "temperature",
+        "alteredText": null,
+        "intents": {
+          "Cancel": {
+            "score": 0.0693425462
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "fd1a33f9-a804-4406-a53f-3707f3fa600a"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "temperature",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Cancel",
+          "score": 0.0693425462
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "74d34220-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:59+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:27:59.980Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "73eab6e0-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "temperature",
+        "alteredText": null,
+        "intents": {
+          "VEHICLE_SETTINGS_CHANGE": {
+            "score": 0.99605006
+          }
+        },
+        "entities": {
+          "$instance": {
+            "SETTING": [
+              {
+                "startIndex": 0,
+                "endIndex": 11,
+                "text": "temperature",
+                "type": "SETTING",
+                "score": 0.9840682
+              }
+            ]
+          },
+          "SETTING": [
+            "temperature"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "1dfc44a9-be62-4c79-a259-487f470498f5"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "temperature",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "VEHICLE_SETTINGS_CHANGE",
+          "score": 0.99605006
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "temperature",
+            "type": "SETTING",
+            "startIndex": 0,
+            "endIndex": 10,
+            "score": 0.9840682
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "7527cac0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:27:59+00:00",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:28:00.636Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "Here are the settings for Temperature: (1) Decrease(2) Increase",
+    "speak": "Here are the settings for Temperature:",
+    "inputHint": "expectingInput",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.hero",
+        "content": {
+          "title": null,
+          "subtitle": null,
+          "text": "Here are the settings for Temperature:",
+          "images": [
+            {
+              "url": "http://localhost:3980/images/settingcog.jpg",
+              "alt": null,
+              "tap": null
+            }
+          ],
+          "buttons": [
+            {
+              "type": "imBack",
+              "title": "Decrease",
+              "image": null,
+              "text": null,
+              "displayText": null,
+              "value": "Decrease",
+              "channelData": null
+            },
+            {
+              "type": "imBack",
+              "title": "Increase",
+              "image": null,
+              "text": null,
+              "displayText": null,
+              "value": "Increase",
+              "channelData": null
+            }
+          ],
+          "tap": null
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "73eab6e0-ffac-11e8-b259-57ae05b40a01",
+    "id": "758be3c0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:00+00:00"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "73eab6e0-ffac-11e8-b259-57ae05b40a01",
+    "id": "75aadd70-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:00+00:00",
+    "timestamp": "2018-12-14T14:28:00.839Z",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "text": "Decrease",
+    "from": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "name": "User"
+    },
+    "locale": "",
+    "textFormat": "plain",
+    "timestamp": "2018-12-14T14:28:05.443Z",
+    "channelData": {
+      "clientActivityId": "1544797620731.05590151829959322.8"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "id": "78696130-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:05+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:58764"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "78696130-ffac-11e8-b259-57ae05b40a01",
+    "id": "78dac0a0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:06+00:00",
+    "timestamp": "2018-12-14T14:28:06.186Z",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:28:06.696Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "78696130-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Decrease",
+        "alteredText": null,
+        "intents": {
+          "VEHICLE_SETTINGS_CHANGE": {
+            "score": 0.9999361
+          }
+        },
+        "entities": {
+          "$instance": {
+            "VALUE": [
+              {
+                "startIndex": 0,
+                "endIndex": 8,
+                "text": "decrease",
+                "type": "VALUE",
+                "score": 0.995174646
+              }
+            ]
+          },
+          "VALUE": [
+            "decrease"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "1dfc44a9-be62-4c79-a259-487f470498f5"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "Decrease",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "VEHICLE_SETTINGS_CHANGE",
+          "score": 0.9999361
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "decrease",
+            "type": "VALUE",
+            "startIndex": 0,
+            "endIndex": 7,
+            "score": 0.995174646
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "79289280-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:06+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:28:07.270Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "78696130-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Decrease",
+        "alteredText": null,
+        "intents": {
+          "Cancel": {
+            "score": 0.0693425462
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "fd1a33f9-a804-4406-a53f-3707f3fa600a"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "Decrease",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Cancel",
+          "score": 0.0693425462
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "79802860-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:07+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:28:08.142Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "78696130-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Decrease",
+        "alteredText": null,
+        "intents": {
+          "SETTING_VALUE_SELECTION": {
+            "score": 0.9999776
+          }
+        },
+        "entities": {
+          "$instance": {
+            "VALUE": [
+              {
+                "startIndex": 0,
+                "endIndex": 8,
+                "text": "decrease",
+                "type": "VALUE",
+                "score": 0.6127627
+              }
+            ]
+          },
+          "VALUE": [
+            "decrease"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "cd93e9c0-cc15-42b6-b431-4e39a6668f22"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "Decrease",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "SETTING_VALUE_SELECTION",
+          "score": 0.9999776
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "decrease",
+            "type": "VALUE",
+            "startIndex": 0,
+            "endIndex": 7,
+            "score": 0.6127627
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "7a0536e0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:08+00:00",
+    "locale": ""
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "78696130-ffac-11e8-b259-57ae05b40a01",
+    "id": "7a19a940-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:08+00:00",
+    "timestamp": "2018-12-14T14:28:08.276Z",
+    "locale": ""
+  },
+  {
+    "type": "event",
+    "timestamp": "2018-12-14T14:28:08.590Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "78696130-ffac-11e8-b259-57ae05b40a01",
+    "value": [
+      {
+        "Key": "settingname",
+        "Value": "Temperature"
+      },
+      {
+        "Key": "valueingform",
+        "Value": "Decreasing"
+      }
+    ],
+    "name": "AutomotiveSkill.Temperature",
+    "id": "7a4992e0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:08+00:00"
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:28:09.573Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "Decreasing Temperature.",
+    "speak": "Decreasing Temperature.",
+    "inputHint": "ignoringInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "78696130-ffac-11e8-b259-57ae05b40a01",
+    "id": "7adf9150-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:09+00:00"
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:28:09.967Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "Let me know if you need my help with anything else.",
+    "speak": "Let me know if you need my help with anything else.",
+    "inputHint": "acceptingInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "78696130-ffac-11e8-b259-57ae05b40a01",
+    "id": "7b1bd700-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:09+00:00"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "78696130-ffac-11e8-b259-57ae05b40a01",
+    "id": "7b9a2ec0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:10+00:00",
+    "timestamp": "2018-12-14T14:28:10.796Z",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "text": "Turn lane assist off",
+    "from": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "name": "User"
+    },
+    "locale": "",
+    "textFormat": "plain",
+    "timestamp": "2018-12-14T14:28:14.905Z",
+    "channelData": {
+      "clientActivityId": "1544797620731.05590151829959322.9"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "id": "7e0d2a90-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:14+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:58764"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "7e0d2a90-ffac-11e8-b259-57ae05b40a01",
+    "id": "7e9e6e10-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:15+00:00",
+    "timestamp": "2018-12-14T14:28:15.856Z",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:28:16.125Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "7e0d2a90-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Turn lane assist off",
+        "alteredText": null,
+        "intents": {
+          "VEHICLE_SETTINGS_CHANGE": {
+            "score": 0.997696936
+          }
+        },
+        "entities": {
+          "$instance": {
+            "SETTING": [
+              {
+                "startIndex": 5,
+                "endIndex": 16,
+                "text": "lane assist",
+                "type": "SETTING",
+                "score": 0.9654661
+              }
+            ],
+            "VALUE": [
+              {
+                "startIndex": 17,
+                "endIndex": 20,
+                "text": "off",
+                "type": "VALUE",
+                "score": 0.9999273
+              }
+            ]
+          },
+          "SETTING": [
+            "lane assist"
+          ],
+          "VALUE": [
+            "off"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "1dfc44a9-be62-4c79-a259-487f470498f5"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "Turn lane assist off",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "VEHICLE_SETTINGS_CHANGE",
+          "score": 0.997696936
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "lane assist",
+            "type": "SETTING",
+            "startIndex": 5,
+            "endIndex": 15,
+            "score": 0.9654661
+          },
+          {
+            "entity": "off",
+            "type": "VALUE",
+            "startIndex": 17,
+            "endIndex": 19,
+            "score": 0.9999273
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "7ec779e0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:16+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:28:16.604Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "7e0d2a90-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Turn lane assist off",
+        "alteredText": null,
+        "intents": {
+          "Help": {
+            "score": 0.0304883011
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "fd1a33f9-a804-4406-a53f-3707f3fa600a"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "Turn lane assist off",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Help",
+          "score": 0.0304883011
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "7f1069c0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:16+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:28:17.186Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "7e0d2a90-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Turn lane assist off",
+        "alteredText": null,
+        "intents": {
+          "VEHICLE_SETTINGS_CHANGE": {
+            "score": 0.997696936
+          }
+        },
+        "entities": {
+          "$instance": {
+            "SETTING": [
+              {
+                "startIndex": 5,
+                "endIndex": 16,
+                "text": "lane assist",
+                "type": "SETTING",
+                "score": 0.9654661
+              }
+            ],
+            "VALUE": [
+              {
+                "startIndex": 17,
+                "endIndex": 20,
+                "text": "off",
+                "type": "VALUE",
+                "score": 0.9999273
+              }
+            ]
+          },
+          "SETTING": [
+            "lane assist"
+          ],
+          "VALUE": [
+            "off"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "1dfc44a9-be62-4c79-a259-487f470498f5"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "Turn lane assist off",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "VEHICLE_SETTINGS_CHANGE",
+          "score": 0.997696936
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "lane assist",
+            "type": "SETTING",
+            "startIndex": 5,
+            "endIndex": 15,
+            "score": 0.9654661
+          },
+          {
+            "entity": "off",
+            "type": "VALUE",
+            "startIndex": 17,
+            "endIndex": 19,
+            "score": 0.9999273
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "7f693820-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:17+00:00",
+    "locale": ""
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "7e0d2a90-ffac-11e8-b259-57ae05b40a01",
+    "id": "800725d0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:18+00:00",
+    "timestamp": "2018-12-14T14:28:18.221Z",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:28:19.212Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "Lane Change Alert is an Active Safety feature. Set it to Off?",
+    "speak": "Lane Change Alert is an Active Safety feature. Set it to Off?",
+    "inputHint": "expectingInput",
+    "suggestedActions": {
+      "actions": [
+        {
+          "type": "imBack",
+          "title": "Yes",
+          "value": "Yes"
+        },
+        {
+          "type": "imBack",
+          "title": "No",
+          "value": "No"
+        }
+      ]
+    },
+    "attachments": [],
+    "entities": [],
+    "replyToId": "7e0d2a90-ffac-11e8-b259-57ae05b40a01",
+    "id": "809e5cc0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:19+00:00"
+  },
+  {
+    "type": "message",
+    "text": "Yes",
+    "from": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "name": "User"
+    },
+    "locale": "",
+    "textFormat": "plain",
+    "timestamp": "2018-12-14T14:28:21.065Z",
+    "channelData": {
+      "clientActivityId": "1544797620731.05590151829959322.11"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "id": "81b91b90-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:21+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:58764"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "81b91b90-ffac-11e8-b259-57ae05b40a01",
+    "id": "824cd010-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:22+00:00",
+    "timestamp": "2018-12-14T14:28:22.033Z",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:28:22.443Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "81b91b90-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Yes",
+        "alteredText": null,
+        "intents": {
+          "VEHICLE_SETTINGS_CHANGE": {
+            "score": 0.9844626
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "1dfc44a9-be62-4c79-a259-487f470498f5"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "Yes",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "VEHICLE_SETTINGS_CHANGE",
+          "score": 0.9844626
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "828b5fb0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:22+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:28:23.006Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "81b91b90-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Yes",
+        "alteredText": null,
+        "intents": {
+          "Cancel": {
+            "score": 0.0693425462
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "fd1a33f9-a804-4406-a53f-3707f3fa600a"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "Yes",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Cancel",
+          "score": 0.0693425462
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "82e147e0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:23+00:00",
+    "locale": ""
+  },
+  {
+    "type": "event",
+    "timestamp": "2018-12-14T14:28:23.645Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "81b91b90-ffac-11e8-b259-57ae05b40a01",
+    "value": [
+      {
+        "Key": "settingname",
+        "Value": "Lane Change Alert"
+      },
+      {
+        "Key": "value",
+        "Value": "Off"
+      }
+    ],
+    "name": "AutomotiveSkill.LaneChangeAlert",
+    "id": "8342c8d0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:23+00:00"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "81b91b90-ffac-11e8-b259-57ae05b40a01",
+    "id": "83c6ecf0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:24+00:00",
+    "timestamp": "2018-12-14T14:28:24.511Z",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:28:24.595Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "Setting Lane Change Alert to Off.",
+    "speak": "Setting Lane Change Alert to Off.",
+    "inputHint": "ignoringInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "81b91b90-ffac-11e8-b259-57ae05b40a01",
+    "id": "83d3be30-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:24+00:00"
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:28:24.854Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "Anything else I can help you with?",
+    "speak": "Anything else I can help you with?",
+    "inputHint": "acceptingInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "81b91b90-ffac-11e8-b259-57ae05b40a01",
+    "id": "83fb4360-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:24+00:00"
+  },
+  {
+    "type": "message",
+    "text": "Increase the volume",
+    "from": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "name": "User"
+    },
+    "locale": "",
+    "textFormat": "plain",
+    "timestamp": "2018-12-14T14:28:29.678Z",
+    "channelData": {
+      "clientActivityId": "1544797620731.05590151829959322.13"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "id": "86db58e0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:29+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:58764"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "86db58e0-ffac-11e8-b259-57ae05b40a01",
+    "id": "87601940-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:30+00:00",
+    "timestamp": "2018-12-14T14:28:30.548Z",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:28:30.907Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "86db58e0-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Increase the volume",
+        "alteredText": null,
+        "intents": {
+          "VEHICLE_SETTINGS_CHANGE": {
+            "score": 0.9994468
+          }
+        },
+        "entities": {
+          "$instance": {
+            "SETTING": [
+              {
+                "startIndex": 13,
+                "endIndex": 19,
+                "text": "volume",
+                "type": "SETTING",
+                "score": 0.9998315
+              }
+            ],
+            "VALUE": [
+              {
+                "startIndex": 0,
+                "endIndex": 8,
+                "text": "increase",
+                "type": "VALUE",
+                "score": 0.996224761
+              }
+            ]
+          },
+          "SETTING": [
+            "volume"
+          ],
+          "VALUE": [
+            "increase"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "1dfc44a9-be62-4c79-a259-487f470498f5"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "Increase the volume",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "VEHICLE_SETTINGS_CHANGE",
+          "score": 0.9994468
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "volume",
+            "type": "SETTING",
+            "startIndex": 13,
+            "endIndex": 18,
+            "score": 0.9998315
+          },
+          {
+            "entity": "increase",
+            "type": "VALUE",
+            "startIndex": 0,
+            "endIndex": 7,
+            "score": 0.996224761
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "8796e0b0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:30+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:28:31.462Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "86db58e0-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Increase the volume",
+        "alteredText": null,
+        "intents": {
+          "Next": {
+            "score": 0.0242085643
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "fd1a33f9-a804-4406-a53f-3707f3fa600a"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "Increase the volume",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Next",
+          "score": 0.0242085643
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "87eb9060-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:31+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:28:32.028Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "86db58e0-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Increase the volume",
+        "alteredText": null,
+        "intents": {
+          "VEHICLE_SETTINGS_CHANGE": {
+            "score": 0.9994468
+          }
+        },
+        "entities": {
+          "$instance": {
+            "SETTING": [
+              {
+                "startIndex": 13,
+                "endIndex": 19,
+                "text": "volume",
+                "type": "SETTING",
+                "score": 0.9998315
+              }
+            ],
+            "VALUE": [
+              {
+                "startIndex": 0,
+                "endIndex": 8,
+                "text": "increase",
+                "type": "VALUE",
+                "score": 0.996224761
+              }
+            ]
+          },
+          "SETTING": [
+            "volume"
+          ],
+          "VALUE": [
+            "increase"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "1dfc44a9-be62-4c79-a259-487f470498f5"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "Increase the volume",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "VEHICLE_SETTINGS_CHANGE",
+          "score": 0.9994468
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "volume",
+            "type": "SETTING",
+            "startIndex": 13,
+            "endIndex": 18,
+            "score": 0.9998315
+          },
+          {
+            "entity": "increase",
+            "type": "VALUE",
+            "startIndex": 0,
+            "endIndex": 7,
+            "score": 0.996224761
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "8841edc0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:32+00:00",
+    "locale": ""
+  },
+  {
+    "type": "event",
+    "timestamp": "2018-12-14T14:28:32.215Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "86db58e0-ffac-11e8-b259-57ae05b40a01",
+    "value": [
+      {
+        "Key": "settingname",
+        "Value": "Set Volume"
+      },
+      {
+        "Key": "valueingform",
+        "Value": "Increasing"
+      }
+    ],
+    "name": "AutomotiveSkill.SetVolume",
+    "id": "885e7670-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:32+00:00"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "86db58e0-ffac-11e8-b259-57ae05b40a01",
+    "id": "88cbde40-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:32+00:00",
+    "timestamp": "2018-12-14T14:28:32.932Z",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:28:33.065Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "Increasing Set Volume.",
+    "speak": "Increasing Set Volume.",
+    "inputHint": "ignoringInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "86db58e0-ffac-11e8-b259-57ae05b40a01",
+    "id": "88e02990-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:33+00:00"
+  },
+  {
+    "type": "message",
+    "text": "adjust the equalizer",
+    "from": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "name": "User"
+    },
+    "locale": "",
+    "textFormat": "plain",
+    "timestamp": "2018-12-14T14:28:48.815Z",
+    "channelData": {
+      "clientActivityId": "1544797620731.05590151829959322.16"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "id": "92436bf0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:48+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:58764"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "92436bf0-ffac-11e8-b259-57ae05b40a01",
+    "id": "929e3620-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:49+00:00",
+    "timestamp": "2018-12-14T14:28:49.410Z",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:28:49.591Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "92436bf0-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "adjust the equalizer",
+        "alteredText": null,
+        "intents": {
+          "VEHICLE_SETTINGS_CHANGE": {
+            "score": 0.999561667
+          }
+        },
+        "entities": {
+          "$instance": {
+            "SETTING": [
+              {
+                "startIndex": 11,
+                "endIndex": 20,
+                "text": "equalizer",
+                "type": "SETTING",
+                "score": 0.9991236
+              }
+            ]
+          },
+          "SETTING": [
+            "equalizer"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "1dfc44a9-be62-4c79-a259-487f470498f5"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "adjust the equalizer",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "VEHICLE_SETTINGS_CHANGE",
+          "score": 0.999561667
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "equalizer",
+            "type": "SETTING",
+            "startIndex": 11,
+            "endIndex": 19,
+            "score": 0.9991236
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "92b9d470-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:49+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:28:50.090Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "92436bf0-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "adjust the equalizer",
+        "alteredText": null,
+        "intents": {
+          "Next": {
+            "score": 0.023161
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "fd1a33f9-a804-4406-a53f-3707f3fa600a"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "adjust the equalizer",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Next",
+          "score": 0.023161
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "9305f8a0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:50+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:28:50.523Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "92436bf0-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "adjust the equalizer",
+        "alteredText": null,
+        "intents": {
+          "VEHICLE_SETTINGS_CHANGE": {
+            "score": 0.999561667
+          }
+        },
+        "entities": {
+          "$instance": {
+            "SETTING": [
+              {
+                "startIndex": 11,
+                "endIndex": 20,
+                "text": "equalizer",
+                "type": "SETTING",
+                "score": 0.9991236
+              }
+            ]
+          },
+          "SETTING": [
+            "equalizer"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "1dfc44a9-be62-4c79-a259-487f470498f5"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "adjust the equalizer",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "VEHICLE_SETTINGS_CHANGE",
+          "score": 0.999561667
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "equalizer",
+            "type": "SETTING",
+            "startIndex": 11,
+            "endIndex": 19,
+            "score": 0.9991236
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "93480ab0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:50+00:00",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "attachmentLayout": "list",
+    "text": " (1) Equalizer (Bass)(2) Equalizer (Midrange)(3) Equalizer (Treble)(4) Equalizer (Surround)(5) Air Recirculation",
+    "inputHint": "acceptingInput",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.hero",
+        "content": {
+          "title": null,
+          "subtitle": null,
+          "text": "Please choose from one of the available settings shown below",
+          "images": [
+            {
+              "url": "http://localhost:3980/images/settingcog.jpg",
+              "alt": null,
+              "tap": null
+            }
+          ],
+          "buttons": [
+            {
+              "type": "imBack",
+              "title": "Equalizer (Bass)",
+              "image": null,
+              "text": null,
+              "displayText": null,
+              "value": "Equalizer (Bass)",
+              "channelData": null
+            },
+            {
+              "type": "imBack",
+              "title": "Equalizer (Midrange)",
+              "image": null,
+              "text": null,
+              "displayText": null,
+              "value": "Equalizer (Midrange)",
+              "channelData": null
+            },
+            {
+              "type": "imBack",
+              "title": "Equalizer (Treble)",
+              "image": null,
+              "text": null,
+              "displayText": null,
+              "value": "Equalizer (Treble)",
+              "channelData": null
+            },
+            {
+              "type": "imBack",
+              "title": "Equalizer (Surround)",
+              "image": null,
+              "text": null,
+              "displayText": null,
+              "value": "Equalizer (Surround)",
+              "channelData": null
+            },
+            {
+              "type": "imBack",
+              "title": "Air Recirculation",
+              "image": null,
+              "text": null,
+              "displayText": null,
+              "value": "Air Recirculation",
+              "channelData": null
+            }
+          ],
+          "tap": null
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "92436bf0-ffac-11e8-b259-57ae05b40a01",
+    "id": "9367c7b0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:50+00:00",
+    "timestamp": "2018-12-14T14:28:50.731Z",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "text": "Equalizer (Bass)",
+    "from": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "name": "User"
+    },
+    "locale": "",
+    "textFormat": "plain",
+    "timestamp": "2018-12-14T14:28:55.257Z",
+    "channelData": {
+      "clientActivityId": "1544797620731.05590151829959322.18"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "id": "961a8ba0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:55+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:58764"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "961a8ba0-ffac-11e8-b259-57ae05b40a01",
+    "id": "96805250-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:55+00:00",
+    "timestamp": "2018-12-14T14:28:55.925Z",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:28:56.190Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "961a8ba0-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Equalizer (Bass)",
+        "alteredText": null,
+        "intents": {
+          "VEHICLE_SETTINGS_CHANGE": {
+            "score": 0.957725763
+          }
+        },
+        "entities": {
+          "$instance": {
+            "SETTING": [
+              {
+                "startIndex": 0,
+                "endIndex": 15,
+                "text": "equalizer ( bass",
+                "type": "SETTING",
+                "score": 0.442810535
+              }
+            ]
+          },
+          "SETTING": [
+            "equalizer ( bass"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "1dfc44a9-be62-4c79-a259-487f470498f5"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "Equalizer (Bass)",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "VEHICLE_SETTINGS_CHANGE",
+          "score": 0.957725763
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "equalizer ( bass",
+            "type": "SETTING",
+            "startIndex": 0,
+            "endIndex": 14,
+            "score": 0.442810535
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "96a8c1e0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:56+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:28:56.564Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "961a8ba0-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Equalizer (Bass)",
+        "alteredText": null,
+        "intents": {
+          "Help": {
+            "score": 0.0304883011
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "fd1a33f9-a804-4406-a53f-3707f3fa600a"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "Equalizer (Bass)",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Help",
+          "score": 0.0304883011
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "96e1d340-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:56+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:28:57.829Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "961a8ba0-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Equalizer (Bass)",
+        "alteredText": null,
+        "intents": {
+          "SETTING_NAME_SELECTION": {
+            "score": 0.99962
+          }
+        },
+        "entities": {
+          "$instance": {
+            "SETTING": [
+              {
+                "startIndex": 0,
+                "endIndex": 16,
+                "text": "equalizer ( bass )",
+                "type": "SETTING",
+                "score": 0.847538
+              }
+            ]
+          },
+          "SETTING": [
+            "equalizer ( bass )"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "9236df1a-af33-4533-a4aa-2f2ffed7096d"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "Equalizer (Bass)",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "SETTING_NAME_SELECTION",
+          "score": 0.99962
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "equalizer ( bass )",
+            "type": "SETTING",
+            "startIndex": 0,
+            "endIndex": 15,
+            "score": 0.847538
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "97a2d950-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:57+00:00",
+    "locale": ""
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "961a8ba0-ffac-11e8-b259-57ae05b40a01",
+    "id": "97e9f470-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:58+00:00",
+    "timestamp": "2018-12-14T14:28:58.295Z",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:28:58.452Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "Here are the settings for Equalizer (Bass): (1) Decrease(2) Increase",
+    "speak": "Here are the settings for Equalizer (Bass):",
+    "inputHint": "expectingInput",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.hero",
+        "content": {
+          "title": null,
+          "subtitle": null,
+          "text": "Here are the settings for Equalizer (Bass):",
+          "images": [
+            {
+              "url": "http://localhost:3980/images/settingcog.jpg",
+              "alt": null,
+              "tap": null
+            }
+          ],
+          "buttons": [
+            {
+              "type": "imBack",
+              "title": "Decrease",
+              "image": null,
+              "text": null,
+              "displayText": null,
+              "value": "Decrease",
+              "channelData": null
+            },
+            {
+              "type": "imBack",
+              "title": "Increase",
+              "image": null,
+              "text": null,
+              "displayText": null,
+              "value": "Increase",
+              "channelData": null
+            }
+          ],
+          "tap": null
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "961a8ba0-ffac-11e8-b259-57ae05b40a01",
+    "id": "9801e940-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:28:58+00:00"
+  },
+  {
+    "type": "message",
+    "text": "Decrease",
+    "from": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "name": "User"
+    },
+    "locale": "",
+    "textFormat": "plain",
+    "timestamp": "2018-12-14T14:29:02.005Z",
+    "channelData": {
+      "clientActivityId": "1544797620731.05590151829959322.20"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "id": "9a200e50-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:29:02+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:58764"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "9a200e50-ffac-11e8-b259-57ae05b40a01",
+    "id": "9a7ed020-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:29:02+00:00",
+    "timestamp": "2018-12-14T14:29:02.626Z",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:29:02.773Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "9a200e50-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Decrease",
+        "alteredText": null,
+        "intents": {
+          "VEHICLE_SETTINGS_CHANGE": {
+            "score": 0.9999361
+          }
+        },
+        "entities": {
+          "$instance": {
+            "VALUE": [
+              {
+                "startIndex": 0,
+                "endIndex": 8,
+                "text": "decrease",
+                "type": "VALUE",
+                "score": 0.995174646
+              }
+            ]
+          },
+          "VALUE": [
+            "decrease"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "1dfc44a9-be62-4c79-a259-487f470498f5"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "Decrease",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "VEHICLE_SETTINGS_CHANGE",
+          "score": 0.9999361
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "decrease",
+            "type": "VALUE",
+            "startIndex": 0,
+            "endIndex": 7,
+            "score": 0.995174646
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "9a953e50-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:29:02+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:29:03.105Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "9a200e50-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Decrease",
+        "alteredText": null,
+        "intents": {
+          "Cancel": {
+            "score": 0.0693425462
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "fd1a33f9-a804-4406-a53f-3707f3fa600a"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "Decrease",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Cancel",
+          "score": 0.0693425462
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "9ac7e710-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:29:03+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:29:03.430Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "replyToId": "9a200e50-ffac-11e8-b259-57ae05b40a01",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Decrease",
+        "alteredText": null,
+        "intents": {
+          "SETTING_VALUE_SELECTION": {
+            "score": 0.9999776
+          }
+        },
+        "entities": {
+          "$instance": {
+            "VALUE": [
+              {
+                "startIndex": 0,
+                "endIndex": 8,
+                "text": "decrease",
+                "type": "VALUE",
+                "score": 0.6127627
+              }
+            ]
+          },
+          "VALUE": [
+            "decrease"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "cd93e9c0-cc15-42b6-b431-4e39a6668f22"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "Decrease",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "SETTING_VALUE_SELECTION",
+          "score": 0.9999776
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "decrease",
+            "type": "VALUE",
+            "startIndex": 0,
+            "endIndex": 7,
+            "score": 0.6127627
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "9af97e60-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:29:03+00:00",
+    "locale": ""
+  },
+  {
+    "type": "event",
+    "timestamp": "2018-12-14T14:29:03.534Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "9a200e50-ffac-11e8-b259-57ae05b40a01",
+    "value": [
+      {
+        "Key": "settingname",
+        "Value": "Equalizer (Bass)"
+      },
+      {
+        "Key": "valueingform",
+        "Value": "Decreasing"
+      }
+    ],
+    "name": "AutomotiveSkill.Equalizer(Bass)",
+    "id": "9b095ce0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:29:03+00:00"
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:29:04.027Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "Decreasing Equalizer (Bass).",
+    "speak": "Decreasing Equalizer (Bass).",
+    "inputHint": "ignoringInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "9a200e50-ffac-11e8-b259-57ae05b40a01",
+    "id": "9b5496b0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:29:04+00:00"
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:29:04.154Z",
+    "serviceUrl": "http://localhost:58764",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "51cdf4f0-ffac-11e8-b52c-0b774836bbd0|livechat"
+    },
+    "recipient": {
+      "id": "d7c7eda9-5696-47c7-a508-8c9d07cdd3aa",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "Let me know if you need my help with anything else.",
+    "speak": "Let me know if you need my help with anything else.",
+    "inputHint": "acceptingInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "9a200e50-ffac-11e8-b259-57ae05b40a01",
+    "id": "9b67f7a0-ffac-11e8-b259-57ae05b40a01",
+    "localTimestamp": "2018-12-14T14:29:04+00:00"
+  }
+]

@@ -25,7 +25,7 @@ namespace AutomotiveSkill
         private bool _skillMode;
         private ISkillConfiguration _services;
         private UserState _userState;
-        private IBotTelemetryClient telemetryClient;
+        private IBotTelemetryClient _telemetryClient;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
         private IHttpContextAccessor _httpContext;
@@ -39,7 +39,7 @@ namespace AutomotiveSkill
             _services = services;
             _conversationState = conversationState;
             _userState = userState;
-            TelemetryClient = telemetryClient;
+            _telemetryClient = telemetryClient;
             _serviceManager = serviceManager;
             _httpContext = httpContext;
 
@@ -220,7 +220,7 @@ namespace AutomotiveSkill
         private void RegisterDialogs()
         {
             AddDialog(new CancelDialog());
-            AddDialog(new VehicleSettingsDialog(_services, _stateAccessor, _serviceManager, _httpContext));
+            AddDialog(new VehicleSettingsDialog(_services, _stateAccessor, _serviceManager, _telemetryClient, _httpContext));
         }
 
         private class Events
