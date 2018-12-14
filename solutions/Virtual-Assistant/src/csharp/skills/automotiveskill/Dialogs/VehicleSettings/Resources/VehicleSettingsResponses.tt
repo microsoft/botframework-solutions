@@ -1,0 +1,3 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ output extension=".cs" #>
+<#@ include file="..\..\..\..\..\..\Microsoft.Bot.Solutions\Resources\ResponsesTemplate.t4"#>
