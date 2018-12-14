@@ -156,17 +156,26 @@
     ],
     "inputHint": "expectingInput"
   },
-  "ConfirmRecipient": {
-    "replies": [
-      {
-        "text": "Who do you want to invite?",
-        "speak": "Who do you want to invite?"
-      },
-      {
-        "text": "What contact do you want to select?",
-        "speak": "What contact do you want to select?"
-      }
-    ],
-    "inputHint": "expectingInput"
-  }
+    "ConfirmRecipient": {
+        "replies": [
+            {
+                "text": "Who do you want to invite?",
+                "speak": "Who do you want to invite?"
+            },
+            {
+                "text": "What contact do you want to select?",
+                "speak": "What contact do you want to select?"
+            }
+        ],
+        "inputHint": "expectingInput"
+    },
+    "InvaildDuration": {
+        "replies": [
+            {
+                "text": "The end time of the meeting cannot be earlier than or equal to the start time. Please try again.",
+                "speak": "The end time of the meeting cannot be earlier than or equal to the start time. Please try again."
+            }
+        ],
+        "inputHint": "expectingInput"
+    }
 }

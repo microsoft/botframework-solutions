@@ -48,9 +48,9 @@ namespace CalendarSkill.Dialogs.CreateEvent.Resources
 
         public static BotResponse NoDuration => GetBotResponse();
 
-        public static BotResponse FindUserErrorMessage => GetBotResponse();
-
         public static BotResponse ConfirmRecipient => GetBotResponse();
+
+        public static BotResponse InvaildDuration => GetBotResponse();
 
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {

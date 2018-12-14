@@ -846,6 +846,7 @@ namespace CalendarSkill
                                 endtime.Hour,
                                 endtime.Minute,
                                 endtime.Second);
+                            endDateTime = TimeZoneInfo.ConvertTimeToUtc(endDateTime, state.GetUserTimeZone());
                             if (state.EndDateTime == null || endDateTime >= state.StartDateTime)
                             {
                                 state.EndDateTime = endDateTime;
@@ -855,6 +856,7 @@ namespace CalendarSkill
                     else
                     {
                         state.EndDateTime = new DateTime(endDate.Year, endDate.Month, endDate.Day, 23, 59, 59);
+                        state.EndDateTime = TimeZoneInfo.ConvertTimeToUtc(state.EndDateTime.Value, state.GetUserTimeZone());
                     }
 
                     var ts = state.StartDateTime.Value.Subtract(state.EndDateTime.Value).Duration();
@@ -880,10 +882,20 @@ namespace CalendarSkill
                 }
                 else
                 {
-                    // TODO: Handle improper duration
+                    state.EndDate = new List<DateTime>();
+                    state.EndTime = new List<DateTime>();
+                    state.EndDateTime = null;
                 }
 
-                return await sc.BeginDialogAsync(Actions.UpdateDurationForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotADateTime), cancellationToken);
+                if (state.Duration <= 0)
+                {
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CreateEventResponses.InvaildDuration));
+                    return await sc.BeginDialogAsync(Actions.UpdateDurationForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound), cancellationToken);
+                }
+                else
+                {
+                    return await sc.BeginDialogAsync(Actions.UpdateDurationForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotADateTime), cancellationToken);
+                }
             }
             catch
             {

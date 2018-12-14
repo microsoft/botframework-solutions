@@ -22,7 +22,7 @@ namespace CalendarSkillTest.Flow.Utterances
                 fromDate: new string[] { Strings.Strings.DefaultStartDate },
                 fromTime: new string[] { Strings.Strings.DefaultStartTime },
                 toDate: new string[] { Strings.Strings.DefaultStartDate },
-                toTime: new string[] { Strings.Strings.DefaultStartTime }));
+                toTime: new string[] { Strings.Strings.DefaultEndTime }));
             this.Add(CreateMeetingWithLocationEntity, GetCreateMeetingIntent(
                 CreateMeetingWithLocationEntity,
                 location: new string[] { Strings.Strings.DefaultLocation }));
