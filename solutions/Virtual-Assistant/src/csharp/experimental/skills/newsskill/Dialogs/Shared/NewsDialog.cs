@@ -17,18 +17,16 @@ namespace NewsSkill
     {
         protected const string LuisResultKey = "LuisResult";
 
-        // Fields
-        private readonly SkillConfiguration _services;
-
         public NewsDialog(
                    string dialogId,
                    ISkillConfiguration services,
-                   IStatePropertyAccessor<NewsSkillState> accessor)
+                   IStatePropertyAccessor<NewsSkillState> accessor,
+                   IBotTelemetryClient telemetryClient)
                    : base(dialogId)
-
         {
             Services = services;
             Accessor = accessor;
+            TelemetryClient = telemetryClient;
         }
 
         protected ISkillConfiguration Services { get; set; }

@@ -219,7 +219,7 @@ namespace RestaurantBooking
         private void RegisterDialogs()
         {
             AddDialog(new CancelDialog());
-            AddDialog(new BookingDialog(_services, _stateAccessor, _serviceManager, _httpContext));
+            AddDialog(new BookingDialog(_services, _stateAccessor, _serviceManager, _telemetryClient, _httpContext));
         }
 
         private class Events

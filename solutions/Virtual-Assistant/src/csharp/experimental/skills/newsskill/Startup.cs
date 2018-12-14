@@ -33,10 +33,12 @@ namespace NewsSkill
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
-            if (env.IsDevelopment()) 
+            if (env.IsDevelopment())
+            {
                 builder.AddUserSecrets<Startup>();
+            }
 
-                Configuration = builder.Build();
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }

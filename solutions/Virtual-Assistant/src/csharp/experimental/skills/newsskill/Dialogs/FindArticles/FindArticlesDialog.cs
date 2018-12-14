@@ -16,10 +16,12 @@ namespace NewsSkill
 
         public FindArticlesDialog(
             ISkillConfiguration services,
-            IStatePropertyAccessor<NewsSkillState> accessor)
-            : base(nameof(FindArticlesDialog), services, accessor)
+            IStatePropertyAccessor<NewsSkillState> accessor,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(FindArticlesDialog), services, accessor, telemetryClient)
         {
             Accessor = accessor;
+            TelemetryClient = telemetryClient;
 
             var key = services.Properties["BingNewsKey"] ?? throw new Exception("The BingNewsKey must be provided to use this dialog. Please provide this key in your Skill Configuration.");
 

@@ -25,12 +25,14 @@ namespace RestaurantBooking
            string dialogId,
            ISkillConfiguration services,
            IStatePropertyAccessor<RestaurantBookingState> accessor,
-           IServiceManager serviceManager)
+           IServiceManager serviceManager,
+           IBotTelemetryClient telemetryClient)
            : base(nameof(RestaurantBookingDialog))
         {
             Services = services;
             Accessor = accessor;
             ServiceManager = serviceManager;
+            TelemetryClient = telemetryClient;
         }
 
         // Fields

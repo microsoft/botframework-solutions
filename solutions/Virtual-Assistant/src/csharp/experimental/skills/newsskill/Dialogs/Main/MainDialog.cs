@@ -170,7 +170,7 @@ namespace NewsSkill
 
         private void RegisterDialogs()
         {
-            AddDialog(new FindArticlesDialog(_services, _stateAccessor));
+            AddDialog(new FindArticlesDialog(_services, _stateAccessor, _telemetryClient));
         }
     }
 }
