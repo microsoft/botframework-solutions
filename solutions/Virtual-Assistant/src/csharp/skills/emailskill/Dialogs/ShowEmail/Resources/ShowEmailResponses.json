@@ -2,40 +2,40 @@
   "ReadOutPrompt": {
     "replies": [
       {
-        "text": "Which one do you want to hear? You can also forward, reply or delete any of this.",
-        "speak": "Which one do you want to hear? You can also forward, reply or delete any of this."
+        "text": "Which one do you want to hear? You can also forward, reply or delete any of these.",
+        "speak": "Which one do you want to hear? You can also forward, reply or delete any of these."
       },
       {
-        "text": "Which email would you like me to read out? You can also forward, reply or delete any of this.",
-        "speak": "Which email would you like me to read out? You can also forward, reply or delete any of this."
+        "text": "Which email would you like me to read out? You can also forward, reply or delete any of these.",
+        "speak": "Which email would you like me to read out? You can also forward, reply or delete any of these."
       },
       {
-        "text": "Any email you would like me to read out? You can also forward, reply or delete any of this.",
-        "speak": "Any email you would like me to read out? You can also forward, reply or delete any of this."
+        "text": "Any email you would like me to read out? You can also forward, reply or delete any of these.",
+        "speak": "Any email you would like me to read out? You can also forward, reply or delete any of these."
       },
       {
-        "text": "Which email do you want more details on? You can also forward, reply or delete any of this.",
-        "speak": "Which email do you want more details on? You can also forward, reply or delete any of this."
+        "text": "Which email do you want more details on? You can also forward, reply or delete any of these.",
+        "speak": "Which email do you want more details on? You can also forward, reply or delete any of these."
       },
       {
-        "text": "Which one would you like to know the content of? You can also forward, reply or delete any of this.",
-        "speak": "Which one would you like to know the content of? You can also forward, reply or delete any of this."
+        "text": "Which one would you like to know the content of? You can also forward, reply or delete any of these.",
+        "speak": "Which one would you like to know the content of? You can also forward, reply or delete any of these."
       },
       {
-        "text": "Which email do you want me to read out? You can also forward, reply or delete any of this.",
-        "speak": "Which email do you want me to read out? You can also forward, reply or delete any of this."
+        "text": "Which email do you want me to read out? You can also forward, reply or delete any of these.",
+        "speak": "Which email do you want me to read out? You can also forward, reply or delete any of these."
       },
       {
-        "text": "Which one do you want to hear about? You can also forward, reply or delete any of this.",
-        "speak": "Which one do you want to hear about? You can also forward, reply or delete any of this."
+        "text": "Which one do you want to hear about? You can also forward, reply or delete any of these.",
+        "speak": "Which one do you want to hear about? You can also forward, reply or delete any of these."
       },
       {
-        "text": "Which email do you want me to give you the details? You can also forward, reply or delete any of this.",
-        "speak": "Which email do you want me to give you the details? You can also forward, reply or delete any of this."
+        "text": "Which email do you want me to give you the details? You can also forward, reply or delete any of these.",
+        "speak": "Which email do you want me to give you the details? You can also forward, reply or delete any of these."
       },
       {
-        "text": "Which email should I read to you? You can also forward, reply or delete any of this.",
-        "speak": "Which email should I read to you? You can also forward, reply or delete any of this."
+        "text": "Which email should I read to you? You can also forward, reply or delete any of these.",
+        "speak": "Which email should I read to you? You can also forward, reply or delete any of these."
       }
     ],
     "inputHint": "expectingInput"
@@ -43,8 +43,8 @@
   "ReadOutOnlyOnePrompt": {
     "replies": [
       {
-        "text": "Do you want to hear this one? You can also forward, reply or delete any of this.",
-        "speak": "Do you want to hear this one? You can also forward, reply or delete any of this."
+        "text": "Do you want to hear this one? You can also forward, reply or delete any of these.",
+        "speak": "Do you want to hear this one? You can also forward, reply or delete any of these."
       }
     ],
     "inputHint": "expectingInput"
@@ -65,8 +65,8 @@
   "ReadOutMorePrompt": {
     "replies": [
       {
-        "text": "Do you want to hear more? You can also read, forward, reply or delete any of this.",
-        "speak": "Do you want to hear more? You can also read, forward, reply or delete any of this."
+        "text": "Do you want to hear more? You can also read, forward, reply or delete any of these.",
+        "speak": "Do you want to hear more? You can also read, forward, reply or delete any of these."
       }
     ],
     "inputHint": "expectingInput"
