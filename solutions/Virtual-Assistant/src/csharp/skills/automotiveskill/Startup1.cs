@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 namespace AutomotiveSkill
@@ -35,10 +35,12 @@ namespace AutomotiveSkill
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
-            if (env.IsDevelopment()) 
+            if (env.IsDevelopment())
+            {
                 builder.AddUserSecrets<Startup>();
+            }
 
-                Configuration = builder.Build();
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }

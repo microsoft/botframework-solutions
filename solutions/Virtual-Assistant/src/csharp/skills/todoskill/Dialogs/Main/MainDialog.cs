@@ -301,7 +301,7 @@ namespace ToDoSkill
 
             return InterruptionAction.StartedDialog;
         }
-        
+
         private void RegisterDialogs()
         {
             AddDialog(new AddToDoItemDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));

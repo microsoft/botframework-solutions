@@ -6,15 +6,10 @@ using CalendarSkill.Dialogs.DeleteEvent.Resources;
 using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkillTest.Flow.Fakes;
 using CalendarSkillTest.Flow.Utterances;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Skills;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using CalendarSkillTest.Flow.Utterances;
-using CalendarSkillTest.Flow.Fakes;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Bot.Builder;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CalendarSkillTest.Flow
 {

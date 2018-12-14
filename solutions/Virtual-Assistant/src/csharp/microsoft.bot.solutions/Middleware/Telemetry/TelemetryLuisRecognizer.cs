@@ -67,7 +67,6 @@ namespace Microsoft.Bot.Solutions
             return result;
         }
 
-
         /// <summary>
         /// Return results of the analysis (Suggested actions and intents), passing the dialog id from dialog context to the TelemetryClient.
         /// </summary>
@@ -127,7 +126,6 @@ namespace Microsoft.Bot.Solutions
                     { LuisTelemetryConstants.IntentScoreProperty, intentScore },
                 };
 
-
                 if (dialogId != null)
                 {
                     telemetryProperties.Add(LuisTelemetryConstants.DialogId, dialogId);
@@ -168,6 +166,5 @@ namespace Microsoft.Bot.Solutions
 
             return recognizerResult;
         }
-
     }
 }

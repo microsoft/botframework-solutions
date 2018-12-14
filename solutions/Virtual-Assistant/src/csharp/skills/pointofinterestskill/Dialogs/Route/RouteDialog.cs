@@ -22,7 +22,6 @@ namespace PointOfInterestSkill
             IBotTelemetryClient telemetryClient)
             : base(nameof(RouteDialog), services, accessor, serviceManager, telemetryClient)
         {
-
             TelemetryClient = telemetryClient;
 
             var checkForActiveRouteAndLocation = new WaterfallStep[]
