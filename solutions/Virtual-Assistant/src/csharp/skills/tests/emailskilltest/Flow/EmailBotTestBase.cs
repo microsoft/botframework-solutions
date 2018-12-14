@@ -23,6 +23,8 @@ namespace EmailSkillTest.Flow
 
         public UserState UserState { get; set; }
 
+        public IBotTelemetryClient TelemetryClient { get; set; }
+
         public IServiceManager ServiceManager { get; set; }
 
         public ISkillConfiguration Services { get; set; }
@@ -34,6 +36,7 @@ namespace EmailSkillTest.Flow
 
             this.ConversationState = new ConversationState(new MemoryStorage());
             this.UserState = new UserState(new MemoryStorage());
+            this.TelemetryClient = new NullBotTelemetryClient();
             this.EmailStateAccessor = this.ConversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
             this.Services = new MockSkillConfiguration();
 
@@ -79,7 +82,7 @@ namespace EmailSkillTest.Flow
 
         public override IBot BuildBot()
         {
-            return new EmailSkill.EmailSkill(this.Services, this.ConversationState, this.UserState,  this.ServiceManager, true);
+            return new EmailSkill.EmailSkill(this.Services, this.ConversationState, this.UserState,  this.TelemetryClient, this.ServiceManager, true);
         }
     }
 }

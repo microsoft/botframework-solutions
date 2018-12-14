@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs;
 
@@ -18,10 +19,11 @@ namespace VirtualAssistant
         private readonly BotServices _services;
         private readonly MainResponses _responder = new MainResponses();
 
-        public EnterpriseDialog(BotServices botServices, string dialogId)
-            : base(dialogId)
+        public EnterpriseDialog(BotServices botServices, string dialogId, IBotTelemetryClient telemetryClient)
+            : base(dialogId, telemetryClient)
         {
             _services = botServices;
+            TelemetryClient = telemetryClient;
         }
 
         protected override async Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken)

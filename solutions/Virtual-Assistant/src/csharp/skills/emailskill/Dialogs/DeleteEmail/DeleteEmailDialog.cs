@@ -18,9 +18,12 @@ namespace EmailSkill
             ISkillConfiguration services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
-            IServiceManager serviceManager)
-            : base(nameof(DeleteEmailDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager)
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(DeleteEmailDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient)
         {
+            TelemetryClient = telemetryClient;
+
             var deleteEmail = new WaterfallStep[]
             {
                 IfClearContextStep,
@@ -45,9 +48,9 @@ namespace EmailSkill
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Actions.Delete, deleteEmail));
-            AddDialog(new WaterfallDialog(Actions.Show, showEmail));
-            AddDialog(new WaterfallDialog(Actions.UpdateSelectMessage, updateSelectMessage));
+            AddDialog(new WaterfallDialog(Actions.Delete, deleteEmail) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.Show, showEmail) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.UpdateSelectMessage, updateSelectMessage) { TelemetryClient = telemetryClient });
             InitialDialogId = Actions.Delete;
         }
 

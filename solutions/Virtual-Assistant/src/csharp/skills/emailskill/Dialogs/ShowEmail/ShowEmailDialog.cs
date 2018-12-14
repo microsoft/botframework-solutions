@@ -24,9 +24,12 @@ namespace EmailSkill
             ISkillConfiguration services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
-            IServiceManager serviceManager)
-            : base(nameof(ShowEmailDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager)
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(ShowEmailDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient)
         {
+            TelemetryClient = telemetryClient;
+
             var showEmail = new WaterfallStep[]
             {
                 IfClearContextStep,
@@ -70,15 +73,15 @@ namespace EmailSkill
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Actions.Show, showEmail));
-            AddDialog(new WaterfallDialog(Actions.Read, readEmail));
-            AddDialog(new WaterfallDialog(Actions.Delete, deleteEmail));
-            AddDialog(new WaterfallDialog(Actions.Forward, forwardEmail));
-            AddDialog(new WaterfallDialog(Actions.Reply, replyEmail));
-            AddDialog(new WaterfallDialog(Actions.Reshow, reshowEmail));
-            AddDialog(new DeleteEmailDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager));
-            AddDialog(new ReplyEmailDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager));
-            AddDialog(new ForwardEmailDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager));
+            AddDialog(new WaterfallDialog(Actions.Show, showEmail) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.Read, readEmail) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.Delete, deleteEmail) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.Forward, forwardEmail) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.Reply, replyEmail) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.Reshow, reshowEmail) { TelemetryClient = telemetryClient });
+            AddDialog(new DeleteEmailDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
+            AddDialog(new ReplyEmailDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
+            AddDialog(new ForwardEmailDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
             InitialDialogId = Actions.Show;
         }
 

@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using EmailSkillTest.Flow.Utterances;
 using Luis;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Solutions;
 
 namespace EmailSkillTest.Flow.Fakes
 {
-    public class MockEmailLuisRecognizer : IRecognizer
+    public class MockEmailLuisRecognizer : ITelemetryLuisRecognizer
     {
         private BaseTestUtterances emailUtterancesManager;
 
@@ -21,6 +23,10 @@ namespace EmailSkillTest.Flow.Fakes
         {
             this.emailUtterancesManager = utterancesManager;
         }
+
+        public bool LogOriginalMessage => throw new NotImplementedException();
+
+        public bool LogUsername => throw new NotImplementedException();
 
         public void AddUtteranceManager(BaseTestUtterances utterancesManager)
         {
@@ -42,6 +48,18 @@ namespace EmailSkillTest.Flow.Fakes
             var mockResult = (T)test;
 
             return Task.FromResult(mockResult);
+        }
+
+        public Task<T> RecognizeAsync<T>(DialogContext dialogContext, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken)) 
+            where T : IRecognizerConvert, new()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<T> RecognizeAsync<T>(ITurnContext turnContext, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken)) 
+            where T : IRecognizerConvert, new()
+        {
+            throw new NotImplementedException();
         }
     }
 }

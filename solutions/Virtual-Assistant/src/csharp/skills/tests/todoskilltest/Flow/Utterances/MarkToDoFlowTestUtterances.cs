@@ -3,21 +3,35 @@ using ToDoSkill.Dialogs.Shared.Resources;
 
 namespace ToDoSkillTest.Flow.Utterances
 {
-    public class MarkToDoFlowTestUtterances : ShowToDoFlowTestUtterances
+    public class MarkToDoFlowTestUtterances : BaseTestUtterances
     {
         public MarkToDoFlowTestUtterances()
         {
-            var number = new double[] { 2 };
-            this.Add(MarkTaskAsCompleted, GetBaseMarkToDoIntent(
-                MarkTaskAsCompleted,
-                number: number));
+            this.Add(BaseMarkTask, GetBaseMarkToDoIntent(
+                BaseMarkTask));
+
+            this.Add(TaskContent, GetBaseNoneIntent());
+
+            var ordinal = new double[] { 2 };
+            this.Add(MarkSpecificTaskAsCompleted, GetBaseMarkToDoIntent(
+                MarkSpecificTaskAsCompleted,
+                ordinal: ordinal));
 
             var listType = new string[] { ToDoStrings.Grocery };
-            number = new double[] { 3 };
-            this.Add(MarkTaskAsCompletedWithListType, GetBaseMarkToDoIntent(
-                MarkTaskAsCompletedWithListType,
+            var number = new double[] { 3 };
+            this.Add(MarkSpecificTaskAsCompletedWithListType, GetBaseMarkToDoIntent(
+                MarkSpecificTaskAsCompletedWithListType,
                 listType: listType,
                 number: number));
+
+            number = new double[1];
+            var taskContentML = new string[] { "play games 1" };
+            var taskContentPattern = new string[] { "play games 2" };
+            this.Add(MarkTaskAsCompletedByContent, GetBaseMarkToDoIntent(
+                MarkTaskAsCompletedByContent,
+                number: number,
+                taskContentML: taskContentML,
+                taskContentPattern: taskContentPattern));
 
             var containsAll = new string[] { "all" };
             this.Add(MarkAllTasksAsCompleted, GetBaseMarkToDoIntent(
@@ -25,9 +39,15 @@ namespace ToDoSkillTest.Flow.Utterances
                 containsAll: containsAll));
         }
 
-        public static string MarkTaskAsCompleted { get; } = "mark the second task as completed";
+        public static string BaseMarkTask { get; } = "mark a task as done";
 
-        public static string MarkTaskAsCompletedWithListType { get; } = "mark task three in my grocery list as completed";
+        public static string TaskContent { get; } = "Play Games 1";
+
+        public static string MarkSpecificTaskAsCompleted { get; } = "mark the second task as completed";
+
+        public static string MarkSpecificTaskAsCompletedWithListType { get; } = "mark task three in my grocery list as completed";
+
+        public static string MarkTaskAsCompletedByContent { get; } = "mark the task Play Games 1 as completed";
 
         public static string MarkAllTasksAsCompleted { get; } = "mark all tasks as completed";
 
@@ -37,7 +57,9 @@ namespace ToDoSkillTest.Flow.Utterances
             double[] ordinal = null,
             double[] number = null,
             string[] listType = null,
-            string[] containsAll = null)
+            string[] containsAll = null,
+            string[] taskContentPattern = null,
+            string[] taskContentML = null)
         {
             return GetToDoIntent(
                 userInput,
@@ -45,7 +67,9 @@ namespace ToDoSkillTest.Flow.Utterances
                 ordinal: ordinal,
                 number: number,
                 listType: listType,
-                containsAll: containsAll);
+                containsAll: containsAll,
+                taskContentPattern: taskContentPattern,
+                taskContentML: taskContentML);
         }
     }
 }
