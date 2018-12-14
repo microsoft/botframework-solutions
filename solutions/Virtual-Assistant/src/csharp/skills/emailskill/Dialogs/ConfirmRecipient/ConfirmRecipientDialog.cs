@@ -25,9 +25,12 @@ namespace EmailSkill
             ISkillConfiguration services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
-            IServiceManager serviceManager)
-            : base(nameof(ConfirmRecipientDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager)
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(ConfirmRecipientDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient)
         {
+            TelemetryClient = telemetryClient;
+
             var confirmRecipient = new WaterfallStep[]
             {
                 ConfirmRecipient,
@@ -41,8 +44,8 @@ namespace EmailSkill
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Actions.ConfirmRecipient, confirmRecipient));
-            AddDialog(new WaterfallDialog(Actions.UpdateRecipientName, updateRecipientName));
+            AddDialog(new WaterfallDialog(Actions.ConfirmRecipient, confirmRecipient) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.UpdateRecipientName, updateRecipientName) { TelemetryClient = telemetryClient });
             InitialDialogId = Actions.ConfirmRecipient;
         }
 
@@ -262,7 +265,6 @@ namespace EmailSkill
                         {
                             if (state.RecipientChoiceList.Count <= ConfigData.GetInstance().MaxReadSize)
                             {
-                                // Set readmore as false when return to next page
                                 state.ShowRecipientIndex++;
                                 state.ReadRecipientIndex = 0;
                             }

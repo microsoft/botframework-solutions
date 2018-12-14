@@ -66,7 +66,7 @@ namespace EmailSkillTest.Flow.Fakes
             for (int i = 0; i < 5; i++)
             {
                 var message = FakeMessage(
-                    subject: ContextStrings.TestSubjcet + i,
+                    subject: ContextStrings.TestSubject + i,
                     bodyPreview: ContextStrings.TestBody + i,
                     content: ContextStrings.TestBody + i,
                     webLink: ContextStrings.WebLink + i,
@@ -88,7 +88,7 @@ namespace EmailSkillTest.Flow.Fakes
         }
 
         public Message FakeMessage(
-            string subject = ContextStrings.TestSubjcet,
+            string subject = ContextStrings.TestSubject,
             string bodyPreview = ContextStrings.TestBody,
             string content = ContextStrings.TestBody,
             string webLink = ContextStrings.WebLink,
