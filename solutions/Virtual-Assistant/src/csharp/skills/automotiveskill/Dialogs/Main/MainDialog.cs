@@ -25,19 +25,21 @@ namespace AutomotiveSkill
         private bool _skillMode;
         private ISkillConfiguration _services;
         private UserState _userState;
+        IBotTelemetryClient telemetryClient;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
         private IHttpContextAccessor _httpContext;
         private IStatePropertyAccessor<AutomotiveSkillState> _stateAccessor;
         private AutomotiveSkillResponseBuilder _responseBuilder = new AutomotiveSkillResponseBuilder();
 
-        public MainDialog(ISkillConfiguration services, ConversationState conversationState, UserState userState, IServiceManager serviceManager, IHttpContextAccessor httpContext, bool skillMode)
-            : base(nameof(MainDialog))
+        public MainDialog(ISkillConfiguration services, ConversationState conversationState, UserState userState, IServiceManager serviceManager, IHttpContextAccessor httpContext, IBotTelemetryClient telemetryClient, bool skillMode)
+            : base(nameof(MainDialog), telemetryClient)
         {
             _skillMode = skillMode;
             _services = services;
             _conversationState = conversationState;
             _userState = userState;
+            TelemetryClient = telemetryClient;
             _serviceManager = serviceManager;
             _httpContext = httpContext;
 

@@ -27,8 +27,10 @@
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.2.0" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.2.0" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.2.0" />
     <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.2.0" />
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.2.0" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.2.0" />
     <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.2.0" />
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.2.0" />

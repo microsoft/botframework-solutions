@@ -31,6 +31,8 @@ namespace AutomotiveSkillTest.Flow
 
         public HttpContext MockHttpContext { get; set; }
 
+        public IBotTelemetryClient TelemetryClient { get; set; }
+
         public HttpContextAccessor MockHttpContextAcessor { get; set; }
 
         public override void Initialize()
@@ -48,6 +50,8 @@ namespace AutomotiveSkillTest.Flow
             
             this.BotResponseBuilder = new BotResponseBuilder();
             this.BotResponseBuilder.AddFormatter(new TextBotResponseFormatter());
+
+            this.TelemetryClient = new NullBotTelemetryClient();
 
             // Mock HttpContext for image path resolution
             MockHttpContext = new DefaultHttpContext();            
@@ -75,7 +79,7 @@ namespace AutomotiveSkillTest.Flow
 
         public override IBot BuildBot()
         {
-            return new AutomotiveSkill.AutomotiveSkill(this.Services, this.ConversationState, this.UserState,null, MockHttpContextAcessor, true);
+            return new AutomotiveSkill.AutomotiveSkill(this.Services, this.ConversationState, this.UserState, this.TelemetryClient,null, MockHttpContextAcessor, true);
         }
     }
 }

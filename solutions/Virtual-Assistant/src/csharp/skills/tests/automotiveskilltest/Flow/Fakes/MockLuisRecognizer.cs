@@ -4,14 +4,19 @@ using System.Threading.Tasks;
 using AutomotiveSkill;
 using Luis;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Solutions;
 
 namespace AutomotiveSkillTest.Flow.Fakes
 {
-    public class MockLuisRecognizer : IRecognizer
+    public class MockLuisRecognizer : ITelemetryLuisRecognizer
     {
         public MockLuisRecognizer()
         {
         }
+        public bool LogOriginalMessage => throw new NotImplementedException();
+
+        public bool LogUsername => throw new NotImplementedException();
 
         public Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
@@ -55,6 +60,18 @@ namespace AutomotiveSkillTest.Flow.Fakes
             }
 
             return Task.FromResult(mockResult);
+        }    
+
+        public Task<T> RecognizeAsync<T>(DialogContext dialogContext, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken))
+            where T : IRecognizerConvert, new()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<T> RecognizeAsync<T>(ITurnContext turnContext, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken))
+            where T : IRecognizerConvert, new()
+        {
+            throw new NotImplementedException();
         }
     }
 }

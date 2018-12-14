@@ -288,7 +288,7 @@ namespace AutomotiveSkill
                         var card = new HeroCard
                         {
                             Images = new List<CardImage> { new CardImage(GetSettingCardImageUri("settingcog.jpg")) },
-                            Text = VehicleSettingsResponses.VehicleSettingsSettingValueSelection.Reply.Text,
+                            Text = options.Prompt.Text,
                             Buttons = options.Choices.Select(choice =>
                                 new CardAction(ActionTypes.ImBack, choice.Value, value: choice.Value)).ToList(),
                         };
