@@ -18,15 +18,19 @@ namespace PointOfInterestSkill
         public RouteDialog(
             SkillConfiguration services,
             IStatePropertyAccessor<PointOfInterestSkillState> accessor,
-            IServiceManager serviceManager)
-            : base(nameof(RouteDialog), services, accessor, serviceManager)
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(RouteDialog), services, accessor, serviceManager, telemetryClient)
         {
+
+            TelemetryClient = telemetryClient;
+
             var checkForActiveRouteAndLocation = new WaterfallStep[]
-          {
+            {
                 CheckIfActiveRouteExists,
                 CheckIfFoundLocationExists,
                 CheckIfActiveLocationExists,
-          };
+            };
 
             var findRouteToActiveLocation = new WaterfallStep[]
             {

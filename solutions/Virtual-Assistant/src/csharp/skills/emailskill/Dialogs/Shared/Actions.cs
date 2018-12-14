@@ -26,6 +26,8 @@
 
         public const string ConfirmRecipient = "confirmRecipient";
 
+        public const string CollectRecipient = "collectRecipient";
+
         public const string UpdateRecipientName = "updateName";
 
         public const string UpdateSelectMessage = "updateMessage";

@@ -20,9 +20,12 @@ namespace CalendarSkill
         public ConnectToMeetingDialog(
             ISkillConfiguration services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
-            IServiceManager serviceManager)
-            : base(nameof(ConnectToMeetingDialog), services, accessor, serviceManager)
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(ConnectToMeetingDialog), services, accessor, serviceManager, telemetryClient)
         {
+            TelemetryClient = telemetryClient;
+
             var joinMeeting = new WaterfallStep[]
             {
                 GetAuthToken,
@@ -30,7 +33,7 @@ namespace CalendarSkill
                 JoinMeeting
             };
 
-            AddDialog(new WaterfallDialog(Actions.ConnectToMeeting, joinMeeting));
+            AddDialog(new WaterfallDialog(Actions.ConnectToMeeting, joinMeeting) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Actions.ConnectToMeeting;

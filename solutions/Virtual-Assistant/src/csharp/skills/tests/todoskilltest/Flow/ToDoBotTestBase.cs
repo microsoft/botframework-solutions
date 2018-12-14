@@ -23,6 +23,8 @@ namespace ToDoSkillTest.Flow
 
         public UserState UserState { get; set; }
 
+        public IBotTelemetryClient TelemetryClient { get; set; }
+
         public IStatePropertyAccessor<ToDoSkillState> ToDoStateAccessor { get; set; }
 
         public ITaskService ToDoService { get; set; }
@@ -38,6 +40,7 @@ namespace ToDoSkillTest.Flow
 
             this.ConversationState = new ConversationState(new MemoryStorage());
             this.UserState = new UserState(new MemoryStorage());
+            this.TelemetryClient = new NullBotTelemetryClient();
             this.ToDoStateAccessor = this.ConversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
             this.Services = new MockSkillConfiguration();
 
@@ -76,7 +79,7 @@ namespace ToDoSkillTest.Flow
 
         public override IBot BuildBot()
         {
-            return new ToDoSkill.ToDoSkill(this.Services, this.ConversationState, this.UserState, this.ToDoService, true);
+            return new ToDoSkill.ToDoSkill(this.Services, this.ConversationState, this.UserState, this.TelemetryClient, this.ToDoService, true);
         }
     }
 }
