@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,20 +19,22 @@ namespace NewsSkill
     {
         private readonly ISkillConfiguration _services;
         private readonly ConversationState _conversationState;
+        private readonly IBotTelemetryClient _telemetryClient;
         private readonly UserState _userState;
         private DialogSet _dialogs;
 
         private bool _skillMode;
 
-        public NewsSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, bool skillMode = false)
+        public NewsSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, bool skillMode = false)
         {
             _skillMode = skillMode;
             _services = services;
             _conversationState = conversationState;
             _userState = userState;
+            _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(DialogState)));
-            _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _skillMode));
+            _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _telemetryClient, _skillMode));
         }
 
         /// <summary>

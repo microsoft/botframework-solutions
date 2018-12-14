@@ -27,17 +27,19 @@ namespace RestaurantBooking
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
         private IHttpContextAccessor _httpContext;
+        private IBotTelemetryClient _telemetryClient;
         private IStatePropertyAccessor<RestaurantBookingState> _stateAccessor;
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
         private RestaurantBookingResponseBuilder _responseBuilder = new RestaurantBookingResponseBuilder();
 
-        public MainDialog(ISkillConfiguration services, ConversationState conversationState, UserState userState, IServiceManager serviceManager, IHttpContextAccessor httpContext, bool skillMode)
-            : base(nameof(MainDialog))
+        public MainDialog(ISkillConfiguration services, ConversationState conversationState, UserState userState, IServiceManager serviceManager, IBotTelemetryClient telemetryClient, IHttpContextAccessor httpContext, bool skillMode)
+            : base(nameof(MainDialog), telemetryClient)
         {
             _skillMode = skillMode;
             _services = services;
             _conversationState = conversationState;
             _userState = userState;
+            _telemetryClient = telemetryClient;
             _serviceManager = serviceManager;
             _httpContext = httpContext;
 

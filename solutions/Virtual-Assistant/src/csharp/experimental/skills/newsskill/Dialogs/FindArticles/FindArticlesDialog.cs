@@ -9,20 +9,19 @@ using Microsoft.Bot.Solutions.Skills;
 
 namespace NewsSkill
 {
-    public class FindArticlesDialog : ComponentDialog
+    public class FindArticlesDialog : NewsDialog
     {
-        protected IStatePropertyAccessor<NewsSkillState> Accessor { get; set; }
         private NewsClient _client;
         private FindArticlesResponses _responder = new FindArticlesResponses();
 
         public FindArticlesDialog(
-            ISkillConfiguration botServices,
+            ISkillConfiguration services,
             IStatePropertyAccessor<NewsSkillState> accessor)
-            : base(nameof(FindArticlesDialog))
+            : base(nameof(FindArticlesDialog), services, accessor)
         {
             Accessor = accessor;
 
-            var key = botServices.Properties["BingNewsKey"] ?? throw new Exception("The BingNewsKey must be provided to use this dialog. Please provide this key in your Skill Configuration.");
+            var key = services.Properties["BingNewsKey"] ?? throw new Exception("The BingNewsKey must be provided to use this dialog. Please provide this key in your Skill Configuration.");
 
             _client = new NewsClient((string)key);
 

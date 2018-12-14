@@ -21,18 +21,21 @@ namespace NewsSkill
         private bool _skillMode;
         private ISkillConfiguration _services;
         private UserState _userState;
+        private IBotTelemetryClient _telemetryClient;
         private ConversationState _conversationState;
         private MainResponses _responder = new MainResponses();
         private IStatePropertyAccessor<NewsSkillState> _stateAccessor;
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
 
-        public MainDialog(ISkillConfiguration services, ConversationState conversationState, UserState userState, bool skillMode)
-            : base(nameof(MainDialog))
+        public MainDialog(ISkillConfiguration services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, bool skillMode)
+            : base(nameof(MainDialog), telemetryClient)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
+
+            _telemetryClient = telemetryClient;
 
             // Initialize state accessor
             _stateAccessor = _conversationState.CreateProperty<NewsSkillState>(nameof(NewsSkillState));

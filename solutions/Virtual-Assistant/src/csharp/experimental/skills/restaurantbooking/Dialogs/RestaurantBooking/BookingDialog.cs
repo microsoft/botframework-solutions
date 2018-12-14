@@ -80,7 +80,7 @@ namespace RestaurantBooking
 
             // Populate the Reservation with information provided in the intial utterance
             // Steps will then be skipped if information has been provided already
-            var reservation = await CreateNewReservationInfo(sc.Context);
+            var reservation = CreateNewReservationInfo();
             UpdateReservationInfoFromEntities(reservation, luisResult);
 
             state.Booking = reservation;
@@ -480,7 +480,7 @@ namespace RestaurantBooking
             // Reset the dialog if the user hasn't confirmed the reservation.
             if (!reservation.Confirmed)
             {
-                await CreateNewReservationInfo(sc.Context);
+                state.Booking = CreateNewReservationInfo();
                 return await sc.ReplaceDialogAsync(Id, cancellationToken: cancellationToken);
             }
 
@@ -559,12 +559,12 @@ namespace RestaurantBooking
             // Send an update to the user (this would be done asynchronously and through a proactive notification
             var tokens = new StringDictionary
                 {
-                    { "BookingPlace", reservation.BookingPlace.Name},
-                    { "Location", reservation.BookingPlace.Location},
+                    { "BookingPlace", reservation.BookingPlace.Name },
+                    { "Location", reservation.BookingPlace.Location },
                     { "ReservationDate", reservation.Date?.ToShortDateString() },
                     { "ReservationDateSpeak", reservation.Date?.ToSpeakString(true) },
                     { "ReservationTime", reservation.Time?.ToShortTimeString() },
-                    { "AttendeeCount", reservation.AttendeeCount},
+                    { "AttendeeCount", reservation.AttendeeCount },
                 };
 
             var response = RestaurantBookingSharedResponses.BookRestaurantAcceptedMessage;
@@ -627,7 +627,7 @@ namespace RestaurantBooking
         /// <summary>
         /// Initializes the reservation instance with values found in the LUIS entities.
         /// </summary>
-        private async void UpdateReservationInfoFromEntities(ReservationBooking reservation, RecognizerResult recognizerResult)
+        private void UpdateReservationInfoFromEntities(ReservationBooking reservation, RecognizerResult recognizerResult)
         {
             if (recognizerResult == null)
             {
@@ -678,7 +678,7 @@ namespace RestaurantBooking
         /// </summary>
         /// <param name="context">TurnContext.</param>
         /// <returns>New ReservationBooking.</returns>
-        private async Task<ReservationBooking> CreateNewReservationInfo(ITurnContext context)
+        private ReservationBooking CreateNewReservationInfo()
         {
             var restaurantReservation = new ReservationBooking
             {
@@ -691,7 +691,7 @@ namespace RestaurantBooking
         /// Retrieve Normalised entity value.
         /// </summary>
         /// <param name="context">Turn Context.</param>
-        /// <returns>Entities mapped to data structure./returns>
+        /// <returns>Entities mapped to data structure.</returns>
         private async Task<Dictionary<string, string>> GetNormalizedEntityValue(ITurnContext context)
         {
             var state = await Accessor.GetAsync(context);
