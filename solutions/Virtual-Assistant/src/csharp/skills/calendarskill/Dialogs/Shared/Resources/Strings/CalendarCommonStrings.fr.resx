@@ -120,6 +120,15 @@
   <data name="AllDay" xml:space="preserve">
     <value>Toute la journée</value>
   </data>
+  <data name="DailyToken" xml:space="preserve">
+    <value>Quotidienne</value>
+  </data>
+  <data name="MonthlyToken" xml:space="preserve">
+    <value>Mensuel</value>
+  </data>
+  <data name="WeeklyToken" xml:space="preserve">
+    <value>Hebdomadaire</value>
+  </data>
   <data name="WithTheSubject" xml:space="preserve">
     <value>avec un sujet de {0}</value>
   </data>
