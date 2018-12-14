@@ -1,0 +1,547 @@
+- canonicalName: Front Left Air Delivery Mode Control
+  categories:
+    - Climate Control
+  values:
+    - canonicalName: Auto
+    - canonicalName: Floor
+    - canonicalName: Floor and Vent
+    - canonicalName: Vent
+    - canonicalName: Vent and Windshield
+    - canonicalName: Windshield
+    - canonicalName: Floor and Windshield
+    - canonicalName: Floor and Vent and Windshield
+
+- canonicalName: Rear Left Air Delivery Mode Control
+  categories:
+    - Climate Control
+  values:
+    - canonicalName: Auto
+    - canonicalName: Floor
+    - canonicalName: Floor and Vent
+    - canonicalName: Vent
+    - canonicalName: Vent and Roof
+    - canonicalName: Roof
+    - canonicalName: Roof and Floor
+    - canonicalName: Floor and Vent and Roof
+
+- canonicalName: Front Right Air Delivery Mode Control
+  categories:
+    - Climate Control
+  values:
+    - canonicalName: Auto
+    - canonicalName: Floor
+    - canonicalName: Floor and Vent
+    - canonicalName: Vent
+    - canonicalName: Vent and Windshield
+    - canonicalName: Windshield
+    - canonicalName: Floor and Windshield
+    - canonicalName: Floor and Vent and Windshield
+
+- canonicalName: Rear Right Air Delivery Mode Control
+  categories:
+    - Climate Control
+  values:
+    - canonicalName: Auto
+    - canonicalName: Floor
+    - canonicalName: Floor and Vent
+    - canonicalName: Vent
+    - canonicalName: Vent and Roof
+    - canonicalName: Roof
+    - canonicalName: Roof and Floor
+    - canonicalName: Floor and Vent and Roof
+
+- canonicalName: Front Combined Air Delivery Mode Control
+  categories:
+    - Climate Control
+  values:
+    - canonicalName: Auto
+    - canonicalName: Floor
+    - canonicalName: Floor and Vent
+    - canonicalName: Vent
+    - canonicalName: Vent and Windshield
+    - canonicalName: Windshield
+    - canonicalName: Floor and Windshield
+    - canonicalName: Floor and Vent and Windshield
+  includedSettings:
+    - Front Left Air Delivery Mode Control
+    - Front Right Air Delivery Mode Control
+
+- canonicalName: Rear Combined Air Delivery Mode Control
+  categories:
+    - Climate Control
+  values:
+    - canonicalName: Auto
+    - canonicalName: Floor
+    - canonicalName: Floor and Vent
+    - canonicalName: Vent
+    - canonicalName: Vent and Roof
+    - canonicalName: Roof
+    - canonicalName: Roof and Floor
+    - canonicalName: Floor and Vent and Roof
+  includedSettings:
+    - Rear Left Air Delivery Mode Control
+    - Rear Right Air Delivery Mode Control
+
+- canonicalName: Sync HVAC
+  categories:
+    - Climate Control
+  values:
+    - canonicalName: Sync All
+    - canonicalName: UnSync All
+    - canonicalName: Sync Rear to Driver
+    - canonicalName: UnSync Rear to Driver
+
+- canonicalName: Rear Window Defogger
+  categories:
+    - Climate Control
+  values:
+    - canonicalName: Off
+    - canonicalName: On
+
+- canonicalName: Front and Rear HVAC
+  categories:
+    - Climate Control
+  values:
+    - canonicalName: All Off
+    - canonicalName: All On
+    - canonicalName: Front On Only
+    - canonicalName: Rear On Only
+
+- canonicalName: Auto Front HVAC
+  categories:
+    - Climate Control
+  values:
+    - canonicalName: Auto Off
+    - canonicalName: Auto On
+
+- canonicalName: Auto Rear HVAC
+  categories:
+    - Climate Control
+  values:
+    - canonicalName: Auto Off
+    - canonicalName: Auto On
+
+- canonicalName: Front Fan Control
+  categories:
+    - Climate Control
+  values:
+    - canonicalName: Set
+      requiresAmount: true
+    - canonicalName: Decrease
+      changesSignOfAmount: true
+    - canonicalName: Increase
+      antonym: Decrease
+  allowsAmount: true
+  amounts:
+    - unit: ""
+      min: 0
+      max: 12
+
+- canonicalName: Rear Fan Control
+  categories:
+    - Climate Control
+  values:
+    - canonicalName: Set
+      requiresAmount: true
+    - canonicalName: Decrease
+      changesSignOfAmount: true
+    - canonicalName: Increase
+      antonym: Decrease
+  allowsAmount: true
+  amounts:
+    - unit: ""
+      min: 0
+      max: 12
+
+- canonicalName: Temperature
+  categories:
+    - Climate Control
+  values:
+    - canonicalName: Set
+      requiresAmount: true
+    - canonicalName: Decrease
+      changesSignOfAmount: true
+    - canonicalName: Increase
+      antonym: Decrease
+  allowsAmount: true
+  amounts:
+    - unit: °C
+      min: 14
+      max: 32
+    - unit: °F
+      min: 56
+      max: 91
+    - unit: ""
+      min: 14
+      max: 91
+    - unit: °
+      min: 14
+      max: 91
+  includedSettings:
+    - Front Left Set Temperature
+    - Front Right Set Temperature
+    - Front Combined Set Temperature
+    - Rear Left Set Temperature
+    - Rear Right Set Temperature
+    - Rear Combined Set Temperature
+
+- canonicalName: Front Left Set Temperature
+  categories:
+    - Climate Control
+  values:
+    - canonicalName: Set
+      requiresAmount: true
+    - canonicalName: Decrease
+      changesSignOfAmount: true
+    - canonicalName: Increase
+      antonym: Decrease
+  allowsAmount: true
+  amounts:
+    - unit: °C
+      min: 14
+      max: 32
+    - unit: °F
+      min: 56
+      max: 91
+    - unit: ""
+      min: 14
+      max: 91
+    - unit: °
+      min: 14
+      max: 91
+
+- canonicalName: Front Right Set Temperature
+  categories:
+    - Climate Control
+  values:
+    - canonicalName: Set
+      requiresAmount: true
+    - canonicalName: Decrease
+      changesSignOfAmount: true
+    - canonicalName: Increase
+      antonym: Decrease
+  allowsAmount: true
+  amounts:
+    - unit: °C
+      min: 14
+      max: 32
+    - unit: °F
+      min: 56
+      max: 91
+    - unit: ""
+      min: 14
+      max: 91
+    - unit: °
+      min: 14
+      max: 91
+
+- canonicalName: Front Combined Set Temperature
+  categories:
+    - Climate Control
+  values:
+    - canonicalName: Set
+      requiresAmount: true
+    - canonicalName: Decrease
+      changesSignOfAmount: true
+    - canonicalName: Increase
+      antonym: Decrease
+  allowsAmount: true
+  amounts:
+    - unit: °C
+      min: 14
+      max: 32
+    - unit: °F
+      min: 56
+      max: 91
+    - unit: ""
+      min: 14
+      max: 91
+    - unit: °
+      min: 14
+      max: 91
+  includedSettings:
+    - Front Left Set Temperature
+    - Front Right Set Temperature
+
+- canonicalName: Rear Left Set Temperature
+  categories:
+    - Climate Control
+  values:
+    - canonicalName: Set
+      requiresAmount: true
+    - canonicalName: Decrease
+      changesSignOfAmount: true
+    - canonicalName: Increase
+      antonym: Decrease
+  allowsAmount: true
+  amounts:
+    - unit: °C
+      min: 14
+      max: 32
+    - unit: °F
+      min: 56
+      max: 91
+    - unit: ""
+      min: 14
+      max: 91
+    - unit: °
+      min: 14
+      max: 91
+
+- canonicalName: Rear Right Set Temperature
+  categories:
+    - Climate Control
+  values:
+    - canonicalName: Set
+      requiresAmount: true
+    - canonicalName: Decrease
+      changesSignOfAmount: true
+    - canonicalName: Increase
+      antonym: Decrease
+  allowsAmount: true
+  amounts:
+    - unit: °C
+      min: 14
+      max: 32
+    - unit: °F
+      min: 56
+      max: 91
+    - unit: ""
+      min: 14
+      max: 91
+    - unit: °
+      min: 14
+      max: 91
+
+- canonicalName: Rear Combined Set Temperature
+  categories:
+    - Climate Control
+  values:
+    - canonicalName: Set
+      requiresAmount: true
+    - canonicalName: Decrease
+      changesSignOfAmount: true
+    - canonicalName: Increase
+      antonym: Decrease
+  allowsAmount: true
+  amounts:
+    - unit: °C
+      min: 14
+      max: 32
+    - unit: °F
+      min: 56
+      max: 91
+    - unit: ""
+      min: 14
+      max: 91
+    - unit: °
+      min: 14
+      max: 91
+  includedSettings:
+    - Rear Left Set Temperature
+    - Rear Right Set Temperature
+
+- canonicalName: Air Recirculation
+  categories:
+    - Climate Control
+  values:
+    - canonicalName: Fresh Air
+    - canonicalName: Recirculate Air
+
+- canonicalName: Climate Mode
+  categories:
+    - Climate Control
+  values:
+    - canonicalName: Comfort
+    - canonicalName: Economy
+    - canonicalName: Fan Only
+
+- canonicalName: Heater Mode
+  categories:
+    - Climate Control
+  values:
+    - canonicalName: Comfort
+    - canonicalName: Economy
+
+- canonicalName: Max Defrost
+  categories:
+    - Climate Control
+  values:
+    - canonicalName: Off
+    - canonicalName: On
+
+- canonicalName: Alert Type
+  categories:
+    - Active Safety
+  values:
+    - canonicalName: Beeps
+    - canonicalName: Safety Alert Seat
+
+- canonicalName: Drowsy Driver Alert
+  categories:
+    - Active Safety
+  values:
+    - canonicalName: Off
+      requiresConfirmation: true
+    - canonicalName: On
+
+- canonicalName: Rear Cross Traffic Alert
+  categories:
+    - Active Safety
+  values:
+    - canonicalName: Off
+      requiresConfirmation: true
+    - canonicalName: On
+
+- canonicalName: Side Blind Zone Alert
+  categories:
+    - Active Safety
+  values:
+    - canonicalName: Off
+      requiresConfirmation: true
+    - canonicalName: On
+
+- canonicalName: Forward Collision System
+  categories:
+    - Active Safety
+  values:
+    - canonicalName: Off
+      requiresConfirmation: true
+    - canonicalName: Alert
+    - canonicalName: Alert and Brake
+    - canonicalName: Alert and Brake and Steer
+
+- canonicalName: Forward Automatic Braking
+  categories:
+    - Active Safety
+  values:
+    - canonicalName: Off
+      requiresConfirmation: true
+    - canonicalName: Alert
+    - canonicalName: Alert and Brake
+    - canonicalName: Alert and Brake and Steer
+
+- canonicalName: Front Pedestrian Detection
+  categories:
+    - Active Safety
+  values:
+    - canonicalName: Off
+      requiresConfirmation: true
+    - canonicalName: Alert
+    - canonicalName: Alert and Brake
+    - canonicalName: Alert, Brake, and Steer
+
+- canonicalName: Rear Pedestrian Detection
+  categories:
+    - Active Safety
+  values:
+    - canonicalName: Off
+      requiresConfirmation: true
+    - canonicalName: Alert
+    - canonicalName: Alert and Brake
+    - canonicalName: Alert, Brake, and Steer
+
+- canonicalName: Lane Change Alert
+  categories:
+    - Active Safety
+  values:
+    - canonicalName: Off
+      requiresConfirmation: true
+    - canonicalName: On
+
+- canonicalName: Park Assist
+  categories:
+    - Active Safety
+  values:
+    - canonicalName: Off
+      requiresConfirmation: true
+    - canonicalName: Alert
+    - canonicalName: Alert and Brake
+
+- canonicalName: Equalizer (Bass)
+  categories:
+    - Audio
+  values:
+    - canonicalName: Set
+      requiresAmount: true
+    - canonicalName: Decrease
+      changesSignOfAmount: true
+    - canonicalName: Increase
+      antonym: Decrease
+  allowsAmount: true
+  amounts:
+    - unit: ""
+      min: -12
+      max: 12
+
+- canonicalName: Equalizer (Midrange)
+  categories:
+    - Audio
+  values:
+    - canonicalName: Set
+      requiresAmount: true
+    - canonicalName: Decrease
+      changesSignOfAmount: true
+    - canonicalName: Increase
+      antonym: Decrease
+  allowsAmount: true
+  amounts:
+    - unit: ""
+      min: -12
+      max: 12
+
+- canonicalName: Equalizer (Treble)
+  categories:
+    - Audio
+  values:
+    - canonicalName: Set
+      requiresAmount: true
+    - canonicalName: Decrease
+      changesSignOfAmount: true
+    - canonicalName: Increase
+      antonym: Decrease
+  allowsAmount: true
+  amounts:
+    - unit: ""
+      min: -12
+      max: 12
+
+- canonicalName: Equalizer (Surround)
+  categories:
+    - Audio
+  values:
+    - canonicalName: Set
+      requiresAmount: true
+    - canonicalName: Decrease
+      changesSignOfAmount: true
+    - canonicalName: Increase
+      antonym: Decrease
+  allowsAmount: true
+  amounts:
+    - unit: ""
+      min: -12
+      max: 12
+
+- canonicalName: Set Volume
+  categories:
+    - Audio
+  values:
+    - canonicalName: Set
+      requiresAmount: true
+    - canonicalName: Decrease
+      changesSignOfAmount: true
+    - canonicalName: Increase
+      antonym: Decrease
+  allowsAmount: true
+  amounts:
+    - unit: ""
+
+- canonicalName: Forward Collision Gap Setting
+  categories:
+    - Active Safety
+  values:
+    - canonicalName: Off
+      requiresConfirmation: true
+    - canonicalName: Near
+    - canonicalName: Medium
+    - canonicalName: Far
