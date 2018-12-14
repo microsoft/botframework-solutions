@@ -46,8 +46,8 @@ namespace Microsoft.Bot.Solutions.Authentication
                     new OAuthPromptSettings
                     {
                         ConnectionName = connection.Key,
-                        Title = "Login",
-                        Text = $"Please login with your {connection.Key} account.",
+                        Title = CommonStrings.Login,
+                        Text = string.Format(CommonStrings.LoginDescription, connection.Key),
                         Timeout = 30000,
                     },
                     AuthPromptValidator));
