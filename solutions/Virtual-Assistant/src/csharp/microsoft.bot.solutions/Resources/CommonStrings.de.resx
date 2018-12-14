@@ -252,9 +252,6 @@
   <data name="TimeFormatMinutes" xml:space="preserve">
     <value>{0} Minuten</value>
   </data>
-  <data name="DisplayFullDateFormat" xml:space="preserve">
-    <value>dd-MM-yyyy</value>
-  </data>
   <data name="All" xml:space="preserve">
     <value>alles</value>
   </data>
