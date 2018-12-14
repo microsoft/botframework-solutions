@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
 
 namespace Microsoft.Bot.Solutions
 {
@@ -11,9 +12,10 @@ namespace Microsoft.Bot.Solutions
 
         bool LogUsername { get; }
 
-        Task<RecognizerResult> RecognizeAsync(ITurnContext context, CancellationToken cancellationToken, bool logOriginalMessage);
+        Task<T> RecognizeAsync<T>(DialogContext dialogContext, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken))
+            where T : IRecognizerConvert, new();
 
-        Task<T> RecognizeAsync<T>(ITurnContext context, CancellationToken cancellationToken, bool logOriginalMessage)
+        Task<T> RecognizeAsync<T>(ITurnContext turnContext, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken))
             where T : IRecognizerConvert, new();
     }
 }

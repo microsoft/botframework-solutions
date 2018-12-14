@@ -486,7 +486,7 @@
 - Envoyer un email à {ContactName=Graham} , {ContactName=Daniel} Et {ContactName=Meghan}
 - Envoyer un email à {ContactName=Jason Marx}
 - Envoyer un email à {ContactName=Kanda} -San et {ContactName=Manger}
-- Envoyer un email à {ContactName=Kane} Sur {EmailSubject=Salut}Dire {Message=Je suis là}
+- Envoyer un email à {ContactName=Kane} Sur {EmailSubject=Salut} Dire {Message=Je suis là}
 - Envoyer un email à {ContactName=Kane} avec l'objet de {EmailSubject=Je suis en retard}
 - Envoyer un email à {ContactName=Lily} quel sujet est {EmailSubject=Je suis en retard}
 - Envoyer un email à {ContactName=lu} , {ContactName=Yue} Et {ContactName=Qiong}

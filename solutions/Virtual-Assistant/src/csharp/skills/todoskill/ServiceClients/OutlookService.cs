@@ -31,7 +31,15 @@ namespace ToDoSkill.ServiceClients
         {
             try
             {
-                this.httpClient = ServiceHelper.GetHttpClient(token);
+                if (client == null)
+                {
+                    this.httpClient = ServiceHelper.GetHttpClient(token);
+                }
+                else
+                {
+                    this.httpClient = client;
+                }
+
                 if (!taskFolderIds.ContainsKey(ToDoStrings.ToDo))
                 {
                     var taskFolderId = await GetOrCreateTaskFolderAsync(ToDoStrings.ToDo);

@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CalendarSkill.ServiceClients.GoogleAPI;
+using CalendarSkill.ServiceClients;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Auth.OAuth2.Responses;
@@ -16,7 +16,7 @@ using Microsoft.Graph;
 using GooglePerson = Google.Apis.People.v1.Data.Person;
 using MsPerson = Microsoft.Graph.Person;
 
-namespace CalendarSkill
+namespace CalendarSkill.ServiceClients
 {
     /// <summary>
     /// The Google People API service.
