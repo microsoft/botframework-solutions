@@ -208,6 +208,7 @@
           <ProjectItem ReplaceParameters="true" TargetFileName="TelemetryQnAMaker.cs">TelemetryQnAMaker.cs</ProjectItem>
         </Folder>
         <ProjectItem ReplaceParameters="true" TargetFileName="ContentModeratorMiddleware.cs">ContentModeratorMiddleware.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="SetLocaleMiddleware.cs">SetLocaleMiddleware.cs</ProjectItem>
       </Folder>
       <Folder Name="ServiceClients" TargetFolderName="ServiceClients">
         <ProjectItem ReplaceParameters="true" TargetFileName="GraphClient.cs">GraphClient.cs</ProjectItem>

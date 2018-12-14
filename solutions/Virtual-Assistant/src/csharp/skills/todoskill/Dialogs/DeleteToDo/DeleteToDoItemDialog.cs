@@ -18,11 +18,14 @@ namespace ToDoSkill
         public DeleteToDoItemDialog(
             ISkillConfiguration services,
             IStatePropertyAccessor<ToDoSkillState> accessor,
-            ITaskService serviceManager)
-            : base(nameof(DeleteToDoItemDialog), services, accessor, serviceManager)
+            ITaskService serviceManager,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(DeleteToDoItemDialog), services, accessor, serviceManager, telemetryClient)
         {
+            TelemetryClient = telemetryClient;
+
             var deleteToDoTask = new WaterfallStep[]
-           {
+            {
                 GetAuthToken,
                 AfterGetAuthToken,
                 ClearContext,
@@ -30,7 +33,7 @@ namespace ToDoSkill
                 CollectToDoTaskIndex,
                 CollectAskDeletionConfirmation,
                 DeleteToDoTask,
-           };
+            };
 
             var collectToDoTaskIndex = new WaterfallStep[]
             {
@@ -45,9 +48,9 @@ namespace ToDoSkill
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Action.DeleteToDoTask, deleteToDoTask));
-            AddDialog(new WaterfallDialog(Action.CollectToDoTaskIndex, collectToDoTaskIndex));
-            AddDialog(new WaterfallDialog(Action.CollectDeleteTaskConfirmation, collectDeleteTaskConfirmation));
+            AddDialog(new WaterfallDialog(Action.DeleteToDoTask, deleteToDoTask) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Action.CollectToDoTaskIndex, collectToDoTaskIndex) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Action.CollectDeleteTaskConfirmation, collectDeleteTaskConfirmation) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Action.DeleteToDoTask;

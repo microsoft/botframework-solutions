@@ -20,11 +20,14 @@ namespace EmailSkill
             ISkillConfiguration services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
-            IServiceManager serviceManager)
-            : base(nameof(SendEmailDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager)
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(SendEmailDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient)
         {
+            TelemetryClient = telemetryClient;
+
             var sendEmail = new WaterfallStep[]
-           {
+            {
                 IfClearContextStep,
                 GetAuthToken,
                 AfterGetAuthToken,
@@ -33,7 +36,7 @@ namespace EmailSkill
                 CollectText,
                 ConfirmBeforeSending,
                 SendEmail,
-           };
+            };
 
             var collectRecipients = new WaterfallStep[]
             {
@@ -42,9 +45,9 @@ namespace EmailSkill
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Actions.Send, sendEmail));
-            AddDialog(new WaterfallDialog(Actions.CollectRecipient, collectRecipients));
-            AddDialog(new ConfirmRecipientDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager));
+            AddDialog(new WaterfallDialog(Actions.Send, sendEmail) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.CollectRecipient, collectRecipients) { TelemetryClient = telemetryClient });
+            AddDialog(new ConfirmRecipientDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
             InitialDialogId = Actions.Send;
         }
 

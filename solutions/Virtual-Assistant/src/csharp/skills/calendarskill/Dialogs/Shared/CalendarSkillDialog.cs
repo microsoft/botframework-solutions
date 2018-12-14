@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 using CalendarSkill.Common;
 using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
+using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using Luis;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
@@ -19,7 +21,6 @@ using Microsoft.Recognizers.Text;
 using Microsoft.Recognizers.Text.DateTime;
 using Newtonsoft.Json.Linq;
 using static Microsoft.Recognizers.Text.Culture;
-using Microsoft.Bot.Builder.AI.Luis;
 
 namespace CalendarSkill
 {
@@ -32,12 +33,14 @@ namespace CalendarSkill
             string dialogId,
             ISkillConfiguration services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
-            IServiceManager serviceManager)
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient)
             : base(dialogId)
         {
             Services = services;
             Accessor = accessor;
             ServiceManager = serviceManager;
+            TelemetryClient = telemetryClient;
 
             if (!Services.AuthenticationConnections.Any())
             {
@@ -649,6 +652,17 @@ namespace CalendarSkill
                             if (entity.MoveLaterTimeSpan != null)
                             {
                                 state.MoveTimeSpan = GetMoveTimeSpanFromEntity(entity.MoveLaterTimeSpan[0], dc.Context.Activity.Locale, true);
+                            }
+
+                            if (entity.datetime != null)
+                            {
+                                var match = entity._instance.datetime.ToList().Find(w => w.Text.ToLower() == CalendarCommonStrings.DailyToken
+                                || w.Text.ToLower() == CalendarCommonStrings.WeeklyToken
+                                || w.Text.ToLower() == CalendarCommonStrings.MonthlyToken);
+                                if (match != null)
+                                {
+                                    state.RecurrencePattern = match.Text.ToLower();
+                                }
                             }
 
                             break;

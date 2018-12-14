@@ -135,6 +135,24 @@
   <data name="GREETING_WITH_NAME" xml:space="preserve">
     <value>您好!, {0}</value>
   </data>
+  <data name="HELP_BTN_TEXT_1" xml:space="preserve">
+    <value>测试 LUIS</value>
+  </data>
+  <data name="HELP_BTN_TEXT_2" xml:space="preserve">
+    <value>测试 QnA Maker</value>
+  </data>
+  <data name="HELP_BTN_TEXT_3" xml:space="preserve">
+    <value>了解更多信息</value>
+  </data>
+  <data name="HELP_BTN_VALUE_1" xml:space="preserve">
+    <value>Hello</value>
+  </data>
+  <data name="HELP_BTN_VALUE_2" xml:space="preserve">
+    <value>What is the Enterprise Bot Template?</value>
+  </data>
+  <data name="HELP_BTN_VALUE_3" xml:space="preserve">
+    <value>https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0</value>
+  </data>
   <data name="HELP_TEXT" xml:space="preserve">
     <value>我是您的智能助理!我有不少技能，可以帮您完成很多任务。现在我可以帮您管理您的日历, 电子邮件, 任务和查找地图兴趣点。或者, 您可以教我更多的技能！</value>
   </data>
