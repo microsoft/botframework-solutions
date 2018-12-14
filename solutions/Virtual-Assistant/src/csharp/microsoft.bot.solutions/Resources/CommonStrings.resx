@@ -270,4 +270,10 @@
   <data name="ThirdItem" xml:space="preserve">
     <value>the third one is {0};</value>
   </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="LoginDescription" xml:space="preserve">
+    <value>Please login with your {0} account</value>
+  </data>
 </root>

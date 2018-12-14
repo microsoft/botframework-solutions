@@ -8,11 +8,12 @@ using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Auth.OAuth2.Responses;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
+using Google.Apis.Requests;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
 using GoogleCalendarService = Google.Apis.Calendar.v3.CalendarService;
 
-namespace CalendarSkill.ServiceClients.GoogleAPI
+namespace CalendarSkill.ServiceClients
 {
     /// <summary>
     /// The Google Calendar API service.
@@ -149,7 +150,7 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
         private Event UpdateEventById(Event updateEvent)
         {
             var request = service.Events.Patch(updateEvent, "primary", updateEvent.Id);
-            var gevent = request.Execute();
+            var gevent = ((IClientServiceRequest<Event>)request).Execute();
             return gevent;
         }
 
@@ -164,7 +165,7 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
             request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
 
             // List events.
-            var events = request.Execute();
+            var events = ((IClientServiceRequest<Events>)request).Execute();
             return events;
         }
 
@@ -179,7 +180,7 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
             request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
 
             // List events.
-            var events = request.Execute();
+            var events = ((IClientServiceRequest<Events>)request).Execute();
             return events;
         }
 
@@ -194,7 +195,7 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
             request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
 
             // List events.
-            var events = request.Execute();
+            var events = ((IClientServiceRequest<Events>)request).Execute();
             return events;
         }
 
@@ -211,13 +212,15 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
 
         private Event CreateEvent(Event newEvent)
         {
-            return service.Events.Insert(newEvent, "primary").Execute();
+            var request = service.Events.Insert(newEvent, "primary");
+            var gevent = ((IClientServiceRequest<Event>)request).Execute();
+            return gevent;
         }
 
         private string DeleteEvent(string id)
         {
             var request = service.Events.Delete("primary", id);
-            var result = request.Execute();
+            var result = ((IClientServiceRequest<string>)request).Execute();
             return result;
         }
     }

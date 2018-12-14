@@ -4,6 +4,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using $safeprojectname$.Dialogs.Shared;
+using Microsoft.ApplicationInsights;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 
@@ -15,7 +16,7 @@ namespace $safeprojectname$.Dialogs.Onboarding
         private IStatePropertyAccessor<OnboardingState> _accessor;
         private OnboardingState _state;
 
-        public OnboardingDialog(BotServices botServices, IStatePropertyAccessor<OnboardingState> accessor)
+        public OnboardingDialog(BotServices botServices, IStatePropertyAccessor<OnboardingState> accessor, IBotTelemetryClient telemetryClient)
             : base(botServices, nameof(OnboardingDialog))
         {
             _accessor = accessor;
@@ -29,7 +30,10 @@ namespace $safeprojectname$.Dialogs.Onboarding
                 FinishOnboardingDialog,
             };
 
-            AddDialog(new WaterfallDialog(InitialDialogId, onboarding));
+            // To capture built-in waterfall dialog telemetry, set the telemetry client 
+            // to the new waterfall dialog and add it to the component dialog
+            TelemetryClient = telemetryClient;
+            AddDialog(new WaterfallDialog(InitialDialogId, onboarding) { TelemetryClient = telemetryClient });
             AddDialog(new TextPrompt(DialogIds.NamePrompt));
             AddDialog(new TextPrompt(DialogIds.EmailPrompt));
             AddDialog(new TextPrompt(DialogIds.LocationPrompt));

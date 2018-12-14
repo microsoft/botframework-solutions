@@ -186,6 +186,37 @@ namespace CalendarSkill
             }
         }
 
+        public string RecurringId
+        {
+            get
+            {
+                switch (source)
+                {
+                    case EventSource.Microsoft:
+                        return msftEventData.SeriesMasterId;
+                    case EventSource.Google:
+                        return gmailEventData.RecurringEventId;
+                    default:
+                        throw new Exception("Event Type not Defined");
+                }
+            }
+
+            set
+            {
+                switch (source)
+                {
+                    case EventSource.Microsoft:
+                        msftEventData.SeriesMasterId = value;
+                        break;
+                    case EventSource.Google:
+                        gmailEventData.RecurringEventId = value;
+                        break;
+                    default:
+                        throw new Exception("Event Type not Defined");
+                }
+            }
+        }
+
         public string Title
         {
             get

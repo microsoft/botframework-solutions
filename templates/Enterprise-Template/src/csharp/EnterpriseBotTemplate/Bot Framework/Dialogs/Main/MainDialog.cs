@@ -9,6 +9,7 @@ using $safeprojectname$.Dialogs.Escalate;
 using $safeprojectname$.Dialogs.Onboarding;
 using $safeprojectname$.Dialogs.Shared;
 using Luis;
+using Microsoft.ApplicationInsights;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 
@@ -21,14 +22,15 @@ namespace $safeprojectname$.Dialogs.Main
         private ConversationState _conversationState;
         private MainResponses _responder = new MainResponses();
 
-        public MainDialog(BotServices services, ConversationState conversationState, UserState userState)
+        public MainDialog(BotServices services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog))
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _conversationState = conversationState;
             _userState = userState;
+            TelemetryClient = telemetryClient;
 
-            AddDialog(new OnboardingDialog(_services, _userState.CreateProperty<OnboardingState>(nameof(OnboardingState))));
+            AddDialog(new OnboardingDialog(_services, _userState.CreateProperty<OnboardingState>(nameof(OnboardingState)), telemetryClient));
             AddDialog(new EscalateDialog(_services));
         }
 
@@ -41,7 +43,7 @@ namespace $safeprojectname$.Dialogs.Main
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Check dispatch result
-            var dispatchResult = await _services.DispatchRecognizer.RecognizeAsync<Dispatch>(dc.Context, true, CancellationToken.None);
+            var dispatchResult = await _services.DispatchRecognizer.RecognizeAsync<Dispatch>(dc, true, CancellationToken.None);
             var intent = dispatchResult.TopIntent().intent;
 
             if (intent == Dispatch.Intent.l_General)
@@ -55,7 +57,7 @@ namespace $safeprojectname$.Dialogs.Main
                 }
                 else
                 {
-                    var result = await luisService.RecognizeAsync<General>(dc.Context, true, CancellationToken.None);
+                    var result = await luisService.RecognizeAsync<General>(dc, true, CancellationToken.None);
 
                     var generalIntent = result?.TopIntent().intent;
 

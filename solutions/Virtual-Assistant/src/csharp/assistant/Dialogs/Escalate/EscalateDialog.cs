@@ -3,6 +3,7 @@
 
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 
 namespace VirtualAssistant
@@ -11,17 +12,18 @@ namespace VirtualAssistant
     {
         private EscalateResponses _responder = new EscalateResponses();
 
-        public EscalateDialog(BotServices botServices)
-            : base(botServices, nameof(EscalateDialog))
+        public EscalateDialog(BotServices botServices, IBotTelemetryClient telemetryClient)
+            : base(botServices, nameof(EscalateDialog), telemetryClient)
         {
             InitialDialogId = nameof(EscalateDialog);
+            TelemetryClient = telemetryClient;
 
             var escalate = new WaterfallStep[]
             {
                 SendEscalationMessage,
             };
 
-            AddDialog(new WaterfallDialog(InitialDialogId, escalate));
+            AddDialog(new WaterfallDialog(InitialDialogId, escalate) { TelemetryClient = telemetryClient });
         }
 
         private async Task<DialogTurnResult> SendEscalationMessage(WaterfallStepContext sc, CancellationToken cancellationToken)
