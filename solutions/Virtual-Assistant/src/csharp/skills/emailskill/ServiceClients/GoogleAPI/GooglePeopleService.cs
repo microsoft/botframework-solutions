@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Google;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Auth.OAuth2.Responses;
@@ -72,28 +73,35 @@ namespace EmailSkill
         // get people work with
         public async Task<List<MsPerson>> GetPeopleAsync(string name)
         {
-            PeopleResource.ConnectionsResource.ListRequest peopleRequest = service.People.Connections.List("people/me");
-            peopleRequest.RequestMaskIncludeField = "person.emailAddresses,person.names";
-
-            ListConnectionsResponse connectionsResponse = await peopleRequest.ExecuteAsync();
-            IList<GooglePerson> connections = connectionsResponse.Connections;
-
-            var result = new List<MsPerson>();
-            if (connections != null && connections.Count > 0)
+            try
             {
-                foreach (var people in connections)
+                PeopleResource.ConnectionsResource.ListRequest peopleRequest = service.People.Connections.List("people/me");
+                peopleRequest.RequestMaskIncludeField = "person.emailAddresses,person.names";
+
+                ListConnectionsResponse connectionsResponse = await peopleRequest.ExecuteAsync();
+                IList<GooglePerson> connections = connectionsResponse.Connections;
+
+                var result = new List<MsPerson>();
+                if (connections != null && connections.Count > 0)
                 {
-                    // filter manually
-                    var displayName = people.Names[0]?.DisplayName;
-                    if (people.EmailAddresses?.Count > 0 && displayName != null && displayName.ToLower().Contains(name.ToLower()))
+                    foreach (var people in connections)
                     {
-                        result.Add(this.GooglePersonToMsPerson(people));
+                        // filter manually
+                        var displayName = people.Names[0]?.DisplayName;
+                        if (people.EmailAddresses?.Count > 0 && displayName != null && displayName.ToLower().Contains(name.ToLower()))
+                        {
+                            result.Add(this.GooglePersonToMsPerson(people));
+                        }
                     }
                 }
-            }
 
-            return result;
-        }
+                return result;
+            }
+            catch (GoogleApiException ex)
+            {
+                throw GoogleClient.HandleGoogleAPIException(ex);
+            }
+}
 
         // search people in domain
         public Task<List<User>> GetUserAsync(string name)
