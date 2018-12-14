@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.Bot.Solutions.Skills;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ToDoSkill;
 using ToDoSkill.ServiceClients;
 using ToDoSkillTest.API.Fakes;
 
@@ -75,6 +76,23 @@ namespace ToDoSkillTest.API
             var taskList = await service.GetTasksAsync("ToDo");
 
             Assert.IsTrue(taskList != null && taskList.Count > 0);
+        }
+
+        [TestMethod]
+        public async Task AddTaskAccessDeniedTests()
+        {
+            var service = new OutlookService();
+            var pageId = new Dictionary<string, string>() { { "ToDo", "ToDo" }, { "Grocery", "Grocery" }, { "Shopping", "Shopping" } };
+            try
+            {
+                await service.InitAsync("test", pageId, mockClient);
+                await service.AddTaskAsync("Shopping", "Test 9");
+                Assert.Fail();
+            }
+            catch (SkillException ex)
+            {
+                Assert.AreEqual(ex.ExceptionType, SkillExceptionType.APIAccessDenied);
+            }
         }
     }
 }
