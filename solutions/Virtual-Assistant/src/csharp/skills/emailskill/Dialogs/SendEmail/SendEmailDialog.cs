@@ -31,16 +31,22 @@ namespace EmailSkill
                 IfClearContextStep,
                 GetAuthToken,
                 AfterGetAuthToken,
-                CollectNameList,
-                CollectRecipients,
+                CollectRecipient,
                 CollectSubject,
                 CollectText,
                 ConfirmBeforeSending,
                 SendEmail,
             };
 
+            var collectRecipients = new WaterfallStep[]
+            {
+                PromptRecipientCollection,
+                GetRecipients,
+            };
+
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Actions.Send, sendEmail) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.CollectRecipient, collectRecipients) { TelemetryClient = telemetryClient });
             AddDialog(new ConfirmRecipientDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
             InitialDialogId = Actions.Send;
         }

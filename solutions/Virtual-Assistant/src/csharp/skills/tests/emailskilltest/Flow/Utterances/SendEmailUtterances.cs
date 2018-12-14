@@ -24,12 +24,12 @@ namespace EmailSkillTest.Flow.Utterances
                 SendEmailToRecipientWithSubject,
                 intent: Email.Intent.SendEmail,
                 contactName: new string[] { ContextStrings.TestRecipient },
-                subject: new string[] { ContextStrings.TestSubjcet }));
+                subject: new string[] { ContextStrings.TestSubject }));
             this.Add(SendEmailToRecipientWithSubjectAndContext, CreateIntent(
                 SendEmailToRecipientWithSubjectAndContext,
                 intent: Email.Intent.SendEmail,
                 contactName: new string[] { ContextStrings.TestRecipient },
-                subject: new string[] { ContextStrings.TestSubjcet },
+                subject: new string[] { ContextStrings.TestSubject },
                 message: new string[] { ContextStrings.TestContent }));
             this.Add(SendEmailToMultiRecipient, CreateIntent(
                 SendEmailToMultiRecipient,
@@ -49,9 +49,9 @@ namespace EmailSkillTest.Flow.Utterances
 
         public static string SendEmailToRecipient { get; } = "Send email to " + ContextStrings.TestRecipient;
 
-        public static string SendEmailToRecipientWithSubject { get; } = "Send email to " + ContextStrings.TestRecipient + " title is " + ContextStrings.TestSubjcet;
+        public static string SendEmailToRecipientWithSubject { get; } = "Send email to " + ContextStrings.TestRecipient + " title is " + ContextStrings.TestSubject;
 
-        public static string SendEmailToRecipientWithSubjectAndContext { get; } = "Send email to " + ContextStrings.TestRecipient + " title is " + ContextStrings.TestSubjcet + " saying that " + ContextStrings.TestContent;
+        public static string SendEmailToRecipientWithSubjectAndContext { get; } = "Send email to " + ContextStrings.TestRecipient + " title is " + ContextStrings.TestSubject + " saying that " + ContextStrings.TestContent;
 
         public static string SendEmailToMultiRecipient { get; } = "Send email to " + ContextStrings.TestRecipient + " and " + ContextStrings.TestRecipientWithDup;
 

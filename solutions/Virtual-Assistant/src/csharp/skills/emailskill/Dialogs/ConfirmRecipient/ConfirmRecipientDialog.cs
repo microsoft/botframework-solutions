@@ -265,7 +265,6 @@ namespace EmailSkill
                         {
                             if (state.RecipientChoiceList.Count <= ConfigData.GetInstance().MaxReadSize)
                             {
-                                // Set readmore as false when return to next page
                                 state.ShowRecipientIndex++;
                                 state.ReadRecipientIndex = 0;
                             }
