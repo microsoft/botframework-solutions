@@ -498,7 +498,7 @@ namespace ToDoSkill
                     state.FoodOfGrocery = entities.FoodOfGrocery[0][0];
                 }
 
-                if (entities.ShopVerb != null && entities.ShopContent != null)
+                if (entities.ShopVerb != null && (entities.ShopContent != null || entities.FoodOfGrocery != null))
                 {
                     state.HasShopVerb = true;
                 }
