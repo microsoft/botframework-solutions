@@ -13,11 +13,6 @@
     <CodeAnalysisRuleSet>..\..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <ApplicationInsightsResourceId>/subscriptions/4c0d07e4-5490-4784-8d89-d8c504ba2a75/resourcegroups/LamillsBot/providers/microsoft.insights/components/LamillsBot-insights</ApplicationInsightsResourceId>
-    <ApplicationInsightsAnnotationResourceId>/subscriptions/4c0d07e4-5490-4784-8d89-d8c504ba2a75/resourcegroups/LamillsBot/providers/microsoft.insights/components/LamillsBot-insights</ApplicationInsightsAnnotationResourceId>
-  </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="AdaptiveCards" Version="1.1.0" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.9.0-beta2" />
