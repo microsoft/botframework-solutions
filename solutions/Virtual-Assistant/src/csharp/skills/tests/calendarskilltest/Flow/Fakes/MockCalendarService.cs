@@ -109,7 +109,6 @@ namespace CalendarSkillTest.Flow.Fakes
 
             // Event start and end time
             // Another example date format: `new DateTime(2017, 12, 1, 9, 30, 0).ToString("o")`
-
             if (startDateTime == null)
             {
                 startDateTime = DateTime.UtcNow;

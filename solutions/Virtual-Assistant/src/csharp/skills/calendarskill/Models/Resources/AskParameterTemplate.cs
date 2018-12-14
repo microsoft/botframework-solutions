@@ -46,6 +46,7 @@ namespace CalendarSkill.Models.Resources
             {
                 return types;
             }
+
             foreach (string key in templateMapping.Keys)
             {
                 Regex regex = new Regex(key);

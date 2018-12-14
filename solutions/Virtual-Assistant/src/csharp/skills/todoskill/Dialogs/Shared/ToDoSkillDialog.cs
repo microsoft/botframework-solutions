@@ -31,12 +31,14 @@ namespace ToDoSkill
             string dialogId,
             ISkillConfiguration services,
             IStatePropertyAccessor<ToDoSkillState> accessor,
-            ITaskService serviceManager)
+            ITaskService serviceManager,
+            IBotTelemetryClient telemetryClient)
             : base(dialogId)
         {
             Services = services;
             Accessor = accessor;
             ServiceManager = serviceManager;
+            TelemetryClient = telemetryClient;
 
             if (!Services.AuthenticationConnections.Any())
             {
@@ -496,7 +498,7 @@ namespace ToDoSkill
                     state.FoodOfGrocery = entities.FoodOfGrocery[0][0];
                 }
 
-                if (entities.ShopVerb != null && entities.ShopContent != null)
+                if (entities.ShopVerb != null && (entities.ShopContent != null || entities.FoodOfGrocery != null))
                 {
                     state.HasShopVerb = true;
                 }

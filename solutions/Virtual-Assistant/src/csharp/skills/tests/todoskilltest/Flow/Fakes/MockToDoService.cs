@@ -21,6 +21,18 @@ namespace ToDoSkillTest.Fakes
         {
         }
 
+        public void ChangeData(DataOperationType.OperationType type)
+        {
+            if (type == DataOperationType.OperationType.KeepZeroItem)
+            {
+                allToDoItems.Clear();
+            }
+            else if (type == DataOperationType.OperationType.KeepOneItem)
+            {
+                allToDoItems.RemoveRange(1, allToDoItems.Count - 1);
+            }
+        }
+
         public Task<ITaskService> InitAsync(string token, Dictionary<string, string> listTypeIds, HttpClient client = null)
         {
             if (!listTypeIds.ContainsKey("ToDo"))

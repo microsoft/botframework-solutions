@@ -4,7 +4,6 @@ using System.Text;
 
 namespace CalendarSkillTest.Flow.Models
 {
-
     public class MeetingAdaptiveCard
     {
         public string type { get; set; }

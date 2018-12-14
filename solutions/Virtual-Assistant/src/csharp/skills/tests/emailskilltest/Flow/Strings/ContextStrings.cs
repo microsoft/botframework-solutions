@@ -12,9 +12,11 @@ namespace EmailSkillTest.Flow.Strings
 
         public const string TestRecipient = "Test Test";
 
+        public const string TestEmptyRecipient = " ";
+
         public const string TestRecipientWithDup = "TestDup Test";
 
-        public const string TestSubjcet = "TestSubjcet";
+        public const string TestSubject = "TestSubject";
 
         public const string TestContent = "TestContent";
 

@@ -252,9 +252,6 @@
   <data name="DateWithAllDay" xml:space="preserve">
     <value>{0}全天</value>
   </data>
-  <data name="DisplayFullDateFormat" xml:space="preserve">
-    <value>yyyy-MM-dd</value>
-  </data>
   <data name="All" xml:space="preserve">
     <value>全部</value>
   </data>
@@ -272,5 +269,11 @@
   </data>
   <data name="ThirdItem" xml:space="preserve">
     <value>第三个是{0};</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>登陆</value>
+  </data>
+  <data name="LoginDescription" xml:space="preserve">
+    <value>请登陆您的{0}账户</value>
   </data>
 </root>
