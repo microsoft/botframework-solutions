@@ -35,5 +35,12 @@ namespace EmailSkill
 
             return googleClient;
         }
+
+        public static SkillException HandleGraphAPIException(Exception ex)
+        {
+            var skillExceptionType = SkillExceptionType.Other;
+
+            return new SkillException(skillExceptionType, ex.Message, ex);
+        }
     }
 }
