@@ -1105,6 +1105,7 @@ namespace CalendarSkill
             }
             catch (Microsoft.Graph.ServiceException)
             {
+                // todo: add exception handling
                 // won't clear conversation state hear, because sometime use api is not available, like user msa account.
             }
 
