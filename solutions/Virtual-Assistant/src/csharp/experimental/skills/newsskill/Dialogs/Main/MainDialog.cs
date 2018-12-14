@@ -19,18 +19,24 @@ namespace NewsSkill
     public class MainDialog : RouterDialog
     {
         private bool _skillMode;
-        private SkillConfiguration _services;
+        private ISkillConfiguration _services;
         private UserState _userState;
         private ConversationState _conversationState;
         private MainResponses _responder = new MainResponses();
+        private IStatePropertyAccessor<NewsSkillState> _stateAccessor;
+        private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
 
-        public MainDialog(SkillConfiguration services, ConversationState conversationState, UserState userState, bool skillMode)
+        public MainDialog(ISkillConfiguration services, ConversationState conversationState, UserState userState, bool skillMode)
             : base(nameof(MainDialog))
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
+
+            // Initialize state accessor
+            _stateAccessor = _conversationState.CreateProperty<NewsSkillState>(nameof(NewsSkillState));
+            _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
 
             RegisterDialogs();
         }
@@ -46,8 +52,10 @@ namespace NewsSkill
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
+            var state = await _stateAccessor.GetAsync(dc.Context, () => new NewsSkillState());
+
             // If dispatch result is general luis model
-            _services.LuisServices.TryGetValue("news", out var luisService);
+            _services.LocaleConfigurations["en"].LuisServices.TryGetValue("news", out var luisService);
 
             if (luisService == null)
             {
@@ -56,13 +64,14 @@ namespace NewsSkill
             else
             {
                 var result = await luisService.RecognizeAsync<News>(dc.Context, CancellationToken.None);
+                state.LuisResult = result;
 
                 var intent = result?.TopIntent().intent;
 
                 // switch on general intents
                 switch (intent)
                 {
-                    case News.Intent.FindNews:
+                    case News.Intent.FindArticles:
                         {
                             // send greeting response
                             await dc.BeginDialogAsync(nameof(FindArticlesDialog));
@@ -111,7 +120,7 @@ namespace NewsSkill
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
                 // check luis intent
-                _services.LuisServices.TryGetValue("general", out var luisService);
+                _services.LocaleConfigurations["en"].LuisServices.TryGetValue("general", out var luisService);
 
                 if (luisService == null)
                 {
@@ -158,7 +167,7 @@ namespace NewsSkill
 
         private void RegisterDialogs()
         {
-            AddDialog(new FindArticlesDialog(_services));
+            AddDialog(new FindArticlesDialog(_services, _stateAccessor));
         }
     }
 }

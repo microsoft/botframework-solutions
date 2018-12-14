@@ -1,11 +1,11 @@
-﻿using Microsoft.Azure.CognitiveServices.Search.NewsSearch.Models;
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.TemplateManager;
-using Microsoft.Bot.Schema;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Azure.CognitiveServices.Search.NewsSearch.Models;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.TemplateManager;
+using Microsoft.Bot.Schema;
 
 namespace NewsSkill
 {
@@ -51,7 +51,8 @@ namespace NewsSkill
                         Images = item?.Image?.Thumbnail?.ContentUrl != null ? new List<CardImage>()
                         {
                             new CardImage(item.Image.Thumbnail.ContentUrl),
-                        } : null,
+                        }
+                        : null,
                         Buttons = new List<CardAction>()
                         {
                             new CardAction(ActionTypes.OpenUrl, title: "Read more", value: item.Url)
@@ -64,7 +65,7 @@ namespace NewsSkill
             else
             {
                 response.Text = "Sorry, I couldn't find any articles on that topic.";
-            }          
+            }
 
             return response;
         }

@@ -27,7 +27,7 @@ namespace NewsSkill
         protected override async Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken)
         {
             // check luis intent
-            _services.LuisServices.TryGetValue("general", out var luisService);
+            _services.LocaleConfigurations["en"].LuisServices.TryGetValue("general", out var luisService);
 
             if (luisService == null)
             {
@@ -60,16 +60,6 @@ namespace NewsSkill
 
         protected virtual async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
-            //if (dc.ActiveDialog.Id != nameof(CancelDialog))
-            //{
-            //    // Don't start restart cancel dialog
-            //    await dc.BeginDialogAsync(nameof(CancelDialog));
-
-            //    // Signal that the dialog is waiting on user response
-            //    return InterruptionAction.StartedDialog;
-            //}
-
-            // Else, continue
             return InterruptionAction.NoAction;
         }
 

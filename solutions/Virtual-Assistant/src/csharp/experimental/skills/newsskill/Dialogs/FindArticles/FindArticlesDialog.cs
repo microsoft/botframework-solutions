@@ -1,21 +1,27 @@
-﻿using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Skills;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Solutions.Skills;
 
 namespace NewsSkill
 {
     public class FindArticlesDialog : ComponentDialog
     {
+        protected IStatePropertyAccessor<NewsSkillState> Accessor { get; set; }
         private NewsClient _client;
         private FindArticlesResponses _responder = new FindArticlesResponses();
 
-        public FindArticlesDialog(SkillConfiguration botServices) 
+        public FindArticlesDialog(
+            ISkillConfiguration botServices,
+            IStatePropertyAccessor<NewsSkillState> accessor)
             : base(nameof(FindArticlesDialog))
         {
+            Accessor = accessor;
+
             var key = botServices.Properties["BingNewsKey"] ?? throw new Exception("The BingNewsKey must be provided to use this dialog. Please provide this key in your Skill Configuration.");
 
             _client = new NewsClient((string)key);
@@ -30,21 +36,33 @@ namespace NewsSkill
             AddDialog(new TextPrompt(nameof(TextPrompt)));
         }
 
-        private async Task<DialogTurnResult> GetQuery(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> GetQuery(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions()
+            var state = await Accessor.GetAsync(sc.Context, () => new NewsSkillState());
+
+            // Let's see if we have a topic
+            if (state.LuisResult.Entities.topic != null)
             {
-                Prompt = await _responder.RenderTemplate(stepContext.Context, stepContext.Context.Activity.Locale, FindArticlesResponses.TopicPrompt)
+                // If we have a topic let's skip the topic prompt
+                if (state.LuisResult.Entities.topic.Length > 0)
+                {
+                    return await sc.NextAsync(state.LuisResult.Entities.topic[0]);
+                }
+            }
+
+            return await sc.PromptAsync(nameof(TextPrompt), new PromptOptions()
+            {
+                Prompt = await _responder.RenderTemplate(sc.Context, sc.Context.Activity.Locale, FindArticlesResponses.TopicPrompt)
             });
         }
 
-        private async Task<DialogTurnResult> ShowArticles(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> ShowArticles(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var query = (string)stepContext.Result;
+            var query = (string)sc.Result;
             var articles = await _client.GetNewsForTopic(query);
-            await _responder.ReplyWith(stepContext.Context, FindArticlesResponses.ShowArticles, articles);
+            await _responder.ReplyWith(sc.Context, FindArticlesResponses.ShowArticles, articles);
 
-            return await stepContext.EndDialogAsync();
+            return await sc.EndDialogAsync();
         }
     }
 }

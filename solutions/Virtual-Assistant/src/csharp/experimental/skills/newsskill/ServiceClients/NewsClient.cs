@@ -1,15 +1,15 @@
-﻿using Microsoft.Azure.CognitiveServices.Search.NewsSearch;
-using Microsoft.Azure.CognitiveServices.Search.NewsSearch.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Azure.CognitiveServices.Search.NewsSearch;
+using Microsoft.Azure.CognitiveServices.Search.NewsSearch.Models;
 
 namespace NewsSkill
 {
     public class NewsClient
     {
-        private NewsSearchClient _client; 
+        private NewsSearchClient _client;
 
         public NewsClient(string key)
         {
