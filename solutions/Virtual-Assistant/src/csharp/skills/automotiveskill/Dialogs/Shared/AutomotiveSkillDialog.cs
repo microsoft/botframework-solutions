@@ -24,13 +24,15 @@ namespace AutomotiveSkill
             string dialogId,
             ISkillConfiguration services,
             IStatePropertyAccessor<AutomotiveSkillState> accessor,
-            IServiceManager serviceManager)
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient)
             : base(dialogId)
                 {
                     Services = services;
                     Accessor = accessor;
                     ServiceManager = serviceManager;
-                }
+                    TelemetryClient = telemetryClient;
+            }
 
         protected ISkillConfiguration Services { get; set; }
 

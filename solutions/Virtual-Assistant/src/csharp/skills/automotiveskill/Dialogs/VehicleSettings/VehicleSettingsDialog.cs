@@ -46,9 +46,12 @@ namespace AutomotiveSkill
             ISkillConfiguration services,
             IStatePropertyAccessor<AutomotiveSkillState> accessor,
             IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient,
             IHttpContextAccessor httpContext)
-            : base(nameof(VehicleSettingsDialog), services, accessor, serviceManager)
+            : base(nameof(VehicleSettingsDialog), services, accessor, serviceManager, telemetryClient)
         {
+            TelemetryClient = telemetryClient;
+
             // Initialise supporting LUIS models for followup questions
             vehicleSettingNameSelectionLuisRecognizer = services.LocaleConfigurations["en"].LuisServices["settings_name"];
             vehicleSettingValueSelectionLuisRecognizer = services.LocaleConfigurations["en"].LuisServices["settings_value"];
