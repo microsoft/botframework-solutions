@@ -273,4 +273,10 @@
   <data name="ThirdItem" xml:space="preserve">
     <value>第三个是{0};</value>
   </data>
+  <data name="Login" xml:space="preserve">
+    <value>登陆</value>
+  </data>
+  <data name="LoginDescription" xml:space="preserve">
+    <value>请登陆您的{0}账户</value>
+  </data>
 </root>
