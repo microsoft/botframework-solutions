@@ -94,7 +94,7 @@ namespace CalendarSkill
                     {
                         { "RemainingTime", string.Empty },
                         { "Title", string.Empty },
-                        { "Time", string.Empty},
+                        { "Time", string.Empty },
                         { "TimeSpeak", string.Empty }
                     };
 
