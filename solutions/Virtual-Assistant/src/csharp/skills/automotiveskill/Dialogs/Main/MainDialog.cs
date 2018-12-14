@@ -25,7 +25,7 @@ namespace AutomotiveSkill
         private bool _skillMode;
         private ISkillConfiguration _services;
         private UserState _userState;
-        IBotTelemetryClient telemetryClient;
+        private IBotTelemetryClient telemetryClient;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
         private IHttpContextAccessor _httpContext;

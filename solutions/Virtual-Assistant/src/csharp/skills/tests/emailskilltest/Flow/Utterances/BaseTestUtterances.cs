@@ -49,8 +49,7 @@ namespace EmailSkillTest.Flow.Utterances
             string[] senderName = null,
             string[] emailAdress = null,
             string[] subject = null,
-            string[] message = null
-            )
+            string[] message = null)
         {
             var emailIntent = new Email();
 

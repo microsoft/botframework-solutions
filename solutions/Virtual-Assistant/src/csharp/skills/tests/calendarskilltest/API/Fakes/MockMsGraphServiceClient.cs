@@ -45,7 +45,6 @@ namespace CalendarSkillTest.API.Fakes
 
             mockCalendarService.Setup(client => client.Me.Events[It.IsAny<string>()]).Returns((string eventId) =>
             {
-
                 Mock<IEventRequestBuilder> requestBuilder = new Mock<IEventRequestBuilder>();
                 requestBuilder.Setup(req => req.Request().DeleteAsync()).Returns(() =>
                 {

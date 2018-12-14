@@ -172,7 +172,6 @@ namespace CalendarSkillTest.Flow
                 DateTime date = DateTime.ParseExact(dateString, "d", cultureInfo);
                 DateTime utcToday = DateTime.UtcNow.Date;
                 Assert.IsTrue(date >= utcToday);
-
             };
         }
     }
