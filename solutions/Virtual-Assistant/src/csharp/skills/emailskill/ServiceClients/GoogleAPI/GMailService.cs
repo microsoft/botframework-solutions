@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
+using EmailSkill.Dialogs.Shared.Resources.Strings;
 using Google;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Flows;
@@ -88,7 +89,7 @@ namespace EmailSkill
                 }
 
                 // set the reply subject
-                forward.Subject = "Fwd: " + originMessage.Subject;
+                forward.Subject = EmailCommonStrings.Forward + originMessage.Subject;
 
                 // construct the References headers
                 foreach (var mid in originMessage.References)
@@ -107,14 +108,14 @@ namespace EmailSkill
                     var sender = originMessage.Sender ?? originMessage.From.Mailboxes.FirstOrDefault();
                     quoted.WriteLine(content);
                     quoted.WriteLine();
-                    quoted.WriteLine("---------- Forwarded message ----------");
-                    quoted.WriteLine("From: {0}", originMessage.From);
-                    quoted.WriteLine("Date: {0}", originMessage.Date);
-                    quoted.WriteLine("Subject: {0}", originMessage.Subject);
-                    quoted.WriteLine("To: {0}", originMessage.To);
+                    quoted.WriteLine(EmailCommonStrings.ForwardMessage);
+                    quoted.WriteLine(EmailCommonStrings.FromFormat, originMessage.From);
+                    quoted.WriteLine(EmailCommonStrings.DateFormat, originMessage.Date);
+                    quoted.WriteLine(EmailCommonStrings.SubjectFormat, originMessage.Subject);
+                    quoted.WriteLine(EmailCommonStrings.ToFormat, originMessage.To);
                     if (originMessage.Cc.Count > 0)
                     {
-                        quoted.WriteLine("Cc: {0}", originMessage.Cc);
+                        quoted.WriteLine(EmailCommonStrings.CCFormat, originMessage.Cc);
                     }
 
                     using (var reader = new StringReader(originMessage.TextBody))
@@ -200,9 +201,9 @@ namespace EmailSkill
                 }
 
                 // set the reply subject
-                if (!originMessage.Subject.StartsWith("Re:", StringComparison.OrdinalIgnoreCase))
+                if (!originMessage.Subject.StartsWith(EmailCommonStrings.Reply, StringComparison.OrdinalIgnoreCase))
                 {
-                    reply.Subject = "Re: " + originMessage.Subject;
+                    reply.Subject = string.Format(EmailCommonStrings.ReplyReplyFormat, originMessage.Subject);
                 }
                 else
                 {
@@ -225,7 +226,7 @@ namespace EmailSkill
                 using (var quoted = new StringWriter())
                 {
                     var sender = originMessage.Sender ?? originMessage.From.Mailboxes.FirstOrDefault();
-                    quoted.WriteLine("On {0}, {1} wrote:", originMessage.Date.ToString("f"), !string.IsNullOrEmpty(sender.Name) ? sender.Name : sender.Address);
+                    quoted.WriteLine(EmailCommonStrings.EmailInfoFormat, originMessage.Date.ToString("f"), !string.IsNullOrEmpty(sender.Name) ? sender.Name : sender.Address);
                     using (var reader = new StringReader(originMessage.TextBody))
                     {
                         string line;

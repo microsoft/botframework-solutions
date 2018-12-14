@@ -117,109 +117,76 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="And" xml:space="preserve">
-    <value>和</value>
+  <data name="All" xml:space="preserve">
+    <value>全部</value>
   </data>
-  <data name="At" xml:space="preserve">
-    <value>于</value>
+  <data name="CCFormat" xml:space="preserve">
+    <value>抄送: {0}</value>
   </data>
-  <data name="AtTimeDetailsFormat" xml:space="preserve">
-    <value>{0}于{1}</value>
+  <data name="ContentFormat" xml:space="preserve">
+    <value>内容: {0}</value>
   </data>
-  <data name="DaysFormat" xml:space="preserve">
-    <value>{0}天前</value>
+  <data name="DateFormat" xml:space="preserve">
+    <value>时间: {0}</value>
   </data>
-  <data name="DisplayDateFormat" xml:space="preserve">
-    <value>D</value>
+  <data name="EmailInfoFormat" xml:space="preserve">
+    <value>在{0},{1}写道:</value>
   </data>
-  <data name="DisplayDateFormat_CurrentYear" xml:space="preserve">
-    <value>M</value>
+  <data name="EmptyContent" xml:space="preserve">
+    <value>空内容</value>
   </data>
-  <data name="DisplayTime" xml:space="preserve">
-    <value>t</value>
+  <data name="EmptySubject" xml:space="preserve">
+    <value>空标题</value>
   </data>
-  <data name="NotAvailable" xml:space="preserve">
-    <value>未知</value>
+  <data name="Forward" xml:space="preserve">
+    <value>fw:</value>
   </data>
-  <data name="Now" xml:space="preserve">
-    <value>刚刚</value>
+  <data name="ForwardMessage" xml:space="preserve">
+    <value>---------- 转发内容 ----------</value>
   </data>
-  <data name="Or" xml:space="preserve">
-    <value>或</value>
+  <data name="ForwardReplyFormat" xml:space="preserve">
+    <value>FW: {0}</value>
   </data>
-  <data name="RecipientsSummary" xml:space="preserve">
-    <value> + {0} 更多</value>
+  <data name="FromDetailsFormat" xml:space="preserve">
+    <value>{0}来自{1}</value>
   </data>
-  <data name="SeparatorFormat" xml:space="preserve">
-    <value>{0}</value>
+  <data name="FromFormat" xml:space="preserve">
+    <value>来自: {0}</value>
   </data>
-  <data name="SpokenDateFormat" xml:space="preserve">
-    <value>D</value>
+  <data name="High" xml:space="preserve">
+    <value>高</value>
   </data>
-  <data name="SpokenDatePrefix" xml:space="preserve">
-    <value>中。</value>
+  <data name="Important" xml:space="preserve">
+    <value>重要</value>
   </data>
-  <data name="SpokenTimePrefix_MoreThanOne" xml:space="preserve">
-    <value>到</value>
+  <data name="Relevant" xml:space="preserve">
+    <value>相关</value>
   </data>
-  <data name="SpokenTimePrefix_One" xml:space="preserve">
-    <value>进入</value>
+  <data name="RelevantFormat" xml:space="preserve">
+    <value>相关{0}</value>
   </data>
-  <data name="Today" xml:space="preserve">
-    <value>今天</value>
+  <data name="Reply" xml:space="preserve">
+    <value>re:</value>
   </data>
-  <data name="Tomorrow" xml:space="preserve">
-    <value>明天</value>
+  <data name="ReplyReplyFormat" xml:space="preserve">
+    <value>RE: {0}</value>
   </data>
-  <data name="Yesterday" xml:space="preserve">
-    <value>昨天</value>
+  <data name="SubjectFormat" xml:space="preserve">
+    <value>标题: {0}</value>
   </data>
-  <data name="TimeFormatDay" xml:space="preserve">
-    <value>{0}天</value>
+  <data name="ToDetailsFormat" xml:space="preserve">
+    <value>{0}发送至{1}内容是{2}</value>
   </data>
-  <data name="TimeFormatDays" xml:space="preserve">
-    <value>{0}天</value>
+  <data name="ToFormat" xml:space="preserve">
+    <value>发送至: {0}</value>
   </data>
-  <data name="TimeFormatHour" xml:space="preserve">
-    <value>{0}小时</value>
+  <data name="UnknownRecipient" xml:space="preserve">
+    <value>未知收件人</value>
   </data>
-  <data name="TimeFormatHourMinuteConnective" xml:space="preserve">
-    <value />
+  <data name="UnknownSender" xml:space="preserve">
+    <value>未知发件人</value>
   </data>
-  <data name="TimeFormatHours" xml:space="preserve">
-    <value>{0}小时</value>
-  </data>
-  <data name="TimeFormatMinute" xml:space="preserve">
-    <value>{0}分钟</value>
-  </data>
-  <data name="TimeFormatMinutes" xml:space="preserve">
-    <value>{0}分钟</value>
-  </data>
-  <data name="AttendeesSummary" xml:space="preserve">
-    <value>+ {0}个其他参会者</value>
-  </data>
-  <data name="DateWithAllDay" xml:space="preserve">
-    <value>{0}全天</value>
-  </data>
-  <data name="DisplayFullDateFormat" xml:space="preserve">
-    <value>yyyy-MM-dd</value>
-  </data>
-  <data name="FirstItem" xml:space="preserve">
-    <value>第一个是{0};</value>
-  </data>
-  <data name="More" xml:space="preserve">
-    <value>多</value>
-  </data>
-  <data name="SecondItem" xml:space="preserve">
-    <value>第二个是{0};</value>
-  </data>
-  <data name="ThirdItem" xml:space="preserve">
-    <value>第三个是{0};</value>
-  </data>
-  <data name="Login" xml:space="preserve">
-    <value>登陆</value>
-  </data>
-  <data name="LoginDescription" xml:space="preserve">
-    <value>请登陆您的{0}账户</value>
+  <data name="Unread" xml:space="preserve">
+    <value>未读</value>
   </data>
 </root>

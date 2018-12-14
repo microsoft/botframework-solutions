@@ -126,9 +126,6 @@
   <data name="AtTimeDetailsFormat" xml:space="preserve">
     <value>{0} at {1}</value>
   </data>
-  <data name="ContentFormat" xml:space="preserve">
-    <value>Content: {0}</value>
-  </data>
   <data name="DaysFormat" xml:space="preserve">
     <value>{0} days ago</value>
   </data>
@@ -141,24 +138,6 @@
   <data name="DisplayTime" xml:space="preserve">
     <value>h:mm tt</value>
   </data>
-  <data name="EmptyContent" xml:space="preserve">
-    <value>empty content</value>
-  </data>
-  <data name="EmptySubject" xml:space="preserve">
-    <value>empty subject</value>
-  </data>
-  <data name="Forward" xml:space="preserve">
-    <value>fw:</value>
-  </data>
-  <data name="ForwardReplyFormat" xml:space="preserve">
-    <value>FW: {0}</value>
-  </data>
-  <data name="FromDetailsFormat" xml:space="preserve">
-    <value>{0} from {1}</value>
-  </data>
-  <data name="Important" xml:space="preserve">
-    <value>important</value>
-  </data>
   <data name="NotAvailable" xml:space="preserve">
     <value>Not available</value>
   </data>
@@ -170,18 +149,6 @@
   </data>
   <data name="RecipientsSummary" xml:space="preserve">
     <value> + {0} more</value>
-  </data>
-  <data name="Relevant" xml:space="preserve">
-    <value>relevant</value>
-  </data>
-  <data name="RelevantFormat" xml:space="preserve">
-    <value>relevant {0}</value>
-  </data>
-  <data name="Reply" xml:space="preserve">
-    <value>re:</value>
-  </data>
-  <data name="ReplyReplyFormat" xml:space="preserve">
-    <value>RE: {0}</value>
   </data>
   <data name="SeparatorFormat" xml:space="preserve">
     <value> {0} </value>
@@ -198,29 +165,11 @@
   <data name="SpokenTimePrefix_One" xml:space="preserve">
     <value>at</value>
   </data>
-  <data name="SubjectFormat" xml:space="preserve">
-    <value>Subject: {0}</value>
-  </data>
   <data name="Today" xml:space="preserve">
     <value>Today</value>
   </data>
-  <data name="ToDetailsFormat" xml:space="preserve">
-    <value>{0} to {1} and content is {2}</value>
-  </data>
-  <data name="ToFormat" xml:space="preserve">
-    <value>To: {0}</value>
-  </data>
   <data name="Tomorrow" xml:space="preserve">
     <value>Tomorrow</value>
-  </data>
-  <data name="UnknownRecipient" xml:space="preserve">
-    <value>unknown recipient</value>
-  </data>
-  <data name="UnknownSender" xml:space="preserve">
-    <value>unknown sender</value>
-  </data>
-  <data name="Unread" xml:space="preserve">
-    <value>unread</value>
   </data>
   <data name="Yesterday" xml:space="preserve">
     <value>Yesterday</value>
@@ -254,12 +203,6 @@
   </data>
   <data name="DisplayFullDateFormat" xml:space="preserve">
     <value>dd-MM-yyyy</value>
-  </data>
-  <data name="All" xml:space="preserve">
-    <value>all</value>
-  </data>
-  <data name="High" xml:space="preserve">
-    <value>high</value>
   </data>
   <data name="FirstItem" xml:space="preserve">
     <value>the first one is {0};</value>

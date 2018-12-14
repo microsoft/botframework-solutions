@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using EmailSkill.Dialogs.Shared.Resources.Strings;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Graph;
 
@@ -12,7 +13,7 @@ namespace EmailSkill.Util
         {
             string toRecipient = ((recipients?.FirstOrDefault()?.EmailAddress?.Name != string.Empty)
                                  || (recipients?.FirstOrDefault()?.EmailAddress?.Name != null))
-                                 ? recipients?.FirstOrDefault()?.EmailAddress?.Name : CommonStrings.UnknownRecipient;
+                                 ? recipients?.FirstOrDefault()?.EmailAddress?.Name : EmailCommonStrings.UnknownRecipient;
 
             var nameListString = toRecipient;
             if (recipients.Count() > 1)
@@ -31,7 +32,7 @@ namespace EmailSkill.Util
             {
                 var recipientName = ((recipient.EmailAddress?.Name != string.Empty)
                     || (recipient.EmailAddress?.Name != null))
-                    ? recipient.EmailAddress?.Name : CommonStrings.UnknownRecipient;
+                    ? recipient.EmailAddress?.Name : EmailCommonStrings.UnknownRecipient;
 
                 displayString += string.Join("; ", recipientName);
             }
