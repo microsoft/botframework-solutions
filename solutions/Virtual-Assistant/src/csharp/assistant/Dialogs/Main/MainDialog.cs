@@ -450,7 +450,7 @@ namespace VirtualAssistant
                     response.AttachmentLayout = "carousel";
                     if (places != null &&　places.Count > 0)
                     {
-                        for (var i = 0; i < places.Count && i < 4; ++i)
+                        for (var i = 0; i < places.Count && i < 3; ++i)
                         {
                             var imageStr = await baiduMapClient.GetLocationImageAsync(places[i].Location, places[i].Name).ConfigureAwait(false);
                             var card = new HeroCard
@@ -467,6 +467,8 @@ namespace VirtualAssistant
                                 },
                             };
                             response.Attachments.Add(card.ToAttachment());
+                            response.Speak = card.Title != null ? $"{card.Title} " : string.Empty;
+                            response.Speak += card.Subtitle != null ? $"{card.Subtitle} " : string.Empty;
                         }
                     }
                     else
