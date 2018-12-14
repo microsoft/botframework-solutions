@@ -9,17 +9,20 @@ namespace ToDoSkill
         public AddToDoItemDialog(
             ISkillConfiguration services,
             IStatePropertyAccessor<ToDoSkillState> accessor,
-            ITaskService serviceManager)
-            : base(nameof(AddToDoItemDialog), services, accessor, serviceManager)
+            ITaskService serviceManager,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(AddToDoItemDialog), services, accessor, serviceManager, telemetryClient)
         {
+            TelemetryClient = telemetryClient;
+
             var addToDoTask = new WaterfallStep[]
-           {
+            {
                 GetAuthToken,
                 AfterGetAuthToken,
                 ClearContext,
                 CollectToDoTaskContent,
                 AddToDoTask,
-           };
+            };
 
             var collectToDoTaskContent = new WaterfallStep[]
             {
@@ -28,8 +31,8 @@ namespace ToDoSkill
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Action.AddToDoTask, addToDoTask));
-            AddDialog(new WaterfallDialog(Action.CollectToDoTaskContent, collectToDoTaskContent));
+            AddDialog(new WaterfallDialog(Action.AddToDoTask, addToDoTask) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Action.CollectToDoTaskContent, collectToDoTaskContent) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Action.AddToDoTask;

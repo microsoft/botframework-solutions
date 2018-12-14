@@ -80,7 +80,7 @@ namespace ToDoSkillTest.API.Fakes
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>(
                 "SendAsync",
-                ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/v1.0/users/bnoabotletdev@outlook.com/onenote/pages/") && r.Method != HttpMethod.Patch),
+                ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/v1.0/users/test@outlook.com/onenote/pages/") && r.Method != HttpMethod.Patch),
                 ItExpr.IsAny<CancellationToken>())
                 .ReturnsAsync(() => new HttpResponseMessage()
                 {
@@ -91,7 +91,7 @@ namespace ToDoSkillTest.API.Fakes
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>(
                 "SendAsync",
-                ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/v1.0/users/bnoabotletdev@outlook.com/onenote/pages/") && r.Method == HttpMethod.Patch),
+                ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/v1.0/users/test@outlook.com/onenote/pages/") && r.Method == HttpMethod.Patch),
                 ItExpr.IsAny<CancellationToken>())
                 .ReturnsAsync(() => new HttpResponseMessage()
                 {
@@ -109,6 +109,53 @@ namespace ToDoSkillTest.API.Fakes
               {
                   Content = new StringContent(this.GetPageDetails()),
               });
+
+            mockClient
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                "SendAsync",
+                ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/beta/me/outlook/taskFolders/ToDo/tasks") && r.Method == HttpMethod.Get),
+                ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(() => new HttpResponseMessage()
+                {
+                    Content = new StringContent(this.GetOutlookTasks()),
+                });
+
+            mockClient
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                "SendAsync",
+                ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/beta/me/outlook/taskFolders/ToDo/tasks") && r.Method == HttpMethod.Post),
+                ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(() => new HttpResponseMessage()
+                {
+                    Content = new StringContent(string.Empty),
+                })
+                .Callback<HttpRequestMessage, CancellationToken>(async (r, c) => await this.AddOutlookTaskAsync(r));
+
+            mockClient
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                "SendAsync",
+                ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/beta/me/outlook/tasks") && r.Method == HttpMethod.Post),
+                ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(() => new HttpResponseMessage()
+                {
+                    Content = new StringContent(string.Empty),
+                })
+                .Callback<HttpRequestMessage, CancellationToken>((r, c) => this.MarkOrDeleteOutlookTask(r));
+
+            mockClient
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                "SendAsync",
+                ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/beta/me/outlook/tasks") && r.Method == HttpMethod.Delete),
+                ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(() => new HttpResponseMessage()
+                {
+                    Content = new StringContent(string.Empty),
+                })
+                .Callback<HttpRequestMessage, CancellationToken>((r, c) => this.MarkOrDeleteOutlookTask(r));
         }
 
         private string GetTodoHtml(TaskItem task)
@@ -189,7 +236,67 @@ namespace ToDoSkillTest.API.Fakes
 
         private string GetPageDetails()
         {
-            return "{\"@odata.context\":\"https://graph.microsoft.com/v1.0/$metadata#users('bnoabotletdev%40outlook.com')/onenote/pages\",\"value\":[{\"id\":\"0-6683264ee61f47bc9e089900e12ed192!215-A2624DB91264DE33!152\",\"self\":\"https://graph.microsoft.com/v1.0/users/bnoabotletdev@outlook.com/onenote/pages/0-6683264ee61f47bc9e089900e12ed192!215-A2624DB91264DE33!152\",\"createdDateTime\":\"2018-11-07T14:52:00Z\",\"title\":\"ToDo\",\"createdByAppId\":\"WLID-00000000482345AD\",\"contentUrl\":\"https://graph.microsoft.com/v1.0/users/bnoabotletdev@outlook.com/onenote/pages/0-6683264ee61f47bc9e089900e12ed192!215-A2624DB91264DE33!152/content\",\"lastModifiedDateTime\":\"2018-11-07T14:52:00Z\",\"links\":{\"oneNoteClientUrl\":{\"href\":\"onenote:https://d.docs.live.net/a2624db91264de33/%e6%96%87%e6%a1%a3/ToDoNotebook/ToDoSection.one#ToDo&section-id=c2d2e1a9-1690-469e-bae9-e4a27c6c1aff&page-id=66fe82e8-596f-44e3-9cf7-d82a92a6158a&end\"},\"oneNoteWebUrl\":{\"href\":\"https://onedrive.live.com/redir.aspx?cid=a2624db91264de33&page=edit&resid=A2624DB91264DE33!150&parId=A2624DB91264DE33!106&wd=target%28ToDoSection.one%7Cc2d2e1a9-1690-469e-bae9-e4a27c6c1aff%2FToDo%7C66fe82e8-596f-44e3-9cf7-d82a92a6158a%2F%29\"}},\"parentSection@odata.context\":\"https://graph.microsoft.com/v1.0/$metadata#users('bnoabotletdev%40outlook.com')/onenote/pages('0-6683264ee61f47bc9e089900e12ed192%21215-A2624DB91264DE33%21152')/parentSection/$entity\",\"parentSection\":{\"id\":\"0-A2624DB91264DE33!152\",\"displayName\":\"ToDoSection\",\"self\":\"https://graph.microsoft.com/v1.0/users/bnoabotletdev@outlook.com/onenote/sections/0-A2624DB91264DE33!152\"}}]}";
+            return "{\"@odata.context\":\"https://graph.microsoft.com/v1.0/$metadata#users('test%40outlook.com')/onenote/pages\",\"value\":[{\"id\":\"testid\",\"self\":\"https://graph.microsoft.com/v1.0/users/test@outlook.com/onenote/pages/testpageid\",\"createdDateTime\":\"2018-11-07T14:52:00Z\",\"title\":\"ToDo\",\"createdByAppId\":\"testappid\",\"contentUrl\":\"https://graph.microsoft.com/v1.0/users/test@outlook.com/onenote/pages/testpageid/content\",\"lastModifiedDateTime\":\"2018-11-07T14:52:00Z\",\"links\":{\"oneNoteClientUrl\":{\"href\":\"onenote:https://d.docs.live.net/\"},\"oneNoteWebUrl\":{\"href\":\"https://onedrive.live.com/\"}},\"parentSection@odata.context\":\"https://graph.microsoft.com/v1.0/$metadata#users('test%40outlook.com')/onenote/pages('testid')/parentSection/$entity\",\"parentSection\":{\"id\":\"testid\",\"displayName\":\"TestSection\",\"self\":\"https://graph.microsoft.com/v1.0\"}}]}";
+        }
+
+        private string GetOutlookTasks()
+        {
+            var taskObjects = new List<object>();
+            foreach (var task in this.todos)
+            {
+                taskObjects.Add(new
+                {
+                    subject = task.Topic,
+                    id = task.Id,
+                    status = task.IsCompleted ? "completed" : "uncompleted",
+                });
+            }
+
+            var taskResponseDetails = new JObject();
+            taskResponseDetails.Add("@odata.context", "https://graph.microsoft.com/beta/outlook/taskFolders/tasks");
+            taskResponseDetails.Add("value", JToken.FromObject(taskObjects));
+
+            return JsonConvert.SerializeObject(taskResponseDetails);
+        }
+
+        private async Task<bool> AddOutlookTaskAsync(HttpRequestMessage request)
+        {
+            var result = await request.Content.ReadAsStringAsync();
+            var reqObj = JsonConvert.DeserializeObject<object>(result);
+            if (reqObj == null)
+            {
+                return false;
+            }
+
+            var req = JObject.Parse(reqObj.ToString());
+            var taskContent = req["subject"].ToString();
+
+            this.todos.Insert(0, new TaskItem()
+            {
+                Id = "0",
+                Topic = taskContent,
+                IsCompleted = false,
+            });
+
+            return true;
+        }
+
+        private bool MarkOrDeleteOutlookTask(HttpRequestMessage request)
+        {
+            var url = request.RequestUri.ToString();
+            if (request.Method == HttpMethod.Post)
+            {
+                var subUrl = url.Remove(url.LastIndexOf('/'));
+                var id = subUrl.Substring(subUrl.LastIndexOf('/') + 1);
+                this.todos[this.todos.FindIndex(s => s.Id == id)].IsCompleted = true;
+            }
+            else
+            {
+                var id = url.Substring(url.LastIndexOf('/') + 1);
+                this.todos.RemoveAt(this.todos.FindIndex(i => i.Id == id));
+            }
+
+            return true;
         }
     }
 }

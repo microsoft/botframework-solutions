@@ -13,16 +13,19 @@ namespace PointOfInterestSkill
         public CancelRouteDialog(
             SkillConfiguration services,
             IStatePropertyAccessor<PointOfInterestSkillState> accessor,
-            IServiceManager serviceManager)
-            : base(nameof(CancelRouteDialog), services, accessor, serviceManager)
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(CancelRouteDialog), services, accessor, serviceManager, telemetryClient)
         {
+            TelemetryClient = telemetryClient;
+
             var cancelRoute = new WaterfallStep[]
             {
                 CancelActiveRoute,
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Action.CancelActiveRoute, cancelRoute));
+            AddDialog(new WaterfallDialog(Action.CancelActiveRoute, cancelRoute) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Action.CancelActiveRoute;

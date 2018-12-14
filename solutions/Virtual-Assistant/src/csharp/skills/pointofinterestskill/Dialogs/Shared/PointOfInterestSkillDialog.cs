@@ -26,12 +26,14 @@ namespace PointOfInterestSkill
             string dialogId,
             SkillConfiguration services,
             IStatePropertyAccessor<PointOfInterestSkillState> accessor,
-            IServiceManager serviceManager)
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient)
             : base(dialogId)
         {
             Services = services;
             Accessor = accessor;
             ServiceManager = serviceManager;
+            TelemetryClient = telemetryClient;
 
             AddDialog(new TextPrompt(Action.Prompt, CustomPromptValidatorAsync));
             AddDialog(new ConfirmPrompt(Action.ConfirmPrompt) { Style = ListStyle.Auto, });

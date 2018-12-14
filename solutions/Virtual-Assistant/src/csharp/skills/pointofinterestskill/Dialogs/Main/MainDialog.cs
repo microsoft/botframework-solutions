@@ -35,15 +35,17 @@ namespace PointOfInterestSkill
             SkillConfiguration services,
             ConversationState conversationState,
             UserState userState,
+            IBotTelemetryClient telemetryClient,
             IServiceManager serviceManager,
             bool skillMode)
-            : base(nameof(MainDialog))
+            : base(nameof(MainDialog), telemetryClient)
         {
             _skillMode = skillMode;
             _services = services;
             _userState = userState;
             _conversationState = conversationState;
             _serviceManager = serviceManager;
+            TelemetryClient = telemetryClient;
 
             // Initialize state accessor
             _stateAccessor = _conversationState.CreateProperty<PointOfInterestSkillState>(nameof(PointOfInterestSkillState));
@@ -78,7 +80,7 @@ namespace PointOfInterestSkill
             }
             else
             {
-                var result = await luisService.RecognizeAsync<PointOfInterest>(dc.Context, CancellationToken.None);
+                var result = await luisService.RecognizeAsync<PointOfInterest>(dc, true, CancellationToken.None);
 
                 var intent = result?.TopIntent().intent;
 
@@ -355,10 +357,10 @@ namespace PointOfInterestSkill
 
         private void RegisterDialogs()
         {
-            AddDialog(new RouteDialog(_services, _stateAccessor, _serviceManager));
-            AddDialog(new CancelRouteDialog(_services, _stateAccessor, _serviceManager));
-            AddDialog(new FindPointOfInterestDialog(_services, _stateAccessor, _serviceManager));
-            AddDialog(new CancelDialog(_stateAccessor));
+            AddDialog(new RouteDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new CancelRouteDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new FindPointOfInterestDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new CancelDialog(_stateAccessor, TelemetryClient));
         }
 
         public class Events

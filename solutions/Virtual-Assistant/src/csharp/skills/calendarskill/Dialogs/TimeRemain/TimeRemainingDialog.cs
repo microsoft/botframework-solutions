@@ -19,9 +19,12 @@ namespace CalendarSkill
         public TimeRemainingDialog(
             ISkillConfiguration services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
-            IServiceManager serviceManager)
-            : base(nameof(TimeRemainingDialog), services, accessor, serviceManager)
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(TimeRemainingDialog), services, accessor, serviceManager, telemetryClient)
         {
+            TelemetryClient = telemetryClient;
+
             var timeRemain = new WaterfallStep[]
             {
                 GetAuthToken,
@@ -30,7 +33,7 @@ namespace CalendarSkill
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Actions.ShowTimeRemaining, timeRemain));
+            AddDialog(new WaterfallDialog(Actions.ShowTimeRemaining, timeRemain) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Actions.ShowTimeRemaining;
