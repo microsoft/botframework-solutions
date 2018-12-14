@@ -8,10 +8,19 @@ These skills by their very nature are not complete, will likely have rudimentary
 
 ## Restaurant Booking Skill
 
-The [Restaurant Booking](../src/csharp/experimental/skills/restaurantbooking/readme.md) skill provides a simple restaurant booking experience guiding the user through booking a table and leverages Adaptive Cards throughout to demonstrate how Speech, Text and UX can be combined for a compelling user experience. No integration to restaurant booking services exists at this time so is simulated with static data for testing purposes.
+The [Restaurant Booking skill](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/experimental/skills/restaurantbooking) provides a simple restaurant booking experience guiding the user through booking a table and leverages Adaptive Cards throughout to demonstrate how Speech, Text and UX can be combined for a compelling user experience. No integration to restaurant booking services exists at this time so is simulated with static data for testing purposes.
+
+An example transcript file demonstrating the Skill in action can be found [here](./transcripts/restaurantbooking.transcript), you can use the Bot Framework Emulator to open transcripts.
+
+![ Restaurant Booking Transcript Example](./media/skills-restaurant-transcript.png)
 
 ## News Skill
 
+The [News skill](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/experimental/skills/newsskill) provides a simple Skill that integrates with the Bing News Cognitive Service to demonstrate how a news experience can be integrated into a Virtual Assistant.
+
+An example transcript file demonstrating the Skill in action can be found [here](./transcripts/newsskill.transcript), you can use the Bot Framework Emulator to open transcripts.
+
+![ News Skill Transcript Example](./media/skills-news-transcript.png)
 
 ## Deploying Experimental Skills in local-mode
 
@@ -63,3 +72,7 @@ msbot list --bot YOURBOTFILE.bot --secret YOUR_BOT_SECRET
 ## Testing the skill in local-mode
 
 Once you have followed the deployment instructions above, open the provided .bot file with the Bot Framework Emulator.
+
+## Adding Experimental Skills to your Virtual Assistant deployment.
+
+Instructions on how to add experimental skills will be available soon.
