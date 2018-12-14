@@ -3,7 +3,6 @@
 
 using System;
 using CalendarSkill.ServiceClients;
-using CalendarSkill.ServiceClients.GoogleAPI;
 using Microsoft.Bot.Solutions.Skills;
 
 namespace CalendarSkill

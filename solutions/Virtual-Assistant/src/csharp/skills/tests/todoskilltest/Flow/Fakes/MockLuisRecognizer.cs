@@ -4,23 +4,29 @@ using System.Threading;
 using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Solutions;
 using ToDoSkillTest.Flow.Utterances;
 
 namespace ToDoSkillTest.Flow.Fakes
 {
-    public class MockLuisRecognizer : IRecognizer
+    public class MockLuisRecognizer : ITelemetryLuisRecognizer
     {
         private BaseTestUtterances utterancesManager;
         private GeneralTestUtterances generalUtterancesManager;
+
+        public bool LogOriginalMessage => throw new NotImplementedException();
+
+        public bool LogUsername => throw new NotImplementedException();
 
         public MockLuisRecognizer(BaseTestUtterances utterancesManager)
         {
             this.utterancesManager = utterancesManager;
         }
 
-        public MockLuisRecognizer()
+        public MockLuisRecognizer(GeneralTestUtterances generalUtterancesMananger)
         {
-            this.generalUtterancesManager = new GeneralTestUtterances();
+            this.generalUtterancesManager = generalUtterancesMananger;
         }
 
         public Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, CancellationToken cancellationToken)
@@ -51,6 +57,18 @@ namespace ToDoSkillTest.Flow.Fakes
             }
 
             return Task.FromResult(mockResult);
+        }
+
+        public Task<T> RecognizeAsync<T>(DialogContext dialogContext, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken)) 
+            where T : IRecognizerConvert, new()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<T> RecognizeAsync<T>(ITurnContext turnContext, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken)) 
+            where T : IRecognizerConvert, new()
+        {
+            throw new NotImplementedException();
         }
     }
 }

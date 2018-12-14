@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 
-namespace CalendarSkill
+namespace CalendarSkill.ServiceClients
 {
     public class MSGraphCalendarAPI : ICalendar
     {
@@ -182,22 +182,6 @@ namespace CalendarSkill
         }
 
         // Get events in all the current user's mail folders.
-        private async Task<List<Event>> GetMyEvents()
-        {
-            var items = new List<Event>();
-
-            // Get events.
-            var events = await _graphClient.Me.Events.Request().GetAsync();
-
-            if (events?.Count > 0)
-            {
-                items.AddRange(events);
-            }
-
-            return items;
-        }
-
-        // Get events in all the current user's mail folders.
         private async Task<List<Event>> GetMyStartTimeEvents(DateTime startTime)
         {
             var items = new List<Event>();
@@ -294,23 +278,6 @@ namespace CalendarSkill
             // Add the event.
             var createdEvent = await _graphClient.Me.Events.Request().AddAsync(newEvent);
             return createdEvent;
-        }
-
-        // Get a specified event.
-        private async Task<List<Event>> GetEvent(string id)
-        {
-            var items = new List<Event>();
-
-            // Get the event.
-            var retrievedEvent = await _graphClient.Me.Events[id].Request().GetAsync();
-
-            if (retrievedEvent != null)
-            {
-                // Get event properties.
-                items.Add(retrievedEvent);
-            }
-
-            return items;
         }
     }
 }

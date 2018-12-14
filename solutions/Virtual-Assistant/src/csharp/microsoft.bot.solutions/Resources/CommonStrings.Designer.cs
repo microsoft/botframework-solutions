@@ -241,6 +241,24 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Login.
+        /// </summary>
+        public static string Login {
+            get {
+                return ResourceManager.GetString("Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please login with your {0} account.
+        /// </summary>
+        public static string LoginDescription {
+            get {
+                return ResourceManager.GetString("LoginDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to more.
         /// </summary>
         public static string More {
@@ -385,6 +403,15 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to the third one is {0};.
+        /// </summary>
+        public static string ThirdItem {
+            get {
+                return ResourceManager.GetString("ThirdItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} day.
         /// </summary>
         public static string TimeFormatDay {
@@ -444,15 +471,6 @@ namespace Microsoft.Bot.Solutions.Resources {
         public static string TimeFormatMinutes {
             get {
                 return ResourceManager.GetString("TimeFormatMinutes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to the third one is {0};.
-        /// </summary>
-        public static string ThirdItem {
-            get {
-                return ResourceManager.GetString("ThirdItem", resourceCulture);
             }
         }
         

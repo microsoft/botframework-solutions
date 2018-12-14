@@ -273,4 +273,10 @@
   <data name="ThirdItem" xml:space="preserve">
     <value>der dritte ist {0};</value>
   </data>
+  <data name="Login" xml:space="preserve">
+    <value>Anmeldung</value>
+  </data>
+  <data name="LoginDescription" xml:space="preserve">
+    <value>Bitte melden Sie sich mit Ihrem {0} Konto an</value>
+  </data>
 </root>

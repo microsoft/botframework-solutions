@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using CalendarSkill;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Solutions;
 
 namespace CalendarSkillTest.Flow
 {
@@ -28,7 +29,7 @@ namespace CalendarSkillTest.Flow
             this.Services.LocaleConfigurations.Add("en", new LocaleConfiguration()
             {
                 Locale = "en-us",
-                LuisServices = new Dictionary<string, IRecognizer>()
+                LuisServices = new Dictionary<string, ITelemetryLuisRecognizer>()
                 {
                     { "general", new MockLuisRecognizer() },
                     { "calendar", new MockLuisRecognizer(new FindMeetingTestUtterances()) }
