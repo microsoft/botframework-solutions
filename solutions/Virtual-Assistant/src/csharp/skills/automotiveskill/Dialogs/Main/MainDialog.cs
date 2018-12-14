@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using AutomotiveSkill.Dialogs.Main.Resources;
 using AutomotiveSkill.Dialogs.Shared.Resources;
 using Luis;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
@@ -26,10 +27,11 @@ namespace AutomotiveSkill
         private UserState _userState;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
+        private IHttpContextAccessor _httpContext;
         private IStatePropertyAccessor<AutomotiveSkillState> _stateAccessor;
         private AutomotiveSkillResponseBuilder _responseBuilder = new AutomotiveSkillResponseBuilder();
 
-        public MainDialog(ISkillConfiguration services, ConversationState conversationState, UserState userState, IServiceManager serviceManager, bool skillMode)
+        public MainDialog(ISkillConfiguration services, ConversationState conversationState, UserState userState, IServiceManager serviceManager, IHttpContextAccessor httpContext, bool skillMode)
             : base(nameof(MainDialog))
         {
             _skillMode = skillMode;
@@ -37,6 +39,7 @@ namespace AutomotiveSkill
             _conversationState = conversationState;
             _userState = userState;
             _serviceManager = serviceManager;
+            _httpContext = httpContext;
 
             // Initialize state accessor
             _stateAccessor = _conversationState.CreateProperty<AutomotiveSkillState>(nameof(AutomotiveSkillState));
@@ -164,7 +167,7 @@ namespace AutomotiveSkill
                 var localeConfig = _services.LocaleConfigurations[locale];
 
                 // Update state with vehiclesettings luis result and entities
-                var vehicleSettingsLuisResult = await localeConfig.LuisServices["settings"].RecognizeAsync<VehicleSettings>(dc.Context, cancellationToken);                
+                var vehicleSettingsLuisResult = await localeConfig.LuisServices["settings"].RecognizeAsync<VehicleSettings>(dc.Context, cancellationToken);
                 state.VehicleSettingsLuisResult = vehicleSettingsLuisResult;
 
                 // check luis intent
@@ -215,7 +218,7 @@ namespace AutomotiveSkill
         private void RegisterDialogs()
         {
             AddDialog(new CancelDialog());
-            AddDialog(new VehicleSettingsDialog(_services, _stateAccessor, _serviceManager));
+            AddDialog(new VehicleSettingsDialog(_services, _stateAccessor, _serviceManager, _httpContext));
         }
 
         private class Events

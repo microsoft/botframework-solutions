@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using System.Threading;
 using Autofac;
 using AutomotiveSkill;
 using AutomotiveSkillTest.Flow.Fakes;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Configuration;
@@ -26,6 +29,10 @@ namespace AutomotiveSkillTest.Flow
 
         public BotConfiguration Options { get; set; }
 
+        public HttpContext MockHttpContext { get; set; }
+
+        public HttpContextAccessor MockHttpContextAcessor { get; set; }
+
         public override void Initialize()
         {
            var builder = new ContainerBuilder();
@@ -41,6 +48,14 @@ namespace AutomotiveSkillTest.Flow
             
             this.BotResponseBuilder = new BotResponseBuilder();
             this.BotResponseBuilder.AddFormatter(new TextBotResponseFormatter());
+
+            // Mock HttpContext for image path resolution
+            MockHttpContext = new DefaultHttpContext();            
+            MockHttpContext.Request.Scheme = "http";
+            MockHttpContext.Request.Host = new HostString("localhost",3980);
+
+            MockHttpContextAcessor = new HttpContextAccessor();
+            MockHttpContextAcessor.HttpContext = MockHttpContext;
         }
 
         public TestFlow GetTestFlow()
@@ -60,7 +75,7 @@ namespace AutomotiveSkillTest.Flow
 
         public override IBot BuildBot()
         {
-            return new AutomotiveSkill.AutomotiveSkill(this.Services, this.ConversationState, this.UserState,null, true);
+            return new AutomotiveSkill.AutomotiveSkill(this.Services, this.ConversationState, this.UserState,null, MockHttpContextAcessor, true);
         }
     }
 }

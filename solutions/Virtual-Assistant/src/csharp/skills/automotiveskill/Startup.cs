@@ -9,6 +9,7 @@ namespace AutomotiveSkill
     using global::AutomotiveSkill.Dialogs.Shared.Resources;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.Bot.Builder;
     using Microsoft.Bot.Builder.Azure;
     using Microsoft.Bot.Builder.Integration.AspNet.Core;
@@ -75,6 +76,9 @@ namespace AutomotiveSkill
 
             // Initialize service client
             services.AddSingleton<IServiceManager, ServiceManager>();
+
+            // HttpContext required for path resolution
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             // Add the bot with options
             services.AddBot<AutomotiveSkill>(options =>

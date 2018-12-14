@@ -53,6 +53,11 @@ namespace AutomotiveSkill
         /// <param name="declarative">Indicates if special process for declarative utterances should be performed.</param>
         public void PostProcessSettingName(AutomotiveSkillState state, bool declarative = false)
         {
+            if (state == null)
+            {
+                throw new ArgumentNullException(nameof(state));
+            }
+
             IList<SettingMatch> setting_matches = new List<SettingMatch>();
             var has_matching_value_for_any_setting = false;
             ISet<string> setting_names_to_remove = new HashSet<string>();
@@ -66,7 +71,7 @@ namespace AutomotiveSkill
                 // If we have a Setting then try to find a match between the setting name provided and the available settings
                 selected_settings = this.settingMatcher.MatchSettingNamesExactly(state.Entities["SETTING"].First());
 
-                // If we have not found a exact setting match but we have a value then combine Setting and Value together to identify a match
+                // If we have not found an exact setting match but we have a value then combine Setting and Value together to identify a match
                 if (!selected_settings.Any() && state.Entities.ContainsKey("VALUE"))
                 {
                     /* First try SETTING + VALUE entities combined to catch cases like "warm my seat",
@@ -262,6 +267,11 @@ namespace AutomotiveSkill
         /// <param name="state">State object.</param>
         public void ApplyContentLogic(AutomotiveSkillState state)
         {
+            if (state == null)
+            {
+                throw new ArgumentNullException(nameof(state));
+            }
+
             if (state.Changes != null && state.Changes.Count > 0)
             {
                 IList<SettingChange> validChanges = new List<SettingChange>();
@@ -338,6 +348,16 @@ namespace AutomotiveSkill
         /// <returns>Setting.</returns>
         public IList<SettingChange> ApplySelectionToSettingValues(AutomotiveSkillState state, List<string> entityValues)
         {
+            if (state == null)
+            {
+                throw new ArgumentNullException(nameof(state));
+            }
+
+            if (entityValues == null)
+            {
+                throw new ArgumentNullException(nameof(entityValues));
+            }
+
             var settingValues = state.GetUniqueSettingValues();
 
             ISet<string> selectedSettingValues = new HashSet<string>();
@@ -380,11 +400,6 @@ namespace AutomotiveSkill
             IList<SettingChange> newCandidates = new List<SettingChange>();
             foreach (var candidate in state.Changes)
             {
-                if (candidate == null)
-                {
-                    continue;
-                }
-
                 if (selectedSettingValues.Contains(candidate.Value))
                 {
                     newCandidates.Add(candidate);
@@ -406,6 +421,11 @@ namespace AutomotiveSkill
         /// <returns>Validation Status enumeration.</returns>
         private ValidationStatus ValidateChange(SettingChange setting)
         {
+            if (setting == null)
+            {
+                throw new ArgumentNullException(nameof(setting));
+            }
+
             ValidationStatus validity = ValidationStatus.Valid;
 
             if (string.IsNullOrEmpty(setting.SettingName))
@@ -506,6 +526,21 @@ namespace AutomotiveSkill
         private IList<T> ApplySelectionToSettings<T>(AutomotiveSkillState state, List<string> settingEntities, IList<T> changesOrStatuses)
             where T : SettingOperation
         {
+            if (state == null)
+            {
+                throw new ArgumentNullException(nameof(state));
+            }
+
+            if (settingEntities == null)
+            {
+                throw new ArgumentNullException(nameof(settingEntities));
+            }
+
+            if (changesOrStatuses == null)
+            {
+                throw new ArgumentNullException(nameof(changesOrStatuses));
+            }
+
             var settingNames = state.GetUniqueSettingNames();
 
             ISet<string> selectedSettingNames = new HashSet<string>();
@@ -622,6 +657,11 @@ namespace AutomotiveSkill
         /// <returns>SettingAmount and relative indication.</returns>
         private (SettingAmount amount, bool isRelative) OptionalAmount(AutomotiveSkillState state, bool change_sign_of_amount)
         {
+            if (state == null)
+            {
+                throw new ArgumentNullException(nameof(state));
+            }
+
             SettingAmount optional_amount = null;
             bool isRelative = false;
 

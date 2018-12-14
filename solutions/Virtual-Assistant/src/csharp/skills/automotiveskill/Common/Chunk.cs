@@ -7,7 +7,7 @@ namespace AutomotiveSkill.Common.Number
 {
     /// <summary>
     /// A chunk of a string, which can be either a number or a non-number
-    /// substring between two numbers. Iff it is a number, its numeric value is
+    /// substring between two numbers. If it is a number, its numeric value is
     /// given in addition to the substring.
     /// </summary>
     public class Chunk

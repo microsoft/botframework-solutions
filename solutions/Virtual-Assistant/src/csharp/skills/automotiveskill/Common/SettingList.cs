@@ -3,6 +3,7 @@
 
 namespace AutomotiveSkill
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -28,6 +29,16 @@ namespace AutomotiveSkill
         /// <param name="settingAlternativeNamesPath">Path to alternative names file.</param>
         public SettingList(string availableSettingsPath, string settingAlternativeNamesPath)
         {
+            if (string.IsNullOrEmpty(availableSettingsPath))
+            {
+                throw new ArgumentNullException(nameof(availableSettingsPath));
+            }
+
+            if (string.IsNullOrEmpty(settingAlternativeNamesPath))
+            {
+                throw new ArgumentNullException(nameof(settingAlternativeNamesPath));
+            }
+
             using (StreamReader reader = new StreamReader(availableSettingsPath))
             {
                 string json = reader.ReadToEnd();
@@ -90,6 +101,11 @@ namespace AutomotiveSkill
         /// <returns>The available setting value or null if no such value was found.</returns>
         public AvailableSettingValue FindSettingValue(string settingName, string settingValue)
         {
+            if (string.IsNullOrEmpty(settingName))
+            {
+                throw new ArgumentNullException(nameof(settingName));
+            }
+
             var availableSetting = FindSetting(settingName);
             return FindSettingValue(availableSetting, settingValue);
         }
@@ -102,6 +118,11 @@ namespace AutomotiveSkill
         /// <returns>The available setting value or null if no such value was found.</returns>
         public AvailableSettingValue FindSettingValue(AvailableSetting availableSetting, string settingValue)
         {
+            if (availableSetting == null)
+            {
+                throw new ArgumentNullException(nameof(availableSetting));
+            }
+
             if (availableSetting != null && availableSetting.Values != null)
             {
                 foreach (var availableValue in availableSetting.Values)
@@ -124,6 +145,11 @@ namespace AutomotiveSkill
         /// <returns>The alternative names for that setting, including its canonical name.</returns>
         public IList<string> GetAlternativeNamesForSetting(string settingName)
         {
+            if (string.IsNullOrEmpty(settingName))
+            {
+                throw new ArgumentNullException(nameof(settingName));
+            }
+
             IList<string> alternativeNames = new List<string>();
 
             if (alternativeNameMap.TryGetValue(settingName, out SettingAlternativeNames settingAlternativeNames))
@@ -152,6 +178,16 @@ namespace AutomotiveSkill
         /// <returns>The alternative names for that setting value, including its canonical name.</returns>
         public IList<string> GetAlternativeNamesForSettingValue(string settingName, string settingValue)
         {
+            if (string.IsNullOrEmpty(settingName))
+            {
+                throw new ArgumentNullException(nameof(settingName));
+            }
+
+            if (string.IsNullOrEmpty(settingValue))
+            {
+                throw new ArgumentNullException(nameof(settingValue));
+            }
+
             IList<string> alternativeNames = new List<string>();
 
             var found = false;
@@ -188,6 +224,16 @@ namespace AutomotiveSkill
         /// <param name="errorMsgPrefix">Prefix for error message.</param>
         private void BuildSettingSearchIndexes(IList<AvailableSetting> availableSettings, string errorMsgPrefix)
         {
+            if (availableSettings == null)
+            {
+                throw new ArgumentNullException(nameof(availableSettings));
+            }
+
+            if (string.IsNullOrEmpty(errorMsgPrefix))
+            {
+                throw new ArgumentNullException(nameof(errorMsgPrefix));
+            }
+
             foreach (var availableSetting in availableSettings)
             {
                 if (availableSetting.CanonicalName == null)

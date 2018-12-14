@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
@@ -10,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutomotiveSkill.Dialogs.VehicleSettings.Resources;
 using Luis;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
@@ -38,12 +40,13 @@ namespace AutomotiveSkill
         private readonly SettingList settingList;
         private readonly SettingFilter settingFilter;
 
-        private string automotiveCarSettingImage = "https://msp2l1160225102310.blob.core.windows.net/ms-p2-l1-160225-1023-13-assets/Windows_Edu_inTune_539_v8_ContentPlacement-Choose3_img.jpg";
+        private IHttpContextAccessor _httpContext;
 
         public VehicleSettingsDialog(
             ISkillConfiguration services,
             IStatePropertyAccessor<AutomotiveSkillState> accessor,
-            IServiceManager serviceManager)
+            IServiceManager serviceManager,
+            IHttpContextAccessor httpContext)
             : base(nameof(VehicleSettingsDialog), services, accessor, serviceManager)
         {
             // Initialise supporting LUIS models for followup questions
@@ -76,6 +79,9 @@ namespace AutomotiveSkill
 
             // Set starting dialog for component
             InitialDialogId = Actions.ProcessVehicleSettingChange;
+
+            // Used to resolve image paths (local or hosted)
+            _httpContext = httpContext;
         }
 
         /// <summary>
@@ -165,7 +171,7 @@ namespace AutomotiveSkill
 
                         var card = new HeroCard
                         {
-                            Images = new List<CardImage> { new CardImage(automotiveCarSettingImage) },
+                            Images = new List<CardImage> { new CardImage(GetSettingCardImageUri("settingcog.jpg")) },
                             Text = "Please choose from one of the available settings shown below",
                             Buttons = options.Choices.Select(choice =>
                                 new CardAction(ActionTypes.ImBack, choice.Value, value: choice.Value)).ToList(),
@@ -281,7 +287,7 @@ namespace AutomotiveSkill
 
                         var card = new HeroCard
                         {
-                            Images = new List<CardImage> { new CardImage(automotiveCarSettingImage) },
+                            Images = new List<CardImage> { new CardImage(GetSettingCardImageUri("settingcog.jpg")) },
                             Text = VehicleSettingsResponses.VehicleSettingsSettingValueSelection.Reply.Text,
                             Buttons = options.Choices.Select(choice =>
                                 new CardAction(ActionTypes.ImBack, choice.Value, value: choice.Value)).ToList(),
@@ -515,6 +521,12 @@ namespace AutomotiveSkill
             actionEvent.Value = settingDetail;
 
             await sc.Context.SendActivityAsync(actionEvent);
+        }
+
+        private string GetSettingCardImageUri(string imagePath)
+        {
+            string serverUrl = _httpContext.HttpContext.Request.Scheme + "://" + _httpContext.HttpContext.Request.Host.Value;
+            return $"{serverUrl}/images/{imagePath}";
         }
     }
 }

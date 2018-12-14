@@ -7,6 +7,7 @@ namespace AutomotiveSkill
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.Bot.Builder;
     using Microsoft.Bot.Builder.Dialogs;
     using Microsoft.Bot.Schema;
@@ -22,18 +23,20 @@ namespace AutomotiveSkill
         private readonly UserState _userState;
         private bool _skillMode;
         private IServiceManager _serviceManager;
+        private IHttpContextAccessor _httpContext;
         private DialogSet _dialogs;
 
-        public AutomotiveSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, ServiceManager serviceManager = null, bool skillMode = false)
+        public AutomotiveSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, ServiceManager serviceManager = null, IHttpContextAccessor httpContext = null, bool skillMode = false)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
+            _httpContext = httpContext ?? throw new ArgumentNullException(nameof(httpContext));
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _serviceManager = serviceManager ?? new ServiceManager();
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(DialogState)));
-            _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _serviceManager, _skillMode));
+            _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _serviceManager, _httpContext, _skillMode));
         }
 
         /// <summary>
