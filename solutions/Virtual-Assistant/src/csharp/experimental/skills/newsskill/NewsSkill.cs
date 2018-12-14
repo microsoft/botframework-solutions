@@ -16,13 +16,14 @@ namespace NewsSkill
     /// </summary>
     public class NewsSkill : IBot
     {
-        private bool _skillMode;
-        private readonly SkillConfiguration _services;
+        private readonly ISkillConfiguration _services;
         private readonly ConversationState _conversationState;
         private readonly UserState _userState;
         private DialogSet _dialogs;
 
-        public NewsSkill(SkillConfiguration services, ConversationState conversationState, UserState userState, bool skillMode = false)
+        private bool _skillMode;
+
+        public NewsSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, bool skillMode = false)
         {
             _skillMode = skillMode;
             _services = services;
@@ -32,7 +33,6 @@ namespace NewsSkill
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(DialogState)));
             _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _skillMode));
         }
-
 
         /// <summary>
         /// Run every turn of the conversation. Handles orchestration of messages.
