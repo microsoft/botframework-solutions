@@ -24,9 +24,9 @@ namespace ToDoSkillTest.Flow.Fakes
             this.utterancesManager = utterancesManager;
         }
 
-        public MockLuisRecognizer()
+        public MockLuisRecognizer(GeneralTestUtterances generalUtterancesMananger)
         {
-            this.generalUtterancesManager = new GeneralTestUtterances();
+            this.generalUtterancesManager = generalUtterancesMananger;
         }
 
         public Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, CancellationToken cancellationToken)

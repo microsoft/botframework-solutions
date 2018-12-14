@@ -3,12 +3,13 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToDoSkill;
+using ToDoSkill.ServiceClients;
 using ToDoSkillTest.API.Fakes;
 
 namespace ToDoSkillTest.API
 {
     [TestClass]
-    public class OneNoteServiceTests
+    public class OutlookServiceTests
     {
         private HttpClient mockClient;
 
@@ -21,7 +22,7 @@ namespace ToDoSkillTest.API
         [TestMethod]
         public async Task AddTaskTests()
         {
-            var service = new OneNoteService();
+            var service = new OutlookService();
             var pageId = new Dictionary<string, string>() { { "ToDo", "ToDo" }, { "Grocery", "Grocery" }, { "Shopping", "Shopping" } };
 
             await service.InitAsync("test", pageId, mockClient);
@@ -36,7 +37,7 @@ namespace ToDoSkillTest.API
         [TestMethod]
         public async Task MarkTaskTest()
         {
-            var service = new OneNoteService();
+            var service = new OutlookService();
             var pageId = new Dictionary<string, string>() { { "ToDo", "ToDo" }, { "Grocery", "Grocery" }, { "Shopping", "Shopping" } };
 
             await service.InitAsync("test", pageId, mockClient);
@@ -51,7 +52,7 @@ namespace ToDoSkillTest.API
         [TestMethod]
         public async Task DeleteTaskTest()
         {
-            var service = new OneNoteService();
+            var service = new OutlookService();
             var pageId = new Dictionary<string, string>() { { "ToDo", "ToDo" }, { "Grocery", "Grocery" }, { "Shopping", "Shopping" } };
 
             await service.InitAsync("test", pageId, mockClient);
@@ -67,7 +68,7 @@ namespace ToDoSkillTest.API
         [TestMethod]
         public async Task ShowTaskTest()
         {
-            var service = new OneNoteService();
+            var service = new OutlookService();
             var pageId = new Dictionary<string, string>() { { "ToDo", "ToDo" }, { "Grocery", "Grocery" }, { "Shopping", "Shopping" } };
 
             await service.InitAsync("test", pageId, mockClient);
