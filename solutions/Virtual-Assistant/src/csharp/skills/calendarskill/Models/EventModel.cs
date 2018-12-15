@@ -148,7 +148,7 @@ namespace CalendarSkill
                         gmailEventData = value;
                         break;
                     case EventSource.Other:
-                        throw new Exception("Get defaut type, please check");
+                        throw new Exception("The default event source is not initialized.");
                     default:
                         throw new Exception("Event Type not Defined");
                 }
