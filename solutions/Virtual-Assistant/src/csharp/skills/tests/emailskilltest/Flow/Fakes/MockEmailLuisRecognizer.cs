@@ -28,6 +28,11 @@ namespace EmailSkillTest.Flow.Fakes
 
         public bool LogUsername => throw new NotImplementedException();
 
+        public void AddUtteranceManager(BaseTestUtterances utterancesManager)
+        {
+            this.emailUtterancesManager.AddManager(utterancesManager);
+        }
+
         public Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();

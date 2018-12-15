@@ -6,6 +6,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
+using Microsoft.Bot.Solutions.Data;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
 using Microsoft.Bot.Solutions.Skills;
@@ -48,6 +49,9 @@ namespace EmailSkillTest.Flow
 
             this.BotResponseBuilder = new BotResponseBuilder();
             this.BotResponseBuilder.AddFormatter(new TextBotResponseFormatter());
+
+            ConfigData.GetInstance().MaxDisplaySize = 3;
+            ConfigData.GetInstance().MaxReadSize = 2;
         }
 
         public Activity GetAuthResponse()
