@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CalendarSkill;
+using CalendarSkill.ServiceClients;
 using CalendarSkillTest.API.Fakes;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Graph;
@@ -9,98 +11,147 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace CalendarSkillTest.API
 {
     [TestClass]
-    public class UserServiceTests
+    public class UserBaseServiceTests
     {
+        public static IUserService userService;
+
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
+            userService = new UserService(MockBaseUserClient.mockBaseUserService.Object);
+        }
+
+        [ClassCleanup]
+        public static void ClassCleanup()
+        {
+        }
+
+        [TestInitialize]
+        public void TestInit()
+        {
+        }
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
         }
 
         [TestMethod]
-        public async Task GetUserTest()
+        public async Task GetPeopleAsyncTest()
         {
-            IGraphServiceUsersCollectionPage users = new GraphServiceUsersCollectionPage();
-            for (int i = 0; i < 3; i++)
-            {
-                var user = new User()
-                {
-                    DisplayName = "Conf Room" + i,
-                };
-
-                users.Add(user);
-            }
-
-            for (int i = 0; i < 12; i++)
-            {
-                var user = new User()
-                {
-                    DisplayName = "TestUser" + i,
-                };
-
-                users.Add(user);
-            }
-
-            var mockGraphServiceClient = new MockGraphServiceClientGen();
-            mockGraphServiceClient.Users = users;
-            mockGraphServiceClient.SetMockBehavior();
-
-            IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
-            IUserService userService = new MSGraphUserService(serviceClient);
-
-            var result = await userService.GetUserAsync("test");
-
-            // Test get 0-10 user per page
-            Assert.IsTrue(result.Count >= 1);
-            Assert.IsTrue(result.Count <= 10);
-
-            // "Conf Room" is filtered
-            foreach (var user in result)
-            {
-                Assert.IsFalse(user.DisplayName.StartsWith("Conf Room"));
-            }
+            List<PersonModel> result = await userService.GetPeopleAsync("Doe");
+            Assert.IsTrue(result.Count == 0);
         }
 
         [TestMethod]
-        public async Task GetPeopleTest()
+        public async Task GetUserAsyncTest()
         {
-            IUserPeopleCollectionPage people = new UserPeopleCollectionPage();
-            for (int i = 0; i < 3; i++)
-            {
-                var person = new Person()
-                {
-                    DisplayName = "Conf Room" + i,
-                };
+            List<PersonModel> result = await userService.GetUserAsync("Doe");
+            Assert.IsTrue(result.Count == 0);
+        }
 
-                people.Add(person);
-            }
+        [TestMethod]
+        public async Task GetContactsAsyncTest()
+        {
+            List<PersonModel> result = await userService.GetContactsAsync("Doe");
+            Assert.IsTrue(result.Count == 0);
 
-            for (int i = 0; i < 12; i++)
-            {
-                var user = new Person()
-                {
-                    DisplayName = "TestUser" + i,
-                };
+        }
+    }
 
-                people.Add(user);
-            }
+    [TestClass]
+    public class UserMSGraphServiceTests
+    {
+        public static IUserService userService;
 
-            var mockGraphServiceClient = new MockGraphServiceClientGen();
-            mockGraphServiceClient.People = people;
-            mockGraphServiceClient.SetMockBehavior();
+        [ClassInitialize]
+        public static void ClassInit(TestContext context)
+        {
+            userService = new UserService(new MSGraphUserService(MockMSGraphUserClient.mockMsGraphUserService.Object));
+        }
 
-            IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
-            IUserService userService = new MSGraphUserService(serviceClient);
+        [ClassCleanup]
+        public static void ClassCleanup()
+        {
+        }
 
-            var result = await userService.GetPeopleAsync("test");
+        [TestInitialize]
+        public void TestInit()
+        {
+        }
 
-            // Test get > 0 people per page
-            Assert.IsTrue(result.Count == 12);
+        [TestCleanup]
+        public void TestCleanup()
+        {
+        }
 
-            // "Conf Room" is filtered
-            foreach (var user in result)
-            {
-                Assert.IsFalse(user.DisplayName.StartsWith("Conf Room"));
-            }
+        [TestMethod]
+        public async Task GetPeopleAsyncTest()
+        {
+            List<PersonModel> result = await userService.GetPeopleAsync("Doe");
+            Assert.IsTrue(result.Count == 2);
+        }
+
+        [TestMethod]
+        public async Task GetUserAsyncTest()
+        {
+            List<PersonModel> result = await userService.GetUserAsync("Doe");
+            Assert.IsTrue(result.Count == 2);
+        }
+
+        [TestMethod]
+        public async Task GetContactsAsyncTest()
+        {
+            List<PersonModel> result = await userService.GetContactsAsync("Doe");
+            Assert.IsTrue(result.Count == 2);
+        }
+    }
+
+    [TestClass]
+    public class UserGoogleServiceTests
+    {
+        public static IUserService userService;
+
+        [ClassInitialize]
+        public static void ClassInit(TestContext context)
+        {
+            userService = new UserService(new GooglePeopleService(MockGoogleUserClient.mockGoogleUserService.Object));
+        }
+
+        [ClassCleanup]
+        public static void ClassCleanup()
+        {
+        }
+
+        [TestInitialize]
+        public void TestInit()
+        {
+        }
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+        }
+
+        [TestMethod]
+        public async Task GetPeopleAsyncTest()
+        {
+            List<PersonModel> result = await userService.GetPeopleAsync("Doe");
+            Assert.IsTrue(result.Count == 2);
+        }
+
+        [TestMethod]
+        public async Task GetUserAsyncTest()
+        {
+            List<PersonModel> result = await userService.GetUserAsync("Doe");
+            Assert.IsTrue(result.Count == 0);
+        }
+
+        [TestMethod]
+        public async Task GetContactsAsyncTest()
+        {
+            List<PersonModel> result = await userService.GetContactsAsync("Doe");
+            Assert.IsTrue(result.Count == 0);
         }
     }
 }
