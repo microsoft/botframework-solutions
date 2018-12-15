@@ -74,9 +74,9 @@ namespace ToDoSkill
                 this.pageIds = pageIds;
                 return this;
             }
-            catch (Exception ex)
+            catch (ServiceException ex)
             {
-                throw ex;
+                throw ServiceHelper.HandleGraphAPIException(ex);
             }
         }
 
@@ -98,19 +98,12 @@ namespace ToDoSkill
                     retryCount--;
                 }
 
-                if (pages != null && pages.Count > 0)
-                {
-                    var todos = await GetToDoContentAsync(pages.First().ContentUrl);
-                    return todos;
-                }
-                else
-                {
-                    throw new Exception("Can not get the To Do OneNote pages.");
-                }
+                var todos = await GetToDoContentAsync(pages.First().ContentUrl);
+                return todos;
             }
-            catch (Exception ex)
+            catch (ServiceException ex)
             {
-                throw ex;
+                throw ServiceHelper.HandleGraphAPIException(ex);
             }
         }
 
@@ -122,11 +115,18 @@ namespace ToDoSkill
         /// <returns>Ture if succeed.</returns>
         public async Task<bool> AddTaskAsync(string listType, string taskText)
         {
-            var pageContentUrl = await this.GetDefaultToDoPageAsync(listType);
-            var todoContent = await httpClient.GetStringAsync(pageContentUrl.ContentUrl + "/?includeIDs=true");
-            var httpRequestMessage = ServiceHelper.GenerateAddToDoHttpRequest(taskText, todoContent, pageContentUrl.ContentUrl);
-            var result = await httpClient.SendAsync(httpRequestMessage);
-            return result.IsSuccessStatusCode;
+            try
+            {
+                var pageContentUrl = await this.GetDefaultToDoPageAsync(listType);
+                var todoContent = await ExecuteContentFetchAsync(pageContentUrl.ContentUrl + "/?includeIDs=true");
+                var httpRequestMessage = ServiceHelper.GenerateAddToDoHttpRequest(taskText, todoContent, pageContentUrl.ContentUrl);
+                var result = await ExecuteSendAsync(httpRequestMessage);
+                return result;
+            }
+            catch (ServiceException ex)
+            {
+                throw ServiceHelper.HandleGraphAPIException(ex);
+            }
         }
 
         /// <summary>
@@ -137,10 +137,17 @@ namespace ToDoSkill
         /// <returns>True if succeed.</returns>
         public async Task<bool> MarkTasksCompletedAsync(string listType, List<TaskItem> taskItems)
         {
-            var pageContentUrl = await this.GetDefaultToDoPageAsync(listType);
-            var httpRequestMessage = ServiceHelper.GenerateMarkToDosHttpRequest(taskItems, pageContentUrl.ContentUrl);
-            var result = await httpClient.SendAsync(httpRequestMessage);
-            return result.IsSuccessStatusCode;
+            try
+            {
+                var pageContentUrl = await this.GetDefaultToDoPageAsync(listType);
+                var httpRequestMessage = ServiceHelper.GenerateMarkToDosHttpRequest(taskItems, pageContentUrl.ContentUrl);
+                var result = await ExecuteSendAsync(httpRequestMessage);
+                return result;
+            }
+            catch (ServiceException ex)
+            {
+                throw ServiceHelper.HandleGraphAPIException(ex);
+            }
         }
 
         /// <summary>
@@ -151,19 +158,35 @@ namespace ToDoSkill
         /// <returns>True if succeed.</returns>
         public async Task<bool> DeleteTasksAsync(string listType, List<TaskItem> taskItems)
         {
-            var pageContentUrl = await this.GetDefaultToDoPageAsync(listType);
-            var httpRequestMessage = ServiceHelper.GenerateDeleteToDosHttpRequest(taskItems, pageContentUrl.ContentUrl);
-            var result = await httpClient.SendAsync(httpRequestMessage);
-            return result.IsSuccessStatusCode;
+            try
+            {
+                var pageContentUrl = await this.GetDefaultToDoPageAsync(listType);
+                var httpRequestMessage = ServiceHelper.GenerateDeleteToDosHttpRequest(taskItems, pageContentUrl.ContentUrl);
+                var result = await ExecuteSendAsync(httpRequestMessage);
+                return result;
+            }
+            catch (ServiceException ex)
+            {
+                throw ServiceHelper.HandleGraphAPIException(ex);
+            }
         }
 
         private async Task<string> CreateOneNoteNotebookAsync(string createNotebookUrl, string notebookName)
         {
-            var makeSectionContent = await httpClient.GetStringAsync(createNotebookUrl);
+            var makeSectionContent = await ExecuteContentFetchAsync(createNotebookUrl);
             var httpRequestMessage = ServiceHelper.GenerateCreateNotebookHttpRequest(makeSectionContent, createNotebookUrl, notebookName);
             var result = await httpClient.SendAsync(httpRequestMessage);
             dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
-            return (string)responseContent.id;
+
+            if (result.IsSuccessStatusCode)
+            {
+                return (string)responseContent.id;
+            }
+            else
+            {
+                ServiceException serviceException = ServiceHelper.GenerateServiceException(responseContent);
+                throw serviceException;
+            }
         }
 
         private async Task<string> GetOrCreateNotebookAsync(string notebookName)
@@ -185,11 +208,20 @@ namespace ToDoSkill
 
         private async Task<string> CreateOneNoteSectionAsync(string sectionContentUrl, string sectionTitle)
         {
-            var makeSectionContent = await httpClient.GetStringAsync(sectionContentUrl);
+            var makeSectionContent = await ExecuteContentFetchAsync(sectionContentUrl);
             var httpRequestMessage = ServiceHelper.GenerateCreateSectionHttpRequest(makeSectionContent, sectionContentUrl, sectionTitle);
             var result = await httpClient.SendAsync(httpRequestMessage);
             dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
-            return (string)responseContent.id;
+
+            if (result.IsSuccessStatusCode)
+            {
+                return (string)responseContent.id;
+            }
+            else
+            {
+                ServiceException serviceException = ServiceHelper.GenerateServiceException(responseContent);
+                throw serviceException;
+            }
         }
 
         private async Task<string> GetOrCreateSectionAsync(string notebookId, string sectionTitle)
@@ -212,8 +244,8 @@ namespace ToDoSkill
         private async Task<bool> CreateOneNotePageAsync(string sectionUrl, string pageTitle)
         {
             var httpRequestMessage = ServiceHelper.GenerateCreatePageHttpRequest(pageTitle, sectionUrl);
-            var result = await httpClient.SendAsync(httpRequestMessage);
-            return result.IsSuccessStatusCode;
+            var result = await ExecuteSendAsync(httpRequestMessage);
+            return result;
         }
 
         private async Task<string> GetOrCreatePageAsync(string sectionId, string pageTitle)
@@ -232,20 +264,9 @@ namespace ToDoSkill
                         retryCount--;
                     }
                 }
-                else
-                {
-                    throw new Exception("Can not create the To Do OneNote page.");
-                }
             }
 
-            if (onenotePage == null || onenotePage.Count == 0)
-            {
-                throw new Exception("Can not get the To Do OneNote page.");
-            }
-            else
-            {
-                return onenotePage[0].Id;
-            }
+            return onenotePage[0].Id;
         }
 
         private async Task<List<OnenotePage>> GetOneNotePageAsync(string url)
@@ -261,7 +282,7 @@ namespace ToDoSkill
 
         private async Task<List<TaskItem>> GetToDoContentAsync(string pageContentUrl)
         {
-            var todoContent = await httpClient.GetStringAsync(pageContentUrl + "?includeIDs=true");
+            var todoContent = await ExecuteContentFetchAsync(pageContentUrl + "?includeIDs=true");
             var doc = new XmlDocument();
             doc.LoadXml(todoContent);
             XmlNode root = doc.DocumentElement;
@@ -284,37 +305,60 @@ namespace ToDoSkill
 
         private async Task<OnenotePage> GetDefaultToDoPageAsync(string listType)
         {
-            try
+            var pages = await GetOneNotePageByIdAsync(pageIds[listType]);
+            var retryCount = 2;
+            while ((pages == null || pages.Count == 0) && retryCount > 0)
             {
-                var pages = await GetOneNotePageByIdAsync(pageIds[listType]);
-
-                var retryCount = 2;
-                while ((pages == null || pages.Count == 0) && retryCount > 0)
-                {
-                    pages = await GetOneNotePageByIdAsync(pageIds[listType]);
-                    retryCount--;
-                }
-
-                if (pages != null && pages.Count > 0)
-                {
-                    return pages.First();
-                }
-                else
-                {
-                    throw new Exception("Can not get the To Do OneNote pages.");
-                }
+                pages = await GetOneNotePageByIdAsync(pageIds[listType]);
+                retryCount--;
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+
+            return pages.First();
         }
 
         private async Task<string> ExecuteGraphFetchAsync(string url)
         {
-            var result = await httpClient.GetStringAsync(url);
-            dynamic content = JObject.Parse(result);
-            return JsonConvert.SerializeObject((object)content.value);
+            var result = await this.httpClient.GetAsync(url);
+            dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
+            if (result.IsSuccessStatusCode)
+            {
+                return JsonConvert.SerializeObject((object)responseContent.value);
+            }
+            else
+            {
+                ServiceException serviceException = ServiceHelper.GenerateServiceException(responseContent);
+                throw serviceException;
+            }
+        }
+
+        private async Task<dynamic> ExecuteContentFetchAsync(string url)
+        {
+            var result = await httpClient.GetAsync(url);
+            var responseContent = await result.Content.ReadAsStringAsync();
+            if (result.IsSuccessStatusCode)
+            {
+                return responseContent;
+            }
+            else
+            {
+                ServiceException serviceException = ServiceHelper.GenerateServiceException(responseContent);
+                throw serviceException;
+            }
+        }
+
+        private async Task<bool> ExecuteSendAsync(HttpRequestMessage request)
+        {
+            var result = await httpClient.SendAsync(request);
+            if (result.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else
+            {
+                dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
+                ServiceException serviceException = ServiceHelper.GenerateServiceException(responseContent);
+                throw serviceException;
+            }
         }
     }
 }
