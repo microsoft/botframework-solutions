@@ -20,11 +20,14 @@ namespace CustomerSupportTemplate
         private IStatePropertyAccessor<OnboardingState> _accessor;
         private OnboardingState _state;
 
-        public OnboardingDialog(BotServices botServices, IStatePropertyAccessor<OnboardingState> accessor)
-            : base(botServices, nameof(OnboardingDialog))
+        public OnboardingDialog(BotServices botServices, 
+            IStatePropertyAccessor<OnboardingState> accessor, 
+            IBotTelemetryClient telemetryClient)
+            : base(botServices, nameof(OnboardingDialog), telemetryClient)
         {
             _accessor = accessor;
             InitialDialogId = nameof(OnboardingDialog);
+            TelemetryClient = telemetryClient;
 
             var onboarding = new WaterfallStep[]
             {
@@ -34,7 +37,7 @@ namespace CustomerSupportTemplate
                 FinishOnboardingDialog,
             };
 
-            AddDialog(new WaterfallDialog(InitialDialogId, onboarding));
+            AddDialog(new WaterfallDialog(InitialDialogId, onboarding) { TelemetryClient = telemetryClient });
             AddDialog(new TextPrompt(NamePrompt));
             AddDialog(new TextPrompt(EmailPrompt));
             AddDialog(new TextPrompt(LocationPrompt));
