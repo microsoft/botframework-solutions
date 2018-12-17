@@ -6,7 +6,7 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
 {
     public class GoogleClient
     {
-        private const string APIErrorAccessDenied = "erroraccessdenied";
+        private const string APIErrorAccessDenied = "insufficient permission";
 
         public string ApplicationName { get; set; }
 
