@@ -57,19 +57,20 @@ namespace EnterpriseBotSample.Dialogs.Main
 
         public static IMessageActivity BuildIntroCard(ITurnContext turnContext, dynamic data)
         {
-            var introCard = File.ReadAllText(@".\Dialogs\Main\Resources\Intro.json");
+            var introCard = MainStrings.ResourceManager.GetObject("Intro").ToString();
             var card = AdaptiveCard.FromJson(introCard).Card;
             var attachment = new Attachment(AdaptiveCard.ContentType, content: card);
 
             var response = MessageFactory.Attachment(attachment, ssml: card.Speak, inputHint: InputHints.AcceptingInput);
-            response.SuggestedActions = new SuggestedActions()
+
+            response.SuggestedActions = new SuggestedActions
             {
                 Actions = new List<CardAction>()
                 {
-                    new CardAction(type: ActionTypes.ImBack, title: "Test LUIS", value: "Hi"),
-                    new CardAction(type: ActionTypes.ImBack, title: "Test QnA Maker", value: "What is the Enterprise Bot Template?"),
-                    new CardAction(type: ActionTypes.OpenUrl, title: "Learn More", value: "https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-enterprise-template-overview?view=azure-bot-service-4.0")
-                }
+                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.HELP_BTN_TEXT_1, value: MainStrings.HELP_BTN_VALUE_1),
+                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.HELP_BTN_TEXT_2, value: MainStrings.HELP_BTN_VALUE_2),
+                    new CardAction(type: ActionTypes.OpenUrl, title: MainStrings.HELP_BTN_TEXT_3, value: MainStrings.HELP_BTN_VALUE_3),
+                },
             };
 
             return response;
@@ -81,15 +82,20 @@ namespace EnterpriseBotSample.Dialogs.Main
             {
                 Title = MainStrings.HELP_TITLE,
                 Text = MainStrings.HELP_TEXT,
-                Buttons = new List<CardAction>()
-                {
-                    new CardAction(type: ActionTypes.ImBack, title: "Test LUIS", value: "Hello"),
-                    new CardAction(type: ActionTypes.ImBack, title: "Test QnA Maker", value: "What is the Enterprise Bot Template?"),
-                    new CardAction(type: ActionTypes.OpenUrl, title: "Learn More", value: "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"),
-                },
             }.ToAttachment();
 
             var response = MessageFactory.Attachment(attachment, ssml: MainStrings.HELP_TEXT, inputHint: InputHints.AcceptingInput);
+
+            response.SuggestedActions = new SuggestedActions
+            {
+                Actions = new List<CardAction>()
+                {
+                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.HELP_BTN_TEXT_1, value: MainStrings.HELP_BTN_VALUE_1),
+                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.HELP_BTN_TEXT_2, value: MainStrings.HELP_BTN_VALUE_2),
+                    new CardAction(type: ActionTypes.OpenUrl, title: MainStrings.HELP_BTN_TEXT_3, value: MainStrings.HELP_BTN_VALUE_3),
+                },
+            };
+
             return response;
         }
 

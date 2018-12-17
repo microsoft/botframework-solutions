@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Threading.Tasks;
 using CalendarSkill.Dialogs.CreateEvent.Resources;
+using CalendarSkill.Dialogs.Main.Resources;
+using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkillTest.Flow.Fakes;
 using CalendarSkillTest.Flow.Models;
 using CalendarSkillTest.Flow.Utterances;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -24,7 +28,7 @@ namespace CalendarSkillTest.Flow
             this.Services.LocaleConfigurations.Add("en", new LocaleConfiguration()
             {
                 Locale = "en-us",
-                LuisServices = new Dictionary<string, IRecognizer>()
+                LuisServices = new Dictionary<string, ITelemetryLuisRecognizer>()
                 {
                     { "general", new MockLuisRecognizer() },
                     { "calendar", new MockLuisRecognizer(new CreateMeetingTestUtterances()) }
@@ -358,7 +362,9 @@ namespace CalendarSkillTest.Flow
                 var meetingCard = JsonConvert.DeserializeObject<MeetingAdaptiveCard>(meetingCardJsonString);
                 var meetingInfoList = meetingCard.body[0].items[1].text.Split("\n");
                 var dateString = meetingInfoList[1];
-                DateTime date = DateTime.ParseExact(dateString, CommonStrings.DisplayFullDateFormat, null);
+                CultureInfo cultureInfo = (CultureInfo)CultureInfo.CurrentUICulture.Clone();
+                cultureInfo.DateTimeFormat.DateSeparator = "-";
+                DateTime date = DateTime.ParseExact(dateString, "d", cultureInfo);
                 DateTime utcToday = DateTime.UtcNow.Date;
                 Assert.IsTrue(date >= utcToday);
             };

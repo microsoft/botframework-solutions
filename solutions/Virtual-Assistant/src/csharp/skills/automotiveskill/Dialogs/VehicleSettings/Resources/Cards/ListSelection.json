@@ -1,0 +1,69 @@
+﻿{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "speak": "{Speak}",
+  "id": "ListSelection",
+  "body": [
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "{preText}",
+          "wrap": true
+        },
+        {
+          "type": "TextBlock",
+          "text": "{item0Text}",
+          "wrap": true
+        },
+        {
+          "type": "TextBlock",
+          "text": "{item1Text}",
+          "wrap": true
+        },
+        {
+          "type": "TextBlock",
+          "text": "{item2Text}",
+          "wrap": true
+        },
+        {
+          "type": "TextBlock",
+          "text": "{item3Text}",
+          "wrap": true
+        },
+        {
+          "type": "TextBlock",
+          "text": "{item4Text}",
+          "wrap": true
+        },
+        {
+          "type": "TextBlock",
+          "text": "{item5Text}",
+          "wrap": true
+        },
+        {
+          "type": "TextBlock",
+          "text": "{item6Text}",
+          "wrap": true
+        },
+        {
+          "type": "TextBlock",
+          "text": "{item7Text}",
+          "wrap": true
+        },
+        {
+          "type": "TextBlock",
+          "text": "{item8Text}",
+          "wrap": true
+        },
+        {
+          "type": "TextBlock",
+          "text": "{postText}",
+          "wrap": true
+        }
+      ]
+    }
+  ]
+}

@@ -17,7 +17,6 @@ using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Graph;
 using Calendar = Luis.Calendar;
 
 namespace CalendarSkill
@@ -27,9 +26,12 @@ namespace CalendarSkill
         public CreateEventDialog(
             ISkillConfiguration services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
-            IServiceManager serviceManager)
-            : base(nameof(CreateEventDialog), services, accessor, serviceManager)
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(CreateEventDialog), services, accessor, serviceManager, telemetryClient)
         {
+            TelemetryClient = telemetryClient;
+
             var createEvent = new WaterfallStep[]
             {
                 GetAuthToken,
@@ -82,13 +84,13 @@ namespace CalendarSkill
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Actions.CreateEvent, createEvent));
-            AddDialog(new WaterfallDialog(Actions.UpdateAddress, updateAddress));
-            AddDialog(new WaterfallDialog(Actions.ConfirmAttendee, confirmAttendee));
-            AddDialog(new WaterfallDialog(Actions.UpdateName, updateName));
-            AddDialog(new WaterfallDialog(Actions.UpdateStartDateForCreate, updateStartDate));
-            AddDialog(new WaterfallDialog(Actions.UpdateStartTimeForCreate, updateStartTime));
-            AddDialog(new WaterfallDialog(Actions.UpdateDurationForCreate, updateDuration));
+            AddDialog(new WaterfallDialog(Actions.CreateEvent, createEvent) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.UpdateAddress, updateAddress) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.ConfirmAttendee, confirmAttendee) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.UpdateName, updateName) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.UpdateStartDateForCreate, updateStartDate) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.UpdateStartTimeForCreate, updateStartTime) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.UpdateDurationForCreate, updateDuration) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Actions.CreateEvent;
@@ -411,7 +413,7 @@ namespace CalendarSkill
                     }
                     else
                     {
-                        if (state.EventSource == EventSource.Microsoft)
+                        if (state.EventSource != EventSource.Other)
                         {
                             if (userInput != null)
                             {
@@ -464,7 +466,7 @@ namespace CalendarSkill
                 var originContactList = await GetContactsAsync(sc, currentRecipientName);
                 originPersonList.AddRange(originContactList);
 
-                var originUserList = new List<Person>();
+                var originUserList = new List<PersonModel>();
                 try
                 {
                     originUserList = await GetUserAsync(sc, currentRecipientName);
@@ -495,7 +497,7 @@ namespace CalendarSkill
                         var result =
                             new FoundChoice()
                             {
-                                Value = $"{user.DisplayName}: {user.ScoredEmailAddresses.FirstOrDefault()?.Address ?? user.UserPrincipalName}",
+                                Value = $"{user.DisplayName}: {user.Emails[0] ?? user.UserPrincipalName}",
                             };
 
                         return await sc.NextAsync(result, cancellationToken);
@@ -904,44 +906,20 @@ namespace CalendarSkill
             }
         }
 
-        public async Task<List<Person>> GetUserAsync(WaterfallStepContext sc, string name)
-        {
-            var result = new List<Person>();
-            var state = await Accessor.GetAsync(sc.Context);
-            try
-            {
-                var token = state.APIToken;
-                var service = ServiceManager.InitUserService(token, state.EventSource);
-
-                // Get users.
-                var userList = await service.GetUserAsync(name);
-                foreach (var user in userList)
-                {
-                    result.Add(user.ToPerson());
-                }
-            }
-            catch (ServiceException)
-            {
-                // won't clear conversation state hear, because sometime use api is not available, like user msa account.
-            }
-
-            return result;
-        }
-
-        protected static (List<Person> formattedPersonList, List<Person> formattedUserList) FormatRecipientList(List<Person> personList, List<Person> userList)
+        protected static (List<PersonModel> formattedPersonList, List<PersonModel> formattedUserList) FormatRecipientList(List<PersonModel> personList, List<PersonModel> userList)
         {
             // Remove dup items
-            List<Person> formattedPersonList = new List<Person>();
-            List<Person> formattedUserList = new List<Person>();
+            List<PersonModel> formattedPersonList = new List<PersonModel>();
+            List<PersonModel> formattedUserList = new List<PersonModel>();
 
             foreach (var person in personList)
             {
-                var mailAddress = person.ScoredEmailAddresses.FirstOrDefault()?.Address ?? person.UserPrincipalName;
+                var mailAddress = person.Emails[0] ?? person.UserPrincipalName;
 
                 bool isDup = false;
                 foreach (var formattedPerson in formattedPersonList)
                 {
-                    var formattedMailAddress = formattedPerson.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedPerson.UserPrincipalName;
+                    var formattedMailAddress = formattedPerson.Emails[0] ?? formattedPerson.UserPrincipalName;
 
                     if (mailAddress.Equals(formattedMailAddress))
                     {
@@ -958,12 +936,12 @@ namespace CalendarSkill
 
             foreach (var user in userList)
             {
-                var mailAddress = user.ScoredEmailAddresses.FirstOrDefault()?.Address ?? user.UserPrincipalName;
+                var mailAddress = user.Emails[0] ?? user.UserPrincipalName;
 
                 bool isDup = false;
                 foreach (var formattedPerson in formattedPersonList)
                 {
-                    var formattedMailAddress = formattedPerson.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedPerson.UserPrincipalName;
+                    var formattedMailAddress = formattedPerson.Emails[0] ?? formattedPerson.UserPrincipalName;
 
                     if (mailAddress.Equals(formattedMailAddress))
                     {
@@ -976,7 +954,7 @@ namespace CalendarSkill
                 {
                     foreach (var formattedUser in formattedUserList)
                     {
-                        var formattedMailAddress = formattedUser.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedUser.UserPrincipalName;
+                        var formattedMailAddress = formattedUser.Emails[0] ?? formattedUser.UserPrincipalName;
 
                         if (mailAddress.Equals(formattedMailAddress))
                         {
@@ -995,7 +973,7 @@ namespace CalendarSkill
             return (formattedPersonList, formattedUserList);
         }
 
-        protected async Task<PromptOptions> GenerateOptions(List<Person> personList, List<Person> userList, DialogContext dc)
+        protected async Task<PromptOptions> GenerateOptions(List<PersonModel> personList, List<PersonModel> userList, DialogContext dc)
         {
             var state = await Accessor.GetAsync(dc.Context);
             var pageIndex = state.ShowAttendeesIndex;
@@ -1009,7 +987,7 @@ namespace CalendarSkill
             for (var i = 0; i < personList.Count; i++)
             {
                 var user = personList[i];
-                var mailAddress = user.ScoredEmailAddresses.FirstOrDefault()?.Address ?? user.UserPrincipalName;
+                var mailAddress = user.Emails[0] ?? user.UserPrincipalName;
 
                 var choice = new Choice()
                 {
@@ -1049,7 +1027,7 @@ namespace CalendarSkill
             for (var i = 0; i < userList.Count; i++)
             {
                 var user = userList[i];
-                var mailAddress = user.ScoredEmailAddresses.FirstOrDefault()?.Address ?? user.UserPrincipalName;
+                var mailAddress = user.Emails[0] ?? user.UserPrincipalName;
                 var choice = new Choice()
                 {
                     Value = $"{user.DisplayName}: {mailAddress}",
@@ -1085,9 +1063,9 @@ namespace CalendarSkill
             return options;
         }
 
-        protected async Task<List<Person>> GetContactsAsync(WaterfallStepContext sc, string name)
+        protected async Task<List<PersonModel>> GetContactsAsync(WaterfallStepContext sc, string name)
         {
-            var result = new List<Person>();
+            var result = new List<PersonModel>();
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
@@ -1095,11 +1073,7 @@ namespace CalendarSkill
                 var service = ServiceManager.InitUserService(token, state.EventSource);
 
                 // Get users.
-                var contactList = await service.GetContactsAsync(name);
-                foreach (var contact in contactList)
-                {
-                    result.Add(contact.ToPerson());
-                }
+                result = await service.GetContactsAsync(name);
             }
             catch (Exception ex)
             {
@@ -1110,9 +1084,9 @@ namespace CalendarSkill
             return result;
         }
 
-        protected async Task<List<Person>> GetPeopleWorkWithAsync(WaterfallStepContext sc, string name)
+        protected async Task<List<PersonModel>> GetPeopleWorkWithAsync(WaterfallStepContext sc, string name)
         {
-            var result = new List<Person>();
+            var result = new List<PersonModel>();
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
@@ -1126,6 +1100,28 @@ namespace CalendarSkill
             {
                 await HandleDialogExceptions(sc);
                 throw ex;
+            }
+
+            return result;
+        }
+
+        protected async Task<List<PersonModel>> GetUserAsync(WaterfallStepContext sc, string name)
+        {
+            var result = new List<PersonModel>();
+            var state = await Accessor.GetAsync(sc.Context);
+            try
+            {
+                var token = state.APIToken;
+                var service = ServiceManager.InitUserService(token, state.EventSource);
+
+                // Get users.
+                result = await service.GetUserAsync(name);
+
+            }
+            catch (Microsoft.Graph.ServiceException)
+            {
+                // todo: add exception handling
+                // won't clear conversation state hear, because sometime use api is not available, like user msa account.
             }
 
             return result;

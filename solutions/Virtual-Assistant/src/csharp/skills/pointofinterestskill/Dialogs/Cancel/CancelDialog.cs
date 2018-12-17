@@ -17,12 +17,13 @@ namespace PointOfInterestSkill
         private IStatePropertyAccessor<PointOfInterestSkillState> _accessor;
         private CancelResponses _responder = new CancelResponses();
 
-        public CancelDialog(IStatePropertyAccessor<PointOfInterestSkillState> accessor)
+        public CancelDialog(IStatePropertyAccessor<PointOfInterestSkillState> accessor, IBotTelemetryClient telemetryClient)
             : base(nameof(CancelDialog))
         {
             _accessor = accessor;
 
             InitialDialogId = nameof(CancelDialog);
+            TelemetryClient = telemetryClient;
 
             var cancel = new WaterfallStep[]
             {
@@ -30,7 +31,7 @@ namespace PointOfInterestSkill
                 FinishCancelDialog,
             };
 
-            AddDialog(new WaterfallDialog(InitialDialogId, cancel));
+            AddDialog(new WaterfallDialog(InitialDialogId, cancel) { TelemetryClient = telemetryClient });
             AddDialog(new ConfirmPrompt(CancelPrompt));
         }
 

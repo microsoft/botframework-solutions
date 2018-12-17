@@ -37,6 +37,7 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.No)
                 .AssertReplyOneOf(this.NotSendingMessage())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -55,6 +56,7 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(this.AfterSendingMessage())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -71,7 +73,16 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(this.AfterSendingMessage())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
+        }
+
+        private Action<IActivity> ActionEndMessage()
+        {
+            return activity =>
+            {
+                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
+            };
         }
 
         private string[] NotSendingMessage()

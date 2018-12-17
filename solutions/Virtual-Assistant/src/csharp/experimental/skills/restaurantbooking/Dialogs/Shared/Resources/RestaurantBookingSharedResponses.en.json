@@ -1,0 +1,299 @@
+{
+  "DidntUnderstandMessage": {
+    "replies": [
+      {
+        "text": "Sorry, I didn't understand what you meant.",
+        "speak": "Sorry, I didn't understand what you meant."
+      },
+      {
+        "text": "I didn't understand, perhaps try again in a different way.",
+        "speak": "I didn't understand, perhaps try again in a different way."
+      },
+      {
+        "text": "Can you try to ask in a different way.",
+        "speak": "Can you try to ask in a different way."
+      },
+      {
+        "text": "I didn't get what you mean, can you try in a different way.",
+        "speak": "I didn't get what you mean, can you try in a different way."
+      },
+      {
+        "text": "Could you elaborate?",
+        "speak": "Could you elaborate?"
+      },
+      {
+        "text": "Say that again please in a different way.",
+        "speak": "Say that again please in a different way."
+      },
+      {
+        "text": "I didn't quite get that.",
+        "speak": "I didn't quite get that."
+      },
+      {
+        "text": "Can you say that in a different way?",
+        "speak": "Can you say that in a different way?"
+      },
+      {
+        "text": "Can you try to ask me again, I didn't get what you mean.",
+        "speak": "Can you try to ask me again, I didn't get what you mean."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "DidntUnderstandMessageIgnoringInput": {
+    "replies": [
+      {
+        "text": "Sorry, I didn't get what you mean.",
+        "speak": "Sorry, I didn't get what you mean."
+      },
+      {
+        "text": "I don't understand. Try in a different way.",
+        "speak": "I don't understand. Try in a different way."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "CancellingMessage": {
+    "replies": [
+      {
+        "text": "Sure, we can do this later.",
+        "speak": "Sure, we can do this later."
+      },
+      {
+        "text": "Sure, we can start this later.",
+        "speak": "Sure, we can start this later."
+      },
+      {
+        "text": "No problem. You can try again at another time.",
+        "speak": "No problem. You can try again at another time."
+      },
+      {
+        "text": "Alright, let me know when you need my help.",
+        "speak": "Alright, let me know when you need my help."
+      },
+      {
+        "text": "Sure, I'm here if you need me.",
+        "speak": "Sure, I'm here if you need me."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "NoAuth": {
+    "replies": [
+      {
+        "text": "Please log in so I can take further action.",
+        "speak": "Please log in so I can take further action."
+      },
+      {
+        "text": "Please log in so I can proceed your request.",
+        "speak": "Please log in so I can proceed your request."
+      },
+      {
+        "text": "Can you log in so I can help you out further.",
+        "speak": "Can you log in so I can help you out further."
+      },
+      {
+        "text": "You need to log in so I can take further action.",
+        "speak": "You need to log in so I can take further action."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AuthFailed": {
+    "replies": [
+      {
+        "text": "Authentication failed. Try again please.",
+        "speak": "Authentication failed. Try again please."
+      },
+      {
+        "text": "You failed to log in. Please try again later.",
+        "speak": "You failed to log in. Please try again later."
+      },
+      {
+        "text": "Your log in failed. Let's try this again.",
+        "speak": "Your log in failed. Let's try this again."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ActionEnded": {
+    "replies": [
+      {
+        "text": "I'm here if you need me.",
+        "speak": "I'm here if you need me."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ErrorMessage": {
+    "replies": [
+      {
+        "text": "Sorry, it looks like something went wrong!",
+        "speak": "Sorry, it looks like something went wrong!"
+      },
+      {
+        "text": "An error occurred. Give me some time and try again later.",
+        "speak": "An error occurred. Give me some time and try again later."
+      },
+      {
+        "text": "Something went wrong. Sorry!",
+        "speak": "Something went wrong. Sorry!"
+      },
+      {
+        "text": "I believe something went wrong. Can you try again later?",
+        "speak": "I believe something went wrong. Can you try again later?"
+      },
+      {
+        "text": "Sorry I think I cannot find what you want right now. Try again later please.",
+        "speak": "Sorry I think I cannot find what you want right now. Try again later please."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+
+  "BookRestaurantFlowStartMessage": {
+    "replies": [
+      {
+        "text": "Sure thing {UserName}, I can help you with making reservation.",
+        "speak": "Sure thing {UserName}, I can help you with making a reservation."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "BookRestaurantFoodSelectionPrompt": {
+    "replies": [
+      {
+        "text": "What type of restaurant are you interested in?",
+        "speak": "What type of restaurant are you interested in? {FoodTypeList}"
+      }
+    ],
+    "suggestedActions": [
+      "Cancel"
+    ],
+    "inputHint": "expectingInput"
+  },
+  "BookRestaurantFoodSelectionEcho": {
+    "replies": [
+      {
+        "text": "{FoodType} sounds great!",
+        "speak": "{FoodType} sounds great!"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "BookRestaurantAttendeePrompt": {
+    "replies": [
+      {
+        "text": "How many people?",
+        "speak": "How many people?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "BookRestaurantReservationMeetingInfoPrompt": {
+    "replies": [
+      {
+        "text": "I see an appointment in your calendar for {MeetingDate} at {MeetingTime} and {AttendeeList} accepted your request. Is this still correct?",
+        "speak": "I see an appointment in your calendar for {MeetingDateSpeak} at {MeetingTime} and {AttendeeList} accepted your request. Is this still correct?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "BookRestaurantDatePrompt": {
+    "replies": [
+      {
+        "text": "What day would you like for your reservation?",
+        "speak": "What day would you like for your reservation?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "BookRestaurantTimePrompt": {
+    "replies": [
+      {
+        "text": "At what time?",
+        "speak": "At what time?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "BookRestaurantDateTimeEcho": {
+    "replies": [
+      {
+        "text": "Got it! The reservation will be for {Date} at {Time}.",
+        "speak": "Got it! The reservation will be for {Date} at {Time}."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "BookRestaurantConfirmationPrompt": {
+    "replies": [
+      {
+        "text": "Reservation request summary:|Food type:|Date:|Time:|For:|Did I get it right?",
+        "speak": "Ok. Let me make sure I have this right, you want me to make a reservation for {pluralizeAmount: 'AttendeeCount', pluralizeResource: 'People'} at a {text: 'FoodType'} restaurant for {text: 'ReservationDateSpeak'} starting at {text: 'ReservationTime'}. Is this correct?"
+      }
+    ],
+    "suggestedActions": [
+      "Yes",
+      "No"
+    ],
+    "inputHint": "expectingInput"
+  },
+  "BookRestaurantAcceptedMessage": {
+    "replies": [
+      {
+        "text": "Reservation request confirmed:|Restaurant:|Location:|Date:|Time:|For:|{AttendeeCount} people.|I also sent you an email to {UserEmail} and added the meeting to your calendar.",
+        "speak": "Pardon the interruption, I just got word that {Restaurant} has confirmed your reservation for {AttendeeCount} people for {ReservationDateSpeak} at {ReservationTime}. I also added the reservation to your calendar"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "BookRestaurantRestaurantSearching": {
+    "replies": [
+      {
+        "text": "Sure, let me look into it.",
+        "speak": "Sure, let me look into it."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "BookRestaurantRestaurantSelectionPrompt": {
+    "replies": [
+      {
+        "text": "I have found {RestaurantCount} nice options.",
+        "speak": "I have found {RestaurantCount} nice options. {RestaurantList}."
+      }
+    ],
+    "suggestedActions": [
+      "Cancel"
+    ],
+    "inputHint": "expectingInput"
+  },
+  "BookRestaurantBookingPlaceSelectionEcho": {
+    "replies": [
+      {
+        "text": "Great, I'm working on a reservation at {BookingPlaceName}. I will reach out to them for a confirmation.  \r\n  This might take a while, I will get back to you in a bit. ",
+        "speak": "Great, I'm working on a reservation at {BookingPlaceName}. I will reach out to them for a confirmation.  \r\n  This might take a while, I will get back to you in a bit. "
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "FoodTypeSelectionErrorMessage": {
+    "replies": [
+      {
+        "text": "I am unable to get your favorite food type. You can try again by specifying what type of cuisine you want me to look into.",
+        "speak": "Hmmm.... I am unable to get your favorite food type. You can try again by specifying what type of cuisine you want me to look into."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "BookRestaurantRestaurantNegativeConfirm": {
+    "replies": [
+      {
+        "text": "Ok, I won't go ahead let me know if you change your mind later.",
+        "speak": "Ok, I won't go ahead let me know if you change your mind later."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}

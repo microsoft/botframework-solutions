@@ -24,6 +24,8 @@ namespace CalendarSkillTest.Flow
 
         public UserState UserState { get; set; }
 
+        public IBotTelemetryClient TelemetryClient { get; set; }
+
         public IServiceManager ServiceManager { get; set; }
 
         public SkillConfiguration Services { get; set; }
@@ -37,6 +39,7 @@ namespace CalendarSkillTest.Flow
 
             this.ConversationState = new ConversationState(new MemoryStorage());
             this.UserState = new UserState(new MemoryStorage());
+            this.TelemetryClient = new NullBotTelemetryClient();
             this.CalendarStateAccessor = this.ConversationState.CreateProperty<CalendarSkillState>(nameof(CalendarSkillState));
             this.Services = new MockSkillConfiguration();
 
@@ -77,7 +80,7 @@ namespace CalendarSkillTest.Flow
 
         public override IBot BuildBot()
         {
-            return new CalendarSkill.CalendarSkill(this.Services, this.ConversationState, this.UserState,  this.ServiceManager, true);
+            return new CalendarSkill.CalendarSkill(this.Services, this.ConversationState, this.UserState, this.TelemetryClient, this.ServiceManager, true);
         }
     }
 }

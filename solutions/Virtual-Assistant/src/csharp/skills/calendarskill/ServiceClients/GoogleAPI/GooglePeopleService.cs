@@ -4,19 +4,17 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CalendarSkill.ServiceClients.GoogleAPI;
+using CalendarSkill.ServiceClients;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Auth.OAuth2.Responses;
 using Google.Apis.People.v1;
 using Google.Apis.People.v1.Data;
+using Google.Apis.Requests;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
-using Microsoft.Graph;
-using GooglePerson = Google.Apis.People.v1.Data.Person;
-using MsPerson = Microsoft.Graph.Person;
 
-namespace CalendarSkill
+namespace CalendarSkill.ServiceClients
 {
     /// <summary>
     /// The Google People API service.
@@ -64,22 +62,40 @@ namespace CalendarSkill
             return service;
         }
 
-        // To do: finish contact search
-        public Task<List<Contact>> GetContactsAsync(string name)
+        // search people in domain
+        public async Task<List<PersonModel>> GetPeopleAsync(string name)
         {
-            return Task.FromResult(new List<Contact>());
+            List<Person> persons = await GetGooglePeopleAsync(name);
+            List<PersonModel> result = new List<PersonModel>();
+            foreach (Person person in persons)
+            {
+                result.Add(new PersonModel(person));
+            }
+
+            return result;
+        }
+
+        // search people in domain
+        public Task<List<PersonModel>> GetUserAsync(string name)
+        {
+            return Task.FromResult(new List<PersonModel>());
+        }
+
+        // To do: finish contact search
+        public Task<List<PersonModel>> GetContactsAsync(string name)
+        {
+            return Task.FromResult(new List<PersonModel>());
         }
 
         // get people work with
-        public async Task<List<MsPerson>> GetPeopleAsync(string name)
+        private async Task<List<Person>> GetGooglePeopleAsync(string name)
         {
             PeopleResource.ConnectionsResource.ListRequest peopleRequest = service.People.Connections.List("people/me");
             peopleRequest.RequestMaskIncludeField = "person.emailAddresses,person.names";
 
-            ListConnectionsResponse connectionsResponse = await peopleRequest.ExecuteAsync();
-            IList<GooglePerson> connections = connectionsResponse.Connections;
-
-            var result = new List<MsPerson>();
+            ListConnectionsResponse connectionsResponse = await ((IClientServiceRequest<ListConnectionsResponse>)peopleRequest).ExecuteAsync();
+            IList<Person> connections = connectionsResponse.Connections;
+            List<Person> result = new List<Person>();
             if (connections != null && connections.Count > 0)
             {
                 foreach (var people in connections)
@@ -88,40 +104,9 @@ namespace CalendarSkill
                     var displayName = people.Names[0]?.DisplayName;
                     if (people.EmailAddresses?.Count > 0 && displayName != null && displayName.ToLower().Contains(name.ToLower()))
                     {
-                        result.Add(this.GooglePersonToMsPerson(people));
+                        result.Add(people);
                     }
                 }
-            }
-
-            return result;
-        }
-
-        // search people in domain
-        public Task<List<User>> GetUserAsync(string name)
-        {
-            return Task.FromResult(new List<User>());
-        }
-
-        private MsPerson GooglePersonToMsPerson(GooglePerson person)
-        {
-            var result = new MsPerson();
-            if (person.Names?.Count > 0)
-            {
-                result.GivenName = person.Names[0]?.GivenName;
-                result.Surname = person.Names[0]?.FamilyName;
-                result.DisplayName = person.Names[0]?.DisplayName;
-                result.UserPrincipalName = person.Names[0]?.DisplayNameLastFirst;
-            }
-
-            if (person.EmailAddresses?.Count > 0)
-            {
-                var addresses = new List<ScoredEmailAddress>();
-                foreach (var email in person.EmailAddresses)
-                {
-                    addresses.Add(new ScoredEmailAddress() { Address = email.Value });
-                }
-
-                result.ScoredEmailAddresses = addresses;
             }
 
             return result;

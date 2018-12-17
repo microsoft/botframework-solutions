@@ -10,9 +10,10 @@ namespace Microsoft.Bot.Solutions
 {
     public abstract class RouterDialog : InterruptableDialog
     {
-        public RouterDialog(string dialogId)
-            : base(dialogId)
+        public RouterDialog(string dialogId, IBotTelemetryClient telemetryClient)
+            : base(dialogId, telemetryClient)
         {
+            TelemetryClient = telemetryClient;
         }
 
         protected override Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default(CancellationToken)) => OnContinueDialogAsync(innerDc, cancellationToken);

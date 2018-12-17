@@ -39,6 +39,7 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.No)
                 .AssertReplyOneOf(this.NotSendingMessage())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -59,6 +60,7 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(this.AfterSendingMessage())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -77,6 +79,7 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(this.AfterSendingMessage())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -93,7 +96,37 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(this.AfterSendingMessage())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_ForwardEmailWhenNoEmailIsShown()
+        {
+            // Setup email data
+            var serviceManager = this.ServiceManager as MockServiceManager;
+            serviceManager.MockMailService.MyMessages = serviceManager.MockMailService.FakeMyMessages(0);
+
+            await this.GetTestFlow()
+                .Send(ForwardEmailUtterances.ForwardEmails)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.EmailNotFoundPrompt())
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        private Action<IActivity> ActionEndMessage()
+        {
+            return activity =>
+            {
+                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
+            };
+        }
+
+        private string[] EmailNotFoundPrompt()
+        {
+            return this.ParseReplies(EmailSharedResponses.EmailNotFound.Replies, new StringDictionary());
         }
 
         private string[] AfterSendingMessage()

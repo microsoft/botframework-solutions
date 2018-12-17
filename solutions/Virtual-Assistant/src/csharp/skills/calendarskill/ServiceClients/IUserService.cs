@@ -9,15 +9,15 @@ namespace CalendarSkill
 {
     public interface IUserService
     {
-        Task<List<Person>> GetPeopleAsync(string name);
+        Task<List<PersonModel>> GetPeopleAsync(string name);
 
-        Task<List<User>> GetUserAsync(string name);
+        Task<List<PersonModel>> GetUserAsync(string name);
 
         /// <summary>
         /// Get user from your organization.
         /// </summary>
         /// <param name="name">The contact's name.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        Task<List<Contact>> GetContactsAsync(string name);
+        Task<List<PersonModel>> GetContactsAsync(string name);
     }
 }

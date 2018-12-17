@@ -31,6 +31,17 @@ namespace EmailSkillTest.Flow.Utterances
 
         public static string NumberTwo { get; } = "2";
 
+        public void AddManager(BaseTestUtterances utterances)
+        {
+            foreach (var item in utterances)
+            {
+                if (!this.ContainsKey(item.Key))
+                {
+                    this.Add(item.Key, item.Value);
+                }
+            }
+        }
+
         public Email GetBaseNoneIntent()
         {
             var emailIntent = new Email();
@@ -49,8 +60,7 @@ namespace EmailSkillTest.Flow.Utterances
             string[] senderName = null,
             string[] emailAdress = null,
             string[] subject = null,
-            string[] message = null
-            )
+            string[] message = null)
         {
             var emailIntent = new Email();
 

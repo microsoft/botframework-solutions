@@ -21,9 +21,12 @@ namespace CalendarSkill
         public DeleteEventDialog(
             ISkillConfiguration services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
-            IServiceManager serviceManager)
-            : base(nameof(DeleteEventDialog), services, accessor, serviceManager)
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(DeleteEventDialog), services, accessor, serviceManager, telemetryClient)
         {
+            TelemetryClient = telemetryClient;
+
             var deleteEvent = new WaterfallStep[]
             {
                 GetAuthToken,
@@ -39,8 +42,8 @@ namespace CalendarSkill
                 AfterUpdateStartTime,
             };
 
-            AddDialog(new WaterfallDialog(Actions.DeleteEvent, deleteEvent));
-            AddDialog(new WaterfallDialog(Actions.UpdateStartTime, updateStartTime));
+            AddDialog(new WaterfallDialog(Actions.DeleteEvent, deleteEvent) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.UpdateStartTime, updateStartTime) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Actions.DeleteEvent;

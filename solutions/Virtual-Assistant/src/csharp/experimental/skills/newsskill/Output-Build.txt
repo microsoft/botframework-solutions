@@ -1,0 +1,8 @@
+1>------ Build started: Project: Microsoft.Bot.Solutions, Configuration: Debug Any CPU ------
+1>Microsoft.Bot.Solutions -> C:\Users\darrenj\source\repos\ai\solutions\Virtual-Assistant\src\csharp\microsoft.bot.solutions\bin\Debug\netcoreapp2.1\Microsoft.Bot.Solutions.dll
+2>------ Build started: Project: NewsSkill, Configuration: Debug Any CPU ------
+2>C:\Program Files\dotnet\sdk\2.2.100\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.DefaultItems.targets(153,5): warning NETSDK1071: A PackageReference to 'Microsoft.AspNetCore.All' specified a Version of `2.2.0`. Specifying the version of this package is not recommended. For more information, see https://aka.ms/sdkimplicitrefs
+2>Startup.cs(1,1,1,1): warning SA1412: Store files as UTF-8 with byte order mark
+2>NewsSkill -> C:\Users\darrenj\source\repos\ai\solutions\Virtual-Assistant\src\csharp\experimental\skills\newsskill\bin\Debug\netcoreapp2.2\NewsSkill.dll
+2>Done building project "NewsSkill.csproj".
+========== Build: 2 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
