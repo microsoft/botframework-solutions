@@ -19,9 +19,12 @@ namespace CalendarSkill
         public NextMeetingDialog(
             ISkillConfiguration services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
-            IServiceManager serviceManager)
-            : base(nameof(NextMeetingDialog), services, accessor, serviceManager)
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(NextMeetingDialog), services, accessor, serviceManager, telemetryClient)
         {
+            TelemetryClient = telemetryClient;
+
             var nextMeeting = new WaterfallStep[]
             {
                 GetAuthToken,
@@ -30,7 +33,7 @@ namespace CalendarSkill
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Actions.ShowEventsSummary, nextMeeting));
+            AddDialog(new WaterfallDialog(Actions.ShowEventsSummary, nextMeeting) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Actions.ShowEventsSummary;
@@ -103,7 +106,6 @@ namespace CalendarSkill
                                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(NextMeetingResponses.ReadLocation, ResponseBuilder, responseParams));
                                 }
                             }
-
                         }
 
                         var speakParams = new StringDictionary()

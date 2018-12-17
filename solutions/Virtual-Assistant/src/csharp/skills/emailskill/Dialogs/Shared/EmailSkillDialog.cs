@@ -37,13 +37,15 @@ namespace EmailSkill
             ISkillConfiguration services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
-            IServiceManager serviceManager)
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient)
             : base(dialogId)
         {
             Services = services;
             EmailStateAccessor = emailStateAccessor;
             DialogStateAccessor = dialogStateAccessor;
             ServiceManager = serviceManager;
+            TelemetryClient = telemetryClient;
 
             if (!Services.AuthenticationConnections.Any())
             {
@@ -285,6 +287,12 @@ namespace EmailSkill
         {
             try
             {
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                if (state.MessageList.Count == 0)
+                {
+                    return await sc.EndDialogAsync(true);
+                }
+
                 return await sc.PromptAsync(
                     Actions.Prompt,
                     new PromptOptions() { Prompt = sc.Context.Activity.CreateReply(EmailSharedResponses.NoFocusMessage, ResponseBuilder) });
@@ -338,6 +346,28 @@ namespace EmailSkill
                 if (state.Message == null || state.Message.Count() == 0)
                 {
                     return await sc.BeginDialogAsync(Actions.UpdateSelectMessage, skillOptions);
+                }
+
+                return await sc.NextAsync();
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        protected async Task<DialogTurnResult> AfterCollectSelectedEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+
+                // End the dialog when there is no focused email
+                if (state.Message.Count == 0)
+                {
+                    return await sc.EndDialogAsync(true);
                 }
 
                 return await sc.NextAsync();
@@ -441,7 +471,22 @@ namespace EmailSkill
             }
         }
 
-        protected async Task<DialogTurnResult> CollectNameList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> CollectRecipient(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var skillOptions = (EmailSkillDialogOptions)sc.Options;
+                return await sc.BeginDialogAsync(Actions.CollectRecipient, skillOptions);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        protected async Task<DialogTurnResult> PromptRecipientCollection(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -463,7 +508,7 @@ namespace EmailSkill
             }
         }
 
-        protected async Task<DialogTurnResult> CollectRecipients(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> GetRecipients(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -474,9 +519,9 @@ namespace EmailSkill
                 if (state.IsNoRecipientAvailable())
                 {
                     var userInput = sc.Result.ToString();
-                    if (userInput == null)
+                    if (string.IsNullOrWhiteSpace(userInput))
                     {
-                        return await sc.BeginDialogAsync(nameof(ConfirmRecipientDialog), skillOptions);
+                        return await sc.BeginDialogAsync(Actions.CollectRecipient, skillOptions);
                     }
 
                     if (IsEmail(userInput))
@@ -657,6 +702,15 @@ namespace EmailSkill
             var pageSize = ConfigData.GetInstance().MaxDisplaySize;
             var skip = pageSize * pageIndex;
 
+            // Go back to the last page when reaching the end.
+            if (skip >= personList.Count + userList.Count && pageIndex > 0)
+            {
+                state.ShowRecipientIndex--;
+                state.ReadRecipientIndex = 0;
+                pageIndex = state.ShowRecipientIndex;
+                skip = pageSize * pageIndex;
+            }
+
             var options = new PromptOptions
             {
                 Choices = new List<Choice>(),
@@ -730,10 +784,6 @@ namespace EmailSkill
                     }
 
                     options.Choices.Add(choice);
-                }
-                else if (skip >= ConfigData.GetInstance().MaxDisplaySize)
-                {
-                    return options;
                 }
                 else
                 {

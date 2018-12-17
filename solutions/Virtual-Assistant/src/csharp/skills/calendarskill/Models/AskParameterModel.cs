@@ -1,8 +1,4 @@
 ﻿using CalendarSkill.Models.Resources;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CalendarSkill.Models
 {
@@ -64,8 +60,8 @@ namespace CalendarSkill.Models
             }
 
             content = content.ToLower();
-            List<AskParameterType> askParameterTypes = AskParameterTemplate.GetAskParameterTypes(content);
-            foreach (AskParameterType type in askParameterTypes)
+            var askParameterTypes = AskParameterTemplate.GetAskParameterTypes(content);
+            foreach (var type in askParameterTypes)
             {
                 switch (type)
                 {

@@ -8,6 +8,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 using ToDoSkill.Dialogs.DeleteToDo.Resources;
 using ToDoSkill.Dialogs.Shared.Resources;
 
@@ -20,11 +21,14 @@ namespace ToDoSkill
             IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
             IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
             ITaskService serviceManager,
-            IMailService mailService)
-            : base(nameof(DeleteToDoItemDialog), services, toDoStateAccessor, userStateAccessor, serviceManager, mailService)
+            IMailService mailService,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(DeleteToDoItemDialog), services, toDoStateAccessor, userStateAccessor, serviceManager, mailService, telemetryClient)
         {
+            TelemetryClient = telemetryClient;
+
             var deleteToDoTask = new WaterfallStep[]
-           {
+            {
                 GetAuthToken,
                 AfterGetAuthToken,
                 ClearContext,
@@ -32,7 +36,7 @@ namespace ToDoSkill
                 CollectToDoTaskIndex,
                 CollectAskDeletionConfirmation,
                 DeleteToDoTask,
-           };
+            };
 
             var collectToDoTaskIndex = new WaterfallStep[]
             {
@@ -47,9 +51,9 @@ namespace ToDoSkill
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Action.DeleteToDoTask, deleteToDoTask));
-            AddDialog(new WaterfallDialog(Action.CollectToDoTaskIndex, collectToDoTaskIndex));
-            AddDialog(new WaterfallDialog(Action.CollectDeleteTaskConfirmation, collectDeleteTaskConfirmation));
+            AddDialog(new WaterfallDialog(Action.DeleteToDoTask, deleteToDoTask) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Action.CollectToDoTaskIndex, collectToDoTaskIndex) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Action.CollectDeleteTaskConfirmation, collectDeleteTaskConfirmation) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Action.DeleteToDoTask;
@@ -57,7 +61,15 @@ namespace ToDoSkill
 
         public async Task<DialogTurnResult> CollectAskDeletionConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await sc.BeginDialogAsync(Action.CollectDeleteTaskConfirmation);
+            try
+            {
+                return await sc.BeginDialogAsync(Action.CollectDeleteTaskConfirmation);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
         }
 
         public async Task<DialogTurnResult> DeleteToDoTask(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -135,10 +147,15 @@ namespace ToDoSkill
 
                 return await sc.EndDialogAsync(true);
             }
-            catch
+            catch (SkillException ex)
             {
-                await HandleDialogExceptions(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -162,10 +179,10 @@ namespace ToDoSkill
                     return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                await HandleDialogExceptions(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -196,10 +213,10 @@ namespace ToDoSkill
                     return await sc.BeginDialogAsync(Action.CollectDeleteTaskConfirmation);
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                await HandleDialogExceptions(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
     }

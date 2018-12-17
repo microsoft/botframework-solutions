@@ -1,18 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
+using CalendarSkill;
 using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Dialogs.Summary.Resources;
-using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Authentication;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using CalendarSkillTest.Flow.Utterances;
 using CalendarSkillTest.Flow.Fakes;
-using System.Collections.Generic;
-using CalendarSkill;
+using CalendarSkillTest.Flow.Utterances;
+using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Bot.Builder;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CalendarSkillTest.Flow
 {
@@ -28,7 +27,7 @@ namespace CalendarSkillTest.Flow
             this.Services.LocaleConfigurations.Add("en", new LocaleConfiguration()
             {
                 Locale = "en-us",
-                LuisServices = new Dictionary<string, IRecognizer>()
+                LuisServices = new Dictionary<string, ITelemetryLuisRecognizer>()
                 {
                     { "general", new MockLuisRecognizer() },
                     { "calendar", new MockLuisRecognizer(new FindMeetingTestUtterances()) }

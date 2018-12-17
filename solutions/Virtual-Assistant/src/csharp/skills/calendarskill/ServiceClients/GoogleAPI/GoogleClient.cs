@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Bot.Solutions.Skills;
 
-namespace CalendarSkill.ServiceClients.GoogleAPI
+namespace CalendarSkill.ServiceClients
 {
     public class GoogleClient
     {

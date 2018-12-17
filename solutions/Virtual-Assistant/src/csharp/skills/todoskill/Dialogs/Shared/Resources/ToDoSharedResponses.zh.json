@@ -97,6 +97,15 @@
     ],
     "inputHint": "acceptingInput"
   },
+  "ToDoErrorMessage_BotProblem": {
+    "replies": [
+      {
+        "text": "对不起，出了点问题。开发人员已经收到通知并且在解决这个问题。你很快就又可以正常使用这个功能了。",
+        "speak": "对不起，出了点问题。开发人员已经收到通知并且在解决这个问题。你很快就又可以正常使用这个功能了。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
   "SettingUpOneNoteMessage": {
     "replies": [
       {

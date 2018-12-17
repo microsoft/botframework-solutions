@@ -8,7 +8,7 @@ AskForTime	when*
 AskForTime	what time
 AskForDuration	how long*
 AskForLocation	where*
-AskForLocation	waht*location
+AskForLocation	what*location
 AskForAttendee	who*with
 AskForTitle	what*title
 AskForContent	what*content

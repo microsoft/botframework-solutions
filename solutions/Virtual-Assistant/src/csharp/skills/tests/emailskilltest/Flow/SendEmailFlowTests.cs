@@ -37,7 +37,7 @@ namespace EmailSkillTest.Flow
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(testRecipient)
                 .AssertReply(this.CollectSubjectMessage(recipientDict))
-                .Send(ContextStrings.TestSubjcet)
+                .Send(ContextStrings.TestSubject)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
@@ -59,12 +59,13 @@ namespace EmailSkillTest.Flow
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(testRecipient)
                 .AssertReply(this.CollectSubjectMessage(recipientDict))
-                .Send(ContextStrings.TestSubjcet)
+                .Send(ContextStrings.TestSubject)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(this.AfterSendingMessage())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -79,12 +80,13 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReply(this.CollectSubjectMessage(recipientDict))
-                .Send(ContextStrings.TestSubjcet)
+                .Send(ContextStrings.TestSubject)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(this.AfterSendingMessage())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -103,6 +105,7 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(this.AfterSendingMessage())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -116,6 +119,7 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(this.AfterSendingMessage())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -134,7 +138,7 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.CollectRecipients())
                 .Send(BaseTestUtterances.FirstOne)
                 .AssertReply(this.CollectSubjectMessage(recipientDict))
-                .Send(ContextStrings.TestSubjcet)
+                .Send(ContextStrings.TestSubject)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
@@ -158,7 +162,7 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.CollectRecipients())
                 .Send(BaseTestUtterances.NumberOne)
                 .AssertReply(this.CollectSubjectMessage(recipientDict))
-                .Send(ContextStrings.TestSubjcet)
+                .Send(ContextStrings.TestSubject)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
@@ -178,7 +182,7 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReply(this.CollectSubjectMessage(recipientDict))
-                .Send(ContextStrings.TestSubjcet)
+                .Send(ContextStrings.TestSubject)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
@@ -202,7 +206,7 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.RecipientNotFoundMessage(recipientDict))
                 .Send(testRecipientConfirm)
                 .AssertReply(this.CollectSubjectMessage(recipientConfirmDict))
-                .Send(ContextStrings.TestSubjcet)
+                .Send(ContextStrings.TestSubject)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
@@ -224,7 +228,31 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.CollectRecipients())
                 .Send(BaseTestUtterances.FirstOne)
                 .AssertReply(this.CollectSubjectMessage(recipientDict))
-                .Send(ContextStrings.TestSubjcet)
+                .Send(ContextStrings.TestSubject)
+                .AssertReplyOneOf(this.CollectEmailContentMessage())
+                .Send(ContextStrings.TestContent)
+                .AssertReply(this.AssertComfirmBeforeSendingPrompt())
+                .Send(GeneralTestUtterances.No)
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_SendEmailToEmpty()
+        {
+            string testRecipient = ContextStrings.TestRecipient;
+            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient } };
+
+            await this.GetTestFlow()
+                .Send(SendEmailUtterances.SendEmails)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.CollectRecipientsMessage())
+                .Send(ContextStrings.TestEmptyRecipient)
+                .AssertReplyOneOf(this.CollectRecipientsMessage())
+                .Send(ContextStrings.TestRecipient)
+                .AssertReply(this.CollectSubjectMessage(recipientDict))
+                .Send(ContextStrings.TestSubject)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())

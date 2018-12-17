@@ -22,18 +22,20 @@ namespace CalendarSkill
         public UpdateEventDialog(
             ISkillConfiguration services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
-            IServiceManager serviceManager)
-            : base(nameof(UpdateEventDialog), services, accessor, serviceManager)
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(UpdateEventDialog), services, accessor, serviceManager, telemetryClient)
         {
+            TelemetryClient = telemetryClient;
             var updateEvent = new WaterfallStep[]
-           {
+            {
                 GetAuthToken,
                 AfterGetAuthToken,
                 FromTokenToStartTime,
                 FromEventsToNewDate,
                 ConfirmBeforeUpdate,
                 UpdateEventTime,
-           };
+            };
 
             var updateStartTime = new WaterfallStep[]
             {
@@ -48,9 +50,9 @@ namespace CalendarSkill
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Actions.UpdateEventTime, updateEvent));
-            AddDialog(new WaterfallDialog(Actions.UpdateStartTime, updateStartTime));
-            AddDialog(new WaterfallDialog(Actions.UpdateNewStartTime, updateNewStartTime));
+            AddDialog(new WaterfallDialog(Actions.UpdateEventTime, updateEvent) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.UpdateStartTime, updateStartTime) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.UpdateNewStartTime, updateNewStartTime) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Actions.UpdateEventTime;
@@ -136,6 +138,11 @@ namespace CalendarSkill
                     updateEvent.EndTime = (newStartTime + last).AddSeconds(1);
                     updateEvent.TimeZone = TimeZoneInfo.Utc;
                     updateEvent.Id = origin.Id;
+
+                    if (!string.IsNullOrEmpty(state.RecurrencePattern) && !string.IsNullOrEmpty(origin.RecurringId))
+                    {
+                        updateEvent.Id = origin.RecurringId;
+                    }
 
                     var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
                     var newEvent = await calendarService.UpdateEventById(updateEvent);

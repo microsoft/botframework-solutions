@@ -36,10 +36,11 @@ namespace ToDoSkill
             ISkillConfiguration services,
             ConversationState conversationState,
             UserState userState,
+            IBotTelemetryClient telemetryClient,
             ITaskService serviceManager,
             IMailService mailService,
             bool skillMode)
-            : base(nameof(MainDialog))
+            : base(nameof(MainDialog), telemetryClient)
         {
             _skillMode = skillMode;
             _services = services;
@@ -47,6 +48,7 @@ namespace ToDoSkill
             _userState = userState;
             _serviceManager = serviceManager;
             _mailService = mailService;
+            TelemetryClient = telemetryClient;
 
             // Initialize state accessor
             _toDoStateAccessor = _conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
@@ -307,10 +309,10 @@ namespace ToDoSkill
 
         private void RegisterDialogs()
         {
-            AddDialog(new AddToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager, _mailService));
-            AddDialog(new MarkToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager, _mailService));
-            AddDialog(new DeleteToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager, _mailService));
-            AddDialog(new ShowToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager, _mailService));
+            AddDialog(new AddToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager, _mailService, TelemetryClient));
+            AddDialog(new MarkToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager, _mailService, TelemetryClient));
+            AddDialog(new DeleteToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager, _mailService, TelemetryClient));
+            AddDialog(new ShowToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager, _mailService, TelemetryClient));
         }
 
         private void InitializeConfig(ToDoSkillState state)

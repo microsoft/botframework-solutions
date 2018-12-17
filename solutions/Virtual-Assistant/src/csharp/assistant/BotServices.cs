@@ -40,9 +40,23 @@ namespace VirtualAssistant
                 {
                     case ServiceTypes.AppInsights:
                         {
-                            var appInsights = service as AppInsightsService;
+                            var appInsights = (AppInsightsService)service;
+                            if (appInsights == null)
+                            {
+                                throw new InvalidOperationException("The Application Insights is not configured correctly in your '.bot' file.");
+                            }
+
+                            if (string.IsNullOrWhiteSpace(appInsights.InstrumentationKey))
+                            {
+                                throw new InvalidOperationException("The Application Insights Instrumentation Key ('instrumentationKey') is required to run this sample.  Please update your '.bot' file.");
+                            }
+
                             var telemetryConfig = new TelemetryConfiguration(appInsights.InstrumentationKey);
-                            TelemetryClient = new TelemetryClient(telemetryConfig);
+                            TelemetryClient = new TelemetryClient(telemetryConfig)
+                            {
+                                InstrumentationKey = appInsights.InstrumentationKey,
+                            };
+
                             break;
                         }
 
@@ -93,6 +107,21 @@ namespace VirtualAssistant
                         case ServiceTypes.Dispatch:
                             {
                                 var dispatch = service as DispatchService;
+                                if (dispatch == null)
+                                {
+                                    throw new InvalidOperationException("The Dispatch service is not configured correctly in your '.bot' file.");
+                                }
+
+                                if (string.IsNullOrWhiteSpace(dispatch.AppId))
+                                {
+                                    throw new InvalidOperationException("The Dispatch Luis Model Application Id ('appId') is required to run this sample.  Please update your '.bot' file.");
+                                }
+
+                                if (string.IsNullOrWhiteSpace(dispatch.SubscriptionKey))
+                                {
+                                    throw new InvalidOperationException("The Subscription Key ('subscriptionKey') is required to run this sample.  Please update your '.bot' file.");
+                                }
+
                                 var dispatchApp = new LuisApplication(dispatch.AppId, dispatch.SubscriptionKey, dispatch.GetEndpoint());
                                 localeConfig.DispatchRecognizer = new TelemetryLuisRecognizer(dispatchApp);
                                 break;
@@ -101,8 +130,34 @@ namespace VirtualAssistant
                         case ServiceTypes.Luis:
                             {
                                 var luis = service as LuisService;
+                                if (luis == null)
+                                {
+                                    throw new InvalidOperationException("The Luis service is not configured correctly in your '.bot' file.");
+                                }
+
+                                if (string.IsNullOrWhiteSpace(luis.AppId))
+                                {
+                                    throw new InvalidOperationException("The Luis Model Application Id ('appId') is required to run this sample.  Please update your '.bot' file.");
+                                }
+
+                                if (string.IsNullOrWhiteSpace(luis.AuthoringKey))
+                                {
+                                    throw new InvalidOperationException("The Luis Authoring Key ('authoringKey') is required to run this sample.  Please update your '.bot' file.");
+                                }
+
+                                if (string.IsNullOrWhiteSpace(luis.SubscriptionKey))
+                                {
+                                    throw new InvalidOperationException("The Subscription Key ('subscriptionKey') is required to run this sample.  Please update your '.bot' file.");
+                                }
+
+                                if (string.IsNullOrWhiteSpace(luis.Region))
+                                {
+                                    throw new InvalidOperationException("The Region ('region') is required to run this sample.  Please update your '.bot' file.");
+                                }
+
                                 var luisApp = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.GetEndpoint());
-                                localeConfig.LuisServices.Add(service.Id, new TelemetryLuisRecognizer(luisApp));
+                                var recognizer = new TelemetryLuisRecognizer(luisApp);
+                                localeConfig.LuisServices.Add(service.Id, recognizer);
                                 break;
                             }
 
@@ -217,7 +272,7 @@ namespace VirtualAssistant
         /// <value>
         /// Created based on the skill definitions from appsettings.json, the locale configurations, and shared bot services.
         /// The key for each item is the skill Id.
-        /// The value is an <see cref="ISkillConfiguration"/> object containing all the service clients used by the skill. 
+        /// The value is an <see cref="ISkillConfiguration"/> object containing all the service clients used by the skill.
         /// </value>
         public Dictionary<string, ISkillConfiguration> SkillConfigurations { get; set; } = new Dictionary<string, ISkillConfiguration>();
     }

@@ -22,9 +22,9 @@ namespace EmailSkill.Dialogs.ShowEmail.Resources
         }
 
         // Generated accessors
-        public static BotResponse EmailNotFound => GetBotResponse();
-
         public static BotResponse ReadOutPrompt => GetBotResponse();
+
+        public static BotResponse ReadOutOnlyOnePrompt => GetBotResponse();
 
         public static BotResponse ReadOutMessage => GetBotResponse();
 

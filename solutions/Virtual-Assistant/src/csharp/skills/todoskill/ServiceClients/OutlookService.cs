@@ -8,6 +8,7 @@ namespace ToDoSkill.ServiceClients
     using System.Net.Http;
     using System.Threading.Tasks;
     using global::ToDoSkill.Dialogs.Shared.Resources;
+    using Microsoft.Graph;
     using Newtonsoft.Json.Linq;
 
     /// <summary>
@@ -31,7 +32,15 @@ namespace ToDoSkill.ServiceClients
         {
             try
             {
-                this.httpClient = ServiceHelper.GetHttpClient(token);
+                if (client == null)
+                {
+                    this.httpClient = ServiceHelper.GetHttpClient(token);
+                }
+                else
+                {
+                    this.httpClient = client;
+                }
+
                 if (!taskFolderIds.ContainsKey(ToDoStrings.ToDo))
                 {
                     var taskFolderId = await GetOrCreateTaskFolderAsync(ToDoStrings.ToDo);
@@ -53,9 +62,9 @@ namespace ToDoSkill.ServiceClients
                 this.taskFolderIds = taskFolderIds;
                 return this;
             }
-            catch (Exception ex)
+            catch (ServiceException ex)
             {
-                throw ex;
+                throw ServiceHelper.HandleGraphAPIException(ex);
             }
         }
 
@@ -71,9 +80,9 @@ namespace ToDoSkill.ServiceClients
                 var requestUrl = GraphBaseUrl + "taskFolders/" + taskFolderIds[listType] + "/tasks";
                 return await this.ExecuteTasksGetAsync(requestUrl);
             }
-            catch (Exception ex)
+            catch (ServiceException ex)
             {
-                throw ex;
+                throw ServiceHelper.HandleGraphAPIException(ex);
             }
         }
 
@@ -90,9 +99,9 @@ namespace ToDoSkill.ServiceClients
                 var requestUrl = GraphBaseUrl + "taskFolders/" + taskFolderIds[listType] + "/tasks";
                 return await this.ExecuteTaskAddAsync(requestUrl, taskText);
             }
-            catch (Exception ex)
+            catch (ServiceException ex)
             {
-                throw ex;
+                throw ServiceHelper.HandleGraphAPIException(ex);
             }
         }
 
@@ -109,9 +118,9 @@ namespace ToDoSkill.ServiceClients
                 var requestUrl = GraphBaseUrl + "tasks";
                 return await this.ExecuteTasksMarkAsync(requestUrl, taskItems);
             }
-            catch (Exception ex)
+            catch (ServiceException ex)
             {
-                throw ex;
+                throw ServiceHelper.HandleGraphAPIException(ex);
             }
         }
 
@@ -128,9 +137,9 @@ namespace ToDoSkill.ServiceClients
                 var requestUrl = GraphBaseUrl + "tasks";
                 return await this.ExecuteTasksDeleteAsync(requestUrl, taskItems);
             }
-            catch (Exception ex)
+            catch (ServiceException ex)
             {
-                throw ex;
+                throw ServiceHelper.HandleGraphAPIException(ex);
             }
         }
 
@@ -145,55 +154,42 @@ namespace ToDoSkill.ServiceClients
 
         private async Task<string> GetOrCreateTaskFolderAsync(string taskFolderName)
         {
-            try
+            var taskFolderId = await GetTaskFolderAsync(taskFolderName);
+            if (string.IsNullOrEmpty(taskFolderId))
             {
-                var taskFolderId = await GetTaskFolderAsync(taskFolderName);
-                if (string.IsNullOrEmpty(taskFolderId))
-                {
-                    taskFolderId = await CreateTaskFolderAsync(taskFolderName);
-                }
+                taskFolderId = await CreateTaskFolderAsync(taskFolderName);
+            }
 
-                return taskFolderId;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            return taskFolderId;
         }
 
         private async Task<string> GetTaskFolderAsync(string taskFolderName)
         {
-            try
+            var taskFolderIdNameDic = await this.GetTaskFoldersAsync(this.graphBaseUrl + "taskFolders");
+            foreach (var taskFolderIdNamePair in taskFolderIdNameDic)
             {
-                var taskFolderIdNameDic = await this.GetTaskFoldersAsync(GraphBaseUrl + "taskFolders");
-                foreach (var taskFolderIdNamePair in taskFolderIdNameDic)
+                if (taskFolderIdNamePair.Value.Equals(taskFolderName, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    if (taskFolderIdNamePair.Value.Equals(taskFolderName, StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        return taskFolderIdNamePair.Key;
-                    }
+                    return taskFolderIdNamePair.Key;
                 }
+            }
 
-                return null;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            return null;
         }
 
         private async Task<string> CreateTaskFolderAsync(string taskFolderName)
         {
-            try
+            var httpRequestMessage = ServiceHelper.GenerateCreateTaskFolderHttpRequest(this.graphBaseUrl + "taskFolders", taskFolderName);
+            var result = await this.httpClient.SendAsync(httpRequestMessage);
+            dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
+            if (result.IsSuccessStatusCode)
             {
-                var httpRequestMessage = ServiceHelper.GenerateCreateTaskFolderHttpRequest(GraphBaseUrl + "taskFolders", taskFolderName);
-                var result = await this.httpClient.SendAsync(httpRequestMessage);
-                dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
                 return (string)responseContent.id;
             }
-            catch (Exception ex)
+            else
             {
-                throw ex;
+                ServiceException serviceException = ServiceHelper.GenerateServiceException(responseContent);
+                throw serviceException;
             }
         }
 
@@ -232,7 +228,16 @@ namespace ToDoSkill.ServiceClients
         {
             var httpRequestMessage = ServiceHelper.GenerateAddOutlookTaskHttpRequest(url, taskText);
             var result = await this.httpClient.SendAsync(httpRequestMessage);
-            return result.IsSuccessStatusCode;
+            if (result.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else
+            {
+                dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
+                ServiceException serviceException = ServiceHelper.GenerateServiceException(responseContent);
+                throw serviceException;
+            }
         }
 
         private async Task<bool> ExecuteTasksMarkAsync(string url, List<TaskItem> taskItems)
@@ -243,7 +248,9 @@ namespace ToDoSkill.ServiceClients
                 var result = await this.httpClient.SendAsync(httpRequestMessage);
                 if (!result.IsSuccessStatusCode)
                 {
-                    throw new Exception();
+                    dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
+                    ServiceException serviceException = ServiceHelper.GenerateServiceException(responseContent);
+                    throw serviceException;
                 }
             }
 
@@ -258,7 +265,9 @@ namespace ToDoSkill.ServiceClients
                 var result = await this.httpClient.SendAsync(httpRequestMessage);
                 if (!result.IsSuccessStatusCode)
                 {
-                    throw new Exception();
+                    dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
+                    ServiceException serviceException = ServiceHelper.GenerateServiceException(responseContent);
+                    throw serviceException;
                 }
             }
 
@@ -267,9 +276,17 @@ namespace ToDoSkill.ServiceClients
 
         private async Task<dynamic> ExecuteGraphFetchAsync(string url)
         {
-            var result = await this.httpClient.GetStringAsync(url);
-            dynamic content = JObject.Parse(result);
-            return content.value;
+            var result = await this.httpClient.GetAsync(url);
+            dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
+            if (result.IsSuccessStatusCode)
+            {
+                return responseContent.value;
+            }
+            else
+            {
+                ServiceException serviceException = ServiceHelper.GenerateServiceException(responseContent);
+                throw serviceException;
+            }
         }
     }
 }

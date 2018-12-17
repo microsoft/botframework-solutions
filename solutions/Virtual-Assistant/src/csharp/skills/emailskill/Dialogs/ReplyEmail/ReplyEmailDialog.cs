@@ -19,15 +19,19 @@ namespace EmailSkill
             ISkillConfiguration services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
-            IServiceManager serviceManager)
-            : base(nameof(ReplyEmailDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager)
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(ReplyEmailDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient)
         {
+            TelemetryClient = telemetryClient;
+
             var replyEmail = new WaterfallStep[]
             {
                 IfClearContextStep,
                 GetAuthToken,
                 AfterGetAuthToken,
                 CollectSelectedEmail,
+                AfterCollectSelectedEmail,
                 CollectAdditionalText,
                 ConfirmBeforeSending,
                 ReplyEmail,
@@ -35,7 +39,7 @@ namespace EmailSkill
 
             var showEmail = new WaterfallStep[]
             {
-                IfClearContextStep,
+                PagingStep,
                 ShowEmails,
             };
 
@@ -48,8 +52,8 @@ namespace EmailSkill
             AddDialog(new WaterfallDialog(Actions.Reply, replyEmail));
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Actions.Show, showEmail));
-            AddDialog(new WaterfallDialog(Actions.UpdateSelectMessage, updateSelectMessage));
+            AddDialog(new WaterfallDialog(Actions.Show, showEmail) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.UpdateSelectMessage, updateSelectMessage) { TelemetryClient = telemetryClient });
 
             InitialDialogId = Actions.Reply;
         }

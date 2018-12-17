@@ -20,6 +20,7 @@ namespace ToDoSkill
         private readonly ISkillConfiguration _services;
         private readonly ConversationState _conversationState;
         private readonly UserState _userState;
+        private readonly IBotTelemetryClient _telemetryClient;
         private ITaskService _serviceManager;
         private IMailService _mailService;
         private DialogSet _dialogs;
@@ -31,6 +32,7 @@ namespace ToDoSkill
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
+            _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
 
             var isOutlookProvider = _services.Properties.ContainsKey("TaskServiceProvider")
                 && _services.Properties["TaskServiceProvider"].ToString().Equals(ProviderTypes.Outlook.ToString(), StringComparison.InvariantCultureIgnoreCase);
@@ -44,7 +46,7 @@ namespace ToDoSkill
             _mailService = mailService ?? new MailService();
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(DialogState)));
-            _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _serviceManager, _mailService, _skillMode));
+            _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _telemetryClient, _serviceManager, _mailService, _skillMode));
         }
 
         /// <summary>

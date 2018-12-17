@@ -3,6 +3,7 @@
 
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.ApplicationInsights;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 
@@ -19,8 +20,8 @@ namespace VirtualAssistant
         private IStatePropertyAccessor<OnboardingState> _accessor;
         private OnboardingState _state;
 
-        public OnboardingDialog(BotServices botServices, IStatePropertyAccessor<OnboardingState> accessor)
-            : base(botServices, nameof(OnboardingDialog))
+        public OnboardingDialog(BotServices botServices, IStatePropertyAccessor<OnboardingState> accessor, IBotTelemetryClient telemetryClient)
+            : base(botServices, nameof(OnboardingDialog), telemetryClient)
         {
             _accessor = accessor;
             InitialDialogId = nameof(OnboardingDialog);
@@ -32,7 +33,10 @@ namespace VirtualAssistant
                 FinishOnboardingDialog,
             };
 
-            AddDialog(new WaterfallDialog(InitialDialogId, onboarding));
+            // To capture built-in waterfall dialog telemetry, set the telemetry client
+            // to the new waterfall dialog and add it to the component dialog
+            TelemetryClient = telemetryClient;
+            AddDialog(new WaterfallDialog(InitialDialogId, onboarding) { TelemetryClient = telemetryClient });
             AddDialog(new TextPrompt(NamePrompt));
             AddDialog(new TextPrompt(LocationPrompt));
         }

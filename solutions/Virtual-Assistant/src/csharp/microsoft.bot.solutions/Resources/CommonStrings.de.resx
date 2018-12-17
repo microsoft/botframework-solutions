@@ -252,9 +252,6 @@
   <data name="TimeFormatMinutes" xml:space="preserve">
     <value>{0} Minuten</value>
   </data>
-  <data name="DisplayFullDateFormat" xml:space="preserve">
-    <value>dd-MM-yyyy</value>
-  </data>
   <data name="All" xml:space="preserve">
     <value>alles</value>
   </data>
@@ -272,5 +269,11 @@
   </data>
   <data name="ThirdItem" xml:space="preserve">
     <value>der dritte ist {0};</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Anmeldung</value>
+  </data>
+  <data name="LoginDescription" xml:space="preserve">
+    <value>Bitte melden Sie sich mit Ihrem {0} Konto an</value>
   </data>
 </root>
