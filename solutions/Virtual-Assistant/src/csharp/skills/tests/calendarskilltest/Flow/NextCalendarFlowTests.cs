@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using CalendarSkill.Dialogs.Main.Resources;
+using CalendarSkill;
 using CalendarSkill.Dialogs.NextMeeting.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkillTest.Flow.Fakes;
@@ -37,7 +37,7 @@ namespace CalendarSkillTest.Flow
         }
 
         [TestMethod]
-        public async Task Test_CalendarDelete()
+        public async Task Test_CalendarOneNextMeeting()
         {
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseNextMeeting)
@@ -45,12 +45,38 @@ namespace CalendarSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.NextMeetingPrompt())
                 .AssertReply(this.ShowCalendarList())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
-        private string[] WelcomePrompt()
+        [TestMethod]
+        public async Task Test_CalendarNoNextMeetings()
         {
-            return this.ParseReplies(CalendarMainResponses.CalendarWelcomeMessage.Replies, new StringDictionary());
+            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
+            serviceManager.SetupCalendarService(new List<EventModel>());
+            await this.GetTestFlow()
+                .Send(FindMeetingTestUtterances.BaseNextMeeting)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.NoMeetingResponse())
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_CalendarMultipleMeetings()
+        {
+            int eventCount = 3;
+            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
+            serviceManager.SetupCalendarService(MockCalendarService.FakeMultipleNextEvents(eventCount));
+            await this.GetTestFlow()
+                .Send(FindMeetingTestUtterances.BaseNextMeeting)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.NextMeetingPrompt())
+                .AssertReply(this.ShowCalendarList(eventCount))
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
         }
 
         private string[] NextMeetingPrompt()
@@ -66,12 +92,25 @@ namespace CalendarSkillTest.Flow
             };
         }
 
-        private Action<IActivity> ShowCalendarList()
+        private Action<IActivity> ShowCalendarList(int eventCount = 1)
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                Assert.AreEqual(messageActivity.Attachments.Count, 1);
+                Assert.AreEqual(messageActivity.Attachments.Count, eventCount);
+            };
+        }
+
+        private string[] NoMeetingResponse()
+        {
+            return this.ParseReplies(NextMeetingResponses.ShowNoMeetingMessage.Replies, new StringDictionary());
+        }
+
+        private Action<IActivity> ActionEndMessage()
+        {
+            return activity =>
+            {
+                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
             };
         }
     }

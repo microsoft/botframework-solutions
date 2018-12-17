@@ -11,9 +11,20 @@ namespace CalendarSkillTest.Flow.Utterances
         public UpdateMeetingTestUtterances()
         {
             this.Add(BaseUpdateMeeting, GetBaseUpdateMeetingIntent(BaseUpdateMeeting));
+            this.Add(UpdateMeetingWithStartTime, GetBaseUpdateMeetingIntent(
+                UpdateMeetingWithStartTime,
+                fromDate: new string[] { "tomorrow" },
+                fromTime: new string[] { "6 pm" }));
+            this.Add(UpdateMeetingWithTitle, GetBaseUpdateMeetingIntent(
+                UpdateMeetingWithTitle,
+                subject: new string[] { Strings.Strings.DefaultEventName }));
         }
 
         public static string BaseUpdateMeeting { get; } = "update meeting";
+
+        public static string UpdateMeetingWithStartTime { get; } = "delete meeting at tomorrow 6 pm";
+
+        public static string UpdateMeetingWithTitle { get; } = $"delete {Strings.Strings.DefaultEventName} meeting";
 
         private Calendar GetBaseUpdateMeetingIntent(
             string userInput,
