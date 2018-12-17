@@ -14,8 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -93,9 +91,9 @@ public class MainActivity extends AppCompatActivity implements BotEventInterface
     PopupWindow popupWindow;
     // Get the app's shared preferences
     SharedPreferences _preferences;
-    final String PREF_BACKGROUND = "Background";
-    final String PREF_BOT_SECRET = "BotSecret";
-    final String PREF_VOICE_KEY  = "VoiceKey";
+    final String PREF_BACKGROUND    = "Background";
+    final String PREF_BOT_SECRET    = "BotSecret";
+    final String PREF_VOICE_KEY     = "VoiceKey";
     final String PREF_VOICE_REGION  = "VoiceRegion";
 
     @Override
@@ -152,9 +150,12 @@ public class MainActivity extends AppCompatActivity implements BotEventInterface
             case R.id.imgMenu:
                 onMenuClicked(v);
                 break;
-//            case R.id.speechReady:
-//                _speech.StartSpeechReco();
-//                break;
+            case R.id.speechReady:
+                if (_speech != null)
+                    _speech.StartSpeechReco();
+                else
+                    Toast.makeText(this, "Speech recognition not started. Please enter key.",Toast.LENGTH_LONG).show();
+                break;
         }
     }
 

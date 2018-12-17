@@ -4,7 +4,6 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import android.os.StrictMode;
-import android.util.Log;
 
 import com.microsoft.directlinechatbot.DirectLineChatbot;
 import com.microsoft.directlinechatbot.bo.ChannelData;
@@ -13,8 +12,7 @@ import com.microsoft.directlinechatbot.bo.GeoLocation;
 
 public class BotWrapper {
     private static String TAG = "Bot";
-    private String primaryToken; // = "A9AN9rGaizI.cwA.sV8.2RQjycRfxwOxB6hyOpOV2R-GRQnBkl9j5L4vtBGBJwU";
-    //private String primaryToken = "okXQmX_0yI4.cwA.qhw.eOs0Uk-AywLh-mAMdRs36UlIEm1KmctrbYhPWBi4zN0";
+    private String primaryToken;
     private DirectLineChatbot _chatbot = null;
     private ChannelData _channleData = null;
     private BotEventInterface _botEventInterface;

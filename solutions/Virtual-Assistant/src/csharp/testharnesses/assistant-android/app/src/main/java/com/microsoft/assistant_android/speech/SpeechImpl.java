@@ -28,7 +28,7 @@ import static android.media.AudioManager.AUDIOFOCUS_LOSS;
 public class SpeechImpl implements AudioManager.OnAudioFocusChangeListener{
     private static String TAG = "SpeechImpl";
     // Replace below with your own subscription key
-    private static String speechSubscriptionKey = "e226756fc8934904b90e49517cfcf5a7";
+    private static String speechSubscriptionKey = "";
     // Replace below with your own service region (e.g., "westus").
     private static String serviceRegion = "westus";
 
