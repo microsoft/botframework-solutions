@@ -34,26 +34,20 @@ namespace CustomerSupportTemplate
         // Application Insights Custom Event name, logged when a message is deleted by the bot (rare case)
         public static readonly string BotMsgDeleteEvent = "BotMessageDelete";
 
-        private TelemetryClient _telemetryClient;
+        private IBotTelemetryClient _telemetryClient;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TelemetryLoggerMiddleware"/> class.
         /// </summary>
-        /// <param name="instrumentationKey">The Application Insights instrumentation key.  See Application Insights for more information.</param>
+        /// <param name="telemetryClient">The IBotTelemetryClient implementation used for registering telemetry events.</param>
         /// <param name="logUserName"> (Optional) Enable/Disable logging user name within Application Insights.</param>
         /// <param name="logOriginalMessage"> (Optional) Enable/Disable logging original message name within Application Insights.</param>
         /// <param name="config"> (Optional) TelemetryConfiguration to use for Application Insights.</param>
-        public TelemetryLoggerMiddleware(string instrumentationKey, bool logUserName = false, bool logOriginalMessage = false, TelemetryConfiguration config = null)
+        public TelemetryLoggerMiddleware(IBotTelemetryClient telemetryClient, bool logUserName = false, bool logOriginalMessage = false, TelemetryConfiguration config = null)
         {
-            if (string.IsNullOrWhiteSpace(instrumentationKey))
-            {
-                throw new ArgumentNullException(nameof(instrumentationKey));
-            }
-
-            var telemetryConfiguration = config ?? new TelemetryConfiguration(instrumentationKey);
-            this._telemetryClient = new TelemetryClient(telemetryConfiguration);
-            this.LogUserName = logUserName;
-            this.LogOriginalMessage = logOriginalMessage;
+            _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
+            LogUserName = logUserName;
+            LogOriginalMessage = logOriginalMessage;
         }
 
         /// <summary>
@@ -93,19 +87,8 @@ namespace CustomerSupportTemplate
             {
                 var activity = context.Activity;
 
-                // Context properties for App Insights
-                if (!string.IsNullOrEmpty(activity.Conversation.Id))
-                {
-                    this._telemetryClient.Context.Session.Id = activity.Conversation.Id;
-                }
-
-                if (!string.IsNullOrEmpty(activity.From.Id))
-                {
-                    this._telemetryClient.Context.User.Id = activity.From.Id;
-                }
-
                 // Log the Application Insights Bot Message Received
-                this._telemetryClient.TrackEvent(BotMsgReceiveEvent, this.FillReceiveEventProperties(activity));
+                _telemetryClient.TrackEvent(BotMsgReceiveEvent, this.FillReceiveEventProperties(activity));
             }
 
             // hook up onSend pipeline
@@ -166,12 +149,12 @@ namespace CustomerSupportTemplate
         {
             var properties = new Dictionary<string, string>()
                 {
-                    { TelemetryConstants.ActivityIDProperty, activity.Id },
-                    { TelemetryConstants.ChannelProperty, activity.ChannelId },
+                    { TelemetryConstants.ChannelIdProperty, activity.ChannelId },
                     { TelemetryConstants.FromIdProperty, activity.From.Id },
-                    { TelemetryConstants.ConversationIdProperty, activity.Conversation.Id },
                     { TelemetryConstants.ConversationNameProperty, activity.Conversation.Name },
                     { TelemetryConstants.LocaleProperty, activity.Locale },
+                    { TelemetryConstants.RecipientIdProperty, activity.Recipient.Id },
+                    { TelemetryConstants.RecipientNameProperty, activity.Recipient.Name },
                 };
 
             // For some customers, logging user name within Application Insights might be an issue so have provided a config setting to disable this feature
@@ -199,10 +182,9 @@ namespace CustomerSupportTemplate
         {
             var properties = new Dictionary<string, string>()
                 {
-                    { TelemetryConstants.ActivityIDProperty, activity.Id },
-                    { TelemetryConstants.ChannelProperty, activity.ChannelId },
+                    { TelemetryConstants.ChannelIdProperty, activity.ChannelId },
+                    { TelemetryConstants.ReplyActivityIDProperty, activity.ReplyToId },
                     { TelemetryConstants.RecipientIdProperty, activity.Recipient.Id },
-                    { TelemetryConstants.ConversationIdProperty, activity.Conversation.Id },
                     { TelemetryConstants.ConversationNameProperty, activity.Conversation.Name },
                     { TelemetryConstants.LocaleProperty, activity.Locale },
                 };
@@ -234,8 +216,7 @@ namespace CustomerSupportTemplate
         {
             var properties = new Dictionary<string, string>()
                 {
-                    { TelemetryConstants.ActivityIDProperty, activity.Id },
-                    { TelemetryConstants.ChannelProperty, activity.ChannelId },
+                    { TelemetryConstants.ChannelIdProperty, activity.ChannelId },
                     { TelemetryConstants.RecipientIdProperty, activity.Recipient.Id },
                     { TelemetryConstants.ConversationIdProperty, activity.Conversation.Id },
                     { TelemetryConstants.ConversationNameProperty, activity.Conversation.Name },
@@ -261,8 +242,7 @@ namespace CustomerSupportTemplate
         {
             var properties = new Dictionary<string, string>()
                 {
-                    { TelemetryConstants.ActivityIDProperty, activity.Id },
-                    { TelemetryConstants.ChannelProperty, activity.ChannelId },
+                    { TelemetryConstants.ChannelIdProperty, activity.ChannelId },
                     { TelemetryConstants.RecipientIdProperty, activity.Recipient.Id },
                     { TelemetryConstants.ConversationIdProperty, activity.Conversation.Id },
                     { TelemetryConstants.ConversationNameProperty, activity.Conversation.Name },

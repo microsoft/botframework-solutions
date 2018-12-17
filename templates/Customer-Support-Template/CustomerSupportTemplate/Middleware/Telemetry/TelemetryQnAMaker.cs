@@ -90,7 +90,7 @@ namespace CustomerSupportTemplate
                 }
 
                 // Track the event
-                ((TelemetryClient)telemetryClient).TrackEvent(QnaMsgEvent, telemetryProperties, telemetryMetrics);
+                ((IBotTelemetryClient)telemetryClient).TrackEvent(QnaMsgEvent, telemetryProperties, telemetryMetrics);
             }
 
             return queryResults;

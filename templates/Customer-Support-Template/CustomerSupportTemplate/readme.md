@@ -83,5 +83,8 @@ Testing can be performed end to end locally, when your ready to deploy your Bot 
 az bot publish --name "CustomerSupportTemplate" --resource-group "CustomerSupportTemplate"
 ```
 
+## Analytics
+The Customer Support Template is configured to collect telemetry into Application Insights. This can be imported into a Power BI dashboard to view [advanced conversational analytics](https://aka.ms/botPowerBiTemplate).
+
 ## Next Steps
 Find more documentation for enabling more scenarios and further customization [here](http://aka.ms/ent_docs).

@@ -13,11 +13,13 @@ namespace CustomerSupportTemplate.Dialogs.Shipping
 
         public FreeShippingDialog(
             BotServices services, 
-            IStatePropertyAccessor<CustomerSupportTemplateState> stateAccessor)
-            : base(services, nameof(FreeShippingDialog))
+            IStatePropertyAccessor<CustomerSupportTemplateState> stateAccessor,
+            IBotTelemetryClient telemetryClient)
+            : base(services, nameof(FreeShippingDialog), telemetryClient)
         {
             _services = services;
             _stateAccessor = stateAccessor;
+            TelemetryClient = telemetryClient;
 
             var freeShipping = new WaterfallStep[]
             {
@@ -25,7 +27,7 @@ namespace CustomerSupportTemplate.Dialogs.Shipping
             };
 
             InitialDialogId = nameof(FreeShippingDialog);
-            AddDialog(new WaterfallDialog(InitialDialogId, freeShipping));
+            AddDialog(new WaterfallDialog(InitialDialogId, freeShipping) { TelemetryClient = telemetryClient });
         }
 
         private async Task<DialogTurnResult> ShowPolicy(WaterfallStepContext stepContext, CancellationToken cancellationToken)

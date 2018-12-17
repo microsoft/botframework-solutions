@@ -22,12 +22,14 @@ namespace CustomerSupportTemplate.Dialogs.Orders
 
         public CancelOrderDialog(
             BotServices services, 
-            IStatePropertyAccessor<CustomerSupportTemplateState> stateAccessor)
-            : base(services, nameof(CancelOrderDialog))
+            IStatePropertyAccessor<CustomerSupportTemplateState> stateAccessor,
+            IBotTelemetryClient telemetryClient)
+            : base(services, nameof(CancelOrderDialog), telemetryClient)
         {
             _client = new DemoServiceClient();
             _services = services;
             _stateAccessor = stateAccessor;
+            TelemetryClient = telemetryClient;
 
             var cancelOrder = new WaterfallStep[]
             {
@@ -45,8 +47,8 @@ namespace CustomerSupportTemplate.Dialogs.Orders
             };
 
             InitialDialogId = nameof(CancelOrderDialog);
-            AddDialog(new WaterfallDialog(InitialDialogId, cancelOrder));
-            AddDialog(new WaterfallDialog(DialogIds.RequestCancellationDialog, requestCancellation));
+            AddDialog(new WaterfallDialog(InitialDialogId, cancelOrder) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(DialogIds.RequestCancellationDialog, requestCancellation) { TelemetryClient = telemetryClient });
             AddDialog(new ConfirmPrompt(DialogIds.ContinuePrompt, SharedValidators.ConfirmValidator));
             AddDialog(new ChoicePrompt(DialogIds.CancelTypePrompt, SharedValidators.ChoiceValidator));
             AddDialog(new TextPrompt(DialogIds.OrderNumberPrompt, SharedValidators.OrderNumberValidator));

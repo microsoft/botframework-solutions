@@ -19,11 +19,12 @@ namespace CustomerSupportTemplate
         // Fields
         private static SignInResponses _responder = new SignInResponses();
 
-        public SignInDialog(string connectionName)
+        public SignInDialog(string connectionName, IBotTelemetryClient telemetryClient)
             : base(nameof(SignInDialog))
         {
             InitialDialogId = nameof(SignInDialog);
             ConnectionName = connectionName;
+            TelemetryClient = telemetryClient;
 
             var authenticate = new WaterfallStep[]
             {
@@ -31,7 +32,7 @@ namespace CustomerSupportTemplate
                 FinishAuthDialog,
             };
 
-            AddDialog(new WaterfallDialog(InitialDialogId, authenticate));
+            AddDialog(new WaterfallDialog(InitialDialogId, authenticate) { TelemetryClient = telemetryClient });
             AddDialog(new OAuthPrompt(LoginPrompt, new OAuthPromptSettings()
             {
                 ConnectionName = ConnectionName,
