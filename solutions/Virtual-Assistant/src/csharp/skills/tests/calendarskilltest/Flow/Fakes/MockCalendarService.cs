@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CalendarSkill;
+using CalendarSkill.Models;
+using CalendarSkill.ServiceClients;
 using Microsoft.Graph;
 
 namespace CalendarSkillTest.Flow.Fakes
 {
-    public class MockCalendarService : ICalendar
+    public class MockCalendarService : ICalendarService
     {
         public MockCalendarService(List<EventModel> fakeEventModels)
         {

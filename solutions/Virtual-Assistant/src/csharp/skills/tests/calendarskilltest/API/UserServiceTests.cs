@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CalendarSkill;
+using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
+using CalendarSkill.ServiceClients.GoogleAPI;
+using CalendarSkill.ServiceClients.MSGraphAPI;
 using CalendarSkillTest.API.Fakes;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Graph;
@@ -18,7 +21,7 @@ namespace CalendarSkillTest.API
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
-            userService = new UserService(MockBaseUserClient.mockBaseUserService.Object);
+            userService = new UserService(MockBaseUserClient.GetUserService());
         }
 
         [ClassCleanup]
@@ -67,7 +70,7 @@ namespace CalendarSkillTest.API
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
-            userService = new UserService(new MSGraphUserService(MockMSGraphUserClient.mockMsGraphUserService.Object));
+            userService = new UserService(new MSGraphUserService(MockMSGraphUserClient.GetUserService()));
         }
 
         [ClassCleanup]
@@ -115,7 +118,7 @@ namespace CalendarSkillTest.API
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
-            userService = new UserService(new GooglePeopleService(MockGoogleUserClient.mockGoogleUserService.Object));
+            userService = new UserService(new GooglePeopleService(MockGoogleUserClient.GetPeopleService()));
         }
 
         [ClassCleanup]

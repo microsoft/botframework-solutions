@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 using Moq;
@@ -9,7 +8,7 @@ namespace CalendarSkillTest.API.Fakes
 {
     public static class MockMSGraphServiceClient
     {
-        public static Mock<IGraphServiceClient> mockCalendarService;
+        private static Mock<IGraphServiceClient> mockCalendarService;
 
         static MockMSGraphServiceClient()
         {
@@ -68,6 +67,11 @@ namespace CalendarSkillTest.API.Fakes
 
                 return requestBuilder.Object;
             });
+        }
+
+        public static IGraphServiceClient GetCalendarService()
+        {
+            return mockCalendarService.Object;
         }
     }
 }

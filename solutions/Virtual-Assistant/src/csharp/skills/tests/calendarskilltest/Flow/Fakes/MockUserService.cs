@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http.Headers;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using CalendarSkill;
 using CalendarSkill.Extensions;
+using CalendarSkill.Models;
+using CalendarSkill.ServiceClients;
 using Microsoft.Graph;
 
 namespace CalendarSkillTest.Flow.Fakes

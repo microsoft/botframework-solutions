@@ -12,9 +12,9 @@ namespace CalendarSkillTest.API.Fakes
 {
     public static class MockGoogleUserClient
     {
-        public static Mock<PeopleService> mockGoogleUserService;
-        public static Mock<PeopleResource> mockPeopleResource;
-        public static Mock<ConnectionsResource> mockConnectionsResource;
+        private static Mock<PeopleService> mockGoogleUserService;
+        private static Mock<PeopleResource> mockPeopleResource;
+        private static Mock<ConnectionsResource> mockConnectionsResource;
 
         static MockGoogleUserClient()
         {
@@ -34,11 +34,17 @@ namespace CalendarSkillTest.API.Fakes
                 return mockListRequest;
             });
         }
+
+        public static PeopleService GetPeopleService()
+        {
+            return mockGoogleUserService.Object;
+        }
     }
 
     public class MockListRequest : ConnectionsResource.ListRequest, IClientServiceRequest<ListConnectionsResponse>
     {
-        public MockListRequest(IClientService service, string resourceName) : base(service, resourceName)
+        public MockListRequest(IClientService service, string resourceName)
+            : base(service, resourceName)
         {
 
         }

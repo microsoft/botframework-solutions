@@ -3,7 +3,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 
-namespace CalendarSkill.ServiceClients
+namespace CalendarSkill.ServiceClients.MSGraphAPI
 {
     public class GraphClient
     {

@@ -4,11 +4,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CalendarSkill.Models;
 using Microsoft.Graph;
 
-namespace CalendarSkill.ServiceClients
+namespace CalendarSkill.ServiceClients.MSGraphAPI
 {
-    public class MSGraphCalendarAPI : ICalendar
+    public class MSGraphCalendarAPI : ICalendarService
     {
         private readonly IGraphServiceClient _graphClient;
 

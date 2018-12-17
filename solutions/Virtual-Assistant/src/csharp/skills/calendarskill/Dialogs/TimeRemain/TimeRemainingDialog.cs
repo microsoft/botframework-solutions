@@ -6,6 +6,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using CalendarSkill.Dialogs.TimeRemain.Resources;
+using CalendarSkill.Models;
+using CalendarSkill.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;

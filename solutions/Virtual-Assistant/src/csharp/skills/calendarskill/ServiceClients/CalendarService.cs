@@ -4,14 +4,15 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CalendarSkill.Models;
 
-namespace CalendarSkill
+namespace CalendarSkill.ServiceClients
 {
-    public class CalendarService : ICalendar
+    public class CalendarService : ICalendarService
     {
-        private ICalendar calendarAPI;
+        private ICalendarService calendarAPI;
 
-        public CalendarService(ICalendar calendarAPI, EventSource source)
+        public CalendarService(ICalendarService calendarAPI, EventSource source)
         {
             this.calendarAPI = calendarAPI;
         }

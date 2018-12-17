@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CalendarSkill;
+using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
+using CalendarSkill.ServiceClients.GoogleAPI;
+using CalendarSkill.ServiceClients.MSGraphAPI;
 using CalendarSkillTest.API.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -14,12 +17,12 @@ namespace CalendarSkillTest.API
     [TestClass]
     public class BaseCalendarServiceTests
     {
-        public static ICalendar CalendarService;
+        public static ICalendarService CalendarService;
 
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
-            CalendarService = new CalendarService(MockBaseServiceClient.mockCalendarService.Object, EventSource.Microsoft);
+            CalendarService = new CalendarService(MockBaseServiceClient.GetCalendarService(), EventSource.Microsoft);
         }
 
         [ClassCleanup]
@@ -94,12 +97,12 @@ namespace CalendarSkillTest.API
     [TestClass]
     public class MSGrapghCalendarServiceTests
     {
-        public static ICalendar CalendarService;
+        public static ICalendarService CalendarService;
 
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
-            CalendarService = new CalendarService(new MSGraphCalendarAPI(MockMSGraphServiceClient.mockCalendarService.Object), EventSource.Microsoft);
+            CalendarService = new CalendarService(new MSGraphCalendarAPI(MockMSGraphServiceClient.GetCalendarService()), EventSource.Microsoft);
         }
 
         [ClassCleanup]
@@ -180,12 +183,12 @@ namespace CalendarSkillTest.API
     [TestClass]
     public class GoogleCalendarServiceTests
     {
-        public static ICalendar CalendarService;
+        public static ICalendarService CalendarService;
 
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
-            CalendarService = new CalendarService(new GoogleCalendarAPI(MockGoogleServiceClient.mockCalendarService.Object), EventSource.Google);
+            CalendarService = new CalendarService(new GoogleCalendarAPI(MockGoogleServiceClient.GetCalendarService()), EventSource.Google);
         }
 
         [ClassCleanup]

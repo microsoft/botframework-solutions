@@ -8,7 +8,7 @@ namespace CalendarSkillTest.API.Fakes
 {
     public static class MockMSGraphUserClient
     {
-        public static Mock<IGraphServiceClient> mockMsGraphUserService;
+        private static Mock<IGraphServiceClient> mockMsGraphUserService;
 
         static MockMSGraphUserClient()
         {
@@ -122,6 +122,11 @@ namespace CalendarSkillTest.API.Fakes
 
                 return Task.FromResult(result);
             });
+        }
+
+        public static IGraphServiceClient GetUserService()
+        {
+            return mockMsGraphUserService.Object;
         }
     }
 }

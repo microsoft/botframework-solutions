@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using CalendarSkill;
+using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
 using Microsoft.Graph;
 
@@ -21,7 +21,7 @@ namespace CalendarSkillTest.Flow.Fakes
             UserService = new MockUserService(fakeUserList, fakePersonList);
         }
 
-        public ICalendar InitCalendarService(string token, EventSource source)
+        public ICalendarService InitCalendarService(string token, EventSource source)
         {
             return CalendarService;
         }

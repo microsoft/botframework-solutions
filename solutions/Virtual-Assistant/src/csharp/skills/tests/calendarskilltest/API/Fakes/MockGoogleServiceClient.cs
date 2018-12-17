@@ -12,8 +12,8 @@ namespace CalendarSkillTest.API.Fakes
 {
     public static class MockGoogleServiceClient
     {
-        public static Mock<GoogleCalendarService> mockCalendarService;
-        public static Mock<EventsResource> mockEventsResource;
+        private static Mock<GoogleCalendarService> mockCalendarService;
+        private static Mock<EventsResource> mockEventsResource;
 
         static MockGoogleServiceClient()
         {
@@ -72,6 +72,11 @@ namespace CalendarSkillTest.API.Fakes
 
                 return mockDeleteRequest;
             });
+        }
+
+        public static GoogleCalendarService GetCalendarService()
+        {
+            return mockCalendarService.Object;
         }
 
         public class MockEventsResource

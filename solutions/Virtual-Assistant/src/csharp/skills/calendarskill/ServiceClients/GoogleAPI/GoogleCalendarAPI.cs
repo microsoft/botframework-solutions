@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CalendarSkill.Models;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Auth.OAuth2.Responses;
@@ -13,12 +14,12 @@ using Google.Apis.Services;
 using Google.Apis.Util.Store;
 using GoogleCalendarService = Google.Apis.Calendar.v3.CalendarService;
 
-namespace CalendarSkill.ServiceClients
+namespace CalendarSkill.ServiceClients.GoogleAPI
 {
     /// <summary>
     /// The Google Calendar API service.
     /// </summary>
-    public class GoogleCalendarAPI : ICalendar
+    public class GoogleCalendarAPI : ICalendarService
     {
         private static GoogleCalendarService service;
 

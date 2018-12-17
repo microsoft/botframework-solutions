@@ -2,6 +2,8 @@
 using System.Threading;
 using Autofac;
 using CalendarSkill;
+using CalendarSkill.Models;
+using CalendarSkill.ServiceClients;
 using CalendarSkillTest.Flow.Fakes;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;

@@ -9,6 +9,8 @@ using CalendarSkill.Common;
 using CalendarSkill.Dialogs.CreateEvent.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Extensions;
+using CalendarSkill.Models;
+using CalendarSkill.ServiceClients;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -1116,7 +1118,6 @@ namespace CalendarSkill
 
                 // Get users.
                 result = await service.GetUserAsync(name);
-
             }
             catch (Microsoft.Graph.ServiceException)
             {

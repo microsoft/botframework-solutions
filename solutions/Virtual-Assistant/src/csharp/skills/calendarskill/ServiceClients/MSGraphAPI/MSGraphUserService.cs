@@ -4,9 +4,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CalendarSkill.Extensions;
+using CalendarSkill.Models;
 using Microsoft.Graph;
 
-namespace CalendarSkill
+namespace CalendarSkill.ServiceClients.MSGraphAPI
 {
     /// <summary>
     /// Microsoft Graph User Service.

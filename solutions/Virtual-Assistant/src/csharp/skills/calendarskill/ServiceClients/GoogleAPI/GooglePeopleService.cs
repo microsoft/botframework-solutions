@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CalendarSkill.ServiceClients;
+using CalendarSkill.Models;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Auth.OAuth2.Responses;
@@ -14,7 +14,7 @@ using Google.Apis.Requests;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
 
-namespace CalendarSkill.ServiceClients
+namespace CalendarSkill.ServiceClients.GoogleAPI
 {
     /// <summary>
     /// The Google People API service.

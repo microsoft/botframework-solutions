@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using CalendarSkill;
+using CalendarSkill.Models;
+using CalendarSkill.ServiceClients;
 using Moq;
 
 namespace CalendarSkillTest.API.Fakes
 {
     public static class MockBaseUserClient
     {
-        public static Mock<IUserService> mockBaseUserService;
+        private static Mock<IUserService> mockBaseUserService;
 
         static MockBaseUserClient()
         {
@@ -25,6 +25,11 @@ namespace CalendarSkillTest.API.Fakes
             {
                 return Task.FromResult(new List<PersonModel>());
             });
+        }
+
+        public static IUserService GetUserService()
+        {
+            return mockBaseUserService.Object;
         }
     }
 }

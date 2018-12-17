@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
-namespace CalendarSkill
+namespace CalendarSkill.Common
 {
     public static class TimeZoneConverter
     {
