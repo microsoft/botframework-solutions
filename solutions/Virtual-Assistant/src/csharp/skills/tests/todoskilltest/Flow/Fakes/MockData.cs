@@ -183,6 +183,6 @@ namespace ToDoSkillTest.Flow.Fakes
             }
         };
 
-        public static string MockOneNoteWebLink = "https://123456-my.sharepoint.com/personal/123456";
+        public static string MockOneNoteWebLink { get; set; } = "https://123456-my.sharepoint.com/personal/123456";
     }
 }

@@ -172,7 +172,7 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 var topIntent = state.LuisResult?.TopIntent().intent;
                 var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
 
@@ -246,20 +246,21 @@ namespace ToDoSkill
 
         protected async Task<DialogTurnResult> InitAllTasks(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            try {
-            var state = await ToDoStateAccessor.GetAsync(sc.Context);
-            state.ListType = state.ListType ?? ToDoStrings.ToDo;
-
-            // LastListType is used to switch between list types in DeleteToDoItemDialog and MarkToDoItemDialog.
-            if (!state.ListTypeIds.ContainsKey(state.ListType)
-                || state.ListType != state.LastListType)
+            try
             {
-                var service = await InitListTypeIds(sc);
-                state.AllTasks = await service.GetTasksAsync(state.ListType);
-                state.ShowTaskPageIndex = 0;
-                var rangeCount = Math.Min(state.PageSize, state.AllTasks.Count);
-                state.Tasks = state.AllTasks.GetRange(0, rangeCount);
-            }
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
+                state.ListType = state.ListType ?? ToDoStrings.ToDo;
+
+                // LastListType is used to switch between list types in DeleteToDoItemDialog and MarkToDoItemDialog.
+                if (!state.ListTypeIds.ContainsKey(state.ListType)
+                    || state.ListType != state.LastListType)
+                {
+                    var service = await InitListTypeIds(sc);
+                    state.AllTasks = await service.GetTasksAsync(state.ListType);
+                    state.ShowTaskPageIndex = 0;
+                    var rangeCount = Math.Min(state.PageSize, state.AllTasks.Count);
+                    state.Tasks = state.AllTasks.GetRange(0, rangeCount);
+                }
 
                 if (state.AllTasks.Count <= 0)
                 {
@@ -933,7 +934,7 @@ namespace ToDoSkill
             await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ToDoErrorMessage));
 
             // clear state
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await ToDoStateAccessor.GetAsync(sc.Context);
             state.Clear();
         }
 
@@ -958,18 +959,8 @@ namespace ToDoSkill
             }
 
             // clear state
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await ToDoStateAccessor.GetAsync(sc.Context);
             state.Clear();
-        }
-
-        private IDictionary<string, string> AssembleTelemetryData(WaterfallStepContext sc)
-        {
-            var telemetryData = new Dictionary<string, string>();
-            telemetryData.Add("activityId", sc.Context.Activity.Id);
-            telemetryData.Add("userId", sc.Context.Activity.From.Id);
-            telemetryData.Add("activeDialog", sc.ActiveDialog.ToString());
-
-            return telemetryData;
         }
 
         protected async Task<ITaskService> InitListTypeIds(WaterfallStepContext sc)
@@ -1057,6 +1048,16 @@ namespace ToDoSkill
                     userState.ListTypeIds.TryAdd(listType.Key, listType.Value);
                 }
             }
+        }
+
+        private IDictionary<string, string> AssembleTelemetryData(WaterfallStepContext sc)
+        {
+            var telemetryData = new Dictionary<string, string>();
+            telemetryData.Add("activityId", sc.Context.Activity.Id);
+            telemetryData.Add("userId", sc.Context.Activity.From.Id);
+            telemetryData.Add("activeDialog", sc.ActiveDialog.ToString());
+
+            return telemetryData;
         }
     }
 }

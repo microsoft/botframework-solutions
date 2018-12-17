@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using AdaptiveCards;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Skills;
@@ -45,6 +44,7 @@ namespace ToDoSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.ShowToDoList())
                 .AssertReplyOneOf(this.ShowMoreTasksHint())
                 .AssertReply(this.ActionEndMessage())
@@ -59,6 +59,7 @@ namespace ToDoSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.ShowGroceryList())
                 .AssertReplyOneOf(this.ShowMoreTasksHint())
                 .AssertReply(this.ActionEndMessage())
@@ -73,6 +74,7 @@ namespace ToDoSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.ShowShoppingList())
                 .AssertReplyOneOf(this.ShowMoreTasksHint())
                 .AssertReply(this.ActionEndMessage())
@@ -87,6 +89,7 @@ namespace ToDoSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.ShowToDoList())
                 .AssertReplyOneOf(this.ShowMoreTasksHint())
                 .AssertReply(this.ActionEndMessage())
@@ -106,6 +109,7 @@ namespace ToDoSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.ShowToDoList())
                 .AssertReplyOneOf(this.ShowMoreTasksHint())
                 .AssertReply(this.ActionEndMessage())
@@ -156,6 +160,7 @@ namespace ToDoSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReplyOneOf(this.NoTasksPrompt())
                 .Send("yes")
                 .AssertReplyOneOf(this.CollectToDoContent())
@@ -337,7 +342,12 @@ namespace ToDoSkillTest.Flow
 
         private string[] SettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.SettingUpOneNoteMessage.Replies, new StringDictionary());
+            return this.ParseReplies(ToDoSharedResponses.SettingUpOutlookMessage.Replies, new StringDictionary());
+        }
+
+        private string[] AfterSettingUpOneNote()
+        {
+            return this.ParseReplies(ToDoSharedResponses.AfterOutlookSetupMessage.Replies, new StringDictionary());
         }
 
         private string[] NoTasksPrompt()
@@ -348,11 +358,6 @@ namespace ToDoSkillTest.Flow
         private string[] CollectToDoContent()
         {
             return this.ParseReplies(ToDoSharedResponses.AskToDoContentText.Replies, new StringDictionary());
-        }
-
-        private string[] AfterSettingUpOneNote()
-        {
-            return this.ParseReplies(ToDoSharedResponses.AfterOneNoteSetupMessage.Replies, new StringDictionary());
         }
 
         private string[] ShowMoreTasksHint()

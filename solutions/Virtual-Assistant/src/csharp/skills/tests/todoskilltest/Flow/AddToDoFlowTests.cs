@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using AdaptiveCards;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Skills;
@@ -45,6 +44,7 @@ namespace ToDoSkillTest.Flow
                 .AssertReplyOneOf(this.CollectToDoContent())
                 .Send(AddToDoFlowTestUtterances.TaskContent)
                 .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.ShowUpdatedToDoList())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -58,6 +58,7 @@ namespace ToDoSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.ShowUpdatedGroceryList())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -71,6 +72,7 @@ namespace ToDoSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.ShowUpdatedGroceryList())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -84,6 +86,7 @@ namespace ToDoSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.ShowUpdatedShoppingList())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -96,7 +99,12 @@ namespace ToDoSkillTest.Flow
 
         private string[] SettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.SettingUpOneNoteMessage.Replies, new StringDictionary());
+            return this.ParseReplies(ToDoSharedResponses.SettingUpOutlookMessage.Replies, new StringDictionary());
+        }
+
+        private string[] AfterSettingUpOneNote()
+        {
+            return this.ParseReplies(ToDoSharedResponses.AfterOutlookSetupMessage.Replies, new StringDictionary());
         }
 
         private Action<IActivity> ShowUpdatedToDoList()

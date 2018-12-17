@@ -26,7 +26,7 @@ namespace ToDoSkill
         private DialogSet _dialogs;
         private bool _skillMode;
 
-        public ToDoSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, ITaskService serviceManager = null, IMailService mailService = null, bool skillMode = false)
+        public ToDoSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, ITaskService serviceManager = null, IMailService mailService = null, bool skillMode = false)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));

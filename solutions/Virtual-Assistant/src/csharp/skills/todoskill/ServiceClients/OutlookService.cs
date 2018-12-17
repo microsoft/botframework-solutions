@@ -165,7 +165,7 @@ namespace ToDoSkill.ServiceClients
 
         private async Task<string> GetTaskFolderAsync(string taskFolderName)
         {
-            var taskFolderIdNameDic = await this.GetTaskFoldersAsync(this.graphBaseUrl + "taskFolders");
+            var taskFolderIdNameDic = await this.GetTaskFoldersAsync(GraphBaseUrl + "taskFolders");
             foreach (var taskFolderIdNamePair in taskFolderIdNameDic)
             {
                 if (taskFolderIdNamePair.Value.Equals(taskFolderName, StringComparison.InvariantCultureIgnoreCase))
@@ -179,7 +179,7 @@ namespace ToDoSkill.ServiceClients
 
         private async Task<string> CreateTaskFolderAsync(string taskFolderName)
         {
-            var httpRequestMessage = ServiceHelper.GenerateCreateTaskFolderHttpRequest(this.graphBaseUrl + "taskFolders", taskFolderName);
+            var httpRequestMessage = ServiceHelper.GenerateCreateTaskFolderHttpRequest(GraphBaseUrl + "taskFolders", taskFolderName);
             var result = await this.httpClient.SendAsync(httpRequestMessage);
             dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
             if (result.IsSuccessStatusCode)
