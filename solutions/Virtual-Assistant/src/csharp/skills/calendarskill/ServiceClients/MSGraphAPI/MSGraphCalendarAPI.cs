@@ -122,7 +122,7 @@ namespace CalendarSkill.ServiceClients.MSGraphAPI
         /// </summary>
         /// <param name="id">the meeting id.</param>
         /// <returns>the meetings list.</returns>
-        public async Task<List<Event>> AcceptMeetingRequest(string id)
+        private async Task<List<Event>> AcceptMeetingRequest(string id)
         {
             var items = new List<Event>();
 
@@ -149,7 +149,7 @@ namespace CalendarSkill.ServiceClients.MSGraphAPI
         /// </summary>
         /// <param name="id">the meeting id.</param>
         /// <returns>the meetings list.</returns>
-        public async Task<List<Event>> DeclineMeetingRequest(string id)
+        private async Task<List<Event>> DeclineMeetingRequest(string id)
         {
             var items = new List<Event>();
 
@@ -176,7 +176,7 @@ namespace CalendarSkill.ServiceClients.MSGraphAPI
         /// </summary>
         /// <param name="updateEvent">new event info.</param>
         /// <returns>The updated event.</returns>
-        public async Task<Event> UpdateEvent(Event updateEvent)
+        private async Task<Event> UpdateEvent(Event updateEvent)
         {
             var updatedEvet = await _graphClient.Me.Events[updateEvent.Id].Request().UpdateAsync(updateEvent);
             return updatedEvet;

@@ -14,6 +14,11 @@ namespace CalendarSkill.ServiceClients
 
         public CalendarService(ICalendarService calendarAPI, EventSource source)
         {
+            if (calendarAPI == null)
+            {
+                throw new Exception("calendarAPI is null");
+            }
+
             this.calendarAPI = calendarAPI;
         }
 

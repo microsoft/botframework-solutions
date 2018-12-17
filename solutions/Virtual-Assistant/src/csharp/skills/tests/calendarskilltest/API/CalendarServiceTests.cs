@@ -60,9 +60,58 @@ namespace CalendarSkillTest.API
         }
 
         [TestMethod]
+        public async Task GetEventsByTimeTest_StartTimeNotUtc_Throws()
+        {
+            try
+            {
+                await CalendarService.GetEventsByTime(DateTime.SpecifyKind(new DateTime(), DateTimeKind.Local), DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc));
+            }
+            catch (Exception e)
+            {
+                Assert.IsTrue(e.Message.Contains("Time is not UTC"));
+                return;
+            }
+
+            Assert.Fail("Should throw exception");
+        }
+
+        [TestMethod]
+        public async Task GetEventsByTimeTest_EndTimeNotUtc_Throws()
+        {
+            try
+            {
+                await CalendarService.GetEventsByTime(DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc), DateTime.SpecifyKind(new DateTime(), DateTimeKind.Local));
+            }
+            catch (Exception e)
+            {
+                Assert.IsTrue(e.Message.Contains("Time is not UTC"));
+                return;
+            }
+
+            Assert.Fail("Should throw exception");
+        }
+
+
+        [TestMethod]
         public async Task GetEventsByStartTimeTest()
         {
             await CalendarService.GetEventsByStartTime(DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc));
+        }
+
+        [TestMethod]
+        public async Task GetEventsByStartTimeTest_NotUtc_Throws()
+        {
+            try
+            {
+                await CalendarService.GetEventsByStartTime(DateTime.SpecifyKind(new DateTime(), DateTimeKind.Local));
+            }
+            catch (Exception e)
+            {
+                Assert.IsTrue(e.Message.Contains("Time is not UTC"));
+                return;
+            }
+
+            Assert.Fail("Should throw exception");
         }
 
         [TestMethod]
@@ -175,6 +224,23 @@ namespace CalendarSkillTest.API
             string deleteId = "delete_event";
             await CalendarService.DeleteEventById(deleteId);
         }
+
+        [TestMethod]
+        public async Task DeleteEventByIdTest_EventNotExist_Throws()
+        {
+            try
+            {
+                string deleteId = "delete_not_exist_event";
+                await CalendarService.DeleteEventById(deleteId);
+            }
+            catch (Exception e)
+            {
+                Assert.IsTrue(e.Message == "Event id not found");
+                return;
+            }
+
+            Assert.Fail("Should throw exception");
+        }
     }
 
     // this will test all logic in Google Calendar service
@@ -260,6 +326,23 @@ namespace CalendarSkillTest.API
         {
             string deleteId = "delete_event";
             await CalendarService.DeleteEventById(deleteId);
+        }
+
+        [TestMethod]
+        public async Task DeleteEventByIdTest_EventNotExist_Throws()
+        {
+            try
+            {
+                string deleteId = "delete_not_exist_event";
+                await CalendarService.DeleteEventById(deleteId);
+            }
+            catch (Exception e)
+            {
+                Assert.IsTrue(e.Message == "Event id not found");
+                return;
+            }
+
+            Assert.Fail("Should throw exception");
         }
     }
 }
