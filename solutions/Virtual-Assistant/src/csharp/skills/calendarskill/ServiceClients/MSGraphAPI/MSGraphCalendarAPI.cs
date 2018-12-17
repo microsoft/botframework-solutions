@@ -120,7 +120,7 @@ namespace CalendarSkill.ServiceClients.MSGraphAPI
         /// </summary>
         /// <param name="updateEvent">new event info.</param>
         /// <returns>The updated event.</returns>
-        public async Task<Event> UpdateEvent(Event updateEvent)
+        private async Task<Event> UpdateEvent(Event updateEvent)
         {
             try
             {
