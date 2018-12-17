@@ -75,13 +75,12 @@ namespace EmailSkill
             return service;
         }
 
-        /// <inheritdoc/>
         public async Task ForwardMessageAsync(string id, string content, List<Recipient> recipients)
         {
             try
             {
                 // getOriginalMessage
-                var (originMessage, threadId) = await this.GetMessageById(id);
+                var (originalMessage, threadId) = await this.GetMessageById(id);
                 var forward = new MimeMessage();
                 foreach (var recipient in recipients)
                 {
@@ -89,36 +88,36 @@ namespace EmailSkill
                 }
 
                 // set the reply subject
-                forward.Subject = EmailCommonStrings.Forward + originMessage.Subject;
+                forward.Subject = string.Format(EmailCommonStrings.ForwardReplyFormat, originalMessage.Subject);
 
                 // construct the References headers
-                foreach (var mid in originMessage.References)
+                foreach (var mid in originalMessage.References)
                 {
                     forward.References.Add(mid);
                 }
 
-                if (!string.IsNullOrEmpty(originMessage.MessageId))
+                if (!string.IsNullOrEmpty(originalMessage.MessageId))
                 {
-                    forward.References.Add(originMessage.MessageId);
+                    forward.References.Add(originalMessage.MessageId);
                 }
 
                 // quote the original message text
                 using (var quoted = new StringWriter())
                 {
-                    var sender = originMessage.Sender ?? originMessage.From.Mailboxes.FirstOrDefault();
+                    var sender = originalMessage.Sender ?? originalMessage.From.Mailboxes.FirstOrDefault();
                     quoted.WriteLine(content);
                     quoted.WriteLine();
                     quoted.WriteLine(EmailCommonStrings.ForwardMessage);
-                    quoted.WriteLine(EmailCommonStrings.FromFormat, originMessage.From);
-                    quoted.WriteLine(EmailCommonStrings.DateFormat, originMessage.Date);
-                    quoted.WriteLine(EmailCommonStrings.SubjectFormat, originMessage.Subject);
-                    quoted.WriteLine(EmailCommonStrings.ToFormat, originMessage.To);
-                    if (originMessage.Cc.Count > 0)
+                    quoted.WriteLine(EmailCommonStrings.FromFormat, originalMessage.From);
+                    quoted.WriteLine(EmailCommonStrings.DateFormat, originalMessage.Date);
+                    quoted.WriteLine(EmailCommonStrings.SubjectFormat, originalMessage.Subject);
+                    quoted.WriteLine(EmailCommonStrings.ToFormat, originalMessage.To);
+                    if (originalMessage.Cc.Count > 0)
                     {
-                        quoted.WriteLine(EmailCommonStrings.CCFormat, originMessage.Cc);
+                        quoted.WriteLine(EmailCommonStrings.CCFormat, originalMessage.Cc);
                     }
 
-                    using (var reader = new StringReader(originMessage.TextBody))
+                    using (var reader = new StringReader(originalMessage.TextBody))
                     {
                         string line;
 
@@ -145,7 +144,6 @@ namespace EmailSkill
             }
 }
 
-        /// <inheritdoc/>
         public async Task SendMessageAsync(string content, string subject, List<Recipient> recipients)
         {
             try
@@ -178,7 +176,6 @@ namespace EmailSkill
             }
         }
 
-        /// <inheritdoc/>
         public async Task<List<MSMessage>> ReplyToMessageAsync(string id, string content)
         {
             try
@@ -255,7 +252,6 @@ namespace EmailSkill
             }
         }
 
-        /// <inheritdoc/>
         public async Task<List<MSMessage>> GetMyMessagesAsync(DateTime fromTime, DateTime toTime, bool getUnRead = false, bool isImportant = false, bool directlyToMe = false, string fromAddress = null, int skip = 0)
         {
             try
