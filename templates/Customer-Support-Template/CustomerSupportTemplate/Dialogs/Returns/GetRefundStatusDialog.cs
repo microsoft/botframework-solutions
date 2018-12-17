@@ -18,12 +18,14 @@ namespace CustomerSupportTemplate.Dialogs.Returns
 
         public GetRefundStatusDialog(
             BotServices services, 
-            IStatePropertyAccessor<CustomerSupportTemplateState> stateAccessor)
-            : base(services, nameof(GetRefundStatusDialog))
+            IStatePropertyAccessor<CustomerSupportTemplateState> stateAccessor,
+            IBotTelemetryClient telemetryClient)
+            : base(services, nameof(GetRefundStatusDialog), telemetryClient)
         {
             _client = new DemoServiceClient();
             _services = services;
             _stateAccessor = stateAccessor;
+            TelemetryClient = telemetryClient;
 
             var getRefundStatus = new WaterfallStep[]
             {
@@ -33,7 +35,7 @@ namespace CustomerSupportTemplate.Dialogs.Returns
             };
 
             InitialDialogId = nameof(GetRefundStatusDialog);
-            AddDialog(new WaterfallDialog(InitialDialogId, getRefundStatus));
+            AddDialog(new WaterfallDialog(InitialDialogId, getRefundStatus) { TelemetryClient = telemetryClient });
             AddDialog(new TextPrompt(DialogIds.OrderNumberPrompt, SharedValidators.OrderNumberValidator));
             AddDialog(new TextPrompt(DialogIds.PhoneNumberPrompt, SharedValidators.PhoneNumberValidator));
         }

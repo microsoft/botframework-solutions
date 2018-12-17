@@ -18,12 +18,14 @@ namespace CustomerSupportTemplate.Dialogs.Orders
 
         public CheckOrderStatusDialog(
             BotServices services, 
-            IStatePropertyAccessor<CustomerSupportTemplateState> stateAccessor)
-            : base(services, nameof(CheckOrderStatusDialog))
+            IStatePropertyAccessor<CustomerSupportTemplateState> stateAccessor,
+            IBotTelemetryClient telemetryClient)
+            : base(services, nameof(CheckOrderStatusDialog), telemetryClient)
         {
             _client = new DemoServiceClient();
             _services = services;
             _stateAccessor = stateAccessor;
+            TelemetryClient = telemetryClient;
 
             var checkOrderStatus = new WaterfallStep[]
             {
@@ -33,7 +35,7 @@ namespace CustomerSupportTemplate.Dialogs.Orders
             };
 
             InitialDialogId = nameof(CheckOrderStatusDialog);
-            AddDialog(new WaterfallDialog(InitialDialogId, checkOrderStatus));
+            AddDialog(new WaterfallDialog(InitialDialogId, checkOrderStatus) { TelemetryClient = telemetryClient });
             AddDialog(new TextPrompt(DialogIds.OrderNumberPrompt, SharedValidators.OrderNumberValidator));
             AddDialog(new TextPrompt(DialogIds.PhoneNumberPrompt, SharedValidators.PhoneNumberValidator));
         }
