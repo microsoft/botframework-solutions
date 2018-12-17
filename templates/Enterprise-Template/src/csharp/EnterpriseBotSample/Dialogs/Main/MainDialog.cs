@@ -44,7 +44,7 @@ namespace EnterpriseBotSample.Dialogs.Main
             var dispatchResult = await _services.DispatchRecognizer.RecognizeAsync<Dispatch>(dc.Context, true, CancellationToken.None);
             var intent = dispatchResult.TopIntent().intent;
 
-            if (intent == Dispatch.Intent.l_General)
+            if (intent == Dispatch.Intent.l_general)
             {
                 // If dispatch result is general luis model
                 _services.LuisServices.TryGetValue("general", out var luisService);
@@ -62,20 +62,6 @@ namespace EnterpriseBotSample.Dialogs.Main
                     // switch on general intents
                     switch (generalIntent)
                     {
-                        case General.Intent.Greeting:
-                            {
-                                // send greeting response
-                                await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Greeting);
-                                break;
-                            }
-
-                        case General.Intent.Help:
-                            {
-                                // send help response
-                                await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Help);
-                                break;
-                            }
-
                         case General.Intent.Cancel:
                             {
                                 // send cancelled response
@@ -93,6 +79,14 @@ namespace EnterpriseBotSample.Dialogs.Main
                                 break;
                             }
 
+
+                        case General.Intent.Help:
+                            {
+                                // send help response
+                                await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Help);
+                                break;
+                            }
+
                         case General.Intent.None:
                         default:
                             {
@@ -103,13 +97,13 @@ namespace EnterpriseBotSample.Dialogs.Main
                     }
                 }
             }
-            else if (intent == Dispatch.Intent.q_FAQ)
+            else if (intent == Dispatch.Intent.q_faq)
             {
                 _services.QnAServices.TryGetValue("faq", out var qnaService);
 
                 if (qnaService == null)
                 {
-                    throw new Exception("The specified QnAMaker Service could not be found in your Bot Services configuration.");
+                    throw new Exception("The specified QnA Maker Service could not be found in your Bot Services configuration.");
                 }
                 else
                 {
@@ -120,6 +114,29 @@ namespace EnterpriseBotSample.Dialogs.Main
                         await dc.Context.SendActivityAsync(answers[0].Answer);
                     }
                 }
+            }
+            else if (intent == Dispatch.Intent.q_chitchat)
+            {
+                _services.QnAServices.TryGetValue("chitchat", out var qnaService);
+
+                if (qnaService == null)
+                {
+                    throw new Exception("The specified QnA Maker Service could not be found in your Bot Services configuration.");
+                }
+                else
+                {
+                    var answers = await qnaService.GetAnswersAsync(dc.Context);
+
+                    if (answers != null && answers.Count() > 0)
+                    {
+                        await dc.Context.SendActivityAsync(answers[0].Answer);
+                    }
+                }
+            }
+            else
+            {
+                // If dispatch intent does not map to configured models, send "confused" response.
+                await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Confused);
             }
         }
 
