@@ -14,12 +14,12 @@ namespace CalendarSkillTest.API
     [TestClass]
     public class BaseCalendarServiceTests
     {
-        public static ICalendar calendarService;
+        public static ICalendar CalendarService;
 
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
-            calendarService = new CalendarService(MockBaseServiceClient.mockCalendarService.Object, EventSource.Microsoft);
+            CalendarService = new CalendarService(MockBaseServiceClient.mockCalendarService.Object, EventSource.Microsoft);
         }
 
         [ClassCleanup]
@@ -41,37 +41,37 @@ namespace CalendarSkillTest.API
         public async Task CreateEventTest()
         {
             EventModel newEvent = new EventModel(EventSource.Microsoft);
-            await calendarService.CreateEvent(newEvent);
+            await CalendarService.CreateEvent(newEvent);
         }
 
         [TestMethod]
         public async Task GetUpComingEventsTest()
         {
-            await calendarService.GetUpcomingEvents();
+            await CalendarService.GetUpcomingEvents();
         }
 
         [TestMethod]
         public async Task GetEventsByTimeTest()
         {
-            await calendarService.GetEventsByTime(DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc), DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc));
+            await CalendarService.GetEventsByTime(DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc), DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc));
         }
 
         [TestMethod]
         public async Task GetEventsByStartTimeTest()
         {
-            await calendarService.GetEventsByStartTime(DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc));
+            await CalendarService.GetEventsByStartTime(DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc));
         }
 
         [TestMethod]
         public async Task GetEventsByTitle()
         {
-            await calendarService.GetEventsByTitle("test");
+            await CalendarService.GetEventsByTitle("test");
         }
 
         [TestMethod]
         public async Task DeleteEventsById()
         {
-            await calendarService.DeleteEventById("test id");
+            await CalendarService.DeleteEventById("test id");
         }
 
         [TestMethod]
@@ -83,9 +83,8 @@ namespace CalendarSkillTest.API
             updateEvent.StartTime = DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc);
             updateEvent.EndTime = DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc);
 
-            EventModel updateResult = await calendarService.UpdateEventById(updateEvent);
+            EventModel updateResult = await CalendarService.UpdateEventById(updateEvent);
             Assert.IsTrue(updateEvent.Id == updateResult.Id);
-
         }
     }
 
@@ -95,12 +94,12 @@ namespace CalendarSkillTest.API
     [TestClass]
     public class MSGrapghCalendarServiceTests
     {
-        public static ICalendar calendarService;
+        public static ICalendar CalendarService;
 
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
-            calendarService = new CalendarService(new MSGraphCalendarAPI(MockMSGraphServiceClient.mockCalendarService.Object), EventSource.Microsoft);
+            CalendarService = new CalendarService(new MSGraphCalendarAPI(MockMSGraphServiceClient.mockCalendarService.Object), EventSource.Microsoft);
         }
 
         [ClassCleanup]
@@ -123,14 +122,14 @@ namespace CalendarSkillTest.API
         {
             EventModel createEvent = new EventModel(new Microsoft.Graph.Event());
             createEvent.Id = "create_event";
-            EventModel createResult = await calendarService.CreateEvent(createEvent);
+            EventModel createResult = await CalendarService.CreateEvent(createEvent);
             Assert.IsTrue(createEvent.Id == createResult.Id);
         }
 
         [TestMethod]
         public async Task GetUpcomingEventsTest()
         {
-            List<EventModel> events = await calendarService.GetUpcomingEvents();
+            List<EventModel> events = await CalendarService.GetUpcomingEvents();
             Assert.IsTrue(events.Count == 1);
         }
 
@@ -139,7 +138,7 @@ namespace CalendarSkillTest.API
         {
             DateTime startTime = TimeZoneInfo.ConvertTimeToUtc(DateTime.Parse("2500-01-01T18:00:00.0000000Z"));
             DateTime endTime = TimeZoneInfo.ConvertTimeToUtc(DateTime.Parse("2500-01-01T19:00:00.0000000Z"));
-            List<EventModel> events = await calendarService.GetEventsByTime(startTime, endTime);
+            List<EventModel> events = await CalendarService.GetEventsByTime(startTime, endTime);
             Assert.IsTrue(events.Count == 1);
         }
 
@@ -147,14 +146,14 @@ namespace CalendarSkillTest.API
         public async Task GetEventsByStartTimeTest()
         {
             DateTime startTime = TimeZoneInfo.ConvertTimeToUtc(DateTime.Parse("2500-01-01T18:00:00.0000000Z"));
-            List<EventModel> events = await calendarService.GetEventsByStartTime(startTime);
+            List<EventModel> events = await CalendarService.GetEventsByStartTime(startTime);
             Assert.IsTrue(events.Count == 1);
         }
 
         [TestMethod]
         public async Task GetEventsByTitleTest()
         {
-            List<EventModel> events = await calendarService.GetEventsByTitle("test");
+            List<EventModel> events = await CalendarService.GetEventsByTitle("test");
             Assert.IsTrue(events.Count == 1);
         }
 
@@ -163,7 +162,7 @@ namespace CalendarSkillTest.API
         {
             EventModel updateEvent = new EventModel(new Microsoft.Graph.Event());
             updateEvent.Id = "update_event";
-            EventModel updateResult = await calendarService.UpdateEventById(updateEvent);
+            EventModel updateResult = await CalendarService.UpdateEventById(updateEvent);
             Assert.IsTrue(updateEvent.Id == updateResult.Id);
         }
 
@@ -171,7 +170,7 @@ namespace CalendarSkillTest.API
         public async Task DeleteEventByIdTest()
         {
             string deleteId = "delete_event";
-            await calendarService.DeleteEventById(deleteId);
+            await CalendarService.DeleteEventById(deleteId);
         }
     }
 
@@ -181,12 +180,12 @@ namespace CalendarSkillTest.API
     [TestClass]
     public class GoogleCalendarServiceTests
     {
-        public static ICalendar calendarService;
+        public static ICalendar CalendarService;
 
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
-            calendarService = new CalendarService(new GoogleCalendarAPI(MockGoogleServiceClient.mockCalendarService.Object), EventSource.Google);
+            CalendarService = new CalendarService(new GoogleCalendarAPI(MockGoogleServiceClient.mockCalendarService.Object), EventSource.Google);
         }
 
         [ClassCleanup]
@@ -209,14 +208,14 @@ namespace CalendarSkillTest.API
         {
             EventModel createEvent = new EventModel(new Google.Apis.Calendar.v3.Data.Event());
             createEvent.Id = "create_event";
-            EventModel createResult = await calendarService.CreateEvent(createEvent);
+            EventModel createResult = await CalendarService.CreateEvent(createEvent);
             Assert.IsTrue(createEvent.Id == createResult.Id);
         }
 
         [TestMethod]
         public async Task GetUpcomingEventsTest()
         {
-            List<EventModel> upcomingEvents = await calendarService.GetUpcomingEvents();
+            List<EventModel> upcomingEvents = await CalendarService.GetUpcomingEvents();
             Assert.IsTrue(upcomingEvents.Count == 4);
         }
 
@@ -225,7 +224,7 @@ namespace CalendarSkillTest.API
         {
             DateTime startTime = TimeZoneInfo.ConvertTimeToUtc(DateTime.Parse("2500-01-01T18:00:00.0000000Z"));
             DateTime endTime = TimeZoneInfo.ConvertTimeToUtc(DateTime.Parse("2500-01-01T19:00:00.0000000Z"));
-            List<EventModel> events = await calendarService.GetEventsByTime(startTime, endTime);
+            List<EventModel> events = await CalendarService.GetEventsByTime(startTime, endTime);
             Assert.IsTrue(events.Count == 3);
         }
 
@@ -233,14 +232,14 @@ namespace CalendarSkillTest.API
         public async Task GetEventsByStartTimeTest()
         {
             DateTime startTime = TimeZoneInfo.ConvertTimeToUtc(DateTime.Parse("2500-01-01T18:00:00.0000000Z"));
-            List<EventModel> events = await calendarService.GetEventsByStartTime(startTime);
+            List<EventModel> events = await CalendarService.GetEventsByStartTime(startTime);
             Assert.IsTrue(events.Count == 2);
         }
 
         [TestMethod]
         public async Task GetEventsByTitleTest()
         {
-            List<EventModel> events = await calendarService.GetEventsByTitle("same_name_event");
+            List<EventModel> events = await CalendarService.GetEventsByTitle("same_name_event");
             Assert.IsTrue(events.Count == 2);
         }
 
@@ -249,7 +248,7 @@ namespace CalendarSkillTest.API
         {
             EventModel updateEvent = new EventModel(EventSource.Google);
             updateEvent.Id = "update_event";
-            EventModel updateResult = await calendarService.UpdateEventById(updateEvent);
+            EventModel updateResult = await CalendarService.UpdateEventById(updateEvent);
             Assert.IsTrue(updateEvent.Id == updateResult.Id);
         }
 
@@ -257,7 +256,7 @@ namespace CalendarSkillTest.API
         public async Task DeleteEventByIdTest()
         {
             string deleteId = "delete_event";
-            await calendarService.DeleteEventById(deleteId);
+            await CalendarService.DeleteEventById(deleteId);
         }
     }
 }

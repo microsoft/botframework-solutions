@@ -156,6 +156,18 @@ namespace ToDoSkillTest.API.Fakes
                     Content = new StringContent(string.Empty),
                 })
                 .Callback<HttpRequestMessage, CancellationToken>((r, c) => this.MarkOrDeleteOutlookTask(r));
+
+            mockClient
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                "SendAsync",
+                ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/beta/me/outlook/taskFolders/Shopping/tasks") && r.Method == HttpMethod.Post),
+                ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(() => new HttpResponseMessage()
+                {
+                    StatusCode = System.Net.HttpStatusCode.Unauthorized,
+                    Content = new StringContent(this.GenerateServiceExceptionResponse()),
+                });
         }
 
         private string GetTodoHtml(TaskItem task)
@@ -297,6 +309,11 @@ namespace ToDoSkillTest.API.Fakes
             }
 
             return true;
+        }
+
+        private string GenerateServiceExceptionResponse()
+        {
+            return "{ \"error\": { \"code\": \"ErrorAccessDenied\", \"message\": \"Access is denied. Check credentials and try again.\", \"innerError\": { \"request-id\": \"fcfed3fd-2c0a-4278-b55a-5b156af772dd\", \"date\": \"2018-12-14T06:34:54\" } } }";
         }
     }
 }

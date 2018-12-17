@@ -81,56 +81,6 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "CancellingMessage": {
-    "replies": [
-      {
-        "text": "Natürlich, das können wir später machen.",
-        "speak": "Natürlich, das können wir später machen."
-      },
-      {
-        "text": "Natürlich, wir können damit später beginnen.",
-        "speak": "Natürlich, wir können damit später beginnen."
-      },
-      {
-        "text": "Kein Problem, Sie können es zu einem späteren Zeitpunkt nochmal probieren.",
-        "speak": "Kein Problem, Sie können es zu einem späteren Zeitpunkt nochmal probieren.."
-      },
-      {
-        "text": "Alles klar, sagen Sie Bescheid, wenn Sie meine Hilfe brauchen.",
-        "speak": "Alles klar, sagen Sie Bescheid, wenn Sie meine Hilfe brauchen"
-      },
-      {
-        "text": "Natürlich, ich bin hier, wenn Sie mich brauchen.",
-        "speak": "Natürlich, ich bin hier, wenn Sie mich brauchen."
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
-    "NoAuth": {
-        "replies": [
-            {
-                "text": "Bitte melden Sie sich, bevor wir weitermachen.",
-                "speak": "Bitte melden Sie sich, bevor wir weitermachen."
-            },
-            {
-                "text": "Bitte melden Sie sich an, damit wir weitermachen können.",
-                "speak": "Bitte melden Sie sich an, damit wir weitermachen können."
-            },
-            {
-                "text": "Bitte melden Sie sich an, damit ich Ihre Anfrage bearbeiten kann.",
-                "speak": "Bitte melden Sie sich an, damit ich Ihre Anfrage bearbeiten kann."
-            },
-            {
-                "text": "Können Sie sich bitte anmelden, damit ich Ihnen weiterhelfen kann?",
-                "speak": "Können Sie sich bitte anmelden, damit ich Ihnen weiterhelfen kann?"
-            },
-            {
-                "text": "Sie müssen sich anmelden, damit ich Ihnen weiter behilflich sein kann.",
-                "speak": "Sie müssen sich anmelden, damit ich Ihnen weiter behilflich sein kann."
-            }
-        ],
-        "inputHint": "acceptingInput"
-    },
   "GreetingMessage": {
     "replies": [
       {
@@ -623,23 +573,6 @@
             {
                 "text": "Das ist bereits die erste Seite!",
                 "speak": "Das ist bereits die erste Seite!"
-            }
-        ],
-        "inputHint": "acceptingInput"
-    },
-    "AuthFailed": {
-        "replies": [
-            {
-                "text": "Die Authentifizierung ist fehlgeschlagen. Bitte versuchen Sie es erneut.",
-                "speak": "Die Authentifizierung ist fehlgeschlagen. Bitte versuchen Sie es erneut."
-            },
-            {
-                "text": "Sie konnten nicht angemeldet werden. Bitte versuchen Sie es später erneut.",
-                "speak": "Sie konnten nicht angemeldet werden. Bitte versuchen Sie es später erneut."
-            },
-            {
-                "text": "Ihre Anmeldung ist fehlgeschlagen. Lass Sie uns das nochmal versuchen.",
-                "speak": "Ihre Anmeldung ist fehlgeschlagen. Lass Sie uns das nochmal versuchen."
             }
         ],
         "inputHint": "acceptingInput"

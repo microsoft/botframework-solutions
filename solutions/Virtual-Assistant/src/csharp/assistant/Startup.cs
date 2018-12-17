@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 using System;
@@ -123,7 +123,6 @@ namespace VirtualAssistant
                 // Typing Middleware (automatically shows typing when the bot is responding/working)
                 options.Middleware.Add(new ShowTypingMiddleware());
                 options.Middleware.Add(new SetLocaleMiddleware(defaultLocale ?? "en-us"));
-                options.Middleware.Add(new TeamsAuthenticationMiddleware());
                 options.Middleware.Add(new EventDebuggerMiddleware());
                 options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
 

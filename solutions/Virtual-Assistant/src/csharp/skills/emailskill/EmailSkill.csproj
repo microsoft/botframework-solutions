@@ -2,19 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <UserSecretsId>6a3184c3-074e-45b9-ad93-eceb8268ec01</UserSecretsId>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <ApplicationInsightsResourceId>/subscriptions/4c0d07e4-5490-4784-8d89-d8c504ba2a75/resourcegroups/LamillsBot/providers/microsoft.insights/components/LamillsBot-insights</ApplicationInsightsResourceId>
-    <ApplicationInsightsAnnotationResourceId>/subscriptions/4c0d07e4-5490-4784-8d89-d8c504ba2a75/resourcegroups/LamillsBot/providers/microsoft.insights/components/LamillsBot-insights</ApplicationInsightsAnnotationResourceId>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <CodeAnalysisRuleSet>..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <UserSecretsId>3383fcc5-4017-4e0a-9103-68603b68fe1d</UserSecretsId>
     <CodeAnalysisRuleSet>..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
@@ -29,6 +17,7 @@
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.2.0" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.2.0" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.2.0" />
     <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.2.0" />
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.2.0" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.2.0" />
@@ -101,6 +90,9 @@
 
   <ItemGroup>
     <None Update="*.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="LocaleConfigurations\*.bot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -28,6 +28,11 @@ namespace EmailSkillTest.Flow.Fakes
 
         public bool LogUsername => throw new NotImplementedException();
 
+        public void AddUtteranceManager(BaseTestUtterances utterancesManager)
+        {
+            this.emailUtterancesManager.AddManager(utterancesManager);
+        }
+
         public Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
@@ -45,13 +50,13 @@ namespace EmailSkillTest.Flow.Fakes
             return Task.FromResult(mockResult);
         }
 
-        public Task<T> RecognizeAsync<T>(DialogContext dialogContext, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken)) 
+        public Task<T> RecognizeAsync<T>(DialogContext dialogContext, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken))
             where T : IRecognizerConvert, new()
         {
             throw new NotImplementedException();
         }
 
-        public Task<T> RecognizeAsync<T>(ITurnContext turnContext, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken)) 
+        public Task<T> RecognizeAsync<T>(ITurnContext turnContext, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken))
             where T : IRecognizerConvert, new()
         {
             throw new NotImplementedException();

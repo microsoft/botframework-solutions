@@ -96,6 +96,5 @@ namespace Microsoft.Bot.Solutions
 
             return queryResults;
         }
-
     }
 }

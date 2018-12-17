@@ -1,0 +1,25 @@
+{
+  "version": "1.0",
+  "resources": [
+    {
+      "type": "luis",
+      "id": "general",
+      "name": "General"
+    },
+    {
+      "type": "luis",
+      "id": "settings",
+      "name": "settings"
+    },
+    {
+      "type": "luis",
+      "id": "settings_name",
+      "name": "settings_name"
+    },
+    {
+      "type": "luis",
+      "id": "settings_value",
+      "name": "settings_value"
+    }
+  ]
+}

@@ -198,12 +198,12 @@
   "EmailNotFound": {
     "replies": [
       {
-        "text": "Sie haben keine neuen Emails.",
-        "speak": "Sie haben keine neuen Emails."
+        "text": "Sie haben keine relevante Emails.",
+        "speak": "Sie haben keine relevante Emails."
       },
       {
-        "text": "Ich habe zu diesem Zeitpunkt keine neuen e-Mails gefunden. Sie können es später nochmal versuchen.",
-        "speak": "Ich habe zu diesem Zeitpunkt keine neuen e-Mails gefunden. Sie können es später nochmal versuchen."
+        "text": "Ich habe zu diesem Zeitpunkt keine relevante e-Mails gefunden. Sie können es später nochmal versuchen.",
+        "speak": "Ich habe zu diesem Zeitpunkt keine relevante e-Mails gefunden. Sie können es später nochmal versuchen."
       }
     ],
     "inputHint": "acceptingInput"

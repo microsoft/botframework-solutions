@@ -15,17 +15,17 @@ namespace CalendarSkill.ServiceClients
             this.userService = userService;
         }
 
-        public async Task<List<Person>> GetPeopleAsync(string name)
+        public async Task<List<PersonModel>> GetPeopleAsync(string name)
         {
             return await userService.GetPeopleAsync(name);
         }
 
-        public async Task<List<User>> GetUserAsync(string name)
+        public async Task<List<PersonModel>> GetUserAsync(string name)
         {
             return await userService.GetUserAsync(name);
         }
 
-        public async Task<List<Contact>> GetContactsAsync(string name)
+        public async Task<List<PersonModel>> GetContactsAsync(string name)
         {
             return await userService.GetContactsAsync(name);
         }

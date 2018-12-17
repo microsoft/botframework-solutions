@@ -156,26 +156,26 @@
     ],
     "inputHint": "expectingInput"
   },
-  "FindUserErrorMessage": {
-    "replies": [
-      {
-        "text": "I can't find the person named {UserName} right now. Please try again or cancel.",
-        "speak": "I can't find the person named {UserName} right now. Please try again or cancel."
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
-  "ConfirmRecipient": {
-    "replies": [
-      {
-        "text": "Who do you want to invite?",
-        "speak": "Who do you want to invite?"
-      },
-      {
-        "text": "What contact do you want to select?",
-        "speak": "What contact do you want to select?"
-      }
-    ],
-    "inputHint": "expectingInput"
-  }
+    "ConfirmRecipient": {
+        "replies": [
+            {
+                "text": "Who do you want to invite?",
+                "speak": "Who do you want to invite?"
+            },
+            {
+                "text": "What contact do you want to select?",
+                "speak": "What contact do you want to select?"
+            }
+        ],
+        "inputHint": "expectingInput"
+    },
+    "InvaildDuration": {
+        "replies": [
+            {
+                "text": "The end time of the meeting cannot be earlier than or equal to the start time. Please try again.",
+                "speak": "The end time of the meeting cannot be earlier than or equal to the start time. Please try again."
+            }
+        ],
+        "inputHint": "expectingInput"
+    }
 }

@@ -1,17 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
+using CalendarSkill;
 using CalendarSkill.Dialogs.Main.Resources;
-using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Dialogs.UpdateEvent.Resources;
-using Microsoft.Bot.Schema;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using CalendarSkillTest.Flow.Utterances;
 using CalendarSkillTest.Flow.Fakes;
+using CalendarSkillTest.Flow.Utterances;
+using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Skills;
-using System.Collections.Generic;
-using Microsoft.Bot.Builder;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CalendarSkillTest.Flow
 {
@@ -37,25 +36,93 @@ namespace CalendarSkillTest.Flow
         }
 
         [TestMethod]
-        public async Task Test_CalendarCreate()
+        public async Task Test_CalendarUpdateByTitle()
         {
             await this.GetTestFlow()
                 .Send(UpdateMeetingTestUtterances.BaseUpdateMeeting)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.AskForTitleTimePrompt())
-                .Send("test subject")
+                .Send(Strings.Strings.DefaultEventName)
                 .AssertReplyOneOf(this.AskForNewTimePrompt())
                 .Send("tomorrow 9 PM")
                 .AssertReply(this.ShowCalendarList())
-                .Send("Yes")
+                .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowCalendarList())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
-        private string[] WelcomePrompt()
+        [TestMethod]
+        public async Task Test_CalendarUpdateByStartTime()
         {
-            return this.ParseReplies(CalendarMainResponses.CalendarWelcomeMessage.Replies, new StringDictionary());
+            DateTime now = DateTime.Now;
+            DateTime startTime = new DateTime(now.Year, now.Month, now.Day, 18, 0, 0);
+            startTime = startTime.AddDays(1);
+            startTime = TimeZoneInfo.ConvertTimeToUtc(startTime);
+            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
+            serviceManager.SetupCalendarService(new List<EventModel>
+            {
+                MockCalendarService.CreateEventModel(
+                    startDateTime: startTime,
+                    endDateTime: startTime.AddHours(1))
+            });
+            await this.GetTestFlow()
+                .Send(UpdateMeetingTestUtterances.BaseUpdateMeeting)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.AskForTitleTimePrompt())
+                .Send("tomorrow 6 pm")
+                .AssertReplyOneOf(this.AskForNewTimePrompt())
+                .Send("tomorrow 9 pm")
+                .AssertReply(this.ShowCalendarList())
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(this.ShowCalendarList())
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_CalendarUpdateWithStartTimeEntity()
+        {
+            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
+            DateTime now = DateTime.Now;
+            DateTime startTime = new DateTime(now.Year, now.Month, now.Day, 18, 0, 0);
+            startTime = startTime.AddDays(1);
+            startTime = TimeZoneInfo.ConvertTimeToUtc(startTime);
+            serviceManager.SetupCalendarService(new List<EventModel>()
+            {
+                MockCalendarService.CreateEventModel(
+                    startDateTime: startTime,
+                    endDateTime: startTime.AddHours(1))
+            });
+            await this.GetTestFlow()
+                .Send(UpdateMeetingTestUtterances.UpdateMeetingWithStartTime)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.AskForNewTimePrompt())
+                .Send("tomorrow 9 pm")
+                .AssertReply(this.ShowCalendarList())
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(this.ShowCalendarList())
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_CalendarUpdateWithTitleEntity()
+        {
+            await this.GetTestFlow()
+                .Send(UpdateMeetingTestUtterances.UpdateMeetingWithTitle)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.AskForNewTimePrompt())
+                .Send("tomorrow 9 pm")
+                .AssertReply(this.ShowCalendarList())
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(this.ShowCalendarList())
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
         }
 
         private string[] AskForTitleTimePrompt()
@@ -82,6 +149,14 @@ namespace CalendarSkillTest.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
+            };
+        }
+
+        private Action<IActivity> ActionEndMessage()
+        {
+            return activity =>
+            {
+                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
             };
         }
     }

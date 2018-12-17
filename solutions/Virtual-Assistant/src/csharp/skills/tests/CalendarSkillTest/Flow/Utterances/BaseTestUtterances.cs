@@ -36,7 +36,8 @@ namespace CalendarSkillTest.Flow.Utterances
             string[] meetingRoom = null,
             string[] location = null,
             string[] moveEarlierTimeSpan = null,
-            string[] moveLaterTimeSpan = null)
+            string[] moveLaterTimeSpan = null,
+            string[] orderReference = null)
         {
             var intent = new Calendar();
             intent.Text = userInput;
@@ -62,6 +63,8 @@ namespace CalendarSkillTest.Flow.Utterances
             intent.Entities.Location = location;
             intent.Entities.MoveEarlierTimeSpan = moveEarlierTimeSpan;
             intent.Entities.MoveLaterTimeSpan = moveLaterTimeSpan;
+            intent.Entities.OrderReference = orderReference;
+            intent.Entities._instance.OrderReference = GetInstanceDatas(userInput, orderReference);
 
             return intent;
         }
@@ -86,6 +89,7 @@ namespace CalendarSkillTest.Flow.Utterances
                 var instanceData = new InstanceData();
                 instanceData.StartIndex = index;
                 instanceData.EndIndex = index + name.Length;
+                instanceData.Text = name;
 
                 result[i] = instanceData;
             }

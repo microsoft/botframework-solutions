@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using EmailSkill;
 using EmailSkillTest.Flow.Strings;
+using Microsoft.Bot.Solutions.Data;
 using Microsoft.Graph;
 
 namespace EmailSkillTest.Flow.Fakes
@@ -27,8 +28,15 @@ namespace EmailSkillTest.Flow.Fakes
         public Task<List<Message>> GetMyMessagesAsync(DateTime startDateTime, DateTime endDateTime, bool isRead, bool isImportant, bool directlyToMe, string mailAddress, int skip)
         {
             var messages = new List<Message>();
+            var displaySize = ConfigData.GetInstance().MaxDisplaySize;
             foreach (var message in this.MyMessages)
             {
+                if (skip > 0)
+                {
+                    skip--;
+                    continue;
+                }
+
                 if (mailAddress != null)
                 {
                     if (message.Sender.EmailAddress.Address.Equals(mailAddress))
@@ -39,6 +47,11 @@ namespace EmailSkillTest.Flow.Fakes
                 else
                 {
                     messages.Add(message);
+                }
+
+                if (messages.Count == displaySize)
+                {
+                    break;
                 }
             }
 
@@ -60,10 +73,10 @@ namespace EmailSkillTest.Flow.Fakes
             await Task.CompletedTask;
         }
 
-        public List<Message> FakeMyMessages()
+        public List<Message> FakeMyMessages(int number = 5)
         {
             List<Message> messages = new List<Message>();
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < number; i++)
             {
                 var message = FakeMessage(
                     subject: ContextStrings.TestSubject + i,
@@ -95,8 +108,7 @@ namespace EmailSkillTest.Flow.Fakes
             string senderName = ContextStrings.TestSender,
             string senderAddress = ContextStrings.TestSenderAddress,
             string recipientName = ContextStrings.TestRecipient,
-            string recipientAddress = ContextStrings.TestEmailAdress
-            )
+            string recipientAddress = ContextStrings.TestEmailAdress)
         {
             var message = new Message()
             {

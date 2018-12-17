@@ -78,7 +78,8 @@ namespace CalendarSkillTest.API.Fakes
         {
             public class MockInsertRequest : EventsResource.InsertRequest, IClientServiceRequest<Event>
             {
-                public MockInsertRequest(IClientService service, Event body, string calendarId) : base(service, body, calendarId)
+                public MockInsertRequest(IClientService service, Event body, string calendarId)
+                    : base(service, body, calendarId)
                 {
                     this.Body = body;
                 }
@@ -98,7 +99,8 @@ namespace CalendarSkillTest.API.Fakes
 
             public class MockPatchRequest : EventsResource.PatchRequest, IClientServiceRequest<Event>
             {
-                public MockPatchRequest(IClientService service, Event body, string calendarId, string eventId) : base(service, body, calendarId, eventId)
+                public MockPatchRequest(IClientService service, Event body, string calendarId, string eventId)
+                    : base(service, body, calendarId, eventId)
                 {
                     this.Body = body;
                 }
@@ -126,22 +128,23 @@ namespace CalendarSkillTest.API.Fakes
                 // using some data to test
                 // todo:
                 // Use data file instead, make test better
-                private IList<Event> BuildInEvents;
+                private IList<Event> buildInEvents;
 
-                public MockListRequest(IClientService service, string calendarId) : base(service, calendarId)
+                public MockListRequest(IClientService service, string calendarId)
+                    : base(service, calendarId)
                 {
-                    BuildInEvents = new List<Event>();
+                    buildInEvents = new List<Event>();
 
                     // add event datas
                     // common data prepare
-                    string Location = "test_location";
-                    IList<EventAttendee> Attendees = new List<EventAttendee>();
-                    Attendees.Add(new EventAttendee()
+                    string location = "test_location";
+                    IList<EventAttendee> attendees = new List<EventAttendee>();
+                    attendees.Add(new EventAttendee()
                     {
                         Email = "test@gmail.com",
                         DisplayName = "Test Attendee"
                     });
-                    string Timezone = "Etc/UTC";
+                    string timezone = "Etc/UTC";
 
                     // add start at same time
                     Event startAtSameTime = new Event();
@@ -149,30 +152,30 @@ namespace CalendarSkillTest.API.Fakes
                     startAtSameTime.Summary = "start_at_same_time_0";
                     startAtSameTime.Description = "start at same time 0";
                     startAtSameTime.Start = new EventDateTime();
-                    startAtSameTime.Start.TimeZone = Timezone;
+                    startAtSameTime.Start.TimeZone = timezone;
                     startAtSameTime.Start.DateTimeRaw = "2500-01-01T18:00:00.0000000Z";
                     startAtSameTime.End = new EventDateTime();
-                    startAtSameTime.End.TimeZone = Timezone;
+                    startAtSameTime.End.TimeZone = timezone;
                     startAtSameTime.End.DateTimeRaw = "2500-01-01T18:30:00.0000000Z";
-                    startAtSameTime.Location = Location;
-                    startAtSameTime.Attendees = Attendees;
+                    startAtSameTime.Location = location;
+                    startAtSameTime.Attendees = attendees;
                     startAtSameTime.Status = "confirmed";
-                    BuildInEvents.Add(startAtSameTime);
+                    buildInEvents.Add(startAtSameTime);
 
                     startAtSameTime = new Event();
                     startAtSameTime.Id = "0-1";
                     startAtSameTime.Summary = "start_at_same_time_1";
                     startAtSameTime.Description = "start at same time 1";
                     startAtSameTime.Start = new EventDateTime();
-                    startAtSameTime.Start.TimeZone = Timezone;
+                    startAtSameTime.Start.TimeZone = timezone;
                     startAtSameTime.Start.DateTimeRaw = "2500-01-01T18:00:00.0000000Z";
                     startAtSameTime.End = new EventDateTime();
-                    startAtSameTime.End.TimeZone = Timezone;
+                    startAtSameTime.End.TimeZone = timezone;
                     startAtSameTime.End.DateTimeRaw = "2500-01-01T18:30:00.0000000Z";
-                    startAtSameTime.Location = Location;
-                    startAtSameTime.Attendees = Attendees;
+                    startAtSameTime.Location = location;
+                    startAtSameTime.Attendees = attendees;
                     startAtSameTime.Status = "confirmed";
-                    BuildInEvents.Add(startAtSameTime);
+                    buildInEvents.Add(startAtSameTime);
 
                     // add same name events
                     Event sameNameEvent = new Event();
@@ -180,30 +183,30 @@ namespace CalendarSkillTest.API.Fakes
                     sameNameEvent.Summary = "same_name_event";
                     sameNameEvent.Description = "same name evene 0";
                     sameNameEvent.Start = new EventDateTime();
-                    sameNameEvent.Start.TimeZone = Timezone;
+                    sameNameEvent.Start.TimeZone = timezone;
                     sameNameEvent.Start.DateTimeRaw = "2500-01-01T19:00:00.0000000Z";
                     sameNameEvent.End = new EventDateTime();
-                    sameNameEvent.End.TimeZone = Timezone;
+                    sameNameEvent.End.TimeZone = timezone;
                     sameNameEvent.End.DateTimeRaw = "2500-01-01T19:30:00.0000000Z";
-                    sameNameEvent.Location = Location;
-                    sameNameEvent.Attendees = Attendees;
+                    sameNameEvent.Location = location;
+                    sameNameEvent.Attendees = attendees;
                     sameNameEvent.Status = "confirmed";
-                    BuildInEvents.Add(sameNameEvent);
+                    buildInEvents.Add(sameNameEvent);
 
                     sameNameEvent = new Event();
                     sameNameEvent.Id = "1-1";
                     sameNameEvent.Summary = "same_name_event";
                     sameNameEvent.Description = "same name evene 1";
                     sameNameEvent.Start = new EventDateTime();
-                    sameNameEvent.Start.TimeZone = Timezone;
+                    sameNameEvent.Start.TimeZone = timezone;
                     sameNameEvent.Start.DateTimeRaw = "2500-01-01T20:00:00.0000000Z";
                     sameNameEvent.End = new EventDateTime();
-                    sameNameEvent.End.TimeZone = Timezone;
+                    sameNameEvent.End.TimeZone = timezone;
                     sameNameEvent.End.DateTimeRaw = "2500-01-01T20:30:00.0000000Z";
-                    sameNameEvent.Location = Location;
-                    sameNameEvent.Attendees = Attendees;
+                    sameNameEvent.Location = location;
+                    sameNameEvent.Attendees = attendees;
                     sameNameEvent.Status = "confirmed";
-                    BuildInEvents.Add(sameNameEvent);
+                    buildInEvents.Add(sameNameEvent);
 
                     MaxResults = -1;
                 }
@@ -227,7 +230,7 @@ namespace CalendarSkillTest.API.Fakes
 
                     Events googleEvents = new Events();
                     IList<Event> events = new List<Event>();
-                    foreach (Event anevent in this.BuildInEvents)
+                    foreach (Event anevent in this.buildInEvents)
                     {
                         DateTime start = TimeZoneInfo.ConvertTimeToUtc(anevent.Start.DateTime.Value);
                         if ((TimeMin == null || start >= TimeMin) && (TimeMax == null || start <= TimeMax))
@@ -248,7 +251,8 @@ namespace CalendarSkillTest.API.Fakes
 
             public class MockDeleteRequest : EventsResource.DeleteRequest, IClientServiceRequest<string>
             {
-                public MockDeleteRequest(IClientService service, string calendarId, string eventId) : base(service, calendarId, eventId)
+                public MockDeleteRequest(IClientService service, string calendarId, string eventId)
+                    : base(service, calendarId, eventId)
                 {
                 }
 

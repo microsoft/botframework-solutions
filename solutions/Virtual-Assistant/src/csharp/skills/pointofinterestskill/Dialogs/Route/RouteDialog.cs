@@ -22,7 +22,6 @@ namespace PointOfInterestSkill
             IBotTelemetryClient telemetryClient)
             : base(nameof(RouteDialog), services, accessor, serviceManager, telemetryClient)
         {
-
             TelemetryClient = telemetryClient;
 
             var checkForActiveRouteAndLocation = new WaterfallStep[]
@@ -50,10 +49,10 @@ namespace PointOfInterestSkill
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Action.GetActiveRoute, checkForActiveRouteAndLocation));
-            AddDialog(new WaterfallDialog(Action.FindAlongRoute, findAlongRoute));
-            AddDialog(new WaterfallDialog(Action.FindRouteToActiveLocation, findRouteToActiveLocation));
-            AddDialog(new WaterfallDialog(Action.FindPointOfInterest, findPointOfInterest));
+            AddDialog(new WaterfallDialog(Action.GetActiveRoute, checkForActiveRouteAndLocation) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Action.FindAlongRoute, findAlongRoute) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Action.FindRouteToActiveLocation, findRouteToActiveLocation) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Action.FindPointOfInterest, findPointOfInterest) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Action.GetActiveRoute;

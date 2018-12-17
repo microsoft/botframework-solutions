@@ -33,7 +33,7 @@ namespace VirtualAssistant
                 FinishOnboardingDialog,
             };
 
-            // To capture built-in waterfall dialog telemetry, set the telemetry client 
+            // To capture built-in waterfall dialog telemetry, set the telemetry client
             // to the new waterfall dialog and add it to the component dialog
             TelemetryClient = telemetryClient;
             AddDialog(new WaterfallDialog(InitialDialogId, onboarding) { TelemetryClient = telemetryClient });

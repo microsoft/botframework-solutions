@@ -106,7 +106,6 @@ namespace CalendarSkill
                                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(NextMeetingResponses.ReadLocation, ResponseBuilder, responseParams));
                                 }
                             }
-
                         }
 
                         var speakParams = new StringDictionary()
