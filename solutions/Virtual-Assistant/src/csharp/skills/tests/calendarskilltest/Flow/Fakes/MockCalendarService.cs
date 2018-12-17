@@ -15,48 +15,39 @@ namespace CalendarSkillTest.Flow.Fakes
 
         public List<EventModel> FakeEvents { get; set; }
 
-        public async Task<EventModel> CreateEvent(EventModel newEvent)
-        {
-            return await Task.FromResult(newEvent);
-        }
-
-        public async Task<List<EventModel>> GetUpcomingEvents()
-        {
-            return await Task.FromResult(this.FakeEvents);
-        }
-
-        public async Task<List<EventModel>> GetEventsByTime(DateTime startTime, DateTime endTime)
-        {
-            return await Task.FromResult(this.FakeEvents);
-        }
-
-        public async Task<List<EventModel>> GetEventsByStartTime(DateTime startTime)
-        {
-            return await Task.FromResult(this.FakeEvents);
-        }
-
-        public async Task<List<EventModel>> GetEventsByTitle(string title)
-        {
-            return await Task.FromResult(this.FakeEvents);
-        }
-
-        public async Task<EventModel> UpdateEventById(EventModel updateEvent)
-        {
-            updateEvent.StartTime = DateTime.SpecifyKind(new DateTime(2018, 11, 9, 9, 0, 0), DateTimeKind.Utc);
-            updateEvent.EndTime = DateTime.SpecifyKind(new DateTime(2018, 11, 9, 10, 0, 0), DateTimeKind.Utc);
-            return await Task.FromResult(updateEvent);
-        }
-
-        public async Task DeleteEventById(string id)
-        {
-            await Task.CompletedTask;
-        }
-
         public static List<EventModel> FakeDefaultEvents()
         {
             var eventList = new List<EventModel>();
 
             eventList.Add(CreateEventModel());
+
+            return eventList;
+        }
+
+        public static List<EventModel> FakeMultipleEvents(int count)
+        {
+            var eventList = new List<EventModel>();
+
+            for (int i = 0; i < count; i++)
+            {
+                eventList.Add(CreateEventModel());
+            }
+
+            return eventList;
+        }
+
+        public static List<EventModel> FakeMultipleNextEvents(int count)
+        {
+            var eventList = new List<EventModel>();
+            DateTime startDateTime = DateTime.UtcNow.AddHours(1);
+            DateTime endDateTime = startDateTime.AddHours(1);
+
+            for (int i = 0; i < count; i++)
+            {
+                eventList.Add(CreateEventModel(
+                    startDateTime: startDateTime,
+                    endDateTime: endDateTime));
+            }
 
             return eventList;
         }
@@ -111,7 +102,7 @@ namespace CalendarSkillTest.Flow.Fakes
             // Another example date format: `new DateTime(2017, 12, 1, 9, 30, 0).ToString("o")`
             if (startDateTime == null)
             {
-                startDateTime = DateTime.UtcNow;
+                startDateTime = DateTime.UtcNow.AddDays(1);
             }
 
             if (endDateTime == null)
@@ -151,6 +142,43 @@ namespace CalendarSkillTest.Flow.Fakes
             };
 
             return new EventModel(createdEvent);
+        }
+
+        public async Task<EventModel> CreateEvent(EventModel newEvent)
+        {
+            return await Task.FromResult(newEvent);
+        }
+
+        public async Task<List<EventModel>> GetUpcomingEvents()
+        {
+            return await Task.FromResult(this.FakeEvents);
+        }
+
+        public async Task<List<EventModel>> GetEventsByTime(DateTime startTime, DateTime endTime)
+        {
+            return await Task.FromResult(this.FakeEvents);
+        }
+
+        public async Task<List<EventModel>> GetEventsByStartTime(DateTime startTime)
+        {
+            return await Task.FromResult(this.FakeEvents);
+        }
+
+        public async Task<List<EventModel>> GetEventsByTitle(string title)
+        {
+            return await Task.FromResult(this.FakeEvents);
+        }
+
+        public async Task<EventModel> UpdateEventById(EventModel updateEvent)
+        {
+            updateEvent.StartTime = DateTime.SpecifyKind(new DateTime(2018, 11, 9, 9, 0, 0), DateTimeKind.Utc);
+            updateEvent.EndTime = DateTime.SpecifyKind(new DateTime(2018, 11, 9, 10, 0, 0), DateTimeKind.Utc);
+            return await Task.FromResult(updateEvent);
+        }
+
+        public async Task DeleteEventById(string id)
+        {
+            await Task.CompletedTask;
         }
     }
 }
