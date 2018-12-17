@@ -11,6 +11,8 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
+using System;
+using Microsoft.Bot.Solutions.Util;
 
 namespace CalendarSkill
 {
@@ -137,10 +139,10 @@ namespace CalendarSkill
                 state.Clear();
                 return await sc.EndDialogAsync(true);
             }
-            catch
+            catch (Exception ex)
             {
-                await HandleDialogExceptions(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
     }

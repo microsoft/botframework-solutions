@@ -1,10 +1,13 @@
 ﻿using System;
 using Microsoft.Bot.Solutions.Skills;
+using Google;
 
 namespace CalendarSkill.ServiceClients.GoogleAPI
 {
     public class GoogleClient
     {
+        private const string APIErrorAccessDenied = "erroraccessdenied";
+
         public string ApplicationName { get; set; }
 
         public string ClientId { get; set; }
@@ -34,6 +37,17 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
             };
 
             return googleClient;
+        }
+
+        public static SkillException HandleGoogleAPIException(GoogleApiException ex)
+        {
+            var skillExceptionType = SkillExceptionType.Other;
+            if (ex.Error.Message.Equals(APIErrorAccessDenied, StringComparison.InvariantCultureIgnoreCase))
+            {
+                skillExceptionType = SkillExceptionType.APIAccessDenied;
+            }
+
+            return new SkillException(skillExceptionType, ex.Message, ex);
         }
     }
 }

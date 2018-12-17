@@ -14,11 +14,11 @@ namespace CalendarSkill.ServiceClients.MSGraphAPI
     /// </summary>
     public class MSGraphUserService : IUserService
     {
-        private IGraphServiceClient graphClient;
+        private readonly IGraphServiceClient _graphClient;
 
         public MSGraphUserService(IGraphServiceClient graphClient)
         {
-            this.graphClient = graphClient;
+            this._graphClient = graphClient;
         }
 
         public async Task<List<PersonModel>> GetPeopleAsync(string name)
@@ -70,7 +70,15 @@ namespace CalendarSkill.ServiceClients.MSGraphAPI
             optionList.Add(new QueryOption("$filter", filterString));
 
             // Get the current user's profile.
-            var users = await graphClient.Users.Request(optionList).GetAsync();
+            IGraphServiceUsersCollectionPage users = null;
+            try
+            {
+                users = await _graphClient.Users.Request(optionList).GetAsync();
+            }
+            catch (ServiceException ex)
+            {
+                throw GraphClient.HandleGraphAPIException(ex);
+            }
 
             if (users?.Count > 0)
             {
@@ -107,7 +115,15 @@ namespace CalendarSkill.ServiceClients.MSGraphAPI
             optionList.Add(new QueryOption("$search", filterString));
 
             // Get the current user's profile.
-            var users = await graphClient.Me.People.Request(optionList).GetAsync();
+            IUserPeopleCollectionPage users = null;
+            try
+            {
+                users = await _graphClient.Me.People.Request(optionList).GetAsync();
+            }
+            catch (ServiceException ex)
+            {
+                throw GraphClient.HandleGraphAPIException(ex);
+            }
 
             // var users = await _graphClient.Users.Request(optionList).GetAsync();
             if (users?.Count > 0)
@@ -141,7 +157,15 @@ namespace CalendarSkill.ServiceClients.MSGraphAPI
             optionList.Add(new QueryOption("$filter", filterString));
 
             // Get the current user's profile.
-            var contacts = await this.graphClient.Me.Contacts.Request(optionList).GetAsync();
+            IUserContactsCollectionPage contacts = null;
+            try
+            {
+                contacts = await this._graphClient.Me.Contacts.Request(optionList).GetAsync();
+            }
+            catch (ServiceException ex)
+            {
+                throw GraphClient.HandleGraphAPIException(ex);
+            }
 
             if (contacts?.Count > 0)
             {
