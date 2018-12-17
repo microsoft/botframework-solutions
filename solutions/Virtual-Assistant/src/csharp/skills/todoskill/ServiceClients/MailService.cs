@@ -28,7 +28,7 @@ namespace ToDoSkill
         {
             httpClient = ServiceHelper.GetHttpClient(token);
             graphServiceClient = ServiceHelper.GetAuthenticatedClient(token);
-            return await Task.Run(() => this);
+            return await Task.FromResult(this);
         }
 
         /// <summary>
