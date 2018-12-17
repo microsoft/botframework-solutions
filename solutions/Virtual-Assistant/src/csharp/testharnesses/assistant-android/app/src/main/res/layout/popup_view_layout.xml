@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <Button
+        android:id="@+id/cmdConversation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:width="180dp"
+        android:height="50dp"
+        android:clickable="true"
+        android:text="Start Conversation" />
+    <Button
+        android:id="@+id/cmdEndApp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:width="180dp"
+        android:height="50dp"
+        android:clickable="true"
+        android:text="End App" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="#000"
+            android:text="Background (#RGB) :"/>
+        <EditText
+            android:id="@+id/txtBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:width="100dp"
+            android:textColor="#000"
+            android:text="#FFFFFF"
+            android:inputType="text" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="#000"
+            android:text="Bot Secret :"/>
+        <EditText
+            android:id="@+id/txtBotSecret"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:width="300dp"
+            android:textColor="#000"
+            android:text="Enter Bot Secret"
+            android:inputType="text" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="#000"
+            android:text="Voice Reco Key :"/>
+        <EditText
+            android:id="@+id/txtVoiceKey"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:width="300dp"
+            android:textColor="#000"
+            android:text="Enter Voice Recognition Key"
+            android:inputType="text" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="#000"
+            android:text="Voice Region :"/>
+        <EditText
+            android:id="@+id/txtVoiceRegion"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:width="300dp"
+            android:textColor="#000"
+            android:text="westus"
+            android:inputType="text" />
+    </LinearLayout>
+    <Switch
+        android:id="@+id/tglCloudVoice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:width="180dp"
+        android:checked="false"
+        android:paddingLeft="10dp"
+        android:textColor="#000"
+        android:text="Cloud Voice"
+        android:textOff="No"
+        android:textOn="Yes" />
+
+    <Switch
+        android:id="@+id/tglDebugCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:width="180dp"
+        android:checked="false"
+        android:paddingStart="10dp"
+        android:textColor="#000"
+        android:text="Debug Card"
+        android:textOff="No"
+        android:textOn="Yes" />
+
+</LinearLayout>

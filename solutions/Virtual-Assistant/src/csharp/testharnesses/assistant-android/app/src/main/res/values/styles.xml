@@ -1,0 +1,16 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme.Launcher" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here.-->
+        <item name="android:windowBackground">@drawable/splash</item>
+
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <style name="popup_window_animation">
+        <item name="android:windowEnterAnimation">@anim/anim_entry_left</item>
+        <item name="android:windowExitAnimation">@anim/anim_exit_left</item>
+    </style>
+</resources>
