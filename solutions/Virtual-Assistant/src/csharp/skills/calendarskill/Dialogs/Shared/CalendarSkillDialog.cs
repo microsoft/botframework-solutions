@@ -19,11 +19,11 @@ using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 using Microsoft.Recognizers.Text;
 using Microsoft.Recognizers.Text.DateTime;
 using Newtonsoft.Json.Linq;
 using static Microsoft.Recognizers.Text.Culture;
-using Microsoft.Bot.Solutions.Util;
 
 namespace CalendarSkill
 {
@@ -917,10 +917,12 @@ namespace CalendarSkill
 
         private IDictionary<string, string> AssembleTelemetryData(WaterfallStepContext sc)
         {
-            var telemetryData = new Dictionary<string, string>();
-            telemetryData.Add("activityId", sc.Context.Activity.Id);
-            telemetryData.Add("userId", sc.Context.Activity.From.Id);
-            telemetryData.Add("activeDialog", sc.ActiveDialog.ToString());
+            var telemetryData = new Dictionary<string, string>
+            {
+                { "activityId", sc.Context.Activity.Id },
+                { "userId", sc.Context.Activity.From.Id },
+                { "activeDialog", sc.ActiveDialog.ToString() }
+            };
             return telemetryData;
         }
 

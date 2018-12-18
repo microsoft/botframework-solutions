@@ -19,8 +19,8 @@ using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
-using Calendar = Luis.Calendar;
 using Microsoft.Bot.Solutions.Util;
+using Calendar = Luis.Calendar;
 
 namespace CalendarSkill
 {
