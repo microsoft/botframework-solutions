@@ -8,6 +8,7 @@ namespace EnterpriseBotSample.Middleware.Telemetry
     /// </summary>
     public static class QnATelemetryConstants
     {
+        public const string KnowledgeBaseIdProperty = "knowledgeBaseId";
         public const string ActivityIdProperty = "ActivityId";
         public const string UsernameProperty = "Username";
         public const string ConversationIdProperty = "ConversationId";

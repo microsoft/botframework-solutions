@@ -23,6 +23,8 @@ namespace EnterpriseBotSample.Middleware.Telemetry
     /// </summary>
     public class TelemetryLuisRecognizer : LuisRecognizer
     {
+        private LuisApplication _luisApplication;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TelemetryLuisRecognizer"/> class.
         /// </summary>
@@ -34,6 +36,8 @@ namespace EnterpriseBotSample.Middleware.Telemetry
         public TelemetryLuisRecognizer(LuisApplication application, LuisPredictionOptions predictionOptions = null, bool includeApiResults = false, bool logOriginalMessage = false, bool logUserName = false)
             : base(application, predictionOptions, includeApiResults)
         {
+            _luisApplication = application;
+
             LogOriginalMessage = logOriginalMessage;
             LogUsername = logUserName;
         }
@@ -85,6 +89,7 @@ namespace EnterpriseBotSample.Middleware.Telemetry
                 // Add the intent score and conversation id properties
                 var telemetryProperties = new Dictionary<string, string>()
                 {
+                    { LuisTelemetryConstants.ApplicationIdProperty, _luisApplication.ApplicationId },
                     { LuisTelemetryConstants.ActivityIdProperty, context.Activity.Id },
                     { LuisTelemetryConstants.IntentProperty, topLuisIntent.intent },
                     { LuisTelemetryConstants.IntentScoreProperty, intentScore },
