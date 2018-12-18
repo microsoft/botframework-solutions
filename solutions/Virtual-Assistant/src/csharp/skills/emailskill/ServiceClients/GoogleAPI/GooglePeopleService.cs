@@ -9,6 +9,7 @@ using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Auth.OAuth2.Responses;
 using Google.Apis.People.v1;
 using Google.Apis.People.v1.Data;
+using Google.Apis.Requests;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
 using Microsoft.Graph;
@@ -75,7 +76,7 @@ namespace EmailSkill
             PeopleResource.ConnectionsResource.ListRequest peopleRequest = service.People.Connections.List("people/me");
             peopleRequest.RequestMaskIncludeField = "person.emailAddresses,person.names";
 
-            ListConnectionsResponse connectionsResponse = await peopleRequest.ExecuteAsync();
+            ListConnectionsResponse connectionsResponse = await ((IClientServiceRequest<ListConnectionsResponse>)peopleRequest).ExecuteAsync();
             IList<GooglePerson> connections = connectionsResponse.Connections;
 
             var result = new List<MsPerson>();

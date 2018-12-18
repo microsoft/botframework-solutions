@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace EmailSkillTest.API
 {
     [TestClass]
-    public class UserServiceTests
+    public class GraphUserServiceTests
     {
         [ClassInitialize]
         public static void ClassInit(TestContext context)
@@ -39,7 +39,7 @@ namespace EmailSkillTest.API
                 users.Add(user);
             }
 
-            var mockGraphServiceClient = new MockGraphServiceClientGen();
+            var mockGraphServiceClient = new MockGraphServiceClient();
             mockGraphServiceClient.Users = users;
             mockGraphServiceClient.SetMockBehavior();
 
@@ -83,7 +83,7 @@ namespace EmailSkillTest.API
                 people.Add(user);
             }
 
-            var mockGraphServiceClient = new MockGraphServiceClientGen();
+            var mockGraphServiceClient = new MockGraphServiceClient();
             mockGraphServiceClient.People = people;
             mockGraphServiceClient.SetMockBehavior();
 
@@ -125,7 +125,7 @@ namespace EmailSkillTest.API
                 contacts.Add(contact);
             }
 
-            var mockGraphServiceClient = new MockGraphServiceClientGen();
+            var mockGraphServiceClient = new MockGraphServiceClient();
             mockGraphServiceClient.Contacts = contacts;
             mockGraphServiceClient.SetMockBehavior();
 
