@@ -24,11 +24,11 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:layout_marginStart="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textColor="#000"
             android:text="Background (#RGB) :"/>
         <EditText
@@ -37,6 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:width="100dp"
+            android:textSize="14sp"
             android:textColor="#000"
             android:text="#FFFFFF"
             android:inputType="text" />
@@ -45,11 +46,11 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:layout_marginStart="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textColor="#000"
             android:text="Bot Secret :"/>
         <EditText
@@ -57,7 +58,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:width="300dp"
+            android:width="4000dp"
+            android:textSize="14sp"
             android:textColor="#000"
             android:text="Enter Bot Secret"
             android:inputType="text" />
@@ -66,19 +68,20 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:layout_marginStart="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textColor="#000"
-            android:text="Voice Reco Key :"/>
+            android:text="Speech Recognition Key :"/>
         <EditText
             android:id="@+id/txtVoiceKey"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:width="300dp"
+            android:textSize="14sp"
             android:textColor="#000"
             android:text="Enter Voice Recognition Key"
             android:inputType="text" />
@@ -87,21 +90,44 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:layout_marginStart="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textColor="#000"
-            android:text="Voice Region :"/>
+            android:text="Speech Recognition Region :"/>
         <EditText
             android:id="@+id/txtVoiceRegion"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:width="300dp"
+            android:textSize="14sp"
             android:textColor="#000"
             android:text="westus"
+            android:inputType="text" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#000"
+            android:text="Speech Endpoint :"/>
+        <EditText
+            android:id="@+id/txtVoiceEndpoint"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:width="300dp"
+            android:textSize="14sp"
+            android:textColor="#000"
+            android:text=""
             android:inputType="text" />
     </LinearLayout>
     <Switch

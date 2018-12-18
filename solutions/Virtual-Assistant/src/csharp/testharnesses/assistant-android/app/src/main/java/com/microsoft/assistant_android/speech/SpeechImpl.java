@@ -26,14 +26,11 @@ import static android.media.AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK;
 import static android.media.AudioManager.AUDIOFOCUS_LOSS;
 
 public class SpeechImpl implements AudioManager.OnAudioFocusChangeListener{
-    private static String TAG = "SpeechImpl";
-    // Replace below with your own subscription key
-    private static String speechSubscriptionKey = "";
-    // Replace below with your own service region (e.g., "westus").
-    private static String serviceRegion = "westus";
 
+    private static String TAG = "SpeechImpl";
     private TextToSpeech tts;
     private SpeechEventInterface _speechEventInterface;
+
     private UtteranceProgressListener mProgressListener = new UtteranceProgressListener() {
         @Override
         public void onStart(String utteranceId) {
@@ -60,8 +57,15 @@ public class SpeechImpl implements AudioManager.OnAudioFocusChangeListener{
     private long speechRecoTiming = -1;
     private boolean _recognizingForUser = false;
     public boolean ContinousRecognition = false;
+    private String _speechKey = "";
+    private String _speechRegion = "";
+    private String _speechEdnpoint = "";
 
-    public SpeechImpl(Context ctx, SpeechEventInterface event, int resource, String speechKey, String speechRegion) {
+    public SpeechImpl(Context ctx, SpeechEventInterface event, int resource, String speechKey, String speechRegion, String speechEndpoint) {
+        _speechKey = speechKey;
+        _speechRegion = speechRegion;
+        _speechEdnpoint = speechEndpoint;
+
         this._speechEventInterface = event;
         tts = new TextToSpeech(ctx, new TextToSpeech.OnInitListener() {
             @Override
@@ -78,56 +82,86 @@ public class SpeechImpl implements AudioManager.OnAudioFocusChangeListener{
             }
         });
         tts.setOnUtteranceProgressListener(mProgressListener);
-        _config = SpeechConfig.fromSubscription(speechSubscriptionKey, serviceRegion);
-        assert(_config != null);
-        _config.setEndpointId("e2f48041-c5c0-4847-b1e9-10ecb8f34f31");
 
-        _reco = new SpeechRecognizer(_config);
-
-        //set up event for recognizer
-        _reco.speechEndDetected.addEventListener((s,e) -> {
-            System.out.println("Speech end. Recognizing: " );
-
-        });
-        _reco.recognizing.addEventListener((o, intermediateResultEventArgs) -> {
-            final String s = intermediateResultEventArgs.getResult().getText();
-            _speechEventInterface.onSpeechRecognizing(s);
-        });
-        _reco.recognized.addEventListener((s,e) -> {
-            String reco = e.getResult().getText();
-            if (reco != null && reco.length() > 0) {
-                System.out.println("Recognized: " + reco);
-                if (ContinousRecognition) {
-                    // Calculate the time interval when the task is done
-                    long timeInterval = SystemClock.elapsedRealtime() - speechRecoTiming;
-                    Log.d(TAG, "Elapsed speech wait (ms): " + timeInterval);
-                    speechRecoTiming = -1;
-                    String recognizedModified;
-                    String lastChar;
-                    lastChar = reco.substring(reco.length()-1);
-                    if (lastChar.compareTo(".") == 0)
-                        recognizedModified = reco.substring(0,reco.length()-1);
-                    else
-                        recognizedModified = reco;
-                    _speechEventInterface.onSpeechRecognized(recognizedModified);
-                } else {
-                    if (reco.contains("Hey Buick")) {
-                        _recognizingForUser = true;
-                        recognizedKeyword.start();
-                        speechRecoTiming = SystemClock.elapsedRealtime();
-                        ContinousRecognition = true;
-                    }
-                }
-            }
-        });
-        _reco.sessionStarted.addEventListener((s,e) -> {
-            System.out.println("Speech session started");
-        });
-        _reco.sessionStopped.addEventListener((s,e) -> {
-            System.out.println("Speech session stopped");
-        });
-
-        recognizedKeyword = MediaPlayer.create(ctx, resource);
+//        try {
+//            _config = SpeechConfig.fromSubscription(speechKey, speechRegion);
+//            assert(_config != null);
+//
+//        if (speechEndpoint != null & speechEndpoint.length() > 0)
+//            _config.setEndpointId(speechEndpoint);
+//
+//            _reco = new SpeechRecognizer(_config);
+//            assert(_reco != null);
+//
+//            _reco.recognized.addEventListener((s,e) -> {
+//                String reco = e.getResult().getText();
+//                if (reco != null && reco.length() > 0) {
+//                    System.out.println("Recognized: " + reco);
+//                    String recognizedModified;
+//                    String lastChar;
+//                    lastChar = reco.substring(reco.length()-1);
+//                    if (lastChar.compareTo(".") == 0)
+//                        recognizedModified = reco.substring(0,reco.length()-1);
+//                    else
+//                        recognizedModified = reco;
+//                    _speechEventInterface.onSpeechRecognized(recognizedModified);
+//                }
+//            });
+//        } catch (Exception ex) {
+//            Log.e("SpeechSDKDemo", "unexpected " + ex.getMessage());
+//            assert(false);
+//        }
+//        _config = SpeechConfig.fromSubscription(speechKey, speechRegion);
+//        assert(_config != null);
+//        if (speechEndpoint != null & speechEndpoint.length() > 0)
+//            _config.setEndpointId(speechEndpoint);
+//
+//        _reco = new SpeechRecognizer(_config);
+//
+//        //set up event for recognizer
+//        _reco.speechEndDetected.addEventListener((s,e) -> {
+//            Log.d(TAG,"Speech end. Recognizing: " );
+//
+//        });
+//        _reco.recognizing.addEventListener((o, intermediateResultEventArgs) -> {
+//            final String s = intermediateResultEventArgs.getResult().getText();
+//            _speechEventInterface.onSpeechRecognizing(s);
+//        });
+//        _reco.recognized.addEventListener((s,e) -> {
+//            String reco = e.getResult().getText();
+//            if (reco != null && reco.length() > 0) {
+//                System.out.println("Recognized: " + reco);
+//                if (ContinousRecognition) {
+//                    // Calculate the time interval when the task is done
+//                    long timeInterval = SystemClock.elapsedRealtime() - speechRecoTiming;
+//                    Log.d(TAG, "Elapsed speech wait (ms): " + timeInterval);
+//                    speechRecoTiming = -1;
+//                    String recognizedModified;
+//                    String lastChar;
+//                    lastChar = reco.substring(reco.length()-1);
+//                    if (lastChar.compareTo(".") == 0)
+//                        recognizedModified = reco.substring(0,reco.length()-1);
+//                    else
+//                        recognizedModified = reco;
+//                    _speechEventInterface.onSpeechRecognized(recognizedModified);
+//                } else {
+//                    if (reco.contains("Hey Buick")) {
+//                        _recognizingForUser = true;
+//                        recognizedKeyword.start();
+//                        speechRecoTiming = SystemClock.elapsedRealtime();
+//                        ContinousRecognition = true;
+//                    }
+//                }
+//            }
+//        });
+//        _reco.sessionStarted.addEventListener((s,e) -> {
+//            System.out.println("Speech session started");
+//        });
+//        _reco.sessionStopped.addEventListener((s,e) -> {
+//            System.out.println("Speech session stopped");
+//        });
+//
+//        recognizedKeyword = MediaPlayer.create(ctx, resource);
     }
 
     public boolean isSpeaking() {
@@ -142,11 +176,31 @@ public class SpeechImpl implements AudioManager.OnAudioFocusChangeListener{
     }
     public void StartSpeechReco() {
         try {
-            Log.d(TAG, "Telling it to start recognizing");
-            _reco.startContinuousRecognitionAsync();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
+            SpeechConfig config = SpeechConfig.fromSubscription(_speechKey, _speechRegion);
+            assert(config != null);
+
+            SpeechRecognizer reco = new SpeechRecognizer(config);
+            assert(reco != null);
+
+            Future<SpeechRecognitionResult> task = reco.recognizeOnceAsync();
+            assert(task != null);
+
+            // Note: this will block the UI thread, so eventually, you want to
+            //        register for the event (see full samples)
+            SpeechRecognitionResult result = task.get();
+            assert(result != null);
+
+            if (result.getReason() == ResultReason.RecognizedSpeech) {
+                _speechEventInterface.onSpeechRecognized(result.getText());
+            }
+            else {
+                _speechEventInterface.onSpeechRecoError("Error recognizing. Did you update the subscription info?" + System.lineSeparator() + result.toString());
+            }
+
+            reco.close();
+        } catch (Exception ex) {
+            Log.e(TAG, "unexpected error in speech recognition: " + ex.getMessage());
+            assert(false);
         }
     }
     @SuppressLint("StaticFieldLeak")

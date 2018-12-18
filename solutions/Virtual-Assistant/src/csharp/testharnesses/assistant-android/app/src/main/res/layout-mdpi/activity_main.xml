@@ -69,7 +69,7 @@
             android:id="@+id/speechReady"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/yellow"
+            android:src="@drawable/red"
             android:layout_marginStart="500dp"
             android:layout_gravity="center"/>
     </LinearLayout>

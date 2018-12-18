@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:screenOrientation="landscape"
-    android:background="@drawable/background"
+    android:background="#FFF"
     android:id="@+id/layoutMain"
     android:weightSum="100"
     android:orientation="vertical"
@@ -47,16 +47,11 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/layoutCard"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="75"
         android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="@android:color/white"
-            android:text="Test test"/>
     </LinearLayout>
 
     <LinearLayout
@@ -69,6 +64,13 @@
             android:layout_height="100dp"
             android:src="@drawable/icon"
             android:layout_margin="10dp"
+            android:layout_gravity="center"/>
+        <ImageView
+            android:id="@+id/speechReady"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/red"
+            android:layout_marginStart="500dp"
             android:layout_gravity="center"/>
     </LinearLayout>
 

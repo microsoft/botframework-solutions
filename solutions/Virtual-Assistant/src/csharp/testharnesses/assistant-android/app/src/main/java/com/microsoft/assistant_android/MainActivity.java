@@ -1,12 +1,16 @@
 package com.microsoft.assistant_android;
 
+import android.Manifest;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -43,6 +47,9 @@ import io.adaptivecards.objectmodel.ParseResult;
 import io.adaptivecards.renderer.AdaptiveCardRenderer;
 import io.adaptivecards.renderer.RenderedAdaptiveCard;
 import io.adaptivecards.renderer.actionhandler.ICardActionHandler;
+
+import static android.Manifest.permission.INTERNET;
+import static android.Manifest.permission.RECORD_AUDIO;
 
 public class MainActivity extends AppCompatActivity implements BotEventInterface, ICardActionHandler, SpeechEventInterface, View.OnClickListener {
 
@@ -85,16 +92,16 @@ public class MainActivity extends AppCompatActivity implements BotEventInterface
     private boolean bMenuOpen = false;
 
     private ArrayList<String> processingStack = new ArrayList<String>();
-    private long botProcessingTiming = -1;
     private HostConfig _hostConfig;
     View popupContentView;
     PopupWindow popupWindow;
     // Get the app's shared preferences
     SharedPreferences _preferences;
-    final String PREF_BACKGROUND    = "Background";
-    final String PREF_BOT_SECRET    = "BotSecret";
-    final String PREF_VOICE_KEY     = "VoiceKey";
-    final String PREF_VOICE_REGION  = "VoiceRegion";
+    final String PREF_BACKGROUND     = "Background";
+    final String PREF_BOT_SECRET     = "BotSecret";
+    final String PREF_VOICE_KEY      = "VoiceKey";
+    final String PREF_VOICE_REGION   = "VoiceRegion";
+    final String PREF_VOICE_ENDPOINT = "VoiceEndpoint";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,9 +109,11 @@ public class MainActivity extends AppCompatActivity implements BotEventInterface
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+        CheckPermissions();
 
         //set up click listeners for menu
         findViewById(R.id.imgMenu).setOnClickListener(this);
+        findViewById(R.id.speechReady).setOnClickListener(this);
         //set up click listeners for menu
 
         ((TextView) findViewById(R.id.txtTime)).setText(getCurrentTimeUsingDate());
@@ -138,10 +147,6 @@ public class MainActivity extends AppCompatActivity implements BotEventInterface
         _preferences = PreferenceManager.getDefaultSharedPreferences(this);
         InitializeSettingsView();
 
-        //set up speech
-        if (_speech == null)
-            _speech = new SpeechImpl(getApplicationContext(), this, R.raw.beep, _preferences.getString(PREF_VOICE_KEY, ""), _preferences.getString(PREF_VOICE_REGION, "westus"));
-
         processHandler.post(processRunnable);
     }
     @Override
@@ -151,21 +156,30 @@ public class MainActivity extends AppCompatActivity implements BotEventInterface
                 onMenuClicked(v);
                 break;
             case R.id.speechReady:
-                if (_speech != null)
-                    _speech.StartSpeechReco();
-                else
-                    Toast.makeText(this, "Speech recognition not started. Please enter key.",Toast.LENGTH_LONG).show();
+                if (_bIsSpeechReady) {
+                    if (_speech != null)
+                        _speech.StartSpeechReco();
+                    else
+                        Toast.makeText(this, "Speech recognition not started. Please enter key.", Toast.LENGTH_LONG).show();
+                }
                 break;
         }
     }
-
+    private void CheckPermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
+            ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED ) {
+            int requestCode = 5; // unique code for the permission request
+            // Note: we need to request audio permissions
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{RECORD_AUDIO, INTERNET}, requestCode);
+        }
+    }
     private void ProcessMessage(String message) {
         try {
             JSONObject activity = new JSONObject(message);
             String type = activity.getString("type");
             String input = activity.optString("inputHint", "");
             String speak = activity.optString("speak","");
-            if (input.contains("expectingInput")) //remove check on speak once bot welcome message is changed
+            if (input.contains("expectingInput"))
                 _bot.BotState = _bot.BOT_STATE_EXPECTING_INPUT;
             else if (input.contains("acceptingInput"))
                 _bot.BotState = _bot.BOT_STATE_ACCEPTING_INPUT;
@@ -190,10 +204,28 @@ public class MainActivity extends AppCompatActivity implements BotEventInterface
                         AdaptiveCard adaptiveCard = parseResult.GetAdaptiveCard();
                         RenderedAdaptiveCard renderedCard = AdaptiveCardRenderer.getInstance().render(this, getSupportFragmentManager(), adaptiveCard, this, _hostConfig);
                         LinearLayout layout = findViewById(R.id.layoutCard);
+                        layout.removeAllViewsInLayout();
                         View v = renderedCard.getView();
                         layout.addView(v);
                     }
+                } else {
+                    String text = activity.getString("text");
+                    LinearLayout layout = findViewById(R.id.layoutCard);
+                    layout.removeAllViewsInLayout();
+                    TextView lblTV = new TextView(this);
+                    lblTV.setText("Returned text: " + text);
+                    lblTV.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                    lblTV.setTextColor(Color.parseColor("#000000"));
+                    lblTV.setTextSize(16f);
+                    lblTV.setGravity(Gravity.CENTER);
+                    layout.addView(lblTV);
                 }
+                if (speak.length() > 0) {
+                    _speech.Speak(speak);
+                    ((ImageView) findViewById(R.id.speechReady)).setImageResource(R.drawable.yellow);
+                }
+                else
+                    ((ImageView) findViewById(R.id.speechReady)).setImageResource(R.drawable.green);
             }
         }
         catch (Exception ex) {
@@ -203,6 +235,16 @@ public class MainActivity extends AppCompatActivity implements BotEventInterface
 
     public void StartConversation() {
         _bot = new BotWrapper(this, _preferences.getString(PREF_BOT_SECRET, ""));
+        //set up speech
+        if (_speech == null) {
+            String voiceKey = _preferences.getString(PREF_VOICE_KEY, "");
+            String voiceRegion = _preferences.getString(PREF_VOICE_REGION, "westus");
+            String voiceEndpoint = _preferences.getString(PREF_VOICE_ENDPOINT, "");
+            if (voiceKey.length() > 0 && voiceRegion.length() > 0)
+                _speech = new SpeechImpl(getApplicationContext(), this, R.raw.beep, voiceKey, voiceRegion, voiceEndpoint);
+            else
+                Toast.makeText(this,"Voice Recognition Key and/or Voice Region is blank", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void EndConversation() {
@@ -215,6 +257,7 @@ public class MainActivity extends AppCompatActivity implements BotEventInterface
         }
         LinearLayout layout = findViewById(R.id.layoutCard);
         layout.removeAllViews();
+        _speech = null;
     }
 
     public void onMenuClicked(View v) {
@@ -248,6 +291,7 @@ public class MainActivity extends AppCompatActivity implements BotEventInterface
         }
         bMenuOpen = !bMenuOpen;
     }
+
     private void InitializeSettingsView() {
         Button cmdEnd = popupContentView.findViewById(R.id.cmdEndApp);
         cmdEnd.setOnClickListener(new Button.OnClickListener() {
@@ -286,6 +330,9 @@ public class MainActivity extends AppCompatActivity implements BotEventInterface
         EditText txtVoiceRegion = popupContentView.findViewById(R.id.txtVoiceRegion);
         txtVoiceRegion.setText(_preferences.getString(PREF_VOICE_REGION,"westus"));
 
+        EditText txtVoiceEndpoint = popupContentView.findViewById(R.id.txtVoiceEndpoint);
+        txtVoiceEndpoint.setText(_preferences.getString(PREF_VOICE_ENDPOINT,""));
+
         try {
             findViewById(R.id.layoutMain).setBackgroundColor(Color.parseColor(txtBackground.getText().toString()));
         }
@@ -316,6 +363,9 @@ public class MainActivity extends AppCompatActivity implements BotEventInterface
         EditText txtVoiceRegion = popupContentView.findViewById(R.id.txtVoiceRegion);
         editor.putString(PREF_VOICE_REGION,txtVoiceRegion.getText().toString());
 
+        EditText txtVoiceEndpoint = popupContentView.findViewById(R.id.txtVoiceEndpoint);
+        editor.putString(PREF_VOICE_ENDPOINT,txtVoiceEndpoint.getText().toString());
+
         editor.commit();
     }
 
@@ -326,29 +376,21 @@ public class MainActivity extends AppCompatActivity implements BotEventInterface
         String formattedDate= dateFormat.format(date);
         return formattedDate;
     }
+
     public String loadHostConfig() {
         String json = null;
         try {
-
             InputStream is = this.getResources().openRawResource(R.raw.hostconfig);
-
             int size = is.available();
-
             byte[] buffer = new byte[size];
-
             is.read(buffer);
-
             is.close();
-
             json = new String(buffer, "UTF-8");
-
-
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
         }
         return json;
-
     }
     //BotEventInterface implementation
 
@@ -372,7 +414,6 @@ public class MainActivity extends AppCompatActivity implements BotEventInterface
 
     @Override
     public void onBotReady() {
-        Log.d(TAG,"OnBotReady _bIsSpeechReady = true");
         _bIsSpeechReady = true;
     }
 
@@ -422,8 +463,7 @@ public class MainActivity extends AppCompatActivity implements BotEventInterface
         runOnUiThread(new Runnable() {
             public void run() {
                 try {
-                    ((ImageView) findViewById(R.id.speechReady)).setImageResource(R.drawable.red);
-                    botProcessingTiming = SystemClock.elapsedRealtime();
+                    ((ImageView) findViewById(R.id.speechReady)).setImageResource(R.drawable.yellow);
                     _bot.SendMessage(text);
                 }
                 catch (Exception e) {
@@ -436,31 +476,25 @@ public class MainActivity extends AppCompatActivity implements BotEventInterface
     @Override
     public void onDoneSpeaking() {
         _bIsSpeechReady = true;
-        if (_bot.BotState != _bot.BOT_STATE_IGNORING_INPUT) {
-            if (_bot.BotState == _bot.BOT_STATE_EXPECTING_INPUT) {
-                _speech.ContinousRecognition = true;
-                _speech.StartSpeechReco();
+        runOnUiThread(new Runnable() {
+            public void run() {
+                ((ImageView) findViewById(R.id.speechReady)).setImageResource(R.drawable.green);
             }
-            else {
-                _speech.ContinousRecognition = false;
-                _speech.StartSpeechReco();
-            }
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    ((ImageView) findViewById(R.id.speechReady)).setImageResource(R.drawable.green);
-                }
-            });
-        }
+        });
     }
 
     @Override
     public void onInitialized() {
-
+        runOnUiThread(new Runnable() {
+            public void run() {
+                ((ImageView) findViewById(R.id.speechReady)).setImageResource(R.drawable.green);
+            }
+        });
     }
 
     @Override
     public void onSpeechError(String utterandeId) {
-        Log.e(TAG,"Error occure speaking (utteranceId: " + utterandeId);
+        Log.e(TAG,"Error occured speaking (utteranceId: " + utterandeId);
     }
 
     @Override
@@ -469,12 +503,6 @@ public class MainActivity extends AppCompatActivity implements BotEventInterface
         Toast.makeText(this,"Speech reco error",Toast.LENGTH_LONG).show();
         _bRecognizing = false;
         _bIsSpeechReady = true;
-//        runOnUiThread(new Runnable() {
-//            public void run() {
-//                Toast.makeText(this,"Speech reco error",Toast.LENGTH_LONG).show();
-////                ((ImageButton) getActivity().findViewById(R.id.talking)).setImageResource(R.drawable.icontalk_ellips_ready);
-//            }
-//        });
     }
     //speech interface
 

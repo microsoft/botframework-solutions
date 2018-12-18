@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import android.os.StrictMode;
+import android.util.Log;
 
 import com.microsoft.directlinechatbot.DirectLineChatbot;
 import com.microsoft.directlinechatbot.bo.ChannelData;
@@ -43,6 +44,7 @@ public class BotWrapper {
 
     //returns the conversationID
     private void startConversation() {
+        Log.d(TAG,"Bot Secret: " + primaryToken);
         _chatbot = new DirectLineChatbot(primaryToken);
         _chatbot.setDebug(true);
         _chatbot.setUser("MeganB@GMIPATest.OnMicrosoft.com");
