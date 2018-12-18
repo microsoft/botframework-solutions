@@ -54,8 +54,10 @@ namespace CalendarSkillTest.API.Fakes.MockGoogleClient
                     throw new Exception("Resource Name not support");
                 }
 
-                ListConnectionsResponse result = new ListConnectionsResponse();
-                result.Connections = new List<Person>();
+                ListConnectionsResponse result = new ListConnectionsResponse
+                {
+                    Connections = new List<Person>()
+                };
 
                 Person person = new Person()
                 {

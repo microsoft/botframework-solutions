@@ -58,8 +58,10 @@ namespace CalendarSkillTest.Flow
 
         public Activity GetAuthResponse()
         {
-            ProviderTokenResponse providerTokenResponse = new ProviderTokenResponse();
-            providerTokenResponse.TokenResponse = new TokenResponse(token: "test");
+            ProviderTokenResponse providerTokenResponse = new ProviderTokenResponse
+            {
+                TokenResponse = new TokenResponse(token: "test")
+            };
             return new Activity(ActivityTypes.Event, name: "tokens/response", value: providerTokenResponse);
         }
 

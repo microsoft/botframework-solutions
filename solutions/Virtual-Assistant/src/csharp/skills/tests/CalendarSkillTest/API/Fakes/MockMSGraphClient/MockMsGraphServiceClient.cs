@@ -20,24 +20,28 @@ namespace CalendarSkillTest.API.Fakes.MockMSGraphClient
             mockCalendarService.Setup(client => client.Me.Calendar.CalendarView.Request(It.IsAny<List<QueryOption>>()).GetAsync()).Returns(() =>
             {
                 ICalendarCalendarViewCollectionPage result = new CalendarCalendarViewCollectionPage();
-                Event anevent = new Event();
-                anevent.Id = "0";
-                anevent.Subject = "test";
-                anevent.Body = new ItemBody() { Content = "test" };
-                anevent.Start = new DateTimeTimeZone() { DateTime = "2500-01-01T18:00:00.0000000Z", TimeZone = TimeZoneInfo.Utc.Id };
-                anevent.End = new DateTimeTimeZone() { DateTime = "2500-01-01T18:30:00.0000000Z", TimeZone = TimeZoneInfo.Utc.Id };
+                Event anevent = new Event
+                {
+                    Id = "0",
+                    Subject = "test",
+                    Body = new ItemBody() { Content = "test" },
+                    Start = new DateTimeTimeZone() { DateTime = "2500-01-01T18:00:00.0000000Z", TimeZone = TimeZoneInfo.Utc.Id },
+                    End = new DateTimeTimeZone() { DateTime = "2500-01-01T18:30:00.0000000Z", TimeZone = TimeZoneInfo.Utc.Id }
+                };
                 result.Add(anevent);
                 return Task.FromResult(result);
             });
             mockCalendarService.Setup(client => client.Me.CalendarView.Request(It.IsAny<List<QueryOption>>()).GetAsync()).Returns(() =>
             {
                 IUserCalendarViewCollectionPage result = new UserCalendarViewCollectionPage();
-                Event anevent = new Event();
-                anevent.Id = "0";
-                anevent.Subject = "test";
-                anevent.Body = new ItemBody() { Content = "test" };
-                anevent.Start = new DateTimeTimeZone() { DateTime = "2500-01-01T18:00:00.0000000Z", TimeZone = TimeZoneInfo.Utc.Id };
-                anevent.End = new DateTimeTimeZone() { DateTime = "2500-01-01T18:30:00.0000000Z", TimeZone = TimeZoneInfo.Utc.Id };
+                Event anevent = new Event
+                {
+                    Id = "0",
+                    Subject = "test",
+                    Body = new ItemBody() { Content = "test" },
+                    Start = new DateTimeTimeZone() { DateTime = "2500-01-01T18:00:00.0000000Z", TimeZone = TimeZoneInfo.Utc.Id },
+                    End = new DateTimeTimeZone() { DateTime = "2500-01-01T18:30:00.0000000Z", TimeZone = TimeZoneInfo.Utc.Id }
+                };
                 result.Add(anevent);
                 return Task.FromResult(result);
             });
