@@ -30,7 +30,7 @@ namespace EmailSkill
     public class GMailService : IMailService
     {
         private static GmailService service;
-        private int pageSize;
+        private readonly int pageSize;
         private string pageToken = string.Empty;
 
         /// <summary>
@@ -72,6 +72,48 @@ namespace EmailSkill
             });
 
             return service;
+        }
+
+        public static string Base64UrlEncode(string text)
+        {
+            var textBytes = Encoding.UTF8.GetBytes(text);
+
+            var result = System.Convert.ToBase64String(textBytes);
+            result = result.Split('=')[0]; // Remove any trailing '='s
+            result = result.Replace('+', '-'); // 62nd char of encoding
+            result = result.Replace('/', '_'); // 63rd char of encoding
+            return result;
+        }
+
+        // decode from base64url to utf-8 bytes
+        public static byte[] Base64UrlDecode(string text)
+        {
+            string result = text;
+            result = result.Replace('-', '+'); // 62nd char of encoding
+            result = result.Replace('_', '/'); // 63rd char of encoding
+
+            // Pad with trailing '='s
+            switch (result.Length % 4)
+            {
+                case 0: break; // No pad chars in this case
+                case 2: result += "=="; break; // Two pad chars
+                case 3: result += "="; break; // One pad char
+                default:
+                    throw new System.Exception(
+             "Illegal base64url string!");
+            }
+
+            byte[] textBytes = Convert.FromBase64String(result);
+            return textBytes;
+        }
+
+        // decode to mimeMessage
+        public static MimeMessage DecodeToMessage(string text)
+        {
+            byte[] msg = Base64UrlDecode(text);
+            MemoryStream mm = new MemoryStream(msg);
+            MimeKit.MimeMessage mime = MimeKit.MimeMessage.Load(mm);
+            return mime;
         }
 
         /// <inheritdoc/>
@@ -146,9 +188,12 @@ namespace EmailSkill
             // get from address
             var profileRequest = service.Users.GetProfile("me");
             var user = ((IClientServiceRequest<Profile>)profileRequest).Execute();
-            var mess = new MailMessage();
-            mess.Subject = subject;
-            mess.From = new MailAddress(user.EmailAddress);
+            var mess = new MailMessage
+            {
+                Subject = subject,
+                From = new MailAddress(user.EmailAddress)
+            };
+
             foreach (var re in recipients)
             {
                 mess.To.Add(new MailAddress(re.EmailAddress.Address));
@@ -364,48 +409,6 @@ namespace EmailSkill
             return result;
         }
 
-        public static string Base64UrlEncode(string text)
-        {
-            var textBytes = Encoding.UTF8.GetBytes(text);
-
-            var result = System.Convert.ToBase64String(textBytes);
-            result = result.Split('=')[0]; // Remove any trailing '='s
-            result = result.Replace('+', '-'); // 62nd char of encoding
-            result = result.Replace('/', '_'); // 63rd char of encoding
-            return result;
-        }
-
-        // decode from base64url to utf-8 bytes
-        public static byte[] Base64UrlDecode(string text)
-        {
-            string result = text;
-            result = result.Replace('-', '+'); // 62nd char of encoding
-            result = result.Replace('_', '/'); // 63rd char of encoding
-
-            // Pad with trailing '='s
-            switch (result.Length % 4)
-            {
-                case 0: break; // No pad chars in this case
-                case 2: result += "=="; break; // Two pad chars
-                case 3: result += "="; break; // One pad char
-                default:
-                    throw new System.Exception(
-             "Illegal base64url string!");
-            }
-
-            byte[] textBytes = Convert.FromBase64String(result);
-            return textBytes;
-        }
-
-        // decode to mimeMessage
-        public static MimeMessage DecodeToMessage(string text)
-        {
-            byte[] msg = Base64UrlDecode(text);
-            MemoryStream mm = new MemoryStream(msg);
-            MimeKit.MimeMessage mime = MimeKit.MimeMessage.Load(mm);
-            return mime;
-        }
-
         private async Task<(MimeMessage, string)> GetMessageById(string id)
         {
             var request = service.Users.Messages.Get("me", id);
@@ -417,8 +420,10 @@ namespace EmailSkill
 
         private MSMessage MapMimeMessageToMSMessage(MimeMessage mime)
         {
-            MSMessage message = new MSMessage();
-            message.ReceivedDateTime = mime.Date;
+            MSMessage message = new MSMessage
+            {
+                ReceivedDateTime = mime.Date
+            };
             if (mime.To != null)
             {
                 var to = new List<Recipient>();

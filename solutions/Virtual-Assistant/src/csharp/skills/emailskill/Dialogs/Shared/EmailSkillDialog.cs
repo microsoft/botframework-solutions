@@ -1311,10 +1311,12 @@ namespace EmailSkill
 
         private IDictionary<string, string> AssembleTelemetryData(WaterfallStepContext sc)
         {
-            var telemetryData = new Dictionary<string, string>();
-            telemetryData.Add("activityId", sc.Context.Activity.Id);
-            telemetryData.Add("userId", sc.Context.Activity.From.Id);
-            telemetryData.Add("activeDialog", sc.ActiveDialog.ToString());
+            var telemetryData = new Dictionary<string, string>
+            {
+                { "activityId", sc.Context.Activity.Id },
+                { "userId", sc.Context.Activity.From.Id },
+                { "activeDialog", sc.ActiveDialog.ToString() }
+            };
 
             return telemetryData;
         }
