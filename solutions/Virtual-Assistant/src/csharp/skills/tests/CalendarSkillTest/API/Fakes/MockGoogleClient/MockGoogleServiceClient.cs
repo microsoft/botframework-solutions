@@ -8,7 +8,7 @@ using Google.Apis.Services;
 using Moq;
 using GoogleCalendarService = Google.Apis.Calendar.v3.CalendarService;
 
-namespace CalendarSkillTest.API.Fakes
+namespace CalendarSkillTest.API.Fakes.MockGoogleClient
 {
     public static class MockGoogleServiceClient
     {

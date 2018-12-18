@@ -13,7 +13,7 @@ namespace CalendarSkillTest.API
     [TestClass]
     public class ServiceManagerTests
     {
-        public static IServiceManager serviceManager;
+        private static IServiceManager serviceManager;
         private static Mock<ISkillConfiguration> mockConfig;
 
         [ClassInitialize]
@@ -49,37 +49,35 @@ namespace CalendarSkillTest.API
         }
 
         [TestMethod]
-        public async Task GetMSUserServiceTest()
+        public void GetMSUserServiceTest()
         {
             IUserService userService = serviceManager.InitUserService("test token", EventSource.Microsoft);
             Assert.IsTrue(userService is UserService);
         }
 
         [TestMethod]
-        public async Task GetMSCalendarServiceTest()
+        public void GetMSCalendarServiceTest()
         {
             ICalendarService calendarService = serviceManager.InitCalendarService("test token", EventSource.Microsoft);
             Assert.IsTrue(calendarService is CalendarService);
         }
 
         [TestMethod]
-        public async Task GetGoogleUserServiceTest()
+        public void GetGoogleUserServiceTest()
         {
             IUserService userService = serviceManager.InitUserService("test token", EventSource.Google);
             Assert.IsTrue(userService is UserService);
         }
 
         [TestMethod]
-        public async Task GetGoogleCalendarServiceTest()
+        public void GetGoogleCalendarServiceTest()
         {
             ICalendarService calendarService = serviceManager.InitCalendarService("test token", EventSource.Google);
             Assert.IsTrue(calendarService is CalendarService);
         }
 
-
-
         [TestMethod]
-        public async Task GetOtherUserServiceTest_Throws()
+        public void GetOtherUserServiceTest_Throws()
         {
             try
             {
@@ -95,7 +93,7 @@ namespace CalendarSkillTest.API
         }
 
         [TestMethod]
-        public async Task GetOtherCalendarServiceTest_Throws()
+        public void GetOtherCalendarServiceTest_Throws()
         {
             try
             {

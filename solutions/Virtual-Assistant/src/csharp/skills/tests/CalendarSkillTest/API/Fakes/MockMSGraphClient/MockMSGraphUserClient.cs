@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Graph;
 using Moq;
 
-namespace CalendarSkillTest.API.Fakes
+namespace CalendarSkillTest.API.Fakes.MockMSGraphClient
 {
     public static class MockMSGraphUserClient
     {
@@ -73,7 +73,7 @@ namespace CalendarSkillTest.API.Fakes
                 result.Add(contact);
 
                 emailAddresses = new List<EmailAddress>();
-                emailAddresses.Add(new EmailAddress() { Address = "ConfRoom@test.com"});
+                emailAddresses.Add(new EmailAddress() { Address = "ConfRoom@test.com" });
                 contact = new Contact()
                 {
                     DisplayName = "Conf Room Test",

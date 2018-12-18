@@ -38,7 +38,7 @@ namespace CalendarSkillTest.API
         }
 
         [TestMethod]
-        public async Task ConvertLuisLocalToUtcTest()
+        public void ConvertLuisLocalToUtcTest()
         {
             DateTime testTime = new DateTime(2020, 1, 1, 8, 0, 0, DateTimeKind.Local);
             TimeZoneInfo timezone = TimeZoneInfo.FindSystemTimeZoneById("China Standard Time");
@@ -49,7 +49,7 @@ namespace CalendarSkillTest.API
         }
 
         [TestMethod]
-        public async Task ConvertUtcToUserTimeTest()
+        public void ConvertUtcToUserTimeTest()
         {
             DateTime testTime = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             TimeZoneInfo timezone = TimeZoneInfo.FindSystemTimeZoneById("China Standard Time");
@@ -59,10 +59,8 @@ namespace CalendarSkillTest.API
             Assert.AreEqual(resultTime, expectTime);
         }
 
-
-
         [TestMethod]
-        public async Task ConvertUtcToUserTimeTest_NotUtc_Throws()
+        public void ConvertUtcToUserTimeTest_NotUtc_Throws()
         {
             try
             {

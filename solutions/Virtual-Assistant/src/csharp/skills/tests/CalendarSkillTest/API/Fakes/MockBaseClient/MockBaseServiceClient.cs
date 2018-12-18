@@ -5,7 +5,7 @@ using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
 using Moq;
 
-namespace CalendarSkillTest.API.Fakes
+namespace CalendarSkillTest.API.Fakes.MockBaseClient
 {
     public static class MockBaseServiceClient
     {

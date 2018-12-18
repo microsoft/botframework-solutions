@@ -38,7 +38,7 @@ namespace CalendarSkillTest.API
         }
 
         [TestMethod]
-        public async Task IanaToWindowsTest()
+        public void IanaToWindowsTest()
         {
             string input = "Asia/Shanghai";
             string result = TimeZoneConverter.IanaToWindows(input);
@@ -47,7 +47,7 @@ namespace CalendarSkillTest.API
         }
 
         [TestMethod]
-        public async Task WindowsToIanaTest()
+        public void WindowsToIanaTest()
         {
             string input = "China Standard Time";
             string result = TimeZoneConverter.WindowsToIana(input);
@@ -56,14 +56,14 @@ namespace CalendarSkillTest.API
         }
 
         [TestMethod]
-        public async Task IanaToWindowsTest_NotLegal_Throws()
+        public void IanaToWindowsTest_NotLegal_Throws()
         {
             try
             {
                 string input = "test";
                 string result = TimeZoneConverter.IanaToWindows(input);
             }
-            catch (InvalidTimeZoneException e)
+            catch (InvalidTimeZoneException)
             {
                 return;
             }
@@ -72,14 +72,14 @@ namespace CalendarSkillTest.API
         }
 
         [TestMethod]
-        public async Task WindowsToIanaTest_NotLegal_Throws()
+        public void WindowsToIanaTest_NotLegal_Throws()
         {
             try
             {
                 string input = "test";
                 string result = TimeZoneConverter.WindowsToIana(input);
             }
-            catch (InvalidTimeZoneException e)
+            catch (InvalidTimeZoneException)
             {
                 return;
             }
