@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CalendarSkill.Extensions;
 using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
-using Microsoft.Graph;
 using Microsoft.Bot.Solutions.Skills;
-using System;
+using Microsoft.Graph;
 
 namespace CalendarSkillTest.Flow.Fakes
 {
