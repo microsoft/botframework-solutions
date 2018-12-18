@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Google;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Requests;
@@ -266,6 +267,14 @@ namespace CalendarSkillTest.API.Fakes.MockGoogleClient
                     if (CalendarId != "primary")
                     {
                         throw new Exception("Calendar ID not support");
+                    }
+
+                    if (EventId == "Test_Access_Denied")
+                    {
+                        var exception = new GoogleApiException("Delete", "insufficient permission");
+                        exception.Error = new RequestError();
+                        exception.Error.Message = "insufficient permission";
+                        throw exception;
                     }
 
                     // todo:
