@@ -2,6 +2,7 @@
     [string] [Parameter(Mandatory=$true)]$locale
 )
 
+$locale = $locale.ToLower()
 $langCode = ($locale -split "-")[0]
 $basePath = "$($PSScriptRoot)\.."
 $outputPath = "$($PSScriptRoot)\$($langCode)"
