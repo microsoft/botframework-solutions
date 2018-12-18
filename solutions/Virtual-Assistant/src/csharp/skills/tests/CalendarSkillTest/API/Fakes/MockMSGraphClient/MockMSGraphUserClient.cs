@@ -50,8 +50,10 @@ namespace CalendarSkillTest.API.Fakes.MockMSGraphClient
             {
                 IUserContactsCollectionPage result = new UserContactsCollectionPage();
 
-                List<EmailAddress> emailAddresses = new List<EmailAddress>();
-                emailAddresses.Add(new EmailAddress() { Address = "JaneDoe@test.com" });
+                List<EmailAddress> emailAddresses = new List<EmailAddress>
+                {
+                    new EmailAddress() { Address = "JaneDoe@test.com" }
+                };
                 Contact contact = new Contact()
                 {
                     DisplayName = "Jane Doe",
@@ -61,8 +63,10 @@ namespace CalendarSkillTest.API.Fakes.MockMSGraphClient
                 };
                 result.Add(contact);
 
-                emailAddresses = new List<EmailAddress>();
-                emailAddresses.Add(new EmailAddress() { Address = "JohnDoe@test.com" });
+                emailAddresses = new List<EmailAddress>
+                {
+                    new EmailAddress() { Address = "JohnDoe@test.com" }
+                };
                 contact = new Contact()
                 {
                     DisplayName = "John Doe",
@@ -72,8 +76,10 @@ namespace CalendarSkillTest.API.Fakes.MockMSGraphClient
                 };
                 result.Add(contact);
 
-                emailAddresses = new List<EmailAddress>();
-                emailAddresses.Add(new EmailAddress() { Address = "ConfRoom@test.com" });
+                emailAddresses = new List<EmailAddress>
+                {
+                    new EmailAddress() { Address = "ConfRoom@test.com" }
+                };
                 contact = new Contact()
                 {
                     DisplayName = "Conf Room Test",
@@ -87,8 +93,10 @@ namespace CalendarSkillTest.API.Fakes.MockMSGraphClient
             {
                 IUserPeopleCollectionPage result = new UserPeopleCollectionPage();
 
-                List<ScoredEmailAddress> emailAddresses = new List<ScoredEmailAddress>();
-                emailAddresses.Add(new ScoredEmailAddress() { Address = "JaneDoe@test.com", RelevanceScore = 1 });
+                List<ScoredEmailAddress> emailAddresses = new List<ScoredEmailAddress>
+                {
+                    new ScoredEmailAddress() { Address = "JaneDoe@test.com", RelevanceScore = 1 }
+                };
                 Person person = new Person()
                 {
                     DisplayName = "Jane Doe",
@@ -99,8 +107,10 @@ namespace CalendarSkillTest.API.Fakes.MockMSGraphClient
                 };
                 result.Add(person);
 
-                emailAddresses = new List<ScoredEmailAddress>();
-                emailAddresses.Add(new ScoredEmailAddress() { Address = "JohnDoe@test.com", RelevanceScore = 1 });
+                emailAddresses = new List<ScoredEmailAddress>
+                {
+                    new ScoredEmailAddress() { Address = "JohnDoe@test.com", RelevanceScore = 1 }
+                };
                 person = new Person()
                 {
                     DisplayName = "John Doe",
@@ -111,8 +121,10 @@ namespace CalendarSkillTest.API.Fakes.MockMSGraphClient
                 };
                 result.Add(person);
 
-                emailAddresses = new List<ScoredEmailAddress>();
-                emailAddresses.Add(new ScoredEmailAddress() { Address = "ConfRoom@test.com", RelevanceScore = 1 });
+                emailAddresses = new List<ScoredEmailAddress>
+                {
+                    new ScoredEmailAddress() { Address = "ConfRoom@test.com", RelevanceScore = 1 }
+                };
                 person = new Person()
                 {
                     DisplayName = "Conf Room Test",

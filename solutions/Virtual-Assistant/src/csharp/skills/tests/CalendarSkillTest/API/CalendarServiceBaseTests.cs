@@ -124,11 +124,13 @@ namespace CalendarSkillTest.API
         [TestMethod]
         public async Task UpdateEventsById()
         {
-            EventModel updateEvent = new EventModel(EventSource.Microsoft);
-            updateEvent.Id = "update_event";
-            updateEvent.TimeZone = TimeZoneInfo.Utc;
-            updateEvent.StartTime = DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc);
-            updateEvent.EndTime = DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc);
+            EventModel updateEvent = new EventModel(EventSource.Microsoft)
+            {
+                Id = "update_event",
+                TimeZone = TimeZoneInfo.Utc,
+                StartTime = DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc),
+                EndTime = DateTime.SpecifyKind(new DateTime(), DateTimeKind.Utc)
+            };
 
             EventModel updateResult = await calendarService.UpdateEventById(updateEvent);
             Assert.IsTrue(updateEvent.Id == updateResult.Id);

@@ -22,11 +22,13 @@ namespace CalendarSkillTest.API
             mockConfig = new Mock<ISkillConfiguration>();
             mockConfig.SetupGet(config => config.Properties).Returns(() =>
             {
-                Dictionary<string, object> props = new Dictionary<string, object>();
-                props.Add("googleAppName", "testAppName");
-                props.Add("googleClientId", "testClientId");
-                props.Add("googleClientSecret", "testClientSecret");
-                props.Add("googleScopes", "testScopes");
+                Dictionary<string, object> props = new Dictionary<string, object>
+                {
+                    { "googleAppName", "testAppName" },
+                    { "googleClientId", "testClientId" },
+                    { "googleClientSecret", "testClientSecret" },
+                    { "googleScopes", "testScopes" }
+                };
 
                 return props;
             });

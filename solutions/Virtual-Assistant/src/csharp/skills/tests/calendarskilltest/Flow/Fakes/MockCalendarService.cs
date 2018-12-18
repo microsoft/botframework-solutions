@@ -19,9 +19,10 @@ namespace CalendarSkillTest.Flow.Fakes
 
         public static List<EventModel> FakeDefaultEvents()
         {
-            var eventList = new List<EventModel>();
-
-            eventList.Add(CreateEventModel());
+            var eventList = new List<EventModel>
+            {
+                CreateEventModel()
+            };
 
             return eventList;
         }

@@ -42,8 +42,10 @@ namespace CalendarSkillTest.API
         [TestMethod]
         public async Task CreateEventTest()
         {
-            EventModel createEvent = new EventModel(new Microsoft.Graph.Event());
-            createEvent.Id = "create_event";
+            EventModel createEvent = new EventModel(new Microsoft.Graph.Event())
+            {
+                Id = "create_event"
+            };
             EventModel createResult = await calendarService.CreateEvent(createEvent);
             Assert.IsTrue(createEvent.Id == createResult.Id);
         }
@@ -82,8 +84,10 @@ namespace CalendarSkillTest.API
         [TestMethod]
         public async Task UpdateEventByIdTest()
         {
-            EventModel updateEvent = new EventModel(new Microsoft.Graph.Event());
-            updateEvent.Id = "update_event";
+            EventModel updateEvent = new EventModel(new Microsoft.Graph.Event())
+            {
+                Id = "update_event"
+            };
             EventModel updateResult = await calendarService.UpdateEventById(updateEvent);
             Assert.IsTrue(updateEvent.Id == updateResult.Id);
         }

@@ -42,8 +42,10 @@ namespace CalendarSkillTest.API
         [TestMethod]
         public async Task CreateEventTest()
         {
-            EventModel createEvent = new EventModel(new Google.Apis.Calendar.v3.Data.Event());
-            createEvent.Id = "create_event";
+            EventModel createEvent = new EventModel(new Google.Apis.Calendar.v3.Data.Event())
+            {
+                Id = "create_event"
+            };
             EventModel createResult = await calendarService.CreateEvent(createEvent);
             Assert.IsTrue(createEvent.Id == createResult.Id);
         }
@@ -82,8 +84,10 @@ namespace CalendarSkillTest.API
         [TestMethod]
         public async Task UpdateEventByIdTest()
         {
-            EventModel updateEvent = new EventModel(EventSource.Google);
-            updateEvent.Id = "update_event";
+            EventModel updateEvent = new EventModel(EventSource.Google)
+            {
+                Id = "update_event"
+            };
             EventModel updateResult = await calendarService.UpdateEventById(updateEvent);
             Assert.IsTrue(updateEvent.Id == updateResult.Id);
         }
