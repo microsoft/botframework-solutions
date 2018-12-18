@@ -52,21 +52,27 @@
         </Folder>
         <Folder Name="QnA" TargetFolderName="QnA">
           <Folder Name="de" TargetFolderName="de">
+            <ProjectItem ReplaceParameters="false" TargetFileName="faq.lu">chitchat.lu</ProjectItem>
             <ProjectItem ReplaceParameters="false" TargetFileName="faq.lu">faq.lu</ProjectItem>
           </Folder>
           <Folder Name="en" TargetFolderName="en">
+            <ProjectItem ReplaceParameters="false" TargetFileName="faq.lu">chitchat.lu</ProjectItem>
             <ProjectItem ReplaceParameters="false" TargetFileName="faq.lu">faq.lu</ProjectItem>
           </Folder>
           <Folder Name="es" TargetFolderName="es">
+            <ProjectItem ReplaceParameters="false" TargetFileName="faq.lu">chitchat.lu</ProjectItem>
             <ProjectItem ReplaceParameters="false" TargetFileName="faq.lu">faq.lu</ProjectItem>
           </Folder>
           <Folder Name="fr" TargetFolderName="fr">
+            <ProjectItem ReplaceParameters="false" TargetFileName="faq.lu">chitchat.lu</ProjectItem>
             <ProjectItem ReplaceParameters="false" TargetFileName="faq.lu">faq.lu</ProjectItem>
           </Folder>
           <Folder Name="it" TargetFolderName="it">
+            <ProjectItem ReplaceParameters="false" TargetFileName="faq.lu">chitchat.lu</ProjectItem>
             <ProjectItem ReplaceParameters="false" TargetFileName="faq.lu">faq.lu</ProjectItem>
           </Folder>
           <Folder Name="zh" TargetFolderName="zh">
+            <ProjectItem ReplaceParameters="false" TargetFileName="faq.lu">chitchat.lu</ProjectItem>
             <ProjectItem ReplaceParameters="false" TargetFileName="faq.lu">faq.lu</ProjectItem>
           </Folder>
         </Folder>
@@ -74,36 +80,42 @@
       <Folder Name="DeploymentScripts" TargetFolderName="DeploymentScripts">
         <Folder Name="de" TargetFolderName="de">
           <ProjectItem ReplaceParameters="false" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="chitchat.qna">chitchat.qna</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="dispatch.luis">dispatch.luis</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="faq.qna">faq.qna</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="general.luis">general.luis</ProjectItem>
         </Folder>
         <Folder Name="en" TargetFolderName="en">
           <ProjectItem ReplaceParameters="false" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="chitchat.qna">chitchat.qna</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="dispatch.luis">dispatch.luis</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="faq.qna">faq.qna</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="general.luis">general.luis</ProjectItem>
         </Folder>
         <Folder Name="es" TargetFolderName="es">
           <ProjectItem ReplaceParameters="false" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="chitchat.qna">chitchat.qna</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="dispatch.luis">dispatch.luis</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="faq.qna">faq.qna</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="general.luis">general.luis</ProjectItem>
         </Folder>
         <Folder Name="fr" TargetFolderName="fr">
           <ProjectItem ReplaceParameters="false" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="chitchat.qna">chitchat.qna</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="dispatch.luis">dispatch.luis</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="faq.qna">faq.qna</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="general.luis">general.luis</ProjectItem>
         </Folder>
         <Folder Name="it" TargetFolderName="it">
           <ProjectItem ReplaceParameters="false" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="chitchat.qna">chitchat.qna</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="dispatch.luis">dispatch.luis</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="faq.qna">faq.qna</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="general.luis">general.luis</ProjectItem>
         </Folder>
         <Folder Name="zh" TargetFolderName="zh">
           <ProjectItem ReplaceParameters="false" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="chitchat.qna">chitchat.qna</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="dispatch.luis">dispatch.luis</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="faq.qna">faq.qna</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="general.luis">general.luis</ProjectItem>
@@ -198,7 +210,6 @@
       </Folder>
       <Folder Name="Middleware" TargetFolderName="Middleware">
         <Folder Name="Telemetry" TargetFolderName="Telemetry">
-          <ProjectItem ReplaceParameters="false" TargetFileName="Example Power BI Dashboard.pbit">Example Power BI Dashboard.pbit</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="LuisTelemetryConstants.cs">LuisTelemetryConstants.cs</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="QnATelemetryConstants.cs">QnATelemetryConstants.cs</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="TelemetryBotDependencyExtension.cs">TelemetryBotDependencyExtension.cs</ProjectItem>
