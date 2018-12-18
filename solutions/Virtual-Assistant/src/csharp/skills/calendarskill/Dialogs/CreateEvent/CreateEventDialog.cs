@@ -174,6 +174,11 @@ namespace CalendarSkill
                     return await sc.NextAsync(cancellationToken: cancellationToken);
                 }
             }
+            catch (SkillException ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
             catch (Exception ex)
             {
                 await HandleDialogExceptions(sc, ex);
@@ -366,6 +371,11 @@ namespace CalendarSkill
 
                 return await sc.EndDialogAsync(true, cancellationToken);
             }
+            catch (SkillException ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
             catch (Exception ex)
             {
                 await HandleDialogExceptions(sc, ex);
@@ -522,6 +532,11 @@ namespace CalendarSkill
                 var choiceString = GetSelectPromptString(selectOption, true);
                 selectOption.Prompt.Text = choiceString;
                 return await sc.PromptAsync(Actions.Choice, selectOption, cancellationToken);
+            }
+            catch (SkillException ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
             catch (Exception ex)
             {
@@ -1067,61 +1082,37 @@ namespace CalendarSkill
         protected async Task<List<PersonModel>> GetContactsAsync(WaterfallStepContext sc, string name)
         {
             var result = new List<PersonModel>();
-            try
-            {
-                var state = await Accessor.GetAsync(sc.Context);
-                var token = state.APIToken;
-                var service = ServiceManager.InitUserService(token, state.EventSource);
+            var state = await Accessor.GetAsync(sc.Context);
+            var token = state.APIToken;
+            var service = ServiceManager.InitUserService(token, state.EventSource);
 
-                // Get users.
-                result = await service.GetContactsAsync(name);
-                return result;
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                throw ex;
-            }
+            // Get users.
+            result = await service.GetContactsAsync(name);
+            return result;
         }
 
         protected async Task<List<PersonModel>> GetPeopleWorkWithAsync(WaterfallStepContext sc, string name)
         {
             var result = new List<PersonModel>();
-            try
-            {
-                var state = await Accessor.GetAsync(sc.Context);
-                var token = state.APIToken;
-                var service = ServiceManager.InitUserService(token, state.EventSource);
+            var state = await Accessor.GetAsync(sc.Context);
+            var token = state.APIToken;
+            var service = ServiceManager.InitUserService(token, state.EventSource);
 
-                // Get users.
-                result = await service.GetPeopleAsync(name);
+            // Get users.
+            result = await service.GetPeopleAsync(name);
 
-                return result;
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                throw ex;
-            }
+            return result;
         }
 
         protected async Task<List<PersonModel>> GetUserAsync(WaterfallStepContext sc, string name)
         {
             var result = new List<PersonModel>();
             var state = await Accessor.GetAsync(sc.Context);
-            try
-            {
-                var token = state.APIToken;
-                var service = ServiceManager.InitUserService(token, state.EventSource);
+            var token = state.APIToken;
+            var service = ServiceManager.InitUserService(token, state.EventSource);
 
-                // Get users.
-                result = await service.GetUserAsync(name);
-            }
-            catch (Microsoft.Graph.ServiceException)
-            {
-                // todo: add exception handling
-                // won't clear conversation state hear, because sometime use api is not available, like user msa account.
-            }
+            // Get users.
+            result = await service.GetUserAsync(name);
 
             return result;
         }

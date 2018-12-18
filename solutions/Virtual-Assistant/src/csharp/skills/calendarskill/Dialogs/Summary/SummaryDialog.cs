@@ -187,6 +187,11 @@ namespace CalendarSkill
 
                 return await sc.NextAsync();
             }
+            catch (SkillException ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
             catch (Exception ex)
             {
                 await HandleDialogExceptions(sc, ex);
@@ -272,6 +277,11 @@ namespace CalendarSkill
                 {
                     return await sc.NextAsync();
                 }
+            }
+            catch (SkillException ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
             catch (Exception ex)
             {

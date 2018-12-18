@@ -82,6 +82,11 @@ namespace CalendarSkill
                 state.Clear();
                 return await sc.EndDialogAsync(true, cancellationToken);
             }
+            catch (SkillException ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
             catch (Exception ex)
             {
                 await HandleDialogExceptions(sc, ex);
@@ -113,44 +118,36 @@ namespace CalendarSkill
 
         private async Task<List<EventModel>> GetMeetingToJoin(WaterfallStepContext sc)
         {
-            try
-            {
-                var state = await Accessor.GetAsync(sc.Context);
-                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+            var state = await Accessor.GetAsync(sc.Context);
+            var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
 
-                var eventList = await calendarService.GetUpcomingEvents();
-                var nextEventList = new List<EventModel>();
-                foreach (var item in eventList)
+            var eventList = await calendarService.GetUpcomingEvents();
+            var nextEventList = new List<EventModel>();
+            foreach (var item in eventList)
+            {
+                var itemUserTimeZoneTime = TimeZoneInfo.ConvertTime(item.StartTime, TimeZoneInfo.Utc, state.GetUserTimeZone());
+                if (item.IsCancelled != true && nextEventList.Count == 0)
                 {
-                    var itemUserTimeZoneTime = TimeZoneInfo.ConvertTime(item.StartTime, TimeZoneInfo.Utc, state.GetUserTimeZone());
-                    if (item.IsCancelled != true && nextEventList.Count == 0)
+                    if (state.OrderReference == "next")
                     {
-                        if (state.OrderReference == "next")
-                        {
-                            nextEventList.Add(item);
-                        }
-                        else if (state.StartDate.Any() && itemUserTimeZoneTime.DayOfYear == state.StartDate[0].DayOfYear)
-                        {
-                            nextEventList.Add(item);
-                        }
-                        else if (state.StartTime.Any() && itemUserTimeZoneTime == state.StartTime[0])
-                        {
-                            nextEventList.Add(item);
-                        }
-                        else if (state.Title != null && item.Title.Equals(state.Title, StringComparison.CurrentCultureIgnoreCase))
-                        {
-                            nextEventList.Add(item);
-                        }
+                        nextEventList.Add(item);
+                    }
+                    else if (state.StartDate.Any() && itemUserTimeZoneTime.DayOfYear == state.StartDate[0].DayOfYear)
+                    {
+                        nextEventList.Add(item);
+                    }
+                    else if (state.StartTime.Any() && itemUserTimeZoneTime == state.StartTime[0])
+                    {
+                        nextEventList.Add(item);
+                    }
+                    else if (state.Title != null && item.Title.Equals(state.Title, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        nextEventList.Add(item);
                     }
                 }
+            }
 
-                return nextEventList;
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                throw ex;
-            }
+            return nextEventList;
         }
     }
 }

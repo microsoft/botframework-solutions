@@ -109,6 +109,11 @@ namespace CalendarSkill
                     return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions());
                 }
             }
+            catch (SkillException ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
             catch (Exception ex)
             {
                 await HandleDialogExceptions(sc, ex);
@@ -164,6 +169,11 @@ namespace CalendarSkill
                 }
 
                 return await sc.NextAsync();
+            }
+            catch (SkillException ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
             catch (Exception ex)
             {
@@ -864,7 +874,10 @@ namespace CalendarSkill
             await sc.Context.SendActivityAsync(trace);
 
             // log exception
-            Services.TelemetryClient.TrackException(ex, AssembleTelemetryData(sc));
+            if (Services.TelemetryClient != null)
+            {
+                Services.TelemetryClient.TrackException(ex, AssembleTelemetryData(sc));
+            }
 
             // send error message to bot user
             await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarSharedResponses.CalendarErrorMessage));
@@ -885,7 +898,10 @@ namespace CalendarSkill
             await sc.Context.SendActivityAsync(trace);
 
             // log exception
-            Services.TelemetryClient.TrackException(ex, AssembleTelemetryData(sc));
+            if (Services.TelemetryClient != null)
+            {
+                Services.TelemetryClient.TrackException(ex, AssembleTelemetryData(sc));
+            }
 
             // send error message to bot user
             if (ex.ExceptionType == SkillExceptionType.APIAccessDenied)

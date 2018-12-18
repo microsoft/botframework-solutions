@@ -284,6 +284,20 @@ namespace CalendarSkillTest.Flow
                 .StartTestAsync();
         }
 
+        [TestMethod]
+        public async Task Test_CalendarAccessDeniedException()
+        {
+            await this.GetTestFlow()
+                .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.AskForParticpantsPrompt())
+                .Send(Strings.Strings.ThrowErrorAccessDenied)
+                .AssertReplyOneOf(this.BotErrorResponse())
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
         private string[] AskForParticpantsPrompt()
         {
             return this.ParseReplies(CreateEventResponses.NoAttendees.Replies, new StringDictionary());
@@ -389,6 +403,11 @@ namespace CalendarSkillTest.Flow
             {
                 Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
             };
+        }
+
+        private string[] BotErrorResponse()
+        {
+            return this.ParseReplies(CalendarSharedResponses.CalendarErrorMessageBotProblem.Replies, new StringDictionary());
         }
     }
 }

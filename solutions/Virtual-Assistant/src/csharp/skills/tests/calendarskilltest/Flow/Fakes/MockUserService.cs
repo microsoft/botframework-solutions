@@ -4,6 +4,8 @@ using CalendarSkill.Extensions;
 using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
 using Microsoft.Graph;
+using Microsoft.Bot.Solutions.Skills;
+using System;
 
 namespace CalendarSkillTest.Flow.Fakes
 {
@@ -110,6 +112,11 @@ namespace CalendarSkillTest.Flow.Fakes
 
         public async Task<List<PersonModel>> GetPeopleAsync(string name)
         {
+            if (name == Strings.Strings.ThrowErrorAccessDenied)
+            {
+                throw new SkillException(SkillExceptionType.APIAccessDenied, Strings.Strings.ThrowErrorAccessDenied, new Exception());
+            }
+
             List<PersonModel> items = new List<PersonModel>();
             foreach (Person people in this.People)
             {

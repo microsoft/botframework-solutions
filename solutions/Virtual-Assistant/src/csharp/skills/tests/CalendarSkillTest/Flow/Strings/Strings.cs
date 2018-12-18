@@ -37,5 +37,7 @@ namespace CalendarSkillTest.Flow.Strings
         public static string UserEmailAddress { get; } = "test{0}@test.com";
 
         public static string Next { get; } = "next";
+
+        public static string ThrowErrorAccessDenied { get; } = "test_throw_error_access_denied";
     }
 }
