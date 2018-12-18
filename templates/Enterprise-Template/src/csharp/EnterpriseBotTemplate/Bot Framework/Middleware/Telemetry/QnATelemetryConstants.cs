@@ -8,6 +8,7 @@ namespace $safeprojectname$.Middleware.Telemetry
     /// </summary>
     public static class QnATelemetryConstants
     {
+        public const string KnowledgeBaseIdProperty = "knowledgeBaseId";
         public const string ActivityIdProperty = "activityId";
         public const string AnswerProperty = "answer";
         public const string ArticleFoundProperty = "articleFound";

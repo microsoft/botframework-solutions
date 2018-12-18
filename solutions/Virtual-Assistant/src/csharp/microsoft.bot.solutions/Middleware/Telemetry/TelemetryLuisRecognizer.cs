@@ -125,7 +125,7 @@ namespace Microsoft.Bot.Solutions
                 // Add the intent score and conversation id properties
                 var telemetryProperties = new Dictionary<string, string>()
                 {
-                    { LuisTelemetryConstants.ApplicationId, _luisApplication.ApplicationId },
+                    { LuisTelemetryConstants.ApplicationIdProperty, _luisApplication.ApplicationId },
                     { LuisTelemetryConstants.IntentProperty, topLuisIntent.intent },
                     { LuisTelemetryConstants.IntentScoreProperty, intentScore },
                 };
