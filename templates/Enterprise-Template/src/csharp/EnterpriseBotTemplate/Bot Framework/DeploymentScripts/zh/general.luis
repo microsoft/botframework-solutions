@@ -4,34 +4,57 @@
       "name": "Cancel"
     },
     {
+      "name": "Confirm"
+    },
+    {
       "name": "Escalate"
     },
     {
-      "name": "Goodbye"
+      "name": "FinishTask"
     },
     {
-      "name": "Greeting"
+      "name": "GoBack"
     },
     {
       "name": "Help"
     },
     {
-      "name": "Logout"
-    },
-    {
-      "name": "Next"
-    },
-    {
       "name": "None"
     },
     {
-      "name": "Previous"
+      "name": "Reject"
     },
     {
-      "name": "Restart"
+      "name": "Repeat"
+    },
+    {
+      "name": "SelectAny"
+    },
+    {
+      "name": "SelectItem"
+    },
+    {
+      "name": "SelectNone"
+    },
+    {
+      "name": "ShowNext"
+    },
+    {
+      "name": "ShowPrevious"
+    },
+    {
+      "name": "StartOver"
+    },
+    {
+      "name": "Stop"
     }
   ],
-  "entities": [],
+  "entities": [
+    {
+      "name": "DirectionalReference",
+      "roles": []
+    }
+  ],
   "composites": [],
   "closedLists": [],
   "regex_entities": [],
@@ -39,32 +62,32 @@
   "regex_features": [],
   "utterances": [
     {
-      "text": "不",
+      "text": "取消",
       "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "不了",
+      "text": "取消应用程序",
       "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "不要",
+      "text": "取消取消",
       "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "中止",
+      "text": "取消它",
       "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "停止",
+      "text": "取消没关系",
       "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "别这样",
+      "text": "取消这一点",
       "intent": "Cancel",
       "entities": []
     },
@@ -74,12 +97,47 @@
       "entities": []
     },
     {
-      "text": "我想取消",
+      "text": "取消",
       "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "无视",
+      "text": "什么都不做",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "别这样",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "别再这么做了",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "忘了它吧",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "走开",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "只是取消",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "只是取消它",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "神经的头脑",
       "intent": "Cancel",
       "entities": []
     },
@@ -89,42 +147,327 @@
       "entities": []
     },
     {
-      "text": "算了",
+      "text": "别介意取消",
       "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "请停止",
+      "text": "没关系取消,",
       "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "与人交谈",
-      "intent": "Escalate",
+      "text": "没有取消",
+      "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "叫你负责人来",
-      "intent": "Escalate",
+      "text": "没有取消取消",
+      "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "我想和一个人谈谈",
-      "intent": "Escalate",
+      "text": "不取消它",
+      "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "我能和一个人说话吗？",
-      "intent": "Escalate",
+      "text": "没有取消,",
+      "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "找个管事的",
-      "intent": "Escalate",
+      "text": "别介意",
+      "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "把你老板叫来",
+      "text": "没有没有取消",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "不, 不, 取消它",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "没什么没关系",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "没什么, 请",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "哦, 取消",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "哦, 不要这样做",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "请什么都不做",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "退出",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "对不起, 不要这样做",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "确认",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "做吧",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "结束",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "去吧",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "伟大",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "我确定",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "没事的",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "毫无疑问",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "答案是肯定的",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "哦，是的",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "哦，是的",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "还行",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "好吧, 现在",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "好",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "完美",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "完美的谢谢你",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "对",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "对是的",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "听上去很好",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "听起来不错, 谢谢",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "听起来不错, 谢谢",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "听起来不错",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "听起来不错",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "听起来很完美",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "确定",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "肯定不",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "肯定是",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "肯定的事情",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "当然是的",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "谢谢",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "谢谢你是的",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "这是正确的",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "这是正确的",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "该权利",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "听起来不错",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "这很好",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "这很好",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "非常好",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "已经",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "是的",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "是的，宝贝",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "是的兄弟",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "是的, 哥们",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "是的很酷",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "是的, 去吧",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "是的, 去吧",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "是的很好",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "是的",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "我能和一个人交谈吗？",
       "intent": "Escalate",
       "entities": []
     },
@@ -134,97 +477,227 @@
       "entities": []
     },
     {
-      "text": "请转移我",
+      "text": "联系客服",
       "intent": "Escalate",
       "entities": []
     },
     {
-      "text": "再见",
-      "intent": "Goodbye",
+      "text": "客服服务",
+      "intent": "Escalate",
       "entities": []
     },
     {
-      "text": "好的，再见",
-      "intent": "Goodbye",
+      "text": "人性化服务",
+      "intent": "Escalate",
       "entities": []
     },
     {
-      "text": "好的，谢谢",
-      "intent": "Goodbye",
+      "text": "我需要手动客服",
+      "intent": "Escalate",
       "entities": []
     },
     {
-      "text": "就这样吧",
-      "intent": "Goodbye",
+      "text": "我需要真正的人类帮助",
+      "intent": "Escalate",
       "entities": []
     },
     {
-      "text": "晚安",
-      "intent": "Goodbye",
+      "text": "我需要支持",
+      "intent": "Escalate",
       "entities": []
     },
     {
-      "text": "没事了",
-      "intent": "Goodbye",
+      "text": "我想和一个人谈谈",
+      "intent": "Escalate",
       "entities": []
     },
     {
-      "text": "谢谢",
-      "intent": "Goodbye",
+      "text": "我想和一个真正的人类谈谈",
+      "intent": "Escalate",
       "entities": []
     },
     {
-      "text": "你今天感觉如何",
-      "intent": "Greeting",
+      "text": "有没有人, 我可以交谈",
+      "intent": "Escalate",
       "entities": []
     },
     {
-      "text": "你好",
-      "intent": "Greeting",
+      "text": "是否有任何真正的人类",
+      "intent": "Escalate",
       "entities": []
     },
     {
-      "text": "你好吗",
-      "intent": "Greeting",
+      "text": "有什么真实的人吗？",
+      "intent": "Escalate",
       "entities": []
     },
     {
-      "text": "哈啰",
-      "intent": "Greeting",
+      "text": "和人类交谈",
+      "intent": "Escalate",
       "entities": []
     },
     {
-      "text": "嗨",
-      "intent": "Greeting",
+      "text": "全部完成",
+      "intent": "FinishTask",
       "entities": []
     },
     {
-      "text": "嘿",
-      "intent": "Greeting",
+      "text": "全部设置",
+      "intent": "FinishTask",
       "entities": []
     },
     {
-      "text": "怎么样",
-      "intent": "Greeting",
+      "text": "做",
+      "intent": "FinishTask",
       "entities": []
     },
     {
-      "text": "您好 bot",
-      "intent": "Greeting",
+      "text": "完成",
+      "intent": "FinishTask",
       "entities": []
     },
     {
-      "text": "早上好",
-      "intent": "Greeting",
+      "text": "完成",
+      "intent": "FinishTask",
       "entities": []
     },
     {
-      "text": "晚上好",
-      "intent": "Greeting",
+      "text": "完成了",
+      "intent": "FinishTask",
       "entities": []
     },
     {
-      "text": "为什么不这样做",
+      "text": "我做完了",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "我完了",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "它完成了",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "它的完成",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "它的完成",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "只是是",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "提交",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "提交它",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "返回",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "退后请",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "返回到",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "返回到最后一个",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "返回到最后一步",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "回来",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "请退后",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "回到最后",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "回去",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "回去吧",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "请回去",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "返回到",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "最后一步",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "不回去",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "不, 不, 不, 回去",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "请返回",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "返回",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "任何帮助",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "你能帮上忙吗",
       "intent": "Help",
       "entities": []
     },
@@ -234,17 +707,7 @@
       "entities": []
     },
     {
-      "text": "你能做什么",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "你能帮我什么？",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "咋回事",
+      "text": "给我一些帮助",
       "intent": "Help",
       "entities": []
     },
@@ -254,363 +717,1401 @@
       "entities": []
     },
     {
-      "text": "帮助请",
+      "text": "我怎么能得到它",
       "intent": "Help",
       "entities": []
     },
     {
-      "text": "帮帮我",
+      "text": "如何做到这一点",
       "intent": "Help",
       "entities": []
     },
     {
-      "text": "怎么回事",
+      "text": "我需要帮助",
       "intent": "Help",
       "entities": []
     },
     {
-      "text": "我不懂",
+      "text": "我需要一些帮助",
       "intent": "Help",
       "entities": []
     },
     {
-      "text": "我不明白",
+      "text": "我需要一些帮助",
       "intent": "Help",
       "entities": []
     },
     {
-      "text": "我现在该怎么办",
+      "text": "有什么帮助吗？",
       "intent": "Help",
       "entities": []
     },
     {
-      "text": "我能说什么呢",
+      "text": "打开帮助",
       "intent": "Help",
       "entities": []
     },
     {
-      "text": "我被卡住了",
+      "text": "请帮帮忙",
       "intent": "Help",
       "entities": []
     },
     {
-      "text": "忘记我",
-      "intent": "Logout",
+      "text": "一些帮助",
+      "intent": "Help",
       "entities": []
     },
     {
-      "text": "注销",
-      "intent": "Logout",
+      "text": "谁能帮我",
+      "intent": "Help",
       "entities": []
     },
     {
-      "text": "退出",
-      "intent": "Logout",
+      "text": "所有的人",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "我希望他们都",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "我想所有的人",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "我不喜欢",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "我拒绝",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "负",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "从来 没有",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "不",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "不, 我不希望",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "没有以后",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "没有离开它",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "没有更多的没有",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "哦不",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "在 \"否\" 上",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "不, 不, 谢谢",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "不, 不是那个",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "不拒绝它",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "不,谢谢",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "不，谢谢",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "不可能",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "没有错",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "不",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "不",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "一点也不",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "甚至没有关闭",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "不完全是",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "不是现在",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "不完全是",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "不是现在",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "不是这样的",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "很少",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "哦不",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "拒绝",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "拒绝它",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "再次",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "你能再说一遍吗？",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "我没有听到重复再次",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "我没有听说过",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "宽恕",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "重复",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "请重复一遍",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "重复,",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "再说一遍",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "请再说一遍",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "再说一遍",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "对不起",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "什么？",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "你说什么",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "那又是什么",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "它的任何一个",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "任何一个都是确定的",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "任何人都很好",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "什么",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "选择任何人",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "随机选择其中一个",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "选择一个随机的",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "选择它的任何一个",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "选择随机选择",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "选择一个随机的",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "选择任何",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "选择任何选项",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "选择它的任何一个",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "选择最后一个",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "选择最后一个",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "选择2号",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "选择 左下角",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 3,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "选择第一选择",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "选择第四个",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "选择 左上角 选择",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 3,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "选择 右上角 一个",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 3,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "选择 右上角",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 3,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "选择 右上角 一个",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 3,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "我喜欢 离开 一个",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 4,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "我喜欢第二",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "我喜欢第二个",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "我喜欢的 底部 一个",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 5,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "我喜欢第一个",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "我喜欢第三个",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "我喜欢第三个选择",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "我喜欢的 右上角 一个",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "我喜欢的 右上角",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "我喜欢 右上角",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 4,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "我想要 底部",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 4,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "我想要第四",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "我想要 离开",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 4,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "我想要 对 一个",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 4,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "我想要的第一个",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "我想要第四个选择",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "我想 离开",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 3,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "我想 降低 选择",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 3,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "我想 对 一个",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 3,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "我想要第二个",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "我想要第三个",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "我想选择 底部 一个",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 5,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "我想选择 右下角",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "我想选择 对",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 5,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "我想选择第二个",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "我想选择第一个",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "我想选择第四个",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "我想选择最后的选择",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "我想选择的 离开 一个",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 6,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "我想选择的 降低 选择",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 6,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "我想选择的 对",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 6,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "我想选择第三",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "选择第一个",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "选择最后一个",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "选择 离开",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 3,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "选择 对 一个",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 3,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "选择最后一个",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "选择 离开 一个",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 3,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "选择 降低 选择",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 3,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "选择 对",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 3,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "选择第二个",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "选择第二个选项",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "选择第四个",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "选择 降低 一个",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 3,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "选择5号",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "选择 底部 选择",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 3,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "选择第一个",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "选择最后一个选项",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "选择 降低 一个",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 3,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "选择 对 一个",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 3,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "选择第三个",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "选择 右上角",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 3,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "选择第三个",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "选择 上",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 3,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "那最后一个呢？",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "那第三个呢？",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "我不想选择任何一个",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "我不想选择任何一个",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "我不想要他们两个",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "我不想要他们中的任何一个",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "也",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "这两个",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "都不是一个",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "他们中的任何一个",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "也不谢谢你",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "没有",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "无",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "他们都没有",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "他们中没有一个",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "他们都不感谢你",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "这些都没有",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "没有这些",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "他们看起来很糟糕, 你能给我其他的选择吗？",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "在那之后",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "勇往直前",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "转到下一个",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "转到接下来的三个项目",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "我需要去下一个",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "我想要更多",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "移动到下一个",
+      "intent": "ShowNext",
       "entities": []
     },
     {
       "text": "下",
-      "intent": "Next",
+      "intent": "ShowNext",
       "entities": []
     },
     {
-      "text": "下一封电子邮件",
-      "intent": "Next",
+      "text": "给我看看下一个",
+      "intent": "ShowNext",
       "entities": []
     },
     {
-      "text": "下一条",
-      "intent": "Next",
+      "text": "显示更多",
+      "intent": "ShowNext",
       "entities": []
     },
     {
-      "text": "下一页",
-      "intent": "Next",
+      "text": "显示下一个3",
+      "intent": "ShowNext",
       "entities": []
     },
     {
-      "text": "下一页请",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "下一项",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "你能展示下一张吗？",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "前进",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "我要去下一个",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "显示下一",
-      "intent": "Next",
+      "text": "显示接下来的4个项目",
+      "intent": "ShowNext",
       "entities": []
     },
     {
       "text": "显示下一个",
-      "intent": "Next",
+      "intent": "ShowNext",
       "entities": []
     },
     {
-      "text": "显示下一页",
-      "intent": "Next",
+      "text": "显示接下来的两个选项",
+      "intent": "ShowNext",
       "entities": []
     },
     {
-      "text": "移到下一个",
-      "intent": "Next",
+      "text": "下一个呢？",
+      "intent": "ShowNext",
       "entities": []
     },
     {
-      "text": "继续",
-      "intent": "Next",
+      "text": "之后是什么",
+      "intent": "ShowNext",
       "entities": []
     },
     {
-      "text": "继续下一步",
-      "intent": "Next",
+      "text": "之后是什么",
+      "intent": "ShowNext",
       "entities": []
     },
     {
-      "text": "继续前进",
-      "intent": "Next",
+      "text": "更重要的是",
+      "intent": "ShowNext",
       "entities": []
     },
     {
-      "text": "让我看看下一个",
-      "intent": "Next",
+      "text": "下一步是什么",
+      "intent": "ShowNext",
       "entities": []
     },
     {
-      "text": "请转到下一个",
-      "intent": "Next",
+      "text": "接下来的2是什么",
+      "intent": "ShowNext",
       "entities": []
     },
     {
-      "text": "转到下一页",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "进展",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "买苹果",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "取消会议",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "取消客户简报",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "取消我们的行程",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "哈 哈哈",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "哈哈",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "天空中的纸飞机",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "寻找星巴克",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "我很冷",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "我有什么会议",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "我的水瓶是绿色的",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "打开收音机",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "提醒我去取牛奶",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "是的",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "海龟喜欢在海里游泳",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "航班取消",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "重新启动讨论",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "预订会议",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "上一张请",
-      "intent": "Previous",
-      "entities": []
-    },
-    {
-      "text": "上一条",
-      "intent": "Previous",
-      "entities": []
-    },
-    {
-      "text": "什么是以前",
-      "intent": "Previous",
-      "entities": []
-    },
-    {
-      "text": "以前",
-      "intent": "Previous",
-      "entities": []
-    },
-    {
-      "text": "前一个",
-      "intent": "Previous",
+      "text": "接下来会发生什么",
+      "intent": "ShowNext",
       "entities": []
     },
     {
       "text": "回到最后一个",
-      "intent": "Previous",
+      "intent": "ShowPrevious",
       "entities": []
     },
     {
-      "text": "回去",
-      "intent": "Previous",
+      "text": "带来了前一个",
+      "intent": "ShowPrevious",
       "entities": []
     },
     {
-      "text": "带上一个",
-      "intent": "Previous",
+      "text": "回到最后一个",
+      "intent": "ShowPrevious",
       "entities": []
     },
     {
-      "text": "显示上一页",
-      "intent": "Previous",
+      "text": "回到最后一个",
+      "intent": "ShowPrevious",
       "entities": []
     },
     {
-      "text": "最后",
-      "intent": "Previous",
+      "text": "回到以前的",
+      "intent": "ShowPrevious",
       "entities": []
     },
     {
-      "text": "最后一个",
-      "intent": "Previous",
+      "text": "回到最后一个",
+      "intent": "ShowPrevious",
       "entities": []
     },
     {
-      "text": "老一",
-      "intent": "Previous",
+      "text": "转到上一个",
+      "intent": "ShowPrevious",
       "entities": []
     },
     {
-      "text": "走到最后",
-      "intent": "Previous",
+      "text": "转到上一个",
+      "intent": "ShowPrevious",
       "entities": []
     },
     {
-      "text": "转到上一页",
-      "intent": "Previous",
+      "text": "上一个",
+      "intent": "ShowPrevious",
       "entities": []
     },
     {
-      "text": "转到最后一个",
-      "intent": "Previous",
+      "text": "请前一个",
+      "intent": "ShowPrevious",
       "entities": []
     },
     {
-      "text": "退后",
-      "intent": "Previous",
+      "text": "返回到上一个",
+      "intent": "ShowPrevious",
       "entities": []
     },
     {
-      "text": "从头开始",
-      "intent": "Restart",
+      "text": "给我看看前一个",
+      "intent": "ShowPrevious",
       "entities": []
     },
     {
-      "text": "再来一次",
-      "intent": "Restart",
+      "text": "显示上一个",
+      "intent": "ShowPrevious",
       "entities": []
     },
     {
-      "text": "我能再做一次吗",
-      "intent": "Restart",
+      "text": "显示前一个",
+      "intent": "ShowPrevious",
       "entities": []
     },
     {
-      "text": "我需要改变一些事情",
-      "intent": "Restart",
+      "text": "在那之前",
+      "intent": "ShowPrevious",
       "entities": []
     },
     {
-      "text": "撤消",
-      "intent": "Restart",
+      "text": "什么是以前的",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "什么是之前,",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "清除并重新开始",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "你能不能重新开始",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "请重新开始",
+      "intent": "StartOver",
       "entities": []
     },
     {
       "text": "重新 启动",
-      "intent": "Restart",
+      "intent": "StartOver",
       "entities": []
     },
     {
-      "text": "重来",
-      "intent": "Restart",
+      "text": "重新启动它",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "重新开始",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "重新开始",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "重新开始",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "开始在它",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "翻开新的一页",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "宝贝, 安静点",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "保持安静",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "现在安静点",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "来吧, 停",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "解雇",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "结束",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "结束它",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "退出出口",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "退出站",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "上帝闭嘴",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "嘿, 住手",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "我爱你停止说话",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "我的意思是停止听",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "我说停止",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "只是安静",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "我的上帝闭嘴",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "没关系停止",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "不要安静",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "现在不要安静",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "不, 不, 不, 不, 停止说话",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "没有闭嘴",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "没有停止",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "没有人在乎停止说话",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "无处只是安静",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "哦, 我的上帝闭嘴",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "好的, 停",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "安静",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "安静的现在",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "他妈的闭嘴",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "闭嘴",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "闭嘴, 安静点",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "闭嘴, 安静",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "闭上你的嘴",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "请停止",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "别说话了",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "关闭",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "关闭停止",
+      "intent": "Stop",
       "entities": []
     }
   ],
@@ -618,17 +2119,17 @@
   "patternAnyEntities": [],
   "prebuiltEntities": [
     {
-      "name": "datetimeV2",
+      "name": "number",
       "roles": []
     },
     {
-      "name": "number",
+      "name": "ordinal",
       "roles": []
     }
   ],
   "luis_schema_version": "3.0.0",
   "versionId": "0.1",
-  "name": "General",
+  "name": "general",
   "desc": "",
   "culture": "en-us"
 }

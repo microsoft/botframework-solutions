@@ -1,37 +1,60 @@
 {
   "intents": [
     {
-      "name": "Greeting"
-    },
-    {
-      "name": "Help"
-    },
-    {
       "name": "Cancel"
     },
     {
-      "name": "Restart"
+      "name": "Confirm"
     },
     {
       "name": "Escalate"
     },
     {
-      "name": "Next"
+      "name": "FinishTask"
     },
     {
-      "name": "Previous"
+      "name": "GoBack"
     },
     {
-      "name": "Goodbye"
-    },
-    {
-      "name": "Logout"
+      "name": "Help"
     },
     {
       "name": "None"
+    },
+    {
+      "name": "Reject"
+    },
+    {
+      "name": "Repeat"
+    },
+    {
+      "name": "SelectAny"
+    },
+    {
+      "name": "SelectItem"
+    },
+    {
+      "name": "SelectNone"
+    },
+    {
+      "name": "ShowNext"
+    },
+    {
+      "name": "ShowPrevious"
+    },
+    {
+      "name": "StartOver"
+    },
+    {
+      "name": "Stop"
     }
   ],
-  "entities": [],
+  "entities": [
+    {
+      "name": "DirectionalReference",
+      "roles": []
+    }
+  ],
   "composites": [],
   "closedLists": [],
   "regex_entities": [],
@@ -39,132 +62,47 @@
   "regex_features": [],
   "utterances": [
     {
-      "text": "Hallo",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "Hallo",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "Guten Morgen",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "Guten Abend",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "hello bot",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "Hiya",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "Wie geht es dir",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "Wie geht es dir heute",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "Hallöchen",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "Hilfe",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "Hilf mir",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "Hilfe bitte",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "ich stecke",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "Ich kann Sie nicht verstehen",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "Was soll ich sagen",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "Was können Sie mir helfen",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "Was können Sie tun",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "Was mache ich jetzt",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "Warum funktioniert das nicht",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "Kannst du mir helfen",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "Stoppen",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
       "text": "Abbrechen",
       "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "Abbrechen",
+      "text": "App stornieren",
       "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "Ignorieren",
+      "text": "Absage",
       "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "Tue nicht",
+      "text": "Absagen",
       "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "machen es nicht",
+      "text": "Streichung nie",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Absage",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Abgebrochen",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Storniert",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Nichts tun",
       "intent": "Cancel",
       "entities": []
     },
@@ -174,7 +112,7 @@
       "entities": []
     },
     {
-      "text": "Ich möchte absagen",
+      "text": "Das nicht mehr tun",
       "intent": "Cancel",
       "entities": []
     },
@@ -184,42 +122,387 @@
       "entities": []
     },
     {
-      "text": "Bitte stoppen",
+      "text": "Gehen Sie weg",
       "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "Ausfahrt",
+      "text": "Nur absagen",
       "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "kann ich das noch einmal machen",
-      "intent": "Restart",
+      "text": "Nur absagen",
+      "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "Ich muss etwas ändern",
-      "intent": "Restart",
+      "text": "Nervendenken",
+      "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "Neu starten",
-      "intent": "Restart",
+      "text": "Vergessen Sie es",
+      "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "Start über",
-      "intent": "Restart",
+      "text": "Egal, absagen",
+      "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "Rückgängig",
-      "intent": "Restart",
+      "text": "Nichts dagegen, dass",
+      "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "kann ich mit einer Person sprechen",
+      "text": "Keine Absage",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Keine Kündigung",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Kein Absagen",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Kein Absagen, dass",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Keine Ahnung",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Keine Absage",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Kein Absagen",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Nichts egal",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Nichts bitte",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "oh absagen",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Oh nicht, dass",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Bitte nichts tun",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Beenden",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Tut mir leid, nicht",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Bestätigen",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Tu es",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Ende",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Für die",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Große",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Ich bin mir sicher",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Es ist in Ordnung",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Keine Zweifel",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Natürlich",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Oh ja",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Oh ja",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Okay",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "OK für jetzt",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Okay",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Perfekte",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Perfektes Dankeschön",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Rechten",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Richtig ja",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Klingt gut",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Hört sich gut an",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Klingt gut",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Hört sich gut an",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Klingt großartig",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Klingt perfekt",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Sicher",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Sicher tut",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Sicher ist",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Sicher Sache",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Ja, ja",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Vielen Dank",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Danke ja",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Das ist richtig",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Das ist richtig",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Das Recht",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Das klingt gut",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Das ist in Ordnung",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Das ist gut",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Sehr gut",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Bereits",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Ja",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Ja Liebling",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Ja bro",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Ja, Kumpel",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Ja cool",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Ja voran",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Ja, los geht es",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Ja gut",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Ja",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "Kann ich mit einer Person sprechen",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "Kontaktaufnahme",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "Kontakt zum Kundendienst",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "Kundenservice",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "Menschliche Dienste",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "Ich brauche manuellen Kundenservice",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "Ich brauche echte menschliche Hilfe",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "Ich brauche Unterstützung",
       "intent": "Escalate",
       "entities": []
     },
@@ -229,288 +512,1606 @@
       "entities": []
     },
     {
-      "text": "sprechen Sie mit einem Menschen",
+      "text": "Ich möchte mit einem echten Menschen sprechen",
       "intent": "Escalate",
       "entities": []
     },
     {
-      "text": "Transfer me please",
+      "text": "Gibt es jemanden, mit dem ich sprechen kann",
       "intent": "Escalate",
       "entities": []
     },
     {
-      "text": "Kontakt Unterstützung",
+      "text": "Gibt es einen echten Menschen",
       "intent": "Escalate",
       "entities": []
     },
     {
-      "text": "Voraus",
-      "intent": "Next",
+      "text": "Gibt es eine echte Person",
+      "intent": "Escalate",
       "entities": []
     },
     {
-      "text": "vorwärts gehen",
-      "intent": "Next",
+      "text": "Sprechen Sie mit einem Menschen",
+      "intent": "Escalate",
       "entities": []
     },
     {
-      "text": "gehen Sie zum nächsten",
-      "intent": "Next",
+      "text": "Alles fertig",
+      "intent": "FinishTask",
       "entities": []
     },
     {
-      "text": "Nächsten",
-      "intent": "Next",
+      "text": "Alles gesetzt",
+      "intent": "FinishTask",
       "entities": []
     },
     {
-      "text": "nächsten Punkt",
-      "intent": "Next",
+      "text": "Getan",
+      "intent": "FinishTask",
       "entities": []
     },
     {
-      "text": "Show Next",
-      "intent": "Next",
+      "text": "Beenden",
+      "intent": "FinishTask",
       "entities": []
     },
     {
-      "text": "könntest du den nächsten zeigen",
-      "intent": "Next",
+      "text": "Fertig",
+      "intent": "FinishTask",
       "entities": []
     },
     {
-      "text": "Ich muss zum nächsten gehen",
-      "intent": "Next",
+      "text": "Fertig mit",
+      "intent": "FinishTask",
       "entities": []
     },
     {
-      "text": "gehen Sie bitte zum nächsten",
-      "intent": "Next",
+      "text": "Ich bin fertig",
+      "intent": "FinishTask",
       "entities": []
     },
     {
-      "text": "zum nächsten übergehen",
-      "intent": "Next",
+      "text": "Ich bin fertig",
+      "intent": "FinishTask",
       "entities": []
     },
     {
-      "text": "Mache weiter",
-      "intent": "Next",
+      "text": "Es endete",
+      "intent": "FinishTask",
       "entities": []
     },
     {
-      "text": "gehen Sie zum nächsten",
-      "intent": "Next",
+      "text": "Es ist geschafft",
+      "intent": "FinishTask",
       "entities": []
     },
     {
-      "text": "zur nächsten Seite",
-      "intent": "Next",
+      "text": "Es ist fertig",
+      "intent": "FinishTask",
       "entities": []
     },
     {
-      "text": "Vorankommen",
-      "intent": "Next",
+      "text": "Nur nur sein",
+      "intent": "FinishTask",
       "entities": []
     },
     {
-      "text": "Schritt auf",
-      "intent": "Next",
+      "text": "Senden",
+      "intent": "FinishTask",
       "entities": []
     },
     {
-      "text": "Weiter geht es",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "nächsten ein",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "nächsten bitte",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "Zeig mir als nächstes",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "Zeige mir die nächste",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "zeigen die nächste",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "zeigen Sie den nächsten",
-      "intent": "Next",
-      "entities": []
-    },
-    {
-      "text": "die nächste e-Mail",
-      "intent": "Next",
+      "text": "Einreichen",
+      "intent": "FinishTask",
       "entities": []
     },
     {
       "text": "Zurück",
-      "intent": "Previous",
+      "intent": "GoBack",
       "entities": []
     },
     {
-      "text": "letzten einen",
-      "intent": "Previous",
+      "text": "Bitte zurück",
+      "intent": "GoBack",
       "entities": []
     },
     {
-      "text": "vorherige",
-      "intent": "Previous",
+      "text": "Zurück zu",
+      "intent": "GoBack",
       "entities": []
     },
     {
-      "text": "der letzte",
-      "intent": "Previous",
+      "text": "Zurück zum letzten",
+      "intent": "GoBack",
       "entities": []
     },
     {
-      "text": "jährige ein",
-      "intent": "Previous",
+      "text": "Zurück zum letzten Schritt",
+      "intent": "GoBack",
       "entities": []
     },
     {
-      "text": "Last",
-      "intent": "Previous",
+      "text": "Ich melde mich wieder",
+      "intent": "GoBack",
       "entities": []
     },
     {
-      "text": "zurück zum letzten",
-      "intent": "Previous",
+      "text": "Bitte melden Sie sich",
+      "intent": "GoBack",
       "entities": []
     },
     {
-      "text": "bringen Sie die vorherige",
-      "intent": "Previous",
+      "text": "Endlich wieder",
+      "intent": "GoBack",
       "entities": []
     },
     {
-      "text": "kommen Sie zum letzten",
-      "intent": "Previous",
+      "text": "Zurück",
+      "intent": "GoBack",
       "entities": []
     },
     {
-      "text": "gehen Sie zu früheren",
-      "intent": "Previous",
+      "text": "Zurück",
+      "intent": "GoBack",
       "entities": []
     },
     {
-      "text": "zum letzten gehen",
-      "intent": "Previous",
+      "text": "Gehen Sie bitte zurück",
+      "intent": "GoBack",
       "entities": []
     },
     {
-      "text": "zurückziehen",
-      "intent": "Previous",
+      "text": "Zurück zu",
+      "intent": "GoBack",
       "entities": []
     },
     {
-      "text": "Vorherigen",
-      "intent": "Previous",
+      "text": "Letzter Schritt",
+      "intent": "GoBack",
       "entities": []
     },
     {
-      "text": "Zeige mir vorher",
-      "intent": "Previous",
+      "text": "No go back to",
+      "intent": "GoBack",
       "entities": []
     },
     {
-      "text": "vorherige bitte",
-      "intent": "Previous",
+      "text": "No no go back to",
+      "intent": "GoBack",
       "entities": []
     },
     {
-      "text": "der vorherige",
-      "intent": "Previous",
+      "text": "Bitte zurück",
+      "intent": "GoBack",
       "entities": []
     },
     {
-      "text": "Was ist der bisherige",
-      "intent": "Previous",
+      "text": "Zurück",
+      "intent": "GoBack",
       "entities": []
     },
     {
-      "text": "Gute Nacht",
-      "intent": "Goodbye",
+      "text": "Jede Hilfe",
+      "intent": "Help",
       "entities": []
     },
     {
-      "text": "Goodbye",
-      "intent": "Goodbye",
+      "text": "Können Sie helfen",
+      "intent": "Help",
       "entities": []
     },
     {
-      "text": "Auf Wiedersehen",
-      "intent": "Goodbye",
+      "text": "Kannst du mir helfen",
+      "intent": "Help",
       "entities": []
     },
     {
-      "text": "Ok danke",
-      "intent": "Goodbye",
+      "text": "Geben Sie mir Hilfe",
+      "intent": "Help",
       "entities": []
     },
     {
-      "text": "Ok tschüss",
-      "intent": "Goodbye",
+      "text": "Hilfe",
+      "intent": "Help",
       "entities": []
     },
     {
-      "text": "Das ist es dank",
-      "intent": "Goodbye",
+      "text": "Wie bekomme ich es",
+      "intent": "Help",
       "entities": []
     },
     {
-      "text": "SignOut",
-      "intent": "Logout",
+      "text": "Wie es geht",
+      "intent": "Help",
       "entities": []
     },
     {
-      "text": "Vergiss mich",
-      "intent": "Logout",
+      "text": "Ich brauche Hilfe",
+      "intent": "Help",
       "entities": []
     },
     {
-      "text": "Abmelden",
-      "intent": "Logout",
+      "text": "Ich brauche ein wenig Hilfe",
+      "intent": "Help",
       "entities": []
     },
     {
-      "text": "logout",
-      "intent": "Logout",
+      "text": "Ich brauche Hilfe",
+      "intent": "Help",
       "entities": []
     },
     {
-      "text": "Abmelden",
-      "intent": "Logout",
+      "text": "Gibt es Hilfe",
+      "intent": "Help",
       "entities": []
     },
     {
-      "text": "meine Wasserflasche ist grün",
+      "text": "Offene Hilfe",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Bitte helfen",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Einige Hilfe",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Wer kann mir helfen",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Alle",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "Schildkröten Schwimmen gerne im Ozean",
+      "text": "Ich will sie alle",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "papierflugzeuge am Himmel",
+      "text": "Ich möchte sie alle",
       "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "Ich mag es nicht",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Ich lehne ab",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Negative",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Nie",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Nein",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Nein, das will ich nicht",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Spätestens",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Kein Abschied",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Nicht mehr nein",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Oh nein",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Im Nein auf der",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Nein danke",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Nein, das nicht",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Keine Ablehnung",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Nein, danke",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Nein, danke",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Auf keinen Fall",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Kein Unrecht",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Nö",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Nicht",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Überhaupt nicht",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Nicht einmal nah",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Nicht genau",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Jetzt nicht",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Nicht ganz",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Nicht erst jetzt",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Nicht das",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Nicht viel",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Oh nein",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Ablehnen",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Absage",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "Wieder",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "Könntest du es noch einmal sagen",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "Ich hörte nicht wieder",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "Ich habe nicht gehört",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "Vergebung",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "Wiederholen",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "Wiederholung bitte",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "Wiederholen Sie das",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "Sag noch einmal",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "Sagen Sie bitte noch einmal",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "Sagen Sie das noch einmal",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "Tut mir Leid",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "Was",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "Was hast du gesagt",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "Was war das wieder",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "Eins davon",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "Jeder ist ok",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "Jeder ist in Ordnung",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "Etwas",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie jemanden",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie einen von ihm zufällig aus",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "Entscheiden Sie sich für einen zufälligen",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "Entscheiden Sie sich für irgendetwas",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie eine Zufallswahl aus",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie einen Zufallsfall aus",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie eine",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie jede Wahl",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie eine davon aus",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "Letzter wählen",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie die letzte",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie Nr. 2",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie die  Unten links",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 16,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "Die erste Wahl treffen",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie die vierte",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie die  Oben links Wahl",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 16,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "Wählen Sie die  Oben rechts Eine",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 16,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "Wählen  Oben rechts",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 8,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "Wählen  Oben rechts Eine",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 8,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "Ich mag  Links Eine",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 9,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "Ich mag zweite",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Ich mag den zweiten",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Ich mag die  Unteren Eine",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 13,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "Ich mag den ersten",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Ich mag den dritten",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Ich mag die dritte Wahl",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Ich mag die  Oben rechts Eine",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 13,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "Ich mag die  Oben rechts",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 13,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "Ich mag  Oben rechts",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 9,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "Ich möchte  Unteren",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 12,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "Ich will Vierter",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte  Links",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 12,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "Ich möchte  Rechten Eine",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 12,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "Ich will den ersten",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Ich will die vierte Wahl",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Ich will die  Links",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 14,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "Ich will die  Niedriger Wahl",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 14,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "Ich will die  Rechten Eine",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 14,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "Ich will den zweiten",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Ich will den dritten",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte wählen  Unteren Eine",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 19,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "Ich möchte wählen  Unteres Recht",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 19,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "Ich möchte wählen  Rechten",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 19,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "Ich möchte den zweiten wählen",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte die erste auswählen",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte den vierten wählen",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte die letzte Wahl treffen",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte die  Links Eine",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 16,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "Ich möchte die  Niedriger Wahl",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 16,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "Ich möchte die  Rechten",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 16,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "Ich möchte den Dritten wählen",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Entscheiden Sie sich für den ersten",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Entscheiden Sie sich für Letzte",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Entscheiden Sie sich für  Links",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 26,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "Entscheiden Sie sich für  Rechten Eine",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 26,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "Entscheiden Sie sich für den letzten",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Entscheiden Sie sich für die  Links Eine",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 30,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "Entscheiden Sie sich für die  Niedriger Wahl",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 30,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "Entscheiden Sie sich für die  Rechten",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 30,
+          "endPos": 36
+        }
+      ]
+    },
+    {
+      "text": "Entscheiden Sie sich für die zweite",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Für die zweite Wahl entscheiden",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie den vierten",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Auswählen  Niedriger Eine",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 11,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "Wählen Sie Nr. 5",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie die  Unteren Wahl",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 16,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "Wählen Sie die erste",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Die letzte Wahl wählen",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie die  Niedriger Eine",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 16,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "Wählen Sie die  Rechten Eine",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 16,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "Wählen Sie die dritte",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie die  Oben rechts",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 16,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "Dritter auswählen",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Auswählen  Oberen",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 11,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "Was ist mit dem letzten",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Was ist mit dem dritten",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte keinen wählen",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte keine auswählen",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "Ich will keines von beiden",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "Ich will keine von ihnen",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "Weder",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "Keine davon",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "Weder",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "Weder einer von ihnen",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "Weder danke",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "Keine",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "Keine",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "Keiner von ihnen",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "Nichts davon",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "Keiner von ihnen dankt",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "Nichts davon",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "Nichts davon",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "Sie sehen schlecht aus, können Sie mir andere Möglichkeiten geben",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "Und danach",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "Vorwärts",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "Zum nächsten",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "Gehen Sie zu den nächsten drei Punkten",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "Ich muss zum nächsten",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "Ich will mehr",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "Zum nächsten",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "Nächsten",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "Zeigt mir den Nächsten",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "Mehr zeigen",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "Zeigen Sie die nächsten 3",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "Die nächsten 4 Artikel anzeigen",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "Zeigen Sie die nächste",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "Die nächsten zwei Optionen anzeigen",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "Was ist mit dem nächsten",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "Was danach",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "Was danach kommt",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "Mehr dazu",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "Was kommt als nächstes",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "Was ist die nächste 2",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "Was kommt als nächstes",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "Zurück zum letzten",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "Die vorherige mitbringen",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "Zurück zum letzten",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "Zurück zum letzten",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "Zurück zum vorherigen",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "Zurück zum letzten",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "Zum vorherigen",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "Zum vorherigen",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "Voriges",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "Vorigen bitte",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "Zurück zum vorherigen",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "Zeigen Sie mir die vorherige",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "Show previous",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "Zeigen Sie die vorherige",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "Was davor",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "Was ist die vorherige",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "Was ist da",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "Klar und wieder starten",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "Könntest du es überfängt",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "Bitte wieder anfangen",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "Neu starten",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "Neustart",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "Wieder starten",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "Start",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "Start von vorn",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "Anfangen",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "Ein neues Kapitel aufschlagen",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "Baby einfach nur ruhig sein",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Sei still",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Seien Sie jetzt ruhig",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Kommen Sie zum Halt",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Entlassen",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Ende",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Ende",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Ausstieg",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Ausreise-Stopp",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Gott verschlossen",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Hey Stop",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Ich liebe dich, nicht mehr zu reden",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Ich meine, aufhören zu hören",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Ich sagte Halt",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Nur ruhig sein",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Mein Gott verschlossen",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Egal, halt",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Nicht ruhig sein",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Jetzt nicht ruhig sein",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "No no no no no no no no no no no no not not halt to talking",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Keine Schließung",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Kein Halt",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Niemand interessiert sich nicht mehr zu reden",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Nirgendwo nur ruhig sein",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "ach mein Gott verschlossen",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "ok Stop",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Ruhigen",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Jetzt ruhig",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Schließen Sie den Fuck auf",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Halt den Mund",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Abschalten ruhig",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Schweigen",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Mund zu",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Halten Sie bitte an",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Hören Sie auf zu reden",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Ausschalten",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "Haltestelle abbiegen",
+      "intent": "Stop",
       "entities": []
     }
   ],
@@ -518,17 +2119,17 @@
   "patternAnyEntities": [],
   "prebuiltEntities": [
     {
-      "name": "datetimeV2",
+      "name": "number",
       "roles": []
     },
     {
-      "name": "number",
+      "name": "ordinal",
       "roles": []
     }
   ],
   "luis_schema_version": "3.0.0",
   "versionId": "0.1",
-  "name": "General",
+  "name": "general",
   "desc": "",
   "culture": "en-us"
 }

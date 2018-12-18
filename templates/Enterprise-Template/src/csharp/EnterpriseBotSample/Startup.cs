@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
@@ -55,6 +56,9 @@ namespace EnterpriseBotSample
             // Get default locale from appsettings.json
             var defaultLocale = Configuration.GetSection("defaultLocale").Get<string>();
 
+            // Use Application Insights
+            services.AddBotApplicationInsights(botConfig);
+
             // Initializes your bot service clients and adds a singleton that your Bot can access through dependency injection.
             var connectedServices = new BotServices(botConfig);
             services.AddSingleton(sp => connectedServices);
@@ -92,16 +96,17 @@ namespace EnterpriseBotSample
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
                 // Telemetry Middleware (logs activity messages in Application Insights)
-                var appInsightsService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.AppInsights) ?? throw new Exception("Please configure your AppInsights connection in your .bot file.");
-                var instrumentationKey = (appInsightsService as AppInsightsService).InstrumentationKey;
-                var appInsightsLogger = new TelemetryLoggerMiddleware(instrumentationKey, logUserName: true, logOriginalMessage: true);
+                var sp = services.BuildServiceProvider();
+                var telemetryClient = sp.GetService<IBotTelemetryClient>();
+
+                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logUserName: true, logOriginalMessage: true);
                 options.Middleware.Add(appInsightsLogger);
 
                 // Catches any errors that occur during a conversation turn and logs them to AppInsights.
                 options.OnTurnError = async (context, exception) =>
                 {
+                    telemetryClient.TrackException(exception);
                     await context.SendActivityAsync(MainStrings.ERROR);
-                    connectedServices.TelemetryClient.TrackException(exception);
                 };
 
                 // Transcript Middleware (saves conversation history in a standard format)
@@ -130,14 +135,15 @@ namespace EnterpriseBotSample
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             // Configure Application Insights
-            _loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Warning);
+            _loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Information);
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseDefaultFiles()
+            app.UseBotApplicationInsights()
+                .UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();
         }
