@@ -24,5 +24,10 @@ namespace ToDoSkillTest.Fakes
         {
             return Task.CompletedTask;
         }
+
+        public Task<string> GetSenderMailAddressAsync()
+        {
+            return Task.FromResult("test@outlook.com");
+        }
     }
 }
