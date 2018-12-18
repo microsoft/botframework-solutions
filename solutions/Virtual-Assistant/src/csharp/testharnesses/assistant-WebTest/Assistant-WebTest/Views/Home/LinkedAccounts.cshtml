@@ -21,7 +21,19 @@
         console.log(request.responseText);
     }, error => {
         console.log('failed to get sessionId', error);
-    });
+        });
+
+    function copyUserId() {
+        var copyText = document.getElementById("UserId");
+
+        // Select the text field UserId
+        copyText.select();
+
+        // Copy the text inside the text field
+        document.execCommand("copy");
+
+        alert("Copied user id: " + copyText.value);
+    }
 </script>
 
 
@@ -31,17 +43,19 @@
 }
 else
 {
-    <div>
-        <div class="linkedAccount-title">Linked Accounts</div>
+    <div class="row">
+        <div class="content-title">Linked Accounts</div>
 
-        <div class="linkedAccount-displayName">
+
+        <div class="main-text main-text-bold main-text-black">
             User ID:
-            @using (Html.BeginForm("ChangeUserId", "Home", FormMethod.Post))
-            {
-                @Html.TextBoxFor(model => model.UserId, new { style = "width:300px;" })
-                <button type="submit">Change</button>
-            }
         </div>
+        @using (Html.BeginForm("ChangeUserId", "Home", FormMethod.Post))
+        {
+            @Html.TextBoxFor(model => model.UserId, new { style = "width:300px;" })
+            <button type="submit">Change User ID</button>
+            <button onclick="copyUserId">Copy</button>
+        }
 
         <div class="linkedAccount-list">
             <div class="linkedAccount-header">
@@ -92,6 +106,8 @@ else
 
         <div class="linkedAccount-actions">
             @Html.ActionLink("Sign Out All", "SignOutAll", "Home", null, new { @class = "button" })
+
         </div>
+
     </div>
-}
+            }
