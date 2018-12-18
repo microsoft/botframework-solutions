@@ -81,15 +81,17 @@ namespace EnterpriseBotSample.Middleware.Telemetry
                     telemetryProperties.Add(QnATelemetryConstants.QuestionProperty, string.Join(",", queryResult.Questions));
                     telemetryProperties.Add(QnATelemetryConstants.AnswerProperty, queryResult.Answer);
                     telemetryMetrics.Add(QnATelemetryConstants.ScoreProperty, queryResult.Score);
+                    telemetryProperties.Add(QnATelemetryConstants.ArticleFoundProperty, "true");
                 }
                 else
                 {
                     telemetryProperties.Add(QnATelemetryConstants.QuestionProperty, "No Qna Question matched");
                     telemetryProperties.Add(QnATelemetryConstants.AnswerProperty, "No Qna Question matched");
+                    telemetryProperties.Add(QnATelemetryConstants.ArticleFoundProperty, "true");
                 }
 
                 // Track the event
-                ((TelemetryClient)telemetryClient).TrackEvent(QnaMsgEvent, telemetryProperties, telemetryMetrics);
+                ((IBotTelemetryClient)telemetryClient).TrackEvent(QnaMsgEvent, telemetryProperties, telemetryMetrics);
             }
 
             return queryResults;

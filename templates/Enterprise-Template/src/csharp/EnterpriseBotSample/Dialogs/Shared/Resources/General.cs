@@ -10,27 +10,27 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 namespace Luis
 {
-    public class General: IRecognizerConvert
+    public class General : IRecognizerConvert
     {
         public string Text;
         public string AlteredText;
         public enum Intent
         {
-            Cancel, 
-            Confirm, 
-            Escalate, 
-            FinishTask, 
-            GoBack, 
-            Help, 
-            None, 
-            Reject, 
-            Repeat, 
-            SelectAny, 
-            SelectItem, 
-            SelectNone, 
-            ShowNext, 
-            ShowPrevious, 
-            StartOver, 
+            Cancel,
+            Confirm,
+            Escalate,
+            FinishTask,
+            GoBack,
+            Help,
+            None,
+            Reject,
+            Repeat,
+            SelectAny,
+            SelectItem,
+            SelectNone,
+            ShowNext,
+            ShowPrevious,
+            StartOver,
             Stop
         };
 
