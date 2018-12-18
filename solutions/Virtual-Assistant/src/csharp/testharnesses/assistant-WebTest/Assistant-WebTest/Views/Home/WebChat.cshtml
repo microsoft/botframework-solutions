@@ -2,7 +2,9 @@
 @{
     ViewData["Title"] = "Web Chat";
 }
-    <div id="webchat"></div>
+    <div class="content-row">
+        <div id="webchat" role="main"></div>
+    </div>
     <script src="https://cdn.botframework.com/botframework-webchat/latest/CognitiveServices.js"></script>
     <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
     <script>
@@ -21,31 +23,19 @@
             })
         };
 
-        var user = { id: userId, name: 'default-user', role: 'user' };
+        var user = { id: userId, role: 'user'};
 
         var bot = window.WebChat.createDirectLine({
             token: '@Model.DirectLineToken',
-            user: user,
+            userID: userId,
             speechOptions: speechOptions,
             resize: 'detect'
         });
 
         window.WebChat.renderWebChat({
             directLine: bot,
+            userID: userId,
             botAvatarInitials: 'VA',
             userAvatarInitials: userInitials
         }, document.getElementById('webchat'));
-
-        // Messages sent in web chat are labeled default-user, so the startup event
-        // will send it from the same id to prevent multiple occurences of ConversationUpdate activities.
-        var defaultUser = { id: 'default-user', name: 'default-user', role: 'user' };
-        bot.postActivity({
-            from: defaultUser,
-            name: 'startConversation',
-            type: 'event',
-            value: ''
-        })
-        .subscribe(function (id) {
-            console.log('Event "startConversation" sent');
-            });
     </script>
