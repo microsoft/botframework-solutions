@@ -8,7 +8,7 @@ namespace Microsoft.Bot.Solutions
     /// </summary>
     public static class LuisTelemetryConstants
     {
-        public const string ApplicationId = "applicationId";
+        public const string ApplicationIdProperty = "applicationId";
         public const string IntentPrefix = "luisIntent";  // Application Insights Custom Event name (with Intent)
         public const string IntentProperty = "intent";
         public const string IntentScoreProperty = "intentScore";

@@ -8,6 +8,7 @@ namespace EnterpriseBotSample.Middleware.Telemetry
     /// </summary>
     public static class LuisTelemetryConstants
     {
+        public const string ApplicationIdProperty = "applicationId";
         public const string IntentPrefix = "LuisIntent";  // Application Insights Custom Event name (with Intent)
         public const string IntentProperty = "Intent";
         public const string IntentScoreProperty = "IntentScore";
