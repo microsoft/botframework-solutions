@@ -39,8 +39,10 @@ namespace EmailSkillTest.API
                 users.Add(user);
             }
 
-            var mockGraphServiceClient = new MockGraphServiceClient();
-            mockGraphServiceClient.Users = users;
+            var mockGraphServiceClient = new MockGraphServiceClient
+            {
+                Users = users
+            };
             mockGraphServiceClient.SetMockBehavior();
 
             IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
@@ -83,8 +85,10 @@ namespace EmailSkillTest.API
                 people.Add(user);
             }
 
-            var mockGraphServiceClient = new MockGraphServiceClient();
-            mockGraphServiceClient.People = people;
+            var mockGraphServiceClient = new MockGraphServiceClient
+            {
+                People = people
+            };
             mockGraphServiceClient.SetMockBehavior();
 
             IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
@@ -125,8 +129,10 @@ namespace EmailSkillTest.API
                 contacts.Add(contact);
             }
 
-            var mockGraphServiceClient = new MockGraphServiceClient();
-            mockGraphServiceClient.Contacts = contacts;
+            var mockGraphServiceClient = new MockGraphServiceClient
+            {
+                Contacts = contacts
+            };
             mockGraphServiceClient.SetMockBehavior();
 
             IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;

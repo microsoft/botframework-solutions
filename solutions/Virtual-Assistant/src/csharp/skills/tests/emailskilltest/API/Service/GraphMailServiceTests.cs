@@ -28,8 +28,10 @@ namespace EmailSkillTest.API
             recipient.EmailAddress.Address = "test@test.com";
             recipient.EmailAddress.Name = "Test Test";
 
-            List<Recipient> recipientList = new List<Recipient>();
-            recipientList.Add(recipient);
+            List<Recipient> recipientList = new List<Recipient>
+            {
+                recipient
+            };
 
             var mockGraphServiceClient = new MockGraphServiceClient();
             IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
@@ -77,8 +79,10 @@ namespace EmailSkillTest.API
                 messages.Add(message);
             }
 
-            var mockGraphServiceClient = new MockGraphServiceClient();
-            mockGraphServiceClient.MyMessages = messages;
+            var mockGraphServiceClient = new MockGraphServiceClient
+            {
+                MyMessages = messages
+            };
             mockGraphServiceClient.SetMockBehavior();
             IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
             MSGraphMailAPI mailService = new MSGraphMailAPI(serviceClient, timeZoneInfo: TimeZoneInfo.Local);

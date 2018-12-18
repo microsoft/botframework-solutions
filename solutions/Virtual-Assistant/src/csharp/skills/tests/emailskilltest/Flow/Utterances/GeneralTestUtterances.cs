@@ -33,8 +33,10 @@ namespace EmailSkillTest.Flow.Utterances
 
         public General GetBaseNoneIntent()
         {
-            var generalIntent = new General();
-            generalIntent.Intents = new Dictionary<Intent, IntentScore>();
+            var generalIntent = new General
+            {
+                Intents = new Dictionary<Intent, IntentScore>()
+            };
             generalIntent.Intents.Add(Intent.None, new IntentScore() { Score = TopIntentScore });
 
             return generalIntent;
@@ -42,8 +44,10 @@ namespace EmailSkillTest.Flow.Utterances
 
         protected General CreateIntent(Intent intent)
         {
-            var generalIntent = new General();
-            generalIntent.Intents = new Dictionary<Intent, IntentScore>();
+            var generalIntent = new General
+            {
+                Intents = new Dictionary<Intent, IntentScore>()
+            };
             generalIntent.Intents.Add(intent, new IntentScore() { Score = TopIntentScore });
             generalIntent.Entities = new _Entities();
 

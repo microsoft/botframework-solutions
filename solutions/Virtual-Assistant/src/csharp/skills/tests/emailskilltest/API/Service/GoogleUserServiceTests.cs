@@ -10,12 +10,12 @@ namespace EmailSkillTest.API
     [TestClass]
     public class GoogleUserServiceTests
     {
-        public static IUserService userService;
+        public static IUserService UserService { get; set; }
 
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
-            userService = new GooglePeopleService(MockGoogleUserClient.mockGoogleUserService.Object);
+            UserService = new GooglePeopleService(MockGoogleUserClient.MockGoogleUserService.Object);
         }
 
         [ClassCleanup]
@@ -36,21 +36,21 @@ namespace EmailSkillTest.API
         [TestMethod]
         public async Task GetPeopleAsyncTest()
         {
-            List<Person> result = await userService.GetPeopleAsync("Doe");
+            List<Person> result = await UserService.GetPeopleAsync("Doe");
             Assert.IsTrue(result.Count == 2);
         }
 
         [TestMethod]
         public async Task GetUserAsyncTest()
         {
-            List<User> result = await userService.GetUserAsync("Doe");
+            List<User> result = await UserService.GetUserAsync("Doe");
             Assert.IsTrue(result.Count == 0);
         }
 
         [TestMethod]
         public async Task GetContactsAsyncTest()
         {
-            List<Contact> result = await userService.GetContactsAsync("Doe");
+            List<Contact> result = await UserService.GetContactsAsync("Doe");
             Assert.IsTrue(result.Count == 0);
         }
     }

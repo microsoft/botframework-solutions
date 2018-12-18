@@ -11,55 +11,59 @@ namespace EmailSkillTest.API
     [TestClass]
     public class GoogleMailServiceTests
     {
-        public static IMailService mailService;
+        public static IMailService MailService { get; set; }
 
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
             var mockGoogleServiceClient = new MockGoogleServiceClient();
-            mailService = new GMailService(mockGoogleServiceClient.GetMockGraphServiceClient().Object);
+            MailService = new GMailService(mockGoogleServiceClient.GetMockGraphServiceClient().Object);
         }
 
         [TestMethod]
         public async Task ForwardMessageTest()
         {
-            List<Recipient> recipients = new List<Recipient>();
-            recipients.Add(new Recipient()
+            List<Recipient> recipients = new List<Recipient>
             {
-                EmailAddress = new EmailAddress()
+                new Recipient()
                 {
-                    Address = "test@test.com"
+                    EmailAddress = new EmailAddress()
+                    {
+                        Address = "test@test.com"
+                    }
                 }
-            });
+            };
 
-            await mailService.ForwardMessageAsync("1", "Test", recipients);
+            await MailService.ForwardMessageAsync("1", "Test", recipients);
         }
 
         [TestMethod]
         public async Task SendMessageTest()
         {
-            List<Recipient> recipients = new List<Recipient>();
-            recipients.Add(new Recipient()
+            List<Recipient> recipients = new List<Recipient>
             {
-                EmailAddress = new EmailAddress()
+                new Recipient()
                 {
-                    Address = "test@test.com"
+                    EmailAddress = new EmailAddress()
+                    {
+                        Address = "test@test.com"
+                    }
                 }
-            });
+            };
 
-            await mailService.SendMessageAsync("test content", "test subject", recipients);
+            await MailService.SendMessageAsync("test content", "test subject", recipients);
         }
 
         [TestMethod]
         public async Task ReplyMessageTest()
         {
-            await mailService.ReplyToMessageAsync("1", "test content");
+            await MailService.ReplyToMessageAsync("1", "test content");
         }
 
         [TestMethod]
         public async Task GetMessagesTest()
         {
-            var messageList = await mailService.GetMyMessagesAsync(DateTime.Now, DateTime.Now.AddDays(7), false, false, false, null, 0);
+            var messageList = await MailService.GetMyMessagesAsync(DateTime.Now, DateTime.Now.AddDays(7), false, false, false, null, 0);
             Assert.AreEqual(messageList.Count, 5);
         }
     }
