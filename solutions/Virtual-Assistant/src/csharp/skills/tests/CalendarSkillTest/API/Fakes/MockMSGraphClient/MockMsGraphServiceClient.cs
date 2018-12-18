@@ -47,6 +47,11 @@ namespace CalendarSkillTest.API.Fakes.MockMSGraphClient
                 Mock<IEventRequestBuilder> requestBuilder = new Mock<IEventRequestBuilder>();
                 requestBuilder.Setup(req => req.Request().DeleteAsync()).Returns(() =>
                 {
+                    if (eventId == "Test_Access_Denied")
+                    {
+                        throw new ServiceException(new Error() { Message = "erroraccessdenied" });
+                    }
+
                     if (eventId != "delete_event")
                     {
                         throw new Exception("Event id not found");

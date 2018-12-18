@@ -5,6 +5,7 @@ using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
 using CalendarSkill.ServiceClients.MSGraphAPI;
 using CalendarSkillTest.API.Fakes.MockMSGraphClient;
+using Microsoft.Bot.Solutions.Skills;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CalendarSkillTest.API
@@ -105,6 +106,23 @@ namespace CalendarSkillTest.API
             catch (Exception e)
             {
                 Assert.IsTrue(e.Message == "Event id not found");
+                return;
+            }
+
+            Assert.Fail("Should throw exception");
+        }
+
+        [TestMethod]
+        public async Task DeleteEventByIdTest_AccessDenied_Throws()
+        {
+            try
+            {
+                string deleteId = "Test_Access_Denied";
+                await calendarService.DeleteEventById(deleteId);
+            }
+            catch (SkillException e)
+            {
+                Assert.IsTrue(e.ExceptionType == SkillExceptionType.APIAccessDenied);
                 return;
             }
 
