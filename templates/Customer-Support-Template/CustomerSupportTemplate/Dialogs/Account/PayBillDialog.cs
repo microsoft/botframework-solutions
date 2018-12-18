@@ -14,11 +14,13 @@ namespace CustomerSupportTemplate.Dialogs.Account
 
         public PayBillDialog(
             BotServices services, 
-            IStatePropertyAccessor<CustomerSupportTemplateState> stateAccessor)
-            : base(services, nameof(PayBillDialog))
+            IStatePropertyAccessor<CustomerSupportTemplateState> stateAccessor,
+            IBotTelemetryClient telemetryClient)
+            : base(services, nameof(PayBillDialog), telemetryClient)
         {
             _services = services;
             _stateAccessor = stateAccessor;
+            TelemetryClient = telemetryClient;
 
             var payBill = new WaterfallStep[]
             {
@@ -26,7 +28,7 @@ namespace CustomerSupportTemplate.Dialogs.Account
             };
 
             InitialDialogId = nameof(PayBillDialog);
-            AddDialog(new WaterfallDialog(InitialDialogId, payBill));
+            AddDialog(new WaterfallDialog(InitialDialogId, payBill) { TelemetryClient = telemetryClient });
         }
 
         private async Task<DialogTurnResult> ShowPayBillOptions(WaterfallStepContext sc, CancellationToken cancellationToken)
