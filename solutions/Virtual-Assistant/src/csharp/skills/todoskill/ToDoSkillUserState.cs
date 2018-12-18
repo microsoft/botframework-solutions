@@ -10,7 +10,7 @@ namespace ToDoSkill
         /// </summary>
         public ToDoSkillUserState()
         {
-            ListTypeIds = new Dictionary<string, string>();
+            ListTypeIds = new Dictionary<string, Dictionary<string, string>>();
         }
 
         /// <summary>
@@ -19,6 +19,6 @@ namespace ToDoSkill
         /// <value>
         /// ToDoTaskContent.
         /// </value>
-        public Dictionary<string, string> ListTypeIds { get; set; }
+        public Dictionary<string, Dictionary<string, string>> ListTypeIds { get; set; }
     }
 }

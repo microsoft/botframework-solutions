@@ -19,6 +19,12 @@ namespace ToDoSkill
         Task SendMessageAsync(string content, string subject);
 
         /// <summary>
+        /// Get the sender address of current user.
+        /// </summary>
+        /// <returns>The sender address.</returns>
+        Task<string> GetSenderMailAddressAsync();
+
+        /// <summary>
         /// Init mail service.
         /// </summary>
         /// <param name="token">Mail service token.</param>

@@ -39,37 +39,70 @@ namespace ToDoSkill
         /// <returns>Completed Task.</returns>
         public async Task SendMessageAsync(string content, string subject)
         {
-            var userObject = await ExecuteGraphFetchAsync(graphBaseUrl);
-            List<Recipient> re = new List<Recipient>();
-            re.Add(new Recipient
+            try
             {
-                EmailAddress = new EmailAddress
+                var userObject = await ExecuteGraphFetchAsync(graphBaseUrl);
+                List<Recipient> re = new List<Recipient>();
+                re.Add(new Recipient
                 {
-                    Address = userObject["userPrincipalName"],
-                },
-            });
+                    EmailAddress = new EmailAddress
+                    {
+                        Address = userObject["userPrincipalName"],
+                    },
+                });
 
-            // Create the message.
-            Message email = new Message
+                // Create the message.
+                Message email = new Message
+                {
+                    Body = new ItemBody
+                    {
+                        Content = content,
+                        ContentType = BodyType.Html,
+                    },
+                    Subject = subject,
+                    ToRecipients = re,
+                };
+
+                // Send the message.
+                await this.graphServiceClient.Me.SendMail(email, true).Request().PostAsync();
+            }
+            catch (ServiceException ex)
             {
-                Body = new ItemBody
-                {
-                    Content = content,
-                    ContentType = BodyType.Html,
-                },
-                Subject = subject,
-                ToRecipients = re,
-            };
+                throw ServiceHelper.HandleGraphAPIException(ex);
+            }
+        }
 
-            // Send the message.
-            await this.graphServiceClient.Me.SendMail(email, true).Request().PostAsync();
+        /// <summary>
+        /// Get the sender address of current user.
+        /// </summary>
+        /// <returns>The sender address.</returns>
+        public async Task<string> GetSenderMailAddressAsync()
+        {
+            try
+            {
+                var userObject = await ExecuteGraphFetchAsync(graphBaseUrl);
+                var senderMailAddress = userObject["userPrincipalName"];
+                return senderMailAddress;
+            }
+            catch (ServiceException ex)
+            {
+                throw ServiceHelper.HandleGraphAPIException(ex);
+            }
         }
 
         private async Task<dynamic> ExecuteGraphFetchAsync(string url)
         {
-            var result = await this.httpClient.GetStringAsync(url);
-            dynamic content = JObject.Parse(result);
-            return content;
+            var result = await this.httpClient.GetAsync(url);
+            dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
+            if (result.IsSuccessStatusCode)
+            {
+                return responseContent;
+            }
+            else
+            {
+                ServiceException serviceException = ServiceHelper.GenerateServiceException(responseContent);
+                throw serviceException;
+            }
         }
     }
 }

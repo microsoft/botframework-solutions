@@ -70,7 +70,6 @@ namespace ToDoSkill
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
             await DigestToDoLuisResult(dc);
-            await RecoverListTypeIdsAsync(dc);
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }
 
@@ -966,41 +965,42 @@ namespace ToDoSkill
         protected async Task<ITaskService> InitListTypeIds(WaterfallStepContext sc)
         {
             var state = await ToDoStateAccessor.GetAsync(sc.Context);
-            ITaskService service;
             if (!state.ListTypeIds.ContainsKey(state.ListType))
             {
-                if (ServiceManager is OneNoteService)
-                {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
-                }
-                else
-                {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOutlookMessage));
-                }
-
-                service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
-                var taskWebLink = await service.GetTaskWebLink();
-                var emailContent = string.Format(ToDoStrings.EmailContent, taskWebLink);
                 var emailService = await MailService.InitAsync(state.MsGraphToken);
-                await emailService.SendMessageAsync(emailContent, ToDoStrings.EmailSubject);
-
-                if (ServiceManager is OneNoteService)
+                var senderMailAddress = await emailService.GetSenderMailAddressAsync();
+                var recovered = await RecoverListTypeIdsAsync(sc, senderMailAddress);
+                if (!recovered)
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.AfterOneNoteSetupMessage));
-                }
-                else
-                {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.AfterOutlookSetupMessage));
-                }
+                    if (ServiceManager is OneNoteService)
+                    {
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
+                    }
+                    else
+                    {
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOutlookMessage));
+                    }
 
-                await StoreListTypeIdsAsync(sc);
-            }
-            else
-            {
-                service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
+                    var service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
+                    var taskWebLink = await service.GetTaskWebLink();
+                    var emailContent = string.Format(ToDoStrings.EmailContent, taskWebLink);
+                    await emailService.SendMessageAsync(emailContent, ToDoStrings.EmailSubject);
+
+                    if (ServiceManager is OneNoteService)
+                    {
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.AfterOneNoteSetupMessage));
+                    }
+                    else
+                    {
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.AfterOutlookSetupMessage));
+                    }
+
+                    await StoreListTypeIdsAsync(sc, senderMailAddress);
+                    return service;
+                }
             }
 
-            return service;
+            return await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
         }
 
         private void ExtractListTypeAndTaskContent(ToDoSkillState state)
@@ -1024,28 +1024,35 @@ namespace ToDoSkill
             }
         }
 
-        private async Task RecoverListTypeIdsAsync(DialogContext dc)
+        private async Task<bool> RecoverListTypeIdsAsync(DialogContext dc, string senderMailAddress)
         {
             var userState = await UserStateAccessor.GetAsync(dc.Context, () => new ToDoSkillUserState());
             var state = await ToDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
-            if (state.ListTypeIds.Count <= 0 && userState.ListTypeIds.Count > 0)
+            if (userState.ListTypeIds.ContainsKey(senderMailAddress)
+                && state.ListTypeIds.Count <= 0
+                && userState.ListTypeIds[senderMailAddress].Count > 0)
             {
-                foreach (var listType in userState.ListTypeIds)
+                foreach (var listType in userState.ListTypeIds[senderMailAddress])
                 {
                     state.ListTypeIds.Add(listType.Key, listType.Value);
                 }
+
+                return true;
             }
+
+            return false;
         }
 
-        private async Task StoreListTypeIdsAsync(DialogContext dc)
+        private async Task StoreListTypeIdsAsync(DialogContext dc, string senderMailAddress)
         {
             var userState = await UserStateAccessor.GetAsync(dc.Context, () => new ToDoSkillUserState());
             var state = await ToDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
-            if (state.ListTypeIds.Count > userState.ListTypeIds.Count)
+            if (!userState.ListTypeIds.ContainsKey(senderMailAddress) && state.ListTypeIds.Count > 0)
             {
+                userState.ListTypeIds.Add(senderMailAddress, new Dictionary<string, string>());
                 foreach (var listType in state.ListTypeIds)
                 {
-                    userState.ListTypeIds.TryAdd(listType.Key, listType.Value);
+                    userState.ListTypeIds[senderMailAddress].Add(listType.Key, listType.Value);
                 }
             }
         }
