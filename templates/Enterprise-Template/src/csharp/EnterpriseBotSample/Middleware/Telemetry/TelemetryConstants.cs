@@ -5,16 +5,17 @@ namespace EnterpriseBotSample.Middleware.Telemetry
 {
     public static class TelemetryConstants
     {
-        public const string ActivityIDProperty = "ActivityId";
-        public const string ReplyActivityIDProperty = "ReplyActivityId";
-        public const string ChannelProperty = "Channel";
-        public const string FromIdProperty = "FromId";
-        public const string FromNameProperty = "FromName";
-        public const string RecipientIdProperty = "RecipientId";
-        public const string RecipientNameProperty = "RecipientName";
-        public const string ConversationIdProperty = "ConversationId";
-        public const string ConversationNameProperty = "ConversationName";
-        public const string TextProperty = "Text";
-        public const string LocaleProperty = "Locale";
+        public const string ActivityIDProperty = "activityId";
+        public const string ReplyActivityIDProperty = "replyActivityId";
+        public const string ChannelIdProperty = "channelId";
+        public const string FromIdProperty = "fromId";
+        public const string FromNameProperty = "fromName";
+        public const string RecipientIdProperty = "recipientId";
+        public const string RecipientNameProperty = "recipientName";
+        public const string ConversationIdProperty = "conversationId";
+        public const string ConversationNameProperty = "conversationName";
+        public const string TextProperty = "text";
+        public const string LocaleProperty = "locale";
+        public const string SpeakProperty = "speak";
     }
 }
