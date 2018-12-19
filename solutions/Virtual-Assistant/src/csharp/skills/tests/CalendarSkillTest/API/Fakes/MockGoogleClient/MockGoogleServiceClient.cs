@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Google;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Requests;
@@ -8,12 +9,12 @@ using Google.Apis.Services;
 using Moq;
 using GoogleCalendarService = Google.Apis.Calendar.v3.CalendarService;
 
-namespace CalendarSkillTest.API.Fakes
+namespace CalendarSkillTest.API.Fakes.MockGoogleClient
 {
     public static class MockGoogleServiceClient
     {
-        public static Mock<GoogleCalendarService> mockCalendarService;
-        public static Mock<EventsResource> mockEventsResource;
+        private static Mock<GoogleCalendarService> mockCalendarService;
+        private static Mock<EventsResource> mockEventsResource;
 
         static MockGoogleServiceClient()
         {
@@ -72,6 +73,11 @@ namespace CalendarSkillTest.API.Fakes
 
                 return mockDeleteRequest;
             });
+        }
+
+        public static GoogleCalendarService GetCalendarService()
+        {
+            return mockCalendarService.Object;
         }
 
         public class MockEventsResource
@@ -138,74 +144,100 @@ namespace CalendarSkillTest.API.Fakes
                     // add event datas
                     // common data prepare
                     string location = "test_location";
-                    IList<EventAttendee> attendees = new List<EventAttendee>();
-                    attendees.Add(new EventAttendee()
+                    IList<EventAttendee> attendees = new List<EventAttendee>
                     {
-                        Email = "test@gmail.com",
-                        DisplayName = "Test Attendee"
-                    });
+                        new EventAttendee()
+                        {
+                            Email = "test@gmail.com",
+                            DisplayName = "Test Attendee"
+                        }
+                    };
                     string timezone = "Etc/UTC";
 
                     // add start at same time
-                    Event startAtSameTime = new Event();
-                    startAtSameTime.Id = "0-0";
-                    startAtSameTime.Summary = "start_at_same_time_0";
-                    startAtSameTime.Description = "start at same time 0";
-                    startAtSameTime.Start = new EventDateTime();
-                    startAtSameTime.Start.TimeZone = timezone;
-                    startAtSameTime.Start.DateTimeRaw = "2500-01-01T18:00:00.0000000Z";
-                    startAtSameTime.End = new EventDateTime();
-                    startAtSameTime.End.TimeZone = timezone;
-                    startAtSameTime.End.DateTimeRaw = "2500-01-01T18:30:00.0000000Z";
-                    startAtSameTime.Location = location;
-                    startAtSameTime.Attendees = attendees;
-                    startAtSameTime.Status = "confirmed";
+                    Event startAtSameTime = new Event
+                    {
+                        Id = "0-0",
+                        Summary = "start_at_same_time_0",
+                        Description = "start at same time 0",
+                        Start = new EventDateTime
+                        {
+                            TimeZone = timezone,
+                            DateTimeRaw = "2500-01-01T18:00:00.0000000Z"
+                        },
+                        End = new EventDateTime
+                        {
+                            TimeZone = timezone,
+                            DateTimeRaw = "2500-01-01T18:30:00.0000000Z"
+                        },
+                        Location = location,
+                        Attendees = attendees,
+                        Status = "confirmed"
+                    };
                     buildInEvents.Add(startAtSameTime);
 
-                    startAtSameTime = new Event();
-                    startAtSameTime.Id = "0-1";
-                    startAtSameTime.Summary = "start_at_same_time_1";
-                    startAtSameTime.Description = "start at same time 1";
-                    startAtSameTime.Start = new EventDateTime();
-                    startAtSameTime.Start.TimeZone = timezone;
-                    startAtSameTime.Start.DateTimeRaw = "2500-01-01T18:00:00.0000000Z";
-                    startAtSameTime.End = new EventDateTime();
-                    startAtSameTime.End.TimeZone = timezone;
-                    startAtSameTime.End.DateTimeRaw = "2500-01-01T18:30:00.0000000Z";
-                    startAtSameTime.Location = location;
-                    startAtSameTime.Attendees = attendees;
-                    startAtSameTime.Status = "confirmed";
+                    startAtSameTime = new Event
+                    {
+                        Id = "0-1",
+                        Summary = "start_at_same_time_1",
+                        Description = "start at same time 1",
+                        Start = new EventDateTime
+                        {
+                            TimeZone = timezone,
+                            DateTimeRaw = "2500-01-01T18:00:00.0000000Z"
+                        },
+                        End = new EventDateTime
+                        {
+                            TimeZone = timezone,
+                            DateTimeRaw = "2500-01-01T18:30:00.0000000Z"
+                        },
+                        Location = location,
+                        Attendees = attendees,
+                        Status = "confirmed"
+                    };
                     buildInEvents.Add(startAtSameTime);
 
                     // add same name events
-                    Event sameNameEvent = new Event();
-                    sameNameEvent.Id = "1-0";
-                    sameNameEvent.Summary = "same_name_event";
-                    sameNameEvent.Description = "same name evene 0";
-                    sameNameEvent.Start = new EventDateTime();
-                    sameNameEvent.Start.TimeZone = timezone;
-                    sameNameEvent.Start.DateTimeRaw = "2500-01-01T19:00:00.0000000Z";
-                    sameNameEvent.End = new EventDateTime();
-                    sameNameEvent.End.TimeZone = timezone;
-                    sameNameEvent.End.DateTimeRaw = "2500-01-01T19:30:00.0000000Z";
-                    sameNameEvent.Location = location;
-                    sameNameEvent.Attendees = attendees;
-                    sameNameEvent.Status = "confirmed";
+                    Event sameNameEvent = new Event
+                    {
+                        Id = "1-0",
+                        Summary = "same_name_event",
+                        Description = "same name evene 0",
+                        Start = new EventDateTime
+                        {
+                            TimeZone = timezone,
+                            DateTimeRaw = "2500-01-01T19:00:00.0000000Z"
+                        },
+                        End = new EventDateTime
+                        {
+                            TimeZone = timezone,
+                            DateTimeRaw = "2500-01-01T19:30:00.0000000Z"
+                        },
+                        Location = location,
+                        Attendees = attendees,
+                        Status = "confirmed"
+                    };
                     buildInEvents.Add(sameNameEvent);
 
-                    sameNameEvent = new Event();
-                    sameNameEvent.Id = "1-1";
-                    sameNameEvent.Summary = "same_name_event";
-                    sameNameEvent.Description = "same name evene 1";
-                    sameNameEvent.Start = new EventDateTime();
-                    sameNameEvent.Start.TimeZone = timezone;
-                    sameNameEvent.Start.DateTimeRaw = "2500-01-01T20:00:00.0000000Z";
-                    sameNameEvent.End = new EventDateTime();
-                    sameNameEvent.End.TimeZone = timezone;
-                    sameNameEvent.End.DateTimeRaw = "2500-01-01T20:30:00.0000000Z";
-                    sameNameEvent.Location = location;
-                    sameNameEvent.Attendees = attendees;
-                    sameNameEvent.Status = "confirmed";
+                    sameNameEvent = new Event
+                    {
+                        Id = "1-1",
+                        Summary = "same_name_event",
+                        Description = "same name evene 1",
+                        Start = new EventDateTime
+                        {
+                            TimeZone = timezone,
+                            DateTimeRaw = "2500-01-01T20:00:00.0000000Z"
+                        },
+                        End = new EventDateTime
+                        {
+                            TimeZone = timezone,
+                            DateTimeRaw = "2500-01-01T20:30:00.0000000Z"
+                        },
+                        Location = location,
+                        Attendees = attendees,
+                        Status = "confirmed"
+                    };
                     buildInEvents.Add(sameNameEvent);
 
                     MaxResults = -1;
@@ -261,6 +293,18 @@ namespace CalendarSkillTest.API.Fakes
                     if (CalendarId != "primary")
                     {
                         throw new Exception("Calendar ID not support");
+                    }
+
+                    if (EventId == "Test_Access_Denied")
+                    {
+                        var exception = new GoogleApiException("Delete", "insufficient permission")
+                        {
+                            Error = new RequestError
+                            {
+                                Message = "insufficient permission"
+                            }
+                        };
+                        throw exception;
                     }
 
                     // todo:

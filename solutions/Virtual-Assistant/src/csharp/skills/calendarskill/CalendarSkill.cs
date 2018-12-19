@@ -2,12 +2,11 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CalendarSkill.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Skills;
 
 namespace CalendarSkill
@@ -22,7 +21,7 @@ namespace CalendarSkill
         private readonly ConversationState _conversationState;
         private readonly IBotTelemetryClient _telemetryClient;
         private readonly IServiceManager _serviceManager;
-        private bool _skillMode;
+        private readonly bool _skillMode;
         private DialogSet _dialogs;
 
         public CalendarSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, IServiceManager serviceManager = null, bool skillMode = false)

@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 using Moq;
 
-namespace CalendarSkillTest.API.Fakes
+namespace CalendarSkillTest.API.Fakes.MockMSGraphClient
 {
     public static class MockMSGraphServiceClient
     {
-        public static Mock<IGraphServiceClient> mockCalendarService;
+        private static Mock<IGraphServiceClient> mockCalendarService;
 
         static MockMSGraphServiceClient()
         {
@@ -21,24 +20,28 @@ namespace CalendarSkillTest.API.Fakes
             mockCalendarService.Setup(client => client.Me.Calendar.CalendarView.Request(It.IsAny<List<QueryOption>>()).GetAsync()).Returns(() =>
             {
                 ICalendarCalendarViewCollectionPage result = new CalendarCalendarViewCollectionPage();
-                Event anevent = new Event();
-                anevent.Id = "0";
-                anevent.Subject = "test";
-                anevent.Body = new ItemBody() { Content = "test" };
-                anevent.Start = new DateTimeTimeZone() { DateTime = "2500-01-01T18:00:00.0000000Z", TimeZone = TimeZoneInfo.Utc.Id };
-                anevent.End = new DateTimeTimeZone() { DateTime = "2500-01-01T18:30:00.0000000Z", TimeZone = TimeZoneInfo.Utc.Id };
+                Event anevent = new Event
+                {
+                    Id = "0",
+                    Subject = "test",
+                    Body = new ItemBody() { Content = "test" },
+                    Start = new DateTimeTimeZone() { DateTime = "2500-01-01T18:00:00.0000000Z", TimeZone = TimeZoneInfo.Utc.Id },
+                    End = new DateTimeTimeZone() { DateTime = "2500-01-01T18:30:00.0000000Z", TimeZone = TimeZoneInfo.Utc.Id }
+                };
                 result.Add(anevent);
                 return Task.FromResult(result);
             });
             mockCalendarService.Setup(client => client.Me.CalendarView.Request(It.IsAny<List<QueryOption>>()).GetAsync()).Returns(() =>
             {
                 IUserCalendarViewCollectionPage result = new UserCalendarViewCollectionPage();
-                Event anevent = new Event();
-                anevent.Id = "0";
-                anevent.Subject = "test";
-                anevent.Body = new ItemBody() { Content = "test" };
-                anevent.Start = new DateTimeTimeZone() { DateTime = "2500-01-01T18:00:00.0000000Z", TimeZone = TimeZoneInfo.Utc.Id };
-                anevent.End = new DateTimeTimeZone() { DateTime = "2500-01-01T18:30:00.0000000Z", TimeZone = TimeZoneInfo.Utc.Id };
+                Event anevent = new Event
+                {
+                    Id = "0",
+                    Subject = "test",
+                    Body = new ItemBody() { Content = "test" },
+                    Start = new DateTimeTimeZone() { DateTime = "2500-01-01T18:00:00.0000000Z", TimeZone = TimeZoneInfo.Utc.Id },
+                    End = new DateTimeTimeZone() { DateTime = "2500-01-01T18:30:00.0000000Z", TimeZone = TimeZoneInfo.Utc.Id }
+                };
                 result.Add(anevent);
                 return Task.FromResult(result);
             });
@@ -48,6 +51,11 @@ namespace CalendarSkillTest.API.Fakes
                 Mock<IEventRequestBuilder> requestBuilder = new Mock<IEventRequestBuilder>();
                 requestBuilder.Setup(req => req.Request().DeleteAsync()).Returns(() =>
                 {
+                    if (eventId == "Test_Access_Denied")
+                    {
+                        throw new ServiceException(new Error() { Message = "erroraccessdenied" });
+                    }
+
                     if (eventId != "delete_event")
                     {
                         throw new Exception("Event id not found");
@@ -68,6 +76,11 @@ namespace CalendarSkillTest.API.Fakes
 
                 return requestBuilder.Object;
             });
+        }
+
+        public static IGraphServiceClient GetCalendarService()
+        {
+            return mockCalendarService.Object;
         }
     }
 }

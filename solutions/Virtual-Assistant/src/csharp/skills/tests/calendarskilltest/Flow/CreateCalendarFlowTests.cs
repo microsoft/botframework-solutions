@@ -284,6 +284,20 @@ namespace CalendarSkillTest.Flow
                 .StartTestAsync();
         }
 
+        [TestMethod]
+        public async Task Test_CalendarAccessDeniedException()
+        {
+            await this.GetTestFlow()
+                .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.AskForParticpantsPrompt())
+                .Send(Strings.Strings.ThrowErrorAccessDenied)
+                .AssertReplyOneOf(this.BotErrorResponse())
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
         private string[] AskForParticpantsPrompt()
         {
             return this.ParseReplies(CreateEventResponses.NoAttendees.Replies, new StringDictionary());
@@ -360,7 +374,7 @@ namespace CalendarSkillTest.Flow
 
                 var meetingCardJsonString = ((Newtonsoft.Json.Linq.JObject)messageActivity.Attachments[0].Content).ToString();
                 var meetingCard = JsonConvert.DeserializeObject<MeetingAdaptiveCard>(meetingCardJsonString);
-                var meetingInfoList = meetingCard.body[0].items[1].text.Split("\n");
+                var meetingInfoList = meetingCard.Bodies[0].Items[1].Text.Split("\n");
                 var dateString = meetingInfoList[1];
                 CultureInfo cultureInfo = (CultureInfo)CultureInfo.CurrentUICulture.Clone();
                 cultureInfo.DateTimeFormat.DateSeparator = "-";
@@ -389,6 +403,11 @@ namespace CalendarSkillTest.Flow
             {
                 Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
             };
+        }
+
+        private string[] BotErrorResponse()
+        {
+            return this.ParseReplies(CalendarSharedResponses.CalendarErrorMessageBotProblem.Replies, new StringDictionary());
         }
     }
 }

@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using CalendarSkill;
 using CalendarSkill.Extensions;
+using CalendarSkill.Models;
+using CalendarSkill.ServiceClients;
+using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Graph;
 
 namespace CalendarSkillTest.Flow.Fakes
@@ -111,6 +112,11 @@ namespace CalendarSkillTest.Flow.Fakes
 
         public async Task<List<PersonModel>> GetPeopleAsync(string name)
         {
+            if (name == Strings.Strings.ThrowErrorAccessDenied)
+            {
+                throw new SkillException(SkillExceptionType.APIAccessDenied, Strings.Strings.ThrowErrorAccessDenied, new Exception());
+            }
+
             List<PersonModel> items = new List<PersonModel>();
             foreach (Person people in this.People)
             {

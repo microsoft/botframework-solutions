@@ -3,12 +3,12 @@
 
 using CalendarSkill.Models;
 
-namespace CalendarSkill
+namespace CalendarSkill.ServiceClients
 {
     public interface IServiceManager
     {
         IUserService InitUserService(string token, EventSource source);
 
-        ICalendar InitCalendarService(string token, EventSource source);
+        ICalendarService InitCalendarService(string token, EventSource source);
     }
 }

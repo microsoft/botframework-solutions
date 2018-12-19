@@ -6,10 +6,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using CalendarSkill.Common;
 using CalendarSkill.Dialogs.Shared.Resources.Strings;
+using CalendarSkill.ServiceClients;
 using CalendarSkill.Util;
 using Microsoft.Bot.Solutions.Resources;
 
-namespace CalendarSkill
+namespace CalendarSkill.Models
 {
     /// <summary>
     /// Source of event.

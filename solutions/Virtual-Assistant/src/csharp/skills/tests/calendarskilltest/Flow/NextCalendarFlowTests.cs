@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CalendarSkill;
 using CalendarSkill.Dialogs.NextMeeting.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
+using CalendarSkill.Models;
 using CalendarSkillTest.Flow.Fakes;
 using CalendarSkillTest.Flow.Utterances;
 using Microsoft.Bot.Builder;
