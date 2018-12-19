@@ -18,12 +18,14 @@ namespace CustomerSupportTemplate.Dialogs.Store
 
         public CheckItemAvailabilityDialog(
             BotServices services,
-            IStatePropertyAccessor<CustomerSupportTemplateState> stateAccessor)
-            : base(services, nameof(CheckItemAvailabilityDialog))
+            IStatePropertyAccessor<CustomerSupportTemplateState> stateAccessor,
+            IBotTelemetryClient telemetryClient)
+            : base(services, nameof(CheckItemAvailabilityDialog), telemetryClient)
         {
             _client = new DemoServiceClient();
             _services = services;
             _stateAccessor = stateAccessor;
+            TelemetryClient = telemetryClient;
 
             var checkAvailability = new WaterfallStep[]
             {
@@ -35,7 +37,7 @@ namespace CustomerSupportTemplate.Dialogs.Store
             };
 
             InitialDialogId = nameof(CheckItemAvailabilityDialog);
-            AddDialog(new WaterfallDialog(InitialDialogId, checkAvailability));
+            AddDialog(new WaterfallDialog(InitialDialogId, checkAvailability) { TelemetryClient = telemetryClient });
             AddDialog(new TextPrompt(DialogIds.ItemNumberPrompt, SharedValidators.ItemNumberValidator));
             AddDialog(new TextPrompt(DialogIds.ZipCodePrompt, SharedValidators.ZipCodeValidator));
             AddDialog(new ConfirmPrompt(DialogIds.HoldItemPrompt, SharedValidators.ConfirmValidator));

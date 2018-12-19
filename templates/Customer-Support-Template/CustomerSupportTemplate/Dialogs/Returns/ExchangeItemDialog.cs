@@ -22,12 +22,14 @@ namespace CustomerSupportTemplate.Dialogs.Returns
 
         public ExchangeItemDialog(
             BotServices services, 
-            IStatePropertyAccessor<CustomerSupportTemplateState> stateAccessor)
-            : base(services, nameof(ExchangeItemDialog))
+            IStatePropertyAccessor<CustomerSupportTemplateState> stateAccessor,
+            IBotTelemetryClient telemetryClient)
+            : base(services, nameof(ExchangeItemDialog), telemetryClient)
         {
             _client = new DemoServiceClient();
             _services = services;
             _stateAccessor = stateAccessor;
+            TelemetryClient = telemetryClient;
 
             var exchangeItem = new WaterfallStep[]
             {
@@ -43,8 +45,8 @@ namespace CustomerSupportTemplate.Dialogs.Returns
             };
 
             InitialDialogId = nameof(ExchangeItemDialog);
-            AddDialog(new WaterfallDialog(InitialDialogId, exchangeItem));
-            AddDialog(new WaterfallDialog(DialogIds.GetNearbyStoresDialog, showStores));
+            AddDialog(new WaterfallDialog(InitialDialogId, exchangeItem) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(DialogIds.GetNearbyStoresDialog, showStores) { TelemetryClient = telemetryClient });
             AddDialog(new ChoicePrompt(DialogIds.ExchangeTypePrompt, SharedValidators.ChoiceValidator));
             AddDialog(new TextPrompt(DialogIds.ZipCodePrompt, SharedValidators.ZipCodeValidator));
         }

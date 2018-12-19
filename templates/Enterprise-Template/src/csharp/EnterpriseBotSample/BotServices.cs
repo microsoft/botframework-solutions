@@ -1,9 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
 using EnterpriseBotSample.Middleware.Telemetry;
 using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Configuration;
@@ -32,14 +34,44 @@ namespace EnterpriseBotSample
                 {
                     case ServiceTypes.AppInsights:
                         {
-                            var appInsights = service as AppInsightsService;
-                            TelemetryClient = new TelemetryClient();
+                            var appInsights = (AppInsightsService)service;
+                            if (appInsights == null)
+                            {
+                                throw new InvalidOperationException("The Application Insights is not configured correctly in your '.bot' file.");
+                            }
+
+                            if (string.IsNullOrWhiteSpace(appInsights.InstrumentationKey))
+                            {
+                                throw new InvalidOperationException("The Application Insights Instrumentation Key ('instrumentationKey') is required to run this sample.  Please update your '.bot' file.");
+                            }
+
+                            var telemetryConfig = new TelemetryConfiguration(appInsights.InstrumentationKey);
+                            TelemetryClient = new TelemetryClient(telemetryConfig)
+                            {
+                                InstrumentationKey = appInsights.InstrumentationKey,
+                            };
+
                             break;
                         }
 
                     case ServiceTypes.Dispatch:
                         {
                             var dispatch = service as DispatchService;
+                            if (dispatch == null)
+                            {
+                                throw new InvalidOperationException("The Dispatch service is not configured correctly in your '.bot' file.");
+                            }
+
+                            if (string.IsNullOrWhiteSpace(dispatch.AppId))
+                            {
+                                throw new InvalidOperationException("The Dispatch Luis Model Application Id ('appId') is required to run this sample.  Please update your '.bot' file.");
+                            }
+
+                            if (string.IsNullOrWhiteSpace(dispatch.SubscriptionKey))
+                            {
+                                throw new InvalidOperationException("The Subscription Key ('subscriptionKey') is required to run this sample.  Please update your '.bot' file.");
+                            }
+
                             var dispatchApp = new LuisApplication(dispatch.AppId, dispatch.SubscriptionKey, dispatch.GetEndpoint());
                             DispatchRecognizer = new TelemetryLuisRecognizer(dispatchApp);
                             break;
@@ -48,8 +80,34 @@ namespace EnterpriseBotSample
                     case ServiceTypes.Luis:
                         {
                             var luis = service as LuisService;
+                            if (luis == null)
+                            {
+                                throw new InvalidOperationException("The Luis service is not configured correctly in your '.bot' file.");
+                            }
+
+                            if (string.IsNullOrWhiteSpace(luis.AppId))
+                            {
+                                throw new InvalidOperationException("The Luis Model Application Id ('appId') is required to run this sample.  Please update your '.bot' file.");
+                            }
+
+                            if (string.IsNullOrWhiteSpace(luis.AuthoringKey))
+                            {
+                                throw new InvalidOperationException("The Luis Authoring Key ('authoringKey') is required to run this sample.  Please update your '.bot' file.");
+                            }
+
+                            if (string.IsNullOrWhiteSpace(luis.SubscriptionKey))
+                            {
+                                throw new InvalidOperationException("The Subscription Key ('subscriptionKey') is required to run this sample.  Please update your '.bot' file.");
+                            }
+
+                            if (string.IsNullOrWhiteSpace(luis.Region))
+                            {
+                                throw new InvalidOperationException("The Region ('region') is required to run this sample.  Please update your '.bot' file.");
+                            }
+
                             var luisApp = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.GetEndpoint());
-                            LuisServices.Add(service.Id, new TelemetryLuisRecognizer(luisApp));
+                            var recognizer = new TelemetryLuisRecognizer(luisApp);
+                            LuisServices.Add(service.Id, recognizer);
                             break;
                         }
 

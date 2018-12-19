@@ -8,6 +8,8 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
+using EmailSkill.Dialogs.Shared.Resources.Strings;
+using Google;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Auth.OAuth2.Responses;
@@ -119,274 +121,294 @@ namespace EmailSkill
         /// <inheritdoc/>
         public async Task ForwardMessageAsync(string id, string content, List<Recipient> recipients)
         {
-            // getOriginalMessage
-            var (originMessage, threadId) = await this.GetMessageById(id);
-            var forward = new MimeMessage();
-            foreach (var recipient in recipients)
+            try
             {
-                forward.To.Add(new MailboxAddress(recipient.EmailAddress.Address));
-            }
-
-            // set the reply subject
-            forward.Subject = "Fwd: " + originMessage.Subject;
-
-            // construct the References headers
-            foreach (var mid in originMessage.References)
-            {
-                forward.References.Add(mid);
-            }
-
-            if (!string.IsNullOrEmpty(originMessage.MessageId))
-            {
-                forward.References.Add(originMessage.MessageId);
-            }
-
-            // quote the original message text
-            using (var quoted = new StringWriter())
-            {
-                var sender = originMessage.Sender ?? originMessage.From.Mailboxes.FirstOrDefault();
-                quoted.WriteLine(content);
-                quoted.WriteLine();
-                quoted.WriteLine("---------- Forwarded message ----------");
-                quoted.WriteLine("From: {0}", originMessage.From);
-                quoted.WriteLine("Date: {0}", originMessage.Date);
-                quoted.WriteLine("Subject: {0}", originMessage.Subject);
-                quoted.WriteLine("To: {0}", originMessage.To);
-                if (originMessage.Cc.Count > 0)
+                // getOriginalMessage
+                var (originalMessage, threadId) = await this.GetMessageById(id);
+                var forward = new MimeMessage();
+                foreach (var recipient in recipients)
                 {
-                    quoted.WriteLine("Cc: {0}", originMessage.Cc);
+                    forward.To.Add(new MailboxAddress(recipient.EmailAddress.Address));
                 }
 
-                using (var reader = new StringReader(originMessage.TextBody))
-                {
-                    string line;
+                // set the reply subject
+                forward.Subject = string.Format(EmailCommonStrings.ForwardReplyFormat, originalMessage.Subject);
 
-                    while ((line = reader.ReadLine()) != null)
+                // construct the References headers
+                foreach (var mid in originalMessage.References)
+                {
+                    forward.References.Add(mid);
+                }
+
+                if (!string.IsNullOrEmpty(originalMessage.MessageId))
+                {
+                    forward.References.Add(originalMessage.MessageId);
+                }
+
+                // quote the original message text
+                using (var quoted = new StringWriter())
+                {
+                    var sender = originalMessage.Sender ?? originalMessage.From.Mailboxes.FirstOrDefault();
+                    quoted.WriteLine(content);
+                    quoted.WriteLine();
+                    quoted.WriteLine(EmailCommonStrings.ForwardMessage);
+                    quoted.WriteLine(EmailCommonStrings.FromFormat, originalMessage.From);
+                    quoted.WriteLine(EmailCommonStrings.DateFormat, originalMessage.Date);
+                    quoted.WriteLine(EmailCommonStrings.SubjectFormat, originalMessage.Subject);
+                    quoted.WriteLine(EmailCommonStrings.ToFormat, originalMessage.To);
+                    if (originalMessage.Cc.Count > 0)
                     {
-                        quoted.Write("> ");
-                        quoted.WriteLine(line);
+                        quoted.WriteLine(EmailCommonStrings.CCFormat, originalMessage.Cc);
                     }
+
+                    using (var reader = new StringReader(originalMessage.TextBody))
+                    {
+                        string line;
+
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            quoted.Write("> ");
+                            quoted.WriteLine(line);
+                        }
+                    }
+
+                    content = quoted.ToString();
                 }
 
-                content = quoted.ToString();
+                var sendRequest = service.Users.Messages.Send(
+                    new GmailMessage()
+                    {
+                        Raw = Base64UrlEncode(forward.ToString() + content),
+                        ThreadId = threadId,
+                    }, "me");
+                await ((IClientServiceRequest<GmailMessage>)sendRequest).ExecuteAsync();
             }
-
-            Console.WriteLine(forward.ToString() + content);
-
-            var sendRequest = service.Users.Messages.Send(
-                new GmailMessage()
-                {
-                    Raw = Base64UrlEncode(forward.ToString() + content),
-                    ThreadId = threadId,
-                }, "me");
-            await ((IClientServiceRequest<GmailMessage>)sendRequest).ExecuteAsync();
+            catch (GoogleApiException ex)
+            {
+                throw GoogleClient.HandleGoogleAPIException(ex);
+            }
         }
 
-        /// <inheritdoc/>
-        public async Task SendMessageAsync(string content, string subject, List<Recipient> recipients)
+            public async Task SendMessageAsync(string content, string subject, List<Recipient> recipients)
         {
-            // get from address
-            var profileRequest = service.Users.GetProfile("me");
-            var user = ((IClientServiceRequest<Profile>)profileRequest).Execute();
-            var mess = new MailMessage
+            try
             {
-                Subject = subject,
-                From = new MailAddress(user.EmailAddress)
-            };
-
-            foreach (var re in recipients)
-            {
-                mess.To.Add(new MailAddress(re.EmailAddress.Address));
-            }
-
-            mess.ReplyToList.Add(new MailAddress(user.EmailAddress));
-            var adds = AlternateView.CreateAlternateViewFromString(content, new System.Net.Mime.ContentType("text/plain"));
-            adds.ContentType.CharSet = Encoding.UTF8.WebName;
-            mess.AlternateViews.Add(adds);
-
-            // mess.BodyTransferEncoding = System.Net.Mime.TransferEncoding.Base64;
-            var mime = MimeMessage.CreateFromMailMessage(mess);
-            var sendRequest = service.Users.Messages.Send(
-                new GmailMessage()
+                // get from address
+                var profileRequest = service.Users.GetProfile("me");
+                var user = ((IClientServiceRequest<Profile>)profileRequest).Execute();
+                var mess = new MailMessage
                 {
-                    Raw = Base64UrlEncode(mime.ToString()),
-                }, "me");
-            await ((IClientServiceRequest<GmailMessage>)sendRequest).ExecuteAsync();
+                    Subject = subject,
+                    From = new MailAddress(user.EmailAddress)
+                };
+
+                foreach (var re in recipients)
+                {
+                    mess.To.Add(new MailAddress(re.EmailAddress.Address));
+                }
+
+                mess.ReplyToList.Add(new MailAddress(user.EmailAddress));
+                var adds = AlternateView.CreateAlternateViewFromString(content, new System.Net.Mime.ContentType("text/plain"));
+                adds.ContentType.CharSet = Encoding.UTF8.WebName;
+                mess.AlternateViews.Add(adds);
+
+                var mime = MimeMessage.CreateFromMailMessage(mess);
+                var sendRequest = service.Users.Messages.Send(
+                    new GmailMessage()
+                    {
+                        Raw = Base64UrlEncode(mime.ToString()),
+                    }, "me");
+                await ((IClientServiceRequest<GmailMessage>)sendRequest).ExecuteAsync();
+            }
+            catch (GoogleApiException ex)
+            {
+                throw GoogleClient.HandleGoogleAPIException(ex);
+            }
         }
 
-        /// <inheritdoc/>
         public async Task<List<MSMessage>> ReplyToMessageAsync(string id, string content)
         {
-            var (originMessage, threadId) = await this.GetMessageById(id);
-            var reply = new MimeMessage();
+            try
+            {
+                var (originMessage, threadId) = await this.GetMessageById(id);
+                var reply = new MimeMessage();
 
-            // reply to the sender of the message
-            if (originMessage.ReplyTo.Count > 0)
-            {
-                reply.To.AddRange(originMessage.ReplyTo);
-            }
-            else if (originMessage.From.Count > 0)
-            {
-                reply.To.AddRange(originMessage.From);
-            }
-            else if (originMessage.Sender != null)
-            {
-                reply.To.Add(originMessage.Sender);
-            }
-
-            // set the reply subject
-            if (!originMessage.Subject.StartsWith("Re:", StringComparison.OrdinalIgnoreCase))
-            {
-                reply.Subject = "Re: " + originMessage.Subject;
-            }
-            else
-            {
-                reply.Subject = originMessage.Subject;
-            }
-
-            // construct the In-Reply-To and References headers
-            if (!string.IsNullOrEmpty(originMessage.MessageId))
-            {
-                reply.InReplyTo = originMessage.MessageId;
-                foreach (var mid in originMessage.References)
+                // reply to the sender of the message
+                if (originMessage.ReplyTo.Count > 0)
                 {
-                    reply.References.Add(mid);
+                    reply.To.AddRange(originMessage.ReplyTo);
+                }
+                else if (originMessage.From.Count > 0)
+                {
+                    reply.To.AddRange(originMessage.From);
+                }
+                else if (originMessage.Sender != null)
+                {
+                    reply.To.Add(originMessage.Sender);
                 }
 
-                reply.References.Add(originMessage.MessageId);
-            }
-
-            // quote the original message text
-            using (var quoted = new StringWriter())
-            {
-                var sender = originMessage.Sender ?? originMessage.From.Mailboxes.FirstOrDefault();
-                quoted.WriteLine("新添内容\n\r");
-                quoted.WriteLine("On {0}, {1} wrote:", originMessage.Date.ToString("f"), !string.IsNullOrEmpty(sender.Name) ? sender.Name : sender.Address);
-                using (var reader = new StringReader(originMessage.TextBody))
+                // set the reply subject
+                if (!originMessage.Subject.StartsWith(EmailCommonStrings.Reply, StringComparison.OrdinalIgnoreCase))
                 {
-                    string line;
+                    reply.Subject = string.Format(EmailCommonStrings.ReplyReplyFormat, originMessage.Subject);
+                }
+                else
+                {
+                    reply.Subject = originMessage.Subject;
+                }
 
-                    while ((line = reader.ReadLine()) != null)
+                // construct the In-Reply-To and References headers
+                if (!string.IsNullOrEmpty(originMessage.MessageId))
+                {
+                    reply.InReplyTo = originMessage.MessageId;
+                    foreach (var mid in originMessage.References)
                     {
-                        quoted.Write("> ");
-                        quoted.WriteLine(line);
+                        reply.References.Add(mid);
                     }
+
+                    reply.References.Add(originMessage.MessageId);
                 }
 
-                content = quoted.ToString();
-            }
+                // quote the original message text
+                using (var quoted = new StringWriter())
+                {
+                    var sender = originMessage.Sender ?? originMessage.From.Mailboxes.FirstOrDefault();
+                    quoted.WriteLine(EmailCommonStrings.EmailInfoFormat, originMessage.Date.ToString("f"), !string.IsNullOrEmpty(sender.Name) ? sender.Name : sender.Address);
+                    using (var reader = new StringReader(originMessage.TextBody))
+                    {
+                        string line;
 
-            Console.WriteLine(reply.ToString() + content);
-            var sendRequest = service.Users.Messages.Send(
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            quoted.Write("> ");
+                            quoted.WriteLine(line);
+                        }
+                    }
+
+                    content = quoted.ToString();
+                }
+
+                var sendRequest = service.Users.Messages.Send(
                 new GmailMessage()
                 {
                     Raw = Base64UrlEncode(reply.ToString() + content),
                     ThreadId = threadId,
                 }, "me");
-            await ((IClientServiceRequest<GmailMessage>)sendRequest).ExecuteAsync();
-            return null;
+                await ((IClientServiceRequest<GmailMessage>)sendRequest).ExecuteAsync();
+                return null;
+            }
+            catch (GoogleApiException ex)
+            {
+                throw GoogleClient.HandleGoogleAPIException(ex);
+            }
         }
 
-        /// <inheritdoc/>
         public async Task<List<MSMessage>> GetMyMessagesAsync(DateTime fromTime, DateTime toTime, bool getUnRead = false, bool isImportant = false, bool directlyToMe = false, string fromAddress = null, int skip = 0)
         {
-            var profileRequest = service.Users.GetProfile("me");
-            var user = ((IClientServiceRequest<Profile>)profileRequest).Execute();
-            var userAddress = user.EmailAddress;
-
-            string searchOperation = string.Empty;
-            searchOperation = this.AppendFilterString(searchOperation, "in:inbox");
-            if (getUnRead)
+            try
             {
-                searchOperation = this.AppendFilterString(searchOperation, "is:unread");
-            }
+                var profileRequest = service.Users.GetProfile("me");
+                var user = ((IClientServiceRequest<Profile>)profileRequest).Execute();
+                var userAddress = user.EmailAddress;
 
-            if (isImportant)
-            {
-                searchOperation = this.AppendFilterString(searchOperation, "is:important");
-            }
-
-            if (directlyToMe)
-            {
-                searchOperation = this.AppendFilterString(searchOperation, $"deliveredto:{userAddress}");
-            }
-
-            if (fromAddress != null)
-            {
-                searchOperation = this.AppendFilterString(searchOperation, $"from:{fromAddress}");
-            }
-
-            if (fromTime != null)
-            {
-                searchOperation = this.AppendFilterString(searchOperation, $"after:{fromTime.Year}/{fromTime.Month}/{fromTime.Day}");
-            }
-
-            if (toTime != null)
-            {
-                searchOperation = this.AppendFilterString(searchOperation, $"before:{toTime.Year}/{toTime.Month}/{toTime.Day}");
-            }
-
-            var request = service.Users.Messages.List("me");
-            request.Q = searchOperation;
-            request.MaxResults = this.pageSize;
-
-            // deal with skip
-            if (skip != 0 && this.pageToken == string.Empty)
-            {
-                // call api and get the pageToken
-                var tempReq = service.Users.Messages.List("me");
-                tempReq.MaxResults = skip;
-                tempReq.Q = searchOperation;
-                var tempRes = ((IClientServiceRequest<ListMessagesResponse>)tempReq).Execute();
-                if (tempRes.NextPageToken != null && tempRes.NextPageToken != string.Empty)
+                string searchOperation = string.Empty;
+                searchOperation = this.AppendFilterString(searchOperation, "in:inbox");
+                if (getUnRead)
                 {
-                    this.pageToken = tempRes.NextPageToken;
-                }
-                else
-                {
-                    // no more message
-                    return new List<MSMessage>();
+                    searchOperation = this.AppendFilterString(searchOperation, "is:unread");
                 }
 
-                request.PageToken = this.pageToken;
-            }
+                if (isImportant)
+                {
+                    searchOperation = this.AppendFilterString(searchOperation, "is:important");
+                }
+
+                if (directlyToMe)
+                {
+                    searchOperation = this.AppendFilterString(searchOperation, $"deliveredto:{userAddress}");
+                }
+
+                if (fromAddress != null)
+                {
+                    searchOperation = this.AppendFilterString(searchOperation, $"from:{fromAddress}");
+                }
+
+                if (fromTime != null)
+                {
+                    searchOperation = this.AppendFilterString(searchOperation, $"after:{fromTime.Year}/{fromTime.Month}/{fromTime.Day}");
+                }
+
+                if (toTime != null)
+                {
+                    searchOperation = this.AppendFilterString(searchOperation, $"before:{toTime.Year}/{toTime.Month}/{toTime.Day}");
+                }
+
+                var request = service.Users.Messages.List("me");
+                request.Q = searchOperation;
+                request.MaxResults = this.pageSize;
+
+                // deal with skip
+                if (skip != 0 && this.pageToken == string.Empty)
+                {
+                    // call api and get the pageToken
+                    var tempReq = service.Users.Messages.List("me");
+                    tempReq.MaxResults = skip;
+                    tempReq.Q = searchOperation;
+                    var tempRes = ((IClientServiceRequest<ListMessagesResponse>)tempReq).Execute();
+                    if (tempRes.NextPageToken != null && tempRes.NextPageToken != string.Empty)
+                    {
+                        this.pageToken = tempRes.NextPageToken;
+                    }
+                    else
+                    {
+                        // no more message
+                        return new List<MSMessage>();
+                    }
+
+                    request.PageToken = this.pageToken;
+                }
 
             var response = await ((IClientServiceRequest<ListMessagesResponse>)request).ExecuteAsync();
             var result = new List<MSMessage>();
 
-            // response.Messages only have id and threadID
-            if (response.Messages != null)
-            {
-                var messages = await Task.WhenAll(response.Messages.Select(temp =>
+                // response.Messages only have id and threadID
+                if (response.Messages != null)
                 {
-                    var req = service.Users.Messages.Get("me", temp.Id);
-                    req.Format = UsersResource.MessagesResource.GetRequest.FormatEnum.Raw;
-                    return ((IClientServiceRequest<GmailMessage>)req).ExecuteAsync();
-                }));
-                if (messages != null && messages.Length > 0)
-                {
-                    foreach (var m in messages)
+                    var messages = await Task.WhenAll(response.Messages.Select(temp =>
                     {
-                        // map to msgraph email
-                        var ms = this.MapMimeMessageToMSMessage(DecodeToMessage(m.Raw));
-                        ms.BodyPreview = m.Snippet;
-                        ms.Id = m.Id;
-                        ms.WebLink = $"https://mail.google.com/mail/#inbox/{m.Id}";
-                        result.Add(ms);
+                        var req = service.Users.Messages.Get("me", temp.Id);
+                        req.Format = UsersResource.MessagesResource.GetRequest.FormatEnum.Raw;
+                        return ((IClientServiceRequest<GmailMessage>)req).ExecuteAsync();
+                    }));
+                    if (messages != null && messages.Length > 0)
+                    {
+                        foreach (var m in messages)
+                        {
+                            // map to msgraph email
+                            var ms = this.MapMimeMessageToMSMessage(DecodeToMessage(m.Raw));
+                            ms.BodyPreview = m.Snippet;
+                            ms.Id = m.Id;
+                            ms.WebLink = $"https://mail.google.com/mail/#inbox/{m.Id}";
+                            result.Add(ms);
+                        }
                     }
                 }
-            }
 
-            if (response.NextPageToken != null && response.NextPageToken != string.Empty)
-            {
-                this.pageToken = response.NextPageToken;
-            }
-            else
-            {
-                this.pageToken = string.Empty;
-            }
+                if (response.NextPageToken != null && response.NextPageToken != string.Empty)
+                {
+                    this.pageToken = response.NextPageToken;
+                }
+                else
+                {
+                    this.pageToken = string.Empty;
+                }
 
-            return result;
+                return result;
+            }
+            catch (GoogleApiException ex)
+            {
+                throw GoogleClient.HandleGoogleAPIException(ex);
+            }
         }
 
         public Task DeleteMessageAsync(string id)

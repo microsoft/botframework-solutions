@@ -15,11 +15,13 @@ namespace CustomerSupportTemplate.Dialogs.Shipping
 
         public UpdateShippingAddressDialog(
             BotServices services, 
-            IStatePropertyAccessor<CustomerSupportTemplateState> stateAccessor)
-            : base(services, nameof(UpdateShippingAddressDialog))
+            IStatePropertyAccessor<CustomerSupportTemplateState> stateAccessor,
+            IBotTelemetryClient telemetryClient)
+            : base(services, nameof(UpdateShippingAddressDialog), telemetryClient)
         {
             _services = services;
             _stateAccessor = stateAccessor;
+            TelemetryClient = telemetryClient;
 
             var updateShippingAddress = new WaterfallStep[]
             {
@@ -29,7 +31,7 @@ namespace CustomerSupportTemplate.Dialogs.Shipping
             };
 
             InitialDialogId = nameof(UpdateShippingAddressDialog);
-            AddDialog(new WaterfallDialog(InitialDialogId, updateShippingAddress));
+            AddDialog(new WaterfallDialog(InitialDialogId, updateShippingAddress) { TelemetryClient = telemetryClient });
             AddDialog(new ConfirmPrompt(DialogIds.EscalatePrompt, SharedValidators.ConfirmValidator));
         }
 

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.ApplicationInsights;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.QnA;
+using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Solutions
 {
@@ -19,7 +20,9 @@ namespace Microsoft.Bot.Solutions
     /// </summary>
     public class TelemetryQnAMaker : QnAMaker, ITelemetryQnAMaker
     {
-        public static readonly string QnaMsgEvent = "QnaMessage";
+        public const string QnaMsgEvent = "QnaMessage";
+
+        private QnAMakerEndpoint _endpoint;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TelemetryQnAMaker"/> class.
@@ -35,13 +38,15 @@ namespace Microsoft.Bot.Solutions
         {
             LogUserName = logUserName;
             LogOriginalMessage = logOriginalMessage;
+
+            _endpoint = endpoint;
         }
 
         public bool LogUserName { get; }
 
         public bool LogOriginalMessage { get; }
 
-        public new async Task<QueryResult[]> GetAnswersAsync(ITurnContext context)
+        public async Task<QueryResult[]> GetAnswersAsync(ITurnContext context)
         {
             // Call Qna Maker
             var queryResults = await base.GetAnswersAsync(context);
@@ -52,6 +57,7 @@ namespace Microsoft.Bot.Solutions
                 var telemetryProperties = new Dictionary<string, string>();
                 var telemetryMetrics = new Dictionary<string, double>();
 
+                telemetryProperties.Add(QnATelemetryConstants.KnowledgeBaseIdProperty, _endpoint.KnowledgeBaseId);
                 // Make it so we can correlate our reports with Activity or Conversation
                 telemetryProperties.Add(QnATelemetryConstants.ActivityIdProperty, context.Activity.Id);
                 var conversationId = context.Activity.Conversation.Id;
@@ -78,7 +84,7 @@ namespace Microsoft.Bot.Solutions
                 if (queryResults.Length > 0)
                 {
                     var queryResult = queryResults[0];
-                    telemetryProperties.Add(QnATelemetryConstants.QuestionProperty, string.Join(",", queryResult.Questions));
+                    telemetryProperties.Add(QnATelemetryConstants.QuestionProperty, JsonConvert.SerializeObject(queryResult.Questions));
                     telemetryProperties.Add(QnATelemetryConstants.AnswerProperty, queryResult.Answer);
                     telemetryMetrics.Add(QnATelemetryConstants.ScoreProperty, queryResult.Score);
                     telemetryProperties.Add(QnATelemetryConstants.ArticleFoundProperty, "true");
@@ -86,7 +92,7 @@ namespace Microsoft.Bot.Solutions
                 else
                 {
                     telemetryProperties.Add(QnATelemetryConstants.QuestionProperty, "No Qna Question matched");
-                    telemetryProperties.Add(QnATelemetryConstants.AnswerProperty, "No Qna Question matched");
+                    telemetryProperties.Add(QnATelemetryConstants.AnswerProperty, "No Qna Answer matched");
                     telemetryProperties.Add(QnATelemetryConstants.ArticleFoundProperty, "true");
                 }
 
