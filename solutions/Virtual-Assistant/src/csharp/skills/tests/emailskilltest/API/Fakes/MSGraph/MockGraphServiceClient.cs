@@ -5,11 +5,11 @@ using Moq;
 
 namespace EmailSkillTest.API.Fakes
 {
-    public class MockGraphServiceClientGen
+    public class MockGraphServiceClient
     {
         private readonly Mock<IGraphServiceClient> mockMailService;
 
-        public MockGraphServiceClientGen()
+        public MockGraphServiceClient()
         {
             this.mockMailService = new Mock<IGraphServiceClient>();
             this.InitializeDefaultData();

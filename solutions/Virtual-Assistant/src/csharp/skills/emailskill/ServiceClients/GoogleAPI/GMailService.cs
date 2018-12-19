@@ -15,6 +15,7 @@ using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Auth.OAuth2.Responses;
 using Google.Apis.Gmail.v1;
 using Google.Apis.Gmail.v1.Data;
+using Google.Apis.Requests;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
 using Microsoft.Bot.Solutions.Data;
@@ -31,7 +32,7 @@ namespace EmailSkill
     public class GMailService : IMailService
     {
         private static GmailService service;
-        private int pageSize;
+        private readonly int pageSize;
         private string pageToken = string.Empty;
 
         /// <summary>
@@ -75,6 +76,49 @@ namespace EmailSkill
             return service;
         }
 
+        public static string Base64UrlEncode(string text)
+        {
+            var textBytes = Encoding.UTF8.GetBytes(text);
+
+            var result = System.Convert.ToBase64String(textBytes);
+            result = result.Split('=')[0]; // Remove any trailing '='s
+            result = result.Replace('+', '-'); // 62nd char of encoding
+            result = result.Replace('/', '_'); // 63rd char of encoding
+            return result;
+        }
+
+        // decode from base64url to utf-8 bytes
+        public static byte[] Base64UrlDecode(string text)
+        {
+            string result = text;
+            result = result.Replace('-', '+'); // 62nd char of encoding
+            result = result.Replace('_', '/'); // 63rd char of encoding
+
+            // Pad with trailing '='s
+            switch (result.Length % 4)
+            {
+                case 0: break; // No pad chars in this case
+                case 2: result += "=="; break; // Two pad chars
+                case 3: result += "="; break; // One pad char
+                default:
+                    throw new System.Exception(
+             "Illegal base64url string!");
+            }
+
+            byte[] textBytes = Convert.FromBase64String(result);
+            return textBytes;
+        }
+
+        // decode to mimeMessage
+        public static MimeMessage DecodeToMessage(string text)
+        {
+            byte[] msg = Base64UrlDecode(text);
+            MemoryStream mm = new MemoryStream(msg);
+            MimeKit.MimeMessage mime = MimeKit.MimeMessage.Load(mm);
+            return mime;
+        }
+
+        /// <inheritdoc/>
         public async Task ForwardMessageAsync(string id, string content, List<Recipient> recipients)
         {
             try
@@ -131,28 +175,33 @@ namespace EmailSkill
                     content = quoted.ToString();
                 }
 
-                await service.Users.Messages.Send(
+                var sendRequest = service.Users.Messages.Send(
                     new GmailMessage()
                     {
                         Raw = Base64UrlEncode(forward.ToString() + content),
                         ThreadId = threadId,
-                    }, "me").ExecuteAsync();
+                    }, "me");
+                await ((IClientServiceRequest<GmailMessage>)sendRequest).ExecuteAsync();
             }
             catch (GoogleApiException ex)
             {
                 throw GoogleClient.HandleGoogleAPIException(ex);
             }
-}
+        }
 
-        public async Task SendMessageAsync(string content, string subject, List<Recipient> recipients)
+            public async Task SendMessageAsync(string content, string subject, List<Recipient> recipients)
         {
             try
             {
                 // get from address
-                var user = service.Users.GetProfile("me").Execute();
-                var mess = new MailMessage();
-                mess.Subject = subject;
-                mess.From = new MailAddress(user.EmailAddress);
+                var profileRequest = service.Users.GetProfile("me");
+                var user = ((IClientServiceRequest<Profile>)profileRequest).Execute();
+                var mess = new MailMessage
+                {
+                    Subject = subject,
+                    From = new MailAddress(user.EmailAddress)
+                };
+
                 foreach (var re in recipients)
                 {
                     mess.To.Add(new MailAddress(re.EmailAddress.Address));
@@ -164,11 +213,12 @@ namespace EmailSkill
                 mess.AlternateViews.Add(adds);
 
                 var mime = MimeMessage.CreateFromMailMessage(mess);
-                await service.Users.Messages.Send(
+                var sendRequest = service.Users.Messages.Send(
                     new GmailMessage()
-                {
-                    Raw = Base64UrlEncode(mime.ToString()),
-                }, "me").ExecuteAsync();
+                    {
+                        Raw = Base64UrlEncode(mime.ToString()),
+                    }, "me");
+                await ((IClientServiceRequest<GmailMessage>)sendRequest).ExecuteAsync();
             }
             catch (GoogleApiException ex)
             {
@@ -238,12 +288,13 @@ namespace EmailSkill
                     content = quoted.ToString();
                 }
 
-                await service.Users.Messages.Send(
-                    new GmailMessage()
+                var sendRequest = service.Users.Messages.Send(
+                new GmailMessage()
                 {
                     Raw = Base64UrlEncode(reply.ToString() + content),
                     ThreadId = threadId,
-                }, "me").ExecuteAsync();
+                }, "me");
+                await ((IClientServiceRequest<GmailMessage>)sendRequest).ExecuteAsync();
                 return null;
             }
             catch (GoogleApiException ex)
@@ -256,7 +307,8 @@ namespace EmailSkill
         {
             try
             {
-                var user = service.Users.GetProfile("me").Execute();
+                var profileRequest = service.Users.GetProfile("me");
+                var user = ((IClientServiceRequest<Profile>)profileRequest).Execute();
                 var userAddress = user.EmailAddress;
 
                 string searchOperation = string.Empty;
@@ -302,7 +354,7 @@ namespace EmailSkill
                     var tempReq = service.Users.Messages.List("me");
                     tempReq.MaxResults = skip;
                     tempReq.Q = searchOperation;
-                    var tempRes = tempReq.Execute();
+                    var tempRes = ((IClientServiceRequest<ListMessagesResponse>)tempReq).Execute();
                     if (tempRes.NextPageToken != null && tempRes.NextPageToken != string.Empty)
                     {
                         this.pageToken = tempRes.NextPageToken;
@@ -316,8 +368,8 @@ namespace EmailSkill
                     request.PageToken = this.pageToken;
                 }
 
-                ListMessagesResponse response = await request.ExecuteAsync();
-                List<MSMessage> result = new List<MSMessage>();
+            var response = await ((IClientServiceRequest<ListMessagesResponse>)request).ExecuteAsync();
+            var result = new List<MSMessage>();
 
                 // response.Messages only have id and threadID
                 if (response.Messages != null)
@@ -326,7 +378,7 @@ namespace EmailSkill
                     {
                         var req = service.Users.Messages.Get("me", temp.Id);
                         req.Format = UsersResource.MessagesResource.GetRequest.FormatEnum.Raw;
-                        return req.ExecuteAsync();
+                        return ((IClientServiceRequest<GmailMessage>)req).ExecuteAsync();
                     }));
                     if (messages != null && messages.Length > 0)
                     {
@@ -379,46 +431,21 @@ namespace EmailSkill
             return result;
         }
 
-        private static string Base64UrlEncode(string text)
-        {
-            var textBytes = Encoding.UTF8.GetBytes(text);
-            return System.Convert.ToBase64String(textBytes)
-                .Replace('+', '-')
-                .Replace('/', '_')
-                .Replace("=", string.Empty);
-        }
-
-        // decode from base64url to utf-8 bytes
-        private static byte[] Base64UrlDecode(string text)
-        {
-            var temp = text.Replace('-', '+')
-                .Replace('_', '/');
-            byte[] textBytes = Convert.FromBase64String(temp);
-            return textBytes; // Encoding.UTF8.GetString(textBytes);
-        }
-
-        // decode to mimeMessage
-        private static MimeMessage DecodeToMessage(string text)
-        {
-            byte[] msg = Base64UrlDecode(text);
-            MemoryStream mm = new MemoryStream(msg);
-            MimeKit.MimeMessage mime = MimeKit.MimeMessage.Load(mm);
-            return mime;
-        }
-
         private async Task<(MimeMessage, string)> GetMessageById(string id)
         {
             var request = service.Users.Messages.Get("me", id);
             request.Format = UsersResource.MessagesResource.GetRequest.FormatEnum.Raw;
-            var response = await request.ExecuteAsync();
+            var response = await ((IClientServiceRequest<GmailMessage>)request).ExecuteAsync();
             var mime = DecodeToMessage(response.Raw);
             return (mime, response.ThreadId);
         }
 
         private MSMessage MapMimeMessageToMSMessage(MimeMessage mime)
         {
-            MSMessage message = new MSMessage();
-            message.ReceivedDateTime = mime.Date;
+            MSMessage message = new MSMessage
+            {
+                ReceivedDateTime = mime.Date
+            };
             if (mime.To != null)
             {
                 var to = new List<Recipient>();

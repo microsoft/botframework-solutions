@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EmailSkillTest.Flow.Strings
+﻿namespace EmailSkillTest.Flow.Strings
 {
     public class ContextStrings
     {
