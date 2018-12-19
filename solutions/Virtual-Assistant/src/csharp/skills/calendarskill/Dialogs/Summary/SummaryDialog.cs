@@ -32,6 +32,18 @@ namespace CalendarSkill
         {
             TelemetryClient = telemetryClient;
 
+            var initStep = new WaterfallStep[]
+            {
+                Init,
+            };
+
+            var showNext = new WaterfallStep[]
+            {
+                GetAuthToken,
+                AfterGetAuthToken,
+                ShowNextEvent,
+            };
+
             var showSummary = new WaterfallStep[]
             {
                 IfClearContextStep,
@@ -49,11 +61,24 @@ namespace CalendarSkill
             };
 
             // Define the conversation flow using a waterfall model.
+            AddDialog(new WaterfallDialog(Actions.GetEventsInit, initStep));
+            AddDialog(new WaterfallDialog(Actions.ShowNextEvent, showNext));
             AddDialog(new WaterfallDialog(Actions.ShowEventsSummary, showSummary) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.Read, readEvent) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Actions.ShowEventsSummary;
+        }
+
+        public async Task<DialogTurnResult> Init(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+            if (state.OrderReference == "next")
+            {
+                return await sc.BeginDialogAsync(Actions.ShowNextEvent);
+            }
+
+            return await sc.BeginDialogAsync(Actions.ShowEventsSummary);
         }
 
         public async Task<DialogTurnResult> IfClearContextStep(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -311,6 +336,115 @@ namespace CalendarSkill
                 {
                     return await sc.EndDialogAsync(true);
                 }
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+        public async Task<DialogTurnResult> ShowNextEvent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await Accessor.GetAsync(sc.Context);
+                AskParameterModel askParameter = new AskParameterModel(state.AskParameterContent);
+                if (string.IsNullOrEmpty(state.APIToken))
+                {
+                    return await sc.EndDialogAsync(true);
+                }
+
+                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+
+                var eventList = await calendarService.GetUpcomingEvents();
+                var nextEventList = new List<EventModel>();
+                foreach (var item in eventList)
+                {
+                    if (item.IsCancelled != true && (nextEventList.Count == 0 || nextEventList[0].StartTime == item.StartTime))
+                    {
+                        nextEventList.Add(item);
+                    }
+                }
+
+                if (nextEventList.Count == 0)
+                {
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowNoMeetingMessage));
+                }
+                else
+                {
+                    if (nextEventList.Count == 1)
+                    {
+                        // if user asked for specific details
+                        if (askParameter.NeedDetail)
+                        {
+                            var responseParams = new StringDictionary()
+                            {
+                                { "EventName", nextEventList[0].Title },
+                                { "EventStartTime", TimeConverter.ConvertUtcToUserTime(nextEventList[0].StartTime, state.GetUserTimeZone()).ToString("h:mm tt") },
+                                { "EventEndTime", TimeConverter.ConvertUtcToUserTime(nextEventList[0].EndTime, state.GetUserTimeZone()).ToString("h:mm tt") },
+                                { "EventDuration", nextEventList[0].ToDurationString() },
+                                { "EventLocation", nextEventList[0].Location },
+                            };
+
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.BeforeShowEventDetails, ResponseBuilder, responseParams));
+
+                            if (askParameter.NeedTime)
+                            {
+                                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ReadTime, ResponseBuilder, responseParams));
+                            }
+
+                            if (askParameter.NeedDuration)
+                            {
+                                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ReadDuration, ResponseBuilder, responseParams));
+                            }
+
+                            if (askParameter.NeedLocation)
+                            {
+                                // for some event there might be no localtion.
+                                if (string.IsNullOrEmpty(responseParams["EventLocation"]))
+                                {
+                                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ReadNoLocation));
+                                }
+                                else
+                                {
+                                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ReadLocation, ResponseBuilder, responseParams));
+                                }
+                            }
+                        }
+
+                        var speakParams = new StringDictionary()
+                        {
+                            { "EventName", nextEventList[0].Title },
+                            { "PeopleCount", nextEventList[0].Attendees.Count.ToString() },
+                        };
+
+                        speakParams.Add("EventTime", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(nextEventList[0].StartTime, state.GetUserTimeZone()), nextEventList[0].IsAllDay == true));
+
+                        if (string.IsNullOrEmpty(nextEventList[0].Location))
+                        {
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowNextMeetingNoLocationMessage, ResponseBuilder, speakParams));
+                        }
+                        else
+                        {
+                            speakParams.Add("Location", nextEventList[0].Location);
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowNextMeetingMessage, ResponseBuilder, speakParams));
+                        }
+                    }
+                    else
+                    {
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowMultipleNextMeetingMessage));
+                    }
+
+                    await ShowMeetingList(sc, nextEventList, true);
+                }
+
+                state.Clear();
+                return await sc.EndDialogAsync(true);
+            }
+            catch (SkillException ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
             catch (Exception ex)
             {

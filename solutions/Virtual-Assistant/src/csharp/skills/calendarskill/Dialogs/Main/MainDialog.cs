@@ -104,12 +104,6 @@ namespace CalendarSkill
                             break;
                         }
 
-                    case Luis.Calendar.Intent.NextMeeting:
-                        {
-                            await dc.BeginDialogAsync(nameof(NextMeetingDialog), skillOptions);
-                            break;
-                        }
-
                     case Luis.Calendar.Intent.ChangeCalendarEntry:
                         {
                             await dc.BeginDialogAsync(nameof(UpdateEventDialog), skillOptions);
@@ -325,7 +319,6 @@ namespace CalendarSkill
         {
             AddDialog(new CreateEventDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
             AddDialog(new DeleteEventDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new NextMeetingDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
             AddDialog(new TimeRemainingDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
             AddDialog(new SummaryDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
             AddDialog(new UpdateEventDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
