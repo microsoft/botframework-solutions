@@ -168,10 +168,6 @@ namespace ToDoSkill
 
                 await dc.Context.SendActivityAsync(response);
             }
-            else
-            {
-                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(ToDoSharedResponses.ActionEnded));
-            }
 
             // End active dialog
             await dc.EndDialogAsync(result);

@@ -140,10 +140,6 @@ namespace ToDoSkill
                         }
                     }
                 }
-                else
-                {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ActionEnded));
-                }
 
                 return await sc.EndDialogAsync(true);
             }
@@ -206,6 +202,7 @@ namespace ToDoSkill
                 else if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
                 {
                     state.DeleteTaskConfirmation = false;
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ActionEnded));
                     return await sc.EndDialogAsync(true);
                 }
                 else
