@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using EmailSkill.Dialogs.Shared.Resources.Strings;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Resources;
@@ -60,10 +61,10 @@ namespace EmailSkill.Util
 
             if (message != null)
             {
-                string subject = (message.Subject != null) ? message.Subject : CommonStrings.EmptySubject;
-                string sender = (message.Sender?.EmailAddress?.Name != null) ? message.Sender.EmailAddress.Name : CommonStrings.UnknownSender;
+                string subject = (message.Subject != null) ? message.Subject : EmailCommonStrings.EmptySubject;
+                string sender = (message.Sender?.EmailAddress?.Name != null) ? message.Sender.EmailAddress.Name : EmailCommonStrings.UnknownSender;
 
-                speakString = string.Format(CommonStrings.FromDetailsFormat, subject, sender);
+                speakString = string.Format(EmailCommonStrings.FromDetailsFormat, subject, sender);
             }
 
             return speakString;
@@ -73,11 +74,11 @@ namespace EmailSkill.Util
         {
             string speakString = string.Empty;
 
-            string subject = (detailSubject != string.Empty) ? detailSubject : CommonStrings.EmptySubject;
-            string toRecipient = (detailToRecipient != string.Empty) ? detailToRecipient : CommonStrings.UnknownRecipient;
-            string content = (detailContent != string.Empty) ? detailContent : CommonStrings.EmptyContent;
+            string subject = (detailSubject != string.Empty) ? detailSubject : EmailCommonStrings.EmptySubject;
+            string toRecipient = (detailToRecipient != string.Empty) ? detailToRecipient : EmailCommonStrings.UnknownRecipient;
+            string content = (detailContent != string.Empty) ? detailContent : EmailCommonStrings.EmptyContent;
 
-            speakString = string.Format(CommonStrings.ToDetailsFormat, subject, toRecipient, content);
+            speakString = string.Format(EmailCommonStrings.ToDetailsFormat, subject, toRecipient, content);
 
             return speakString;
         }

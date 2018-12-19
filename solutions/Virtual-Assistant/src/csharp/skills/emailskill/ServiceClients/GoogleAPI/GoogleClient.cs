@@ -1,10 +1,13 @@
 ﻿using System;
+using Google;
 using Microsoft.Bot.Solutions.Skills;
 
 namespace EmailSkill
 {
     public class GoogleClient
     {
+        private const string APIErrorAccessDenied = "insufficient permission";
+
         public string ApplicationName { get; set; }
 
         public string ClientId { get; set; }
@@ -34,6 +37,18 @@ namespace EmailSkill
             };
 
             return googleClient;
+        }
+
+        public static SkillException HandleGoogleAPIException(GoogleApiException ex)
+        {
+            var skillExceptionType = SkillExceptionType.Other;
+
+            if (ex.Error.Message.Equals(APIErrorAccessDenied, StringComparison.InvariantCultureIgnoreCase))
+            {
+                skillExceptionType = SkillExceptionType.APIAccessDenied;
+            }
+
+            return new SkillException(skillExceptionType, ex.Message, ex);
         }
     }
 }
