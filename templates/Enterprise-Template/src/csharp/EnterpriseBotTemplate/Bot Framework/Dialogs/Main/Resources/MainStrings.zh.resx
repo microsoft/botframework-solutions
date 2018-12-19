@@ -145,10 +145,10 @@
     <value>了解更多信息</value>
   </data>
   <data name="HELP_BTN_VALUE_1" xml:space="preserve">
-    <value>Hello</value>
+    <value>我能和一个人交谈吗？</value>
   </data>
   <data name="HELP_BTN_VALUE_2" xml:space="preserve">
-    <value>What is the Enterprise Bot Template?</value>
+    <value>这个模板是什么？</value>
   </data>
   <data name="HELP_BTN_VALUE_3" xml:space="preserve">
     <value>https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0</value>
