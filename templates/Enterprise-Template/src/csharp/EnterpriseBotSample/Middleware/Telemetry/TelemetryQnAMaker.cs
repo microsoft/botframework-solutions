@@ -4,7 +4,6 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.ApplicationInsights;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.QnA;
 using Newtonsoft.Json;
@@ -46,7 +45,7 @@ namespace EnterpriseBotSample.Middleware.Telemetry
 
         public bool LogOriginalMessage { get; }
 
-        public new async Task<QueryResult[]> GetAnswersAsync(ITurnContext context)
+        public async Task<QueryResult[]> GetAnswersAsync(ITurnContext context)
         {
             // Call Qna Maker
             var queryResults = await base.GetAnswersAsync(context);
@@ -87,15 +86,17 @@ namespace EnterpriseBotSample.Middleware.Telemetry
                     telemetryProperties.Add(QnATelemetryConstants.QuestionProperty, JsonConvert.SerializeObject(queryResult.Questions));
                     telemetryProperties.Add(QnATelemetryConstants.AnswerProperty, queryResult.Answer);
                     telemetryMetrics.Add(QnATelemetryConstants.ScoreProperty, queryResult.Score);
+                    telemetryProperties.Add(QnATelemetryConstants.ArticleFoundProperty, "true");
                 }
                 else
                 {
                     telemetryProperties.Add(QnATelemetryConstants.QuestionProperty, "No Qna Question matched");
                     telemetryProperties.Add(QnATelemetryConstants.AnswerProperty, "No Qna Answer matched");
+                    telemetryProperties.Add(QnATelemetryConstants.ArticleFoundProperty, "true");
                 }
 
                 // Track the event
-                ((TelemetryClient)telemetryClient).TrackEvent(QnaMsgEvent, telemetryProperties, telemetryMetrics);
+                ((IBotTelemetryClient)telemetryClient).TrackEvent(QnaMsgEvent, telemetryProperties, telemetryMetrics);
             }
 
             return queryResults;

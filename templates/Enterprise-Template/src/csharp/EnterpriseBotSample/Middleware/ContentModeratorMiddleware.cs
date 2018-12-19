@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Microsoft.Azure.CognitiveServices.ContentModerator;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
-using Microsoft.CognitiveServices.ContentModerator;
 
 namespace EnterpriseBotSample.Middleware
 {
