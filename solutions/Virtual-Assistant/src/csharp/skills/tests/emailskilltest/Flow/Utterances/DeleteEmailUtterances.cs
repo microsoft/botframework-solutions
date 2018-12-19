@@ -1,5 +1,4 @@
-﻿using EmailSkillTest.Flow.Strings;
-using Luis;
+﻿using Luis;
 
 namespace EmailSkillTest.Flow.Utterances
 {

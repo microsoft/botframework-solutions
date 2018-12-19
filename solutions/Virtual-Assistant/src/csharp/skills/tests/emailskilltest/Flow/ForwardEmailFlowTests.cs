@@ -105,7 +105,7 @@ namespace EmailSkillTest.Flow
         {
             // Setup email data
             var serviceManager = this.ServiceManager as MockServiceManager;
-            serviceManager.MockMailService.MyMessages = serviceManager.MockMailService.FakeMyMessages(0);
+            serviceManager.MailService.MyMessages = serviceManager.MailService.FakeMyMessages(0);
 
             await this.GetTestFlow()
                 .Send(ForwardEmailUtterances.ForwardEmails)
