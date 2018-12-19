@@ -6,38 +6,38 @@ namespace CalendarSkillTest.Flow.Strings
 {
     public class Strings
     {
-        public static string DefaultUserName { get; } = "test name";
+        public const string DefaultUserName = "test name";
 
-        public static string DefaultUserEmail { get; } = "test@test.com";
+        public const string DefaultUserEmail = "test@test.com";
 
-        public static string DefaultEventName { get; } = "test title";
+        public const string DefaultEventName = "test title";
 
-        public static string DefaultContent { get; } = "test content";
+        public const string DefaultContent = "test content";
 
-        public static string DefaultLocation { get; } = "test location";
+        public const string DefaultLocation = "test location";
 
-        public static string DefaultStartDate { get; } = "tomorrow";
+        public const string DefaultStartDate = "tomorrow";
 
-        public static string DefaultStartTime { get; } = "9 AM";
+        public const string DefaultStartTime = "9 AM";
 
-        public static string DefaultEndTime { get; } = "10 AM";
+        public const string DefaultEndTime = "10 AM";
 
-        public static string DefaultDuration { get; } = "one hour";
+        public const string DefaultDuration = "one hour";
 
-        public static string ConfirmYes { get; } = "yes";
+        public const string ConfirmYes = "yes";
 
-        public static string ConfirmNo { get; } = "no";
+        public const string ConfirmNo = "no";
 
-        public static string WeekdayDate { get; } = "Friday";
+        public const string WeekdayDate = "Friday";
 
-        public static string FirstOne { get; } = "first one";
+        public const string FirstOne = "first one";
 
-        public static string UserName { get; } = "test name {0}";
+        public const string UserName = "test name {0}";
 
-        public static string UserEmailAddress { get; } = "test{0}@test.com";
+        public const string UserEmailAddress = "test{0}@test.com";
 
-        public static string Next { get; } = "next";
+        public const string Next = "next";
 
-        public static string ThrowErrorAccessDenied { get; } = "test_throw_error_access_denied";
+        public const string ThrowErrorAccessDenied = "test_throw_error_access_denied";
     }
 }
