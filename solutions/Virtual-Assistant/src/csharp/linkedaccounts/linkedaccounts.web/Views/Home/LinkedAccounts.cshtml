@@ -21,7 +21,19 @@
         console.log(request.responseText);
     }, error => {
         console.log('failed to get sessionId', error);
-    });
+        });
+
+    function copyUserId() {
+        var copyText = document.getElementById("UserId");
+
+        // Select the text field UserId
+        copyText.select();
+
+        // Copy the text inside the text field
+        document.execCommand("copy");
+
+        console.log('Copied user id: ' + copyText.value);
+    }
 </script>
 
 
@@ -31,67 +43,70 @@
 }
 else
 {
-    <div>
-        <div class="linkedAccount-title">Linked Accounts</div>
+    <div class="content-row">
+        <div class="content-title">Linked Accounts</div>
+        <div class="main-text main-text-p1">
+            The authentication providers listed below are the same providers you have enabled on your bot.
 
-            <div class="linkedAccount-displayName">
-                User ID:
-                @using (Html.BeginForm("ChangeUserId", "Home", FormMethod.Post))
-                {
-                    @Html.TextBoxFor(model => model.UserId, new { style = "width:300px;" })
-                    <button type="submit">Change</button>
-                }
-            </div>
-
-            <div class="linkedAccount-list">
-                <div class="linkedAccount-header">
-                    <div class="linkedAccount-header-label linkedAccount-header-connectionName">Connection Name</div>
-                    <div class="linkedAccount-header-label linkedAccount-header-displayName">Service Provider</div>
-                    <div class="linkedAccount-header-label linkedAccount-header-status">Status</div>
-                </div>
-
-                @foreach (var account in Model.Status)
-                {
-                    <div class="linkedAccount">
-                        <div class="linkedAccount-label linkedAccount-connectionName">@account.ConnectionName</div>
-                        <div class="linkedAccount-label linkedAccount-displayName">@account.ServiceProviderDisplayName</div>
-                        @if (!account.HasToken)
-                        {
-                            <div class="linkedAccount-label linkedAccount-status">
-                                <div class="icon">
-                                    <svg viewBox="0 0 34 34">
-                                        <circle cx="16" cy="16" r="15" stroke="black" stroke-width="2" fill="gray"></circle>
-                                        Sorry, your browser does not support inline SVG.
-                                    </svg>
-                                </div>
-                                <div class="online-status">
-                                    Offline
-                                </div>
-                            </div>
-                            <div id="signin"></div>
-                            @Html.ActionLink("Sign In", "SignIn", "Home", account, new { @class = "button linkedAccount-action" })
-                        }
-                        else
-                        {
-                            <div class="linkedAccount-label linkedAccount-status">
-                                <div class="icon">
-                                    <svg viewBox="0 0 34 34">
-                                        <circle cx="16" cy="16" r="15" stroke="black" stroke-width="2" fill="#22ee22" />
-                                        Sorry, your browser does not support inline SVG.
-                                    </svg>
-                                </div>
-                                <div class="online-status">
-                                    Online
-                                </div>
-                            </div>
-                            @Html.ActionLink("Sign Out", "SignOut", "Home", account, new { @class = "button linkedAccount-action" })
-                        }
-                    </div>
-                }
-            </div>
-
-            <div class="linkedAccount-actions">
-                @Html.ActionLink("Sign Out All", "SignOutAll", "Home", null, new { @class = "button" })
-            </div>
+            You may need to use a different user id in the Web Chat than what is displayed here.
+            You can update the values and select "Update User ID" to update what is stored in session.
         </div>
-        }
+        <div class="linkedAccount-displayName">
+            User ID:
+            @using (Html.BeginForm("ChangeUserId", "Home", FormMethod.Post))
+            {
+
+                @Html.TextBoxFor(model => model.UserId, new { style = "width:300px;" })
+                <button type="submit">Update User ID</button>
+                <button onclick="copyUserId()">Copy User ID</button>
+                @Html.ActionLink("Sign Out All", "SignOutAll", "Home", null, new { @class = "button" })
+            }
+        </div>
+        <div class="linkedAccount-list">
+            <div class="linkedAccount-header">
+                <div class="linkedAccount-header-label linkedAccount-header-connectionName">Connection Name</div>
+                <div class="linkedAccount-header-label linkedAccount-header-displayName">Service Provider</div>
+                <div class="linkedAccount-header-label linkedAccount-header-status">Status</div>
+            </div>
+
+            @foreach (var account in Model.Status)
+            {
+                <div class="linkedAccount">
+                    <div class="linkedAccount-label linkedAccount-connectionName">@account.ConnectionName</div>
+                    <div class="linkedAccount-label linkedAccount-displayName">@account.ServiceProviderDisplayName</div>
+                    @if (!account.HasToken)
+                    {
+                        <div class="linkedAccount-label linkedAccount-status">
+                            <div class="icon">
+                                <svg viewBox="0 0 34 34">
+                                    <circle cx="16" cy="16" r="15" stroke="black" stroke-width="2" fill="#737373"></circle>
+                                    Sorry, your browser does not support inline SVG.
+                                </svg>
+                            </div>
+                            <div class="online-status">
+                                Offline
+                            </div>
+                        </div>
+                        <div id="signin"></div>
+                        @Html.ActionLink("Sign In", "SignIn", "Home", account, new { @class = "button linkedAccount-action" })
+                    }
+                    else
+                    {
+                        <div class="linkedAccount-label linkedAccount-status">
+                            <div class="icon">
+                                <svg viewBox="0 0 34 34">
+                                    <circle cx="16" cy="16" r="15" stroke="black" stroke-width="2" fill="#9bf00b" />
+                                    Sorry, your browser does not support inline SVG.
+                                </svg>
+                            </div>
+                            <div class="online-status">
+                                Online
+                            </div>
+                        </div>
+                        @Html.ActionLink("Sign Out", "SignOut", "Home", account, new { @class = "button linkedAccount-action" })
+                    }
+                </div>
+            }
+        </div>
+    </div>
+}
