@@ -1,16 +1,17 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
-namespace CalendarSkill
+namespace CalendarSkill.ServiceClients
 {
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using global::CalendarSkill.Models;
 
     /// <summary>
     /// The calendar API interface.
     /// </summary>
-    public interface ICalendar
+    public interface ICalendarService
     {
         /// <summary>
         /// Create a event in user calendar with calendar info in newEvent.

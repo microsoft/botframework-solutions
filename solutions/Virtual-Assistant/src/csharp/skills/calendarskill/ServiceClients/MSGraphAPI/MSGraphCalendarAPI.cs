@@ -4,11 +4,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CalendarSkill.Models;
 using Microsoft.Graph;
 
-namespace CalendarSkill.ServiceClients
+namespace CalendarSkill.ServiceClients.MSGraphAPI
 {
-    public class MSGraphCalendarAPI : ICalendar
+    public class MSGraphCalendarAPI : ICalendarService
     {
         private readonly IGraphServiceClient _graphClient;
 
@@ -108,66 +109,10 @@ namespace CalendarSkill.ServiceClients
             {
                 await _graphClient.Me.Events[id].Request().DeleteAsync();
             }
-            catch (Exception e)
+            catch (ServiceException ex)
             {
-                throw e;
+                throw GraphClient.HandleGraphAPIException(ex);
             }
-
-            return;
-        }
-
-        /// <summary>
-        /// Accept a meeting request.
-        /// </summary>
-        /// <param name="id">the meeting id.</param>
-        /// <returns>the meetings list.</returns>
-        public async Task<List<Event>> AcceptMeetingRequest(string id)
-        {
-            var items = new List<Event>();
-
-            // This snippet first checks whether the selected event originates with an invitation from the current user. If it did,
-            // the SDK would throw an ErrorInvalidRequest exception because organizers can't accept their own invitations.
-            var msftEvent = await _graphClient.Me.Events[id].Request().Select("ResponseStatus").GetAsync();
-            if (msftEvent.ResponseStatus.Response != ResponseType.Organizer)
-            {
-                // Accept the meeting.
-                await _graphClient.Me.Events[id].Accept("accept").Request().PostAsync();
-
-                // no return value
-            }
-            else
-            {
-                // todo: Let the user know the operation isn't supported for this event.
-            }
-
-            return items;
-        }
-
-        /// <summary>
-        /// Decline a meeting request.
-        /// </summary>
-        /// <param name="id">the meeting id.</param>
-        /// <returns>the meetings list.</returns>
-        public async Task<List<Event>> DeclineMeetingRequest(string id)
-        {
-            var items = new List<Event>();
-
-            // This snippet first checks whether the selected event originates with an invitation from the current user. If it did,
-            // the SDK would throw an ErrorInvalidRequest exception because organizers can't accept their own invitations.
-            var msftEvent = await _graphClient.Me.Events[id].Request().Select("ResponseStatus").GetAsync();
-            if (msftEvent.ResponseStatus.Response != ResponseType.Organizer)
-            {
-                // Accept the meeting.
-                await _graphClient.Me.Events[id].Decline("decline").Request().PostAsync();
-
-                // no return value
-            }
-            else
-            {
-                // todo: Let the user know the operation isn't supported for this event.
-            }
-
-            return items;
         }
 
         /// <summary>
@@ -175,10 +120,17 @@ namespace CalendarSkill.ServiceClients
         /// </summary>
         /// <param name="updateEvent">new event info.</param>
         /// <returns>The updated event.</returns>
-        public async Task<Event> UpdateEvent(Event updateEvent)
+        private async Task<Event> UpdateEvent(Event updateEvent)
         {
-            var updatedEvet = await _graphClient.Me.Events[updateEvent.Id].Request().UpdateAsync(updateEvent);
-            return updatedEvet;
+            try
+            {
+                var updatedEvet = await _graphClient.Me.Events[updateEvent.Id].Request().UpdateAsync(updateEvent);
+                return updatedEvet;
+            }
+            catch (ServiceException ex)
+            {
+                throw GraphClient.HandleGraphAPIException(ex);
+            }
         }
 
         // Get events in all the current user's mail folders.
@@ -192,7 +144,16 @@ namespace CalendarSkill.ServiceClients
             options.Add(new QueryOption("startdatetime", startTime.ToString("o")));
             options.Add(new QueryOption("enddatetime", endTime.ToString("o")));
             options.Add(new QueryOption("$orderBy", "start/dateTime"));
-            var events = await _graphClient.Me.CalendarView.Request(options).GetAsync();
+
+            IUserCalendarViewCollectionPage events = null;
+            try
+            {
+                events = await _graphClient.Me.CalendarView.Request(options).GetAsync();
+            }
+            catch (ServiceException ex)
+            {
+                throw GraphClient.HandleGraphAPIException(ex);
+            }
 
             if (events?.Count > 0)
             {
@@ -225,7 +186,17 @@ namespace CalendarSkill.ServiceClients
                 new QueryOption("$orderBy", "start/dateTime"),
             };
 
-            var calendar = await _graphClient.Me.Calendar.CalendarView.Request(options).GetAsync();
+            ICalendarCalendarViewCollectionPage calendar = null;
+
+            try
+            {
+                calendar = await _graphClient.Me.Calendar.CalendarView.Request(options).GetAsync();
+            }
+            catch (ServiceException ex)
+            {
+                throw GraphClient.HandleGraphAPIException(ex);
+            }
+
             if (calendar?.Count > 0)
             {
                 items.AddRange(calendar);
@@ -255,7 +226,17 @@ namespace CalendarSkill.ServiceClients
                 new QueryOption("$orderBy", "start/dateTime"),
             };
 
-            var events = await _graphClient.Me.CalendarView.Request(options).GetAsync();
+            IUserCalendarViewCollectionPage events = null;
+
+            try
+            {
+                events = await _graphClient.Me.CalendarView.Request(options).GetAsync();
+            }
+            catch (ServiceException ex)
+            {
+                throw GraphClient.HandleGraphAPIException(ex);
+            }
+
             if (events?.Count > 0)
             {
                 items.AddRange(events);
@@ -275,9 +256,16 @@ namespace CalendarSkill.ServiceClients
 
         private async Task<Event> CreateEvent(Event newEvent)
         {
-            // Add the event.
-            var createdEvent = await _graphClient.Me.Events.Request().AddAsync(newEvent);
-            return createdEvent;
+            try
+            {
+                // Add the event.
+                var createdEvent = await _graphClient.Me.Events.Request().AddAsync(newEvent);
+                return createdEvent;
+            }
+            catch (ServiceException ex)
+            {
+                throw GraphClient.HandleGraphAPIException(ex);
+            }
         }
     }
 }

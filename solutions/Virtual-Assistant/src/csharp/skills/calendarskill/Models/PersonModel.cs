@@ -3,12 +3,8 @@
 
 using System;
 using System.Collections.Generic;
-using CalendarSkill.Common;
-using CalendarSkill.Dialogs.Shared.Resources.Strings;
-using CalendarSkill.Util;
-using Microsoft.Bot.Solutions.Resources;
 
-namespace CalendarSkill
+namespace CalendarSkill.Models
 {
     /// <summary>
     /// Event mapping entity.

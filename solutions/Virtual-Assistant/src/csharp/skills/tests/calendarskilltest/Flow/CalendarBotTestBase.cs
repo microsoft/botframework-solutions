@@ -2,6 +2,8 @@
 using System.Threading;
 using Autofac;
 using CalendarSkill;
+using CalendarSkill.Models;
+using CalendarSkill.ServiceClients;
 using CalendarSkillTest.Flow.Fakes;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
@@ -56,8 +58,10 @@ namespace CalendarSkillTest.Flow
 
         public Activity GetAuthResponse()
         {
-            ProviderTokenResponse providerTokenResponse = new ProviderTokenResponse();
-            providerTokenResponse.TokenResponse = new TokenResponse(token: "test");
+            ProviderTokenResponse providerTokenResponse = new ProviderTokenResponse
+            {
+                TokenResponse = new TokenResponse(token: "test")
+            };
             return new Activity(ActivityTypes.Event, name: "tokens/response", value: providerTokenResponse);
         }
 

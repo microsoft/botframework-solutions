@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CalendarSkill;
 using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.UpdateEvent.Resources;
+using CalendarSkill.Models;
 using CalendarSkillTest.Flow.Fakes;
 using CalendarSkillTest.Flow.Utterances;
 using Microsoft.Bot.Schema;

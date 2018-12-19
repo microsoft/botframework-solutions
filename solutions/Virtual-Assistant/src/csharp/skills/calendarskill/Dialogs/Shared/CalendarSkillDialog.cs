@@ -7,6 +7,8 @@ using CalendarSkill.Common;
 using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Dialogs.Shared.Resources.Strings;
+using CalendarSkill.Models;
+using CalendarSkill.ServiceClients;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
@@ -17,6 +19,7 @@ using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 using Microsoft.Recognizers.Text;
 using Microsoft.Recognizers.Text.DateTime;
 using Newtonsoft.Json.Linq;
@@ -106,11 +109,15 @@ namespace CalendarSkill
                     return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions());
                 }
             }
-            catch
+            catch (SkillException ex)
             {
-                // await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SharedResponses.AuthFailed));
-                await HandleDialogExceptions(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -163,10 +170,15 @@ namespace CalendarSkill
 
                 return await sc.NextAsync();
             }
-            catch
+            catch (SkillException ex)
             {
-                await HandleDialogExceptions(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -276,7 +288,7 @@ namespace CalendarSkill
             return false;
         }
 
-        protected async Task<List<EventModel>> GetEventsByTime(List<DateTime> startDateList, List<DateTime> startTimeList, List<DateTime> endDateList, List<DateTime> endTimeList, TimeZoneInfo userTimeZone, ICalendar calendarService)
+        protected async Task<List<EventModel>> GetEventsByTime(List<DateTime> startDateList, List<DateTime> startTimeList, List<DateTime> endDateList, List<DateTime> endTimeList, TimeZoneInfo userTimeZone, ICalendarService calendarService)
         {
             // todo: check input datetime is utc
             var rawEvents = new List<EventModel>();
@@ -854,15 +866,80 @@ namespace CalendarSkill
             return result;
         }
 
-        protected async Task HandleDialogExceptions(WaterfallStepContext sc)
+        // This method is called by any waterfall step that throws an exception to ensure consistency
+        protected async Task HandleDialogExceptions(WaterfallStepContext sc, Exception ex)
         {
+            // send trace back to emulator
+            var trace = new Activity(type: ActivityTypes.Trace, text: $"DialogException: {ex.Message}, StackTrace: {ex.StackTrace}");
+            await sc.Context.SendActivityAsync(trace);
+
+            // log exception
+            if (Services.TelemetryClient != null)
+            {
+                Services.TelemetryClient.TrackException(ex, AssembleTelemetryData(sc));
+            }
+
+            // send error message to bot user
             await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarSharedResponses.CalendarErrorMessage));
 
+            // clear state
             var state = await Accessor.GetAsync(sc.Context);
             state.Clear();
             await sc.CancelAllDialogsAsync();
 
             return;
+        }
+
+        // This method is called by any waterfall step that throws a SkillException to ensure consistency
+        protected async Task HandleDialogExceptions(WaterfallStepContext sc, SkillException ex)
+        {
+            // send trace back to emulator
+            var trace = new Activity(type: ActivityTypes.Trace, text: $"DialogException: {ex.Message}, StackTrace: {ex.StackTrace}");
+            await sc.Context.SendActivityAsync(trace);
+
+            // log exception
+            if (Services.TelemetryClient != null)
+            {
+                Services.TelemetryClient.TrackException(ex, AssembleTelemetryData(sc));
+            }
+
+            // send error message to bot user
+            if (ex.ExceptionType == SkillExceptionType.APIAccessDenied)
+            {
+                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarSharedResponses.CalendarErrorMessageBotProblem));
+            }
+            else
+            {
+                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarSharedResponses.CalendarErrorMessage));
+            }
+
+            // clear state
+            var state = await Accessor.GetAsync(sc.Context);
+            state.Clear();
+        }
+
+        protected override Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
+        {
+            var resultString = result?.ToString();
+            if (!string.IsNullOrWhiteSpace(resultString) && resultString.Equals(CommonUtil.DialogTurnResultCancelAllDialogs, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return outerDc.CancelAllDialogsAsync();
+            }
+            else
+            {
+                return base.EndComponentAsync(outerDc, result, cancellationToken);
+            }
+        }
+
+        private IDictionary<string, string> AssembleTelemetryData(WaterfallStepContext sc)
+        {
+            var telemetryData = new Dictionary<string, string>
+            {
+                { "activityId", sc.Context.Activity.Id },
+                { "userId", sc.Context.Activity.From.Id },
+                { "activeDialog", sc.ActiveDialog.ToString() }
+            };
+            return telemetryData;
         }
 
         private string GetSubjectFromEntity(Calendar._Entities entity)

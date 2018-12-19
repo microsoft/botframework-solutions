@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
-namespace CalendarSkill
+namespace CalendarSkill.Common
 {
     public static class TimeZoneConverter
     {
@@ -35,7 +35,7 @@ namespace CalendarSkill
         private static void LoadData()
         {
             var dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var resDir = Path.Combine(dir, @"ServiceClients\WindowsIanaMapping");
+            var resDir = Path.Combine(dir, @"Common\WindowsIanaMapping");
 
             using (var mappingFile = new FileStream(resDir, FileMode.Open))
             using (var sr = new StreamReader(mappingFile))

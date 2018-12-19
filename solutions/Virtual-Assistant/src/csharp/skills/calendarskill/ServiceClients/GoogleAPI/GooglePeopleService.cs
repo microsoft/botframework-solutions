@@ -4,7 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CalendarSkill.ServiceClients;
+using CalendarSkill.Models;
+using Google;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Auth.OAuth2.Responses;
@@ -14,7 +15,7 @@ using Google.Apis.Requests;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
 
-namespace CalendarSkill.ServiceClients
+namespace CalendarSkill.ServiceClients.GoogleAPI
 {
     /// <summary>
     /// The Google People API service.
@@ -90,26 +91,33 @@ namespace CalendarSkill.ServiceClients
         // get people work with
         private async Task<List<Person>> GetGooglePeopleAsync(string name)
         {
-            PeopleResource.ConnectionsResource.ListRequest peopleRequest = service.People.Connections.List("people/me");
-            peopleRequest.RequestMaskIncludeField = "person.emailAddresses,person.names";
-
-            ListConnectionsResponse connectionsResponse = await ((IClientServiceRequest<ListConnectionsResponse>)peopleRequest).ExecuteAsync();
-            IList<Person> connections = connectionsResponse.Connections;
-            List<Person> result = new List<Person>();
-            if (connections != null && connections.Count > 0)
+            try
             {
-                foreach (var people in connections)
+                PeopleResource.ConnectionsResource.ListRequest peopleRequest = service.People.Connections.List("people/me");
+                peopleRequest.RequestMaskIncludeField = "person.emailAddresses,person.names";
+
+                ListConnectionsResponse connectionsResponse = await ((IClientServiceRequest<ListConnectionsResponse>)peopleRequest).ExecuteAsync();
+                IList<Person> connections = connectionsResponse.Connections;
+                List<Person> result = new List<Person>();
+                if (connections != null && connections.Count > 0)
                 {
-                    // filter manually
-                    var displayName = people.Names[0]?.DisplayName;
-                    if (people.EmailAddresses?.Count > 0 && displayName != null && displayName.ToLower().Contains(name.ToLower()))
+                    foreach (var people in connections)
                     {
-                        result.Add(people);
+                        // filter manually
+                        var displayName = people.Names[0]?.DisplayName;
+                        if (people.EmailAddresses?.Count > 0 && displayName != null && displayName.ToLower().Contains(name.ToLower()))
+                        {
+                            result.Add(people);
+                        }
                     }
                 }
-            }
 
-            return result;
+                return result;
+            }
+            catch (GoogleApiException ex)
+            {
+                throw GoogleClient.HandleGoogleAPIException(ex);
+            }
         }
     }
 }
