@@ -145,7 +145,7 @@
     <value>Learn more</value>
   </data>
   <data name="HELP_BTN_VALUE_1" xml:space="preserve">
-    <value>Hello</value>
+    <value>Talk to a human</value>
   </data>
   <data name="HELP_BTN_VALUE_2" xml:space="preserve">
     <value>What is the Enterprise Bot Template?</value>
