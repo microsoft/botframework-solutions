@@ -166,8 +166,8 @@
   "AfterOneNoteSetupMessage": {
     "replies": [
       {
-        "text": "All set. I have send you an email with a link to your new OneNote. I'm ready to note down your To Do.",
-        "speak": "All set. I have send you an email with a link to your new OneNote. I'm ready to note down your To Do."
+        "text": "All set. I have sent you an email with a link to your new OneNote. I'm ready to note down your To Do.",
+        "speak": "All set. I have sent you an email with a link to your new OneNote. I'm ready to note down your To Do."
       }
     ],
     "inputHint": "ignoringInput"
@@ -184,8 +184,8 @@
   "AfterOutlookSetupMessage": {
     "replies": [
       {
-        "text": "All set. I have send you an email with a link to your new Outlook task folders. I'm ready to note down your To Do.",
-        "speak": "All set. I have send you an email with a link to your new Outlook task folders. I'm ready to note down your To Do."
+        "text": "All set. I have sent you an email with a link to your new Outlook task folders. I'm ready to note down your To Do.",
+        "speak": "All set. I have sent you an email with a link to your new Outlook task folders. I'm ready to note down your To Do."
       }
     ],
     "inputHint": "ignoringInput"
