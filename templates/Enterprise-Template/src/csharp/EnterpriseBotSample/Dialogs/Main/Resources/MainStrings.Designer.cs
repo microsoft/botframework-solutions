@@ -169,7 +169,7 @@ namespace EnterpriseBotSample.Dialogs.Main.Resources
         }
 
         /// <summary>
-        ///   Looks up a localized string similar to Hello.
+        ///   Looks up a localized string similar to Talk to a human.
         /// </summary>
         public static string HELP_BTN_VALUE_1
         {
