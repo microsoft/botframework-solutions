@@ -63,6 +63,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>EmailSharedResponses.tt</DependentUpon>
     </Compile>
+    <Compile Update="Dialogs\Shared\Resources\Strings\EmailCommonStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EmailCommonStrings.resx</DependentUpon>
+    </Compile>
     <Compile Update="Dialogs\ShowEmail\Resources\ShowEmailResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -188,6 +193,17 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ShowEmailResponses.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Dialogs\Shared\Resources\Strings\EmailCommonStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>EmailCommonStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
