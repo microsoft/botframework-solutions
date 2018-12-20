@@ -129,7 +129,7 @@ namespace CalendarSkill
                 // When the token is cached we get a TokenResponse object.
                 var skillOptions = (CalendarSkillDialogOptions)sc.Options;
                 ProviderTokenResponse providerTokenResponse;
-                if (skillOptions.SkillMode)
+                if (skillOptions != null && skillOptions.SkillMode)
                 {
                     var resultType = sc.Context.Activity.Value.GetType();
                     if (resultType == typeof(ProviderTokenResponse))
