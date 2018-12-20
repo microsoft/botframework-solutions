@@ -157,6 +157,12 @@
     <Content Update="Dialogs\CreateEvent\Resources\CreateEventResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="Dialogs\CreateEvent\Resources\CreateEventWhiteList.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\CreateEvent\Resources\CreateEventWhiteList.zh.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Dialogs\DeleteEvent\Resources\DeleteEventResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

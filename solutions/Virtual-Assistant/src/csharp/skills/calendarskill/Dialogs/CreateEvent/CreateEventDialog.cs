@@ -133,7 +133,15 @@ namespace CalendarSkill
                     if (string.IsNullOrEmpty(state.Title))
                     {
                         sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                        state.Title = content != null ? content.ToString() : sc.Context.Activity.Text;
+                        string title = content != null ? content.ToString() : sc.Context.Activity.Text;
+                        if (CreateEventWhiteList.IsSkip(title))
+                        {
+                            state.Title = CreateEventWhiteList.GetDefualtTitle();
+                        }
+                        else
+                        {
+                            state.Title = title;
+                        }
                     }
                 }
 
@@ -196,7 +204,11 @@ namespace CalendarSkill
                     if (string.IsNullOrEmpty(state.Content))
                     {
                         sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                        state.Content = content != null ? content.ToString() : sc.Context.Activity.Text;
+                        string merged_content = content != null ? content.ToString() : sc.Context.Activity.Text;
+                        if (!CreateEventWhiteList.IsSkip(merged_content))
+                        {
+                            state.Content = merged_content;
+                        }
                     }
                 }
 
@@ -289,7 +301,8 @@ namespace CalendarSkill
                     var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
 
                     // Enable the user to skip providing the location if they say something matching the Cancel intent, say something matching the ConfirmNo recognizer or something matching the NoLocation intent
-                    if (topIntent == General.Intent.Cancel.ToString() || (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false) || topIntent == Calendar.Intent.NoLocation.ToString())
+                    //if (topIntent == General.Intent.Cancel.ToString() || (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false) || topIntent == Calendar.Intent.NoLocation.ToString())
+                    if (CreateEventWhiteList.IsSkip(userInput))
                     {
                         state.Location = string.Empty;
                     }

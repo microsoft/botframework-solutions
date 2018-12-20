@@ -1,0 +1,11 @@
+{
+  "SkipPhrases": [
+    "Skip",
+    "skip",
+    "no",
+    "No"
+  ],
+  "DefualtTitle": [
+    "Meeting"
+  ]
+}
