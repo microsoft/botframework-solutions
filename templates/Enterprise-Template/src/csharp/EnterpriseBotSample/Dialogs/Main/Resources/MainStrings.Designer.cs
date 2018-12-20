@@ -224,25 +224,13 @@ namespace EnterpriseBotSample.Dialogs.Main.Resources
         }
 
         /// <summary>
-        ///   Looks up a localized string similar to {
-        ///  &quot;$schema&quot;: &quot;http://adaptivecards.io/schemas/adaptive-card.json&quot;,
-        ///  &quot;type&quot;: &quot;AdaptiveCard&quot;,
-        ///  &quot;version&quot;: &quot;1.0&quot;,
-        ///  &quot;speak&quot;: &quot;&lt;speak&gt;&lt;s&gt;Now that you have successfully run your bot, follow the links in this Adaptive Card to expand your knowledge of Bot Framework.&lt;/s&gt;&lt;/speak&gt;&quot;,
-        ///  &quot;body&quot;: [
-        ///    {
-        ///      &quot;type&quot;: &quot;Image&quot;,
-        ///      &quot;url&quot;: &quot;https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtB3AwMUeNoq4gUBGe6Ocj8kyh3bXa9ZbV7u1fVKQoyKFHdkqU&quot;,
-        ///      &quot;size&quot;: &quot;stretch&quot;
-        ///    },
-        ///    {
-        ///      &quot;type&quot;: &quot;TextBloc [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to .\Dialogs\Main\Resources\Intro.json.
         /// </summary>
-        public static string Intro
+        public static string INTRO_PATH
         {
             get
             {
-                return ResourceManager.GetString("Intro", resourceCulture);
+                return ResourceManager.GetString("INTRO_PATH", resourceCulture);
             }
         }
     }

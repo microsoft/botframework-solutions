@@ -1,4 +1,4 @@
-{
+ï»¿{
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "type": "AdaptiveCard",
   "version": "1.0",
@@ -13,7 +13,7 @@
       "spacing": "medium",
       "size": "default",
       "weight": "bolder",
-      "text": "Bienvenue à Bot Framework!",
+      "text": "Bienvenue Ã  Bot Framework!",
       "wrap": true,
       "maxLines": 0
     },
@@ -21,7 +21,7 @@
       "type": "TextBlock",
       "size": "default",
       "isSubtle": true,
-      "text": "Maintenant que vous avez réussi à exécuter votre bot, suivez les liens dans cette carte Adaptive pour développer vos connaissances du Bot Framework.",
+      "text": "Maintenant que vous avez rÃ©ussi Ã  exÃ©cuter votre bot, suivez les liens dans cette carte Adaptive pour dÃ©velopper vos connaissances du Bot Framework.",
       "wrap": true,
       "maxLines": 0
     }
@@ -36,7 +36,7 @@
     },
     {
       "type": "Action.OpenUrl",
-      "title": "Aperçu",
+      "title": "AperÃ§u",
       "url": "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"
     },
     {
@@ -46,7 +46,7 @@
     },
     {
       "type": "Action.OpenUrl",
-      "title": "Apprenez à déployer",
+      "title": "Apprenez Ã  dÃ©ployer",
       "url": "https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0"
     }
   ]
