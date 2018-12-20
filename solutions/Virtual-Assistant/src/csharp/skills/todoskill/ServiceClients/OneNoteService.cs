@@ -19,8 +19,6 @@ namespace ToDoSkill
     /// </summary>
     public class OneNoteService : ITaskService
     {
-        private const string OneNoteNotebookName = "ToDoNotebook";
-        private const string OneNoteSectionName = "ToDoSection";
         private readonly string graphBaseUrl = "https://graph.microsoft.com/v1.0/me";
         private HttpClient httpClient;
         private Dictionary<string, string> pageIds;
@@ -49,8 +47,8 @@ namespace ToDoSkill
                     || !pageIds.ContainsKey(ToDoStrings.Grocery)
                     || !pageIds.ContainsKey(ToDoStrings.Shopping))
                 {
-                    var notebookId = await GetOrCreateNotebookAsync(OneNoteNotebookName);
-                    var sectionId = await GetOrCreateSectionAsync(notebookId, OneNoteSectionName);
+                    var notebookId = await GetOrCreateNotebookAsync(ToDoStrings.OneNoteBookName);
+                    var sectionId = await GetOrCreateSectionAsync(notebookId, ToDoStrings.OneNoteSectionName);
 
                     if (!pageIds.ContainsKey(ToDoStrings.ToDo))
                     {
@@ -169,6 +167,17 @@ namespace ToDoSkill
             {
                 throw ServiceHelper.HandleGraphAPIException(ex);
             }
+        }
+
+        /// <summary>
+        /// Get task web link.
+        /// </summary>
+        /// <returns>Task web link.</returns>
+        public async Task<string> GetTaskWebLink()
+        {
+            var notebooksUrl = $"{graphBaseUrl}/onenote/notebooks";
+            var onenoteNotebook = await GetOneNoteNotebookAsync($"{notebooksUrl}?filter=name eq '{ToDoStrings.OneNoteBookName}'");
+            return onenoteNotebook?[0]?.Links?.OneNoteWebUrl?.Href;
         }
 
         private async Task<string> CreateOneNoteNotebookAsync(string createNotebookUrl, string notebookName)

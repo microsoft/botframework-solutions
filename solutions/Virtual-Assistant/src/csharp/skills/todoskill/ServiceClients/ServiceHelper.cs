@@ -10,6 +10,7 @@ namespace ToDoSkill
     using System.Net.Http.Headers;
     using System.Text;
     using System.Text.RegularExpressions;
+    using System.Threading.Tasks;
     using System.Xml;
     using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
     using Microsoft.Bot.Solutions.Skills;
@@ -290,6 +291,24 @@ namespace ToDoSkill
             error.Code = errorObject.code.ToString();
             error.Message = errorObject.message.ToString();
             return new ServiceException(error);
+        }
+
+        /// <summary>
+        /// Get an authenticated ms graph client use access token.
+        /// </summary>
+        /// <param name="accessToken">access token.</param>
+        /// <returns>Authenticated graph service client.</returns>
+        public static IGraphServiceClient GetAuthenticatedClient(string accessToken)
+        {
+            GraphServiceClient graphClient = new GraphServiceClient(
+                new DelegateAuthenticationProvider(
+                    async (requestMessage) =>
+                    {
+                        // Append the access token to the request.
+                        requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
+                        await Task.CompletedTask;
+                    }));
+            return graphClient;
         }
     }
 }

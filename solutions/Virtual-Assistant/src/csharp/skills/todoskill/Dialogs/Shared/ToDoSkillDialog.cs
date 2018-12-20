@@ -31,14 +31,18 @@ namespace ToDoSkill
         public ToDoSkillDialog(
             string dialogId,
             ISkillConfiguration services,
-            IStatePropertyAccessor<ToDoSkillState> accessor,
+            IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
+            IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
             ITaskService serviceManager,
+            IMailService mailService,
             IBotTelemetryClient telemetryClient)
             : base(dialogId)
         {
             Services = services;
-            Accessor = accessor;
+            ToDoStateAccessor = toDoStateAccessor;
+            UserStateAccessor = userStateAccessor;
             ServiceManager = serviceManager;
+            MailService = mailService;
             TelemetryClient = telemetryClient;
 
             if (!Services.AuthenticationConnections.Any())
@@ -53,9 +57,13 @@ namespace ToDoSkill
 
         protected ISkillConfiguration Services { get; set; }
 
-        protected IStatePropertyAccessor<ToDoSkillState> Accessor { get; set; }
+        protected IStatePropertyAccessor<ToDoSkillState> ToDoStateAccessor { get; set; }
+
+        protected IStatePropertyAccessor<ToDoSkillUserState> UserStateAccessor { get; set; }
 
         protected ITaskService ServiceManager { get; set; }
+
+        protected IMailService MailService { get; set; }
 
         protected ToDoSkillResponseBuilder ResponseBuilder { get; set; }
 
@@ -146,7 +154,7 @@ namespace ToDoSkill
 
                 if (providerTokenResponse != null)
                 {
-                    var state = await Accessor.GetAsync(sc.Context);
+                    var state = await ToDoStateAccessor.GetAsync(sc.Context);
                     state.MsGraphToken = providerTokenResponse.TokenResponse.Token;
                 }
 
@@ -163,7 +171,7 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 var topIntent = state.LuisResult?.TopIntent().intent;
                 var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
 
@@ -239,22 +247,14 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 state.ListType = state.ListType ?? ToDoStrings.ToDo;
 
-                if (!state.ListTypeIds.ContainsKey(state.ListType))
+                // LastListType is used to switch between list types in DeleteToDoItemDialog and MarkToDoItemDialog.
+                if (!state.ListTypeIds.ContainsKey(state.ListType)
+                    || state.ListType != state.LastListType)
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
-                    var service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
-                    state.AllTasks = await service.GetTasksAsync(state.ListType);
-                    state.ShowTaskPageIndex = 0;
-                    var rangeCount = Math.Min(state.PageSize, state.AllTasks.Count);
-                    state.Tasks = state.AllTasks.GetRange(0, rangeCount);
-                }
-                else if (state.ListType != state.LastListType)
-                {
-                    // LastListType is used to switch between list types in DeleteToDoItemDialog and MarkToDoItemDialog.
-                    var service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
+                    var service = await InitListTypeIds(sc);
                     state.AllTasks = await service.GetTasksAsync(state.ListType);
                     state.ShowTaskPageIndex = 0;
                     var rangeCount = Math.Min(state.PageSize, state.AllTasks.Count);
@@ -300,7 +300,7 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 if (!string.IsNullOrEmpty(state.TaskContentPattern)
                     || !string.IsNullOrEmpty(state.TaskContentML)
                     || state.MarkOrDeleteAllTasksFlag
@@ -327,7 +327,7 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 var matchedIndexes = Enumerable.Range(0, state.AllTasks.Count)
                     .Where(i => state.AllTasks[i].Topic.Equals(state.TaskContentPattern, StringComparison.OrdinalIgnoreCase)
                     || state.AllTasks[i].Topic.Equals(state.TaskContentML, StringComparison.OrdinalIgnoreCase))
@@ -395,7 +395,7 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await this.Accessor.GetAsync(sc.Context);
+                var state = await this.ToDoStateAccessor.GetAsync(sc.Context);
                 if (!string.IsNullOrEmpty(state.TaskContentPattern)
                     || !string.IsNullOrEmpty(state.TaskContentML)
                     || !string.IsNullOrEmpty(state.ShopContent))
@@ -419,7 +419,7 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 if (string.IsNullOrEmpty(state.TaskContentPattern)
                     && string.IsNullOrEmpty(state.TaskContentML)
                     && string.IsNullOrEmpty(state.ShopContent))
@@ -452,15 +452,10 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 state.ListType = state.ListType ?? ToDoStrings.ToDo;
                 state.LastListType = state.ListType;
-                if (!state.ListTypeIds.ContainsKey(state.ListType))
-                {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
-                }
-
-                var service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
+                var service = await InitListTypeIds(sc);
                 await service.AddTaskAsync(state.ListType, state.TaskContent);
                 state.AllTasks = await service.GetTasksAsync(state.ListType);
                 state.ShowTaskPageIndex = 0;
@@ -522,7 +517,7 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await Accessor.GetAsync(dc.Context);
+                var state = await ToDoStateAccessor.GetAsync(dc.Context);
                 var luisResult = state.LuisResult;
                 var entities = luisResult.Entities;
                 if (entities.ContainsAll != null)
@@ -938,7 +933,7 @@ namespace ToDoSkill
             await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ToDoErrorMessage));
 
             // clear state
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await ToDoStateAccessor.GetAsync(sc.Context);
             state.Clear();
         }
 
@@ -963,18 +958,49 @@ namespace ToDoSkill
             }
 
             // clear state
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await ToDoStateAccessor.GetAsync(sc.Context);
             state.Clear();
         }
 
-        private IDictionary<string, string> AssembleTelemetryData(WaterfallStepContext sc)
+        protected async Task<ITaskService> InitListTypeIds(WaterfallStepContext sc)
         {
-            var telemetryData = new Dictionary<string, string>();
-            telemetryData.Add("activityId", sc.Context.Activity.Id);
-            telemetryData.Add("userId", sc.Context.Activity.From.Id);
-            telemetryData.Add("activeDialog", sc.ActiveDialog.ToString());
+            var state = await ToDoStateAccessor.GetAsync(sc.Context);
+            if (!state.ListTypeIds.ContainsKey(state.ListType))
+            {
+                var emailService = await MailService.InitAsync(state.MsGraphToken);
+                var senderMailAddress = await emailService.GetSenderMailAddressAsync();
+                var recovered = await RecoverListTypeIdsAsync(sc, senderMailAddress);
+                if (!recovered)
+                {
+                    if (ServiceManager is OneNoteService)
+                    {
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
+                    }
+                    else
+                    {
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOutlookMessage));
+                    }
 
-            return telemetryData;
+                    var service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
+                    var taskWebLink = await service.GetTaskWebLink();
+                    var emailContent = string.Format(ToDoStrings.EmailContent, taskWebLink);
+                    await emailService.SendMessageAsync(emailContent, ToDoStrings.EmailSubject);
+
+                    if (ServiceManager is OneNoteService)
+                    {
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.AfterOneNoteSetupMessage));
+                    }
+                    else
+                    {
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.AfterOutlookSetupMessage));
+                    }
+
+                    await StoreListTypeIdsAsync(sc, senderMailAddress);
+                    return service;
+                }
+            }
+
+            return await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
         }
 
         private void ExtractListTypeAndTaskContent(ToDoSkillState state)
@@ -996,6 +1022,49 @@ namespace ToDoSkill
                 state.ListType = ToDoStrings.ToDo;
                 state.TaskContent = state.TaskContentML ?? state.TaskContentPattern;
             }
+        }
+
+        private async Task<bool> RecoverListTypeIdsAsync(DialogContext dc, string senderMailAddress)
+        {
+            var userState = await UserStateAccessor.GetAsync(dc.Context, () => new ToDoSkillUserState());
+            var state = await ToDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
+            if (userState.ListTypeIds.ContainsKey(senderMailAddress)
+                && state.ListTypeIds.Count <= 0
+                && userState.ListTypeIds[senderMailAddress].Count > 0)
+            {
+                foreach (var listType in userState.ListTypeIds[senderMailAddress])
+                {
+                    state.ListTypeIds.Add(listType.Key, listType.Value);
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        private async Task StoreListTypeIdsAsync(DialogContext dc, string senderMailAddress)
+        {
+            var userState = await UserStateAccessor.GetAsync(dc.Context, () => new ToDoSkillUserState());
+            var state = await ToDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
+            if (!userState.ListTypeIds.ContainsKey(senderMailAddress) && state.ListTypeIds.Count > 0)
+            {
+                userState.ListTypeIds.Add(senderMailAddress, new Dictionary<string, string>());
+                foreach (var listType in state.ListTypeIds)
+                {
+                    userState.ListTypeIds[senderMailAddress].Add(listType.Key, listType.Value);
+                }
+            }
+        }
+
+        private IDictionary<string, string> AssembleTelemetryData(WaterfallStepContext sc)
+        {
+            var telemetryData = new Dictionary<string, string>();
+            telemetryData.Add("activityId", sc.Context.Activity.Id);
+            telemetryData.Add("userId", sc.Context.Activity.From.Id);
+            telemetryData.Add("activeDialog", sc.ActiveDialog.ToString());
+
+            return telemetryData;
         }
     }
 }
