@@ -18,10 +18,12 @@ namespace ToDoSkill
     {
         public DeleteToDoItemDialog(
             ISkillConfiguration services,
-            IStatePropertyAccessor<ToDoSkillState> accessor,
+            IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
+            IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
             ITaskService serviceManager,
+            IMailService mailService,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(DeleteToDoItemDialog), services, accessor, serviceManager, telemetryClient)
+            : base(nameof(DeleteToDoItemDialog), services, toDoStateAccessor, userStateAccessor, serviceManager, mailService, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -74,16 +76,11 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 state.LastListType = state.ListType;
                 if (state.DeleteTaskConfirmation)
                 {
-                    if (!state.ListTypeIds.ContainsKey(state.ListType))
-                    {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
-                    }
-
-                    var service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
+                    var service = await InitListTypeIds(sc);
                     string taskTopicToBeDeleted = null;
                     if (state.MarkOrDeleteAllTasksFlag)
                     {
@@ -143,10 +140,6 @@ namespace ToDoSkill
                         }
                     }
                 }
-                else
-                {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ActionEnded));
-                }
 
                 return await sc.EndDialogAsync(true);
             }
@@ -166,7 +159,7 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 if (state.MarkOrDeleteAllTasksFlag)
                 {
                     var prompt = sc.Context.Activity.CreateReply(DeleteToDoResponses.AskDeletionAllConfirmation);
@@ -193,7 +186,7 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 var luisResult = state.GeneralLuisResult;
                 var topIntent = luisResult?.TopIntent().intent;
 
@@ -209,6 +202,7 @@ namespace ToDoSkill
                 else if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
                 {
                     state.DeleteTaskConfirmation = false;
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ActionEnded));
                     return await sc.EndDialogAsync(true);
                 }
                 else

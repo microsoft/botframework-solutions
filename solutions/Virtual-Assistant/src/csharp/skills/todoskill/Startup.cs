@@ -92,6 +92,8 @@ namespace ToDoSkill
                 services.AddTransient<ITaskService, OneNoteService>();
             }
 
+            services.AddTransient<IMailService, MailService>();
+
             // Add the bot with options
             services.AddBot<ToDoSkill>(options =>
             {

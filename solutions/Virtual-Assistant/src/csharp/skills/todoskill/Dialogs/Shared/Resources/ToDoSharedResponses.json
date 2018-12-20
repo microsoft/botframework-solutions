@@ -157,8 +157,35 @@
   "SettingUpOneNoteMessage": {
     "replies": [
       {
-        "text": "I am setting up your list, this won't take long.",
-        "speak": "I am setting up your list, this won't take long."
+        "text": "I noticed you don't have a OneNote anymore, I'm creating a new OneNote for you, including a To Do list.",
+        "speak": "I noticed you don't have a OneNote anymore, I'm creating a new OneNote for you, including a To Do list."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "AfterOneNoteSetupMessage": {
+    "replies": [
+      {
+        "text": "All set. I have sent you an email with a link to your new OneNote. I'm ready to note down your To Do.",
+        "speak": "All set. I have sent you an email with a link to your new OneNote. I'm ready to note down your To Do."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "SettingUpOutlookMessage": {
+    "replies": [
+      {
+        "text": "I noticed you don't have any Outlook task folders anymore, I'm creating new task folders for you, including a To Do folder.",
+        "speak": "I noticed you don't have any Outlook task folders anymore, I'm creating new task folders for you, including a To Do folder."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "AfterOutlookSetupMessage": {
+    "replies": [
+      {
+        "text": "All set. I have sent you an email with a link to your new Outlook task folders. I'm ready to note down your To Do.",
+        "speak": "All set. I have sent you an email with a link to your new Outlook task folders. I'm ready to note down your To Do."
       }
     ],
     "inputHint": "ignoringInput"

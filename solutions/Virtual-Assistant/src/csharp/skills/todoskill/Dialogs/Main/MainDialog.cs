@@ -27,7 +27,9 @@ namespace ToDoSkill
         private UserState _userState;
         private ConversationState _conversationState;
         private ITaskService _serviceManager;
-        private IStatePropertyAccessor<ToDoSkillState> _stateAccessor;
+        private IMailService _mailService;
+        private IStatePropertyAccessor<ToDoSkillState> _toDoStateAccessor;
+        private IStatePropertyAccessor<ToDoSkillUserState> _userStateAccessor;
         private ToDoSkillResponseBuilder _responseBuilder = new ToDoSkillResponseBuilder();
 
         public MainDialog(
@@ -36,6 +38,7 @@ namespace ToDoSkill
             UserState userState,
             IBotTelemetryClient telemetryClient,
             ITaskService serviceManager,
+            IMailService mailService,
             bool skillMode)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -44,10 +47,12 @@ namespace ToDoSkill
             _conversationState = conversationState;
             _userState = userState;
             _serviceManager = serviceManager;
+            _mailService = mailService;
             TelemetryClient = telemetryClient;
 
             // Initialize state accessor
-            _stateAccessor = _conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
+            _toDoStateAccessor = _conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
+            _userStateAccessor = _userState.CreateProperty<ToDoSkillUserState>(nameof(ToDoSkillUserState));
 
             // RegisterDialogs
             RegisterDialogs();
@@ -64,7 +69,7 @@ namespace ToDoSkill
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await _stateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
+            var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
 
             // get current activity locale
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
@@ -163,10 +168,6 @@ namespace ToDoSkill
 
                 await dc.Context.SendActivityAsync(response);
             }
-            else
-            {
-                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(ToDoSharedResponses.ActionEnded));
-            }
 
             // End active dialog
             await dc.EndDialogAsync(result);
@@ -178,7 +179,7 @@ namespace ToDoSkill
             {
                 case Events.SkillBeginEvent:
                     {
-                        var state = await _stateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
+                        var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
 
                         if (dc.Context.Activity.Value is Dictionary<string, object> userData)
                         {
@@ -219,7 +220,7 @@ namespace ToDoSkill
 
                 // Update state with email luis result and entities
                 var toDoLuisResult = await localeConfig.LuisServices["todo"].RecognizeAsync<ToDo>(dc.Context, cancellationToken);
-                var state = await _stateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
+                var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
                 state.LuisResult = toDoLuisResult;
 
                 // check luis intent
@@ -304,10 +305,10 @@ namespace ToDoSkill
 
         private void RegisterDialogs()
         {
-            AddDialog(new AddToDoItemDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new MarkToDoItemDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new DeleteToDoItemDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new ShowToDoItemDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new AddToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager, _mailService, TelemetryClient));
+            AddDialog(new MarkToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager, _mailService, TelemetryClient));
+            AddDialog(new DeleteToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager, _mailService, TelemetryClient));
+            AddDialog(new ShowToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager, _mailService, TelemetryClient));
         }
 
         private void InitializeConfig(ToDoSkillState state)
