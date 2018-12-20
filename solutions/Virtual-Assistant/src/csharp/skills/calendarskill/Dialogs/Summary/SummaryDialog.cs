@@ -34,21 +34,19 @@ namespace CalendarSkill
 
             var initStep = new WaterfallStep[]
             {
+                GetAuthToken,
+                AfterGetAuthToken,
                 Init,
             };
 
             var showNext = new WaterfallStep[]
             {
-                GetAuthToken,
-                AfterGetAuthToken,
                 ShowNextEvent,
             };
 
             var showSummary = new WaterfallStep[]
             {
                 IfClearContextStep,
-                GetAuthToken,
-                AfterGetAuthToken,
                 ShowEventsSummary,
                 PromptToRead,
                 CallReadEventDialog,
@@ -61,8 +59,8 @@ namespace CalendarSkill
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Actions.GetEventsInit, initStep));
-            AddDialog(new WaterfallDialog(Actions.ShowNextEvent, showNext));
+            AddDialog(new WaterfallDialog(Actions.GetEventsInit, initStep) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.ShowNextEvent, showNext) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.ShowEventsSummary, showSummary) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.Read, readEvent) { TelemetryClient = telemetryClient });
 
@@ -72,13 +70,21 @@ namespace CalendarSkill
 
         public async Task<DialogTurnResult> Init(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await Accessor.GetAsync(sc.Context);
-            if (state.OrderReference != null && state.OrderReference == "next")
+            try
             {
-                return await sc.BeginDialogAsync(Actions.ShowNextEvent);
-            }
+                var state = await Accessor.GetAsync(sc.Context);
+                if (state.OrderReference != null && state.OrderReference == "next")
+                {
+                    return await sc.BeginDialogAsync(Actions.ShowNextEvent);
+                }
 
-            return await sc.BeginDialogAsync(Actions.ShowEventsSummary);
+                return await sc.BeginDialogAsync(Actions.ShowEventsSummary);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
         }
 
         public async Task<DialogTurnResult> IfClearContextStep(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -343,6 +349,7 @@ namespace CalendarSkill
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
+
         public async Task<DialogTurnResult> ShowNextEvent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try

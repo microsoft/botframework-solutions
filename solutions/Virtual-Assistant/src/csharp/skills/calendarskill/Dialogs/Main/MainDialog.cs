@@ -117,7 +117,6 @@ namespace CalendarSkill
                         }
 
                     case Luis.Calendar.Intent.FindCalendarEntry:
-                    case Luis.Calendar.Intent.Summary:
                         {
                             await dc.BeginDialogAsync(nameof(SummaryDialog), skillOptions);
                             break;
