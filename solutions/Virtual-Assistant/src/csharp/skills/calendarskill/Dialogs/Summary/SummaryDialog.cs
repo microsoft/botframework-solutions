@@ -67,13 +67,13 @@ namespace CalendarSkill
             AddDialog(new WaterfallDialog(Actions.Read, readEvent) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
-            InitialDialogId = Actions.ShowEventsSummary;
+            InitialDialogId = Actions.GetEventsInit;
         }
 
         public async Task<DialogTurnResult> Init(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await Accessor.GetAsync(sc.Context);
-            if (state.OrderReference == "next")
+            if (state.OrderReference != null && state.OrderReference == "next")
             {
                 return await sc.BeginDialogAsync(Actions.ShowNextEvent);
             }

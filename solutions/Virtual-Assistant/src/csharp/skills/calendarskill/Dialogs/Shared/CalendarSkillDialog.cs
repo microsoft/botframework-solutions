@@ -581,16 +581,6 @@ namespace CalendarSkill
                             break;
                         }
 
-                    case Calendar.Intent.NextMeeting:
-                        {
-                            if (entity.AskParameter != null)
-                            {
-                                state.AskParameterContent = GetAskParameterFromEntity(entity);
-                            }
-
-                            break;
-                        }
-
                     case Calendar.Intent.ChangeCalendarEntry:
                         {
                             if (entity.Subject != null)
@@ -681,7 +671,6 @@ namespace CalendarSkill
                         }
 
                     case Calendar.Intent.FindCalendarEntry:
-                    case Calendar.Intent.Summary:
                         {
                             if (entity.OrderReference != null)
                             {
@@ -738,6 +727,11 @@ namespace CalendarSkill
                                 {
                                     state.EndTime = time;
                                 }
+                            }
+
+                            if (entity.AskParameter != null)
+                            {
+                                state.AskParameterContent = GetAskParameterFromEntity(entity);
                             }
 
                             break;
