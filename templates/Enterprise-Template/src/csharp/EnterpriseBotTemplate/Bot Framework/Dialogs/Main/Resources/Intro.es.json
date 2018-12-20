@@ -1,4 +1,4 @@
-{
+ï»¿{
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "type": "AdaptiveCard",
   "version": "1.0",
@@ -13,7 +13,7 @@
       "spacing": "medium",
       "size": "default",
       "weight": "bolder",
-      "text": "¡Bienvenido a Bot Framework!",
+      "text": "Â¡Bienvenido a Bot Framework!",
       "wrap": true,
       "maxLines": 0
     },
@@ -36,7 +36,7 @@
     },
     {
       "type": "Action.OpenUrl",
-      "title": "Visión general",
+      "title": "VisiÃ³n general",
       "url": "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"
     },
     {
