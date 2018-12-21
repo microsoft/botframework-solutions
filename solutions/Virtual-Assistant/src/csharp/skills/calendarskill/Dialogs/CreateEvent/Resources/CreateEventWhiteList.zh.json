@@ -1,9 +1,16 @@
 {
-  "SkipPhrases": [
-    "跳过",
-    "空着"
-  ],
-  "DefaultTitle": [
-    "会议"
-  ]
+    "SkipPhrases": [
+        "跳过",
+        "空着"
+    ],
+    "DefaultTitle": [
+        "会议"
+    ],
+    "ContactSeparator": [
+        ",",
+        "和",
+        ";",
+        "，",
+        "；"
+    ]
 }
