@@ -51,6 +51,8 @@ namespace CalendarSkill
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Actions.ShowEventsSummary, showSummary) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.Read, readEvent) { TelemetryClient = telemetryClient });
+            AddDialog(new UpdateEventDialog(services, accessor, serviceManager, telemetryClient));
+            AddDialog(new DeleteEventDialog(services, accessor, serviceManager, telemetryClient));
 
             // Set starting dialog for component
             InitialDialogId = Actions.ShowEventsSummary;
@@ -264,7 +266,7 @@ namespace CalendarSkill
                     }
                 }
 
-                if (eventItem != null)
+                if (eventItem != null && topIntent != Luis.Calendar.Intent.ChangeCalendarEntry && topIntent != Luis.Calendar.Intent.DeleteCalendarEntry)
                 {
                     var speakString = SpeakHelper.ToSpeechMeetingDetail(eventItem.Title, TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, state.GetUserTimeZone()), eventItem.IsAllDay == true);
 
@@ -303,7 +305,25 @@ namespace CalendarSkill
                     return await sc.EndDialogAsync(true);
                 }
 
-                if (topIntent == Luis.Calendar.Intent.ReadAloud)
+                if (topIntent == Luis.Calendar.Intent.ChangeCalendarEntry)
+                {
+                    if (state.ReadOutEvents.Count > 0)
+                    {
+                        state.Events.Add(state.ReadOutEvents[0]);
+                    }
+
+                    return await sc.BeginDialogAsync(nameof(UpdateEventDialog));
+                }
+                else if (topIntent == Luis.Calendar.Intent.DeleteCalendarEntry)
+                {
+                    if (state.ReadOutEvents.Count > 0)
+                    {
+                        state.Events.Add(state.ReadOutEvents[0]);
+                    }
+
+                    return await sc.BeginDialogAsync(nameof(DeleteEventDialog));
+                }
+                else if (topIntent == Luis.Calendar.Intent.ReadAloud)
                 {
                     return await sc.BeginDialogAsync(Actions.Read);
                 }
