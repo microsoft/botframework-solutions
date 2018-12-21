@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "type": "AdaptiveCard",
   "version": "1.0",
@@ -23,7 +23,7 @@
       "type": "TextBlock",
       "size": "default",
       "isSubtle": true,
-      "text": "Nun, da Sie Ihren virtuellen Assistenten erfolgreich gef�hrt haben, folgen Sie den Links in dieser adaptiven Karte, um weiter zu erforschen.",
+      "text": "Nun, da Sie Ihren virtuellen Assistenten erfolgreich geführt haben, folgen Sie den Links in dieser adaptiven Karte, um weiter zu erforschen.",
       "speak": "Jetzt, wo Sie loslegen lassen.",
       "wrap": true,
       "maxLines": 0
