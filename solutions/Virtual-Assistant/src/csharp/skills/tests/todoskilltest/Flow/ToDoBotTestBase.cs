@@ -90,7 +90,10 @@ namespace ToDoSkillTest.Flow
 
         public override IBot BuildBot()
         {
-            return new ToDoSkill.ToDoSkill(this.Services, this.ConversationState, this.UserState, this.TelemetryClient, this.ToDoService, this.MailService, true);
+            var skill = new ToDoSkill.ToDoSkill(this.Services, this.ConversationState, this.UserState, this.TelemetryClient, this.ToDoService, true);
+            skill.MailService = MailService;
+
+            return skill;
         }
     }
 }

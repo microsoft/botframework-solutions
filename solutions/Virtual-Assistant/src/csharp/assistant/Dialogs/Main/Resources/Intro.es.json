@@ -1,8 +1,8 @@
-{
+ï»¿{
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "type": "AdaptiveCard",
   "version": "1.0",
-  "speak": "¡ Bienvenido a tu asistente virtual! Ahora que estás en marcha, empecemos.",
+  "speak": "Â¡ Bienvenido a tu asistente virtual! Ahora que estÃ¡s en marcha, empecemos.",
   "body": [
     {
       "type": "Image",
@@ -23,7 +23,7 @@
       "type": "TextBlock",
       "size": "default",
       "isSubtle": true,
-      "text": "Ahora que ha ejecutado correctamente su asistente virtual, siga los enlaces de esta tarjeta adaptativa para explorar más.",
+      "text": "Ahora que ha ejecutado correctamente su asistente virtual, siga los enlaces de esta tarjeta adaptativa para explorar mÃ¡s.",
       "speak": "Ahora que su funcionamiento vamos a empezar.",
       "wrap": true,
       "maxLines": 0
@@ -32,7 +32,7 @@
   "actions": [
     {
       "type": "Action.OpenUrl",
-      "title": "Documentación",
+      "title": "DocumentaciÃ³n",
       "url": "https://aka.ms/customassistantdocs"
     },
     {
