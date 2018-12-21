@@ -175,6 +175,15 @@ namespace VirtualAssistant.Dialogs.Main.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .\Dialogs\Main\Resources\Intro.json.
+        /// </summary>
+        public static string INTRO_PATH {
+            get {
+                return ResourceManager.GetString("INTRO_PATH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ok, you&apos;re signed out..
         /// </summary>
         public static string LOGOUT {
