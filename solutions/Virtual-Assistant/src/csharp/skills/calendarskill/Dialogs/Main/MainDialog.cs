@@ -275,6 +275,8 @@ namespace CalendarSkill
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
+            var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
+            state.Clear();
             await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(CalendarMainResponses.CancelMessage));
             await CompleteAsync(dc);
             await dc.CancelAllDialogsAsync();

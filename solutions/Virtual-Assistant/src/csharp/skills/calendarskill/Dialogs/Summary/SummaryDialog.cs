@@ -155,6 +155,7 @@ namespace CalendarSkill
                     // this will lead to error when test
                     if (string.IsNullOrEmpty(state.APIToken))
                     {
+                        state.Clear();
                         return await sc.EndDialogAsync(true);
                     }
 
@@ -185,6 +186,7 @@ namespace CalendarSkill
                     if (searchedEvents.Count == 0)
                     {
                         await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowNoMeetingMessage));
+                        state.Clear();
                         return await sc.EndDialogAsync(true);
                     }
                     else
@@ -333,6 +335,7 @@ namespace CalendarSkill
                 var topIntent = luisResult?.TopIntent().intent;
                 if (topIntent == null)
                 {
+                    state.Clear();
                     return await sc.EndDialogAsync(true);
                 }
 
@@ -360,6 +363,7 @@ namespace CalendarSkill
                 }
                 else
                 {
+                    state.Clear();
                     return await sc.EndDialogAsync(true);
                 }
             }
