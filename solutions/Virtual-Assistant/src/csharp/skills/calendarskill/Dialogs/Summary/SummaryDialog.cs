@@ -356,7 +356,7 @@ namespace CalendarSkill
                 }
                 else if (topIntent == Luis.Calendar.Intent.ReadAloud)
                 {
-                    return await sc.BeginDialogAsync(Actions.Read);
+                    return await sc.ReplaceDialogAsync(Actions.Read);
                 }
                 else
                 {

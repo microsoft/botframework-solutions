@@ -263,7 +263,7 @@ namespace CalendarSkill
                     }
                     else
                     {
-                        return await sc.BeginDialogAsync(Actions.UpdateStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NoEvent));
+                        return await sc.ReplaceDialogAsync(Actions.UpdateStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NoEvent));
                     }
                 }
                 else if (state.Events.Count > 1)

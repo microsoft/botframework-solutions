@@ -461,7 +461,7 @@ namespace CalendarSkill
                         }
                         else
                         {
-                            return await sc.BeginDialogAsync(Actions.UpdateAddress, new UpdateAddressDialogOptions(UpdateAddressDialogOptions.UpdateReason.NotAnAddress), cancellationToken);
+                            return await sc.ReplaceDialogAsync(Actions.UpdateAddress, new UpdateAddressDialogOptions(UpdateAddressDialogOptions.UpdateReason.NotAnAddress), cancellationToken);
                         }
                     }
                 }
@@ -575,12 +575,12 @@ namespace CalendarSkill
                 if (sc.Result == null)
                 {
                     state.ShowAttendeesIndex = 0;
-                    return await sc.BeginDialogAsync(Actions.ConfirmAttendee, cancellationToken: cancellationToken);
+                    return await sc.ReplaceDialogAsync(Actions.ConfirmAttendee, cancellationToken: cancellationToken);
                 }
                 else if (sc.Result.ToString() == General.Intent.Next.ToString())
                 {
                     state.ShowAttendeesIndex++;
-                    return await sc.BeginDialogAsync(Actions.ConfirmAttendee, cancellationToken: cancellationToken);
+                    return await sc.ReplaceDialogAsync(Actions.ConfirmAttendee, cancellationToken: cancellationToken);
                 }
                 else if (sc.Result.ToString() == General.Intent.Previous.ToString())
                 {
@@ -589,7 +589,7 @@ namespace CalendarSkill
                         state.ShowAttendeesIndex--;
                     }
 
-                    return await sc.BeginDialogAsync(Actions.ConfirmAttendee, cancellationToken: cancellationToken);
+                    return await sc.ReplaceDialogAsync(Actions.ConfirmAttendee, cancellationToken: cancellationToken);
                 }
                 else
                 {
@@ -610,7 +610,7 @@ namespace CalendarSkill
                     state.ConfirmAttendeesNameIndex++;
                     if (state.ConfirmAttendeesNameIndex < state.AttendeesNameList.Count)
                     {
-                        return await sc.BeginDialogAsync(Actions.ConfirmAttendee, cancellationToken: cancellationToken);
+                        return await sc.ReplaceDialogAsync(Actions.ConfirmAttendee, cancellationToken: cancellationToken);
                     }
 
                     return await sc.EndDialogAsync(true, cancellationToken);
@@ -746,7 +746,7 @@ namespace CalendarSkill
                     return await sc.EndDialogAsync(cancellationToken: cancellationToken);
                 }
 
-                return await sc.BeginDialogAsync(Actions.UpdateStartDateForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotADateTime), cancellationToken);
+                return await sc.ReplaceDialogAsync(Actions.UpdateStartDateForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotADateTime), cancellationToken);
             }
             catch (Exception ex)
             {
@@ -838,7 +838,7 @@ namespace CalendarSkill
                     return await sc.EndDialogAsync(cancellationToken: cancellationToken);
                 }
 
-                return await sc.BeginDialogAsync(Actions.UpdateStartTimeForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotADateTime), cancellationToken);
+                return await sc.ReplaceDialogAsync(Actions.UpdateStartTimeForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotADateTime), cancellationToken);
             }
             catch (Exception ex)
             {
@@ -947,11 +947,11 @@ namespace CalendarSkill
                 if (state.Duration <= 0)
                 {
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CreateEventResponses.InvaildDuration));
-                    return await sc.BeginDialogAsync(Actions.UpdateDurationForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound), cancellationToken);
+                    return await sc.ReplaceDialogAsync(Actions.UpdateDurationForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound), cancellationToken);
                 }
                 else
                 {
-                    return await sc.BeginDialogAsync(Actions.UpdateDurationForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotADateTime), cancellationToken);
+                    return await sc.ReplaceDialogAsync(Actions.UpdateDurationForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotADateTime), cancellationToken);
                 }
             }
             catch (Exception ex)
