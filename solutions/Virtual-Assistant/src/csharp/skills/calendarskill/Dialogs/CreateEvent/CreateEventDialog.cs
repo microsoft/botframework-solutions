@@ -713,29 +713,35 @@ namespace CalendarSkill
                         var dateTimeValue = resolution?.Value;
                         if (dateTimeValue != null)
                         {
-                            var dateTime = DateTime.Parse(dateTimeValue);
-
-                            if (dateTime != null)
+                            try
                             {
-                                var isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeValue, dateTimeConvertType);
-                                if (ContainsTime(dateTimeConvertType))
-                                {
-                                    state.StartTime.Add(TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()));
-                                }
+                                var dateTime = DateTime.Parse(dateTimeValue);
 
-                                // Workaround as DateTimePrompt only return as local time
-                                if (isRelativeTime)
+                                if (dateTime != null)
                                 {
-                                    dateTime = new DateTime(
-                                        dateTime.Year,
-                                        dateTime.Month,
-                                        dateTime.Day,
-                                        DateTime.Now.Hour,
-                                        DateTime.Now.Minute,
-                                        DateTime.Now.Second);
-                                }
+                                    var isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeValue, dateTimeConvertType);
+                                    if (ContainsTime(dateTimeConvertType))
+                                    {
+                                        state.StartTime.Add(TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()));
+                                    }
 
-                                state.StartDate.Add(isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime);
+                                    // Workaround as DateTimePrompt only return as local time
+                                    if (isRelativeTime)
+                                    {
+                                        dateTime = new DateTime(
+                                            dateTime.Year,
+                                            dateTime.Month,
+                                            dateTime.Day,
+                                            DateTime.Now.Hour,
+                                            DateTime.Now.Minute,
+                                            DateTime.Now.Second);
+                                    }
+
+                                    state.StartDate.Add(isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime);
+                                }
+                            }
+                            catch (FormatException)
+                            {
                             }
                         }
                     }
@@ -798,12 +804,18 @@ namespace CalendarSkill
                         var dateTimeValue = resolution?.Value;
                         if (dateTimeValue != null)
                         {
-                            var dateTime = DateTime.Parse(dateTimeValue);
-
-                            if (dateTime != null)
+                            try
                             {
-                                var isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeValue, dateTimeConvertType);
-                                state.StartTime.Add(isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime);
+                                var dateTime = DateTime.Parse(dateTimeValue);
+
+                                if (dateTime != null)
+                                {
+                                    var isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeValue, dateTimeConvertType);
+                                    state.StartTime.Add(isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime);
+                                }
+                            }
+                            catch (FormatException)
+                            {
                             }
                         }
                     }
