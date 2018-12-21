@@ -450,7 +450,7 @@ namespace CalendarSkill
                         {
                             if (userInput != null)
                             {
-                                var nameList = userInput.Split(new string[] { ",", "and", ";" }, StringSplitOptions.None)
+                                var nameList = userInput.Split(CreateEventWhiteList.GetContactNameSeparator(), StringSplitOptions.None)
                                     .Select(x => x.Trim())
                                     .Where(x => !string.IsNullOrWhiteSpace(x))
                                     .ToList();

@@ -5,7 +5,12 @@
     "no",
     "No"
   ],
-  "DefaultTitle": [
-    "Meeting"
-  ]
+    "DefaultTitle": [
+        "Meeting"
+    ],
+    "ContactSeparator": [
+        ",",
+        "and",
+        ";"
+    ]
 }
