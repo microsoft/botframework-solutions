@@ -26,7 +26,7 @@ namespace ToDoSkill
         private DialogSet _dialogs;
         private bool _skillMode;
 
-        public ToDoSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, ITaskService serviceManager = null, IMailService mailService = null, bool skillMode = false)
+        public ToDoSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, ITaskService serviceManager = null, bool skillMode = false)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));
@@ -43,7 +43,7 @@ namespace ToDoSkill
             }
 
             _serviceManager = serviceManager ?? taskService;
-            _mailService = mailService ?? new MailService();
+            _mailService = new MailService();
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(DialogState)));
             _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _telemetryClient, _serviceManager, _mailService, _skillMode));
