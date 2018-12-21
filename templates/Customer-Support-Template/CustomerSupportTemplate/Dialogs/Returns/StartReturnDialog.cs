@@ -15,11 +15,13 @@ namespace CustomerSupportTemplate.Dialogs.Returns
 
         public StartReturnDialog(
             BotServices services, 
-            IStatePropertyAccessor<CustomerSupportTemplateState> stateAccessor)
-            : base(services, nameof(StartReturnDialog))
+            IStatePropertyAccessor<CustomerSupportTemplateState> stateAccessor,
+            IBotTelemetryClient telemetryClient)
+            : base(services, nameof(StartReturnDialog), telemetryClient)
         {
             _services = services;
             _stateAccessor = stateAccessor;
+            TelemetryClient = TelemetryClient;
 
             var startReturn = new WaterfallStep[]
             {
@@ -29,7 +31,7 @@ namespace CustomerSupportTemplate.Dialogs.Returns
             };
 
             InitialDialogId = nameof(StartReturnDialog);
-            AddDialog(new WaterfallDialog(InitialDialogId, startReturn));
+            AddDialog(new WaterfallDialog(InitialDialogId, startReturn) { TelemetryClient = telemetryClient });
             AddDialog(new ConfirmPrompt(DialogIds.EscalatePrompt, SharedValidators.ConfirmValidator));
         }
 

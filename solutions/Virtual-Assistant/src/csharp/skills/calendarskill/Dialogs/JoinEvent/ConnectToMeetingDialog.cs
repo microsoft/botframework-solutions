@@ -5,12 +5,15 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Dialogs.JoinEvent.Resources;
+using CalendarSkill.Models;
+using CalendarSkill.ServiceClients;
 using HtmlAgilityPack;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 using Newtonsoft.Json;
 
 namespace CalendarSkill
@@ -20,9 +23,12 @@ namespace CalendarSkill
         public ConnectToMeetingDialog(
             ISkillConfiguration services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
-            IServiceManager serviceManager)
-            : base(nameof(ConnectToMeetingDialog), services, accessor, serviceManager)
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(ConnectToMeetingDialog), services, accessor, serviceManager, telemetryClient)
         {
+            TelemetryClient = telemetryClient;
+
             var joinMeeting = new WaterfallStep[]
             {
                 GetAuthToken,
@@ -30,7 +36,7 @@ namespace CalendarSkill
                 JoinMeeting
             };
 
-            AddDialog(new WaterfallDialog(Actions.ConnectToMeeting, joinMeeting));
+            AddDialog(new WaterfallDialog(Actions.ConnectToMeeting, joinMeeting) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Actions.ConnectToMeeting;
@@ -38,41 +44,54 @@ namespace CalendarSkill
 
         private async Task<DialogTurnResult> JoinMeeting(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-            if (string.IsNullOrEmpty(state.APIToken))
+            try
             {
-                return await sc.EndDialogAsync(true);
-            }
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                if (string.IsNullOrEmpty(state.APIToken))
+                {
+                    return await sc.EndDialogAsync(true);
+                }
 
-            var tokens = new StringDictionary();
-            var eventModels = await GetMeetingToJoin(sc);
-            if (!eventModels.Any())
+                var tokens = new StringDictionary();
+                var eventModels = await GetMeetingToJoin(sc);
+                if (!eventModels.Any())
+                {
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(JoinEventResponses.MeetingNotFound));
+                    return await sc.EndDialogAsync(null, cancellationToken);
+                }
+
+                var joinNumber = GetDialInNumberFromMeeting(eventModels[0]);
+                if (string.IsNullOrEmpty(joinNumber))
+                {
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(JoinEventResponses.NoDialInNumber, tokens: tokens));
+                    return await sc.EndDialogAsync(null, cancellationToken);
+                }
+
+                tokens.Add("CallNumber", joinNumber);
+                var act = sc.Context.Activity.CreateReply(JoinEventResponses.CallingIn, ResponseBuilder, tokens: tokens);
+                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(JoinEventResponses.CallingIn, ResponseBuilder, tokens: tokens));
+
+                // Reply the phone number as an event.
+                var replyEvent = sc.Context.Activity.CreateReply();
+                replyEvent.Type = ActivityTypes.Event;
+                replyEvent.Name = "JoinEvent.DialInNumber";
+                replyEvent.Value = joinNumber;
+                var sample = JsonConvert.SerializeObject(replyEvent);
+                await sc.Context.SendActivityAsync(replyEvent, cancellationToken);
+
+                state.Clear();
+                return await sc.EndDialogAsync(true, cancellationToken);
+            }
+            catch (SkillException ex)
             {
-                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(JoinEventResponses.MeetingNotFound));
-                return await sc.EndDialogAsync(null, cancellationToken);
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
-
-            var joinNumber = GetDialInNumberFromMeeting(eventModels[0]);
-            if (string.IsNullOrEmpty(joinNumber))
+            catch (Exception ex)
             {
-                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(JoinEventResponses.NoDialInNumber, tokens: tokens));
-                return await sc.EndDialogAsync(null, cancellationToken);
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
-
-            tokens.Add("CallNumber", joinNumber);
-            var act = sc.Context.Activity.CreateReply(JoinEventResponses.CallingIn, ResponseBuilder, tokens: tokens);
-            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(JoinEventResponses.CallingIn, ResponseBuilder, tokens: tokens));
-
-            // Reply the phone number as an event.
-            var replyEvent = sc.Context.Activity.CreateReply();
-            replyEvent.Type = ActivityTypes.Event;
-            replyEvent.Name = "JoinEvent.DialInNumber";
-            replyEvent.Value = joinNumber;
-            var sample = JsonConvert.SerializeObject(replyEvent);
-            await sc.Context.SendActivityAsync(replyEvent, cancellationToken);
-
-            state.Clear();
-            return await sc.EndDialogAsync(true, cancellationToken);
         }
 
         private string GetDialInNumberFromMeeting(EventModel eventModel)

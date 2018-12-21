@@ -87,7 +87,7 @@ namespace EmailSkillTest.Flow.Fakes
             return people;
         }
 
-        private List<User> FakeUsers()
+        private List<User> FakeUsers(int dupSize = 5)
         {
             var users = new List<User>();
 
@@ -99,21 +99,16 @@ namespace EmailSkillTest.Flow.Fakes
                 DisplayName = "Test Test",
             });
 
-            emailAddressStr = "testdup1@test.com";
-            users.Add(new User()
+            for (int i = 0; i < dupSize; i++)
             {
-                UserPrincipalName = emailAddressStr,
-                Mail = emailAddressStr,
-                DisplayName = "TestDup Test",
-            });
-
-            emailAddressStr = "testdup2@test.com";
-            users.Add(new User()
-            {
-                UserPrincipalName = emailAddressStr,
-                Mail = emailAddressStr,
-                DisplayName = "TestDup Test",
-            });
+                emailAddressStr = "testdup" + i + "@test.com";
+                users.Add(new User()
+                {
+                    UserPrincipalName = emailAddressStr,
+                    Mail = emailAddressStr,
+                    DisplayName = "TestDup Test",
+                });
+            }
 
             return users;
         }

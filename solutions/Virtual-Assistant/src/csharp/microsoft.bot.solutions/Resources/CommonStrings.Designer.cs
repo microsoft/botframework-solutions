@@ -61,15 +61,6 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to all.
-        /// </summary>
-        public static string All {
-            get {
-                return ResourceManager.GetString("All", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to and.
         /// </summary>
         public static string And {
@@ -102,15 +93,6 @@ namespace Microsoft.Bot.Solutions.Resources {
         public static string AtTimeDetailsFormat {
             get {
                 return ResourceManager.GetString("AtTimeDetailsFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Content: {0}.
-        /// </summary>
-        public static string ContentFormat {
-            get {
-                return ResourceManager.GetString("ContentFormat", resourceCulture);
             }
         }
         
@@ -151,38 +133,11 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to dd-MM-yyyy.
-        /// </summary>
-        public static string DisplayFullDateFormat {
-            get {
-                return ResourceManager.GetString("DisplayFullDateFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to h:mm tt.
         /// </summary>
         public static string DisplayTime {
             get {
                 return ResourceManager.GetString("DisplayTime", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to empty content.
-        /// </summary>
-        public static string EmptyContent {
-            get {
-                return ResourceManager.GetString("EmptyContent", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to empty subject.
-        /// </summary>
-        public static string EmptySubject {
-            get {
-                return ResourceManager.GetString("EmptySubject", resourceCulture);
             }
         }
         
@@ -196,47 +151,20 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to fw:.
+        ///   Looks up a localized string similar to Login.
         /// </summary>
-        public static string Forward {
+        public static string Login {
             get {
-                return ResourceManager.GetString("Forward", resourceCulture);
+                return ResourceManager.GetString("Login", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to FW: {0}.
+        ///   Looks up a localized string similar to Please login with your {0} account.
         /// </summary>
-        public static string ForwardReplyFormat {
+        public static string LoginDescription {
             get {
-                return ResourceManager.GetString("ForwardReplyFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} from {1}.
-        /// </summary>
-        public static string FromDetailsFormat {
-            get {
-                return ResourceManager.GetString("FromDetailsFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to high.
-        /// </summary>
-        public static string High {
-            get {
-                return ResourceManager.GetString("High", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to important.
-        /// </summary>
-        public static string Important {
-            get {
-                return ResourceManager.GetString("Important", resourceCulture);
+                return ResourceManager.GetString("LoginDescription", resourceCulture);
             }
         }
         
@@ -282,42 +210,6 @@ namespace Microsoft.Bot.Solutions.Resources {
         public static string RecipientsSummary {
             get {
                 return ResourceManager.GetString("RecipientsSummary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to relevant.
-        /// </summary>
-        public static string Relevant {
-            get {
-                return ResourceManager.GetString("Relevant", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to relevant {0}.
-        /// </summary>
-        public static string RelevantFormat {
-            get {
-                return ResourceManager.GetString("RelevantFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to re:.
-        /// </summary>
-        public static string Reply {
-            get {
-                return ResourceManager.GetString("Reply", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to RE: {0}.
-        /// </summary>
-        public static string ReplyReplyFormat {
-            get {
-                return ResourceManager.GetString("ReplyReplyFormat", resourceCulture);
             }
         }
         
@@ -376,11 +268,11 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Subject: {0}.
+        ///   Looks up a localized string similar to the third one is {0};.
         /// </summary>
-        public static string SubjectFormat {
+        public static string ThirdItem {
             get {
-                return ResourceManager.GetString("SubjectFormat", resourceCulture);
+                return ResourceManager.GetString("ThirdItem", resourceCulture);
             }
         }
         
@@ -448,15 +340,6 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to the third one is {0};.
-        /// </summary>
-        public static string ThirdItem {
-            get {
-                return ResourceManager.GetString("ThirdItem", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Today.
         /// </summary>
         public static string Today {
@@ -466,56 +349,11 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} to {1} and content is {2}.
-        /// </summary>
-        public static string ToDetailsFormat {
-            get {
-                return ResourceManager.GetString("ToDetailsFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to To: {0}.
-        /// </summary>
-        public static string ToFormat {
-            get {
-                return ResourceManager.GetString("ToFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Tomorrow.
         /// </summary>
         public static string Tomorrow {
             get {
                 return ResourceManager.GetString("Tomorrow", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to unknown recipient.
-        /// </summary>
-        public static string UnknownRecipient {
-            get {
-                return ResourceManager.GetString("UnknownRecipient", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to unknown sender.
-        /// </summary>
-        public static string UnknownSender {
-            get {
-                return ResourceManager.GetString("UnknownSender", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to unread.
-        /// </summary>
-        public static string Unread {
-            get {
-                return ResourceManager.GetString("Unread", resourceCulture);
             }
         }
         

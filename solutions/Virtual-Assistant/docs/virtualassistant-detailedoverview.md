@@ -26,7 +26,10 @@ The host app is responsible for the following capabilities. These can of course 
 The Assistant makes use of a number of Middleware Components to process incoming messages:
     - Telemetry Middleware leverages Application Insights to store telemetry for incoming messages, LUIS evaluation and QNA activities. PowerBI can then use this data to surface conversational insights.
     - Event Processing Middleware processes events sent by the device
-    - Content Moderator Middleware uses the Content Moderator Cognitive Service to detect inappropriate / PII content
+    - Content Moderator Middleware uses the Content Moderator Cognitive Service to detect inappropriate / PII content]]
+
+## Advanced Conversational Analytics
+The Assistant is configured to collect telemetry into Application Insights. This can be imported into a PowerBI dashboard to view [advanced conversational analytics](https://aka.ms/botPowerBiTemplate).
 
 ## Dispatcher
 

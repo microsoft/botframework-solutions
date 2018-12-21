@@ -10,15 +10,21 @@ namespace ToDoSkill
     using System.Net.Http.Headers;
     using System.Text;
     using System.Text.RegularExpressions;
+    using System.Threading.Tasks;
     using System.Xml;
     using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
+    using Microsoft.Bot.Solutions.Skills;
+    using Microsoft.Graph;
     using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// To Do skill helper class.
     /// </summary>
     public class ServiceHelper
     {
+        private const string APIErrorAccessDenied = "erroraccessdenied";
+
         private static readonly Regex ComplexTokensRegex = new Regex(@"\{[^{\}]+(?=})\}", RegexOptions.Compiled);
         private static readonly List<IBotResponseFormatter> ResponseFormatters = new List<IBotResponseFormatter>();
         private static readonly IBotResponseFormatter DefaultFormatter = new DefaultBotResponseFormatter();
@@ -265,6 +271,44 @@ namespace ToDoSkill
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             return httpClient;
+        }
+
+        public static SkillException HandleGraphAPIException(ServiceException ex)
+        {
+            var skillExceptionType = SkillExceptionType.Other;
+            if (ex.Error.Code.Equals(APIErrorAccessDenied, StringComparison.InvariantCultureIgnoreCase))
+            {
+                skillExceptionType = SkillExceptionType.APIAccessDenied;
+            }
+
+            return new SkillException(skillExceptionType, ex.Message, ex);
+        }
+
+        public static ServiceException GenerateServiceException(dynamic errorResponse)
+        {
+            var errorObject = errorResponse.error;
+            Error error = new Error();
+            error.Code = errorObject.code.ToString();
+            error.Message = errorObject.message.ToString();
+            return new ServiceException(error);
+        }
+
+        /// <summary>
+        /// Get an authenticated ms graph client use access token.
+        /// </summary>
+        /// <param name="accessToken">access token.</param>
+        /// <returns>Authenticated graph service client.</returns>
+        public static IGraphServiceClient GetAuthenticatedClient(string accessToken)
+        {
+            GraphServiceClient graphClient = new GraphServiceClient(
+                new DelegateAuthenticationProvider(
+                    async (requestMessage) =>
+                    {
+                        // Append the access token to the request.
+                        requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
+                        await Task.CompletedTask;
+                    }));
+            return graphClient;
         }
     }
 }

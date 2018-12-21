@@ -1,0 +1,3909 @@
+[
+  {
+    "type": "conversationUpdate",
+    "membersAdded": [
+      {
+        "id": "1",
+        "name": "Bot"
+      }
+    ],
+    "channelId": "emulator",
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "id": "013eb490-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:10:26+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "timestamp": "2018-12-14T14:10:26.521Z",
+    "from": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "name": "User"
+    },
+    "locale": "",
+    "serviceUrl": "http://localhost:57284"
+  },
+  {
+    "type": "conversationUpdate",
+    "membersAdded": [
+      {
+        "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+        "name": "User"
+      }
+    ],
+    "channelId": "emulator",
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "id": "013eb491-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:10:26+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "timestamp": "2018-12-14T14:10:26.521Z",
+    "from": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "name": "User"
+    },
+    "locale": "",
+    "serviceUrl": "http://localhost:57284"
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:10:31.208Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "Welcome to the experimental Restaurant Booking skill",
+    "speak": "Welcome to the experimental Restaurant Booking skill",
+    "inputHint": "acceptingInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "013eb490-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "0409e280-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:10:31+00:00"
+  },
+  {
+    "type": "message",
+    "text": "book a restaurant",
+    "from": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "name": "User"
+    },
+    "locale": "",
+    "textFormat": "plain",
+    "timestamp": "2018-12-14T14:10:36.172Z",
+    "channelData": {
+      "clientActivityId": "1544796626511.8643370054774815.0"
+    },
+    "entities": [
+      {
+        "type": "ClientCapabilities",
+        "requiresBotState": true,
+        "supportsTts": true,
+        "supportsListening": true
+      }
+    ],
+    "channelId": "emulator",
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "id": "06ff54c0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:10:36+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:57284"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "06ff54c0-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "075f7620-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:10:36+00:00",
+    "timestamp": "2018-12-14T14:10:36.802Z",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:10:37.590Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "06ff54c0-ffaa-11e8-a98b-73f4b63fdc72",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "book a restaurant",
+        "alteredText": null,
+        "intents": {
+          "Reservation": {
+            "score": 0.9871479
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "c670f538-423c-42cb-8c2b-5b5680c47b6c"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "book a restaurant",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Reservation",
+          "score": 0.9871479
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "07d7b360-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:10:37+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:10:38.510Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "06ff54c0-ffaa-11e8-a98b-73f4b63fdc72",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "book a restaurant",
+        "alteredText": null,
+        "intents": {
+          "Escalate": {
+            "score": 0.0259502716
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "fd1a33f9-a804-4406-a53f-3707f3fa600a"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "book a restaurant",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Escalate",
+          "score": 0.0259502716
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "086414e0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:10:38+00:00",
+    "locale": ""
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "06ff54c0-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "08a16c00-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:10:38+00:00",
+    "timestamp": "2018-12-14T14:10:38.912Z",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:10:39.080Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "06ff54c0-ffaa-11e8-a98b-73f4b63fdc72",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "book a restaurant",
+        "alteredText": null,
+        "intents": {
+          "Reservation": {
+            "score": 0.9871479
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "c670f538-423c-42cb-8c2b-5b5680c47b6c"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "book a restaurant",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Reservation",
+          "score": 0.9871479
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "08bb0e80-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:10:39+00:00",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:10:39.697Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "Sure thing Jane, I can help you with making reservation.",
+    "speak": "Sure thing Jane, I can help you with making a reservation.",
+    "inputHint": "ignoringInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "06ff54c0-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "09193410-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:10:39+00:00"
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:10:40.388Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "attachmentLayout": "carousel",
+    "locale": "",
+    "text": "What type of restaurant are you interested in?",
+    "speak": "What type of restaurant are you interested in? Chinese or Italian",
+    "inputHint": "expectingInput",
+    "suggestedActions": {
+      "actions": [
+        {
+          "type": "imBack",
+          "title": "Cancel",
+          "text": "cancel",
+          "displayText": "cancel",
+          "value": "cancel"
+        }
+      ]
+    },
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "TitleImageTextButton",
+          "speak": "What type of restaurant are you interested in? Chinese or Italian",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "size": "medium",
+                  "text": "",
+                  "wrap": true,
+                  "maxLines": 2
+                },
+                {
+                  "type": "Container",
+                  "items": [
+                    {
+                      "type": "Image",
+                      "size": "stretch",
+                      "url": "http://localhost:3980/assets/en/images/restaurants/cuisines/chinese.jpg",
+                      "horizontalAlignment": "stretch"
+                    }
+                  ]
+                },
+                {
+                  "type": "Container",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "text": "",
+                      "wrap": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "size": "medium",
+                  "text": "Chinese",
+                  "horizontalAlignment": "center"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "",
+                  "horizontalAlignment": "center"
+                }
+              ],
+              "selectAction": {
+                "type": "Action.Submit",
+                "data": {
+                  "selectedItem": "Chinese"
+                },
+                "title": "Submit action"
+              },
+              "style": "emphasis"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "TitleImageTextButton",
+          "speak": "What type of restaurant are you interested in? Chinese or Italian",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "size": "medium",
+                  "text": "",
+                  "wrap": true,
+                  "maxLines": 2
+                },
+                {
+                  "type": "Container",
+                  "items": [
+                    {
+                      "type": "Image",
+                      "size": "stretch",
+                      "url": "http://localhost:3980/assets/en/images/restaurants/cuisines/italian.jpg",
+                      "horizontalAlignment": "stretch"
+                    }
+                  ]
+                },
+                {
+                  "type": "Container",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "text": "",
+                      "wrap": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "size": "medium",
+                  "text": "Italian",
+                  "horizontalAlignment": "center"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "",
+                  "horizontalAlignment": "center"
+                }
+              ],
+              "selectAction": {
+                "type": "Action.Submit",
+                "data": {
+                  "selectedItem": "Italian"
+                },
+                "title": "Submit action"
+              },
+              "style": "emphasis"
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "06ff54c0-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "0982a440-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:10:40+00:00"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "06ff54c0-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "09db72a0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:10:40+00:00",
+    "timestamp": "2018-12-14T14:10:40.970Z",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "text": "second one",
+    "from": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "name": "User"
+    },
+    "locale": "",
+    "textFormat": "plain",
+    "timestamp": "2018-12-14T14:10:47.361Z",
+    "channelData": {
+      "clientActivityId": "1544796626511.8643370054774815.2"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "id": "0daaa310-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:10:47+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:57284"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "0daaa310-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "0dfd7e00-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:10:47+00:00",
+    "timestamp": "2018-12-14T14:10:47.904Z",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:10:48.234Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "0daaa310-ffaa-11e8-a98b-73f4b63fdc72",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "second one",
+        "alteredText": null,
+        "intents": {
+          "Reservation": {
+            "score": 0.968486547
+          }
+        },
+        "entities": {
+          "$instance": {
+            "number": [
+              {
+                "startIndex": 7,
+                "endIndex": 10,
+                "text": "one",
+                "type": "builtin.number",
+                "subtype": "integer"
+              }
+            ]
+          },
+          "number": [
+            1
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "c670f538-423c-42cb-8c2b-5b5680c47b6c"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "second one",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Reservation",
+          "score": 0.968486547
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "one",
+            "type": "builtin.number",
+            "startIndex": 7,
+            "endIndex": 9,
+            "resolution": {
+              "subtype": "integer",
+              "value": "1"
+            }
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "0e2fd8a0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:10:48+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:10:48.621Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "0daaa310-ffaa-11e8-a98b-73f4b63fdc72",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "second one",
+        "alteredText": null,
+        "intents": {
+          "Previous": {
+            "score": 0.112179182
+          }
+        },
+        "entities": {
+          "$instance": {
+            "number": [
+              {
+                "startIndex": 7,
+                "endIndex": 10,
+                "text": "one",
+                "type": "builtin.number",
+                "subtype": "integer"
+              }
+            ]
+          },
+          "number": [
+            1
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "fd1a33f9-a804-4406-a53f-3707f3fa600a"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "second one",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Previous",
+          "score": 0.112179182
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "one",
+            "type": "builtin.number",
+            "startIndex": 7,
+            "endIndex": 9,
+            "resolution": {
+              "subtype": "integer",
+              "value": "1"
+            }
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "0e6b0ce0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:10:48+00:00",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:10:49.031Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "Chinese sounds great!",
+    "speak": "Chinese sounds great!",
+    "inputHint": "ignoringInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "0daaa310-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "0ea97570-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:10:49+00:00"
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:10:49.168Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "What day would you like for your reservation?",
+    "speak": "What day would you like for your reservation?",
+    "inputHint": "expectingInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "0daaa310-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "0ebe5d00-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:10:49+00:00"
+  },
+  {
+    "type": "message",
+    "text": "tomorrow at 8pm",
+    "from": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "name": "User"
+    },
+    "locale": "",
+    "textFormat": "plain",
+    "timestamp": "2018-12-14T14:10:54.711Z",
+    "channelData": {
+      "clientActivityId": "1544796626511.8643370054774815.4"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "id": "120c2870-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:10:54+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:57284"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "120c2870-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "126210a0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:10:55+00:00",
+    "timestamp": "2018-12-14T14:10:55.273Z",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:10:55.452Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "120c2870-ffaa-11e8-a98b-73f4b63fdc72",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "tomorrow at 8pm",
+        "alteredText": null,
+        "intents": {
+          "Reservation": {
+            "score": 0.984510541
+          }
+        },
+        "entities": {
+          "$instance": {
+            "datetime": [
+              {
+                "startIndex": 0,
+                "endIndex": 15,
+                "text": "tomorrow at 8pm",
+                "type": "builtin.datetimeV2.datetime"
+              }
+            ]
+          },
+          "datetime": [
+            {
+              "type": "datetime",
+              "timex": [
+                "2018-12-15T20"
+              ]
+            }
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "c670f538-423c-42cb-8c2b-5b5680c47b6c"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "tomorrow at 8pm",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Reservation",
+          "score": 0.984510541
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "tomorrow at 8pm",
+            "type": "builtin.datetimeV2.datetime",
+            "startIndex": 0,
+            "endIndex": 14,
+            "resolution": {
+              "values": [
+                {
+                  "timex": "2018-12-15T20",
+                  "type": "datetime",
+                  "value": "2018-12-15 20:00:00"
+                }
+              ]
+            }
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "127d39c0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:10:55+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:10:55.869Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "120c2870-ffaa-11e8-a98b-73f4b63fdc72",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "tomorrow at 8pm",
+        "alteredText": null,
+        "intents": {
+          "Cancel": {
+            "score": 0.023098249
+          }
+        },
+        "entities": {
+          "$instance": {
+            "datetime": [
+              {
+                "startIndex": 0,
+                "endIndex": 15,
+                "text": "tomorrow at 8pm",
+                "type": "builtin.datetimeV2.datetime"
+              }
+            ]
+          },
+          "datetime": [
+            {
+              "type": "datetime",
+              "timex": [
+                "2018-12-15T20"
+              ]
+            }
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "fd1a33f9-a804-4406-a53f-3707f3fa600a"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "tomorrow at 8pm",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Cancel",
+          "score": 0.023098249
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "tomorrow at 8pm",
+            "type": "builtin.datetimeV2.datetime",
+            "startIndex": 0,
+            "endIndex": 14,
+            "resolution": {
+              "values": [
+                {
+                  "timex": "2018-12-15T20",
+                  "type": "datetime",
+                  "value": "2018-12-15 20:00:00"
+                }
+              ]
+            }
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "12bcdad0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:10:55+00:00",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:10:56.783Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "Got it! The reservation will be for tomorrow at 20:00.",
+    "speak": "Got it! The reservation will be for tomorrow at 20:00.",
+    "inputHint": "ignoringInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "120c2870-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "134851f0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:10:56+00:00"
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:10:56.945Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "How many people?",
+    "speak": "How many people?",
+    "inputHint": "expectingInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "120c2870-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "13610a10-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:10:56+00:00"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "120c2870-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "139dc4f0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:10:57+00:00",
+    "timestamp": "2018-12-14T14:10:57.343Z",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "text": "2",
+    "from": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "name": "User"
+    },
+    "locale": "",
+    "textFormat": "plain",
+    "timestamp": "2018-12-14T14:10:58.821Z",
+    "channelData": {
+      "clientActivityId": "1544796626511.8643370054774815.5"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "id": "147f4b50-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:10:58+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:57284"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "147f4b50-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "14e252e0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:10:59+00:00",
+    "timestamp": "2018-12-14T14:10:59.470Z",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:10:59.682Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "147f4b50-ffaa-11e8-a98b-73f4b63fdc72",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "2",
+        "alteredText": null,
+        "intents": {
+          "Reservation": {
+            "score": 0.956945956
+          }
+        },
+        "entities": {
+          "$instance": {
+            "number": [
+              {
+                "startIndex": 0,
+                "endIndex": 1,
+                "text": "2",
+                "type": "builtin.number",
+                "subtype": "integer"
+              }
+            ]
+          },
+          "number": [
+            2
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "c670f538-423c-42cb-8c2b-5b5680c47b6c"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "2",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Reservation",
+          "score": 0.956945956
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "2",
+            "type": "builtin.number",
+            "startIndex": 0,
+            "endIndex": 0,
+            "resolution": {
+              "subtype": "integer",
+              "value": "2"
+            }
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "1502ac20-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:10:59+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:11:00.191Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "147f4b50-ffaa-11e8-a98b-73f4b63fdc72",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "2",
+        "alteredText": null,
+        "intents": {
+          "Cancel": {
+            "score": 0.0693425462
+          }
+        },
+        "entities": {
+          "$instance": {
+            "number": [
+              {
+                "startIndex": 0,
+                "endIndex": 1,
+                "text": "2",
+                "type": "builtin.number",
+                "subtype": "integer"
+              }
+            ]
+          },
+          "number": [
+            2
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "fd1a33f9-a804-4406-a53f-3707f3fa600a"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "2",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Cancel",
+          "score": 0.0693425462
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "2",
+            "type": "builtin.number",
+            "startIndex": 0,
+            "endIndex": 0,
+            "resolution": {
+              "subtype": "integer",
+              "value": "2"
+            }
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "155056f0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:00+00:00",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:11:00.417Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "locale": "",
+    "speak": "Ok. Let me make sure I have this right, you want me to make a reservation for {pluralizeAmount: 'AttendeeCount', pluralizeResource: 'People'} at a Chinese restaurant for tomorrow starting at 20:00. Is this correct?",
+    "inputHint": "expectingInput",
+    "suggestedActions": {
+      "actions": [
+        {
+          "type": "imBack",
+          "title": "Yes",
+          "value": "Yes"
+        },
+        {
+          "type": "imBack",
+          "title": "No",
+          "value": "No"
+        }
+      ]
+    },
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "HeaderTableFooter",
+          "speak": "Ok. Let me make sure I have this right, you want me to make a reservation for {pluralizeAmount: 'AttendeeCount', pluralizeResource: 'People'} at a Chinese restaurant for tomorrow starting at 20:00. Is this correct?",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "size": "medium",
+                  "text": "Reservation request summary:",
+                  "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Food type:",
+                      "value": "Chinese"
+                    },
+                    {
+                      "title": "Date:",
+                      "value": "15/12/2018"
+                    },
+                    {
+                      "title": "Time:",
+                      "value": "20:00"
+                    },
+                    {
+                      "title": "For:",
+                      "value": "2"
+                    },
+                    {
+                      "title": "",
+                      "value": ""
+                    }
+                  ]
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "Did I get it right?",
+                  "wrap": true
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "147f4b50-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "1572d310-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:00+00:00"
+  },
+  {
+    "type": "message",
+    "text": "yep",
+    "from": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "name": "User"
+    },
+    "locale": "",
+    "textFormat": "plain",
+    "timestamp": "2018-12-14T14:11:03.037Z",
+    "channelData": {
+      "clientActivityId": "1544796626511.8643370054774815.8"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "id": "17029ad0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:03+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:57284"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "17029ad0-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "17591f40-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:03+00:00",
+    "timestamp": "2018-12-14T14:11:03.604Z",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:11:03.807Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "17029ad0-ffaa-11e8-a98b-73f4b63fdc72",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "yep",
+        "alteredText": null,
+        "intents": {
+          "Reservation": {
+            "score": 0.9530478
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "c670f538-423c-42cb-8c2b-5b5680c47b6c"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "yep",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Reservation",
+          "score": 0.9530478
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "177818f0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:03+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:11:04.192Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "17029ad0-ffaa-11e8-a98b-73f4b63fdc72",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "yep",
+        "alteredText": null,
+        "intents": {
+          "Cancel": {
+            "score": 0.0693425462
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "fd1a33f9-a804-4406-a53f-3707f3fa600a"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "yep",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Cancel",
+          "score": 0.0693425462
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "17b2ff10-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:04+00:00",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:11:04.572Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "Sure, let me look into it.",
+    "speak": "Sure, let me look into it.",
+    "inputHint": "ignoringInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "17029ad0-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "17ecd3c0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:04+00:00"
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:11:05.449Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "attachmentLayout": "carousel",
+    "locale": "",
+    "text": "I have found 2 nice options.",
+    "speak": "I have found 2 nice options. Chen's, Bamboo Garden or Mandarin, .",
+    "inputHint": "expectingInput",
+    "suggestedActions": {
+      "actions": [
+        {
+          "type": "imBack",
+          "title": "Cancel",
+          "text": "cancel",
+          "displayText": "cancel",
+          "value": "cancel"
+        }
+      ]
+    },
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "TitleImageTextButton",
+          "speak": "I have found 2 nice options. Chen's, Bamboo Garden or Mandarin, .",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "size": "medium",
+                  "text": "",
+                  "wrap": true,
+                  "maxLines": 2
+                },
+                {
+                  "type": "Container",
+                  "items": [
+                    {
+                      "type": "Image",
+                      "size": "stretch",
+                      "url": "http://localhost:3980/assets/en/images/restaurants/chens.jpg",
+                      "horizontalAlignment": "stretch"
+                    }
+                  ]
+                },
+                {
+                  "type": "Container",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "text": "",
+                      "wrap": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "size": "medium",
+                  "text": "Chen's",
+                  "horizontalAlignment": "center"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "London",
+                  "horizontalAlignment": "center"
+                }
+              ],
+              "selectAction": {
+                "type": "Action.Submit",
+                "data": {
+                  "selectedItem": "Chen's"
+                },
+                "title": "Submit action"
+              },
+              "style": "emphasis"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "TitleImageTextButton",
+          "speak": "I have found 2 nice options. Chen's, Bamboo Garden or Mandarin, .",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "size": "medium",
+                  "text": "",
+                  "wrap": true,
+                  "maxLines": 2
+                },
+                {
+                  "type": "Container",
+                  "items": [
+                    {
+                      "type": "Image",
+                      "size": "stretch",
+                      "url": "http://localhost:3980/assets/en/images/restaurants/bamboo-garden.jpg",
+                      "horizontalAlignment": "stretch"
+                    }
+                  ]
+                },
+                {
+                  "type": "Container",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "text": "",
+                      "wrap": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "size": "medium",
+                  "text": "Bamboo Garden",
+                  "horizontalAlignment": "center"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "London",
+                  "horizontalAlignment": "center"
+                }
+              ],
+              "selectAction": {
+                "type": "Action.Submit",
+                "data": {
+                  "selectedItem": "Bamboo Garden"
+                },
+                "title": "Submit action"
+              },
+              "style": "emphasis"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "TitleImageTextButton",
+          "speak": "I have found 2 nice options. Chen's, Bamboo Garden or Mandarin, .",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "size": "medium",
+                  "text": "",
+                  "wrap": true,
+                  "maxLines": 2
+                },
+                {
+                  "type": "Container",
+                  "items": [
+                    {
+                      "type": "Image",
+                      "size": "stretch",
+                      "url": "http://localhost:3980/assets/en/images/restaurants/mandarin.jpg",
+                      "horizontalAlignment": "stretch"
+                    }
+                  ]
+                },
+                {
+                  "type": "Container",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "text": "",
+                      "wrap": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "size": "medium",
+                  "text": "Mandarin",
+                  "horizontalAlignment": "center"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "London",
+                  "horizontalAlignment": "center"
+                }
+              ],
+              "selectAction": {
+                "type": "Action.Submit",
+                "data": {
+                  "selectedItem": "Mandarin"
+                },
+                "title": "Submit action"
+              },
+              "style": "emphasis"
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "17029ad0-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "1872a590-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:05+00:00"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "17029ad0-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "18943750-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:05+00:00",
+    "timestamp": "2018-12-14T14:11:05.669Z",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "value": {
+      "selectedItem": "Bamboo Garden"
+    },
+    "from": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "name": "User"
+    },
+    "locale": "",
+    "channelData": {
+      "postback": true
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "id": "1a384a60-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:08+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "timestamp": "2018-12-14T14:11:08.422Z",
+    "serviceUrl": "http://localhost:57284"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "1a384a60-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "1aa82330-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:09+00:00",
+    "timestamp": "2018-12-14T14:11:09.155Z",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:11:09.457Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "Great, I'm working on a reservation at Bamboo Garden. I will reach out to them for a confirmation.  \r\n  This might take a while, I will get back to you in a bit. ",
+    "speak": "Great, I'm working on a reservation at Bamboo Garden. I will reach out to them for a confirmation.  \r\n  This might take a while, I will get back to you in a bit. ",
+    "inputHint": "acceptingInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "1a384a60-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "1ad63810-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:09+00:00"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "1a384a60-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "1c18ca30-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:11+00:00",
+    "timestamp": "2018-12-14T14:11:11.571Z",
+    "locale": ""
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "1a384a60-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "1d52a9c0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:13+00:00",
+    "timestamp": "2018-12-14T14:11:13.628Z",
+    "locale": ""
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "1a384a60-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "1e8adba0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:15+00:00",
+    "timestamp": "2018-12-14T14:11:15.674Z",
+    "locale": ""
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "1a384a60-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "1fc3f7e0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:17+00:00",
+    "timestamp": "2018-12-14T14:11:17.726Z",
+    "locale": ""
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "1a384a60-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "20fec1d0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:19+00:00",
+    "timestamp": "2018-12-14T14:11:19.789Z",
+    "locale": ""
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "1a384a60-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "223a2800-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:21+00:00",
+    "timestamp": "2018-12-14T14:11:21.856Z",
+    "locale": ""
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "1a384a60-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "23734440-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:23+00:00",
+    "timestamp": "2018-12-14T14:11:23.908Z",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:11:25.833Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "",
+    "speak": "Pardon the interruption, I just got word that {Restaurant} has confirmed your reservation for 2 people for tomorrow at 20:00. I also added the reservation to your calendar",
+    "inputHint": "acceptingInput",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "ImageHeaderTableFooter",
+          "speak": "Pardon the interruption, I just got word that {Restaurant} has confirmed your reservation for 2 people for tomorrow at 20:00. I also added the reservation to your calendar",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "Image",
+                  "size": "stretch",
+                  "url": "http://localhost:3980/assets/en/images/restaurants/bamboo-garden.jpg",
+                  "horizontalAlignment": "center"
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "size": "medium",
+                  "text": "Reservation request confirmed:",
+                  "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Restaurant:",
+                      "value": "Bamboo Garden"
+                    },
+                    {
+                      "title": "Location:",
+                      "value": "London"
+                    },
+                    {
+                      "title": "Date:",
+                      "value": "15/12/2018"
+                    },
+                    {
+                      "title": "Time:",
+                      "value": "20:00"
+                    },
+                    {
+                      "title": "For:",
+                      "value": "2 people."
+                    }
+                  ]
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "I also sent you an email to  and added the meeting to your calendar.",
+                  "wrap": true
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "1a384a60-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "2498ff90-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:25+00:00"
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:11:25.982Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "I'm here if you need me.",
+    "speak": "I'm here if you need me.",
+    "inputHint": "expectingInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "1a384a60-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "24afbbe0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:25+00:00"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "1a384a60-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "24bbf0e0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:26+00:00",
+    "timestamp": "2018-12-14T14:11:26.062Z",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "text": "I'd like pizza tonight at 8pm",
+    "from": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "name": "User"
+    },
+    "locale": "",
+    "textFormat": "plain",
+    "timestamp": "2018-12-14T14:11:35.274Z",
+    "channelData": {
+      "clientActivityId": "1544796626511.8643370054774815.10"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "id": "2a3994a0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:35+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:57284"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "2a3994a0-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "2a8f07a0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:35+00:00",
+    "timestamp": "2018-12-14T14:11:35.834Z",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:11:36.123Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "2a3994a0-ffaa-11e8-a98b-73f4b63fdc72",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "I'd like pizza tonight at 8pm",
+        "alteredText": null,
+        "intents": {
+          "Reservation": {
+            "score": 0.9931315
+          }
+        },
+        "entities": {
+          "$instance": {
+            "datetime": [
+              {
+                "startIndex": 15,
+                "endIndex": 29,
+                "text": "tonight at 8pm",
+                "type": "builtin.datetimeV2.datetime"
+              }
+            ],
+            "cuisine": [
+              {
+                "startIndex": 9,
+                "endIndex": 14,
+                "text": "pizza",
+                "type": "cuisine"
+              }
+            ]
+          },
+          "datetime": [
+            {
+              "type": "datetime",
+              "timex": [
+                "2018-12-14T20"
+              ]
+            }
+          ],
+          "cuisine": [
+            [
+              "italian"
+            ]
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "c670f538-423c-42cb-8c2b-5b5680c47b6c"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "I'd like pizza tonight at 8pm",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Reservation",
+          "score": 0.9931315
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "tonight at 8pm",
+            "type": "builtin.datetimeV2.datetime",
+            "startIndex": 15,
+            "endIndex": 28,
+            "resolution": {
+              "values": [
+                {
+                  "timex": "2018-12-14T20",
+                  "type": "datetime",
+                  "value": "2018-12-14 20:00:00"
+                }
+              ]
+            }
+          },
+          {
+            "entity": "pizza",
+            "type": "cuisine",
+            "startIndex": 9,
+            "endIndex": 13,
+            "resolution": {
+              "values": [
+                "italian"
+              ]
+            }
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "2abb20b0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:36+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:11:36.584Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "2a3994a0-ffaa-11e8-a98b-73f4b63fdc72",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "I'd like pizza tonight at 8pm",
+        "alteredText": null,
+        "intents": {
+          "Help": {
+            "score": 0.152802318
+          }
+        },
+        "entities": {
+          "$instance": {
+            "datetime": [
+              {
+                "startIndex": 15,
+                "endIndex": 29,
+                "text": "tonight at 8pm",
+                "type": "builtin.datetimeV2.datetime"
+              }
+            ]
+          },
+          "datetime": [
+            {
+              "type": "datetime",
+              "timex": [
+                "2018-12-14T20"
+              ]
+            }
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "fd1a33f9-a804-4406-a53f-3707f3fa600a"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "I'd like pizza tonight at 8pm",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Help",
+          "score": 0.152802318
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "tonight at 8pm",
+            "type": "builtin.datetimeV2.datetime",
+            "startIndex": 15,
+            "endIndex": 28,
+            "resolution": {
+              "values": [
+                {
+                  "timex": "2018-12-14T20",
+                  "type": "datetime",
+                  "value": "2018-12-14 20:00:00"
+                }
+              ]
+            }
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "2b017880-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:36+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:11:37.124Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "2a3994a0-ffaa-11e8-a98b-73f4b63fdc72",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "I'd like pizza tonight at 8pm",
+        "alteredText": null,
+        "intents": {
+          "Reservation": {
+            "score": 0.9931315
+          }
+        },
+        "entities": {
+          "$instance": {
+            "datetime": [
+              {
+                "startIndex": 15,
+                "endIndex": 29,
+                "text": "tonight at 8pm",
+                "type": "builtin.datetimeV2.datetime"
+              }
+            ],
+            "cuisine": [
+              {
+                "startIndex": 9,
+                "endIndex": 14,
+                "text": "pizza",
+                "type": "cuisine"
+              }
+            ]
+          },
+          "datetime": [
+            {
+              "type": "datetime",
+              "timex": [
+                "2018-12-14T20"
+              ]
+            }
+          ],
+          "cuisine": [
+            [
+              "italian"
+            ]
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "c670f538-423c-42cb-8c2b-5b5680c47b6c"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "I'd like pizza tonight at 8pm",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Reservation",
+          "score": 0.9931315
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "tonight at 8pm",
+            "type": "builtin.datetimeV2.datetime",
+            "startIndex": 15,
+            "endIndex": 28,
+            "resolution": {
+              "values": [
+                {
+                  "timex": "2018-12-14T20",
+                  "type": "datetime",
+                  "value": "2018-12-14 20:00:00"
+                }
+              ]
+            }
+          },
+          {
+            "entity": "pizza",
+            "type": "cuisine",
+            "startIndex": 9,
+            "endIndex": 13,
+            "resolution": {
+              "values": [
+                "italian"
+              ]
+            }
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "2b53de40-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:37+00:00",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:11:37.738Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "Sure thing Jane, I can help you with making reservation.",
+    "speak": "Sure thing Jane, I can help you with making a reservation.",
+    "inputHint": "ignoringInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "2a3994a0-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "2bb18ea0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:37+00:00"
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:11:38.037Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "How many people?",
+    "speak": "How many people?",
+    "inputHint": "expectingInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "2a3994a0-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "2bdf2e50-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:38+00:00"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "2a3994a0-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "2be8f250-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:38+00:00",
+    "timestamp": "2018-12-14T14:11:38.101Z",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "text": "2",
+    "from": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "name": "User"
+    },
+    "locale": "",
+    "textFormat": "plain",
+    "timestamp": "2018-12-14T14:11:42.084Z",
+    "channelData": {
+      "clientActivityId": "1544796626511.8643370054774815.12"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "id": "2e48db50-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:42+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:57284"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "2e48db50-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "2eae05c0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:42+00:00",
+    "timestamp": "2018-12-14T14:11:42.748Z",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:11:42.978Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "2e48db50-ffaa-11e8-a98b-73f4b63fdc72",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "2",
+        "alteredText": null,
+        "intents": {
+          "Reservation": {
+            "score": 0.956945956
+          }
+        },
+        "entities": {
+          "$instance": {
+            "number": [
+              {
+                "startIndex": 0,
+                "endIndex": 1,
+                "text": "2",
+                "type": "builtin.number",
+                "subtype": "integer"
+              }
+            ]
+          },
+          "number": [
+            2
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "c670f538-423c-42cb-8c2b-5b5680c47b6c"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "2",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Reservation",
+          "score": 0.956945956
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "2",
+            "type": "builtin.number",
+            "startIndex": 0,
+            "endIndex": 0,
+            "resolution": {
+              "subtype": "integer",
+              "value": "2"
+            }
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "2ed11e20-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:42+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:11:43.480Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "2e48db50-ffaa-11e8-a98b-73f4b63fdc72",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "2",
+        "alteredText": null,
+        "intents": {
+          "Cancel": {
+            "score": 0.0693425462
+          }
+        },
+        "entities": {
+          "$instance": {
+            "number": [
+              {
+                "startIndex": 0,
+                "endIndex": 1,
+                "text": "2",
+                "type": "builtin.number",
+                "subtype": "integer"
+              }
+            ]
+          },
+          "number": [
+            2
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "fd1a33f9-a804-4406-a53f-3707f3fa600a"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "2",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Cancel",
+          "score": 0.0693425462
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "2",
+            "type": "builtin.number",
+            "startIndex": 0,
+            "endIndex": 0,
+            "resolution": {
+              "subtype": "integer",
+              "value": "2"
+            }
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "2f1db780-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:43+00:00",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:11:43.589Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "locale": "",
+    "speak": "Ok. Let me make sure I have this right, you want me to make a reservation for {pluralizeAmount: 'AttendeeCount', pluralizeResource: 'People'} at a italian restaurant for today starting at 20:00. Is this correct?",
+    "inputHint": "expectingInput",
+    "suggestedActions": {
+      "actions": [
+        {
+          "type": "imBack",
+          "title": "Yes",
+          "value": "Yes"
+        },
+        {
+          "type": "imBack",
+          "title": "No",
+          "value": "No"
+        }
+      ]
+    },
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "HeaderTableFooter",
+          "speak": "Ok. Let me make sure I have this right, you want me to make a reservation for {pluralizeAmount: 'AttendeeCount', pluralizeResource: 'People'} at a italian restaurant for today starting at 20:00. Is this correct?",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "size": "medium",
+                  "text": "Reservation request summary:",
+                  "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Food type:",
+                      "value": "italian"
+                    },
+                    {
+                      "title": "Date:",
+                      "value": "14/12/2018"
+                    },
+                    {
+                      "title": "Time:",
+                      "value": "20:00"
+                    },
+                    {
+                      "title": "For:",
+                      "value": "2"
+                    },
+                    {
+                      "title": "",
+                      "value": ""
+                    }
+                  ]
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "Did I get it right?",
+                  "wrap": true
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "2e48db50-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "2f2e5950-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:43+00:00"
+  },
+  {
+    "type": "message",
+    "text": "yes",
+    "from": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "name": "User"
+    },
+    "locale": "",
+    "textFormat": "plain",
+    "timestamp": "2018-12-14T14:11:47.289Z",
+    "channelData": {
+      "clientActivityId": "1544796626511.8643370054774815.14"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "id": "3162ec90-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:47+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:57284"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "3162ec90-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "31c46d80-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:47+00:00",
+    "timestamp": "2018-12-14T14:11:47.928Z",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:11:48.147Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "3162ec90-ffaa-11e8-a98b-73f4b63fdc72",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "yes",
+        "alteredText": null,
+        "intents": {
+          "Reservation": {
+            "score": 0.9530478
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "c670f538-423c-42cb-8c2b-5b5680c47b6c"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "yes",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Reservation",
+          "score": 0.9530478
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "31e5d830-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:48+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T14:11:48.588Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "3162ec90-ffaa-11e8-a98b-73f4b63fdc72",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "yes",
+        "alteredText": null,
+        "intents": {
+          "Cancel": {
+            "score": 0.0693425462
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "fd1a33f9-a804-4406-a53f-3707f3fa600a"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "yes",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Cancel",
+          "score": 0.0693425462
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "322922c0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:48+00:00",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:11:48.706Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "Sure, let me look into it.",
+    "speak": "Sure, let me look into it.",
+    "inputHint": "ignoringInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "3162ec90-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "323b2420-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:48+00:00"
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:11:49.452Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "attachmentLayout": "carousel",
+    "locale": "",
+    "text": "I have found 2 nice options.",
+    "speak": "I have found 2 nice options. Tony's, Tuscani Grill or Mamma Mia Pizza, .",
+    "inputHint": "expectingInput",
+    "suggestedActions": {
+      "actions": [
+        {
+          "type": "imBack",
+          "title": "Cancel",
+          "text": "cancel",
+          "displayText": "cancel",
+          "value": "cancel"
+        }
+      ]
+    },
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "TitleImageTextButton",
+          "speak": "I have found 2 nice options. Tony's, Tuscani Grill or Mamma Mia Pizza, .",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "size": "medium",
+                  "text": "",
+                  "wrap": true,
+                  "maxLines": 2
+                },
+                {
+                  "type": "Container",
+                  "items": [
+                    {
+                      "type": "Image",
+                      "size": "stretch",
+                      "url": "http://localhost:3980/assets/en/images/restaurants/tonys.jpg",
+                      "horizontalAlignment": "stretch"
+                    }
+                  ]
+                },
+                {
+                  "type": "Container",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "text": "",
+                      "wrap": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "size": "medium",
+                  "text": "Tony's",
+                  "horizontalAlignment": "center"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "London",
+                  "horizontalAlignment": "center"
+                }
+              ],
+              "selectAction": {
+                "type": "Action.Submit",
+                "data": {
+                  "selectedItem": "Tony's"
+                },
+                "title": "Submit action"
+              },
+              "style": "emphasis"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "TitleImageTextButton",
+          "speak": "I have found 2 nice options. Tony's, Tuscani Grill or Mamma Mia Pizza, .",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "size": "medium",
+                  "text": "",
+                  "wrap": true,
+                  "maxLines": 2
+                },
+                {
+                  "type": "Container",
+                  "items": [
+                    {
+                      "type": "Image",
+                      "size": "stretch",
+                      "url": "http://localhost:3980/assets/en/images/restaurants/tuscani-grill.jpg",
+                      "horizontalAlignment": "stretch"
+                    }
+                  ]
+                },
+                {
+                  "type": "Container",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "text": "",
+                      "wrap": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "size": "medium",
+                  "text": "Tuscani Grill",
+                  "horizontalAlignment": "center"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "London",
+                  "horizontalAlignment": "center"
+                }
+              ],
+              "selectAction": {
+                "type": "Action.Submit",
+                "data": {
+                  "selectedItem": "Tuscani Grill"
+                },
+                "title": "Submit action"
+              },
+              "style": "emphasis"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "TitleImageTextButton",
+          "speak": "I have found 2 nice options. Tony's, Tuscani Grill or Mamma Mia Pizza, .",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "size": "medium",
+                  "text": "",
+                  "wrap": true,
+                  "maxLines": 2
+                },
+                {
+                  "type": "Container",
+                  "items": [
+                    {
+                      "type": "Image",
+                      "size": "stretch",
+                      "url": "http://localhost:3980/assets/en/images/restaurants/mamma-mia-pizza.jpg",
+                      "horizontalAlignment": "stretch"
+                    }
+                  ]
+                },
+                {
+                  "type": "Container",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "text": "",
+                      "wrap": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "size": "medium",
+                  "text": "Mamma Mia Pizza",
+                  "horizontalAlignment": "center"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "London",
+                  "horizontalAlignment": "center"
+                }
+              ],
+              "selectAction": {
+                "type": "Action.Submit",
+                "data": {
+                  "selectedItem": "Mamma Mia Pizza"
+                },
+                "title": "Submit action"
+              },
+              "style": "emphasis"
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "3162ec90-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "32ad1fd0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:49+00:00"
+  },
+  {
+    "type": "message",
+    "value": {
+      "selectedItem": "Tony's"
+    },
+    "from": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "name": "User"
+    },
+    "locale": "",
+    "channelData": {
+      "postback": true
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "id": "37db9220-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:58+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "timestamp": "2018-12-14T14:11:58.146Z",
+    "serviceUrl": "http://localhost:57284"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "37db9220-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "38673050-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:59+00:00",
+    "timestamp": "2018-12-14T14:11:59.061Z",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:11:59.206Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "Great, I'm working on a reservation at Tony's. I will reach out to them for a confirmation.  \r\n  This might take a while, I will get back to you in a bit. ",
+    "speak": "Great, I'm working on a reservation at Tony's. I will reach out to them for a confirmation.  \r\n  This might take a while, I will get back to you in a bit. ",
+    "inputHint": "acceptingInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "37db9220-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "387d5060-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:11:59+00:00"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "37db9220-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "39c00990-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:12:01+00:00",
+    "timestamp": "2018-12-14T14:12:01.321Z",
+    "locale": ""
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "37db9220-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "3afa5e50-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:12:03+00:00",
+    "timestamp": "2018-12-14T14:12:03.381Z",
+    "locale": ""
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "37db9220-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "3c372410-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:12:05+00:00",
+    "timestamp": "2018-12-14T14:12:05.457Z",
+    "locale": ""
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "37db9220-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "3d759780-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:12:07+00:00",
+    "timestamp": "2018-12-14T14:12:07.544Z",
+    "locale": ""
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "37db9220-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "3eafec40-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:12:09+00:00",
+    "timestamp": "2018-12-14T14:12:09.604Z",
+    "locale": ""
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "37db9220-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "3fed4e40-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:12:11+00:00",
+    "timestamp": "2018-12-14T14:12:11.684Z",
+    "locale": ""
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "37db9220-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "4129c5e0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:12:13+00:00",
+    "timestamp": "2018-12-14T14:12:13.758Z",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:12:15.538Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "",
+    "speak": "Pardon the interruption, I just got word that {Restaurant} has confirmed your reservation for 2 people for today at 20:00. I also added the reservation to your calendar",
+    "inputHint": "acceptingInput",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "ImageHeaderTableFooter",
+          "speak": "Pardon the interruption, I just got word that {Restaurant} has confirmed your reservation for 2 people for today at 20:00. I also added the reservation to your calendar",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "Image",
+                  "size": "stretch",
+                  "url": "http://localhost:3980/assets/en/images/restaurants/tonys.jpg",
+                  "horizontalAlignment": "center"
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "size": "medium",
+                  "text": "Reservation request confirmed:",
+                  "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Restaurant:",
+                      "value": "Tony's"
+                    },
+                    {
+                      "title": "Location:",
+                      "value": "London"
+                    },
+                    {
+                      "title": "Date:",
+                      "value": "14/12/2018"
+                    },
+                    {
+                      "title": "Time:",
+                      "value": "20:00"
+                    },
+                    {
+                      "title": "For:",
+                      "value": "2 people."
+                    }
+                  ]
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "I also sent you an email to  and added the meeting to your calendar.",
+                  "wrap": true
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "37db9220-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "42396120-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:12:15+00:00"
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T14:12:15.654Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "locale": "",
+    "text": "I'm here if you need me.",
+    "speak": "I'm here if you need me.",
+    "inputHint": "expectingInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "37db9220-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "424b1460-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:12:15+00:00"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "013cdfd0-ffaa-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "ad7983f3-ba06-4ba9-bd0b-3321c79878bb",
+      "role": "user"
+    },
+    "replyToId": "37db9220-ffaa-11e8-a98b-73f4b63fdc72",
+    "id": "426468c0-ffaa-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T14:12:15+00:00",
+    "timestamp": "2018-12-14T14:12:15.820Z",
+    "locale": ""
+  }
+]

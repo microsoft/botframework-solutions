@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.SendEmail.Resources;
 using EmailSkill.Dialogs.Shared.Resources;
+using EmailSkill.Dialogs.Shared.Resources.Strings;
 using EmailSkill.Util;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -20,25 +21,34 @@ namespace EmailSkill
             ISkillConfiguration services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
-            IServiceManager serviceManager)
-            : base(nameof(SendEmailDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager)
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(SendEmailDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient)
         {
+            TelemetryClient = telemetryClient;
+
             var sendEmail = new WaterfallStep[]
-           {
+            {
                 IfClearContextStep,
                 GetAuthToken,
                 AfterGetAuthToken,
-                CollectNameList,
-                CollectRecipients,
+                CollectRecipient,
                 CollectSubject,
                 CollectText,
                 ConfirmBeforeSending,
                 SendEmail,
-           };
+            };
+
+            var collectRecipients = new WaterfallStep[]
+            {
+                PromptRecipientCollection,
+                GetRecipients,
+            };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Actions.Send, sendEmail));
-            AddDialog(new ConfirmRecipientDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager));
+            AddDialog(new WaterfallDialog(Actions.Send, sendEmail) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.CollectRecipient, collectRecipients) { TelemetryClient = telemetryClient });
+            AddDialog(new ConfirmRecipientDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
             InitialDialogId = Actions.Send;
         }
 
@@ -122,9 +132,9 @@ namespace EmailSkill
 
                     var emailCard = new EmailCardData
                     {
-                        Subject = string.Format(CommonStrings.SubjectFormat, state.Subject),
-                        NameList = string.Format(CommonStrings.ToFormat, nameListString),
-                        EmailContent = string.Format(CommonStrings.ContentFormat, state.Content),
+                        Subject = string.Format(EmailCommonStrings.SubjectFormat, state.Subject),
+                        NameList = string.Format(EmailCommonStrings.ToFormat, nameListString),
+                        EmailContent = string.Format(EmailCommonStrings.ContentFormat, state.Content),
                     };
                     var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(EmailSharedResponses.SentSuccessfully, "Dialogs/Shared/Resources/Cards/EmailWithOutButtonCard.json", emailCard);
 

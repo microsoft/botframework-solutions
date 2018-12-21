@@ -12,8 +12,10 @@ namespace CalendarSkillTest.Flow.Utterances
 
         public General GetBaseNoneIntent()
         {
-            var intent = new General();
-            intent.Intents = new Dictionary<Luis.General.Intent, IntentScore>();
+            var intent = new General
+            {
+                Intents = new Dictionary<Luis.General.Intent, IntentScore>()
+            };
             intent.Intents.Add(General.Intent.None, new IntentScore() { Score = TopIntentScore });
             intent.Entities = new General._Entities();
             return intent;

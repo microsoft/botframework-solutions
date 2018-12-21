@@ -5,24 +5,24 @@ namespace EmailSkillTest.Flow.Fakes
 {
     public class MockServiceManager : IServiceManager
     {
-        public MockMailService MockMailService;
-
-        public MockUserService MockUserService;
-
         public MockServiceManager()
         {
-            MockMailService = new MockMailService();
-            MockUserService = new MockUserService();
+            MailService = new MockMailService();
+            UserService = new MockUserService();
         }
+
+        public MockMailService MailService { get; set; }
+
+        public MockUserService UserService { get; set; }
 
         public IMailService InitMailService(string token, TimeZoneInfo timeZoneInfo, MailSource mailSource)
         {
-            return MockMailService;
+            return MailService;
         }
 
         public IUserService InitUserService(string token, TimeZoneInfo timeZoneInfo, MailSource mailSource)
         {
-            return MockUserService;
+            return UserService;
         }
     }
 }

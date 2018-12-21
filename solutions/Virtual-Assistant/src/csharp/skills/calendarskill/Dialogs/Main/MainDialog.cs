@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
+using CalendarSkill.ServiceClients;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -33,14 +34,16 @@ namespace CalendarSkill
             ISkillConfiguration services,
             ConversationState conversationState,
             UserState userState,
+            IBotTelemetryClient telemetryClient,
             IServiceManager serviceManager,
             bool skillMode)
-            : base(nameof(MainDialog))
+            : base(nameof(MainDialog), telemetryClient)
         {
             _skillMode = skillMode;
             _services = services;
             _userState = userState;
             _conversationState = conversationState;
+            TelemetryClient = telemetryClient;
             _serviceManager = serviceManager;
 
             // Initialize state accessor
@@ -101,12 +104,6 @@ namespace CalendarSkill
                             break;
                         }
 
-                    case Luis.Calendar.Intent.NextMeeting:
-                        {
-                            await dc.BeginDialogAsync(nameof(NextMeetingDialog), skillOptions);
-                            break;
-                        }
-
                     case Luis.Calendar.Intent.ChangeCalendarEntry:
                         {
                             await dc.BeginDialogAsync(nameof(UpdateEventDialog), skillOptions);
@@ -120,7 +117,6 @@ namespace CalendarSkill
                         }
 
                     case Luis.Calendar.Intent.FindCalendarEntry:
-                    case Luis.Calendar.Intent.Summary:
                         {
                             await dc.BeginDialogAsync(nameof(SummaryDialog), skillOptions);
                             break;
@@ -320,13 +316,12 @@ namespace CalendarSkill
 
         private void RegisterDialogs()
         {
-            AddDialog(new CreateEventDialog(_services, _stateAccessor, _serviceManager));
-            AddDialog(new DeleteEventDialog(_services, _stateAccessor, _serviceManager));
-            AddDialog(new NextMeetingDialog(_services, _stateAccessor, _serviceManager));
-            AddDialog(new TimeRemainingDialog(_services, _stateAccessor, _serviceManager));
-            AddDialog(new SummaryDialog(_services, _stateAccessor, _serviceManager));
-            AddDialog(new UpdateEventDialog(_services, _stateAccessor, _serviceManager));
-            AddDialog(new ConnectToMeetingDialog(_services, _stateAccessor, _serviceManager));
+            AddDialog(new CreateEventDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new DeleteEventDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new TimeRemainingDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new SummaryDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new UpdateEventDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new ConnectToMeetingDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
         }
 
         private class Events

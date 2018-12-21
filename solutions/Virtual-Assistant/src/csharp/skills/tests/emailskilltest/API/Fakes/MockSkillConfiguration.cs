@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Microsoft.ApplicationInsights;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Solutions.Skills;
 
@@ -12,9 +11,10 @@ namespace EmailSkillTest.API.Fakes
         {
             this.TelemetryClient = null;
             this.CosmosDbOptions = null;
-            this.AuthenticationConnections = new Dictionary<string, string>();
-
-            this.AuthenticationConnections.Add("Google", "Google");
+            this.AuthenticationConnections = new Dictionary<string, string>
+            {
+                { "Google", "Google" }
+            };
         }
 
         public override Dictionary<string, string> AuthenticationConnections { get; set; }

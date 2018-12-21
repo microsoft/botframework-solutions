@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
@@ -31,10 +30,23 @@ namespace EmailSkillTest.Flow.Utterances
 
         public static string NumberTwo { get; } = "2";
 
+        public void AddManager(BaseTestUtterances utterances)
+        {
+            foreach (var item in utterances)
+            {
+                if (!this.ContainsKey(item.Key))
+                {
+                    this.Add(item.Key, item.Value);
+                }
+            }
+        }
+
         public Email GetBaseNoneIntent()
         {
-            var emailIntent = new Email();
-            emailIntent.Intents = new Dictionary<Intent, IntentScore>();
+            var emailIntent = new Email
+            {
+                Intents = new Dictionary<Intent, IntentScore>()
+            };
             emailIntent.Intents.Add(Intent.None, new IntentScore() { Score = TopIntentScore });
 
             return emailIntent;
@@ -49,25 +61,27 @@ namespace EmailSkillTest.Flow.Utterances
             string[] senderName = null,
             string[] emailAdress = null,
             string[] subject = null,
-            string[] message = null
-            )
+            string[] message = null)
         {
-            var emailIntent = new Email();
+            var emailIntent = new Email
+            {
+                Text = userInput,
 
-            emailIntent.Text = userInput;
-
-            emailIntent.Intents = new Dictionary<Intent, IntentScore>();
+                Intents = new Dictionary<Intent, IntentScore>()
+            };
             emailIntent.Intents.Add(intent, new IntentScore() { Score = TopIntentScore });
 
-            emailIntent.Entities = new _Entities();
-            emailIntent.Entities._instance = new _Entities._Instance();
+            emailIntent.Entities = new _Entities
+            {
+                _instance = new _Entities._Instance(),
 
-            emailIntent.Entities.ordinal = ordinal;
-            emailIntent.Entities.number = number;
-            emailIntent.Entities.ContactName = contactName;
-            emailIntent.Entities.SenderName = senderName;
-            emailIntent.Entities.EmailSubject = subject;
-            emailIntent.Entities.Message = message;
+                ordinal = ordinal,
+                number = number,
+                ContactName = contactName,
+                SenderName = senderName,
+                EmailSubject = subject,
+                Message = message
+            };
 
             if (!string.IsNullOrEmpty(userInput))
             {

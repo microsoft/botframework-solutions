@@ -57,7 +57,7 @@ namespace $safeprojectname$.Dialogs.Main
 
          public static IMessageActivity BuildIntroCard(ITurnContext turnContext, dynamic data)
         {
-            var introCard = MainStrings.ResourceManager.GetObject("Intro").ToString();
+            var introCard = File.ReadAllText(MainStrings.INTRO_PATH);
             var card = AdaptiveCard.FromJson(introCard).Card;
             var attachment = new Attachment(AdaptiveCard.ContentType, content: card);
 

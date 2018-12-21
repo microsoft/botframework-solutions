@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Graph;
+using CalendarSkill.Models;
 
 namespace CalendarSkill.ServiceClients
 {
@@ -12,20 +11,25 @@ namespace CalendarSkill.ServiceClients
 
         public UserService(IUserService userService)
         {
+            if (userService == null)
+            {
+                throw new Exception("userService is null");
+            }
+
             this.userService = userService;
         }
 
-        public async Task<List<Person>> GetPeopleAsync(string name)
+        public async Task<List<PersonModel>> GetPeopleAsync(string name)
         {
             return await userService.GetPeopleAsync(name);
         }
 
-        public async Task<List<User>> GetUserAsync(string name)
+        public async Task<List<PersonModel>> GetUserAsync(string name)
         {
             return await userService.GetUserAsync(name);
         }
 
-        public async Task<List<Contact>> GetContactsAsync(string name)
+        public async Task<List<PersonModel>> GetContactsAsync(string name)
         {
             return await userService.GetContactsAsync(name);
         }

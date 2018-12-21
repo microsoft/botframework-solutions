@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using EmailSkill.Dialogs.DeleteEmail.Resources;
 using EmailSkill.Dialogs.Shared.Resources;
 using EmailSkillTest.Flow.Fakes;
-using EmailSkillTest.Flow.Strings;
 using EmailSkillTest.Flow.Utterances;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -36,6 +35,7 @@ namespace EmailSkillTest.Flow
                 .AssertReplyOneOf(this.DeleteConfirm())
                 .Send(GeneralTestUtterances.No)
                 .AssertReplyOneOf(this.NotSendingMessage())
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 

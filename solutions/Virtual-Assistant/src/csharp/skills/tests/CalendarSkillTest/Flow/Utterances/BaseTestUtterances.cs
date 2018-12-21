@@ -36,18 +36,23 @@ namespace CalendarSkillTest.Flow.Utterances
             string[] meetingRoom = null,
             string[] location = null,
             string[] moveEarlierTimeSpan = null,
-            string[] moveLaterTimeSpan = null)
+            string[] moveLaterTimeSpan = null,
+            string[] orderReference = null)
         {
-            var intent = new Calendar();
-            intent.Text = userInput;
-            intent.Intents = new Dictionary<Calendar.Intent, IntentScore>();
+            var intent = new Calendar
+            {
+                Text = userInput,
+                Intents = new Dictionary<Calendar.Intent, IntentScore>()
+            };
             intent.Intents.Add(intents, new IntentScore() { Score = TopIntentScore });
-            intent.Entities = new Calendar._Entities();
-            intent.Entities._instance = new Calendar._Entities._Instance();
-            intent.Entities.ordinal = ordinal;
-            intent.Entities.number = number;
-            intent.Entities.Subject = subject;
-            intent.Entities.ContactName = contactName;
+            intent.Entities = new Calendar._Entities
+            {
+                _instance = new Calendar._Entities._Instance(),
+                ordinal = ordinal,
+                number = number,
+                Subject = subject,
+                ContactName = contactName
+            };
             intent.Entities._instance.ContactName = GetInstanceDatas(userInput, contactName);
             intent.Entities.FromDate = fromDate;
             intent.Entities._instance.FromDate = GetInstanceDatas(userInput, fromDate);
@@ -62,6 +67,8 @@ namespace CalendarSkillTest.Flow.Utterances
             intent.Entities.Location = location;
             intent.Entities.MoveEarlierTimeSpan = moveEarlierTimeSpan;
             intent.Entities.MoveLaterTimeSpan = moveLaterTimeSpan;
+            intent.Entities.OrderReference = orderReference;
+            intent.Entities._instance.OrderReference = GetInstanceDatas(userInput, orderReference);
 
             return intent;
         }
@@ -83,9 +90,12 @@ namespace CalendarSkillTest.Flow.Utterances
                     throw new Exception("No such string in user input");
                 }
 
-                var instanceData = new InstanceData();
-                instanceData.StartIndex = index;
-                instanceData.EndIndex = index + name.Length;
+                var instanceData = new InstanceData
+                {
+                    StartIndex = index,
+                    EndIndex = index + name.Length,
+                    Text = name
+                };
 
                 result[i] = instanceData;
             }

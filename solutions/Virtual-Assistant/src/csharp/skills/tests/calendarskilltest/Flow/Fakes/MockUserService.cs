@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using CalendarSkill;
+using CalendarSkill.Extensions;
+using CalendarSkill.Models;
+using CalendarSkill.ServiceClients;
+using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Graph;
 
 namespace CalendarSkillTest.Flow.Fakes
@@ -19,20 +21,65 @@ namespace CalendarSkillTest.Flow.Fakes
 
         public List<User> Users { get; set; }
 
-        public async Task<List<Contact>> GetContactsAsync(string name)
+        public static List<User> FakeDefaultUsers()
         {
-            List<Contact> items = new List<Contact>();
-            return await Task.FromResult(items);
+            var users = new List<User>();
+
+            var emailAddressStr = Strings.Strings.DefaultUserEmail;
+            users.Add(new User()
+            {
+                UserPrincipalName = Strings.Strings.DefaultUserEmail,
+                Mail = emailAddressStr,
+                DisplayName = Strings.Strings.DefaultUserName,
+            });
+
+            return users;
         }
 
-        public async Task<List<Person>> GetPeopleAsync(string name)
+        public static List<User> FakeMultipleUsers(int count)
         {
-            return await Task.FromResult(this.People);
+            var users = new List<User>();
+
+            for (int i = 0; i < count; i++)
+            {
+                var emailAddressStr = string.Format(Strings.Strings.UserEmailAddress, i);
+                var userNameStr = string.Format(Strings.Strings.UserName, i);
+                users.Add(new User()
+                {
+                    UserPrincipalName = userNameStr,
+                    Mail = emailAddressStr,
+                    DisplayName = userNameStr,
+                });
+            }
+
+            return users;
         }
 
-        public async Task<List<User>> GetUserAsync(string name)
+        public static List<Person> FakeMultiplePeoples(int count)
         {
-            return await Task.FromResult(this.Users);
+            var people = new List<Person>();
+
+            for (int i = 0; i < count; i++)
+            {
+                var emailAddressStr = string.Format(Strings.Strings.UserEmailAddress, i);
+                var userNameStr = string.Format(Strings.Strings.UserName, i);
+                var addressList = new List<ScoredEmailAddress>();
+                var emailAddress = new ScoredEmailAddress()
+                {
+                    Address = emailAddressStr,
+                    RelevanceScore = 1,
+                };
+                addressList.Add(emailAddress);
+
+                people.Add(new Person()
+                {
+                    UserPrincipalName = emailAddressStr,
+                    ScoredEmailAddresses = addressList,
+                    DisplayName = userNameStr,
+                });
+            }
+
+            return people;
         }
 
         public static List<Person> FakeDefaultPeople()
@@ -42,34 +89,52 @@ namespace CalendarSkillTest.Flow.Fakes
             var addressList = new List<ScoredEmailAddress>();
             var emailAddress = new ScoredEmailAddress()
             {
-                Address = "test@test.com",
+                Address = Strings.Strings.DefaultUserEmail,
                 RelevanceScore = 1,
             };
             addressList.Add(emailAddress);
 
             people.Add(new Person()
             {
-                UserPrincipalName = "test@test.com",
+                UserPrincipalName = Strings.Strings.DefaultUserEmail,
                 ScoredEmailAddresses = addressList,
-                DisplayName = "Test Test",
+                DisplayName = Strings.Strings.DefaultUserName,
             });
 
             return people;
         }
 
-        public static List<User> FakeDefaultUsers()
+        public async Task<List<PersonModel>> GetContactsAsync(string name)
         {
-            var users = new List<User>();
+            List<PersonModel> items = new List<PersonModel>();
+            return await Task.FromResult(items);
+        }
 
-            var emailAddressStr = "test@test.com";
-            users.Add(new User()
+        public async Task<List<PersonModel>> GetPeopleAsync(string name)
+        {
+            if (name == Strings.Strings.ThrowErrorAccessDenied)
             {
-                UserPrincipalName = "test@test.com",
-                Mail = emailAddressStr,
-                DisplayName = "Test Test",
-            });
+                throw new SkillException(SkillExceptionType.APIAccessDenied, Strings.Strings.ThrowErrorAccessDenied, new Exception());
+            }
 
-            return users;
+            List<PersonModel> items = new List<PersonModel>();
+            foreach (Person people in this.People)
+            {
+                items.Add(new PersonModel(people));
+            }
+
+            return await Task.FromResult(items);
+        }
+
+        public async Task<List<PersonModel>> GetUserAsync(string name)
+        {
+            List<PersonModel> items = new List<PersonModel>();
+            foreach (User user in this.Users)
+            {
+                items.Add(new PersonModel(user.ToPerson()));
+            }
+
+            return await Task.FromResult(items);
         }
     }
 }

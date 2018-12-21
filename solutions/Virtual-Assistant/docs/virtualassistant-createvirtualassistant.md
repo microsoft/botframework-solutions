@@ -83,19 +83,19 @@ To deploy your Virtual Assistant including all dependencies - e.g. CosmosDb, App
 Run this PowerShell script to deploy your shared resources and LUIS and QnA Maker resources in English:
 
 ```
-  ...DeploymentScripts\deploy_bot.ps1
+  PowerShell.exe -ExecutionPolicy Bypass -File DeploymentScripts\deploy_bot.ps1
 ```
 
 If you would like to support different languages for your scenario add the `-locales` parameter. The following languages are supported: English (en-us), Chinese (zh-cn), German (de-de), French (fr-fr), Italian (it-it), and Spanish (es-es).
 
 ```
-  ...DeploymentScripts\deploy_bot.ps1 -locales "en-us,zh-cn"
+   PowerShell.exe -ExecutionPolicy Bypass -File DeploymentScripts\deploy_bot.ps1 -locales "en-us,zh-cn"
 ```
 
 If you would like to add support for additional languages **after your initial deployment**, you can specify the `-languagesOnly` parameter to deploy only the services for the new language(s).
 
 ```
-  ...DeploymentScripts\deploy_bot.ps1 -locales "fr-fr,it-it" -languagesOnly
+   PowerShell.exe -ExecutionPolicy Bypass -File DeploymentScripts\deploy_bot.ps1 -locales "fr-fr,it-it" -languagesOnly
 ```
 
 You will be prompted to provide the following parameters:

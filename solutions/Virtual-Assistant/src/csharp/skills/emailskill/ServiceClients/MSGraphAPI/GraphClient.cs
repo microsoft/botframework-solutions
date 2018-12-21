@@ -36,7 +36,8 @@ namespace EmailSkill
         public static SkillException HandleGraphAPIException(ServiceException ex)
         {
             var skillExceptionType = SkillExceptionType.Other;
-            if (ex.Message.Contains(APIErrorAccessDenied, StringComparison.InvariantCultureIgnoreCase))
+
+            if (ex.Error.Code.Equals(APIErrorAccessDenied, StringComparison.InvariantCultureIgnoreCase))
             {
                 skillExceptionType = SkillExceptionType.APIAccessDenied;
             }

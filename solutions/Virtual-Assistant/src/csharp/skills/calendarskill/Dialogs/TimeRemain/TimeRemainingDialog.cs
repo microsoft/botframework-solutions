@@ -6,11 +6,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using CalendarSkill.Dialogs.TimeRemain.Resources;
+using CalendarSkill.Models;
+using CalendarSkill.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 
 namespace CalendarSkill
 {
@@ -19,9 +22,12 @@ namespace CalendarSkill
         public TimeRemainingDialog(
             ISkillConfiguration services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
-            IServiceManager serviceManager)
-            : base(nameof(TimeRemainingDialog), services, accessor, serviceManager)
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(TimeRemainingDialog), services, accessor, serviceManager, telemetryClient)
         {
+            TelemetryClient = telemetryClient;
+
             var timeRemain = new WaterfallStep[]
             {
                 GetAuthToken,
@@ -30,7 +36,7 @@ namespace CalendarSkill
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Actions.ShowTimeRemaining, timeRemain));
+            AddDialog(new WaterfallDialog(Actions.ShowTimeRemaining, timeRemain) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Actions.ShowTimeRemaining;
@@ -91,7 +97,7 @@ namespace CalendarSkill
                     {
                         { "RemainingTime", string.Empty },
                         { "Title", string.Empty },
-                        { "Time", string.Empty},
+                        { "Time", string.Empty },
                         { "TimeSpeak", string.Empty }
                     };
 
@@ -180,10 +186,15 @@ namespace CalendarSkill
                 state.Clear();
                 return await sc.EndDialogAsync(true);
             }
-            catch
+            catch (SkillException ex)
             {
-                await HandleDialogExceptions(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
     }

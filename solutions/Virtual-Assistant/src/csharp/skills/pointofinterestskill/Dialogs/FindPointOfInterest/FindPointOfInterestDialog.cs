@@ -13,18 +13,21 @@ namespace PointOfInterestSkill
         public FindPointOfInterestDialog(
             SkillConfiguration services,
             IStatePropertyAccessor<PointOfInterestSkillState> accessor,
-            IServiceManager serviceManager)
-            : base(nameof(FindPointOfInterestDialog), services, accessor, serviceManager)
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(FindPointOfInterestDialog), services, accessor, serviceManager, telemetryClient)
         {
+            TelemetryClient = telemetryClient;
+
             var findPointOfInterest = new WaterfallStep[]
-          {
+            {
                 GetPointOfInterestLocations,
                 ResponseToGetRoutePrompt,
-          };
+            };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Action.FindPointOfInterest, findPointOfInterest));
-            AddDialog(new RouteDialog(services, Accessor, ServiceManager));
+            AddDialog(new WaterfallDialog(Action.FindPointOfInterest, findPointOfInterest) { TelemetryClient = telemetryClient });
+            AddDialog(new RouteDialog(services, Accessor, ServiceManager, TelemetryClient));
 
             // Set starting dialog for component
             InitialDialogId = Action.FindPointOfInterest;

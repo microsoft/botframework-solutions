@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.ConfirmRecipient.Resources;
 using EmailSkill.Dialogs.Shared.Resources;
+using EmailSkill.Dialogs.Shared.Resources.Strings;
 using EmailSkill.Extensions;
 using EmailSkill.Util;
 using Luis;
@@ -37,13 +38,15 @@ namespace EmailSkill
             ISkillConfiguration services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
-            IServiceManager serviceManager)
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient)
             : base(dialogId)
         {
             Services = services;
             EmailStateAccessor = emailStateAccessor;
             DialogStateAccessor = dialogStateAccessor;
             ServiceManager = serviceManager;
+            TelemetryClient = telemetryClient;
 
             if (!Services.AuthenticationConnections.Any())
             {
@@ -285,6 +288,12 @@ namespace EmailSkill
         {
             try
             {
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                if (state.MessageList.Count == 0)
+                {
+                    return await sc.EndDialogAsync(true);
+                }
+
                 return await sc.PromptAsync(
                     Actions.Prompt,
                     new PromptOptions() { Prompt = sc.Context.Activity.CreateReply(EmailSharedResponses.NoFocusMessage, ResponseBuilder) });
@@ -350,6 +359,28 @@ namespace EmailSkill
             }
         }
 
+        protected async Task<DialogTurnResult> AfterCollectSelectedEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+
+                // End the dialog when there is no focused email
+                if (state.Message.Count == 0)
+                {
+                    return await sc.EndDialogAsync(true);
+                }
+
+                return await sc.NextAsync();
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
         protected async Task<DialogTurnResult> ConfirmBeforeSending(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -385,9 +416,9 @@ namespace EmailSkill
 
                 var emailCard = new EmailCardData
                 {
-                    Subject = string.Format(CommonStrings.SubjectFormat, state.Subject),
-                    NameList = string.Format(CommonStrings.ToFormat, nameListString),
-                    EmailContent = string.Format(CommonStrings.ContentFormat, state.Content),
+                    Subject = string.Format(EmailCommonStrings.SubjectFormat, state.Subject),
+                    NameList = string.Format(EmailCommonStrings.ToFormat, nameListString),
+                    EmailContent = string.Format(EmailCommonStrings.ContentFormat, state.Content),
                 };
 
                 var speech = SpeakHelper.ToSpeechEmailSendDetailString(state.Subject, nameListString, state.Content);
@@ -441,7 +472,22 @@ namespace EmailSkill
             }
         }
 
-        protected async Task<DialogTurnResult> CollectNameList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> CollectRecipient(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var skillOptions = (EmailSkillDialogOptions)sc.Options;
+                return await sc.BeginDialogAsync(Actions.CollectRecipient, skillOptions);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        protected async Task<DialogTurnResult> PromptRecipientCollection(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -463,7 +509,7 @@ namespace EmailSkill
             }
         }
 
-        protected async Task<DialogTurnResult> CollectRecipients(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> GetRecipients(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -474,9 +520,9 @@ namespace EmailSkill
                 if (state.IsNoRecipientAvailable())
                 {
                     var userInput = sc.Result.ToString();
-                    if (userInput == null)
+                    if (string.IsNullOrWhiteSpace(userInput))
                     {
-                        return await sc.BeginDialogAsync(nameof(ConfirmRecipientDialog), skillOptions);
+                        return await sc.BeginDialogAsync(Actions.CollectRecipient, skillOptions);
                     }
 
                     if (IsEmail(userInput))
@@ -657,6 +703,15 @@ namespace EmailSkill
             var pageSize = ConfigData.GetInstance().MaxDisplaySize;
             var skip = pageSize * pageIndex;
 
+            // Go back to the last page when reaching the end.
+            if (skip >= personList.Count + userList.Count && pageIndex > 0)
+            {
+                state.ShowRecipientIndex--;
+                state.ReadRecipientIndex = 0;
+                pageIndex = state.ShowRecipientIndex;
+                skip = pageSize * pageIndex;
+            }
+
             var options = new PromptOptions
             {
                 Choices = new List<Choice>(),
@@ -731,10 +786,6 @@ namespace EmailSkill
 
                     options.Choices.Add(choice);
                 }
-                else if (skip >= ConfigData.GetInstance().MaxDisplaySize)
-                {
-                    return options;
-                }
                 else
                 {
                     skip--;
@@ -794,11 +845,11 @@ namespace EmailSkill
                 switch (actionType)
                 {
                     case Actions.Reply:
-                        state.Subject = focusedMessage.Subject.ToLower().StartsWith(CommonStrings.Reply) ? focusedMessage.Subject : string.Format(CommonStrings.ReplyReplyFormat, focusedMessage?.Subject);
+                        state.Subject = focusedMessage.Subject.ToLower().StartsWith(EmailCommonStrings.Reply) ? focusedMessage.Subject : string.Format(EmailCommonStrings.ReplyReplyFormat, focusedMessage?.Subject);
                         state.Recipients = focusedMessage.ToRecipients.ToList();
                         break;
                     case Actions.Forward:
-                        state.Subject = focusedMessage.Subject.ToLower().StartsWith(CommonStrings.Forward) ? focusedMessage.Subject : string.Format(CommonStrings.ForwardReplyFormat, focusedMessage?.Subject);
+                        state.Subject = focusedMessage.Subject.ToLower().StartsWith(EmailCommonStrings.Forward) ? focusedMessage.Subject : string.Format(EmailCommonStrings.ForwardReplyFormat, focusedMessage?.Subject);
                         break;
                     case Actions.Send:
                     default:
@@ -872,7 +923,7 @@ namespace EmailSkill
                 {
                     Subject = message.Subject,
                     Sender = message.Sender.EmailAddress.Name,
-                    NameList = string.Format(CommonStrings.ToFormat, nameListString),
+                    NameList = string.Format(EmailCommonStrings.ToFormat, nameListString),
                     EmailContent = message.BodyPreview,
                     EmailLink = message.WebLink,
                     ReceivedDateTime = message.ReceivedDateTime == null
@@ -884,14 +935,14 @@ namespace EmailSkill
                 updatedMessages.Add(message);
             }
 
-            var searchType = CommonStrings.Relevant;
+            var searchType = EmailCommonStrings.Relevant;
             if (state.IsUnreadOnly)
             {
-                searchType = string.Format(CommonStrings.RelevantFormat, CommonStrings.Unread);
+                searchType = string.Format(EmailCommonStrings.RelevantFormat, EmailCommonStrings.Unread);
             }
             else if (state.IsImportant)
             {
-                searchType = string.Format(CommonStrings.RelevantFormat, CommonStrings.Important);
+                searchType = string.Format(EmailCommonStrings.RelevantFormat, EmailCommonStrings.Important);
             }
 
             var stringToken = new StringDictionary
@@ -1087,15 +1138,15 @@ namespace EmailSkill
                                     {
                                         var lowerInput = word.ToLower();
 
-                                        if (lowerInput.Contains(CommonStrings.High) || lowerInput.Contains(CommonStrings.Important))
+                                        if (lowerInput.Contains(EmailCommonStrings.High) || lowerInput.Contains(EmailCommonStrings.Important))
                                         {
                                             state.IsImportant = true;
                                         }
-                                        else if (lowerInput.Contains(CommonStrings.Unread))
+                                        else if (lowerInput.Contains(EmailCommonStrings.Unread))
                                         {
                                             state.IsUnreadOnly = true;
                                         }
-                                        else if (lowerInput.Contains(CommonStrings.All))
+                                        else if (lowerInput.Contains(EmailCommonStrings.All))
                                         {
                                             state.IsUnreadOnly = false;
                                         }
@@ -1261,10 +1312,12 @@ namespace EmailSkill
 
         private IDictionary<string, string> AssembleTelemetryData(WaterfallStepContext sc)
         {
-            var telemetryData = new Dictionary<string, string>();
-            telemetryData.Add("activityId", sc.Context.Activity.Id);
-            telemetryData.Add("userId", sc.Context.Activity.From.Id);
-            telemetryData.Add("activeDialog", sc.ActiveDialog.ToString());
+            var telemetryData = new Dictionary<string, string>
+            {
+                { "activityId", sc.Context.Activity.Id },
+                { "userId", sc.Context.Activity.From.Id },
+                { "activeDialog", sc.ActiveDialog.ToString() }
+            };
 
             return telemetryData;
         }

@@ -22,9 +22,12 @@ namespace Microsoft.Bot.Solutions.Middleware
 
         public async Task OnTurnAsync(ITurnContext context, NextDelegate next, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var cultureInfo = context.Activity.Locale != null ? new CultureInfo(context.Activity.Locale) : new CultureInfo(this.defaultLocale);
+            var cultureInfo = !string.IsNullOrWhiteSpace(context.Activity.Locale) ? new CultureInfo(context.Activity.Locale) : new CultureInfo(this.defaultLocale);
 
             CultureInfo.CurrentUICulture = CultureInfo.CurrentCulture = cultureInfo;
+
+            // If the current activity locale is empty or not supported (i.e. "iv"), set its culture to the default.
+            context.Activity.Locale = cultureInfo.Name;
 
             await next(cancellationToken).ConfigureAwait(false);
         }

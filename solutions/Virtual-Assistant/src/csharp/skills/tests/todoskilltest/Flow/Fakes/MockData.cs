@@ -7,7 +7,7 @@ namespace ToDoSkillTest.Flow.Fakes
 {
     public static class MockData
     {
-        public static List<TaskItem> MockTaskItems = new List<TaskItem>
+        public static List<TaskItem> MockTaskItems { get; set; } = new List<TaskItem>
         {
             new TaskItem()
             {
@@ -66,7 +66,7 @@ namespace ToDoSkillTest.Flow.Fakes
             }
         };
 
-        public static List<TaskItem> MockShoppingItems = new List<TaskItem>
+        public static List<TaskItem> MockShoppingItems { get; set; } = new List<TaskItem>
         {
             new TaskItem()
             {
@@ -114,17 +114,10 @@ namespace ToDoSkillTest.Flow.Fakes
                 Id = "ShoppingItem7",
                 Topic = "Buy Shoes 7",
                 IsCompleted = false
-            },
-
-            new TaskItem()
-            {
-                Id = "ShoppingItem8",
-                Topic = "Buy Shoes 8",
-                IsCompleted = false
             }
         };
 
-        public static List<TaskItem> MockGroceryItems = new List<TaskItem>
+        public static List<TaskItem> MockGroceryItems { get; set; } = new List<TaskItem>
         {
             new TaskItem()
             {
@@ -173,9 +166,23 @@ namespace ToDoSkillTest.Flow.Fakes
                 Id = "GroceryItem7",
                 Topic = "Buy Milk 7",
                 IsCompleted = false
+            },
+
+            new TaskItem()
+            {
+                Id = "GroceryItem8",
+                Topic = "Buy Milk 8",
+                IsCompleted = false
+            },
+
+            new TaskItem()
+            {
+                Id = "GroceryItem9",
+                Topic = "Buy Milk 9",
+                IsCompleted = false
             }
         };
 
-        public static string ImageSource = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAAmJLR0QAAKqNIzIAAAAHdElNRQfiDAMKKhgxjYNuAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE4LTEyLTAzVDEwOjQyOjI0KzAxOjAw3NT2SAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOC0xMi0wM1QxMDo0MjoyNCswMTowMK2JTvQAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAA/0lEQVQ4T6WTzQmEMBCFx0XQErypHXj0KliCPYgNiUcLsAev3uxAvVqComTzhrgu/i1hPxjykuG9SBJJSMIwFESkVfAAA6JpGoqiiEzTRKDs32MYBi3LQnVdk/TympBmTtMBHnhfSMDOumweDpCBPHliXVcax1HNdg8H/GKaJt7RcRy1svMzYJ5nsm2bte/7PH5zCijLknArAGbLsljD3HUd6yMijmM+WYA5qqqqj/Y8T3V34EHv9AVZlvGYJAmP0kx937O+4hSQ5zmlacradd1HM7g8xKIoqG1bGoZBrdzDAXieR4IgUOqazcMBeNu6bJ7/fyZcCUJkT6vgEUKINxqN2iFI/P1RAAAAAElFTkSuQmCC";
+        public static string MockOneNoteWebLink { get; set; } = "https://123456-my.sharepoint.com/personal/123456";
     }
 }

@@ -18,12 +18,14 @@ namespace CustomerSupportTemplate.Dialogs.Orders
 
         public FindPromoCodeDialog(
             BotServices services, 
-            IStatePropertyAccessor<CustomerSupportTemplateState> stateAccessor)
-            : base(services, nameof(FindPromoCodeDialog))
+            IStatePropertyAccessor<CustomerSupportTemplateState> stateAccessor,
+            IBotTelemetryClient telemetryClient)
+            : base(services, nameof(FindPromoCodeDialog), telemetryClient)
         {
             _client = new DemoServiceClient();
             _services = services;
             _stateAccessor = stateAccessor;
+            TelemetryClient = telemetryClient;
 
             var findPromoCode = new WaterfallStep[]
             {
@@ -33,7 +35,7 @@ namespace CustomerSupportTemplate.Dialogs.Orders
             };
 
             InitialDialogId = nameof(FindPromoCodeDialog);
-            AddDialog(new WaterfallDialog(InitialDialogId, findPromoCode));
+            AddDialog(new WaterfallDialog(InitialDialogId, findPromoCode) { TelemetryClient = telemetryClient });
             AddDialog(new TextPrompt(DialogIds.CartIdPrompt, SharedValidators.CartIdValidator));
         }
 

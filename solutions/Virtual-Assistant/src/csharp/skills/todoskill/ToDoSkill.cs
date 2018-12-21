@@ -2,12 +2,10 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Skills;
 using ToDoSkill.ServiceClients;
 using static ToDoSkill.ServiceProviderTypes;
@@ -22,16 +20,18 @@ namespace ToDoSkill
         private readonly ISkillConfiguration _services;
         private readonly ConversationState _conversationState;
         private readonly UserState _userState;
+        private readonly IBotTelemetryClient _telemetryClient;
         private ITaskService _serviceManager;
         private DialogSet _dialogs;
         private bool _skillMode;
 
-        public ToDoSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, ITaskService serviceManager = null, bool skillMode = false)
+        public ToDoSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, ITaskService serviceManager = null, bool skillMode = false)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
+            _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
 
             var isOutlookProvider = _services.Properties.ContainsKey("TaskServiceProvider")
                 && _services.Properties["TaskServiceProvider"].ToString().Equals(ProviderTypes.Outlook.ToString(), StringComparison.InvariantCultureIgnoreCase);
@@ -42,10 +42,13 @@ namespace ToDoSkill
             }
 
             _serviceManager = serviceManager ?? taskService;
+            MailService = new MailService();
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(DialogState)));
-            _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _serviceManager, _skillMode));
         }
+
+        // TODO: this property was added to allow the to do tests to work correctly. It should be reevaluated.
+        public IMailService MailService { get; set; }
 
         /// <summary>
         /// Run every turn of the conversation. Handles orchestration of messages.
@@ -55,6 +58,11 @@ namespace ToDoSkill
         /// <returns>A <see cref="TaskItem"/> representing the asynchronous operation.</returns>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
+            if (_dialogs.Find(nameof(MainDialog)) == null)
+            {
+                _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _telemetryClient, _serviceManager, MailService, _skillMode));
+            }
+
             var dc = await _dialogs.CreateContextAsync(turnContext);
 
             if (dc.ActiveDialog != null)

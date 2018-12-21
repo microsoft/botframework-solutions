@@ -2,12 +2,11 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CalendarSkill.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Skills;
 
 namespace CalendarSkill
@@ -20,20 +19,22 @@ namespace CalendarSkill
         private readonly ISkillConfiguration _services;
         private readonly UserState _userState;
         private readonly ConversationState _conversationState;
+        private readonly IBotTelemetryClient _telemetryClient;
         private readonly IServiceManager _serviceManager;
-        private bool _skillMode;
+        private readonly bool _skillMode;
         private DialogSet _dialogs;
 
-        public CalendarSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, IServiceManager serviceManager = null, bool skillMode = false)
+        public CalendarSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, IServiceManager serviceManager = null, bool skillMode = false)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _serviceManager = serviceManager ?? new ServiceManager(_services);
+            _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(DialogState)));
-            _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _serviceManager, _skillMode));
+            _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _telemetryClient, _serviceManager, _skillMode));
         }
 
         /// <summary>

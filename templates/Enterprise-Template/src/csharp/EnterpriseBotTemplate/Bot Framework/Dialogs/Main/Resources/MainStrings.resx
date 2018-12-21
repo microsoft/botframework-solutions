@@ -145,7 +145,7 @@
     <value>Learn more</value>
   </data>
   <data name="HELP_BTN_VALUE_1" xml:space="preserve">
-    <value>Hello</value>
+    <value>Talk to a human</value>
   </data>
   <data name="HELP_BTN_VALUE_2" xml:space="preserve">
     <value>What is the Enterprise Bot Template?</value>
@@ -159,8 +159,7 @@
   <data name="HELP_TITLE" xml:space="preserve">
     <value>HELP</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Intro" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Intro.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="INTRO_PATH" xml:space="preserve">
+    <value>.\Dialogs\Main\Resources\Intro.json</value>
   </data>
 </root>

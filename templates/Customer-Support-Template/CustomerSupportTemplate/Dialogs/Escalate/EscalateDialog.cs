@@ -3,6 +3,7 @@
 
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 
 namespace CustomerSupportTemplate
@@ -12,7 +13,7 @@ namespace CustomerSupportTemplate
         // Fields
         private EscalateResponses _responder = new EscalateResponses();
 
-        public EscalateDialog(BotServices botServices)
+        public EscalateDialog(BotServices botServices, IBotTelemetryClient telemetryClient)
             : base(nameof(EscalateDialog))
         {
             var escalate = new WaterfallStep[]
@@ -21,7 +22,7 @@ namespace CustomerSupportTemplate
             };
 
             InitialDialogId = nameof(EscalateDialog);
-            AddDialog(new WaterfallDialog(InitialDialogId, escalate));
+            AddDialog(new WaterfallDialog(InitialDialogId, escalate) { TelemetryClient = telemetryClient });
         }
 
         private async Task<DialogTurnResult> SendEscalationMessage(WaterfallStepContext stepContext, CancellationToken cancellationToken)

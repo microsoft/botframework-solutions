@@ -4,6 +4,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using CustomerSupportTemplate.Dialogs.Shared;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 
 namespace CustomerSupportTemplate
@@ -12,10 +13,11 @@ namespace CustomerSupportTemplate
     {
         private static CancelResponses _responder = new CancelResponses();
 
-        public CancelDialog()
+        public CancelDialog(IBotTelemetryClient telemetryClient)
             : base(nameof(CancelDialog))
         {
             InitialDialogId = nameof(CancelDialog);
+            TelemetryClient = telemetryClient;
 
             var cancel = new WaterfallStep[]
             {
@@ -23,7 +25,7 @@ namespace CustomerSupportTemplate
                 FinishCancelDialog,
             };
 
-            AddDialog(new WaterfallDialog(InitialDialogId, cancel));
+            AddDialog(new WaterfallDialog(InitialDialogId, cancel) { TelemetryClient = telemetryClient });
             AddDialog(new ConfirmPrompt(DialogIds.CancelPrompt, SharedValidators.ConfirmValidator));
         }
 

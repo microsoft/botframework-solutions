@@ -8,6 +8,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.Dialogs.ShowToDo.Resources;
 
@@ -17,18 +18,23 @@ namespace ToDoSkill
     {
         public ShowToDoItemDialog(
             ISkillConfiguration services,
-            IStatePropertyAccessor<ToDoSkillState> accessor,
-            ITaskService serviceManager)
-            : base(nameof(ShowToDoItemDialog), services, accessor, serviceManager)
+            IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
+            IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
+            ITaskService serviceManager,
+            IMailService mailService,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(ShowToDoItemDialog), services, toDoStateAccessor, userStateAccessor, serviceManager, mailService, telemetryClient)
         {
+            TelemetryClient = telemetryClient;
+
             var showToDoTasks = new WaterfallStep[]
-           {
+            {
                 GetAuthToken,
                 AfterGetAuthToken,
                 ClearContext,
                 ShowToDoTasks,
                 AddFirstTask,
-           };
+            };
 
             var addFirstTask = new WaterfallStep[]
             {
@@ -45,9 +51,9 @@ namespace ToDoSkill
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Action.ShowToDoTasks, showToDoTasks));
-            AddDialog(new WaterfallDialog(Action.AddFirstTask, addFirstTask));
-            AddDialog(new WaterfallDialog(Action.CollectToDoTaskContent, collectToDoTaskContent));
+            AddDialog(new WaterfallDialog(Action.ShowToDoTasks, showToDoTasks) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Action.AddFirstTask, addFirstTask) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Action.CollectToDoTaskContent, collectToDoTaskContent) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Action.ShowToDoTasks;
@@ -57,18 +63,13 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 state.ListType = state.ListType ?? ToDoStrings.ToDo;
                 state.LastListType = state.ListType;
-                if (!state.ListTypeIds.ContainsKey(state.ListType))
-                {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
-                }
-
+                var service = await InitListTypeIds(sc);
                 var topIntent = state.LuisResult?.TopIntent().intent;
                 if (topIntent == ToDo.Intent.ShowToDo)
                 {
-                    var service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
                     state.AllTasks = await service.GetTasksAsync(state.ListType);
                 }
 
@@ -132,29 +133,50 @@ namespace ToDoSkill
                     return await sc.EndDialogAsync(true);
                 }
             }
-            catch
+            catch (SkillException ex)
             {
-                await HandleDialogExceptions(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
         public async Task<DialogTurnResult> AddFirstTask(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await sc.BeginDialogAsync(Action.AddFirstTask);
+            try
+            {
+                return await sc.BeginDialogAsync(Action.AddFirstTask);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
         }
 
         public async Task<DialogTurnResult> AskAddFirstTaskConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var prompt = sc.Context.Activity.CreateReply(ShowToDoResponses.NoToDoTasksPrompt);
-            return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
+            try
+            {
+                var prompt = sc.Context.Activity.CreateReply(ShowToDoResponses.NoToDoTasksPrompt);
+                return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
         }
 
         public async Task<DialogTurnResult> AfterAskAddFirstTaskConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 var topIntent = state.GeneralLuisResult?.TopIntent().intent;
 
                 sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
@@ -176,10 +198,10 @@ namespace ToDoSkill
                     return await sc.BeginDialogAsync(Action.AddFirstTask);
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                await HandleDialogExceptions(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
     }

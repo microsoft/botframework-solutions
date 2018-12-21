@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.ApplicationInsights;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Skills;
 
 namespace EmailSkillTest.Flow.Fakes
@@ -13,7 +13,7 @@ namespace EmailSkillTest.Flow.Fakes
             this.LocaleConfigurations.Add("en", new LocaleConfiguration()
             {
                 Locale = "en-us",
-                LuisServices = new Dictionary<string, IRecognizer>
+                LuisServices = new Dictionary<string, ITelemetryLuisRecognizer>
                 {
                     { "general", new MockGeneralLuisRecognizer() },
                     { "email", new MockEmailLuisRecognizer() }

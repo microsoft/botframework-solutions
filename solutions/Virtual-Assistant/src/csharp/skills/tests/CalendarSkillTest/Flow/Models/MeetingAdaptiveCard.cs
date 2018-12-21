@@ -1,40 +1,49 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Newtonsoft.Json;
 
 namespace CalendarSkillTest.Flow.Models
 {
-
     public class MeetingAdaptiveCard
     {
-        public string type { get; set; }
+        [JsonProperty("type")]
+        public string Type { get; set; }
 
-        public string version { get; set; }
+        [JsonProperty("version")]
+        public string Version { get; set; }
 
-        public string id { get; set; }
+        [JsonProperty("id")]
+        public string Id { get; set; }
 
-        public string speak { get; set; }
+        [JsonProperty("speak")]
+        public string Speak { get; set; }
 
-        public Body[] body { get; set; }
+        [JsonProperty("body")]
+        public Body[] Bodies { get; set; }
 
         public class Body
         {
-            public string type { get; set; }
+            [JsonProperty("type")]
+            public string Type { get; set; }
 
-            public Item[] items { get; set; }
+            [JsonProperty("items")]
+            public Item[] Items { get; set; }
         }
 
         public class Item
         {
-            public string type { get; set; }
+            [JsonProperty("type")]
+            public string Type { get; set; }
 
-            public string size { get; set; }
+            [JsonProperty("size")]
+            public string Size { get; set; }
 
-            public string weight { get; set; }
+            [JsonProperty("weight")]
+            public string Weight { get; set; }
 
-            public string text { get; set; }
+            [JsonProperty("text")]
+            public string Text { get; set; }
 
-            public int maxLines { get; set; }
+            [JsonProperty("maxLines")]
+            public int MaxLines { get; set; }
         }
     }
 }

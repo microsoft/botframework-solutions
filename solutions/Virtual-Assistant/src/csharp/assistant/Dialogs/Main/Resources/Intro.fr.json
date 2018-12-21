@@ -1,8 +1,8 @@
-{
+ï»¿{
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "type": "AdaptiveCard",
   "version": "1.0",
-  "speak": "Bienvenue à votre assistant virtuel! Maintenant que vous êtes en marche, commençons.",
+  "speak": "Bienvenue Ã  votre assistant virtuel! Maintenant que vous Ãªtes en marche, commenÃ§ons.",
   "body": [
     {
       "type": "Image",
@@ -14,8 +14,8 @@
       "spacing": "medium",
       "size": "default",
       "weight": "bolder",
-      "text": "Bienvenue à votre assistant virtuel",
-      "speak": "Bienvenue à votre assistant virtuel",
+      "text": "Bienvenue Ã  votre assistant virtuel",
+      "speak": "Bienvenue Ã  votre assistant virtuel",
       "wrap": true,
       "maxLines": 0
     },
@@ -23,8 +23,8 @@
       "type": "TextBlock",
       "size": "default",
       "isSubtle": true,
-      "text": "Maintenant que vous avez réussi à exécuter votre assistant virtuel, suivez les liens dans cette carte adaptative pour explorer plus loin.",
-      "speak": "Maintenant que votre place et en cours d'exécution nous allons commencer.",
+      "text": "Maintenant que vous avez rÃ©ussi Ã  exÃ©cuter votre assistant virtuel, suivez les liens dans cette carte adaptative pour explorer plus loin.",
+      "speak": "Maintenant que votre place et en cours d'exÃ©cution nous allons commencer.",
       "wrap": true,
       "maxLines": 0
     }
@@ -37,7 +37,7 @@
     },
     {
       "type": "Action.OpenUrl",
-      "title": "Comptes liés",
+      "title": "Comptes liÃ©s",
       "url": "https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/virtualassistant-linkedaccounts.md"
     },
     {

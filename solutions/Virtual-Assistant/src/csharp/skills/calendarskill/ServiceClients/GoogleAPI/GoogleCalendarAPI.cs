@@ -3,11 +3,14 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CalendarSkill.Models;
+using Google;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Auth.OAuth2.Responses;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
+using Google.Apis.Requests;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
 using GoogleCalendarService = Google.Apis.Calendar.v3.CalendarService;
@@ -17,9 +20,9 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
     /// <summary>
     /// The Google Calendar API service.
     /// </summary>
-    public class GoogleCalendarAPI : ICalendar
+    public class GoogleCalendarAPI : ICalendarService
     {
-        private static GoogleCalendarService service;
+        private readonly GoogleCalendarService _service;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GoogleCalendarAPI"/> class.
@@ -27,7 +30,7 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
         /// <param name="googleCalendarService">GoogleClient. </param>
         public GoogleCalendarAPI(GoogleCalendarService googleCalendarService)
         {
-            service = googleCalendarService;
+            _service = googleCalendarService;
         }
 
         public static GoogleCalendarService GetServiceClient(GoogleClient config, string token)
@@ -148,77 +151,110 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
 
         private Event UpdateEventById(Event updateEvent)
         {
-            var request = service.Events.Patch(updateEvent, "primary", updateEvent.Id);
-            var gevent = request.Execute();
-            return gevent;
+            try
+            {
+                var request = _service.Events.Patch(updateEvent, "primary", updateEvent.Id);
+                var gevent = ((IClientServiceRequest<Event>)request).Execute();
+                return gevent;
+            }
+            catch (GoogleApiException ex)
+            {
+                throw GoogleClient.HandleGoogleAPIException(ex);
+            }
         }
 
         private Events RequestEventsByTime(DateTime startTime, DateTime endTime)
         {
-            // Define parameters of request.
-            var request = service.Events.List("primary");
-            request.TimeMin = startTime;
-            request.TimeMax = endTime;
-            request.ShowDeleted = false;
-            request.SingleEvents = true;
-            request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
+            try
+            {
+                // Define parameters of request.
+                var request = _service.Events.List("primary");
+                request.TimeMin = startTime;
+                request.TimeMax = endTime;
+                request.ShowDeleted = false;
+                request.SingleEvents = true;
+                request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
 
-            // List events.
-            var events = request.Execute();
-            return events;
+                // List events.
+                var events = ((IClientServiceRequest<Events>)request).Execute();
+                return events;
+            }
+            catch (GoogleApiException ex)
+            {
+                throw GoogleClient.HandleGoogleAPIException(ex);
+            }
         }
 
         private Events RequestEventsByStartTime(DateTime startTime)
         {
-            // Define parameters of request.
-            var request = service.Events.List("primary");
-            request.TimeMin = startTime;
-            request.ShowDeleted = false;
-            request.SingleEvents = true;
-            request.MaxResults = 10;
-            request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
+            try
+            {
+                // Define parameters of request.
+                var request = _service.Events.List("primary");
+                request.TimeMin = startTime;
+                request.ShowDeleted = false;
+                request.SingleEvents = true;
+                request.MaxResults = 10;
+                request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
 
-            // List events.
-            var events = request.Execute();
-            return events;
+                // List events.
+                var events = ((IClientServiceRequest<Events>)request).Execute();
+                return events;
+            }
+            catch (GoogleApiException ex)
+            {
+                throw GoogleClient.HandleGoogleAPIException(ex);
+            }
         }
 
         private Events GetEvents()
         {
-            // Define parameters of request.
-            var request = service.Events.List("primary");
-            request.TimeMin = DateTime.UtcNow;
-            request.ShowDeleted = false;
-            request.SingleEvents = true;
-            request.MaxResults = 10;
-            request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
-
-            // List events.
-            var events = request.Execute();
-            return events;
-        }
-
-        private Event GetNextEvent()
-        {
-            var events = GetEvents();
-            if (events == null || events.Items == null || events.Items.Count <= 0)
+            try
             {
-                return null;
-            }
+                // Define parameters of request.
+                var request = _service.Events.List("primary");
+                request.TimeMin = DateTime.UtcNow;
+                request.ShowDeleted = false;
+                request.SingleEvents = true;
+                request.MaxResults = 10;
+                request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
 
-            return events.Items[0];
+                // List events.
+                var events = ((IClientServiceRequest<Events>)request).Execute();
+                return events;
+            }
+            catch (GoogleApiException ex)
+            {
+                throw GoogleClient.HandleGoogleAPIException(ex);
+            }
         }
 
         private Event CreateEvent(Event newEvent)
         {
-            return service.Events.Insert(newEvent, "primary").Execute();
+            try
+            {
+                var request = _service.Events.Insert(newEvent, "primary");
+                var gevent = ((IClientServiceRequest<Event>)request).Execute();
+                return gevent;
+            }
+            catch (GoogleApiException ex)
+            {
+                throw GoogleClient.HandleGoogleAPIException(ex);
+            }
         }
 
         private string DeleteEvent(string id)
         {
-            var request = service.Events.Delete("primary", id);
-            var result = request.Execute();
-            return result;
+            try
+            {
+                var request = _service.Events.Delete("primary", id);
+                var result = ((IClientServiceRequest<string>)request).Execute();
+                return result;
+            }
+            catch (GoogleApiException ex)
+            {
+                throw GoogleClient.HandleGoogleAPIException(ex);
+            }
         }
     }
 }

@@ -117,8 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="EmailContent" xml:space="preserve">
+    <value>Please refer to the link {0} to see the lists created for you.</value>
+  </data>
+  <data name="EmailSubject" xml:space="preserve">
+    <value>Lists are created for you</value>
+  </data>
   <data name="Grocery" xml:space="preserve">
     <value>Grocery</value>
+  </data>
+  <data name="OneNoteBookName" xml:space="preserve">
+    <value>Task Notebook</value>
+  </data>
+  <data name="OneNoteSectionName" xml:space="preserve">
+    <value>Task Section</value>
   </data>
   <data name="Shopping" xml:space="preserve">
     <value>Shopping</value>

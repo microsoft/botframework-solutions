@@ -1,0 +1,69 @@
+{
+  "WelcomeMessage": {
+    "replies": [
+      {
+        "text": "Welcome to the Automotive Skill! Right now I can help you with vehicle setting control - Climate Control, Active Safety and Audio.",
+        "speak": "Welcome to the Automotive Skill! Right now I can help you with vehicle setting control - Climate Control, Active Safety and Audio."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "HelpMessage": {
+    "replies": [
+      {
+        "text": "Right now I can help you with vehicle setting control - Climate Control, Active Safety and Audio.",
+        "speak": "Right now I can help you with vehicle setting control - Climate Control, Active Safety and Audio."
+      }
+    ],
+    "suggestedActions": [
+      "set temperature to 21 degrees",
+      "warm up the back of the car",
+      "put the air on my feet",
+      "increase forward automatic braking to 50%"
+    ],
+    "inputHint": "expectingInput"
+  },
+  "GreetingMessage": {
+    "replies": [
+      {
+        "text": "Hi!",
+        "speak": "Hi!"
+      },
+      {
+        "text": "I'm here!",
+        "speak": "I'm here!"
+      },
+      {
+        "text": "Hi there!",
+        "speak": "Hi there!"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "LogOut": {
+    "replies": [
+      {
+        "text": "Your sign out was successful.",
+        "speak": "Your sign out was successful."
+      },
+      {
+        "text": "You have successfully sign out.",
+        "speak": "You have successfully sign out."
+      },
+      {
+        "text": "You have been logged out.",
+        "speak": "You have been logged out."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "FeatureNotAvailable": {
+    "replies": [
+      {
+        "text": "This feature is not yet available in this skill. Please try asking something else.",
+        "speak": "This feature is not yet available in this skill. Please try asking something else."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}

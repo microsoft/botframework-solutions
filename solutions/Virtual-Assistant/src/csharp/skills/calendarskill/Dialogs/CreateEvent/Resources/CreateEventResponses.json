@@ -3,8 +3,8 @@
     "replies": [
 
       {
-        "text": "Alright, I will send an invite to {UserName}, what is the subject of the meeting?",
-        "speak": "Alright, I will send an invite to {UserName}, what is the subject of the meeting?"
+        "text": "Alright, I will send an invite to {UserName}, what is the subject of the meeting? Or you can say skip to use the default title.",
+        "speak": "Alright, I will send an invite to {UserName}, what is the subject of the meeting? Or you can say skip to use the default title."
       }
     ],
     "inputHint": "expectingInput"
@@ -12,8 +12,8 @@
   "NoContent": {
     "replies": [
       {
-        "text": "What would you like to add in the meeting details?",
-        "speak": "What would you like to add in the meeting details?"
+        "text": "What would you like to add in the meeting details? Or skip it.",
+        "speak": "What would you like to add in the meeting details? Or skip it."
       }
     ],
     "inputHint": "expectingInput"
@@ -22,8 +22,8 @@
     "replies": [
 
       {
-        "text": "What is the location for the meeting?",
-        "speak": "What is the location for the meeting?"
+        "text": "What is the location for the meeting? Or skip it.",
+        "speak": "What is the location for the meeting? Or skip it."
       }
     ],
     "inputHint": "expectingInput"
@@ -156,26 +156,26 @@
     ],
     "inputHint": "expectingInput"
   },
-  "FindUserErrorMessage": {
-    "replies": [
-      {
-        "text": "I can't find the person named {UserName} right now. Please try again or cancel.",
-        "speak": "I can't find the person named {UserName} right now. Please try again or cancel."
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
-  "ConfirmRecipient": {
-    "replies": [
-      {
-        "text": "Who do you want to invite?",
-        "speak": "Who do you want to invite?"
-      },
-      {
-        "text": "What contact do you want to select?",
-        "speak": "What contact do you want to select?"
-      }
-    ],
-    "inputHint": "expectingInput"
-  }
+    "ConfirmRecipient": {
+        "replies": [
+            {
+                "text": "Who do you want to invite?",
+                "speak": "Who do you want to invite?"
+            },
+            {
+                "text": "What contact do you want to select?",
+                "speak": "What contact do you want to select?"
+            }
+        ],
+        "inputHint": "expectingInput"
+    },
+    "InvaildDuration": {
+        "replies": [
+            {
+                "text": "The end time of the meeting cannot be earlier than or equal to the start time. Please try again.",
+                "speak": "The end time of the meeting cannot be earlier than or equal to the start time. Please try again."
+            }
+        ],
+        "inputHint": "expectingInput"
+    }
 }

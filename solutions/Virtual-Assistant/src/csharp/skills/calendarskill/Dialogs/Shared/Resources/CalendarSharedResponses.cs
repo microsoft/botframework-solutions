@@ -24,15 +24,11 @@ namespace CalendarSkill.Dialogs.Shared.Resources
         // Generated accessors
         public static BotResponse DidntUnderstandMessage => GetBotResponse();
 
-        public static BotResponse CancellingMessage => GetBotResponse();
-
-        public static BotResponse NoAuth => GetBotResponse();
-
-        public static BotResponse AuthFailed => GetBotResponse();
-
         public static BotResponse ActionEnded => GetBotResponse();
 
         public static BotResponse CalendarErrorMessage => GetBotResponse();
+
+        public static BotResponse CalendarErrorMessageBotProblem => GetBotResponse();
 
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {

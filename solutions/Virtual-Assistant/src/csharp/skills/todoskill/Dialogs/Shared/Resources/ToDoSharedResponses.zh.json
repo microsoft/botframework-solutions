@@ -97,11 +97,47 @@
     ],
     "inputHint": "acceptingInput"
   },
+  "ToDoErrorMessage_BotProblem": {
+    "replies": [
+      {
+        "text": "对不起，出了点问题。开发人员已经收到通知并且在解决这个问题。你很快就又可以正常使用这个功能了。",
+        "speak": "对不起，出了点问题。开发人员已经收到通知并且在解决这个问题。你很快就又可以正常使用这个功能了。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
   "SettingUpOneNoteMessage": {
     "replies": [
       {
-        "text": "我正在配置您的列表, 这不会花费很长时间。",
-        "speak": "我正在配置您的列表, 这不会花费很长时间。"
+        "text": "我注意到你还没有OneNote, 我正在为您创建，包含一个待办事项列表。",
+        "speak": "我注意到你还没有OneNote, 我正在为您创建，包含一个待办事项列表。"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "AfterOneNoteSetupMessage": {
+    "replies": [
+      {
+        "text": "设置完成，我已经给你发送带有OneNote链接的邮件，现在可以记录你的代办事项了。",
+        "speak": "设置完成，我已经给你发送带有OneNote链接的邮件，现在可以记录你的代办事项了。"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "SettingUpOutlookMessage": {
+    "replies": [
+      {
+        "text": "我注意到你还没有Outlook任务簿, 我正在为您创建，包含一个待办事项列表。",
+        "speak": "我注意到你还没有Outlook任务簿, 我正在为您创建，包含一个待办事项列表。"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "AfterOutlookSetupMessage": {
+    "replies": [
+      {
+        "text": "设置完成，我已经给你发送带有Outlook任务簿链接的邮件，现在可以记录你的代办事项了。",
+        "speak": "设置完成，我已经给你发送带有Outlook任务簿链接的邮件，现在可以记录你的代办事项了。"
       }
     ],
     "inputHint": "ignoringInput"

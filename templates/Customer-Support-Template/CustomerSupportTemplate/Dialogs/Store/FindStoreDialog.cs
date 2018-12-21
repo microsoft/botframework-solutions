@@ -16,12 +16,14 @@ namespace CustomerSupportTemplate.Dialogs.Store
 
         public FindStoreDialog(
             BotServices services,
-            IStatePropertyAccessor<CustomerSupportTemplateState> stateAccessor)
-            : base(services, nameof(FindStoreDialog))
+            IStatePropertyAccessor<CustomerSupportTemplateState> stateAccessor,
+            IBotTelemetryClient telemetryClient)
+            : base(services, nameof(FindStoreDialog), telemetryClient)
         {
             _client = new DemoServiceClient();
             _services = services;
             _stateAccessor = stateAccessor;
+            TelemetryClient = telemetryClient;
 
             var findStore = new WaterfallStep[]
             {
@@ -30,7 +32,7 @@ namespace CustomerSupportTemplate.Dialogs.Store
             };
 
             InitialDialogId = nameof(FindStoreDialog);
-            AddDialog(new WaterfallDialog(InitialDialogId, findStore));
+            AddDialog(new WaterfallDialog(InitialDialogId, findStore) { TelemetryClient = telemetryClient });
             AddDialog(new TextPrompt(DialogIds.ZipCodePrompt, SharedValidators.ZipCodeValidator));
         }
 

@@ -22,8 +22,10 @@ namespace EmailSkillTest.API.Fakes
 
         public void InitializeDefaultData()
         {
-            this.MockEmailSkillState = new EmailSkillState();
-            this.MockEmailSkillState.Recipients = new List<Microsoft.Graph.Recipient>();
+            this.MockEmailSkillState = new EmailSkillState
+            {
+                Recipients = new List<Microsoft.Graph.Recipient>()
+            };
         }
 
         public void SetMockBehavior()
