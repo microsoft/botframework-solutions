@@ -134,7 +134,7 @@ namespace CalendarSkill
                     {
                         if (state.CreateHasDetail)
                         {
-                            state.Title = CreateEventWhiteList.GetDefualtTitle();
+                            state.Title = CreateEventWhiteList.GetDefaultTitle();
                         }
                         else
                         {
@@ -142,7 +142,7 @@ namespace CalendarSkill
                             string title = content != null ? content.ToString() : sc.Context.Activity.Text;
                             if (CreateEventWhiteList.IsSkip(title))
                             {
-                                state.Title = CreateEventWhiteList.GetDefualtTitle();
+                                state.Title = CreateEventWhiteList.GetDefaultTitle();
                             }
                             else
                             {

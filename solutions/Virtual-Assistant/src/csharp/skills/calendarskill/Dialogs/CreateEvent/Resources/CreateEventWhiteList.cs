@@ -18,8 +18,8 @@ namespace CalendarSkill.Dialogs.CreateEvent.Resources
             [JsonProperty("SkipPhrases")]
             public List<string> SkipPhrases;
 
-            [JsonProperty("DefualtTitle")]
-            public List<string> DefualtTitle;
+            [JsonProperty("DefaultTitle")]
+            public List<string> DefaultTitle;
         }
 
         private static Dictionary<string, WhiteList> WhiteLists;
@@ -52,7 +52,7 @@ namespace CalendarSkill.Dialogs.CreateEvent.Resources
             return WhiteLists[locale].SkipPhrases.Contains(input);
         }
 
-        public static string GetDefualtTitle()
+        public static string GetDefaultTitle()
         {
             var locale = CultureInfo.CurrentUICulture.Name.Split("-")[0].ToLower();
 
@@ -61,8 +61,8 @@ namespace CalendarSkill.Dialogs.CreateEvent.Resources
                 locale = DefaultCulture;
             }
 
-            int rand = Random.Next(0, WhiteLists[locale].DefualtTitle.Count);
-            return WhiteLists[locale].DefualtTitle[rand];
+            int rand = Random.Next(0, WhiteLists[locale].DefaultTitle.Count);
+            return WhiteLists[locale].DefaultTitle[rand];
         }
     }
 }
