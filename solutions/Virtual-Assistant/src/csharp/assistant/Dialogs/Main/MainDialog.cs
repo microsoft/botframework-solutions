@@ -185,7 +185,7 @@ namespace VirtualAssistant
                         var answers = await qnaService.GetAnswersAsync(dc.Context);
                         if (answers != null && answers.Count() > 0)
                         {
-                            await dc.Context.SendActivityAsync(answers[0].Answer);
+                            await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Qna, answers[0].Answer);
                         }
 
                         break;
