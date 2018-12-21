@@ -22,7 +22,6 @@ namespace ToDoSkill
         private readonly UserState _userState;
         private readonly IBotTelemetryClient _telemetryClient;
         private ITaskService _serviceManager;
-        private IMailService _mailService;
         private DialogSet _dialogs;
         private bool _skillMode;
 
@@ -43,11 +42,13 @@ namespace ToDoSkill
             }
 
             _serviceManager = serviceManager ?? taskService;
-            _mailService = new MailService();
+            MailService = new MailService();
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(DialogState)));
-            _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _telemetryClient, _serviceManager, _mailService, _skillMode));
         }
+
+        // TODO: this property was added to allow the to do tests to work correctly. It should be reevaluated.
+        public IMailService MailService { get; set; }
 
         /// <summary>
         /// Run every turn of the conversation. Handles orchestration of messages.
@@ -57,6 +58,11 @@ namespace ToDoSkill
         /// <returns>A <see cref="TaskItem"/> representing the asynchronous operation.</returns>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
+            if (_dialogs.Find(nameof(MainDialog)) == null)
+            {
+                _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _telemetryClient, _serviceManager, MailService, _skillMode));
+            }
+
             var dc = await _dialogs.CreateContextAsync(turnContext);
 
             if (dc.ActiveDialog != null)
