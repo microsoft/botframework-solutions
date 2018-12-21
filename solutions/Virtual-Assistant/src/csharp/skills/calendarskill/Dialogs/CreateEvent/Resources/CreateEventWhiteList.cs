@@ -40,6 +40,7 @@ namespace CalendarSkill.Dialogs.CreateEvent.Resources
             var locale = CultureInfo.CurrentUICulture.Name;
         }
 
+        // todo: discuss about whether use Luis, just whitelist, or any other solutions.
         public static bool IsSkip(string input)
         {
             var locale = CultureInfo.CurrentUICulture.Name.Split("-")[0].ToLower();

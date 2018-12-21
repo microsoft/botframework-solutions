@@ -1,28 +1,28 @@
 ﻿{
     "NoTitle": {
         "replies": [
-            {
-                "text": "好的，我将发送会议给{UserName}，会议主题是什么？",
-                "speak": "好的，我将发送会议给{UserName}，会议主题是什么？"
-            }
+          {
+            "text": "好的，我将发送会议给{UserName}，会议主题是什么？或者您可以回复“跳过”来跳过这一项并使用默认设置",
+            "speak": "好的，我将发送会议给{UserName}，会议主题是什么？或者您可以回复跳过来跳过这一项并使用默认设置"
+          }
         ],
         "inputHint": "expectingInput"
     },
     "NoContent": {
         "replies": [
-            {
-                "text": "会议内容是什么？",
-                "speak": "会议内容是什么？"
-            }
+          {
+            "text": "会议内容是什么？或者跳过",
+            "speak": "会议内容是什么？或者跳过"
+          }
         ],
         "inputHint": "expectingInput"
     },
     "NoLocation": {
         "replies": [
-            {
-                "text": "您要加入会议地址？",
-                "speak": "您要加入会议地址？"
-            }
+          {
+            "text": "您要加入会议地址？或者跳过",
+            "speak": "您要加入会议地址？或者跳过"
+          }
         ],
         "inputHint": "expectingInput"
     },
