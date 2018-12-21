@@ -3,8 +3,8 @@
     "replies": [
 
       {
-        "text": "Alright, I will send an invite to {UserName}, what is the subject of the meeting?",
-        "speak": "Alright, I will send an invite to {UserName}, what is the subject of the meeting?"
+        "text": "Alright, I will send an invite to {UserName}, what is the subject of the meeting? Or you can say skip to use the default title.",
+        "speak": "Alright, I will send an invite to {UserName}, what is the subject of the meeting? Or you can say skip to use the default title."
       }
     ],
     "inputHint": "expectingInput"
@@ -12,8 +12,8 @@
   "NoContent": {
     "replies": [
       {
-        "text": "What would you like to add in the meeting details?",
-        "speak": "What would you like to add in the meeting details?"
+        "text": "What would you like to add in the meeting details? Or skip it.",
+        "speak": "What would you like to add in the meeting details? Or skip it."
       }
     ],
     "inputHint": "expectingInput"
@@ -22,8 +22,8 @@
     "replies": [
 
       {
-        "text": "What is the location for the meeting?",
-        "speak": "What is the location for the meeting?"
+        "text": "What is the location for the meeting? Or skip it.",
+        "speak": "What is the location for the meeting? Or skip it."
       }
     ],
     "inputHint": "expectingInput"

@@ -44,6 +44,7 @@ namespace CalendarSkill
             MoveTimeSpan = 0;
             AskParameterContent = string.Empty;
             RecurrencePattern = string.Empty;
+            CreateHasDetail = false;
         }
 
         public User User { get; set; }
@@ -130,6 +131,8 @@ namespace CalendarSkill
 
         public string RecurrencePattern { get; set; }
 
+        public bool CreateHasDetail { get; set; }
+
         public TimeZoneInfo GetUserTimeZone()
         {
             if ((UserInfo != null) && (UserInfo.Timezone != null))
@@ -175,6 +178,7 @@ namespace CalendarSkill
             MoveTimeSpan = 0;
             AskParameterContent = string.Empty;
             RecurrencePattern = string.Empty;
+            CreateHasDetail = false;
         }
 
         public class UserInformation

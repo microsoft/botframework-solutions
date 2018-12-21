@@ -106,7 +106,7 @@ namespace CalendarSkill
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
 
-                if (string.IsNullOrEmpty(state.Title))
+                if (string.IsNullOrEmpty(state.Title) && !state.CreateHasDetail)
                 {
                     var userNameString = state.Attendees.ToSpeechString(CommonStrings.And, li => li.DisplayName ?? li.Address);
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoTitle, ResponseBuilder, new StringDictionary() { { "UserName", userNameString } }) }, cancellationToken);
@@ -128,16 +128,31 @@ namespace CalendarSkill
             try
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (sc.Result != null)
+                if (sc.Result != null || state.CreateHasDetail)
                 {
                     if (string.IsNullOrEmpty(state.Title))
                     {
-                        sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                        state.Title = content != null ? content.ToString() : sc.Context.Activity.Text;
+                        if (state.CreateHasDetail)
+                        {
+                            state.Title = CreateEventWhiteList.GetDefaultTitle();
+                        }
+                        else
+                        {
+                            sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
+                            string title = content != null ? content.ToString() : sc.Context.Activity.Text;
+                            if (CreateEventWhiteList.IsSkip(title))
+                            {
+                                state.Title = CreateEventWhiteList.GetDefaultTitle();
+                            }
+                            else
+                            {
+                                state.Title = title;
+                            }
+                        }
                     }
                 }
 
-                if (string.IsNullOrEmpty(state.Content))
+                if (string.IsNullOrEmpty(state.Content) && !state.CreateHasDetail)
                 {
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoContent) }, cancellationToken);
                 }
@@ -191,12 +206,16 @@ namespace CalendarSkill
             try
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (sc.Result != null)
+                if (sc.Result != null && !state.CreateHasDetail)
                 {
                     if (string.IsNullOrEmpty(state.Content))
                     {
                         sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                        state.Content = content != null ? content.ToString() : sc.Context.Activity.Text;
+                        string merged_content = content != null ? content.ToString() : sc.Context.Activity.Text;
+                        if (!CreateEventWhiteList.IsSkip(merged_content))
+                        {
+                            state.Content = merged_content;
+                        }
                     }
                 }
 
@@ -257,7 +276,7 @@ namespace CalendarSkill
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
 
-                if (state.Location == null)
+                if (state.Location == null && !state.CreateHasDetail)
                 {
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoLocation) }, cancellationToken);
                 }
@@ -278,7 +297,7 @@ namespace CalendarSkill
             try
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (state.Location == null && sc.Result != null)
+                if (state.Location == null && sc.Result != null && !state.CreateHasDetail)
                 {
                     sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
                     var luisResult = state.LuisResult;
@@ -289,7 +308,8 @@ namespace CalendarSkill
                     var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
 
                     // Enable the user to skip providing the location if they say something matching the Cancel intent, say something matching the ConfirmNo recognizer or something matching the NoLocation intent
-                    if (topIntent == General.Intent.Cancel.ToString() || (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false) || topIntent == Calendar.Intent.NoLocation.ToString())
+                    //if (topIntent == General.Intent.Cancel.ToString() || (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false) || topIntent == Calendar.Intent.NoLocation.ToString())
+                    if (CreateEventWhiteList.IsSkip(userInput))
                     {
                         state.Location = string.Empty;
                     }
@@ -653,6 +673,12 @@ namespace CalendarSkill
         {
             try
             {
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                if (state.CreateHasDetail)
+                {
+                    return await sc.NextAsync(cancellationToken: cancellationToken);
+                }
+
                 if (((UpdateDateTimeDialogOptions)sc.Options).Reason == UpdateDateTimeDialogOptions.UpdateReason.NotFound)
                 {
                     return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartDate) }, cancellationToken);
@@ -672,6 +698,12 @@ namespace CalendarSkill
             try
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                if (state.CreateHasDetail)
+                {
+                    DateTime datetime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, state.GetUserTimeZone());
+                    state.StartDate.Add(datetime);
+                }
+                else
                 if (sc.Result != null)
                 {
                     IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
@@ -821,7 +853,7 @@ namespace CalendarSkill
             try
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (state.Duration > 0 || state.EndTime.Any() || state.EndDate.Any())
+                if (state.Duration > 0 || state.EndTime.Any() || state.EndDate.Any() || state.CreateHasDetail)
                 {
                     return await sc.NextAsync(cancellationToken: cancellationToken);
                 }
@@ -881,6 +913,11 @@ namespace CalendarSkill
 
                     var ts = state.StartDateTime.Value.Subtract(state.EndDateTime.Value).Duration();
                     state.Duration = (int)ts.TotalSeconds;
+                }
+
+                if (state.Duration <= 0 && state.CreateHasDetail)
+                {
+                    state.Duration = 1800;
                 }
 
                 if (state.Duration <= 0 && sc.Result != null)
