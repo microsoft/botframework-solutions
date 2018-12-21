@@ -11,7 +11,9 @@ namespace CalendarSkillTest.Flow.Utterances
         public FindMeetingTestUtterances()
         {
             this.Add(BaseFindMeeting, GetBaseFindMeetingIntent(BaseFindMeeting));
-            this.Add(BaseNextMeeting, GetBaseNextMeetingIntent(BaseNextMeeting));
+            this.Add(BaseNextMeeting, GetBaseFindMeetingIntent(
+                BaseNextMeeting,
+                orderReference: new string[] { "next" }));
             this.Add(FindMeetingByTimeRange, GetBaseFindMeetingIntent(
                 FindMeetingByTimeRange,
                 fromDate: new string[] { "next week" }));
@@ -43,7 +45,8 @@ namespace CalendarSkillTest.Flow.Utterances
             string[] fromTime = null,
             string[] toTime = null,
             double[] ordinal = null,
-            double[] number = null)
+            double[] number = null,
+            string[] orderReference = null)
         {
             return GetCalendarIntent(
                 userInput,
@@ -53,12 +56,8 @@ namespace CalendarSkillTest.Flow.Utterances
                 fromTime: fromTime,
                 toTime: toTime,
                 ordinal: ordinal,
-                number: number);
-        }
-
-        private Calendar GetBaseNextMeetingIntent(string userinput, Calendar.Intent intents = Calendar.Intent.NextMeeting)
-        {
-            return GetCalendarIntent(userinput, intents);
+                number: number,
+                orderReference: orderReference);
         }
     }
 }
