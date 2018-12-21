@@ -56,11 +56,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>CalendarMainResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>NextMeetingResponses.tt</DependentUpon>
-    </Compile>
     <Compile Update="Dialogs\Shared\Resources\CalendarSharedResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -122,10 +117,6 @@
       <LastGenOutput>CalendarMainResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
-    <None Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>NextMeetingResponses.cs</LastGenOutput>
-    </None>
     <None Update="Dialogs\Shared\Resources\CalendarSharedResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CalendarSharedResponses.cs</LastGenOutput>
@@ -170,12 +161,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Main\Resources\CalendarMainResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Shared\Resources\CalendarSharedResponses.zh.json">

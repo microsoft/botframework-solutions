@@ -38,6 +38,22 @@ namespace CalendarSkill.Dialogs.Summary.Resources
 
         public static BotResponse ReadOutMessage => GetBotResponse();
 
+        public static BotResponse ShowNextMeetingNoLocationMessage => GetBotResponse();
+
+        public static BotResponse ShowNextMeetingMessage => GetBotResponse();
+
+        public static BotResponse ShowMultipleNextMeetingMessage => GetBotResponse();
+
+        public static BotResponse BeforeShowEventDetails => GetBotResponse();
+
+        public static BotResponse ReadTime => GetBotResponse();
+
+        public static BotResponse ReadDuration => GetBotResponse();
+
+        public static BotResponse ReadLocation => GetBotResponse();
+
+        public static BotResponse ReadNoLocation => GetBotResponse();
+
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {
             return _responseManager.GetBotResponse(propertyName);

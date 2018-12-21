@@ -581,16 +581,6 @@ namespace CalendarSkill
                             break;
                         }
 
-                    case Calendar.Intent.NextMeeting:
-                        {
-                            if (entity.AskParameter != null)
-                            {
-                                state.AskParameterContent = GetAskParameterFromEntity(entity);
-                            }
-
-                            break;
-                        }
-
                     case Calendar.Intent.ChangeCalendarEntry:
                         {
                             if (entity.Subject != null)
@@ -681,8 +671,12 @@ namespace CalendarSkill
                         }
 
                     case Calendar.Intent.FindCalendarEntry:
-                    case Calendar.Intent.Summary:
                         {
+                            if (entity.OrderReference != null)
+                            {
+                                state.OrderReference = GetOrderReferenceFromEntity(entity);
+                            }
+
                             if (entity.FromDate != null)
                             {
                                 var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
@@ -733,6 +727,11 @@ namespace CalendarSkill
                                 {
                                     state.EndTime = time;
                                 }
+                            }
+
+                            if (entity.AskParameter != null)
+                            {
+                                state.AskParameterContent = GetAskParameterFromEntity(entity);
                             }
 
                             break;
@@ -789,7 +788,7 @@ namespace CalendarSkill
 
                             if (entity.OrderReference != null)
                             {
-                                state.OrderReference = entity._instance.OrderReference[0].Text;
+                                state.OrderReference = GetOrderReferenceFromEntity(entity);
                             }
 
                             if (entity.Subject != null)
@@ -1092,6 +1091,11 @@ namespace CalendarSkill
             }
 
             return dateTimeResults;
+        }
+
+        private string GetOrderReferenceFromEntity(Calendar._Entities entity)
+        {
+            return entity.OrderReference[0];
         }
     }
 }

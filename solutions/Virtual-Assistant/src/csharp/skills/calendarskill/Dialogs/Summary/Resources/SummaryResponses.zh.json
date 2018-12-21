@@ -106,5 +106,77 @@
             }
         ],
         "inputHint": "acceptingInput"
+    },
+    "ShowNextMeetingNoLocationMessage": {
+        "replies": [
+            {
+                "text": "您的日程表上有下列会议：",
+                "speak": "您的日程表上有下列会议：你在{EventTime}有个会议{EventName}，与会人数{PeopleCount}人"
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
+    "ShowNextMeetingMessage": {
+        "replies": [
+            {
+                "text": "您的日程表上有下列会议：",
+                "speak": "您的日程表上有下列会议：你在{EventTime}有个会议{EventName}，与会人数{PeopleCount}人，会议地点在{Location}"
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
+    "ShowMultipleNextMeetingMessage": {
+        "replies": [
+            {
+                "text": "您的日程表上有下列会议：",
+                "speak": "您的日程表上有下列会议："
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
+    "BeforeShowEventDetails": {
+        "replies": [
+            {
+                "text": "这是你的会议{EventName}的详细信息：",
+                "speak": "这是你的会议{EventName}的详细信息："
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
+    "ReadTime": {
+        "replies": [
+            {
+                "text": "这个会议在{EventStartTime}开始，在{EventEndTime}结束。",
+                "speak": "这个会议在{EventStartTime}开始，在{EventEndTime}结束。"
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
+    "ReadDuration": {
+        "replies": [
+            {
+                "text": "这个会议持续{EventDuration}。",
+                "speak": "这个会议持续{EventDuration}。"
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
+    "ReadLocation": {
+        "replies": [
+            {
+                "text": "这个会议的地点在{EventLocation}。",
+                "speak": "这个会议的地点在{EventLocation}。"
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
+    "ReadNoLocation": {
+        "replies": [
+            {
+                "text": "这个会议没有具体地点，也许是一个在线会议。",
+                "speak": "这个会议没有具体地点，也许是一个在线会议。"
+            }
+        ],
+        "inputHint": "acceptingInput"
     }
 }
