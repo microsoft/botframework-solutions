@@ -9,7 +9,7 @@ using ToDoSkillTest.Flow.Fakes;
 
 namespace ToDoSkillTest.Fakes
 {
-    public class MockToDoService : ITaskService
+    public class MockTaskService : ITaskService
     {
         private List<TaskItem> allToDoItems = new List<TaskItem>(MockData.MockTaskItems);
 
@@ -17,7 +17,7 @@ namespace ToDoSkillTest.Fakes
 
         private List<TaskItem> allGroceryItems = new List<TaskItem>(MockData.MockGroceryItems);
 
-        public MockToDoService()
+        public MockTaskService()
         {
         }
 

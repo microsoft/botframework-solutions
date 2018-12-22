@@ -20,6 +20,7 @@ using Microsoft.Bot.Solutions.Util;
 using Newtonsoft.Json.Linq;
 using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.Dialogs.ShowToDo.Resources;
+using static ToDoSkill.ServiceProviderTypes;
 
 namespace ToDoSkill
 {
@@ -33,8 +34,7 @@ namespace ToDoSkill
             ISkillConfiguration services,
             IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
             IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
-            ITaskService serviceManager,
-            IMailService mailService,
+            IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
             : base(dialogId)
         {
@@ -42,7 +42,6 @@ namespace ToDoSkill
             ToDoStateAccessor = toDoStateAccessor;
             UserStateAccessor = userStateAccessor;
             ServiceManager = serviceManager;
-            MailService = mailService;
             TelemetryClient = telemetryClient;
 
             if (!Services.AuthenticationConnections.Any())
@@ -61,9 +60,7 @@ namespace ToDoSkill
 
         protected IStatePropertyAccessor<ToDoSkillUserState> UserStateAccessor { get; set; }
 
-        protected ITaskService ServiceManager { get; set; }
-
-        protected IMailService MailService { get; set; }
+        protected IServiceManager ServiceManager { get; set; }
 
         protected ToDoSkillResponseBuilder ResponseBuilder { get; set; }
 
@@ -967,12 +964,12 @@ namespace ToDoSkill
             var state = await ToDoStateAccessor.GetAsync(sc.Context);
             if (!state.ListTypeIds.ContainsKey(state.ListType))
             {
-                var emailService = await MailService.InitAsync(state.MsGraphToken);
+                var emailService = ServiceManager.InitMailService(state.MsGraphToken);
                 var senderMailAddress = await emailService.GetSenderMailAddressAsync();
                 var recovered = await RecoverListTypeIdsAsync(sc, senderMailAddress);
                 if (!recovered)
                 {
-                    if (ServiceManager is OneNoteService)
+                    if (state.TaskServiceType == ProviderTypes.OneNote)
                     {
                         await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
                     }
@@ -981,12 +978,12 @@ namespace ToDoSkill
                         await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOutlookMessage));
                     }
 
-                    var service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
-                    var taskWebLink = await service.GetTaskWebLink();
+                    var taskService = ServiceManager.InitTaskService(state.MsGraphToken, state.ListTypeIds, state.TaskServiceType);
+                    var taskWebLink = await taskService.GetTaskWebLink();
                     var emailContent = string.Format(ToDoStrings.EmailContent, taskWebLink);
                     await emailService.SendMessageAsync(emailContent, ToDoStrings.EmailSubject);
 
-                    if (ServiceManager is OneNoteService)
+                    if (state.TaskServiceType == ProviderTypes.OneNote)
                     {
                         await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.AfterOneNoteSetupMessage));
                     }
@@ -996,11 +993,11 @@ namespace ToDoSkill
                     }
 
                     await StoreListTypeIdsAsync(sc, senderMailAddress);
-                    return service;
+                    return taskService;
                 }
             }
 
-            return await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
+            return ServiceManager.InitTaskService(state.MsGraphToken, state.ListTypeIds, state.TaskServiceType);
         }
 
         private void ExtractListTypeAndTaskContent(ToDoSkillState state)

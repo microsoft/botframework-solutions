@@ -16,7 +16,6 @@ namespace ToDoSkill
     using Microsoft.Bot.Solutions.Skills;
     using Microsoft.Graph;
     using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// To Do skill helper class.

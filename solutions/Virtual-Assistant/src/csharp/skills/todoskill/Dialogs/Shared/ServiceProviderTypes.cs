@@ -13,6 +13,11 @@
             /// Outlook task list.
             /// </summary>
             Outlook,
+
+            /// <summary>
+            /// Other task list.
+            /// </summary>
+            Other,
         }
     }
 }
