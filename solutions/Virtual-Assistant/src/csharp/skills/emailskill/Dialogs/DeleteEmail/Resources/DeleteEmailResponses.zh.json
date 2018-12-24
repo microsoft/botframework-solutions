@@ -11,8 +11,8 @@
   "DeleteConfirm": {
     "replies": [
       {
-        "text": "Ok, I'll delete this.",
-        "speak": "Ok, I'll delete this."
+        "text": "您确定要删除这封邮件么?",
+        "speak": "您确定要删除这封邮件么? 邮件内容: {EmailDetails}"
       }
     ],
     "inputHint": "expectingInput"
@@ -20,8 +20,8 @@
   "DeleteSuccessfully": {
     "replies": [
       {
-        "text": "我已经删除了这个邮件。",
-        "speak": "我已经删除了这个邮件。"
+        "text": "我已经删除了这封邮件。",
+        "speak": "我已经删除了这封邮件。"
       }
     ],
     "inputHint": "acceptingInput"
