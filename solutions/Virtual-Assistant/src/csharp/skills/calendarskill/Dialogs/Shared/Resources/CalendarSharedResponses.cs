@@ -28,6 +28,8 @@ namespace CalendarSkill.Dialogs.Shared.Resources
 
         public static BotResponse CalendarErrorMessage => GetBotResponse();
 
+        public static BotResponse CalendarErrorMessageBotProblem => GetBotResponse();
+
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {
             return _responseManager.GetBotResponse(propertyName);

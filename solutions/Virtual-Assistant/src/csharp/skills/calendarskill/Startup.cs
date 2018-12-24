@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using CalendarSkill.Dialogs.Shared.Resources;
+using CalendarSkill.ServiceClients;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.ApplicationInsights.Extensibility;
@@ -20,6 +21,7 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -126,6 +128,10 @@ namespace CalendarSkill
                 options.Middleware.Add(typingMiddleware);
 
                 options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
+
+                var defaultLocale = Configuration.GetSection("defaultLocale").Get<string>();
+                options.Middleware.Add(new SetLocaleMiddleware(defaultLocale ?? "en"));
+
             });
         }
 

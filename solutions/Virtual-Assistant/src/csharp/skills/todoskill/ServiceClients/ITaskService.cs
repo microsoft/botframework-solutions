@@ -44,6 +44,12 @@ namespace ToDoSkill
         Task<bool> DeleteTasksAsync(string listType, List<TaskItem> taskItems);
 
         /// <summary>
+        /// Get task web link.
+        /// </summary>
+        /// <returns>Task web link.</returns>
+        Task<string> GetTaskWebLink();
+
+        /// <summary>
         /// Init task service.
         /// </summary>
         /// <param name="token">Task service token.</param>

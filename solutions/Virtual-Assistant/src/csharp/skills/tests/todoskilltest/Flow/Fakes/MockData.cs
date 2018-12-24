@@ -182,5 +182,7 @@ namespace ToDoSkillTest.Flow.Fakes
                 IsCompleted = false
             }
         };
+
+        public static string MockOneNoteWebLink { get; set; } = "https://123456-my.sharepoint.com/personal/123456";
     }
 }

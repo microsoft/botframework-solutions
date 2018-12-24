@@ -3,9 +3,9 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Graph;
+using CalendarSkill.Models;
 
-namespace CalendarSkill
+namespace CalendarSkill.ServiceClients
 {
     public interface IUserService
     {

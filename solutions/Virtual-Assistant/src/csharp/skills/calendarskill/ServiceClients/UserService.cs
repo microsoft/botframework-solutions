@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Graph;
+using CalendarSkill.Models;
 
 namespace CalendarSkill.ServiceClients
 {
@@ -12,6 +11,11 @@ namespace CalendarSkill.ServiceClients
 
         public UserService(IUserService userService)
         {
+            if (userService == null)
+            {
+                throw new Exception("userService is null");
+            }
+
             this.userService = userService;
         }
 

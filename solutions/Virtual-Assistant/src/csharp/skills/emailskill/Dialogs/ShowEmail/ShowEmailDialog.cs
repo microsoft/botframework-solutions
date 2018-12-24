@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.Shared.Resources;
+using EmailSkill.Dialogs.Shared.Resources.Strings;
 using EmailSkill.Dialogs.ShowEmail.Resources;
 using EmailSkill.Extensions;
 using EmailSkill.Util;
@@ -236,7 +237,7 @@ namespace EmailSkill
                     {
                         Subject = message.Subject,
                         Sender = message.Sender.EmailAddress.Name,
-                        NameList = string.Format(CommonStrings.ToFormat, nameListString),
+                        NameList = string.Format(EmailCommonStrings.ToFormat, nameListString),
                         EmailContent = message.BodyPreview,
                         EmailLink = message.WebLink,
                         ReceivedDateTime = message?.ReceivedDateTime == null

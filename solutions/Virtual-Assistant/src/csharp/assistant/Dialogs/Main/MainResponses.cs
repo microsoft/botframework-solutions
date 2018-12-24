@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using AdaptiveCards;
@@ -8,6 +9,8 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.TemplateManager;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Schema;
 using VirtualAssistant.Dialogs.Main.Resources;
 
 namespace VirtualAssistant
@@ -50,6 +53,10 @@ namespace VirtualAssistant
                     ResponseIds.Intro,
                     (context, data) => BuildIntroCard(context, data)
                 },
+                {
+                    ResponseIds.Qna,
+                    (context, data) => BuildQnACard(context, data)
+                },
             }
         };
 
@@ -60,7 +67,7 @@ namespace VirtualAssistant
 
         public static IMessageActivity BuildIntroCard(ITurnContext turnContext, dynamic data)
         {
-            var introCard = File.ReadAllText(@".\Dialogs\Main\Resources\Intro.json");
+            var introCard = File.ReadAllText(MainStrings.INTRO_PATH);
             var card = AdaptiveCard.FromJson(introCard).Card;
             var attachment = new Attachment(AdaptiveCard.ContentType, content: card);
 
@@ -91,6 +98,31 @@ namespace VirtualAssistant
             return response;
         }
 
+        public static IMessageActivity BuildQnACard(ITurnContext turnContext, dynamic answer)
+        {
+            var response = turnContext.Activity.CreateReply();
+
+            try
+            {
+                ThumbnailCard card = JsonConvert.DeserializeObject<ThumbnailCard>(answer);
+
+                response.Attachments = new List<Attachment>
+                {
+                    card.ToAttachment(),
+                };
+
+                response.Speak = card.Title != null ? $"{card.Title} " : string.Empty;
+                response.Speak += card.Subtitle != null ? $"{card.Subtitle} " : string.Empty;
+                response.Speak += card.Text != null ? $"{card.Text} " : string.Empty;
+            }
+            catch (JsonException)
+            {
+                response.Text = answer;
+            }
+
+            return response;
+        }
+
         public class ResponseIds
         {
             public const string Cancelled = "cancelled";
@@ -101,6 +133,7 @@ namespace VirtualAssistant
             public const string Intro = "intro";
             public const string Error = "error";
             public const string NoActiveDialog = "noActiveDialog";
+            public const string Qna = "qna";
         }
     }
 }

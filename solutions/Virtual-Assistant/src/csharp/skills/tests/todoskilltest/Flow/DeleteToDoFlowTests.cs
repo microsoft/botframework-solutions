@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using AdaptiveCards;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Skills;
@@ -33,15 +32,6 @@ namespace ToDoSkillTest.Flow
             });
         }
 
-        private static Dictionary<string, ITelemetryLuisRecognizer> NewMethod()
-        {
-            return new Dictionary<string, ITelemetryLuisRecognizer>()
-                {
-                    { "general", new MockLuisRecognizer(new GeneralTestUtterances()) },
-                    { "todo", new MockLuisRecognizer(new DeleteToDoFlowTestUtterances()) }
-                };
-        }
-
         [TestMethod]
         public async Task Test_DeleteToDoItem()
         {
@@ -50,6 +40,7 @@ namespace ToDoSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReplyOneOf(this.CollectTaskIndex())
                 .Send(DeleteToDoFlowTestUtterances.TaskContent)
                 .AssertReplyOneOf(this.CollectConfirmationForToDo())
@@ -67,6 +58,7 @@ namespace ToDoSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReplyOneOf(this.CollectConfirmationForToDo())
                 .Send("yes")
                 .AssertReply(this.AfterTaskDeletedCardMessage())
@@ -82,6 +74,7 @@ namespace ToDoSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReplyOneOf(this.CollectConfirmationForShopping())
                 .Send("yes")
                 .AssertReply(this.AfterShoppingItemDeletedCardMessage())
@@ -97,6 +90,7 @@ namespace ToDoSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReplyOneOf(this.CollectConfirmationForToDo())
                 .Send("yes")
                 .AssertReply(this.AfterTaskDeletedCardMessage())
@@ -113,6 +107,7 @@ namespace ToDoSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReplyOneOf(this.CollectConfirmationForToDo())
                 .Send("yes")
                 .AssertReply(this.AfterLastTaskDeletedMessage())
@@ -128,11 +123,21 @@ namespace ToDoSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReplyOneOf(this.CollectConfirmationForToDo())
                 .Send("no")
                 .AssertReplyOneOf(this.AfterDeletionRejectedMessage())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
+        }
+
+        private static Dictionary<string, ITelemetryLuisRecognizer> NewMethod()
+        {
+            return new Dictionary<string, ITelemetryLuisRecognizer>()
+                {
+                    { "general", new MockLuisRecognizer(new GeneralTestUtterances()) },
+                    { "todo", new MockLuisRecognizer(new DeleteToDoFlowTestUtterances()) }
+                };
         }
 
         private Action<IActivity> AfterTaskDeletedCardMessage()
@@ -225,7 +230,12 @@ namespace ToDoSkillTest.Flow
 
         private string[] SettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.SettingUpOneNoteMessage.Replies, new StringDictionary());
+            return this.ParseReplies(ToDoSharedResponses.SettingUpOutlookMessage.Replies, new StringDictionary());
+        }
+
+        private string[] AfterSettingUpOneNote()
+        {
+            return this.ParseReplies(ToDoSharedResponses.AfterOutlookSetupMessage.Replies, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()

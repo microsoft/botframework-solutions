@@ -47,12 +47,18 @@
       "name": "FAQ"
     },
     {
+      "type": "qna",
+      "id": "chitchat",
+      "name": "ChitChat"
+    },
+    {
       "type": "dispatch",
       "id": "dispatch",
       "name": "Dispatch",
       "serviceIds": [
         "general",
-        "faq"
+        "faq",
+        "chitchat"
       ]
     }
   ]

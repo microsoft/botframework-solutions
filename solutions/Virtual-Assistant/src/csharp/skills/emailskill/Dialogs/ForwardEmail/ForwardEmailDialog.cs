@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.Shared.Resources;
+using EmailSkill.Dialogs.Shared.Resources.Strings;
 using EmailSkill.Util;
 using Luis;
 using Microsoft.Bot.Builder;
@@ -93,9 +94,9 @@ namespace EmailSkill
 
                     var emailCard = new EmailCardData
                     {
-                        Subject = string.Format(CommonStrings.SubjectFormat, string.Format(CommonStrings.ForwardReplyFormat, message.FirstOrDefault()?.Subject)),
-                        NameList = string.Format(CommonStrings.ToFormat, nameListString),
-                        EmailContent = string.Format(CommonStrings.ContentFormat, state.Content),
+                        Subject = string.Format(EmailCommonStrings.SubjectFormat, string.Format(EmailCommonStrings.ForwardReplyFormat, message.FirstOrDefault()?.Subject)),
+                        NameList = string.Format(EmailCommonStrings.ToFormat, nameListString),
+                        EmailContent = string.Format(EmailCommonStrings.ContentFormat, state.Content),
                     };
                     var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(EmailSharedResponses.SentSuccessfully, "Dialogs/Shared/Resources/Cards/EmailWithOutButtonCard.json", emailCard);
 

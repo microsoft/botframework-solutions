@@ -18,12 +18,14 @@ namespace CustomerSupportTemplate.Dialogs.Account
 
         public ResetPasswordDialog(
             BotServices services,
-            IStatePropertyAccessor<CustomerSupportTemplateState> stateAccessor)
-            : base(services, nameof(ResetPasswordDialog))
+            IStatePropertyAccessor<CustomerSupportTemplateState> stateAccessor,
+            IBotTelemetryClient telemetryClient)
+            : base(services, nameof(ResetPasswordDialog), telemetryClient)
         {
             _client = new DemoServiceClient();
             _services = services;
             _stateAccessor = stateAccessor;
+            TelemetryClient = telemetryClient;
 
             var resetPassword = new WaterfallStep[]
             {
@@ -33,7 +35,7 @@ namespace CustomerSupportTemplate.Dialogs.Account
             };
 
             InitialDialogId = nameof(ResetPasswordDialog);
-            AddDialog(new WaterfallDialog(InitialDialogId, resetPassword));
+            AddDialog(new WaterfallDialog(InitialDialogId, resetPassword) { TelemetryClient = telemetryClient });
             AddDialog(new TextPrompt(DialogIds.AccountIdPrompt));
             AddDialog(new TextPrompt(DialogIds.EmailPrompt, EmailValidator));
         }

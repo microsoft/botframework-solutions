@@ -24,12 +24,13 @@ namespace CustomerSupportTemplate
         private IStatePropertyAccessor<CustomerSupportTemplateState> _stateAccessor;
         private MainResponses _responder = new MainResponses();
 
-        public MainDialog(BotServices services, ConversationState conversationState, UserState userState)
+        public MainDialog(BotServices services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog))
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _conversationState = conversationState;
             _userState = userState;
+            TelemetryClient = telemetryClient;
             _stateAccessor = _conversationState.CreateProperty<CustomerSupportTemplateState>(nameof(CustomerSupportTemplateState));
 
             RegisterDialogs();
@@ -53,7 +54,7 @@ namespace CustomerSupportTemplate
             var routeResult = EndOfTurn;
 
             // Check dispatch result
-            var dispatchResult = await _services.DispatchRecognizer.RecognizeAsync<Dispatch>(dc.Context, CancellationToken.None);
+            var dispatchResult = await _services.DispatchRecognizer.RecognizeAsync<Dispatch>(dc, true, CancellationToken.None);
             var intent = dispatchResult.TopIntent().intent;
 
             if (intent == Dispatch.Intent.l_General)
@@ -67,7 +68,7 @@ namespace CustomerSupportTemplate
                 }
                 else
                 {
-                    var result = await luisService.RecognizeAsync<General>(dc.Context, CancellationToken.None);
+                    var result = await luisService.RecognizeAsync<General>(dc, true, CancellationToken.None);
 
                     var generalIntent = result?.TopIntent().intent;
 
@@ -84,7 +85,7 @@ namespace CustomerSupportTemplate
                         case General.Intent.Help:
                             {
                                 // send help response
-                                await _responder.ReplyWith(dc.Context, MainResponses.Help);
+                                routeResult = await dc.BeginDialogAsync(nameof(OnboardingDialog));
                                 break;
                             }
 
@@ -235,22 +236,22 @@ namespace CustomerSupportTemplate
 
         private void RegisterDialogs()
         {
-            AddDialog(new OnboardingDialog(_services, _userState.CreateProperty<OnboardingState>(nameof(OnboardingState))));
-            AddDialog(new EscalateDialog(_services));
-            AddDialog(new PayBillDialog(_services, _stateAccessor));
-            AddDialog(new ResetPasswordDialog(_services, _stateAccessor));
-            AddDialog(new UpdateAccountDialog(_services, _stateAccessor));
-            AddDialog(new CancelOrderDialog(_services, _stateAccessor));
-            AddDialog(new CheckOrderStatusDialog(_services, _stateAccessor));
-            AddDialog(new FindPromoCodeDialog(_services, _stateAccessor));
-            AddDialog(new ExchangeItemDialog(_services, _stateAccessor));
-            AddDialog(new GetRefundStatusDialog(_services, _stateAccessor));
-            AddDialog(new StartReturnDialog(_services, _stateAccessor));
-            AddDialog(new FreeShippingDialog(_services, _stateAccessor));
-            AddDialog(new UpdateShippingAddressDialog(_services, _stateAccessor));
-            AddDialog(new CheckItemAvailabilityDialog(_services, _stateAccessor));
-            AddDialog(new FindStoreDialog(_services, _stateAccessor));
-            AddDialog(new PickUpInStoreDialog(_services, _stateAccessor));
+            AddDialog(new OnboardingDialog(_services, _userState.CreateProperty<OnboardingState>(nameof(OnboardingState)), TelemetryClient));
+            AddDialog(new EscalateDialog(_services, TelemetryClient));
+            AddDialog(new PayBillDialog(_services, _stateAccessor, TelemetryClient));
+            AddDialog(new ResetPasswordDialog(_services, _stateAccessor, TelemetryClient));
+            AddDialog(new UpdateAccountDialog(_services, _stateAccessor, TelemetryClient));
+            AddDialog(new CancelOrderDialog(_services, _stateAccessor, TelemetryClient));
+            AddDialog(new CheckOrderStatusDialog(_services, _stateAccessor, TelemetryClient));
+            AddDialog(new FindPromoCodeDialog(_services, _stateAccessor, TelemetryClient));
+            AddDialog(new ExchangeItemDialog(_services, _stateAccessor, TelemetryClient));
+            AddDialog(new GetRefundStatusDialog(_services, _stateAccessor, TelemetryClient));
+            AddDialog(new StartReturnDialog(_services, _stateAccessor, TelemetryClient));
+            AddDialog(new FreeShippingDialog(_services, _stateAccessor, TelemetryClient));
+            AddDialog(new UpdateShippingAddressDialog(_services, _stateAccessor, TelemetryClient));
+            AddDialog(new CheckItemAvailabilityDialog(_services, _stateAccessor, TelemetryClient));
+            AddDialog(new FindStoreDialog(_services, _stateAccessor, TelemetryClient));
+            AddDialog(new PickUpInStoreDialog(_services, _stateAccessor, TelemetryClient));
         }
     }
 }

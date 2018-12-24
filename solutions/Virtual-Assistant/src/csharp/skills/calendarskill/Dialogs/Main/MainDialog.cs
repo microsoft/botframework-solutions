@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
+using CalendarSkill.ServiceClients;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -103,12 +104,6 @@ namespace CalendarSkill
                             break;
                         }
 
-                    case Luis.Calendar.Intent.NextMeeting:
-                        {
-                            await dc.BeginDialogAsync(nameof(NextMeetingDialog), skillOptions);
-                            break;
-                        }
-
                     case Luis.Calendar.Intent.ChangeCalendarEntry:
                         {
                             await dc.BeginDialogAsync(nameof(UpdateEventDialog), skillOptions);
@@ -122,7 +117,6 @@ namespace CalendarSkill
                         }
 
                     case Luis.Calendar.Intent.FindCalendarEntry:
-                    case Luis.Calendar.Intent.Summary:
                         {
                             await dc.BeginDialogAsync(nameof(SummaryDialog), skillOptions);
                             break;
@@ -281,6 +275,8 @@ namespace CalendarSkill
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
+            var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
+            state.Clear();
             await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(CalendarMainResponses.CancelMessage));
             await CompleteAsync(dc);
             await dc.CancelAllDialogsAsync();
@@ -324,7 +320,6 @@ namespace CalendarSkill
         {
             AddDialog(new CreateEventDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
             AddDialog(new DeleteEventDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new NextMeetingDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
             AddDialog(new TimeRemainingDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
             AddDialog(new SummaryDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
             AddDialog(new UpdateEventDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));

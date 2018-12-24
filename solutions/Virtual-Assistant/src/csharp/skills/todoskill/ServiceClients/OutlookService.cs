@@ -16,7 +16,8 @@ namespace ToDoSkill.ServiceClients
     /// </summary>
     public class OutlookService : ITaskService
     {
-        private readonly string graphBaseUrl = "https://graph.microsoft.com/beta/me/outlook/";
+        private const string GraphBaseUrl = "https://graph.microsoft.com/beta/me/outlook/";
+        private const string OutlookTaskUrl = "https://outlook.live.com/owa/?path=/tasks";
         private HttpClient httpClient;
         private Dictionary<string, string> taskFolderIds;
 
@@ -76,7 +77,7 @@ namespace ToDoSkill.ServiceClients
         {
             try
             {
-                var requestUrl = this.graphBaseUrl + "taskFolders/" + taskFolderIds[listType] + "/tasks";
+                var requestUrl = GraphBaseUrl + "taskFolders/" + taskFolderIds[listType] + "/tasks";
                 return await this.ExecuteTasksGetAsync(requestUrl);
             }
             catch (ServiceException ex)
@@ -95,7 +96,7 @@ namespace ToDoSkill.ServiceClients
         {
             try
             {
-                var requestUrl = this.graphBaseUrl + "taskFolders/" + taskFolderIds[listType] + "/tasks";
+                var requestUrl = GraphBaseUrl + "taskFolders/" + taskFolderIds[listType] + "/tasks";
                 return await this.ExecuteTaskAddAsync(requestUrl, taskText);
             }
             catch (ServiceException ex)
@@ -114,7 +115,7 @@ namespace ToDoSkill.ServiceClients
         {
             try
             {
-                var requestUrl = this.graphBaseUrl + "tasks";
+                var requestUrl = GraphBaseUrl + "tasks";
                 return await this.ExecuteTasksMarkAsync(requestUrl, taskItems);
             }
             catch (ServiceException ex)
@@ -133,13 +134,22 @@ namespace ToDoSkill.ServiceClients
         {
             try
             {
-                var requestUrl = this.graphBaseUrl + "tasks";
+                var requestUrl = GraphBaseUrl + "tasks";
                 return await this.ExecuteTasksDeleteAsync(requestUrl, taskItems);
             }
             catch (ServiceException ex)
             {
                 throw ServiceHelper.HandleGraphAPIException(ex);
             }
+        }
+
+        /// <summary>
+        /// Get task web link.
+        /// </summary>
+        /// <returns>Task web link.</returns>
+        public async Task<string> GetTaskWebLink()
+        {
+            return await Task.Run(() => OutlookTaskUrl);
         }
 
         private async Task<string> GetOrCreateTaskFolderAsync(string taskFolderName)
@@ -155,7 +165,7 @@ namespace ToDoSkill.ServiceClients
 
         private async Task<string> GetTaskFolderAsync(string taskFolderName)
         {
-            var taskFolderIdNameDic = await this.GetTaskFoldersAsync(this.graphBaseUrl + "taskFolders");
+            var taskFolderIdNameDic = await this.GetTaskFoldersAsync(GraphBaseUrl + "taskFolders");
             foreach (var taskFolderIdNamePair in taskFolderIdNameDic)
             {
                 if (taskFolderIdNamePair.Value.Equals(taskFolderName, StringComparison.InvariantCultureIgnoreCase))
@@ -169,7 +179,7 @@ namespace ToDoSkill.ServiceClients
 
         private async Task<string> CreateTaskFolderAsync(string taskFolderName)
         {
-            var httpRequestMessage = ServiceHelper.GenerateCreateTaskFolderHttpRequest(this.graphBaseUrl + "taskFolders", taskFolderName);
+            var httpRequestMessage = ServiceHelper.GenerateCreateTaskFolderHttpRequest(GraphBaseUrl + "taskFolders", taskFolderName);
             var result = await this.httpClient.SendAsync(httpRequestMessage);
             dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
             if (result.IsSuccessStatusCode)

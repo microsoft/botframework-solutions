@@ -18,12 +18,14 @@ namespace CustomerSupportTemplate.Dialogs.Account
 
         public UpdateAccountDialog(
             BotServices services,
-            IStatePropertyAccessor<CustomerSupportTemplateState> stateAccessor)
-            : base(services, nameof(UpdateAccountDialog))
+            IStatePropertyAccessor<CustomerSupportTemplateState> stateAccessor,
+            IBotTelemetryClient telemetryClient)
+            : base(services, nameof(UpdateAccountDialog), telemetryClient)
         {
             _client = new DemoServiceClient();
             _services = services;
             _stateAccessor = stateAccessor;
+            TelemetryClient = telemetryClient;
 
             var updateAccount = new WaterfallStep[]
             {
@@ -34,7 +36,7 @@ namespace CustomerSupportTemplate.Dialogs.Account
             };
 
             InitialDialogId = nameof(UpdateAccountDialog);
-            AddDialog(new WaterfallDialog(InitialDialogId, updateAccount));
+            AddDialog(new WaterfallDialog(InitialDialogId, updateAccount) { TelemetryClient = telemetryClient });
             AddDialog(new FormPrompt(DialogIds.UpdateContactInfoPrompt, ContactInfoValidator));
             AddDialog(new OAuthPrompt(DialogIds.AuthPrompt, new OAuthPromptSettings()
             {

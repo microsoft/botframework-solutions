@@ -8,10 +8,12 @@ namespace ToDoSkill
     {
         public AddToDoItemDialog(
             ISkillConfiguration services,
-            IStatePropertyAccessor<ToDoSkillState> accessor,
+            IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
+            IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
             ITaskService serviceManager,
+            IMailService mailService,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(AddToDoItemDialog), services, accessor, serviceManager, telemetryClient)
+            : base(nameof(AddToDoItemDialog), services, toDoStateAccessor, userStateAccessor, serviceManager, mailService, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 

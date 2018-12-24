@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Microsoft.ApplicationInsights;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Skills;

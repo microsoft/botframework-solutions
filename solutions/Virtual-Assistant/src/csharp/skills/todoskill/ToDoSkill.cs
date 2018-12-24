@@ -2,12 +2,10 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Skills;
 using ToDoSkill.ServiceClients;
 using static ToDoSkill.ServiceProviderTypes;
@@ -44,10 +42,13 @@ namespace ToDoSkill
             }
 
             _serviceManager = serviceManager ?? taskService;
+            MailService = new MailService();
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(DialogState)));
-            _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _telemetryClient, _serviceManager, _skillMode));
         }
+
+        // TODO: this property was added to allow the to do tests to work correctly. It should be reevaluated.
+        public IMailService MailService { get; set; }
 
         /// <summary>
         /// Run every turn of the conversation. Handles orchestration of messages.
@@ -57,6 +58,11 @@ namespace ToDoSkill
         /// <returns>A <see cref="TaskItem"/> representing the asynchronous operation.</returns>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
+            if (_dialogs.Find(nameof(MainDialog)) == null)
+            {
+                _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _telemetryClient, _serviceManager, MailService, _skillMode));
+            }
+
             var dc = await _dialogs.CreateContextAsync(turnContext);
 
             if (dc.ActiveDialog != null)

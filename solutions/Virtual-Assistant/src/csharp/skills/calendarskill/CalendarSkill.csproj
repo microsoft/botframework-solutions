@@ -56,11 +56,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>CalendarMainResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>NextMeetingResponses.tt</DependentUpon>
-    </Compile>
     <Compile Update="Dialogs\Shared\Resources\CalendarSharedResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -122,10 +117,6 @@
       <LastGenOutput>CalendarMainResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
-    <None Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>NextMeetingResponses.cs</LastGenOutput>
-    </None>
     <None Update="Dialogs\Shared\Resources\CalendarSharedResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CalendarSharedResponses.cs</LastGenOutput>
@@ -145,7 +136,7 @@
     <None Update="Models\Resources\AskParameterTemplate.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="ServiceClients\WindowsIanaMapping">
+    <None Update="Common\WindowsIanaMapping">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -167,6 +158,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\CreateEvent\Resources\CreateEventResponses.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\CreateEvent\Resources\CreateEventWhiteList.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\CreateEvent\Resources\CreateEventWhiteList.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\DeleteEvent\Resources\DeleteEventResponses.zh.json">
@@ -329,5 +326,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CalendarCommonStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 </Project>

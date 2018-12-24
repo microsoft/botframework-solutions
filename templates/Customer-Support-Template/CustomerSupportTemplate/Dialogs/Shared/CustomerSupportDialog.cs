@@ -5,6 +5,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 
 namespace CustomerSupportTemplate
@@ -18,13 +19,14 @@ namespace CustomerSupportTemplate
 
         private readonly CancelResponses _responder = new CancelResponses();
 
-        public CustomerSupportDialog(BotServices botServices, string dialogId)
+        public CustomerSupportDialog(BotServices botServices, string dialogId, IBotTelemetryClient telemetryClient)
             : base(dialogId)
         {
             _services = botServices;
+            TelemetryClient = telemetryClient;
 
-            AddDialog(new CancelDialog());
-            AddDialog(new EscalateDialog(botServices));
+            AddDialog(new CancelDialog(TelemetryClient));
+            AddDialog(new EscalateDialog(botServices, TelemetryClient));
         }
 
         protected override async Task<InterruptionStatus> OnDialogInterruptionAsync(DialogContext dc, CancellationToken cancellationToken)

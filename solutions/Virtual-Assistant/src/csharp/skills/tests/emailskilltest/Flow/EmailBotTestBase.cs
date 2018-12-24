@@ -56,9 +56,11 @@ namespace EmailSkillTest.Flow
 
         public Activity GetAuthResponse()
         {
-            ProviderTokenResponse providerTokenResponse = new ProviderTokenResponse();
-            providerTokenResponse.TokenResponse = new TokenResponse(token: "test");
-            providerTokenResponse.AuthenticationProvider = OAuthProvider.AzureAD;
+            ProviderTokenResponse providerTokenResponse = new ProviderTokenResponse
+            {
+                TokenResponse = new TokenResponse(token: "test"),
+                AuthenticationProvider = OAuthProvider.AzureAD
+            };
             return new Activity(ActivityTypes.Event, name: "tokens/response", value: providerTokenResponse);
         }
 

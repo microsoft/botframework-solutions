@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.ApplicationInsights;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
@@ -24,6 +23,8 @@ namespace $safeprojectname$.Middleware.Telemetry
     /// </summary>
     public class TelemetryLuisRecognizer : LuisRecognizer
     {
+        private LuisApplication _luisApplication;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TelemetryLuisRecognizer"/> class.
         /// </summary>
@@ -35,6 +36,8 @@ namespace $safeprojectname$.Middleware.Telemetry
         public TelemetryLuisRecognizer(LuisApplication application, LuisPredictionOptions predictionOptions = null, bool includeApiResults = false, bool logOriginalMessage = false, bool logUserName = false)
             : base(application, predictionOptions, includeApiResults)
         {
+            _luisApplication = application;
+
             LogOriginalMessage = logOriginalMessage;
             LogUsername = logUserName;
         }
@@ -122,6 +125,7 @@ namespace $safeprojectname$.Middleware.Telemetry
                 // Add the intent score and conversation id properties
                 var telemetryProperties = new Dictionary<string, string>()
                 {
+                    { LuisTelemetryConstants.ApplicationId, _luisApplication.ApplicationId },
                     { LuisTelemetryConstants.IntentProperty, topLuisIntent.intent },
                     { LuisTelemetryConstants.IntentScoreProperty, intentScore },
                 };

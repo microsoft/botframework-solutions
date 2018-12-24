@@ -38,8 +38,10 @@ namespace EmailSkillTest.API
         public async Task GetNameListStringTest_OneOption()
         {
             // Mock data
-            mockEmailStateAccessor.MockEmailSkillState = new EmailSkillState();
-            mockEmailStateAccessor.MockEmailSkillState.Recipients = GetRecipients(1);
+            mockEmailStateAccessor.MockEmailSkillState = new EmailSkillState
+            {
+                Recipients = GetRecipients(1)
+            };
             mockEmailStateAccessor.SetMockBehavior();
             EmailStateAccessor = mockEmailStateAccessor.GetMock().Object;
 
@@ -52,8 +54,10 @@ namespace EmailSkillTest.API
         public async Task GetNameListStringTest_TwoOptions()
         {
             // Mock data
-            mockEmailStateAccessor.MockEmailSkillState = new EmailSkillState();
-            mockEmailStateAccessor.MockEmailSkillState.Recipients = GetRecipients(2);
+            mockEmailStateAccessor.MockEmailSkillState = new EmailSkillState
+            {
+                Recipients = GetRecipients(2)
+            };
             mockEmailStateAccessor.SetMockBehavior();
             EmailStateAccessor = mockEmailStateAccessor.GetMock().Object;
 
@@ -66,8 +70,10 @@ namespace EmailSkillTest.API
         public async Task GetNameListStringTest_ThreeOptions()
         {
             // Mock data
-            mockEmailStateAccessor.MockEmailSkillState = new EmailSkillState();
-            mockEmailStateAccessor.MockEmailSkillState.Recipients = GetRecipients(3);
+            mockEmailStateAccessor.MockEmailSkillState = new EmailSkillState
+            {
+                Recipients = GetRecipients(3)
+            };
             mockEmailStateAccessor.SetMockBehavior();
             EmailStateAccessor = mockEmailStateAccessor.GetMock().Object;
 
@@ -98,10 +104,14 @@ namespace EmailSkillTest.API
 
             for (int i = 0; i < count; i++)
             {
-                var recipient = new Recipient();
-                recipient.EmailAddress = new EmailAddress();
-                recipient.EmailAddress.Name = "test" + i.ToString();
-                recipient.EmailAddress.Address = "test" + i.ToString() + "@test.com";
+                var recipient = new Recipient
+                {
+                    EmailAddress = new EmailAddress
+                    {
+                        Name = "test" + i.ToString(),
+                        Address = "test" + i.ToString() + "@test.com"
+                    }
+                };
 
                 result.Add(recipient);
             }
@@ -116,13 +126,17 @@ namespace EmailSkillTest.API
             for (int i = start; i < end; i++)
             {
                 var emailList = new List<ScoredEmailAddress>();
-                var scoredEmailAddress = new ScoredEmailAddress();
-                scoredEmailAddress.Address = "test" + i.ToString() + "@test.com";
+                var scoredEmailAddress = new ScoredEmailAddress
+                {
+                    Address = "test" + i.ToString() + "@test.com"
+                };
                 emailList.Add(scoredEmailAddress);
 
-                var person = new Person();
-                person.DisplayName = "test" + i.ToString();
-                person.ScoredEmailAddresses = emailList;
+                var person = new Person
+                {
+                    DisplayName = "test" + i.ToString(),
+                    ScoredEmailAddresses = emailList
+                };
 
                 result.Add(person);
             }

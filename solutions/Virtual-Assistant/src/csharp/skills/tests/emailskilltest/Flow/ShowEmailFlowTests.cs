@@ -51,10 +51,10 @@ namespace EmailSkillTest.Flow
         {
             // Setup email data
             var serviceManager = this.ServiceManager as MockServiceManager;
-            serviceManager.MockMailService.MyMessages = serviceManager.MockMailService.FakeMyMessages();
+            serviceManager.MailService.MyMessages = serviceManager.MailService.FakeMyMessages();
 
-            var message = serviceManager.MockMailService.FakeMessage(senderName: ContextStrings.TestRecipient, senderAddress: ContextStrings.TestEmailAdress);
-            serviceManager.MockMailService.MyMessages.Add(message);
+            var message = serviceManager.MailService.FakeMessage(senderName: ContextStrings.TestRecipient, senderAddress: ContextStrings.TestEmailAdress);
+            serviceManager.MailService.MyMessages.Add(message);
 
             await this.GetTestFlow()
                 .Send(ShowEmailUtterances.ShowEmailsFromTestRecipient)
@@ -339,7 +339,7 @@ namespace EmailSkillTest.Flow
         {
             // Setup email data
             var serviceManager = this.ServiceManager as MockServiceManager;
-            serviceManager.MockMailService.MyMessages = serviceManager.MockMailService.FakeMyMessages(0);
+            serviceManager.MailService.MyMessages = serviceManager.MailService.FakeMyMessages(0);
 
             await this.GetTestFlow()
                 .Send(ShowEmailUtterances.ShowEmails)
@@ -355,7 +355,7 @@ namespace EmailSkillTest.Flow
         {
             // Setup email data
             var serviceManager = this.ServiceManager as MockServiceManager;
-            serviceManager.MockMailService.MyMessages = serviceManager.MockMailService.FakeMyMessages(1);
+            serviceManager.MailService.MyMessages = serviceManager.MailService.FakeMyMessages(1);
 
             await this.GetTestFlow()
                 .Send(ShowEmailUtterances.ShowEmails)

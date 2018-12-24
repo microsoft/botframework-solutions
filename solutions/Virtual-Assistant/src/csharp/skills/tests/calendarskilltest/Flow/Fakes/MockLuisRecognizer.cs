@@ -15,10 +15,6 @@ namespace CalendarSkillTest.Flow.Fakes
         private BaseTestUtterances utterancesManager;
         private GeneralTestUtterances generalUtterancesManager;
 
-        public bool LogOriginalMessage => throw new NotImplementedException();
-
-        public bool LogUsername => throw new NotImplementedException();
-
         public MockLuisRecognizer(BaseTestUtterances utterancesManager)
         {
             this.utterancesManager = utterancesManager;
@@ -28,6 +24,10 @@ namespace CalendarSkillTest.Flow.Fakes
         {
             this.generalUtterancesManager = new GeneralTestUtterances();
         }
+
+        public bool LogOriginalMessage => throw new NotImplementedException();
+
+        public bool LogUsername => throw new NotImplementedException();
 
         public Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
