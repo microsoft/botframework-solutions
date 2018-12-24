@@ -20,7 +20,8 @@ using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
-using Calendar = Luis.Calendar;
+using Microsoft.Bot.Schema;
+using Microsoft.Recognizers.Text.DateTime;
 
 namespace CalendarSkill
 {
@@ -740,8 +741,9 @@ namespace CalendarSkill
                                     state.StartDate.Add(isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime);
                                 }
                             }
-                            catch (FormatException)
+                            catch (FormatException ex)
                             {
+                                await HandleExpectedDialogExceptions(sc, ex);
                             }
                         }
                     }
