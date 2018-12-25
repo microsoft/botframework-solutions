@@ -1078,27 +1078,6 @@ namespace ToDoSkill
             return await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
         }
 
-        private Tuple<bool, string> CheckIfSwitchListType(ToDoSkillState state)
-        {
-            if (state.HasShopVerb
-                && !string.IsNullOrEmpty(state.FoodOfGrocery)
-                && state.ListType != null
-                && state.ListType != ToDoStrings.Grocery)
-            {
-                return new Tuple<bool, string>(true, ToDoStrings.Grocery);
-            }
-
-            if (state.HasShopVerb
-                && !string.IsNullOrEmpty(state.ShopContent)
-                && state.ListType != null
-                && state.ListType != ToDoStrings.Shopping)
-            {
-                return new Tuple<bool, string>(true, ToDoStrings.Shopping);
-            }
-
-            return new Tuple<bool, string>(false, ToDoStrings.ToDo);
-        }
-
         private void ExtractListTypeAndTaskContent(ToDoSkillState state)
         {
             if (state.ListType == ToDoStrings.Grocery
