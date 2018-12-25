@@ -106,7 +106,7 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", MockData.MockTaskItems.Count.ToString() } }),
+                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", MockData.MockTaskItems.Count.ToString() }, { "listType", "To Do" } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
                 var columnSet = toDoChoices.Items[index] as AdaptiveColumnSet;
@@ -132,7 +132,7 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", MockData.MockGroceryItems.Count.ToString() } }),
+                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", MockData.MockGroceryItems.Count.ToString() }, { "listType", "Grocery" } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
                 var columnSet = toDoChoices.Items[2] as AdaptiveColumnSet;

@@ -56,7 +56,7 @@ namespace ToDoSkillTest.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
                 CollectionAssert.Contains(
-                   this.ParseReplies(DeleteToDoResponses.AskDeletionAllConfirmation.Replies, new StringDictionary()),
+                   this.ParseReplies(DeleteToDoResponses.AskDeletionAllConfirmation.Replies, new StringDictionary() { { "listType", "To Do" } }),
                    messageActivity.Text);
             };
         }
@@ -67,7 +67,7 @@ namespace ToDoSkillTest.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
                 CollectionAssert.Contains(
-                   this.ParseReplies(DeleteToDoResponses.AfterAllTasksDeleted.Replies, new StringDictionary()),
+                   this.ParseReplies(DeleteToDoResponses.AfterAllTasksDeleted.Replies, new StringDictionary() { { "listType", "To Do" } }),
                    messageActivity.Text);
             };
         }

@@ -77,6 +77,17 @@ namespace ToDoSkillTest.API.Fakes
                });
 
             mockClient
+               .Protected()
+               .Setup<Task<HttpResponseMessage>>(
+               "SendAsync",
+               ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/v1.0/me/onenote/sections/testid/pages?filter=title")),
+               ItExpr.IsAny<CancellationToken>())
+               .ReturnsAsync(() => new HttpResponseMessage()
+               {
+                   Content = new StringContent(this.GetPageDetails()),
+               });
+
+            mockClient
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>(
                 "SendAsync",
@@ -111,10 +122,32 @@ namespace ToDoSkillTest.API.Fakes
               });
 
             mockClient
+              .Protected()
+              .Setup<Task<HttpResponseMessage>>(
+              "SendAsync",
+              ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/v1.0/me/onenote/notebooks/testid/sections?filter=name")),
+              ItExpr.IsAny<CancellationToken>())
+              .ReturnsAsync(() => new HttpResponseMessage()
+              {
+                  Content = new StringContent(this.GetPageDetails()),
+              });
+
+            mockClient
+              .Protected()
+              .Setup<Task<HttpResponseMessage>>(
+              "SendAsync",
+              ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/v1.0/me/onenote/notebooks/testid/sections?filter=title")),
+              ItExpr.IsAny<CancellationToken>())
+              .ReturnsAsync(() => new HttpResponseMessage()
+              {
+                  Content = new StringContent(this.GetPageDetails()),
+              });
+
+            mockClient
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>(
                 "SendAsync",
-                ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/beta/me/outlook/taskFolders/ToDo/tasks") && r.Method == HttpMethod.Get),
+                ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/beta/me/outlook/taskFolders/To Do/tasks") && r.Method == HttpMethod.Get),
                 ItExpr.IsAny<CancellationToken>())
                 .ReturnsAsync(() => new HttpResponseMessage()
                 {
@@ -125,7 +158,18 @@ namespace ToDoSkillTest.API.Fakes
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>(
                 "SendAsync",
-                ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/beta/me/outlook/taskFolders/ToDo/tasks") && r.Method == HttpMethod.Post),
+                ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().Equals("https://graph.microsoft.com/beta/me/outlook/taskFolders") && r.Method == HttpMethod.Get),
+                ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(() => new HttpResponseMessage()
+                {
+                    Content = new StringContent(this.GetOutlookTaskFolders()),
+                });
+
+            mockClient
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                "SendAsync",
+                ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/beta/me/outlook/taskFolders/To Do/tasks") && r.Method == HttpMethod.Post),
                 ItExpr.IsAny<CancellationToken>())
                 .ReturnsAsync(() => new HttpResponseMessage()
                 {
@@ -266,6 +310,34 @@ namespace ToDoSkillTest.API.Fakes
 
             var taskResponseDetails = new JObject();
             taskResponseDetails.Add("@odata.context", "https://graph.microsoft.com/beta/outlook/taskFolders/tasks");
+            taskResponseDetails.Add("value", JToken.FromObject(taskObjects));
+
+            return JsonConvert.SerializeObject(taskResponseDetails);
+        }
+
+        private string GetOutlookTaskFolders()
+        {
+            var taskObjects = new List<object>();
+            taskObjects.Add(new
+            {
+                id = "To Do",
+                name = "To Do"
+            });
+
+            taskObjects.Add(new
+            {
+                id = "Shopping",
+                name = "Shopping"
+            });
+
+            taskObjects.Add(new
+            {
+                id = "Grocery",
+                name = "Grocery"
+            });
+
+            var taskResponseDetails = new JObject();
+            taskResponseDetails.Add("@odata.context", "https://graph.microsoft.com/beta/outlook/taskFolders");
             taskResponseDetails.Add("value", JToken.FromObject(taskObjects));
 
             return JsonConvert.SerializeObject(taskResponseDetails);

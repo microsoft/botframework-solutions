@@ -154,7 +154,7 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", (MockData.MockTaskItems.Count - 1).ToString() } }),
+                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", (MockData.MockTaskItems.Count - 1).ToString() }, { "listType", "To Do" } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
                 var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;
@@ -164,7 +164,7 @@ namespace ToDoSkillTest.Flow
                 var content = column.Items[0] as AdaptiveTextBlock;
                 Assert.IsNotNull(content);
                 Assert.AreEqual(content.Text, MockData.MockTaskItems[1].Topic);
-                var speak = string.Format("I have deleted the item {0} for you.You have {1} items on your list:", MockData.MockTaskItems[0].Topic, MockData.MockTaskItems.Count - 1);
+                var speak = string.Format("I have deleted the item {0} for you.You have {1} items on your {2} list:", MockData.MockTaskItems[0].Topic, MockData.MockTaskItems.Count - 1, "To Do");
                 Assert.AreEqual(speak, responseCard.Speak);
             };
         }
@@ -183,7 +183,7 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", (MockData.MockShoppingItems.Count - 1).ToString() } }),
+                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", (MockData.MockShoppingItems.Count - 1).ToString() }, { "listType", "Shopping" } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
                 var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;
@@ -193,7 +193,7 @@ namespace ToDoSkillTest.Flow
                 var content = column.Items[0] as AdaptiveTextBlock;
                 Assert.IsNotNull(content);
                 Assert.AreEqual(content.Text, MockData.MockShoppingItems[0].Topic);
-                var speak = string.Format("I have deleted the item {0} for you.You have {1} items on your list:", MockData.MockShoppingItems[1].Topic, MockData.MockShoppingItems.Count - 1);
+                var speak = string.Format("I have deleted the item {0} for you.You have {1} items on your {2} list:", MockData.MockShoppingItems[1].Topic, MockData.MockShoppingItems.Count - 1, "Shopping");
                 Assert.AreEqual(speak, responseCard.Speak);
             };
         }
@@ -203,7 +203,7 @@ namespace ToDoSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var response = string.Format("I have deleted the item {0} for you. You have {1} items on your list.", MockData.MockTaskItems[0].Topic, 0);
+                var response = string.Format("I have deleted the item {0} for you. You have {1} items on your {2} list.", MockData.MockTaskItems[0].Topic, 0, "To Do");
                 Assert.AreEqual(response, messageActivity.Text);
             };
         }

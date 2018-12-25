@@ -23,5 +23,7 @@
         public const string DeleteToDoTask = "deleteToDoTask";
 
         public const string Greeting = "greeting";
+
+        public const string CollectSwitchListTypeConfirmation = "collectSwitchListTypeConfirmation";
     }
 }

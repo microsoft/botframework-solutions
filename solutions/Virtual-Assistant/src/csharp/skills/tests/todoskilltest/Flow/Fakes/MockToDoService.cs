@@ -35,9 +35,9 @@ namespace ToDoSkillTest.Fakes
 
         public Task<ITaskService> InitAsync(string token, Dictionary<string, string> listTypeIds, HttpClient client = null)
         {
-            if (!listTypeIds.ContainsKey("ToDo"))
+            if (!listTypeIds.ContainsKey("To Do"))
             {
-                listTypeIds.Add("ToDo", "ToDo");
+                listTypeIds.Add("To Do", "To Do");
             }
 
             if (!listTypeIds.ContainsKey("Shopping"))
@@ -55,7 +55,7 @@ namespace ToDoSkillTest.Fakes
 
         public Task<bool> DeleteTasksAsync(string listType, List<TaskItem> taskItems)
         {
-            if (listType.Equals("todo", StringComparison.InvariantCultureIgnoreCase))
+            if (listType.Equals("to do", StringComparison.InvariantCultureIgnoreCase))
             {
                 taskItems.ForEach(o => allToDoItems.Remove(allToDoItems.Find(x => x.Topic == o.Topic)));
             }
@@ -73,7 +73,7 @@ namespace ToDoSkillTest.Fakes
 
         public Task<List<TaskItem>> GetTasksAsync(string listType)
         {
-            if (listType.Equals("todo", StringComparison.InvariantCultureIgnoreCase))
+            if (listType.Equals("to do", StringComparison.InvariantCultureIgnoreCase))
             {
                 return Task.FromResult(this.allToDoItems);
             }
@@ -89,7 +89,7 @@ namespace ToDoSkillTest.Fakes
 
         public Task<bool> AddTaskAsync(string listType, string taskText)
         {
-            if (listType.Equals("todo", StringComparison.InvariantCultureIgnoreCase))
+            if (listType.Equals("to do", StringComparison.InvariantCultureIgnoreCase))
             {
                 this.allToDoItems.Insert(0, new TaskItem()
                 {
@@ -122,7 +122,7 @@ namespace ToDoSkillTest.Fakes
 
         public Task<bool> MarkTasksCompletedAsync(string listType, List<TaskItem> taskItems)
         {
-            if (listType.Equals("todo", StringComparison.InvariantCultureIgnoreCase))
+            if (listType.Equals("to do", StringComparison.InvariantCultureIgnoreCase))
             {
                 taskItems.ForEach(o => allToDoItems[allToDoItems.FindIndex(t => t.Id == o.Id)].IsCompleted = true);
             }
