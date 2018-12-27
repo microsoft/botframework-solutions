@@ -816,8 +816,9 @@ namespace CalendarSkill
                                     state.StartTime.Add(isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, state.GetUserTimeZone()) : dateTime);
                                 }
                             }
-                            catch (FormatException)
+                            catch (FormatException ex)
                             {
+                                await HandleExpectedDialogExceptions(sc, ex);
                             }
                         }
                     }
