@@ -25,5 +25,7 @@
         public const string Greeting = "greeting";
 
         public const string CollectSwitchListTypeConfirmation = "collectSwitchListTypeConfirmation";
+
+        public const string CollectAddFirstTaskConfirmation = "collectAddFirstTaskConfirmation";
     }
 }

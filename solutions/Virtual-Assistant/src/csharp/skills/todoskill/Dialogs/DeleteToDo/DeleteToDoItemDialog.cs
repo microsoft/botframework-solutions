@@ -215,7 +215,7 @@ namespace ToDoSkill
                 }
                 else
                 {
-                    return await sc.ReplaceDialogAsync(Action.CollectDeleteTaskConfirmation);
+                    return await sc.BeginDialogAsync(Action.CollectDeleteTaskConfirmation);
                 }
             }
             catch (Exception ex)

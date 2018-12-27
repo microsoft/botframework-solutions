@@ -38,11 +38,16 @@ namespace ToDoSkill
 
             var addFirstTask = new WaterfallStep[]
             {
-                AskAddFirstTaskConfirmation,
-                AfterAskAddFirstTaskConfirmation,
+                CollectAddFirstTaskConfirmation,
                 CollectToDoTaskContent,
                 CollectSwitchListTypeConfirmation,
                 AddToDoTask,
+            };
+
+            var collectAddFirstTaskConfirmation = new WaterfallStep[]
+            {
+                AskAddFirstTaskConfirmation,
+                AfterAskAddFirstTaskConfirmation,
             };
 
             var collectToDoTaskContent = new WaterfallStep[]
@@ -60,6 +65,7 @@ namespace ToDoSkill
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Action.ShowToDoTasks, showToDoTasks) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Action.AddFirstTask, addFirstTask) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Action.CollectAddFirstTaskConfirmation, collectAddFirstTaskConfirmation) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Action.CollectToDoTaskContent, collectToDoTaskContent) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Action.CollectSwitchListTypeConfirmation, collectSwitchListTypeConfirmation) { TelemetryClient = telemetryClient });
 
@@ -168,6 +174,19 @@ namespace ToDoSkill
             }
         }
 
+        public async Task<DialogTurnResult> CollectAddFirstTaskConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                return await sc.BeginDialogAsync(Action.CollectAddFirstTaskConfirmation);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
         public async Task<DialogTurnResult> AskAddFirstTaskConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -210,7 +229,7 @@ namespace ToDoSkill
                 }
                 else
                 {
-                    return await sc.ReplaceDialogAsync(Action.AddFirstTask);
+                    return await sc.BeginDialogAsync(Action.CollectAddFirstTaskConfirmation);
                 }
             }
             catch (Exception ex)

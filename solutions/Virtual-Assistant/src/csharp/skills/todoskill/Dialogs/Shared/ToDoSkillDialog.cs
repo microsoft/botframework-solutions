@@ -368,7 +368,7 @@ namespace ToDoSkill
                 {
                     state.TaskContentPattern = null;
                     state.TaskContentML = null;
-                    return await sc.ReplaceDialogAsync(Action.CollectToDoTaskIndex);
+                    return await sc.BeginDialogAsync(Action.CollectToDoTaskIndex);
                 }
             }
             catch (Exception ex)
@@ -432,7 +432,7 @@ namespace ToDoSkill
                     }
                     else
                     {
-                        return await sc.ReplaceDialogAsync(Action.CollectToDoTaskContent);
+                        return await sc.BeginDialogAsync(Action.CollectToDoTaskContent);
                     }
                 }
                 else
@@ -509,7 +509,7 @@ namespace ToDoSkill
                 }
                 else
                 {
-                    return await sc.ReplaceDialogAsync(Action.CollectSwitchListTypeConfirmation);
+                    return await sc.BeginDialogAsync(Action.CollectSwitchListTypeConfirmation);
                 }
             }
             catch (Exception ex)
