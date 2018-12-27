@@ -315,9 +315,9 @@ namespace ToDoSkill
             if (state.PageSize <= 0)
             {
                 int pageSize = 0;
-                if (_services.Properties.ContainsKey("DisplaySize"))
+                if (_services.Properties.TryGetValue("DisplaySize", out object displaySizeObj))
                 {
-                    pageSize = int.Parse(_services.Properties["DisplaySize"].ToString());
+                    int.TryParse(displaySizeObj.ToString(), out pageSize);
                 }
 
                 state.PageSize = pageSize <= 0 || pageSize > CommonUtil.MaxDisplaySize ? CommonUtil.MaxDisplaySize : pageSize;
@@ -326,9 +326,9 @@ namespace ToDoSkill
             if (state.ReadSize <= 0)
             {
                 int readSize = 0;
-                if (_services.Properties.ContainsKey("ReadSize"))
+                if (_services.Properties.TryGetValue("ReadSize", out object readSizeObj))
                 {
-                    readSize = int.Parse(_services.Properties["ReadSize"].ToString());
+                    int.TryParse(readSizeObj.ToString(), out readSize);
                 }
 
                 state.ReadSize = readSize <= 0 || readSize > CommonUtil.MaxReadSize ? CommonUtil.MaxReadSize : readSize;
@@ -337,9 +337,9 @@ namespace ToDoSkill
             if (state.TaskServiceType == ProviderTypes.Other)
             {
                 state.TaskServiceType = ProviderTypes.Outlook;
-                if (_services.Properties.ContainsKey("TaskServiceProvider"))
+                if (_services.Properties.TryGetValue("TaskServiceProvider", out object taskServiceProvider))
                 {
-                    if (_services.Properties["TaskServiceProvider"].ToString().Equals(ProviderTypes.OneNote.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                    if (taskServiceProvider.ToString().Equals(ProviderTypes.OneNote.ToString(), StringComparison.InvariantCultureIgnoreCase))
                     {
                         state.TaskServiceType = ProviderTypes.OneNote;
                     }
