@@ -826,6 +826,7 @@ namespace EmailSkill
                     break;
                 case Actions.Reply:
                 case Actions.Forward:
+                case Actions.Delete:
                 default:
                     nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(state.Recipients);
                     break;
