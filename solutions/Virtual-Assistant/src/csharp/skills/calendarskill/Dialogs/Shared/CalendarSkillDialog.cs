@@ -60,45 +60,6 @@ namespace CalendarSkill
             AddDialog(new ChoicePrompt(Actions.EventChoice, null, Culture.English) { Style = ListStyle.Inline, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = false } });
         }
 
-        private Task<bool> DateTimeValidator(PromptValidatorContext<IList<DateTimeResolution>> prompt, CancellationToken cancellationToken)
-        {
-            if (prompt.Recognized.Succeeded)
-            {
-                try
-                {
-                    var resolution = prompt.Recognized.Value.First();
-
-                    // re-write the resolution to just include the date part.
-                    var rewrittenResolution = new DateTimeResolution
-                    {
-                        Timex = resolution.Timex.Split('T')[0],
-                        Value = resolution.Value.Split(' ')[0]
-                    };
-
-                    prompt.Recognized.Value = new List<DateTimeResolution> { rewrittenResolution };
-                    return Task.FromResult(true);
-                }
-                catch (Exception ex)
-                {
-                    TelemetryClient.TrackException(ex, new Dictionary<string, string>
-                    {
-                        {
-                            "userId", prompt.Context.Activity.From.Id
-                        },
-                        {
-                            "conversationId", prompt.Context.Activity.Conversation.Id
-                        },
-                        {
-                            "DateTimeString", prompt.Context.Activity.Text
-                        }
-                    });
-                    return Task.FromResult(false);
-                }
-            }
-
-            return Task.FromResult(false);
-        }
-
         protected ISkillConfiguration Services { get; set; }
 
         protected IStatePropertyAccessor<CalendarSkillState> Accessor { get; set; }
@@ -1147,6 +1108,45 @@ namespace CalendarSkill
         private string GetOrderReferenceFromEntity(Calendar._Entities entity)
         {
             return entity.OrderReference[0];
+        }
+
+        private Task<bool> DateTimeValidator(PromptValidatorContext<IList<DateTimeResolution>> prompt, CancellationToken cancellationToken)
+        {
+            if (prompt.Recognized.Succeeded)
+            {
+                try
+                {
+                    var resolution = prompt.Recognized.Value.First();
+
+                    // re-write the resolution to just include the date part.
+                    var rewrittenResolution = new DateTimeResolution
+                    {
+                        Timex = resolution.Timex.Split('T')[0],
+                        Value = resolution.Value.Split(' ')[0]
+                    };
+
+                    prompt.Recognized.Value = new List<DateTimeResolution> { rewrittenResolution };
+                    return Task.FromResult(true);
+                }
+                catch (Exception ex)
+                {
+                    TelemetryClient.TrackException(ex, new Dictionary<string, string>
+                    {
+                        {
+                            "userId", prompt.Context.Activity.From.Id
+                        },
+                        {
+                            "conversationId", prompt.Context.Activity.Conversation.Id
+                        },
+                        {
+                            "DateTimeString", prompt.Context.Activity.Text
+                        }
+                    });
+                    return Task.FromResult(false);
+                }
+            }
+
+            return Task.FromResult(false);
         }
     }
 }
