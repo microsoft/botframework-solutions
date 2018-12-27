@@ -54,10 +54,49 @@ namespace CalendarSkill
             AddDialog(new MultiProviderAuthDialog(services));
             AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new ConfirmPrompt(Actions.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
-            AddDialog(new DateTimePrompt(Actions.DateTimePrompt, null, Culture.English));
+            AddDialog(new DateTimePrompt(Actions.DateTimePrompt, DateTimeValidator, Culture.English));
             AddDialog(new DateTimePrompt(Actions.DateTimePromptForUpdateDelete, DateTimePromptValidator, Culture.English));
             AddDialog(new ChoicePrompt(Actions.Choice, ChoiceValidator, Culture.English) { Style = ListStyle.None, });
             AddDialog(new ChoicePrompt(Actions.EventChoice, null, Culture.English) { Style = ListStyle.Inline, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = false } });
+        }
+
+        private Task<bool> DateTimeValidator(PromptValidatorContext<IList<DateTimeResolution>> prompt, CancellationToken cancellationToken)
+        {
+            if (prompt.Recognized.Succeeded)
+            {
+                try
+                {
+                    var resolution = prompt.Recognized.Value.First();
+
+                    // re-write the resolution to just include the date part.
+                    var rewrittenResolution = new DateTimeResolution
+                    {
+                        Timex = resolution.Timex.Split('T')[0],
+                        Value = resolution.Value.Split(' ')[0]
+                    };
+
+                    prompt.Recognized.Value = new List<DateTimeResolution> { rewrittenResolution };
+                    return Task.FromResult(true);
+                }
+                catch (Exception ex)
+                {
+                    TelemetryClient.TrackException(ex, new Dictionary<string, string>
+                    {
+                        {
+                            "userId", prompt.Context.Activity.From.Id
+                        },
+                        {
+                            "conversationId", prompt.Context.Activity.Conversation.Id
+                        },
+                        {
+                            "DateTimeString", prompt.Context.Activity.Text
+                        }
+                    });
+                    return Task.FromResult(false);
+                }
+            }
+
+            return Task.FromResult(false);
         }
 
         protected ISkillConfiguration Services { get; set; }

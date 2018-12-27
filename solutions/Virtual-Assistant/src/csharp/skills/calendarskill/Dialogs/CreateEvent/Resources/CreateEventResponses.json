@@ -1,7 +1,6 @@
 {
   "NoTitle": {
     "replies": [
-
       {
         "text": "Alright, I will send an invite to {UserName}, what is the subject of the meeting? Or you can say skip to use the default title.",
         "speak": "Alright, I will send an invite to {UserName}, what is the subject of the meeting? Or you can say skip to use the default title."
@@ -20,7 +19,6 @@
   },
   "NoLocation": {
     "replies": [
-
       {
         "text": "What is the location for the meeting? Or skip it.",
         "speak": "What is the location for the meeting? Or skip it."
@@ -48,7 +46,6 @@
   },
   "EventCreated": {
     "replies": [
-
       {
         "text": "OK, I have added the event to your calendar.",
         "speak": "OK, I have added the event to your calendar."
@@ -56,35 +53,34 @@
     ],
     "inputHint": "acceptingInput"
   },
-    "EventCreationFailed": {
-        "replies": [
-
-            {
-                "text": "Event creation failed",
-                "speak": "Event creation failed"
-            },
-            {
-                "text": "Something went wrong, try again please.",
-                "speak": "Something went wrong, try again please."
-            },
-            {
-                "text": "It seems the event could not be created, please try again later.",
-                "speak": "It seems the event could not be created, please try again later."
-            },
-            {
-                "text": "Creation of the event failed, please try again.",
-                "speak": "Creation of the event failed, please try again."
-            },
-            {
-                "text": "An error occured with creating the event.",
-                "speak": "An error occured with creating the event."
-            }
-        ],
-        "inputHint": "acceptingInput"
-    },
-  "NoAttendees": {
+  "EventCreationFailed": {
     "replies": [
 
+      {
+        "text": "Event creation failed",
+        "speak": "Event creation failed"
+      },
+      {
+        "text": "Something went wrong, try again please.",
+        "speak": "Something went wrong, try again please."
+      },
+      {
+        "text": "It seems the event could not be created, please try again later.",
+        "speak": "It seems the event could not be created, please try again later."
+      },
+      {
+        "text": "Creation of the event failed, please try again.",
+        "speak": "Creation of the event failed, please try again."
+      },
+      {
+        "text": "An error occured with creating the event.",
+        "speak": "An error occured with creating the event."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "NoAttendees": {
+    "replies": [
       {
         "text": "Who will join?",
         "speak": "Who will join?"
@@ -115,20 +111,19 @@
   },
   "PromptPersonNotFound": {
     "replies": [
-        {
-            "text": "I cannot find {UserName}. Please try again. It helps if you include a surname.",
-            "speak": "I cannot find {UserName}. Please try again. It helps if you include a surname."
-        },
-        {
-            "text": "Something is wrong because I cannot find the {UserName} you are looking for. Please try again. It helps if you include a surname.",
-            "speak": "Something is wrong because I cannot find the {UserName} you are looking for. Please try again. It helps if you include a surname."
-        }
+      {
+        "text": "I cannot find {UserName}. Please try again. It helps if you include a surname.",
+        "speak": "I cannot find {UserName}. Please try again. It helps if you include a surname."
+      },
+      {
+        "text": "Something is wrong because I cannot find the {UserName} you are looking for. Please try again. It helps if you include a surname.",
+        "speak": "Something is wrong because I cannot find the {UserName} you are looking for. Please try again. It helps if you include a surname."
+      }
     ],
     "inputHint": "expectingInput"
   },
   "NoStartDate": {
     "replies": [
-
       {
         "text": "For what date?",
         "speak": "For what date?"
@@ -136,9 +131,21 @@
     ],
     "inputHint": "expectingInput"
   },
+  "NoStartDate_Retry": {
+    "replies": [
+      {
+        "text": "I don't understand the date you input, can you try again?",
+        "speak": "I don't understand the date you input, can you try again?"
+      },
+      {
+        "text": "I don't understand the date you input, can you try in a different way again? You can say tomorrow, Monday, or a specific date such as January 1st.",
+        "speak": "I don't understand the date you input, can you try in a different way again? You can say tomorrow, Monday, or a specific date such as January 1st."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "NoStartTime": {
     "replies": [
-
       {
         "text": "What time does it start?",
         "speak": "What time does it start?"
@@ -148,7 +155,6 @@
   },
   "NoDuration": {
     "replies": [
-
       {
         "text": "How long is the meeting for?",
         "speak": "How long is the meeting for?"
@@ -156,26 +162,26 @@
     ],
     "inputHint": "expectingInput"
   },
-    "ConfirmRecipient": {
-        "replies": [
-            {
-                "text": "Who do you want to invite?",
-                "speak": "Who do you want to invite?"
-            },
-            {
-                "text": "What contact do you want to select?",
-                "speak": "What contact do you want to select?"
-            }
-        ],
-        "inputHint": "expectingInput"
-    },
-    "InvaildDuration": {
-        "replies": [
-            {
-                "text": "The end time of the meeting cannot be earlier than or equal to the start time. Please try again.",
-                "speak": "The end time of the meeting cannot be earlier than or equal to the start time. Please try again."
-            }
-        ],
-        "inputHint": "expectingInput"
-    }
+  "ConfirmRecipient": {
+    "replies": [
+      {
+        "text": "Who do you want to invite?",
+        "speak": "Who do you want to invite?"
+      },
+      {
+        "text": "What contact do you want to select?",
+        "speak": "What contact do you want to select?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "InvaildDuration": {
+    "replies": [
+      {
+        "text": "The end time of the meeting cannot be earlier than or equal to the start time. Please try again.",
+        "speak": "The end time of the meeting cannot be earlier than or equal to the start time. Please try again."
+      }
+    ],
+    "inputHint": "expectingInput"
+  }
 }

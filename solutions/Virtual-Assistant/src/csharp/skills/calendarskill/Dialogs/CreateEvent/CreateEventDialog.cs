@@ -681,10 +681,18 @@ namespace CalendarSkill
 
                 if (((UpdateDateTimeDialogOptions)sc.Options).Reason == UpdateDateTimeDialogOptions.UpdateReason.NotFound)
                 {
-                    return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartDate) }, cancellationToken);
+                    return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions
+                    {
+                        Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartDate),
+                        RetryPrompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartDate_Retry)
+                    }, cancellationToken);
                 }
 
-                return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage) }, cancellationToken);
+                return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions
+                {
+                    Prompt = sc.Context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage),
+                    RetryPrompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartDate_Retry)
+                }, cancellationToken);
             }
             catch (Exception ex)
             {
