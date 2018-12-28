@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToDoSkill;
+using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkillTest.API.Fakes;
 
 namespace ToDoSkillTest.API
@@ -26,9 +27,9 @@ namespace ToDoSkillTest.API
 
             await service.InitAsync("test", pageId, mockClient);
 
-            var taskList = await service.GetTasksAsync("To Do");
-            await service.AddTaskAsync("To Do", "Test 9");
-            var addedTaskList = await service.GetTasksAsync("To Do");
+            var taskList = await service.GetTasksAsync(ToDoStrings.ToDo);
+            await service.AddTaskAsync(ToDoStrings.ToDo, "Test 9");
+            var addedTaskList = await service.GetTasksAsync(ToDoStrings.ToDo);
 
             Assert.IsTrue(taskList.Count + 1 == addedTaskList.Count);
         }
@@ -41,9 +42,9 @@ namespace ToDoSkillTest.API
 
             await service.InitAsync("test", pageId, mockClient);
 
-            var taskList = await service.GetTasksAsync("To Do");
-            await service.MarkTasksCompletedAsync("To Do", taskList.GetRange(0, 1));
-            var markedTaskList = await service.GetTasksAsync("To Do");
+            var taskList = await service.GetTasksAsync(ToDoStrings.ToDo);
+            await service.MarkTasksCompletedAsync(ToDoStrings.ToDo, taskList.GetRange(0, 1));
+            var markedTaskList = await service.GetTasksAsync(ToDoStrings.ToDo);
 
             Assert.IsTrue(markedTaskList != null && markedTaskList.Count > 0 && markedTaskList[0].IsCompleted);
         }
@@ -56,9 +57,9 @@ namespace ToDoSkillTest.API
 
             await service.InitAsync("test", pageId, mockClient);
 
-            var taskList = await service.GetTasksAsync("To Do");
-            await service.DeleteTasksAsync("To Do", taskList.GetRange(0, 1));
-            var deletedTaskList = await service.GetTasksAsync("To Do");
+            var taskList = await service.GetTasksAsync(ToDoStrings.ToDo);
+            await service.DeleteTasksAsync(ToDoStrings.ToDo, taskList.GetRange(0, 1));
+            var deletedTaskList = await service.GetTasksAsync(ToDoStrings.ToDo);
 
             Assert.IsTrue(taskList.Count == deletedTaskList.Count + 1);
             Assert.IsFalse(deletedTaskList.Contains(taskList[0]));
@@ -71,7 +72,7 @@ namespace ToDoSkillTest.API
             var pageId = new Dictionary<string, string>();
 
             await service.InitAsync("test", pageId, mockClient);
-            var taskList = await service.GetTasksAsync("To Do");
+            var taskList = await service.GetTasksAsync(ToDoStrings.ToDo);
 
             Assert.IsTrue(taskList != null && taskList.Count > 0);
         }

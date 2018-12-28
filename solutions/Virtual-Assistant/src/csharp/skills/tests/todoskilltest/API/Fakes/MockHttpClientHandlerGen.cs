@@ -8,6 +8,7 @@ using Moq.Protected;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ToDoSkill;
+using ToDoSkill.Dialogs.Shared.Resources;
 
 namespace ToDoSkillTest.API.Fakes
 {
@@ -320,20 +321,20 @@ namespace ToDoSkillTest.API.Fakes
             var taskObjects = new List<object>();
             taskObjects.Add(new
             {
-                id = "To Do",
-                name = "To Do"
+                id = ToDoStrings.ToDo,
+                name = ToDoStrings.ToDo
             });
 
             taskObjects.Add(new
             {
-                id = "Shopping",
-                name = "Shopping"
+                id = ToDoStrings.Shopping,
+                name = ToDoStrings.Shopping
             });
 
             taskObjects.Add(new
             {
-                id = "Grocery",
-                name = "Grocery"
+                id = ToDoStrings.Grocery,
+                name = ToDoStrings.Grocery
             });
 
             var taskResponseDetails = new JObject();
