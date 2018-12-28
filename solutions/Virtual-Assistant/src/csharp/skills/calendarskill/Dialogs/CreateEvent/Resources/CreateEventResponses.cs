@@ -44,6 +44,8 @@ namespace CalendarSkill.Dialogs.CreateEvent.Resources
 
         public static BotResponse NoStartDate => GetBotResponse();
 
+        public static BotResponse NoStartDate_Retry => GetBotResponse();
+
         public static BotResponse NoStartTime => GetBotResponse();
 
         public static BotResponse NoDuration => GetBotResponse();
