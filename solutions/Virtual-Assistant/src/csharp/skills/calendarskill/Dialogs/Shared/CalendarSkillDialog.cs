@@ -929,6 +929,20 @@ namespace CalendarSkill
             state.Clear();
         }
 
+        // This method is called by any waterfall step that throws a SkillException to ensure consistency
+        protected async Task HandleExpectedDialogExceptions(WaterfallStepContext sc, Exception ex)
+        {
+            // send trace back to emulator
+            var trace = new Activity(type: ActivityTypes.Trace, text: $"DialogException: {ex.Message}, StackTrace: {ex.StackTrace}");
+            await sc.Context.SendActivityAsync(trace);
+
+            // log exception
+            if (Services.TelemetryClient != null)
+            {
+                Services.TelemetryClient.TrackException(ex, AssembleTelemetryData(sc));
+            }
+        }
+
         protected override Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
         {
             var resultString = result?.ToString();
