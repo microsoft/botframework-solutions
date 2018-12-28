@@ -3,7 +3,6 @@
 
 namespace ToDoSkill
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net.Http;
@@ -24,12 +23,12 @@ namespace ToDoSkill
         private Dictionary<string, string> pageIds;
 
         /// <summary>
-        /// Initializes OneNote task service using token.
+        /// Init task service.
         /// </summary>
-        /// <param name="token">the token used for msgraph API call.</param>
-        /// <param name="pageIds">the page ids.</param>
+        /// <param name="token">Task service token.</param>
+        /// <param name="pageIds">OneNote page name and id dictionary.</param>
         /// <param name="client">the httpclient for making the API request.</param>
-        /// <returns>OneNote task service itself.</returns>
+        /// <returns>Task service itself.</returns>
         public async Task<ITaskService> InitAsync(string token, Dictionary<string, string> pageIds, HttpClient client = null)
         {
             try

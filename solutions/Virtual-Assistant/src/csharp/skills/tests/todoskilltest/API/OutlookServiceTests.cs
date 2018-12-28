@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ToDoSkill.ServiceClients;
+using ToDoSkill;
 using ToDoSkillTest.API.Fakes;
 
 namespace ToDoSkillTest.API
