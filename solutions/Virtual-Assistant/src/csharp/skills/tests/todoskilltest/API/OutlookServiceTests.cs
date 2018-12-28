@@ -3,7 +3,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.ServiceClients;
 using ToDoSkillTest.API.Fakes;
 
@@ -26,11 +25,11 @@ namespace ToDoSkillTest.API
             var service = new OutlookService();
             var pageId = new Dictionary<string, string>();
 
-            await service.InitAsync("test", pageId, mockClient);
+            await service.InitAsync(MockData.Token, pageId, mockClient);
 
-            var taskList = await service.GetTasksAsync(ToDoStrings.ToDo);
-            await service.AddTaskAsync(ToDoStrings.ToDo, "Test 9");
-            var addedTaskList = await service.GetTasksAsync(ToDoStrings.ToDo);
+            var taskList = await service.GetTasksAsync(MockData.ToDo);
+            await service.AddTaskAsync(MockData.ToDo, MockData.TaskContent);
+            var addedTaskList = await service.GetTasksAsync(MockData.ToDo);
 
             Assert.IsTrue(taskList.Count + 1 == addedTaskList.Count);
         }
@@ -41,11 +40,11 @@ namespace ToDoSkillTest.API
             var service = new OutlookService();
             var pageId = new Dictionary<string, string>();
 
-            await service.InitAsync("test", pageId, mockClient);
+            await service.InitAsync(MockData.Token, pageId, mockClient);
 
-            var taskList = await service.GetTasksAsync(ToDoStrings.ToDo);
-            await service.MarkTasksCompletedAsync(ToDoStrings.ToDo, taskList.GetRange(0, 1));
-            var markedTaskList = await service.GetTasksAsync(ToDoStrings.ToDo);
+            var taskList = await service.GetTasksAsync(MockData.ToDo);
+            await service.MarkTasksCompletedAsync(MockData.ToDo, taskList.GetRange(0, 1));
+            var markedTaskList = await service.GetTasksAsync(MockData.ToDo);
 
             Assert.IsTrue(markedTaskList != null && markedTaskList.Count > 0 && markedTaskList[0].IsCompleted);
         }
@@ -56,11 +55,11 @@ namespace ToDoSkillTest.API
             var service = new OutlookService();
             var pageId = new Dictionary<string, string>();
 
-            await service.InitAsync("test", pageId, mockClient);
+            await service.InitAsync(MockData.Token, pageId, mockClient);
 
-            var taskList = await service.GetTasksAsync(ToDoStrings.ToDo);
-            await service.DeleteTasksAsync(ToDoStrings.ToDo, taskList.GetRange(0, 1));
-            var deletedTaskList = await service.GetTasksAsync(ToDoStrings.ToDo);
+            var taskList = await service.GetTasksAsync(MockData.ToDo);
+            await service.DeleteTasksAsync(MockData.ToDo, taskList.GetRange(0, 1));
+            var deletedTaskList = await service.GetTasksAsync(MockData.ToDo);
 
             Assert.IsTrue(taskList.Count == deletedTaskList.Count + 1);
             Assert.IsFalse(deletedTaskList.Contains(taskList[0]));
@@ -72,8 +71,8 @@ namespace ToDoSkillTest.API
             var service = new OutlookService();
             var pageId = new Dictionary<string, string>();
 
-            await service.InitAsync("test", pageId, mockClient);
-            var taskList = await service.GetTasksAsync(ToDoStrings.ToDo);
+            await service.InitAsync(MockData.Token, pageId, mockClient);
+            var taskList = await service.GetTasksAsync(MockData.ToDo);
 
             Assert.IsTrue(taskList != null && taskList.Count > 0);
         }
@@ -85,8 +84,8 @@ namespace ToDoSkillTest.API
             var pageId = new Dictionary<string, string>();
             try
             {
-                await service.InitAsync("test", pageId, mockClient);
-                await service.AddTaskAsync(ToDoStrings.Shopping, "Test 9");
+                await service.InitAsync(MockData.Token, pageId, mockClient);
+                await service.AddTaskAsync(MockData.Shopping, MockData.TaskContent);
                 Assert.Fail();
             }
             catch (SkillException ex)

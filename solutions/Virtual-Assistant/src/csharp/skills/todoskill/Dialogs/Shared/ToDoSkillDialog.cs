@@ -916,8 +916,8 @@ namespace ToDoSkill
             var toDoCard = new AdaptiveCard();
             var showText = Format(botResponse2.Reply.Text, new StringDictionary() { { "taskCount", allTaskCount.ToString() }, { "listType", listType } });
             var speakText = Format(botResponse1.Reply.Speak, new StringDictionary() { { "taskContent", taskContent } })
-                + Format(botResponse2.Reply.Speak, new StringDictionary() { { "taskCount", allTaskCount.ToString() }, { "listType", listType } });
-            toDoCard.Speak = speakText;
+                 + " " + Format(botResponse2.Reply.Speak, new StringDictionary() { { "taskCount", allTaskCount.ToString() }, { "listType", listType } });
+            toDoCard.Speak = speakText.Remove(speakText.Length - 1) + ".";
 
             var body = new List<AdaptiveElement>();
             var textBlock = new AdaptiveTextBlock

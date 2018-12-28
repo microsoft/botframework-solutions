@@ -23,13 +23,13 @@ namespace ToDoSkillTest.Flow
         [TestInitialize]
         public void SetupLuisService()
         {
-            this.Services.LocaleConfigurations.Add("en", new LocaleConfiguration()
+            this.Services.LocaleConfigurations.Add(MockData.LocaleEN, new LocaleConfiguration()
             {
-                Locale = "en-us",
+                Locale = MockData.LocaleENUS,
                 LuisServices = new Dictionary<string, ITelemetryLuisRecognizer>()
                 {
-                    { "general", new MockLuisRecognizer(new GeneralTestUtterances()) },
-                    { "todo", new MockLuisRecognizer(new AddToDoFlowTestUtterances()) }
+                    { MockData.LuisGeneral, new MockLuisRecognizer(new GeneralTestUtterances()) },
+                    { MockData.LuisToDo, new MockLuisRecognizer(new AddToDoFlowTestUtterances()) }
                 }
             });
         }
@@ -111,7 +111,7 @@ namespace ToDoSkillTest.Flow
 
         private string[] AskSwitchListType()
         {
-            return this.ParseReplies(ToDoSharedResponses.SwitchListType.Replies, new StringDictionary() { { "listType", "Grocery" } });
+            return this.ParseReplies(ToDoSharedResponses.SwitchListType.Replies, new StringDictionary() { { MockData.ListType, MockData.Grocery } });
         }
 
         private Action<IActivity> ShowUpdatedToDoList()
@@ -128,7 +128,7 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", (MockData.MockTaskItems.Count + 1).ToString() }, { "listType", "To Do" } }),
+                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { MockData.TaskCount, (MockData.MockTaskItems.Count + 1).ToString() }, { MockData.ListType, MockData.ToDo } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
                 var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;
@@ -155,7 +155,7 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", (MockData.MockGroceryItems.Count + 1).ToString() }, { "listType", "Grocery" } }),
+                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { MockData.TaskCount, (MockData.MockGroceryItems.Count + 1).ToString() }, { MockData.ListType, MockData.Grocery } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
                 var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;
@@ -182,7 +182,7 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", (MockData.MockShoppingItems.Count + 1).ToString() }, { "listType", "Shopping" } }),
+                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { MockData.TaskCount, (MockData.MockShoppingItems.Count + 1).ToString() }, { MockData.ListType, MockData.Shopping } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
                 var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;

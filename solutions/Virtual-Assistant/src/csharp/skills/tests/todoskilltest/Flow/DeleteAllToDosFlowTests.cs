@@ -23,13 +23,13 @@ namespace ToDoSkillTest.Flow
         [TestInitialize]
         public void SetupLuisService()
         {
-            this.Services.LocaleConfigurations.Add("en", new LocaleConfiguration()
+            this.Services.LocaleConfigurations.Add(MockData.LocaleEN, new LocaleConfiguration()
             {
-                Locale = "en-us",
+                Locale = MockData.LocaleENUS,
                 LuisServices = new Dictionary<string, ITelemetryLuisRecognizer>()
                 {
-                    { "general", new MockLuisRecognizer(new GeneralTestUtterances()) },
-                    { "todo", new MockLuisRecognizer(new DeleteToDoFlowTestUtterances()) }
+                    { MockData.LuisGeneral, new MockLuisRecognizer(new GeneralTestUtterances()) },
+                    { MockData.LuisToDo, new MockLuisRecognizer(new DeleteToDoFlowTestUtterances()) }
                 }
             });
         }
@@ -56,7 +56,7 @@ namespace ToDoSkillTest.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
                 CollectionAssert.Contains(
-                   this.ParseReplies(DeleteToDoResponses.AskDeletionAllConfirmation.Replies, new StringDictionary() { { "listType", "To Do" } }),
+                   this.ParseReplies(DeleteToDoResponses.AskDeletionAllConfirmation.Replies, new StringDictionary() { { MockData.ListType, MockData.ToDo } }),
                    messageActivity.Text);
             };
         }
@@ -67,7 +67,7 @@ namespace ToDoSkillTest.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
                 CollectionAssert.Contains(
-                   this.ParseReplies(DeleteToDoResponses.AfterAllTasksDeleted.Replies, new StringDictionary() { { "listType", "To Do" } }),
+                   this.ParseReplies(DeleteToDoResponses.AfterAllTasksDeleted.Replies, new StringDictionary() { { MockData.ListType, MockData.ToDo } }),
                    messageActivity.Text);
             };
         }

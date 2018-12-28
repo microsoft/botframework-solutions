@@ -8,7 +8,6 @@ using Moq.Protected;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ToDoSkill;
-using ToDoSkill.Dialogs.Shared.Resources;
 
 namespace ToDoSkillTest.API.Fakes
 {
@@ -69,7 +68,7 @@ namespace ToDoSkillTest.API.Fakes
             mockClient
                .Protected()
                .Setup<Task<HttpResponseMessage>>(
-               "SendAsync",
+               MockData.SendAsync,
                ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/v1.0/me/onenote/pages?filter=id")),
                ItExpr.IsAny<CancellationToken>())
                .ReturnsAsync(() => new HttpResponseMessage()
@@ -80,7 +79,7 @@ namespace ToDoSkillTest.API.Fakes
             mockClient
                .Protected()
                .Setup<Task<HttpResponseMessage>>(
-               "SendAsync",
+               MockData.SendAsync,
                ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/v1.0/me/onenote/sections/testid/pages?filter=title")),
                ItExpr.IsAny<CancellationToken>())
                .ReturnsAsync(() => new HttpResponseMessage()
@@ -91,7 +90,7 @@ namespace ToDoSkillTest.API.Fakes
             mockClient
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>(
-                "SendAsync",
+                MockData.SendAsync,
                 ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/v1.0/users/test@outlook.com/onenote/pages/") && r.Method != HttpMethod.Patch),
                 ItExpr.IsAny<CancellationToken>())
                 .ReturnsAsync(() => new HttpResponseMessage()
@@ -102,7 +101,7 @@ namespace ToDoSkillTest.API.Fakes
             mockClient
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>(
-                "SendAsync",
+                MockData.SendAsync,
                 ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/v1.0/users/test@outlook.com/onenote/pages/") && r.Method == HttpMethod.Patch),
                 ItExpr.IsAny<CancellationToken>())
                 .ReturnsAsync(() => new HttpResponseMessage()
@@ -114,7 +113,7 @@ namespace ToDoSkillTest.API.Fakes
             mockClient
               .Protected()
               .Setup<Task<HttpResponseMessage>>(
-              "SendAsync",
+              MockData.SendAsync,
               ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/v1.0/me/onenote/notebooks?filter=name")),
               ItExpr.IsAny<CancellationToken>())
               .ReturnsAsync(() => new HttpResponseMessage()
@@ -125,7 +124,7 @@ namespace ToDoSkillTest.API.Fakes
             mockClient
               .Protected()
               .Setup<Task<HttpResponseMessage>>(
-              "SendAsync",
+              MockData.SendAsync,
               ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/v1.0/me/onenote/notebooks/testid/sections?filter=name")),
               ItExpr.IsAny<CancellationToken>())
               .ReturnsAsync(() => new HttpResponseMessage()
@@ -136,7 +135,7 @@ namespace ToDoSkillTest.API.Fakes
             mockClient
               .Protected()
               .Setup<Task<HttpResponseMessage>>(
-              "SendAsync",
+              MockData.SendAsync,
               ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/v1.0/me/onenote/notebooks/testid/sections?filter=title")),
               ItExpr.IsAny<CancellationToken>())
               .ReturnsAsync(() => new HttpResponseMessage()
@@ -147,7 +146,7 @@ namespace ToDoSkillTest.API.Fakes
             mockClient
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>(
-                "SendAsync",
+                MockData.SendAsync,
                 ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/beta/me/outlook/taskFolders/To Do/tasks") && r.Method == HttpMethod.Get),
                 ItExpr.IsAny<CancellationToken>())
                 .ReturnsAsync(() => new HttpResponseMessage()
@@ -158,7 +157,7 @@ namespace ToDoSkillTest.API.Fakes
             mockClient
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>(
-                "SendAsync",
+                MockData.SendAsync,
                 ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().Equals("https://graph.microsoft.com/beta/me/outlook/taskFolders") && r.Method == HttpMethod.Get),
                 ItExpr.IsAny<CancellationToken>())
                 .ReturnsAsync(() => new HttpResponseMessage()
@@ -169,7 +168,7 @@ namespace ToDoSkillTest.API.Fakes
             mockClient
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>(
-                "SendAsync",
+                MockData.SendAsync,
                 ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/beta/me/outlook/taskFolders/To Do/tasks") && r.Method == HttpMethod.Post),
                 ItExpr.IsAny<CancellationToken>())
                 .ReturnsAsync(() => new HttpResponseMessage()
@@ -181,7 +180,7 @@ namespace ToDoSkillTest.API.Fakes
             mockClient
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>(
-                "SendAsync",
+                MockData.SendAsync,
                 ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/beta/me/outlook/tasks") && r.Method == HttpMethod.Post),
                 ItExpr.IsAny<CancellationToken>())
                 .ReturnsAsync(() => new HttpResponseMessage()
@@ -193,7 +192,7 @@ namespace ToDoSkillTest.API.Fakes
             mockClient
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>(
-                "SendAsync",
+                MockData.SendAsync,
                 ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/beta/me/outlook/tasks") && r.Method == HttpMethod.Delete),
                 ItExpr.IsAny<CancellationToken>())
                 .ReturnsAsync(() => new HttpResponseMessage()
@@ -205,7 +204,7 @@ namespace ToDoSkillTest.API.Fakes
             mockClient
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>(
-                "SendAsync",
+                MockData.SendAsync,
                 ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.ToString().StartsWith("https://graph.microsoft.com/beta/me/outlook/taskFolders/Shopping/tasks") && r.Method == HttpMethod.Post),
                 ItExpr.IsAny<CancellationToken>())
                 .ReturnsAsync(() => new HttpResponseMessage()
@@ -321,20 +320,20 @@ namespace ToDoSkillTest.API.Fakes
             var taskObjects = new List<object>();
             taskObjects.Add(new
             {
-                id = ToDoStrings.ToDo,
-                name = ToDoStrings.ToDo
+                id = MockData.ToDo,
+                name = MockData.ToDo
             });
 
             taskObjects.Add(new
             {
-                id = ToDoStrings.Shopping,
-                name = ToDoStrings.Shopping
+                id = MockData.Shopping,
+                name = MockData.Shopping
             });
 
             taskObjects.Add(new
             {
-                id = ToDoStrings.Grocery,
-                name = ToDoStrings.Grocery
+                id = MockData.Grocery,
+                name = MockData.Grocery
             });
 
             var taskResponseDetails = new JObject();
