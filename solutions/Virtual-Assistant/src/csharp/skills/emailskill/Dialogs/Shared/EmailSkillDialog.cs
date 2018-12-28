@@ -1317,7 +1317,7 @@ namespace EmailSkill
             {
                 { "activityId", sc.Context.Activity.Id },
                 { "userId", sc.Context.Activity.From.Id },
-                { "activeDialog", sc.ActiveDialog.ToString() }
+                { "activeDialog", sc.ActiveDialog?.Id }
             };
 
             return telemetryData;
