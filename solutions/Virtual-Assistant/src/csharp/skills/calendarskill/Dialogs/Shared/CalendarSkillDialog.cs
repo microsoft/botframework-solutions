@@ -1110,43 +1110,22 @@ namespace CalendarSkill
             return entity.OrderReference[0];
         }
 
+        /// <summary>
+        /// implement the basic validation. Advanced validation done in upper level dialogs.
+        /// </summary>
+        /// <param name="prompt">datetime prompt.</param>
+        /// <param name="cancellationToken">cancellation token.</param>
+        /// <returns>validation result.</returns>
         private Task<bool> DateTimeValidator(PromptValidatorContext<IList<DateTimeResolution>> prompt, CancellationToken cancellationToken)
         {
             if (prompt.Recognized.Succeeded)
             {
-                try
-                {
-                    var resolution = prompt.Recognized.Value.First();
-
-                    // re-write the resolution to just include the date part.
-                    var rewrittenResolution = new DateTimeResolution
-                    {
-                        Timex = resolution.Timex.Split('T')[0],
-                        Value = resolution.Value.Split(' ')[0]
-                    };
-
-                    prompt.Recognized.Value = new List<DateTimeResolution> { rewrittenResolution };
-                    return Task.FromResult(true);
-                }
-                catch (Exception ex)
-                {
-                    TelemetryClient.TrackException(ex, new Dictionary<string, string>
-                    {
-                        {
-                            "userId", prompt.Context.Activity.From.Id
-                        },
-                        {
-                            "conversationId", prompt.Context.Activity.Conversation.Id
-                        },
-                        {
-                            "DateTimeString", prompt.Context.Activity.Text
-                        }
-                    });
-                    return Task.FromResult(false);
-                }
+                return Task.FromResult(true);
             }
-
-            return Task.FromResult(false);
+            else
+            {
+                return Task.FromResult(false);
+            }
         }
     }
 }
