@@ -40,6 +40,7 @@ namespace EmailSkill
 
             var showEmail = new WaterfallStep[]
             {
+                PagingStep,
                 ShowEmails,
             };
 

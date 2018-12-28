@@ -57,7 +57,6 @@ namespace EmailSkill
             AddDialog(new MultiProviderAuthDialog(services));
             AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new ConfirmPrompt(Actions.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
-            AddDialog(new ChoicePrompt(Actions.Choice, ChoiceValidator, Culture.English) { Style = ListStyle.None });
         }
 
         protected EmailSkillDialog(string dialogId)
@@ -616,55 +615,6 @@ namespace EmailSkill
             }
         }
 
-        protected async Task<bool> ChoiceValidator(PromptValidatorContext<FoundChoice> pc, CancellationToken cancellationToken)
-        {
-            var state = await EmailStateAccessor.GetAsync(pc.Context);
-            var luisResult = state.LuisResult;
-            var topIntent = luisResult?.TopIntent().intent;
-            var generlLuisResult = state.GeneralLuisResult;
-            var generalTopIntent = generlLuisResult?.TopIntent().intent;
-
-            // If user want to show more recipient end current choice dialog and return the intent to next step.
-            if (generalTopIntent == General.Intent.Next || generalTopIntent == General.Intent.Previous)
-            {
-                // TODO: The signature of validators has been changed per the sdk team, meaning this logic will need to be executed in a different way
-                if (pc.Options.Choices.Count > ConfigData.GetInstance().MaxDisplaySize)
-                {
-                    // prompt.End(UpdateUserDialogOptions.UpdateReason.TooMany);
-                    pc.Recognized.Succeeded = true;
-                    pc.Recognized.Value = new FoundChoice() { Value = UpdateUserDialogOptions.UpdateReason.TooMany.ToString() };
-                }
-                else
-                {
-                    // prompt.End(topIntent);
-                    pc.Recognized.Succeeded = true;
-                    pc.Recognized.Value = new FoundChoice() { Value = generalTopIntent.ToString() };
-                }
-
-                return true;
-            }
-            else if (IsReadMoreIntent(generalTopIntent, pc.Context.Activity.Text))
-            {
-                pc.Recognized.Succeeded = true;
-                pc.Recognized.Value = new FoundChoice() { Value = generalTopIntent.ToString() };
-
-                return true;
-            }
-            else
-            {
-                if (!pc.Recognized.Succeeded || pc.Recognized == null)
-                {
-                    // do nothing when not recognized.
-                    return false;
-                }
-                else
-                {
-                    // prompt.End(prompt.Recognized.Value);
-                    return true;
-                }
-            }
-        }
-
         // Helpers
         protected async Task<string> GetNameListStringAsync(WaterfallStepContext sc)
         {
@@ -696,9 +646,9 @@ namespace EmailSkill
             return result;
         }
 
-        protected async Task<PromptOptions> GenerateOptions(List<Person> personList, List<Person> userList, DialogContext sc)
+        protected async Task<PromptOptions> GenerateOptions(List<Person> personList, List<Person> userList, ITurnContext context)
         {
-            var state = await EmailStateAccessor.GetAsync(sc.Context);
+            var state = await EmailStateAccessor.GetAsync(context);
             var pageIndex = state.ShowRecipientIndex;
             var pageSize = ConfigData.GetInstance().MaxDisplaySize;
             var skip = pageSize * pageIndex;
@@ -715,12 +665,12 @@ namespace EmailSkill
             var options = new PromptOptions
             {
                 Choices = new List<Choice>(),
-                Prompt = sc.Context.Activity.CreateReply(ConfirmRecipientResponses.ConfirmRecipient),
+                Prompt = context.Activity.CreateReply(ConfirmRecipientResponses.ConfirmRecipient),
             };
 
             if (pageIndex > 0)
             {
-                options.Prompt = sc.Context.Activity.CreateReply(ConfirmRecipientResponses.ConfirmRecipientNotFirstPage);
+                options.Prompt = context.Activity.CreateReply(ConfirmRecipientResponses.ConfirmRecipientNotFirstPage);
             }
 
             for (var i = 0; i < personList.Count; i++)
@@ -758,7 +708,7 @@ namespace EmailSkill
             if (options.Choices.Count == 0)
             {
                 pageSize = ConfigData.GetInstance().MaxDisplaySize;
-                options.Prompt = sc.Context.Activity.CreateReply(ConfirmRecipientResponses.ConfirmRecipientLastPage);
+                options.Prompt = context.Activity.CreateReply(ConfirmRecipientResponses.ConfirmRecipientLastPage);
             }
 
             for (var i = 0; i < userList.Count; i++)
@@ -798,7 +748,6 @@ namespace EmailSkill
         protected string GetSelectPromptString(PromptOptions selectOption, bool containNumbers)
         {
             var result = string.Empty;
-            result += selectOption.Prompt.Text + "\r\n";
             for (var i = 0; i < selectOption.Choices.Count; i++)
             {
                 var choice = selectOption.Choices[i];
@@ -884,7 +833,7 @@ namespace EmailSkill
             string mailAddress = null;
             if (!string.IsNullOrEmpty(state.SenderName))
             {
-                var searchResult = await GetPeopleWorkWithAsync(sc, state.SenderName);
+                var searchResult = await GetPeopleWorkWithAsync(sc.Context, state.SenderName);
                 var user = searchResult.FirstOrDefault();
                 if (user != null)
                 {
@@ -958,10 +907,10 @@ namespace EmailSkill
             return updatedMessages;
         }
 
-        protected async Task<List<Person>> GetPeopleWorkWithAsync(WaterfallStepContext sc, string name)
+        protected async Task<List<Person>> GetPeopleWorkWithAsync(ITurnContext context, string name)
         {
             var result = new List<Person>();
-            var state = await EmailStateAccessor.GetAsync(sc.Context);
+            var state = await EmailStateAccessor.GetAsync(context);
             var token = state.Token;
             var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
 
@@ -969,12 +918,12 @@ namespace EmailSkill
             return await service.GetPeopleAsync(name);
         }
 
-        protected async Task<List<Person>> GetUserAsync(WaterfallStepContext sc, string name)
+        protected async Task<List<Person>> GetUserAsync(ITurnContext context, string name)
         {
             var result = new List<Person>();
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var state = await EmailStateAccessor.GetAsync(context);
                 var token = state.Token;
                 var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
 
@@ -993,10 +942,10 @@ namespace EmailSkill
             return result;
         }
 
-        protected async Task<List<Person>> GetContactsAsync(WaterfallStepContext sc, string name)
+        protected async Task<List<Person>> GetContactsAsync(ITurnContext context, string name)
         {
             var result = new List<Person>();
-            var state = await EmailStateAccessor.GetAsync(sc.Context);
+            var state = await EmailStateAccessor.GetAsync(context);
             var token = state.Token;
             var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
 
