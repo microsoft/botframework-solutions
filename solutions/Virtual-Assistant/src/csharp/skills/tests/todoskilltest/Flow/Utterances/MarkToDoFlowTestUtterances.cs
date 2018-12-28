@@ -1,5 +1,5 @@
 ﻿using Luis;
-using ToDoSkill.Dialogs.Shared.Resources;
+using ToDoSkillTest.Flow.Fakes;
 
 namespace ToDoSkillTest.Flow.Utterances
 {
@@ -17,7 +17,7 @@ namespace ToDoSkillTest.Flow.Utterances
                 MarkSpecificTaskAsCompleted,
                 ordinal: ordinal));
 
-            var listType = new string[] { ToDoStrings.Grocery };
+            var listType = new string[] { MockData.Grocery };
             var number = new double[] { 3 };
             this.Add(MarkSpecificTaskAsCompletedWithListType, GetBaseMarkToDoIntent(
                 MarkSpecificTaskAsCompletedWithListType,
