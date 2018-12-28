@@ -23,13 +23,13 @@ namespace ToDoSkillTest.Flow
         [TestInitialize]
         public void SetupLuisService()
         {
-            this.Services.LocaleConfigurations.Add("en", new LocaleConfiguration()
+            this.Services.LocaleConfigurations.Add(MockData.LocaleEN, new LocaleConfiguration()
             {
-                Locale = "en-us",
+                Locale = MockData.LocaleENUS,
                 LuisServices = new Dictionary<string, ITelemetryLuisRecognizer>()
                 {
-                    { "general", new MockLuisRecognizer(new GeneralTestUtterances()) },
-                    { "todo", new MockLuisRecognizer(new MarkToDoFlowTestUtterances()) }
+                    { MockData.LuisGeneral, new MockLuisRecognizer(new GeneralTestUtterances()) },
+                    { MockData.LuisToDo, new MockLuisRecognizer(new MarkToDoFlowTestUtterances()) }
                 }
             });
         }

@@ -33,6 +33,8 @@ namespace VirtualAssistant
         private MainResponses _responder = new MainResponses();
         private SkillRouter _skillRouter;
 
+        private bool _conversationStarted = false;
+
         public MainDialog(BotServices services, BotConfiguration botConfig, ConversationState conversationState, UserState userState, EndpointService endpointService, IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -57,15 +59,12 @@ namespace VirtualAssistant
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var onboardingState = await _onboardingState.GetAsync(dc.Context, () => new OnboardingState());
-
-            var view = new MainResponses();
-            await view.ReplyWith(dc.Context, MainResponses.ResponseIds.Intro);
-
-            if (string.IsNullOrEmpty(onboardingState.Name))
+            // if the OnStart call doesn't have the locale info in the activity, we don't take it as a startConversation call
+            if (!string.IsNullOrWhiteSpace(dc.Context.Activity.Locale))
             {
-                // This is the first time the user is interacting with the bot, so gather onboarding information.
-                await dc.BeginDialogAsync(nameof(OnboardingDialog));
+                await StartConversation(dc);
+
+                _conversationStarted = true;
             }
         }
 
@@ -284,6 +283,36 @@ namespace VirtualAssistant
                             break;
                         }
 
+                    case Events.StartConversation:
+                        {
+                            forward = false;
+
+                            if (!_conversationStarted)
+                            {
+                                if (string.IsNullOrWhiteSpace(dc.Context.Activity.Locale))
+                                {
+                                    // startConversation activity should have locale in it. if not, log it
+                                    TelemetryClient.TrackEvent("NoLocaleInStartConversation", new Dictionary<string, string>
+                                    {
+                                        {
+                                            "userId", dc.Context.Activity.From.Id
+                                        },
+                                        {
+                                            "channelId", dc.Context.Activity.ChannelId
+                                        }
+                                    });
+
+                                    break;
+                                }
+
+                                await StartConversation(dc);
+
+                                _conversationStarted = true;
+                            }
+
+                            break;
+                        }
+
                     default:
                         {
                             await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event {ev.Name} was received but not processed."));
@@ -301,6 +330,19 @@ namespace VirtualAssistant
                         await CompleteAsync(dc);
                     }
                 }
+            }
+        }
+
+        private async Task StartConversation(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var onboardingState = await _onboardingState.GetAsync(dc.Context, () => new OnboardingState());
+
+            var view = new MainResponses();
+            await view.ReplyWith(dc.Context, MainResponses.ResponseIds.Intro);
+            if (string.IsNullOrEmpty(onboardingState.Name))
+            {
+                // This is the first time the user is interacting with the bot, so gather onboarding information.
+                await dc.BeginDialogAsync(nameof(OnboardingDialog));
             }
         }
 
@@ -360,6 +402,7 @@ namespace VirtualAssistant
             public const string ActiveLocationUpdate = "POI.ActiveLocation";
             public const string ActiveRouteUpdate = "POI.ActiveRoute";
             public const string ResetUser = "IPA.ResetUser";
+            public const string StartConversation = "startConversation";
         }
     }
 }

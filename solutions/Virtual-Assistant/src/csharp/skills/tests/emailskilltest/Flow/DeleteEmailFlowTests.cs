@@ -32,7 +32,7 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.NoFocusMessage())
                 .Send(BaseTestUtterances.FirstOne)
-                .AssertReplyOneOf(this.DeleteConfirm())
+                .AssertReply(this.DeleteConfirm())
                 .Send(GeneralTestUtterances.No)
                 .AssertReplyOneOf(this.NotSendingMessage())
                 .AssertReply(this.ActionEndMessage())
@@ -49,7 +49,7 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.NoFocusMessage())
                 .Send(BaseTestUtterances.FirstOne)
-                .AssertReplyOneOf(this.DeleteConfirm())
+                .AssertReply(this.DeleteConfirm())
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(this.DeleteSuccess())
                 .AssertReply(this.ActionEndMessage())
@@ -71,9 +71,14 @@ namespace EmailSkillTest.Flow
             return this.ParseReplies(DeleteEmailResponses.DeleteSuccessfully.Replies, new StringDictionary());
         }
 
-        private string[] DeleteConfirm()
+        private Action<IActivity> DeleteConfirm()
         {
-            return this.ParseReplies(DeleteEmailResponses.DeleteConfirm.Replies, new StringDictionary());
+            return activity =>
+            {
+                var messageActivity = activity.AsMessageActivity();
+                CollectionAssert.Contains(this.ParseReplies(DeleteEmailResponses.DeleteConfirm.Replies, new StringDictionary()), messageActivity.Text);
+                Assert.AreEqual(messageActivity.Attachments.Count, 1);
+            };
         }
 
         private Action<IActivity> ActionEndMessage()

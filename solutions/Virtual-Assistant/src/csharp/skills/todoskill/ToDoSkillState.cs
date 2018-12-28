@@ -34,6 +34,7 @@ namespace ToDoSkill
             TaskContentPattern = null;
             TaskContentML = null;
             TaskContent = null;
+            SwitchListType = false;
             TaskServiceType = ProviderTypes.Other;
         }
 
@@ -214,6 +215,14 @@ namespace ToDoSkill
         public string TaskContent { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether gets or sets SwitchListType.
+        /// </summary>
+        /// <value>
+        /// SwitchListType.
+        /// </value>
+        public bool SwitchListType { get; set; }
+
+        /// <summary>
         /// Gets or sets TaskContent.
         /// </summary>
         /// <value>
@@ -247,6 +256,7 @@ namespace ToDoSkill
             TaskContentPattern = null;
             TaskContentML = null;
             TaskContent = null;
+            SwitchListType = false;
             TaskServiceType = ProviderTypes.Other;
         }
     }

@@ -11,8 +11,8 @@
   "AfterAllTasksDeleted": {
     "replies": [
       {
-        "text": "I have cleared out your list.",
-        "speak": "I have cleared out your list."
+        "text": "I have cleared out your {listType} list.",
+        "speak": "I have cleared out your {listType} list."
       }
     ],
     "inputHint": "acceptingInput"
@@ -29,8 +29,8 @@
   "AskDeletionAllConfirmation": {
     "replies": [
       {
-        "text": "Are you sure you want to delete all your items?",
-        "speak": "Are you sure you want to delete all your items?"
+        "text": "Are you sure you want to delete all your {listType} items?",
+        "speak": "Are you sure you want to delete all your {listType} items?"
       }
     ],
     "inputHint": "expectingInput"

@@ -54,6 +54,8 @@ namespace ToDoSkill.Dialogs.Shared.Resources
 
         public static BotResponse NoTasksInList => GetBotResponse();
 
+        public static BotResponse SwitchListType => GetBotResponse();
+
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {
             return _responseManager.GetBotResponse(propertyName);

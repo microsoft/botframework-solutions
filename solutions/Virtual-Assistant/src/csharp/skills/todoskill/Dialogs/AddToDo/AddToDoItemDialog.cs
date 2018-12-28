@@ -22,6 +22,7 @@ namespace ToDoSkill
                 AfterGetAuthToken,
                 ClearContext,
                 CollectToDoTaskContent,
+                CollectSwitchListTypeConfirmation,
                 AddToDoTask,
             };
 
@@ -31,9 +32,16 @@ namespace ToDoSkill
                 AfterAskToDoTaskContent,
             };
 
+            var collectSwitchListTypeConfirmation = new WaterfallStep[]
+            {
+                AskSwitchListTypeConfirmation,
+                AfterAskSwitchListTypeConfirmation,
+            };
+
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Action.AddToDoTask, addToDoTask) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Action.CollectToDoTaskContent, collectToDoTaskContent) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Action.CollectSwitchListTypeConfirmation, collectSwitchListTypeConfirmation) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Action.AddToDoTask;

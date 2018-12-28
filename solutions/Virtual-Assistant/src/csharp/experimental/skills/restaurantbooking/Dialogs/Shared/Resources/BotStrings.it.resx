@@ -1,0 +1,261 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AssetsDir" xml:space="preserve">
+    <value>Assets/it</value>
+  </data>
+  <data name="compressionratio" xml:space="preserve">
+    <value>rapporto di compressione</value>
+  </data>
+  <data name="Evening" xml:space="preserve">
+    <value>Sera</value>
+  </data>
+  <data name="producttitle" xml:space="preserve">
+    <value>titolo del prodotto</value>
+  </data>
+  <data name="Afternoon" xml:space="preserve">
+    <value>Pomeriggio</value>
+  </data>
+  <data name="sparkplugs" xml:space="preserve">
+    <value>Candele</value>
+  </data>
+  <data name="ConciergeBookedSpaAppointment" xml:space="preserve">
+    <value>Bene, siamo a posto. Ecco l'appuntamento della Spa richiesto:</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>O</value>
+  </data>
+  <data name="bodychassis" xml:space="preserve">
+    <value>carrozzeria</value>
+  </data>
+  <data name="emptyweight" xml:space="preserve">
+    <value>Peso vuoto</value>
+  </data>
+  <data name="frontbreakdiameter" xml:space="preserve">
+    <value>diametro anteriore del freno</value>
+  </data>
+  <data name="ConciergeAgentName" xml:space="preserve">
+    <value>John Doe</value>
+  </data>
+  <data name="maximumspeed" xml:space="preserve">
+    <value>velocità massima</value>
+  </data>
+  <data name="MemoSaveSuccess" xml:space="preserve">
+    <value>La nota è stata salvata nella sezione {0} con title:' {1}'.</value>
+  </data>
+  <data name="MemoSectionNotFound" xml:space="preserve">
+    <value>La sezione memo non è stata trovata nel notebook, dovrebbe trovare una sezione denominata ' {0}'</value>
+  </data>
+  <data name="ShowNext" xml:space="preserve">
+    <value>Mostra successivo</value>
+  </data>
+  <data name="LoanerCarMessage" xml:space="preserve">
+    <value>Il cliente ha richiesto un veicolo in prestito. Follow-up con il cliente il più presto possibile.</value>
+  </data>
+  <data name="drivetransmission" xml:space="preserve">
+    <value>trasmissione dell'unità</value>
+  </data>
+  <data name="co2emission" xml:space="preserve">
+    <value>Emissioni di CO2</value>
+  </data>
+  <data name="fronttrack" xml:space="preserve">
+    <value>pista anteriore</value>
+  </data>
+  <data name="Quit" xml:space="preserve">
+    <value>Smettere</value>
+  </data>
+  <data name="People_MoreThanOne" xml:space="preserve">
+    <value>{0} persone</value>
+  </data>
+  <data name="fuelinductionsystem" xml:space="preserve">
+    <value>sistema di induzione del combustibile</value>
+  </data>
+  <data name="bodytype" xml:space="preserve">
+    <value>tipo di corpo</value>
+  </data>
+  <data name="battery" xml:space="preserve">
+    <value>Batteria</value>
+  </data>
+  <data name="fuelconsumption" xml:space="preserve">
+    <value>consumo di carburante</value>
+  </data>
+  <data name="ConciergeAgentMessage" xml:space="preserve">
+    <value>Sono il tuo agente di concierge simulato. Di' "Smettila" di riattaccare.</value>
+  </data>
+  <data name="People_One" xml:space="preserve">
+    <value>{0} person</value>
+  </data>
+  <data name="Tomorrow" xml:space="preserve">
+    <value>Domani</value>
+  </data>
+  <data name="ConciergeAgentCompany" xml:space="preserve">
+    <value>Professional concierge Services Inc.</value>
+  </data>
+  <data name="CallConcierge" xml:space="preserve">
+    <value>Chiama concierge</value>
+  </data>
+  <data name="gearboxratios" xml:space="preserve">
+    <value>rapporti di cambio</value>
+  </data>
+  <data name="SpokenDatePrefix" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Morning" xml:space="preserve">
+    <value>Mattina</value>
+  </data>
+  <data name="ShowPrevious" xml:space="preserve">
+    <value>Mostra precedente</value>
+  </data>
+  <data name="KnowledgeGraphAzureSearchIndex" xml:space="preserve">
+    <value>knowledgegraphindex</value>
+  </data>
+  <data name="MoreOptions" xml:space="preserve">
+    <value>Mostrami di più</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Non</value>
+  </data>
+  <data name="MemoSaveFail" xml:space="preserve">
+    <value>Non è riuscito a salvare la nota.</value>
+  </data>
+  <data name="And" xml:space="preserve">
+    <value>E</value>
+  </data>
+  <data name="permissibletotalweight" xml:space="preserve">
+    <value>peso totale ammissibile</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Sì</value>
+  </data>
+  <data name="poweroutput" xml:space="preserve">
+    <value>potenza di uscita</value>
+  </data>
+  <data name="frontwheelsuspension" xml:space="preserve">
+    <value>sospensione anteriore della rotella</value>
+  </data>
+  <data name="SpokenDateFormat" xml:space="preserve">
+    <value>dddd, MMMM dd</value>
+  </data>
+  <data name="Today" xml:space="preserve">
+    <value>Oggi</value>
+  </data>
+  <data name="frontbrakes" xml:space="preserve">
+    <value>freni anteriori</value>
+  </data>
+</root>

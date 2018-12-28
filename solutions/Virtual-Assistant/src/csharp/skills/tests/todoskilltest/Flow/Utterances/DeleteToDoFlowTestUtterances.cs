@@ -1,5 +1,5 @@
 ﻿using Luis;
-using ToDoSkill.Dialogs.Shared.Resources;
+using ToDoSkillTest.Flow.Fakes;
 
 namespace ToDoSkillTest.Flow.Utterances
 {
@@ -17,7 +17,7 @@ namespace ToDoSkillTest.Flow.Utterances
                 DeleteSpecificTask,
                 ordinal: ordinal));
 
-            var listType = new string[] { ToDoStrings.Shopping };
+            var listType = new string[] { MockData.Shopping };
             var number = new double[] { 2 };
             this.Add(DeleteSpecificTaskWithListType, GetBaseDeleteToDoIntent(
                 DeleteSpecificTaskWithListType,

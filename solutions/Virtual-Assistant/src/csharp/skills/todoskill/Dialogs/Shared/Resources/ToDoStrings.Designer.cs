@@ -115,7 +115,7 @@ namespace ToDoSkill.Dialogs.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ToDo.
+        ///   Looks up a localized string similar to To Do.
         /// </summary>
         public static string ToDo {
             get {

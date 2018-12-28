@@ -109,7 +109,11 @@ namespace ToDoSkill
 
                     if (state.MarkOrDeleteAllTasksFlag)
                     {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(DeleteToDoResponses.AfterAllTasksDeleted));
+                        var token = new StringDictionary() { { "listType", state.ListType } };
+                        var response = GenerateResponseWithTokens(DeleteToDoResponses.AfterAllTasksDeleted, token);
+                        var message = sc.Context.Activity.CreateReply(response);
+                        message.Speak = response;
+                        await sc.Context.SendActivityAsync(message);
                     }
                     else
                     {
@@ -120,7 +124,8 @@ namespace ToDoSkill
                                 state.AllTasks.Count,
                                 taskTopicToBeDeleted,
                                 DeleteToDoResponses.AfterTaskDeleted,
-                                ToDoSharedResponses.ShowToDoTasks);
+                                ToDoSharedResponses.ShowToDoTasks,
+                                state.ListType);
 
                             var deletedToDoListReply = sc.Context.Activity.CreateReply();
                             deletedToDoListReply.Attachments.Add(deletedToDoListAttachment);
@@ -130,7 +135,7 @@ namespace ToDoSkill
                         {
                             var token1 = new StringDictionary() { { "taskContent", taskTopicToBeDeleted } };
                             var response1 = GenerateResponseWithTokens(DeleteToDoResponses.AfterTaskDeleted, token1);
-                            var token2 = new StringDictionary() { { "taskCount", "0" } };
+                            var token2 = new StringDictionary() { { "taskCount", "0" }, { "listType", state.ListType } };
                             var response2 = GenerateResponseWithTokens(ToDoSharedResponses.ShowToDoTasks, token2);
                             var response = response1 + " " + response2.Remove(response2.Length - 1) + ".";
                             var botResponse = sc.Context.Activity.CreateReply(response);
@@ -161,7 +166,10 @@ namespace ToDoSkill
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 if (state.MarkOrDeleteAllTasksFlag)
                 {
-                    var prompt = sc.Context.Activity.CreateReply(DeleteToDoResponses.AskDeletionAllConfirmation);
+                    var token = new StringDictionary() { { "listType", state.ListType } };
+                    var response = GenerateResponseWithTokens(DeleteToDoResponses.AskDeletionAllConfirmation, token);
+                    var prompt = sc.Context.Activity.CreateReply(response);
+                    prompt.Speak = response;
                     return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
                 }
                 else
