@@ -35,19 +35,19 @@ namespace ToDoSkillTest.Fakes
 
         public Task<ITaskService> InitAsync(string token, Dictionary<string, string> listTypeIds, HttpClient client = null)
         {
-            if (!listTypeIds.ContainsKey("ToDo"))
+            if (!listTypeIds.ContainsKey(MockData.ToDo))
             {
-                listTypeIds.Add("ToDo", "ToDo");
+                listTypeIds.Add(MockData.ToDo, MockData.ToDo);
             }
 
-            if (!listTypeIds.ContainsKey("Shopping"))
+            if (!listTypeIds.ContainsKey(MockData.Shopping))
             {
-                listTypeIds.Add("Shopping", "Shopping");
+                listTypeIds.Add(MockData.Shopping, MockData.Shopping);
             }
 
-            if (!listTypeIds.ContainsKey("Grocery"))
+            if (!listTypeIds.ContainsKey(MockData.Grocery))
             {
-                listTypeIds.Add("Grocery", "Grocery");
+                listTypeIds.Add(MockData.Grocery, MockData.Grocery);
             }
 
             return Task.FromResult(this as ITaskService);
@@ -55,11 +55,11 @@ namespace ToDoSkillTest.Fakes
 
         public Task<bool> DeleteTasksAsync(string listType, List<TaskItem> taskItems)
         {
-            if (listType.Equals("todo", StringComparison.InvariantCultureIgnoreCase))
+            if (listType.Equals(MockData.ToDo, StringComparison.InvariantCultureIgnoreCase))
             {
                 taskItems.ForEach(o => allToDoItems.Remove(allToDoItems.Find(x => x.Topic == o.Topic)));
             }
-            else if (listType.Equals("shopping", StringComparison.InvariantCultureIgnoreCase))
+            else if (listType.Equals(MockData.Shopping, StringComparison.InvariantCultureIgnoreCase))
             {
                 taskItems.ForEach(o => allShoppingItems.Remove(allShoppingItems.Find(x => x.Topic == o.Topic)));
             }
@@ -73,11 +73,11 @@ namespace ToDoSkillTest.Fakes
 
         public Task<List<TaskItem>> GetTasksAsync(string listType)
         {
-            if (listType.Equals("todo", StringComparison.InvariantCultureIgnoreCase))
+            if (listType.Equals(MockData.ToDo, StringComparison.InvariantCultureIgnoreCase))
             {
                 return Task.FromResult(this.allToDoItems);
             }
-            else if (listType.Equals("shopping", StringComparison.InvariantCultureIgnoreCase))
+            else if (listType.Equals(MockData.Shopping, StringComparison.InvariantCultureIgnoreCase))
             {
                 return Task.FromResult(this.allShoppingItems);
             }
@@ -89,22 +89,22 @@ namespace ToDoSkillTest.Fakes
 
         public Task<bool> AddTaskAsync(string listType, string taskText)
         {
-            if (listType.Equals("todo", StringComparison.InvariantCultureIgnoreCase))
+            if (listType.Equals(MockData.ToDo, StringComparison.InvariantCultureIgnoreCase))
             {
                 this.allToDoItems.Insert(0, new TaskItem()
                 {
                     Topic = taskText,
                     IsCompleted = true,
-                    Id = "AddedToDiId"
+                    Id = MockData.TaskId
                 });
             }
-            else if (listType.Equals("shopping", StringComparison.InvariantCultureIgnoreCase))
+            else if (listType.Equals(MockData.Shopping, StringComparison.InvariantCultureIgnoreCase))
             {
                 this.allShoppingItems.Insert(0, new TaskItem()
                 {
                     Topic = taskText,
                     IsCompleted = true,
-                    Id = "AddedToDiId"
+                    Id = MockData.TaskId
                 });
             }
             else
@@ -113,7 +113,7 @@ namespace ToDoSkillTest.Fakes
                 {
                     Topic = taskText,
                     IsCompleted = true,
-                    Id = "AddedToDiId"
+                    Id = MockData.TaskId
                 });
             }
 
@@ -122,11 +122,11 @@ namespace ToDoSkillTest.Fakes
 
         public Task<bool> MarkTasksCompletedAsync(string listType, List<TaskItem> taskItems)
         {
-            if (listType.Equals("todo", StringComparison.InvariantCultureIgnoreCase))
+            if (listType.Equals(MockData.ToDo, StringComparison.InvariantCultureIgnoreCase))
             {
                 taskItems.ForEach(o => allToDoItems[allToDoItems.FindIndex(t => t.Id == o.Id)].IsCompleted = true);
             }
-            else if (listType.Equals("shopping", StringComparison.InvariantCultureIgnoreCase))
+            else if (listType.Equals(MockData.Shopping, StringComparison.InvariantCultureIgnoreCase))
             {
                 taskItems.ForEach(o => allShoppingItems[allShoppingItems.FindIndex(t => t.Id == o.Id)].IsCompleted = true);
             }

@@ -1,4 +1,5 @@
 ﻿using Luis;
+using ToDoSkillTest.Flow.Fakes;
 
 namespace ToDoSkillTest.Flow.Utterances
 {
@@ -24,7 +25,7 @@ namespace ToDoSkillTest.Flow.Utterances
                 taskContentML: taskContentML,
                 shopVerb: shopVerb));
 
-            var listType = new string[] { "grocery" };
+            var listType = new string[] { MockData.Grocery };
             var taskContentPattern = new string[] { "eggs" };
             taskContentML = new string[] { "eggs" };
             foodOfGrocery[0][0] = "eggs";
@@ -36,7 +37,7 @@ namespace ToDoSkillTest.Flow.Utterances
                 taskContentML: taskContentML,
                 foodOfGrocery: foodOfGrocery));
 
-            listType = new string[] { "shopping" };
+            listType = new string[] { MockData.Shopping };
             shopVerb[0][0] = "purchase";
             taskContentML = new string[] { "purchase shoes" };
 
