@@ -682,10 +682,18 @@ namespace CalendarSkill
 
                 if (((UpdateDateTimeDialogOptions)sc.Options).Reason == UpdateDateTimeDialogOptions.UpdateReason.NotFound)
                 {
-                    return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartDate) }, cancellationToken);
+                    return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions
+                    {
+                        Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartDate),
+                        RetryPrompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartDate_Retry)
+                    }, cancellationToken);
                 }
 
-                return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage) }, cancellationToken);
+                return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions
+                {
+                    Prompt = sc.Context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage),
+                    RetryPrompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartDate_Retry)
+                }, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -749,12 +757,7 @@ namespace CalendarSkill
                     }
                 }
 
-                if (state.StartDate.Any())
-                {
-                    return await sc.EndDialogAsync(cancellationToken: cancellationToken);
-                }
-
-                return await sc.BeginDialogAsync(Actions.UpdateStartDateForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotADateTime), cancellationToken);
+                return await sc.EndDialogAsync(cancellationToken: cancellationToken);
             }
             catch (Exception ex)
             {
@@ -824,36 +827,31 @@ namespace CalendarSkill
                     }
                 }
 
-                if (state.StartTime.Any())
+                var userNow = TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, state.GetUserTimeZone());
+                var startDate = state.StartDate.Last();
+                foreach (var startTime in state.StartTime)
                 {
-                    var userNow = TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, state.GetUserTimeZone());
-                    var startDate = state.StartDate.Last();
-                    foreach (var startTime in state.StartTime)
+                    var startDateTime = new DateTime(
+                        startDate.Year,
+                        startDate.Month,
+                        startDate.Day,
+                        startTime.Hour,
+                        startTime.Minute,
+                        startTime.Second);
+                    if (state.StartDateTime == null)
                     {
-                        var startDateTime = new DateTime(
-                            startDate.Year,
-                            startDate.Month,
-                            startDate.Day,
-                            startTime.Hour,
-                            startTime.Minute,
-                            startTime.Second);
-                        if (state.StartDateTime == null)
-                        {
-                            state.StartDateTime = startDateTime;
-                        }
-
-                        if (startDateTime >= userNow)
-                        {
-                            state.StartDateTime = startDateTime;
-                            break;
-                        }
+                        state.StartDateTime = startDateTime;
                     }
 
-                    state.StartDateTime = TimeZoneInfo.ConvertTimeToUtc(state.StartDateTime.Value, state.GetUserTimeZone());
-                    return await sc.EndDialogAsync(cancellationToken: cancellationToken);
+                    if (startDateTime >= userNow)
+                    {
+                        state.StartDateTime = startDateTime;
+                        break;
+                    }
                 }
 
-                return await sc.BeginDialogAsync(Actions.UpdateStartTimeForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotADateTime), cancellationToken);
+                state.StartDateTime = TimeZoneInfo.ConvertTimeToUtc(state.StartDateTime.Value, state.GetUserTimeZone());
+                return await sc.EndDialogAsync(cancellationToken: cancellationToken);
             }
             catch (Exception ex)
             {
