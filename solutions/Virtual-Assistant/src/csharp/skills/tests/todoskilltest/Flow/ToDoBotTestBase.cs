@@ -12,7 +12,6 @@ using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestFramework;
 using ToDoSkill;
-using ToDoSkillTest.Fakes;
 using ToDoSkillTest.Flow.Fakes;
 
 namespace ToDoSkillTest.Flow
@@ -29,9 +28,7 @@ namespace ToDoSkillTest.Flow
 
         public IStatePropertyAccessor<ToDoSkillUserState> UserStateAccessor { get; set; }
 
-        public ITaskService ToDoService { get; set; }
-
-        public IMailService MailService { get; set; }
+        public IServiceManager ServiceManager { get; set; }
 
         public MockSkillConfiguration Services { get; set; }
 
@@ -50,16 +47,11 @@ namespace ToDoSkillTest.Flow
             this.Services = new MockSkillConfiguration();
 
             builder.RegisterInstance(new BotStateSet(this.UserState, this.ConversationState));
-
-            var mockToDoService = new MockToDoService();
-            builder.RegisterInstance<ITaskService>(mockToDoService);
-
-            var mockMailService = new MockMailService();
-            builder.RegisterInstance<IMailService>(mockMailService);
+            var fakeServiceManager = new MockServiceManager();
+            builder.RegisterInstance<IServiceManager>(fakeServiceManager);
 
             this.Container = builder.Build();
-            this.ToDoService = mockToDoService;
-            this.MailService = mockMailService;
+            this.ServiceManager = fakeServiceManager;
 
             this.BotResponseBuilder = new BotResponseBuilder();
             this.BotResponseBuilder.AddFormatter(new TextBotResponseFormatter());
@@ -90,10 +82,7 @@ namespace ToDoSkillTest.Flow
 
         public override IBot BuildBot()
         {
-            var skill = new ToDoSkill.ToDoSkill(this.Services, this.ConversationState, this.UserState, this.TelemetryClient, this.ToDoService, true);
-            skill.MailService = MailService;
-
-            return skill;
+            return new ToDoSkill.ToDoSkill(this.Services, this.ConversationState, this.UserState, this.TelemetryClient, this.ServiceManager, true);
         }
     }
 }
