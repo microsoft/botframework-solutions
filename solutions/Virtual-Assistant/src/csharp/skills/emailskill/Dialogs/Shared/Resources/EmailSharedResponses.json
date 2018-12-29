@@ -171,7 +171,7 @@
       {
         "text": "Sorry, there is something wrong with the bot at the moment. The developer has been notified about it so you'll be able to perform the action again very soon.",
         "speak": "Sorry, there is something wrong with the bot at the moment. The developer has been notified about it so you'll be able to perform the action again very soon."
-      },
+      }
     ],
     "inputHint": "acceptingInput"
   },
@@ -271,8 +271,17 @@
   "ShowEmailPrompt": {
     "replies": [
       {
-        "text": "You have the following {SearchType} emails:",
-        "speak": "You have the following {SearchType} emails: {EmailListDetails}"
+        "text": "You have {TotalCount} emails. Do you want to hear the content of the latest email? I can read out any email for you, just let me know by naming out the subject or from whom.",
+        "speak": "You have {TotalCount} emails. {EmailListDetails}. Do you want to hear the content of the latest email? I can read out any email for you, just let me know by naming out the subject or from whom."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowOneEmailPrompt": {
+    "replies": [
+      {
+        "text": "You have 1 email. Do you want to hear the content of the latest email?",
+        "speak": "You have 1 email. {EmailListDetails}. Do you want to hear the content of the latest email? I can read out any email for you, just let me know by naming out the subject or from whom."
       }
     ],
     "inputHint": "acceptingInput"

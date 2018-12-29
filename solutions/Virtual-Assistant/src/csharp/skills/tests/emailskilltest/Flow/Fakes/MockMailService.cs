@@ -25,18 +25,11 @@ namespace EmailSkillTest.Flow.Fakes
             return Task.FromResult(this.RepliedMessages);
         }
 
-        public Task<List<Message>> GetMyMessagesAsync(DateTime startDateTime, DateTime endDateTime, bool isRead, bool isImportant, bool directlyToMe, string mailAddress, int skip)
+        public Task<List<Message>> GetMyMessagesAsync(DateTime startDateTime, DateTime endDateTime, bool isRead, bool isImportant, bool directlyToMe, string mailAddress)
         {
             var messages = new List<Message>();
-            var displaySize = ConfigData.GetInstance().MaxDisplaySize;
             foreach (var message in this.MyMessages)
             {
-                if (skip > 0)
-                {
-                    skip--;
-                    continue;
-                }
-
                 if (mailAddress != null)
                 {
                     if (message.Sender.EmailAddress.Address.Equals(mailAddress))
@@ -47,11 +40,6 @@ namespace EmailSkillTest.Flow.Fakes
                 else
                 {
                     messages.Add(message);
-                }
-
-                if (messages.Count == displaySize)
-                {
-                    break;
                 }
             }
 

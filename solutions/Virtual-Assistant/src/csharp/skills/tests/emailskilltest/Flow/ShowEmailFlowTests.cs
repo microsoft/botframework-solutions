@@ -444,7 +444,15 @@ namespace EmailSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                CollectionAssert.Contains(this.ParseReplies(EmailSharedResponses.ShowEmailPrompt.Replies, new StringDictionary() { { "SearchType", "relevant unread" } }), messageActivity.Text);
+
+                // Get showed mails:
+                var showedItems = ((MockServiceManager)this.ServiceManager).MailService.MyMessages;
+                var replies = this.ParseReplies(EmailSharedResponses.ShowEmailPrompt.Replies, new StringDictionary()
+                {
+                    { "TotalCount", showedItems.Count.ToString() },
+                });
+
+                CollectionAssert.Contains(replies, messageActivity.Text);
                 Assert.AreEqual(messageActivity.Attachments.Count, expectCount);
             };
         }
@@ -454,7 +462,10 @@ namespace EmailSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                CollectionAssert.Contains(this.ParseReplies(EmailSharedResponses.ShowEmailPrompt.Replies, new StringDictionary() { { "SearchType", "relevant" } }), messageActivity.Text);
+                var replies = this.ParseReplies(EmailSharedResponses.ShowEmailPrompt.Replies, new StringDictionary()
+                {
+                    { "TotalCount", "1" },
+                });
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
         }

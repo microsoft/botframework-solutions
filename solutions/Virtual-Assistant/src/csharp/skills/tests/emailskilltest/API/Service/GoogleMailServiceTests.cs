@@ -63,7 +63,7 @@ namespace EmailSkillTest.API
         [TestMethod]
         public async Task GetMessagesTest()
         {
-            var messageList = await MailService.GetMyMessagesAsync(DateTime.Now, DateTime.Now.AddDays(7), false, false, false, null, 0);
+            var messageList = await MailService.GetMyMessagesAsync(DateTime.Now, DateTime.Now.AddDays(7), false, false, false, null);
             Assert.AreEqual(messageList.Count, 5);
         }
     }

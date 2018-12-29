@@ -162,10 +162,6 @@ namespace EmailSkill
 
                 await dc.Context.SendActivityAsync(response);
             }
-            else
-            {
-                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(EmailSharedResponses.ActionEnded));
-            }
 
             // End active dialog
             await dc.EndDialogAsync(result);

@@ -87,22 +87,13 @@ namespace EmailSkillTest.API
             IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
             MSGraphMailAPI mailService = new MSGraphMailAPI(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
 
-            List<Message> result = await mailService.GetMyMessagesAsync(DateTime.Today.AddDays(-2), DateTime.Today.AddDays(1), getUnRead: false, isImportant: false, directlyToMe: false, fromAddress: "test@test.com", skip: 0);
+            List<Message> result = await mailService.GetMyMessagesAsync(DateTime.Today.AddDays(-2), DateTime.Today.AddDays(1), getUnRead: false, isImportant: false, directlyToMe: false, fromAddress: "test@test.com");
 
             // Test get 0-5 message per page
             Assert.IsTrue(result.Count >= 1);
-            Assert.IsTrue(result.Count <= ConfigData.GetInstance().MaxDisplaySize);
 
             // Test ranking correctly by time
             Assert.IsTrue(result[0].Subject == "TestSubject5");
-
-            result = await mailService.GetMyMessagesAsync(DateTime.Today.AddDays(-2), DateTime.Today.AddDays(1), getUnRead: false, isImportant: false, directlyToMe: false, fromAddress: "test@test.com", skip: 5);
-
-            // Test get 1 message next page
-            Assert.IsTrue(result.Count == 1);
-
-            // Test ranking correctly by time
-            Assert.IsTrue(result[0].Subject == "TestSubject0");
         }
 
         [TestMethod]

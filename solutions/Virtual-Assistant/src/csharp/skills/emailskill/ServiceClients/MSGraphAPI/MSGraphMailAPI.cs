@@ -40,9 +40,8 @@ namespace EmailSkill
         /// <param name="isImportant">bool flag, if get important email.</param>
         /// <param name="directlyToMe">bool flag, if filter email directly to me.</param>
         /// <param name="fromAddress">search condition, filter email from this address.</param>
-        /// <param name="skip">number of skipped result.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public async Task<List<Message>> GetMyMessagesAsync(DateTime fromTime, DateTime toTime, bool getUnRead = false, bool isImportant = false, bool directlyToMe = false, string fromAddress = null, int skip = 0)
+        public async Task<List<Message>> GetMyMessagesAsync(DateTime fromTime, DateTime toTime, bool getUnRead = false, bool isImportant = false, bool directlyToMe = false, string fromAddress = null)
         {
             try
             {
@@ -96,23 +95,11 @@ namespace EmailSkill
                         var receivedDateTime = message.ReceivedDateTime;
                         if (receivedDateTime > fromTime && receivedDateTime < toTime)
                         {
-                            if (skip > 0)
-                            {
-                                skip--;
-                            }
-                            else
-                            {
-                                result.Add(message);
-                            }
+                            result.Add(message);
                         }
                         else
                         {
                             done = true;
-                        }
-
-                        if (result.Count == ConfigData.GetInstance().MaxDisplaySize)
-                        {
-                            return result.OrderByDescending(me => me.ReceivedDateTime).ToList();
                         }
                     }
 

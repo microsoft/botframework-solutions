@@ -61,7 +61,7 @@ namespace EmailSkill.Util
 
             if (message != null)
             {
-                string subject = (message.Subject != null) ? message.Subject : EmailCommonStrings.EmptySubject;
+                string subject = message.Subject ?? EmailCommonStrings.EmptySubject;
                 string sender = (message.Sender?.EmailAddress?.Name != null) ? message.Sender.EmailAddress.Name : EmailCommonStrings.UnknownSender;
 
                 speakString = string.Format(EmailCommonStrings.FromDetailsFormat, subject, sender);
