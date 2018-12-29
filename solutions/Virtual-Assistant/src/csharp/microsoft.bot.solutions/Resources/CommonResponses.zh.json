@@ -8,7 +8,6 @@
     ],
     "inputHint": "expectingInput"
   },
-
   "ConfirmSaveInfoFailed": {
     "replies": [
       {
@@ -22,7 +21,6 @@
     ],
     "inputHint": "expectingInput"
   },
-
   "ErrorMessage": {
     "replies": [
       {
@@ -48,7 +46,15 @@
     ],
     "inputHint": "acceptingInput"
   },
-
+  "ErrorMessage_AuthFailure": {
+    "replies": [
+      {
+        "text": "对不起，在尝试为了您的{authType}获得授权的时候出现了问题。请稍候重试。",
+        "speak": "对不起，在尝试为了您的{authType}获得授权的时候出现了问题。请稍候重试。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
   "ErrorMessage_SkillError": {
     "replies": [
       {
@@ -58,7 +64,6 @@
     ],
     "inputHint": "expectingInput"
   },
-
   "SkillAuthenticationTitle": {
     "replies": [
       {
@@ -68,7 +73,6 @@
     ],
     "inputHint": "acceptingInput"
   },
-
   "SkillAuthenticationPrompt": {
     "replies": [
       {
@@ -78,7 +82,6 @@
     ],
     "inputHint": "acceptingInput"
   },
-
   "AuthProvidersPrompt": {
     "replies": [
       {
@@ -88,7 +91,6 @@
     ],
     "inputHint": "expectingInput"
   },
-
   "ConfiguredAuthProvidersPrompt": {
     "replies": [
       {
