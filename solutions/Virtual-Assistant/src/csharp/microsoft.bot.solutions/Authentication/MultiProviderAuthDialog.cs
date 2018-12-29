@@ -118,18 +118,17 @@ namespace Microsoft.Bot.Solutions.Authentication
 
         private async Task<DialogTurnResult> PromptForAuth(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            var authType = string.Empty;
             if (stepContext.Result is string)
             {
-                _selectedAuthType = authType = stepContext.Result as string;
+                _selectedAuthType = stepContext.Result as string;
             }
             else if (stepContext.Result is FoundChoice)
             {
                 var choice = stepContext.Result as FoundChoice;
-                _selectedAuthType = authType = choice.Value;
+                _selectedAuthType = choice.Value;
             }
 
-            return await stepContext.PromptAsync(authType, new PromptOptions());
+            return await stepContext.PromptAsync(_selectedAuthType, new PromptOptions());
         }
 
         private async Task<DialogTurnResult> HandleTokenResponse(WaterfallStepContext stepContext, CancellationToken cancellationToken)
