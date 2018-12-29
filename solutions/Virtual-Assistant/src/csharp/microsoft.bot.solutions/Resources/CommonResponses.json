@@ -8,7 +8,6 @@
     ],
     "inputHint": "expectingInput"
   },
-
   "ConfirmSaveInfoFailed": {
     "replies": [
       {
@@ -22,7 +21,6 @@
     ],
     "inputHint": "expectingInput"
   },
-
   "ErrorMessage": {
     "replies": [
       {
@@ -48,7 +46,15 @@
     ],
     "inputHint": "acceptingInput"
   },
-
+  "ErrorMessage_AuthFailure": {
+    "replies": [
+      {
+        "text": "Sorry, it looks like something went wrong when trying to get authenticated for your {authType} connection! Please try again later.",
+        "speak": "Sorry, it looks like something went wrong when trying to get authenticated for your {authType} connection! Please try again later."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
   "ErrorMessage_SkillError": {
     "replies": [
       {
@@ -58,7 +64,6 @@
     ],
     "inputHint": "expectingInput"
   },
-
   "SkillAuthenticationTitle": {
     "replies": [
       {
@@ -68,7 +73,6 @@
     ],
     "inputHint": "acceptingInput"
   },
-
   "SkillAuthenticationPrompt": {
     "replies": [
       {
@@ -78,7 +82,6 @@
     ],
     "inputHint": "acceptingInput"
   },
-
   "AuthProvidersPrompt": {
     "replies": [
       {
@@ -88,7 +91,6 @@
     ],
     "inputHint": "expectingInput"
   },
-
   "ConfiguredAuthProvidersPrompt": {
     "replies": [
       {

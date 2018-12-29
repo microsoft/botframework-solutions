@@ -1152,7 +1152,7 @@ namespace ToDoSkill
             var telemetryData = new Dictionary<string, string>();
             telemetryData.Add("activityId", sc.Context.Activity.Id);
             telemetryData.Add("userId", sc.Context.Activity.From.Id);
-            telemetryData.Add("activeDialog", sc.ActiveDialog.ToString());
+            telemetryData.Add("activeDialog", sc.ActiveDialog?.Id);
 
             return telemetryData;
         }
