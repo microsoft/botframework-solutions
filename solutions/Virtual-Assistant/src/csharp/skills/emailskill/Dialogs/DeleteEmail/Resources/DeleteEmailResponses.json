@@ -16,7 +16,7 @@
       {
         "text": "Which email do you want me to delete?",
         "speak": "Which email do you want me to delete?"
-      },
+      }
     ],
     "inputHint": "expectingInput"
   },
