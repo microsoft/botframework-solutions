@@ -18,10 +18,9 @@ namespace ToDoSkill
             ISkillConfiguration services,
             IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
             IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
-            ITaskService serviceManager,
-            IMailService mailService,
+            IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(MarkToDoItemDialog), services, toDoStateAccessor, userStateAccessor, serviceManager, mailService, telemetryClient)
+            : base(nameof(MarkToDoItemDialog), services, toDoStateAccessor, userStateAccessor, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -81,7 +80,8 @@ namespace ToDoSkill
                     state.AllTasks.Count,
                     taskTopicToBeMarked,
                     botResponse,
-                    ToDoSharedResponses.ShowToDoTasks);
+                    ToDoSharedResponses.ShowToDoTasks,
+                    state.ListType);
                 var markToDoReply = sc.Context.Activity.CreateReply();
                 markToDoReply.Attachments.Add(markToDoAttachment);
                 await sc.Context.SendActivityAsync(markToDoReply);

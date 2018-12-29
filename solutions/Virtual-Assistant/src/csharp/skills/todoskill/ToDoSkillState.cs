@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Luis;
 using Microsoft.Bot.Builder.Dialogs;
+using static ToDoSkill.ServiceProviderTypes;
 
 namespace ToDoSkill
 {
@@ -33,6 +34,8 @@ namespace ToDoSkill
             TaskContentPattern = null;
             TaskContentML = null;
             TaskContent = null;
+            SwitchListType = false;
+            TaskServiceType = ProviderTypes.Other;
         }
 
         /// <summary>
@@ -212,6 +215,22 @@ namespace ToDoSkill
         public string TaskContent { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether gets or sets SwitchListType.
+        /// </summary>
+        /// <value>
+        /// SwitchListType.
+        /// </value>
+        public bool SwitchListType { get; set; }
+
+        /// <summary>
+        /// Gets or sets TaskContent.
+        /// </summary>
+        /// <value>
+        /// ToDoTaskContent.
+        /// </value>
+        public ProviderTypes TaskServiceType { get; set; }
+
+        /// <summary>
         /// Clear state.
         /// </summary>
         public void Clear()
@@ -237,6 +256,8 @@ namespace ToDoSkill
             TaskContentPattern = null;
             TaskContentML = null;
             TaskContent = null;
+            SwitchListType = false;
+            TaskServiceType = ProviderTypes.Other;
         }
     }
 }

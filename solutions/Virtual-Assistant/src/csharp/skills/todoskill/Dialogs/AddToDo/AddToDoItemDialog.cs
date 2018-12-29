@@ -10,10 +10,9 @@ namespace ToDoSkill
             ISkillConfiguration services,
             IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
             IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
-            ITaskService serviceManager,
-            IMailService mailService,
+            IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(AddToDoItemDialog), services, toDoStateAccessor, userStateAccessor, serviceManager, mailService, telemetryClient)
+            : base(nameof(AddToDoItemDialog), services, toDoStateAccessor, userStateAccessor, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -23,6 +22,7 @@ namespace ToDoSkill
                 AfterGetAuthToken,
                 ClearContext,
                 CollectToDoTaskContent,
+                CollectSwitchListTypeConfirmation,
                 AddToDoTask,
             };
 
@@ -32,9 +32,16 @@ namespace ToDoSkill
                 AfterAskToDoTaskContent,
             };
 
+            var collectSwitchListTypeConfirmation = new WaterfallStep[]
+            {
+                AskSwitchListTypeConfirmation,
+                AfterAskSwitchListTypeConfirmation,
+            };
+
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Action.AddToDoTask, addToDoTask) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Action.CollectToDoTaskContent, collectToDoTaskContent) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Action.CollectSwitchListTypeConfirmation, collectSwitchListTypeConfirmation) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Action.AddToDoTask;

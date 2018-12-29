@@ -17,6 +17,7 @@ using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using ToDoSkill.Dialogs.Main.Resources;
 using ToDoSkill.Dialogs.Shared.Resources;
+using static ToDoSkill.ServiceProviderTypes;
 
 namespace ToDoSkill
 {
@@ -26,8 +27,7 @@ namespace ToDoSkill
         private ISkillConfiguration _services;
         private UserState _userState;
         private ConversationState _conversationState;
-        private ITaskService _serviceManager;
-        private IMailService _mailService;
+        private IServiceManager _serviceManager;
         private IStatePropertyAccessor<ToDoSkillState> _toDoStateAccessor;
         private IStatePropertyAccessor<ToDoSkillUserState> _userStateAccessor;
         private ToDoSkillResponseBuilder _responseBuilder = new ToDoSkillResponseBuilder();
@@ -37,8 +37,7 @@ namespace ToDoSkill
             ConversationState conversationState,
             UserState userState,
             IBotTelemetryClient telemetryClient,
-            ITaskService serviceManager,
-            IMailService mailService,
+            IServiceManager serviceManager,
             bool skillMode)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -47,7 +46,6 @@ namespace ToDoSkill
             _conversationState = conversationState;
             _userState = userState;
             _serviceManager = serviceManager;
-            _mailService = mailService;
             TelemetryClient = telemetryClient;
 
             // Initialize state accessor
@@ -305,21 +303,21 @@ namespace ToDoSkill
 
         private void RegisterDialogs()
         {
-            AddDialog(new AddToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager, _mailService, TelemetryClient));
-            AddDialog(new MarkToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager, _mailService, TelemetryClient));
-            AddDialog(new DeleteToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager, _mailService, TelemetryClient));
-            AddDialog(new ShowToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager, _mailService, TelemetryClient));
+            AddDialog(new AddToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new MarkToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new DeleteToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new ShowToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
         }
 
         private void InitializeConfig(ToDoSkillState state)
         {
-            // Initialize PageSize and ReadSize when the first input comes.
+            // Initialize PageSize, ReadSize and TaskServiceType when the first input comes.
             if (state.PageSize <= 0)
             {
                 int pageSize = 0;
-                if (_services.Properties.ContainsKey("DisplaySize"))
+                if (_services.Properties.TryGetValue("DisplaySize", out object displaySizeObj))
                 {
-                    pageSize = int.Parse(_services.Properties["DisplaySize"].ToString());
+                    int.TryParse(displaySizeObj.ToString(), out pageSize);
                 }
 
                 state.PageSize = pageSize <= 0 || pageSize > CommonUtil.MaxDisplaySize ? CommonUtil.MaxDisplaySize : pageSize;
@@ -328,12 +326,24 @@ namespace ToDoSkill
             if (state.ReadSize <= 0)
             {
                 int readSize = 0;
-                if (_services.Properties.ContainsKey("ReadSize"))
+                if (_services.Properties.TryGetValue("ReadSize", out object readSizeObj))
                 {
-                    readSize = int.Parse(_services.Properties["ReadSize"].ToString());
+                    int.TryParse(readSizeObj.ToString(), out readSize);
                 }
 
                 state.ReadSize = readSize <= 0 || readSize > CommonUtil.MaxReadSize ? CommonUtil.MaxReadSize : readSize;
+            }
+
+            if (state.TaskServiceType == ProviderTypes.Other)
+            {
+                state.TaskServiceType = ProviderTypes.Outlook;
+                if (_services.Properties.TryGetValue("TaskServiceProvider", out object taskServiceProvider))
+                {
+                    if (taskServiceProvider.ToString().Equals(ProviderTypes.OneNote.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        state.TaskServiceType = ProviderTypes.OneNote;
+                    }
+                }
             }
         }
 

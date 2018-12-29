@@ -25,10 +25,14 @@ namespace ToDoSkillTest.Flow
         [TestInitialize]
         public void SetupLuisService()
         {
-            this.Services.LocaleConfigurations.Add("en", new LocaleConfiguration()
+            this.Services.LocaleConfigurations.Add(MockData.LocaleEN, new LocaleConfiguration()
             {
-                Locale = "en-us",
-                LuisServices = NewMethod()
+                Locale = MockData.LocaleENUS,
+                LuisServices = new Dictionary<string, ITelemetryLuisRecognizer>()
+                {
+                    { "general", new MockLuisRecognizer(new GeneralTestUtterances()) },
+                    { "todo", new MockLuisRecognizer(new DeleteToDoFlowTestUtterances()) }
+                }
             });
         }
 
@@ -101,7 +105,7 @@ namespace ToDoSkillTest.Flow
         [TestMethod]
         public async Task Test_DeleteToDoItem_Check_Empty_List()
         {
-            (this.ToDoService as MockToDoService).ChangeData(DataOperationType.OperationType.KeepOneItem);
+            (this.ServiceManager as MockServiceManager).MockTaskService.ChangeData(DataOperationType.OperationType.KeepOneItem);
             await this.GetTestFlow()
                 .Send(DeleteToDoFlowTestUtterances.DeleteSpecificTask)
                 .AssertReply(this.ShowAuth())
@@ -131,15 +135,6 @@ namespace ToDoSkillTest.Flow
                 .StartTestAsync();
         }
 
-        private static Dictionary<string, ITelemetryLuisRecognizer> NewMethod()
-        {
-            return new Dictionary<string, ITelemetryLuisRecognizer>()
-                {
-                    { "general", new MockLuisRecognizer(new GeneralTestUtterances()) },
-                    { "todo", new MockLuisRecognizer(new DeleteToDoFlowTestUtterances()) }
-                };
-        }
-
         private Action<IActivity> AfterTaskDeletedCardMessage()
         {
             return activity =>
@@ -154,7 +149,7 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", (MockData.MockTaskItems.Count - 1).ToString() } }),
+                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { MockData.TaskCount, (MockData.MockTaskItems.Count - 1).ToString() }, { MockData.ListType, MockData.ToDo } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
                 var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;
@@ -164,7 +159,7 @@ namespace ToDoSkillTest.Flow
                 var content = column.Items[0] as AdaptiveTextBlock;
                 Assert.IsNotNull(content);
                 Assert.AreEqual(content.Text, MockData.MockTaskItems[1].Topic);
-                var speak = string.Format("I have deleted the item {0} for you.You have {1} items on your list:", MockData.MockTaskItems[0].Topic, MockData.MockTaskItems.Count - 1);
+                var speak = string.Format(MockData.AfterDeleteTaskMessage, MockData.MockTaskItems[0].Topic, MockData.MockTaskItems.Count - 1, MockData.ToDo);
                 Assert.AreEqual(speak, responseCard.Speak);
             };
         }
@@ -183,7 +178,7 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", (MockData.MockShoppingItems.Count - 1).ToString() } }),
+                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { MockData.TaskCount, (MockData.MockShoppingItems.Count - 1).ToString() }, { MockData.ListType, MockData.Shopping } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
                 var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;
@@ -193,7 +188,7 @@ namespace ToDoSkillTest.Flow
                 var content = column.Items[0] as AdaptiveTextBlock;
                 Assert.IsNotNull(content);
                 Assert.AreEqual(content.Text, MockData.MockShoppingItems[0].Topic);
-                var speak = string.Format("I have deleted the item {0} for you.You have {1} items on your list:", MockData.MockShoppingItems[1].Topic, MockData.MockShoppingItems.Count - 1);
+                var speak = string.Format(MockData.AfterDeleteTaskMessage, MockData.MockShoppingItems[1].Topic, MockData.MockShoppingItems.Count - 1, MockData.Shopping);
                 Assert.AreEqual(speak, responseCard.Speak);
             };
         }
@@ -203,7 +198,7 @@ namespace ToDoSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var response = string.Format("I have deleted the item {0} for you. You have {1} items on your list.", MockData.MockTaskItems[0].Topic, 0);
+                var response = string.Format(MockData.AfterDeleteTaskMessage, MockData.MockTaskItems[0].Topic, 0, MockData.ToDo);
                 Assert.AreEqual(response, messageActivity.Text);
             };
         }
@@ -220,12 +215,12 @@ namespace ToDoSkillTest.Flow
 
         private string[] CollectConfirmationForToDo()
         {
-            return this.ParseReplies(DeleteToDoResponses.AskDeletionConfirmation.Replies, new StringDictionary() { { "toDoTask", MockData.MockTaskItems[0].Topic } });
+            return this.ParseReplies(DeleteToDoResponses.AskDeletionConfirmation.Replies, new StringDictionary() { { MockData.ToDoTask, MockData.MockTaskItems[0].Topic } });
         }
 
         private string[] CollectConfirmationForShopping()
         {
-            return this.ParseReplies(DeleteToDoResponses.AskDeletionConfirmation.Replies, new StringDictionary() { { "toDoTask", MockData.MockShoppingItems[1].Topic } });
+            return this.ParseReplies(DeleteToDoResponses.AskDeletionConfirmation.Replies, new StringDictionary() { { MockData.ToDoTask, MockData.MockShoppingItems[1].Topic } });
         }
 
         private string[] SettingUpOneNote()

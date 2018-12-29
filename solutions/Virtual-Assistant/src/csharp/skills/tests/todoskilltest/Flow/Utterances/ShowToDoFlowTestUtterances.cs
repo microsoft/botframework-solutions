@@ -1,5 +1,5 @@
 ﻿using Luis;
-using ToDoSkill.Dialogs.Shared.Resources;
+using ToDoSkillTest.Flow.Fakes;
 
 namespace ToDoSkillTest.Flow.Utterances
 {
@@ -7,13 +7,13 @@ namespace ToDoSkillTest.Flow.Utterances
     {
         public ShowToDoFlowTestUtterances()
         {
-            var listType = new string[] { ToDoStrings.ToDo };
+            var listType = new string[] { MockData.ToDo };
             this.Add(ShowToDoList, GetBaseShowTasksIntent(ShowToDoList, listType: listType));
 
-            listType = new string[] { ToDoStrings.Grocery };
+            listType = new string[] { MockData.Grocery };
             this.Add(ShowGroceryList, GetBaseShowTasksIntent(ShowGroceryList, listType: listType));
 
-            listType = new string[] { ToDoStrings.Shopping };
+            listType = new string[] { MockData.Shopping };
             this.Add(ShowShoppingList, GetBaseShowTasksIntent(ShowShoppingList, listType: listType));
         }
 
