@@ -7,7 +7,7 @@ using Microsoft.Bot.Builder.TemplateManager;
 using Microsoft.Bot.Schema;
 using VirtualAssistant.Dialogs.Onboarding.Resources;
 
-namespace VirtualAssistant
+namespace VirtualAssistant.Dialogs.Onboarding
 {
     public class OnboardingResponses : TemplateManager
     {

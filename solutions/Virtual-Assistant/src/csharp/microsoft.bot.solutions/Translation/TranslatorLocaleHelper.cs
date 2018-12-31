@@ -4,7 +4,7 @@
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 
-namespace Microsoft.Bot.Solutions
+namespace Microsoft.Bot.Solutions.Translation
 {
     public class TranslatorLocaleHelper
     {

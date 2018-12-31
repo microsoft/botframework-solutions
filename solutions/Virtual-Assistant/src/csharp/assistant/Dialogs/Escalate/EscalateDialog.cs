@@ -5,8 +5,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using VirtualAssistant.Dialogs.Shared;
 
-namespace VirtualAssistant
+namespace VirtualAssistant.Dialogs.Escalate
 {
     public class EscalateDialog : EnterpriseDialog
     {

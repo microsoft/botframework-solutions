@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using CalendarSkill;
 using CalendarSkill.Dialogs.Summary.Resources;
-using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Models;
 using CalendarSkillTest.Flow.Fakes;
 using CalendarSkillTest.Flow.Utterances;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

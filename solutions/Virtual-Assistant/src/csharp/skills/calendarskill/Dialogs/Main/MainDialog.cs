@@ -6,19 +6,25 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using CalendarSkill.Dialogs.CreateEvent;
+using CalendarSkill.Dialogs.DeleteEvent;
+using CalendarSkill.Dialogs.JoinEvent;
 using CalendarSkill.Dialogs.Main.Resources;
+using CalendarSkill.Dialogs.Shared;
 using CalendarSkill.Dialogs.Shared.Resources;
+using CalendarSkill.Dialogs.Summary;
+using CalendarSkill.Dialogs.TimeRemain;
+using CalendarSkill.Dialogs.UpdateEvent;
 using CalendarSkill.ServiceClients;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 
-namespace CalendarSkill
+namespace CalendarSkill.Dialogs.Main
 {
     public class MainDialog : RouterDialog
     {

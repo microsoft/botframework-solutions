@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 
-namespace EmailSkill
+namespace EmailSkill.ServiceClients.MSGraphAPI
 {
     /// <summary>
     /// UserService.

@@ -9,11 +9,9 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.TemplateManager;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Schema;
 using VirtualAssistant.Dialogs.Main.Resources;
 
-namespace VirtualAssistant
+namespace VirtualAssistant.Dialogs.Main
 {
     public class MainResponses : TemplateManager
     {

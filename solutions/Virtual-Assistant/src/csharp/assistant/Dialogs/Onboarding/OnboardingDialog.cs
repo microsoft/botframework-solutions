@@ -3,11 +3,11 @@
 
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.ApplicationInsights;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using VirtualAssistant.Dialogs.Shared;
 
-namespace VirtualAssistant
+namespace VirtualAssistant.Dialogs.Onboarding
 {
     public class OnboardingDialog : EnterpriseDialog
     {

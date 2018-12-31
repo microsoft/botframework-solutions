@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
-using EmailSkill;
+using EmailSkill.ServiceClients.GoogleAPI;
 using Google.Apis.Gmail.v1.Data;
 using Google.Apis.Requests;
 using Google.Apis.Services;
 using static Google.Apis.Gmail.v1.UsersResource;
 using GmailMessage = Google.Apis.Gmail.v1.Data.Message;
 
-namespace EmailSkillTest.API.Fakes
+namespace EmailSkillTest.API.Fakes.Google
 {
     public class MockMessagesResource
     {

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace Microsoft.Bot.Solutions
+namespace Microsoft.Bot.Solutions.Middleware.Telemetry
 {
     public static class TelemetryConstants
     {

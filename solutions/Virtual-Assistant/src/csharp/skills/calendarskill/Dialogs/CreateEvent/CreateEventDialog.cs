@@ -7,8 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Common;
 using CalendarSkill.Dialogs.CreateEvent.Resources;
+using CalendarSkill.Dialogs.Shared;
 using CalendarSkill.Dialogs.Shared.Resources;
-using CalendarSkill.Extensions;
 using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
 using Luis;
@@ -20,10 +20,9 @@ using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
-using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text.DateTime;
 
-namespace CalendarSkill
+namespace CalendarSkill.Dialogs.CreateEvent
 {
     public class CreateEventDialog : CalendarSkillDialog
     {

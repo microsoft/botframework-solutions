@@ -5,7 +5,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 
-namespace Microsoft.Bot.Solutions
+namespace Microsoft.Bot.Solutions.Prompts
 {
     public class EventPrompt : ActivityPrompt
     {

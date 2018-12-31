@@ -1,7 +1,7 @@
 ﻿using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
 
-namespace CalendarSkill
+namespace CalendarSkill.Dialogs.Shared
 {
     public class CalendarSkillResponseBuilder : BotResponseBuilder
     {

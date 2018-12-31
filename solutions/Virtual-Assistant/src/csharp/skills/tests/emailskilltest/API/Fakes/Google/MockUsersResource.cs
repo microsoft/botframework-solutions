@@ -4,7 +4,7 @@ using Google.Apis.Requests;
 using Google.Apis.Services;
 using static Google.Apis.Gmail.v1.UsersResource;
 
-namespace EmailSkillTest.API.Fakes
+namespace EmailSkillTest.API.Fakes.Google
 {
     public class MockUsersResource
     {

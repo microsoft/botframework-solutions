@@ -1,10 +1,9 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace Microsoft.Bot.Solutions
+namespace Microsoft.Bot.Solutions.Middleware.Telemetry
 {
     public interface ITelemetryLuisRecognizer : IRecognizer
     {
