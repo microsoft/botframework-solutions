@@ -17,7 +17,7 @@ namespace EmailSkill
     /// </summary>
     public class EmailSkill : IBot
     {
-        private readonly ISkillConfiguration _services;
+        private readonly SkillConfigurationBase _services;
         private readonly ConversationState _conversationState;
         private readonly UserState _userState;
         private readonly IBotTelemetryClient _telemetryClient;
@@ -25,7 +25,7 @@ namespace EmailSkill
         private DialogSet _dialogs;
         private bool _skillMode;
 
-        public EmailSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, IServiceManager serviceManager = null, bool skillMode = false)
+        public EmailSkill(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, IServiceManager serviceManager = null, bool skillMode = false)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));

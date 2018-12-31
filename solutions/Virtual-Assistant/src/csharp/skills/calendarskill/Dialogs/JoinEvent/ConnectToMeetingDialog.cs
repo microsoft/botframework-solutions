@@ -21,7 +21,7 @@ namespace CalendarSkill
     public class ConnectToMeetingDialog : CalendarSkillDialog
     {
         public ConnectToMeetingDialog(
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)

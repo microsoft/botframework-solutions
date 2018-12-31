@@ -15,6 +15,7 @@ using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Newtonsoft.Json.Linq;
@@ -31,7 +32,7 @@ namespace ToDoSkill
 
         public ToDoSkillDialog(
             string dialogId,
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
             IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
             IServiceManager serviceManager,
@@ -54,7 +55,7 @@ namespace ToDoSkill
             AddDialog(new TextPrompt(Action.Prompt));
         }
 
-        protected ISkillConfiguration Services { get; set; }
+        protected SkillConfigurationBase Services { get; set; }
 
         protected IStatePropertyAccessor<ToDoSkillState> ToDoStateAccessor { get; set; }
 
@@ -999,7 +1000,7 @@ namespace ToDoSkill
             await sc.Context.SendActivityAsync(trace);
 
             // log exception
-            Services.TelemetryClient.TrackException(ex, AssembleTelemetryData(sc));
+            TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
 
             // send error message to bot user
             await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ToDoErrorMessage));
@@ -1017,7 +1018,7 @@ namespace ToDoSkill
             await sc.Context.SendActivityAsync(trace);
 
             // log exception
-            Services.TelemetryClient.TrackException(ex, AssembleTelemetryData(sc));
+            TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
 
             // send error message to bot user
             if (ex.ExceptionType == SkillExceptionType.APIAccessDenied)
@@ -1145,16 +1146,6 @@ namespace ToDoSkill
                     userState.ListTypeIds[senderMailAddress].Add(listType.Key, listType.Value);
                 }
             }
-        }
-
-        private IDictionary<string, string> AssembleTelemetryData(WaterfallStepContext sc)
-        {
-            var telemetryData = new Dictionary<string, string>();
-            telemetryData.Add("activityId", sc.Context.Activity.Id);
-            telemetryData.Add("userId", sc.Context.Activity.From.Id);
-            telemetryData.Add("activeDialog", sc.ActiveDialog.ToString());
-
-            return telemetryData;
         }
     }
 }

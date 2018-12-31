@@ -7,9 +7,6 @@ using System.Globalization;
 using System.Linq;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.ServiceClients;
-using Microsoft.ApplicationInsights;
-using Microsoft.ApplicationInsights.DependencyCollector;
-using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
@@ -22,6 +19,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Middleware;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -62,7 +60,7 @@ namespace CalendarSkill
             var supportedProviders = Configuration.GetSection("supportedProviders")?.Get<string[]>();
             var languageModels = Configuration.GetSection("languageModels").Get<Dictionary<string, Dictionary<string, string>>>();
             var connectedServices = new SkillConfiguration(botConfig, languageModels, supportedProviders, parameters, configuration);
-            services.AddSingleton<ISkillConfiguration>(sp => connectedServices);
+            services.AddSingleton<SkillConfigurationBase>(sp => connectedServices);
 
             // Initialize Bot State
             var cosmosDbService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.CosmosDB) ?? throw new Exception("Please configure your CosmosDb service in your .bot file.");
@@ -113,7 +111,7 @@ namespace CalendarSkill
                     CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
                     await context.SendActivityAsync(context.Activity.CreateReply(CalendarSharedResponses.CalendarErrorMessage));
                     await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Calendar Skill Error: {exception.Message} | {exception.StackTrace}"));
-                    telemetryClient.TrackException(exception);
+                    telemetryClient.TrackExceptionEx(exception, context.Activity);
                 };
 
                 // Transcript Middleware (saves conversation history in a standard format)

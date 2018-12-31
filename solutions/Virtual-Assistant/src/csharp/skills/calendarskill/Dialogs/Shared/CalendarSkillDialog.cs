@@ -18,6 +18,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Microsoft.Recognizers.Text;
@@ -34,7 +35,7 @@ namespace CalendarSkill
 
         public CalendarSkillDialog(
             string dialogId,
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
@@ -60,7 +61,7 @@ namespace CalendarSkill
             AddDialog(new ChoicePrompt(Actions.EventChoice, null, Culture.English) { Style = ListStyle.Inline, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = false } });
         }
 
-        protected ISkillConfiguration Services { get; set; }
+        protected SkillConfigurationBase Services { get; set; }
 
         protected IStatePropertyAccessor<CalendarSkillState> Accessor { get; set; }
 
@@ -885,10 +886,7 @@ namespace CalendarSkill
             await sc.Context.SendActivityAsync(trace);
 
             // log exception
-            if (Services.TelemetryClient != null)
-            {
-                Services.TelemetryClient.TrackException(ex, AssembleTelemetryData(sc));
-            }
+            TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
 
             // send error message to bot user
             await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarSharedResponses.CalendarErrorMessage));
@@ -909,10 +907,7 @@ namespace CalendarSkill
             await sc.Context.SendActivityAsync(trace);
 
             // log exception
-            if (Services.TelemetryClient != null)
-            {
-                Services.TelemetryClient.TrackException(ex, AssembleTelemetryData(sc));
-            }
+            TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
 
             // send error message to bot user
             if (ex.ExceptionType == SkillExceptionType.APIAccessDenied)
@@ -937,10 +932,7 @@ namespace CalendarSkill
             await sc.Context.SendActivityAsync(trace);
 
             // log exception
-            if (Services.TelemetryClient != null)
-            {
-                Services.TelemetryClient.TrackException(ex, AssembleTelemetryData(sc));
-            }
+            TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
         }
 
         protected override Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
@@ -954,17 +946,6 @@ namespace CalendarSkill
             {
                 return base.EndComponentAsync(outerDc, result, cancellationToken);
             }
-        }
-
-        private IDictionary<string, string> AssembleTelemetryData(WaterfallStepContext sc)
-        {
-            var telemetryData = new Dictionary<string, string>
-            {
-                { "activityId", sc.Context.Activity.Id },
-                { "userId", sc.Context.Activity.From.Id },
-                { "activeDialog", sc.ActiveDialog.ToString() }
-            };
-            return telemetryData;
         }
 
         private string GetSubjectFromEntity(Calendar._Entities entity)

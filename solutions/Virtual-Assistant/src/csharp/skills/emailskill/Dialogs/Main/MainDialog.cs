@@ -23,7 +23,7 @@ namespace EmailSkill
     public class MainDialog : RouterDialog
     {
         private bool _skillMode;
-        private ISkillConfiguration _skillConfig;
+        private SkillConfigurationBase _skillConfig;
         private UserState _userState;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
@@ -31,7 +31,7 @@ namespace EmailSkill
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
         private EmailSkillResponseBuilder _responseBuilder = new EmailSkillResponseBuilder();
 
-        public MainDialog(ISkillConfiguration skillConfiguration, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, IServiceManager serviceManager, bool skillMode)
+        public MainDialog(SkillConfigurationBase skillConfiguration, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, IServiceManager serviceManager, bool skillMode)
             : base(nameof(MainDialog), telemetryClient)
         {
             _skillMode = skillMode;

@@ -23,7 +23,7 @@ namespace AutomotiveSkill
     public class MainDialog : RouterDialog
     {
         private bool _skillMode;
-        private ISkillConfiguration _services;
+        private SkillConfigurationBase _services;
         private UserState _userState;
         private IBotTelemetryClient _telemetryClient;
         private ConversationState _conversationState;
@@ -32,7 +32,7 @@ namespace AutomotiveSkill
         private IStatePropertyAccessor<AutomotiveSkillState> _stateAccessor;
         private AutomotiveSkillResponseBuilder _responseBuilder = new AutomotiveSkillResponseBuilder();
 
-        public MainDialog(ISkillConfiguration services, ConversationState conversationState, UserState userState, IServiceManager serviceManager, IHttpContextAccessor httpContext, IBotTelemetryClient telemetryClient, bool skillMode)
+        public MainDialog(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IServiceManager serviceManager, IHttpContextAccessor httpContext, IBotTelemetryClient telemetryClient, bool skillMode)
             : base(nameof(MainDialog), telemetryClient)
         {
             _skillMode = skillMode;

@@ -1,23 +1,18 @@
 ﻿using System.Collections.Generic;
-using Microsoft.ApplicationInsights;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Solutions.Skills;
 
 namespace ToDoSkillTest.Flow.Fakes
 {
-    public class MockSkillConfiguration : ISkillConfiguration
+    public class MockSkillConfiguration : SkillConfigurationBase
     {
         public MockSkillConfiguration()
         {
             this.AuthenticationConnections = new Dictionary<string, string>();
             this.AuthenticationConnections.Add("Microsoft", "Microsoft");
 
-            this.TelemetryClient = null;
             this.CosmosDbOptions = null;
         }
-
-        public override TelemetryClient TelemetryClient { get; set; }
 
         public override CosmosDbStorageOptions CosmosDbOptions { get; set; }
 

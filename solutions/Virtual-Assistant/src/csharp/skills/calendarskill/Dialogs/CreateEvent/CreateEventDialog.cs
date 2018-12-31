@@ -28,7 +28,7 @@ namespace CalendarSkill
     public class CreateEventDialog : CalendarSkillDialog
     {
         public CreateEventDialog(
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)

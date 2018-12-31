@@ -22,7 +22,7 @@ namespace EmailSkill
     public class ConfirmRecipientDialog : EmailSkillDialog
     {
         public ConfirmRecipientDialog(
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IServiceManager serviceManager,

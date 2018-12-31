@@ -16,10 +16,10 @@ namespace Microsoft.Bot.Solutions.Authentication
 {
     public class MultiProviderAuthDialog : ComponentDialog
     {
-        private ISkillConfiguration _skillConfiguration;
+        private SkillConfigurationBase _skillConfiguration;
         private CommonResponseBuilder _responseBuilder = new CommonResponseBuilder();
 
-        public MultiProviderAuthDialog(ISkillConfiguration skillConfiguration)
+        public MultiProviderAuthDialog(SkillConfigurationBase skillConfiguration)
             : base(nameof(MultiProviderAuthDialog))
         {
             _skillConfiguration = skillConfiguration;

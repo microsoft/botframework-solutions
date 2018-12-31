@@ -23,7 +23,7 @@ namespace CalendarSkill
     public class UpdateEventDialog : CalendarSkillDialog
     {
         public UpdateEventDialog(
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)

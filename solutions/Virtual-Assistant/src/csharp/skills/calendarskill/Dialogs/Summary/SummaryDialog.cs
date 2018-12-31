@@ -24,7 +24,7 @@ namespace CalendarSkill
     public class SummaryDialog : CalendarSkillDialog
     {
         public SummaryDialog(
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)

@@ -25,7 +25,7 @@ namespace AutomotiveSkillTest.Flow
 
         public UserState UserState { get; set; }
 
-        public ISkillConfiguration Services { get; set; }
+        public SkillConfigurationBase Services { get; set; }
 
         public BotConfiguration Options { get; set; }
 

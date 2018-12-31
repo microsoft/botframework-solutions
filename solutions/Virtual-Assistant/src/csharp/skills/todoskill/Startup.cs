@@ -17,6 +17,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Middleware;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -57,8 +58,8 @@ namespace ToDoSkill
             var configuration = Configuration.GetSection("configuration")?.GetChildren()?.ToDictionary(x => x.Key, y => y.Value as object);
             var supportedProviders = Configuration.GetSection("supportedProviders")?.Get<string[]>();
             var languageModels = Configuration.GetSection("languageModels").Get<Dictionary<string, Dictionary<string, string>>>();
-            ISkillConfiguration connectedServices = new SkillConfiguration(botConfig, languageModels, supportedProviders, parameters, configuration);
-            services.AddSingleton<ISkillConfiguration>(sp => connectedServices);
+            SkillConfigurationBase connectedServices = new SkillConfiguration(botConfig, languageModels, supportedProviders, parameters, configuration);
+            services.AddSingleton<SkillConfigurationBase>(sp => connectedServices);
 
             var defaultLocale = Configuration.GetSection("defaultLocale").Get<string>();
 
@@ -110,7 +111,7 @@ namespace ToDoSkill
                     CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
                     await context.SendActivityAsync(context.Activity.CreateReply(ToDoSharedResponses.ToDoErrorMessage));
                     await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"To Do Skill Error: {exception.Message} | {exception.StackTrace}"));
-                    telemetryClient.TrackException(exception);
+                    telemetryClient.TrackExceptionEx(exception, context.Activity);
                 };
 
                 // Transcript Middleware (saves conversation history in a standard format)

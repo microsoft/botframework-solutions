@@ -16,7 +16,7 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
 
         public string[] Scopes { get; set; }
 
-        public static GoogleClient GetGoogleClient(ISkillConfiguration config)
+        public static GoogleClient GetGoogleClient(SkillConfigurationBase config)
         {
             if (config == null)
             {

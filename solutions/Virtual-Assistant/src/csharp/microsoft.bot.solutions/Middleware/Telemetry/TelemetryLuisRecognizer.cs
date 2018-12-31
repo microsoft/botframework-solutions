@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Bot.Solutions
@@ -165,7 +166,7 @@ namespace Microsoft.Bot.Solutions
                 }
 
                 // Track the event
-                ((IBotTelemetryClient)telemetryClient).TrackEvent($"{LuisTelemetryConstants.IntentPrefix}.{topLuisIntent.intent}", telemetryProperties);
+                ((IBotTelemetryClient)telemetryClient).TrackEventEx($"{LuisTelemetryConstants.IntentPrefix}.{topLuisIntent.intent}", context.Activity, null, telemetryProperties);
             }
 
             return recognizerResult;

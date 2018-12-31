@@ -14,12 +14,12 @@ namespace CalendarSkillTest.API
     public class ServiceManagerTests
     {
         private static IServiceManager serviceManager;
-        private static Mock<ISkillConfiguration> mockConfig;
+        private static Mock<SkillConfigurationBase> mockConfig;
 
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
-            mockConfig = new Mock<ISkillConfiguration>();
+            mockConfig = new Mock<SkillConfigurationBase>();
             mockConfig.SetupGet(config => config.Properties).Returns(() =>
             {
                 Dictionary<string, object> props = new Dictionary<string, object>

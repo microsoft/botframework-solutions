@@ -8,9 +8,9 @@ namespace EmailSkill
 {
     public class ServiceManager : IServiceManager
     {
-        private ISkillConfiguration _skillConfig;
+        private SkillConfigurationBase _skillConfig;
 
-        public ServiceManager(ISkillConfiguration config)
+        public ServiceManager(SkillConfigurationBase config)
         {
             _skillConfig = config;
         }

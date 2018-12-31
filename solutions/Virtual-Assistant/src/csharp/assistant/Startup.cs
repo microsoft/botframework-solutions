@@ -16,6 +16,7 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Middleware;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Models.Proactive;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;
@@ -110,7 +111,7 @@ namespace VirtualAssistant
                     var responseBuilder = new MainResponses();
                     await responseBuilder.ReplyWith(context, MainResponses.ResponseIds.Error);
                     await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Virtual Assistant Error: {exception.Message} | {exception.StackTrace}"));
-                    telemetryClient.TrackException(exception);
+                    telemetryClient.TrackExceptionEx(exception, context.Activity);
                 };
 
                 // Transcript Middleware (saves conversation history in a standard format)
