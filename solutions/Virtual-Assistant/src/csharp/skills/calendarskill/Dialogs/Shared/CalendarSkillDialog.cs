@@ -31,7 +31,7 @@ namespace CalendarSkill
     public class CalendarSkillDialog : ComponentDialog
     {
         // Constants
-        public const string SkillModeAuth = "SkillAuth";
+        private const string SkillModeAuth = "SkillAuth";
 
         public CalendarSkillDialog(
             string dialogId,
