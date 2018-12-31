@@ -51,13 +51,15 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
                 foreach (var property in properties)
                 {
                     var key = property.Key;
-                    if (finalProperties.TryGetValue(key, out var value))
+                    var value = property.Value;
+
+                    if (finalProperties.ContainsKey(key))
                     {
-                        finalProperties[key] = properties[key];
+                        finalProperties[key] = value;
                     }
                     else
                     {
-                        finalProperties.Add(key, property.Value);
+                        finalProperties.Add(key, value);
                     }
                 }
             }
