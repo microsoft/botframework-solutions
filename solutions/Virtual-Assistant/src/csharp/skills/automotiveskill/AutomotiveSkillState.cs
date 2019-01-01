@@ -4,8 +4,8 @@
 namespace AutomotiveSkill
 {
     using System.Collections.Generic;
+    using global::AutomotiveSkill.Models;
     using Luis;
-    using Microsoft.Bot.Builder;
 
     public class AutomotiveSkillState
     {

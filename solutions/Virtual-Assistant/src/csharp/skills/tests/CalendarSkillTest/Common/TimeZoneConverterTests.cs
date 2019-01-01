@@ -1,18 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using CalendarSkill;
 using CalendarSkill.Common;
-using CalendarSkill.Models;
-using CalendarSkill.ServiceClients;
-using CalendarSkill.ServiceClients.GoogleAPI;
-using CalendarSkill.ServiceClients.MSGraphAPI;
-using CalendarSkillTest.API.Fakes;
-using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Graph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace CalendarSkillTest.API
+namespace CalendarSkillTest.Common
 {
     [TestClass]
     public class TimeZoneConverterTests

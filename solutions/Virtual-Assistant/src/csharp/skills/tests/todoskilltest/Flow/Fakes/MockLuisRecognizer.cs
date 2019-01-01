@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using ToDoSkillTest.Flow.Utterances;
 
 namespace ToDoSkillTest.Flow.Fakes

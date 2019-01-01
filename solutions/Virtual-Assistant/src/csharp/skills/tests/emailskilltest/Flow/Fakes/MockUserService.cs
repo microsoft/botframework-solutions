@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using EmailSkill;
+using EmailSkill.ServiceClients;
 using Microsoft.Graph;
 
 namespace EmailSkillTest.Flow.Fakes

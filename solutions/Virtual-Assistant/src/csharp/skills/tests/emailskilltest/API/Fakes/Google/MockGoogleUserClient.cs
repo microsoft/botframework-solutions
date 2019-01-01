@@ -3,7 +3,7 @@ using Google.Apis.People.v1;
 using Moq;
 using static Google.Apis.People.v1.PeopleResource;
 
-namespace EmailSkillTest.API.Fakes
+namespace EmailSkillTest.API.Fakes.Google
 {
     public static class MockGoogleUserClient
     {

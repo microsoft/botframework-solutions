@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Luis;
 using Microsoft.Bot.Builder.Dialogs;
+using PointOfInterestSkill.Models;
 
 namespace PointOfInterestSkill
 {

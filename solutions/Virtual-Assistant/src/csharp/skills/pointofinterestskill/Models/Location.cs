@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace PointOfInterestSkill
+namespace PointOfInterestSkill.Models
 {
     /// <summary>
     /// Represents the location returned from the Bing Geo Spatial API:

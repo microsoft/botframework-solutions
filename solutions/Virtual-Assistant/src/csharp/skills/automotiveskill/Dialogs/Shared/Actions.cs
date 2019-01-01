@@ -1,4 +1,4 @@
-﻿namespace AutomotiveSkill
+﻿namespace AutomotiveSkill.Dialogs.Shared
 {
     public static class Actions
     {

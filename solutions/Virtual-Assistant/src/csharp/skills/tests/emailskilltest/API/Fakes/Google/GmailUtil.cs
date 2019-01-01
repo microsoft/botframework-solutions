@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Net.Mail;
 using System.Text;
-using EmailSkill;
+using EmailSkill.ServiceClients.GoogleAPI;
 using MimeKit;
 using GmailMessage = Google.Apis.Gmail.v1.Data.Message;
 
-namespace EmailSkillTest.API.Fakes
+namespace EmailSkillTest.API.Fakes.Google
 {
     public class GmailUtil
     {

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace AutomotiveSkill
+namespace AutomotiveSkill.Models
 {
     /// <summary>
     /// The available numeric amount range and unit of a particular setting.

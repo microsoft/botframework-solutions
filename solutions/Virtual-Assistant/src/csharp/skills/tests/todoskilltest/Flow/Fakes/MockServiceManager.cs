@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using ToDoSkill;
+using ToDoSkill.Dialogs.Shared;
+using ToDoSkill.ServiceClients;
 using ToDoSkillTest.Fakes;
 
 namespace ToDoSkillTest.Flow.Fakes

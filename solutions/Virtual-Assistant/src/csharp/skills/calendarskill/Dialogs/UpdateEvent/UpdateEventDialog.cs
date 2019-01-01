@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Common;
 using CalendarSkill.Dialogs.Main.Resources;
+using CalendarSkill.Dialogs.Shared;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Dialogs.UpdateEvent.Resources;
 using CalendarSkill.Models;
@@ -18,7 +19,7 @@ using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 
-namespace CalendarSkill
+namespace CalendarSkill.Dialogs.UpdateEvent
 {
     public class UpdateEventDialog : CalendarSkillDialog
     {

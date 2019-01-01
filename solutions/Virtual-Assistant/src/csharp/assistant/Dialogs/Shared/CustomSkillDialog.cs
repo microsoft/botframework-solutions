@@ -6,7 +6,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Solutions.Skills;
 
-namespace VirtualAssistant
+namespace VirtualAssistant.Dialogs.Shared
 {
     public class CustomSkillDialog : ComponentDialog
     {
