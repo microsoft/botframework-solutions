@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace ToDoSkill
+namespace ToDoSkill.Models
 {
     public class TaskItem
     {

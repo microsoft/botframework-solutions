@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace PointOfInterestSkill
+namespace PointOfInterestSkill.Models
 {
     /// <summary>
     /// Represents a geo point.

@@ -8,9 +8,13 @@ using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using ToDoSkill.Dialogs.MarkToDo.Resources;
+using ToDoSkill.Dialogs.Shared;
 using ToDoSkill.Dialogs.Shared.Resources;
+using ToDoSkill.Models;
+using ToDoSkill.ServiceClients;
+using Action = ToDoSkill.Dialogs.Shared.Action;
 
-namespace ToDoSkill
+namespace ToDoSkill.Dialogs.MarkToDo
 {
     public class MarkToDoItemDialog : ToDoSkillDialog
     {

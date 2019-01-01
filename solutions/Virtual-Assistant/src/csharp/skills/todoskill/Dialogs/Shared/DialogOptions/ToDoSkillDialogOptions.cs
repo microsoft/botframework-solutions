@@ -1,4 +1,4 @@
-﻿namespace ToDoSkill
+﻿namespace ToDoSkill.Dialogs.Shared.DialogOptions
 {
     public class ToDoSkillDialogOptions
     {

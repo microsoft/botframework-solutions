@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Skills;
+using ToDoSkill.Dialogs.Main;
+using ToDoSkill.ServiceClients;
 
 namespace ToDoSkill
 {

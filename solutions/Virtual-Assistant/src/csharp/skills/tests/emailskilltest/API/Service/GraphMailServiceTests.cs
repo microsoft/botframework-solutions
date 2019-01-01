@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using EmailSkill;
-using EmailSkillTest.API.Fakes;
+using EmailSkill.ServiceClients.MSGraphAPI;
+using EmailSkillTest.API.Fakes.MSGraph;
 using Microsoft.Bot.Solutions.Data;
 using Microsoft.Graph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace EmailSkillTest.API
+namespace EmailSkillTest.API.Service
 {
     [TestClass]
     public class GraphMailServiceTests

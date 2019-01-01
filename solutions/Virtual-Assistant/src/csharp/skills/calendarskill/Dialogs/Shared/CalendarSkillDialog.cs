@@ -15,9 +15,9 @@ using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Prompts;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Microsoft.Recognizers.Text;
@@ -25,7 +25,7 @@ using Microsoft.Recognizers.Text.DateTime;
 using Newtonsoft.Json.Linq;
 using static Microsoft.Recognizers.Text.Culture;
 
-namespace CalendarSkill
+namespace CalendarSkill.Dialogs.Shared
 {
     public class CalendarSkillDialog : ComponentDialog
     {

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace AutomotiveSkill
+namespace AutomotiveSkill.Models
 {
     /// <summary>
     /// A supported named value of a particular setting.

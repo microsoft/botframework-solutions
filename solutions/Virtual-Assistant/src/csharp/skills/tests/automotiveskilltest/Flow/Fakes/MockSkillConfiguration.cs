@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.ApplicationInsights;
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Azure;
-using Microsoft.Bot.Configuration;
-using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Skills;
 
 namespace AutomotiveSkillTest.Flow.Fakes

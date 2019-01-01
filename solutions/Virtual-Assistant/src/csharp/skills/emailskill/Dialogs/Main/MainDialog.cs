@@ -6,19 +6,26 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using EmailSkill.Dialogs.DeleteEmail;
+using EmailSkill.Dialogs.ForwardEmail;
 using EmailSkill.Dialogs.Main.Resources;
+using EmailSkill.Dialogs.ReplyEmail;
+using EmailSkill.Dialogs.SendEmail;
+using EmailSkill.Dialogs.Shared;
+using EmailSkill.Dialogs.Shared.DialogOptions;
 using EmailSkill.Dialogs.Shared.Resources;
+using EmailSkill.Dialogs.ShowEmail;
+using EmailSkill.ServiceClients;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Data;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 
-namespace EmailSkill
+namespace EmailSkill.Dialogs.Main
 {
     public class MainDialog : RouterDialog
     {

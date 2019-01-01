@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace PointOfInterestSkill
+namespace PointOfInterestSkill.Models
 {
     /// <summary>
     /// Enum for different Language Model types.

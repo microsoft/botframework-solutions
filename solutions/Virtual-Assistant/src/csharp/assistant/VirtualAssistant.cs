@@ -8,6 +8,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
+using VirtualAssistant.Dialogs.Main;
 
 namespace VirtualAssistant
 {

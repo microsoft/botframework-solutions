@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Bot.Builder;
+﻿using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Skills;
+using PointOfInterestSkill.Dialogs.Route;
+using PointOfInterestSkill.Dialogs.Shared;
+using PointOfInterestSkill.ServiceClients;
 
-namespace PointOfInterestSkill
+namespace PointOfInterestSkill.Dialogs.FindPointOfInterest
 {
     public class FindPointOfInterestDialog : PointOfInterestSkillDialog
     {

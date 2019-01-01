@@ -1,11 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
+
 using System.Threading.Tasks;
-using ToDoSkill;
-using ToDoSkillTest.Flow.Fakes;
+using ToDoSkill.ServiceClients;
 
 namespace ToDoSkillTest.Fakes
 {

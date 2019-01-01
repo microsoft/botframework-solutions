@@ -7,6 +7,7 @@ namespace AutomotiveSkill
     using System.Collections.Generic;
     using System.Linq;
     using global::AutomotiveSkill.Dialogs.Shared.Resources;
+    using global::AutomotiveSkill.ServiceClients;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -17,8 +18,8 @@ namespace AutomotiveSkill
     using Microsoft.Bot.Configuration;
     using Microsoft.Bot.Connector.Authentication;
     using Microsoft.Bot.Schema;
-    using Microsoft.Bot.Solutions;
     using Microsoft.Bot.Solutions.Extensions;
+    using Microsoft.Bot.Solutions.Middleware.Telemetry;
     using Microsoft.Bot.Solutions.Skills;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;

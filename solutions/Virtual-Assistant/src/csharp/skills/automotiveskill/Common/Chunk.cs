@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace AutomotiveSkill.Common.Number
+﻿namespace AutomotiveSkill.Common
 {
     /// <summary>
     /// A chunk of a string, which can be either a number or a non-number

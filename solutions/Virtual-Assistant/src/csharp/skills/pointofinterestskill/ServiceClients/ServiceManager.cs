@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
-namespace PointOfInterestSkill
+namespace PointOfInterestSkill.ServiceClients
 {
     public class ServiceManager : IServiceManager
     {

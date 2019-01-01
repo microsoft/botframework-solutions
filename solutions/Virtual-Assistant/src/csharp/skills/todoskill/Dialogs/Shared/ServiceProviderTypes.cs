@@ -1,4 +1,4 @@
-﻿namespace ToDoSkill
+﻿namespace ToDoSkill.Dialogs.Shared
 {
     public class ServiceProviderTypes
     {

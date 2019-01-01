@@ -5,14 +5,14 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutomotiveSkill.Dialogs.Shared.Resources;
+using AutomotiveSkill.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
-using Newtonsoft.Json.Linq;
 
-namespace AutomotiveSkill
+namespace AutomotiveSkill.Dialogs.Shared
 {
     public class AutomotiveSkillDialog : ComponentDialog
     {

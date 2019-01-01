@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Skills;
+using PointOfInterestSkill.Dialogs.Main;
+using PointOfInterestSkill.ServiceClients;
 
 namespace PointOfInterestSkill
 {

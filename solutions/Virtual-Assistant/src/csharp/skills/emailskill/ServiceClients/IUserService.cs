@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace EmailSkill
+namespace EmailSkill.ServiceClients
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;

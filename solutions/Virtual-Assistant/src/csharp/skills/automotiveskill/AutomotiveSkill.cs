@@ -7,6 +7,8 @@ namespace AutomotiveSkill
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using global::AutomotiveSkill.Dialogs.Main;
+    using global::AutomotiveSkill.ServiceClients;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Bot.Builder;
     using Microsoft.Bot.Builder.Dialogs;

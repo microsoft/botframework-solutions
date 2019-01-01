@@ -1,7 +1,7 @@
 ﻿using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
 
-namespace PointOfInterestSkill
+namespace PointOfInterestSkill.Dialogs.Shared
 {
     public class PointOfInterestResponseBuilder : BotResponseBuilder
     {

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 using Newtonsoft.Json;
 
-namespace PointOfInterestSkill
+namespace PointOfInterestSkill.Models
 {
     /// <summary>
     /// An address can contain the following fields: address line, locality,

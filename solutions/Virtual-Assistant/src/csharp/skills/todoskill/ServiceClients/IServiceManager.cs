@@ -1,8 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace ToDoSkill
+namespace ToDoSkill.ServiceClients
 {
+    using global::ToDoSkill.Dialogs.Shared;
     using System.Collections.Generic;
 
     public interface IServiceManager
