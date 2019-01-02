@@ -22,7 +22,7 @@ namespace RestaurantBooking
     public class MainDialog : RouterDialog
     {
         private bool _skillMode;
-        private ISkillConfiguration _services;
+        private SkillConfigurationBase _services;
         private UserState _userState;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
@@ -32,7 +32,7 @@ namespace RestaurantBooking
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
         private RestaurantBookingResponseBuilder _responseBuilder = new RestaurantBookingResponseBuilder();
 
-        public MainDialog(ISkillConfiguration services, ConversationState conversationState, UserState userState, IServiceManager serviceManager, IBotTelemetryClient telemetryClient, IHttpContextAccessor httpContext, bool skillMode)
+        public MainDialog(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IServiceManager serviceManager, IBotTelemetryClient telemetryClient, IHttpContextAccessor httpContext, bool skillMode)
             : base(nameof(MainDialog), telemetryClient)
         {
             _skillMode = skillMode;

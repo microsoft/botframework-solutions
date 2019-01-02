@@ -51,6 +51,8 @@ namespace EmailSkill
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
+            throw new Exception("test");
+
             if (!_skillMode)
             {
                 // send a greeting if we're in local mode
@@ -60,6 +62,8 @@ namespace EmailSkill
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
+            throw new Exception("test");
+
             var state = await _stateAccessor.GetAsync(dc.Context, () => new EmailSkillState());
 
             // get current activity locale

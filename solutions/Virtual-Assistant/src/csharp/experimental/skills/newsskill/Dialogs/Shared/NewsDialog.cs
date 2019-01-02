@@ -4,10 +4,8 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Skills;
 using NewsSkill.Dialogs.Main.Resources;
 
@@ -19,7 +17,7 @@ namespace NewsSkill
 
         public NewsDialog(
                    string dialogId,
-                   ISkillConfiguration services,
+                   SkillConfigurationBase services,
                    IStatePropertyAccessor<NewsSkillState> accessor,
                    IBotTelemetryClient telemetryClient)
                    : base(dialogId)
@@ -29,7 +27,7 @@ namespace NewsSkill
             TelemetryClient = telemetryClient;
         }
 
-        protected ISkillConfiguration Services { get; set; }
+        protected SkillConfigurationBase Services { get; set; }
 
         protected IStatePropertyAccessor<NewsSkillState> Accessor { get; set; }
 
