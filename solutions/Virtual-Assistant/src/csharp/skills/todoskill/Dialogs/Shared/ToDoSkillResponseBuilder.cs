@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Bot.Solutions.Dialogs;
+﻿using Microsoft.Bot.Solutions.Dialogs;
 
-namespace ToDoSkill
+namespace ToDoSkill.Dialogs.Shared
 {
     public class ToDoSkillResponseBuilder : BotResponseBuilder
     {

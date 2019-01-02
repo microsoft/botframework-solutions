@@ -2,7 +2,7 @@
 using Google;
 using Microsoft.Bot.Solutions.Skills;
 
-namespace EmailSkill
+namespace EmailSkill.ServiceClients.GoogleAPI
 {
     public class GoogleClient
     {

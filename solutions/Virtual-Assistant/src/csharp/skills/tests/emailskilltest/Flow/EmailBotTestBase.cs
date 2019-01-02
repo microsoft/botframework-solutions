@@ -1,6 +1,8 @@
 ﻿using System.Threading;
 using Autofac;
 using EmailSkill;
+using EmailSkill.Model;
+using EmailSkill.ServiceClients;
 using EmailSkillTest.Flow.Fakes;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;

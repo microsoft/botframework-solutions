@@ -6,7 +6,7 @@ using Microsoft.Bot.Builder.TemplateManager;
 using Microsoft.Bot.Schema;
 using VirtualAssistant.Dialogs.Escalate.Resources;
 
-namespace VirtualAssistant
+namespace VirtualAssistant.Dialogs.Escalate
 {
     public class EscalateResponses : TemplateManager
     {

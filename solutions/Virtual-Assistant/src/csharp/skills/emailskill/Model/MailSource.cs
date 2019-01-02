@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace EmailSkill
+namespace EmailSkill.Model
 {
     /// <summary>
     /// Source of event.

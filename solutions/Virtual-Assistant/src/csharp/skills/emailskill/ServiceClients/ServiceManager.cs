@@ -2,9 +2,12 @@
 // Licensed under the MIT License.
 
 using System;
+using EmailSkill.Model;
+using EmailSkill.ServiceClients.GoogleAPI;
+using EmailSkill.ServiceClients.MSGraphAPI;
 using Microsoft.Bot.Solutions.Skills;
 
-namespace EmailSkill
+namespace EmailSkill.ServiceClients
 {
     public class ServiceManager : IServiceManager
     {

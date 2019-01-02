@@ -10,20 +10,23 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
+using Microsoft.Bot.Solutions.Prompts;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Newtonsoft.Json.Linq;
+using ToDoSkill.Dialogs.Shared.DialogOptions;
 using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.Dialogs.ShowToDo.Resources;
-using static ToDoSkill.ServiceProviderTypes;
+using ToDoSkill.Models;
+using ToDoSkill.ServiceClients;
+using static ToDoSkill.Dialogs.Shared.ServiceProviderTypes;
 
-namespace ToDoSkill
+namespace ToDoSkill.Dialogs.Shared
 {
     public class ToDoSkillDialog : ComponentDialog
     {

@@ -6,7 +6,7 @@ using EmailSkillTest.Flow.Utterances;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
 
 namespace EmailSkillTest.Flow.Fakes
 {

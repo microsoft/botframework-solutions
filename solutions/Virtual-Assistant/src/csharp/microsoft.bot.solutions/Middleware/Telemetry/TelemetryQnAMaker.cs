@@ -9,7 +9,7 @@ using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Newtonsoft.Json;
 
-namespace Microsoft.Bot.Solutions
+namespace Microsoft.Bot.Solutions.Middleware.Telemetry
 {
     /// <summary>
     /// TelemetryQnaRecognizer invokes the Qna Maker and logs some results into Application Insights.

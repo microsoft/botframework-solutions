@@ -10,16 +10,22 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
+using ToDoSkill.Dialogs.AddToDo;
+using ToDoSkill.Dialogs.DeleteToDo;
 using ToDoSkill.Dialogs.Main.Resources;
+using ToDoSkill.Dialogs.MarkToDo;
+using ToDoSkill.Dialogs.Shared;
+using ToDoSkill.Dialogs.Shared.DialogOptions;
 using ToDoSkill.Dialogs.Shared.Resources;
-using static ToDoSkill.ServiceProviderTypes;
+using ToDoSkill.Dialogs.ShowToDo;
+using ToDoSkill.ServiceClients;
+using static ToDoSkill.Dialogs.Shared.ServiceProviderTypes;
 
-namespace ToDoSkill
+namespace ToDoSkill.Dialogs.Main
 {
     public class MainDialog : RouterDialog
     {

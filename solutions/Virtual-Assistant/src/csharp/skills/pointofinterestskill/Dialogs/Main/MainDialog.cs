@@ -11,15 +11,22 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
+using PointOfInterestSkill.Dialogs.Cancel;
+using PointOfInterestSkill.Dialogs.CancelRoute;
+using PointOfInterestSkill.Dialogs.FindPointOfInterest;
 using PointOfInterestSkill.Dialogs.Main.Resources;
+using PointOfInterestSkill.Dialogs.Route;
 using PointOfInterestSkill.Dialogs.Route.Resources;
+using PointOfInterestSkill.Dialogs.Shared;
+using PointOfInterestSkill.Dialogs.Shared.DialogOptions;
 using PointOfInterestSkill.Dialogs.Shared.Resources;
+using PointOfInterestSkill.Models;
+using PointOfInterestSkill.ServiceClients;
 
-namespace PointOfInterestSkill
+namespace PointOfInterestSkill.Dialogs.Main
 {
     public class MainDialog : RouterDialog
     {

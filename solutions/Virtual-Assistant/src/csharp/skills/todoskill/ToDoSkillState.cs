@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using Luis;
 using Microsoft.Bot.Builder.Dialogs;
-using static ToDoSkill.ServiceProviderTypes;
+using ToDoSkill.Models;
+using static ToDoSkill.Dialogs.Shared.ServiceProviderTypes;
 
 namespace ToDoSkill
 {

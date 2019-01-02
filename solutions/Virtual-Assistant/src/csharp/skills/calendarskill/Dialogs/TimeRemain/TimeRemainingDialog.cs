@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CalendarSkill.Dialogs.Shared;
 using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using CalendarSkill.Dialogs.TimeRemain.Resources;
 using CalendarSkill.Models;
@@ -15,7 +16,7 @@ using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 
-namespace CalendarSkill
+namespace CalendarSkill.Dialogs.TimeRemain
 {
     public class TimeRemainingDialog : CalendarSkillDialog
     {

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CalendarSkill.Common;
 using CalendarSkill.Dialogs.DeleteEvent.Resources;
 using CalendarSkill.Dialogs.Main.Resources;
+using CalendarSkill.Dialogs.Shared;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
@@ -17,7 +18,7 @@ using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 
-namespace CalendarSkill
+namespace CalendarSkill.Dialogs.DeleteEvent
 {
     public class DeleteEventDialog : CalendarSkillDialog
     {

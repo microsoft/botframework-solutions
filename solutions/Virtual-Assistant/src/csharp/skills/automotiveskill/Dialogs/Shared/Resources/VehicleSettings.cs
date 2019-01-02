@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 
-namespace AutomotiveSkill
+namespace Luis
 {
     public class VehicleSettings: IRecognizerConvert
     {

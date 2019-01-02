@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace ToDoSkill
+namespace ToDoSkill.ServiceClients
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -9,6 +9,7 @@ namespace ToDoSkill
     using System.Threading.Tasks;
     using System.Xml;
     using global::ToDoSkill.Dialogs.Shared.Resources;
+    using global::ToDoSkill.Models;
     using Microsoft.Graph;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;

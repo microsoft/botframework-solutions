@@ -2,18 +2,21 @@
 using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
+using EmailSkill.Dialogs.ConfirmRecipient;
 using EmailSkill.Dialogs.SendEmail.Resources;
+using EmailSkill.Dialogs.Shared;
 using EmailSkill.Dialogs.Shared.Resources;
+using EmailSkill.Dialogs.Shared.Resources.Cards;
 using EmailSkill.Dialogs.Shared.Resources.Strings;
+using EmailSkill.ServiceClients;
 using EmailSkill.Util;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
-using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 
-namespace EmailSkill
+namespace EmailSkill.Dialogs.SendEmail
 {
     public class SendEmailDialog : EmailSkillDialog
     {

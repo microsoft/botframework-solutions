@@ -17,7 +17,7 @@ using Microsoft.Graph;
 using GooglePerson = Google.Apis.People.v1.Data.Person;
 using MsPerson = Microsoft.Graph.Person;
 
-namespace EmailSkill
+namespace EmailSkill.ServiceClients.GoogleAPI
 {
     /// <summary>
     /// The Google People API service.

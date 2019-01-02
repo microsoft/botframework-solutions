@@ -5,8 +5,10 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using PointOfInterestSkill.Dialogs.CancelRoute.Resources;
+using PointOfInterestSkill.Dialogs.Shared;
+using PointOfInterestSkill.ServiceClients;
 
-namespace PointOfInterestSkill
+namespace PointOfInterestSkill.Dialogs.CancelRoute
 {
     public class CancelRouteDialog : PointOfInterestSkillDialog
     {

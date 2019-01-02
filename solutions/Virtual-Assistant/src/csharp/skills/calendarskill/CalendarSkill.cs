@@ -4,6 +4,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using CalendarSkill.Dialogs.Main;
 using CalendarSkill.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;

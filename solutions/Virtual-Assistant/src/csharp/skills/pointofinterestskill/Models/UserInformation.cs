@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PointOfInterestSkill
+namespace PointOfInterestSkill.Models
 {
     public class UserInformation
     {

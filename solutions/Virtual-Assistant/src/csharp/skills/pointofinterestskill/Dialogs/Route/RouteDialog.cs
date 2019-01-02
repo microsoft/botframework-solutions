@@ -7,11 +7,13 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
-using Newtonsoft.Json.Linq;
 using PointOfInterestSkill.Dialogs.Route.Resources;
+using PointOfInterestSkill.Dialogs.Shared;
 using PointOfInterestSkill.Models;
+using PointOfInterestSkill.ServiceClients;
+using Action = PointOfInterestSkill.Dialogs.Shared.Action;
 
-namespace PointOfInterestSkill
+namespace PointOfInterestSkill.Dialogs.Route
 {
     public class RouteDialog : PointOfInterestSkillDialog
     {

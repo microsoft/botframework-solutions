@@ -10,9 +10,13 @@ using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using ToDoSkill.Dialogs.DeleteToDo.Resources;
+using ToDoSkill.Dialogs.Shared;
 using ToDoSkill.Dialogs.Shared.Resources;
+using ToDoSkill.Models;
+using ToDoSkill.ServiceClients;
+using Action = ToDoSkill.Dialogs.Shared.Action;
 
-namespace ToDoSkill
+namespace ToDoSkill.Dialogs.DeleteToDo
 {
     public class DeleteToDoItemDialog : ToDoSkillDialog
     {

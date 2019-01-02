@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+
 using System.Threading;
 using Autofac;
 using Microsoft.Bot.Builder;
@@ -12,6 +13,7 @@ using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestFramework;
 using ToDoSkill;
+using ToDoSkill.ServiceClients;
 using ToDoSkillTest.Flow.Fakes;
 
 namespace ToDoSkillTest.Flow

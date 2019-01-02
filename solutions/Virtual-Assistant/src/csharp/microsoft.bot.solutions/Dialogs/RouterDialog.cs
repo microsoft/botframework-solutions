@@ -3,10 +3,9 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 
-namespace Microsoft.Bot.Solutions
+namespace Microsoft.Bot.Solutions.Dialogs
 {
     public abstract class RouterDialog : InterruptableDialog
     {

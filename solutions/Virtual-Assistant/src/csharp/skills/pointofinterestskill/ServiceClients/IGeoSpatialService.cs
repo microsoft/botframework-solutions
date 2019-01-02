@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 using System.Threading.Tasks;
+using PointOfInterestSkill.Models;
 
-namespace PointOfInterestSkill
+namespace PointOfInterestSkill.ServiceClients
 {
     /// <summary>
     /// Represents the interface the defines how the <see cref="LocationDialog"/> will query for locations.

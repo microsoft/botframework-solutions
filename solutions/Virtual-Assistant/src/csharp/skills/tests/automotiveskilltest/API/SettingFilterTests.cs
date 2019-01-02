@@ -1,10 +1,11 @@
 ﻿using AutomotiveSkill;
+using AutomotiveSkill.Common;
+using AutomotiveSkillTest.Flow;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 
-namespace AutomotiveSkillTest.Flow
+namespace AutomotiveSkillTest.API
 {
     [TestClass]
     public class SettingFilterTests : AutomotiveSkillTestBase

@@ -4,7 +4,7 @@
 using Microsoft.Bot.Builder.TemplateManager;
 using PointOfInterestSkill.Dialogs.Cancel.Resources;
 
-namespace PointOfInterestSkill
+namespace PointOfInterestSkill.Dialogs.Cancel
 {
     public class CancelResponses : TemplateManager
     {

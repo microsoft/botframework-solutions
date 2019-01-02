@@ -12,9 +12,12 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
+using PointOfInterestSkill.Dialogs.Route;
 using PointOfInterestSkill.Dialogs.Shared.Resources;
+using PointOfInterestSkill.Models;
+using PointOfInterestSkill.ServiceClients;
 
-namespace PointOfInterestSkill
+namespace PointOfInterestSkill.Dialogs.Shared
 {
     public class PointOfInterestSkillDialog : ComponentDialog
     {

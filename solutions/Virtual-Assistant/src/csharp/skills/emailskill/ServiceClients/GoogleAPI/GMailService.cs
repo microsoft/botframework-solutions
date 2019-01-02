@@ -24,7 +24,7 @@ using MimeKit;
 using GmailMessage = Google.Apis.Gmail.v1.Data.Message;
 using MSMessage = Microsoft.Graph.Message;
 
-namespace EmailSkill
+namespace EmailSkill.ServiceClients.GoogleAPI
 {
     /// <summary>
     /// The Google Email API service.
@@ -189,7 +189,7 @@ namespace EmailSkill
             }
         }
 
-            public async Task SendMessageAsync(string content, string subject, List<Recipient> recipients)
+        public async Task SendMessageAsync(string content, string subject, List<Recipient> recipients)
         {
             try
             {
@@ -368,8 +368,8 @@ namespace EmailSkill
                     request.PageToken = this.pageToken;
                 }
 
-            var response = await ((IClientServiceRequest<ListMessagesResponse>)request).ExecuteAsync();
-            var result = new List<MSMessage>();
+                var response = await ((IClientServiceRequest<ListMessagesResponse>)request).ExecuteAsync();
+                var result = new List<MSMessage>();
 
                 // response.Messages only have id and threadID
                 if (response.Messages != null)

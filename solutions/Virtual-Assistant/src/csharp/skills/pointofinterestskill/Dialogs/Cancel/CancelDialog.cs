@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace PointOfInterestSkill
+namespace PointOfInterestSkill.Dialogs.Cancel
 {
     public class CancelDialog : ComponentDialog
     {

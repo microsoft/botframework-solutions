@@ -8,8 +8,9 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs;
+using VirtualAssistant.Dialogs.Main;
 
-namespace VirtualAssistant
+namespace VirtualAssistant.Dialogs.Shared
 {
     public class EnterpriseDialog : InterruptableDialog
     {

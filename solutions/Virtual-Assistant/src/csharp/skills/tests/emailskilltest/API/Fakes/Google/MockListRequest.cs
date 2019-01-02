@@ -6,7 +6,7 @@ using Google.Apis.Requests;
 using Google.Apis.Services;
 using static Google.Apis.People.v1.PeopleResource;
 
-namespace EmailSkillTest.API.Fakes
+namespace EmailSkillTest.API.Fakes.Google
 {
     public class MockListRequest : ConnectionsResource.ListRequest, IClientServiceRequest<ListConnectionsResponse>
     {

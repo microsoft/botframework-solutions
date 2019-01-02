@@ -2,19 +2,20 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using EmailSkill.Dialogs.ConfirmRecipient;
+using EmailSkill.Dialogs.Shared;
 using EmailSkill.Dialogs.Shared.Resources;
+using EmailSkill.Dialogs.Shared.Resources.Cards;
 using EmailSkill.Dialogs.Shared.Resources.Strings;
+using EmailSkill.ServiceClients;
 using EmailSkill.Util;
-using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Data;
 using Microsoft.Bot.Solutions.Extensions;
-using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 
-namespace EmailSkill
+namespace EmailSkill.Dialogs.ForwardEmail
 {
     public class ForwardEmailDialog : EmailSkillDialog
     {

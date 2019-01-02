@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Bot.Builder.Azure;
-using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Skills;
 
 namespace AutomotiveSkillTest.Flow.Fakes

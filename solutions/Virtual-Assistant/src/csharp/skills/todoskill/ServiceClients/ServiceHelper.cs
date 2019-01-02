@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace ToDoSkill
+namespace ToDoSkill.ServiceClients
 {
     using System;
     using System.Collections.Generic;
@@ -12,6 +12,7 @@ namespace ToDoSkill
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using System.Xml;
+    using global::ToDoSkill.Models;
     using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
     using Microsoft.Bot.Solutions.Skills;
     using Microsoft.Graph;

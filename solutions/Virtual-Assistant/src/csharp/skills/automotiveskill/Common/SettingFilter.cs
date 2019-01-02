@@ -1,14 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace AutomotiveSkill
+namespace AutomotiveSkill.Common
 {
     using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using System.Text.RegularExpressions;
-    using global::AutomotiveSkill.Common;
     using global::AutomotiveSkill.Models;
 
     /// <summary>
