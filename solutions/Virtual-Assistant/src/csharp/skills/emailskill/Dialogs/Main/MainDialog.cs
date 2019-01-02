@@ -58,8 +58,6 @@ namespace EmailSkill.Dialogs.Main
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            throw new Exception("test");
-
             if (!_skillMode)
             {
                 // send a greeting if we're in local mode
