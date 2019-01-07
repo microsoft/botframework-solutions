@@ -11,9 +11,9 @@ namespace CalendarSkill.ServiceClients
 {
     public class ServiceManager : IServiceManager
     {
-        private readonly ISkillConfiguration _skillConfig;
+        private readonly SkillConfigurationBase _skillConfig;
 
-        public ServiceManager(ISkillConfiguration config)
+        public ServiceManager(SkillConfigurationBase config)
         {
             _skillConfig = config;
         }

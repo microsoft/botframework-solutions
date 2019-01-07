@@ -18,7 +18,7 @@ namespace RestaurantBooking
     /// </summary>
     public class RestaurantBooking : IBot
     {
-        private readonly ISkillConfiguration _services;
+        private readonly SkillConfigurationBase _services;
         private readonly ConversationState _conversationState;
         private readonly IBotTelemetryClient _telemetryClient;
         private readonly UserState _userState;
@@ -27,7 +27,7 @@ namespace RestaurantBooking
         private IHttpContextAccessor _httpContext;
         private DialogSet _dialogs;
 
-        public RestaurantBooking(ISkillConfiguration services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, ServiceManager serviceManager = null, IHttpContextAccessor httpContext = null, bool skillMode = false)
+        public RestaurantBooking(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, ServiceManager serviceManager = null, IHttpContextAccessor httpContext = null, bool skillMode = false)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));

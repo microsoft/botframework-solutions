@@ -21,7 +21,7 @@ namespace EmailSkill.Dialogs.SendEmail
     public class SendEmailDialog : EmailSkillDialog
     {
         public SendEmailDialog(
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IServiceManager serviceManager,

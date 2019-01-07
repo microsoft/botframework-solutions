@@ -23,7 +23,7 @@ namespace CalendarSkill.Dialogs.DeleteEvent
     public class DeleteEventDialog : CalendarSkillDialog
     {
         public DeleteEventDialog(
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)

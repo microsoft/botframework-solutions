@@ -21,7 +21,7 @@ namespace CalendarSkill.Dialogs.TimeRemain
     public class TimeRemainingDialog : CalendarSkillDialog
     {
         public TimeRemainingDialog(
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)

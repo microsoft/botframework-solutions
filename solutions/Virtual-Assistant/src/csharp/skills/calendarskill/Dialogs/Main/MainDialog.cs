@@ -29,7 +29,7 @@ namespace CalendarSkill.Dialogs.Main
     public class MainDialog : RouterDialog
     {
         private bool _skillMode;
-        private ISkillConfiguration _services;
+        private SkillConfigurationBase _services;
         private UserState _userState;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
@@ -37,7 +37,7 @@ namespace CalendarSkill.Dialogs.Main
         private CalendarSkillResponseBuilder _responseBuilder = new CalendarSkillResponseBuilder();
 
         public MainDialog(
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             ConversationState conversationState,
             UserState userState,
             IBotTelemetryClient telemetryClient,

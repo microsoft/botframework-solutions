@@ -22,7 +22,7 @@ namespace AutomotiveSkill.Dialogs.Shared
 
         public AutomotiveSkillDialog(
             string dialogId,
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<AutomotiveSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
@@ -34,7 +34,7 @@ namespace AutomotiveSkill.Dialogs.Shared
                     TelemetryClient = telemetryClient;
             }
 
-        protected ISkillConfiguration Services { get; set; }
+        protected SkillConfigurationBase Services { get; set; }
 
         protected IStatePropertyAccessor<AutomotiveSkillState> Accessor { get; set; }
 

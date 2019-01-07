@@ -29,7 +29,7 @@ namespace EmailSkillTest.Flow
 
         public IServiceManager ServiceManager { get; set; }
 
-        public ISkillConfiguration Services { get; set; }
+        public SkillConfigurationBase Services { get; set; }
 
         [TestInitialize]
         public override void Initialize()
