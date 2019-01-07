@@ -35,7 +35,7 @@ export class MainDialog extends RouterDialog {
     }
 
     protected async onStart(innerDC: DialogContext): Promise<void> {
-        const onboardingState = await this._onboardingAccessor.get(innerDC.context, undefined);
+        const onboardingState = await this._onboardingAccessor.get(innerDC.context);
 
         await this._responder.replyWith(innerDC.context, MainResponses.Intro);
 
