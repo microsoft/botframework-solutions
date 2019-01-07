@@ -3,45 +3,57 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
-using $safeprojectname$.Dialogs.Main.Resources;
-using $safeprojectname$.Dialogs.Shared.Resources;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
+using SkillTemplate.Dialogs.Main.Resources;
+using SkillTemplate.Dialogs.Sample;
+using SkillTemplate.Dialogs.Shared;
+using SkillTemplate.Dialogs.Shared.DialogOptions;
+using SkillTemplate.Dialogs.Shared.Resources;
+using SkillTemplate.ServiceClients;
 
-namespace $safeprojectname$
+namespace SkillTemplate.Dialogs.Main
 {
     public class MainDialog : RouterDialog
     {
         private bool _skillMode;
-        private SkillConfiguration _services;
+        private SkillConfigurationBase _services;
         private UserState _userState;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
-        private IStatePropertyAccessor<$safeprojectname$State> _stateAccessor;
-        private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
-        private $safeprojectname$ResponseBuilder _responseBuilder = new $safeprojectname$ResponseBuilder();
+        private IStatePropertyAccessor<SkillConversationState> _conversationStateAccessor;
+        private IStatePropertyAccessor<SkillUserState> _userStateAccessor;
+        private SkillTemplateResponseBuilder _responseBuilder = new SkillTemplateResponseBuilder();
 
-        public MainDialog(SkillConfiguration services, ConversationState conversationState, UserState userState, IServiceManager serviceManager, bool skillMode)
-            : base(nameof(MainDialog))
+        public MainDialog(
+            SkillConfigurationBase services,
+            ConversationState conversationState,
+            UserState userState,
+            IBotTelemetryClient telemetryClient,
+            IServiceManager serviceManager,
+            bool skillMode)
+            : base(nameof(MainDialog), telemetryClient)
         {
             _skillMode = skillMode;
             _services = services;
             _conversationState = conversationState;
             _userState = userState;
             _serviceManager = serviceManager;
+            TelemetryClient = telemetryClient;
 
             // Initialize state accessor
-            _stateAccessor = _conversationState.CreateProperty<$safeprojectname$State>(nameof($safeprojectname$State));
-            _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
+            _conversationStateAccessor = _conversationState.CreateProperty<SkillConversationState>(nameof(SkillConversationState));
+            _userStateAccessor = _userState.CreateProperty<SkillUserState>(nameof(SkillUserState));
 
+            // RegisterDialogs
             RegisterDialogs();
         }
 
@@ -50,16 +62,20 @@ namespace $safeprojectname$
             if (!_skillMode)
             {
                 // send a greeting if we're in local mode
-                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply($safeprojectname$MainResponses.WelcomeMessage));
+                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(MainResponses.WelcomeMessage));
             }
         }
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await _stateAccessor.GetAsync(dc.Context, () => new $safeprojectname$State());
+            var state = await _conversationStateAccessor.GetAsync(dc.Context, () => new SkillConversationState());
 
-            // If dispatch result is general luis model
-            _services.LuisServices.TryGetValue("skill", out var luisService);
+            // get current activity locale
+            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            var localeConfig = _services.LocaleConfigurations[locale];
+
+            // Get skill LUIS model from configuration
+            localeConfig.LuisServices.TryGetValue("skill", out var luisService);
 
             if (luisService == null)
             {
@@ -67,20 +83,26 @@ namespace $safeprojectname$
             }
             else
             {
-                var result = await luisService.RecognizeAsync<Skill>(dc.Context, CancellationToken.None);
-                var intent = result?.TopIntent().intent;
-
-                var skillOptions = new $safeprojectname$DialogOptions
+                var skillOptions = new SkillTemplateDialogOptions
                 {
                     SkillMode = _skillMode,
                 };
 
-                // switch on general intents
+                var result = await luisService.RecognizeAsync<Skill>(dc.Context, CancellationToken.None);
+                var intent = result?.TopIntent().intent;
+
                 switch (intent)
                 {
+                    case Skill.Intent.Sample:
+                        {
+                            await dc.BeginDialogAsync(nameof(SampleDialog), skillOptions);
+                            break;
+                        }
+
                     case Skill.Intent.None:
                         {
-                            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply($safeprojectname$SharedResponses.DidntUnderstandMessage));
+                            // No intent was identified, send confused message
+                            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(SharedResponses.DidntUnderstandMessage));
                             if (_skillMode)
                             {
                                 await CompleteAsync(dc);
@@ -91,8 +113,8 @@ namespace $safeprojectname$
 
                     default:
                         {
-                            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply($safeprojectname$MainResponses.FeatureNotAvailable));
-
+                            // intent was identified but not yet implemented
+                            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(MainResponses.FeatureNotAvailable));
                             if (_skillMode)
                             {
                                 await CompleteAsync(dc);
@@ -113,10 +135,6 @@ namespace $safeprojectname$
 
                 await dc.Context.SendActivityAsync(response);
             }
-            else
-            {
-                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply($safeprojectname$SharedResponses.ActionEnded));
-            }
 
             // End active dialog
             await dc.EndDialogAsync(result);
@@ -128,11 +146,11 @@ namespace $safeprojectname$
             {
                 case Events.SkillBeginEvent:
                     {
-                        var state = await _stateAccessor.GetAsync(dc.Context, () => new $safeprojectname$State());
+                        var state = await _conversationStateAccessor.GetAsync(dc.Context, () => new SkillConversationState());
 
                         if (dc.Context.Activity.Value is Dictionary<string, object> userData)
                         {
-                            // capture any user data sent to the skill from the parent here.
+                            // Capture user data from event if needed
                         }
 
                         break;
@@ -151,6 +169,7 @@ namespace $safeprojectname$
 
                             await dc.Context.SendActivityAsync(response);
                         }
+
                         break;
                     }
             }
@@ -162,13 +181,12 @@ namespace $safeprojectname$
 
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
-                // Update state with luis result and entities
-                var skillLuisResult = await _services.LuisServices["skill"].RecognizeAsync<Skill>(dc.Context, cancellationToken);
-                var state = await _stateAccessor.GetAsync(dc.Context, () => new $safeprojectname$State());
-                state.LuisResult = skillLuisResult;
+                // get current activity locale
+                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                var localeConfig = _services.LocaleConfigurations[locale];
 
-                // check luis intent
-                _services.LuisServices.TryGetValue("general", out var luisService);
+                // check general luis intent
+                localeConfig.LuisServices.TryGetValue("general", out var luisService);
 
                 if (luisService == null)
                 {
@@ -179,7 +197,6 @@ namespace $safeprojectname$
                     var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
                     var topIntent = luisResult.TopIntent().intent;
 
-                    // check intent
                     switch (topIntent)
                     {
                         case General.Intent.Cancel:
@@ -190,7 +207,7 @@ namespace $safeprojectname$
 
                         case General.Intent.Help:
                             {
-                                result = await OnHelp(dc);
+                                // result = await OnHelp(dc);
                                 break;
                             }
 
@@ -208,13 +225,15 @@ namespace $safeprojectname$
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
-            await dc.BeginDialogAsync(nameof(CancelDialog));
+            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(MainResponses.CancelMessage));
+            await CompleteAsync(dc);
+            await dc.CancelAllDialogsAsync();
             return InterruptionAction.StartedDialog;
         }
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
-            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply($safeprojectname$MainResponses.HelpMessage));
+            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(MainResponses.HelpMessage));
             return InterruptionAction.MessageSentToUser;
         }
 
@@ -234,15 +253,20 @@ namespace $safeprojectname$
             await dc.CancelAllDialogsAsync();
 
             // Sign out user
-            await adapter.SignOutUserAsync(dc.Context, _services.AuthConnectionName);
-            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply($safeprojectname$MainResponses.LogOut));
+            var tokens = await adapter.GetTokenStatusAsync(dc.Context, dc.Context.Activity.From.Id);
+            foreach (var token in tokens)
+            {
+                await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
+            }
+
+            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(MainResponses.LogOut));
 
             return InterruptionAction.StartedDialog;
         }
 
         private void RegisterDialogs()
         {
-            AddDialog(new CancelDialog());
+            AddDialog(new SampleDialog(_services, _conversationStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
         }
 
         private class Events
