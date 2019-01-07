@@ -19,7 +19,7 @@ namespace EmailSkill.Dialogs.ReplyEmail
     public class ReplyEmailDialog : EmailSkillDialog
     {
         public ReplyEmailDialog(
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IServiceManager serviceManager,

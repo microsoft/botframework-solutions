@@ -22,7 +22,7 @@ namespace EmailSkill.Dialogs.DeleteEmail
     public class DeleteEmailDialog : EmailSkillDialog
     {
         public DeleteEmailDialog(
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IServiceManager serviceManager,

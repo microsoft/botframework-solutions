@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
 
 namespace Microsoft.Bot.Solutions.Middleware.Telemetry
 {
@@ -87,7 +88,7 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
                 var activity = context.Activity;
 
                 // Log the Application Insights Bot Message Received
-                _telemetryClient.TrackEvent(BotMsgReceiveEvent, this.FillReceiveEventProperties(activity));
+                _telemetryClient.TrackEventEx(BotMsgReceiveEvent, activity, null, this.FillReceiveEventProperties(activity));
             }
 
             // hook up onSend pipeline
@@ -98,7 +99,7 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
 
                 foreach (var activity in activities)
                 {
-                    _telemetryClient.TrackEvent(BotMsgSendEvent, this.FillSendEventProperties(activity));
+                    _telemetryClient.TrackEventEx(BotMsgSendEvent, activity, null, this.FillSendEventProperties(activity));
                 }
 
                 return responses;
@@ -110,7 +111,7 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
                 // run full pipeline
                 var response = await nextUpdate().ConfigureAwait(false);
 
-                _telemetryClient.TrackEvent(BotMsgUpdateEvent, this.FillUpdateEventProperties(activity));
+                _telemetryClient.TrackEventEx(BotMsgUpdateEvent, activity, null, this.FillUpdateEventProperties(activity));
 
                 return response;
             });
@@ -129,7 +130,7 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
                 .ApplyConversationReference(reference, isIncoming: false)
                 .AsMessageDeleteActivity();
 
-                _telemetryClient.TrackEvent(BotMsgDeleteEvent, this.FillDeleteEventProperties(deleteActivity));
+                _telemetryClient.TrackEventEx(BotMsgDeleteEvent, deleteActivity as Activity, null, this.FillDeleteEventProperties(deleteActivity));
             });
 
             if (nextTurn != null)

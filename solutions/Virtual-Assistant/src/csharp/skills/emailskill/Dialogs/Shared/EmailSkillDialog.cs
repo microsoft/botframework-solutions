@@ -24,6 +24,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Data;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Prompts;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
@@ -41,7 +42,7 @@ namespace EmailSkill.Dialogs.Shared
 
         public EmailSkillDialog(
             string dialogId,
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IServiceManager serviceManager,
@@ -71,7 +72,7 @@ namespace EmailSkill.Dialogs.Shared
         {
         }
 
-        protected ISkillConfiguration Services { get; set; }
+        protected SkillConfigurationBase Services { get; set; }
 
         protected IStatePropertyAccessor<EmailSkillState> EmailStateAccessor { get; set; }
 
@@ -1284,7 +1285,7 @@ namespace EmailSkill.Dialogs.Shared
             await sc.Context.SendActivityAsync(trace);
 
             // log exception
-            Services.TelemetryClient.TrackException(ex, AssembleTelemetryData(sc));
+            TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
 
             // send error message to bot user
             await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.EmailErrorMessage));
@@ -1301,7 +1302,7 @@ namespace EmailSkill.Dialogs.Shared
             await sc.Context.SendActivityAsync(trace);
 
             // log exception
-            Services.TelemetryClient.TrackException(ex, AssembleTelemetryData(sc));
+            TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
 
             // send error message to bot user
             if (ex.ExceptionType == SkillExceptionType.APIAccessDenied)
@@ -1315,18 +1316,6 @@ namespace EmailSkill.Dialogs.Shared
 
             // clear state
             await ClearAllState(sc);
-        }
-
-        private IDictionary<string, string> AssembleTelemetryData(WaterfallStepContext sc)
-        {
-            var telemetryData = new Dictionary<string, string>
-            {
-                { "activityId", sc.Context.Activity.Id },
-                { "userId", sc.Context.Activity.From.Id },
-                { "activeDialog", sc.ActiveDialog?.Id }
-            };
-
-            return telemetryData;
         }
     }
 }

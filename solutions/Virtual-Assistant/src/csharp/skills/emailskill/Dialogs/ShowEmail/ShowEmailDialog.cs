@@ -29,7 +29,7 @@ namespace EmailSkill.Dialogs.ShowEmail
     public class ShowEmailDialog : EmailSkillDialog
     {
         public ShowEmailDialog(
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IServiceManager serviceManager,

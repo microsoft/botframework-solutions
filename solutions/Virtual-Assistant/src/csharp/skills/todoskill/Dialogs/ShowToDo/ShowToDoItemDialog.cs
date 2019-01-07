@@ -20,7 +20,7 @@ namespace ToDoSkill.Dialogs.ShowToDo
     public class ShowToDoItemDialog : ToDoSkillDialog
     {
         public ShowToDoItemDialog(
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
             IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
             IServiceManager serviceManager,

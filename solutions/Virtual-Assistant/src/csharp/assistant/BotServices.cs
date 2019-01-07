@@ -185,8 +185,7 @@ namespace VirtualAssistant
             {
                 var skillConfig = new SkillConfiguration()
                 {
-                    CosmosDbOptions = CosmosDbOptions,
-                    TelemetryClient = TelemetryClient,
+                    CosmosDbOptions = CosmosDbOptions
                 };
 
                 foreach (var localeConfig in LocaleConfigurations)
@@ -272,8 +271,8 @@ namespace VirtualAssistant
         /// <value>
         /// Created based on the skill definitions from appsettings.json, the locale configurations, and shared bot services.
         /// The key for each item is the skill Id.
-        /// The value is an <see cref="ISkillConfiguration"/> object containing all the service clients used by the skill.
+        /// The value is an <see cref="SkillConfigurationBase"/> object containing all the service clients used by the skill.
         /// </value>
-        public Dictionary<string, ISkillConfiguration> SkillConfigurations { get; set; } = new Dictionary<string, ISkillConfiguration>();
+        public Dictionary<string, SkillConfigurationBase> SkillConfigurations { get; set; } = new Dictionary<string, SkillConfigurationBase>();
     }
 }

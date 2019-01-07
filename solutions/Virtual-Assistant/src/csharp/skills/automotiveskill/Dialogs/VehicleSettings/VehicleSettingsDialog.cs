@@ -45,7 +45,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
         private IHttpContextAccessor _httpContext;
 
         public VehicleSettingsDialog(
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<AutomotiveSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,

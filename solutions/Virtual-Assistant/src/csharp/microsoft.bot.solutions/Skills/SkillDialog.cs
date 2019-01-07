@@ -10,6 +10,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Middleware;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Resources;
 
 namespace Microsoft.Bot.Solutions.Skills
@@ -20,7 +21,7 @@ namespace Microsoft.Bot.Solutions.Skills
         private const string ActiveSkillStateKey = "ActiveSkill";
 
         // Fields
-        private Dictionary<string, ISkillConfiguration> _skills;
+        private Dictionary<string, SkillConfigurationBase> _skills;
         private IStatePropertyAccessor<DialogState> _accessor;
         private EndpointService _endpointService;
         private IBotTelemetryClient _telemetryClient;
@@ -30,7 +31,7 @@ namespace Microsoft.Bot.Solutions.Skills
         private bool _skillInitialized;
         private bool _useCachedTokens;
 
-        public SkillDialog(Dictionary<string, ISkillConfiguration> skills, IStatePropertyAccessor<DialogState> accessor, EndpointService endpointService, IBotTelemetryClient telemetryClient, bool useCachedTokens = true)
+        public SkillDialog(Dictionary<string, SkillConfigurationBase> skills, IStatePropertyAccessor<DialogState> accessor, EndpointService endpointService, IBotTelemetryClient telemetryClient, bool useCachedTokens = true)
             : base(nameof(SkillDialog))
         {
             _skills = skills;
@@ -167,7 +168,7 @@ namespace Microsoft.Bot.Solutions.Skills
                         await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Skill Error: {exception.Message} | {exception.StackTrace}"));
 
                         // Log exception in AppInsights
-                        skillConfiguration.TelemetryClient.TrackException(exception);
+                        _telemetryClient.TrackExceptionEx(exception, context.Activity);
                     },
                 };
 

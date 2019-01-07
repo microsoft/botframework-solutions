@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.ApplicationInsights;
-using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Azure;
@@ -10,7 +8,7 @@ using Microsoft.Bot.Solutions.Middleware.Telemetry;
 
 namespace Microsoft.Bot.Solutions.Skills
 {
-    public class SkillConfiguration : ISkillConfiguration
+    public class SkillConfiguration : SkillConfigurationBase
     {
         public SkillConfiguration()
         {
@@ -27,14 +25,6 @@ namespace Microsoft.Bot.Solutions.Skills
             {
                 switch (service.Type)
                 {
-                    case ServiceTypes.AppInsights:
-                        {
-                            var appInsights = service as AppInsightsService;
-                            var telemetryConfig = new TelemetryConfiguration(appInsights.InstrumentationKey);
-                            TelemetryClient = new TelemetryClient(telemetryConfig);
-                            break;
-                        }
-
                     case ServiceTypes.Generic:
                         {
                             if (service.Name == "Authentication")
@@ -128,8 +118,6 @@ namespace Microsoft.Bot.Solutions.Skills
         }
 
         public override Dictionary<string, string> AuthenticationConnections { get; set; } = new Dictionary<string, string>();
-
-        public override TelemetryClient TelemetryClient { get; set; }
 
         public override CosmosDbStorageOptions CosmosDbOptions { get; set; }
 

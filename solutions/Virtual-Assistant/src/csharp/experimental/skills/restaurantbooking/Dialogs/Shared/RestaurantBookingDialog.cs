@@ -4,12 +4,9 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Recognizers.Text;
 using Newtonsoft.Json.Linq;
 using RestaurantBooking.Dialogs.Shared.Resources;
 
@@ -23,7 +20,7 @@ namespace RestaurantBooking
 
         public RestaurantBookingDialog(
            string dialogId,
-           ISkillConfiguration services,
+           SkillConfigurationBase services,
            IStatePropertyAccessor<RestaurantBookingState> accessor,
            IServiceManager serviceManager,
            IBotTelemetryClient telemetryClient)
@@ -36,7 +33,7 @@ namespace RestaurantBooking
         }
 
         // Fields
-        protected ISkillConfiguration Services { get; set; }
+        protected SkillConfigurationBase Services { get; set; }
 
         protected IStatePropertyAccessor<RestaurantBookingState> Accessor { get; set; }
 

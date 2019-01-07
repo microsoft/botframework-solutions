@@ -20,7 +20,7 @@ namespace EmailSkill.Dialogs.ForwardEmail
     public class ForwardEmailDialog : EmailSkillDialog
     {
         public ForwardEmailDialog(
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IServiceManager serviceManager,

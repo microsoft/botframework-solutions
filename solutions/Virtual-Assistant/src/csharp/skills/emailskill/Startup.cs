@@ -59,7 +59,7 @@ namespace EmailSkill
             var supportedProviders = Configuration.GetSection("supportedProviders")?.Get<string[]>();
             var languageModels = Configuration.GetSection("languageModels").Get<Dictionary<string, Dictionary<string, string>>>();
             var connectedServices = new SkillConfiguration(botConfig, languageModels, supportedProviders, parameters, configuration);
-            services.AddSingleton<ISkillConfiguration>(sp => connectedServices);
+            services.AddSingleton<SkillConfigurationBase>(sp => connectedServices);
 
             var defaultLocale = Configuration.GetSection("defaultLocale").Get<string>();
 
@@ -99,8 +99,6 @@ namespace EmailSkill
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
                 // Telemetry Middleware (logs activity messages in Application Insights)
-                var appInsightsService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.AppInsights) ?? throw new Exception("Please configure your AppInsights connection in your .bot file.");
-                var instrumentationKey = (appInsightsService as AppInsightsService).InstrumentationKey;
                 var sp = services.BuildServiceProvider();
                 var telemetryClient = sp.GetService<IBotTelemetryClient>();
                 var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logUserName: true, logOriginalMessage: true);
@@ -112,7 +110,7 @@ namespace EmailSkill
                     CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
                     await context.SendActivityAsync(context.Activity.CreateReply(EmailSharedResponses.EmailErrorMessage));
                     await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Email Skill Error: {exception.Message} | {exception.StackTrace}"));
-                    telemetryClient.TrackException(exception);
+                    telemetryClient.TrackExceptionEx(exception, context.Activity);
                 };
 
                 // Transcript Middleware (saves conversation history in a standard format)

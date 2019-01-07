@@ -10,6 +10,7 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 
@@ -17,11 +18,11 @@ namespace Microsoft.Bot.Solutions.Authentication
 {
     public class MultiProviderAuthDialog : ComponentDialog
     {
-        private ISkillConfiguration _skillConfiguration;
+        private SkillConfigurationBase _skillConfiguration;
         private CommonResponseBuilder _responseBuilder = new CommonResponseBuilder();
         private string _selectedAuthType = string.Empty;
 
-        public MultiProviderAuthDialog(ISkillConfiguration skillConfiguration)
+        public MultiProviderAuthDialog(SkillConfigurationBase skillConfiguration)
             : base(nameof(MultiProviderAuthDialog))
         {
             _skillConfiguration = skillConfiguration;
@@ -142,21 +143,7 @@ namespace Microsoft.Bot.Solutions.Authentication
             }
             else
             {
-                TelemetryClient.TrackEvent("TokenRetrievalFailure", new Dictionary<string, string>
-                {
-                    {
-                        "userId", stepContext.Context.Activity.From.Id
-                    },
-                    {
-                        "conversationId", stepContext.Context.Activity.Conversation.Id
-                    },
-                    {
-                        "activityId", stepContext.Context.Activity.Id
-                    },
-                    {
-                        "activeDialog", stepContext.ActiveDialog?.Id
-                    }
-                });
+                TelemetryClient.TrackEventEx("TokenRetrievalFailure", stepContext.Context.Activity);
 
                 stepContext.Context.Activity.CreateReply(CommonResponses.ErrorMessage_AuthFailure, null, new StringDictionary { { "authType", _selectedAuthType } });
 
