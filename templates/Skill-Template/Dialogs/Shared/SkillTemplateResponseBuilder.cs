@@ -1,6 +1,6 @@
 ﻿using Microsoft.Bot.Solutions.Dialogs;
 
-namespace SkillTemplate.Dialogs.Shared
+namespace $safeprojectname$.Dialogs.Shared
 {
     public class SkillTemplateResponseBuilder : BotResponseBuilder
     {

@@ -1,0 +1,143 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>SkillTemplate</Name>
+    <Description>&lt;No description available&gt;</Description>
+    <ProjectType>CSharp</ProjectType>
+    <ProjectSubType>
+    </ProjectSubType>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>SkillTemplate</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <CreateInPlace>true</CreateInPlace>
+    <Icon>__TemplateIcon.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <Project TargetFileName="SkillTemplate.csproj" File="SkillTemplate.csproj" ReplaceParameters="true">
+      <Folder Name="Connected Services" TargetFolderName="Connected Services">
+        <Folder Name="Application Insights" TargetFolderName="Application Insights">
+          <ProjectItem ReplaceParameters="true" TargetFileName="ConnectedService.json">ConnectedService.json</ProjectItem>
+        </Folder>
+      </Folder>
+      <Folder Name="Properties" TargetFolderName="Properties">
+        <ProjectItem ReplaceParameters="true" TargetFileName="launchSettings.json">launchSettings.json</ProjectItem>
+      </Folder>
+      <Folder Name="wwwroot" TargetFolderName="wwwroot">
+        <ProjectItem ReplaceParameters="true" TargetFileName="default.htm">default.htm</ProjectItem>
+      </Folder>
+      <Folder Name=".vs" TargetFolderName=".vs" />
+      <Folder Name="CognitiveModels" TargetFolderName="CognitiveModels">
+        <Folder Name="LUIS" TargetFolderName="LUIS">
+          <Folder Name="de" TargetFolderName="de">
+            <ProjectItem ReplaceParameters="false" TargetFileName="general.lu">general.lu</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="skill.lu">skill.lu</ProjectItem>
+          </Folder>
+          <Folder Name="en" TargetFolderName="en">
+            <ProjectItem ReplaceParameters="false" TargetFileName="general.lu">general.lu</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="skill.lu">skill.lu</ProjectItem>
+          </Folder>
+          <Folder Name="es" TargetFolderName="es">
+            <ProjectItem ReplaceParameters="false" TargetFileName="general.lu">general.lu</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="skill.lu">skill.lu</ProjectItem>
+          </Folder>
+          <Folder Name="fr" TargetFolderName="fr">
+            <ProjectItem ReplaceParameters="false" TargetFileName="general.lu">general.lu</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="skill.lu">skill.lu</ProjectItem>
+          </Folder>
+          <Folder Name="it" TargetFolderName="it">
+            <ProjectItem ReplaceParameters="false" TargetFileName="general.lu">general.lu</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="skill.lu">skill.lu</ProjectItem>
+          </Folder>
+          <Folder Name="zh" TargetFolderName="zh">
+            <ProjectItem ReplaceParameters="false" TargetFileName="general.lu">general.lu</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="skill.lu">skill.lu</ProjectItem>
+          </Folder>
+        </Folder>
+      </Folder>
+      <Folder Name="DeploymentScripts" TargetFolderName="DeploymentScripts">
+        <Folder Name="de" TargetFolderName="de">
+          <ProjectItem ReplaceParameters="false" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
+        </Folder>
+        <Folder Name="en" TargetFolderName="en">
+          <ProjectItem ReplaceParameters="false" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
+        </Folder>
+        <Folder Name="es" TargetFolderName="es">
+          <ProjectItem ReplaceParameters="false" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
+        </Folder>
+        <Folder Name="fr" TargetFolderName="fr">
+          <ProjectItem ReplaceParameters="false" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
+        </Folder>
+        <Folder Name="it" TargetFolderName="it">
+          <ProjectItem ReplaceParameters="false" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
+        </Folder>
+        <Folder Name="zh" TargetFolderName="zh">
+          <ProjectItem ReplaceParameters="false" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
+        </Folder>
+        <ProjectItem ReplaceParameters="false" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="deploy_bot.ps1">deploy_bot.ps1</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="generate_deployment_scripts.ps1">generate_deployment_scripts.ps1</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="update_published_models.ps1">update_published_models.ps1</ProjectItem>
+      </Folder>
+      <Folder Name="Dialogs" TargetFolderName="Dialogs">
+        <Folder Name="Main" TargetFolderName="Main">
+          <Folder Name="Resources" TargetFolderName="Resources">
+            <ProjectItem ReplaceParameters="true" TargetFileName="MainResponses.json">MainResponses.json</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="MainResponses.de.json">MainResponses.de.json</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="MainResponses.es.json">MainResponses.es.json</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="MainResponses.fr.json">MainResponses.fr.json</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="MainResponses.it.json">MainResponses.it.json</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="MainResponses.zh.json">MainResponses.zh.json</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="MainResponses.tt">MainResponses.tt</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="MainResponses.cs">MainResponses.cs</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="true" TargetFileName="MainDialog.cs">MainDialog.cs</ProjectItem>
+        </Folder>
+        <Folder Name="Sample" TargetFolderName="Sample">
+          <Folder Name="Resources" TargetFolderName="Resources">
+            <ProjectItem ReplaceParameters="true" TargetFileName="SampleResponses.json">SampleResponses.json</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="SampleResponses.de.json">SampleResponses.de.json</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="SampleResponses.es.json">SampleResponses.es.json</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="SampleResponses.fr.json">SampleResponses.fr.json</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="SampleResponses.it.json">SampleResponses.it.json</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="SampleResponses.zh.json">SampleResponses.zh.json</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="SampleResponses.tt">SampleResponses.tt</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="SampleResponses.cs">SampleResponses.cs</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="true" TargetFileName="SampleDialog.cs">SampleDialog.cs</ProjectItem>
+        </Folder>
+        <Folder Name="Shared" TargetFolderName="Shared">
+          <Folder Name="DialogOptions" TargetFolderName="DialogOptions">
+            <ProjectItem ReplaceParameters="true" TargetFileName="SkillDialogOptions.cs">SkillTemplateDialogOptions.cs</ProjectItem>
+          </Folder>
+          <Folder Name="Resources" TargetFolderName="Resources">
+            <ProjectItem ReplaceParameters="true" TargetFileName="Sample.cs">Sample.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="SharedResponses.json">SharedResponses.json</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="SharedResponses.de.json">SharedResponses.de.json</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="SharedResponses.es.json">SharedResponses.es.json</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="SharedResponses.fr.json">SharedResponses.fr.json</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="SharedResponses.it.json">SharedResponses.it.json</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="SharedResponses.zh.json">SharedResponses.zh.json</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="SharedResponses.tt">SharedResponses.tt</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="SharedResponses.cs">SharedResponses.cs</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$Dialog.cs">SkillTemplateDialog.cs</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$ResponseBuilder.cs">SkillTemplateResponseBuilder.cs</ProjectItem>
+        </Folder>
+      </Folder>
+      <Folder Name="ServiceClients" TargetFolderName="ServiceClients">
+        <ProjectItem ReplaceParameters="true" TargetFileName="IServiceManager.cs">IServiceManager.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="ServiceManager.cs">ServiceManager.cs</ProjectItem>
+      </Folder>
+      <ProjectItem ReplaceParameters="true" TargetFileName=".filenesting.json">.filenesting.json</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="appsettings.json">appsettings.json</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Program.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="readme.md">readme.md</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="SkillConversationState.cs">SkillConversationState.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.cs">SkillTemplate.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="SkillUserState.cs">SkillUserState.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Startup.cs">Startup.cs</ProjectItem>
+    </Project>
+  </TemplateContent>
+</VSTemplate>

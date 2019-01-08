@@ -12,11 +12,11 @@ using Microsoft.Bot.Solutions.Prompts;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Newtonsoft.Json.Linq;
-using SkillTemplate.Dialogs.Shared.DialogOptions;
-using SkillTemplate.Dialogs.Shared.Resources;
-using SkillTemplate.ServiceClients;
+using $safeprojectname$.Dialogs.Shared.DialogOptions;
+using $safeprojectname$.Dialogs.Shared.Resources;
+using $safeprojectname$.ServiceClients;
 
-namespace SkillTemplate.Dialogs.Shared
+namespace $safeprojectname$.Dialogs.Shared
 {
     public class SkillTemplateDialog : ComponentDialog
     {

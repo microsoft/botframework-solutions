@@ -6,11 +6,11 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
-using SkillTemplate.Dialogs.Sample.Resources;
-using SkillTemplate.Dialogs.Shared;
-using SkillTemplate.ServiceClients;
+using $safeprojectname$.Dialogs.Sample.Resources;
+using $safeprojectname$.Dialogs.Shared;
+using $safeprojectname$.ServiceClients;
 
-namespace SkillTemplate.Dialogs.Sample
+namespace $safeprojectname$.Dialogs.Sample
 {
     public class SampleDialog : SkillTemplateDialog
     {

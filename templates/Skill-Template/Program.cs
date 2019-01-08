@@ -4,7 +4,7 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace SkillTemplate
+namespace $safeprojectname$
 {
     public class Program
     {

@@ -13,14 +13,14 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
-using SkillTemplate.Dialogs.Main.Resources;
-using SkillTemplate.Dialogs.Sample;
-using SkillTemplate.Dialogs.Shared;
-using SkillTemplate.Dialogs.Shared.DialogOptions;
-using SkillTemplate.Dialogs.Shared.Resources;
-using SkillTemplate.ServiceClients;
+using $safeprojectname$.Dialogs.Main.Resources;
+using $safeprojectname$.Dialogs.Sample;
+using $safeprojectname$.Dialogs.Shared;
+using $safeprojectname$.Dialogs.Shared.DialogOptions;
+using $safeprojectname$.Dialogs.Shared.Resources;
+using $safeprojectname$.ServiceClients;
 
-namespace SkillTemplate.Dialogs.Main
+namespace $safeprojectname$.Dialogs.Main
 {
     public class MainDialog : RouterDialog
     {

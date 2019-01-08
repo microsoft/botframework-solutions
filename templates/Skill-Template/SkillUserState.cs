@@ -1,6 +1,6 @@
 ﻿using Microsoft.Bot.Builder.Dialogs;
 
-namespace SkillTemplate
+namespace $safeprojectname$
 {
     public class SkillUserState : DialogState
     {

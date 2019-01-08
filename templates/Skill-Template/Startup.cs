@@ -20,10 +20,10 @@ using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SkillTemplate.Dialogs.Shared.Resources;
-using SkillTemplate.ServiceClients;
+using $safeprojectname$.Dialogs.Shared.Resources;
+using $safeprojectname$.ServiceClients;
 
-namespace SkillTemplate
+namespace $safeprojectname$
 {
     public class Startup
     {
@@ -47,7 +47,7 @@ namespace SkillTemplate
             // Load the connected services from .bot file.
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
             var botFileSecret = Configuration.GetSection("botFileSecret")?.Value;
-            var botConfig = BotConfiguration.Load(botFilePath ?? @".\SkillTemplate.bot", botFileSecret);
+            var botConfig = BotConfiguration.Load(botFilePath ?? @".\$safeprojectname$.bot", botFileSecret);
             services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded."));
 
             // Use Application Insights
@@ -85,7 +85,7 @@ namespace SkillTemplate
             services.AddTransient<IServiceManager, ServiceManager>();
 
             // Add the bot with options
-            services.AddBot<SkillTemplate>(options =>
+            services.AddBot<$safeprojectname$>(options =>
             {
                 // Load the connected services from .bot file.
                 var environment = _isProduction ? "production" : "development";

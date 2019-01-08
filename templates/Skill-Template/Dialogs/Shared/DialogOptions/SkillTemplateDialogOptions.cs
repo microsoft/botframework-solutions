@@ -1,4 +1,4 @@
-﻿namespace SkillTemplate.Dialogs.Shared.DialogOptions
+﻿namespace $safeprojectname$.Dialogs.Shared.DialogOptions
 {
     public class SkillTemplateDialogOptions
     {

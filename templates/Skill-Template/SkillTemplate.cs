@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Skills;
-using SkillTemplate.Dialogs.Main;
-using SkillTemplate.ServiceClients;
+using $safeprojectname$.Dialogs.Main;
+using $safeprojectname$.ServiceClients;
 
-namespace SkillTemplate
+namespace $safeprojectname$
 {
     /// <summary>
     /// Main entry point and orchestration for bot.
     /// </summary>
-    public class SkillTemplate : IBot
+    public class $safeprojectname$ : IBot
     {
         private readonly SkillConfigurationBase _services;
         private readonly ConversationState _conversationState;
@@ -25,7 +25,7 @@ namespace SkillTemplate
         private DialogSet _dialogs;
         private bool _skillMode;
 
-        public SkillTemplate(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, ServiceManager serviceManager = null, bool skillMode = false)
+        public $safeprojectname$(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, ServiceManager serviceManager = null, bool skillMode = false)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));

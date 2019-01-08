@@ -5,7 +5,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using Microsoft.Bot.Solutions.Dialogs;
 
-namespace TestSkill2.Dialogs.Main.Resources
+namespace $safeprojectname$.Dialogs.Main.Resources
 {
     /// <summary>
     /// Contains bot responses.
