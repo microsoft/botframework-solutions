@@ -11,9 +11,13 @@ namespace EmailSkill.Util
     {
         public static string ToDisplayRecipientsString_Summay(IEnumerable<Recipient> recipients)
         {
-            string toRecipient = ((recipients?.FirstOrDefault()?.EmailAddress?.Name != string.Empty)
-                                 || (recipients?.FirstOrDefault()?.EmailAddress?.Name != null))
-                                 ? recipients?.FirstOrDefault()?.EmailAddress?.Name : EmailCommonStrings.UnknownRecipient;
+            if (recipients == null || recipients.Count() == 0)
+            {
+                throw new Exception("No recipient!");
+            }
+
+            string toRecipient = !string.IsNullOrEmpty(recipients.FirstOrDefault()?.EmailAddress?.Name)
+                                 ? recipients.FirstOrDefault()?.EmailAddress?.Name : EmailCommonStrings.UnknownRecipient;
 
             var nameListString = toRecipient;
             if (recipients.Count() > 1)
@@ -26,15 +30,28 @@ namespace EmailSkill.Util
 
         public static string ToDisplayRecipientsString(IEnumerable<Recipient> recipients)
         {
-            string displayString = string.Empty;
-
-            foreach (var recipient in recipients)
+            if (recipients == null || recipients.Count() == 0)
             {
-                var recipientName = ((recipient.EmailAddress?.Name != string.Empty)
-                    || (recipient.EmailAddress?.Name != null))
-                    ? recipient.EmailAddress?.Name : EmailCommonStrings.UnknownRecipient;
+                throw new Exception("No recipient!");
+            }
 
-                displayString += string.Join("; ", recipientName);
+            string toRecipient = !string.IsNullOrEmpty(recipients.FirstOrDefault()?.EmailAddress?.Name)
+                                 ? recipients.FirstOrDefault()?.EmailAddress?.Name : EmailCommonStrings.UnknownRecipient;
+
+            var displayString = toRecipient;
+            if (recipients.Count() > 1)
+            {
+                for (int i = 1; i < recipients.Count(); i++)
+                {
+                    if (string.IsNullOrEmpty(recipients.ElementAt(i)?.EmailAddress?.Name))
+                    {
+                        displayString += string.Format("; {0}", EmailCommonStrings.UnknownRecipient);
+                    }
+                    else
+                    {
+                        displayString += string.Format("; {0}", recipients.ElementAt(i)?.EmailAddress?.Name);
+                    }
+                }
             }
 
             return displayString;

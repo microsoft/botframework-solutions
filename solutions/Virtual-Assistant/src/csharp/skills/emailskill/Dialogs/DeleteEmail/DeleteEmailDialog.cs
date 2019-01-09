@@ -44,6 +44,7 @@ namespace EmailSkill.Dialogs.DeleteEmail
 
             var showEmail = new WaterfallStep[]
             {
+                PagingStep,
                 ShowEmails,
             };
 
