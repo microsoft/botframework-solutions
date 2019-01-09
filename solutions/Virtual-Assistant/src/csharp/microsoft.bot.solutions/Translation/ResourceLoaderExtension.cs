@@ -3,7 +3,7 @@
 
 using System.Resources;
 
-namespace Microsoft.Bot.Solutions
+namespace Microsoft.Bot.Solutions.Translation
 {
     public static class ResourceLoaderExtension
     {

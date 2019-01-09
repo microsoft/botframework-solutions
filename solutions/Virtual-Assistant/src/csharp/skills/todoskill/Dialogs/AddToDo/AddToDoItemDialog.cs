@@ -1,13 +1,15 @@
 ﻿using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Skills;
+using ToDoSkill.Dialogs.Shared;
+using ToDoSkill.ServiceClients;
 
-namespace ToDoSkill
+namespace ToDoSkill.Dialogs.AddToDo
 {
     public class AddToDoItemDialog : ToDoSkillDialog
     {
         public AddToDoItemDialog(
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
             IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
             IServiceManager serviceManager,

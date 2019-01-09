@@ -2,8 +2,9 @@
 // Licensed under the MIT License.
 
 using System;
+using EmailSkill.Model;
 
-namespace EmailSkill
+namespace EmailSkill.ServiceClients
 {
     public interface IServiceManager
     {

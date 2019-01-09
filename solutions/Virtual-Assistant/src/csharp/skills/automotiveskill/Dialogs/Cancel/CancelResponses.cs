@@ -4,7 +4,7 @@
 using AutomotiveSkill.Dialogs.Cancel.Resources;
 using Microsoft.Bot.Builder.TemplateManager;
 
-namespace AutomotiveSkill
+namespace AutomotiveSkill.Dialogs.Cancel
 {
     public class CancelResponses : TemplateManager
     {

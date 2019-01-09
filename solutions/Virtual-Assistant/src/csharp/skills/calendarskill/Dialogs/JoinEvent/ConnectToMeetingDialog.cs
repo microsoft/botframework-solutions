@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Dialogs.JoinEvent.Resources;
+using CalendarSkill.Dialogs.Shared;
 using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
 using HtmlAgilityPack;
@@ -16,12 +17,12 @@ using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Newtonsoft.Json;
 
-namespace CalendarSkill
+namespace CalendarSkill.Dialogs.JoinEvent
 {
     public class ConnectToMeetingDialog : CalendarSkillDialog
     {
         public ConnectToMeetingDialog(
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)

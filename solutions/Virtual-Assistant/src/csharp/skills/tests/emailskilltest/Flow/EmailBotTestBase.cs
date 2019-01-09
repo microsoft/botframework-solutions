@@ -1,6 +1,8 @@
 ﻿using System.Threading;
 using Autofac;
 using EmailSkill;
+using EmailSkill.Model;
+using EmailSkill.ServiceClients;
 using EmailSkillTest.Flow.Fakes;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
@@ -27,7 +29,7 @@ namespace EmailSkillTest.Flow
 
         public IServiceManager ServiceManager { get; set; }
 
-        public ISkillConfiguration Services { get; set; }
+        public SkillConfigurationBase Services { get; set; }
 
         [TestInitialize]
         public override void Initialize()

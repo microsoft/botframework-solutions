@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Microsoft.ApplicationInsights;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Solutions.Skills;
 
@@ -14,13 +13,10 @@ namespace CalendarSkillTest.Flow.Fakes
                 { "Microsoft", "Microsoft" }
             };
 
-            this.TelemetryClient = null;
             this.CosmosDbOptions = null;
         }
 
         public override Dictionary<string, string> AuthenticationConnections { get; set; }
-
-        public override TelemetryClient TelemetryClient { get; set; }
 
         public override CosmosDbStorageOptions CosmosDbOptions { get; set; }
 

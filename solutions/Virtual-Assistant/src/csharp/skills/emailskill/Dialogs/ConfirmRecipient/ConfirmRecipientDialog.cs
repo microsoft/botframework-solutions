@@ -6,6 +6,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.ConfirmRecipient.Resources;
+using EmailSkill.Dialogs.Shared;
+using EmailSkill.Dialogs.Shared.DialogOptions;
+using EmailSkill.ServiceClients;
 using EmailSkill.Dialogs.Shared.Resources;
 using EmailSkill.Util;
 using Luis;
@@ -18,12 +21,12 @@ using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Microsoft.Graph;
 
-namespace EmailSkill
+namespace EmailSkill.Dialogs.ConfirmRecipient
 {
     public class ConfirmRecipientDialog : EmailSkillDialog
     {
         public ConfirmRecipientDialog(
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IServiceManager serviceManager,

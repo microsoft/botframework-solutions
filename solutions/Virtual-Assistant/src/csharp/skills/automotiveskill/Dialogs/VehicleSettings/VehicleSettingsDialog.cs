@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
@@ -9,20 +8,23 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using AutomotiveSkill.Common;
+using AutomotiveSkill.Dialogs.Shared;
 using AutomotiveSkill.Dialogs.VehicleSettings.Resources;
+using AutomotiveSkill.Models;
+using AutomotiveSkill.ServiceClients;
 using Luis;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Cards;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Recognizers.Text;
 
-namespace AutomotiveSkill
+namespace AutomotiveSkill.Dialogs.VehicleSettings
 {
     public class VehicleSettingsDialog : AutomotiveSkillDialog
     {
@@ -43,7 +45,7 @@ namespace AutomotiveSkill
         private IHttpContextAccessor _httpContext;
 
         public VehicleSettingsDialog(
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<AutomotiveSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
@@ -106,8 +108,8 @@ namespace AutomotiveSkill
 
             switch (topIntent.Value)
             {
-                case VehicleSettings.Intent.VEHICLE_SETTINGS_CHANGE:
-                case VehicleSettings.Intent.VEHICLE_SETTINGS_DECLARATIVE:
+                case Luis.VehicleSettings.Intent.VEHICLE_SETTINGS_CHANGE:
+                case Luis.VehicleSettings.Intent.VEHICLE_SETTINGS_DECLARATIVE:
 
                     // Process the LUIS result and add entities to the State accessors for ease of access
                     if (luisResult.Entities.AMOUNT != null)
@@ -141,7 +143,7 @@ namespace AutomotiveSkill
                     }
 
                     // Perform post-processing on the entities, if it's declarative we indicate for special processing (opposite of the condition they've expressed)
-                    settingFilter.PostProcessSettingName(state, topIntent.Value == VehicleSettings.Intent.VEHICLE_SETTINGS_DECLARATIVE ? true : false);
+                    settingFilter.PostProcessSettingName(state, topIntent.Value == Luis.VehicleSettings.Intent.VEHICLE_SETTINGS_DECLARATIVE ? true : false);
 
                     // Perform content logic and remove entities that don't make sense
                     settingFilter.ApplyContentLogic(state);
@@ -190,7 +192,7 @@ namespace AutomotiveSkill
                         return await sc.NextAsync();
                     }
 
-                case VehicleSettings.Intent.VEHICLE_SETTINGS_CHECK:
+                case Luis.VehicleSettings.Intent.VEHICLE_SETTINGS_CHECK:
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply("The skill doesn't support checking vehicle settings quite yet!"));
                     return await sc.EndDialogAsync(true, cancellationToken);
 

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Solutions.Data;
 using Microsoft.Graph;
 
-namespace EmailSkill
+namespace EmailSkill.ServiceClients.MSGraphAPI
 {
     /// <summary>
     /// Mail service used to call real apis.

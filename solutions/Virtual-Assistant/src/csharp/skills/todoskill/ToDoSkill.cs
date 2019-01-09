@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Skills;
+using ToDoSkill.Dialogs.Main;
+using ToDoSkill.ServiceClients;
 
 namespace ToDoSkill
 {
@@ -15,7 +17,7 @@ namespace ToDoSkill
     /// </summary>
     public class ToDoSkill : IBot
     {
-        private readonly ISkillConfiguration _services;
+        private readonly SkillConfigurationBase _services;
         private readonly ConversationState _conversationState;
         private readonly UserState _userState;
         private readonly IBotTelemetryClient _telemetryClient;
@@ -23,7 +25,7 @@ namespace ToDoSkill
         private DialogSet _dialogs;
         private bool _skillMode;
 
-        public ToDoSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, IServiceManager serviceManager = null, bool skillMode = false)
+        public ToDoSkill(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, IServiceManager serviceManager = null, bool skillMode = false)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));

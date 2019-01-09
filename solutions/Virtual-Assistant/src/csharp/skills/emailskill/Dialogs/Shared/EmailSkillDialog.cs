@@ -5,20 +5,27 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using EmailSkill.Dialogs.ConfirmRecipient;
 using EmailSkill.Dialogs.ConfirmRecipient.Resources;
+using EmailSkill.Dialogs.ForwardEmail;
+using EmailSkill.Dialogs.Shared.DialogOptions;
 using EmailSkill.Dialogs.Shared.Resources;
+using EmailSkill.Dialogs.Shared.Resources.Cards;
 using EmailSkill.Dialogs.Shared.Resources.Strings;
 using EmailSkill.Extensions;
+using EmailSkill.Model;
+using EmailSkill.ServiceClients;
 using EmailSkill.Util;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Data;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
+using Microsoft.Bot.Solutions.Prompts;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
@@ -26,7 +33,7 @@ using Microsoft.Graph;
 using Microsoft.Recognizers.Text;
 using Newtonsoft.Json.Linq;
 
-namespace EmailSkill
+namespace EmailSkill.Dialogs.Shared
 {
     public class EmailSkillDialog : ComponentDialog
     {
@@ -35,7 +42,7 @@ namespace EmailSkill
 
         public EmailSkillDialog(
             string dialogId,
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IServiceManager serviceManager,
@@ -64,7 +71,7 @@ namespace EmailSkill
         {
         }
 
-        protected ISkillConfiguration Services { get; set; }
+        protected SkillConfigurationBase Services { get; set; }
 
         protected IStatePropertyAccessor<EmailSkillState> EmailStateAccessor { get; set; }
 
@@ -1227,7 +1234,7 @@ namespace EmailSkill
             await sc.Context.SendActivityAsync(trace);
 
             // log exception
-            Services.TelemetryClient.TrackException(ex, AssembleTelemetryData(sc));
+            TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
 
             // send error message to bot user
             await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.EmailErrorMessage));
@@ -1244,7 +1251,7 @@ namespace EmailSkill
             await sc.Context.SendActivityAsync(trace);
 
             // log exception
-            Services.TelemetryClient.TrackException(ex, AssembleTelemetryData(sc));
+            TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
 
             // send error message to bot user
             if (ex.ExceptionType == SkillExceptionType.APIAccessDenied)
@@ -1258,18 +1265,6 @@ namespace EmailSkill
 
             // clear state
             await ClearAllState(sc);
-        }
-
-        private IDictionary<string, string> AssembleTelemetryData(WaterfallStepContext sc)
-        {
-            var telemetryData = new Dictionary<string, string>
-            {
-                { "activityId", sc.Context.Activity.Id },
-                { "userId", sc.Context.Activity.From.Id },
-                { "activeDialog", sc.ActiveDialog.ToString() }
-            };
-
-            return telemetryData;
         }
     }
 }

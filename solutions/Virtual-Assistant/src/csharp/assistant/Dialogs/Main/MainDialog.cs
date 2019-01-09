@@ -12,12 +12,15 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Dialogs;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Skills;
+using VirtualAssistant.Dialogs.Escalate;
 using VirtualAssistant.Dialogs.Main.Resources;
+using VirtualAssistant.Dialogs.Onboarding;
+using VirtualAssistant.Dialogs.Shared;
 
-namespace VirtualAssistant
+namespace VirtualAssistant.Dialogs.Main
 {
     public class MainDialog : RouterDialog
     {
@@ -292,15 +295,7 @@ namespace VirtualAssistant
                                 if (string.IsNullOrWhiteSpace(dc.Context.Activity.Locale))
                                 {
                                     // startConversation activity should have locale in it. if not, log it
-                                    TelemetryClient.TrackEvent("NoLocaleInStartConversation", new Dictionary<string, string>
-                                    {
-                                        {
-                                            "userId", dc.Context.Activity.From.Id
-                                        },
-                                        {
-                                            "channelId", dc.Context.Activity.ChannelId
-                                        }
-                                    });
+                                    TelemetryClient.TrackEventEx("NoLocaleInStartConversation", dc.Context.Activity, dc.ActiveDialog?.Id);
 
                                     break;
                                 }

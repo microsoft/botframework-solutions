@@ -1,12 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace AutomotiveSkill
+namespace AutomotiveSkill.Common
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using global::AutomotiveSkill.Models;
     using Newtonsoft.Json;
 
     /// <summary>

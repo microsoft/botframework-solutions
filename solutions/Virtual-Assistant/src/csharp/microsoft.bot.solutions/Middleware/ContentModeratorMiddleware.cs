@@ -10,7 +10,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Microsoft.CognitiveServices.ContentModerator;
 
-namespace VirtualAssistant
+namespace Microsoft.Bot.Solutions.Middleware
 {
     /// <summary>
     /// Middleware component to run Content Moderator Service on all incoming activities.

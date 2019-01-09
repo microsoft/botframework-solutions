@@ -5,8 +5,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Common;
-using CalendarSkill.Dialogs.Shared.Resources;
+using CalendarSkill.Dialogs.DeleteEvent;
+using CalendarSkill.Dialogs.Shared;
 using CalendarSkill.Dialogs.Summary.Resources;
+using CalendarSkill.Dialogs.UpdateEvent;
 using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
 using CalendarSkill.Util;
@@ -19,12 +21,12 @@ using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 
-namespace CalendarSkill
+namespace CalendarSkill.Dialogs.Summary
 {
     public class SummaryDialog : CalendarSkillDialog
     {
         public SummaryDialog(
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)

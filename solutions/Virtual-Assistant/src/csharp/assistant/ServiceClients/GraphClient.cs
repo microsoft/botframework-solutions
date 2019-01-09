@@ -6,7 +6,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 
-namespace VirtualAssistant
+namespace VirtualAssistant.ServiceClients
 {
     public class GraphClient
     {

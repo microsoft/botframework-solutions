@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using EmailSkill.Model;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Solutions.Data;
 using Microsoft.Graph;
 
 namespace EmailSkill

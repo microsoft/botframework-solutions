@@ -10,21 +10,27 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
+using ToDoSkill.Dialogs.AddToDo;
+using ToDoSkill.Dialogs.DeleteToDo;
 using ToDoSkill.Dialogs.Main.Resources;
+using ToDoSkill.Dialogs.MarkToDo;
+using ToDoSkill.Dialogs.Shared;
+using ToDoSkill.Dialogs.Shared.DialogOptions;
 using ToDoSkill.Dialogs.Shared.Resources;
-using static ToDoSkill.ServiceProviderTypes;
+using ToDoSkill.Dialogs.ShowToDo;
+using ToDoSkill.ServiceClients;
+using static ToDoSkill.Dialogs.Shared.ServiceProviderTypes;
 
-namespace ToDoSkill
+namespace ToDoSkill.Dialogs.Main
 {
     public class MainDialog : RouterDialog
     {
         private bool _skillMode;
-        private ISkillConfiguration _services;
+        private SkillConfigurationBase _services;
         private UserState _userState;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
@@ -33,7 +39,7 @@ namespace ToDoSkill
         private ToDoSkillResponseBuilder _responseBuilder = new ToDoSkillResponseBuilder();
 
         public MainDialog(
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             ConversationState conversationState,
             UserState userState,
             IBotTelemetryClient telemetryClient,

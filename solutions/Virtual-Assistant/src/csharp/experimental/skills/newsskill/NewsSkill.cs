@@ -17,7 +17,7 @@ namespace NewsSkill
     /// </summary>
     public class NewsSkill : IBot
     {
-        private readonly ISkillConfiguration _services;
+        private readonly SkillConfigurationBase _services;
         private readonly ConversationState _conversationState;
         private readonly IBotTelemetryClient _telemetryClient;
         private readonly UserState _userState;
@@ -25,7 +25,7 @@ namespace NewsSkill
 
         private bool _skillMode;
 
-        public NewsSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, bool skillMode = false)
+        public NewsSkill(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, bool skillMode = false)
         {
             _skillMode = skillMode;
             _services = services;

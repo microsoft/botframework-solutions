@@ -6,24 +6,30 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using CalendarSkill.Dialogs.CreateEvent;
+using CalendarSkill.Dialogs.DeleteEvent;
+using CalendarSkill.Dialogs.JoinEvent;
 using CalendarSkill.Dialogs.Main.Resources;
+using CalendarSkill.Dialogs.Shared;
 using CalendarSkill.Dialogs.Shared.Resources;
+using CalendarSkill.Dialogs.Summary;
+using CalendarSkill.Dialogs.TimeRemain;
+using CalendarSkill.Dialogs.UpdateEvent;
 using CalendarSkill.ServiceClients;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 
-namespace CalendarSkill
+namespace CalendarSkill.Dialogs.Main
 {
     public class MainDialog : RouterDialog
     {
         private bool _skillMode;
-        private ISkillConfiguration _services;
+        private SkillConfigurationBase _services;
         private UserState _userState;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
@@ -31,7 +37,7 @@ namespace CalendarSkill
         private CalendarSkillResponseBuilder _responseBuilder = new CalendarSkillResponseBuilder();
 
         public MainDialog(
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             ConversationState conversationState,
             UserState userState,
             IBotTelemetryClient telemetryClient,

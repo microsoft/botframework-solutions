@@ -6,24 +6,31 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using EmailSkill.Dialogs.DeleteEmail;
+using EmailSkill.Dialogs.ForwardEmail;
 using EmailSkill.Dialogs.Main.Resources;
+using EmailSkill.Dialogs.ReplyEmail;
+using EmailSkill.Dialogs.SendEmail;
+using EmailSkill.Dialogs.Shared;
+using EmailSkill.Dialogs.Shared.DialogOptions;
 using EmailSkill.Dialogs.Shared.Resources;
+using EmailSkill.Dialogs.ShowEmail;
+using EmailSkill.ServiceClients;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Data;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 
-namespace EmailSkill
+namespace EmailSkill.Dialogs.Main
 {
     public class MainDialog : RouterDialog
     {
         private bool _skillMode;
-        private ISkillConfiguration _skillConfig;
+        private SkillConfigurationBase _skillConfig;
         private UserState _userState;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
@@ -31,7 +38,7 @@ namespace EmailSkill
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
         private EmailSkillResponseBuilder _responseBuilder = new EmailSkillResponseBuilder();
 
-        public MainDialog(ISkillConfiguration skillConfiguration, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, IServiceManager serviceManager, bool skillMode)
+        public MainDialog(SkillConfigurationBase skillConfiguration, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, IServiceManager serviceManager, bool skillMode)
             : base(nameof(MainDialog), telemetryClient)
         {
             _skillMode = skillMode;

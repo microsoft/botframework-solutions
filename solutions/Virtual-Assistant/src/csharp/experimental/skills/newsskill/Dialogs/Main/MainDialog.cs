@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
@@ -12,14 +11,13 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Skills;
-using NewsSkill.Dialogs.Main.Resources;
 
 namespace NewsSkill
 {
     public class MainDialog : RouterDialog
     {
         private bool _skillMode;
-        private ISkillConfiguration _services;
+        private SkillConfigurationBase _services;
         private UserState _userState;
         private IBotTelemetryClient _telemetryClient;
         private ConversationState _conversationState;
@@ -27,7 +25,7 @@ namespace NewsSkill
         private IStatePropertyAccessor<NewsSkillState> _stateAccessor;
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
 
-        public MainDialog(ISkillConfiguration services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, bool skillMode)
+        public MainDialog(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, bool skillMode)
             : base(nameof(MainDialog), telemetryClient)
         {
             _skillMode = skillMode;

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using System.Collections.Generic;
-using ToDoSkill;
+using ToDoSkill.Models;
 
 namespace ToDoSkillTest.Flow.Fakes
 {

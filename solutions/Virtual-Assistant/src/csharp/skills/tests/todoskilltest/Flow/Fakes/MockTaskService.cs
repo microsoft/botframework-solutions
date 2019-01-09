@@ -4,7 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using ToDoSkill;
+using ToDoSkill.Models;
+using ToDoSkill.ServiceClients;
 using ToDoSkillTest.Flow.Fakes;
 
 namespace ToDoSkillTest.Fakes
