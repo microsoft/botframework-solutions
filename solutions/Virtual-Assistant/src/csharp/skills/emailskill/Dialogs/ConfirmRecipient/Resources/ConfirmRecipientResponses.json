@@ -19,12 +19,12 @@
         "speak": "I could not find the contact '{UserName}' your are looking for. Can you try again?"
       },
       {
-        "text": "Can you try again by stating out firstname and surname?",
-        "speak": "Can you try again by stating out firstname and surname?"
+        "text": "Can you try again by stating out firstname and surname of {UserName}?",
+        "speak": "Can you try again by stating out firstname and surname of {UserName}?"
       },
       {
-        "text": "Can you provide the alias of the contact you are looking for?",
-        "speak": "Can you provide the alias of the contact you are looking for?"
+        "text": "Can you provide the alias of the contact '{UserName}' you are looking for?",
+        "speak": "Can you provide the alias of the contact '{UserName}' you are looking for?"
       }
     ],
     "inputHint": "expectingInput"

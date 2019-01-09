@@ -275,5 +275,18 @@
       }
     ],
     "inputHint": "acceptingInput"
+  },
+  "NoChoiceOptions_Retry": {
+    "replies": [
+      {
+        "text": "我不明白您是什么意思。您可以试试别的说法，例如下一页，前一页或者阅读更多。",
+        "speak": "我不明白您是什么意思。您可以试试别的说法，例如下一页，前一页或者阅读更多。"
+      },
+      {
+        "text": "我不明白您是什么意思。",
+        "speak": "我不明白您是什么意思。"
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }
