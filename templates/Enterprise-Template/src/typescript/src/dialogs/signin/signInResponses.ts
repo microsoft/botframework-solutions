@@ -2,10 +2,9 @@
 // Licensed under the MIT License
 
 import { TurnContext } from "botbuilder";
-import { ResourceParser } from "../shared/resourceParser";
 import { DictionaryRenderer, LanguageTemplateDictionary, TemplateFunction } from "../templateManager/dictionaryRenderer";
 import { TemplateManager } from "../templateManager/templateManager";
-const resourcesPath = require.resolve("./resources/SignInStrings.resx");
+import * as i18n from "i18n";
 
 export class SignInResponses extends TemplateManager {
     // Constants
@@ -13,24 +12,20 @@ export class SignInResponses extends TemplateManager {
     public static readonly Succeeded: string = "haveName";
     public static readonly Failed: string = "emailPrompt";
 
-    private static readonly resources: ResourceParser = new ResourceParser(resourcesPath);
-
     // Fields
     private static readonly _responseTemplates: LanguageTemplateDictionary = new Map([
         ["default", new Map([
-            [SignInResponses.SignInPrompt, SignInResponses.fromResources("PROMPT")],
-            [SignInResponses.Failed, SignInResponses.fromResources("FAILED")],
+            [SignInResponses.SignInPrompt, SignInResponses.fromResources("signIn.prompt")],
+            [SignInResponses.Failed, SignInResponses.fromResources("signIn.failed")],
             [SignInResponses.Succeeded, async (context: TurnContext, data: any) => {
-                const value = await SignInResponses.resources.get("SUCCEEDED");
+                const value = i18n.__("signIn.succeeded");
                 return value.replace("{0}", data.name);
             }],
-        ])],
-        ["en", undefined],
-        ["fr", undefined],
+        ])]
     ]);
 
     private static fromResources(name: string): TemplateFunction {
-        return (context: TurnContext, data: any) => SignInResponses.resources.get(name);
+        return (context: TurnContext, data: any) => Promise.resolve(i18n.__(name));
     }
 
     constructor() {
