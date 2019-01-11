@@ -17,20 +17,20 @@ export class TelemetryQnAMaker extends QnAMaker {
 
     private readonly _logOriginalMessage: boolean;
     private readonly _logUserName: boolean;
-    private _options: { top: number, scoreThreshold: number } = { top: 1, scoreThreshold: 0.3 };
+    private _qnaOptions: { top: number, scoreThreshold: number } = { top: 1, scoreThreshold: 0.3 };
 
     /**
      * Initializes a new instance of the TelemetryQnAMaker class.
      * @param {QnAMakerEndpoint} endpoint The endpoint of the knowledge base to query.
-     * @param {QnAMakerOptions} options The options for the QnA Maker knowledge base.
+     * @param {QnAMakerOptions} qnaOptions The options for the QnA Maker knowledge base.
      * @param {boolean} logUserName The flag to include username in logs.
      * @param {boolean} logOriginalMessage The flag to include original message in logs.
      */
-    constructor(endpoint: QnAMakerEndpoint, options?: QnAMakerOptions, logUserName: boolean = false, logOriginalMessage: boolean = false) {
-        super(endpoint, options);
+    constructor(endpoint: QnAMakerEndpoint, qnaOptions?: QnAMakerOptions, logUserName: boolean = false, logOriginalMessage: boolean = false) {
+        super(endpoint, qnaOptions);
         this._logOriginalMessage = logOriginalMessage;
         this._logUserName = logUserName;
-        Object.assign(this._options, options);
+        Object.assign(this._qnaOptions, qnaOptions);
     }
 
     /**
@@ -45,7 +45,7 @@ export class TelemetryQnAMaker extends QnAMaker {
 
     public async getAnswersAsync(context: TurnContext): Promise<QnAMakerResult[]> {
         // Call Qna Maker
-        const queryResults: QnAMakerResult[] = await super.generateAnswer(context.activity.text, this._options.top, this._options.scoreThreshold);
+        const queryResults: QnAMakerResult[] = await super.generateAnswer(context.activity.text, this._qnaOptions.top, this._qnaOptions.scoreThreshold);
 
         // Find the Application Insights Telemetry Client
         if (queryResults && context.turnState.has(TelemetryLoggerMiddleware.AppInsightsServiceKey)) {
