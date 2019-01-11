@@ -1,6 +1,8 @@
-﻿using Microsoft.Bot.Connector;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
-using System;
 using System.Linq;
 
 namespace $safeprojectname$.Extensions
@@ -9,8 +11,8 @@ namespace $safeprojectname$.Extensions
     {
         public static bool IsStartActivity(this Activity activity)
         {
-        switch (activity.ChannelId)
-        {
+            switch (activity.ChannelId)
+            {
                 case Channels.Skype:
                     {
                         if (activity.Type == ActivityTypes.ContactRelationUpdate && activity.Action == "add")
