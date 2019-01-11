@@ -19,6 +19,9 @@ export namespace ActivityEx {
             timestamp: new Date(),
             type: ActivityTypes.Message,
             valueType: source.valueType,
+            localTimezone: source.localTimezone,
+            listenFor: source.listenFor,
+            semanticAction: source.semanticAction,
         };
     }
 }
