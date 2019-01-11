@@ -6,12 +6,8 @@ using System.Linq;
 using $safeprojectname$.Dialogs.Main.Resources;
 using $safeprojectname$.Middleware;
 using $safeprojectname$.Middleware.Telemetry;
-using Microsoft.ApplicationInsights;
-using Microsoft.ApplicationInsights.DependencyCollector;
-using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
@@ -27,7 +23,7 @@ namespace $safeprojectname$
     public class Startup
     {
         private ILoggerFactory _loggerFactory;
-        private bool _isProduction = false;
+        private readonly bool _isProduction = false;
 
         public Startup(IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
@@ -52,7 +48,7 @@ namespace $safeprojectname$
             var botFileSecret = Configuration.GetSection("botFileSecret")?.Value;
             var botConfig = BotConfiguration.Load(botFilePath, botFileSecret);
             services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded."));
-            
+
             // Get default locale from appsettings.json
             var defaultLocale = Configuration.GetSection("defaultLocale").Get<string>();
 
