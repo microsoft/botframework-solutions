@@ -9,7 +9,6 @@ using $safeprojectname$.Dialogs.Escalate;
 using $safeprojectname$.Dialogs.Onboarding;
 using $safeprojectname$.Dialogs.Shared;
 using Luis;
-using Microsoft.ApplicationInsights;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 
