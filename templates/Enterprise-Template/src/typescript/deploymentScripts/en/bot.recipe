@@ -1,5 +1,5 @@
 {
-  "version": "1.0",
+  "version": "2.0",
   "resources": [
     {
       "type": "endpoint",
@@ -8,20 +8,26 @@
       "url": "http://localhost:3978/api/messages"
     },
     {
+      "type": "endpoint",
+      "id": "30",
+      "name": "production",
+      "url": "https://your-bot-url.azurewebsites.net/api/messages"
+    },
+    {
+      "type": "abs",
+      "id": "49",
+      "name": "EnterpriseBot"
+    },
+    {
+      "type": "appInsights",
+      "id": "3",
+      "name": "EnterpriseBotInsights"
+    },
+    {
       "type": "blob",
       "id": "2",
       "name": "EnterpriseBotBlob",
       "container": "transcripts"
-    },
-    {
-      "type": "abs",
-      "id": "3",
-      "name": "enterprise-bot"
-    },
-    {
-      "type": "appInsights",
-      "id": "4",
-      "name": "EnterpriseBotInsights"
     },
     {
       "type": "cosmosdb",
@@ -31,41 +37,28 @@
       "collection": "botstate-collection"
     },
     {
-      "type": "generic",
-      "id": "5",
-      "name": "ContentModerator",
-      "url": "",
-      "configuration": {
-        "key": "",
-        "region": ""
-      }
-    },
-    {
-      "type": "generic",
-      "id": "364",
-      "name": "Authentication",
-      "url": "",
-      "configuration": {
-        "Azure Active Directory v2": ""
-      }
-    },
-    {
       "type": "luis",
-      "id": "120",
+      "id": "general",
       "name": "General"
     },
     {
       "type": "qna",
-      "id": "85",
+      "id": "faq",
       "name": "FAQ"
     },
     {
+      "type": "qna",
+      "id": "chitchat",
+      "name": "ChitChat"
+    },
+    {
       "type": "dispatch",
-      "id": "152",
+      "id": "dispatch",
       "name": "Dispatch",
       "serviceIds": [
-        "120",
-        "85"
+        "general",
+        "faq",
+        "chitchat"
       ]
     }
   ]
