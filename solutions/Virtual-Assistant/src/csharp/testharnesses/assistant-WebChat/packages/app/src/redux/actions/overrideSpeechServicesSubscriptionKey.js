@@ -1,0 +1,10 @@
+const OVERRIDE_SPEECH_SERVICES_SUBSCRIPTION_KEY = 'OVERRIDE_SPEECH_SERVICES_SUBSCRIPTION_KEY';
+
+export default function (subscriptionKey) {
+  return {
+    type: OVERRIDE_SPEECH_SERVICES_SUBSCRIPTION_KEY,
+    payload: { subscriptionKey }
+  };
+}
+
+export { OVERRIDE_SPEECH_SERVICES_SUBSCRIPTION_KEY }
