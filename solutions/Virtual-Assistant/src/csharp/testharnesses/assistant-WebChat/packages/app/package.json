@@ -1,0 +1,43 @@
+{
+  "name": "app",
+  "version": "0.1.0",
+  "private": true,
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "dependencies": {
+    "adaptivecards": "1.0.0",
+    "babel-runtime": "^6.26.0",
+    "botframework-webchat": "^4.2.0",
+    "classnames": "^2.2.6",
+    "glamor": "^2.20.40",
+    "math-random": "^1.0.1",
+    "memoize-one": "^5.0.0",
+    "memoize-one-with-dispose": "^1.0.0",
+    "on-error-resume-next": "^1.1.0",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-redux": "^6.0.0",
+    "react-scripts": "2.1.2",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0",
+    "simple-update-in": "^2.0.2"
+  },
+  "devDependencies": {
+    "rimraf": "^2.6.2"
+  },
+  "proxy": "http://localhost/",
+  "scripts": {
+    "build": "react-scripts build",
+    "clean": "rimraf build",
+    "eject": "react-scripts eject",
+    "start": "react-scripts start",
+    "test": "react-scripts test"
+  }
+}
