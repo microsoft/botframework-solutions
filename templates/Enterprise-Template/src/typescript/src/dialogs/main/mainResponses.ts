@@ -67,7 +67,7 @@ export class MainResponses extends TemplateManager {
             [MainResponses.Confused, MainResponses.fromResources("main.confused")],
             [MainResponses.Greeting, MainResponses.fromResources("main.greeting")],
             [MainResponses.Help, (context: TurnContext, data: any) => MainResponses.sendHelpCard(context, data)],
-            [MainResponses.Intro, (context: TurnContext, data: any) => MainResponses.sendIntroCard(context, data)],
+            [MainResponses.Intro, (context: TurnContext, data: any) => MainResponses.sendIntroCard(context, data)]
         ])]
     ]);
 

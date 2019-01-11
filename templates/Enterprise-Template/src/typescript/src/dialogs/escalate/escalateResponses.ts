@@ -12,8 +12,8 @@ export class EscalateResponses extends TemplateManager {
     // Fields
     private static readonly _responseTemplates: LanguageTemplateDictionary = new Map([
         ["default", new Map([
-            [EscalateResponses.SendPhone, () => Promise.resolve(i18n.__("escalate.phoneInfo"))],
-        ])],
+            [EscalateResponses.SendPhone, () => Promise.resolve(i18n.__("escalate.phoneInfo"))]
+        ])]
     ]);
 
     constructor() {

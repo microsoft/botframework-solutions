@@ -20,7 +20,7 @@ export class SignInResponses extends TemplateManager {
             [SignInResponses.Succeeded, async (context: TurnContext, data: any) => {
                 const value = i18n.__("signIn.succeeded");
                 return value.replace("{0}", data.name);
-            }],
+            }]
         ])]
     ]);
 

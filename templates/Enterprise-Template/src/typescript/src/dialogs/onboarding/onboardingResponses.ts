@@ -31,7 +31,7 @@ export class OnboardingResponses extends TemplateManager {
             [OnboardingResponses.HaveLocation, async (context: TurnContext, data: any) => {
                 const value = i18n.__("onBoarding.haveLocation");
                 return value.replace("{0}", data.name).replace("{1}", data.location);
-            }],
+            }]
         ])]
     ]);
 

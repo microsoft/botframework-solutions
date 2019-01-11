@@ -16,7 +16,7 @@ export class CancelResponses extends TemplateManager {
         ["default", new Map([
             [CancelResponses._confirmPrompt, () => Promise.resolve(i18n.__("cancel.prompt"))],
             [CancelResponses._cancelConfirmed, () => Promise.resolve(i18n.__("cancel.confirmed"))],
-            [CancelResponses._cancelDenied, () => Promise.resolve(i18n.__("cancel.denied"))],
+            [CancelResponses._cancelDenied, () => Promise.resolve(i18n.__("cancel.denied"))]
         ])]
     ]);
 
