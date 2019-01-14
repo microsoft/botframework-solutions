@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace AutomotiveSkill
+namespace AutomotiveSkill.Dialogs.Cancel
 {
     public class CancelDialog : ComponentDialog
     {

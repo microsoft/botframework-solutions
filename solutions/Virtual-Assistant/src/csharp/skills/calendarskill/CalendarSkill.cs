@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CalendarSkill.Dialogs.Main;
+using CalendarSkill.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Skills;
 
 namespace CalendarSkill
@@ -17,15 +17,15 @@ namespace CalendarSkill
     /// </summary>
     public class CalendarSkill : IBot
     {
-        private readonly ISkillConfiguration _services;
+        private readonly SkillConfigurationBase _services;
         private readonly UserState _userState;
         private readonly ConversationState _conversationState;
         private readonly IBotTelemetryClient _telemetryClient;
         private readonly IServiceManager _serviceManager;
-        private bool _skillMode;
+        private readonly bool _skillMode;
         private DialogSet _dialogs;
 
-        public CalendarSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, IServiceManager serviceManager = null, bool skillMode = false)
+        public CalendarSkill(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, IServiceManager serviceManager = null, bool skillMode = false)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));

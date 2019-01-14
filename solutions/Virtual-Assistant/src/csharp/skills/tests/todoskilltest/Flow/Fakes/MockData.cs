@@ -1,12 +1,36 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using System.Collections.Generic;
-using ToDoSkill;
+using ToDoSkill.Models;
 
 namespace ToDoSkillTest.Flow.Fakes
 {
     public static class MockData
     {
+        public const string ToDo = "To Do";
+
+        public const string Shopping = "Shopping";
+
+        public const string Grocery = "Grocery";
+
+        public const string ListType = "listType";
+
+        public const string TaskCount = "taskCount";
+
+        public const string ToDoTask = "toDoTask";
+
+        public const string AfterDeleteTaskMessage = "I have deleted the item {0} for you. You have {1} items on your {2} list.";
+
+        public const string TaskId = "MockTaskId";
+
+        public const string LocaleEN = "en";
+
+        public const string LocaleENUS = "en-us";
+
+        public const string LuisGeneral = "general";
+
+        public const string LuisToDo = "todo";
+
         public static List<TaskItem> MockTaskItems { get; set; } = new List<TaskItem>
         {
             new TaskItem()
@@ -182,5 +206,7 @@ namespace ToDoSkillTest.Flow.Fakes
                 IsCompleted = false
             }
         };
+
+        public static string MockOneNoteWebLink { get; set; } = "https://123456-my.sharepoint.com/personal/123456";
     }
 }

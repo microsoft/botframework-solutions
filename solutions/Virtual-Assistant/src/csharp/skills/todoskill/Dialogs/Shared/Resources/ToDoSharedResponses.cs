@@ -38,6 +38,12 @@ namespace ToDoSkill.Dialogs.Shared.Resources
 
         public static BotResponse SettingUpOneNoteMessage => GetBotResponse();
 
+        public static BotResponse AfterOneNoteSetupMessage => GetBotResponse();
+
+        public static BotResponse SettingUpOutlookMessage => GetBotResponse();
+
+        public static BotResponse AfterOutlookSetupMessage => GetBotResponse();
+
         public static BotResponse ShowToDoTasks => GetBotResponse();
 
         public static BotResponse AskToDoTaskIndex => GetBotResponse();
@@ -47,6 +53,8 @@ namespace ToDoSkill.Dialogs.Shared.Resources
         public static BotResponse AfterToDoTaskAdded => GetBotResponse();
 
         public static BotResponse NoTasksInList => GetBotResponse();
+
+        public static BotResponse SwitchListType => GetBotResponse();
 
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {

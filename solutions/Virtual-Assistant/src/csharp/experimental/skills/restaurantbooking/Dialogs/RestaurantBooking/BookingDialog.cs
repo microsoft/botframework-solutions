@@ -26,7 +26,7 @@ namespace RestaurantBooking
         private IUrlResolver _urlResolver;
 
         public BookingDialog(
-           ISkillConfiguration services,
+           SkillConfigurationBase services,
            IStatePropertyAccessor<RestaurantBookingState> accessor,
            IServiceManager serviceManager,
            IBotTelemetryClient telemetryClient,

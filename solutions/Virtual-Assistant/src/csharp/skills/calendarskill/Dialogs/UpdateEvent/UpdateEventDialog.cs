@@ -5,22 +5,26 @@ using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Common;
 using CalendarSkill.Dialogs.Main.Resources;
+using CalendarSkill.Dialogs.Shared;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Dialogs.UpdateEvent.Resources;
+using CalendarSkill.Models;
+using CalendarSkill.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 
-namespace CalendarSkill
+namespace CalendarSkill.Dialogs.UpdateEvent
 {
     public class UpdateEventDialog : CalendarSkillDialog
     {
         public UpdateEventDialog(
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
@@ -88,10 +92,10 @@ namespace CalendarSkill
                     return await sc.NextAsync();
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                await HandleDialogExceptions(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -115,10 +119,10 @@ namespace CalendarSkill
                     RetryPrompt = sc.Context.Activity.CreateReply(UpdateEventResponses.ConfirmUpdateFailed, ResponseBuilder),
                 });
             }
-            catch
+            catch (Exception ex)
             {
-                await HandleDialogExceptions(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -158,10 +162,15 @@ namespace CalendarSkill
                 state.Clear();
                 return await sc.EndDialogAsync(true);
             }
-            catch
+            catch (SkillException ex)
             {
-                await HandleDialogExceptions(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -184,10 +193,10 @@ namespace CalendarSkill
                     return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage) });
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                await HandleDialogExceptions(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -323,10 +332,10 @@ namespace CalendarSkill
                     return await sc.BeginDialogAsync(Actions.UpdateNewStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotADateTime));
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                await HandleDialogExceptions(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -343,10 +352,15 @@ namespace CalendarSkill
                 var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
                 return await sc.BeginDialogAsync(Actions.UpdateStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound));
             }
-            catch
+            catch (SkillException ex)
             {
-                await HandleDialogExceptions(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -356,7 +370,7 @@ namespace CalendarSkill
             {
                 var state = await Accessor.GetAsync(sc.Context);
 
-                if (state.OriginalStartDate.Any() || state.OriginalStartTime.Any() || state.Title != null)
+                if (state.Events.Count > 0 || state.OriginalStartDate.Any() || state.OriginalStartTime.Any() || state.Title != null)
                 {
                     return await sc.NextAsync();
                 }
@@ -376,10 +390,10 @@ namespace CalendarSkill
                     });
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                await HandleDialogExceptions(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -393,67 +407,71 @@ namespace CalendarSkill
                 var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
                 var searchByEntities = state.OriginalStartDate.Any() || state.OriginalStartTime.Any() || state.Title != null;
 
-                if (state.OriginalStartDate.Any() || state.OriginalStartTime.Any())
+                if (state.Events.Count < 1)
                 {
-                    events = await GetEventsByTime(state.OriginalStartDate, state.OriginalStartTime, state.OriginalEndDate, state.OriginalEndTime, state.GetUserTimeZone(), calendarService);
-                    state.OriginalStartDate = new List<DateTime>();
-                    state.OriginalStartTime = new List<DateTime>();
-                    state.OriginalEndDate = new List<DateTime>();
-                    state.OriginalStartTime = new List<DateTime>();
-                }
-                else if (state.Title != null)
-                {
-                    events = await calendarService.GetEventsByTitle(state.Title);
-                    state.Title = null;
-                }
-                else
-                {
-                    sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                    var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
-                    try
+                    if (state.OriginalStartDate.Any() || state.OriginalStartTime.Any())
                     {
-                        IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
-                        if (dateTimeResolutions.Count > 0)
+                        events = await GetEventsByTime(state.OriginalStartDate, state.OriginalStartTime, state.OriginalEndDate, state.OriginalEndTime, state.GetUserTimeZone(), calendarService);
+                        state.OriginalStartDate = new List<DateTime>();
+                        state.OriginalStartTime = new List<DateTime>();
+                        state.OriginalEndDate = new List<DateTime>();
+                        state.OriginalStartTime = new List<DateTime>();
+                    }
+                    else if (state.Title != null)
+                    {
+                        events = await calendarService.GetEventsByTitle(state.Title);
+                        state.Title = null;
+                    }
+                    else
+                    {
+                        sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
+                        var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
+                        try
                         {
-                            foreach (var resolution in dateTimeResolutions)
+                            IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
+                            if (dateTimeResolutions.Count > 0)
                             {
-                                if (resolution.Value == null)
+                                foreach (var resolution in dateTimeResolutions)
                                 {
-                                    continue;
-                                }
+                                    if (resolution.Value == null)
+                                    {
+                                        continue;
+                                    }
 
-                                var startTimeValue = DateTime.Parse(resolution.Value);
-                                if (startTimeValue == null)
-                                {
-                                    continue;
-                                }
+                                    var startTimeValue = DateTime.Parse(resolution.Value);
+                                    if (startTimeValue == null)
+                                    {
+                                        continue;
+                                    }
 
-                                var dateTimeConvertType = resolution.Timex;
-                                bool isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeResolutions.First().Value, dateTimeResolutions.First().Timex);
-                                startTimeValue = isRelativeTime ? TimeZoneInfo.ConvertTime(startTimeValue, TimeZoneInfo.Local, state.GetUserTimeZone()) : startTimeValue;
+                                    var dateTimeConvertType = resolution.Timex;
+                                    bool isRelativeTime = IsRelativeTime(sc.Context.Activity.Text, dateTimeResolutions.First().Value, dateTimeResolutions.First().Timex);
+                                    startTimeValue = isRelativeTime ? TimeZoneInfo.ConvertTime(startTimeValue, TimeZoneInfo.Local, state.GetUserTimeZone()) : startTimeValue;
 
-                                startTimeValue = TimeConverter.ConvertLuisLocalToUtc(startTimeValue, state.GetUserTimeZone());
-                                events = await calendarService.GetEventsByStartTime(startTimeValue);
-                                if (events != null && events.Count > 0)
-                                {
-                                    break;
+                                    startTimeValue = TimeConverter.ConvertLuisLocalToUtc(startTimeValue, state.GetUserTimeZone());
+                                    events = await calendarService.GetEventsByStartTime(startTimeValue);
+                                    if (events != null && events.Count > 0)
+                                    {
+                                        break;
+                                    }
                                 }
                             }
                         }
-                    }
-                    catch
-                    {
+                        catch
+                        {
+                        }
+
+                        if (events == null || events.Count <= 0)
+                        {
+                            state.Title = userInput;
+                            events = await calendarService.GetEventsByTitle(userInput);
+                        }
                     }
 
-                    if (events == null || events.Count <= 0)
-                    {
-                        state.Title = userInput;
-                        events = await calendarService.GetEventsByTitle(userInput);
-                    }
+                    state.Events = events;
                 }
 
-                state.Events = events;
-                if (events.Count <= 0)
+                if (state.Events.Count <= 0)
                 {
                     if (searchByEntities)
                     {
@@ -466,16 +484,16 @@ namespace CalendarSkill
                         return await sc.BeginDialogAsync(Actions.UpdateStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NoEvent));
                     }
                 }
-                else if (events.Count > 1)
+                else if (state.Events.Count > 1)
                 {
                     var options = new PromptOptions()
                     {
                         Choices = new List<Choice>(),
                     };
 
-                    for (var i = 0; i < events.Count; i++)
+                    for (var i = 0; i < state.Events.Count; i++)
                     {
-                        var item = events[i];
+                        var item = state.Events[i];
                         var choice = new Choice()
                         {
                             Value = string.Empty,
@@ -489,7 +507,7 @@ namespace CalendarSkill
                     replyToConversation.Attachments = new List<Microsoft.Bot.Schema.Attachment>();
 
                     var cardsData = new List<CalendarCardData>();
-                    foreach (var item in events)
+                    foreach (var item in state.Events)
                     {
                         var meetingCard = item.ToAdaptiveCardData(state.GetUserTimeZone());
                         var replyTemp = sc.Context.Activity.CreateAdaptiveCardReply(CalendarMainResponses.GreetingMessage, item.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", meetingCard);
@@ -505,10 +523,15 @@ namespace CalendarSkill
                     return await sc.EndDialogAsync(true);
                 }
             }
-            catch
+            catch (SkillException ex)
             {
-                await HandleDialogExceptions(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
     }

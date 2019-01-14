@@ -1,4 +1,4 @@
-﻿namespace ToDoSkill
+﻿namespace ToDoSkill.Dialogs.Shared
 {
     public class ServiceProviderTypes
     {
@@ -13,6 +13,11 @@
             /// Outlook task list.
             /// </summary>
             Outlook,
+
+            /// <summary>
+            /// Other task list.
+            /// </summary>
+            Other,
         }
     }
 }

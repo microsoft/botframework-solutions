@@ -7,6 +7,8 @@ namespace AutomotiveSkill
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using global::AutomotiveSkill.Dialogs.Main;
+    using global::AutomotiveSkill.ServiceClients;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Bot.Builder;
     using Microsoft.Bot.Builder.Dialogs;
@@ -18,7 +20,7 @@ namespace AutomotiveSkill
     /// </summary>
     public class AutomotiveSkill : IBot
     {
-        private readonly ISkillConfiguration _services;
+        private readonly SkillConfigurationBase _services;
         private readonly ConversationState _conversationState;
         private readonly IBotTelemetryClient _telemetryClient;
         private readonly UserState _userState;
@@ -27,7 +29,7 @@ namespace AutomotiveSkill
         private IHttpContextAccessor _httpContext;
         private DialogSet _dialogs;
 
-        public AutomotiveSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, ServiceManager serviceManager = null, IHttpContextAccessor httpContext = null, bool skillMode = false)
+        public AutomotiveSkill(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, ServiceManager serviceManager = null, IHttpContextAccessor httpContext = null, bool skillMode = false)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));

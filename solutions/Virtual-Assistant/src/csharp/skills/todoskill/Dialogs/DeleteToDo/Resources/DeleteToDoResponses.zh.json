@@ -11,8 +11,8 @@
   "AskDeletionAllConfirmation": {
     "replies": [
       {
-        "text": "您确定您要删除所有事项？",
-        "speak": "您确定您要删除所有事项？"
+        "text": "您确定您要删除所有{listType}任务？",
+        "speak": "您确定您要删除所有{listType}任务？"
       }
     ],
     "inputHint": "expectingInput"
@@ -29,8 +29,8 @@
   "AfterAllTasksDeleted": {
     "replies": [
       {
-        "text": "已经为您清空事项表。",
-        "speak": "已经为您清空事项表。"
+        "text": "已经为您清空{listType}列表。",
+        "speak": "已经为您清空{listType}列表。"
       }
     ],
     "inputHint": "acceptingInput"

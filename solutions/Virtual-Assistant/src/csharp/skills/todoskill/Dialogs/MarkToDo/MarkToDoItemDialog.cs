@@ -5,22 +5,26 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using ToDoSkill.Dialogs.MarkToDo.Resources;
+using ToDoSkill.Dialogs.Shared;
 using ToDoSkill.Dialogs.Shared.Resources;
+using ToDoSkill.Models;
+using ToDoSkill.ServiceClients;
+using Action = ToDoSkill.Dialogs.Shared.Action;
 
-namespace ToDoSkill
+namespace ToDoSkill.Dialogs.MarkToDo
 {
     public class MarkToDoItemDialog : ToDoSkillDialog
     {
         public MarkToDoItemDialog(
-            ISkillConfiguration services,
-            IStatePropertyAccessor<ToDoSkillState> accessor,
-            ITaskService serviceManager,
+            SkillConfigurationBase services,
+            IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
+            IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
+            IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(MarkToDoItemDialog), services, accessor, serviceManager, telemetryClient)
+            : base(nameof(MarkToDoItemDialog), services, toDoStateAccessor, userStateAccessor, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -52,14 +56,9 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 state.LastListType = state.ListType;
-                if (!state.ListTypeIds.ContainsKey(state.ListType))
-                {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
-                }
-
-                var service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
+                var service = await InitListTypeIds(sc);
                 BotResponse botResponse;
                 string taskTopicToBeMarked = null;
                 if (state.MarkOrDeleteAllTasksFlag)
@@ -85,7 +84,8 @@ namespace ToDoSkill
                     state.AllTasks.Count,
                     taskTopicToBeMarked,
                     botResponse,
-                    ToDoSharedResponses.ShowToDoTasks);
+                    ToDoSharedResponses.ShowToDoTasks,
+                    state.ListType);
                 var markToDoReply = sc.Context.Activity.CreateReply();
                 markToDoReply.Attachments.Add(markToDoAttachment);
                 await sc.Context.SendActivityAsync(markToDoReply);

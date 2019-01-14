@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using EmailSkill;
+using EmailSkill.Dialogs.Shared;
 using EmailSkill.Util;
 using EmailSkillTest.API.Fakes;
 using Microsoft.Graph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace EmailSkillTest.API
+namespace EmailSkillTest.API.Helper
 {
     [TestClass]
     public class StepHelperTests : EmailSkillDialog

@@ -2,16 +2,18 @@
 // Licensed under the MIT license.
 
 using System;
-using CalendarSkill.ServiceClients;
+using CalendarSkill.Models;
+using CalendarSkill.ServiceClients.GoogleAPI;
+using CalendarSkill.ServiceClients.MSGraphAPI;
 using Microsoft.Bot.Solutions.Skills;
 
-namespace CalendarSkill
+namespace CalendarSkill.ServiceClients
 {
     public class ServiceManager : IServiceManager
     {
-        private ISkillConfiguration _skillConfig;
+        private readonly SkillConfigurationBase _skillConfig;
 
-        public ServiceManager(ISkillConfiguration config)
+        public ServiceManager(SkillConfigurationBase config)
         {
             _skillConfig = config;
         }
@@ -37,9 +39,9 @@ namespace CalendarSkill
             return new UserService(userService);
         }
 
-        public ICalendar InitCalendarService(string token, EventSource source)
+        public ICalendarService InitCalendarService(string token, EventSource source)
         {
-            ICalendar calendarAPI = null;
+            ICalendarService calendarAPI = null;
             switch (source)
             {
                 case EventSource.Microsoft:

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace AutomotiveSkill
+namespace AutomotiveSkill.Models
 {
     /// <summary>
     /// The status of a settings operation, such as getting the volume, setting

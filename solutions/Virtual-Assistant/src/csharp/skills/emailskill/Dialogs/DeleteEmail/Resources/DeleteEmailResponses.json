@@ -16,7 +16,7 @@
       {
         "text": "Which email do you want me to delete?",
         "speak": "Which email do you want me to delete?"
-      },
+      }
     ],
     "inputHint": "expectingInput"
   },
@@ -24,7 +24,7 @@
     "replies": [
       {
         "text": "Are you sure you want to delete?",
-        "speak": "Are you sure you want to delete?"
+        "speak": "Are you sure you want to delete? Details of email: {EmailDetails}"
       }
     ],
     "inputHint": "expectingInput"

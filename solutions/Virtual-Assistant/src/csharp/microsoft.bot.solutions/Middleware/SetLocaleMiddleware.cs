@@ -26,9 +26,6 @@ namespace Microsoft.Bot.Solutions.Middleware
 
             CultureInfo.CurrentUICulture = CultureInfo.CurrentCulture = cultureInfo;
 
-            // If the current activity locale is empty or not supported (i.e. "iv"), set its culture to the default.
-            context.Activity.Locale = cultureInfo.Name;
-
             await next(cancellationToken).ConfigureAwait(false);
         }
     }

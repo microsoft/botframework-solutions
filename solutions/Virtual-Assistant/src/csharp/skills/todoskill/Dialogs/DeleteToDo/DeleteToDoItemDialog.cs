@@ -10,18 +10,23 @@ using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using ToDoSkill.Dialogs.DeleteToDo.Resources;
+using ToDoSkill.Dialogs.Shared;
 using ToDoSkill.Dialogs.Shared.Resources;
+using ToDoSkill.Models;
+using ToDoSkill.ServiceClients;
+using Action = ToDoSkill.Dialogs.Shared.Action;
 
-namespace ToDoSkill
+namespace ToDoSkill.Dialogs.DeleteToDo
 {
     public class DeleteToDoItemDialog : ToDoSkillDialog
     {
         public DeleteToDoItemDialog(
-            ISkillConfiguration services,
-            IStatePropertyAccessor<ToDoSkillState> accessor,
-            ITaskService serviceManager,
+            SkillConfigurationBase services,
+            IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
+            IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
+            IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(DeleteToDoItemDialog), services, accessor, serviceManager, telemetryClient)
+            : base(nameof(DeleteToDoItemDialog), services, toDoStateAccessor, userStateAccessor, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -74,16 +79,11 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 state.LastListType = state.ListType;
                 if (state.DeleteTaskConfirmation)
                 {
-                    if (!state.ListTypeIds.ContainsKey(state.ListType))
-                    {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
-                    }
-
-                    var service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
+                    var service = await InitListTypeIds(sc);
                     string taskTopicToBeDeleted = null;
                     if (state.MarkOrDeleteAllTasksFlag)
                     {
@@ -113,7 +113,11 @@ namespace ToDoSkill
 
                     if (state.MarkOrDeleteAllTasksFlag)
                     {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(DeleteToDoResponses.AfterAllTasksDeleted));
+                        var token = new StringDictionary() { { "listType", state.ListType } };
+                        var response = GenerateResponseWithTokens(DeleteToDoResponses.AfterAllTasksDeleted, token);
+                        var message = sc.Context.Activity.CreateReply(response);
+                        message.Speak = response;
+                        await sc.Context.SendActivityAsync(message);
                     }
                     else
                     {
@@ -124,7 +128,8 @@ namespace ToDoSkill
                                 state.AllTasks.Count,
                                 taskTopicToBeDeleted,
                                 DeleteToDoResponses.AfterTaskDeleted,
-                                ToDoSharedResponses.ShowToDoTasks);
+                                ToDoSharedResponses.ShowToDoTasks,
+                                state.ListType);
 
                             var deletedToDoListReply = sc.Context.Activity.CreateReply();
                             deletedToDoListReply.Attachments.Add(deletedToDoListAttachment);
@@ -134,7 +139,7 @@ namespace ToDoSkill
                         {
                             var token1 = new StringDictionary() { { "taskContent", taskTopicToBeDeleted } };
                             var response1 = GenerateResponseWithTokens(DeleteToDoResponses.AfterTaskDeleted, token1);
-                            var token2 = new StringDictionary() { { "taskCount", "0" } };
+                            var token2 = new StringDictionary() { { "taskCount", "0" }, { "listType", state.ListType } };
                             var response2 = GenerateResponseWithTokens(ToDoSharedResponses.ShowToDoTasks, token2);
                             var response = response1 + " " + response2.Remove(response2.Length - 1) + ".";
                             var botResponse = sc.Context.Activity.CreateReply(response);
@@ -142,10 +147,6 @@ namespace ToDoSkill
                             await sc.Context.SendActivityAsync(botResponse);
                         }
                     }
-                }
-                else
-                {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ActionEnded));
                 }
 
                 return await sc.EndDialogAsync(true);
@@ -166,10 +167,13 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 if (state.MarkOrDeleteAllTasksFlag)
                 {
-                    var prompt = sc.Context.Activity.CreateReply(DeleteToDoResponses.AskDeletionAllConfirmation);
+                    var token = new StringDictionary() { { "listType", state.ListType } };
+                    var response = GenerateResponseWithTokens(DeleteToDoResponses.AskDeletionAllConfirmation, token);
+                    var prompt = sc.Context.Activity.CreateReply(response);
+                    prompt.Speak = response;
                     return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
                 }
                 else
@@ -193,7 +197,7 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 var luisResult = state.GeneralLuisResult;
                 var topIntent = luisResult?.TopIntent().intent;
 
@@ -209,6 +213,7 @@ namespace ToDoSkill
                 else if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
                 {
                     state.DeleteTaskConfirmation = false;
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ActionEnded));
                     return await sc.EndDialogAsync(true);
                 }
                 else

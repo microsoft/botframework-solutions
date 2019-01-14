@@ -24,7 +24,7 @@ using MimeKit;
 using GmailMessage = Google.Apis.Gmail.v1.Data.Message;
 using MSMessage = Microsoft.Graph.Message;
 
-namespace EmailSkill
+namespace EmailSkill.ServiceClients.GoogleAPI
 {
     /// <summary>
     /// The Google Email API service.

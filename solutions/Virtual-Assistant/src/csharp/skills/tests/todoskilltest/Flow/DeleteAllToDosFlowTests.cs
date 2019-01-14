@@ -1,18 +1,16 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using AdaptiveCards;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToDoSkill.Dialogs.DeleteToDo.Resources;
 using ToDoSkill.Dialogs.Shared.Resources;
-using ToDoSkill.Dialogs.ShowToDo.Resources;
 using ToDoSkillTest.Flow.Fakes;
 using ToDoSkillTest.Flow.Utterances;
 
@@ -26,13 +24,13 @@ namespace ToDoSkillTest.Flow
         [TestInitialize]
         public void SetupLuisService()
         {
-            this.Services.LocaleConfigurations.Add("en", new LocaleConfiguration()
+            this.Services.LocaleConfigurations.Add(MockData.LocaleEN, new LocaleConfiguration()
             {
-                Locale = "en-us",
+                Locale = MockData.LocaleENUS,
                 LuisServices = new Dictionary<string, ITelemetryLuisRecognizer>()
                 {
-                    { "general", new MockLuisRecognizer(new GeneralTestUtterances()) },
-                    { "todo", new MockLuisRecognizer(new DeleteToDoFlowTestUtterances()) }
+                    { MockData.LuisGeneral, new MockLuisRecognizer(new GeneralTestUtterances()) },
+                    { MockData.LuisToDo, new MockLuisRecognizer(new DeleteToDoFlowTestUtterances()) }
                 }
             });
         }
@@ -45,6 +43,7 @@ namespace ToDoSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.CollectConfirmation())
                 .Send("yes")
                 .AssertReply(this.AfterAllTasksDeletedTextMessage())
@@ -58,7 +57,7 @@ namespace ToDoSkillTest.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
                 CollectionAssert.Contains(
-                   this.ParseReplies(DeleteToDoResponses.AskDeletionAllConfirmation.Replies, new StringDictionary()),
+                   this.ParseReplies(DeleteToDoResponses.AskDeletionAllConfirmation.Replies, new StringDictionary() { { MockData.ListType, MockData.ToDo } }),
                    messageActivity.Text);
             };
         }
@@ -69,14 +68,19 @@ namespace ToDoSkillTest.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
                 CollectionAssert.Contains(
-                   this.ParseReplies(DeleteToDoResponses.AfterAllTasksDeleted.Replies, new StringDictionary()),
+                   this.ParseReplies(DeleteToDoResponses.AfterAllTasksDeleted.Replies, new StringDictionary() { { MockData.ListType, MockData.ToDo } }),
                    messageActivity.Text);
             };
         }
 
         private string[] SettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.SettingUpOneNoteMessage.Replies, new StringDictionary());
+            return this.ParseReplies(ToDoSharedResponses.SettingUpOutlookMessage.Replies, new StringDictionary());
+        }
+
+        private string[] AfterSettingUpOneNote()
+        {
+            return this.ParseReplies(ToDoSharedResponses.AfterOutlookSetupMessage.Replies, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()

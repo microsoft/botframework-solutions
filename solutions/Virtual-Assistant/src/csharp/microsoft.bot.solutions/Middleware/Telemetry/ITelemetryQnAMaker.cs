@@ -1,9 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.QnA;
 
-namespace Microsoft.Bot.Solutions
+namespace Microsoft.Bot.Solutions.Middleware.Telemetry
 {
     public interface ITelemetryQnAMaker
     {

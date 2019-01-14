@@ -12,12 +12,15 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Dialogs;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Skills;
+using VirtualAssistant.Dialogs.Escalate;
 using VirtualAssistant.Dialogs.Main.Resources;
+using VirtualAssistant.Dialogs.Onboarding;
+using VirtualAssistant.Dialogs.Shared;
 
-namespace VirtualAssistant
+namespace VirtualAssistant.Dialogs.Main
 {
     public class MainDialog : RouterDialog
     {
@@ -32,6 +35,8 @@ namespace VirtualAssistant
         private IStatePropertyAccessor<VirtualAssistantState> _virtualAssistantState;
         private MainResponses _responder = new MainResponses();
         private SkillRouter _skillRouter;
+
+        private bool _conversationStarted = false;
 
         public MainDialog(BotServices services, BotConfiguration botConfig, ConversationState conversationState, UserState userState, EndpointService endpointService, IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
@@ -57,15 +62,12 @@ namespace VirtualAssistant
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var onboardingState = await _onboardingState.GetAsync(dc.Context, () => new OnboardingState());
-
-            var view = new MainResponses();
-            await view.ReplyWith(dc.Context, MainResponses.ResponseIds.Intro);
-
-            if (string.IsNullOrEmpty(onboardingState.Name))
+            // if the OnStart call doesn't have the locale info in the activity, we don't take it as a startConversation call
+            if (!string.IsNullOrWhiteSpace(dc.Context.Activity.Locale))
             {
-                // This is the first time the user is interacting with the bot, so gather onboarding information.
-                await dc.BeginDialogAsync(nameof(OnboardingDialog));
+                await StartConversation(dc);
+
+                _conversationStarted = true;
             }
         }
 
@@ -185,7 +187,7 @@ namespace VirtualAssistant
                         var answers = await qnaService.GetAnswersAsync(dc.Context);
                         if (answers != null && answers.Count() > 0)
                         {
-                            await dc.Context.SendActivityAsync(answers[0].Answer);
+                            await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Qna, answers[0].Answer);
                         }
 
                         break;
@@ -284,6 +286,28 @@ namespace VirtualAssistant
                             break;
                         }
 
+                    case Events.StartConversation:
+                        {
+                            forward = false;
+
+                            if (!_conversationStarted)
+                            {
+                                if (string.IsNullOrWhiteSpace(dc.Context.Activity.Locale))
+                                {
+                                    // startConversation activity should have locale in it. if not, log it
+                                    TelemetryClient.TrackEventEx("NoLocaleInStartConversation", dc.Context.Activity, dc.ActiveDialog?.Id);
+
+                                    break;
+                                }
+
+                                await StartConversation(dc);
+
+                                _conversationStarted = true;
+                            }
+
+                            break;
+                        }
+
                     default:
                         {
                             await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event {ev.Name} was received but not processed."));
@@ -301,6 +325,19 @@ namespace VirtualAssistant
                         await CompleteAsync(dc);
                     }
                 }
+            }
+        }
+
+        private async Task StartConversation(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var onboardingState = await _onboardingState.GetAsync(dc.Context, () => new OnboardingState());
+
+            var view = new MainResponses();
+            await view.ReplyWith(dc.Context, MainResponses.ResponseIds.Intro);
+            if (string.IsNullOrEmpty(onboardingState.Name))
+            {
+                // This is the first time the user is interacting with the bot, so gather onboarding information.
+                await dc.BeginDialogAsync(nameof(OnboardingDialog));
             }
         }
 
@@ -360,6 +397,7 @@ namespace VirtualAssistant
             public const string ActiveLocationUpdate = "POI.ActiveLocation";
             public const string ActiveRouteUpdate = "POI.ActiveRoute";
             public const string ResetUser = "IPA.ResetUser";
+            public const string StartConversation = "startConversation";
         }
     }
 }

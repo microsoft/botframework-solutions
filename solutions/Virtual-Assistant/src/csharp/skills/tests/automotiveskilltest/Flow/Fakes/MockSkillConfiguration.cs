@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.ApplicationInsights;
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.AI.Luis;
+﻿using System.Collections.Generic;
 using Microsoft.Bot.Builder.Azure;
-using Microsoft.Bot.Configuration;
-using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Skills;
 
 namespace AutomotiveSkillTest.Flow.Fakes
 {
-    public class MockSkillConfiguration : ISkillConfiguration
+    public class MockSkillConfiguration : SkillConfigurationBase
     {
         public MockSkillConfiguration()
         {
@@ -26,11 +21,8 @@ namespace AutomotiveSkillTest.Flow.Fakes
                 }
             });         
 
-            this.TelemetryClient = null;
             this.CosmosDbOptions = null;
         }
-
-        public override TelemetryClient TelemetryClient { get; set; }
 
         public override CosmosDbStorageOptions CosmosDbOptions { get; set; }
 

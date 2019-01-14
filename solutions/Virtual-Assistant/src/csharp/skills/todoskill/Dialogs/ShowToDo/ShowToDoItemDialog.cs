@@ -9,19 +9,23 @@ using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
+using ToDoSkill.Dialogs.Shared;
 using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.Dialogs.ShowToDo.Resources;
+using ToDoSkill.ServiceClients;
+using Action = ToDoSkill.Dialogs.Shared.Action;
 
-namespace ToDoSkill
+namespace ToDoSkill.Dialogs.ShowToDo
 {
     public class ShowToDoItemDialog : ToDoSkillDialog
     {
         public ShowToDoItemDialog(
-            ISkillConfiguration services,
-            IStatePropertyAccessor<ToDoSkillState> accessor,
-            ITaskService serviceManager,
+            SkillConfigurationBase services,
+            IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
+            IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
+            IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(ShowToDoItemDialog), services, accessor, serviceManager, telemetryClient)
+            : base(nameof(ShowToDoItemDialog), services, toDoStateAccessor, userStateAccessor, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -36,10 +40,16 @@ namespace ToDoSkill
 
             var addFirstTask = new WaterfallStep[]
             {
+                CollectAddFirstTaskConfirmation,
+                CollectToDoTaskContent,
+                CollectSwitchListTypeConfirmation,
+                AddToDoTask,
+            };
+
+            var collectAddFirstTaskConfirmation = new WaterfallStep[]
+            {
                 AskAddFirstTaskConfirmation,
                 AfterAskAddFirstTaskConfirmation,
-                CollectToDoTaskContent,
-                AddToDoTask,
             };
 
             var collectToDoTaskContent = new WaterfallStep[]
@@ -48,10 +58,18 @@ namespace ToDoSkill
                 AfterAskToDoTaskContent,
             };
 
+            var collectSwitchListTypeConfirmation = new WaterfallStep[]
+            {
+                AskSwitchListTypeConfirmation,
+                AfterAskSwitchListTypeConfirmation,
+            };
+
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Action.ShowToDoTasks, showToDoTasks) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Action.AddFirstTask, addFirstTask) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Action.CollectAddFirstTaskConfirmation, collectAddFirstTaskConfirmation) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Action.CollectToDoTaskContent, collectToDoTaskContent) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Action.CollectSwitchListTypeConfirmation, collectSwitchListTypeConfirmation) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Action.ShowToDoTasks;
@@ -61,18 +79,13 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 state.ListType = state.ListType ?? ToDoStrings.ToDo;
                 state.LastListType = state.ListType;
-                if (!state.ListTypeIds.ContainsKey(state.ListType))
-                {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
-                }
-
+                var service = await InitListTypeIds(sc);
                 var topIntent = state.LuisResult?.TopIntent().intent;
                 if (topIntent == ToDo.Intent.ShowToDo)
                 {
-                    var service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
                     state.AllTasks = await service.GetTasksAsync(state.ListType);
                 }
 
@@ -92,7 +105,8 @@ namespace ToDoSkill
                         toDoListAttachment = ToAdaptiveCardForShowToDos(
                             state.Tasks,
                             Math.Min(state.Tasks.Count, state.ReadSize),
-                            state.AllTasks.Count);
+                            state.AllTasks.Count,
+                            state.ListType);
                     }
                     else if (generalTopIntent == General.Intent.Next)
                     {
@@ -121,7 +135,8 @@ namespace ToDoSkill
                                 state.Tasks,
                                 state.ReadTaskIndex * state.ReadSize,
                                 Math.Min(remainingTasksCount, state.ReadSize),
-                                state.AllTasks.Count);
+                                state.AllTasks.Count,
+                                state.ListType);
                         }
                     }
 
@@ -161,6 +176,19 @@ namespace ToDoSkill
             }
         }
 
+        public async Task<DialogTurnResult> CollectAddFirstTaskConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                return await sc.BeginDialogAsync(Action.CollectAddFirstTaskConfirmation);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
         public async Task<DialogTurnResult> AskAddFirstTaskConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -179,7 +207,7 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 var topIntent = state.GeneralLuisResult?.TopIntent().intent;
 
                 sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
@@ -188,7 +216,12 @@ namespace ToDoSkill
 
                 if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
                 {
+                    state.TaskContentPattern = null;
+                    state.TaskContentML = null;
                     state.TaskContent = null;
+                    state.FoodOfGrocery = null;
+                    state.ShopContent = null;
+                    state.HasShopVerb = false;
                     return await sc.NextAsync();
                 }
                 else if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
@@ -198,7 +231,7 @@ namespace ToDoSkill
                 }
                 else
                 {
-                    return await sc.BeginDialogAsync(Action.AddFirstTask);
+                    return await sc.BeginDialogAsync(Action.CollectAddFirstTaskConfirmation);
                 }
             }
             catch (Exception ex)

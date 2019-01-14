@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Graph;
 
-namespace EmailSkill
+namespace EmailSkill.ServiceClients.MSGraphAPI
 {
     public class GraphClient
     {

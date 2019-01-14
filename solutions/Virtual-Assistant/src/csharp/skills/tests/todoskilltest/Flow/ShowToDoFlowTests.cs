@@ -1,18 +1,17 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using AdaptiveCards;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.Dialogs.ShowToDo.Resources;
-using ToDoSkillTest.Fakes;
 using ToDoSkillTest.Flow.Fakes;
 using ToDoSkillTest.Flow.Utterances;
 
@@ -26,13 +25,13 @@ namespace ToDoSkillTest.Flow
         [TestInitialize]
         public void SetupLuisService()
         {
-            this.Services.LocaleConfigurations.Add("en", new LocaleConfiguration()
+            this.Services.LocaleConfigurations.Add(MockData.LocaleEN, new LocaleConfiguration()
             {
-                Locale = "en-us",
+                Locale = MockData.LocaleENUS,
                 LuisServices = new Dictionary<string, ITelemetryLuisRecognizer>()
                 {
-                    { "general", new MockLuisRecognizer(new GeneralTestUtterances()) },
-                    { "todo", new MockLuisRecognizer(new ShowToDoFlowTestUtterances()) }
+                    { MockData.LuisGeneral, new MockLuisRecognizer(new GeneralTestUtterances()) },
+                    { MockData.LuisToDo, new MockLuisRecognizer(new ShowToDoFlowTestUtterances()) }
                 }
             });
         }
@@ -45,6 +44,7 @@ namespace ToDoSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.ShowToDoList())
                 .AssertReplyOneOf(this.ShowMoreTasksHint())
                 .AssertReply(this.ActionEndMessage())
@@ -59,6 +59,7 @@ namespace ToDoSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.ShowGroceryList())
                 .AssertReplyOneOf(this.ShowMoreTasksHint())
                 .AssertReply(this.ActionEndMessage())
@@ -73,6 +74,7 @@ namespace ToDoSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.ShowShoppingList())
                 .AssertReplyOneOf(this.ShowMoreTasksHint())
                 .AssertReply(this.ActionEndMessage())
@@ -87,6 +89,7 @@ namespace ToDoSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.ShowToDoList())
                 .AssertReplyOneOf(this.ShowMoreTasksHint())
                 .AssertReply(this.ActionEndMessage())
@@ -106,6 +109,7 @@ namespace ToDoSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.ShowToDoList())
                 .AssertReplyOneOf(this.ShowMoreTasksHint())
                 .AssertReply(this.ActionEndMessage())
@@ -130,6 +134,7 @@ namespace ToDoSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.ShowToDoList())
                 .AssertReplyOneOf(this.ShowMoreTasksHint())
                 .AssertReply(this.ActionEndMessage())
@@ -149,12 +154,13 @@ namespace ToDoSkillTest.Flow
         [TestMethod]
         public async Task Test_ShowEmptyTasks()
         {
-            (this.ToDoService as MockToDoService).ChangeData(DataOperationType.OperationType.KeepZeroItem);
+            (this.ServiceManager as MockServiceManager).MockTaskService.ChangeData(DataOperationType.OperationType.KeepZeroItem);
             await this.GetTestFlow()
                 .Send(ShowToDoFlowTestUtterances.ShowToDoList)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReplyOneOf(this.NoTasksPrompt())
                 .Send("yes")
                 .AssertReplyOneOf(this.CollectToDoContent())
@@ -178,7 +184,7 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", MockData.MockTaskItems.Count.ToString() } }),
+                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { MockData.TaskCount, MockData.MockTaskItems.Count.ToString() }, { MockData.ListType, MockData.ToDo } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
             };
@@ -198,7 +204,7 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", MockData.MockGroceryItems.Count.ToString() } }),
+                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { MockData.TaskCount, MockData.MockGroceryItems.Count.ToString() }, { MockData.ListType, MockData.Grocery } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
             };
@@ -218,7 +224,7 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", MockData.MockShoppingItems.Count.ToString() } }),
+                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { MockData.TaskCount, MockData.MockShoppingItems.Count.ToString() }, { MockData.ListType, MockData.Shopping } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
             };
@@ -278,7 +284,7 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", MockData.MockTaskItems.Count.ToString() } }),
+                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { MockData.TaskCount, MockData.MockTaskItems.Count.ToString() }, { MockData.ListType, MockData.ToDo } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
                 var speak = responseCard.Speak;
@@ -321,7 +327,7 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { "taskCount", "1" } }),
+                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { MockData.TaskCount, "1" }, { MockData.ListType, MockData.ToDo } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, 1);
                 var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;
@@ -336,7 +342,12 @@ namespace ToDoSkillTest.Flow
 
         private string[] SettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.SettingUpOneNoteMessage.Replies, new StringDictionary());
+            return this.ParseReplies(ToDoSharedResponses.SettingUpOutlookMessage.Replies, new StringDictionary());
+        }
+
+        private string[] AfterSettingUpOneNote()
+        {
+            return this.ParseReplies(ToDoSharedResponses.AfterOutlookSetupMessage.Replies, new StringDictionary());
         }
 
         private string[] NoTasksPrompt()

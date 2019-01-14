@@ -7,31 +7,35 @@ using CalendarSkill.Common;
 using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Dialogs.Shared.Resources.Strings;
+using CalendarSkill.Models;
+using CalendarSkill.ServiceClients;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
+using Microsoft.Bot.Solutions.Prompts;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 using Microsoft.Recognizers.Text;
 using Microsoft.Recognizers.Text.DateTime;
 using Newtonsoft.Json.Linq;
 using static Microsoft.Recognizers.Text.Culture;
 
-namespace CalendarSkill
+namespace CalendarSkill.Dialogs.Shared
 {
     public class CalendarSkillDialog : ComponentDialog
     {
         // Constants
-        public const string SkillModeAuth = "SkillAuth";
+        private const string SkillModeAuth = "SkillAuth";
 
         public CalendarSkillDialog(
             string dialogId,
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
@@ -51,13 +55,13 @@ namespace CalendarSkill
             AddDialog(new MultiProviderAuthDialog(services));
             AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new ConfirmPrompt(Actions.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
-            AddDialog(new DateTimePrompt(Actions.DateTimePrompt, null, Culture.English));
+            AddDialog(new DateTimePrompt(Actions.DateTimePrompt, DateTimeValidator, Culture.English));
             AddDialog(new DateTimePrompt(Actions.DateTimePromptForUpdateDelete, DateTimePromptValidator, Culture.English));
             AddDialog(new ChoicePrompt(Actions.Choice, ChoiceValidator, Culture.English) { Style = ListStyle.None, });
             AddDialog(new ChoicePrompt(Actions.EventChoice, null, Culture.English) { Style = ListStyle.Inline, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = false } });
         }
 
-        protected ISkillConfiguration Services { get; set; }
+        protected SkillConfigurationBase Services { get; set; }
 
         protected IStatePropertyAccessor<CalendarSkillState> Accessor { get; set; }
 
@@ -106,11 +110,15 @@ namespace CalendarSkill
                     return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions());
                 }
             }
-            catch
+            catch (SkillException ex)
             {
-                // await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SharedResponses.AuthFailed));
-                await HandleDialogExceptions(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -122,7 +130,7 @@ namespace CalendarSkill
                 // When the token is cached we get a TokenResponse object.
                 var skillOptions = (CalendarSkillDialogOptions)sc.Options;
                 ProviderTokenResponse providerTokenResponse;
-                if (skillOptions.SkillMode)
+                if (skillOptions != null && skillOptions.SkillMode)
                 {
                     var resultType = sc.Context.Activity.Value.GetType();
                     if (resultType == typeof(ProviderTokenResponse))
@@ -163,10 +171,15 @@ namespace CalendarSkill
 
                 return await sc.NextAsync();
             }
-            catch
+            catch (SkillException ex)
             {
-                await HandleDialogExceptions(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -276,7 +289,7 @@ namespace CalendarSkill
             return false;
         }
 
-        protected async Task<List<EventModel>> GetEventsByTime(List<DateTime> startDateList, List<DateTime> startTimeList, List<DateTime> endDateList, List<DateTime> endTimeList, TimeZoneInfo userTimeZone, ICalendar calendarService)
+        protected async Task<List<EventModel>> GetEventsByTime(List<DateTime> startDateList, List<DateTime> startTimeList, List<DateTime> endDateList, List<DateTime> endTimeList, TimeZoneInfo userTimeZone, ICalendarService calendarService)
         {
             // todo: check input datetime is utc
             var rawEvents = new List<EventModel>();
@@ -443,13 +456,16 @@ namespace CalendarSkill
                     case Calendar.Intent.FindMeetingRoom:
                     case Calendar.Intent.CreateCalendarEntry:
                         {
+                            state.CreateHasDetail = false;
                             if (entity.Subject != null)
                             {
+                                state.CreateHasDetail = true;
                                 state.Title = GetSubjectFromEntity(entity);
                             }
 
                             if (entity.ContactName != null)
                             {
+                                state.CreateHasDetail = true;
                                 state.AttendeesNameList = GetAttendeesFromEntity(entity, luisResult.Text, state.AttendeesNameList);
                             }
 
@@ -459,12 +475,14 @@ namespace CalendarSkill
                                 var date = GetTimeFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (date != null)
                                 {
+                                    state.CreateHasDetail = true;
                                     state.StartDate = date;
                                 }
 
                                 date = GetTimeFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
                                 if (date != null)
                                 {
+                                    state.CreateHasDetail = true;
                                     state.EndDate = date;
                                 }
                             }
@@ -475,6 +493,7 @@ namespace CalendarSkill
                                 var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone());
                                 if (date != null)
                                 {
+                                    state.CreateHasDetail = true;
                                     state.EndDate = date;
                                 }
                             }
@@ -485,12 +504,14 @@ namespace CalendarSkill
                                 var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (time != null)
                                 {
+                                    state.CreateHasDetail = true;
                                     state.StartTime = time;
                                 }
 
                                 time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
                                 if (time != null)
                                 {
+                                    state.CreateHasDetail = true;
                                     state.EndTime = time;
                                 }
                             }
@@ -501,6 +522,7 @@ namespace CalendarSkill
                                 var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone());
                                 if (time != null)
                                 {
+                                    state.CreateHasDetail = true;
                                     state.EndTime = time;
                                 }
                             }
@@ -510,17 +532,20 @@ namespace CalendarSkill
                                 int duration = GetDurationFromEntity(entity, dc.Context.Activity.Locale);
                                 if (duration != -1)
                                 {
+                                    state.CreateHasDetail = true;
                                     state.Duration = duration;
                                 }
                             }
 
                             if (entity.MeetingRoom != null)
                             {
+                                state.CreateHasDetail = true;
                                 state.Location = GetMeetingRoomFromEntity(entity);
                             }
 
                             if (entity.Location != null)
                             {
+                                state.CreateHasDetail = true;
                                 state.Location = GetLocationFromEntity(entity);
                             }
 
@@ -564,16 +589,6 @@ namespace CalendarSkill
                                 {
                                     state.EndTime = time;
                                 }
-                            }
-
-                            break;
-                        }
-
-                    case Calendar.Intent.NextMeeting:
-                        {
-                            if (entity.AskParameter != null)
-                            {
-                                state.AskParameterContent = GetAskParameterFromEntity(entity);
                             }
 
                             break;
@@ -669,8 +684,12 @@ namespace CalendarSkill
                         }
 
                     case Calendar.Intent.FindCalendarEntry:
-                    case Calendar.Intent.Summary:
                         {
+                            if (entity.OrderReference != null)
+                            {
+                                state.OrderReference = GetOrderReferenceFromEntity(entity);
+                            }
+
                             if (entity.FromDate != null)
                             {
                                 var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
@@ -721,6 +740,11 @@ namespace CalendarSkill
                                 {
                                     state.EndTime = time;
                                 }
+                            }
+
+                            if (entity.AskParameter != null)
+                            {
+                                state.AskParameterContent = GetAskParameterFromEntity(entity);
                             }
 
                             break;
@@ -777,7 +801,7 @@ namespace CalendarSkill
 
                             if (entity.OrderReference != null)
                             {
-                                state.OrderReference = entity._instance.OrderReference[0].Text;
+                                state.OrderReference = GetOrderReferenceFromEntity(entity);
                             }
 
                             if (entity.Subject != null)
@@ -854,15 +878,74 @@ namespace CalendarSkill
             return result;
         }
 
-        protected async Task HandleDialogExceptions(WaterfallStepContext sc)
+        // This method is called by any waterfall step that throws an exception to ensure consistency
+        protected async Task HandleDialogExceptions(WaterfallStepContext sc, Exception ex)
         {
+            // send trace back to emulator
+            var trace = new Activity(type: ActivityTypes.Trace, text: $"DialogException: {ex.Message}, StackTrace: {ex.StackTrace}");
+            await sc.Context.SendActivityAsync(trace);
+
+            // log exception
+            TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
+
+            // send error message to bot user
             await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarSharedResponses.CalendarErrorMessage));
 
+            // clear state
             var state = await Accessor.GetAsync(sc.Context);
             state.Clear();
             await sc.CancelAllDialogsAsync();
 
             return;
+        }
+
+        // This method is called by any waterfall step that throws a SkillException to ensure consistency
+        protected async Task HandleDialogExceptions(WaterfallStepContext sc, SkillException ex)
+        {
+            // send trace back to emulator
+            var trace = new Activity(type: ActivityTypes.Trace, text: $"DialogException: {ex.Message}, StackTrace: {ex.StackTrace}");
+            await sc.Context.SendActivityAsync(trace);
+
+            // log exception
+            TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
+
+            // send error message to bot user
+            if (ex.ExceptionType == SkillExceptionType.APIAccessDenied)
+            {
+                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarSharedResponses.CalendarErrorMessageBotProblem));
+            }
+            else
+            {
+                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarSharedResponses.CalendarErrorMessage));
+            }
+
+            // clear state
+            var state = await Accessor.GetAsync(sc.Context);
+            state.Clear();
+        }
+
+        // This method is called by any waterfall step that throws a SkillException to ensure consistency
+        protected async Task HandleExpectedDialogExceptions(WaterfallStepContext sc, Exception ex)
+        {
+            // send trace back to emulator
+            var trace = new Activity(type: ActivityTypes.Trace, text: $"DialogException: {ex.Message}, StackTrace: {ex.StackTrace}");
+            await sc.Context.SendActivityAsync(trace);
+
+            // log exception
+            TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
+        }
+
+        protected override Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
+        {
+            var resultString = result?.ToString();
+            if (!string.IsNullOrWhiteSpace(resultString) && resultString.Equals(CommonUtil.DialogTurnResultCancelAllDialogs, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return outerDc.CancelAllDialogsAsync();
+            }
+            else
+            {
+                return base.EndComponentAsync(outerDc, result, cancellationToken);
+            }
         }
 
         private string GetSubjectFromEntity(Calendar._Entities entity)
@@ -1015,6 +1098,29 @@ namespace CalendarSkill
             }
 
             return dateTimeResults;
+        }
+
+        private string GetOrderReferenceFromEntity(Calendar._Entities entity)
+        {
+            return entity.OrderReference[0];
+        }
+
+        /// <summary>
+        /// implement the basic validation. Advanced validation done in upper level dialogs.
+        /// </summary>
+        /// <param name="prompt">datetime prompt.</param>
+        /// <param name="cancellationToken">cancellation token.</param>
+        /// <returns>validation result.</returns>
+        private Task<bool> DateTimeValidator(PromptValidatorContext<IList<DateTimeResolution>> prompt, CancellationToken cancellationToken)
+        {
+            if (prompt.Recognized.Succeeded)
+            {
+                return Task.FromResult(true);
+            }
+            else
+            {
+                return Task.FromResult(false);
+            }
         }
     }
 }

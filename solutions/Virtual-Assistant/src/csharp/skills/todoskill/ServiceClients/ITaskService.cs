@@ -1,11 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace ToDoSkill
+namespace ToDoSkill.ServiceClients
 {
     using System.Collections.Generic;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using global::ToDoSkill.Models;
 
     /// <summary>
     /// Task service.
@@ -44,12 +45,18 @@ namespace ToDoSkill
         Task<bool> DeleteTasksAsync(string listType, List<TaskItem> taskItems);
 
         /// <summary>
+        /// Get task web link.
+        /// </summary>
+        /// <returns>Task web link.</returns>
+        Task<string> GetTaskWebLink();
+
+        /// <summary>
         /// Init task service.
         /// </summary>
         /// <param name="token">Task service token.</param>
         /// <param name="listTypeIds">Task list name and id dictionary.</param>
         /// <param name="client">the httpclient for making the API request.</param>
-        /// <returns>To Do service itself.</returns>
+        /// <returns>Task service itself.</returns>
         Task<ITaskService> InitAsync(string token, Dictionary<string, string> listTypeIds, HttpClient client = null);
     }
 }

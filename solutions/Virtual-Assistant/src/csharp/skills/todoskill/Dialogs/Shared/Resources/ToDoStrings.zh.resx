@@ -117,8 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="EmailContent" xml:space="preserve">
+    <value>请参照链接{0}查看您的列表</value>
+  </data>
+  <data name="EmailSubject" xml:space="preserve">
+    <value>已为您创建好列表</value>
+  </data>
   <data name="Grocery" xml:space="preserve">
     <value>杂货</value>
+  </data>
+  <data name="OneNoteBookName" xml:space="preserve">
+    <value>任务笔记本</value>
+  </data>
+  <data name="OneNoteSectionName" xml:space="preserve">
+    <value>任务段</value>
   </data>
   <data name="Shopping" xml:space="preserve">
     <value>购物</value>

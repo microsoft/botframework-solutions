@@ -14,13 +14,14 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Middleware;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PointOfInterestSkill.Dialogs.Shared.Resources;
+using PointOfInterestSkill.ServiceClients;
 
 namespace PointOfInterestSkill
 {
@@ -57,7 +58,7 @@ namespace PointOfInterestSkill
             var configuration = Configuration.GetSection("configuration")?.GetChildren()?.ToDictionary(x => x.Key, y => y.Value as object);
             var languageModels = Configuration.GetSection("languageModels").Get<Dictionary<string, Dictionary<string, string>>>();
             var connectedServices = new SkillConfiguration(botConfig, languageModels, null, parameters, configuration);
-            services.AddSingleton<ISkillConfiguration>(sp => connectedServices);
+            services.AddSingleton<SkillConfigurationBase>(sp => connectedServices);
 
             // Initialize Bot State
             var cosmosDbService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.CosmosDB) ?? throw new Exception("Please configure your CosmosDb service in your .bot file.");
@@ -94,8 +95,6 @@ namespace PointOfInterestSkill
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
                 // Telemetry Middleware (logs activity messages in Application Insights)
-                var appInsightsService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.AppInsights) ?? throw new Exception("Please configure your AppInsights connection in your .bot file.");
-                var instrumentationKey = (appInsightsService as AppInsightsService).InstrumentationKey;
                 var sp = services.BuildServiceProvider();
                 var telemetryClient = sp.GetService<IBotTelemetryClient>();
                 var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logUserName: true, logOriginalMessage: true);
@@ -107,7 +106,7 @@ namespace PointOfInterestSkill
                     CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
                     await context.SendActivityAsync(context.Activity.CreateReply(POISharedResponses.PointOfInterestErrorMessage));
                     await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"PointOfInterestSkill Error: {exception.Message} | {exception.StackTrace}"));
-                    telemetryClient.TrackException(exception);
+                    telemetryClient.TrackExceptionEx(exception, context.Activity);
                 };
 
                 // Transcript Middleware (saves conversation history in a standard format)

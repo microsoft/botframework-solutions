@@ -56,11 +56,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>CalendarMainResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>NextMeetingResponses.tt</DependentUpon>
-    </Compile>
     <Compile Update="Dialogs\Shared\Resources\CalendarSharedResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -122,10 +117,6 @@
       <LastGenOutput>CalendarMainResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
-    <None Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>NextMeetingResponses.cs</LastGenOutput>
-    </None>
     <None Update="Dialogs\Shared\Resources\CalendarSharedResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CalendarSharedResponses.cs</LastGenOutput>
@@ -145,7 +136,7 @@
     <None Update="Models\Resources\AskParameterTemplate.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="ServiceClients\WindowsIanaMapping">
+    <None Update="Common\WindowsIanaMapping">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -154,19 +145,76 @@
     <Content Update="Dialogs\CreateEvent\Resources\CreateEventResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="Dialogs\CreateEvent\Resources\CreateEventResponses.fr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\CreateEvent\Resources\CreateEventResponses.de.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\CreateEvent\Resources\CreateEventResponses.es.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\CreateEvent\Resources\CreateEventResponses.it.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Dialogs\CreateEvent\Resources\CreateEventResponses.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\CreateEvent\Resources\CreateEventWhiteList.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\CreateEvent\Resources\CreateEventWhiteList.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\DeleteEvent\Resources\DeleteEventResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="Dialogs\DeleteEvent\Resources\DeleteEventResponses.es.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\DeleteEvent\Resources\DeleteEventResponses.fr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\DeleteEvent\Resources\DeleteEventResponses.de.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\DeleteEvent\Resources\DeleteEventResponses.it.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Dialogs\DeleteEvent\Resources\DeleteEventResponses.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\JoinEvent\Resources\JoinEventResponses.zh.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\JoinEvent\Resources\JoinEventResponses.es.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\JoinEvent\Resources\JoinEventResponses.fr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\JoinEvent\Resources\JoinEventResponses.de.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\JoinEvent\Resources\JoinEventResponses.it.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\JoinEvent\Resources\JoinEventResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="Dialogs\Main\Resources\CalendarMainResponses.fr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Dialogs\Main\Resources\CalendarMainResponses.zh.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\Main\Resources\CalendarMainResponses.es.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\Main\Resources\CalendarMainResponses.de.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\Main\Resources\CalendarMainResponses.it.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Main\Resources\CalendarMainResponses.json">
@@ -175,16 +223,37 @@
     <Content Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.de.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.es.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.fr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.it.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Shared\Resources\CalendarSharedResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\Shared\Resources\old_CalendarSharedResponses.zh.json">
+    <Content Update="Dialogs\Shared\Resources\CalendarSharedResponses.es.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Shared\Resources\CalendarSharedResponses.de.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\Shared\Resources\CalendarSharedResponses.it.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\Shared\Resources\CalendarSharedResponses.fr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\Shared\Resources\old_CalendarSharedResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Shared\Resources\Cards\CalendarCard.json">
@@ -199,6 +268,18 @@
     <Content Update="Dialogs\Summary\Resources\SummaryResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="Dialogs\Summary\Resources\SummaryResponses.es.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\Summary\Resources\SummaryResponses.de.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\Summary\Resources\SummaryResponses.fr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\Summary\Resources\SummaryResponses.it.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Dialogs\Summary\Resources\SummaryResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -208,7 +289,31 @@
     <Content Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.es.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.fr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.de.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.it.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.zh.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.es.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.fr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.de.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.it.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.json">
@@ -221,5 +326,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CalendarCommonStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 </Project>

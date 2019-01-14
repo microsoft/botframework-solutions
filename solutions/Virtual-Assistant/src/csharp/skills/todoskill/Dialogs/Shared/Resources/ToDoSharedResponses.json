@@ -157,8 +157,35 @@
   "SettingUpOneNoteMessage": {
     "replies": [
       {
-        "text": "I am setting up your list, this won't take long.",
-        "speak": "I am setting up your list, this won't take long."
+        "text": "I noticed you don't have a OneNote anymore, I'm creating a new OneNote for you, including a To Do list, a Shopping list and a Grocery list.",
+        "speak": "I noticed you don't have a OneNote anymore, I'm creating a new OneNote for you, including a To Do list, a Shopping list and a Grocery list."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "AfterOneNoteSetupMessage": {
+    "replies": [
+      {
+        "text": "All set. I have sent you an email with a link to your new OneNote. I'm ready to note down your task.",
+        "speak": "All set. I have sent you an email with a link to your new OneNote. I'm ready to note down your task."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "SettingUpOutlookMessage": {
+    "replies": [
+      {
+        "text": "I noticed you don't have any Outlook task folders anymore, I'm creating new task folders for you, including a To Do folder, a Shopping folder and a Grocery folder.",
+        "speak": "I noticed you don't have any Outlook task folders anymore, I'm creating new task folders for you, including a To Do folder, a Shopping folder and a Grocery folder."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "AfterOutlookSetupMessage": {
+    "replies": [
+      {
+        "text": "All set. I have sent you an email with a link to your new Outlook task folders. I'm ready to note down your task.",
+        "speak": "All set. I have sent you an email with a link to your new Outlook task folders. I'm ready to note down your task."
       }
     ],
     "inputHint": "ignoringInput"
@@ -166,8 +193,8 @@
   "ShowToDoTasks": {
     "replies": [
       {
-        "text": "You have {taskCount} items on your list:",
-        "speak": "You have {taskCount} items on your list:"
+        "text": "You have {taskCount} items on your {listType} list:",
+        "speak": "You have {taskCount} items on your {listType} list:"
       }
     ],
     "inputHint": "ignoringInput"
@@ -219,5 +246,14 @@
       }
     ],
     "inputHint": "acceptingInput"
+  },
+  "SwitchListType": {
+    "replies": [
+      {
+        "text": "Alright, this looks like a task for your {listType} list. Would you like me to add this to your {listType} list?",
+        "speak": "Alright, this looks like a task for your {listType} list. Would you like me to add this to your {listType} list?"
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }

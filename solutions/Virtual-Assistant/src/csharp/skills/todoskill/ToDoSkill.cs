@@ -2,15 +2,13 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Skills;
+using ToDoSkill.Dialogs.Main;
 using ToDoSkill.ServiceClients;
-using static ToDoSkill.ServiceProviderTypes;
 
 namespace ToDoSkill
 {
@@ -19,31 +17,22 @@ namespace ToDoSkill
     /// </summary>
     public class ToDoSkill : IBot
     {
-        private readonly ISkillConfiguration _services;
+        private readonly SkillConfigurationBase _services;
         private readonly ConversationState _conversationState;
         private readonly UserState _userState;
         private readonly IBotTelemetryClient _telemetryClient;
-        private ITaskService _serviceManager;
+        private IServiceManager _serviceManager;
         private DialogSet _dialogs;
         private bool _skillMode;
 
-        public ToDoSkill(ISkillConfiguration services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, ITaskService serviceManager = null, bool skillMode = false)
+        public ToDoSkill(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, IServiceManager serviceManager = null, bool skillMode = false)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
-
-            var isOutlookProvider = _services.Properties.ContainsKey("TaskServiceProvider")
-                && _services.Properties["TaskServiceProvider"].ToString().Equals(ProviderTypes.Outlook.ToString(), StringComparison.InvariantCultureIgnoreCase);
-            ITaskService taskService = new OneNoteService();
-            if (isOutlookProvider)
-            {
-                taskService = new OutlookService();
-            }
-
-            _serviceManager = serviceManager ?? taskService;
+            _serviceManager = serviceManager ?? new ServiceManager();
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(DialogState)));
             _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _telemetryClient, _serviceManager, _skillMode));

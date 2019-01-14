@@ -1,4 +1,4 @@
-﻿namespace ToDoSkill
+﻿namespace ToDoSkill.Dialogs.Shared
 {
     public static class Action
     {
@@ -23,5 +23,9 @@
         public const string DeleteToDoTask = "deleteToDoTask";
 
         public const string Greeting = "greeting";
+
+        public const string CollectSwitchListTypeConfirmation = "collectSwitchListTypeConfirmation";
+
+        public const string CollectAddFirstTaskConfirmation = "collectAddFirstTaskConfirmation";
     }
 }

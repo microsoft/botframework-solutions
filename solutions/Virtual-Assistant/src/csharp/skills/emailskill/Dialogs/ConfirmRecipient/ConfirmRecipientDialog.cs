@@ -6,6 +6,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.ConfirmRecipient.Resources;
+using EmailSkill.Dialogs.Shared;
+using EmailSkill.Dialogs.Shared.DialogOptions;
+using EmailSkill.ServiceClients;
+using EmailSkill.Dialogs.Shared.Resources;
 using EmailSkill.Util;
 using Luis;
 using Microsoft.Bot.Builder;
@@ -17,12 +21,12 @@ using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Microsoft.Graph;
 
-namespace EmailSkill
+namespace EmailSkill.Dialogs.ConfirmRecipient
 {
     public class ConfirmRecipientDialog : EmailSkillDialog
     {
         public ConfirmRecipientDialog(
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IServiceManager serviceManager,
@@ -46,6 +50,7 @@ namespace EmailSkill
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Actions.ConfirmRecipient, confirmRecipient) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateRecipientName, updateRecipientName) { TelemetryClient = telemetryClient });
+            AddDialog(new ChoicePrompt(Actions.Choice, ChoiceValidator) { Style = ListStyle.None });
             InitialDialogId = Actions.ConfirmRecipient;
         }
 
@@ -120,17 +125,14 @@ namespace EmailSkill
 
                 var currentRecipientName = state.NameList[state.ConfirmRecipientIndex];
 
-                var originPersonList = await GetPeopleWorkWithAsync(sc, currentRecipientName);
-                var originContactList = await GetContactsAsync(sc, currentRecipientName);
+                var originPersonList = await GetPeopleWorkWithAsync(sc.Context, currentRecipientName);
+                var originContactList = await GetContactsAsync(sc.Context, currentRecipientName);
                 originPersonList.AddRange(originContactList);
 
-                // msa account can not get user from your org. and token type is not jwt.
-                // TODO: find a way to check the account is msa or aad.
-                var handler = new JwtSecurityTokenHandler();
                 var originUserList = new List<Person>();
                 try
                 {
-                    originUserList = await GetUserAsync(sc, currentRecipientName);
+                    originUserList = await GetUserAsync(sc.Context, currentRecipientName);
                 }
                 catch
                 {
@@ -138,12 +140,6 @@ namespace EmailSkill
                 }
 
                 (var personList, var userList) = DisplayHelper.FormatRecipientList(originPersonList, originUserList);
-
-                // todo: should set updatename reason in stepContext.Result
-                if (personList.Count > 10)
-                {
-                    return await sc.BeginDialogAsync(Actions.UpdateRecipientName, new UpdateUserDialogOptions(UpdateUserDialogOptions.UpdateReason.TooMany));
-                }
 
                 // if cannot find related user's name and cannot take user input as email address, send not found
                 if ((personList.Count < 1) && (userList.Count < 1) && (state.EmailList.Count < 1))
@@ -191,7 +187,7 @@ namespace EmailSkill
                 }
 
                 // TODO: should be simplify
-                var selectOption = await GenerateOptions(personList, userList, sc);
+                var selectOption = await GenerateOptions(personList, userList, sc.Context);
 
                 var startIndex = ConfigData.GetInstance().MaxReadSize * state.ReadRecipientIndex;
                 var choices = new List<Choice>();
@@ -217,7 +213,8 @@ namespace EmailSkill
                 // Update prompt string to include the choices because the list style is none;
                 // TODO: should be removed if use adaptive card show choices.
                 var choiceString = GetSelectPromptString(selectOption, true);
-                selectOption.Prompt.Text = choiceString;
+                selectOption.Prompt.Text += "\r\n" + choiceString;
+                selectOption.RetryPrompt = sc.Context.Activity.CreateReply(EmailSharedResponses.NoChoiceOptions_Retry);
 
                 return await sc.PromptAsync(Actions.Choice, selectOption);
             }
@@ -240,28 +237,29 @@ namespace EmailSkill
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var luisResult = state.LuisResult;
+                var topIntent = luisResult?.TopIntent().intent;
+                var generlLuisResult = state.GeneralLuisResult;
+                var generalTopIntent = generlLuisResult?.TopIntent().intent;
 
                 if (state.NameList != null && state.NameList.Count > 0)
                 {
-                    // result is null when just update the recipient name. show recipients page should be reset.
                     if (sc.Result == null)
                     {
-                        state.ShowRecipientIndex = 0;
-                        state.ReadRecipientIndex = 0;
-                        return await sc.BeginDialogAsync(Actions.ConfirmRecipient);
-                    }
-
-                    var choiceResult = (sc.Result as FoundChoice)?.Value.Trim('*');
-                    if (choiceResult != null)
-                    {
-                        if (choiceResult == General.Intent.Next.ToString())
+                        if (generalTopIntent == General.Intent.Next)
                         {
                             state.ShowRecipientIndex++;
                             state.ReadRecipientIndex = 0;
-                            return await sc.BeginDialogAsync(Actions.ConfirmRecipient);
                         }
-
-                        if (choiceResult == General.Intent.ReadMore.ToString())
+                        else if (generalTopIntent == General.Intent.Previous)
+                        {
+                            if (state.ShowRecipientIndex > 0)
+                            {
+                                state.ShowRecipientIndex--;
+                                state.ReadRecipientIndex = 0;
+                            }
+                        }
+                        else if (IsReadMoreIntent(generalTopIntent, sc.Context.Activity.Text))
                         {
                             if (state.RecipientChoiceList.Count <= ConfigData.GetInstance().MaxReadSize)
                             {
@@ -272,28 +270,20 @@ namespace EmailSkill
                             {
                                 state.ReadRecipientIndex++;
                             }
-
-                            return await sc.BeginDialogAsync(Actions.ConfirmRecipient);
                         }
-
-                        if (choiceResult == UpdateUserDialogOptions.UpdateReason.TooMany.ToString())
+                        else
                         {
-                            state.ShowRecipientIndex++;
+                            // result is null when just update the recipient name. show recipients page should be reset.
+                            state.ShowRecipientIndex = 0;
                             state.ReadRecipientIndex = 0;
-                            return await sc.BeginDialogAsync(Actions.ConfirmRecipient, new UpdateUserDialogOptions(UpdateUserDialogOptions.UpdateReason.TooMany));
                         }
 
-                        if (choiceResult == General.Intent.Previous.ToString())
-                        {
-                            if (state.ShowRecipientIndex > 0)
-                            {
-                                state.ShowRecipientIndex--;
-                                state.ReadRecipientIndex = 0;
-                            }
+                        return await sc.ReplaceDialogAsync(Actions.ConfirmRecipient);
+                    }
 
-                            return await sc.BeginDialogAsync(Actions.ConfirmRecipient);
-                        }
-
+                    var choiceResult = (sc.Result as FoundChoice)?.Value.Trim('*');
+                    if (choiceResult != null)
+                    {
                         // Find an recipient
                         var recipient = new Recipient();
                         var emailAddress = new EmailAddress
@@ -317,7 +307,7 @@ namespace EmailSkill
 
                     if (state.ConfirmRecipientIndex < state.NameList.Count)
                     {
-                        return await sc.BeginDialogAsync(Actions.ConfirmRecipient);
+                        return await sc.ReplaceDialogAsync(Actions.ConfirmRecipient);
                     }
                 }
 
@@ -345,6 +335,33 @@ namespace EmailSkill
                 await HandleDialogExceptions(sc, ex);
 
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        protected async Task<bool> ChoiceValidator(PromptValidatorContext<FoundChoice> pc, CancellationToken cancellationToken)
+        {
+            var state = await EmailStateAccessor.GetAsync(pc.Context);
+            var luisResult = state.LuisResult;
+            var topIntent = luisResult?.TopIntent().intent;
+            var generlLuisResult = state.GeneralLuisResult;
+            var generalTopIntent = generlLuisResult?.TopIntent().intent;
+
+            if ((generalTopIntent == General.Intent.Next)
+                || (generalTopIntent == General.Intent.Previous)
+                || IsReadMoreIntent(generalTopIntent, pc.Context.Activity.Text))
+            {
+                return true;
+            }
+            else
+            {
+                if (!pc.Recognized.Succeeded || pc.Recognized == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
             }
         }
     }

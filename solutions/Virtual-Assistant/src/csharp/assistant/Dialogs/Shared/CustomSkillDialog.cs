@@ -6,11 +6,11 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Solutions.Skills;
 
-namespace VirtualAssistant
+namespace VirtualAssistant.Dialogs.Shared
 {
     public class CustomSkillDialog : ComponentDialog
     {
-        public CustomSkillDialog(Dictionary<string, ISkillConfiguration> skills, IStatePropertyAccessor<DialogState> accessor, EndpointService endpointService, IBotTelemetryClient telemetryClient)
+        public CustomSkillDialog(Dictionary<string, SkillConfigurationBase> skills, IStatePropertyAccessor<DialogState> accessor, EndpointService endpointService, IBotTelemetryClient telemetryClient)
             : base(nameof(CustomSkillDialog))
         {
             AddDialog(new SkillDialog(skills, accessor, endpointService, telemetryClient));

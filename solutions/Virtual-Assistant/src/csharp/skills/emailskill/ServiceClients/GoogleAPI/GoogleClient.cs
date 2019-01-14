@@ -2,7 +2,7 @@
 using Google;
 using Microsoft.Bot.Solutions.Skills;
 
-namespace EmailSkill
+namespace EmailSkill.ServiceClients.GoogleAPI
 {
     public class GoogleClient
     {
@@ -16,7 +16,7 @@ namespace EmailSkill
 
         public string[] Scopes { get; set; }
 
-        public static GoogleClient GetGoogleClient(ISkillConfiguration config)
+        public static GoogleClient GetGoogleClient(SkillConfigurationBase config)
         {
             if (config == null)
             {

@@ -10,18 +10,23 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
+using Microsoft.Bot.Solutions.Prompts;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Newtonsoft.Json.Linq;
+using ToDoSkill.Dialogs.Shared.DialogOptions;
 using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.Dialogs.ShowToDo.Resources;
+using ToDoSkill.Models;
+using ToDoSkill.ServiceClients;
+using static ToDoSkill.Dialogs.Shared.ServiceProviderTypes;
 
-namespace ToDoSkill
+namespace ToDoSkill.Dialogs.Shared
 {
     public class ToDoSkillDialog : ComponentDialog
     {
@@ -30,14 +35,16 @@ namespace ToDoSkill
 
         public ToDoSkillDialog(
             string dialogId,
-            ISkillConfiguration services,
-            IStatePropertyAccessor<ToDoSkillState> accessor,
-            ITaskService serviceManager,
+            SkillConfigurationBase services,
+            IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
+            IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
+            IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
             : base(dialogId)
         {
             Services = services;
-            Accessor = accessor;
+            ToDoStateAccessor = toDoStateAccessor;
+            UserStateAccessor = userStateAccessor;
             ServiceManager = serviceManager;
             TelemetryClient = telemetryClient;
 
@@ -51,11 +58,13 @@ namespace ToDoSkill
             AddDialog(new TextPrompt(Action.Prompt));
         }
 
-        protected ISkillConfiguration Services { get; set; }
+        protected SkillConfigurationBase Services { get; set; }
 
-        protected IStatePropertyAccessor<ToDoSkillState> Accessor { get; set; }
+        protected IStatePropertyAccessor<ToDoSkillState> ToDoStateAccessor { get; set; }
 
-        protected ITaskService ServiceManager { get; set; }
+        protected IStatePropertyAccessor<ToDoSkillUserState> UserStateAccessor { get; set; }
+
+        protected IServiceManager ServiceManager { get; set; }
 
         protected ToDoSkillResponseBuilder ResponseBuilder { get; set; }
 
@@ -146,7 +155,7 @@ namespace ToDoSkill
 
                 if (providerTokenResponse != null)
                 {
-                    var state = await Accessor.GetAsync(sc.Context);
+                    var state = await ToDoStateAccessor.GetAsync(sc.Context);
                     state.MsGraphToken = providerTokenResponse.TokenResponse.Token;
                 }
 
@@ -163,7 +172,7 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 var topIntent = state.LuisResult?.TopIntent().intent;
                 var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
 
@@ -239,22 +248,14 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 state.ListType = state.ListType ?? ToDoStrings.ToDo;
 
-                if (!state.ListTypeIds.ContainsKey(state.ListType))
+                // LastListType is used to switch between list types in DeleteToDoItemDialog and MarkToDoItemDialog.
+                if (!state.ListTypeIds.ContainsKey(state.ListType)
+                    || state.ListType != state.LastListType)
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
-                    var service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
-                    state.AllTasks = await service.GetTasksAsync(state.ListType);
-                    state.ShowTaskPageIndex = 0;
-                    var rangeCount = Math.Min(state.PageSize, state.AllTasks.Count);
-                    state.Tasks = state.AllTasks.GetRange(0, rangeCount);
-                }
-                else if (state.ListType != state.LastListType)
-                {
-                    // LastListType is used to switch between list types in DeleteToDoItemDialog and MarkToDoItemDialog.
-                    var service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
+                    var service = await InitListTypeIds(sc);
                     state.AllTasks = await service.GetTasksAsync(state.ListType);
                     state.ShowTaskPageIndex = 0;
                     var rangeCount = Math.Min(state.PageSize, state.AllTasks.Count);
@@ -300,7 +301,7 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 if (!string.IsNullOrEmpty(state.TaskContentPattern)
                     || !string.IsNullOrEmpty(state.TaskContentML)
                     || state.MarkOrDeleteAllTasksFlag
@@ -327,7 +328,7 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 var matchedIndexes = Enumerable.Range(0, state.AllTasks.Count)
                     .Where(i => state.AllTasks[i].Topic.Equals(state.TaskContentPattern, StringComparison.OrdinalIgnoreCase)
                     || state.AllTasks[i].Topic.Equals(state.TaskContentML, StringComparison.OrdinalIgnoreCase))
@@ -395,7 +396,7 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await this.Accessor.GetAsync(sc.Context);
+                var state = await this.ToDoStateAccessor.GetAsync(sc.Context);
                 if (!string.IsNullOrEmpty(state.TaskContentPattern)
                     || !string.IsNullOrEmpty(state.TaskContentML)
                     || !string.IsNullOrEmpty(state.ShopContent))
@@ -419,7 +420,7 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 if (string.IsNullOrEmpty(state.TaskContentPattern)
                     && string.IsNullOrEmpty(state.TaskContentML)
                     && string.IsNullOrEmpty(state.ShopContent))
@@ -448,19 +449,85 @@ namespace ToDoSkill
             }
         }
 
+        protected async Task<DialogTurnResult> CollectSwitchListTypeConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
+                if (state.SwitchListType)
+                {
+                    state.SwitchListType = false;
+                    return await sc.BeginDialogAsync(Action.CollectSwitchListTypeConfirmation);
+                }
+                else
+                {
+                    return await sc.NextAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        protected async Task<DialogTurnResult> AskSwitchListTypeConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
+                var token = new StringDictionary() { { "listType", state.ListType } };
+                var response = GenerateResponseWithTokens(ToDoSharedResponses.SwitchListType, token);
+                var prompt = sc.Context.Activity.CreateReply(response);
+                prompt.Speak = response;
+                return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        protected async Task<DialogTurnResult> AfterAskSwitchListTypeConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
+                sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
+                var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
+                var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
+
+                if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
+                {
+                    return await sc.EndDialogAsync(true);
+                }
+                else if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
+                {
+                    state.ListType = state.LastListType;
+                    state.LastListType = null;
+                    return await sc.EndDialogAsync(true);
+                }
+                else
+                {
+                    return await sc.BeginDialogAsync(Action.CollectSwitchListTypeConfirmation);
+                }
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
         protected async Task<DialogTurnResult> AddToDoTask(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 state.ListType = state.ListType ?? ToDoStrings.ToDo;
                 state.LastListType = state.ListType;
-                if (!state.ListTypeIds.ContainsKey(state.ListType))
-                {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
-                }
-
-                var service = await ServiceManager.InitAsync(state.MsGraphToken, state.ListTypeIds);
+                var service = await InitListTypeIds(sc);
                 await service.AddTaskAsync(state.ListType, state.TaskContent);
                 state.AllTasks = await service.GetTasksAsync(state.ListType);
                 state.ShowTaskPageIndex = 0;
@@ -471,7 +538,8 @@ namespace ToDoSkill
                     state.AllTasks.Count,
                     state.TaskContent,
                     ToDoSharedResponses.AfterToDoTaskAdded,
-                    ToDoSharedResponses.ShowToDoTasks);
+                    ToDoSharedResponses.ShowToDoTasks,
+                    state.ListType);
 
                 var toDoListReply = sc.Context.Activity.CreateReply();
                 toDoListReply.Attachments.Add(toDoListAttachment);
@@ -522,7 +590,7 @@ namespace ToDoSkill
         {
             try
             {
-                var state = await Accessor.GetAsync(dc.Context);
+                var state = await ToDoStateAccessor.GetAsync(dc.Context);
                 var luisResult = state.LuisResult;
                 var entities = luisResult.Entities;
                 if (entities.ContainsAll != null)
@@ -619,15 +687,16 @@ namespace ToDoSkill
         protected Attachment ToAdaptiveCardForShowToDos(
            List<TaskItem> todos,
            int toBeReadTasksCount,
-           int allTasksCount)
+           int allTasksCount,
+           string listType)
         {
             var toDoCard = new AdaptiveCard();
-            var speakText = Format(ToDoSharedResponses.ShowToDoTasks.Reply.Speak, new StringDictionary() { { "taskCount", allTasksCount.ToString() } })
+            var speakText = Format(ToDoSharedResponses.ShowToDoTasks.Reply.Speak, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } })
                 + Format(ShowToDoResponses.FirstToDoTasks.Reply.Speak, new StringDictionary() { { "taskCount", toBeReadTasksCount.ToString() } });
             toDoCard.Speak = speakText;
 
             var body = new List<AdaptiveElement>();
-            var showText = Format(ToDoSharedResponses.ShowToDoTasks.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() } });
+            var showText = Format(ToDoSharedResponses.ShowToDoTasks.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
             var textBlock = new AdaptiveTextBlock
             {
                 Text = showText,
@@ -676,11 +745,12 @@ namespace ToDoSkill
            List<TaskItem> todos,
            int startIndexOfTasksToBeRead,
            int toBeReadTasksCount,
-           int allTasksCount)
+           int allTasksCount,
+           string listType)
         {
             var toDoCard = new AdaptiveCard();
             var body = new List<AdaptiveElement>();
-            var showText = Format(ToDoSharedResponses.ShowToDoTasks.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() } });
+            var showText = Format(ToDoSharedResponses.ShowToDoTasks.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
             var textBlock = new AdaptiveTextBlock
             {
                 Text = showText,
@@ -841,13 +911,14 @@ namespace ToDoSkill
             int allTaskCount,
             string taskContent,
             BotResponse botResponse1,
-            BotResponse botResponse2)
+            BotResponse botResponse2,
+            string listType)
         {
             var toDoCard = new AdaptiveCard();
-            var showText = Format(botResponse2.Reply.Text, new StringDictionary() { { "taskCount", allTaskCount.ToString() } });
+            var showText = Format(botResponse2.Reply.Text, new StringDictionary() { { "taskCount", allTaskCount.ToString() }, { "listType", listType } });
             var speakText = Format(botResponse1.Reply.Speak, new StringDictionary() { { "taskContent", taskContent } })
-                + Format(botResponse2.Reply.Speak, new StringDictionary() { { "taskCount", allTaskCount.ToString() } });
-            toDoCard.Speak = speakText;
+                 + " " + Format(botResponse2.Reply.Speak, new StringDictionary() { { "taskCount", allTaskCount.ToString() }, { "listType", listType } });
+            toDoCard.Speak = speakText.Remove(speakText.Length - 1) + ".";
 
             var body = new List<AdaptiveElement>();
             var textBlock = new AdaptiveTextBlock
@@ -932,13 +1003,13 @@ namespace ToDoSkill
             await sc.Context.SendActivityAsync(trace);
 
             // log exception
-            Services.TelemetryClient.TrackException(ex, AssembleTelemetryData(sc));
+            TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
 
             // send error message to bot user
             await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ToDoErrorMessage));
 
             // clear state
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await ToDoStateAccessor.GetAsync(sc.Context);
             state.Clear();
         }
 
@@ -950,7 +1021,7 @@ namespace ToDoSkill
             await sc.Context.SendActivityAsync(trace);
 
             // log exception
-            Services.TelemetryClient.TrackException(ex, AssembleTelemetryData(sc));
+            TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
 
             // send error message to bot user
             if (ex.ExceptionType == SkillExceptionType.APIAccessDenied)
@@ -963,18 +1034,49 @@ namespace ToDoSkill
             }
 
             // clear state
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await ToDoStateAccessor.GetAsync(sc.Context);
             state.Clear();
         }
 
-        private IDictionary<string, string> AssembleTelemetryData(WaterfallStepContext sc)
+        protected async Task<ITaskService> InitListTypeIds(WaterfallStepContext sc)
         {
-            var telemetryData = new Dictionary<string, string>();
-            telemetryData.Add("activityId", sc.Context.Activity.Id);
-            telemetryData.Add("userId", sc.Context.Activity.From.Id);
-            telemetryData.Add("activeDialog", sc.ActiveDialog.ToString());
+            var state = await ToDoStateAccessor.GetAsync(sc.Context);
+            if (!state.ListTypeIds.ContainsKey(state.ListType))
+            {
+                var emailService = ServiceManager.InitMailService(state.MsGraphToken);
+                var senderMailAddress = await emailService.GetSenderMailAddressAsync();
+                var recovered = await RecoverListTypeIdsAsync(sc, senderMailAddress);
+                if (!recovered)
+                {
+                    if (state.TaskServiceType == ProviderTypes.OneNote)
+                    {
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
+                    }
+                    else
+                    {
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOutlookMessage));
+                    }
 
-            return telemetryData;
+                    var taskService = ServiceManager.InitTaskService(state.MsGraphToken, state.ListTypeIds, state.TaskServiceType);
+                    var taskWebLink = await taskService.GetTaskWebLink();
+                    var emailContent = string.Format(ToDoStrings.EmailContent, taskWebLink);
+                    await emailService.SendMessageAsync(emailContent, ToDoStrings.EmailSubject);
+
+                    if (state.TaskServiceType == ProviderTypes.OneNote)
+                    {
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.AfterOneNoteSetupMessage));
+                    }
+                    else
+                    {
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.AfterOutlookSetupMessage));
+                    }
+
+                    await StoreListTypeIdsAsync(sc, senderMailAddress);
+                    return taskService;
+                }
+            }
+
+            return ServiceManager.InitTaskService(state.MsGraphToken, state.ListTypeIds, state.TaskServiceType);
         }
 
         private void ExtractListTypeAndTaskContent(ToDoSkillState state)
@@ -982,19 +1084,70 @@ namespace ToDoSkill
             if (state.ListType == ToDoStrings.Grocery
                 || (state.HasShopVerb && !string.IsNullOrEmpty(state.FoodOfGrocery)))
             {
-                state.ListType = ToDoStrings.Grocery;
                 state.TaskContent = string.IsNullOrEmpty(state.ShopContent) ? state.TaskContentML ?? state.TaskContentPattern : state.ShopContent;
+                if (state.ListType != ToDoStrings.Grocery)
+                {
+                    state.LastListType = state.ListType;
+                    state.ListType = ToDoStrings.Grocery;
+                    state.SwitchListType = true;
+                }
+                else
+                {
+                    state.ListType = ToDoStrings.Grocery;
+                }
             }
             else if (state.ListType == ToDoStrings.Shopping
                 || (state.HasShopVerb && !string.IsNullOrEmpty(state.ShopContent)))
             {
-                state.ListType = ToDoStrings.Shopping;
                 state.TaskContent = string.IsNullOrEmpty(state.ShopContent) ? state.TaskContentML ?? state.TaskContentPattern : state.ShopContent;
+                if (state.ListType != ToDoStrings.Shopping)
+                {
+                    state.LastListType = state.ListType;
+                    state.ListType = ToDoStrings.Shopping;
+                    state.SwitchListType = true;
+                }
+                else
+                {
+                    state.ListType = ToDoStrings.Shopping;
+                }
             }
             else
             {
                 state.ListType = ToDoStrings.ToDo;
                 state.TaskContent = state.TaskContentML ?? state.TaskContentPattern;
+            }
+        }
+
+        private async Task<bool> RecoverListTypeIdsAsync(DialogContext dc, string senderMailAddress)
+        {
+            var userState = await UserStateAccessor.GetAsync(dc.Context, () => new ToDoSkillUserState());
+            var state = await ToDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
+            if (userState.ListTypeIds.ContainsKey(senderMailAddress)
+                && state.ListTypeIds.Count <= 0
+                && userState.ListTypeIds[senderMailAddress].Count > 0)
+            {
+                foreach (var listType in userState.ListTypeIds[senderMailAddress])
+                {
+                    state.ListTypeIds.Add(listType.Key, listType.Value);
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        private async Task StoreListTypeIdsAsync(DialogContext dc, string senderMailAddress)
+        {
+            var userState = await UserStateAccessor.GetAsync(dc.Context, () => new ToDoSkillUserState());
+            var state = await ToDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
+            if (!userState.ListTypeIds.ContainsKey(senderMailAddress) && state.ListTypeIds.Count > 0)
+            {
+                userState.ListTypeIds.Add(senderMailAddress, new Dictionary<string, string>());
+                foreach (var listType in state.ListTypeIds)
+                {
+                    userState.ListTypeIds[senderMailAddress].Add(listType.Key, listType.Value);
+                }
             }
         }
     }

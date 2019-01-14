@@ -145,10 +145,10 @@
     <value>Weitere Informationen</value>
   </data>
   <data name="HELP_BTN_VALUE_1" xml:space="preserve">
-    <value>Hello</value>
+    <value>Kann ich mit einer Person sprechen</value>
   </data>
   <data name="HELP_BTN_VALUE_2" xml:space="preserve">
-    <value>What is the Enterprise Bot Template?</value>
+    <value>Was ist die Enterprise Bot Template?</value>
   </data>
   <data name="HELP_BTN_VALUE_3" xml:space="preserve">
     <value>https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0</value>
@@ -159,8 +159,7 @@
   <data name="HELP_TITLE" xml:space="preserve">
     <value>Hilfe für Enterprise Bot</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Intro" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Intro.de.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="INTRO_PATH" xml:space="preserve">
+    <value>.\Dialogs\Main\Resources\Intro.de.json</value>
   </data>
 </root>

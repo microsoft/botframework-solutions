@@ -3,10 +3,17 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using EmailSkill.Dialogs.DeleteEmail;
+using EmailSkill.Dialogs.ForwardEmail;
+using EmailSkill.Dialogs.ReplyEmail;
+using EmailSkill.Dialogs.Shared;
+using EmailSkill.Dialogs.Shared.DialogOptions;
 using EmailSkill.Dialogs.Shared.Resources;
+using EmailSkill.Dialogs.Shared.Resources.Cards;
 using EmailSkill.Dialogs.Shared.Resources.Strings;
 using EmailSkill.Dialogs.ShowEmail.Resources;
 using EmailSkill.Extensions;
+using EmailSkill.ServiceClients;
 using EmailSkill.Util;
 using Luis;
 using Microsoft.Bot.Builder;
@@ -19,12 +26,12 @@ using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Microsoft.Graph;
 
-namespace EmailSkill
+namespace EmailSkill.Dialogs.ShowEmail
 {
     public class ShowEmailDialog : EmailSkillDialog
     {
         public ShowEmailDialog(
-            ISkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IServiceManager serviceManager,

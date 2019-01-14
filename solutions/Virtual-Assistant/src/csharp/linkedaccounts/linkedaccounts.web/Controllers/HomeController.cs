@@ -39,8 +39,8 @@ namespace LinkedAccounts.Web.Controllers
         {
             this.ViewData["Message"] = "Your application description page.";
 
-            var secret = this.Configuration.GetSection("ClientDirectLineSecret")?.Value;
-            var endpoint = this.Configuration.GetSection("ClientDirectLineEndpoint")?.Value;
+            var secret = this.Configuration.GetSection("DirectLineSecret")?.Value;
+            var endpoint = this.Configuration.GetSection("DirectLineEndpoint")?.Value;
 
             // First step is to exchange the DirectLine Secret for a Token
             HttpClient client = new HttpClient();

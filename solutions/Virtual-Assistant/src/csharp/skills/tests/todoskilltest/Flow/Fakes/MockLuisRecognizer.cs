@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using ToDoSkillTest.Flow.Utterances;
 
 namespace ToDoSkillTest.Flow.Fakes
@@ -14,10 +14,6 @@ namespace ToDoSkillTest.Flow.Fakes
     {
         private BaseTestUtterances utterancesManager;
         private GeneralTestUtterances generalUtterancesManager;
-
-        public bool LogOriginalMessage => throw new NotImplementedException();
-
-        public bool LogUsername => throw new NotImplementedException();
 
         public MockLuisRecognizer(BaseTestUtterances utterancesManager)
         {
@@ -28,6 +24,10 @@ namespace ToDoSkillTest.Flow.Fakes
         {
             this.generalUtterancesManager = generalUtterancesMananger;
         }
+
+        public bool LogOriginalMessage => throw new NotImplementedException();
+
+        public bool LogUsername => throw new NotImplementedException();
 
         public Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {

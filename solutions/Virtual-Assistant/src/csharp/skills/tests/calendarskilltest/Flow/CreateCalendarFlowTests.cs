@@ -4,15 +4,12 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.Threading.Tasks;
 using CalendarSkill.Dialogs.CreateEvent.Resources;
-using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkillTest.Flow.Fakes;
 using CalendarSkillTest.Flow.Models;
 using CalendarSkillTest.Flow.Utterances;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions;
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -139,16 +136,8 @@ namespace CalendarSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserEmail)
-                .AssertReplyOneOf(this.AskForContentPrompt())
-                .Send(Strings.Strings.DefaultContent)
-                .AssertReplyOneOf(this.AskForDatePrompt())
-                .Send(Strings.Strings.DefaultStartDate)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
-                .AssertReplyOneOf(this.AskForDurationPrompt())
-                .Send(Strings.Strings.DefaultDuration)
-                .AssertReplyOneOf(this.AskForLocationPrompt())
-                .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowCalendarList())
@@ -163,18 +152,8 @@ namespace CalendarSkillTest.Flow
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.AskForSubjectWithContactNamePrompt())
-                .Send(Strings.Strings.DefaultEventName)
-                .AssertReplyOneOf(this.AskForContentPrompt())
-                .Send(Strings.Strings.DefaultContent)
-                .AssertReplyOneOf(this.AskForDatePrompt())
-                .Send(Strings.Strings.DefaultStartDate)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
-                .AssertReplyOneOf(this.AskForDurationPrompt())
-                .Send(Strings.Strings.DefaultDuration)
-                .AssertReplyOneOf(this.AskForLocationPrompt())
-                .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowCalendarList())
@@ -191,12 +170,6 @@ namespace CalendarSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserEmail)
-                .AssertReplyOneOf(this.AskForSubjectWithEmailAddressPrompt())
-                .Send(Strings.Strings.DefaultEventName)
-                .AssertReplyOneOf(this.AskForContentPrompt())
-                .Send(Strings.Strings.DefaultContent)
-                .AssertReplyOneOf(this.AskForLocationPrompt())
-                .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(this.CheckCreatedMeetingInFuture())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowCalendarList())
@@ -213,16 +186,8 @@ namespace CalendarSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserEmail)
-                .AssertReplyOneOf(this.AskForSubjectWithEmailAddressPrompt())
-                .Send(Strings.Strings.DefaultEventName)
-                .AssertReplyOneOf(this.AskForContentPrompt())
-                .Send(Strings.Strings.DefaultContent)
-                .AssertReplyOneOf(this.AskForDatePrompt())
-                .Send(Strings.Strings.DefaultStartDate)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
-                .AssertReplyOneOf(this.AskForDurationPrompt())
-                .Send(Strings.Strings.DefaultDuration)
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowCalendarList())
@@ -239,16 +204,8 @@ namespace CalendarSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserEmail)
-                .AssertReplyOneOf(this.AskForSubjectWithEmailAddressPrompt())
-                .Send(Strings.Strings.DefaultEventName)
-                .AssertReplyOneOf(this.AskForContentPrompt())
-                .Send(Strings.Strings.DefaultContent)
-                .AssertReplyOneOf(this.AskForDatePrompt())
-                .Send(Strings.Strings.DefaultStartDate)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
-                .AssertReplyOneOf(this.AskForLocationPrompt())
-                .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowCalendarList())
@@ -280,6 +237,20 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(this.CheckCreatedMeetingInFuture())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowCalendarList())
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_CalendarAccessDeniedException()
+        {
+            await this.GetTestFlow()
+                .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.AskForParticpantsPrompt())
+                .Send(Strings.Strings.ThrowErrorAccessDenied)
+                .AssertReplyOneOf(this.BotErrorResponse())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
@@ -360,7 +331,7 @@ namespace CalendarSkillTest.Flow
 
                 var meetingCardJsonString = ((Newtonsoft.Json.Linq.JObject)messageActivity.Attachments[0].Content).ToString();
                 var meetingCard = JsonConvert.DeserializeObject<MeetingAdaptiveCard>(meetingCardJsonString);
-                var meetingInfoList = meetingCard.body[0].items[1].text.Split("\n");
+                var meetingInfoList = meetingCard.Bodies[0].Items[1].Text.Split("\n");
                 var dateString = meetingInfoList[1];
                 CultureInfo cultureInfo = (CultureInfo)CultureInfo.CurrentUICulture.Clone();
                 cultureInfo.DateTimeFormat.DateSeparator = "-";
@@ -389,6 +360,11 @@ namespace CalendarSkillTest.Flow
             {
                 Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
             };
+        }
+
+        private string[] BotErrorResponse()
+        {
+            return this.ParseReplies(CalendarSharedResponses.CalendarErrorMessageBotProblem.Replies, new StringDictionary());
         }
     }
 }
