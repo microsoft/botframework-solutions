@@ -313,7 +313,6 @@ namespace CalendarSkill.Dialogs.CreateEvent
                     var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
 
                     // Enable the user to skip providing the location if they say something matching the Cancel intent, say something matching the ConfirmNo recognizer or something matching the NoLocation intent
-                    //if (topIntent == General.Intent.Cancel.ToString() || (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false) || topIntent == Calendar.Intent.NoLocation.ToString())
                     if (CreateEventWhiteList.IsSkip(userInput))
                     {
                         state.Location = string.Empty;
