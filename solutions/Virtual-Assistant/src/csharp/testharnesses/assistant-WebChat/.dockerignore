@@ -1,0 +1,5 @@
+/node_modules
+/packages/app/build
+/packages/server/public
+/packages/*/lib
+/packages/*/node_modules

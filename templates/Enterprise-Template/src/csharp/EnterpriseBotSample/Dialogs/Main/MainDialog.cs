@@ -9,7 +9,6 @@ using EnterpriseBotSample.Dialogs.Escalate;
 using EnterpriseBotSample.Dialogs.Onboarding;
 using EnterpriseBotSample.Dialogs.Shared;
 using Luis;
-using Microsoft.ApplicationInsights;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 

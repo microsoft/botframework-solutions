@@ -6,12 +6,8 @@ using System.Linq;
 using EnterpriseBotSample.Dialogs.Main.Resources;
 using EnterpriseBotSample.Middleware;
 using EnterpriseBotSample.Middleware.Telemetry;
-using Microsoft.ApplicationInsights;
-using Microsoft.ApplicationInsights.DependencyCollector;
-using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
@@ -27,7 +23,7 @@ namespace EnterpriseBotSample
     public class Startup
     {
         private ILoggerFactory _loggerFactory;
-        private bool _isProduction = false;
+        private readonly bool _isProduction = false;
 
         public Startup(IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
