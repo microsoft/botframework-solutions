@@ -180,6 +180,15 @@
     ],
     "inputHint": "expectingInput"
   },
+  "NoDuration_Retry": {
+    "replies": [
+      {
+        "text": "I don't understand the duration you input, can you try again?",
+        "speak": "I don't understand the duration you input, can you try again?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "ConfirmRecipient": {
     "replies": [
       {
