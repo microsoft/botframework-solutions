@@ -24,6 +24,7 @@
         public const string UpdateDurationForCreate = "UpdateDurationForCreate";
         public const string DateTimePrompt = "DateTimePrompt";
         public const string DateTimePromptForUpdateDelete = "DateTimePromptForUpdateDelete";
+        public const string DatePromptForCreate = "DatePromptForCreate";
         public const string Read = "read";
         public const string Greeting = "greeting";
         public const string GetEventsInit = "getEventsInit";

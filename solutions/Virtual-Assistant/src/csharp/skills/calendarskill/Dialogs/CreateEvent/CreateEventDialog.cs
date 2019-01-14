@@ -94,6 +94,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
             AddDialog(new WaterfallDialog(Actions.UpdateStartDateForCreate, updateStartDate) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateStartTimeForCreate, updateStartTime) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateDurationForCreate, updateDuration) { TelemetryClient = telemetryClient });
+            AddDialog(new DatePrompt(Actions.DatePromptForCreate));
 
             // Set starting dialog for component
             InitialDialogId = Actions.CreateEvent;
@@ -679,18 +680,9 @@ namespace CalendarSkill.Dialogs.CreateEvent
                     return await sc.NextAsync(cancellationToken: cancellationToken);
                 }
 
-                if (((UpdateDateTimeDialogOptions)sc.Options).Reason == UpdateDateTimeDialogOptions.UpdateReason.NotFound)
+                return await sc.PromptAsync(Actions.DatePromptForCreate, new PromptOptions
                 {
-                    return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions
-                    {
-                        Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartDate),
-                        RetryPrompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartDate_Retry)
-                    }, cancellationToken);
-                }
-
-                return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions
-                {
-                    Prompt = sc.Context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage),
+                    Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartDate),
                     RetryPrompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartDate_Retry)
                 }, cancellationToken);
             }
