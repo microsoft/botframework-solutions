@@ -41,10 +41,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>CreateEventResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\DeleteEvent\Resources\DeleteEventResponses.cs">
+    <Compile Update="Dialogs\DeleteEvent\Resources\ChangeEventStatusResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>DeleteEventResponses.tt</DependentUpon>
+      <DependentUpon>ChangeEventStatusResponses.tt</DependentUpon>
     </Compile>
     <Compile Update="Dialogs\JoinEvent\Resources\JoinEventResponses.cs">
       <DesignTime>True</DesignTime>
@@ -105,9 +105,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CreateEventResponses.cs</LastGenOutput>
     </None>
-    <None Update="Dialogs\DeleteEvent\Resources\DeleteEventResponses.tt">
+    <None Update="Dialogs\DeleteEvent\Resources\ChangeEventStatusResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DeleteEventResponses.cs</LastGenOutput>
+      <LastGenOutput>ChangeEventStatusResponses.cs</LastGenOutput>
     </None>
     <None Update="Dialogs\JoinEvent\Resources\JoinEventResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -142,6 +142,24 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.de.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.es.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.fr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.it.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.zh.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Dialogs\CreateEvent\Resources\CreateEventResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -166,22 +184,22 @@
     <Content Update="Dialogs\CreateEvent\Resources\CreateEventWhiteList.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\DeleteEvent\Resources\DeleteEventResponses.zh.json">
+    <Content Update="Dialogs\DeleteEvent\Resources\ChangeEventStatusResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\DeleteEvent\Resources\DeleteEventResponses.es.json">
+    <Content Update="Dialogs\DeleteEvent\Resources\ChangeEventStatusResponses.es.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\DeleteEvent\Resources\DeleteEventResponses.fr.json">
+    <Content Update="Dialogs\DeleteEvent\Resources\ChangeEventStatusResponses.fr.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\DeleteEvent\Resources\DeleteEventResponses.de.json">
+    <Content Update="Dialogs\DeleteEvent\Resources\ChangeEventStatusResponses.de.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\DeleteEvent\Resources\DeleteEventResponses.it.json">
+    <Content Update="Dialogs\DeleteEvent\Resources\ChangeEventStatusResponses.it.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\DeleteEvent\Resources\DeleteEventResponses.json">
+    <Content Update="Dialogs\DeleteEvent\Resources\ChangeEventStatusResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\JoinEvent\Resources\JoinEventResponses.zh.json">

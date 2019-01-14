@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Common;
-using CalendarSkill.Dialogs.DeleteEvent.Resources;
+using CalendarSkill.Dialogs.ChangeEventStatus.Resources;
 using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared;
 using CalendarSkill.Dialogs.Shared.Resources;
@@ -18,16 +18,16 @@ using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 
-namespace CalendarSkill.Dialogs.DeleteEvent
+namespace CalendarSkill.Dialogs.ChangeEventStatus
 {
-    public class DeleteEventDialog : CalendarSkillDialog
+    public class ChangeEventStatusDialog : CalendarSkillDialog
     {
-        public DeleteEventDialog(
+        public ChangeEventStatusDialog(
             SkillConfigurationBase services,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(DeleteEventDialog), services, accessor, serviceManager, telemetryClient)
+            : base(nameof(ChangeEventStatusDialog), services, accessor, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -68,12 +68,12 @@ namespace CalendarSkill.Dialogs.DeleteEvent
                 }
 
                 var deleteEvent = state.Events[0];
-                var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(DeleteEventResponses.ConfirmDelete, deleteEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", deleteEvent.ToAdaptiveCardData(state.GetUserTimeZone()));
+                var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(ChangeEventStatusResponses.ConfirmDelete, deleteEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", deleteEvent.ToAdaptiveCardData(state.GetUserTimeZone()));
 
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
                     Prompt = replyMessage,
-                    RetryPrompt = sc.Context.Activity.CreateReply(DeleteEventResponses.ConfirmDeleteFailed, ResponseBuilder),
+                    RetryPrompt = sc.Context.Activity.CreateReply(ChangeEventStatusResponses.ConfirmDeleteFailed, ResponseBuilder),
                 });
             }
             catch (Exception ex)
@@ -95,7 +95,7 @@ namespace CalendarSkill.Dialogs.DeleteEvent
                     var deleteEvent = state.Events[0];
                     await calendarService.DeleteEventById(deleteEvent.Id);
 
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(DeleteEventResponses.EventDeleted));
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ChangeEventStatusResponses.EventDeleted));
                 }
                 else
                 {
@@ -164,14 +164,14 @@ namespace CalendarSkill.Dialogs.DeleteEvent
                 {
                     return await sc.PromptAsync(Actions.DateTimePromptForUpdateDelete, new PromptOptions
                     {
-                        Prompt = sc.Context.Activity.CreateReply(DeleteEventResponses.EventWithStartTimeNotFound),
+                        Prompt = sc.Context.Activity.CreateReply(ChangeEventStatusResponses.EventWithStartTimeNotFound),
                     });
                 }
                 else
                 {
                     return await sc.PromptAsync(Actions.DateTimePromptForUpdateDelete, new PromptOptions
                     {
-                        Prompt = sc.Context.Activity.CreateReply(DeleteEventResponses.NoDeleteStartTime),
+                        Prompt = sc.Context.Activity.CreateReply(ChangeEventStatusResponses.NoDeleteStartTime),
                     });
                 }
             }
@@ -258,7 +258,7 @@ namespace CalendarSkill.Dialogs.DeleteEvent
                 {
                     if (searchByEntities)
                     {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(DeleteEventResponses.EventWithStartTimeNotFound));
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ChangeEventStatusResponses.EventWithStartTimeNotFound));
                         state.Clear();
                         return await sc.CancelAllDialogsAsync();
                     }
@@ -285,7 +285,7 @@ namespace CalendarSkill.Dialogs.DeleteEvent
                         options.Choices.Add(choice);
                     }
 
-                    var replyToConversation = sc.Context.Activity.CreateReply(DeleteEventResponses.MultipleEventsStartAtSameTime);
+                    var replyToConversation = sc.Context.Activity.CreateReply(ChangeEventStatusResponses.MultipleEventsStartAtSameTime);
                     replyToConversation.AttachmentLayout = AttachmentLayoutTypes.Carousel;
                     replyToConversation.Attachments = new List<Microsoft.Bot.Schema.Attachment>();
 

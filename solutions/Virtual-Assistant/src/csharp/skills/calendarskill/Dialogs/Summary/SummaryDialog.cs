@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Common;
-using CalendarSkill.Dialogs.DeleteEvent;
+using CalendarSkill.Dialogs.ChangeEventStatus;
 using CalendarSkill.Dialogs.Shared;
 using CalendarSkill.Dialogs.Summary.Resources;
 using CalendarSkill.Dialogs.UpdateEvent;
@@ -66,7 +66,7 @@ namespace CalendarSkill.Dialogs.Summary
             AddDialog(new WaterfallDialog(Actions.ShowEventsSummary, showSummary) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.Read, readEvent) { TelemetryClient = telemetryClient });
             AddDialog(new UpdateEventDialog(services, accessor, serviceManager, telemetryClient));
-            AddDialog(new DeleteEventDialog(services, accessor, serviceManager, telemetryClient));
+            AddDialog(new ChangeEventStatusDialog(services, accessor, serviceManager, telemetryClient));
 
             // Set starting dialog for component
             InitialDialogId = Actions.GetEventsInit;
@@ -357,7 +357,7 @@ namespace CalendarSkill.Dialogs.Summary
                         state.Events.Add(state.ReadOutEvents[0]);
                     }
 
-                    return await sc.BeginDialogAsync(nameof(DeleteEventDialog));
+                    return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog));
                 }
                 else if (topIntent == Luis.Calendar.Intent.ReadAloud)
                 {

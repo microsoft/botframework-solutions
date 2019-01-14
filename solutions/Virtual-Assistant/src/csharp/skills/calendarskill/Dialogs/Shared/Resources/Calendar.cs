@@ -34,7 +34,8 @@ namespace Luis
             None, 
             ReadAloud, 
             Summary, 
-            TimeRemaining
+            TimeRemaining,
+            AcceptEventEntry
         };
         public Dictionary<Intent, IntentScore> Intents;
 

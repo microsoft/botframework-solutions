@@ -5,20 +5,20 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using Microsoft.Bot.Solutions.Dialogs;
 
-namespace CalendarSkill.Dialogs.DeleteEvent.Resources
+namespace CalendarSkill.Dialogs.ChangeEventStatus.Resources
 {
     /// <summary>
     /// Contains bot responses.
     /// </summary>
-    public static class DeleteEventResponses
+    public static class ChangeEventStatusResponses
     {
         private static readonly ResponseManager _responseManager;
 
-        static DeleteEventResponses()
+        static ChangeEventStatusResponses()
         {
-            var dir = Path.GetDirectoryName(typeof(DeleteEventResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\DeleteEvent\Resources");
-            _responseManager = new ResponseManager(resDir, "DeleteEventResponses");
+            var dir = Path.GetDirectoryName(typeof(ChangeEventStatusResponses).Assembly.Location);
+            var resDir = Path.Combine(dir, @"Dialogs\ChangeEventStatus\Resources");
+            _responseManager = new ResponseManager(resDir, "ChangeEventStatusResponses");
         }
 
         // Generated accessors
