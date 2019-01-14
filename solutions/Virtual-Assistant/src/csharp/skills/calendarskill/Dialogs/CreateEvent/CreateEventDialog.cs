@@ -6,6 +6,8 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Common;
+using CalendarSkill.Dialogs.CreateEvent.Prompts;
+using CalendarSkill.Dialogs.CreateEvent.Prompts.Options;
 using CalendarSkill.Dialogs.CreateEvent.Resources;
 using CalendarSkill.Dialogs.Shared;
 using CalendarSkill.Dialogs.Shared.Resources;
@@ -95,6 +97,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
             AddDialog(new WaterfallDialog(Actions.UpdateStartTimeForCreate, updateStartTime) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateDurationForCreate, updateDuration) { TelemetryClient = telemetryClient });
             AddDialog(new DatePrompt(Actions.DatePromptForCreate));
+            AddDialog(new TimePrompt(Actions.TimePromptForCreate));
 
             // Set starting dialog for component
             InitialDialogId = Actions.CreateEvent;
@@ -765,14 +768,12 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (!state.StartTime.Any())
                 {
-                    if (((UpdateDateTimeDialogOptions)sc.Options).Reason == UpdateDateTimeDialogOptions.UpdateReason.NotFound)
+                    return await sc.PromptAsync(Actions.TimePromptForCreate, new NoSkipPromptOptions
                     {
-                        return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartTime) }, cancellationToken);
-                    }
-                    else
-                    {
-                        return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage) }, cancellationToken);
-                    }
+                        Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartTime),
+                        RetryPrompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartTime_Retry),
+                        NoSkipPrompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartTime_NoSkip)
+                    }, cancellationToken);
                 }
                 else
                 {

@@ -153,6 +153,24 @@
     ],
     "inputHint": "expectingInput"
   },
+  "NoStartTime_Retry": {
+    "replies": [
+      {
+        "text": "I don't understand the time you input, can you try again?",
+        "speak": "I don't understand the date you input, can you try again?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoStartTime_NoSkip": {
+    "replies": [
+      {
+        "text": "You can not skip the Start Time. Please try again.",
+        "speak": "You can not skip the Start Time. Please try again."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "NoDuration": {
     "replies": [
       {
