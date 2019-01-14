@@ -11,7 +11,7 @@
         public const string ShowNextEvent = "showNextEvent";
         public const string CreateEvent = "createEvent";
         public const string UpdateEventTime = "UpdateEventTime";
-        public const string DeleteEvent = "DeleteEvent";
+        public const string ChangeEventStatus = "ChangeEventStatus";
         public const string UpdateAddress = "UpdateAddress";
         public const string UpdateName = "UpdateName";
         public const string ConfirmAttendee = "ConfirmAttendee";

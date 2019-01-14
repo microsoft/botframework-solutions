@@ -104,7 +104,7 @@ namespace CalendarSkill.Dialogs.Main
                             break;
                         }
 
-                    case Luis.Calendar.Intent.AcceptEventEntry:
+                    case Luis.Calendar.Intent.AcceptCalendarEntry:
                     case Luis.Calendar.Intent.DeleteCalendarEntry:
                         {
                             await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog), skillOptions);

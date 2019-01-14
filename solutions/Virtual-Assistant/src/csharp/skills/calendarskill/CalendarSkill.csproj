@@ -36,6 +36,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ChangeEventStatusResponses.tt</DependentUpon>
+    </Compile>
     <Compile Update="Dialogs\CreateEvent\Resources\CreateEventResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -101,6 +106,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ChangeEventStatusResponses.cs</LastGenOutput>
+    </None>
     <None Update="Dialogs\CreateEvent\Resources\CreateEventResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CreateEventResponses.cs</LastGenOutput>

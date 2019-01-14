@@ -26,13 +26,19 @@ namespace CalendarSkill.Dialogs.ChangeEventStatus.Resources
 
         public static BotResponse ConfirmDeleteFailed => GetBotResponse();
 
+        public static BotResponse ConfirmAccept => GetBotResponse();
+
+        public static BotResponse ConfirmAcceptFailed => GetBotResponse();
+
         public static BotResponse EventDeleted => GetBotResponse();
+
+        public static BotResponse EventAccepted => GetBotResponse();
 
         public static BotResponse EventWithStartTimeNotFound => GetBotResponse();
 
         public static BotResponse NoDeleteStartTime => GetBotResponse();
 
-        public static BotResponse NoUpdateStartTime => GetBotResponse();
+        public static BotResponse NoAcceptStartTime => GetBotResponse();
 
         public static BotResponse MultipleEventsStartAtSameTime => GetBotResponse();
 

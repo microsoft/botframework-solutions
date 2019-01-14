@@ -10,10 +10,12 @@ using CalendarSkill.Dialogs.Shared;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
+using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
@@ -31,13 +33,13 @@ namespace CalendarSkill.Dialogs.ChangeEventStatus
         {
             TelemetryClient = telemetryClient;
 
-            var deleteEvent = new WaterfallStep[]
+            var changeEventStatus = new WaterfallStep[]
             {
                 GetAuthToken,
                 AfterGetAuthToken,
                 FromTokenToStartTime,
-                ConfirmBeforeDelete,
-                DeleteEventByStartTime,
+                ConfirmBeforeAction,
+                ChangeEventStatus,
             };
 
             var updateStartTime = new WaterfallStep[]
@@ -46,14 +48,14 @@ namespace CalendarSkill.Dialogs.ChangeEventStatus
                 AfterUpdateStartTime,
             };
 
-            AddDialog(new WaterfallDialog(Actions.DeleteEvent, deleteEvent) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.ChangeEventStatus, changeEventStatus) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateStartTime, updateStartTime) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
-            InitialDialogId = Actions.DeleteEvent;
+            InitialDialogId = Actions.ChangeEventStatus;
         }
 
-        public async Task<DialogTurnResult> ConfirmBeforeDelete(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> ConfirmBeforeAction(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -62,18 +64,32 @@ namespace CalendarSkill.Dialogs.ChangeEventStatus
                 {
                     var events = state.Events;
                     state.Events = new List<EventModel>
-                {
-                    events[(sc.Result as FoundChoice).Index],
-                };
+                    {
+                        events[(sc.Result as FoundChoice).Index],
+                    };
                 }
 
                 var deleteEvent = state.Events[0];
-                var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(ChangeEventStatusResponses.ConfirmDelete, deleteEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", deleteEvent.ToAdaptiveCardData(state.GetUserTimeZone()));
+                BotResponse replyResponse;
+                BotResponse retryResponse;
+                if (state.NewEventStatus == EventStatus.Cancelled)
+                {
+                    replyResponse = ChangeEventStatusResponses.ConfirmDelete;
+                    retryResponse = ChangeEventStatusResponses.ConfirmDeleteFailed;
+                }
+                else
+                {
+                    replyResponse = ChangeEventStatusResponses.ConfirmAccept;
+                    retryResponse = ChangeEventStatusResponses.ConfirmAcceptFailed;
+                }
+
+                var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(replyResponse, deleteEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", deleteEvent.ToAdaptiveCardData(state.GetUserTimeZone()));
+                var retryMessage = sc.Context.Activity.CreateReply(retryResponse, ResponseBuilder);
 
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
                     Prompt = replyMessage,
-                    RetryPrompt = sc.Context.Activity.CreateReply(ChangeEventStatusResponses.ConfirmDeleteFailed, ResponseBuilder),
+                    RetryPrompt = retryMessage,
                 });
             }
             catch (Exception ex)
@@ -83,7 +99,7 @@ namespace CalendarSkill.Dialogs.ChangeEventStatus
             }
         }
 
-        public async Task<DialogTurnResult> DeleteEventByStartTime(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> ChangeEventStatus(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -93,9 +109,24 @@ namespace CalendarSkill.Dialogs.ChangeEventStatus
                 if (confirmResult)
                 {
                     var deleteEvent = state.Events[0];
-                    await calendarService.DeleteEventById(deleteEvent.Id);
+                    if (state.NewEventStatus == EventStatus.Cancelled)
+                    {
+                        if (deleteEvent.IsOrganizer)
+                        {
+                            await calendarService.DeleteEventById(deleteEvent.Id);
+                        }
+                        else
+                        {
+                            await calendarService.DeclineEventById(deleteEvent.Id);
+                        }
 
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ChangeEventStatusResponses.EventDeleted));
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ChangeEventStatusResponses.EventDeleted));
+                    }
+                    else
+                    {
+                        await calendarService.AcceptEventById(deleteEvent.Id);
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ChangeEventStatusResponses.EventAccepted));
+                    }
                 }
                 else
                 {
@@ -122,6 +153,15 @@ namespace CalendarSkill.Dialogs.ChangeEventStatus
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
+                if (state.LuisResult?.TopIntent().intent.ToString() == Calendar.Intent.DeleteCalendarEntry.ToString())
+                {
+                    state.NewEventStatus = EventStatus.Cancelled;
+                }
+                else
+                {
+                    state.NewEventStatus = EventStatus.Accepted;
+                }
+
                 if (string.IsNullOrEmpty(state.APIToken))
                 {
                     return await sc.EndDialogAsync(true);
@@ -169,10 +209,20 @@ namespace CalendarSkill.Dialogs.ChangeEventStatus
                 }
                 else
                 {
-                    return await sc.PromptAsync(Actions.DateTimePromptForUpdateDelete, new PromptOptions
+                    if (state.NewEventStatus == EventStatus.Cancelled)
                     {
-                        Prompt = sc.Context.Activity.CreateReply(ChangeEventStatusResponses.NoDeleteStartTime),
-                    });
+                        return await sc.PromptAsync(Actions.DateTimePromptForUpdateDelete, new PromptOptions
+                        {
+                            Prompt = sc.Context.Activity.CreateReply(ChangeEventStatusResponses.NoDeleteStartTime),
+                        });
+                    }
+                    else
+                    {
+                        return await sc.PromptAsync(Actions.DateTimePromptForUpdateDelete, new PromptOptions
+                        {
+                            Prompt = sc.Context.Activity.CreateReply(ChangeEventStatusResponses.NoAcceptStartTime),
+                        });
+                    }
                 }
             }
             catch (Exception ex)
