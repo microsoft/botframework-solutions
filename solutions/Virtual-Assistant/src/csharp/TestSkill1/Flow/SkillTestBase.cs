@@ -3,16 +3,19 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SkillTemplateTest.Dialogs.Fakes;
+using TestSkill1.Tests.Flow.Fakes;
+using TestSkill1.Tests.Flow.LuisTestUtils;
+using System.Collections.Generic;
 using System.Threading;
 using TestFramework;
 using TestSkill1.ServiceClients;
 
-namespace SkillTemplateTest.Dialogs
+namespace TestSkill1.Tests.Flow
 {
-    public class SkillDialogTestBase : BotTestBase
+    public class SkillTestBase : BotTestBase
     {
         public ConversationState ConversationState { get; set; }
 
@@ -33,6 +36,16 @@ namespace SkillTemplateTest.Dialogs
             UserState = new UserState(new MemoryStorage());
             TelemetryClient = new NullBotTelemetryClient();
             Services = new MockSkillConfiguration();
+
+            Services.LocaleConfigurations.Add("en", new LocaleConfiguration()
+            {
+                Locale = "en-us",
+                LuisServices = new Dictionary<string, ITelemetryLuisRecognizer>
+                {
+                    { "general", GeneralTestUtil.CreateRecognizer() },
+                    { "skill", SkillTestUtil.CreateRecognizer() }
+                }
+            });
 
             builder.RegisterInstance(new BotStateSet(UserState, ConversationState));
             Container = builder.Build();

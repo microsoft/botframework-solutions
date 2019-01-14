@@ -207,7 +207,7 @@ namespace TestSkill1.Dialogs.Main
 
                         case General.Intent.Help:
                             {
-                                // result = await OnHelp(dc);
+                                result = await OnHelp(dc);
                                 break;
                             }
 

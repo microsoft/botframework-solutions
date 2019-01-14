@@ -1,14 +1,12 @@
-﻿using Luis;
-using Microsoft.Bot.Builder;
+﻿using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SkillTemplateTest.Dialogs.Fakes
+namespace TestSkill1.Tests.Flow.Fakes
 {
     public class MockLuisRecognizer : ITelemetryLuisRecognizer
     {
@@ -39,7 +37,7 @@ namespace SkillTemplateTest.Dialogs.Fakes
             throw new NotImplementedException();
         }
 
-        public Task<T> RecognizeAsync<T>(DialogContext dialogContext, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken)) 
+        public Task<T> RecognizeAsync<T>(DialogContext dialogContext, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken))
             where T : IRecognizerConvert, new()
         {
             var text = dialogContext.Context.Activity.Text;
@@ -48,7 +46,7 @@ namespace SkillTemplateTest.Dialogs.Fakes
             return Task.FromResult((T)mockResult);
         }
 
-        public Task<T> RecognizeAsync<T>(ITurnContext turnContext, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken)) 
+        public Task<T> RecognizeAsync<T>(ITurnContext turnContext, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken))
             where T : IRecognizerConvert, new()
         {
             var text = turnContext.Activity.Text;
@@ -57,7 +55,7 @@ namespace SkillTemplateTest.Dialogs.Fakes
             return Task.FromResult((T)mockResult);
         }
 
-        public Task<T> RecognizeAsync<T>(ITurnContext turnContext, CancellationToken cancellationToken) 
+        public Task<T> RecognizeAsync<T>(ITurnContext turnContext, CancellationToken cancellationToken)
             where T : IRecognizerConvert, new()
         {
             var text = turnContext.Activity.Text;
