@@ -3,12 +3,11 @@
 
 import { ActionTypes, Activity, CardFactory, TurnContext } from "botbuilder";
 import { ActivityEx } from "../../utils/activityEx";
-import { ResourceParser } from "../shared/resourceParser";
 import { DictionaryRenderer, LanguageTemplateDictionary, TemplateFunction } from "../templateManager/dictionaryRenderer";
 import { TemplateManager } from "../templateManager/templateManager";
+import * as i18n from "i18n";
 
 const introCard = require("./resources/Intro.json");
-const resourcesPath = require.resolve("./resources/MainStrings.resx");
 
 export class MainResponses extends TemplateManager {
     // Constants
@@ -32,8 +31,8 @@ export class MainResponses extends TemplateManager {
 
     public static async sendHelpCard(turnContext: TurnContext, data: any): Promise<Activity> {
         const response = ActivityEx.createReply(turnContext.activity);
-        const title = await this.resources.get("HELP_TITLE");
-        const text = await this.resources.get("HELP_TEXT");
+        const title = i18n.__("main.helpTitle");
+        const text = i18n.__("main.helpText");
 
         response.attachments = [CardFactory.heroCard(
             title,
@@ -61,23 +60,19 @@ export class MainResponses extends TemplateManager {
         return Promise.resolve(response);
     }
 
-    private static readonly resources: ResourceParser = new ResourceParser(resourcesPath);
-
     private static readonly _responseTemplates: LanguageTemplateDictionary = new Map([
         ["default", new Map([
-            [MainResponses.Cancelled, MainResponses.fromResources("CANCELLED")],
-            [MainResponses.Completed, MainResponses.fromResources("COMPLETED")],
-            [MainResponses.Confused, MainResponses.fromResources("CONFUSED")],
-            [MainResponses.Greeting, MainResponses.fromResources("GREETING")],
+            [MainResponses.Cancelled, MainResponses.fromResources("main.cancelled")],
+            [MainResponses.Completed, MainResponses.fromResources("main.completed")],
+            [MainResponses.Confused, MainResponses.fromResources("main.confused")],
+            [MainResponses.Greeting, MainResponses.fromResources("main.greeting")],
             [MainResponses.Help, (context: TurnContext, data: any) => MainResponses.sendHelpCard(context, data)],
-            [MainResponses.Intro, (context: TurnContext, data: any) => MainResponses.sendIntroCard(context, data)],
-        ])],
-        ["en", undefined],
-        ["fr", undefined],
+            [MainResponses.Intro, (context: TurnContext, data: any) => MainResponses.sendIntroCard(context, data)]
+        ])]
     ]);
 
     private static fromResources(name: string): TemplateFunction {
-        return (context: TurnContext, data: any) => MainResponses.resources.get(name);
+        return (context: TurnContext, data: any) => Promise.resolve(i18n.__(name));
     }
 
     constructor() {
