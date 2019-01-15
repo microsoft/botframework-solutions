@@ -300,6 +300,21 @@ namespace CalendarSkill.Models
                         throw new Exception("Event Type not Defined");
                 }
             }
+
+            set
+            {
+                switch (source)
+                {
+                    case EventSource.Microsoft:
+                        msftEventData.BodyPreview = value;
+                        break;
+                    case EventSource.Google:
+                        gmailEventData.Description = value;
+                        break;
+                    default:
+                        throw new Exception("Event Type not Defined");
+                }
+            }
         }
 
         /// <summary>
