@@ -1,0 +1,33 @@
+{
+	"cancel": {
+		"prompt": "Sei sicuro di voler cancellare?",
+		"confirmed": "Ok, ricominciamo da qui.",
+		"denied": "Ok, andiamo avanti."
+	},
+	"escalate": {
+		"phoneInfo": "I nostri agenti sono disponibili 24/7 a 1 (800) 555-1234."
+	},
+	"main": {
+		"helpTitle": "Guida",
+		"helpText": "Questa scheda può essere utilizzata per visualizzare informazioni per consentire all'utente di interagire con il proprio bot. I pulsanti sottostanti possono essere utilizzati per query di esempio o collegamenti a siti esterni.",
+		"cancelled": "Ok, ricominciamo da qui.",
+		"completed": "Che altro posso aiutarvi?",
+		"confused": "Mi dispiace, non sono in grado di aiutarti.",
+		"greeting": "Ehilà!",
+		"greetingWithName": "Ehi, {0}!"
+	},
+	"onBoarding": {
+		"namePrompt": "Come ti chiami?",
+		"emailPrompt": "Qual è la tua email?",
+		"locationPrompt": "Infine, dove si trova?",
+		"haveName": "Ci sono, {0}!",
+		"haveEmail": "Capito. Ho aggiunto {0} come indirizzo di contatto principale.",
+		"haveLocation": "Grazie, {0}. Ho aggiunto {1} come posizione primaria. Sei tutto a posto!"
+	},
+	"signIn": {
+		"title": "Accedi",
+		"prompt": "Accedi per accedere a questo bot.",
+		"failed": "Scusa, non sono in grado di iscriverti al momento.",
+		"succeeded": "Grazie, {0}! Siete tutti iscritti."
+	}
+}
