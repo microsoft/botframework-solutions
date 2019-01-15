@@ -14,7 +14,8 @@
 		"completed": "我还能帮你什么忙？",
 		"confused": "对不起, 我帮不上忙。",
 		"greeting": "嘿，你好！",
-		"greetingWithName": "嘿, {0}!"
+		"greetingWithName": "嘿, {0}!",
+		"introPath": "./resources/Intro.zh.json"
 	},
 	"onBoarding": {
 		"namePrompt": "你叫什么名字？",

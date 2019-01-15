@@ -14,7 +14,8 @@
 		"completed": "Che altro posso aiutarvi?",
 		"confused": "Mi dispiace, non sono in grado di aiutarti.",
 		"greeting": "Ehilà!",
-		"greetingWithName": "Ehi, {0}!"
+		"greetingWithName": "Ehi, {0}!",
+		"introPath": "./resources/Intro.it.json"
 	},
 	"onBoarding": {
 		"namePrompt": "Come ti chiami?",

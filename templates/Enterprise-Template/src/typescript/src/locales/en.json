@@ -14,7 +14,8 @@
 		"completed": "What else can I help you with?",
 		"confused": "I'm sorry, I'm not able to help with that.",
 		"greeting": "Hi there!",
-		"greetingWithName": "Hey, {0}!"
+		"greetingWithName": "Hey, {0}!",
+		"introPath": "./resources/Intro.json"
 	},
 	"onBoarding": {
 		"namePrompt": "What is your name?",
