@@ -271,8 +271,8 @@
   "ShowEmailPrompt": {
     "replies": [
       {
-        "text": "You have {TotalCount} emails. Do you want to hear the content of the latest email? I can read out any email for you, just let me know by naming out the subject or from whom.",
-        "speak": "You have {TotalCount} emails. {EmailListDetails}. Do you want to hear the content of the latest email? I can read out any email for you, just let me know by naming out the subject or from whom."
+        "text": "You have {TotalCount} emails. {EmailListDetails}.",
+        "speak": "You have {TotalCount} emails. {EmailListDetails}."
       }
     ],
     "inputHint": "acceptingInput"
@@ -280,8 +280,8 @@
   "ShowOneEmailPrompt": {
     "replies": [
       {
-        "text": "You have 1 email. Do you want to hear the content of the latest email?",
-        "speak": "You have 1 email. {EmailListDetails}. Do you want to hear the content of the latest email? I can read out any email for you, just let me know by naming out the subject or from whom."
+        "text": "You have 1 email. {EmailListDetails}.",
+        "speak": "You have 1 email. {EmailListDetails}."
       }
     ],
     "inputHint": "acceptingInput"

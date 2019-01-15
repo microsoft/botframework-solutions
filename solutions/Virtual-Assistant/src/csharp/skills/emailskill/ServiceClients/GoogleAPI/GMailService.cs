@@ -18,7 +18,6 @@ using Google.Apis.Gmail.v1.Data;
 using Google.Apis.Requests;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
-using Microsoft.Bot.Solutions.Data;
 using Microsoft.Graph;
 using MimeKit;
 using GmailMessage = Google.Apis.Gmail.v1.Data.Message;

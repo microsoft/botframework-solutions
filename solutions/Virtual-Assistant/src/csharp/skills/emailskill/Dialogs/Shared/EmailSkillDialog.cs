@@ -580,7 +580,8 @@ namespace EmailSkill.Dialogs.Shared
                         state.Message.Add(displayMessages[0]);
                     }
 
-                    return await ShowMailList(sc, displayMessages, totalCount, cancellationToken);
+                    await ShowMailList(sc, displayMessages, totalCount, cancellationToken);
+                    return await sc.NextAsync();
                 }
                 else
                 {
@@ -892,7 +893,7 @@ namespace EmailSkill.Dialogs.Shared
             return (filteredResult, result.Count);
         }
 
-        protected async Task<DialogTurnResult> ShowMailList(WaterfallStepContext sc, List<Message> messages, int totalCount, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task ShowMailList(WaterfallStepContext sc, List<Message> messages, int totalCount, CancellationToken cancellationToken = default(CancellationToken))
         {
             var updatedMessages = new List<Message>();
             var state = await EmailStateAccessor.GetAsync(sc.Context);
@@ -912,7 +913,7 @@ namespace EmailSkill.Dialogs.Shared
                     ReceivedDateTime = message.ReceivedDateTime == null
                     ? CommonStrings.NotAvailable
                     : message.ReceivedDateTime.Value.UtcDateTime.ToRelativeString(state.GetUserTimeZone()),
-                    Speak = SpeakHelper.ToSpeechEmailDetailString(message),
+                    Speak = SpeakHelper.ToSpeechEmailDetailOverallString(message, state.GetUserTimeZone()),
                 };
                 cardsData.Add(emailCard);
                 updatedMessages.Add(message);
@@ -931,7 +932,7 @@ namespace EmailSkill.Dialogs.Shared
             var stringToken = new StringDictionary
             {
                 { "TotalCount", totalCount.ToString() },
-                { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(updatedMessages, ConfigData.GetInstance().MaxReadSize) },
+                { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(updatedMessages, state.GetUserTimeZone(), ConfigData.GetInstance().MaxReadSize) },
             };
 
             var reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
@@ -940,7 +941,8 @@ namespace EmailSkill.Dialogs.Shared
                 reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowOneEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
             }
 
-            return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = reply });
+            await sc.Context.SendActivityAsync(reply);
+            return;
         }
 
         protected async Task<List<Person>> GetPeopleWorkWithAsync(ITurnContext context, string name)

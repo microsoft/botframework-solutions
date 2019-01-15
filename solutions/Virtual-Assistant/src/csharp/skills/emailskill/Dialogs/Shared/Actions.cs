@@ -14,7 +14,7 @@
 
         public const string Display = "reshow";
 
-        public const string CheckReshow = "checkReshow";
+        public const string ReDisplay = "checkReshow";
 
         public const string Read = "read";
 

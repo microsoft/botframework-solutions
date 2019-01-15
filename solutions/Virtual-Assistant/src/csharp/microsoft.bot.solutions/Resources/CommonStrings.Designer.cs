@@ -151,7 +151,7 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to the first one is {0};.
+        ///   Looks up a localized string similar to The latest email is {0}.
         /// </summary>
         public static string FirstItem {
             get {
@@ -223,7 +223,7 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to the second one is {0};.
+        ///   Looks up a localized string similar to the second is {0}.
         /// </summary>
         public static string SecondItem {
             get {
@@ -277,7 +277,7 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to the third one is {0};.
+        ///   Looks up a localized string similar to the third is {0}.
         /// </summary>
         public static string ThirdItem {
             get {

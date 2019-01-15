@@ -49,7 +49,6 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowEmailList())
-                .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.NoFocusMessage())
                 .Send(BaseTestUtterances.FirstOne)
                 .AssertReply(this.DeleteConfirm())
@@ -113,6 +112,7 @@ namespace EmailSkillTest.Flow
                 var replies = this.ParseReplies(EmailSharedResponses.ShowEmailPrompt.Replies, new StringDictionary()
                 {
                     { "TotalCount", showedItems.Count.ToString() },
+                    { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(showedItems, TimeZoneInfo.Local, ConfigData.GetInstance().MaxReadSize) },
                 });
 
                 CollectionAssert.Contains(replies, messageActivity.Text);
