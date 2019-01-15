@@ -16,6 +16,7 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Data;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
@@ -112,7 +113,7 @@ namespace CalendarSkill.Dialogs.Summary
 
                 if (topGeneralIntent == General.Intent.Next && state.SummaryEvents != null)
                 {
-                    if ((state.ShowEventIndex + 1) * CalendarSkillState.PageSize < state.SummaryEvents.Count)
+                    if ((state.ShowEventIndex + 1) * ConfigData.GetInstance().MaxDisplaySize < state.SummaryEvents.Count)
                     {
                         state.ShowEventIndex++;
                     }
@@ -213,13 +214,13 @@ namespace CalendarSkill.Dialogs.Summary
                         }
                     }
 
-                    await ShowMeetingList(sc, searchedEvents.GetRange(0, Math.Min(CalendarSkillState.PageSize, searchedEvents.Count)), false);
+                    await ShowMeetingList(sc, searchedEvents.GetRange(0, Math.Min(ConfigData.GetInstance().MaxDisplaySize, searchedEvents.Count)), false);
                     state.Clear();
                     state.SummaryEvents = searchedEvents;
                 }
                 else
                 {
-                    await ShowMeetingList(sc, state.SummaryEvents.GetRange(state.ShowEventIndex * CalendarSkillState.PageSize, Math.Min(CalendarSkillState.PageSize, state.SummaryEvents.Count - (state.ShowEventIndex * CalendarSkillState.PageSize))), false);
+                    await ShowMeetingList(sc, state.SummaryEvents.GetRange(state.ShowEventIndex * ConfigData.GetInstance().MaxDisplaySize, Math.Min(ConfigData.GetInstance().MaxDisplaySize, state.SummaryEvents.Count - (state.ShowEventIndex * ConfigData.GetInstance().MaxDisplaySize))), false);
                 }
 
                 return await sc.NextAsync();

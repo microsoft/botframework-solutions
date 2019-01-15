@@ -7,8 +7,6 @@ namespace CalendarSkill
 {
     public class CalendarSkillState
     {
-        public const int PageSize = 5;
-
         public CalendarSkillState()
         {
             User = new User();
