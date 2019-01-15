@@ -1,0 +1,33 @@
+{
+	"cancel": {
+		"prompt": "确实要取消吗？",
+		"confirmed": "好吧, 让我们重新开始。",
+		"denied": "好吧, 让我们继续走。"
+	},
+	"escalate": {
+		"phoneInfo": "我们的代理商在 1 (800) 555-1234 时提供全天候服务。"
+	},
+	"main": {
+		"helpTitle": "帮助",
+		"helpText": "此卡可用于显示信息, 以帮助您的用户与您的机器人进行交互。下面的按钮可用于示例查询或指向外部网站的链接。",
+		"cancelled": "好吧, 让我们重新开始。",
+		"completed": "我还能帮你什么忙？",
+		"confused": "对不起, 我帮不上忙。",
+		"greeting": "嘿，你好！",
+		"greetingWithName": "嘿, {0}!"
+	},
+	"onBoarding": {
+		"namePrompt": "你叫什么名字？",
+		"emailPrompt": "您的电子邮件是什么？",
+		"locationPrompt": "最后, 你在哪里？",
+		"haveName": "有, {0}!",
+		"haveEmail": "明白了。我已将 {0} 添加为您的主要联系地址。",
+		"haveLocation": "谢谢, {0}。我已将 {1} 添加为您的主要位置。你们都准备好了!"
+	},
+	"signIn": {
+		"title": "登录",
+		"prompt": "请登录以访问此机器人。",
+		"failed": "对不起, 我现在无法给你登录。",
+		"succeeded": "谢谢, {0}!您都已登录。"
+	}
+}
