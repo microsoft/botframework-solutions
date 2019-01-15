@@ -7,13 +7,9 @@ import { EnterpriseDialog } from "../shared/enterpriseDialog";
 import { EscalateResponses } from "./escalateResponses";
 
 export class EscalateDialog extends EnterpriseDialog {
+    
     // Fields
     public static readonly _responder: EscalateResponses = new EscalateResponses();
-
-    private static async SendPhone(sc: WaterfallStepContext): Promise<DialogTurnResult> {
-        await EscalateDialog._responder.replyWith(sc.context, EscalateResponses.SendPhone);
-        return await sc.endDialog();
-    }
 
     constructor(botServices: BotServices) {
         super(botServices, EscalateDialog.name);
@@ -24,5 +20,10 @@ export class EscalateDialog extends EnterpriseDialog {
         ];
 
         this.addDialog(new WaterfallDialog(this.initialDialogId, escalate));
+    }
+
+    private static async SendPhone(sc: WaterfallStepContext): Promise<DialogTurnResult> {
+        await EscalateDialog._responder.replyWith(sc.context, EscalateResponses.ResponseIds.SendPhoneMessage);
+        return await sc.endDialog();
     }
 }
