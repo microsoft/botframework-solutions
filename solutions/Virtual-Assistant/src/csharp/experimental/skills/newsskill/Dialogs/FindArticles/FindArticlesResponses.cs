@@ -38,6 +38,16 @@ namespace NewsSkill
             if (articles.Any())
             {
                 response.Text = "Here's what I found:";
+
+                if (articles.Count > 1)
+                {
+                    response.Speak = $"I found a few news stories, here's a summary of the first: {articles[0].Description}";
+                }
+                else
+                {
+                    response.Speak = $"{articles[0].Description}";
+                }
+
                 response.Attachments = new List<Attachment>();
                 response.AttachmentLayout = AttachmentLayoutTypes.Carousel;
 
@@ -65,6 +75,7 @@ namespace NewsSkill
             else
             {
                 response.Text = "Sorry, I couldn't find any articles on that topic.";
+                response.Speak = "Sorry, I couldn't find any articles on that topic.";
             }
 
             return response;
