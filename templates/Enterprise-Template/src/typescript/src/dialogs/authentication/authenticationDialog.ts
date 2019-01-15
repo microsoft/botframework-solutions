@@ -13,13 +13,12 @@ export class AuthenticationDialog extends ComponentDialog {
     
     // Fields
     private _connectionName: string;
-    private  _responder: AuthenticationResponses;
+    private static readonly _responder: AuthenticationResponses = new AuthenticationResponses() ;
    
     constructor(connectionName: string) {
         super(AuthenticationDialog.name);
         this.initialDialogId = AuthenticationDialog.name;
         this._connectionName = connectionName;
-        this._responder = new AuthenticationResponses();
 
         const authenticate = [
             this.prompToLogin.bind(this),
@@ -45,12 +44,12 @@ export class AuthenticationDialog extends ComponentDialog {
 
             if (tokenResponse.token) {
                 const user = await this.getProfile(sc.context, tokenResponse);
-                await this._responder.replyWith(sc.context, AuthenticationResponses.ResponseIds.SucceededMessage, { name: user.displayName });
+                await AuthenticationDialog._responder.replyWith(sc.context, AuthenticationResponses.ResponseIds.SucceededMessage, { name: user.displayName });
                 return await sc.endDialog(tokenResponse);
             }
 
         } else {
-            await this._responder.replyWith(sc.context, AuthenticationResponses.ResponseIds.FailedMessage);
+            await AuthenticationDialog._responder.replyWith(sc.context, AuthenticationResponses.ResponseIds.FailedMessage);
         }
 
         return await sc.endDialog();

@@ -7,11 +7,12 @@ import { CancelResponses } from "./cancelResponses";
 export class CancelDialog extends ComponentDialog {
  
     // Fields
-    private static _responder: CancelResponses;
+    private static readonly _responder: CancelResponses = new CancelResponses();
 
     constructor() {
         super(CancelDialog.name);
         this.initialDialogId = CancelDialog.name;
+        
 
         const cancel = [
             CancelDialog.AskToCancel.bind(this),
