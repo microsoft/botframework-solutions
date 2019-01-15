@@ -24,7 +24,7 @@
 		"haveEmail": "Je l'ai. J'ai ajouté {0} comme adresse de contact principale.",
 		"haveLocation": "Merci, {0}. J'ai ajouté {1} comme emplacement principal. Vous êtes tous mis en place!"
 	},
-	"signIn": {
+	"authentication": {
 		"title": "Connexion",
 		"prompt": "S'il vous plaît vous connecter pour accéder à ce bot.",
 		"failed": "Désolé, je ne suis pas en mesure de vous signer en ce moment.",

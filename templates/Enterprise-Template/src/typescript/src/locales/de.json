@@ -24,7 +24,7 @@
 		"haveEmail": "Ich hab es. Ich habe {0} als primäre Kontaktadresse hinzugefügt.",
 		"haveLocation": "Dank, {0}. Ich habe {1} als primären Standort hinzugefügt. Ihr seid alle eingerichtet!"
 	},
-	"signIn": {
+	"authentication": {
 		"title": "Anmelden",
 		"prompt": "Bitte melden Sie sich an, um auf diesen Bot zuzugreifen.",
 		"failed": "Es tut mir leid, ich kann dich im Moment nicht anmelden.",

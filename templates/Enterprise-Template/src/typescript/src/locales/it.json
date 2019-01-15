@@ -24,7 +24,7 @@
 		"haveEmail": "Capito. Ho aggiunto {0} come indirizzo di contatto principale.",
 		"haveLocation": "Grazie, {0}. Ho aggiunto {1} come posizione primaria. Sei tutto a posto!"
 	},
-	"signIn": {
+	"authentication": {
 		"title": "Accedi",
 		"prompt": "Accedi per accedere a questo bot.",
 		"failed": "Scusa, non sono in grado di iscriverti al momento.",

@@ -24,7 +24,7 @@
 		"haveEmail": "Entiendo. He agregado {0} como su dirección de contacto principal.",
 		"haveLocation": "Gracias, {0}. He agregado {1} como su ubicación principal. ¡ Están todos configurados!"
 	},
-	"signIn": {
+	"authentication": {
 		"title": "Inicia sesión",
 		"prompt": "Por favor, inicie sesión para acceder a este bot.",
 		"failed": "Lo siento, no puedo firmarlo en este momento.",
