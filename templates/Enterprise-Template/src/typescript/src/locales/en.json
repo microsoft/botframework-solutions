@@ -5,6 +5,10 @@
 		"denied": "Ok, let's keep going."
 	},
 	"escalate": {
+		"btnText1": "Call now",
+		"btnText2": "Open Teams",
+		"btnValue1": "tel:18005551234",
+		"btnValue2": "msteams://",
 		"phoneInfo": "Our agents are available 24/7 at 1(800)555-1234."
 	},
 	"main": {
@@ -15,12 +19,12 @@
 		"confused": "I'm sorry, I'm not able to help with that.",
 		"greeting": "Hi there!",
 		"greetingWithName": "Hey, {0}!",
-		"helpBtnText1":"Test LUIS",
-		"helpBtnText2":"Test QnA Maker",
-		"helpBtnText3":"Learn more",
-		"helpBtnValue1":"Talk to a human",
-		"helpBtnValue2":"What is the Enterprise Bot Template?",
-		"helpBtnValue3":"https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0",
+		"helpBtnText1": "Test LUIS",
+		"helpBtnText2": "Test QnA Maker",
+		"helpBtnText3": "Learn more",
+		"helpBtnValue1": "Talk to a human",
+		"helpBtnValue2": "What is the Enterprise Bot Template?",
+		"helpBtnValue3": "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0",
 		"introPath": "./resources/Intro.json"
 	},
 	"onBoarding": {

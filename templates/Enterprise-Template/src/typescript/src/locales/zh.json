@@ -5,6 +5,10 @@
 		"denied": "好吧, 让我们继续走。"
 	},
 	"escalate": {
+		"btnText1": "现在打电话",
+		"btnText2": "打开 Teams",
+		"btnValue1": "tel:18005551234",
+		"btnValue2": "msteams://",
 		"phoneInfo": "我们的代理商在 1 (800) 555-1234 时提供全天候服务。"
 	},
 	"main": {
@@ -15,12 +19,12 @@
 		"confused": "对不起, 我帮不上忙。",
 		"greeting": "嘿，你好！",
 		"greetingWithName": "嘿, {0}!",
-		"helpBtnText1":"测试 LUIS",
-		"helpBtnText2":"测试 QnA Maker",
-		"helpBtnText3":"了解更多信息",
-		"helpBtnValue1":"我能和一个人交谈吗？",
-		"helpBtnValue2":"这个模板是什么？",
-		"helpBtnValue3":"https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0",
+		"helpBtnText1": "测试 LUIS",
+		"helpBtnText2": "测试 QnA Maker",
+		"helpBtnText3": "了解更多信息",
+		"helpBtnValue1": "我能和一个人交谈吗？",
+		"helpBtnValue2": "这个模板是什么？",
+		"helpBtnValue3": "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0",
 		"introPath": "./resources/Intro.zh.json"
 	},
 	"onBoarding": {
