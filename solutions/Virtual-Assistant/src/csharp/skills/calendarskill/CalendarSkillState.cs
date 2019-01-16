@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CalendarSkill.Models;
 using Microsoft.Graph;
+using static CalendarSkill.Models.CreateEventStateModel;
 
 namespace CalendarSkill
 {
@@ -45,6 +46,7 @@ namespace CalendarSkill
             AskParameterContent = string.Empty;
             RecurrencePattern = string.Empty;
             CreateHasDetail = false;
+            RecreateState = null;
         }
 
         public User User { get; set; }
@@ -133,6 +135,8 @@ namespace CalendarSkill
 
         public bool CreateHasDetail { get; set; }
 
+        public RecreateEventState? RecreateState { get; set; }
+
         public TimeZoneInfo GetUserTimeZone()
         {
             if ((UserInfo != null) && (UserInfo.Timezone != null))
@@ -179,6 +183,73 @@ namespace CalendarSkill
             AskParameterContent = string.Empty;
             RecurrencePattern = string.Empty;
             CreateHasDetail = false;
+            RecreateState = null;
+        }
+
+        public void ClearTimes()
+        {
+            StartDate = new List<DateTime>();
+            StartDateString = null;
+            StartTime = new List<DateTime>();
+            StartTimeString = null;
+            StartDateTime = null;
+            EndDate = new List<DateTime>();
+            EndTime = new List<DateTime>();
+            EndDateTime = null;
+            OriginalStartDate = new List<DateTime>();
+            OriginalStartTime = new List<DateTime>();
+            OriginalEndDate = new List<DateTime>();
+            OriginalEndTime = new List<DateTime>();
+            NewStartDateTime = null;
+            Duration = 0;
+            MoveTimeSpan = 0;
+            CreateHasDetail = true;
+            RecreateState = RecreateEventState.Time;
+        }
+
+        public void ClearTimesExceptStartTime()
+        {
+            EndDate = new List<DateTime>();
+            EndTime = new List<DateTime>();
+            EndDateTime = null;
+            OriginalStartDate = new List<DateTime>();
+            OriginalStartTime = new List<DateTime>();
+            OriginalEndDate = new List<DateTime>();
+            OriginalEndTime = new List<DateTime>();
+            NewStartDateTime = null;
+            Duration = 0;
+            MoveTimeSpan = 0;
+            CreateHasDetail = true;
+            RecreateState = RecreateEventState.Duration;
+        }
+
+        public void ClearLocation()
+        {
+            Location = null;
+            CreateHasDetail = true;
+        }
+
+        public void ClearParticipants()
+        {
+            Attendees = new List<EventModel.Attendee>();
+            AttendeesNameList = new List<string>();
+            ConfirmAttendeesNameIndex = 0;
+            CreateHasDetail = true;
+            RecreateState = RecreateEventState.Participants;
+        }
+
+        public void ClearSubject()
+        {
+            Title = null;
+            CreateHasDetail = true;
+            RecreateState = RecreateEventState.Subject;
+        }
+
+        public void ClearContent()
+        {
+            Content = null;
+            CreateHasDetail = true;
+            RecreateState = RecreateEventState.Content;
         }
 
         public class UserInformation

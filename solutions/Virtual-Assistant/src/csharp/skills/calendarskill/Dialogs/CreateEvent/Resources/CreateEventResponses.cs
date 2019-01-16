@@ -56,6 +56,10 @@ namespace CalendarSkill.Dialogs.CreateEvent.Resources
 
         public static BotResponse NoDuration_Retry => GetBotResponse();
 
+        public static BotResponse GetRecreateInfo => GetBotResponse();
+
+        public static BotResponse GetRecreateInfo_Retry => GetBotResponse();
+
         public static BotResponse ConfirmRecipient => GetBotResponse();
 
         public static BotResponse InvaildDuration => GetBotResponse();

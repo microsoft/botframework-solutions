@@ -23,6 +23,7 @@ using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Microsoft.Recognizers.Text.DateTime;
+using static CalendarSkill.Models.CreateEventStateModel;
 
 namespace CalendarSkill.Dialogs.CreateEvent
 {
@@ -88,6 +89,12 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 AfterUpdateDurationForCreate,
             };
 
+            var getRecreateInfo = new WaterfallStep[]
+            {
+                GetRecreateInfo,
+                AfterGetRecreateInfo,
+            };
+
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Actions.CreateEvent, createEvent) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateAddress, updateAddress) { TelemetryClient = telemetryClient });
@@ -96,9 +103,11 @@ namespace CalendarSkill.Dialogs.CreateEvent
             AddDialog(new WaterfallDialog(Actions.UpdateStartDateForCreate, updateStartDate) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateStartTimeForCreate, updateStartTime) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateDurationForCreate, updateDuration) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.GetRecreateInfo, getRecreateInfo) { TelemetryClient = telemetryClient });
             AddDialog(new DatePrompt(Actions.DatePromptForCreate));
             AddDialog(new TimePrompt(Actions.TimePromptForCreate));
             AddDialog(new DurationPrompt(Actions.DurationPromptForCreate));
+            AddDialog(new GetRecreateInfoPrompt(Actions.GetRecreateInfoPrompt));
 
             // Set starting dialog for component
             InitialDialogId = Actions.CreateEvent;
@@ -111,7 +120,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
 
-                if (string.IsNullOrEmpty(state.Title) && !state.CreateHasDetail)
+                if (string.IsNullOrEmpty(state.Title) && (!state.CreateHasDetail || state.RecreateState == RecreateEventState.Subject))
                 {
                     var userNameString = state.Attendees.ToSpeechString(CommonStrings.And, li => li.DisplayName ?? li.Address);
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoTitle, ResponseBuilder, new StringDictionary() { { "UserName", userNameString } }) }, cancellationToken);
@@ -133,11 +142,11 @@ namespace CalendarSkill.Dialogs.CreateEvent
             try
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (sc.Result != null || state.CreateHasDetail)
+                if (sc.Result != null || state.CreateHasDetail || state.RecreateState == RecreateEventState.Subject)
                 {
                     if (string.IsNullOrEmpty(state.Title))
                     {
-                        if (state.CreateHasDetail)
+                        if (state.CreateHasDetail && state.RecreateState != RecreateEventState.Subject)
                         {
                             state.Title = CreateEventWhiteList.GetDefaultTitle();
                         }
@@ -157,7 +166,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
                     }
                 }
 
-                if (string.IsNullOrEmpty(state.Content) && !state.CreateHasDetail)
+                if (string.IsNullOrEmpty(state.Content) && (!state.CreateHasDetail || state.RecreateState == RecreateEventState.Content))
                 {
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoContent) }, cancellationToken);
                 }
@@ -185,7 +194,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
 
                 ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
 
-                if (state.Attendees.Count == 0)
+                if (state.Attendees.Count == 0 && (!state.CreateHasDetail || state.RecreateState == RecreateEventState.Participants))
                 {
                     return await sc.BeginDialogAsync(Actions.UpdateAddress, cancellationToken: cancellationToken);
                 }
@@ -211,7 +220,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
             try
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (sc.Result != null && !state.CreateHasDetail)
+                if (sc.Result != null && (!state.CreateHasDetail || state.RecreateState == RecreateEventState.Content))
                 {
                     if (string.IsNullOrEmpty(state.Content))
                     {
@@ -281,7 +290,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
 
-                if (state.Location == null && !state.CreateHasDetail)
+                if (state.Location == null && (!state.CreateHasDetail || state.RecreateState == RecreateEventState.Location))
                 {
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoLocation) }, cancellationToken);
                 }
@@ -302,7 +311,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
             try
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (state.Location == null && sc.Result != null && !state.CreateHasDetail)
+                if (state.Location == null && sc.Result != null && (!state.CreateHasDetail || state.RecreateState == RecreateEventState.Location))
                 {
                     sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
                     var luisResult = state.LuisResult;
@@ -389,8 +398,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarSharedResponses.ActionEnded), cancellationToken);
-                    state.Clear();
+                    return await sc.ReplaceDialogAsync(Actions.GetRecreateInfo, cancellationToken: cancellationToken);
                 }
 
                 return await sc.EndDialogAsync(true, cancellationToken);
@@ -678,7 +686,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
             try
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (state.CreateHasDetail)
+                if (state.CreateHasDetail && state.RecreateState != RecreateEventState.Time)
                 {
                     return await sc.NextAsync(cancellationToken: cancellationToken);
                 }
@@ -701,7 +709,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
             try
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (state.CreateHasDetail)
+                if (state.CreateHasDetail && state.RecreateState != RecreateEventState.Time)
                 {
                     DateTime datetime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, state.GetUserTimeZone());
                     state.StartDate.Add(datetime);
@@ -858,7 +866,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
             try
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (state.Duration > 0 || state.EndTime.Any() || state.EndDate.Any() || state.CreateHasDetail)
+                if (state.Duration > 0 || state.EndTime.Any() || state.EndDate.Any() || (state.CreateHasDetail && state.RecreateState != RecreateEventState.Time && state.RecreateState != RecreateEventState.Duration))
                 {
                     return await sc.NextAsync(cancellationToken: cancellationToken);
                 }
@@ -918,7 +926,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
                     state.Duration = (int)ts.TotalSeconds;
                 }
 
-                if (state.Duration <= 0 && state.CreateHasDetail)
+                if (state.Duration <= 0 && state.CreateHasDetail && state.RecreateState != RecreateEventState.Time && state.RecreateState != RecreateEventState.Duration)
                 {
                     state.Duration = 1800;
                 }
@@ -947,6 +955,75 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 }
 
                 return await sc.EndDialogAsync(cancellationToken: cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> GetRecreateInfo(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                return await sc.PromptAsync(Actions.GetRecreateInfoPrompt, new PromptOptions
+                {
+                    Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.GetRecreateInfo),
+                    RetryPrompt = sc.Context.Activity.CreateReply(CreateEventResponses.GetRecreateInfo_Retry)
+                }, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> AfterGetRecreateInfo(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                if (sc.Result != null)
+                {
+                    RecreateEventState? recreateState = sc.Result as RecreateEventState?;
+                    switch (recreateState.Value)
+                    {
+                        case RecreateEventState.Cancel:
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarSharedResponses.ActionEnded), cancellationToken);
+                            state.Clear();
+                            return await sc.EndDialogAsync(true, cancellationToken);
+                        case RecreateEventState.Time:
+                            state.ClearTimes();
+                            return await sc.ReplaceDialogAsync(Actions.CreateEvent, cancellationToken: cancellationToken);
+                        case RecreateEventState.Duration:
+                            state.ClearTimesExceptStartTime();
+                            return await sc.ReplaceDialogAsync(Actions.CreateEvent, cancellationToken: cancellationToken);
+                        case RecreateEventState.Location:
+                            state.ClearLocation();
+                            return await sc.ReplaceDialogAsync(Actions.CreateEvent, cancellationToken: cancellationToken);
+                        case RecreateEventState.Participants:
+                            state.ClearParticipants();
+                            return await sc.ReplaceDialogAsync(Actions.CreateEvent, cancellationToken: cancellationToken);
+                        case RecreateEventState.Subject:
+                            state.ClearSubject();
+                            return await sc.ReplaceDialogAsync(Actions.CreateEvent, cancellationToken: cancellationToken);
+                        case RecreateEventState.Content:
+                            state.ClearContent();
+                            return await sc.ReplaceDialogAsync(Actions.CreateEvent, cancellationToken: cancellationToken);
+                        default:
+                            // should not go to this part. place an error handling for save.
+                            await HandleDialogExceptions(sc, new Exception("Get unexpect state in recreate."));
+                            return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+                    }
+                }
+                else
+                {
+                    // should not go to this part. place an error handling for save.
+                    await HandleDialogExceptions(sc, new Exception("Get unexpect result in recreate."));
+                    return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+                }
             }
             catch (Exception ex)
             {
