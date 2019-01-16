@@ -15,6 +15,12 @@
 		"confused": "Mi dispiace, non sono in grado di aiutarti.",
 		"greeting": "Ehilà!",
 		"greetingWithName": "Ehi, {0}!",
+		"helpBtnText1":"Prova LUIS",
+		"helpBtnText2":"Prova QnA Maker",
+		"helpBtnText3":"Ulteriori informazioni",
+		"helpBtnValue1":"Posso parlare con una persona",
+		"helpBtnValue2":"Che cos'è il modello Enterprise bot?",
+		"helpBtnValue3":"https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0",
 		"introPath": "./resources/Intro.it.json"
 	},
 	"onBoarding": {
