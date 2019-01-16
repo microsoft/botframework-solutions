@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using CalendarSkill.Common;
 using CalendarSkill.Dialogs.Shared.Resources.Strings;
-using CalendarSkill.ServiceClients;
 using CalendarSkill.Util;
 using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Graph;
 
 namespace CalendarSkill.Models
 {
@@ -31,6 +31,29 @@ namespace CalendarSkill.Models
         /// Event from other.
         /// </summary>
         Other = 0,
+    }
+
+    public enum EventStatus
+    {
+        /// <summary>
+        /// None status.
+        /// </summary>
+        None = 0,
+
+        /// <summary>
+        /// Event is accepted.
+        /// </summary>
+        Accepted = 1,
+
+        /// <summary>
+        /// Event is tentative.
+        /// </summary>
+        Tentative = 2,
+
+        /// <summary>
+        /// Event is Cancelled.
+        /// </summary>
+        Cancelled = 3,
     }
 
     /// <summary>
@@ -641,6 +664,107 @@ namespace CalendarSkill.Models
                         return msftEventData.IsCancelled;
                     case EventSource.Google:
                         return gmailEventData.Status.Equals("cancelled");
+                    default:
+                        throw new Exception("Event Type not Defined");
+                }
+            }
+        }
+
+        public bool IsAccepted
+        {
+            get
+            {
+                switch (source)
+                {
+                    case EventSource.Microsoft:
+                        return msftEventData.ResponseStatus.Response == ResponseType.Accepted ||
+                            msftEventData.ResponseStatus.Response == ResponseType.Organizer;
+                    case EventSource.Google:
+                        return gmailEventData.Status.Equals("confirmed");
+                    default:
+                        throw new Exception("Event Type not Defined");
+                }
+            }
+        }
+
+        public EventStatus Status
+        {
+            get
+            {
+                switch (source)
+                {
+                    case EventSource.Microsoft:
+                        switch (msftEventData.ResponseStatus.Response)
+                        {
+                            case ResponseType.Organizer:
+                            case ResponseType.Accepted:
+                                return EventStatus.Accepted;
+                            case ResponseType.NotResponded:
+                            case ResponseType.TentativelyAccepted:
+                                return EventStatus.Tentative;
+                            case ResponseType.Declined:
+                                return EventStatus.Cancelled;
+                            default:
+                                return EventStatus.None;
+                        }
+
+                    case EventSource.Google:
+                        if (gmailEventData.Status.Equals("confirmed"))
+                        {
+                            return EventStatus.Accepted;
+                        }
+                        else if (gmailEventData.Status.Equals("tentative"))
+                        {
+                            return EventStatus.Tentative;
+                        }
+                        else if (gmailEventData.Status.Equals("cancelled"))
+                        {
+                            return EventStatus.Cancelled;
+                        }
+                        else
+                        {
+                            return EventStatus.None;
+                        }
+
+                    default:
+                        throw new Exception("Event Type not Defined");
+                }
+            }
+
+            set
+            {
+                switch (source)
+                {
+                    case EventSource.Microsoft:
+                        if (value == EventStatus.Accepted)
+                        {
+                            msftEventData.ResponseStatus.Response = ResponseType.Accepted;
+                        }
+                        else if (value == EventStatus.Tentative)
+                        {
+                            msftEventData.ResponseStatus.Response = ResponseType.TentativelyAccepted;
+                        }
+                        else if (value == EventStatus.Cancelled)
+                        {
+                            msftEventData.ResponseStatus.Response = ResponseType.Declined;
+                        }
+
+                        break;
+                    case EventSource.Google:
+                        if (value == EventStatus.Accepted)
+                        {
+                            gmailEventData.Status = "confirmed";
+                        }
+                        else if (value == EventStatus.Cancelled)
+                        {
+                            gmailEventData.Status = "cancelled";
+                        }
+                        else
+                        {
+                            gmailEventData.Status = "tentative";
+                        }
+
+                        break;
                     default:
                         throw new Exception("Event Type not Defined");
                 }
