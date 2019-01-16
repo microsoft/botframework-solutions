@@ -70,6 +70,8 @@ namespace CalendarSkill.Dialogs.CreateEvent.Prompts
         private RecreateEventState? GetStateFromMessage(string message, string culture)
         {
             RecreateEventState? result = null;
+
+            // use exactly match for now. We may discuss about to use white list or Luis in future.
             try
             {
                 result = (RecreateEventState)Enum.Parse(typeof(RecreateEventState), message, true);
