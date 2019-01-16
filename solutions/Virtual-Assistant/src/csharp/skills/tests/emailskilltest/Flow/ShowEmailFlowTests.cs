@@ -19,8 +19,6 @@ namespace EmailSkillTest.Flow
     [TestClass]
     public class ShowEmailFlowTests : EmailBotTestBase
     {
-        private int pageIndex = 0;
-
         [TestInitialize]
         public void SetupLuisService()
         {
@@ -34,8 +32,6 @@ namespace EmailSkillTest.Flow
 
             luisServices.Add("email", emailLuisRecognizer);
             luisServices.Add("general", new MockGeneralLuisRecognizer());
-
-            pageIndex = 0;
         }
 
         [TestMethod]
@@ -85,7 +81,7 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(BaseTestUtterances.FirstOne)
-                .AssertReply(this.AssertSelectOneOfTheMessage())
+                .AssertReply(this.AssertSelectOneOfTheMessage(1))
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(GeneralTestUtterances.No)
                 .AssertReplyOneOf(this.NotShowingMessage())
@@ -103,7 +99,7 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(BaseTestUtterances.NumberOne)
-                .AssertReply(this.AssertSelectOneOfTheMessage())
+                .AssertReply(this.AssertSelectOneOfTheMessage(1))
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(GeneralTestUtterances.No)
                 .AssertReplyOneOf(this.NotShowingMessage())
@@ -121,7 +117,7 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(GeneralTestUtterances.Yes)
-                .AssertReply(this.AssertSelectOneOfTheMessage())
+                .AssertReply(this.AssertSelectOneOfTheMessage(1))
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(GeneralTestUtterances.No)
                 .AssertReplyOneOf(this.NotShowingMessage())
@@ -165,7 +161,7 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(BaseTestUtterances.FirstOne)
-                .AssertReply(this.AssertSelectOneOfTheMessage())
+                .AssertReply(this.AssertSelectOneOfTheMessage(1))
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(ForwardEmailUtterances.ForwardCurrentEmail)
                 .AssertReply(this.ShowAuth())
@@ -218,7 +214,7 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(BaseTestUtterances.FirstOne)
-                .AssertReply(this.AssertSelectOneOfTheMessage())
+                .AssertReply(this.AssertSelectOneOfTheMessage(1))
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(ReplyEmailUtterances.ReplyCurrentEmail)
                 .AssertReply(this.ShowAuth())
@@ -267,7 +263,7 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(BaseTestUtterances.FirstOne)
-                .AssertReply(this.AssertSelectOneOfTheMessage())
+                .AssertReply(this.AssertSelectOneOfTheMessage(1))
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(DeleteEmailUtterances.DeleteCurrentEmail)
                 .AssertReply(this.ShowAuth())
@@ -375,7 +371,7 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.ShowEmailList(1))
                 .AssertReplyOneOf(this.ReadOutOnlyOnePrompt())
                 .Send(GeneralTestUtterances.Yes)
-                .AssertReply(this.AssertSelectOneOfTheMessage())
+                .AssertReply(this.AssertSelectOneOfTheMessage(1))
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(GeneralTestUtterances.No)
                 .AssertReplyOneOf(this.NotShowingMessage())
@@ -441,12 +437,18 @@ namespace EmailSkillTest.Flow
             return this.ParseReplies(DeleteEmailResponses.DeleteConfirm.Replies, new StringDictionary());
         }
 
-        private Action<IActivity> AssertSelectOneOfTheMessage()
+        private Action<IActivity> AssertSelectOneOfTheMessage(int selection)
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                CollectionAssert.Contains(this.ParseReplies(ShowEmailResponses.ReadOutMessage.Replies, new StringDictionary()), messageActivity.Text);
+                var totalEmails = ((MockServiceManager)this.ServiceManager).MailService.MyMessages;
+                var replies = this.ParseReplies(ShowEmailResponses.ReadOutMessage.Replies, new StringDictionary()
+                {
+                    { "EmailDetails", SpeakHelper.ToSpeechEmailDetailString(totalEmails[selection - 1], TimeZoneInfo.Local) },
+                });
+
+                CollectionAssert.Contains(replies, messageActivity.Text);
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
         }
