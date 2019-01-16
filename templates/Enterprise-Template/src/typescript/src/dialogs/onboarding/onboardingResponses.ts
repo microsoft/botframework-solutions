@@ -2,7 +2,7 @@
 // Licensed under the MIT License
 
 import { TurnContext } from "botbuilder";
-import { LanguageTemplateDictionary, TemplateFunction } from "../templateManager/dictionaryRenderer";
+import { DictionaryRenderer, LanguageTemplateDictionary, TemplateFunction } from "../templateManager/dictionaryRenderer";
 import { TemplateManager } from "../templateManager/templateManager";
 import * as i18n from "i18n";
 
@@ -40,5 +40,10 @@ export class OnboardingResponses extends TemplateManager {
 
     private static fromResources(name: string): TemplateFunction {
         return (context: TurnContext, data: any) => Promise.resolve(i18n.__(name));
+    }
+
+    constructor() {
+        super();
+        this.register(new DictionaryRenderer(OnboardingResponses._responseTemplates));
     }
 }

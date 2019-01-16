@@ -48,19 +48,19 @@ export class MainResponses extends TemplateManager {
         response.suggestedActions = {
             actions: [
                 {
-                    title: 'Test LUIS',
+                    title: i18n.__("main.helpBtnText1"),
                     type: ActionTypes.ImBack,
-                    value: 'Talk to a human',  
+                    value: i18n.__("main.helpBtnValue1"),
                 },
                 {
-                    title: 'Test QnA Maker',
+                    title: i18n.__("main.helpBtnText2"),
                     type: ActionTypes.ImBack,
-                    value: 'What is the Enterprise Bot Template?',  
+                    value: i18n.__("main.helpBtnValue2"),
                 },
                 {
-                    title: 'Learn more',
+                    title: i18n.__("main.helpBtnText3"),
                     type: ActionTypes.OpenUrl,
-                    value: 'https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0',  
+                    value: i18n.__("main.helpBtnValue3"),  
                 },
             ],
             to:[],
@@ -78,19 +78,19 @@ export class MainResponses extends TemplateManager {
         response.suggestedActions = {
             actions: [
             {
-                title: 'Test LUIS',
+                title: i18n.__("main.helpBtnText1"),
                 type: ActionTypes.ImBack,
-                value: 'Talk to a human',  
+                value: i18n.__("main.helpBtnValue1"),  
             },
             {
-                title: 'Test QnA Maker',
+                title: i18n.__("main.helpBtnText2"),
                 type: ActionTypes.ImBack,
-                value: 'What is the Enterprise Bot Template?',  
+                value: i18n.__("main.helpBtnValue2"),  
             },
             {
-                title: 'Learn more',
+                title: i18n.__("main.helpBtnText3"),
                 type: ActionTypes.OpenUrl,
-                value: 'https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0',  
+                value: i18n.__("main.helpBtnValue3"),  
             },
             ],
             to:[],
