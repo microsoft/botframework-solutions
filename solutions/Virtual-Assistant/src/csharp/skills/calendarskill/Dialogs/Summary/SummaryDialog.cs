@@ -273,7 +273,7 @@ namespace CalendarSkill.Dialogs.Summary
 
                 if (topIntent == null)
                 {
-                    return await sc.EndDialogAsync(true);
+                    return await sc.CancelAllDialogsAsync();
                 }
 
                 var eventItem = state.ReadOutEvents.FirstOrDefault();
@@ -287,7 +287,7 @@ namespace CalendarSkill.Dialogs.Summary
                 var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
                 if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
                 {
-                    return await sc.EndDialogAsync(true);
+                    return await sc.CancelAllDialogsAsync();
                 }
                 else if ((promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true) || (topIntent == Luis.Calendar.Intent.ReadAloud && eventItem == null))
                 {
@@ -308,7 +308,15 @@ namespace CalendarSkill.Dialogs.Summary
                     var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(SummaryResponses.ReadOutMessage, eventItem.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", eventItem.ToAdaptiveCardData(state.GetUserTimeZone()), null, new StringDictionary() { { "MeetingDetails", speakString } });
                     await sc.Context.SendActivityAsync(replyMessage);
 
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.ReadOutMorePrompt) });
+                    if (eventItem.IsAccepted)
+                    {
+                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.AskForChangeStatus) });
+                    }
+                    else
+                    {
+                        //todo
+                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.AskForAction, ResponseBuilder, new StringDictionary() { { "DateTime", "today" } }) });
+                    }
                 }
                 else
                 {
@@ -335,38 +343,67 @@ namespace CalendarSkill.Dialogs.Summary
                 var luisResult = state.LuisResult;
 
                 var topIntent = luisResult?.TopIntent().intent;
+
+                if (state.ReadOutEvents.Count > 0)
+                {
+                    var readoutEvent = state.ReadOutEvents[0];
+                    if (readoutEvent.IsAccepted)
+                    {
+                        //todo
+                        if (sc.Context.Activity.Text.Contains("overview"))
+                        {
+                            return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary);
+                        }
+
+                        if (topIntent == Calendar.Intent.ChangeCalendarEntry)
+                        {
+                            state.Events.Add(readoutEvent);
+                            return await sc.BeginDialogAsync(nameof(UpdateEventDialog));
+                        }
+
+                        if (topIntent == Calendar.Intent.DeleteCalendarEntry)
+                        {
+                            state.Events.Add(readoutEvent);
+                            return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog));
+                        }
+
+                        state.Clear();
+                        return await sc.CancelAllDialogsAsync();
+                    }
+                    else
+                    {
+                        //todo
+                        if (sc.Context.Activity.Text.Contains("tentitive"))
+                        {
+                            state.Events.Add(readoutEvent);
+                            state.NewEventStatus = EventStatus.Tentative;
+                            return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog));
+                        }
+
+                        if (topIntent == Calendar.Intent.DeleteCalendarEntry || topIntent == Calendar.Intent.AcceptCalendarEntry)
+                        {
+                            state.Events.Add(readoutEvent);
+                            return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog));
+                        }
+
+                        return await sc.EndDialogAsync(true);
+                    }
+                }
+
                 if (topIntent == null)
                 {
                     state.Clear();
-                    return await sc.EndDialogAsync(true);
+                    return await sc.CancelAllDialogsAsync();
                 }
 
-                if (topIntent == Luis.Calendar.Intent.ChangeCalendarEntry)
-                {
-                    if (state.ReadOutEvents.Count > 0)
-                    {
-                        state.Events.Add(state.ReadOutEvents[0]);
-                    }
-
-                    return await sc.BeginDialogAsync(nameof(UpdateEventDialog));
-                }
-                else if (topIntent == Luis.Calendar.Intent.DeleteCalendarEntry)
-                {
-                    if (state.ReadOutEvents.Count > 0)
-                    {
-                        state.Events.Add(state.ReadOutEvents[0]);
-                    }
-
-                    return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog));
-                }
-                else if (topIntent == Luis.Calendar.Intent.ReadAloud)
+                if (topIntent == Luis.Calendar.Intent.ReadAloud)
                 {
                     return await sc.BeginDialogAsync(Actions.Read);
                 }
                 else
                 {
                     state.Clear();
-                    return await sc.EndDialogAsync(true);
+                    return await sc.CancelAllDialogsAsync();
                 }
             }
             catch (Exception ex)
@@ -478,6 +515,46 @@ namespace CalendarSkill.Dialogs.Summary
             {
                 await HandleDialogExceptions(sc, ex);
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> AskForShowOverview(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
+                {
+                    Prompt = sc.Context.Activity.CreateReply(SummaryResponses.AskForShowOverview, ResponseBuilder, new StringDictionary() { { "DateTime", "today" } }),
+                    RetryPrompt = sc.Context.Activity.CreateReply(SummaryResponses.AskForShowOverview, ResponseBuilder, new StringDictionary() { { "DateTime", "today" } })
+                }, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> AfterAskForShowOverview(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var result = (bool)sc.Result;
+                if (result)
+                {
+                    return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary);
+                }
+                else
+                {
+                    var state = await Accessor.GetAsync(sc.Context);
+                    state.Clear();
+                    return await sc.EndDialogAsync();
+                }
             }
             catch (Exception ex)
             {
