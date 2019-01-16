@@ -6,8 +6,6 @@ import { TokenResponse, TurnContext } from "botbuilder";
 import { ComponentDialog, DialogTurnResult, OAuthPrompt, WaterfallDialog, WaterfallStepContext } from "botbuilder-dialogs";
 import { GraphClient } from "../../serviceClients/graphClient";
 import { AuthenticationResponses } from "./authenticationResponses";
-import { TemplateFunction } from "../templateManager/dictionaryRenderer";
-const resourcesPath = require.resolve("./resources/AuthenticationStrings.resx");
 
 export class AuthenticationDialog extends ComponentDialog {
     
@@ -28,8 +26,8 @@ export class AuthenticationDialog extends ComponentDialog {
         this.addDialog(new WaterfallDialog(this.initialDialogId, authenticate));
         this.addDialog(new OAuthPrompt(DialogIds.LoginPrompt, {
             connectionName: this._connectionName,
-            text: "Please sign in to access this bot.",
-            title: "Sign In", 
+            text: i18n.__("authentication.prompt"),
+            title: i18n.__("authentication.title"),
         }));
     }
 

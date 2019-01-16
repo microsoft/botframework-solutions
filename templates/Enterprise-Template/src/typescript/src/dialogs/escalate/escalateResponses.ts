@@ -33,18 +33,18 @@ export class EscalateResponses extends TemplateManager {
             undefined,
             [
                 {
-                    title: 'Call now',
+                    title: i18n.__("escalate.btnText1"),
                     type: ActionTypes.OpenUrl,
-                    value: 'tel:18005551234',  
+                    value: i18n.__("escalate.btnValue1"),  
                 },
                 {
-                    title: 'Open Teams',
+                    title: i18n.__("escalate.btnText2"),
                     type: ActionTypes.OpenUrl,
-                    value: 'msteams://',  
+                    value: i18n.__("escalate.btnValue2"),
                 },
             ],
         )];
-
+        
         return Promise.resolve(response);
     }
 
