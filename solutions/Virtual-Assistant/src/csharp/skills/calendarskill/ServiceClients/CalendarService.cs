@@ -79,5 +79,15 @@ namespace CalendarSkill.ServiceClients
             await calendarAPI.DeleteEventById(id);
             return;
         }
+
+        public async Task DeclineEventById(string id)
+        {
+            await calendarAPI.DeclineEventById(id);
+        }
+
+        public async Task AcceptEventById(string id)
+        {
+            await calendarAPI.AcceptEventById(id);
+        }
     }
 }

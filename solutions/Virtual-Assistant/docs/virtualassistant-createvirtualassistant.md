@@ -124,7 +124,7 @@ msbot list --bot YOURBOTFILE.bot --secret YOUR_BOT_SECRET
   }
 ```
 
-- Finally, add the .bot file paths for each of your language configurations:
+- Finally, edit the .bot file paths for each of your language configurations:
 
 ```
 "defaultLocale": "en-us",
@@ -154,6 +154,8 @@ msbot list --bot YOURBOTFILE.bot --secret YOUR_BOT_SECRET
       "botFileSecret": ""
     }
 ```
+
+Note: update the language models for the languages that you support and feel free to remove the ones you don't support.
 
 ## Skill Configuration
 

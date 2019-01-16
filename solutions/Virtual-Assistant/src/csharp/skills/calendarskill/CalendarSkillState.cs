@@ -47,6 +47,7 @@ namespace CalendarSkill
             RecurrencePattern = string.Empty;
             CreateHasDetail = false;
             RecreateState = null;
+            NewEventStatus = EventStatus.None;
         }
 
         public User User { get; set; }
@@ -135,6 +136,8 @@ namespace CalendarSkill
 
         public bool CreateHasDetail { get; set; }
 
+        public EventStatus NewEventStatus { get; set; }
+
         public RecreateEventState? RecreateState { get; set; }
 
         public TimeZoneInfo GetUserTimeZone()
@@ -183,6 +186,7 @@ namespace CalendarSkill
             AskParameterContent = string.Empty;
             RecurrencePattern = string.Empty;
             CreateHasDetail = false;
+            NewEventStatus = EventStatus.None;
             RecreateState = null;
         }
 

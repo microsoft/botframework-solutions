@@ -5,20 +5,20 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using Microsoft.Bot.Solutions.Dialogs;
 
-namespace CalendarSkill.Dialogs.DeleteEvent.Resources
+namespace CalendarSkill.Dialogs.ChangeEventStatus.Resources
 {
     /// <summary>
     /// Contains bot responses.
     /// </summary>
-    public static class DeleteEventResponses
+    public static class ChangeEventStatusResponses
     {
         private static readonly ResponseManager _responseManager;
 
-        static DeleteEventResponses()
+        static ChangeEventStatusResponses()
         {
-            var dir = Path.GetDirectoryName(typeof(DeleteEventResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\DeleteEvent\Resources");
-            _responseManager = new ResponseManager(resDir, "DeleteEventResponses");
+            var dir = Path.GetDirectoryName(typeof(ChangeEventStatusResponses).Assembly.Location);
+            var resDir = Path.Combine(dir, @"Dialogs\ChangeEventStatus\Resources");
+            _responseManager = new ResponseManager(resDir, "ChangeEventStatusResponses");
         }
 
         // Generated accessors
@@ -26,13 +26,19 @@ namespace CalendarSkill.Dialogs.DeleteEvent.Resources
 
         public static BotResponse ConfirmDeleteFailed => GetBotResponse();
 
+        public static BotResponse ConfirmAccept => GetBotResponse();
+
+        public static BotResponse ConfirmAcceptFailed => GetBotResponse();
+
         public static BotResponse EventDeleted => GetBotResponse();
+
+        public static BotResponse EventAccepted => GetBotResponse();
 
         public static BotResponse EventWithStartTimeNotFound => GetBotResponse();
 
         public static BotResponse NoDeleteStartTime => GetBotResponse();
 
-        public static BotResponse NoUpdateStartTime => GetBotResponse();
+        public static BotResponse NoAcceptStartTime => GetBotResponse();
 
         public static BotResponse MultipleEventsStartAtSameTime => GetBotResponse();
 

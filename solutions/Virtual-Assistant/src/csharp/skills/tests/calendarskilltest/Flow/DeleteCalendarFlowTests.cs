@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using CalendarSkill.Dialogs.DeleteEvent.Resources;
+using CalendarSkill.Dialogs.ChangeEventStatus.Resources;
 using CalendarSkill.Models;
 using CalendarSkillTest.Flow.Fakes;
 using CalendarSkillTest.Flow.Utterances;
@@ -118,12 +118,12 @@ namespace CalendarSkillTest.Flow
 
         private string[] AskForDeletePrompt()
         {
-            return this.ParseReplies(DeleteEventResponses.NoDeleteStartTime.Replies, new StringDictionary());
+            return this.ParseReplies(ChangeEventStatusResponses.NoDeleteStartTime.Replies, new StringDictionary());
         }
 
         private string[] DeleteEventPrompt()
         {
-            return this.ParseReplies(DeleteEventResponses.EventDeleted.Replies, new StringDictionary());
+            return this.ParseReplies(ChangeEventStatusResponses.EventDeleted.Replies, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()

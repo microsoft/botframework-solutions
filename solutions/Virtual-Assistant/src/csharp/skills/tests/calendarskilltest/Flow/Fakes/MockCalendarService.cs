@@ -142,6 +142,7 @@ namespace CalendarSkillTest.Flow.Fakes
                 End = endTimeTimeZone,
                 IsOrganizer = isOrganizer,
                 IsCancelled = isCancelled,
+                ResponseStatus = new ResponseStatus() { Response = ResponseType.Organizer }
             };
 
             return new EventModel(createdEvent);
@@ -180,6 +181,16 @@ namespace CalendarSkillTest.Flow.Fakes
         }
 
         public async Task DeleteEventById(string id)
+        {
+            await Task.CompletedTask;
+        }
+
+        public async Task DeclineEventById(string id)
+        {
+            await Task.CompletedTask;
+        }
+
+        public async Task AcceptEventById(string id)
         {
             await Task.CompletedTask;
         }
