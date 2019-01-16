@@ -131,6 +131,8 @@ namespace CalendarSkill
 
         public bool CreateHasDetail { get; set; }
 
+        public int PageSize { get; set; }
+
         public TimeZoneInfo GetUserTimeZone()
         {
             if ((UserInfo != null) && (UserInfo.Timezone != null))

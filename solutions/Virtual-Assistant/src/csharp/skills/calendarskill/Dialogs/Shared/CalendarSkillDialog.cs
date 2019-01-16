@@ -410,7 +410,7 @@ namespace CalendarSkill.Dialogs.Shared
                         var num = int.Parse(value.ToString());
                         if (eventList != null && num > 0)
                         {
-                            var currentList = eventList.GetRange(0, Math.Min(ConfigData.GetInstance().MaxDisplaySize, eventList.Count));
+                            var currentList = eventList.GetRange(0, Math.Min(state.PageSize, eventList.Count));
                             if (num <= currentList.Count)
                             {
                                 state.ReadOutEvents.Clear();
@@ -433,7 +433,7 @@ namespace CalendarSkill.Dialogs.Shared
                         var num = int.Parse(value.ToString());
                         if (eventList != null && num > 0)
                         {
-                            var currentList = eventList.GetRange(0, Math.Min(ConfigData.GetInstance().MaxDisplaySize, eventList.Count));
+                            var currentList = eventList.GetRange(0, Math.Min(state.PageSize, eventList.Count));
                             if (num <= currentList.Count)
                             {
                                 state.ReadOutEvents.Clear();

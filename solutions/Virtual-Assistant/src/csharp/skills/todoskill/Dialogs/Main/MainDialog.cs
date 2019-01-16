@@ -318,10 +318,6 @@ namespace ToDoSkill.Dialogs.Main
         private void InitializeConfig(ToDoSkillState state)
         {
             // Initialize PageSize, ReadSize and TaskServiceType when the first input comes.
-            // workaround for UT failed
-            const int MaxDisplaySize = 6;
-            const int MaxReadSize = 3;
-
             if (state.PageSize <= 0)
             {
                 int pageSize = 0;
@@ -330,7 +326,7 @@ namespace ToDoSkill.Dialogs.Main
                     int.TryParse(displaySizeObj.ToString(), out pageSize);
                 }
 
-                state.PageSize = pageSize <= 0 || pageSize > MaxDisplaySize ? MaxDisplaySize : pageSize;
+                state.PageSize = pageSize <= 0 || pageSize > CommonUtil.MaxDisplaySize ? CommonUtil.MaxDisplaySize : pageSize;
             }
 
             if (state.ReadSize <= 0)
@@ -341,7 +337,7 @@ namespace ToDoSkill.Dialogs.Main
                     int.TryParse(readSizeObj.ToString(), out readSize);
                 }
 
-                state.ReadSize = readSize <= 0 || readSize > MaxReadSize ? MaxReadSize : readSize;
+                state.ReadSize = readSize <= 0 || readSize > CommonUtil.MaxReadSize ? CommonUtil.MaxReadSize : readSize;
             }
 
             if (state.TaskServiceType == ProviderTypes.Other)

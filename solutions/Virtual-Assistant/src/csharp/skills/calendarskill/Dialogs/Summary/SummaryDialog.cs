@@ -113,7 +113,7 @@ namespace CalendarSkill.Dialogs.Summary
 
                 if (topGeneralIntent == General.Intent.Next && state.SummaryEvents != null)
                 {
-                    if ((state.ShowEventIndex + 1) * ConfigData.GetInstance().MaxDisplaySize < state.SummaryEvents.Count)
+                    if ((state.ShowEventIndex + 1) * state.PageSize < state.SummaryEvents.Count)
                     {
                         state.ShowEventIndex++;
                     }
@@ -214,13 +214,13 @@ namespace CalendarSkill.Dialogs.Summary
                         }
                     }
 
-                    await ShowMeetingList(sc, searchedEvents.GetRange(0, Math.Min(ConfigData.GetInstance().MaxDisplaySize, searchedEvents.Count)), false);
+                    await ShowMeetingList(sc, searchedEvents.GetRange(0, Math.Min(state.PageSize, searchedEvents.Count)), false);
                     state.Clear();
                     state.SummaryEvents = searchedEvents;
                 }
                 else
                 {
-                    await ShowMeetingList(sc, state.SummaryEvents.GetRange(state.ShowEventIndex * ConfigData.GetInstance().MaxDisplaySize, Math.Min(ConfigData.GetInstance().MaxDisplaySize, state.SummaryEvents.Count - (state.ShowEventIndex * ConfigData.GetInstance().MaxDisplaySize))), false);
+                    await ShowMeetingList(sc, state.SummaryEvents.GetRange(state.ShowEventIndex * state.PageSize, Math.Min(state.PageSize, state.SummaryEvents.Count - (state.ShowEventIndex * state.PageSize))), false);
                 }
 
                 return await sc.NextAsync();

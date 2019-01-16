@@ -8,7 +8,7 @@ namespace Microsoft.Bot.Solutions.Util
 
         public const int MaxReadSize = 3;
 
-        public const int MaxDisplaySize = 3;
+        public const int MaxDisplaySize = 6;
 
         public const string DialogTurnResultCancelAllDialogs = "cancelAllDialogs";
     }
