@@ -25,7 +25,7 @@ namespace DirectLineExample
         // Set this to the Secret for the Bot you wish to communicate with
         private static string botDirectLineSecret = "";
         private static string botId = "";
-        private static string fromUser = "default-ryan";
+        private static string fromUser = "";
 
         static async Task Main(string[] args)
         {
