@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using CalendarSkill.Dialogs.CreateEvent.Prompts.Options;
 using CalendarSkill.Dialogs.CreateEvent.Resources;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -9,11 +10,11 @@ using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text.DateTime;
 using static Microsoft.Recognizers.Text.Culture;
 
-namespace CalendarSkill.Dialogs.CreateEvent
+namespace CalendarSkill.Dialogs.CreateEvent.Prompts
 {
-    public class DatePrompt : Prompt<IList<DateTimeResolution>>
+    public class TimePrompt : Prompt<IList<DateTimeResolution>>
     {
-        public DatePrompt(string dialogId, PromptValidator<IList<DateTimeResolution>> validator = null, string defaultLocale = null)
+        public TimePrompt(string dialogId, PromptValidator<IList<DateTimeResolution>> validator = null, string defaultLocale = null)
                : base(dialogId, validator)
         {
             DefaultLocale = defaultLocale;
@@ -35,13 +36,24 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 throw new ArgumentNullException(nameof(options));
             }
 
-            if (isRetry && options.RetryPrompt != null)
+            if (!(options is NoSkipPromptOptions))
             {
-                await turnContext.SendActivityAsync(options.RetryPrompt, cancellationToken).ConfigureAwait(false);
+                throw new Exception(nameof(options) + " should be NoSkipPromptOptions");
             }
-            else if (options.Prompt != null)
+
+            NoSkipPromptOptions noSkipOption = (NoSkipPromptOptions)options;
+
+            if (isRetry && noSkipOption.RetryPrompt != null && !IsSkip)
             {
-                await turnContext.SendActivityAsync(options.Prompt, cancellationToken).ConfigureAwait(false);
+                await turnContext.SendActivityAsync(noSkipOption.RetryPrompt, cancellationToken).ConfigureAwait(false);
+            }
+            else if (IsSkip && noSkipOption.NoSkipPrompt != null)
+            {
+                await turnContext.SendActivityAsync(noSkipOption.NoSkipPrompt, cancellationToken).ConfigureAwait(false);
+            }
+            else if (noSkipOption.Prompt != null)
+            {
+                await turnContext.SendActivityAsync(noSkipOption.Prompt, cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -53,11 +65,12 @@ namespace CalendarSkill.Dialogs.CreateEvent
             }
 
             var result = new PromptRecognizerResult<IList<DateTimeResolution>>();
+            IsSkip = false;
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
                 var message = turnContext.Activity.AsMessageActivity();
                 var culture = turnContext.Activity.Locale ?? DefaultLocale ?? English;
-                IList<DateTimeResolution> date = GetDateFromMessage(message.Text, culture);
+                IList<DateTimeResolution> date = GetTimeFromMessage(message.Text, culture);
                 if (date.Count > 0)
                 {
                     result.Succeeded = true;
@@ -68,15 +81,13 @@ namespace CalendarSkill.Dialogs.CreateEvent
             return await Task.FromResult(result);
         }
 
-        private IList<DateTimeResolution> GetDateFromMessage(string message, string culture)
+        private IList<DateTimeResolution> GetTimeFromMessage(string message, string culture)
         {
             if (CreateEventWhiteList.IsSkip(message))
             {
-                message = "today";
-
-                // log is this one skip. may change logic in future.
-                // no use for now
+                // Can not skip
                 IsSkip = true;
+                return new List<DateTimeResolution>();
             }
 
             IList<DateTimeResolution> results = RecognizeDateTime(message, culture);
@@ -94,7 +105,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 var values = (List<Dictionary<string, string>>)results[0].Resolution["values"];
                 foreach (var value in values)
                 {
-                    if (ContainsDate(value))
+                    if (ContainsTime(value))
                     {
                         result.Add(ReadResolution(value));
                     }
@@ -106,7 +117,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
             return new List<DateTimeResolution>();
         }
 
-        private bool ContainsDate(IDictionary<string, string> resolution)
+        private bool ContainsTime(IDictionary<string, string> resolution)
         {
             if (resolution.TryGetValue("value", out var value))
             {
