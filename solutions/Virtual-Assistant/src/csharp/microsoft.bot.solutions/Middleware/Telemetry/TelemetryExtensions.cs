@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 
