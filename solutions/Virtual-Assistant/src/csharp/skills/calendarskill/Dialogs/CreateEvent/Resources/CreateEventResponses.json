@@ -11,8 +11,8 @@
   "NoContent": {
     "replies": [
       {
-        "text": "What would you like to add in the meeting details? Or skip it.",
-        "speak": "What would you like to add in the meeting details? Or skip it."
+        "text": "What would you like to add in the meeting details?",
+        "speak": "What would you like to add in the meeting details?"
       }
     ],
     "inputHint": "expectingInput"
@@ -20,8 +20,8 @@
   "NoLocation": {
     "replies": [
       {
-        "text": "What is the location for the meeting? Or skip it.",
-        "speak": "What is the location for the meeting? Or skip it."
+        "text": "What is the location for the meeting?",
+        "speak": "What is the location for the meeting?"
       }
     ],
     "inputHint": "expectingInput"
@@ -153,11 +153,38 @@
     ],
     "inputHint": "expectingInput"
   },
+  "NoStartTime_Retry": {
+    "replies": [
+      {
+        "text": "I don't understand the time you input, can you try again?",
+        "speak": "I don't understand the date you input, can you try again?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoStartTime_NoSkip": {
+    "replies": [
+      {
+        "text": "You can not skip the Start Time. Please try again.",
+        "speak": "You can not skip the Start Time. Please try again."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "NoDuration": {
     "replies": [
       {
         "text": "How long is the meeting for?",
         "speak": "How long is the meeting for?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoDuration_Retry": {
+    "replies": [
+      {
+        "text": "I don't understand the duration you input, can you try again?",
+        "speak": "I don't understand the duration you input, can you try again?"
       }
     ],
     "inputHint": "expectingInput"

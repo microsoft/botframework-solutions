@@ -126,7 +126,6 @@ namespace CalendarSkill
 
                 var defaultLocale = Configuration.GetSection("defaultLocale").Get<string>();
                 options.Middleware.Add(new SetLocaleMiddleware(defaultLocale ?? "en"));
-
             });
         }
 
