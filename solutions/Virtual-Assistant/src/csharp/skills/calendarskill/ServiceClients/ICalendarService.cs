@@ -61,5 +61,19 @@ namespace CalendarSkill.ServiceClients
         /// <param name="id">the meeting ID.</param>
         /// <returns>complete task.</returns>
         Task DeleteEventById(string id);
+
+        /// <summary>
+        /// Decline the meeting by ID.
+        /// </summary>
+        /// <param name="id">the meeting ID.</param>
+        /// <returns>complete task.</returns>
+        Task DeclineEventById(string id);
+
+        /// <summary>
+        /// Accept the meeting by ID.
+        /// </summary>
+        /// <param name="id">the meeting ID.</param>
+        /// <returns>complete task.</returns>
+        Task AcceptEventById(string id);
     }
 }

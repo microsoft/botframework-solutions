@@ -1,0 +1,112 @@
+{
+    "ConfirmDelete": {
+        "replies": [
+            {
+                "text": "Are you sure you want to delete the following from your calendar?",
+                "speak": "Are you sure you want to delete the following from your calendar?"
+            }
+        ],
+        "inputHint": "expectingInput"
+    },
+    "ConfirmDeleteFailed": {
+        "replies": [
+            {
+                "text": "Are you sure you want to delete the following from your calendar? Please say 'yes' or 'no' or something like that.",
+                "speak": "Are you sure you want to delete the following from your calendar? Please say 'yes' or 'no' or something like that."
+            }
+        ],
+        "inputHint": "expectingInput"
+    },
+    "ConfirmAccept": {
+        "replies": [
+            {
+                "text": "Are you sure you want to accept the following from your calendar?",
+                "speak": "Are you sure you want to accept the following from your calendar?"
+            }
+        ],
+        "inputHint": "expectingInput"
+    },
+    "ConfirmAcceptFailed": {
+        "replies": [
+            {
+                "text": "Are you sure you want to accept the following from your calendar? Please say 'yes' or 'no' or something like that.",
+                "speak": "Are you sure you want to accept the following from your calendar? Please say 'yes' or 'no' or something like that."
+            }
+        ],
+        "inputHint": "expectingInput"
+    },
+    "EventDeleted": {
+        "replies": [
+            {
+                "text": "I have deleted the event.",
+                "speak": "I have deleted the event."
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
+    "EventAccepted": {
+        "replies": [
+            {
+                "text": "I have accepted the event.",
+                "speak": "I have accepted the event."
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
+    "EventWithStartTimeNotFound": {
+        "replies": [
+
+            {
+                "text": "No event start at this time or with that title, please try again.",
+                "speak": "No event start at this time or with that title, please try again."
+            },
+            {
+                "text": "I could not find an event you mentioned, please try again.",
+                "speak": "I could not find an event you mentioned, please try again."
+            },
+            {
+                "text": "No event can be found with the event time or title, can you try again?",
+                "speak": "No event can be found with the event time or title, can you try again?"
+            }
+        ],
+        "inputHint": "expectingInput"
+    },
+    "NoDeleteStartTime": {
+        "replies": [
+
+            {
+                "text": "What event would you like to delete? By communicating the start time or title I can retrieve your event.",
+                "speak": "What event would you like to delete? By communicating the start time or title I can retrieve your event."
+            }
+        ],
+        "inputHint": "expectingInput"
+    },
+    "NoAcceptStartTime": {
+        "replies": [
+
+            {
+                "text": "What event would you like to accept? By communicating the start time or title I can retrieve your event.",
+                "speak": "What event would you like to accept? By communicating the start time or title I can retrieve your event."
+            }
+        ],
+        "inputHint": "expectingInput"
+    },
+    "MultipleEventsStartAtSameTime": {
+        "replies": [
+
+            {
+                "text": "Multiple events found, please select the one you need.",
+                "speak": "Multiple events found, please select the one you need."
+            },
+            {
+                "text": "I have found multiple events, can you select the event of choice.",
+                "speak": "I have found multiple events, can you select the event of choice."
+            },
+            {
+                "text": "There are multiple events, please select the relevant event.",
+                "speak": "There are multiple events, please select the relevant event."
+            }
+        ],
+        "inputHint": "expectingInput"
+    }
+}
