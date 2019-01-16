@@ -1,3 +1,26 @@
+//
+// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license.
+//
+// MIT License:
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 package com.microsoft.bot.solutions.speechdevices.samples.botapp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -88,7 +111,15 @@ public class BotApplication{
         }
 
         /*
-         * Send the VA.Location event to the bot
+        Send startConversation event, with locale, to the bot
+         */
+        public void SendStartConversationEvent() throws ApiException {
+            Activity eventActivity = CreateEventActivity(Configuration.StartConversationEvent, null, null);
+            SendActivity(eventActivity);
+        }
+
+        /*
+         * Send the IPA.Location event to the bot
          */
         public void SendVirtualAssistantLocationEvent(String latitude, String longitude) throws ApiException {
             String coordinates = latitude + "," + longitude;
@@ -97,7 +128,7 @@ public class BotApplication{
         }
 
         /*
-         * Send the VA.TimeZone event to the bot
+         * Send the IPA.TimeZone event to the bot
          */
         public void SendVirtualAssistantTimeZoneEvent() throws ApiException {
             TimeZone tz = TimeZone.getDefault();
