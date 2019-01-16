@@ -8,6 +8,15 @@
     ],
     "inputHint": "expectingInput"
   },
+  "NoTitle_Short": {
+    "replies": [
+      {
+        "text": "What is the subject of the meeting?",
+        "speak": "What is the subject of the meeting?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "NoContent": {
     "replies": [
       {

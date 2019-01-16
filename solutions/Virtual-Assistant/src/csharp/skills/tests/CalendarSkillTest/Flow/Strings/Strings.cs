@@ -39,5 +39,17 @@ namespace CalendarSkillTest.Flow.Strings
         public const string Next = "next";
 
         public const string ThrowErrorAccessDenied = "test_throw_error_access_denied";
+
+        public const string RecreateWithTime = "time";
+
+        public const string RecreateWithDuration = "duration";
+
+        public const string RecreateWithLocation = "location";
+
+        public const string RecreateWithParticipants = "participants";
+
+        public const string RecreateWithSubject = "subject";
+
+        public const string RecreateWithContent = "content";
     }
 }

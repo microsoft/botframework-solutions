@@ -227,6 +227,7 @@ namespace CalendarSkill
         {
             Location = null;
             CreateHasDetail = true;
+            RecreateState = RecreateEventState.Location;
         }
 
         public void ClearParticipants()

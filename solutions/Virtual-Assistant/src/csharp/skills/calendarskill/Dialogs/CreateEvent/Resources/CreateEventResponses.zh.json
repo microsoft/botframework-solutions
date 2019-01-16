@@ -8,6 +8,15 @@
     ],
     "inputHint": "expectingInput"
   },
+  "NoTitle_Short": {
+    "replies": [
+      {
+        "text": "会议主题是什么？",
+        "speak": "会议主题是什么？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "NoContent": {
     "replies": [
       {
