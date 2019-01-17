@@ -2,7 +2,6 @@
     "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
     "type": "AdaptiveCard",
     "version": "1.0",
-    "speak": "<speak><s>Now that you have successfully run your bot, follow the links in this Adaptive Card to expand your knowledge of Bot Framework.</s></speak>",
     "body": [
       {
         "type": "Image",
@@ -14,7 +13,7 @@
         "spacing": "medium",
         "size": "default",
         "weight": "bolder",
-        "text": "Welcome to Bot Framework!",
+        "text": "欢迎来到博特框架!",
         "wrap": true,
         "maxLines": 0
       },
@@ -22,7 +21,7 @@
         "type": "TextBlock",
         "size": "default",
         "isSubtle": true,
-        "text": "Now that you have successfully run your bot, follow the links in this Adaptive Card to expand your knowledge of Bot Framework.",
+        "text": "现在您已经成功运行了您的机器人, 请按照此自适应卡中的链接扩展您对 bot 框架的了解。",
         "wrap": true,
         "maxLines": 0
       }
@@ -30,24 +29,24 @@
     "actions": [
       {
         "type": "Action.Submit",
-        "title": "Get started",
+        "title": "开始使用",
         "data": {
           "action": "startOnboarding"
         }
       },
       {
         "type": "Action.OpenUrl",
-        "title": "Get an overview",
+        "title": "概述",
         "url": "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"
       },
       {
         "type": "Action.OpenUrl",
-        "title": "Ask a question",
+        "title": "问一个问题",
         "url": "https://stackoverflow.com/questions/tagged/botframework"
       },
       {
         "type": "Action.OpenUrl",
-        "title": "Learn how to deploy",
+        "title": "了解如何部署",
         "url": "https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0"
       }
     ]
