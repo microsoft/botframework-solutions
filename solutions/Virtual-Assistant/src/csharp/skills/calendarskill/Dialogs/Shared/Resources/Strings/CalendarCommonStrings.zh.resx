@@ -126,6 +126,9 @@
   <data name="MonthlyToken" xml:space="preserve">
     <value>每月</value>
   </data>
+  <data name="Today" xml:space="preserve">
+    <value>今天</value>
+  </data>
   <data name="WeeklyToken" xml:space="preserve">
     <value>每周</value>
   </data>

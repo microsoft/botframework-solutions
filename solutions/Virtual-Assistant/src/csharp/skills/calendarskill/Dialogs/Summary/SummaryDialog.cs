@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CalendarSkill.Common;
 using CalendarSkill.Dialogs.ChangeEventStatus;
 using CalendarSkill.Dialogs.Shared;
+using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using CalendarSkill.Dialogs.Summary.Resources;
 using CalendarSkill.Dialogs.UpdateEvent;
 using CalendarSkill.Models;
@@ -317,16 +318,16 @@ namespace CalendarSkill.Dialogs.Summary
 
                     if (eventItem.IsOrganizer)
                     {
-                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.AskForAction, ResponseBuilder, new StringDictionary() { { "DateTime", "today" } }) });
+                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.AskForAction, ResponseBuilder, new StringDictionary() { { "DateTime", (state.StartDateString ?? CalendarCommonStrings.Today).ToLower() } }) });
                     }
                     else if (eventItem.IsAccepted)
                     {
-                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.AskForAction, ResponseBuilder, new StringDictionary() { { "DateTime", "today" } }) });
+                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.AskForAction, ResponseBuilder, new StringDictionary() { { "DateTime", state.StartDateString ?? CalendarCommonStrings.Today } }) });
                     }
                     else
                     {
                         //todo
-                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.AskForChangeStatus, ResponseBuilder, new StringDictionary() { { "DateTime", "today" } }) });
+                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.AskForChangeStatus, ResponseBuilder, new StringDictionary() { { "DateTime", state.StartDateString ?? CalendarCommonStrings.Today } }) });
                     }
                 }
                 else
@@ -536,10 +537,11 @@ namespace CalendarSkill.Dialogs.Summary
         {
             try
             {
+                var state = await Accessor.GetAsync(sc.Context);
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
-                    Prompt = sc.Context.Activity.CreateReply(SummaryResponses.AskForShowOverview, ResponseBuilder, new StringDictionary() { { "DateTime", "today" } }),
-                    RetryPrompt = sc.Context.Activity.CreateReply(SummaryResponses.AskForShowOverview, ResponseBuilder, new StringDictionary() { { "DateTime", "today" } })
+                    Prompt = sc.Context.Activity.CreateReply(SummaryResponses.AskForShowOverview, ResponseBuilder, new StringDictionary() { { "DateTime", state.StartDateString ?? CalendarCommonStrings.Today } }),
+                    RetryPrompt = sc.Context.Activity.CreateReply(SummaryResponses.AskForShowOverview, ResponseBuilder, new StringDictionary() { { "DateTime", state.StartDateString ?? CalendarCommonStrings.Today } })
                 }, cancellationToken);
             }
             catch (Exception ex)

@@ -126,6 +126,9 @@
   <data name="MonthlyToken" xml:space="preserve">
     <value>monthly</value>
   </data>
+  <data name="Today" xml:space="preserve">
+    <value>today</value>
+  </data>
   <data name="WeeklyToken" xml:space="preserve">
     <value>weekly</value>
   </data>
