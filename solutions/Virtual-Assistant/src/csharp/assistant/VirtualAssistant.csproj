@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-      <AssemblyName>VirtualAssistant</AssemblyName>
+    <AssemblyName>VirtualAssistant</AssemblyName>
     <RootNamespace>VirtualAssistant</RootNamespace>
   </PropertyGroup>
 
@@ -21,7 +21,7 @@
     <PackageReference Include="Microsoft.ApplicationInsights.DependencyCollector" Version="2.8.1" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.8.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
-    <PackageReference Include="Microsoft.ApplicationInsights.DependencyCollector" Version="2.8.1" />    
+    <PackageReference Include="Microsoft.ApplicationInsights.DependencyCollector" Version="2.8.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.5" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="1.0.0" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
@@ -99,10 +99,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj" />
-    <ProjectReference Include="..\skills\calendarskill\CalendarSkill.csproj" />
-    <ProjectReference Include="..\skills\emailskill\EmailSkill.csproj" />
-    <ProjectReference Include="..\skills\pointofinterestskill\PointOfInterestSkill.csproj" />
-    <ProjectReference Include="..\skills\todoskill\ToDoSkill.csproj" />
+    <ProjectReference Include="..\skills\calendarskill\calendarskill\CalendarSkill.csproj" />
+    <ProjectReference Include="..\skills\emailskill\emailskill\EmailSkill.csproj" />
+    <ProjectReference Include="..\skills\pointofinterestskill\pointofinterestskill\PointOfInterestSkill.csproj" />
+    <ProjectReference Include="..\skills\todoskill\todoskill\ToDoSkill.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -115,7 +115,7 @@
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="xcopy &quot;$(SolutionDir)skills\CalendarSkill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)skills\EmailSkill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)skills\PointOfInterestSkill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)skills\ToDoSkill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y" />
+    <Exec Command="xcopy &quot;$(SolutionDir)skills\CalendarSkill\CalendarSkill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)skills\EmailSkill\EmailSkill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)skills\PointOfInterestSkill\PointOfInterestSkill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)skills\ToDoSkill\ToDoSkill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y" />
   </Target>
 
 </Project>
