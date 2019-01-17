@@ -1,46 +1,71 @@
 ﻿param (
-    [string] $locales = "de-de,en-us,es-es,fr-fr,it-it,zh-cn",
-	[string] $domains = "general,calendar,email,todo,pointofinterest,dispatch"
+	[string] $locales = "de-de,en-us,es-es,fr-fr,it-it,zh-cn",
+	[string] $serviceIds
 )
 
-$localeArr = $locales.Split(",")
-$domainArr = $domains.Split(",")
 $basePath = "$($PSScriptRoot)\..\LocaleConfigurations\"
-$botFiles = get-childitem $basePath -recurse | where {$_.extension -eq ".bot"}
+$botFiles = get-childitem $basePath -recurse | where {$_.extension -eq ".bot"} 
+$localeArr = $locales.Split(",")
 
-Write-Host "Updating deployment scripts..."
-foreach ($locale in $localeArr) 
-{
+if ($PSBoundParameters.ContainsKey('serviceIds')) {
+	$serviceIdArr = $serviceIds.Split(",")
+}
+else {
+	$serviceIdArr = @()
+}
+
+function UpdateLUIS ($botFilePath, $langCode, $id) {
+	$versions = msbot get $id --bot $botFilePath | luis list versions --stdin | ConvertFrom-Json
+
+	if ($versions | where {$_.version -eq "backup"})
+	{
+		msbot get $id --bot $botFilePath | luis delete version --stdin --versionId backup --force --wait
+	}
+		
+	msbot get $id --bot $botFilePath | luis rename version --newVersionId backup --stdin --wait
+	msbot get $id --bot $botFilePath | luis import version --stdin --in "$($PSScriptRoot)\$($langCode)\$($id).luis" --wait
+	msbot get $id --bot $botFilePath | luis train version --wait --stdin 
+	msbot get $id --bot $botFilePath | luis publish version --stdin
+}
+
+function UpdateQnA ($botFilePath, $langCode, $id) {
+	msbot get $id --bot $botFilePath | qnamaker replace kb --in "$($PSScriptRoot)\$($langCode)\$($id).qna" --stdin
+	msbot get $id --bot $botFilePath | qnamaker publish kb --stdin
+}
+
+foreach ($locale in $localeArr) {
 	Invoke-Expression "$($PSScriptRoot)\generate_deployment_scripts.ps1 -locale $($locale)"
 }
 
-foreach ($botFile in $botFiles)
-{
- 	$botFileName = $botFile | % {$_.BaseName}
+foreach ($botFile in $botFiles) {
+	$botFileName = $botFile | % {$_.BaseName}
+	$botFilePath = "$($basePath)$($botFile)"
 	$langCode = $botFileName.Substring($botFileName.Length - 2, 2)
-		
-	if ($localeArr | where {$_ -like "*$($langCode)*"})
-	{	
-		Write-Host "Updating $($langCode) LUIS models ..."
-		foreach ($domain in $domainArr)
-		{
-			# Check for existing old version
-			$versions = msbot get $domain --bot "$($basePath)$($botFile)" | luis list versions --stdin | ConvertFrom-Json
-			if ($versions | where {$_.version -eq "backup"})
-			{
-				msbot get $domain --bot "$($basePath)$($botFile)" | luis delete version --stdin --versionId backup --force --wait
+
+	if ($localeArr | where {$_ -like "*$($langCode)*"}) {
+		$botServices = Get-Content -Raw -Path $botFilePath | ConvertFrom-Json
+
+		if ($serviceIdArr.Count -gt 0) {
+			foreach ($serviceId in $serviceIdArr) {
+				$service = $botServices.services | where { $_.id -eq $serviceId }
+
+				if (($service.type -eq "luis") -or ($service.type -eq "dispatch")) {
+					UpdateLUIS $botFilePath $langCode $service.id
+				}
+				elseif ($service.type -eq "faq") {
+					UpdateQnA $botFilePath $langCode $service.id
+				}
 			}
-		
-			msbot get $domain --bot "$($basePath)$($botFile)" | luis rename version --newVersionId backup --stdin --wait
-			msbot get $domain --bot "$($basePath)$($botFile)" | luis import version --stdin --in "$($PSScriptRoot)\$($langCode)\$($domain).luis" --wait
-			msbot get $domain --bot "$($basePath)$($botFile)" | luis train version --wait --stdin 
-			msbot get $domain --bot "$($basePath)$($botFile)" | luis publish version --stdin
 		}
-		
-		Write-Host "Replacing $($langCode) QnA Maker KB contents ..." 
-		msbot get faq --bot "$($basePath)$($botFile)" | qnamaker replace kb --in "$($PSScriptRoot)\$($langCode)\faq.qna" --stdin
-		
-		Write-Host "Publishing $($langCode) QnA Maker model ..."
-		msbot get faq --bot "$($basePath)$($botFile)" | qnamaker publish kb --stdin
+		else {
+			foreach ($service in $botServices.services) {
+				if (($service.type -eq "luis") -or ($service.type -eq "dispatch")) {
+					UpdateLUIS $botFilePath $langCode $service.id
+				}
+				elseif ($service.type -eq "faq") {
+					UpdateQnA $botFilePath $langCode $service.id
+				}
+			}
+		}
 	}
 }
