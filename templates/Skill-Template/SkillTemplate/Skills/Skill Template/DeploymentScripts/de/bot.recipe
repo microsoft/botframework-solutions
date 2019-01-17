@@ -4,12 +4,14 @@
     {
       "type": "luis",
       "id": "general",
-      "name": "General"
+      "name": "General",
+      "luPath": "..\\CognitiveModels\\LUIS\\en\\general.lu"
     },
     {
       "type": "luis",
       "id": "skill",
-      "name": "Skill"
+      "name": "Skill",
+      "luPath": "..\\CognitiveModels\\LUIS\\en\\skill.lu"
     }
   ]
 }
