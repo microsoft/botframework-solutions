@@ -1,24 +1,31 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
-import { DictionaryRenderer, LanguageTemplateDictionary } from "../templateManager/dictionaryRenderer";
+import { TurnContext } from "botbuilder";
+import { DictionaryRenderer, LanguageTemplateDictionary, TemplateFunction } from "../templateManager/dictionaryRenderer";
 import { TemplateManager } from "../templateManager/templateManager";
 import * as i18n from "i18n";
 
 export class CancelResponses extends TemplateManager {
-    // Constants
-    public static readonly _confirmPrompt: string = "Cancel.ConfirmCancelPrompt";
-    public static readonly _cancelConfirmed: string = "Cancel.CancelConfirmed";
-    public static readonly _cancelDenied: string = "Cancel.CancelDenied";
 
     // Fields
+    public static ResponseIds = {
+        CancelPrompt:  "cancelPrompt",
+        CancelConfirmedMessage: "cancelConfirmed",
+        CancelDeniedMessage: "cancelDenied",
+    }
+
     private static readonly _responseTemplates: LanguageTemplateDictionary = new Map([
         ["default", new Map([
-            [CancelResponses._confirmPrompt, () => Promise.resolve(i18n.__("cancel.prompt"))],
-            [CancelResponses._cancelConfirmed, () => Promise.resolve(i18n.__("cancel.confirmed"))],
-            [CancelResponses._cancelDenied, () => Promise.resolve(i18n.__("cancel.denied"))]
+            [CancelResponses.ResponseIds.CancelPrompt, CancelResponses.fromResources("cancel.prompt")],
+            [CancelResponses.ResponseIds.CancelConfirmedMessage, CancelResponses.fromResources("cancel.confirmed")],
+            [CancelResponses.ResponseIds.CancelDeniedMessage, CancelResponses.fromResources("cancel.denied")],
         ])]
     ]);
+
+    private static fromResources(name: string): TemplateFunction {
+        return (context: TurnContext, data: any) => Promise.resolve(i18n.__(name));
+    }
 
     constructor() {
         super();
