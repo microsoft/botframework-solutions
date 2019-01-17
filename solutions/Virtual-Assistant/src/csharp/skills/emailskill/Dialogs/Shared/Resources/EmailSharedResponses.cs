@@ -58,6 +58,8 @@ namespace EmailSkill.Dialogs.Shared.Resources
 
         public static BotResponse NoChoiceOptions_Retry => GetBotResponse();
 
+        public static BotResponse ShowOneEmailPrompt => GetBotResponse();
+
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {
             return _responseManager.GetBotResponse(propertyName);

@@ -7,8 +7,6 @@ namespace CalendarSkill
 {
     public class CalendarSkillState
     {
-        public const int PageSize = 5;
-
         public CalendarSkillState()
         {
             User = new User();
@@ -135,6 +133,8 @@ namespace CalendarSkill
         public bool CreateHasDetail { get; set; }
 
         public EventStatus NewEventStatus { get; set; }
+
+        public int PageSize { get; set; }
 
         public TimeZoneInfo GetUserTimeZone()
         {

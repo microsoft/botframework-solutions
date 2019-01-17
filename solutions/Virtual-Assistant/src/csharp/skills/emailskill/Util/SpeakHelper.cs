@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using EmailSkill.Dialogs.Shared.Resources.Strings;
+using EmailSkill.Extensions;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Resources;
@@ -10,7 +11,7 @@ namespace EmailSkill.Util
 {
     public class SpeakHelper
     {
-        public static string ToSpeechEmailListString(List<Message> messages, int maxReadSize)
+        public static string ToSpeechEmailListString(List<Message> messages, TimeZoneInfo timeZone, int maxReadSize)
         {
             string speakString = string.Empty;
 
@@ -24,7 +25,7 @@ namespace EmailSkill.Util
             int readSize = Math.Min(messages.Count, maxReadSize);
             if (readSize == 1)
             {
-                var emailDetail = ToSpeechEmailDetailString(messages[0]);
+                var emailDetail = ToSpeechEmailDetailOverallString(messages[0], timeZone);
                 emailDetails.Add(emailDetail);
             }
             else
@@ -46,7 +47,7 @@ namespace EmailSkill.Util
                         readFormat = CommonStrings.ThirdItem;
                     }
 
-                    var emailDetail = string.Format(readFormat, ToSpeechEmailDetailString(messages[i]));
+                    var emailDetail = string.Format(readFormat, ToSpeechEmailDetailOverallString(messages[i], timeZone));
                     emailDetails.Add(emailDetail);
                 }
             }
@@ -55,16 +56,35 @@ namespace EmailSkill.Util
             return speakString;
         }
 
-        public static string ToSpeechEmailDetailString(Message message)
+        public static string ToSpeechEmailDetailOverallString(Message message, TimeZoneInfo timeZone)
         {
             string speakString = string.Empty;
 
             if (message != null)
             {
-                string subject = (message.Subject != null) ? message.Subject : EmailCommonStrings.EmptySubject;
+                string time = message.ReceivedDateTime == null
+                    ? CommonStrings.NotAvailable
+                    : message.ReceivedDateTime.Value.UtcDateTime.ToRelativeString(timeZone);
                 string sender = (message.Sender?.EmailAddress?.Name != null) ? message.Sender.EmailAddress.Name : EmailCommonStrings.UnknownSender;
+                speakString = string.Format(EmailCommonStrings.FromDetailsFormat, sender, time);
+            }
 
-                speakString = string.Format(EmailCommonStrings.FromDetailsFormat, subject, sender);
+            return speakString;
+        }
+
+        public static string ToSpeechEmailDetailString(Message message, TimeZoneInfo timeZone)
+        {
+            string speakString = string.Empty;
+
+            if (message != null)
+            {
+                string time = message.ReceivedDateTime == null
+                    ? CommonStrings.NotAvailable
+                    : message.ReceivedDateTime.Value.UtcDateTime.ToRelativeString(timeZone);
+                string subject = message.Subject ?? EmailCommonStrings.EmptySubject;
+                string sender = (message.Sender?.EmailAddress?.Name != null) ? message.Sender.EmailAddress.Name : EmailCommonStrings.UnknownSender;
+                string content = message.BodyPreview ?? EmailCommonStrings.EmptyContent;
+                speakString = string.Format(EmailCommonStrings.FromDetailsFormatAll, sender, time, subject, content);
             }
 
             return speakString;

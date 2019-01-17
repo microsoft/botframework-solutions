@@ -16,6 +16,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
+using Microsoft.Bot.Solutions.Data;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Prompts;
@@ -409,7 +410,7 @@ namespace CalendarSkill.Dialogs.Shared
                         var num = int.Parse(value.ToString());
                         if (eventList != null && num > 0)
                         {
-                            var currentList = eventList.GetRange(0, Math.Min(CalendarSkillState.PageSize, eventList.Count));
+                            var currentList = eventList.GetRange(0, Math.Min(state.PageSize, eventList.Count));
                             if (num <= currentList.Count)
                             {
                                 state.ReadOutEvents.Clear();
@@ -432,7 +433,7 @@ namespace CalendarSkill.Dialogs.Shared
                         var num = int.Parse(value.ToString());
                         if (eventList != null && num > 0)
                         {
-                            var currentList = eventList.GetRange(0, Math.Min(CalendarSkillState.PageSize, eventList.Count));
+                            var currentList = eventList.GetRange(0, Math.Min(state.PageSize, eventList.Count));
                             if (num <= currentList.Count)
                             {
                                 state.ReadOutEvents.Clear();

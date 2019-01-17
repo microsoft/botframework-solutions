@@ -331,11 +331,10 @@ namespace CalendarSkillTest.Flow
 
                 var meetingCardJsonString = ((Newtonsoft.Json.Linq.JObject)messageActivity.Attachments[0].Content).ToString();
                 var meetingCard = JsonConvert.DeserializeObject<MeetingAdaptiveCard>(meetingCardJsonString);
-                var meetingInfoList = meetingCard.Bodies[0].Items[1].Text.Split("\n");
-                var dateString = meetingInfoList[1];
+                var meetingDate = meetingCard.Bodies[0].Items[2].Text;
                 CultureInfo cultureInfo = (CultureInfo)CultureInfo.CurrentUICulture.Clone();
                 cultureInfo.DateTimeFormat.DateSeparator = "-";
-                DateTime date = DateTime.ParseExact(dateString, "d", cultureInfo);
+                DateTime date = DateTime.ParseExact(meetingDate, "d", cultureInfo);
                 DateTime utcToday = DateTime.UtcNow.Date;
                 Assert.IsTrue(date >= utcToday);
             };
