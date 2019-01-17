@@ -6,7 +6,7 @@ using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Testing;
-using Microsoft.Bot.Solutions.Fakes;
+using Microsoft.Bot.Solutions.Testing.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using $safeprojectname$.Flow.LuisTestUtils;
 using System.Collections.Generic;

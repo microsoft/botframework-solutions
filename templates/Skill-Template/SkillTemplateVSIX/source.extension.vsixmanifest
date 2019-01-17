@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="SkillTemplateVSIX.0af2b692-b35d-4ad6-a759-d18e61a0369f" Version="1.7" Language="en-US" Publisher="Lauren Mills" />
+        <Identity Id="SkillTemplateVSIX.0af2b692-b35d-4ad6-a759-d18e61a0369f" Version="1.8" Language="en-US" Publisher="Lauren Mills" />
         <DisplayName>Skill Template</DisplayName>
         <Description xml:space="preserve">Skill Template for Virtual Assistant</Description>
     </Metadata>
