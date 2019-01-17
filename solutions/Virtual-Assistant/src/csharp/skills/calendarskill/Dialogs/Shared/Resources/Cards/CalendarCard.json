@@ -17,9 +17,29 @@
                 },
                 {
                     "type": "TextBlock",
-                    "text": "{Content}"
+                    "text": "{Participant}",
+                    "isSubtle": true
+                },
+                {
+                    "type": "TextBlock",
+                    "text": "{Date}",
+                    "isSubtle": true
+                },
+                {
+                    "type": "TextBlock",
+                    "text": "{Time}",
+                    "isSubtle": true
+                },
+                {
+                    "type": "TextBlock",
+                    "text": "{Location}",
+                    "isSubtle": true
+                },
+                {
+                    "type": "TextBlock",
+                    "text": "{ContentPreview}",
+                    "maxLines": 10
                 }
-
             ]
         }
     ],

@@ -309,6 +309,37 @@ namespace CalendarSkill.Models
             }
         }
 
+        public string ContentPreview
+        {
+            get
+            {
+                switch (source)
+                {
+                    case EventSource.Microsoft:
+                        return msftEventData.BodyPreview;
+                    case EventSource.Google:
+                        return gmailEventData.Description;
+                    default:
+                        throw new Exception("Event Type not Defined");
+                }
+            }
+
+            set
+            {
+                switch (source)
+                {
+                    case EventSource.Microsoft:
+                        msftEventData.BodyPreview = value;
+                        break;
+                    case EventSource.Google:
+                        gmailEventData.Description = value;
+                        break;
+                    default:
+                        throw new Exception("Event Type not Defined");
+                }
+            }
+        }
+
         /// <summary>
         /// Gets or sets event start time. StartTime must be local time.
         /// </summary>
@@ -799,17 +830,20 @@ namespace CalendarSkill.Models
             return dateTime1.Year == dateTime2.Year && dateTime1.Month == dateTime2.Month && dateTime1.Day == dateTime2.Day;
         }
 
-        public CalendarCardData ToAdaptiveCardData(TimeZoneInfo timeZone, bool showDate = true, string culture = "")
+        public CalendarCardData ToAdaptiveCardData(TimeZoneInfo timeZone, bool showDate = true, bool showContent = false, string culture = "")
         {
             var eventItem = this;
 
-            var textString = string.Empty;
+            string participantString = null;
+            string dateString = null;
+            string timeString = null;
+            string locationString = null;
             if (eventItem.Attendees.Count > 0)
             {
-                textString += string.IsNullOrEmpty(eventItem.Attendees[0].DisplayName) ? eventItem.Attendees[0].Address : eventItem.Attendees[0].DisplayName;
+                participantString = string.IsNullOrEmpty(eventItem.Attendees[0].DisplayName) ? eventItem.Attendees[0].Address : eventItem.Attendees[0].DisplayName;
                 if (eventItem.Attendees.Count > 1)
                 {
-                    textString += string.Format(CommonStrings.AttendeesSummary, eventItem.Attendees.Count - 1);
+                    participantString += string.Format(CommonStrings.AttendeesSummary, eventItem.Attendees.Count - 1);
                 }
             }
 
@@ -824,26 +858,26 @@ namespace CalendarSkill.Models
                 var endDateString = userEndDateTime.ToString("d", cultureInfo);
                 if (IsSameDate(userStartDateTime, userEndDateTime))
                 {
-                    textString += $"\n{startDateString}";
+                    dateString = $"{startDateString}";
                 }
                 else
                 {
-                    textString += $"\n{startDateString} - {endDateString}";
+                    dateString = $"{startDateString} - {endDateString}";
                 }
             }
 
             if (eventItem.IsAllDay == true)
             {
-                textString += $"\n{CalendarCommonStrings.AllDay}";
+                timeString = $"{CalendarCommonStrings.AllDay}";
             }
             else
             {
-                textString += $"\n{userStartDateTime.ToString(CommonStrings.DisplayTime)} - {TimeConverter.ConvertUtcToUserTime(eventItem.EndTime, timeZone).ToString(CommonStrings.DisplayTime)}";
+                timeString = $"{userStartDateTime.ToString(CommonStrings.DisplayTime)} - {TimeConverter.ConvertUtcToUserTime(eventItem.EndTime, timeZone).ToString(CommonStrings.DisplayTime)}";
             }
 
             if (eventItem.Location != null)
             {
-                textString += $"\n{eventItem.Location}";
+                locationString = $"{eventItem.Location}";
             }
 
             string speakString = string.Empty;
@@ -852,7 +886,11 @@ namespace CalendarSkill.Models
             return new CalendarCardData
             {
                 Title = eventItem.Title,
-                Content = textString,
+                Participant = participantString,
+                Date = dateString,
+                Time = timeString,
+                Location = locationString,
+                ContentPreview = showContent ? eventItem.ContentPreview : null,
                 MeetingLink = eventItem.OnlineMeetingUrl,
                 Speak = speakString,
             };
