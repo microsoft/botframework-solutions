@@ -149,6 +149,16 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
             return;
         }
 
+        public Task DeclineEventById(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task AcceptEventById(string id)
+        {
+            throw new NotImplementedException();
+        }
+
         private Event UpdateEventById(Event updateEvent)
         {
             try

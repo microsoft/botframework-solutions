@@ -15,7 +15,7 @@ using WebSocketSharp;
 namespace DirectLineExample
 {
     /// <summary>
-    /// A sample Application to demonstrate the use of DirectLine (WebSockets) to communicate with a Custom Assistant
+    /// A sample Application to demonstrate the use of DirectLine (WebSockets) to communicate with a Virtual Assistant
     /// It demonstrates the ability to send and receive Events as well as process responses including Adaptive Cards
     /// This simple example provides a clear demonstration of the basic communciation required to embed a Custom Assistant
     /// within a device.
@@ -37,6 +37,7 @@ namespace DirectLineExample
             using (var webSocketClient = new WebSocket(conversation.StreamUrl))
             {
                 webSocketClient.OnMessage += WebSocketClient_OnMessage;
+                webSocketClient.SslConfiguration.EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12;
                 webSocketClient.Connect();
 
                 // The Contoso Assistant Bot requires a "startup" event to get going, this is NOT needed for other bots
@@ -68,17 +69,19 @@ namespace DirectLineExample
             }
         }
 
+
+        /// <summary>
+        /// These are sample startup events used in the Virtual Assistant for setting 
+        /// locale and providing a user's current coordinates.
+        /// </summary>
         private async static Task SendStartupEvent(DirectLineClient client, Conversation conversation)
         {
-            DeviceInformation deviceInformation = new DeviceInformation();
-            deviceInformation.DeviceId = System.Guid.NewGuid().ToString();
-
             Activity startupEvent = new Activity
             {
-                Name = "IPA.DeviceTurnedOn",
+                Name = "startConversation",
                 From = new ChannelAccount(fromUser),
                 Type = ActivityTypes.Event,
-                Value = deviceInformation
+                Locale = "en-us"
             };
 
             await client.Conversations.PostActivityAsync(conversation.ConversationId, startupEvent);
@@ -145,7 +148,7 @@ namespace DirectLineExample
 
                         Console.WriteLine($"* Received a {activity.Name} event from the Custom Assistant.");
                         break;
-            }
+                }
 
                 Console.Write("Message> ");
             }

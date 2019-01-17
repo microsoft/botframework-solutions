@@ -7,8 +7,8 @@ using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Common;
+using CalendarSkill.Dialogs.ChangeEventStatus;
 using CalendarSkill.Dialogs.CreateEvent;
-using CalendarSkill.Dialogs.DeleteEvent;
 using CalendarSkill.Dialogs.JoinEvent;
 using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared;
@@ -108,9 +108,10 @@ namespace CalendarSkill.Dialogs.Main
                             break;
                         }
 
+                    case Luis.Calendar.Intent.AcceptCalendarEntry:
                     case Luis.Calendar.Intent.DeleteCalendarEntry:
                         {
-                            await dc.BeginDialogAsync(nameof(DeleteEventDialog), skillOptions);
+                            await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog), skillOptions);
                             break;
                         }
 
@@ -329,7 +330,7 @@ namespace CalendarSkill.Dialogs.Main
         private void RegisterDialogs()
         {
             AddDialog(new CreateEventDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new DeleteEventDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new ChangeEventStatusDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
             AddDialog(new TimeRemainingDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
             AddDialog(new SummaryDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
             AddDialog(new UpdateEventDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));

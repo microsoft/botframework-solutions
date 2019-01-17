@@ -1,0 +1,112 @@
+﻿{
+    "ConfirmDelete": {
+        "replies": [
+            {
+                "text": "您确定从日程表中删除下列会议？",
+                "speak": "您确定从日程表中删除下列会议？"
+            }
+        ],
+        "inputHint": "expectingInput"
+    },
+    "ConfirmDeleteFailed": {
+        "replies": [
+            {
+                "text": "您确定从日程表中删除下列会议？请说 ‘是’ 或者 ‘不’ 或类似词语。",
+                "speak": "您确定从日程表中删除下列会议？请说 ‘是’ 或者 ‘不’ 或类似词语。"
+            }
+        ],
+        "inputHint": "expectingInput"
+    },
+    "ConfirmAccept": {
+        "replies": [
+            {
+                "text": "您确定接受下列会议？",
+                "speak": "您确定接受下列会议？"
+            }
+        ],
+        "inputHint": "expectingInput"
+    },
+    "ConfirmAcceptFailed": {
+        "replies": [
+            {
+                "text": "您确定接受下列会议？请说 ‘是’ 或者 ‘不’ 或类似词语。",
+                "speak": "您确定接受下列会议？请说 ‘是’ 或者 ‘不’ 或类似词语。"
+            }
+        ],
+        "inputHint": "expectingInput"
+    },
+    "EventDeleted": {
+        "replies": [
+            {
+                "text": "已经删除会议。",
+                "speak": "已经删除会议。"
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
+    "EventAccepted": {
+        "replies": [
+            {
+                "text": "已经接受会议。",
+                "speak": "已经接受会议。"
+            }
+        ],
+        "inputHint": "acceptingInput"
+    },
+    "EventWithStartTimeNotFound": {
+        "replies": [
+
+            {
+                "text": "没有找到此主题或开始时间的会议，请重试。",
+                "speak": "没有找到此主题或开始时间的会议，请重试。"
+            },
+            {
+                "text": "没找到您提到的会议，请重试。",
+                "speak": "没找到您提到的会议，请重试。"
+            },
+            {
+                "text": "没找到和此主题或时间相关的会议，请重试。",
+                "speak": "没找到和此主题或时间相关的会议，请重试。"
+            }
+        ],
+        "inputHint": "expectingInput"
+    },
+    "NoDeleteStartTime": {
+        "replies": [
+
+            {
+                "text": "您想删除哪个会议？我可以根据会议主题或开始时间找到你的会议。",
+                "speak": "您想删除哪个会议？我可以根据会议主题或开始时间找到你的会议。"
+            }
+        ],
+        "inputHint": "expectingInput"
+    },
+    "NoAcceptStartTime": {
+        "replies": [
+
+            {
+                "text": "您想接受哪个会议？我可以根据会议主题或开始时间找到你的会议。",
+                "speak": "您想接受哪个会议？我可以根据会议主题或开始时间找到你的会议。"
+            }
+        ],
+        "inputHint": "expectingInput"
+    },
+    "MultipleEventsStartAtSameTime": {
+        "replies": [
+
+            {
+                "text": "找到多个会议，请选择您需要的会议。",
+                "speak": "找到多个会议，请选择您需要的会议。"
+            },
+            {
+                "text": "找到多个会议，请选择您的会议。",
+                "speak": "找到多个会议，请选择您的会议。"
+            },
+            {
+                "text": "有多个会议，请选择相关的会议。",
+                "speak": "有多个会议，请选择相关的会议。"
+            }
+        ],
+        "inputHint": "expectingInput"
+    }
+}

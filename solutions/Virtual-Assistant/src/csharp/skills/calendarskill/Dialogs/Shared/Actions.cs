@@ -11,7 +11,7 @@
         public const string ShowNextEvent = "showNextEvent";
         public const string CreateEvent = "createEvent";
         public const string UpdateEventTime = "UpdateEventTime";
-        public const string DeleteEvent = "DeleteEvent";
+        public const string ChangeEventStatus = "ChangeEventStatus";
         public const string UpdateAddress = "UpdateAddress";
         public const string UpdateName = "UpdateName";
         public const string ConfirmAttendee = "ConfirmAttendee";
@@ -25,6 +25,8 @@
         public const string DateTimePrompt = "DateTimePrompt";
         public const string DateTimePromptForUpdateDelete = "DateTimePromptForUpdateDelete";
         public const string DatePromptForCreate = "DatePromptForCreate";
+        public const string TimePromptForCreate = "TimePromptForCreate";
+        public const string DurationPromptForCreate = "DurationPromptForCreate";
         public const string Read = "read";
         public const string Greeting = "greeting";
         public const string GetEventsInit = "getEventsInit";

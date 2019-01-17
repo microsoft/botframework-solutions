@@ -1,14 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.DeleteEmail.Resources;
 using EmailSkill.Dialogs.Shared.Resources;
 using EmailSkill.Dialogs.ShowEmail.Resources;
+using EmailSkill.Util;
 using EmailSkillTest.Flow.Fakes;
 using EmailSkillTest.Flow.Strings;
 using EmailSkillTest.Flow.Utterances;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Data;
+using Microsoft.Graph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EmailSkillTest.Flow
@@ -78,9 +81,10 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(BaseTestUtterances.FirstOne)
-                .AssertReply(this.AssertSelectOneOfTheMessage())
+                .AssertReply(this.AssertSelectOneOfTheMessage(1))
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(GeneralTestUtterances.No)
+                .AssertReplyOneOf(this.NotShowingMessage())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
@@ -95,9 +99,10 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(BaseTestUtterances.NumberOne)
-                .AssertReply(this.AssertSelectOneOfTheMessage())
+                .AssertReply(this.AssertSelectOneOfTheMessage(1))
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(GeneralTestUtterances.No)
+                .AssertReplyOneOf(this.NotShowingMessage())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
@@ -112,8 +117,10 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(GeneralTestUtterances.Yes)
-                .AssertReplyOneOf(this.ReadOutPrompt())
+                .AssertReply(this.AssertSelectOneOfTheMessage(1))
+                .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(GeneralTestUtterances.No)
+                .AssertReplyOneOf(this.NotShowingMessage())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
@@ -137,9 +144,9 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.No)
                 .AssertReplyOneOf(this.NotSendingMessage())
-                .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(GeneralTestUtterances.No)
+                .AssertReplyOneOf(this.NotShowingMessage())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
@@ -154,7 +161,7 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(BaseTestUtterances.FirstOne)
-                .AssertReply(this.AssertSelectOneOfTheMessage())
+                .AssertReply(this.AssertSelectOneOfTheMessage(1))
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(ForwardEmailUtterances.ForwardCurrentEmail)
                 .AssertReply(this.ShowAuth())
@@ -166,9 +173,9 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.No)
                 .AssertReplyOneOf(this.NotSendingMessage())
-                .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(GeneralTestUtterances.No)
+                .AssertReplyOneOf(this.NotShowingMessage())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
@@ -190,9 +197,9 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.No)
                 .AssertReplyOneOf(this.NotSendingMessage())
-                .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(GeneralTestUtterances.No)
+                .AssertReplyOneOf(this.NotShowingMessage())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
@@ -207,7 +214,7 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(BaseTestUtterances.FirstOne)
-                .AssertReply(this.AssertSelectOneOfTheMessage())
+                .AssertReply(this.AssertSelectOneOfTheMessage(1))
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(ReplyEmailUtterances.ReplyCurrentEmail)
                 .AssertReply(this.ShowAuth())
@@ -217,9 +224,9 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.No)
                 .AssertReplyOneOf(this.NotSendingMessage())
-                .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(GeneralTestUtterances.No)
+                .AssertReplyOneOf(this.NotShowingMessage())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
@@ -239,9 +246,9 @@ namespace EmailSkillTest.Flow
                 .AssertReplyOneOf(this.DeleteConfirm())
                 .Send(GeneralTestUtterances.No)
                 .AssertReplyOneOf(this.NotSendingMessage())
-                .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(GeneralTestUtterances.No)
+                .AssertReplyOneOf(this.NotShowingMessage())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
@@ -256,7 +263,7 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(BaseTestUtterances.FirstOne)
-                .AssertReply(this.AssertSelectOneOfTheMessage())
+                .AssertReply(this.AssertSelectOneOfTheMessage(1))
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(DeleteEmailUtterances.DeleteCurrentEmail)
                 .AssertReply(this.ShowAuth())
@@ -264,9 +271,9 @@ namespace EmailSkillTest.Flow
                 .AssertReplyOneOf(this.DeleteConfirm())
                 .Send(GeneralTestUtterances.No)
                 .AssertReplyOneOf(this.NotSendingMessage())
-                .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(GeneralTestUtterances.No)
+                .AssertReplyOneOf(this.NotShowingMessage())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
@@ -281,12 +288,13 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.ShowEmailList(ConfigData.GetInstance().MaxDisplaySize))
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(GeneralTestUtterances.NextPage)
-                .AssertReply(this.ShowEmailList(2))
-                .AssertReplyOneOf(this.ReadOutMorePrompt())
+                .AssertReply(this.ShowEmailList(2, 1))
+                .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(GeneralTestUtterances.NextPage)
-                .AssertReply(this.ShowEmailList(2))
-                .AssertReplyOneOf(this.ReadOutMorePrompt())
+                .AssertReply(this.ShowEmailList(2, 1))
+                .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(GeneralTestUtterances.No)
+                .AssertReplyOneOf(this.NotShowingMessage())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
@@ -301,15 +309,16 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.ShowEmailList(ConfigData.GetInstance().MaxDisplaySize))
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(GeneralTestUtterances.NextPage)
-                .AssertReply(this.ShowEmailList(2))
-                .AssertReplyOneOf(this.ReadOutMorePrompt())
+                .AssertReply(this.ShowEmailList(2, 1))
+                .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(GeneralTestUtterances.PreviousPage)
                 .AssertReply(this.ShowEmailList(ConfigData.GetInstance().MaxDisplaySize))
-                .AssertReplyOneOf(this.ReadOutMorePrompt())
+                .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(GeneralTestUtterances.PreviousPage)
                 .AssertReply(this.ShowEmailList(ConfigData.GetInstance().MaxDisplaySize))
-                .AssertReplyOneOf(this.ReadOutMorePrompt())
+                .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(GeneralTestUtterances.No)
+                .AssertReplyOneOf(this.NotShowingMessage())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
@@ -323,13 +332,11 @@ namespace EmailSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReply(this.ShowEmailList(ConfigData.GetInstance().MaxDisplaySize))
                 .AssertReplyOneOf(this.ReadOutPrompt())
-                .Send(GeneralTestUtterances.ReadMore)
-                .AssertReply(this.ShowEmailList(ConfigData.GetInstance().MaxDisplaySize - ConfigData.GetInstance().MaxReadSize))
-                .AssertReplyOneOf(this.ReadOutMorePrompt())
-                .Send(GeneralTestUtterances.ReadMore)
-                .AssertReply(this.ShowEmailList(2))
-                .AssertReplyOneOf(this.ReadOutMorePrompt())
+                .Send(ShowEmailUtterances.ReadMore)
+                .AssertReply(this.ShowEmailList(2, 1))
+                .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(GeneralTestUtterances.No)
+                .AssertReplyOneOf(this.NotShowingMessage())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
@@ -364,9 +371,10 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.ShowEmailList(1))
                 .AssertReplyOneOf(this.ReadOutOnlyOnePrompt())
                 .Send(GeneralTestUtterances.Yes)
-                .AssertReply(this.AssertSelectOneOfTheMessage())
+                .AssertReply(this.AssertSelectOneOfTheMessage(1))
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(GeneralTestUtterances.No)
+                .AssertReplyOneOf(this.NotShowingMessage())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
@@ -429,22 +437,47 @@ namespace EmailSkillTest.Flow
             return this.ParseReplies(DeleteEmailResponses.DeleteConfirm.Replies, new StringDictionary());
         }
 
-        private Action<IActivity> AssertSelectOneOfTheMessage()
+        private Action<IActivity> AssertSelectOneOfTheMessage(int selection)
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                CollectionAssert.Contains(this.ParseReplies(ShowEmailResponses.ReadOutMessage.Replies, new StringDictionary()), messageActivity.Text);
+                var totalEmails = ((MockServiceManager)this.ServiceManager).MailService.MyMessages;
+                var replies = this.ParseReplies(ShowEmailResponses.ReadOutMessage.Replies, new StringDictionary()
+                {
+                    { "EmailDetails", SpeakHelper.ToSpeechEmailDetailString(totalEmails[selection - 1], TimeZoneInfo.Local) },
+                });
+
+                CollectionAssert.Contains(replies, messageActivity.Text);
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
         }
 
-        private Action<IActivity> ShowEmailList(int expectCount = 3)
+        private Action<IActivity> ShowEmailList(int expectCount = 3, int page = 0)
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                CollectionAssert.Contains(this.ParseReplies(EmailSharedResponses.ShowEmailPrompt.Replies, new StringDictionary() { { "SearchType", "relevant unread" } }), messageActivity.Text);
+                var prompt = EmailSharedResponses.ShowEmailPrompt;
+                if (expectCount == 1)
+                {
+                    prompt = EmailSharedResponses.ShowOneEmailPrompt;
+                }
+
+                var totalEmails = ((MockServiceManager)this.ServiceManager).MailService.MyMessages;
+                var showEmails = new List<Message>();
+                for (int i = ConfigData.GetInstance().MaxDisplaySize * page; i < totalEmails.Count; i++)
+                {
+                    showEmails.Add(totalEmails[i]);
+                }
+
+                var replies = this.ParseReplies(prompt.Replies, new StringDictionary()
+                {
+                    { "TotalCount", totalEmails.Count.ToString() },
+                    { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(showEmails, TimeZoneInfo.Local, ConfigData.GetInstance().MaxReadSize) },
+                });
+
+                CollectionAssert.Contains(replies, messageActivity.Text);
                 Assert.AreEqual(messageActivity.Attachments.Count, expectCount);
             };
         }
@@ -454,7 +487,13 @@ namespace EmailSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                CollectionAssert.Contains(this.ParseReplies(EmailSharedResponses.ShowEmailPrompt.Replies, new StringDictionary() { { "SearchType", "relevant" } }), messageActivity.Text);
+
+                var showedItems = ((MockServiceManager)this.ServiceManager).MailService.MyMessages;
+                var replies = this.ParseReplies(EmailSharedResponses.ShowEmailPrompt.Replies, new StringDictionary()
+                {
+                    { "TotalCount", "1" },
+                    { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(showedItems, TimeZoneInfo.Local, ConfigData.GetInstance().MaxReadSize) },
+                });
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
         }

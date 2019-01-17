@@ -205,16 +205,16 @@
     <value>dd-MM-yyyy</value>
   </data>
   <data name="FirstItem" xml:space="preserve">
-    <value>the first one is {0};</value>
+    <value>The latest email is {0}</value>
   </data>
   <data name="More" xml:space="preserve">
     <value>more</value>
   </data>
   <data name="SecondItem" xml:space="preserve">
-    <value>the second one is {0};</value>
+    <value>the second is {0}</value>
   </data>
   <data name="ThirdItem" xml:space="preserve">
-    <value>the third one is {0};</value>
+    <value>the third is {0}</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>Login</value>

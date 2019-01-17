@@ -53,7 +53,7 @@ namespace EmailSkillTest.Flow
             this.BotResponseBuilder.AddFormatter(new TextBotResponseFormatter());
 
             ConfigData.GetInstance().MaxDisplaySize = 3;
-            ConfigData.GetInstance().MaxReadSize = 2;
+            ConfigData.GetInstance().MaxReadSize = 3;
         }
 
         public Activity GetAuthResponse()

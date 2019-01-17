@@ -115,6 +115,30 @@ namespace CalendarSkill.ServiceClients.MSGraphAPI
             }
         }
 
+        public async Task DeclineEventById(string id)
+        {
+            try
+            {
+                await _graphClient.Me.Events[id].Decline("decline").Request().PostAsync();
+            }
+            catch (ServiceException ex)
+            {
+                throw GraphClient.HandleGraphAPIException(ex);
+            }
+        }
+
+        public async Task AcceptEventById(string id)
+        {
+            try
+            {
+                await _graphClient.Me.Events[id].Accept("accept").Request().PostAsync();
+            }
+            catch (ServiceException ex)
+            {
+                throw GraphClient.HandleGraphAPIException(ex);
+            }
+        }
+
         /// <summary>
         /// Update an event info.
         /// </summary>

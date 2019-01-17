@@ -11,8 +11,8 @@
   "NoContent": {
     "replies": [
       {
-        "text": "会议内容是什么？或者跳过",
-        "speak": "会议内容是什么？或者跳过"
+        "text": "会议内容是什么？",
+        "speak": "会议内容是什么？"
       }
     ],
     "inputHint": "expectingInput"
@@ -20,8 +20,8 @@
   "NoLocation": {
     "replies": [
       {
-        "text": "您要加入会议地址？或者跳过",
-        "speak": "您要加入会议地址？或者跳过"
+        "text": "您要加入会议地址？",
+        "speak": "您要加入会议地址？"
       }
     ],
     "inputHint": "expectingInput"
@@ -155,11 +155,38 @@
       }
     ]
   },
+  "NoStartTime_Retry": {
+    "replies": [
+      {
+        "text": "我没有明白你说的时间，你可以再输入一次吗？",
+        "speak": "我没有明白你说的时间，你可以再输入一次吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoStartTime_NoSkip": {
+    "replies": [
+      {
+        "text": "你无法跳过开始时间，请重试。",
+        "speak": "你无法跳过开始时间，请重试。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "NoDuration": {
     "replies": [
       {
         "text": "会议有多长时间？",
         "speak": "会议有多长时间？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoDuration_Retry": {
+    "replies": [
+      {
+        "text": "我没有明白你说的时间长度，你可以再输入一次吗？",
+        "speak": "我没有明白你说的时间长度，你可以再输入一次吗？"
       }
     ],
     "inputHint": "expectingInput"

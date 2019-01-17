@@ -148,7 +148,10 @@
     <value>FW: {0}</value>
   </data>
   <data name="FromDetailsFormat" xml:space="preserve">
-    <value>{0} da {1}</value>
+    <value>da {0} a {1}</value>
+  </data>
+  <data name="FromDetailsFormatAll" xml:space="preserve">
+    <value>da {0} a {1} intitolato {2}. Il contenuto è {3}.</value>
   </data>
   <data name="FromFormat" xml:space="preserve">
     <value>Da: {0}</value>

@@ -5,6 +5,14 @@ import { AutoSaveStateMiddleware, BotFrameworkAdapter, ConversationState, Transc
 import { BlobStorageService, BotConfiguration, IAppInsightsService, IBlobStorageService, ICosmosDBService, IEndpointService, IGenericService } from "botframework-config";
 import * as path from "path";
 import * as restify from "restify";
+
+import * as i18n from "i18n";
+i18n.configure({
+    directory: path.join(__dirname, 'locales'),
+    defaultLocale: 'en',
+    objectNotation: true
+})
+
 import { EnterpriseBot } from "./enterpriseBot";
 
 // Read variables from .env file.
@@ -139,6 +147,10 @@ server.listen(process.env.port || process.env.PORT || 3978, function() {
 server.post("/api/messages", (req, res) => {
     // Route received a request to adapter for processing
     adapter.processActivity(req, res, async (turnContext: TurnContext) => {
+
+        // set location using activity's locate information
+        i18n.setLocale(turnContext.activity.locale || i18n.getLocale());
+
         // route to bot activity handler.
         await bot.onTurn(turnContext);
     });

@@ -133,6 +133,15 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to dd-MM-yyyy.
+        /// </summary>
+        public static string DisplayFullDateFormat {
+            get {
+                return ResourceManager.GetString("DisplayFullDateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to h:mm tt.
         /// </summary>
         public static string DisplayTime {
@@ -142,7 +151,7 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to the first one is {0};.
+        ///   Looks up a localized string similar to The latest email is {0}.
         /// </summary>
         public static string FirstItem {
             get {
@@ -214,7 +223,7 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to the second one is {0};.
+        ///   Looks up a localized string similar to the second is {0}.
         /// </summary>
         public static string SecondItem {
             get {
@@ -268,7 +277,7 @@ namespace Microsoft.Bot.Solutions.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to the third one is {0};.
+        ///   Looks up a localized string similar to the third is {0}.
         /// </summary>
         public static string ThirdItem {
             get {
