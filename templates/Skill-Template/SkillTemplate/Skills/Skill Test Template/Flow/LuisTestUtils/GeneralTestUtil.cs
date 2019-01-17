@@ -30,20 +30,20 @@ namespace $safeprojectname$.Flow.LuisTestUtils
 
         public static General CreateIntent(string userInput, General.Intent intent)
         {
-            var generalIntent = new General
+            var result = new General
             {
                 Text = userInput,
                 Intents = new Dictionary<General.Intent, IntentScore>()
             };
 
-            generalIntent.Intents.Add(intent, new IntentScore() { Score = 0.9 });
+            result.Intents.Add(intent, new IntentScore() { Score = 0.9 });
 
-            generalIntent.Entities = new General._Entities
+            result.Entities = new General._Entities
             {
                 _instance = new General._Entities._Instance()
             };
 
-            return generalIntent;
+            return result;
         }
     }
 }

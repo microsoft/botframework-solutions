@@ -75,7 +75,7 @@ namespace $safeprojectname$.Dialogs.Main
             var localeConfig = _services.LocaleConfigurations[locale];
 
             // Get skill LUIS model from configuration
-            localeConfig.LuisServices.TryGetValue("skill", out var luisService);
+            localeConfig.LuisServices.TryGetValue("$safeprojectname$", out var luisService);
 
             if (luisService == null)
             {
@@ -88,18 +88,18 @@ namespace $safeprojectname$.Dialogs.Main
                     SkillMode = _skillMode,
                 };
 
-                var result = await luisService.RecognizeAsync<Skill>(dc.Context, CancellationToken.None);
+                var result = await luisService.RecognizeAsync<$safeprojectname$LU> (dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
                 switch (intent)
                 {
-                    case Skill.Intent.Sample:
+                    case $safeprojectname$LU.Intent.Sample:
                         {
                             await dc.BeginDialogAsync(nameof(SampleDialog), skillOptions);
                             break;
                         }
 
-                    case Skill.Intent.None:
+                    case $safeprojectname$LU.Intent.None:
                         {
                             // No intent was identified, send confused message
                             await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(SharedResponses.DidntUnderstandMessage));

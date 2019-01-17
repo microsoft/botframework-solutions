@@ -9,8 +9,8 @@ using $ext_safeprojectname$.Dialogs.Sample.Resources;
 namespace $safeprojectname$.Flow
 {
     [TestClass]
-    public class SampleDialogTests : SkillTestBase
-    {
+    public class SampleDialogTests : $ext_safeprojectname$TestBase
+{
         [TestMethod]
         public async Task Test_Sample_Dialog()
         {

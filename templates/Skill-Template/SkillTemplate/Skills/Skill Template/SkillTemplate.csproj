@@ -21,7 +21,7 @@
     <PackageReference Include="Microsoft.Bot.Connector" Version="4.2.0" />
     <PackageReference Include="Microsoft.Bot.Schema" Version="4.2.0" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <Content Update="Dialogs\Main\Resources\MainResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -118,6 +118,9 @@
 
   <ItemGroup>
     <None Update="*.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="LocaleConfigurations\*.bot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

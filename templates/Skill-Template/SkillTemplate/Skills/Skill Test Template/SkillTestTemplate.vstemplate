@@ -19,7 +19,7 @@
       <Folder Name="Flow" TargetFolderName="Flow">      
         <Folder Name="LuisTestUtils" TargetFolderName="LuisTestUtils">
           <ProjectItem ReplaceParameters="true" TargetFileName="GeneralTestUtil.cs">GeneralTestUtil.cs</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="SkillTestUtil.cs">SkillTestUtil.cs</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="$ext_safeprojectname$TestUtil.cs">SkillTestUtil.cs</ProjectItem>
         </Folder>
         <Folder Name="Utterances" TargetFolderName="Utterances">
           <ProjectItem ReplaceParameters="true" TargetFileName="GeneralUtterances.resx">GeneralUtterances.resx</ProjectItem>
@@ -30,7 +30,7 @@
         <ProjectItem ReplaceParameters="true" TargetFileName="InterruptionTests.cs">InterruptionTests.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="MainDialogTests.cs">MainDialogTests.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="SampleDialogTests.cs">SampleDialogTests.cs</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="SkillTestBase.cs">SkillTestBase.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="$ext_safeprojectname$TestBase.cs">SkillTestBase.cs</ProjectItem>
       </Folder>
     </Project>
   </TemplateContent>

@@ -10,8 +10,8 @@ using $ext_safeprojectname$.Dialogs.Sample.Resources;
 namespace $safeprojectname$.Flow
 {
     [TestClass]
-    public class InterruptionTests : SkillTestBase
-    {
+    public class InterruptionTests : $ext_safeprojectname$TestBase
+{
         [TestMethod]
         public async Task Test_Help_Interruption()
         {

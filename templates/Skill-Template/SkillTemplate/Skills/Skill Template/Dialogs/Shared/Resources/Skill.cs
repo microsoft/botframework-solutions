@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 namespace Luis
 {
-    public class Skill : Microsoft.Bot.Builder.IRecognizerConvert
+    public class $safeprojectname$LU : Microsoft.Bot.Builder.IRecognizerConvert
     {
         public string Text;
         public string AlteredText;
@@ -34,7 +34,7 @@ namespace Luis
 
         public void Convert(dynamic result)
         {
-            var app = JsonConvert.DeserializeObject<Skill>(JsonConvert.SerializeObject(result));
+            var app = JsonConvert.DeserializeObject<$safeprojectname$LU>(JsonConvert.SerializeObject(result));
             Text = app.Text;
             AlteredText = app.AlteredText;
             Intents = app.Intents;

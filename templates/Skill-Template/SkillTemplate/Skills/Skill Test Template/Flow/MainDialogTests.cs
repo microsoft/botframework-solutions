@@ -11,8 +11,8 @@ using $ext_safeprojectname$.Dialogs.Shared.Resources;
 namespace $safeprojectname$.Flow
 {
     [TestClass]
-    public class MainDialogTests : SkillTestBase
-    {
+    public class MainDialogTests : $ext_safeprojectname$TestBase
+{
         [TestMethod]
         public async Task Test_Unhandled_Message()
         {

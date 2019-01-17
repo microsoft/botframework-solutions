@@ -14,7 +14,7 @@ using System.Threading;
 
 namespace $safeprojectname$.Flow
 {
-    public class SkillTestBase : BotTestBase
+    public class $ext_safeprojectname$TestBase : BotTestBase
     {
         public ConversationState ConversationState { get; set; }
 
@@ -40,7 +40,7 @@ namespace $safeprojectname$.Flow
                 LuisServices = new Dictionary<string, ITelemetryLuisRecognizer>
                 {
                     { "general", GeneralTestUtil.CreateRecognizer() },
-                    { "skill", SkillTestUtil.CreateRecognizer() }
+                    { "$ext_safeprojectname$", $ext_safeprojectname$TestUtil.CreateRecognizer() }
                 }
             });
 

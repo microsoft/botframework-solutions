@@ -6,36 +6,36 @@ using System.Collections.Generic;
 
 namespace $safeprojectname$.Flow.LuisTestUtils
 {
-    public class SkillTestUtil
+    public class $ext_safeprojectname$TestUtil
     {
         private static Dictionary<string, IRecognizerConvert> _utterances = new Dictionary<string, IRecognizerConvert>
         {
-            { SampleDialogUtterances.Trigger, CreateIntent(SampleDialogUtterances.Trigger, Skill.Intent.Sample) },
+            { SampleDialogUtterances.Trigger, CreateIntent(SampleDialogUtterances.Trigger, $ext_safeprojectname$LU.Intent.Sample) },
         };
 
         public static MockLuisRecognizer CreateRecognizer()
         {
-            var recognizer = new MockLuisRecognizer(defaultIntent: CreateIntent(string.Empty, Skill.Intent.None));
+            var recognizer = new MockLuisRecognizer(defaultIntent: CreateIntent(string.Empty, $ext_safeprojectname$LU.Intent.None));
             recognizer.RegisterUtterances(_utterances);
             return recognizer;
         }
 
-        public static Skill CreateIntent(string userInput, Skill.Intent intent)
+        public static $ext_safeprojectname$LU CreateIntent(string userInput, $ext_safeprojectname$LU.Intent intent)
         {
-            var skillIntent = new Skill
+            var result = new $ext_safeprojectname$LU
             {
                 Text = userInput,
-                Intents = new Dictionary<Skill.Intent, IntentScore>()
+                Intents = new Dictionary<$ext_safeprojectname$LU.Intent, IntentScore>()
             };
 
-            skillIntent.Intents.Add(intent, new IntentScore() { Score = 0.9 });
+            result.Intents.Add(intent, new IntentScore() { Score = 0.9 });
 
-            skillIntent.Entities = new Skill._Entities
+            result.Entities = new $ext_safeprojectname$LU._Entities
             {
-                _instance = new Skill._Entities._Instance()
+                _instance = new $ext_safeprojectname$LU._Entities._Instance()
             };
 
-            return skillIntent;
+            return result;
         }
     }
 }

@@ -9,9 +9,9 @@
     },
     {
       "type": "luis",
-      "id": "skill",
-      "name": "Skill",
-      "luPath": "..\\CognitiveModels\\LUIS\\en\\skill.lu"
+      "id": "$safeprojectname$",
+      "name": "$safeprojectname$",
+      "luPath": "..\\CognitiveModels\\LUIS\\en\\$safeprojectname$.lu"
     }
   ]
 }

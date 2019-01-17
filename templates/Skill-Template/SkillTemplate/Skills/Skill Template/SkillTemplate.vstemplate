@@ -31,49 +31,49 @@
       <Folder Name="CognitiveModels" TargetFolderName="CognitiveModels">
         <Folder Name="LUIS" TargetFolderName="LUIS">
           <Folder Name="de" TargetFolderName="de">
-            <ProjectItem ReplaceParameters="false" TargetFileName="general.lu">general.lu</ProjectItem>
-            <ProjectItem ReplaceParameters="false" TargetFileName="skill.lu">skill.lu</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="general.lu">general.lu</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.lu">skill.lu</ProjectItem>
           </Folder>
           <Folder Name="en" TargetFolderName="en">
-            <ProjectItem ReplaceParameters="false" TargetFileName="general.lu">general.lu</ProjectItem>
-            <ProjectItem ReplaceParameters="false" TargetFileName="skill.lu">skill.lu</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="general.lu">general.lu</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.lu">skill.lu</ProjectItem>
           </Folder>
           <Folder Name="es" TargetFolderName="es">
-            <ProjectItem ReplaceParameters="false" TargetFileName="general.lu">general.lu</ProjectItem>
-            <ProjectItem ReplaceParameters="false" TargetFileName="skill.lu">skill.lu</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="general.lu">general.lu</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.lu">skill.lu</ProjectItem>
           </Folder>
           <Folder Name="fr" TargetFolderName="fr">
-            <ProjectItem ReplaceParameters="false" TargetFileName="general.lu">general.lu</ProjectItem>
-            <ProjectItem ReplaceParameters="false" TargetFileName="skill.lu">skill.lu</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="general.lu">general.lu</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.lu">skill.lu</ProjectItem>
           </Folder>
           <Folder Name="it" TargetFolderName="it">
-            <ProjectItem ReplaceParameters="false" TargetFileName="general.lu">general.lu</ProjectItem>
-            <ProjectItem ReplaceParameters="false" TargetFileName="skill.lu">skill.lu</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="general.lu">general.lu</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.lu">skill.lu</ProjectItem>
           </Folder>
           <Folder Name="zh" TargetFolderName="zh">
-            <ProjectItem ReplaceParameters="false" TargetFileName="general.lu">general.lu</ProjectItem>
-            <ProjectItem ReplaceParameters="false" TargetFileName="skill.lu">skill.lu</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="general.lu">general.lu</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.lu">skill.lu</ProjectItem>
           </Folder>
         </Folder>
       </Folder>
       <Folder Name="DeploymentScripts" TargetFolderName="DeploymentScripts">
         <Folder Name="de" TargetFolderName="de">
-          <ProjectItem ReplaceParameters="false" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
         </Folder>
         <Folder Name="en" TargetFolderName="en">
-          <ProjectItem ReplaceParameters="false" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
         </Folder>
         <Folder Name="es" TargetFolderName="es">
-          <ProjectItem ReplaceParameters="false" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
         </Folder>
         <Folder Name="fr" TargetFolderName="fr">
-          <ProjectItem ReplaceParameters="false" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
         </Folder>
         <Folder Name="it" TargetFolderName="it">
-          <ProjectItem ReplaceParameters="false" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
         </Folder>
         <Folder Name="zh" TargetFolderName="zh">
-          <ProjectItem ReplaceParameters="false" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
         </Folder>
         <ProjectItem ReplaceParameters="false" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="deploy_bot.ps1">deploy_bot.ps1</ProjectItem>
@@ -112,7 +112,7 @@
             <ProjectItem ReplaceParameters="true" TargetFileName="SkillDialogOptions.cs">SkillTemplateDialogOptions.cs</ProjectItem>
           </Folder>
           <Folder Name="Resources" TargetFolderName="Resources">
-            <ProjectItem ReplaceParameters="true" TargetFileName="Skill.cs">Skill.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$LU.cs">Skill.cs</ProjectItem>
             <ProjectItem ReplaceParameters="true" TargetFileName="SharedResponses.json">SharedResponses.json</ProjectItem>
             <ProjectItem ReplaceParameters="true" TargetFileName="SharedResponses.de.json">SharedResponses.de.json</ProjectItem>
             <ProjectItem ReplaceParameters="true" TargetFileName="SharedResponses.es.json">SharedResponses.es.json</ProjectItem>
