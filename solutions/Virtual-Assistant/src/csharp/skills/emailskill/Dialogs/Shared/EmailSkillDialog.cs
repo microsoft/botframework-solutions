@@ -561,18 +561,27 @@ namespace EmailSkill.Dialogs.Shared
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
 
-                var messages = await GetMessagesAsync(sc);
-                if (messages.Count > 0)
-                {
-                    messages = await ShowMailList(sc, messages);
+                var (messages, totalCount) = await GetMessagesAsync(sc);
 
-                    // Give focus when there is only one email.
-                    if (messages.Count == 1)
+                // Get display messages
+                var displayMessages = new List<Message>();
+                var startIndex = ConfigData.GetInstance().MaxReadSize * state.ReadEmailIndex;
+                for (int i = startIndex; i < messages.Count(); i++)
+                {
+                    displayMessages.Add(messages[i]);
+                }
+
+                if (displayMessages.Count > 0)
+                {
+                    state.MessageList = displayMessages;
+
+                    if (displayMessages.Count == 1)
                     {
-                        state.Message.Add(messages[0]);
+                        state.Message.Add(displayMessages[0]);
                     }
 
-                    state.MessageList = messages;
+                    await ShowMailList(sc, displayMessages, totalCount, cancellationToken);
+                    return await sc.NextAsync();
                 }
                 else
                 {
@@ -822,7 +831,7 @@ namespace EmailSkill.Dialogs.Shared
             }
         }
 
-        protected async Task<List<Message>> GetMessagesAsync(WaterfallStepContext sc)
+        protected async Task<(List<Message>, int)> GetMessagesAsync(WaterfallStepContext sc)
         {
             var result = new List<Message>();
 
@@ -851,29 +860,47 @@ namespace EmailSkill.Dialogs.Shared
             }
 
             // Get user message.
-            result = await serivce.GetMyMessagesAsync(startDateTime, endDateTime, isUnreadOnly, isImportant, directlyToMe, mailAddress, skip);
+            result = await serivce.GetMyMessagesAsync(startDateTime, endDateTime, isUnreadOnly, isImportant, directlyToMe, mailAddress);
 
             // Go back to last page if next page didn't get anything
-            if (!result.Any() && state.ShowEmailIndex > 0)
+            if (skip >= result.Count)
             {
                 state.ShowEmailIndex--;
                 skip = state.ShowEmailIndex * pageSize;
-                result = await serivce.GetMyMessagesAsync(startDateTime, endDateTime, isUnreadOnly, isImportant, directlyToMe, mailAddress, skip);
             }
 
-            return result;
+            // get messages for current page
+            var filteredResult = new List<Message>();
+            for (int i = 0; i < result.Count; i++)
+            {
+                if (skip > 0)
+                {
+                    skip--;
+                }
+                else
+                {
+                    if (filteredResult.Count < pageSize)
+                    {
+                        filteredResult.Add(result[i]);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return (filteredResult, result.Count);
         }
 
-        protected async Task<List<Message>> ShowMailList(WaterfallStepContext sc, List<Message> messages)
+        protected async Task ShowMailList(WaterfallStepContext sc, List<Message> messages, int totalCount, CancellationToken cancellationToken = default(CancellationToken))
         {
             var updatedMessages = new List<Message>();
             var state = await EmailStateAccessor.GetAsync(sc.Context);
             var cardsData = new List<EmailCardData>();
 
-            var startIndex = ConfigData.GetInstance().MaxReadSize * state.ReadEmailIndex;
-            for (int i = startIndex; i < messages.Count(); i++)
+            foreach (var message in messages)
             {
-                var message = messages[i];
                 var nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(message.ToRecipients);
 
                 var emailCard = new EmailCardData
@@ -886,7 +913,7 @@ namespace EmailSkill.Dialogs.Shared
                     ReceivedDateTime = message.ReceivedDateTime == null
                     ? CommonStrings.NotAvailable
                     : message.ReceivedDateTime.Value.UtcDateTime.ToRelativeString(state.GetUserTimeZone()),
-                    Speak = SpeakHelper.ToSpeechEmailDetailString(message),
+                    Speak = SpeakHelper.ToSpeechEmailDetailOverallString(message, state.GetUserTimeZone()),
                 };
                 cardsData.Add(emailCard);
                 updatedMessages.Add(message);
@@ -904,14 +931,18 @@ namespace EmailSkill.Dialogs.Shared
 
             var stringToken = new StringDictionary
             {
-                { "SearchType", searchType },
-                { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(updatedMessages, ConfigData.GetInstance().MaxReadSize) },
+                { "TotalCount", totalCount.ToString() },
+                { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(updatedMessages, state.GetUserTimeZone(), ConfigData.GetInstance().MaxReadSize) },
             };
 
             var reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
-            await sc.Context.SendActivityAsync(reply);
+            if (updatedMessages.Count == 1)
+            {
+                reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowOneEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
+            }
 
-            return updatedMessages;
+            await sc.Context.SendActivityAsync(reply);
+            return;
         }
 
         protected async Task<List<Person>> GetPeopleWorkWithAsync(ITurnContext context, string name)

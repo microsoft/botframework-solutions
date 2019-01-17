@@ -3,9 +3,11 @@ using System.Collections.Specialized;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.DeleteEmail.Resources;
 using EmailSkill.Dialogs.Shared.Resources;
+using EmailSkill.Util;
 using EmailSkillTest.Flow.Fakes;
 using EmailSkillTest.Flow.Utterances;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EmailSkillTest.Flow
@@ -104,7 +106,15 @@ namespace EmailSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var replies = this.ParseReplies(EmailSharedResponses.ShowEmailPrompt.Replies, new StringDictionary() { { "SearchType", "relevant unread" } });
+
+                // Get showed mails:
+                var showedItems = ((MockServiceManager)this.ServiceManager).MailService.MyMessages;
+                var replies = this.ParseReplies(EmailSharedResponses.ShowEmailPrompt.Replies, new StringDictionary()
+                {
+                    { "TotalCount", showedItems.Count.ToString() },
+                    { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(showedItems, TimeZoneInfo.Local, ConfigData.GetInstance().MaxReadSize) },
+                });
+
                 CollectionAssert.Contains(replies, messageActivity.Text);
                 Assert.AreNotEqual(messageActivity.Attachments.Count, 0);
             };
