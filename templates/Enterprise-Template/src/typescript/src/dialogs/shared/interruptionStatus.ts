@@ -2,6 +2,7 @@
 // Licensed under the MIT License
 
 export enum InterruptionStatus {
+    
     /** Indicates that the active dialog was interrupted and needs to resume. */
     Interrupted,
 
