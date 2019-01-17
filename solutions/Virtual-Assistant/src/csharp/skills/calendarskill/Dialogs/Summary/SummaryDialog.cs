@@ -16,6 +16,7 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Data;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
@@ -112,7 +113,7 @@ namespace CalendarSkill.Dialogs.Summary
 
                 if (topGeneralIntent == General.Intent.Next && state.SummaryEvents != null)
                 {
-                    if ((state.ShowEventIndex + 1) * CalendarSkillState.PageSize < state.SummaryEvents.Count)
+                    if ((state.ShowEventIndex + 1) * state.PageSize < state.SummaryEvents.Count)
                     {
                         state.ShowEventIndex++;
                     }
@@ -213,13 +214,13 @@ namespace CalendarSkill.Dialogs.Summary
                         }
                     }
 
-                    await ShowMeetingList(sc, searchedEvents.GetRange(0, Math.Min(CalendarSkillState.PageSize, searchedEvents.Count)), false);
+                    await ShowMeetingList(sc, searchedEvents.GetRange(0, Math.Min(state.PageSize, searchedEvents.Count)), false);
                     state.Clear();
                     state.SummaryEvents = searchedEvents;
                 }
                 else
                 {
-                    await ShowMeetingList(sc, state.SummaryEvents.GetRange(state.ShowEventIndex * CalendarSkillState.PageSize, Math.Min(CalendarSkillState.PageSize, state.SummaryEvents.Count - (state.ShowEventIndex * CalendarSkillState.PageSize))), false);
+                    await ShowMeetingList(sc, state.SummaryEvents.GetRange(state.ShowEventIndex * state.PageSize, Math.Min(state.PageSize, state.SummaryEvents.Count - (state.ShowEventIndex * state.PageSize))), false);
                 }
 
                 return await sc.NextAsync();
@@ -305,7 +306,7 @@ namespace CalendarSkill.Dialogs.Summary
                 {
                     var speakString = SpeakHelper.ToSpeechMeetingDetail(eventItem.Title, TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, state.GetUserTimeZone()), eventItem.IsAllDay == true);
 
-                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(SummaryResponses.ReadOutMessage, eventItem.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", eventItem.ToAdaptiveCardData(state.GetUserTimeZone()), null, new StringDictionary() { { "MeetingDetails", speakString } });
+                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(SummaryResponses.ReadOutMessage, eventItem.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", eventItem.ToAdaptiveCardData(state.GetUserTimeZone(), showContent: true), null, new StringDictionary() { { "MeetingDetails", speakString } });
                     await sc.Context.SendActivityAsync(replyMessage);
 
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.ReadOutMorePrompt) });
