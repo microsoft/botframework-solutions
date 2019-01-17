@@ -1,54 +1,66 @@
-# Creating a Skill
+# Creating a skill using the Skill Template
+1. Install vsix
+1. add new skill project to VA solution Skills folder
 
-## Getting Started
+    ![Screenshot](screenshot)
 
-An initial Skill template has been made available to simplify creation of your own skill. This can be found within the [Skill-Template](https://github.com/Microsoft/AI/tree/master/templates/Skill-Template) folder of the repository.
+    ![Screenshot](screenshot)
+1. Add references to Microsoft.Bot.Solutions to your new skill and test projects
+1. Rebuild project
+1. Update VA deployment scripts
+    - Add references to skill intents in dispatch.lu (all languages)
+        ```
+        ```
+    - bot.recipe - add the skill config (all languages)
+        ```
+        ```
+1. Run deploy_bot.ps1
+1. In VA, add reference to your new skill project
+1. In VA, add skill config to appsettings.json
+    ```
+    ```
+1. Run luisGen tool to update Dispatch.cs
+    ```
+    ```
+1. Update MainDialog.cs
+1. Run VA
+1. Test with sample query "sample dialog".
 
-Create a new folder called `Bot Framework` within your `%userprofile%\Documents\Visual Studio 2017\Templates\ProjectTemplates\Visual C#` folder. Then within this create a `Virtual Assistant Skill` folder and copy the contents of the template into this folder.
+    ![Screenshot](screenshot)
 
-Restart Visual Studio, create a new project and you should now skill the `Skill Template` appear within the available C#\Bot Framework Templates.
+# Customizing your Skill
+1. Start by identifying the different tasks your skill will handle
+1. Create a luis model
+    - Keep your intents discrete and avoid overlap with other skills you'll be adding to your assistant.
+1. Create your dialog flows
+    - Consider both the local and skill mode experience in your design. A skill should work well in isolation and when included in an assistant solution. When your skill is ready to hand control back to the assistant solution, it must send an EndOfConversation activity. This is handled in the template in MainDialog.CompleteAsync(). 
+1. Update the skill configuration in Virtual Assistant appsettings.json
+    - **supportedProviders**: this section is for identifying the different authentication providers your skill supports. The value is the "Service Provider" from your OAuth connection in the Azure portal. If your skill does not provide an authenticated experience, leave this section blank.
 
-## Adding your Skill to your Virtual Assistant
+        ![Screenshot](screenshot)
 
-- Add a project reference to your new Skill project ensuring that the Virtual Assistant can locate your assemblies when invoking the skill
-- Add the LUIS model corresponding to your new Skill to the Virtual Assistant bot file through the following command
-```shell
-msbot connect luis --appId [LUIS_APP_ID] --authoringKey [LUIS_AUTHORING_KEY] --subscriptionKey [LUIS_SUBSCRIPTION_KEY]
-```
-- Run the following command to update the Dispatcher model to reflect the new dispatch target
-```shell
-dispatch refresh --bot "YOURBOT.bot" --secret YOURSECRET
-```
-- Generate an updated Dispatch model for your Assistant to enable evaluation of incoming messages. The `Dispatch.cs` folder is located in the `assistant\Dialogs\Shared` folder. Ensure you run this command within the assistant directory of your cloned repo.
-```shell
-msbot get dispatch --bot "YOURBOT.bot" | luis export version --stdin | luisgen - -cs Dispatch -o Dialogs\Shared
-```
-- Update the `assistant\Dialogs\Main\MainDialog.cs` file to include the corresponding Dispatch intent for your skill to the Skill handler, excerpt is shown below. add Authentication providers and configuration information as required.
-```
-   case Dispatch.Intent.l_Calendar:
-   case Dispatch.Intent.l_Email:
-   case Dispatch.Intent.l_ToDo:
-   case Dispatch.Intent.l_PointOfInterest:
-   {}
-````
-- Finally add the your Skill configuration to the appSettings.json file
-```
- {
-      "type": "skill",
-      "id": "YOUR_SKILL_NAME",
-      "name": "YOUR_SKILL_NAME",
-      "assembly": "YourSkillNameSpace.YourSkillClass, YourSkillAssembly, Version=1.0.0.0, Culture=neutral",
-      "dispatchIntent": "l_YOURSKILLDISPATCHINTENT",
-      "supportedProviders": [
-      ],
-      "luisServiceIds": [
-        "YOUR_SKILL_LUIS_MODEL_NAME",
-        "general"
-      ],
-      "parameters": [
-        "IPA.Timezone"
-      ],
-      "configuration": {
-      }
-    }
-```
+        ```
+            "supportedProviders": [
+                "Azure Active Directory v2",
+                "Google"
+            ]
+        ```
+    - **luisServiceIds**: this section identifies which LUIS service configurations should be sent from the Virtual Assistant to your skill. Include ids for any LUIS models your skill will need to access in this list. The id for a LUIS service is found in the .bot file configuration.
+        ```
+            "luisServiceIds": [
+                "calendar",
+                "general"
+            ]
+        ```
+    - **parameters**: this section is for state values the Virtual Assistant should pass to your skill. For example, the Assistant might have access to the user's location, timezone, and other preferences that tha skill might want to access.
+        ```
+            "parameters": [
+                "IPA.Timezone"
+            ]
+        ```
+    - **configuration**: this section is for any additional key/value configuration the skill may need. For example, if there is a service subscription key the skill needs, this should be supplied through the Virtual Assistant and will be passed to the skill at initialization.
+        ```
+            "configuration": {
+                "AzureMapsKey": ""
+            }
+        ```
