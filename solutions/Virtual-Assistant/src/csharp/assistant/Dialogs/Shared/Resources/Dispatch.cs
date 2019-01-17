@@ -19,7 +19,6 @@ namespace Luis
             l_General,
             l_ToDo,
             l_PointOfInterest,
-            l_News,
             q_FAQ,
             None
         };

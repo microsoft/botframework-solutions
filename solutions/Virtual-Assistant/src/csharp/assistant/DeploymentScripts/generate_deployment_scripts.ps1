@@ -13,14 +13,15 @@ function CheckForDuplicates($lu) {
 
 $locale = $locale.ToLower()
 $langCode = ($locale -split "-")[0]
-$outputPath = "$($PSScriptRoot)\..\DeploymentScripts\$($langCode)"
-$recipePath = "$($PSScriptRoot)\..\DeploymentScripts\$($langCode)\bot.recipe"
+$basePath = "$($PSScriptRoot)\.."
+$outputPath = "$($basePath)\DeploymentScripts\$($langCode)"
+$recipePath = "$($basePath)\DeploymentScripts\$($langCode)\bot.recipe"
 $recipe = Get-Content -Raw -Path $recipePath | ConvertFrom-Json
 
 foreach ($service in $recipe.resources)
 {
 	Write-Host "Generating $($locale) $($service.name) script ..."
-	$path = "$($PSScriptRoot)\$($service.luPath)"
+	$path = "$($basePath)\$($service.luPath)"
 
 	if ($service.type -eq "luis")
 	{
