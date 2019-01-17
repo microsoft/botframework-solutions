@@ -1,7 +1,7 @@
 <VSTemplate Version="3.0.0" Type="ProjectGroup" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
   <TemplateData>
     <Name>Skill Template with Tests</Name>
-    <Description>An example of a multi-project template</Description>
+    <Description>Template for a Virtual Assistant Skill and Skill Test Project</Description>
     <Icon>__TemplateIcon.ico</Icon>
     <ProjectType>CSharp</ProjectType>
     <DefaultName>Skill</DefaultName>
@@ -10,10 +10,10 @@
     <ProjectCollection>
       <SolutionFolder Name="$safeprojectname$">
         <ProjectTemplateLink ProjectName="$safeprojectname$" CopyParameters="true">
-          SkillTemplate\SkillTemplate.vstemplate
+          Skill Template\SkillTemplate.vstemplate
         </ProjectTemplateLink>
         <ProjectTemplateLink ProjectName="$safeprojectname$Tests" CopyParameters="true">
-          SkillTemplate.Tests\MyTemplate.vstemplate
+          Skill Test Template\SkillTestTemplate.vstemplate
         </ProjectTemplateLink>
       </SolutionFolder>
     </ProjectCollection>
