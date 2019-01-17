@@ -148,7 +148,10 @@
     <value>FW: {0}</value>
   </data>
   <data name="FromDetailsFormat" xml:space="preserve">
-    <value>{0} from {1}</value>
+    <value>from {0} at {1}</value>
+  </data>
+  <data name="FromDetailsFormatAll" xml:space="preserve">
+    <value>from {0} at {1} titled {2}. The content is {3}.</value>
   </data>
   <data name="FromFormat" xml:space="preserve">
     <value>From: {0}</value>
