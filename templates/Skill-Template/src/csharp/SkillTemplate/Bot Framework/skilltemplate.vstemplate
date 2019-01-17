@@ -1,0 +1,21 @@
+<VSTemplate Version="3.0.0" Type="ProjectGroup" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
+  <TemplateData>
+    <Name>Skill Template with Tests</Name>
+    <Description>An example of a multi-project template</Description>
+    <Icon>__TemplateIcon.ico</Icon>
+    <ProjectType>CSharp</ProjectType>
+    <DefaultName>Skill</DefaultName>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectCollection>
+      <SolutionFolder Name="$safeprojectname$">
+        <ProjectTemplateLink ProjectName="$safeprojectname$" CopyParameters="true">
+          SkillTemplate\SkillTemplate.vstemplate
+        </ProjectTemplateLink>
+        <ProjectTemplateLink ProjectName="$safeprojectname$Tests" CopyParameters="true">
+          SkillTemplate.Tests\MyTemplate.vstemplate
+        </ProjectTemplateLink>
+      </SolutionFolder>
+    </ProjectCollection>
+  </TemplateContent>
+</VSTemplate>

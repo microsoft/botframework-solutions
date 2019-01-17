@@ -1,0 +1,37 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>Skill Tests Template</Name>
+    <Description>&lt;No description available&gt;</Description>
+    <ProjectType>CSharp</ProjectType>
+    <ProjectSubType>
+    </ProjectSubType>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>MySkill</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <CreateInPlace>true</CreateInPlace>
+    <Icon>__TemplateIcon.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <Project TargetFileName="$safeprojectname$Tests.csproj" File="SkillTemplate.Tests.csproj" ReplaceParameters="true">
+      <Folder Name="Flow" TargetFolderName="Flow">      
+        <Folder Name="LuisTestUtils" TargetFolderName="LuisTestUtils">
+          <ProjectItem ReplaceParameters="true" TargetFileName="GeneralTestUtil.cs">GeneralTestUtil.cs</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="SkillTestUtil.cs">SkillTestUtil.cs</ProjectItem>
+        </Folder>
+        <Folder Name="Utterances" TargetFolderName="Utterances">
+          <ProjectItem ReplaceParameters="true" TargetFileName="GeneralUtterances.resx">GeneralUtterances.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="GeneralUtterances.Designer.cs">GeneralUtterances.Designer.cs</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="SampleDialogUtterances.resx">SampleDialogUtterances.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="SampleDialogUtterances.Designer.cs">SampleDialogUtterances.Designer.cs</ProjectItem>
+        </Folder>
+        <ProjectItem ReplaceParameters="true" TargetFileName="InterruptionTests.cs">InterruptionTests.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="MainDialogTests.cs">MainDialogTests.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="SampleDialogTests.cs">SampleDialogTests.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="SkillTestBase.cs">SkillTestBase.cs</ProjectItem>
+      </Folder>
+    </Project>
+  </TemplateContent>
+</VSTemplate>

@@ -112,7 +112,7 @@
             <ProjectItem ReplaceParameters="true" TargetFileName="SkillDialogOptions.cs">SkillTemplateDialogOptions.cs</ProjectItem>
           </Folder>
           <Folder Name="Resources" TargetFolderName="Resources">
-            <ProjectItem ReplaceParameters="true" TargetFileName="Sample.cs">Sample.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="Skill.cs">Skill.cs</ProjectItem>
             <ProjectItem ReplaceParameters="true" TargetFileName="SharedResponses.json">SharedResponses.json</ProjectItem>
             <ProjectItem ReplaceParameters="true" TargetFileName="SharedResponses.de.json">SharedResponses.de.json</ProjectItem>
             <ProjectItem ReplaceParameters="true" TargetFileName="SharedResponses.es.json">SharedResponses.es.json</ProjectItem>

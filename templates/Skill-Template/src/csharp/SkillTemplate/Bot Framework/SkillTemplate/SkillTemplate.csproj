@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <CodeAnalysisRuleSet>..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,17 +20,10 @@
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.2.0" />
     <PackageReference Include="Microsoft.Bot.Connector" Version="4.2.0" />
     <PackageReference Include="Microsoft.Bot.Schema" Version="4.2.0" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
   
   <ItemGroup>
-    <Content Update="Dialogs\Main\Resources\MainResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\MainResponses.fr.json">
+    <Content Update="Dialogs\Main\Resources\MainResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Main\Resources\MainResponses.de.json">
@@ -40,10 +32,16 @@
     <Content Update="Dialogs\Main\Resources\MainResponses.es.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="Dialogs\Main\Resources\MainResponses.fr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Dialogs\Main\Resources\MainResponses.it.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\Main\Resources\MainResponses.json">
+    <Content Update="Dialogs\Main\Resources\MainResponses.zh.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\Sample\Resources\SampleResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Sample\Resources\SampleResponses.de.json">
@@ -58,16 +56,10 @@
     <Content Update="Dialogs\Sample\Resources\SampleResponses.it.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\Sample\Resources\SampleResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Update="Dialogs\Sample\Resources\SampleResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\Shared\Resources\SharedResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\SharedResponses.fr.json">
+    <Content Update="Dialogs\Shared\Resources\SharedResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Shared\Resources\SharedResponses.de.json">
@@ -76,13 +68,13 @@
     <Content Update="Dialogs\Shared\Resources\SharedResponses.es.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="Dialogs\Shared\Resources\SharedResponses.fr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Dialogs\Shared\Resources\SharedResponses.it.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\Shared\Resources\SharedResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\old_ToDoSharedResponses.zh.json">
+    <Content Update="Dialogs\Shared\Resources\SharedResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -99,16 +91,6 @@
     <None Update="Dialogs\Shared\Resources\SharedResponses.tt">
       <LastGenOutput>SharedResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="*.bot">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
@@ -131,7 +113,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+    <WCFMetadata Include="Connected Services" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="*.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
