@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
     <UserSecretsId>3383fcc5-4017-4e0a-9103-68603b68fe1d</UserSecretsId>
     <CodeAnalysisRuleSet>..\..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -11,7 +11,7 @@
     <PackageReference Include="Google.Apis.Gmail.v1" Version="1.36.1.1342" />
     <PackageReference Include="Google.Apis.People.v1" Version="1.25.0.830" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.NewsSearch" Version="1.2.0" />
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.2.0" />
