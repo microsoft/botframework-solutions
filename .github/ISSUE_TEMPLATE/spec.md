@@ -1,6 +1,9 @@
 ---
 name: Spec
 about: Specs to frame current and ongoing features
+title: ''
+labels: ''
+assignees: ''
 
 ---
 
