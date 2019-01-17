@@ -121,16 +121,16 @@
     <value>全部</value>
   </data>
   <data name="CCFormat" xml:space="preserve">
-    <value>抄送: {0}</value>
+    <value>抄送：{0}</value>
   </data>
   <data name="ContentFormat" xml:space="preserve">
-    <value>内容: {0}</value>
+    <value>内容：{0}</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
-    <value>时间: {0}</value>
+    <value>时间：{0}</value>
   </data>
   <data name="EmailInfoFormat" xml:space="preserve">
-    <value>在{0},{1}写道:</value>
+    <value>在{0}，{1}写道：</value>
   </data>
   <data name="EmptyContent" xml:space="preserve">
     <value>空内容</value>
@@ -145,13 +145,16 @@
     <value>---------- 转发内容 ----------</value>
   </data>
   <data name="ForwardReplyFormat" xml:space="preserve">
-    <value>FW: {0}</value>
+    <value>FW：{0}</value>
   </data>
   <data name="FromDetailsFormat" xml:space="preserve">
-    <value>{0}来自{1}</value>
+    <value>来自{0}于{1}</value>
+  </data>
+  <data name="FromDetailsFormatAll" xml:space="preserve">
+    <value>来自{0}于{1}标题是{2}。 内容是{3}。</value>
   </data>
   <data name="FromFormat" xml:space="preserve">
-    <value>来自: {0}</value>
+    <value>来自：{0}</value>
   </data>
   <data name="High" xml:space="preserve">
     <value>高</value>
@@ -169,16 +172,16 @@
     <value>re:</value>
   </data>
   <data name="ReplyReplyFormat" xml:space="preserve">
-    <value>RE: {0}</value>
+    <value>RE：{0}</value>
   </data>
   <data name="SubjectFormat" xml:space="preserve">
-    <value>标题: {0}</value>
+    <value>标题：{0}</value>
   </data>
   <data name="ToDetailsFormat" xml:space="preserve">
     <value>{0}发送至{1}内容是{2}</value>
   </data>
   <data name="ToFormat" xml:space="preserve">
-    <value>发送至: {0}</value>
+    <value>发送至：{0}</value>
   </data>
   <data name="UnknownRecipient" xml:space="preserve">
     <value>未知收件人</value>

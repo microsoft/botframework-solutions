@@ -271,8 +271,17 @@
   "ShowEmailPrompt": {
     "replies": [
       {
-        "text": "You have the following {SearchType} emails:",
-        "speak": "You have the following {SearchType} emails: {EmailListDetails}"
+        "text": "You have {TotalCount} emails. {EmailListDetails}.",
+        "speak": "You have {TotalCount} emails. {EmailListDetails}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowOneEmailPrompt": {
+    "replies": [
+      {
+        "text": "You have 1 email. {EmailListDetails}.",
+        "speak": "You have 1 email. {EmailListDetails}."
       }
     ],
     "inputHint": "acceptingInput"
