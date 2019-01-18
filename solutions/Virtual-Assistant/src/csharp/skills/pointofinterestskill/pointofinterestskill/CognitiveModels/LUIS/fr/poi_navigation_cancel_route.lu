@@ -1,0 +1,309 @@
+﻿## NAVIGATION_CANCEL_ROUTE
+- effectivement annuler va {KEYWORD}
+- en fait, ne vont pas à {ADDRESS}
+- effectivement oublier d'aller {ADDRESS}
+- en fait, jamais l'esprit va {ADDRESS}
+- Annuler {KEYWORD} Navires
+- annuler aller à {KEYWORD} Dans {ADDRESS}
+- annuler la navigation vers un {KEYWORD}
+- annuler me prendre à {ADDRESS} Adresse{ADDRESS}S dans l'adresse
+- Clair {KEYWORD} Navires
+- clair va {KEYWORD} Dans {ADDRESS}
+- clair va {ADDRESS}
+- effacer la navigation vers un {KEYWORD}
+- clair me prendre pour {ADDRESS} Adresse{ADDRESS}S dans l'adresse
+- supprimer aller à {KEYWORD} Dans {ADDRESS}
+- supprimer aller à {ADDRESS}
+- supprimer la navigation vers un {KEYWORD}
+- Supprimer {KEYWORD} Navires
+- supprimer me prendre à {ADDRESS} Adresse{ADDRESS}S dans l'adresse
+- ne naviguez pas vers un {KEYWORD}
+- ne me prenez pas à {ADDRESS}
+- ne m'emmenez pas à {ADDRESS}
+- Fin {KEYWORD} Navires
+- fin va {KEYWORD} Dans {ADDRESS}
+- fin de la navigation vers un {KEYWORD}
+- fin de m'emmener à {ADDRESS} Adresse{ADDRESS}S dans l'adresse
+- Oublier {KEYWORD} Navires
+- oublier d'aller {KEYWORD} Dans {ADDRESS}
+- oublier d'aller {ADDRESS}
+- oublier de naviguer vers un {KEYWORD}
+- oublier de m'emmener à {ADDRESS} Adresse{ADDRESS}S dans l'adresse
+- se débarrasser de {KEYWORD} Navires
+- se débarrasser d'aller à {ADDRESS}
+- se débarrasser d'aller à {KEYWORD} Dans {ADDRESS}
+- Débarrassez-vous de naviguer vers un {KEYWORD}
+- Débarrassez-vous de m'emmener à {ADDRESS} Adresse{ADDRESS}S dans l'adresse
+- C'est pas grave {KEYWORD} Navires
+- jamais l'esprit va {KEYWORD} Dans {ADDRESS}
+- jamais l'esprit de naviguer à un {KEYWORD}
+- jamais l'esprit de m'emmener à {ADDRESS} Adresse{ADDRESS}S dans l'adresse
+- à la deuxième pensée annuler va {KEYWORD}
+- à la deuxième pensée ne vont pas à {ADDRESS}
+- à la fin de la réflexion va {KEYWORD}
+- à la deuxième pensée oublier d'aller {ADDRESS}
+- à la deuxième pensée jamais l'esprit va {ADDRESS}
+- Retirer {KEYWORD} Navires
+- enlever me prendre à {ADDRESS} Adresse{ADDRESS}S dans l'adresse
+- Arrêter {KEYWORD} Navires
+- arrêter d'aller à {ADDRESS}
+- arrêter d'aller à {KEYWORD} Dans {ADDRESS}
+- Arrêtez de naviguer vers un {KEYWORD}
+- arrête de m'emmener à {ADDRESS} Adresse{ADDRESS}S dans l'adresse
+- abandonner la destination
+- abandonner la navigation
+- abandonner la route
+- effectivement annuler Navi
+- effectivement effacer Navi
+- effectivement coupé Navi
+- effectivement supprimer Navi
+- effectivement fin Navi
+- effectivement oublier Navi
+- effectivement oublier la navigation
+- effectivement se débarrasser de Navi
+- en fait, jamais l'esprit de navigation
+- effectivement arrêter Navi
+- effectivement essuyer Navi
+- pouvez-vous annuler la navigation
+- pouvez-vous annuler le service de routage
+- pouvez-vous effacer aller
+- pouvez-vous effacer la navigation
+- pouvez-vous couper aller
+- pouvez-vous couper la navigation
+- pouvez-vous supprimer va
+- pouvez-vous supprimer la navigation
+- pouvez-vous terminer la navigation
+- pouvez-vous terminer le service de routage
+- pouvez-vous oublier la navigation
+- pouvez-vous vous débarrasser de la navigation
+- pouvez-vous s'il vous plaît annuler la navigation
+- pouvez-vous svp annuler le service de routage
+- pouvez-vous s'il vous plaît couper va
+- pouvez-vous s'il vous plaît couper la navigation
+- pouvez-vous s'il vous plaît supprimer va
+- pouvez-vous s'il vous plaît supprimer la navigation
+- pouvez-vous s'il vous plaît fin de navigation
+- pouvez-vous s'il vous plaît fin service de route
+- pouvez-vous s'il vous plaît effacer va
+- pouvez-vous s'il vous plaît oublier la navigation
+- pouvez-vous s'il vous plaît se débarrasser de la navigation
+- pouvez-vous s'il vous plaît arrêter la navigation
+- pouvez-vous s'il vous plaît essuyer la navigation
+- pouvez-vous s'il vous plaît essuyer va
+- pouvez-vous arrêter la navigation
+- pouvez-vous essuyer aller
+- pouvez-vous essuyer la navigation
+- annuler aller
+- annuler la navigation
+- annuler où que vous alliez
+- destination claire
+- aller clair
+- effacer la navigation
+- Itinéraire clair
+- service de routage clair
+- pourriez-vous annuler la navigation
+- pourriez-vous annuler le service de routage
+- pourriez-vous aller clair
+- pourriez-vous couper aller
+- pourriez-vous couper la navigation
+- pourriez-vous supprimer va
+- pourriez-vous supprimer la navigation
+- pourriez-vous terminer la navigation
+- pourriez-vous terminer le service de routage
+- pourriez-vous oublier la navigation
+- pourriez-vous vous débarrasser de la navigation
+- pourriez-vous s'il vous plaît annuler la navigation
+- pourriez-vous svp annuler le service de routage
+- pourriez-vous s'il vous plaît aller clair
+- pourriez-vous s'il vous plaît effacer la navigation
+- pourriez-vous s'il vous plaît couper va
+- pourriez-vous s'il vous plaît couper la navigation
+- pourriez-vous s'il vous plaît supprimer va
+- pourriez-vous s'il vous plaît supprimer la navigation
+- pourriez-vous s'il vous plaît terminer la navigation
+- pourriez-vous s'il vous plaît fin service de route
+- pourriez-vous s'il vous plaît effacer aller
+- pourriez-vous s'il vous plaît oublier la navigation
+- pourriez-vous s'il vous plaît se débarrasser de la navigation
+- pourriez-vous s'il vous plaît arrêter la navigation
+- pourriez-vous s'il vous plaît essuyer aller
+- pourriez-vous s'il vous plaît essuyer la navigation
+- pourriez-vous supprimer aller
+- pourriez-vous arrêter la navigation
+- pourriez-vous essuyer aller
+- pourriez-vous essuyer la navigation
+- pourriez-vous effacer la navigation
+- destination de coupe
+- couper la navigation
+- route de coupe
+- service Cut route
+- supprimer la destination
+- supprimer Going
+- supprimer l'itinéraire
+- supprimer le service de routage
+- rejeter la destination
+- rejeter la navigation
+- rejeter la route
+- ne pas aller
+- ne naviguez pas
+- Ne pars pas
+- destination Drop
+- Drop navigation
+- Drop route
+- fin va
+- fin de la navigation
+- fin où aller
+- effacer la destination
+- effacer la route
+- effacer le service de routage
+- destination Forget
+- oublier d'aller
+- Forget Navi
+- oublier la navigation
+- service d'itinéraire oublié
+- Débarrassez-vous de Going
+- Débarrassez-vous de la navigation
+- Débarrassez-vous du service de routage
+- Allez-y et annulez la navigation
+- Allez-y et annulez le service de routage
+- aller de l'avant et aller clair
+- aller de l'avant et la navigation claire
+- aller de l'avant et couper va
+- Allez-y et coupez la navigation
+- aller de l'avant et supprimer va
+- Allez-y et supprimez la navigation
+- aller de l'avant et la fin de navigation
+- aller de l'avant et le service de fin de route
+- aller de l'avant et d'Effacer va
+- Allez-y et effacez la navigation
+- aller de l'avant et se débarrasser de la navigation
+- aller de l'avant et supprimer la navigation
+- Allez-y et arrêtez la navigation
+- aller de l'avant et essuyer aller
+- Allez-y et essuyez la navigation
+- Allez-y et essuyez-vous aller
+- est-il possible d'annuler la navigation
+- est-il possible d'annuler le service de routage
+- est-il possible de se dégager
+- est-il possible d'effacer la navigation
+- est-il possible de couper aller
+- est-il possible de supprimer aller
+- est-il possible de supprimer la navigation
+- est-il possible de terminer la navigation
+- est-il possible de terminer le service de routage
+- est-il possible d'effacer
+- est-il possible d'oublier la navigation
+- est-il possible de se débarrasser de la navigation
+- est-il possible de supprimer
+- est-il possible d'essuyer en allant
+- navigation claire
+- navigation supprimer
+- navigation oublier
+- navigation se débarrasser de
+- arrêt de navigation
+- jamais l'esprit va
+- jamais l'esprit Navi
+- jamais l'esprit de navigation
+- jamais l'esprit service de routage
+- à la seconde pensée annuler Navi
+- à la seconde pensée clair Navi
+- à la seconde pensée coupé Navi
+- à la seconde pensée supprimer Navi
+- à la deuxième pensée fin Navi
+- à la seconde pensée effacer Navi
+- à la seconde pensée oublier Navi
+- à la seconde pensée oublier la navigation
+- à la deuxième pensée se débarrasser de Navi
+- à la seconde pensée jamais l'esprit de navigation
+- à la réflexion deuxième supprimer Navi
+- à la seconde pensée arrêter Navi
+- à la seconde pensée essuyer Navi
+- Veuillez annuler la navigation
+- Veuillez annuler le service de routage
+- s'il vous plaît aller clair
+- s'il vous plaît effacer la navigation
+- s'il vous plaît couper va
+- s'il vous plaît couper la navigation
+- s'il vous plaît supprimer la navigation
+- s'il vous plaît terminer la navigation
+- Veuillez terminer le service de routage
+- s'il vous plaît effacer aller
+- s'il vous plaît oublier la navigation
+- s'il vous plaît se débarrasser de la navigation
+- s'il vous plaît supprimer aller
+- s'il vous plaît arrêter la navigation
+- s'il vous plaît essuyez aller
+- s'il vous plaît essuyer la navigation
+- s'il vous plaît essuyer va
+- quitter la destination
+- quitter la navigation
+- quitter la route
+- réinitialiser la destination
+- réinitialiser l'itinéraire
+- destination de redémarrage
+- redémarrer l'itinéraire
+- destination Scratch
+- parcours Scratch
+- arrêter d'aller
+- arrêter la navigation
+- arrêter le service de routage
+- allez-vous annuler la navigation
+- annulerez-vous le service de routage
+- allez-vous éclaircir
+- allez-vous effacer la navigation
+- allez-vous couper
+- allez-vous couper la navigation
+- allez-vous supprimer va
+- allez-vous supprimer la navigation
+- allez-vous terminer la navigation
+- allez-vous terminer le service de routage
+- allez-vous oublier la navigation
+- allez-vous vous débarrasser de la navigation
+- s'il vous plaît annuler la navigation
+- allez-vous s'il vous plaît clair
+- pouvez-vous s'il vous plaît effacer la navigation
+- s'il vous plaît supprimer va
+- vous s'il vous plaît fin service de routage
+- pouvez-vous s'il vous plaît supprimer aller
+- allez-vous s'il vous plaît essuyer
+- allez-vous supprimer aller
+- allez-vous arrêter la navigation
+- allez-vous essuyer aller
+- allez-vous essuyer la navigation
+- allez-vous essuyer
+- effacer l'itinéraire
+- service d'effacement d'itinéraire
+- annuleriez-vous la navigation
+- annuleriez-vous le service de routage
+- voulez-vous bien aller
+- souhaitez-vous effacer la navigation
+- voulez-vous couper aller
+- voulez-vous couper la navigation
+- voulez-vous supprimer aller
+- supprimeriez-vous la navigation
+- voulez-vous terminer la navigation
+- voulez-vous terminer le service de routage
+- voulez-vous effacer aller
+- oublieriez-vous la navigation
+- voulez-vous vous débarrasser de la navigation
+- souhaitez-vous s'il vous plaît annuler la navigation
+- voulez-vous bien vous en aller
+- souhaitez-vous s'il vous plaît effacer la navigation
+- pourriez-vous s'il vous plaît couper aller
+- souhaitez-vous s'il vous plaît couper la navigation
+- souhaitez-vous s'il vous plaît supprimer va
+- souhaitez-vous s'il vous plaît supprimer la navigation
+- souhaitez-vous s'il vous plaît terminer la navigation
+- souhaitez-vous s'il vous plaît fin service de route
+- voulez-vous s'il vous plaît effacer aller
+- souhaitez-vous s'il vous plaît oublier la navigation
+- voulez-vous s'il vous plaît supprimer aller
+- souhaitez-vous s'il vous plaît arrêter la navigation
+- voulez-vous s'il vous plaît essuyer aller
+- souhaitez-vous s'il vous plaît essuyer la navigation
+- voulez-vous s'il vous plaît effacer la navigation
+- voulez-vous supprimer la navigation
+- voulez-vous arrêter la navigation
+- voulez-vous essuyer aller
+- voulez-vous essuyer la navigation
+- voulez-vous effacer la navigation
