@@ -199,7 +199,7 @@ module.exports = class extends Generator {
       this.destinationPath('src', 'botServices.ts')
     );
 
-    const commonFiles = [ '.env.development', '.gitignore', 'README.md', 'tsconfig.json', 'deploymentScripts/webConfigPrep.js' ];
+    const commonFiles = [ '.env.development', '.env.production', '.gitignore', 'README.md', 'tsconfig.json', 'deploymentScripts/webConfigPrep.js' ];
 
     commonFiles.forEach(fileName => this.fs.copy(
       this.templatePath(templateName, fileName),
