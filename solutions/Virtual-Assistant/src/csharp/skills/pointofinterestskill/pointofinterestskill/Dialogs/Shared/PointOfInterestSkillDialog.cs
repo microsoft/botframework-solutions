@@ -167,7 +167,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
         {
             var locations = locationSet.Locations;
             var state = await Accessor.GetAsync(sc.Context);
-            var cardsData = new List<LocationCardModelData>();
+            var cardsData = new List<PointofInterestModel>();
             var service = ServiceManager.InitMapsService(GetAzureMapsKey());
 
             if (locations != null && locations.Count > 0)
@@ -179,10 +179,10 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 {
                     var imageUrl = service.GetLocationMapImageUrl(location);
 
-                    var locationCardModel = new LocationCardModelData()
+                    var locationCardModel = new PointofInterestModel()
                     {
                         ImageUrl = imageUrl,
-                        LocationName = location.Name,
+                        Name = location.Name,
                         Address = location.Address.FormattedAddress,
                         SpeakAddress = location.Address.AddressLine,
                         OptionNumber = optionNumber,
