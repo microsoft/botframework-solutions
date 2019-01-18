@@ -2,8 +2,18 @@
 // Licensed under the MIT License
 
 import { TelemetryClient } from 'applicationinsights';
-import { LuisApplication, QnAMakerEndpoint } from 'botbuilder-ai';
-import { AppInsightsService, BotConfiguration, DispatchService, GenericService, LuisService, QnaMakerService, ServiceTypes } from 'botframework-config';
+import {
+    LuisApplication,
+    QnAMakerEndpoint } from 'botbuilder-ai';
+import {
+    AppInsightsService,
+    BotConfiguration,
+    DispatchService,
+    GenericService,
+    IConnectedService,
+    LuisService,
+    QnaMakerService,
+    ServiceTypes } from 'botframework-config';
 import { TelemetryLuisRecognizer } from './middleware/telemetry/telemetryLuisRecognizer';
 import { TelemetryQnAMaker } from './middleware/telemetry/telemetryQnAMaker';
 
@@ -13,65 +23,66 @@ import { TelemetryQnAMaker } from './middleware/telemetry/telemetryQnAMaker';
  * using the BotConfiguration class.
  */
 export class BotServices {
-    private _authConnectionName: string = '';
-    private _telemetryClient!: TelemetryClient;
-    private _dispatchRecognizer!: TelemetryLuisRecognizer;
-    private _luisServices: Map<string, TelemetryLuisRecognizer>;
-    private _qnaServices: Map<string, TelemetryQnAMaker>;
+    private AUTH_CONNECTION_NAME: string = '';
+    private TELEMETRY_CLIENT!: TelemetryClient;
+    private DISPATCH_RECOGNIZER!: TelemetryLuisRecognizer;
+    private LUIS_SERVICES: Map<string, TelemetryLuisRecognizer>;
+    private QNA_SERVICES: Map<string, TelemetryQnAMaker>;
 
     /**
      * Initializes a new instance of the BotServices class.
-     * @constructor
-     * @param {BotConfiguration} config The BotConfiguration instance for the bot.
      */
     constructor(config: BotConfiguration) {
-        this._luisServices = new Map<string, TelemetryLuisRecognizer>();
-        this._qnaServices = new Map<string, TelemetryQnAMaker>();
+        this.LUIS_SERVICES = new Map<string, TelemetryLuisRecognizer>();
+        this.QNA_SERVICES = new Map<string, TelemetryQnAMaker>();
 
-        config.services.forEach((service) => {
+        config.services.forEach((service: IConnectedService) => {
             switch (service.type) {
                 case ServiceTypes.AppInsights: {
-                    const appInsights: AppInsightsService = service as AppInsightsService;
-                    this._telemetryClient = new TelemetryClient(appInsights.instrumentationKey);
+                    const appInsights: AppInsightsService = <AppInsightsService> service;
+                    this.TELEMETRY_CLIENT = new TelemetryClient(appInsights.instrumentationKey);
                     break;
                 }
                 case ServiceTypes.Dispatch: {
-                    const dispatch: DispatchService = service as DispatchService;
+                    const dispatch: DispatchService = <DispatchService> service;
                     const dispatchApp: LuisApplication = {
                         applicationId: dispatch.appId,
                         endpoint: this.getLuisPath(dispatch.region),
                         endpointKey: dispatch.subscriptionKey
                     };
-                    this._dispatchRecognizer = new TelemetryLuisRecognizer(dispatchApp);
+                    this.DISPATCH_RECOGNIZER = new TelemetryLuisRecognizer(dispatchApp);
                     break;
                 }
                 case ServiceTypes.Luis: {
-                    const luis: LuisService = service as LuisService;
+                    const luis: LuisService = <LuisService> service;
                     const luisApp: LuisApplication = {
                         applicationId: luis.appId,
                         endpoint: this.getLuisPath(luis.region),
                         endpointKey: luis.subscriptionKey
                     };
-                    this._luisServices.set(luis.name, new TelemetryLuisRecognizer(luisApp));
+                    this.LUIS_SERVICES.set(luis.name, new TelemetryLuisRecognizer(luisApp));
                     break;
                 }
                 case ServiceTypes.QnA: {
-                    const qna: QnaMakerService = service as QnaMakerService;
+                    const qna: QnaMakerService = <QnaMakerService> service;
                     const qnaEndpoint: QnAMakerEndpoint = {
                         endpointKey: qna.endpointKey,
                         host: qna.hostname,
                         knowledgeBaseId: qna.kbId
                     };
-                    this._qnaServices.set(qna.name, new TelemetryQnAMaker(qnaEndpoint));
+                    this.QNA_SERVICES.set(qna.name, new TelemetryQnAMaker(qnaEndpoint));
                     break;
                 }
                 case ServiceTypes.Generic: {
                     if (service.name === 'Authentication') {
-                        const authentication: GenericService = service as GenericService;
+                        const authentication: GenericService = <GenericService> service;
                         if (authentication.configuration['Azure Active Directory v2']) {
-                            this._authConnectionName = authentication.configuration['Azure Active Directory v2'];
+                            this.AUTH_CONNECTION_NAME = authentication.configuration['Azure Active Directory v2'];
                         }
                     }
+                }
+                default: {
+                    //
                 }
             }
         });
@@ -86,7 +97,7 @@ export class BotServices {
      * The Authentication Connection Name  should not be modified while the bot is running.
      */
     public get authConnectionName(): string {
-        return this._authConnectionName;
+        return this.AUTH_CONNECTION_NAME;
     }
 
     /**
@@ -94,7 +105,7 @@ export class BotServices {
      * The AppInsights Telemetry Client should not be modified while the bot is running.
      */
     public get telemetryClient(): TelemetryClient {
-        return this._telemetryClient;
+        return this.TELEMETRY_CLIENT;
     }
 
     /**
@@ -102,7 +113,7 @@ export class BotServices {
      * The Dispatch LUIS Recognizer should not be modified while the bot is running.
      */
     public get dispatchRecognizer(): TelemetryLuisRecognizer {
-        return this._dispatchRecognizer;
+        return this.DISPATCH_RECOGNIZER;
     }
 
     /**
@@ -112,7 +123,7 @@ export class BotServices {
      * since the elements are named.
      */
     public get luisServices(): Map<string, TelemetryLuisRecognizer> {
-        return this._luisServices;
+        return this.LUIS_SERVICES;
     }
 
     /**
@@ -122,6 +133,6 @@ export class BotServices {
      * since the elements are named.
      */
     public get qnaServices(): Map<string, TelemetryQnAMaker> {
-        return this._qnaServices;
+        return this.QNA_SERVICES;
     }
 }
