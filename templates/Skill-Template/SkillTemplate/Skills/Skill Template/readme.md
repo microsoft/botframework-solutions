@@ -1,0 +1,1 @@
+﻿Please refer to [Virtual Assistant Skill Enablement](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/virtualassistant-skillenablement.md) for instructions on creating your skill.
