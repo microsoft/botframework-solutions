@@ -37,14 +37,22 @@ namespace CalendarSkillTest.Flow
         public async Task Test_CalendarSummary()
         {
             var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.SetupCalendarService(MockCalendarService.FakeDefaultEvents());
+            DateTime now = DateTime.Now;
+            DateTime startTime = new DateTime(now.Year, now.Month, now.Day, 18, 0, 0);
+            startTime = startTime.AddDays(1);
+            startTime = TimeZoneInfo.ConvertTimeToUtc(startTime);
+            serviceManager.SetupCalendarService(new List<EventModel>()
+            {
+                MockCalendarService.CreateEventModel(
+                    startDateTime: startTime,
+                    endDateTime: startTime.AddHours(1)),
+            });
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseFindMeeting)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundOneEventPrompt())
                 .AssertReply(this.ShowCalendarList(1))
-                .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -135,14 +143,23 @@ namespace CalendarSkillTest.Flow
         public async Task Test_CalendarSummaryByTimeRange()
         {
             var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.SetupCalendarService(new List<EventModel>() { MockCalendarService.CreateEventModel(startDateTime: DateTime.UtcNow.AddDays(7), endDateTime: DateTime.UtcNow.AddDays(8)) });
+            DateTime now = DateTime.Now;
+            DateTime startTime = new DateTime(now.Year, now.Month, now.Day, 18, 0, 0);
+            startTime = startTime.AddDays(1);
+            startTime = TimeZoneInfo.ConvertTimeToUtc(startTime);
+            serviceManager.SetupCalendarService(new List<EventModel>()
+            {
+                MockCalendarService.CreateEventModel(
+                    startDateTime: startTime.AddDays(7),
+                    endDateTime: startTime.AddDays(8))
+            });
+
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.FindMeetingByTimeRange)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundOneEventPrompt())
                 .AssertReply(this.ShowCalendarList(1))
-                .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -168,7 +185,6 @@ namespace CalendarSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundOneEventPrompt())
                 .AssertReply(this.ShowCalendarList(1))
-                .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -190,6 +206,21 @@ namespace CalendarSkillTest.Flow
                 { "EventName1", Strings.Strings.DefaultEventName },
                 { "EventDuration", "1 hour" },
                 { "Date", "today" },
+                { "EventTime1", "at 6:00 PM"},
+                { "Participants", Strings.Strings.DefaultUserName }
+            };
+
+            return this.ParseReplies(SummaryResponses.ShowOneMeetingSummaryMessage.Replies, responseParams);
+        }
+
+        private string[] FoundOneEventPromptForTimeRange()
+        {
+            var responseParams = new StringDictionary()
+            {
+                { "Count", "1" },
+                { "EventName1", Strings.Strings.DefaultEventName },
+                { "EventDuration", "1 hour" },
+                { "Date", "next week" },
                 { "EventTime1", "at 6:00 PM"},
                 { "Participants", Strings.Strings.DefaultUserName }
             };

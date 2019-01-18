@@ -306,6 +306,7 @@ namespace CalendarSkill.Dialogs.Summary
                 var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
                 if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
                 {
+                    state.Clear();
                     return await sc.CancelAllDialogsAsync();
                 }
                 else if ((promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true) || state.SummaryEvents.Count == 1)
