@@ -29,8 +29,8 @@
   "ShowOneMeetingSummaryMessage": {
     "replies": [
       {
-        "text": "I found only one event for you today:",
-        "speak": "I found only one event for you today: {EventName1} for {EventDuration}."
+        "text": "You have 1 event planned for {Date}, your next event is with {Participants} {EventTime1} titled {EventName1}. Want to hear the content of this event?",
+        "speak": "You have 1 event planned for {Date}, your next event is with {Participants} {EventTime1} titled {EventName1}. Want to hear the content of this event?"
       }
     ],
     "inputHint": "acceptingInput"

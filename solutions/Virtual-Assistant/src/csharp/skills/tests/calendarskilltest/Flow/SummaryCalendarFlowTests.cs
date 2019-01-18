@@ -86,17 +86,25 @@ namespace CalendarSkillTest.Flow
         public async Task Test_CalendarSummaryReadOutWithOneMeeting()
         {
             var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.SetupCalendarService(MockCalendarService.FakeDefaultEvents());
+            DateTime now = DateTime.Now;
+            DateTime startTime = new DateTime(now.Year, now.Month, now.Day, 18, 0, 0);
+            startTime = startTime.AddDays(1);
+            startTime = TimeZoneInfo.ConvertTimeToUtc(startTime);
+            serviceManager.SetupCalendarService(new List<EventModel>()
+            {
+                MockCalendarService.CreateEventModel(
+                    startDateTime: startTime,
+                    endDateTime: startTime.AddHours(1)),
+            });
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseFindMeeting)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundOneEventPrompt())
                 .AssertReply(this.ShowCalendarList(1))
-                .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowReadOutEventList())
-                .AssertReplyOneOf(this.ReadOutMorePrompt())
+                .AssertReplyOneOf(this.AskForOrgnizerActionPrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -115,11 +123,9 @@ namespace CalendarSkillTest.Flow
                 .AssertReplyOneOf(this.FoundMultipleEventPrompt(eventCount))
                 .AssertReply(this.ShowCalendarList(eventCount))
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
-                .Send(Strings.Strings.ConfirmYes)
-                .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(FindMeetingTestUtterances.ChooseFirstMeeting)
                 .AssertReply(this.ShowReadOutEventList())
-                .AssertReplyOneOf(this.ReadOutMorePrompt())
+                .AssertReplyOneOf(this.AskForOrgnizerActionPrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -183,6 +189,9 @@ namespace CalendarSkillTest.Flow
                 { "Count", "1" },
                 { "EventName1", Strings.Strings.DefaultEventName },
                 { "EventDuration", "1 hour" },
+                { "Date", "today" },
+                { "EventTime1", "at 6:00 PM"},
+                { "Participants", Strings.Strings.DefaultUserName }
             };
 
             return this.ParseReplies(SummaryResponses.ShowOneMeetingSummaryMessage.Replies, responseParams);
@@ -227,6 +236,11 @@ namespace CalendarSkillTest.Flow
         private string[] ReadOutPrompt()
         {
             return this.ParseReplies(SummaryResponses.ReadOutPrompt.Replies, new StringDictionary());
+        }
+
+        private string[] AskForOrgnizerActionPrompt(string dateString = "today")
+        {
+            return this.ParseReplies(SummaryResponses.AskForOrgnizerAction.Replies, new StringDictionary() { { "DateTime", dateString } });
         }
 
         private Action<IActivity> ShowReadOutEventList()

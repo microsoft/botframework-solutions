@@ -120,6 +120,12 @@
   <data name="AllDay" xml:space="preserve">
     <value>All day</value>
   </data>
+  <data name="AllDayLower" xml:space="preserve">
+    <value>all day</value>
+  </data>
+  <data name="AtTime" xml:space="preserve">
+    <value>at {0}</value>
+  </data>
   <data name="DailyToken" xml:space="preserve">
     <value>daily</value>
   </data>

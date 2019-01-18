@@ -20,6 +20,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Data;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 
@@ -85,10 +86,10 @@ namespace CalendarSkill.Dialogs.Summary
                 var state = await Accessor.GetAsync(sc.Context);
                 if (state.OrderReference != null && state.OrderReference == "next")
                 {
-                    return await sc.BeginDialogAsync(Actions.ShowNextEvent);
+                    return await sc.BeginDialogAsync(Actions.ShowNextEvent, options: sc.Options);
                 }
 
-                return await sc.BeginDialogAsync(Actions.ShowEventsSummary);
+                return await sc.BeginDialogAsync(Actions.ShowEventsSummary, options: sc.Options);
             }
             catch (Exception ex)
             {
@@ -202,6 +203,9 @@ namespace CalendarSkill.Dialogs.Summary
                             { "Count", searchedEvents.Count.ToString() },
                             { "EventName1", searchedEvents[0].Title },
                             { "EventDuration", searchedEvents[0].ToDurationString() },
+                            { "Date", state.StartDateString ?? CalendarCommonStrings.Today },
+                            { "EventTime1", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(searchedEvents[0].StartTime, state.GetUserTimeZone()), searchedEvents[0].IsAllDay == true) },
+                            { "Participants", DisplayHelper.ToDisplayParticipantsStringSummay(searchedEvents[0].Attendees) }
                         };
 
                         if (searchedEvents.Count == 1)
@@ -211,7 +215,7 @@ namespace CalendarSkill.Dialogs.Summary
                         else
                         {
                             responseParams.Add("EventName2", searchedEvents[searchedEvents.Count - 1].Title);
-                            responseParams.Add("EventTime", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(searchedEvents[searchedEvents.Count - 1].StartTime, state.GetUserTimeZone()), searchedEvents[searchedEvents.Count - 1].IsAllDay == true));
+                            responseParams.Add("EventTime2", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(searchedEvents[searchedEvents.Count - 1].StartTime, state.GetUserTimeZone()), searchedEvents[searchedEvents.Count - 1].IsAllDay == true));
 
                             await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowMultipleMeetingSummaryMessage, ResponseBuilder, responseParams));
                         }
@@ -243,6 +247,12 @@ namespace CalendarSkill.Dialogs.Summary
         {
             try
             {
+                var state = await Accessor.GetAsync(sc.Context);
+                if (state.SummaryEvents.Count == 1)
+                {
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions());
+                }
+
                 return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.ReadOutMorePrompt) });
             }
             catch (Exception ex)
@@ -279,6 +289,7 @@ namespace CalendarSkill.Dialogs.Summary
 
                 if (topIntent == null)
                 {
+                    state.Clear();
                     return await sc.CancelAllDialogsAsync();
                 }
 
@@ -297,7 +308,11 @@ namespace CalendarSkill.Dialogs.Summary
                 {
                     return await sc.CancelAllDialogsAsync();
                 }
-                else if ((promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true) || (topIntent == Luis.Calendar.Intent.ReadAloud && eventItem == null))
+                else if ((promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true) || state.SummaryEvents.Count == 1)
+                {
+                    eventItem = state.SummaryEvents[0];
+                }
+                else if (topIntent == Luis.Calendar.Intent.ReadAloud && eventItem == null)
                 {
                     if (state.SummaryEvents.Count == 1)
                     {
@@ -318,7 +333,7 @@ namespace CalendarSkill.Dialogs.Summary
 
                     if (eventItem.IsOrganizer)
                     {
-                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.AskForAction, ResponseBuilder, new StringDictionary() { { "DateTime", (state.StartDateString ?? CalendarCommonStrings.Today).ToLower() } }) });
+                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.AskForOrgnizerAction, ResponseBuilder, new StringDictionary() { { "DateTime", state.StartDateString ?? CalendarCommonStrings.Today } }) });
                     }
                     else if (eventItem.IsAccepted)
                     {
@@ -326,7 +341,6 @@ namespace CalendarSkill.Dialogs.Summary
                     }
                     else
                     {
-                        //todo
                         return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.AskForChangeStatus, ResponseBuilder, new StringDictionary() { { "DateTime", state.StartDateString ?? CalendarCommonStrings.Today } }) });
                     }
                 }
@@ -498,7 +512,7 @@ namespace CalendarSkill.Dialogs.Summary
                             { "PeopleCount", nextEventList[0].Attendees.Count.ToString() },
                         };
 
-                        speakParams.Add("EventTime", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(nextEventList[0].StartTime, state.GetUserTimeZone()), nextEventList[0].IsAllDay == true));
+                        speakParams.Add("EventTime", SpeakHelper.ToSpeechMeetingDateTime(TimeConverter.ConvertUtcToUserTime(nextEventList[0].StartTime, state.GetUserTimeZone()), nextEventList[0].IsAllDay == true));
 
                         if (string.IsNullOrEmpty(nextEventList[0].Location))
                         {

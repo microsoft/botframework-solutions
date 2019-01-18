@@ -70,6 +70,24 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to all day.
+        /// </summary>
+        public static string AllDayLower {
+            get {
+                return ResourceManager.GetString("AllDayLower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to at {0}.
+        /// </summary>
+        public static string AtTime {
+            get {
+                return ResourceManager.GetString("AtTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to daily.
         /// </summary>
         public static string DailyToken {
