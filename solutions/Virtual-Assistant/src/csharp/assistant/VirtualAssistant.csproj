@@ -114,8 +114,4 @@
     </None>
   </ItemGroup>
 
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="xcopy &quot;$(SolutionDir)skills\calendarskill\calendarskill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)skills\emailskill\emailskill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)skills\pointofinterestskill\pointofinterestskill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)skills\todoskill\todoskill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y" />
-  </Target>
-
 </Project>
