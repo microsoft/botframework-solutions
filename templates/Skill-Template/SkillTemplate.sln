@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28407.52
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillTemplateVSIX", "SkillTemplateVSIX\SkillTemplateVSIX.csproj", "{400B4DB2-0817-4B87-99F3-F9BF26A50C74}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{400B4DB2-0817-4B87-99F3-F9BF26A50C74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{400B4DB2-0817-4B87-99F3-F9BF26A50C74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{400B4DB2-0817-4B87-99F3-F9BF26A50C74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{400B4DB2-0817-4B87-99F3-F9BF26A50C74}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E6AFDAF0-72E7-475C-886F-4E42DCAEDAEC}
+	EndGlobalSection
+EndGlobal

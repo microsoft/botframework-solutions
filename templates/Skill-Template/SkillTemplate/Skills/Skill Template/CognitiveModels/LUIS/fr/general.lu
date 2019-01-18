@@ -1,0 +1,111 @@
+﻿> Entity Definitions
+$PREBUILT:datetimeV2
+$PREBUILT:number
+
+> Intent Definitions
+# Greeting
+- Salut
+- Bonjour
+- Bonsoir
+- Bonjour bot
+- Comment vas-tu
+- Comment vas-tu aujourd'hui
+- Hé
+
+# Help
+- Aide
+- Aide-moi
+- aide s'il vous plaît
+- Je suis coincé
+- Je ne comprends pas
+- que puis-je dire
+- que pouvez-vous m'aider avec
+- que pouvez-vous faire
+- que dois-je faire maintenant
+- Pourquoi cela ne fonctionne-t-il pas
+- Est-ce que vous pouvez m'aider
+
+# Cancel
+- Arrêter
+- Annuler
+- Mépris
+- Ne pas
+- Fais pas ça
+- Je voudrais annuler
+- C'est pas grave
+- s'il vous plaît arrêter
+- Sortie
+
+# Restart
+- puis-je recommencer
+- J'ai besoin de changer quelque chose
+- Redémarrer
+- recommencer
+
+# Escalate
+- puis-je parler à une personne
+- Je veux parler à un humain
+- parler à un humain
+- Transférez-moi svp
+- Contacter le support technique
+
+# Next
+- Avance
+- aller de l'avant
+- aller à la prochaine
+- Prochaine
+- point suivant
+- afficher suivant
+- pourriez-vous montrer la prochaine
+- J'ai besoin d'aller à l'autre
+- allez à la prochaine s'il vous plaît
+- passer à la suivante
+- Allez
+- aller à la page suivante
+- Avancer
+- passer à la prochaine
+- Next One
+- suivant s'il vous plaît
+- Montrez-moi la prochaine
+- afficher la prochaine
+- afficher la suivante
+- le prochain Courriel
+
+# Previous
+- Retour
+- Last One
+- précédent
+- le dernier
+- Old One
+- Dernière
+- Retour à la dernière
+- Apportez le précédent
+- Venez à la dernière
+- aller à la précédente
+- aller à la dernière
+- reculer
+- Précédente
+- Montrez-moi précédent
+- précédent s'il vous plaît
+- le précédent
+- Quel est le précédent
+
+# Goodbye
+- Bonne nuit
+- Au revoir
+- Ok merci
+- Ok salut
+- C'est tout Merci
+
+# Logout
+- SignOut
+- oubliez-moi
+- se déconnecter
+- Déconnexion
+
+# None
+- ma bouteille d'eau est verte
+- les tortues aiment nager dans l'océan
+- avions de papier dans le ciel
+
+> PhraseList
