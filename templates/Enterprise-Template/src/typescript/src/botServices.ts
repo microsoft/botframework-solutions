@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
-import { TelemetryClient } from "applicationinsights";
-import { LuisApplication, QnAMakerEndpoint } from "botbuilder-ai";
-import { AppInsightsService, BotConfiguration, DispatchService, GenericService, LuisService, QnaMakerService, ServiceTypes } from "botframework-config";
-import { TelemetryLuisRecognizer } from "./middleware/telemetry/telemetryLuisRecognizer";
-import { TelemetryQnAMaker } from "./middleware/telemetry/telemetryQnAMaker";
+import { TelemetryClient } from 'applicationinsights';
+import { LuisApplication, QnAMakerEndpoint } from 'botbuilder-ai';
+import { AppInsightsService, BotConfiguration, DispatchService, GenericService, LuisService, QnaMakerService, ServiceTypes } from 'botframework-config';
+import { TelemetryLuisRecognizer } from './middleware/telemetry/telemetryLuisRecognizer';
+import { TelemetryQnAMaker } from './middleware/telemetry/telemetryQnAMaker';
 
 /**
  * Represents references to external services.
@@ -13,7 +13,7 @@ import { TelemetryQnAMaker } from "./middleware/telemetry/telemetryQnAMaker";
  * using the BotConfiguration class.
  */
 export class BotServices {
-    private _authConnectionName: string = "";
+    private _authConnectionName: string = '';
     private _telemetryClient!: TelemetryClient;
     private _dispatchRecognizer!: TelemetryLuisRecognizer;
     private _luisServices: Map<string, TelemetryLuisRecognizer>;
@@ -40,7 +40,7 @@ export class BotServices {
                     const dispatchApp: LuisApplication = {
                         applicationId: dispatch.appId,
                         endpoint: this.getLuisPath(dispatch.region),
-                        endpointKey: dispatch.subscriptionKey,
+                        endpointKey: dispatch.subscriptionKey
                     };
                     this._dispatchRecognizer = new TelemetryLuisRecognizer(dispatchApp);
                     break;
@@ -50,7 +50,7 @@ export class BotServices {
                     const luisApp: LuisApplication = {
                         applicationId: luis.appId,
                         endpoint: this.getLuisPath(luis.region),
-                        endpointKey: luis.subscriptionKey,
+                        endpointKey: luis.subscriptionKey
                     };
                     this._luisServices.set(luis.name, new TelemetryLuisRecognizer(luisApp));
                     break;
@@ -60,19 +60,18 @@ export class BotServices {
                     const qnaEndpoint: QnAMakerEndpoint = {
                         endpointKey: qna.endpointKey,
                         host: qna.hostname,
-                        knowledgeBaseId: qna.kbId,
+                        knowledgeBaseId: qna.kbId
                     };
                     this._qnaServices.set(qna.name, new TelemetryQnAMaker(qnaEndpoint));
                     break;
                 }
                 case ServiceTypes.Generic: {
-                    if (service.name === "Authentication") {
+                    if (service.name === 'Authentication') {
                         const authentication: GenericService = service as GenericService;
-                        if (authentication.configuration["Azure Active Directory v2"]) {
-                            this._authConnectionName = authentication.configuration["Azure Active Directory v2"];
+                        if (authentication.configuration['Azure Active Directory v2']) {
+                            this._authConnectionName = authentication.configuration['Azure Active Directory v2'];
                         }
                     }
-                    break;
                 }
             }
         });

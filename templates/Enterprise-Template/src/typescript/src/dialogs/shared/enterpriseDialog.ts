@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
-import { RecognizerResult } from "botbuilder";
-import { LuisRecognizer } from "botbuilder-ai";
-import { DialogContext } from "botbuilder-dialogs";
-import { BotServices } from "../../botServices";
-import { TelemetryLuisRecognizer } from "../../middleware/telemetry/telemetryLuisRecognizer";
-import { CancelDialog } from "../cancel/cancelDialog";
-import { CancelResponses } from "../cancel/cancelResponses";
-import { MainResponses } from "../main/mainResponses";
-import { InterruptableDialog } from "./interruptableDialog";
-import { InterruptionStatus } from "./interruptionStatus";
+import { RecognizerResult } from 'botbuilder';
+import { LuisRecognizer } from 'botbuilder-ai';
+import { DialogContext } from 'botbuilder-dialogs';
+import { BotServices } from '../../botServices';
+import { TelemetryLuisRecognizer } from '../../middleware/telemetry/telemetryLuisRecognizer';
+import { CancelDialog } from '../cancel/cancelDialog';
+import { CancelResponses } from '../cancel/cancelResponses';
+import { MainResponses } from '../main/mainResponses';
+import { InterruptableDialog } from './interruptableDialog';
+import { InterruptionStatus } from './interruptionStatus';
 
 export class EnterpriseDialog extends InterruptableDialog {
 
@@ -26,19 +26,18 @@ export class EnterpriseDialog extends InterruptableDialog {
     }
 
     protected async onDialogInterruption(dc: DialogContext): Promise<InterruptionStatus> {
-        
+
         // Check dispatch intent.
-        const luisService: TelemetryLuisRecognizer | undefined = this._services.luisServices.get(process.env.LUIS_GENERAL || "");
-        if (!luisService) { return Promise.reject(new Error("The specified LUIS Model could not be found in your Bot Services configuration.")); }
-        else{
+        const luisService: TelemetryLuisRecognizer | undefined = this._services.luisServices.get(process.env.LUIS_GENERAL || '');
+        if (!luisService) { return Promise.reject(new Error('The specified LUIS Model could not be found in your Bot Services configuration.')); } else {
             const luisResult: RecognizerResult = await luisService.recognize(dc.context);
             const intent: string = LuisRecognizer.topIntent(luisResult, undefined, 0.1);
 
             switch (intent) {
-                case "Cancel":
-                return await this.onCancel(dc);
-                case "Help":
-                return await this.onHelp(dc);
+                case 'Cancel':
+                return this.onCancel(dc);
+                case 'Help':
+                return this.onHelp(dc);
             }
         }
         return InterruptionStatus.NoAction;
@@ -58,8 +57,8 @@ export class EnterpriseDialog extends InterruptableDialog {
     }
 
     protected async onHelp(dc: DialogContext): Promise<InterruptionStatus> {
-        
-        var view = new MainResponses();
+
+        const view = new MainResponses();
         view.replyWith(dc.context, MainResponses.ResponseIds.Help);
 
         // Signal the conversation was interrupted and should immediately continue.
