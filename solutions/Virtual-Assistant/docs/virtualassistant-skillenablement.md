@@ -1,11 +1,11 @@
 # Creating a skill using the Skill Template
 1. Install VSIX from [MyGet](https://botbuilder.myget.org/gallery/aitemplates).
 1. Add a new **Skill Template with Tests** project to your solution in the Skills folder
-    ![Screenshot](media\Skills_addproject.jpg)
+    ![Screenshot](./media/skills_addproject.jpg)
 
-    ![Screenshot](media\skills_addproject2.jpg)
+    ![Screenshot](./media/skills_addproject2.jpg)
 
-    ![Screenshot](media\skills_projects.jpg)
+    ![Screenshot](./media/skills_projects.jpg)
 
 1. Add references to **Microsoft.Bot.Solutions** to your new skill and test projects
 1. Rebuild project to verify there are no errors.
@@ -50,12 +50,12 @@
     LUISGen DeploymentScripts\en\dispatch.luis -cs Dispatch -o Dialogs\Shared\Resources 
     ```
 1. Update **MainDialog.cs** with the dispatch intent for your skill.
-    ![](media\skills_maindialogupdate.jpg)
+    ![](./media/skills_maindialogupdate.jpg)
 
 1. Run the Virtual Assistant project.
 1. Test your new skill with the query "sample dialog".
 
-    ![Screenshot](media\skills_testnewskill.jpg)
+    ![Screenshot](./media/skills_testnewskill.jpg)
 
 # Customizing your Skill
 1. Start by identifying the different tasks your skill will handle
@@ -75,7 +75,7 @@
         ```
         The value is the "Service Provider" from your OAuth connection in the Azure portal.
 
-        ![Screenshot](media\skills_oauthprovider.jpg)
+        ![Screenshot](./media/skills_oauthprovider.jpg)
 
     - **luisServiceIds**: this section identifies which LUIS service configurations should be sent from the Virtual Assistant to your skill. Include ids for any LUIS models your skill will need to access in this list. The id for a LUIS service is found in the .bot file configuration.
         ```
