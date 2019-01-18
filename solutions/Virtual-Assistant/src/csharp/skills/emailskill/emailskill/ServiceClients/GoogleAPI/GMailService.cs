@@ -18,7 +18,6 @@ using Google.Apis.Gmail.v1.Data;
 using Google.Apis.Requests;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
-using Microsoft.Bot.Solutions.Data;
 using Microsoft.Graph;
 using MimeKit;
 using GmailMessage = Google.Apis.Gmail.v1.Data.Message;
@@ -32,7 +31,7 @@ namespace EmailSkill.ServiceClients.GoogleAPI
     public class GMailService : IMailService
     {
         private static GmailService service;
-        private readonly int pageSize;
+        private readonly int maxSize = 50;
         private string pageToken = string.Empty;
 
         /// <summary>
@@ -42,7 +41,6 @@ namespace EmailSkill.ServiceClients.GoogleAPI
         public GMailService(GmailService baseClientService)
         {
             service = baseClientService;
-            pageSize = ConfigData.GetInstance().MaxDisplaySize;
         }
 
         public static GmailService GetServiceClient(GoogleClient config, string token)
@@ -303,7 +301,7 @@ namespace EmailSkill.ServiceClients.GoogleAPI
             }
         }
 
-        public async Task<List<MSMessage>> GetMyMessagesAsync(DateTime fromTime, DateTime toTime, bool getUnRead = false, bool isImportant = false, bool directlyToMe = false, string fromAddress = null, int skip = 0)
+        public async Task<List<MSMessage>> GetMyMessagesAsync(DateTime fromTime, DateTime toTime, bool getUnRead = false, bool isImportant = false, bool directlyToMe = false, string fromAddress = null)
         {
             try
             {
@@ -345,28 +343,7 @@ namespace EmailSkill.ServiceClients.GoogleAPI
 
                 var request = service.Users.Messages.List("me");
                 request.Q = searchOperation;
-                request.MaxResults = this.pageSize;
-
-                // deal with skip
-                if (skip != 0 && this.pageToken == string.Empty)
-                {
-                    // call api and get the pageToken
-                    var tempReq = service.Users.Messages.List("me");
-                    tempReq.MaxResults = skip;
-                    tempReq.Q = searchOperation;
-                    var tempRes = ((IClientServiceRequest<ListMessagesResponse>)tempReq).Execute();
-                    if (tempRes.NextPageToken != null && tempRes.NextPageToken != string.Empty)
-                    {
-                        this.pageToken = tempRes.NextPageToken;
-                    }
-                    else
-                    {
-                        // no more message
-                        return new List<MSMessage>();
-                    }
-
-                    request.PageToken = this.pageToken;
-                }
+                request.MaxResults = this.maxSize;
 
                 var response = await ((IClientServiceRequest<ListMessagesResponse>)request).ExecuteAsync();
                 var result = new List<MSMessage>();

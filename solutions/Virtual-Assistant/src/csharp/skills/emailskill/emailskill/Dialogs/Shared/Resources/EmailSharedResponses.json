@@ -171,7 +171,7 @@
       {
         "text": "Sorry, there is something wrong with the bot at the moment. The developer has been notified about it so you'll be able to perform the action again very soon.",
         "speak": "Sorry, there is something wrong with the bot at the moment. The developer has been notified about it so you'll be able to perform the action again very soon."
-      },
+      }
     ],
     "inputHint": "acceptingInput"
   },
@@ -271,10 +271,32 @@
   "ShowEmailPrompt": {
     "replies": [
       {
-        "text": "You have the following {SearchType} emails:",
-        "speak": "You have the following {SearchType} emails: {EmailListDetails}"
+        "text": "You have {TotalCount} emails. {EmailListDetails}.",
+        "speak": "You have {TotalCount} emails. {EmailListDetails}."
       }
     ],
     "inputHint": "acceptingInput"
+  },
+  "ShowOneEmailPrompt": {
+    "replies": [
+      {
+        "text": "You have 1 email. {EmailListDetails}.",
+        "speak": "You have 1 email. {EmailListDetails}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "NoChoiceOptions_Retry": {
+    "replies": [
+      {
+        "text": "I don't understand what you input. Can you try in a different way? You can say the first one, 1, or you can try next page, previous page or read more.",
+        "speak": "I don't understand what you input. Can you try in a different way? You can say the first one, 1, or you can try next page, previous page or read more."
+      },
+      {
+        "text": "I don't understand what you input.",
+        "speak": "I don't understand what you input."
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }

@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using CalendarSkill.Common;
 using CalendarSkill.Dialogs.Shared.Resources.Strings;
-using CalendarSkill.ServiceClients;
 using CalendarSkill.Util;
 using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Graph;
 
 namespace CalendarSkill.Models
 {
@@ -31,6 +31,29 @@ namespace CalendarSkill.Models
         /// Event from other.
         /// </summary>
         Other = 0,
+    }
+
+    public enum EventStatus
+    {
+        /// <summary>
+        /// None status.
+        /// </summary>
+        None = 0,
+
+        /// <summary>
+        /// Event is accepted.
+        /// </summary>
+        Accepted = 1,
+
+        /// <summary>
+        /// Event is tentative.
+        /// </summary>
+        Tentative = 2,
+
+        /// <summary>
+        /// Event is Cancelled.
+        /// </summary>
+        Cancelled = 3,
     }
 
     /// <summary>
@@ -276,6 +299,37 @@ namespace CalendarSkill.Models
 
                         msftEventData.Body.Content = value;
                         msftEventData.Body.ContentType = Microsoft.Graph.BodyType.Text;
+                        break;
+                    case EventSource.Google:
+                        gmailEventData.Description = value;
+                        break;
+                    default:
+                        throw new Exception("Event Type not Defined");
+                }
+            }
+        }
+
+        public string ContentPreview
+        {
+            get
+            {
+                switch (source)
+                {
+                    case EventSource.Microsoft:
+                        return msftEventData.BodyPreview;
+                    case EventSource.Google:
+                        return gmailEventData.Description;
+                    default:
+                        throw new Exception("Event Type not Defined");
+                }
+            }
+
+            set
+            {
+                switch (source)
+                {
+                    case EventSource.Microsoft:
+                        msftEventData.BodyPreview = value;
                         break;
                     case EventSource.Google:
                         gmailEventData.Description = value;
@@ -647,6 +701,107 @@ namespace CalendarSkill.Models
             }
         }
 
+        public bool IsAccepted
+        {
+            get
+            {
+                switch (source)
+                {
+                    case EventSource.Microsoft:
+                        return msftEventData.ResponseStatus.Response == ResponseType.Accepted ||
+                            msftEventData.ResponseStatus.Response == ResponseType.Organizer;
+                    case EventSource.Google:
+                        return gmailEventData.Status.Equals("confirmed");
+                    default:
+                        throw new Exception("Event Type not Defined");
+                }
+            }
+        }
+
+        public EventStatus Status
+        {
+            get
+            {
+                switch (source)
+                {
+                    case EventSource.Microsoft:
+                        switch (msftEventData.ResponseStatus.Response)
+                        {
+                            case ResponseType.Organizer:
+                            case ResponseType.Accepted:
+                                return EventStatus.Accepted;
+                            case ResponseType.NotResponded:
+                            case ResponseType.TentativelyAccepted:
+                                return EventStatus.Tentative;
+                            case ResponseType.Declined:
+                                return EventStatus.Cancelled;
+                            default:
+                                return EventStatus.None;
+                        }
+
+                    case EventSource.Google:
+                        if (gmailEventData.Status.Equals("confirmed"))
+                        {
+                            return EventStatus.Accepted;
+                        }
+                        else if (gmailEventData.Status.Equals("tentative"))
+                        {
+                            return EventStatus.Tentative;
+                        }
+                        else if (gmailEventData.Status.Equals("cancelled"))
+                        {
+                            return EventStatus.Cancelled;
+                        }
+                        else
+                        {
+                            return EventStatus.None;
+                        }
+
+                    default:
+                        throw new Exception("Event Type not Defined");
+                }
+            }
+
+            set
+            {
+                switch (source)
+                {
+                    case EventSource.Microsoft:
+                        if (value == EventStatus.Accepted)
+                        {
+                            msftEventData.ResponseStatus.Response = ResponseType.Accepted;
+                        }
+                        else if (value == EventStatus.Tentative)
+                        {
+                            msftEventData.ResponseStatus.Response = ResponseType.TentativelyAccepted;
+                        }
+                        else if (value == EventStatus.Cancelled)
+                        {
+                            msftEventData.ResponseStatus.Response = ResponseType.Declined;
+                        }
+
+                        break;
+                    case EventSource.Google:
+                        if (value == EventStatus.Accepted)
+                        {
+                            gmailEventData.Status = "confirmed";
+                        }
+                        else if (value == EventStatus.Cancelled)
+                        {
+                            gmailEventData.Status = "cancelled";
+                        }
+                        else
+                        {
+                            gmailEventData.Status = "tentative";
+                        }
+
+                        break;
+                    default:
+                        throw new Exception("Event Type not Defined");
+                }
+            }
+        }
+
         public bool? IsAllDay
         {
             get
@@ -675,17 +830,20 @@ namespace CalendarSkill.Models
             return dateTime1.Year == dateTime2.Year && dateTime1.Month == dateTime2.Month && dateTime1.Day == dateTime2.Day;
         }
 
-        public CalendarCardData ToAdaptiveCardData(TimeZoneInfo timeZone, bool showDate = true, string culture = "")
+        public CalendarCardData ToAdaptiveCardData(TimeZoneInfo timeZone, bool showDate = true, bool showContent = false, string culture = "")
         {
             var eventItem = this;
 
-            var textString = string.Empty;
+            string participantString = null;
+            string dateString = null;
+            string timeString = null;
+            string locationString = null;
             if (eventItem.Attendees.Count > 0)
             {
-                textString += string.IsNullOrEmpty(eventItem.Attendees[0].DisplayName) ? eventItem.Attendees[0].Address : eventItem.Attendees[0].DisplayName;
+                participantString = string.IsNullOrEmpty(eventItem.Attendees[0].DisplayName) ? eventItem.Attendees[0].Address : eventItem.Attendees[0].DisplayName;
                 if (eventItem.Attendees.Count > 1)
                 {
-                    textString += string.Format(CommonStrings.AttendeesSummary, eventItem.Attendees.Count - 1);
+                    participantString += string.Format(CommonStrings.AttendeesSummary, eventItem.Attendees.Count - 1);
                 }
             }
 
@@ -700,26 +858,26 @@ namespace CalendarSkill.Models
                 var endDateString = userEndDateTime.ToString("d", cultureInfo);
                 if (IsSameDate(userStartDateTime, userEndDateTime))
                 {
-                    textString += $"\n{startDateString}";
+                    dateString = $"{startDateString}";
                 }
                 else
                 {
-                    textString += $"\n{startDateString} - {endDateString}";
+                    dateString = $"{startDateString} - {endDateString}";
                 }
             }
 
             if (eventItem.IsAllDay == true)
             {
-                textString += $"\n{CalendarCommonStrings.AllDay}";
+                timeString = $"{CalendarCommonStrings.AllDay}";
             }
             else
             {
-                textString += $"\n{userStartDateTime.ToString(CommonStrings.DisplayTime)} - {TimeConverter.ConvertUtcToUserTime(eventItem.EndTime, timeZone).ToString(CommonStrings.DisplayTime)}";
+                timeString = $"{userStartDateTime.ToString(CommonStrings.DisplayTime)} - {TimeConverter.ConvertUtcToUserTime(eventItem.EndTime, timeZone).ToString(CommonStrings.DisplayTime)}";
             }
 
             if (eventItem.Location != null)
             {
-                textString += $"\n{eventItem.Location}";
+                locationString = $"{eventItem.Location}";
             }
 
             string speakString = string.Empty;
@@ -728,7 +886,11 @@ namespace CalendarSkill.Models
             return new CalendarCardData
             {
                 Title = eventItem.Title,
-                Content = textString,
+                Participant = participantString,
+                Date = dateString,
+                Time = timeString,
+                Location = locationString,
+                ContentPreview = showContent ? eventItem.ContentPreview : null,
                 MeetingLink = eventItem.OnlineMeetingUrl,
                 Speak = speakString,
             };

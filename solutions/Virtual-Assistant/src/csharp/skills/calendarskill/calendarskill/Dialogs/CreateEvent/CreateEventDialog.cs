@@ -6,6 +6,8 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Common;
+using CalendarSkill.Dialogs.CreateEvent.Prompts;
+using CalendarSkill.Dialogs.CreateEvent.Prompts.Options;
 using CalendarSkill.Dialogs.CreateEvent.Resources;
 using CalendarSkill.Dialogs.Shared;
 using CalendarSkill.Dialogs.Shared.Resources;
@@ -94,6 +96,9 @@ namespace CalendarSkill.Dialogs.CreateEvent
             AddDialog(new WaterfallDialog(Actions.UpdateStartDateForCreate, updateStartDate) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateStartTimeForCreate, updateStartTime) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateDurationForCreate, updateDuration) { TelemetryClient = telemetryClient });
+            AddDialog(new DatePrompt(Actions.DatePromptForCreate));
+            AddDialog(new TimePrompt(Actions.TimePromptForCreate));
+            AddDialog(new DurationPrompt(Actions.DurationPromptForCreate));
 
             // Set starting dialog for component
             InitialDialogId = Actions.CreateEvent;
@@ -308,7 +313,6 @@ namespace CalendarSkill.Dialogs.CreateEvent
                     var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
 
                     // Enable the user to skip providing the location if they say something matching the Cancel intent, say something matching the ConfirmNo recognizer or something matching the NoLocation intent
-                    //if (topIntent == General.Intent.Cancel.ToString() || (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false) || topIntent == Calendar.Intent.NoLocation.ToString())
                     if (CreateEventWhiteList.IsSkip(userInput))
                     {
                         state.Location = string.Empty;
@@ -329,6 +333,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
                     EndTime = state.EndDateTime.Value,
                     TimeZone = TimeZoneInfo.Utc,
                     Location = state.Location,
+                    ContentPreview = state.Content
                 };
 
                 var startDateTimeInUserTimeZone = TimeConverter.ConvertUtcToUserTime(state.StartDateTime.Value, state.GetUserTimeZone());
@@ -339,7 +344,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
                     { "Time", startDateTimeInUserTimeZone.ToSpeechTimeString(true) },
                 };
 
-                var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(CreateEventResponses.ConfirmCreate, newEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", newEvent.ToAdaptiveCardData(state.GetUserTimeZone()), tokens: tokens);
+                var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(CreateEventResponses.ConfirmCreate, newEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", newEvent.ToAdaptiveCardData(state.GetUserTimeZone(), showContent: true), tokens: tokens);
 
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = replyMessage, RetryPrompt = sc.Context.Activity.CreateReply(CreateEventResponses.ConfirmCreateFailed, ResponseBuilder, tokens) }, cancellationToken);
             }
@@ -373,7 +378,8 @@ namespace CalendarSkill.Dialogs.CreateEvent
                     var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
                     if (await calendarService.CreateEvent(newEvent) != null)
                     {
-                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(CreateEventResponses.EventCreated, newEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", newEvent.ToAdaptiveCardData(state.GetUserTimeZone()));
+                        newEvent.ContentPreview = state.Content;
+                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(CreateEventResponses.EventCreated, newEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", newEvent.ToAdaptiveCardData(state.GetUserTimeZone(), showContent: true));
                         await sc.Context.SendActivityAsync(replyMessage, cancellationToken);
                     }
                     else
@@ -679,18 +685,9 @@ namespace CalendarSkill.Dialogs.CreateEvent
                     return await sc.NextAsync(cancellationToken: cancellationToken);
                 }
 
-                if (((UpdateDateTimeDialogOptions)sc.Options).Reason == UpdateDateTimeDialogOptions.UpdateReason.NotFound)
+                return await sc.PromptAsync(Actions.DatePromptForCreate, new PromptOptions
                 {
-                    return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions
-                    {
-                        Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartDate),
-                        RetryPrompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartDate_Retry)
-                    }, cancellationToken);
-                }
-
-                return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions
-                {
-                    Prompt = sc.Context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage),
+                    Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartDate),
                     RetryPrompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartDate_Retry)
                 }, cancellationToken);
             }
@@ -773,14 +770,12 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (!state.StartTime.Any())
                 {
-                    if (((UpdateDateTimeDialogOptions)sc.Options).Reason == UpdateDateTimeDialogOptions.UpdateReason.NotFound)
+                    return await sc.PromptAsync(Actions.TimePromptForCreate, new NoSkipPromptOptions
                     {
-                        return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartTime) }, cancellationToken);
-                    }
-                    else
-                    {
-                        return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage) }, cancellationToken);
-                    }
+                        Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartTime),
+                        RetryPrompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartTime_Retry),
+                        NoSkipPrompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoStartTime_NoSkip)
+                    }, cancellationToken);
                 }
                 else
                 {
@@ -869,14 +864,12 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 {
                     return await sc.NextAsync(cancellationToken: cancellationToken);
                 }
-                else if (((UpdateDateTimeDialogOptions)sc.Options).Reason == UpdateDateTimeDialogOptions.UpdateReason.NotFound)
+
+                return await sc.PromptAsync(Actions.DurationPromptForCreate, new PromptOptions
                 {
-                    return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoDuration) }, cancellationToken);
-                }
-                else
-                {
-                    return await sc.PromptAsync(Actions.DateTimePrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage) }, cancellationToken);
-                }
+                    Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoDuration),
+                    RetryPrompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoDuration_Retry)
+                }, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -947,24 +940,15 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 if (state.Duration > 0)
                 {
                     state.EndDateTime = state.StartDateTime.Value.AddSeconds(state.Duration);
-                    return await sc.EndDialogAsync(cancellationToken: cancellationToken);
                 }
                 else
                 {
-                    state.EndDate = new List<DateTime>();
-                    state.EndTime = new List<DateTime>();
-                    state.EndDateTime = null;
+                    // should not go to this part in current logic.
+                    // place an error handling for save.
+                    await HandleDialogExceptions(sc, new Exception("Unexpect Error On get duration"));
                 }
 
-                if (state.Duration <= 0)
-                {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CreateEventResponses.InvaildDuration));
-                    return await sc.BeginDialogAsync(Actions.UpdateDurationForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound), cancellationToken);
-                }
-                else
-                {
-                    return await sc.BeginDialogAsync(Actions.UpdateDurationForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotADateTime), cancellationToken);
-                }
+                return await sc.EndDialogAsync(cancellationToken: cancellationToken);
             }
             catch (Exception ex)
             {

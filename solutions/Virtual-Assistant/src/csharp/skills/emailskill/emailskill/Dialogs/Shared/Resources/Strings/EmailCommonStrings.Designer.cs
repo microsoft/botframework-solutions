@@ -151,11 +151,20 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} from {1}.
+        ///   Looks up a localized string similar to from {0} at {1}.
         /// </summary>
         public static string FromDetailsFormat {
             get {
                 return ResourceManager.GetString("FromDetailsFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to from {0} at {1} titled {2}. The content is {3}..
+        /// </summary>
+        public static string FromDetailsFormatAll {
+            get {
+                return ResourceManager.GetString("FromDetailsFormatAll", resourceCulture);
             }
         }
         

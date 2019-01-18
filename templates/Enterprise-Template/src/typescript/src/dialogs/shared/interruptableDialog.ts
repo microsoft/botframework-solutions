@@ -2,7 +2,7 @@
 // Licensed under the MIT License
 
 import { ComponentDialog, Dialog, DialogContext, DialogTurnResult } from "botbuilder-dialogs";
-import { InterruptionStatus } from "./interruptableStatus";
+import { InterruptionStatus } from "./interruptionStatus";
 
 export abstract class InterruptableDialog extends ComponentDialog {
     constructor(dialogId: string) { super(dialogId); }
@@ -13,7 +13,6 @@ export abstract class InterruptableDialog extends ComponentDialog {
         if (status === InterruptionStatus.Interrupted) {
             // Resume the waiting dialog after interruption.
             await dc.repromptDialog();
-
             return Dialog.EndOfTurn;
         } else if (status === InterruptionStatus.Waiting) {
             // Stack is already waiting for a response, shelve innner stack.

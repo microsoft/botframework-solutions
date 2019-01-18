@@ -6,8 +6,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using CalendarSkill.Common;
+using CalendarSkill.Dialogs.ChangeEventStatus;
 using CalendarSkill.Dialogs.CreateEvent;
-using CalendarSkill.Dialogs.DeleteEvent;
 using CalendarSkill.Dialogs.JoinEvent;
 using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared;
@@ -76,6 +77,9 @@ namespace CalendarSkill.Dialogs.Main
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
             var localeConfig = _services.LocaleConfigurations[locale];
 
+            // Initialize the PageSize parameters in state from configuration
+            InitializeConfig(state);
+
             // If dispatch result is general luis model
             localeConfig.LuisServices.TryGetValue("calendar", out var luisService);
 
@@ -104,9 +108,10 @@ namespace CalendarSkill.Dialogs.Main
                             break;
                         }
 
+                    case Luis.Calendar.Intent.AcceptCalendarEntry:
                     case Luis.Calendar.Intent.DeleteCalendarEntry:
                         {
-                            await dc.BeginDialogAsync(nameof(DeleteEventDialog), skillOptions);
+                            await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog), skillOptions);
                             break;
                         }
 
@@ -325,11 +330,26 @@ namespace CalendarSkill.Dialogs.Main
         private void RegisterDialogs()
         {
             AddDialog(new CreateEventDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new DeleteEventDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new ChangeEventStatusDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
             AddDialog(new TimeRemainingDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
             AddDialog(new SummaryDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
             AddDialog(new UpdateEventDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
             AddDialog(new ConnectToMeetingDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
+        }
+
+        private void InitializeConfig(CalendarSkillState state)
+        {
+            // Initialize PageSize when the first input comes.
+            if (state.PageSize <= 0)
+            {
+                int pageSize = 0;
+                if (_services.Properties.TryGetValue("DisplaySize", out object displaySizeObj))
+                {
+                    int.TryParse(displaySizeObj.ToString(), out pageSize);
+                }
+
+                state.PageSize = pageSize <= 0 || pageSize > CalendarCommonUtil.MaxDisplaySize ? CalendarCommonUtil.MaxDisplaySize : pageSize;
+            }
         }
 
         private class Events

@@ -12,7 +12,9 @@
 
         public const string Show = "show";
 
-        public const string Reshow = "reshow";
+        public const string Display = "reshow";
+
+        public const string ReDisplay = "checkReshow";
 
         public const string Read = "read";
 
