@@ -115,7 +115,7 @@
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="xcopy &quot;$(SolutionDir)skills\CalendarSkill\CalendarSkill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)skills\EmailSkill\EmailSkill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)skills\PointOfInterestSkill\PointOfInterestSkill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)skills\ToDoSkill\ToDoSkill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y" />
+    <Exec Command="xcopy &quot;$(SolutionDir)skills\calendarskill\calendarskill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)skills\emailskill\emailskill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)skills\pointofinterestskill\pointofinterestskill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)skills\todoskill\todoskill\bin\$(ConfigurationName)\netcoreapp2.1\*.*&quot; &quot;$(TargetDir)&quot;  /S /Y" />
   </Target>
 
 </Project>
