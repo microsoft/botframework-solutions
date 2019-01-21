@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PointOfInterestSkill.Models.Foursquare
 {
-    public class Venuepage
+    public class VenuePage
     {
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
