@@ -12,6 +12,11 @@ namespace CalendarSkill.ServiceClients
     {
         private ICalendarService calendarAPI;
 
+        public CalendarService()
+        {
+            // to get pass when serialize
+        }
+
         public CalendarService(ICalendarService calendarAPI, EventSource source)
         {
             if (calendarAPI == null)

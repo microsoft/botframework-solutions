@@ -62,6 +62,7 @@ namespace CalendarSkill.Dialogs.Shared
             AddDialog(new ChoicePrompt(Actions.Choice, ChoiceValidator, Culture.English) { Style = ListStyle.None, });
             AddDialog(new ChoicePrompt(Actions.EventChoice, null, Culture.English) { Style = ListStyle.Inline, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = false } });
             AddDialog(new TimePrompt(Actions.TimePrompt));
+            AddDialog(new GetEventPrompt(Actions.GetEventPrompt));
         }
 
         protected SkillConfigurationBase Services { get; set; }
