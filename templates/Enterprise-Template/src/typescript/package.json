@@ -8,8 +8,9 @@
     "scripts": {
         "clean": "rimraf ./lib",
         "copy-templates": "copyfiles --up 1 ./src/**/*.json ./lib",
-        "build": "tsc --p tsconfig.json && npm run copy-templates",
+        "build": "npm run lint && tsc --p tsconfig.json && npm run copy-templates",
         "start": "npm run build && node ./lib/index.js NODE_ENV=development",
+        "lint": "tslint -t vso ./src/**/*.ts",
         "watch": "nodemon ./lib/index.js NODE_ENV=development",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
@@ -38,6 +39,8 @@
         "copyfiles": "^2.1.0",
         "nodemon": "^1.18.4",
         "rimraf": "^2.6.2",
-        "typescript": "^3.2.2"
+        "typescript": "^3.2.2",
+        "tslint": "^5.12.1",
+        "tslint-microsoft-contrib": "6.0.0"
     }
 }
