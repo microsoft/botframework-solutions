@@ -107,7 +107,7 @@
     "replies": [
       {
         "text": "您的日程表上有下列会议：",
-        "speak": "您的日程表上有下列会议：你在{EventTime}有个会议{EventName}，与会人数{PeopleCount}人"
+        "speak": "您的日程表上有下列会议：在{EventTime}的会议{EventName}，与会人数{PeopleCount}人"
       }
     ],
     "inputHint": "acceptingInput"
@@ -116,7 +116,7 @@
     "replies": [
       {
         "text": "您的日程表上有下列会议：",
-        "speak": "您的日程表上有下列会议：你在{EventTime}有个会议{EventName}，与会人数{PeopleCount}人，会议地点在{Location}"
+        "speak": "您的日程表上有下列会议：在{EventTime}的会议{EventName}，与会人数{PeopleCount}人，会议地点在{Location}"
       }
     ],
     "inputHint": "acceptingInput"

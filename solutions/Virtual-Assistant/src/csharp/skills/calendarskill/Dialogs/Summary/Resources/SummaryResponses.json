@@ -107,7 +107,7 @@
     "replies": [
       {
         "text": "You have the following event on your calendar:",
-        "speak": "You have the following event on your calendar: You have {EventName} at {EventTime} with {PeopleCount} people."
+        "speak": "You have the following event on your calendar: {EventName} at {EventTime} with {PeopleCount} people."
       }
     ],
     "inputHint": "acceptingInput"
@@ -116,7 +116,7 @@
     "replies": [
       {
         "text": "You have the following event on your calendar:",
-        "speak": "You have the following event on your calendar: You have {EventName} at {EventTime} with {PeopleCount} people at {Location}."
+        "speak": "You have the following event on your calendar: {EventName} at {EventTime} with {PeopleCount} people at {Location}."
       }
     ],
     "inputHint": "acceptingInput"
