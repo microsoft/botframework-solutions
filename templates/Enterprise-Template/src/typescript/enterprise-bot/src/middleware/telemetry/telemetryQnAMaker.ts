@@ -13,12 +13,12 @@ import { TelemetryLoggerMiddleware } from './telemetryLoggerMiddleware';
  * The Custom Event name this logs is "QnaMessage"
  */
 export class TelemetryQnAMaker extends QnAMaker {
-    public static readonly QnAMessageEvent: string = 'QnaMessage';
-
+    
+    public static readonly QnAMessageEvent: string = "QnaMessage";
     private readonly _logOriginalMessage: boolean;
     private readonly _logUserName: boolean;
-    private _qnaOptions: { top: number; scoreThreshold: number } = { top: 1, scoreThreshold: 0.3 };
-
+    private _qnaOptions: { top: number, scoreThreshold: number } = { top: 1, scoreThreshold: 0.3 };
+    private _endpoint: QnAMakerEndpoint;
     /**
      * Initializes a new instance of the TelemetryQnAMaker class.
      * @param {QnAMakerEndpoint} endpoint The endpoint of the knowledge base to query.
@@ -28,20 +28,22 @@ export class TelemetryQnAMaker extends QnAMaker {
      */
     constructor(endpoint: QnAMakerEndpoint, qnaOptions?: QnAMakerOptions, logUserName: boolean = false, logOriginalMessage: boolean = false) {
         super(endpoint, qnaOptions);
-        this._logOriginalMessage = logOriginalMessage;
+
         this._logUserName = logUserName;
+        this._logOriginalMessage = logOriginalMessage;
+        this._endpoint = endpoint;
         Object.assign(this._qnaOptions, qnaOptions);
     }
+     
+    /**
+     * Gets a value indicating whether determines whether to log the User name.
+     */
+    public get logUserName(): boolean { return this._logUserName; }
 
     /**
      * Gets a value indicating whether determines whether to log the Activity message text that came from the user.
      */
     public get logOriginalMessage(): boolean { return this._logOriginalMessage; }
-
-    /**
-     * Gets a value indicating whether determines whether to log the User name.
-     */
-    public get logUserName(): boolean { return this._logUserName; }
 
     public async getAnswersAsync(context: TurnContext): Promise<QnAMakerResult[]> {
         // Call Qna Maker
@@ -54,34 +56,38 @@ export class TelemetryQnAMaker extends QnAMaker {
             const properties: { [key: string]: string } = {};
             const metrics: { [key: string]: number } = {};
 
+            properties[QnATelemetryConstants.KnowledgeBaseIdProperty] = this._endpoint.knowledgeBaseId;
             // Make it so we can correlate our reports with Activity or Conversation
             properties[QnATelemetryConstants.ActivityIdProperty] = context.activity.id || '';
             const conversationId: string = context.activity.conversation.id;
-            if (conversationId) {
+            if (conversationId && conversationId.trim()){
                 properties[QnATelemetryConstants.ConversationIdProperty] = conversationId;
             }
 
             // For some customers, logging original text name within Application Insights might be an issue
             const text: string = context.activity.text;
-            if (this.logOriginalMessage && text) {
+            if (this.logOriginalMessage && text && text.trim()) {
                 properties[QnATelemetryConstants.OriginalQuestionProperty] = text;
             }
 
             // For some customers, logging user name within Application Insights might be an issue
             const name: string = context.activity.from.name;
-            if (this.logUserName && name) {
+            if (this.logUserName && name && name.trim()) {
                 properties[QnATelemetryConstants.UsernameProperty] = name;
             }
 
             // Fill in Qna Results (found or not)
             if (queryResults.length > 0) {
                 const queryResult: QnAMakerResult = queryResults[0];
-                properties[QnATelemetryConstants.QuestionProperty] = Array.of(queryResult.questions).join(',');
+
+                properties[QnATelemetryConstants.QuestionProperty] = Array.of(queryResult.questions).join(",");
                 properties[QnATelemetryConstants.AnswerProperty] = queryResult.answer;
                 metrics[QnATelemetryConstants.ScoreProperty] = queryResult.score;
+                properties[QnATelemetryConstants.ArticleFoundProperty] = "true";
             } else {
-                properties[QnATelemetryConstants.QuestionProperty] = 'No Qna Question matched';
-                properties[QnATelemetryConstants.AnswerProperty] = 'No Qna Question matched';
+                properties[QnATelemetryConstants.QuestionProperty] = "No Qna Question matched";
+                properties[QnATelemetryConstants.AnswerProperty] = "No Qna Question matched";
+                properties[QnATelemetryConstants.ArticleFoundProperty] = "true";
             }
 
             // Track the event

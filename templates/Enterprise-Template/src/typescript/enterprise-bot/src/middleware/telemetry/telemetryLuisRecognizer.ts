@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
-import { TelemetryClient } from 'applicationinsights';
-import { RecognizerResult, TurnContext } from 'botbuilder';
-import { LuisApplication, LuisPredictionOptions, LuisRecognizer } from 'botbuilder-ai';
-import { LuisTelemetryConstants } from './luisTelemetryConstants';
-import { TelemetryLoggerMiddleware } from './telemetryLoggerMiddleware';
+import { TelemetryClient } from "applicationinsights";
+import { RecognizerResult, TurnContext } from "botbuilder";
+import { LuisApplication, LuisPredictionOptions, LuisRecognizer } from "botbuilder-ai";
+import { LuisTelemetryConstants } from "./luisTelemetryConstants";
+import { TelemetryLoggerMiddleware } from "./telemetryLoggerMiddleware";
+import { DialogContext } from "botbuilder-dialogs";
 
 /**
  * TelemetryLuisRecognizer invokes the Luis Recognizer and logs some results into Application Insights.
@@ -15,9 +16,9 @@ import { TelemetryLoggerMiddleware } from './telemetryLoggerMiddleware';
  * For example, if intent name was "add_calender": LuisIntent.add_calendar
  */
 export class TelemetryLuisRecognizer extends LuisRecognizer {
+    private readonly _luisApplication: LuisApplication;
     private readonly _logOriginalMessage: boolean;
     private readonly _logUsername: boolean;
-
     /**
      * Initializes a new instance of the TelemetryLuisRecognizer class.
      * @param {LuisApplication} application The LUIS application to use to recognize text.
@@ -30,8 +31,8 @@ export class TelemetryLuisRecognizer extends LuisRecognizer {
         super(application, predictionOptions, includeApiResults);
         this._logOriginalMessage = logOriginalMessage;
         this._logUsername = logUserName;
+        this._luisApplication = application;
     }
-
     /**
      * Gets a value indicating whether determines whether to log the Activity message text that came from the user.
      */
@@ -47,7 +48,23 @@ export class TelemetryLuisRecognizer extends LuisRecognizer {
      * @param {TurnContext} context Context object containing information for a single turn of conversation with a user.
      * @param {boolean} logOriginalMessage Determines if the original message is logged into Application Insights. This is a privacy consideration.
      */
-    public async recognize(context: TurnContext, logOriginalMessage: boolean = false): Promise<RecognizerResult> {
+
+    public async RecognizeDialog(dialogContext: DialogContext, logOriginalMessage: boolean = true)
+    {
+        if (dialogContext === null)
+        {
+            throw new Error ("Error");
+        }
+        return await this.recognizeInternal( dialogContext.context, logOriginalMessage, dialogContext.activeDialog ? dialogContext.activeDialog.id : undefined);
+    }
+
+    public async recognizeTurn(context: TurnContext,logOriginalMessage: boolean = true)
+    {
+        return await this.recognizeInternal(context, logOriginalMessage);
+    }
+
+    private async recognizeInternal(context: TurnContext, logOriginalMessage: boolean = false, dialogId?: string): Promise<RecognizerResult> {
+       
         if (context === null) {
             throw new Error('context is null');
         }
@@ -60,15 +77,18 @@ export class TelemetryLuisRecognizer extends LuisRecognizer {
         // Find the Telemetry Client
         if (recognizerResult && context.turnState.has(TelemetryLoggerMiddleware.AppInsightsServiceKey)) {
             const telemetryClient: TelemetryClient = context.turnState.get(TelemetryLoggerMiddleware.AppInsightsServiceKey);
-
             const topLuisIntent: string = LuisRecognizer.topIntent(recognizerResult);
             const intentScore: number = recognizerResult.intents[topLuisIntent].score;
 
             // Add the intent score and conversation id properties
             const properties: { [key: string]: string } = {};
-            properties[LuisTelemetryConstants.ActivityIdProperty] = context.activity.id || '';
+            properties[LuisTelemetryConstants.ApplicationId] = this._luisApplication.applicationId;
             properties[LuisTelemetryConstants.IntentProperty] = topLuisIntent;
             properties[LuisTelemetryConstants.IntentScoreProperty] = intentScore.toString();
+
+            if(dialogId !== undefined){   
+                properties[LuisTelemetryConstants.DialogId, dialogId];
+            }
 
             if (recognizerResult.sentiment) {
                 if (recognizerResult.sentiment.label) {
