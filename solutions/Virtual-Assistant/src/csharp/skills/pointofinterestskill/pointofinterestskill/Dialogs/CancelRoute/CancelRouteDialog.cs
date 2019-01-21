@@ -43,7 +43,7 @@ namespace PointOfInterestSkill.Dialogs.CancelRoute
                     var replyMessage = sc.Context.Activity.CreateReply(CancelRouteResponses.CancelActiveRoute, ResponseBuilder);
                     await sc.Context.SendActivityAsync(replyMessage);
                     state.ActiveRoute = null;
-                    state.ActiveLocation = null;
+                    state.Destination = null;
                 }
                 else
                 {

@@ -30,12 +30,12 @@ namespace PointOfInterestSkill.Dialogs.Route
             {
                 CheckIfActiveRouteExists,
                 CheckIfFoundLocationExists,
-                CheckIfActiveLocationExists,
+                CheckIfDestinationExists,
             };
 
             var findRouteToActiveLocation = new WaterfallStep[]
             {
-                GetRoutesToActiveLocation,
+                GetRoutesToDestination,
                 ResponseToStartRoutePrompt,
             };
 
@@ -96,7 +96,7 @@ namespace PointOfInterestSkill.Dialogs.Route
                     var activeLocation = state.LastFoundPointOfInterests?.FirstOrDefault(x => x.Name.Contains(state.Keyword, StringComparison.InvariantCultureIgnoreCase));
                     if (activeLocation != null)
                     {
-                        state.ActiveLocation = activeLocation;
+                        state.Destination = activeLocation;
                         state.LastFoundPointOfInterests = null;
                     }
                 }
@@ -107,7 +107,7 @@ namespace PointOfInterestSkill.Dialogs.Route
                     var activeLocation = state.LastFoundPointOfInterests?.FirstOrDefault(x => x.City.Contains(state.Address, StringComparison.InvariantCultureIgnoreCase));
                     if (activeLocation != null)
                     {
-                        state.ActiveLocation = activeLocation;
+                        state.Destination = activeLocation;
                         state.LastFoundPointOfInterests = null;
                     }
                 }
@@ -118,7 +118,7 @@ namespace PointOfInterestSkill.Dialogs.Route
                     var activeLocation = state.LastFoundPointOfInterests?[state.UserSelectIndex];
                     if (activeLocation != null)
                     {
-                        state.ActiveLocation = activeLocation;
+                        state.Destination = activeLocation;
                         state.LastFoundPointOfInterests = null;
                     }
                 }
@@ -132,12 +132,12 @@ namespace PointOfInterestSkill.Dialogs.Route
             }
         }
 
-        public async Task<DialogTurnResult> CheckIfActiveLocationExists(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> CheckIfDestinationExists(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                if (state.ActiveLocation == null)
+                if (state.Destination == null)
                 {
                     await sc.EndDialogAsync(true);
                     return await sc.BeginDialogAsync(Action.FindPointOfInterest);
@@ -152,7 +152,7 @@ namespace PointOfInterestSkill.Dialogs.Route
             }
         }
 
-        public async Task<DialogTurnResult> GetRoutesToActiveLocation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> GetRoutesToDestination(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -162,7 +162,7 @@ namespace PointOfInterestSkill.Dialogs.Route
 
                 state.CheckForValidCurrentCoordinates();
 
-                if (state.ActiveLocation == null)
+                if (state.Destination == null)
                 {
                     // No ActiveLocation found
                     return await sc.PromptAsync(Action.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(RouteResponses.MissingActiveLocationErrorMessage, ResponseBuilder) });
@@ -221,7 +221,7 @@ namespace PointOfInterestSkill.Dialogs.Route
                     replyEvent.Name = "ActiveRoute.Directions";
 
                     DirectionsEventResponse eventPayload = new DirectionsEventResponse();
-                    eventPayload.Destination = state.ActiveLocation;
+                    eventPayload.Destination = state.Destination;
                     eventPayload.Route = state.ActiveRoute;
                     replyEvent.Value = eventPayload;
 

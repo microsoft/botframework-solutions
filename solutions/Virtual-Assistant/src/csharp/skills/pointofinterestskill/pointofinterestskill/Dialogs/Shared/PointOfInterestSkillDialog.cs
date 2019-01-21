@@ -120,9 +120,9 @@ namespace PointOfInterestSkill.Dialogs.Shared
 
                 if ((bool)sc.Result)
                 {
-                    if (state.ActiveLocation != null)
+                    if (state.Destination != null)
                     {
-                        state.ActiveLocation = state.LastFoundPointOfInterests.SingleOrDefault();
+                        state.Destination = state.FoundLocations.SingleOrDefault();
                         state.LastFoundPointOfInterests = null;
                     }
 
@@ -182,7 +182,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 }
                 else
                 {
-                    state.ActiveLocation = state.LastFoundPointOfInterests.Single();
+                    state.Destination = state.LastFoundPointOfInterests.Single();
 
                     if (sc.ActiveDialog.Id.Equals(Action.FindAlongRoute) && state.ActiveRoute != null)
                     {
@@ -288,7 +288,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
 
                     var routeDirectionsModel = new RouteDirectionsModelCardData()
                     {
-                        Location = state.ActiveLocation.Name,
+                        Location = state.Destination.Name,
                         TravelTime = GetFormattedTravelTimeSpanString(travelTimeSpan),
                         TrafficDelay = GetFormattedTrafficDelayString(trafficTimeSpan),
                         RouteId = routeId,

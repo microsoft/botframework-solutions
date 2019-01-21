@@ -11,7 +11,7 @@ namespace PointOfInterestSkill
         public PointOfInterestSkillState()
         {
             CurrentCoordinates = null;
-            ActiveLocation = null;
+            Destination = null;
             APIKey = string.Empty;
             DialogName = string.Empty;
             Keyword = string.Empty;
@@ -27,7 +27,11 @@ namespace PointOfInterestSkill
 
         public LatLng CurrentCoordinates { get; set; }
 
-        public PointOfInterestModel ActiveLocation { get; set; }
+        public Location Destination { get; set; }
+
+        public LatLng Home { get; set; }
+
+        public LatLng Office { get; set; }
 
         public List<PointOfInterestModel> LastFoundPointOfInterests { get; set; }
 
@@ -53,7 +57,7 @@ namespace PointOfInterestSkill
 
         public void Clear()
         {
-            ActiveLocation = null;
+            Destination = null;
             APIKey = null;
             DialogName = string.Empty;
             Keyword = string.Empty;
