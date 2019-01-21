@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace PointOfInterestSkill.Models.Foursquare
 {
-    public class Provider
+    public class Price
     {
-        [JsonProperty(PropertyName = "name")]
-        public string Name { get; set; }
+        [JsonProperty(PropertyName = "tier")]
+        public int Tier { get; set; }
 
-        [JsonProperty(PropertyName = "icon")]
-        public Icon Icon { get; set; }
+        [JsonProperty(PropertyName = "message")]
+        public string Message { get; set; }
     }
 }

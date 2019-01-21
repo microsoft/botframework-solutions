@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace PointOfInterestSkill.Models.Foursquare
 {
-    public class Beenhere
+    public class VenueResponse
     {
-        [JsonProperty(PropertyName = "lastCheckinExpiredAt")]
-        public int LastCheckinExpiredAt { get; set; }
+        [JsonProperty(PropertyName = "response")]
+        public Response Response { get; set; }
     }
-
 }

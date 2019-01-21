@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +18,7 @@ namespace PointOfInterestSkill.Models.Foursquare
 
         [JsonProperty(PropertyName = "anchor")]
         public string Anchor { get; set; }
-
-        [JsonProperty(PropertyName = "url")]
+                [JsonProperty(PropertyName = "url")]
         public string Url { get; set; }
 
         [JsonProperty(PropertyName = "mobileUrl")]

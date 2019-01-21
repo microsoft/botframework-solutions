@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -181,10 +183,10 @@ namespace PointOfInterestSkill.Dialogs.Shared
 
                     var locationCardModel = new PointofInterestModel()
                     {
-                        ImageUrl = imageUrl,
+                        ThumbnailImageUrl = imageUrl,
                         Name = location.Name,
                         Address = location.Address.FormattedAddress,
-                        SpeakAddress = location.Address.AddressLine,
+                        AddressLine = location.Address.AddressLine,
                         OptionNumber = optionNumber,
                     };
 
