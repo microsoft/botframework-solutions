@@ -12,6 +12,9 @@ These events are then processed by the Virtual Assistant which can react immedia
 At the time of writing the following events are supported out of the box and persist values into a User State concept. These are used by the Skills currently in-place.
 
 - Name: `IPA.Location`, Value: `latitude`,`latitude`
+- Name: `IPA.Destination`, Value: `latitude`,`latitude`
+- Name: `IPA.Home`, Value: `latitude`,`latitude`
+- Name: `IPA.Office`, Value: `latitude`,`latitude`
 - Name: `IPA.Timezone`, Value: TimeZoneInfo Identifier (e.g. Pacific Standard Time)
 
 In addition to these, a `ResetUser` event is available which provides a way to request that all user state information and linked accounts are removed demonstrating how a Forget-Me type experience could be initiated, no Value is required for this event.
