@@ -132,5 +132,53 @@ namespace CalendarSkillTest.API
 
             Assert.Fail("Should throw exception");
         }
+
+        [TestMethod]
+        public async Task DeclineEventByIdTest()
+        {
+            string declineId = "decline_event";
+            await calendarService.DeclineEventById(declineId);
+        }
+
+        [TestMethod]
+        public async Task DeclineEventByIdTest_EventNotExist_Throws()
+        {
+            try
+            {
+                string declineId = "decline_not_exist_event";
+                await calendarService.DeleteEventById(declineId);
+            }
+            catch (Exception e)
+            {
+                Assert.IsTrue(e.Message == "Event id not found");
+                return;
+            }
+
+            Assert.Fail("Should throw exception");
+        }
+
+        [TestMethod]
+        public async Task AcceptEventByIdTest()
+        {
+            string acceptId = "accept_event";
+            await calendarService.AcceptEventById(acceptId);
+        }
+
+        [TestMethod]
+        public async Task AcceptEventByIdTest_EventNotExist_Throws()
+        {
+            try
+            {
+                string acceptId = "accept_not_exist_event";
+                await calendarService.AcceptEventById(acceptId);
+            }
+            catch (Exception e)
+            {
+                Assert.IsTrue(e.Message == "Event id not found");
+                return;
+            }
+
+            Assert.Fail("Should throw exception");
+        }
     }
 }
