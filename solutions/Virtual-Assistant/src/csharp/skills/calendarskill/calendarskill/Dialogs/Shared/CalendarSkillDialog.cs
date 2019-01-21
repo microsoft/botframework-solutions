@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Common;
 using CalendarSkill.Dialogs.Main.Resources;
+using CalendarSkill.Dialogs.Shared.Prompts;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using CalendarSkill.Models;
@@ -60,6 +61,7 @@ namespace CalendarSkill.Dialogs.Shared
             AddDialog(new DateTimePrompt(Actions.DateTimePromptForUpdateDelete, DateTimePromptValidator, Culture.English));
             AddDialog(new ChoicePrompt(Actions.Choice, ChoiceValidator, Culture.English) { Style = ListStyle.None, });
             AddDialog(new ChoicePrompt(Actions.EventChoice, null, Culture.English) { Style = ListStyle.Inline, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = false } });
+            AddDialog(new TimePrompt(Actions.TimePrompt));
         }
 
         protected SkillConfigurationBase Services { get; set; }
