@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
-import { Activity, ActivityTypes, TurnContext } from "botbuilder";
-import { ComponentDialog, Dialog, DialogContext, DialogTurnResult, DialogTurnStatus, DialogInstance, DialogReason } from "botbuilder-dialogs";
-import { ActivityExtensions } from "../../extensions/activityExtensions";
+import { Activity, ActivityTypes, TurnContext } from 'botbuilder';
+import { ComponentDialog, Dialog, DialogContext, DialogInstance, DialogReason, DialogTurnResult, DialogTurnStatus } from 'botbuilder-dialogs';
+import { ActivityExtensions } from '../../extensions/activityExtensions';
 
 export abstract class RouterDialog extends ComponentDialog {
     constructor(dialogId: string) { super(dialogId); }
@@ -14,15 +14,14 @@ export abstract class RouterDialog extends ComponentDialog {
 
     protected async onContinueDialog(dc: DialogContext): Promise<DialogTurnResult> {
         const activity: Activity = dc.context.activity;
-        if(ActivityExtensions.isStartActivity(activity)){
+        if (ActivityExtensions.isStartActivity(activity)) {
             await this.onStart(dc);
         }
         switch (activity.type) {
             case ActivityTypes.Message: {
-                if(activity.value != null){
+                if (activity.value != undefined) {
                     await this.onEvent(dc);
-                }
-                else if (typeof activity.text !='undefined' && activity.text){
+                } else if (typeof activity.text != 'undefined' && activity.text) {
                     const result = await dc.continueDialog();
                     switch (result.status) {
                         case DialogTurnStatus.empty: {
@@ -31,10 +30,9 @@ export abstract class RouterDialog extends ComponentDialog {
                         }
                         case DialogTurnStatus.complete: {
                             await this.complete(dc);
-    
+
                             // End active dialog.
                             await dc.endDialog();
-                            break;
                         }
                     }
                 }
@@ -46,7 +44,6 @@ export abstract class RouterDialog extends ComponentDialog {
             }
             default: {
                 await this.onSystemMessage(dc);
-                break;
             }
         }
 
@@ -54,11 +51,11 @@ export abstract class RouterDialog extends ComponentDialog {
     }
 
     protected onEndDialog(context: TurnContext, instance: DialogInstance, reason: DialogReason): Promise<void> {
-        return super.onEndDialog(context,instance,reason)
-    }      
+        return super.onEndDialog(context, instance, reason);
+    }
 
-    protected onRepromptDialog(context: TurnContext, instance: DialogInstance){
-        return super.onRepromptDialog(context,instance);
+    protected onRepromptDialog(context: TurnContext, instance: DialogInstance) {
+        return super.onRepromptDialog(context, instance);
     }
 
     protected abstract route(innerDC: DialogContext): Promise<void>;

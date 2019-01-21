@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { TurnContext } from "botbuilder-core";
-import { ITemplateRenderer } from "./ITemplateRenderer";
+import { TurnContext } from 'botbuilder-core';
+import { ITemplateRenderer } from './ITemplateRenderer';
 
 export declare type TemplateFunction = (turnContext: TurnContext, data: any) => Promise<any>;
 
