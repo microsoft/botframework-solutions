@@ -5,6 +5,10 @@
 		"denied": "OK, continuons."
 	},
 	"escalate": {
+		"btnText1": "Appelle maintenant",
+		"btnText2": "Ouvrir Teams",
+		"btnValue1": "tel:18005551234",
+		"btnValue2": "msteams://",
 		"phoneInfo": "Nos agents sont disponibles 24/7 au 1 (800) 555-1234."
 	},
 	"main": {
@@ -14,7 +18,14 @@
 		"completed": "Que puis-je vous aider?",
 		"confused": "Je suis désolé, je ne suis pas en mesure d'aider avec ça.",
 		"greeting": "Salut!",
-		"greetingWithName": "Hé, {0}!"
+		"greetingWithName": "Hé, {0}!",
+		"helpBtnText1": "Test LUIS",
+		"helpBtnText2": "Test QnA Maker",
+		"helpBtnText3": "Pour en savoir plus",
+		"helpBtnValue1": "Puis-je parler à une personne",
+		"helpBtnValue2": "Qu'est-ce que le modèle Enterprise bot?",
+		"helpBtnValue3": "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0",
+		"introPath": "./resources/Intro.fr.json"
 	},
 	"onBoarding": {
 		"namePrompt": "Comment vous appelez-vous?",
@@ -24,7 +35,7 @@
 		"haveEmail": "Je l'ai. J'ai ajouté {0} comme adresse de contact principale.",
 		"haveLocation": "Merci, {0}. J'ai ajouté {1} comme emplacement principal. Vous êtes tous mis en place!"
 	},
-	"signIn": {
+	"authentication": {
 		"title": "Connexion",
 		"prompt": "S'il vous plaît vous connecter pour accéder à ce bot.",
 		"failed": "Désolé, je ne suis pas en mesure de vous signer en ce moment.",

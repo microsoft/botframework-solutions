@@ -1,0 +1,140 @@
+﻿> Entity Definitions
+$PREBUILT:datetimeV2
+$PREBUILT:number
+
+> Intent Definitions
+# Greeting
+- Buenos días
+- Buenas noches
+- Hola bot
+- Cómo estás
+- Cómo te va
+- Oye
+
+# Help
+- Ayuda
+- Ayúdame
+- ayuda por favor
+- Estoy atascado
+- No entiendo
+- Qué puedo decir
+- ¿Qué me puede ayudar con
+- ¿Qué puedes hacer
+- ¿Qué hago ahora
+- ¿por qué no funciona esto
+- Me puedes ayudar
+
+# Cancel
+- Parada
+- Aborta
+- Cancelar
+- Desprecio
+- No lo hagas
+- No hagas eso
+- me gustaría cancelar
+- Olvídalo
+- por favor, pare
+- Salida
+
+# Restart
+- puedo hacer eso de nuevo
+- Necesito cambiar algo
+- Reiniciar
+- empezar de
+- Deshacer
+
+# Escalate
+- ¿puedo hablar con una persona
+- Quiero hablar con un humano
+- hablar con un humano
+- Transfiera me por favor
+- soporte de contacto
+
+# ConfirmYes
+- Absolutamente
+- Seguro
+- Definitivamente
+- Eso creo
+- Hagámoslo
+- vamos a hacer eso
+- Venga, sí
+- Sí, por favor
+- Bien
+- Vale
+- Claro
+- sí que sería genial gracias
+- Por qué no
+- sí que es cierto
+- Sí
+- Adelante
+
+# ConfirmNo
+- de ninguna manera
+- Cerca
+- No, gracias
+- no está bien
+- No es posible
+- De nada
+- La verdad es que no
+- ahora no gracias
+
+# ConfirmMore
+- Más
+- me gustaría saber más
+- Muéstrame más
+- más info
+- más información
+
+# Next
+- Avanzan
+- seguir adelante
+- ir al siguiente
+- Próxima
+- siguiente elemento
+- Mostrar siguiente
+- ¿podría mostrar el siguiente
+- necesito ir al siguiente
+- ir a la siguiente, por favor
+- pasar al siguiente
+- Sigue
+- ir a la página siguiente
+- Avanzar
+- avanzar en la siguiente
+- siguiente uno
+- siguiente por favor
+- Muéstrame la próxima
+- Muéstrame la siguiente
+- Mostrar el siguiente
+- el siguiente correo electrónico
+
+# Previous
+- Volver
+- último uno
+- anterior uno
+- el último
+- viejo uno
+- Última
+- volver a The Last One
+- traer el anterior
+- llegar a la última
+- ir a anterior
+- ir a la última
+- retroceder
+- Anterior
+- mostrarme anterior
+- anterior por favor
+- el anterior
+- ¿Cuál es el anterior
+
+# Goodbye
+- Adiós
+- Gracias
+- Bueno adiós
+- eso es todo gracias
+
+# None
+- mi botella de agua es verde
+- a las tortugas les gusta nadar en el océano
+- aviones de papel en el cielo
+
+> PhraseList

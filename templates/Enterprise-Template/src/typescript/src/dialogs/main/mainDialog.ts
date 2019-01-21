@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
-import { ConversationState, StatePropertyAccessor, UserState } from "botbuilder";
+import { ConversationState, StatePropertyAccessor, UserState, BotTelemetryClient } from "botbuilder";
 import { LuisRecognizer } from "botbuilder-ai";
 import { DialogContext } from "botbuilder-dialogs";
 import { BotServices } from "../../botServices";
@@ -10,8 +10,12 @@ import { OnboardingDialog } from "../onboarding/onboardingDialog";
 import { OnboardingState } from "../onboarding/onboardingState";
 import { RouterDialog } from "../shared/routerDialog";
 import { MainResponses } from "./mainResponses";
+import { TelemetryClient } from "applicationinsights";
+import { DispatchService } from "botframework-config";
 
 export class MainDialog extends RouterDialog {
+    
+    // Fields
     private readonly _services: BotServices;
     private readonly _userState: UserState;
     private readonly _conversationState: ConversationState;
@@ -19,11 +23,10 @@ export class MainDialog extends RouterDialog {
     private readonly _onboardingAccessor: StatePropertyAccessor<OnboardingState>;
 
     constructor(services: BotServices, conversationState: ConversationState, userState: UserState) {
-        super("MainDialog");
+        super(MainDialog.name);
         if (!services) { throw new Error(("Missing parameter.  botServices is required")); }
         if (!conversationState) { throw new Error(("Missing parameter.  conversationState is required")); }
         if (!userState) { throw new Error(("Missing parameter.  userState is required")); }
-
         this._services = services;
         this._conversationState = conversationState;
         this._userState = userState;
@@ -34,15 +37,9 @@ export class MainDialog extends RouterDialog {
         this.addDialog(new EscalateDialog(this._services));
     }
 
-    protected async onStart(innerDC: DialogContext): Promise<void> {
-        const onboardingState = await this._onboardingAccessor.get(innerDC.context);
-
-        await this._responder.replyWith(innerDC.context, MainResponses.Intro);
-
-        if (!onboardingState || !onboardingState.name) {
-            // This is the first time the user is interacting with the bot, so gather onboarding information.
-            await innerDC.beginDialog("OnboardingDialog");
-        }
+    protected async onStart(dc: DialogContext): Promise<void> {
+        var view = new MainResponses()
+        await view.replyWith(dc.context, MainResponses.ResponseIds.Intro);
     }
 
     protected async route(dc: DialogContext): Promise<void> {
@@ -50,60 +47,81 @@ export class MainDialog extends RouterDialog {
         const dispatchResult = await this._services.dispatchRecognizer.recognize(dc.context);
         const topIntent = LuisRecognizer.topIntent(dispatchResult);
 
-        if (topIntent === "l_General") {
+        if (topIntent === "l_general") {
             // If dispatch result is general luis model
             const luisService = this._services.luisServices.get(process.env.LUIS_GENERAL || "");
-            if (!luisService) { return Promise.reject(new Error("Luis service not found")); }
-
-            const luisResult = await luisService.recognize(dc.context);
-
-            const generalIntent = LuisRecognizer.topIntent(luisResult);
-
-            // switch on general intents
-            switch (generalIntent) {
-                case "Greeting": {
-                    // Send greeting response
-                    await this._responder.replyWith(dc.context, MainResponses.Greeting);
-                    break;
-                }
-                case "Help": {
-                    // Send help response
-                    await this._responder.replyWith(dc.context, MainResponses.Help);
-                    break;
-                }
-                case "Cancel": {
-                    // Send cancelled response.
-                    await this._responder.replyWith(dc.context, MainResponses.Cancelled);
-
-                    // Cancel any active dialogs on the stack.
-                    await dc.cancelAllDialogs();
-                    break;
-                }
-                case "Escalate": {
-                    // Start escalate dialog.
-                    await dc.beginDialog("EscalateDialog");
-                    break;
-                }
-                default: {
-                    // No intent was identified, send confused message.
-                    await this._responder.replyWith(dc.context, MainResponses.Confused);
-                    break;
+            if (!luisService) { return Promise.reject(new Error("The specified LUIS Model could not be found in your Bot Services configuration.")); }
+            else{
+                const luisResult = await luisService.recognize(dc.context);
+                const generalIntent = LuisRecognizer.topIntent(luisResult);
+    
+                // switch on general intents
+                switch (generalIntent) {
+                    case "Cancel": {
+                        // Send cancelled response.
+                        await this._responder.replyWith(dc.context, MainResponses.ResponseIds.Cancelled);
+    
+                        // Cancel any active dialogs on the stack.
+                        await dc.cancelAllDialogs();
+                        break;
+                    }
+                    case "Escalate": {
+                        // Start escalate dialog.
+                        await dc.beginDialog("EscalateDialog");
+                        break;
+                    }
+                    case "Help": {
+                        // Send help response
+                        await this._responder.replyWith(dc.context, MainResponses.ResponseIds.Help);
+                        break;
+                    }
+                    case "None":
+                    default: {
+                        // No intent was identified, send confused message.
+                        await this._responder.replyWith(dc.context, MainResponses.ResponseIds.Confused);
+                        break;
+                    }
                 }
             }
-        } else if (topIntent === "q_FAQ") {
+        } else if (topIntent === "q_faq") {
             const qnaService = this._services.qnaServices.get("FAQ");
-            if (!qnaService) { return Promise.reject(new Error("QnA service not found")); }
-
-            const answers = await qnaService.getAnswersAsync(dc.context);
-
-            if (answers && answers.length !== 0) {
-                await dc.context.sendActivity(answers[0].answer);
+            if (!qnaService) { return Promise.reject(new Error("The specified QnA Maker Service could not be found in your Bot Services configuration.")); }
+            else{
+                const answers = await qnaService.getAnswersAsync(dc.context);
+    
+                if (answers && answers.length !== 0) {
+                    await dc.context.sendActivity(answers[0].answer);
+                }
             }
+        } else if (topIntent === "q_chitchat"){
+            const qnaService = this._services.qnaServices.get("ChitChat");
+            if (!qnaService) { return Promise.reject(new Error("The specified QnA Maker Service could not be found in your Bot Services configuration.")); }
+            else{
+                const answers = await qnaService.getAnswersAsync(dc.context);
+    
+                if (answers && answers.length !== 0) {
+                    await dc.context.sendActivity(answers[0].answer);
+                }
+            }
+        } else {
+            // If dispatch intent does not map to configured models, send "confused" response.
+            await this._responder.replyWith(dc.context, MainResponses.ResponseIds.Confused);
         }
     }
 
-    protected complete(innerDC: DialogContext): Promise<void> {
+    protected onEvent(dc: DialogContext): Promise<void> {
+        // Check if there was an action submitted from intro card
+        if (dc.context.activity.value){
+            var value = dc.context.activity.value;
+            if (value.action == "startOnboarding"){
+                dc.beginDialog(OnboardingDialog.name);
+            }
+        }
+        return Promise.resolve(undefined);
+    }
+
+    protected complete(dc: DialogContext): Promise<void> {
         // The active dialogs stack ended with a complete status.
-        return this._responder.replyWith(innerDC.context, MainResponses.Completed);
+        return this._responder.replyWith(dc.context, MainResponses.ResponseIds.Completed);
     }
 }

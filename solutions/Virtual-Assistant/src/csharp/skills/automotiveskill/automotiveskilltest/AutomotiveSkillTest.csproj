@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.0"/>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.0-preview-20181205-02" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.4.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\automotiveskill\AutomotiveSkill.csproj" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy ..\..\automotiveskill\automotiveskill\Dialogs\VehicleSettings\Resources $(OutDir)\Dialogs\VehicleSettings\Resources /s /y&#xD;&#xA;xcopy ..\..\automotiveskill\automotiveskill\Dialogs\Shared\Resources $(OutDir)\Dialogs\Shared\Resources /s /y" />
+  </Target>
+
+</Project>
