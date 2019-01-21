@@ -149,14 +149,18 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
             return;
         }
 
-        public Task DeclineEventById(string id)
+        public async Task DeclineEventById(string id)
         {
-            throw new NotImplementedException();
+            DeclineEvent(id);
+            await Task.CompletedTask;
+            return;
         }
 
-        public Task AcceptEventById(string id)
+        public async Task AcceptEventById(string id)
         {
-            throw new NotImplementedException();
+            AcceptEvent(id);
+            await Task.CompletedTask;
+            return;
         }
 
         private Event UpdateEventById(Event updateEvent)
@@ -260,6 +264,52 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
                 var request = _service.Events.Delete("primary", id);
                 var result = ((IClientServiceRequest<string>)request).Execute();
                 return result;
+            }
+            catch (GoogleApiException ex)
+            {
+                throw GoogleClient.HandleGoogleAPIException(ex);
+            }
+        }
+
+        private void DeclineEvent(string id)
+        {
+            try
+            {
+                var request = _service.Events.Get("primary", id);
+                var gevent = ((IClientServiceRequest<Event>)request).Execute();
+                foreach (var attendee in gevent.Attendees)
+                {
+                    if (attendee.Self.HasValue && attendee.Self.Value)
+                    {
+                        attendee.ResponseStatus = "declined";
+                        break;
+                    }
+                }
+
+                gevent = UpdateEventById(gevent);
+            }
+            catch (GoogleApiException ex)
+            {
+                throw GoogleClient.HandleGoogleAPIException(ex);
+            }
+        }
+
+        private void AcceptEvent(string id)
+        {
+            try
+            {
+                var request = _service.Events.Get("primary", id);
+                var gevent = ((IClientServiceRequest<Event>)request).Execute();
+                foreach (var attendee in gevent.Attendees)
+                {
+                    if (attendee.Self.HasValue && attendee.Self.Value)
+                    {
+                        attendee.ResponseStatus = "accepted";
+                        break;
+                    }
+                }
+
+                gevent = UpdateEventById(gevent);
             }
             catch (GoogleApiException ex)
             {
