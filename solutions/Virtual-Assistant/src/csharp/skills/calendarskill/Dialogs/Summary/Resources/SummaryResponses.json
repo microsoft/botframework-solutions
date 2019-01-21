@@ -97,8 +97,8 @@
   "ReadOutMessage": {
     "replies": [
       {
-        "text": "The meeting {Date} is at {Time} with {Participants} titled {Subject}.",
-        "speak": "The meeting {Date} is at {Time} with {Participants} titled {Subject}."
+        "text": "The meeting on {Date} is {Time} with {Participants} titled {Subject}.",
+        "speak": "The meeting on {Date} is {Time} with {Participants} titled {Subject}."
       }
     ],
     "inputHint": "acceptingInput"

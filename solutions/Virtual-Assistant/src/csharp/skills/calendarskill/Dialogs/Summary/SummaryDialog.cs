@@ -338,7 +338,7 @@ namespace CalendarSkill.Dialogs.Summary
                                 "Date", eventItem.StartTime.ToString(CommonStrings.DisplayDateFormat_CurrentYear)
                             },
                             {
-                                "Time", eventItem.StartTime.ToString(CommonStrings.DisplayTime)
+                                "Time", SpeakHelper.ToSpeechMeetingTime(eventItem.StartTime, eventItem.IsAllDay == true)
                             },
                             {
                                 "Participants", DisplayHelper.ToDisplayParticipantsStringSummary(eventItem.Attendees)

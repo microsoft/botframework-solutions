@@ -205,9 +205,9 @@ namespace CalendarSkillTest.Flow
                 { "Count", "1" },
                 { "EventName1", Strings.Strings.DefaultEventName },
                 { "EventDuration", "1 hour" },
-                { "Date", "today" },
+                { "DateTime", "today" },
                 { "EventTime1", "at 6:00 PM"},
-                { "Participants", Strings.Strings.DefaultUserName }
+                { "Participants1", Strings.Strings.DefaultUserName }
             };
 
             return this.ParseReplies(SummaryResponses.ShowOneMeetingSummaryMessage.Replies, responseParams);
