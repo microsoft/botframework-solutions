@@ -8,6 +8,15 @@
     ],
     "inputHint": "expectingInput"
   },
+  "NoTitle_Short": {
+    "replies": [
+      {
+        "text": "会议主题是什么？",
+        "speak": "会议主题是什么？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "NoContent": {
     "replies": [
       {
@@ -187,6 +196,24 @@
       {
         "text": "我没有明白你说的时间长度，你可以再输入一次吗？",
         "speak": "我没有明白你说的时间长度，你可以再输入一次吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "GetRecreateInfo": {
+    "replies": [
+      {
+        "text": "你想要调整哪一项呢？",
+        "speak": "你想要调整哪一项呢？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "GetRecreateInfo_Retry": {
+    "replies": [
+      {
+        "text": "我没明白你的意思。你可以试试“时间”、“时间长度”、“地点”、“与会者”、“标题”或“内容”。",
+        "speak": "我没明白你的意思。你可以试试“时间”、“时间长度”、“地点”、“与会者”、“标题”或“内容”。"
       }
     ],
     "inputHint": "expectingInput"

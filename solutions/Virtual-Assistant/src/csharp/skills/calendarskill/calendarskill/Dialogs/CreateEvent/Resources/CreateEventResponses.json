@@ -8,6 +8,15 @@
     ],
     "inputHint": "expectingInput"
   },
+  "NoTitle_Short": {
+    "replies": [
+      {
+        "text": "What is the subject of the meeting?",
+        "speak": "What is the subject of the meeting?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "NoContent": {
     "replies": [
       {
@@ -185,6 +194,24 @@
       {
         "text": "I don't understand the duration you input, can you try again?",
         "speak": "I don't understand the duration you input, can you try again?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "GetRecreateInfo": {
+    "replies": [
+      {
+        "text": "What would you like to adjust?",
+        "speak": "What would you like to adjust?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "GetRecreateInfo_Retry": {
+    "replies": [
+      {
+        "text": "I don't understand your input. You can try Time, Duration, Location, Participants, Subject, or Content. Or say cancel",
+        "speak": "I don't understand your input. You can try Time, Duration, Location, Participants, Subject, or Content. Or say cancel"
       }
     ],
     "inputHint": "expectingInput"
