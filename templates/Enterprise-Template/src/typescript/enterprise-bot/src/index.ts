@@ -71,6 +71,7 @@ const ADAPTER: BotFrameworkAdapter = new BotFrameworkAdapter({
     appPassword: ENDPOINT_CONFIG.appPassword || process.env.microsoftAppPassword
 });
 
+import { TelemetryLoggerMiddleware } from "./middleware/telemetry/telemetryLoggerMiddleware";
 // Get AppInsights configuration by service name
 const APPINSIGHTS_CONFIGURATION: string = process.env.APPINSIGHTS_NAME || '';
 const APPINSIGHTS_CONFIG: IAppInsightsService = <IAppInsightsService> BOT_CONFIG.findServiceByNameOrId(APPINSIGHTS_CONFIGURATION);
@@ -81,6 +82,10 @@ if (!APPINSIGHTS_CONFIG) {
 const TELEMETRY_CLIENT: TelemetryClient = new TelemetryClient(APPINSIGHTS_CONFIG.instrumentationKey);
 
 ADAPTER.onTurnError = async (turnContext: TurnContext, error: Error): Promise<void> => {
+let appInsightsLogger = new TelemetryLoggerMiddleware( TELEMETRY_CLIENT, true,  true);
+ADAPTER.use(appInsightsLogger);
+
+
     // CAUTION:  The sample simply logs the error to the console.
     console.error(error);
     // For production bots, use AppInsights or similar telemetry system.

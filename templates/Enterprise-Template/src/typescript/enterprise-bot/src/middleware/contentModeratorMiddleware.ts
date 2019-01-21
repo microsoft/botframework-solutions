@@ -17,10 +17,20 @@ export class ContentModeratorMiddleware implements Middleware {
     public static readonly ServiceName: string = 'ContentModerator';
 
     /**
+     *Key for Text Moderator result in Bot Context dictionary.
+     */
+    public static readonly TextModeratorResultKey: string = "TextModeratorResult";
+    /**
+     * Content Moderator service key.
+     */
+    public static readonly subscriptionKey: string;
+     /**
+     * Content Moderator service region.
+     */
+    private static readonly region: string;
+    /**
      * Key for Text Moderator result in Bot Context dictionary.
      */
-    public static readonly TextModeratorResultKey: string = 'TextModeratorResult';
-
     private readonly _cmClient: ContentModeratorClient;
 
     /**
@@ -34,11 +44,9 @@ export class ContentModeratorMiddleware implements Middleware {
     }
 
     public async onTurn(context: TurnContext, next: () => Promise<void>): Promise<void> {
-        if (context === null) {
-            throw new Error('context is null');
-        }
-
+        
         if (context.activity.type === ActivityTypes.Message) {
+
             const content = new Readable();
             content.push(context.activity.text);
             content.push(null);

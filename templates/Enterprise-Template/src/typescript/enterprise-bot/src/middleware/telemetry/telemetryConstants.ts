@@ -2,14 +2,16 @@
 // Licensed under the MIT License
 
 export class TelemetryConstants {
-    public static readonly ActivityIDProperty: string = 'ActivityId';
-    public static readonly ChannelProperty: string = 'Channel';
-    public static readonly FromIdProperty: string = 'FromId';
-    public static readonly FromNameProperty: string = 'FromName';
-    public static readonly RecipientIdProperty: string = 'RecipientId';
-    public static readonly RecipientNameProperty: string = 'RecipientName';
-    public static readonly ConversationIdProperty: string = 'ConversationId';
-    public static readonly ConversationNameProperty: string = 'ConversationName';
-    public static readonly TextProperty: string = 'Text';
-    public static readonly LocaleProperty: string = 'Locale';
+    public static readonly ActivityIDProperty: string = "activityId";
+    public static readonly ReplyActivityIDProperty: string = "replyActivityId";
+    public static readonly ChannelIdProperty: string = "channelId";
+    public static readonly FromIdProperty: string = "fromId";
+    public static readonly FromNameProperty: string = "fromName";
+    public static readonly RecipientIdProperty: string = "recipientId";
+    public static readonly RecipientNameProperty: string = "recipientName";
+    public static readonly ConversationIdProperty: string = "conversationId";
+    public static readonly ConversationNameProperty: string = "conversationName";
+    public static readonly TextProperty: string = "text";
+    public static readonly LocaleProperty: string = "locale";
+    public static readonly SpeakProperty: string = "speak";
 }
