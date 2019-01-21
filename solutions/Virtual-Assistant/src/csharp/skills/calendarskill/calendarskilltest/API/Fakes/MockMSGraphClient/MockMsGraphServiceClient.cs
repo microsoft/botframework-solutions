@@ -74,6 +74,46 @@ namespace CalendarSkillTest.API.Fakes.MockMSGraphClient
                     return Task.FromResult(body);
                 });
 
+                requestBuilder.Setup(req => req.Decline(It.IsNotNull<string>(), null)).Returns((string comment, bool? sendResponse) =>
+                {
+                    Mock<IEventDeclineRequestBuilder> declineRequestBuilder = new Mock<IEventDeclineRequestBuilder>();
+                    declineRequestBuilder.Setup(builder => builder.Request(null).PostAsync()).Returns(() =>
+                    {
+                        if (eventId != "decline_event")
+                        {
+                            throw new Exception("Event id not found");
+                        }
+
+                        if (comment != "decline")
+                        {
+                            throw new Exception("decline comment not right");
+                        }
+
+                        return Task.CompletedTask;
+                    });
+                    return declineRequestBuilder.Object;
+                });
+
+                requestBuilder.Setup(req => req.Accept(It.IsNotNull<string>(), null)).Returns((string comment, bool? sendResponse) =>
+                {
+                    Mock<IEventAcceptRequestBuilder> acceptRequestBuilder = new Mock<IEventAcceptRequestBuilder>();
+                    acceptRequestBuilder.Setup(builder => builder.Request(null).PostAsync()).Returns(() =>
+                    {
+                        if (eventId != "accept_event")
+                        {
+                            throw new Exception("Event id not found");
+                        }
+
+                        if (comment != "accept")
+                        {
+                            throw new Exception("accept comment not right");
+                        }
+
+                        return Task.CompletedTask;
+                    });
+                    return acceptRequestBuilder.Object;
+                });
+
                 return requestBuilder.Object;
             });
         }
