@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
-import { ComponentDialog, Dialog, DialogContext, DialogTurnResult } from "botbuilder-dialogs";
-import { InterruptionStatus } from "./interruptionStatus";
+import { ComponentDialog, Dialog, DialogContext, DialogTurnResult } from 'botbuilder-dialogs';
+import { InterruptionStatus } from './interruptionStatus';
 
 export abstract class InterruptableDialog extends ComponentDialog {
     constructor(dialogId: string) { super(dialogId); }
@@ -19,7 +19,7 @@ export abstract class InterruptableDialog extends ComponentDialog {
             return Dialog.EndOfTurn;
         }
 
-        return await super.onContinueDialog(dc);
+        return super.onContinueDialog(dc);
     }
 
     protected abstract onDialogInterruption(dc: DialogContext): Promise<InterruptionStatus>;

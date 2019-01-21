@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
-import { TelemetryClient } from "applicationinsights";
-import { RecognizerResult, TurnContext } from "botbuilder";
-import { LuisApplication, LuisPredictionOptions, LuisRecognizer } from "botbuilder-ai";
-import { LuisTelemetryConstants } from "./luisTelemetryConstants";
-import { TelemetryLoggerMiddleware } from "./telemetryLoggerMiddleware";
+import { TelemetryClient } from 'applicationinsights';
+import { RecognizerResult, TurnContext } from 'botbuilder';
+import { LuisApplication, LuisPredictionOptions, LuisRecognizer } from 'botbuilder-ai';
+import { LuisTelemetryConstants } from './luisTelemetryConstants';
+import { TelemetryLoggerMiddleware } from './telemetryLoggerMiddleware';
 
 /**
  * TelemetryLuisRecognizer invokes the Luis Recognizer and logs some results into Application Insights.
@@ -49,7 +49,7 @@ export class TelemetryLuisRecognizer extends LuisRecognizer {
      */
     public async recognize(context: TurnContext, logOriginalMessage: boolean = false): Promise<RecognizerResult> {
         if (context === null) {
-            throw new Error("context is null");
+            throw new Error('context is null');
         }
 
         // Call Luis Recognizer
@@ -66,7 +66,7 @@ export class TelemetryLuisRecognizer extends LuisRecognizer {
 
             // Add the intent score and conversation id properties
             const properties: { [key: string]: string } = {};
-            properties[LuisTelemetryConstants.ActivityIdProperty] = context.activity.id || "";
+            properties[LuisTelemetryConstants.ActivityIdProperty] = context.activity.id || '';
             properties[LuisTelemetryConstants.IntentProperty] = topLuisIntent;
             properties[LuisTelemetryConstants.IntentScoreProperty] = intentScore.toString();
 
@@ -92,7 +92,7 @@ export class TelemetryLuisRecognizer extends LuisRecognizer {
             // Track the event
             telemetryClient.trackEvent({
                 name: `${LuisTelemetryConstants.IntentPrefix}.${topLuisIntent}`,
-                properties,
+                properties
             });
         }
 
