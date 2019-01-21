@@ -29,8 +29,8 @@
   "ShowOneMeetingSummaryMessage": {
     "replies": [
       {
-        "text": "You have 1 event planned for {Date}, your next event is with {Participants} {EventTime1} titled {EventName1}. Want to hear the content of this event?",
-        "speak": "You have 1 event planned for {Date}, your next event is with {Participants} {EventTime1} titled {EventName1}. Want to hear the content of this event?"
+        "text": "You have 1 event planned for {DateTime}, your next event is with {Participants1} {EventTime1} titled {EventName1}. Want to hear the content of this event?",
+        "speak": "You have 1 event planned for {DateTime}, your next event is with {Participants1} {EventTime1} titled {EventName1}. Want to hear the content of this event?"
       }
     ],
     "inputHint": "acceptingInput"
@@ -38,8 +38,8 @@
   "ShowMultipleMeetingSummaryMessage": {
     "replies": [
       {
-        "text": "I found {Count} events for you:",
-        "speak": "I found {Count} events for you: the first is {EventName1} for {EventDuration} and the last meeting is {EventName2} at {EventTime}"
+        "text": "It looks like you have {Count} events planned for {DateTime}, your next event is with {Participants1} {EventTime1} titled {EventName1}. The last event of {DateTime} is {EventTime2} with {Participants2} titled {EventName2}.",
+        "speak": "It looks like you have {Count} events planned for {DateTime}, your next event is with {Participants1} {EventTime1} titled {EventName1}. The last event of {DateTime} is {EventTime2} with {Participants2} titled {EventName2}."
       }
     ],
     "inputHint": "acceptingInput"
@@ -55,16 +55,16 @@
         "speak": "Which meeting would you like me to read out?"
       },
       {
-        "text": "Any meeting you would like me to read out?",
-        "speak": "Any meeting you would like me to read out?"
+        "text": "Any meetings you would like me to read out?",
+        "speak": "Any meetings you would like me to read out?"
       },
       {
         "text": "Which meeting do you want more details on?",
         "speak": "Which meeting do you want more details on?"
       },
       {
-        "text": "Which one would you like to know the content of?",
-        "speak": "Which one would you like to know the content of?"
+        "text": "Which one do you want more information on?",
+        "speak": "Which one do you want more information on?"
       },
       {
         "text": "Which meeting do you want me to read out?",
@@ -75,8 +75,8 @@
         "speak": "Which one do you want to hear about?"
       },
       {
-        "text": "Which meeting do you want me to give you the details?",
-        "speak": "Which meeting do you want me to give you the details?"
+        "text": "Which meeting do you want me to give you the details of?",
+        "speak": "Which meeting do you want me to give you the details of?"
       },
       {
         "text": "Which meeting should I read to you?",
@@ -88,8 +88,8 @@
   "ReadOutMorePrompt": {
     "replies": [
       {
-        "text": "Do you want to hear the content of the upcoming event? I can read out any event for you, just let me know by naming out the subject, time or attendees..",
-        "speak": "Do you want to hear the content of the upcoming event? I can read out any event for you, just let me know by naming out the subject, time or attendees.."
+        "text": "Do you want to hear the content of the upcoming event? I can read out any event for you, just let me know by providing the subject, time or attendees..",
+        "speak": "Do you want to hear the content of the upcoming event? I can read out any event for you, just let me know by providing the subject, time or attendees.."
       }
     ],
     "inputHint": "expectingInput"
@@ -97,12 +97,8 @@
   "ReadOutMessage": {
     "replies": [
       {
-        "text": "Details of meeting:",
-        "speak": "Details of event: {MeetingDetails}"
-      },
-      {
-        "text": "Content of meeting:",
-        "speak": "Content of event: {MeetingDetails}"
+        "text": "The meeting {Date} is at {Time} with {Participants} titled {Subject}.",
+        "speak": "The meeting {Date} is at {Time} with {Participants} titled {Subject}."
       }
     ],
     "inputHint": "acceptingInput"
@@ -164,8 +160,8 @@
   "ReadLocation": {
     "replies": [
       {
-        "text": "It holds at {EventLocation}.",
-        "speak": "It holds at {EventLocation}"
+        "text": "It held at {EventLocation}.",
+        "speak": "It held at {EventLocation}"
       }
     ],
     "inputHint": "acceptingInput"
@@ -173,8 +169,8 @@
   "ReadNoLocation": {
     "replies": [
       {
-        "text": "It has no location, probably holds online.",
-        "speak": "It has no location, probably holds online"
+        "text": "There is no location, possibly online?",
+        "speak": "There is no location, possibly online?"
       }
     ],
     "inputHint": "acceptingInput"
@@ -182,8 +178,8 @@
   "AskForChangeStatus": {
     "replies": [
       {
-        "text": "Would you like to see your calendar overview again of {DateTime}? You can also ask me to accept or decline this event for you.",
-        "speak": "Would you like to see your calendar overview again of {DateTime}? You can also ask me to accept or decline this event for you."
+        "text": "Would you like to see your calendar overview again for {DateTime}? You can also ask me to accept or decline this event for you.",
+        "speak": "Would you like to see your calendar overview again for {DateTime}? You can also ask me to accept or decline this event for you."
       }
     ],
     "inputHint": "acceptingInput"
@@ -191,8 +187,8 @@
   "AskForAction": {
     "replies": [
       {
-        "text": "Would you like to see your calendar overview again of {DateTime}? You can also ask me to decline this event for you.",
-        "speak": "Would you like to see your calendar overview again of {DateTime}? You can also ask me to decline this event for you."
+        "text": "Would you like to see your calendar overview again for {DateTime}? You can also ask me to decline this event for you.",
+        "speak": "Would you like to see your calendar overview again for {DateTime}? You can also ask me to decline this event for you."
       }
     ],
     "inputHint": "acceptingInput"
@@ -200,8 +196,8 @@
   "AskForOrgnizerAction": {
     "replies": [
       {
-        "text": "Would you like to see your calendar overview again of {DateTime}? You can also ask me to update or decline this event for you.",
-        "speak": "Would you like to see your calendar overview again of {DateTime}? You can also ask me to update or decline this event for you."
+        "text": "Would you like to see your calendar overview again for {DateTime}? You can also ask me to update or decline this event for you.",
+        "speak": "Would you like to see your calendar overview again for {DateTime}? You can also ask me to update or decline this event for you."
       }
     ],
     "inputHint": "acceptingInput"

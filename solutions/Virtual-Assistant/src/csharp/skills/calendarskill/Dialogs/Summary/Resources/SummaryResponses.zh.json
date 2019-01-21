@@ -29,8 +29,8 @@
   "ShowOneMeetingSummaryMessage": {
     "replies": [
       {
-        "text": "你在{Date}有1个会议, 你的下一个会议是和{Participants}{EventTime1}，标题是{EventName1}。你想听这个会议的详细内容吗？",
-        "speak": "你在{Date}有1个会议, 你的下一个会议是和{Participants}{EventTime1}，标题是{EventName1}。你想听这个会议的详细内容吗？"
+        "text": "你在{DateTime}有1个会议, 你的下一个会议是和{Participants1}{EventTime1}，标题是{EventName1}。你想听这个会议的详细内容吗？",
+        "speak": "你在{DateTime}有1个会议, 你的下一个会议是和{Participants1}{EventTime1}，标题是{EventName1}。你想听这个会议的详细内容吗？"
       }
     ],
     "inputHint": "acceptingInput"
@@ -38,8 +38,8 @@
   "ShowMultipleMeetingSummaryMessage": {
     "replies": [
       {
-        "text": "我找到了{Count}个会议：",
-        "speak": "我找到了{Count}个会议：第一个是{EventName1}，持续时间{EventDuration}。最后一个会议是{EventName2}，在{EventTime}。"
+        "text": "你在{DateTime}有{Count}个会议，你的下一个会议是和{Participants1}{EventTime1}，标题是{EventName1}。{DateTime}的最后一个会议{EventTime2}和{Participants2}标题是{EventName2}。",
+        "speak": "你在{DateTime}有{Count}个会议，你的下一个会议是和{Participants1}{EventTime1}，标题是{EventName1}。{DateTime}的最后一个会议{EventTime2}和{Participants2}标题是{EventName2}。"
       }
     ],
     "inputHint": "acceptingInput"
@@ -97,12 +97,8 @@
   "ReadOutMessage": {
     "replies": [
       {
-        "text": "会议详情：",
-        "speak": "会议详情：{MeetingDetails}"
-      },
-      {
-        "text": "会议内容：",
-        "speak": "会议内容：{MeetingDetails}"
+        "text": "{Date}的会议{Time}和{Participants}，标题为{Subject}。",
+        "speak": "{Date}的会议{Time}和{Participants}，标题为{Subject}。"
       }
     ],
     "inputHint": "acceptingInput"

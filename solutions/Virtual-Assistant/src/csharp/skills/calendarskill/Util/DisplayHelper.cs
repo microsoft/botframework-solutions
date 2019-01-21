@@ -9,7 +9,7 @@ namespace CalendarSkill.Util
 {
     public class DisplayHelper
     {
-        public static string ToDisplayParticipantsStringSummay(List<Attendee> participants)
+        public static string ToDisplayParticipantsStringSummary(List<Attendee> participants)
         {
             if (participants == null || participants.Count() == 0)
             {

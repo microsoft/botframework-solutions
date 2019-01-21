@@ -202,10 +202,9 @@ namespace CalendarSkill.Dialogs.Summary
                         {
                             { "Count", searchedEvents.Count.ToString() },
                             { "EventName1", searchedEvents[0].Title },
-                            { "EventDuration", searchedEvents[0].ToDurationString() },
-                            { "Date", state.StartDateString ?? CalendarCommonStrings.Today },
+                            { "DateTime", state.StartDateString ?? CalendarCommonStrings.Today },
                             { "EventTime1", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(searchedEvents[0].StartTime, state.GetUserTimeZone()), searchedEvents[0].IsAllDay == true) },
-                            { "Participants", DisplayHelper.ToDisplayParticipantsStringSummay(searchedEvents[0].Attendees) }
+                            { "Participants1", DisplayHelper.ToDisplayParticipantsStringSummary(searchedEvents[0].Attendees) }
                         };
 
                         if (searchedEvents.Count == 1)
@@ -216,6 +215,7 @@ namespace CalendarSkill.Dialogs.Summary
                         {
                             responseParams.Add("EventName2", searchedEvents[searchedEvents.Count - 1].Title);
                             responseParams.Add("EventTime2", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(searchedEvents[searchedEvents.Count - 1].StartTime, state.GetUserTimeZone()), searchedEvents[searchedEvents.Count - 1].IsAllDay == true));
+                            responseParams.Add("Participants2", DisplayHelper.ToDisplayParticipantsStringSummary(searchedEvents[searchedEvents.Count - 1].Attendees));
 
                             await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowMultipleMeetingSummaryMessage, ResponseBuilder, responseParams));
                         }
@@ -327,9 +327,29 @@ namespace CalendarSkill.Dialogs.Summary
 
                 if (eventItem != null && topIntent != Luis.Calendar.Intent.ChangeCalendarEntry && topIntent != Luis.Calendar.Intent.DeleteCalendarEntry)
                 {
-                    var speakString = SpeakHelper.ToSpeechMeetingDetail(eventItem.Title, TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, state.GetUserTimeZone()), eventItem.IsAllDay == true);
-
-                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(SummaryResponses.ReadOutMessage, eventItem.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", eventItem.ToAdaptiveCardData(state.GetUserTimeZone(), showContent: true), null, new StringDictionary() { { "MeetingDetails", speakString } });
+                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(
+                        SummaryResponses.ReadOutMessage,
+                        eventItem.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json",
+                        eventItem.ToAdaptiveCardData(state.GetUserTimeZone(), showContent: true),
+                        null,
+                        new StringDictionary()
+                        {
+                            {
+                                "Date", eventItem.StartTime.ToString(CommonStrings.DisplayDateFormat_CurrentYear)
+                            },
+                            {
+                                "Time", eventItem.StartTime.ToString(CommonStrings.DisplayTime)
+                            },
+                            {
+                                "Participants", DisplayHelper.ToDisplayParticipantsStringSummary(eventItem.Attendees)
+                            },
+                            {
+                                "Subject", eventItem.Title
+                            },
+                            {
+                                "Content", eventItem.ContentPreview
+                            }
+                        });
                     await sc.Context.SendActivityAsync(replyMessage);
 
                     if (eventItem.IsOrganizer)
