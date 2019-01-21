@@ -300,7 +300,7 @@ namespace PointOfInterestSkill.Dialogs.Main
                                         Latitude = lat,
                                         Longitude = lng,
                                     };
-                                    state.CurrentCoordinates = coordinates;
+                                    state.Office = coordinates;
                                 }
                             }
                         }

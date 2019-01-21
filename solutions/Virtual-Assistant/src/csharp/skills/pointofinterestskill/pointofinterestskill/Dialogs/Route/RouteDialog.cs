@@ -178,8 +178,7 @@ namespace PointOfInterestSkill.Dialogs.Route
                 {
                     routeDirections = await service.GetRouteDirectionsToDestinationAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.ActiveLocation.Geolocation.Latitude, state.ActiveLocation.Geolocation.Longitude);
 
-                    await GetRouteDirectionsViewCards(sc, routeDirections);
-                }
+                await GetRouteDirectionsViewCards(sc, routeDirections);
 
                 if (routeDirections?.Routes?.ToList().Count == 1)
                 {
