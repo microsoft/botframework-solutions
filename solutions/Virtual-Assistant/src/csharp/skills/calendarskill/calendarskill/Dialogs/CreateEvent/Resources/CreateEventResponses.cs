@@ -24,6 +24,8 @@ namespace CalendarSkill.Dialogs.CreateEvent.Resources
         // Generated accessors
         public static BotResponse NoTitle => GetBotResponse();
 
+        public static BotResponse NoTitle_Short => GetBotResponse();
+
         public static BotResponse NoContent => GetBotResponse();
 
         public static BotResponse NoLocation => GetBotResponse();
@@ -55,6 +57,10 @@ namespace CalendarSkill.Dialogs.CreateEvent.Resources
         public static BotResponse NoDuration => GetBotResponse();
 
         public static BotResponse NoDuration_Retry => GetBotResponse();
+
+        public static BotResponse GetRecreateInfo => GetBotResponse();
+
+        public static BotResponse GetRecreateInfo_Retry => GetBotResponse();
 
         public static BotResponse ConfirmRecipient => GetBotResponse();
 
