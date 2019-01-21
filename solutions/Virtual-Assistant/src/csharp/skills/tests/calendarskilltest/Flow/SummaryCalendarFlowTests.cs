@@ -8,6 +8,7 @@ using CalendarSkillTest.Flow.Fakes;
 using CalendarSkillTest.Flow.Utterances;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -37,16 +38,7 @@ namespace CalendarSkillTest.Flow
         public async Task Test_CalendarSummary()
         {
             var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            DateTime now = DateTime.Now;
-            DateTime startTime = new DateTime(now.Year, now.Month, now.Day, 18, 0, 0);
-            startTime = startTime.AddDays(1);
-            startTime = TimeZoneInfo.ConvertTimeToUtc(startTime);
-            serviceManager.SetupCalendarService(new List<EventModel>()
-            {
-                MockCalendarService.CreateEventModel(
-                    startDateTime: startTime,
-                    endDateTime: startTime.AddHours(1)),
-            });
+            serviceManager.SetupCalendarService(MockCalendarService.FakeDefaultEvents());
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseFindMeeting)
                 .AssertReply(this.ShowAuth())
@@ -94,16 +86,7 @@ namespace CalendarSkillTest.Flow
         public async Task Test_CalendarSummaryReadOutWithOneMeeting()
         {
             var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            DateTime now = DateTime.Now;
-            DateTime startTime = new DateTime(now.Year, now.Month, now.Day, 18, 0, 0);
-            startTime = startTime.AddDays(1);
-            startTime = TimeZoneInfo.ConvertTimeToUtc(startTime);
-            serviceManager.SetupCalendarService(new List<EventModel>()
-            {
-                MockCalendarService.CreateEventModel(
-                    startDateTime: startTime,
-                    endDateTime: startTime.AddHours(1)),
-            });
+            serviceManager.SetupCalendarService(MockCalendarService.FakeDefaultEvents());
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseFindMeeting)
                 .AssertReply(this.ShowAuth())
@@ -158,7 +141,7 @@ namespace CalendarSkillTest.Flow
                 .Send(FindMeetingTestUtterances.FindMeetingByTimeRange)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.FoundOneEventPrompt())
+                .AssertReplyOneOf(this.FoundOneEventPrompt("next week"))
                 .AssertReply(this.ShowCalendarList(1))
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReply(this.ActionEndMessage())
@@ -169,21 +152,12 @@ namespace CalendarSkillTest.Flow
         public async Task Test_CalendarSummaryByStartTime()
         {
             var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            DateTime now = DateTime.Now;
-            DateTime startTime = new DateTime(now.Year, now.Month, now.Day, 18, 0, 0);
-            startTime = startTime.AddDays(1);
-            startTime = TimeZoneInfo.ConvertTimeToUtc(startTime);
-            serviceManager.SetupCalendarService(new List<EventModel>()
-            {
-                MockCalendarService.CreateEventModel(
-                    startDateTime: startTime,
-                    endDateTime: startTime.AddHours(1)),
-            });
+            serviceManager.SetupCalendarService(MockCalendarService.FakeDefaultEvents());
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.FindMeetingByStartTime)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.FoundOneEventPrompt())
+                .AssertReplyOneOf(this.FoundOneEventPrompt("tomorrow"))
                 .AssertReply(this.ShowCalendarList(1))
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReply(this.ActionEndMessage())
@@ -198,45 +172,33 @@ namespace CalendarSkillTest.Flow
             };
         }
 
-        private string[] FoundOneEventPrompt()
+        private string[] FoundOneEventPrompt(string dateTime = "today")
         {
             var responseParams = new StringDictionary()
             {
                 { "Count", "1" },
                 { "EventName1", Strings.Strings.DefaultEventName },
                 { "EventDuration", "1 hour" },
-                { "DateTime", "today" },
-                { "EventTime1", "at 6:00 PM"},
+                { "DateTime", dateTime },
+                { "EventTime1", "at 6:00 PM" },
                 { "Participants1", Strings.Strings.DefaultUserName }
             };
 
             return this.ParseReplies(SummaryResponses.ShowOneMeetingSummaryMessage.Replies, responseParams);
         }
 
-        private string[] FoundOneEventPromptForTimeRange()
-        {
-            var responseParams = new StringDictionary()
-            {
-                { "Count", "1" },
-                { "EventName1", Strings.Strings.DefaultEventName },
-                { "EventDuration", "1 hour" },
-                { "Date", "next week" },
-                { "EventTime1", "at 6:00 PM"},
-                { "Participants", Strings.Strings.DefaultUserName }
-            };
-
-            return this.ParseReplies(SummaryResponses.ShowOneMeetingSummaryMessage.Replies, responseParams);
-        }
-
-        private string[] FoundMultipleEventPrompt(int count)
+        private string[] FoundMultipleEventPrompt(int count, string dateTime = "today")
         {
             var responseParams = new StringDictionary()
             {
                 { "Count", count.ToString() },
+                { "DateTime", dateTime },
+                { "Participants1", Strings.Strings.DefaultUserName },
                 { "EventName1", Strings.Strings.DefaultEventName },
-                { "EventDuration", "1 hour" },
+                { "EventTime1", "at 6:00 PM" },
+                { "Participants2", Strings.Strings.DefaultUserName },
                 { "EventName2", Strings.Strings.DefaultEventName },
-                { "EventTime", "7 pm" }
+                { "EventTime2", "at 6:00 PM" },
             };
 
             return this.ParseReplies(SummaryResponses.ShowMultipleMeetingSummaryMessage.Replies, responseParams);
@@ -279,7 +241,22 @@ namespace CalendarSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                CollectionAssert.Contains(this.ParseReplies(SummaryResponses.ReadOutMessage.Replies, new StringDictionary() { { "MeetingDetails", string.Empty } }), messageActivity.Text);
+                CollectionAssert.Contains(
+                    this.ParseReplies(SummaryResponses.ReadOutMessage.Replies, new StringDictionary()
+                    {
+                        {
+                            "Date", DateTime.Now.AddDays(1).ToString(CommonStrings.DisplayDateFormat_CurrentYear)
+                        },
+                        {
+                            "Time", "at 6:00 PM"
+                        },
+                        {
+                            "Participants", Strings.Strings.DefaultUserName
+                        },
+                        {
+                            "Subject", Strings.Strings.DefaultEventName
+                        }
+                    }), messageActivity.Text);
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
         }

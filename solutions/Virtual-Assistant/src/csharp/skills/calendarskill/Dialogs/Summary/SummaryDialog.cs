@@ -338,16 +338,13 @@ namespace CalendarSkill.Dialogs.Summary
                                 "Date", eventItem.StartTime.ToString(CommonStrings.DisplayDateFormat_CurrentYear)
                             },
                             {
-                                "Time", SpeakHelper.ToSpeechMeetingTime(eventItem.StartTime, eventItem.IsAllDay == true)
+                                "Time", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, state.GetUserTimeZone()), eventItem.IsAllDay == true)
                             },
                             {
                                 "Participants", DisplayHelper.ToDisplayParticipantsStringSummary(eventItem.Attendees)
                             },
                             {
                                 "Subject", eventItem.Title
-                            },
-                            {
-                                "Content", eventItem.ContentPreview
                             }
                         });
                     await sc.Context.SendActivityAsync(replyMessage);
