@@ -1,0 +1,17 @@
+{
+  "urls": [],
+  "qnaList": [
+    {
+      "id": 0,
+      "answer": "La creazione di un'esperienza di conversazione di alta qualità richiede una serie fondamentale di capacità. Per aiutarvi ad avere successo con la costruzione di grandi esperienze di conversazione, abbiamo creato un **Enterprise bot template**. Questo modello riunisce tutte le migliori pratiche e componenti di supporto che abbiamo identificato attraverso la costruzione di esperienze di conversazione.\r\n[Learn more](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-enterprise-template-overview?view=azure-bot-service-4.0)\r\n",
+      "source": "custom editorial",
+      "questions": [
+        "Che cos'è il modello Enterprise bot?",
+        "Che cos'è il Enterprise bot template?"
+      ],
+      "metadata": []
+    }
+  ],
+  "files": [],
+  "name": "faq"
+}
