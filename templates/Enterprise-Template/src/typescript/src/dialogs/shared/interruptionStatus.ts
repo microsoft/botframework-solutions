@@ -2,7 +2,7 @@
 // Licensed under the MIT License
 
 export enum InterruptionStatus {
-    
+
     /** Indicates that the active dialog was interrupted and needs to resume. */
     Interrupted,
 
@@ -10,5 +10,5 @@ export enum InterruptionStatus {
     Waiting,
 
     /** Indicates that no interruption action is required. */
-    NoAction,
+    NoAction
 }

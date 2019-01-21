@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
-import { TelemetryClient } from "applicationinsights";
-import { Activity, ActivityTypes, Middleware, ResourceResponse, TurnContext } from "botbuilder";
-import { TelemetryConstants } from "./telemetryConstants";
+import { TelemetryClient } from 'applicationinsights';
+import { Activity, ActivityTypes, Middleware, ResourceResponse, TurnContext } from 'botbuilder';
+import { TelemetryConstants } from './telemetryConstants';
 
 /**
  * Middleware for logging incoming, outgoing, updated or deleted Activity messages into Application Insights.
@@ -12,27 +12,27 @@ import { TelemetryConstants } from "./telemetryConstants";
  * If this Middleware is removed, all the other sample components don't log (but still operate).
  */
 export class TelemetryLoggerMiddleware implements Middleware {
-    public static readonly AppInsightsServiceKey: string = "TelemetryLoggerMiddleware.AppInsightsContext";
+    public static readonly AppInsightsServiceKey: string = 'TelemetryLoggerMiddleware.AppInsightsContext';
 
     /**
      * Application Insights Custom Event name, logged when new message is received from the user
      */
-    public static readonly BotMsgReceiveEvent: string = "BotMessageReceived";
+    public static readonly BotMsgReceiveEvent: string = 'BotMessageReceived';
 
     /**
      * Application Insights Custom Event name, logged when a message is sent out from the bot
      */
-    public static readonly BotMsgSendEvent: string = "BotMessageSend";
+    public static readonly BotMsgSendEvent: string = 'BotMessageSend';
 
     /**
      * Application Insights Custom Event name, logged when a message is updated by the bot (rare case)
      */
-    public static readonly BotMsgUpdateEvent: string = "BotMessageUpdate";
+    public static readonly BotMsgUpdateEvent: string = 'BotMessageUpdate';
 
     /**
      * Application Insights Custom Event name, logged when a message is deleted by the bot (rare case)
      */
-    public static readonly BotMsgDeleteEvent: string = "BotMessageDelete";
+    public static readonly BotMsgDeleteEvent: string = 'BotMessageDelete';
 
     private readonly _telemetryClient: TelemetryClient;
     private readonly _logUserName: boolean;
@@ -46,7 +46,7 @@ export class TelemetryLoggerMiddleware implements Middleware {
      */
     constructor(instrumentationKey: string, logUserName: boolean = false, logOriginalMessage: boolean = false) {
         if (!instrumentationKey) {
-            throw new Error("instrumentationKey not found");
+            throw new Error('instrumentationKey not found');
         }
 
         this._telemetryClient = new TelemetryClient(instrumentationKey);
@@ -71,7 +71,7 @@ export class TelemetryLoggerMiddleware implements Middleware {
      */
     public async onTurn(context: TurnContext, next: () => Promise<void>): Promise<void> {
         if (context === null) {
-            throw new Error("context is null");
+            throw new Error('context is null');
         }
 
         context.turnState.set(TelemetryLoggerMiddleware.AppInsightsServiceKey, this._telemetryClient);
@@ -92,7 +92,7 @@ export class TelemetryLoggerMiddleware implements Middleware {
             // Log the Application Insights Bot Message Received
             this._telemetryClient.trackEvent({
                 name: TelemetryLoggerMiddleware.BotMsgReceiveEvent,
-                properties: this.fillReceiveEventProperties(activity),
+                properties: this.fillReceiveEventProperties(activity)
             });
         }
 
@@ -103,7 +103,7 @@ export class TelemetryLoggerMiddleware implements Middleware {
 
             activities.forEach((activity) => this._telemetryClient.trackEvent({
                 name: TelemetryLoggerMiddleware.BotMsgSendEvent,
-                properties: this.fillSendEventProperties(activity as Activity),
+                properties: this.fillSendEventProperties(activity as Activity)
             }));
 
             return responses;
@@ -116,7 +116,7 @@ export class TelemetryLoggerMiddleware implements Middleware {
 
             this._telemetryClient.trackEvent({
                 name: TelemetryLoggerMiddleware.BotMsgSendEvent,
-                properties: this.fillUpdateEventProperties(activity as Activity),
+                properties: this.fillUpdateEventProperties(activity as Activity)
             });
 
             return response;
@@ -129,12 +129,12 @@ export class TelemetryLoggerMiddleware implements Middleware {
 
             const deletedActivity: Partial<Activity> = TurnContext.applyConversationReference({
                 id: reference.activityId,
-                type: ActivityTypes.MessageDelete,
-            }, reference, false);
+                type: ActivityTypes.MessageDelete
+            },                                                                                reference, false);
 
             this._telemetryClient.trackEvent({
                 name: TelemetryLoggerMiddleware.BotMsgSendEvent,
-                properties: this.fillDeleteEventProperties(deletedActivity as Activity),
+                properties: this.fillDeleteEventProperties(deletedActivity as Activity)
             });
         });
 
@@ -146,11 +146,11 @@ export class TelemetryLoggerMiddleware implements Middleware {
     private fillBaseEventProperties(activity: Activity): { [key: string]: string } {
         const properties: { [key: string]: string } = {};
 
-        properties[TelemetryConstants.ActivityIDProperty] = activity.id || "";
+        properties[TelemetryConstants.ActivityIDProperty] = activity.id || '';
         properties[TelemetryConstants.ChannelProperty] = activity.channelId;
         properties[TelemetryConstants.ConversationIdProperty] = activity.conversation.id;
         properties[TelemetryConstants.ConversationNameProperty] = activity.conversation.name;
-        properties[TelemetryConstants.LocaleProperty] = activity.locale || "";
+        properties[TelemetryConstants.LocaleProperty] = activity.locale || '';
 
         return properties;
     }
