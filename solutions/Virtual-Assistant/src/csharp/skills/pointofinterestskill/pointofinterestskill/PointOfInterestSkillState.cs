@@ -17,7 +17,7 @@ namespace PointOfInterestSkill
             SearchText = string.Empty;
             SearchAddress = string.Empty;
             CurrentCoordinates = null;
-            FoundLocations = null;
+            LastFoundPointOfInterests = null;
             ActiveRoute = null;
             SearchDescriptor = string.Empty;
             LastUtteredNumber = null;
@@ -27,9 +27,9 @@ namespace PointOfInterestSkill
 
         public LatLng CurrentCoordinates { get; set; }
 
-        public Location ActiveLocation { get; set; }
+        public PointOfInterestModel ActiveLocation { get; set; }
 
-        public List<Location> FoundLocations { get; set; }
+        public List<PointOfInterestModel> LastFoundPointOfInterests { get; set; }
 
         public RouteDirections.Route ActiveRoute { get; set; }
 
@@ -59,7 +59,7 @@ namespace PointOfInterestSkill
             SearchText = string.Empty;
             SearchAddress = string.Empty;
             SearchDescriptor = string.Empty;
-            FoundLocations = null;
+            LastFoundPointOfInterests = null;
             LastUtteredNumber = null;
         }
 

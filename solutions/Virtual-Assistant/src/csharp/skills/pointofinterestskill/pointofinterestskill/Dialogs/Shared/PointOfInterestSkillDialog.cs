@@ -86,30 +86,30 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 var state = await Accessor.GetAsync(sc.Context);
 
                 var service = ServiceManager.InitMapsService(GetAzureMapsKey(), sc.Context.Activity.Locale ?? "en-us");
-                var locationSet = new LocationSet();
+                var pointOfInterestList = new List<PointOfInterestModel>();
 
                 state.CheckForValidCurrentCoordinates();
 
                 if (string.IsNullOrEmpty(state.SearchText) && string.IsNullOrEmpty(state.SearchAddress))
                 {
                     // No entities identified, find nearby locations
-                    locationSet = await service.GetLocationsNearby(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude);
-                    await GetPointOfInterestLocationViewCards(sc, locationSet);
+                    pointOfInterestList = await service.GetLocationsNearby(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude);
+                    await GetPointOfInterestLocationViewCards(sc, pointOfInterestList);
                 }
                 else if (!string.IsNullOrEmpty(state.SearchText))
                 {
                     // Fuzzy search
-                    locationSet = await service.GetLocationsByFuzzyQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.SearchText, country);
-                    await GetPointOfInterestLocationViewCards(sc, locationSet);
+                    pointOfInterestList = await service.GetLocationsByFuzzyQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.SearchText, country);
+                    await GetPointOfInterestLocationViewCards(sc, pointOfInterestList);
                 }
                 else if (!string.IsNullOrEmpty(state.SearchAddress))
                 {
                     // Query search
-                    locationSet = await service.GetLocationsByFuzzyQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.SearchAddress, country);
-                    await GetPointOfInterestLocationViewCards(sc, locationSet);
+                    pointOfInterestList = await service.GetLocationsByFuzzyQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.SearchAddress, country);
+                    await GetPointOfInterestLocationViewCards(sc, pointOfInterestList);
                 }
 
-                if (locationSet?.Locations?.ToList().Count == 1)
+                if (pointOfInterestList?.ToList().Count == 1)
                 {
                     return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(POISharedResponses.PromptToGetRoute, ResponseBuilder) });
                 }
@@ -135,8 +135,8 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 {
                     if (state.ActiveLocation != null)
                     {
-                        state.ActiveLocation = state.FoundLocations.SingleOrDefault();
-                        state.FoundLocations = null;
+                        state.ActiveLocation = state.LastFoundPointOfInterests.SingleOrDefault();
+                        state.LastFoundPointOfInterests = null;
                     }
 
                     await sc.EndDialogAsync();
@@ -165,28 +165,27 @@ namespace PointOfInterestSkill.Dialogs.Shared
         }
 
         // Helpers
-        protected async Task GetPointOfInterestLocationViewCards(DialogContext sc, LocationSet locationSet)
+        protected async Task GetPointOfInterestLocationViewCards(DialogContext sc, List<PointOfInterestModel> pointOfInterestList)
         {
-            var locations = locationSet.Locations;
             var state = await Accessor.GetAsync(sc.Context);
-            var cardsData = new List<PointofInterestModel>();
+            var cardsData = new List<PointOfInterestModel>();
             var service = ServiceManager.InitMapsService(GetAzureMapsKey());
 
-            if (locations != null && locations.Count > 0)
+            if (pointOfInterestList != null && pointOfInterestList.Count > 0)
             {
                 var optionNumber = 1;
-                state.FoundLocations = locations.ToList();
+                state.LastFoundPointOfInterests = pointOfInterestList;
 
-                foreach (var location in locations)
+                foreach (var pointOfInterest in pointOfInterestList)
                 {
-                    var imageUrl = service.GetLocationMapImageUrl(location);
+                    var imageUrl = service.GetPointOfInterestMapImageURL(pointOfInterest);
 
-                    var locationCardModel = new PointofInterestModel()
+                    var locationCardModel = new PointOfInterestModel()
                     {
                         ThumbnailImageUrl = imageUrl,
-                        Name = location.Name,
-                        Address = location.Address.FormattedAddress,
-                        AddressLine = location.Address.AddressLine,
+                        Name = pointOfInterest.Name,
+                        Address = pointOfInterest.Address,
+                        AddressLine = pointOfInterest.Address,
                         OptionNumber = optionNumber,
                     };
 
@@ -209,7 +208,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 }
                 else
                 {
-                    state.ActiveLocation = state.FoundLocations.Single();
+                    state.ActiveLocation = state.LastFoundPointOfInterests.Single();
 
                     if (sc.ActiveDialog.Id.Equals(Action.FindAlongRoute) && state.ActiveRoute != null)
                     {

@@ -85,7 +85,7 @@ namespace PointOfInterestSkill.Dialogs.Route
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                if (state.FoundLocations == null)
+                if (state.LastFoundPointOfInterests == null)
                 {
                     return await sc.NextAsync();
                 }
@@ -93,34 +93,34 @@ namespace PointOfInterestSkill.Dialogs.Route
                 if (!string.IsNullOrEmpty(state.SearchText))
                 {
                     // Set ActiveLocation if one w/ matching name is found in FoundLocations
-                    var activeLocation = state.FoundLocations?.FirstOrDefault(x => x.Name.Contains(state.SearchText, StringComparison.InvariantCultureIgnoreCase));
+                    var activeLocation = state.LastFoundPointOfInterests?.FirstOrDefault(x => x.Name.Contains(state.SearchText, StringComparison.InvariantCultureIgnoreCase));
                     if (activeLocation != null)
                     {
                         state.ActiveLocation = activeLocation;
-                        state.FoundLocations = null;
+                        state.LastFoundPointOfInterests = null;
                     }
                 }
 
-                if (!string.IsNullOrEmpty(state.SearchAddress) && state.FoundLocations != null)
+                if (!string.IsNullOrEmpty(state.SearchAddress) && state.LastFoundPointOfInterests != null)
                 {
                     // Set ActiveLocation if one w/ matching address is found in FoundLocations
-                    var activeLocation = state.FoundLocations?.FirstOrDefault(x => x.Address.FormattedAddress.Contains(state.SearchAddress, StringComparison.InvariantCultureIgnoreCase));
+                    var activeLocation = state.LastFoundPointOfInterests?.FirstOrDefault(x => x.Address.Contains(state.SearchAddress, StringComparison.InvariantCultureIgnoreCase));
                     if (activeLocation != null)
                     {
                         state.ActiveLocation = activeLocation;
-                        state.FoundLocations = null;
+                        state.LastFoundPointOfInterests = null;
                     }
                 }
 
-                if (state.LastUtteredNumber != null && state.FoundLocations != null)
+                if (state.LastUtteredNumber != null && state.LastFoundPointOfInterests != null)
                 {
                     // Set ActiveLocation if one w/ matching address is found in FoundLocations
                     var indexNumber = (int)state.LastUtteredNumber[0] - 1;
-                    var activeLocation = state.FoundLocations?[indexNumber];
+                    var activeLocation = state.LastFoundPointOfInterests?[indexNumber];
                     if (activeLocation != null)
                     {
                         state.ActiveLocation = activeLocation;
-                        state.FoundLocations = null;
+                        state.LastFoundPointOfInterests = null;
                     }
                 }
 
@@ -171,13 +171,13 @@ namespace PointOfInterestSkill.Dialogs.Route
 
                 if (!string.IsNullOrEmpty(state.SearchDescriptor))
                 {
-                    routeDirections = await service.GetRouteDirectionsAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.ActiveLocation.Point.Coordinates[0], state.ActiveLocation.Point.Coordinates[1], state.SearchDescriptor);
+                    routeDirections = await service.GetRouteDirectionsAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.ActiveLocation.Geolocation.Latitude, state.ActiveLocation.Geolocation.Longitude, state.SearchDescriptor);
 
                     await GetRouteDirectionsViewCards(sc, routeDirections);
                 }
                 else
                 {
-                    routeDirections = await service.GetRouteDirectionsAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.ActiveLocation.Point.Coordinates[0], state.ActiveLocation.Point.Coordinates[1]);
+                    routeDirections = await service.GetRouteDirectionsAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.ActiveLocation.Geolocation.Latitude, state.ActiveLocation.Geolocation.Longitude);
 
                     await GetRouteDirectionsViewCards(sc, routeDirections);
                 }

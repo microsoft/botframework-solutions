@@ -30,7 +30,7 @@ namespace PointOfInterestSkill.Models
     /// <summary>
     /// Point of Interest mapping entity.
     /// </summary>
-    public partial class PointofInterestModel : CardDataBase
+    public partial class PointOfInterestModel : CardDataBase
     {
         /// <summary>
         /// The point of interest source.
@@ -48,18 +48,18 @@ namespace PointOfInterestSkill.Models
         private Venue foursquarePoiData;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PointofInterestModel"/> class.、
+        /// Initializes a new instance of the <see cref="PointOfInterestModel"/> class.、
         /// DO NOT USE THIS ONE.
         /// </summary>
-        public PointofInterestModel()
+        public PointOfInterestModel()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PointofInterestModel"/> class.
+        /// Initializes a new instance of the <see cref="PointOfInterestModel"/> class.
         /// </summary>
         /// <param name="source">the event source.</param>
-        public PointofInterestModel(PointofInterestSource source)
+        public PointOfInterestModel(PointofInterestSource source)
         {
             this.source = source;
             switch (this.source)
@@ -76,20 +76,20 @@ namespace PointOfInterestSkill.Models
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PointofInterestModel"/> class from Azure Maps Point of Interest.
+        /// Initializes a new instance of the <see cref="PointOfInterestModel"/> class from Azure Maps Point of Interest.
         /// </summary>
         /// <param name="azureMapsPoi">Azure Maps point of interest.</param>
-        public PointofInterestModel(Location azureMapsPoi)
+        public PointOfInterestModel(Location azureMapsPoi)
         {
             source = PointofInterestSource.AzureMaps;
             azureMapsPoiData = azureMapsPoi;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PointofInterestModel"/> class from Foursquare Point of Interest.
+        /// Initializes a new instance of the <see cref="PointOfInterestModel"/> class from Foursquare Point of Interest.
         /// </summary>
         /// <param name="foursquarePoi">Foursquare point of interest.</param>
-        public PointofInterestModel(Venue foursquarePoi)
+        public PointOfInterestModel(Venue foursquarePoi)
         {
             source = PointofInterestSource.Foursquare;
             foursquarePoiData = foursquarePoi;

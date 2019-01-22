@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +24,6 @@ namespace PointOfInterestSkill.Models.Foursquare
 
         [JsonProperty(PropertyName = "dayData")]
         public object[] DayData { get; set; }
-
-        [JsonProperty(PropertyName = "timeframes")]
-        public Timeframe[] Timeframes { get; set; }
     }
 
     public class Richstatus
