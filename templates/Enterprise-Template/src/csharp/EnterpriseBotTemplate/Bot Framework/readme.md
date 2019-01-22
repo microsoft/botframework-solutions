@@ -6,6 +6,8 @@
 
 ## Prerequisites
 
+- Ensure you have updated [.NET Core](https://www.microsoft.com/net/download) to the latest version.
+
 - Ensure the [Node Package manager](https://nodejs.org/en/) is installed.
 
 - Install the Azure Bot Service command line (CLI) tools. It's important to do this even if you've used the tools before to ensure you have the latest versions.
@@ -14,11 +16,14 @@
 npm install -g ludown luis-apis qnamaker botdispatch msbot chatdown
 ```
 
-- Install the Azure Command Line Tools (CLI) from [here](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)
+- Install the Azure Command Line Tools (CLI) from [here](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest). If you already have the Azure Bot Service command line (CLI) tool installed, make sure you update it to the latest version by uninstalling your current version and then installing the new one.
 
-- Install the AZ Extension for Bot Service
+> With msbot 4.3.2 and later, the only AZ CLI prerequisite is having an AZ CLI version >= 2.0.53. If you have the botservice extension installed as well, please remove this via "az extension remove --name botservice".
+
+- Install the LUISGen tool
+
 ```shell
-az extension add -n botservice
+dotnet tool install -g luisgen
 ```
 
 - Install the LUISGen tool
