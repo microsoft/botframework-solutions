@@ -28,11 +28,8 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
         public ConversationState ConversationState { get; set; }
         public IStatePropertyAccessor<DialogState> DialogState { get; set; }
         public DialogSet Dialogs { get; set; }
-
         public UserState UserState { get; set; }
-
         public IBotTelemetryClient TelemetryClient { get; set; }
-
         public SkillConfigurationBase Services { get; set; }
         public SkillDialogOptions skillDialogOptions { get; set; }
         public Dictionary<string, SkillConfigurationBase> Skills;
@@ -66,7 +63,6 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
             BotResponseBuilder.AddFormatter(new TextBotResponseFormatter());
             
             // Add Fake Skill registration
-
             var fakeSkillDefinition = new SkillDefinition();
             var fakeSkillType = typeof(FakeSkill.FakeSkill);
             fakeSkillDefinition.Assembly = fakeSkillType.AssemblyQualifiedName;
@@ -130,6 +126,7 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
 
             var testFlow = new TestFlow(adapter, async (context, cancellationToken) =>
             {              
+                // Spin up the Skill Dialog that the Test will send messages to.
                 var dc = await Dialogs.CreateContextAsync(context, cancellationToken);
                 var result = await dc.BeginDialogAsync(nameof(SkillDialog), skillDialogOptions);
                 await dc.ContinueDialogAsync(cancellationToken);
