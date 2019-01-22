@@ -1,17 +1,32 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
-import { ActionTypes, Activity, CardFactory, InputHints, MessageFactory, TurnContext } from 'botbuilder';
+import {
+    ActionTypes,
+    Activity,
+    Attachment,
+    CardFactory,
+    InputHints,
+    MessageFactory,
+    TurnContext } from 'botbuilder';
 import * as i18n from 'i18n';
-import { ActivityExtensions } from '../../extensions/activityExtensions';
-import { DictionaryRenderer, LanguageTemplateDictionary, TemplateFunction } from '../templateManager/dictionaryRenderer';
+import {
+    DictionaryRenderer,
+    LanguageTemplateDictionary,
+    TemplateFunction } from '../templateManager/dictionaryRenderer';
 import { TemplateManager } from '../templateManager/templateManager';
-const introCard = require('./resources/Intro.json');
 
 export class MainResponses extends TemplateManager {
 
     // Fields
-    public static ResponseIds = {
+    public static RESPONSE_IDS: {
+        Cancelled: string;
+        Completed: string;
+        Confused: string;
+        Greeting: string;
+        Help: string;
+        Intro: string;
+    } = {
         Cancelled: 'cancelled',
         Completed: 'completed',
         Confused: 'confused',
@@ -19,27 +34,29 @@ export class MainResponses extends TemplateManager {
         Help:  'help',
         Intro:  'intro'
     };
-    private static readonly _responseTemplates: LanguageTemplateDictionary = new Map([
+    private static readonly RESPONSE_TEMPLATES: LanguageTemplateDictionary = new Map([
         ['default', new Map([
-            [MainResponses.ResponseIds.Cancelled, MainResponses.fromResources('main.cancelled')],
-            [MainResponses.ResponseIds.Completed, MainResponses.fromResources('main.completed')],
-            [MainResponses.ResponseIds.Confused, MainResponses.fromResources('main.confused')],
-            [MainResponses.ResponseIds.Greeting, MainResponses.fromResources('main.greeting')],
-            [MainResponses.ResponseIds.Help, (context: TurnContext, data: any) => MainResponses.buildHelpCard(context, data)],
-            [MainResponses.ResponseIds.Intro, (context: TurnContext, data: any) => MainResponses.buildIntroCard(context, data)]
+            [MainResponses.RESPONSE_IDS.Cancelled, MainResponses.fromResources('main.cancelled')],
+            [MainResponses.RESPONSE_IDS.Completed, MainResponses.fromResources('main.completed')],
+            [MainResponses.RESPONSE_IDS.Confused, MainResponses.fromResources('main.confused')],
+            [MainResponses.RESPONSE_IDS.Greeting, MainResponses.fromResources('main.greeting')],
+            [MainResponses.RESPONSE_IDS.Help,
+                (context: TurnContext, data: any): Promise<Activity> => MainResponses.BUILD_HELP_CARD(context, data)],
+            [MainResponses.RESPONSE_IDS.Intro,
+                (context: TurnContext, data: any): Promise<Activity> => MainResponses.BUILD_INTRO_CARD(context, data)]
         ])]
     ]);
 
     constructor() {
         super();
-        this.register(new DictionaryRenderer(MainResponses._responseTemplates));
+        this.register(new DictionaryRenderer(MainResponses.RESPONSE_TEMPLATES));
     }
 
-    public static buildIntroCard(turnContext: TurnContext, data: any): Promise<Activity> {
-        const introPath = i18n.__('main.introPath');
-        const introCard = require(introPath);
-        const attachment = CardFactory.adaptiveCard(introCard);
-        const response = MessageFactory.attachment(attachment, '', attachment.content.speak, InputHints.AcceptingInput);
+    public static BUILD_INTRO_CARD(turnContext: TurnContext, data: any): Promise<Activity> {
+        const introPath: string = i18n.__('main.introPath');
+        const introCard: any = require(introPath);
+        const attachment: Attachment = CardFactory.adaptiveCard(introCard);
+        const response: Partial<Activity> = MessageFactory.attachment(attachment, '', attachment.content.speak, InputHints.AcceptingInput);
 
         response.suggestedActions = {
             actions: [
@@ -62,14 +79,14 @@ export class MainResponses extends TemplateManager {
             to: []
         };
 
-        return Promise.resolve(response as Activity);
+        return Promise.resolve(<Activity> response);
     }
 
-    public static async buildHelpCard(turnContext: TurnContext, data: any): Promise<Activity> {
-        const title = i18n.__('main.helpTitle');
-        const text = i18n.__('main.helpText');
-        const attachment = CardFactory.heroCard(title, text);
-        const response = MessageFactory.attachment(attachment, text, InputHints.AcceptingInput);
+    public static async BUILD_HELP_CARD(turnContext: TurnContext, data: any): Promise<Activity> {
+        const title: string = i18n.__('main.helpTitle');
+        const text: string = i18n.__('main.helpText');
+        const attachment: Attachment = CardFactory.heroCard(title, text);
+        const response: Partial<Activity> = MessageFactory.attachment(attachment, text, InputHints.AcceptingInput);
 
         response.suggestedActions = {
             actions: [
@@ -92,10 +109,10 @@ export class MainResponses extends TemplateManager {
             to: []
         };
 
-        return Promise.resolve(response as Activity);
+        return Promise.resolve(<Activity> response);
     }
 
     private static fromResources(name: string): TemplateFunction {
-        return (context: TurnContext, data: any) => Promise.resolve(i18n.__(name));
+        return (): Promise<string> => Promise.resolve(i18n.__(name));
     }
 }
