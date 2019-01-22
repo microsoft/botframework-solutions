@@ -75,7 +75,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 var service = ServiceManager.InitMapsService(Services, sc.Context.Activity.Locale ?? "en-us");
                 var pointOfInterestList = new List<PointOfInterestModel>();
 
-                state.CheckForValidCurrentCoordinates();
+                var originCoordinates = state.GetOriginCoordinates(state.CommonLocation);
 
                 if (string.IsNullOrEmpty(state.Keyword) && string.IsNullOrEmpty(state.Address))
                 {

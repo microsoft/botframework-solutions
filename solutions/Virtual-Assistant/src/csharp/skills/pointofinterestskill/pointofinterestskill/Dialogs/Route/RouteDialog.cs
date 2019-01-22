@@ -160,7 +160,7 @@ namespace PointOfInterestSkill.Dialogs.Route
                 var service = ServiceManager.InitRoutingMapsService(Services);
                 var routeDirections = new RouteDirections();
 
-                state.CheckForValidCurrentCoordinates();
+                state.GetOriginCoordinates();
 
                 if (state.Destination == null)
                 {

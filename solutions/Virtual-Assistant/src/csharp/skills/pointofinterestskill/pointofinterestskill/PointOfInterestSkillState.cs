@@ -16,6 +16,7 @@ namespace PointOfInterestSkill
             DialogName = string.Empty;
             Keyword = string.Empty;
             Address = string.Empty;
+            CommonLocation = string.Empty;
             CurrentCoordinates = null;
             LastFoundPointOfInterests = null;
             ActiveRoute = null;
@@ -43,9 +44,20 @@ namespace PointOfInterestSkill
 
         public string DialogName { get; set; }
 
+        /// <summary>
+        /// Gets or sets LUIS key entity.
+        /// </summary>
         public string Keyword { get; set; }
 
+        /// <summary>
+        /// Gets or sets LUIS address entity.
+        /// </summary>
         public string Address { get; set; }
+
+        /// <summary>
+        /// Gets or sets LUIS phrase list entity used to match: here, destination, home, office.
+        /// </summary>
+        public string CommonLocation { get; set; }
 
         public string RouteType { get; set; }
 
@@ -65,6 +77,7 @@ namespace PointOfInterestSkill
             RouteType = string.Empty;
             LastFoundPointOfInterests = null;
             UserSelectIndex = -1;
+            CommonLocation = string.Empty;
         }
 
         /// <summary>
@@ -78,12 +91,90 @@ namespace PointOfInterestSkill
             UserSelectIndex = -1;
         }
 
-        public void CheckForValidCurrentCoordinates()
+        /// <summary>
+        /// Gets the origin coordinates for API calls based on what COMMON_LOCATION entity has matched.
+        /// TODO: Rather than throw exceptions for missing home/office/destination.
+        /// </summary>
+        public LatLng GetOriginCoordinates(string commonLocation)
         {
-            if (CurrentCoordinates == null)
+            LatLng originCoordinates = null;
+
+            if (string.IsNullOrEmpty(commonLocation))
             {
-                throw new Exception("The bot state is missing any current coordinates. Make sure your event architecture is correctly configured.");
+                switch (CommonLocation)
+                {
+                    case "home":
+                        if (Home != null)
+                        {
+                            originCoordinates = Home;
+                        }
+                        else
+                        {
+                            throw new Exception("The bot state is missing any current coordinates. Make sure your event architecture is correctly configured to send the \"IPA.Location\" event.");
+                        }
+
+                        break;
+                    case "office":
+                        if (Office != null)
+                        {
+                            originCoordinates = Office;
+                        }
+                        else
+                        {
+                            throw new Exception("The bot state is missing any current coordinates. Make sure your event architecture is correctly configured to send the \"IPA.Location\" event.");
+                        }
+
+                        break;
+                    case "destination":
+                        if (Destination != null)
+                        {
+                            originCoordinates = new LatLng() { Latitude = Destination.Point.Coordinates[0], Longitude = Destination.Point.Coordinates[1] };
+                        }
+
+                        break;
+                    case "here":
+                    default:
+                        if (CurrentCoordinates != null)
+                        {
+                            originCoordinates = CurrentCoordinates;
+                        }
+                        else
+                        {
+                            throw new Exception("The bot state is missing any current coordinates. Make sure your event architecture is correctly configured to send the \"IPA.Location\" event.");
+                        }
+
+                        break;
+                }
             }
+            else
+            {
+                if (CurrentCoordinates != null)
+                {
+                    originCoordinates = CurrentCoordinates;
+                }
+                else
+                {
+                    throw new Exception("The bot state is missing any current coordinates. Make sure your event architecture is correctly configured.");
+                }
+            }
+
+            return originCoordinates;
+        }
+
+        public LatLng GetDestinationCoordinates()
+        {
+            LatLng destinationCoordinates = null;
+
+            if (Destination != null)
+            {
+                destinationCoordinates = new LatLng() { Latitude = Destination.Point.Coordinates[0], Longitude = Destination.Point.Coordinates[1] };
+            }
+            else
+            {
+                throw new Exception("The bot state is missing any destination coordinates. Make sure your event architecture is correctly configured to send the \"IPA.Destination\" event.");
+            }
+
+            return destinationCoordinates;
         }
     }
 }
