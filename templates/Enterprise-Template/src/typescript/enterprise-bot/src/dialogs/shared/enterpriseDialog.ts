@@ -64,7 +64,7 @@ export class EnterpriseDialog extends InterruptableDialog {
 
     protected async onHelp(dc: DialogContext): Promise<InterruptionStatus> {
         const view: MainResponses = new MainResponses();
-        view.replyWith(dc.context, MainResponses.ResponseIds.Help);
+        view.replyWith(dc.context, MainResponses.RESPONSE_IDS.Help);
 
         // Signal the conversation was interrupted and should immediately continue.
         return InterruptionStatus.Interrupted;
