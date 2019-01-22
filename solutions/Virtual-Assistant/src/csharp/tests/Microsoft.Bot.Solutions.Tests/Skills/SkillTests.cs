@@ -28,10 +28,13 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
         public ConversationState ConversationState { get; set; }
         public IStatePropertyAccessor<DialogState> DialogState { get; set; }
         public DialogSet Dialogs { get; set; }
+
         public UserState UserState { get; set; }
+
         public IBotTelemetryClient TelemetryClient { get; set; }
+
         public SkillConfigurationBase Services { get; set; }
-        public SkillDialogOptions skillDialogOptions { get; set; }
+        public SkillDialogOptions SkillDialogOptions { get; set; }
         public Dictionary<string, SkillConfigurationBase> Skills;
 
         [TestInitialize]
@@ -61,36 +64,74 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
 
             BotResponseBuilder = new BotResponseBuilder();
             BotResponseBuilder.AddFormatter(new TextBotResponseFormatter());
-            
+
             // Add Fake Skill registration
+            const string fakeSkillName = "FakeSkill";
             var fakeSkillDefinition = new SkillDefinition();
             var fakeSkillType = typeof(FakeSkill.FakeSkill);
             fakeSkillDefinition.Assembly = fakeSkillType.AssemblyQualifiedName;
-            fakeSkillDefinition.Id = "FakeSkill";
-            fakeSkillDefinition.Name = "FakeSkill";
+            fakeSkillDefinition.Id = fakeSkillName;
+            fakeSkillDefinition.Name = fakeSkillName;
 
-            Skills = new Dictionary<string, SkillConfigurationBase>();
-            Skills.Add(fakeSkillDefinition.Id,Services);
+            Skills = new Dictionary<string, SkillConfigurationBase>
+            {
+                { fakeSkillDefinition.Id, Services }
+            };
 
             // Options are passed to the SkillDialog
-            skillDialogOptions = new SkillDialogOptions();
-            skillDialogOptions.SkillDefinition = fakeSkillDefinition;
+            SkillDialogOptions = new SkillDialogOptions();
+            SkillDialogOptions.SkillDefinition = fakeSkillDefinition;
 
             // Add the SkillDialog to the available dialogs passing the initialized FakeSkill
             Dialogs = new DialogSet(DialogState);
-            Dialogs.Add(new SkillDialog(Skills, DialogState, null, TelemetryClient, false));
+            Dialogs.Add(new CustomSkillDialog(Skills, DialogState, null, TelemetryClient));
         }
 
         [TestMethod]
-        public async Task InvokeMockSkill()
-        {
+        public async Task InvokeFakeSkillAndDialog()
+        {            
             await GetTestFlow()
                .Send(SampleDialogUtterances.Trigger)
                .AssertReply(MessagePrompt())
                .Send(SampleDialogUtterances.MessagePromptResponse)
                .AssertReply(EchoMessage())
-               .AssertReply(ActionEndMessage())
+               .AssertReply(this.CheckForEndOfConversationEvent())
                .StartTestAsync();
+        }
+
+        private Action<IActivity> CheckForEndOfConversationEvent()
+        {
+            return activity =>
+            {
+                Activity traceActivity = activity as Activity;
+                Assert.IsNotNull(traceActivity);
+
+                Assert.AreEqual(traceActivity.Type, ActivityTypes.Trace);
+                Assert.AreEqual(traceActivity.Text, "<--Ending the skill conversation");
+            };
+        }
+
+        public TestFlow GetTestFlow()
+        {
+            var adapter = new TestAdapter(sendTraceActivity: true)
+                .Use(new AutoSaveStateMiddleware(ConversationState));
+
+            var testFlow = new TestFlow(adapter, async (context, cancellationToken) =>
+            {
+                var dc = await Dialogs.CreateContextAsync(context);
+
+                if (dc.ActiveDialog != null)
+                {
+                    var result = await dc.ContinueDialogAsync();
+                }
+                else
+                {
+                    await dc.BeginDialogAsync(nameof(CustomSkillDialog), SkillDialogOptions);
+                    var result = await dc.ContinueDialogAsync();
+                }
+            });
+
+            return testFlow;
         }
 
         private Action<IActivity> MessagePrompt()
@@ -118,23 +159,6 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
                 Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
             };
         }
-
-        public TestFlow GetTestFlow()
-        {
-            var adapter = new TestAdapter()
-              .Use(new AutoSaveStateMiddleware(ConversationState));
-
-            var testFlow = new TestFlow(adapter, async (context, cancellationToken) =>
-            {              
-                // Spin up the Skill Dialog that the Test will send messages to.
-                var dc = await Dialogs.CreateContextAsync(context, cancellationToken);
-                var result = await dc.BeginDialogAsync(nameof(SkillDialog), skillDialogOptions);
-                await dc.ContinueDialogAsync(cancellationToken);
-            });
-
-            return testFlow;
-        }
-
         public override IBot BuildBot()
         {
             return new FakeSkill.FakeSkill(Services, ConversationState, UserState, TelemetryClient, null, true);
