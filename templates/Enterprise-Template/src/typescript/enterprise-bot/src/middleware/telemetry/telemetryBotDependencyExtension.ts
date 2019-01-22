@@ -10,6 +10,16 @@ import { duration } from "moment";
     {
         public static DependencyType: string = "Bot";
      
+        /**
+         * Send information about a dependency in the Bot Application.
+         * TypeParam <TResult> The type of the return value of the method that this delegate encapsulates.
+         * The action delegate will be timed and an Application Insights dependency record will be created.
+         * @param {TelemetryClient} telemetryClient - The TelemetryClient.
+         * @param {TResult} action - Encapsulates a method that has no parameters and returns a value of the type specified by the TResult parameter.
+         * @param {string} dependencyName - Name of the command initiated with this dependency call. Low cardinality value. Examples are stored procedure name and URL path template.
+         * @param {string} dependencyData - Command initiated by this dependency call. For example, Middleware.
+         * @returns The return value of the method that this delegate encapsulates.
+         */
           public static trackBotDependency<TResult>(telemetryClient: TelemetryClient, action: () => TResult, dependencyName: string, dependencyData: string): TResult {
           // return action();
 
