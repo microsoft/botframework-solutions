@@ -48,10 +48,9 @@
   },
   "NoNewTime_Retry": {
     "replies": [
-
       {
-        "text": "I don't understand the time you input, can you try again?",
-        "speak": "I don't understand the time you input, can you try again?"
+        "text": "I don't understand the time you provided, can you try again?",
+        "speak": "I don't understand the time you provided, can you try again?"
       }
     ],
     "inputHint": "expectingInput"

@@ -233,7 +233,8 @@ namespace CalendarSkill.Dialogs.ChangeEventStatus
                         Prompt = sc.Context.Activity.CreateReply(ChangeEventStatusResponses.NoDeleteStartTime),
                         RetryPrompt = sc.Context.Activity.CreateReply(ChangeEventStatusResponses.EventWithStartTimeNotFound)
                     }, cancellationToken);
-                } else
+                }
+                else
                 {
                     return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
                     {
