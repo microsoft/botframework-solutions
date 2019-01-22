@@ -1,0 +1,243 @@
+﻿{
+  "NoTitle": {
+    "replies": [
+      {
+        "text": "好的，我将发送会议给{UserName}，会议主题是什么？或者您可以回复“跳过”来跳过这一项并使用默认设置",
+        "speak": "好的，我将发送会议给{UserName}，会议主题是什么？或者您可以回复跳过来跳过这一项并使用默认设置"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoTitle_Short": {
+    "replies": [
+      {
+        "text": "会议主题是什么？",
+        "speak": "会议主题是什么？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoContent": {
+    "replies": [
+      {
+        "text": "会议内容是什么？",
+        "speak": "会议内容是什么？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoLocation": {
+    "replies": [
+      {
+        "text": "您要加入会议地址？",
+        "speak": "您要加入会议地址？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmCreate": {
+    "replies": [
+      {
+        "text": "我准备好创建会议。请确认下列会议内容：",
+        "speak": "我准备好创建会议。请确认下列会议内容："
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmCreateFailed": {
+    "replies": [
+      {
+        "text": "我准备好创建会议。请确认下列会议内容。请说 ‘是’ 或者 ‘不’ 或类似词语。",
+        "speak": "我准备好创建会议。请确认下列会议内容。请说 ‘是’ 或者 ‘不’ 或类似词语。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "EventCreated": {
+    "replies": [
+      {
+        "text": "已经将下列内容加入你的日程表",
+        "speak": "已经将下列内容加入你的日程表"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "EventCreationFailed": {
+    "replies": [
+      {
+        "text": "会议创建失败",
+        "speak": "会议创建失败"
+      },
+      {
+        "text": "发生错误，请重试。",
+        "speak": "发生错误，请重试。"
+      },
+      {
+        "text": "不能创建会议，请稍后重试。",
+        "speak": "不能创建会议，请稍后重试。"
+      },
+      {
+        "text": "创建会议失败，请稍后重试。",
+        "speak": "创建会议失败，请稍后重试。"
+      },
+      {
+        "text": "创建会议时发生错误，请稍后重试？",
+        "speak": "创建会议时发生错误，请稍后重试？"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "NoAttendees": {
+    "replies": [
+      {
+        "text": "谁将参加会议？",
+        "speak": "谁将参加会议？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "PromptTooManyPeople": {
+    "replies": [
+      {
+        "text": "找到太多人叫{UserName}, 请重新输入姓名。",
+        "speak": "找到太多人叫{UserName}, 请重新输入姓名。"
+      },
+      {
+        "text": "找到太多同名的人。请试着输入跟详细的名字。",
+        "speak": "找到太多同名的人。请试着输入跟详细的名字。"
+      },
+      {
+        "text": "你能再说一遍他们的名字和姓吗？",
+        "speak": "你能再说一遍他们的名字和姓吗？"
+      },
+      {
+        "text": "我发现了太多的联系人，你能通过命名联系人来再次尝试吗？",
+        "speak": "我发现了太多的联系人，你能通过命名联系人来再次尝试吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "PromptPersonNotFound": {
+    "replies": [
+      {
+        "text": "没有找到联系人{UserName}，请输入正确的姓名。",
+        "speak": "没有找到联系人{UserName}，请输入正确的姓名。"
+      },
+      {
+        "text": "我找不到您正在寻找的联系人{UserName}。请加入更多信息，你能再试一次吗？",
+        "speak": "我找不到您正在寻找的联系人{UserName}。请加入更多信息，你能再试一次吗？"
+      },
+      {
+        "text": "我找不到您正在寻找的联系人{UserName}。请加入更多信息，再试一次。",
+        "speak": "我找不到您正在寻找的联系人{UserName}。请加入更多信息，再试一次。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoStartDate": {
+    "replies": [
+      {
+        "text": "什么日期？",
+        "speak": "什么日期？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoStartDate_Retry": {
+    "replies": [
+      {
+        "text": "我没有明白你说的日期，你可以再输入一次吗？",
+        "speak": "我没有明白你说的日期，你可以再输入一次吗？"
+      },
+      {
+        "text": "我没理解你说的日期，你可以换一种方式输入吗？你可以说“明天”，“下周一”，或者一个指定的日期比如1月1日。",
+        "speak": "我没理解你说的日期，你可以换一种方式输入吗？你可以说“明天”，“下周一”，或者一个指定的日期比如1月1日。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoStartTime": {
+    "replies": [
+      {
+        "text": "什么时间？",
+        "speak": "什么时间？"
+      }
+    ]
+  },
+  "NoStartTime_Retry": {
+    "replies": [
+      {
+        "text": "我没有明白你说的时间，你可以再输入一次吗？",
+        "speak": "我没有明白你说的时间，你可以再输入一次吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoStartTime_NoSkip": {
+    "replies": [
+      {
+        "text": "你无法跳过开始时间，请重试。",
+        "speak": "你无法跳过开始时间，请重试。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoDuration": {
+    "replies": [
+      {
+        "text": "会议有多长时间？",
+        "speak": "会议有多长时间？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoDuration_Retry": {
+    "replies": [
+      {
+        "text": "我没有明白你说的时间长度，你可以再输入一次吗？",
+        "speak": "我没有明白你说的时间长度，你可以再输入一次吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "GetRecreateInfo": {
+    "replies": [
+      {
+        "text": "你想要调整哪一项呢？",
+        "speak": "你想要调整哪一项呢？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "GetRecreateInfo_Retry": {
+    "replies": [
+      {
+        "text": "我没明白你的意思。你可以试试“时间”、“时间长度”、“地点”、“与会者”、“标题”或“内容”。",
+        "speak": "我没明白你的意思。你可以试试“时间”、“时间长度”、“地点”、“与会者”、“标题”或“内容”。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmRecipient": {
+    "replies": [
+      {
+        "text": "您说的是哪个联系人？",
+        "speak": "您说的是哪个联系人？"
+      },
+      {
+        "text": "您选中的是哪个联系人？",
+        "speak": "您选中的是哪个联系人？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "InvaildDuration": {
+    "replies": [
+      {
+        "text": "会议的结束时间不能早于或等于开始时间，请重试。",
+        "speak": "会议的结束时间不能早于或等于开始时间，请重试。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  }
+}
