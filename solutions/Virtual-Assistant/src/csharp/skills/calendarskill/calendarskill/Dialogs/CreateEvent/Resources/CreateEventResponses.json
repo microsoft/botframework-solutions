@@ -143,12 +143,12 @@
   "NoStartDate_Retry": {
     "replies": [
       {
-        "text": "I don't understand the date you input, can you try again?",
-        "speak": "I don't understand the date you input, can you try again?"
+        "text": "I don't understand the date you provided, can you try again?",
+        "speak": "I don't understand the date you provided, can you try again?"
       },
       {
-        "text": "I don't understand the date you input, can you try in a different way again? You can say tomorrow, Monday, or a specific date such as January 1st.",
-        "speak": "I don't understand the date you input, can you try in a different way again? You can say tomorrow, Monday, or a specific date such as January 1st."
+        "text": "I don't understand the date you provided, can you try in a different way again? You can say tomorrow, Monday, or a specific date such as January 1st.",
+        "speak": "I don't understand the date you provided, can you try in a different way again? You can say tomorrow, Monday, or a specific date such as January 1st."
       }
     ],
     "inputHint": "expectingInput"
@@ -165,8 +165,8 @@
   "NoStartTime_Retry": {
     "replies": [
       {
-        "text": "I don't understand the time you input, can you try again?",
-        "speak": "I don't understand the date you input, can you try again?"
+        "text": "I don't understand the time you provided, can you try again?",
+        "speak": "I don't understand the date you provided, can you try again?"
       }
     ],
     "inputHint": "expectingInput"
@@ -192,8 +192,8 @@
   "NoDuration_Retry": {
     "replies": [
       {
-        "text": "I don't understand the duration you input, can you try again?",
-        "speak": "I don't understand the duration you input, can you try again?"
+        "text": "I don't understand the duration you provided, can you try again?",
+        "speak": "I don't understand the duration you provided, can you try again?"
       }
     ],
     "inputHint": "expectingInput"
