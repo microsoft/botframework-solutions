@@ -698,6 +698,7 @@ namespace CalendarSkill.Dialogs.Shared
                                 if (date != null)
                                 {
                                     state.StartDate = date;
+                                    state.StartDateString = dateString;
                                 }
 
                                 date = GetTimeFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
