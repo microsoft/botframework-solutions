@@ -2,7 +2,12 @@
 // Licensed under the MIT License
 
 import { TelemetryClient } from 'applicationinsights';
-import { Activity, ActivityTypes, Middleware, ResourceResponse, TurnContext } from 'botbuilder';
+import { Activity,
+        ActivityTypes,
+        ConversationReference,
+        Middleware,
+        ResourceResponse,
+        TurnContext } from 'botbuilder';
 import { TelemetryConstants } from './telemetryConstants';
 
 /**
@@ -12,120 +17,130 @@ import { TelemetryConstants } from './telemetryConstants';
  * If this Middleware is removed, all the other sample components don't log (but still operate).
  */
 export class TelemetryLoggerMiddleware implements Middleware {
-    public static readonly AppInsightsServiceKey: string = 'TelemetryLoggerMiddleware.AppInsightsContext';
+    public static readonly APP_INSIGHTS_SERVICE_KEY: string = 'TelemetryLoggerMiddleware.AppInsightsContext';
 
     /**
      * Application Insights Custom Event name, logged when new message is received from the user
      */
-    public static readonly BotMsgReceiveEvent: string = 'BotMessageReceived';
+    public static readonly BOT_MSG_RECEIVE_EVENT: string = 'BotMessageReceived';
 
     /**
      * Application Insights Custom Event name, logged when a message is sent out from the bot
      */
-    public static readonly BotMsgSendEvent: string = 'BotMessageSend';
+    public static readonly BOT_MSG_SEND_EVENT: string = 'BotMessageSend';
 
     /**
      * Application Insights Custom Event name, logged when a message is updated by the bot (rare case)
      */
-    public static readonly BotMsgUpdateEvent: string = 'BotMessageUpdate';
+    public static readonly BOT_MSG_UPDATE_EVENT: string = 'BotMessageUpdate';
 
     /**
      * Application Insights Custom Event name, logged when a message is deleted by the bot (rare case)
      */
-    public static readonly BotMsgDeleteEvent: string = 'BotMessageDelete';
+    public static readonly BOT_MSG_DELETE_EVENT: string = 'BotMessageDelete';
 
-    private readonly _telemetryClient: TelemetryClient;
-    private readonly _logUserName: boolean;
-    private readonly _logOriginalMessage: boolean;
+    private readonly TELEMETRY_CLIENT: TelemetryClient;
+    private readonly LOG_USERNAME: boolean;
+    private readonly LOG_ORIGINAL_MESSAGE: boolean;
+    private readonly TELEMETRY_CONSTANTS: TelemetryConstants = new TelemetryConstants();
 
     /**
      * Initializes a new instance of the TelemetryLoggerMiddleware class.
-     * @param {string} instrumentationKey The Application Insights instrumentation key.  See Application Insights for more information.
-     * @param {boolean} logUserName (Optional) Enable/Disable logging user name within Application Insights.
-     * @param {boolean} logOriginalMessage (Optional) Enable/Disable logging original message name within Application Insights.
+     * @param instrumentationKey The Application Insights instrumentation key.  See Application Insights for more information.
+     * @param logUserName (Optional) Enable/Disable logging user name within Application Insights.
+     * @param logOriginalMessage (Optional) Enable/Disable logging original message name within Application Insights.
      */
     constructor(telemetryClient: TelemetryClient, logUserName: boolean = false, logOriginalMessage: boolean = false) {
         if (!telemetryClient) {
-            throw new Error("Error not found");
+            throw new Error('Error not found');
         }
-        this._telemetryClient = telemetryClient;
-        this._logUserName = logUserName;
-        this._logOriginalMessage = logOriginalMessage;
+        this.TELEMETRY_CLIENT = telemetryClient;
+        this.LOG_USERNAME = logUserName;
+        this.LOG_ORIGINAL_MESSAGE = logOriginalMessage;
     }
-    
+
     /**
      * Gets a value indicating whether indicates whether to log the original message into the BotMessageReceived event.
      */
-    public get logUserName(): boolean { return this._logUserName; }
+    public get logUserName(): boolean { return this.LOG_USERNAME; }
 
     /**
      * Gets a value indicating whether indicates whether to log the user name into the BotMessageReceived event.
      */
-    public get logOriginalMessage(): boolean { return this._logOriginalMessage; }
+    public get logOriginalMessage(): boolean { return this.LOG_ORIGINAL_MESSAGE; }
 
     /**
      * Records incoming and outgoing activities to the Application Insights store.
-     * @param {TurnContext} context The context object for this turn.
-     * @param {() => Promise<void>} next The delegate to call to continue the bot middleware pipeline
+     * @param context The context object for this turn.
+     * @param next The delegate to call to continue the bot middleware pipeline
      */
     public async onTurn(context: TurnContext, next: () => Promise<void>): Promise<void> {
         if (context === null) {
             throw new Error('context is null');
         }
 
-        context.turnState.set(TelemetryLoggerMiddleware.AppInsightsServiceKey, this._telemetryClient);
+        context.turnState.set(TelemetryLoggerMiddleware.APP_INSIGHTS_SERVICE_KEY, this.TELEMETRY_CLIENT);
 
         // log incoming activity at beginning of turn
         if (context.activity !== null) {
 
-            const activity = context.activity;
+            const activity: Activity = context.activity;
 
             // Log the Application Insights Bot Message Received
-            this._telemetryClient.trackEvent({
-                name: TelemetryLoggerMiddleware.BotMsgReceiveEvent,
+            this.TELEMETRY_CLIENT.trackEvent({
+                name: TelemetryLoggerMiddleware.BOT_MSG_RECEIVE_EVENT,
                 properties: this.fillReceiveEventProperties(activity)
             });
         }
 
         // hook up onSend pipeline
-        context.onSendActivities(async (ctx, activities, nextSend): Promise<ResourceResponse[]> => {
+        context.onSendActivities(async (ctx: TurnContext,
+                                        activities: Partial<Activity>[],
+                                        nextSend: () => Promise<ResourceResponse[]>): Promise<ResourceResponse[]> => {
             // run full pipeline
-            const responses = await nextSend();
+            const responses: ResourceResponse[] = await nextSend();
 
-            activities.forEach((activity) => this._telemetryClient.trackEvent({
-                name: TelemetryLoggerMiddleware.BotMsgSendEvent,
-                properties: this.fillSendEventProperties(activity as Activity)
+            activities.forEach((activity: Partial<Activity>) => this.TELEMETRY_CLIENT.trackEvent({
+                name: TelemetryLoggerMiddleware.BOT_MSG_SEND_EVENT,
+                properties: this.fillSendEventProperties(<Activity> activity)
             }));
 
             return responses;
         });
 
         // hook up update activity pipeline
-        context.onUpdateActivity(async (ctx, activity, nextUpdate) => {
+        context.onUpdateActivity(async (ctx: TurnContext,
+                                        activity: Partial<Activity>,
+                                        nextUpdate: () => Promise<void>) => {
             // run full pipeline
-            const response = await nextUpdate();
+            const response: void = await nextUpdate();
 
-            this._telemetryClient.trackEvent({
-                name: TelemetryLoggerMiddleware.BotMsgSendEvent,
-                properties: this.fillUpdateEventProperties(activity as Activity)
+            this.TELEMETRY_CLIENT.trackEvent({
+                name: TelemetryLoggerMiddleware.BOT_MSG_SEND_EVENT,
+                properties: this.fillUpdateEventProperties(<Activity> activity)
             });
 
             return response;
         });
 
         // hook up delete activity pipeline
-        context.onDeleteActivity(async (ctx, reference, nextDelete) => {
+        context.onDeleteActivity(async (ctx: TurnContext,
+                                        reference: Partial<ConversationReference>,
+                                        nextDelete: () => Promise<void>) => {
             // run full pipeline
             await nextDelete();
 
-            const deletedActivity: Partial<Activity> = TurnContext.applyConversationReference({
-                type: ActivityTypes.MessageDelete,
-                id: reference.activityId,
-            }, reference, false);
+            const deletedActivity: Partial<Activity> = TurnContext.applyConversationReference(
+                {
+                    type: ActivityTypes.MessageDelete,
+                    id: reference.activityId
+                },
+                reference,
+                false);
 
-            this._telemetryClient.trackEvent({
-                name: TelemetryLoggerMiddleware.BotMsgSendEvent,
-                properties: this.fillDeleteEventProperties(deletedActivity as Activity)
+            this.TELEMETRY_CLIENT.trackEvent({
+                name: TelemetryLoggerMiddleware.BOT_MSG_SEND_EVENT,
+                properties: this.fillDeleteEventProperties(<Activity> deletedActivity)
             });
         });
 
@@ -137,21 +152,23 @@ export class TelemetryLoggerMiddleware implements Middleware {
     private fillReceiveEventProperties(activity: Activity): { [key: string]: string } {
         const properties: { [key: string]: string } = {};
 
-        properties[TelemetryConstants.ActivityIDProperty] = activity.id || "";
-        properties[TelemetryConstants.ChannelIdProperty] = activity.channelId;
-        properties[TelemetryConstants.FromIdProperty] = activity.from.id || "";
-        properties[TelemetryConstants.LocaleProperty] = activity.locale || "";
-        properties[TelemetryConstants.RecipientIdProperty] = activity.recipient.id;
-        properties[TelemetryConstants.RecipientNameProperty] = activity.recipient.name;
-    
-        // For some customers, logging user name within Application Insights might be an issue so have provided a config setting to disable this feature
+        properties[this.TELEMETRY_CONSTANTS.ACTIVITY_ID_PROPERTY] = activity.id || '';
+        properties[this.TELEMETRY_CONSTANTS.CHANNEL_ID_PROPERTY] = activity.channelId;
+        properties[this.TELEMETRY_CONSTANTS.FROM_ID_PROPERTY] = activity.from.id || '';
+        properties[this.TELEMETRY_CONSTANTS.LOCALE_PROPERTY] = activity.locale || '';
+        properties[this.TELEMETRY_CONSTANTS.RECIPIENT_ID_PROPERTY] = activity.recipient.id;
+        properties[this.TELEMETRY_CONSTANTS.RECIPIENT_NAME_PROPERTY] = activity.recipient.name;
+
+        // For some customers,
+        // logging user name within Application Insights might be an issue so have provided a config setting to disable this feature
         if (this.logUserName && activity.from.name && activity.from.name.trim()) {
-            properties[TelemetryConstants.FromNameProperty] = activity.from.name;
+            properties[this.TELEMETRY_CONSTANTS.FROM_NAME_PROPERTY] = activity.from.name;
         }
 
-        // For some customers, logging the utterances within Application Insights might be an so have provided a config setting to disable this feature
+        // For some customers,
+        // logging the utterances within Application Insights might be an so have provided a config setting to disable this feature
         if (this.logOriginalMessage && activity.text && activity.text.trim()) {
-            properties[TelemetryConstants.TextProperty] = activity.text;
+            properties[this.TELEMETRY_CONSTANTS.TEXT_PROPERTY] = activity.text;
         }
 
         return properties;
@@ -160,22 +177,24 @@ export class TelemetryLoggerMiddleware implements Middleware {
     private fillSendEventProperties(activity: Activity): { [key: string]: string } {
         const properties: { [key: string]: string } = {};
 
-        properties[TelemetryConstants.ActivityIDProperty] = activity.id || "";
-        properties[TelemetryConstants.ChannelIdProperty] = activity.channelId;
-        properties[TelemetryConstants.ReplyActivityIDProperty] = activity.replyToId || '';
-        properties[TelemetryConstants.RecipientIdProperty] = activity.recipient.id;
-        properties[TelemetryConstants.ConversationNameProperty] = activity.conversation.name;
-        properties[TelemetryConstants.LocaleProperty] = activity.locale || "";
-        properties[TelemetryConstants.RecipientNameProperty] = activity.recipient.name;
+        properties[this.TELEMETRY_CONSTANTS.ACTIVITY_ID_PROPERTY] = activity.id || '';
+        properties[this.TELEMETRY_CONSTANTS.CHANNEL_ID_PROPERTY] = activity.channelId;
+        properties[this.TELEMETRY_CONSTANTS.REPLY_ACTIVITY_ID_PROPERTY] = activity.replyToId || '';
+        properties[this.TELEMETRY_CONSTANTS.RECIPIENT_ID_PROPERTY] = activity.recipient.id;
+        properties[this.TELEMETRY_CONSTANTS.CONVERSATION_NAME_PROPERTY] = activity.conversation.name;
+        properties[this.TELEMETRY_CONSTANTS.LOCALE_PROPERTY] = activity.locale || '';
+        properties[this.TELEMETRY_CONSTANTS.RECIPIENT_NAME_PROPERTY] = activity.recipient.name;
 
-        // For some customers, logging the utterances within Application Insights might be an so have provided a config setting to disable this feature
-        if (this._logUserName && activity.recipient.name && activity.recipient.name.trim()){
-            properties[TelemetryConstants.RecipientNameProperty] = activity.recipient.name;
+        // For some customers,
+        // logging the utterances within Application Insights might be an so have provided a config setting to disable this feature
+        if (this.LOG_USERNAME && activity.recipient.name && activity.recipient.name.trim()) {
+            properties[this.TELEMETRY_CONSTANTS.RECIPIENT_NAME_PROPERTY] = activity.recipient.name;
         }
 
-        // For some customers, logging the utterances within Application Insights might be an so have provided a config setting to disable this feature
+        // For some customers,
+        // logging the utterances within Application Insights might be an so have provided a config setting to disable this feature
         if (this.logOriginalMessage && activity.text && activity.text.trim()) {
-            properties[TelemetryConstants.TextProperty] = activity.text;
+            properties[this.TELEMETRY_CONSTANTS.TEXT_PROPERTY] = activity.text;
         }
 
         return properties;
@@ -183,15 +202,16 @@ export class TelemetryLoggerMiddleware implements Middleware {
 
     private fillUpdateEventProperties(activity: Activity): { [key: string]: string } {
         const properties: { [key: string]: string } = {};
-        properties[TelemetryConstants.ChannelIdProperty] = activity.channelId;
-        properties[TelemetryConstants.RecipientIdProperty] = activity.recipient.id;
-        properties[TelemetryConstants.ConversationIdProperty] = activity.conversation.id;
-        properties[TelemetryConstants.ConversationNameProperty] = activity.conversation.name;
-        properties[TelemetryConstants.LocaleProperty] = activity.locale || "";
+        properties[this.TELEMETRY_CONSTANTS.CHANNEL_ID_PROPERTY] = activity.channelId;
+        properties[this.TELEMETRY_CONSTANTS.RECIPIENT_ID_PROPERTY] = activity.recipient.id;
+        properties[this.TELEMETRY_CONSTANTS.CONVERSATION_ID_PROPERTY] = activity.conversation.id;
+        properties[this.TELEMETRY_CONSTANTS.CONVERSATION_NAME_PROPERTY] = activity.conversation.name;
+        properties[this.TELEMETRY_CONSTANTS.LOCALE_PROPERTY] = activity.locale || '';
 
-        // For some customers, logging the utterances within Application Insights might be an so have provided a config setting to disable this feature
+        // For some customers,
+        // logging the utterances within Application Insights might be an so have provided a config setting to disable this feature
         if (this.logOriginalMessage && activity.text && activity.text.trim()) {
-            properties[TelemetryConstants.TextProperty] = activity.text;
+            properties[this.TELEMETRY_CONSTANTS.TEXT_PROPERTY] = activity.text;
         }
 
         return properties;
@@ -199,11 +219,11 @@ export class TelemetryLoggerMiddleware implements Middleware {
 
     private fillDeleteEventProperties(activity: Activity): { [key: string]: string } {
         const properties: { [key: string]: string } = {};
-        properties[TelemetryConstants.ChannelIdProperty] = activity.channelId;
-        properties[TelemetryConstants.RecipientIdProperty] = activity.recipient.id;
-        properties[TelemetryConstants.ConversationIdProperty] = activity.conversation.id;
-        properties[TelemetryConstants.ConversationNameProperty] = activity.conversation.name;
-        
+        properties[this.TELEMETRY_CONSTANTS.CHANNEL_ID_PROPERTY] = activity.channelId;
+        properties[this.TELEMETRY_CONSTANTS.RECIPIENT_ID_PROPERTY] = activity.recipient.id;
+        properties[this.TELEMETRY_CONSTANTS.CONVERSATION_ID_PROPERTY] = activity.conversation.id;
+        properties[this.TELEMETRY_CONSTANTS.CONVERSATION_NAME_PROPERTY] = activity.conversation.name;
+
         return properties;
     }
 }
