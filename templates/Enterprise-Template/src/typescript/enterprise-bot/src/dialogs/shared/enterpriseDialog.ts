@@ -15,21 +15,25 @@ import { InterruptionStatus } from './interruptionStatus';
 export class EnterpriseDialog extends InterruptableDialog {
 
     // Fields
-    private readonly _services: BotServices;
-    private readonly _cancelResponder: CancelResponses = new CancelResponses();
+    private readonly SERVICES: BotServices;
+    private readonly CANCELRESPONDER: CancelResponses = new CancelResponses();
 
     constructor(botServices: BotServices, dialogId: string) {
         super(dialogId);
 
-        this._services = botServices;
+        this.SERVICES = botServices;
         this.addDialog(new CancelDialog());
     }
 
     protected async onDialogInterruption(dc: DialogContext): Promise<InterruptionStatus> {
 
         // Check dispatch intent.
-        const luisService: TelemetryLuisRecognizer | undefined = this._services.luisServices.get(process.env.LUIS_GENERAL || '');
-        if (!luisService) { return Promise.reject(new Error('The specified LUIS Model could not be found in your Bot Services configuration.')); } else {
+        const luisService: TelemetryLuisRecognizer | undefined = this.SERVICES.luisServices.get(process.env.LUIS_GENERAL || '');
+        if (!luisService) {
+            return Promise.reject(
+                new Error('The specified LUIS Model could not be found in your Bot Services configuration.')
+                );
+            } else {
             const luisResult: RecognizerResult = await luisService.recognize(dc.context);
             const intent: string = LuisRecognizer.topIntent(luisResult, undefined, 0.1);
 
@@ -38,8 +42,10 @@ export class EnterpriseDialog extends InterruptableDialog {
                 return this.onCancel(dc);
                 case 'Help':
                 return this.onHelp(dc);
+                default:
             }
         }
+
         return InterruptionStatus.NoAction;
     }
 
@@ -57,9 +63,8 @@ export class EnterpriseDialog extends InterruptableDialog {
     }
 
     protected async onHelp(dc: DialogContext): Promise<InterruptionStatus> {
-
-        const view = new MainResponses();
-        view.replyWith(dc.context, MainResponses.ResponseIds.Help);
+        const view: MainResponses = new MainResponses();
+        view.replyWith(dc.context, MainResponses.RESPONSE_IDS.Help);
 
         // Signal the conversation was interrupted and should immediately continue.
         return InterruptionStatus.Interrupted;

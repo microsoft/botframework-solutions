@@ -29,18 +29,18 @@ export declare type LanguageTemplateDictionary = Map<string, TemplateIdMap | und
 ///   templateManager.register(new DictionaryRenderer(myTemplates))
 /// </summary>
 export class DictionaryRenderer implements ITemplateRenderer {
-    private _languages: LanguageTemplateDictionary;
+    private LANGUAGES: LanguageTemplateDictionary;
 
     constructor(templates: LanguageTemplateDictionary) {
-        this._languages = templates;
+        this.LANGUAGES = templates;
     }
 
     public renderTemplate(turnContext: TurnContext, language: string, templateId: string, data: any): Promise<any> {
-        const templates: TemplateIdMap | undefined = this._languages.get(language);
+        const templates: TemplateIdMap | undefined = this.LANGUAGES.get(language);
         if (templates) {
             const template: TemplateFunction | undefined = templates.get(templateId);
             if (template) {
-                const result = template(turnContext, data);
+                const result: Promise<any> = template(turnContext, data);
                 if (result) {
                     return result;
                 }
