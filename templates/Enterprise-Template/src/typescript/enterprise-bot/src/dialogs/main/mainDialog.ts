@@ -11,7 +11,7 @@ import { DialogContext } from 'botbuilder-dialogs';
 import { BotServices } from '../../botServices';
 import { EscalateDialog } from '../escalate/escalateDialog';
 import { OnboardingDialog } from '../onboarding/onboardingDialog';
-import { OnboardingState } from '../onboarding/onboardingState';
+import { IOnboardingState } from '../onboarding/onboardingState';
 import { RouterDialog } from '../shared/routerDialog';
 import { MainResponses } from './mainResponses';
 import { TelemetryLuisRecognizer } from '../../middleware/telemetry/telemetryLuisRecognizer';
