@@ -1,0 +1,343 @@
+> # Intent definitions
+
+## Cancel
+- Cancelar
+- cancelar aplicación
+- cancelar cancelar
+- cancelarlo
+- cancelar no importa
+- cancelar que
+- Cancelado
+- Cancelado
+- no hacer nada
+- No hagas eso
+- no hagas eso ya
+- Olvídalo
+- Vete
+- simplemente cancelar
+- simplemente cancelarlo
+- Mente de los nervios
+- Olvídalo
+- no importa cancelar
+- no importa cancelar que
+- no cancelar
+- no cancelar cancelar
+- no cancelarlo
+- no cancelar que
+- no no importa
+- no no cancelar
+- no no cancelarlo
+- nada no importa
+- nada por favor
+- Oh cancelar
+- Oh no hagas eso
+- por favor no hacer nada
+- Dejar
+- lo siento, no lo hagas
+
+
+## Escalate
+- puedo hablar con una persona
+- Contactar con el soporte
+- Contacte con el servicio al cliente
+- servicio al cliente
+- servicio humano
+- necesito servicio al cliente manual
+- necesito ayuda humana real
+- necesito apoyo
+- Quiero hablar con un humano
+- Quiero hablar con un humano real
+- ¿Hay alguna persona con la que pueda hablar
+- ¿Hay algún humano real
+- ¿Hay alguna persona real
+- hablar con un humano
+
+
+## FinishTask
+- todo terminado
+- Todo listo
+- Hecho
+- Terminar
+- Terminado
+- terminado con
+- Estoy hecho
+- Estoy acabado
+- terminó
+- Está hecho
+- ha terminado
+- sólo ser
+- Enviar
+- enviarlo
+
+
+## GoBack
+- Atrás
+- volver por favor
+- volver a
+- volver al último
+- volver al último paso
+- Vuelve
+- volver por favor
+- volver al último
+- Volver
+- volver a
+- volver por favor
+- volver a
+- último paso
+- no volver a
+- no no volver a
+- por favor regrese
+- Volver
+
+
+## Help
+- cualquier ayuda
+- puede ayudar a
+- Me puedes ayudar
+- Dame un poco de ayuda
+- Ayuda
+- ¿Cómo puedo conseguirlo
+- Cómo hacerlo
+- Necesito ayuda
+- necesito ayuda
+- necesito ayuda
+- ¿Hay alguna ayuda
+- abrir ayuda
+- por favor ayuda
+- algo de ayuda
+- que me puede ayudar
+
+
+## None
+- todos ellos
+- Quiero todos ellos
+- Quiero a todos ellos
+
+
+## Repeat
+- Otra vez
+- ¿podría decirlo de nuevo
+- Yo no oí repetir de nuevo
+- no he escuchado
+- Perdón
+- Repetir
+- repetir por favor
+- repetir que
+- Cómo
+- decir otra vez por favor
+- decir que de nuevo
+- Lo siento
+- Lo
+- Qué has dicho
+- ¿Qué fue eso de nuevo
+
+
+## SelectAny
+- cualquiera de ella
+- cualquier uno está bien
+- alguien está bien
+- Nada
+- elegir a cualquiera
+- elegir uno de ellos al azar
+- optar por uno aleatorio
+- optar por cualquiera de ellos
+- seleccionar una opción aleatoria
+- seleccionar uno aleatorio
+- Seleccione cualquier
+- Seleccione cualquier opción
+- seleccionar cualquiera de ellos
+
+
+## SelectItem
+- elegir último
+- elegir último uno
+- Elija no. 2
+- Elija el  {DirectionalReference=abajo a la izquierda} 
+- elegir la primera opción
+- elegir el cuarto uno
+- Elija el  {DirectionalReference=arriba a la izquierda} Elección
+- Elija el  {DirectionalReference=arriba a la derecha} Una
+- Elegir  {DirectionalReference=arriba a la derecha} 
+- Elegir  {DirectionalReference=arriba a la derecha} Una
+- Me gusta  {DirectionalReference=Izquierda} Una
+- me gusta segundo
+- me gusta segundo uno
+- me gusta el  {DirectionalReference=Parte inferior} Una
+- me gusta el primero
+- me gusta la tercera
+- me gusta la tercera opción
+- me gusta el  {DirectionalReference=arriba a la derecha} Una
+- me gusta el  {DirectionalReference=arriba a la derecha} 
+- Me gusta  {DirectionalReference=arriba a la derecha} 
+- Quiero  {DirectionalReference=Parte inferior} 
+- Quiero cuarto
+- Quiero  {DirectionalReference=Izquierda} 
+- Quiero  {DirectionalReference=Derecho} Una
+- Quiero la primera
+- Quiero la cuarta opción
+- Quiero que el  {DirectionalReference=Izquierda} 
+- Quiero que el  {DirectionalReference=Inferior} Elección
+- Quiero que el  {DirectionalReference=Derecho} Una
+- Quiero que el segundo
+- Quiero tercer uno
+- Quiero elegir  {DirectionalReference=Parte inferior} Una
+- Quiero elegir  {DirectionalReference=abajo a la derecha} 
+- Quiero elegir  {DirectionalReference=Derecho} 
+- Quiero elegir un segundo
+- Quiero elegir el primero
+- Quiero elegir el cuarto
+- Quiero elegir la última opción
+- Quiero elegir el  {DirectionalReference=Izquierda} Una
+- Quiero elegir el  {DirectionalReference=Inferior} Elección
+- Quiero elegir el  {DirectionalReference=Derecho} 
+- Quiero elegir tercero
+- optar por primero uno
+- optar por el último
+- optar por  {DirectionalReference=Izquierda} 
+- optar por  {DirectionalReference=Derecho} Una
+- optar por el último
+- optar por el  {DirectionalReference=Izquierda} Una
+- optar por el  {DirectionalReference=Inferior} Elección
+- optar por el  {DirectionalReference=Derecho} 
+- optar por el segundo
+- optar por la segunda opción
+- seleccionar cuarto uno
+- Seleccione  {DirectionalReference=Inferior} Una
+- Seleccione no. 5
+- Seleccione la  {DirectionalReference=Parte inferior} Elección
+- Seleccione la primera
+- Seleccione la última opción
+- Seleccione la  {DirectionalReference=Inferior} Una
+- Seleccione la  {DirectionalReference=Derecho} Una
+- Seleccione la tercera
+- Seleccione la  {DirectionalReference=arriba a la derecha} 
+- seleccionar tercero
+- Seleccione  {DirectionalReference=Superior} 
+- ¿Qué pasa con la última
+- ¿Qué pasa con el tercero
+
+
+## SelectNone
+- no quiero elegir uno
+- no quiero seleccionar uno
+- Quiero ninguno de ellos
+- Quiero ninguno de ellos
+- Ni
+- ninguno de los
+- ni uno
+- ni uno de ellos
+- ni gracias
+- Ninguno
+- Ninguno Ninguno
+- Ninguno Ninguno de ellos
+- ninguno de ellos
+- ninguno de ellos gracias
+- ninguno de estos
+- ninguno de los
+- se ven mal, ¿puedes darme otras opciones
+
+
+## ShowNext
+- y después de eso
+- seguir adelante
+- ir a la siguiente
+- ir a los siguientes tres artículos
+- necesito ir a la siguiente
+- Quiero más
+- pasar a la siguiente
+- Próxima
+- Muéstrame el siguiente
+- Mostrar más
+- Mostrar los próximos 3
+- Mostrar los siguientes 4 artículos
+- Mostrar el siguiente
+- Mostrar las siguientes dos opciones
+- ¿Qué hay de la próxima
+- lo que después de que
+- lo que está después de que
+- lo que es más
+- lo que sigue
+- ¿Cuál es el próximo 2
+- ¿Qué pasa después
+
+
+## ShowPrevious
+- volver a la última
+- traer el anterior
+- volver a la última
+- volver a la última
+- volver a la anterior
+- volver a la última
+- ir a la anterior
+- ir a la anterior
+- uno anterior
+- anterior por favor
+- volver a la anterior
+- Muéstrame el anterior
+- Mostrar anterior
+- Mostrar el anterior
+- lo que antes de que
+- ¿Cuál es el anterior
+- lo que es antes de que
+
+
+## StartOver
+- claro y empezar de nuevo
+- podría empezar más
+- por favor, empiece de nuevo
+- Reiniciar
+- reiniciarlo
+- empezar de nuevo
+- iniciarlo
+- empezar de más de
+- empezar por encima de ella
+- Dar vuelta a la página
+
+
+## Stop
+- bebé sólo estar tranquilo
+- Callado
+- estar tranquilo ahora
+- vamos a parar
+- Despedir
+- Final
+- terminar
+- salida salida
+- parada de salida
+- Dios Cállate
+- Hey detener
+- te quiero para dejar de hablar
+- me refiero a dejar de escuchar
+- dije que pare
+- sólo Cállate
+- mi Dios Cállate
+- no importa dejar de
+- no sea silencioso
+- no se calla ahora
+- no no no no dejar de hablar
+- no Cállate
+- sin parar
+- nadie le importa dejar de hablar
+- en ninguna parte sólo estar tranquilo
+- Oh mi Dios Cállate
+- parada OK parada
+- Tranquilo
+- tranquilo ahora
+- Cállate la boca
+- Cállate
+- Cállate silencio
+- Cállate tranquilo
+- Cállate la boca
+- detener por favor
+- dejar de hablar
+- Apaga
+- Apague la parada
+
+
+> Entity definitions
+$DirectionalReference:simple
+
+
+> PREBUILT Entity definitions
+$PREBUILT:number
+$PREBUILT:ordinal

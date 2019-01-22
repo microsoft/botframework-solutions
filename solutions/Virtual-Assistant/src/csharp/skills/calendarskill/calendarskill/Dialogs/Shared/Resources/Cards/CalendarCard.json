@@ -1,0 +1,54 @@
+﻿{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.0",
+    "speak": "{Speak}",
+    "id": "CalendarCard",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "{Title}",
+                    "weight": "bolder",
+                    "size": "large",
+                    "maxLines": 1
+                },
+                {
+                    "type": "TextBlock",
+                    "text": "{Participant}",
+                    "isSubtle": true
+                },
+                {
+                    "type": "TextBlock",
+                    "text": "{Date}",
+                    "isSubtle": true
+                },
+                {
+                    "type": "TextBlock",
+                    "text": "{Time}",
+                    "isSubtle": true
+                },
+                {
+                    "type": "TextBlock",
+                    "text": "{Location}",
+                    "isSubtle": true
+                },
+                {
+                    "type": "TextBlock",
+                    "text": "{ContentPreview}",
+                    "maxLines": 10
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.OpenUrl",
+            "title": "Join meeting",
+            "url": "{MeetingLink}",
+            "showCard": "false"
+        }
+    ]
+}

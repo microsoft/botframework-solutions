@@ -1,3 +1,26 @@
+//
+// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license.
+//
+// MIT License:
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 package com.microsoft.bot.solutions.speechdevices.samples.botapp;
 
 import android.content.Intent;
@@ -24,8 +47,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import io.swagger.client.JSON;
-import io.swagger.client.ServerConnection;
-import io.swagger.client.ServerConnection.ConnectionStatus;
+import io.swagger.client.WebSocketServerConnection;
+import io.swagger.client.WebSocketServerConnection.ConnectionStatus;
 import io.swagger.client.model.Activity;
 import io.swagger.client.model.ActivitySet;
 import io.swagger.client.model.ActivityTypes;
@@ -33,7 +56,7 @@ import io.swagger.client.model.Attachment;
 import io.swagger.client.model.ChannelAccount;
 import io.swagger.client.model.InputHints;
 
-public class MainActivity extends AppCompatActivity implements ServerConnection.ServerListener{
+public class MainActivity extends AppCompatActivity implements WebSocketServerConnection.ServerListener{
     private TextView recognizedTextView;
     private Button startConversationButton;
     private ListView messageListView;
@@ -47,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
     // Speech integration
     private static SpeechSynthesizer speechSynthesizer = null;
     public BotApplication.DirectLineClient directLineClient;
-    private ServerConnection mServerConnection;
+    private WebSocketServerConnection mServerConnection;
     private JSON json = new JSON();
 
     @Override
@@ -200,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
     protected void onPause() {
         super.onPause();
         if(mServerConnection != null) {
-            mServerConnection.disconnect();
+            mServerConnection.Disconnect();
         }
     }
 
@@ -228,7 +251,7 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
     }
 
     private void initializeServerConnection(){
-        mServerConnection.connect(this);
+        mServerConnection.Connect(this);
     }
 
     //region UI
@@ -272,7 +295,7 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
 
         @Override
         protected void onPostExecute(Void result) {
-            mServerConnection = new ServerConnection(directLineClient.conversation.getStreamUrl());
+            mServerConnection = new WebSocketServerConnection(directLineClient.conversation.getStreamUrl());
             initializeServerConnection();
         }
     }
@@ -284,6 +307,7 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
         @Override
         protected Void doInBackground(Void... params) {
             try {
+                directLineClient.SendStartConversationEvent();
                 directLineClient.SendVirtualAssistantTimeZoneEvent();
                 directLineClient.SendVirtualAssistantLocationEvent(Configuration.Latitude, Configuration.Longitude);
             } catch (Exception ex) {
@@ -315,27 +339,27 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
                 }
                 else if (text != null && !text.isEmpty()){
                     speakText.append(text);
-                }
+                } else {
+                    if (activity.getAttachments() != null && !activity.getAttachments().isEmpty()) {
+                        StringBuilder attachmentText  = new StringBuilder();
+                        for(int i = 0; i < activity.getAttachments().size(); i++){
+                            Attachment attachment = activity.getAttachments().get(i);
+                            switch (attachment.getContentType()) {
+                                case "application/vnd.microsoft.card.hero":
+                                    attachmentText.append(directLineClient.RenderHeroCard(attachment));
+                                    break;
+                                case "application/vnd.microsoft.card.adaptive":
+                                    attachmentText.append(directLineClient.RenderAdaptiveCard(attachment));
+                                    break;
+                            }
 
-                if (activity.getAttachments() != null && !activity.getAttachments().isEmpty()) {
-                    StringBuilder attachmentText  = new StringBuilder();
-                    for(int i = 0; i < activity.getAttachments().size(); i++){
-                        Attachment attachment = activity.getAttachments().get(i);
-                        switch (attachment.getContentType()) {
-                            case "application/vnd.microsoft.card.hero":
-                                attachmentText.append(directLineClient.RenderHeroCard(attachment));
-                                break;
-                            case "application/vnd.microsoft.card.adaptive":
-                                attachmentText.append(directLineClient.RenderAdaptiveCard(attachment));
-                                break;
+                            if(activity.getAttachments().size() > 1){
+                                // If there are multiple attachments, VA will pause between each one
+                                attachmentText.append(getString(com.microsoft.bot.solutions.speechdevices.samples.botapp.R.string.ellipses));
+                            }
                         }
-
-                        if(activity.getAttachments().size() > 1){
-                            // If there are multiple attachments, VA will pause between each one
-                            attachmentText.append(getString(com.microsoft.bot.solutions.speechdevices.samples.botapp.R.string.ellipses));
-                        }
+                        speakText.append(attachmentText.toString());
                     }
-                    speakText.append(attachmentText.toString());
                 }
 
                 activity.setSpeak(speakText.toString());

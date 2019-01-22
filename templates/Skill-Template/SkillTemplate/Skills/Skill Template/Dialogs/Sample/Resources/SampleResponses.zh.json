@@ -1,0 +1,211 @@
+﻿{
+  "DidntUnderstandMessage": {
+    "replies": [
+      {
+        "text": "对不起，没有明白你的意思。",
+        "speak": "对不起，没有明白你的意思。"
+      },
+      {
+        "text": "我没有明白你的意思，你能以不同的方式尝试吗？",
+        "speak": "我没有明白你的意思，你能以不同的方式尝试吗？"
+      },
+      {
+        "text": "你能以不同的方式说出来吗？",
+        "speak": "你能以不同的方式说出来吗？"
+      },
+      {
+        "text": "你能再试一次问我，我没听懂你的意思。",
+        "speak": "你能再试一次问我，我没听懂你的意思。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "NoAuth": {
+    "replies": [
+      {
+        "text": "请登录，以便我采取进一步行动。",
+        "speak": "请登录，以便我采取进一步行动。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AuthFailed": {
+    "replies": [
+      {
+        "text": "您的登录失败，请稍后再试。",
+        "speak": "您的登录失败，请稍后再试。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "CancellingMessage": {
+    "replies": [
+      {
+        "text": "当然，我们可以稍后再做。",
+        "speak": "当然，我们可以稍后再做。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ActionEnded": {
+    "replies": [
+      {
+        "text": "还有什么需要我的帮助吗？",
+        "speak": "还有什么需要我的帮助吗？"
+      },
+      {
+        "text": "还有什么我可以帮你的吗？",
+        "speak": "还有什么我可以帮你的吗？"
+      },
+      {
+        "text": "还有什么想要采取行动吗？",
+        "speak": "还有什么想要采取行动吗？"
+      },
+      {
+        "text": "如果您需要我的帮助，请告诉我。",
+        "speak": "如果您需要我的帮助，请告诉我。"
+      },
+      {
+        "text": "如果你需要我的帮助，我就在这里。",
+        "speak": "如果你需要我的帮助，我就在这里。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ToDoErrorMessage": {
+    "replies": [
+      {
+        "text": "对不起，看起来出了问题！",
+        "speak": "对不起，看起来出了问题！"
+      },
+      {
+        "text": "发生错误，给我一些时间，稍后再试。",
+        "speak": "发生错误，给我一些时间，稍后再试。"
+      },
+      {
+        "text": "出了点问题，对不起！",
+        "speak": "出了点问题，对不起！"
+      },
+      {
+        "text": "我相信出了点问题。你稍后可以再试一次吗？",
+        "speak": "我相信出了点问题。你稍后可以再试一次吗？"
+      },
+      {
+        "text": "抱歉，我现在找不到你想要的东西。请稍后再试。",
+        "speak": "抱歉，我现在找不到你想要的东西。请稍后再试。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ToDoErrorMessage_BotProblem": {
+    "replies": [
+      {
+        "text": "对不起，出了点问题。开发人员已经收到通知并且在解决这个问题。你很快就又可以正常使用这个功能了。",
+        "speak": "对不起，出了点问题。开发人员已经收到通知并且在解决这个问题。你很快就又可以正常使用这个功能了。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "SettingUpOneNoteMessage": {
+    "replies": [
+      {
+        "text": "我注意到你还没有OneNote, 我正在为您创建，包含一个待办事项列表，一个购物列表以及一个杂货列表。",
+        "speak": "我注意到你还没有OneNote, 我正在为您创建，包含一个待办事项列表，一个购物列表以及一个杂货列表。"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "AfterOneNoteSetupMessage": {
+    "replies": [
+      {
+        "text": "设置完成，我已经给你发送带有OneNote链接的邮件，现在可以记录你的任务了。",
+        "speak": "设置完成，我已经给你发送带有OneNote链接的邮件，现在可以记录你的任务了。"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "SettingUpOutlookMessage": {
+    "replies": [
+      {
+        "text": "我注意到你还没有Outlook任务簿, 我正在为您创建，包含一个待办事项列表，一个购物列表以及一个杂货列表。",
+        "speak": "我注意到你还没有Outlook任务簿, 我正在为您创建，包含一个待办事项列表，一个购物列表以及一个杂货列表。"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "AfterOutlookSetupMessage": {
+    "replies": [
+      {
+        "text": "设置完成，我已经给你发送带有Outlook任务簿链接的邮件，现在可以记录你的任务了。",
+        "speak": "设置完成，我已经给你发送带有Outlook任务簿链接的邮件，现在可以记录你的任务了。"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "ShowToDoTasks": {
+    "replies": [
+      {
+        "text": "您的{listType}列表有{taskCount}个任务：",
+        "speak": "您的{listType}列表有{taskCount}个任务："
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "AskToDoTaskIndex": {
+    "replies": [
+      {
+        "text": "您想为这个操作选择哪个任务？",
+        "speak": "您想为这个操作选择哪个任务？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AskToDoContentText": {
+    "replies": [
+      {
+        "text": "当然。您想加入什么到事项表？",
+        "speak": "当然。您想加入什么到待办事项表？"
+      },
+      {
+        "text": "好的，您想加入什么到事项表？",
+        "speak": "好的，您想加入什么到事项表？"
+      },
+      {
+        "text": "好，您想加入什么到事项表？",
+        "speak": "好，您想加入什么到事项表？"
+      },
+      {
+        "text": "您想加入什么到事项表？",
+        "speak": "您想加入什么到事项表？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AfterToDoTaskAdded": {
+    "replies": [
+      {
+        "text": "已经为您加入此任务。",
+        "speak": "已经为您加入此任务。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "NoTasksInList": {
+    "replies": [
+      {
+        "text": "您的事项表是空的.",
+        "speak": "您的事项表是空的."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "SwitchListType": {
+    "replies": [
+      {
+        "text": "这看起来像是{listType}列表的任务。你想要把它加入到{listType}列表吗?",
+        "speak": "这看起来像是{listType}列表的任务。你想要把它加入到{listType}列表吗?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  }
+}

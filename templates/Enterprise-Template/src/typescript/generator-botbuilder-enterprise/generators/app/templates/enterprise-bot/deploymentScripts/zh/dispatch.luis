@@ -1,0 +1,4664 @@
+{
+  "intents": [
+    {
+      "name": "l_general"
+    },
+    {
+      "name": "q_chitchat"
+    },
+    {
+      "name": "q_faq"
+    }
+  ],
+  "entities": [],
+  "composites": [],
+  "closedLists": [],
+  "regex_entities": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "我怎么能得到它",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我喜欢左一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "和人类交谈",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "返回到上一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我想要第四个选择",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "返回到最后一步",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "他妈的闭嘴",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我不想选择任何一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择较低的选择",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我没有听说过",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "重复",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "下",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我想底部",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我想所有的人",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "请退后",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "回来",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "解雇",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "什么是以前的",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "给我看看下一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "走开",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择最后一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我想选择第四个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "有什么帮助吗？",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "显示更多",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "显示接下来的4个项目",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "取消没关系",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "你可以帮我吗",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我想选择正确的",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "回去",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "它的完成",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择2号",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我的上帝闭嘴",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我想要更低的选择",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择5号",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "忘了它吧",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "没关系",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "谁能帮我",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "取消取消",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我喜欢最底层的那个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择右上角的一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我喜欢第一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我想和一个真正的人类谈谈",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我喜欢第二个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "返回",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "只是安静",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "显示下一个3",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "重复,",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "回到最后一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择最后一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择最后一个选项",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "他们看起来很糟糕, 你能给我其他的选择吗？",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "没有取消取消",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "闭嘴, 安静点",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择第二个选项",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择第一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "安静",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我能和一个人交谈吗？",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择第三个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我想离开",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择左上角的选项",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "神经的头脑",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择一个随机的",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "上一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "回去吧",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我想要左边",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "只是是",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "任何帮助",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "什么都不做",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "不回去",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "现在不要安静",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "请重新开始",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "打开帮助",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "保持安静",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "转到上一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "对不起, 不要这样做",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择随机选择",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "这两个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "哦, 取消",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我想要更多",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "它的完成",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择第二个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择任何",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我想要第四",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "返回到",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "没有闭嘴",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "不, 不, 不, 不, 停止说话",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我想选择左边的一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "好的, 停",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "在那之后",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我想选择第三",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择底部选项",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我需要帮助",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "再说一遍",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "显示上一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我喜欢右上角的那个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "没关系停止",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "回到最后",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "他们中的任何一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "闭嘴",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我需要真正的人类帮助",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我做完了",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "重新开始",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我想选择底部的一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "有什么真实的人吗？",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "任何人都很好",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "只是取消",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "结束",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "他们中没有一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我想选择第一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "你能不能重新开始",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "他们都不感谢你",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "没什么没关系",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择第四个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "更重要的是",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择右上角",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "转到接下来的三个项目",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "显示下一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "别再这么做了",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "宽恕",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择任何人",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我想要一个正确的",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "显示前一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择正确的一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "回到最后一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "重新 启动",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我想要正确的一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "取消这一点",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "随机选择其中一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择左边的一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "无",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "完成",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "一些帮助",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择正确的",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "你能帮上忙吗",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "翻开新的一页",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "取消它",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "所有的人",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我需要支持",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "请重复一遍",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我喜欢第二",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "退出出口",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "只是取消它",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "全部设置",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "没有取消",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我不想要他们两个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "什么是之前,",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "之后是什么",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择较低的一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "别介意",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "没有停止",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择第一选择",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "做",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "帮助",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "闭上你的嘴",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我喜欢第三个选择",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "别介意取消",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "结束它",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择左下角",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "客服服务",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "你能再说一遍吗？",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "开始在它",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "上帝闭嘴",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "显示接下来的两个选项",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我喜欢右上角",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择最后一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我说停止",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我想选择最后的选择",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "之后是什么",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "那第三个呢？",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "请返回",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择较低的一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "没有",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我想选择第二个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择上部",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "联系客服",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择正确的一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "再次",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "没有没有取消",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "勇往直前",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "请再说一遍",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "回到最后一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择任何选项",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我没有听到重复再次",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我想要第三个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "返回",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "关闭停止",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "取消",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "请回去",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "完成",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "嘿, 住手",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "重新启动它",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "最后一步",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "请停止",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择第三个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "别说话了",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我希望他们都",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "它的任何一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "是否有任何真正的人类",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "没有这些",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我不想要他们中的任何一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "宝贝, 安静点",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "退出",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "回到最后一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "也不谢谢你",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我想要的第一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "请帮帮忙",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "人性化服务",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "移动到下一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我想选择右下角",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "你说什么",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "重新开始",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "返回到最后一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我需要一些帮助",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择第一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "回到以前的",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我想要第二个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "退出站",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "请前一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "重新开始",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择右上角",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "来吧, 停",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "安静的现在",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "转到下一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我的意思是停止听",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "现在安静点",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "取消应用程序",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "无处只是安静",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "返回到",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "哦, 不要这样做",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我不想选择任何一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "取消",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "再说一遍",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "在那之前",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择第四个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "什么？",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我需要去下一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "转到上一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "不, 不, 不, 回去",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "这些都没有",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "全部完成",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "接下来的2是什么",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "清除并重新开始",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "给我一些帮助",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "闭嘴, 安静",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "没有取消,",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "不取消它",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "退后请",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我想选择正确的",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "什么",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我喜欢第三个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "那又是什么",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我爱你停止说话",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "他们都没有",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "带来了前一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "没有人在乎停止说话",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我需要一些帮助",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "给我看看前一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "不要安静",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择它的任何一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "如何做到这一点",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "它完成了",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "提交",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "不, 不, 取消它",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择右上角的一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "没什么, 请",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "完成了",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我喜欢右上角",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "关闭",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "别这样",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "都不是一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "对不起",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "联系支持",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "取消",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "任何一个都是确定的",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "提交它",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "下一步是什么",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择一个随机的",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择左",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "那最后一个呢？",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我想和一个人谈谈",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "请什么都不做",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "接下来会发生什么",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "没关系取消,",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我完了",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择最后一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我需要手动客服",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "选择它的任何一个",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "哦, 我的上帝闭嘴",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "有没有人, 我可以交谈",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "我想选择较低的选择",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "也",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "下一个呢？",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "你怎么了!",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是我的粉丝吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你一点也不好玩",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是同性恋吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我很抱歉",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你对我有什么看法？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你一直都在说同样的话",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你最喜欢什么颜色？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是人类吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "给我讲个笑话",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是男的吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你好科塔纳",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你知道生命的意义吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "无用",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你能数到一百万吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你从哪里来的？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "没有人喜欢我",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是怎么去的？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "跟我说说",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你有多聪明",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我崩溃了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "谢谢",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "基本的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "没有什么可做的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是个混蛋",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我有7只猫",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "谁是你的老板",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你愿意做我的妻子吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是什么状态",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你多大了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "永远的巴夫",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "嘿，你好！",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你聪明吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你饿了吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你能和我聊聊吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你被解雇了！",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你再无聊不过了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你有兄弟姐妹吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我感到悲伤",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你饿了吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你喜欢我的帽子吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你今天过得怎么样？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你知道其他机器人",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我在这里",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "唱一首歌",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你开心吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "准确",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我饿了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我们可以聊天吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "太累了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你为什么一直说同样的话",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "告诉我你有多爱我",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你喜欢西里吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你想知道我什么？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我爱纽约。",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "人或机器人",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我喜欢你",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你现在在做什么？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "这是我的荣幸",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你觉得机器人怎么样？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你不高兴吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "说一个笑话",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我是谁",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "这是没有意义的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是我的最爱",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你有没有饿过",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我太无聊了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你在忙什么呢",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我恨你",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "那不是真的。",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你最喜欢的动物是什么？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你真是个天才!",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我太伤心了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "对不起",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你真棒",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你有爸爸吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我好饿",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是无性的吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "说一个愚蠢的事情",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你喜欢苹果吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你能做运动吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "谁是你的创造者",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是哈尔",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是同性恋",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是谁",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "给我一个拳头撞",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你曾经唱过一首歌吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "嘘！",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "再见",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "宇宙的答案是什么？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你的脸很丑",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你知道什么歌吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你吃什么？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "问我一件事。",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "恩克斯",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我很生气",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你还能说点什么吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你觉得工作到很晚吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你在哪里",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是亚历山大的粉丝吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是反式",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "克思克斯",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你觉得龙很酷吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "晚上好",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "那是太不对了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我希望我不是那么孤单",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你有空吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你能做什么样的事情？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我是我的粉丝",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我想让你做我的丈夫",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你聪明吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "谁是你最喜欢的团队",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你真是个聪明的人",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "去死吧",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "和我聊天",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "为什么不呢",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是个男人吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "以后再谈",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我们中的哪一个更漂亮",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "吻我",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你现在能听见我说话吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你很有趣",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你喜欢哪支棒球队？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "假",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "晚上",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你好亚历山大",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "那是不准确的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "正确",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "拥抱我",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你说得没有道理",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你好吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "哈 哈哈",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是奇点吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你尿尿吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是哑巴",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "唱的东西",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "说点什么",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "笑话是在你身上",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "直到我们再次相遇",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我是从那里",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "什么是新的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我穿蓝色好看吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你能和我谈谈吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你在那里吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "是的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你喜欢什么样的糖果？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你有兄弟吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我认为你是膨胀",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "很抱歉, 我不知道你在",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我只是在玩",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "说一些荒谬的话",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你做什么工作",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "事情怎么样",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我好困",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我很投入",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你有妈妈吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "开玩笑",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你比我好看吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "那是真的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你能跳多高",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你有鼻塞吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "布伯",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你有多幸福",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "拳头碰撞!",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Hsa",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你怎么看西里",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你好谷歌",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我要去跑步",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你好西里",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "这很有趣",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是什么意思",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是国家安全局的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我想你",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "嗨",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "为我工作",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你在做什么",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你觉得我怎么样？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "为什么",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "是什么人让你",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你和其他机器人是朋友吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "太搞笑了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "是谁创造了你",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你在卖我的数据吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是一个人吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是我最好的朋友",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "这里有一个吻给你",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你一点也不让我感兴趣",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我希望你能说点别的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "今天过得怎么样",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你对爱情怎么看？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "这是不准确的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "拉上拉链!",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "晚安, 你",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "是的, 那是真的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我不明白",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我很高兴见到你",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "大声笑",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "这是正确的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是我的助手吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你昨天做了什么？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我今天很难过",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是做什么工作的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你还年轻吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我真的很难过",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是女性吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我爱我的家人",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你忙吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你知道其他数字代理吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "说一些愚蠢的话",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你知道什么曲调吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "这是准确的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你玩游戏吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "这是一个愚蠢的答案。",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我喜欢音乐。",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我是如此的麦地乌 b",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你太可怕了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我想娶你",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "试图使一些意义",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你爱任何人吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "罗夫尔",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你看起来很开心",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是直的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你觉得艾怎么样？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我是多么美丽",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你能帮我什么忙",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你搞砸了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "这是一个笑话",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "测试 1 2 3",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你能听见我说话吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你真的不能更无趣",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "难道你从来没有睡过",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你老板叫什么名字？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你喜欢吃什么？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我感觉很好",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "滚开",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是如此的基本",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "是谁让你",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sry",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你叫什么名字",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是干什么的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你真烦人!",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是个混蛋",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "是什么让你这么想",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我觉得你恨我",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你在这方面太糟糕了。",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是个男孩吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你太傻了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你喜欢什么颜色？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是女孩还是男孩",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你知道其他的聊天机器人吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "是的, 没错",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "怎么了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你糟透了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你就这么走了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是最糟糕的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "圣诞快乐",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你有姐妹吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我今天看起来怎么样？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "回到一分钟前",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你几岁",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你为什么认为",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "谁是你爸爸",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是男的还是女的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你太无趣了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你能读懂我的心思吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "有谷歌",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你有兄弟吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你太傻了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你怎么能帮我",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我很高兴",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我饿死了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我觉得你很棒",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "谁拥有你",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "妈叫什么名字",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你觉得我应该约她出去吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你多久前出生了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "这是没有意义的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "后",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是中情局的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你对技术怎么看？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你真棒",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你一定恨我",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我被划掉了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "击掌！",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你太聪明了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你太酷了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "更有趣",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "谁更漂亮, 我还是你",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我想带你出去约会",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "谁是你的父亲",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "谁是你爸爸",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你甚至是什么意思,",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我叫什么名字",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你向谁报告",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是个女孩吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "测试",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我很愤怒",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "不是真的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "说一些有趣的话",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你知道谷歌",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你能做什么",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你觉得我怎么样？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你太傻了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "发生了什么事情",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你昨天在做什么？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我累了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "酷！",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "再见",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你知道我的名字吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我希望我能拥抱你",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我厌倦了你",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你真的很开心吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "是的, 那是真的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你和科塔娜出去逛逛吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你有个妹妹吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你现在失业了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "生日快乐！",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你爱我吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你被解雇了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你看起来真的很聪明",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你觉得我好看吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你有多爱我",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你住在哪里",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你太高兴了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你怎么了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是什么意思, 你的意思",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "跟我说说话",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我很高兴认识你",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我很沮丧",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "做我的朋友",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你看起来真的很开心",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "怎么了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你很快就会失业的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你好",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是哑巴",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是个摇摆不定的人吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你的目的是什么",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "很高兴见到你",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你有名字吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "等一下",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你看起来很丑",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你不能再为我工作了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "祝你有个愉快的夜晚",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "非常感谢",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我恨你的一切",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我想躺下",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "对不起",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我都累坏了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "度过美好的一天",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "为什么",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "恐怕我得让你走了。",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你相信爱情吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "生活是美好的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你有多聪明",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我希望你喜欢我",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我饿了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "顽皮的夜晚",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你在这儿吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你能唱一首歌吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我给你一张粉红色的纸条",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你有空吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我是孤独的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你在出卖我的秘密",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "很好, 谢谢",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你爱谁",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你很聪明",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我需要一个拥抱",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "很抱歉, 我不知道你在说什么",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是个蝴蝶人",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "回头见",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你很聪明",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是最好的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你还知道什么其他机器人",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你比我聪明吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我诚挚的感谢",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你能给我做个三明治吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你为什么恨我",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我是个工程师",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "唱一首曲子",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你做梦吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是没用的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "哼着曲调",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你最喜欢唱什么？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我应该找一份新工作吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "讲一个笑话",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你不是切碎的吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我有一个新的发型",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我可以开车",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我觉得你是如此美丽",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "给我一个笑话",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "有亚历山大",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是个间谍吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "谁更聪明, 我还是你",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "是什么让你觉得",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你太丑了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "赫亚",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你什么时候能闭嘴？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你告诉我的都是假的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是一个女同性恋",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你吃吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你喜欢亚历山大吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是真实的吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "这一点也不好笑",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我恋爱了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你喜欢棒球吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "不客气",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是在试图统治世界吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你好吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "什么是爱",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是对的。",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你能问我一个问题吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你来自哪个国家",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "不, 那不是真的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你一点也不好笑",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你能数到多高",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我很高",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你从哪里来的？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我只是开玩笑",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我希望你离开。",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你的性别是什么",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我累了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "什么是生命的意义",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "伟大！",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你真棒!",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你能飞吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你真是个甜心",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我想和你共度余生",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我是个好人吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "谁是妈",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你明天要做什么？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "谁是你最喜欢的歌手",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你比我漂亮吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你喜欢红色还是蓝色？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "谁是你的母亲",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你有任何其他的回应",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我崇拜你",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是机器人吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你说什么",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "这是真棒",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你知道我是谁吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是真的还是假的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "有西里",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我在这里",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是科技的粉丝吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我应该叫你什么？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "生命的意义是什么？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "吻我一下",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你会成为我最好的朋友吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你太搞笑了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是乡村音乐的粉丝吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我们中的哪一个更聪明",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我是你最大的粉丝",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "奥姆对不起",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你真的很无聊",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你在哪里",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你从哪里来？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你觉得我应该约他出去吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你为什么这么无聊",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "是啊, 到那个",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你今天过的好吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你的房子呢？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你想统治世界吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我是如此的孤独",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是无性的吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你喜欢什么样的食物？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你不饿吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你什么都不知道",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我需要一个吻",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我很高兴",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "错误",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你会唱歌吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是什么状态",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你爸爸叫什么名字？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我会回来的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "是的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我应该尝试足球吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你恨我吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我是一个共和党人",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你真好！",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我想去购物",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "是荒谬的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "爱你！",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你说的没有意义",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我想让你喜欢我",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你喜欢电脑吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你知道, 西里",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你爱上我了吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "看看你有多聪明",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我很生气",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你最喜欢的食物是什么？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你为什么不停止说话",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我很感激",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你有家庭吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "问我任何事",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你太搞笑了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你能得到多少真棒",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你觉得你比我聪明吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "万圣节快乐！",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你出汗了吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "谁是你的主人",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你不是很棒吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "后来的鳄鱼",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "对不起",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "对不起",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "快乐的汉努卡",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "嘿",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "厌倦了你",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我很生气",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你真有趣:)",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我是一个民主派",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "给我煮点东西",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我现在在嚼口香糖",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你有多聪明",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你在哪个国家",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "蝴蝶脸。",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是 fbi 的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你从哪儿来",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你闻到了吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你真的很聪明",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是个女人吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "不, 假的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "听上去很好",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我不明白",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我厌倦了我的脑海",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我们能成为朋友吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你会在花园里呆上一段时间吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你多大了？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你最喜欢的歌是什么？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你不能改变你的答案吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "今天你做什么了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你会打喷嚏吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "没人关心我",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "晚安",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "晚上",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是双性恋吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我想不出任何我想做的事",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我能拥抱一下吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你能 跟我结婚吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你很无聊",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "棒",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "给我一个高五",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你知道亚历山大吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "谢谢",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你知道科塔娜吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你太漂亮了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你最喜欢的活动是什么？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我应该做什么",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "哦, 对不起",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我爱你。",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "问我一个问题。",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我只想去睡觉",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "早上好",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你在身边吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "搞笑",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我很孤独",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你太无聊了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我感到忧郁",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你在监视我吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "安静, 你",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你能唱吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "希科塔娜",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "给我一些糖",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你真是个混蛋",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你有没有唱过",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是我一生的挚爱",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我非常想你！",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你最喜欢的电影是什么？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "一点也不好笑",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "这是正确的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我好看吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "没错",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是我的朋友吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我心情这么好",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我谢谢你",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你知道什么笑话吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我已经准备好睡觉了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "说一些愚蠢的话",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你累了吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你怎么看亚历山大",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我充满了悲伤",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我看起来还好吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是个瘸子",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是个男人吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你老了吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "是愚蠢的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你的脸就像个煎饼",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我很无聊",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你认识我吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你喜欢科塔娜吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我想吃点东西",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我是个傻瓜吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "在那里",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "晚上好",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你真是个混蛋",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你见过科塔娜吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你能睡吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "宾 果",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "欢迎来到春天!",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "那不是真的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我觉得你是梦幻般的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是没用的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你不再受雇了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我没有遵循",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我不是那个意思",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我不是你的朋友",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我应该去哪里度假？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你觉得科塔娜怎么样？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我这样做",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "见到你真的很高兴",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你烦死我了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我鄙视你",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是我想象中的朋友吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你以后要做什么？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你什么时候出生的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你的脸糟透了",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我想成为你的朋友。",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你好",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你喜欢我吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我喜欢吃情人节礼物。",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我想躺下",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你不能回答我的问题",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我很美吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "哈哈",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "这是怎么回事",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你老板叫什么名字？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "早上",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我是一个女同性恋",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你不喜欢我吗",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "我爱上了你",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你今天感觉如何",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "这一点也不好笑",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是男的还是女的",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "你是天网吗？",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "是这个东西上",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "什么是企业机器人模板",
+      "intent": "q_faq",
+      "entities": []
+    }
+  ],
+  "patterns": [],
+  "patternAnyEntities": [],
+  "prebuiltEntities": [],
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.1",
+  "name": "dispatch",
+  "desc": "",
+  "culture": "en-us"
+}

@@ -1,0 +1,214 @@
+{
+  "CalendarNoMoreEvent": {
+    "replies": [
+      {
+        "text": "No more meetings!",
+        "speak": "No more meetings!"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "CalendarNoPreviousEvent": {
+    "replies": [
+      {
+        "text": "This is already the first page!",
+        "speak": "This is already the first page!"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowNoMeetingMessage": {
+    "replies": [
+      {
+        "text": "You don't have any meetings.",
+        "speak": "You don't have any meetings."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowOneMeetingSummaryMessage": {
+    "replies": [
+      {
+        "text": "You have 1 event planned for {DateTime}, your next event is with {Participants1} {EventTime1} titled {EventName1}. Want to hear the content of this event?",
+        "speak": "You have 1 event planned for {DateTime}, your next event is with {Participants1} {EventTime1} titled {EventName1}. Want to hear the content of this event?"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowMultipleMeetingSummaryMessage": {
+    "replies": [
+      {
+        "text": "It looks like you have {Count} events planned for {DateTime}, your next event is with {Participants1} {EventTime1} titled {EventName1}. The last event of {DateTime} is {EventTime2} with {Participants2} titled {EventName2}.",
+        "speak": "It looks like you have {Count} events planned for {DateTime}, your next event is with {Participants1} {EventTime1} titled {EventName1}. The last event of {DateTime} is {EventTime2} with {Participants2} titled {EventName2}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ReadOutPrompt": {
+    "replies": [
+      {
+        "text": "Which one do you want to hear?",
+        "speak": "Which one do you want to hear?"
+      },
+      {
+        "text": "Which meeting would you like me to read out?",
+        "speak": "Which meeting would you like me to read out?"
+      },
+      {
+        "text": "Any meetings you would like me to read out?",
+        "speak": "Any meetings you would like me to read out?"
+      },
+      {
+        "text": "Which meeting do you want more details on?",
+        "speak": "Which meeting do you want more details on?"
+      },
+      {
+        "text": "Which one do you want more information on?",
+        "speak": "Which one do you want more information on?"
+      },
+      {
+        "text": "Which meeting do you want me to read out?",
+        "speak": "Which meeting do you want me to read out?"
+      },
+      {
+        "text": "Which one do you want to hear about?",
+        "speak": "Which one do you want to hear about?"
+      },
+      {
+        "text": "Which meeting do you want me to give you the details of?",
+        "speak": "Which meeting do you want me to give you the details of?"
+      },
+      {
+        "text": "Which meeting should I read to you?",
+        "speak": "Which meeting should I read to you?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ReadOutMorePrompt": {
+    "replies": [
+      {
+        "text": "Do you want to hear the content of the upcoming event? I can read out any event for you, just let me know by providing the subject, time or attendees..",
+        "speak": "Do you want to hear the content of the upcoming event? I can read out any event for you, just let me know by providing the subject, time or attendees.."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ReadOutMessage": {
+    "replies": [
+      {
+        "text": "The meeting on {Date} is {Time} with {Participants} titled {Subject}.",
+        "speak": "The meeting on {Date} is {Time} with {Participants} titled {Subject}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowNextMeetingNoLocationMessage": {
+    "replies": [
+      {
+        "text": "You have the following event on your calendar:",
+        "speak": "You have the following event on your calendar: {EventName} at {EventTime} with {PeopleCount} people."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowNextMeetingMessage": {
+    "replies": [
+      {
+        "text": "You have the following event on your calendar:",
+        "speak": "You have the following event on your calendar: {EventName} at {EventTime} with {PeopleCount} people at {Location}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowMultipleNextMeetingMessage": {
+    "replies": [
+      {
+        "text": "You have the following event on your calendar:",
+        "speak": "You have the following event on your calendar:"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "BeforeShowEventDetails": {
+    "replies": [
+      {
+        "text": "Here is the details of your event {EventName}:",
+        "speak": "Here is the details of your event {EventName}"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ReadTime": {
+    "replies": [
+      {
+        "text": "It starts at {EventStartTime}, and ends at {EventEndTime}.",
+        "speak": "It starts at {EventStartTime}, and ends at {EventEndTime}"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ReadDuration": {
+    "replies": [
+      {
+        "text": "It lasts for {EventDuration}.",
+        "speak": "It lasts for {EventDuration}"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ReadLocation": {
+    "replies": [
+      {
+        "text": "It held at {EventLocation}.",
+        "speak": "It held at {EventLocation}"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ReadNoLocation": {
+    "replies": [
+      {
+        "text": "There is no location, possibly online?",
+        "speak": "There is no location, possibly online?"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "AskForChangeStatus": {
+    "replies": [
+      {
+        "text": "Would you like to see your calendar overview again for {DateTime}? You can also ask me to accept or decline this event for you.",
+        "speak": "Would you like to see your calendar overview again for {DateTime}? You can also ask me to accept or decline this event for you."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "AskForAction": {
+    "replies": [
+      {
+        "text": "Would you like to see your calendar overview again for {DateTime}? You can also ask me to decline this event for you.",
+        "speak": "Would you like to see your calendar overview again for {DateTime}? You can also ask me to decline this event for you."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "AskForOrgnizerAction": {
+    "replies": [
+      {
+        "text": "Would you like to see your calendar overview again for {DateTime}? You can also ask me to update or decline this event for you.",
+        "speak": "Would you like to see your calendar overview again for {DateTime}? You can also ask me to update or decline this event for you."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "AskForShowOverview": {
+    "replies": [
+      {
+        "text": "Would you like to see your calendar overview again of {DateTime}?",
+        "speak": "Would you like to see your calendar overview again of {DateTime}?"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}
