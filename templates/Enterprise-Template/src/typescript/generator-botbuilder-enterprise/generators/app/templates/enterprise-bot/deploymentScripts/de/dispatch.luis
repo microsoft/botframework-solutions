@@ -1,0 +1,4664 @@
+{
+  "intents": [
+    {
+      "name": "l_general"
+    },
+    {
+      "name": "q_chitchat"
+    },
+    {
+      "name": "q_faq"
+    }
+  ],
+  "entities": [],
+  "composites": [],
+  "closedLists": [],
+  "regex_entities": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "Wie bekomme ich es",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich mag links einen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Sprechen Sie mit einem Menschen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Zurück zum vorherigen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich will die vierte Wahl",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Zurück zum letzten Schritt",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Schließen Sie den Fuck auf",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte keinen wählen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Entscheiden Sie sich für die geringere Wahl",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich habe nicht gehört",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wiederholen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Nächsten",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich will unten",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte sie alle",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Bitte melden Sie sich",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich melde mich wieder",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Entlassen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Was ist die vorherige",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Zeigt mir den Nächsten",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Gehen Sie weg",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie die letzte",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte den vierten wählen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Gibt es Hilfe",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Mehr zeigen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Die nächsten 4 Artikel anzeigen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Streichung nie",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Kannst du mir helfen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte richtig wählen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Zurück",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Es ist fertig",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie Nr. 2",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Mein Gott verschlossen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich will die geringere Wahl",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie Nr. 5",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Vergessen Sie es",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Vergessen Sie es",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wer kann mir helfen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Absage",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich mag die untere",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie die obere rechte",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich mag den ersten",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte mit einem echten Menschen sprechen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich mag den zweiten",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Zurück",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Nur ruhig sein",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Zeigen Sie die nächsten 3",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wiederholen Sie das",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Zurück zum letzten",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Entscheiden Sie sich für den letzten",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Die letzte Wahl wählen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Sie sehen schlecht aus, können Sie mir andere Möglichkeiten geben",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Keine Kündigung",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Abschalten ruhig",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Für die zweite Wahl entscheiden",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie die erste",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ruhigen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Kann ich mit einer Person sprechen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Dritter auswählen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich will gehen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Die linke obere Wahl",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Nervendenken",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie einen Zufallsfall aus",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Voriges",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Zurück",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich will die Linke",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Nur nur sein",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Jede Hilfe",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Nichts tun",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "No go back to",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Jetzt nicht ruhig sein",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Bitte wieder anfangen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Offene Hilfe",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Sei still",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Zum vorherigen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Tut mir leid, nicht",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie eine Zufallswahl aus",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Keine davon",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "oh absagen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich will mehr",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Es ist geschafft",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Entscheiden Sie sich für die zweite",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie eine",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich will Vierter",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Zurück zu",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Keine Schließung",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "No no no no no no no no no no no no not not halt to talking",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte die linke wählen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "ok Stop",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Und danach",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte den Dritten wählen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie die untere Wahl",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich brauche Hilfe",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Sagen Sie das noch einmal",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Show previous",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich mag oben rechts",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Egal, halt",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Endlich wieder",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Weder einer von ihnen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Halt den Mund",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich brauche echte menschliche Hilfe",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich bin fertig",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Start von vorn",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte unten wählen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Gibt es eine echte Person",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Jeder ist in Ordnung",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Nur absagen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ende",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Nichts davon",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte die erste auswählen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Könntest du es überfängt",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Keiner von ihnen dankt",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Nichts egal",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie die vierte",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Mehr dazu",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie oben rechts",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Gehen Sie zu den nächsten drei Punkten",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Zeigen Sie die nächste",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Das nicht mehr tun",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Vergebung",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie jemanden",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich will das Richtige",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Zeigen Sie die vorherige",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Entscheiden Sie sich für das Richtige",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Zurück zum letzten",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Neu starten",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich will richtig eine",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Absage",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie einen von ihm zufällig aus",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Entscheiden Sie sich für den linken",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Keine",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Fertig",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Einige Hilfe",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Für das Recht",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Können Sie helfen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ein neues Kapitel aufschlagen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Absagen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Alle",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich brauche Unterstützung",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wiederholung bitte",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich mag zweite",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ausstieg",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Nur absagen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Alles gesetzt",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Keine Absage",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich will keines von beiden",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Was ist da",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Was danach",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie die untere",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Keine Ahnung",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Kein Halt",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Die erste Wahl treffen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Getan",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Hilfe",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Mund zu",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich mag die dritte Wahl",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Egal, absagen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ende",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie die untere linke",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Kundenservice",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Könntest du es noch einmal sagen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Anfangen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Gott verschlossen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Die nächsten zwei Optionen anzeigen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich mag oben rechts",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Letzter wählen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich sagte Halt",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte die letzte Wahl treffen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Was danach kommt",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Was ist mit dem dritten",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Bitte zurück",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie niedriger ein",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Keine",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte den zweiten wählen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Oberteil wählen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Kontakt zum Kundendienst",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie die richtige",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wieder",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Keine Absage",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Vorwärts",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Sagen Sie bitte noch einmal",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Zurück zum letzten",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie jede Wahl",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich hörte nicht wieder",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich will den dritten",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Zurück",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Haltestelle abbiegen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Abbrechen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Gehen Sie bitte zurück",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Beenden",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Hey Stop",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Neustart",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Letzter Schritt",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Halten Sie bitte an",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie die dritte",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Hören Sie auf zu reden",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich will sie alle",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Eins davon",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Gibt es einen echten Menschen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Nichts davon",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich will keine von ihnen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Baby einfach nur ruhig sein",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Beenden",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Zurück zum letzten",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Weder danke",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich will den ersten",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Bitte helfen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Menschliche Dienste",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Zum nächsten",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte unten rechts wählen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Was hast du gesagt",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wieder starten",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Zurück zum letzten",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich brauche Hilfe",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Entscheiden Sie sich für den ersten",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Zurück zum vorherigen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich will den zweiten",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ausreise-Stopp",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Vorigen bitte",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Start",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie oben rechts",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Kommen Sie zum Halt",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Jetzt ruhig",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Zum nächsten",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich meine, aufhören zu hören",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Seien Sie jetzt ruhig",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "App stornieren",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Nirgendwo nur ruhig sein",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Zurück zu",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Oh nicht, dass",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte keine auswählen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Storniert",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Sag noch einmal",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Was davor",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie den vierten",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Was",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich muss zum nächsten",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Zum vorherigen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "No no go back to",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Nichts davon",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Alles fertig",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Was ist die nächste 2",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Klar und wieder starten",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Geben Sie mir Hilfe",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Schweigen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Kein Absagen, dass",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Kein Absagen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Bitte zurück",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte das Recht wählen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Etwas",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich mag den dritten",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Was war das wieder",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich liebe dich, nicht mehr zu reden",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Keiner von ihnen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Die vorherige mitbringen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Niemand interessiert sich nicht mehr zu reden",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich brauche ein wenig Hilfe",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Zeigen Sie mir die vorherige",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Nicht ruhig sein",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Entscheiden Sie sich für irgendetwas",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wie es geht",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Es endete",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Senden",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Kein Absagen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie oben rechts",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Nichts bitte",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Fertig mit",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich mag oben rechts",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ausschalten",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Tu das nicht",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Weder",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Tut mir Leid",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Kontaktaufnahme",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Abgebrochen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Jeder ist ok",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Einreichen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Was kommt als nächstes",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Entscheiden Sie sich für einen zufälligen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Entscheiden Sie sich für links",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Was ist mit dem letzten",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte mit einem Menschen sprechen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Bitte nichts tun",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Was kommt als nächstes",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Nichts dagegen, dass",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich bin fertig",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Entscheiden Sie sich für Letzte",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich brauche manuellen Kundenservice",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Wählen Sie eine davon aus",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "ach mein Gott verschlossen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Gibt es jemanden, mit dem ich sprechen kann",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte die geringere Wahl wählen",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Weder",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Was ist mit dem nächsten",
+      "intent": "l_general",
+      "entities": []
+    },
+    {
+      "text": "Was bei Ihnen falsch ist!",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "bist du mein Fan",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist kein Spaß",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie sind schwul",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Es tut mir so leid",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was ist Ihre Meinung zu mir",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du sagst immer das Gleiche",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was ist Ihre Lieblingsfarbe",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "bist du Mensch",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Erzähl mir einen Witz",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Bist du männlich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Hallo cortana",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Kennen Sie den Sinn des Lebens",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Nutzlos",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Können Sie zu einer Million zählen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Woher sind Sie gekommen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Niemand mag mich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was geht man weiter",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Mit mir sprechen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wie schlau du bist",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich krache",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Dank",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Grundblatt",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Es gibt nichts zu tun",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist ein fuckup",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich habe 7 Katzen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wer ist dein Chef",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Willst du meine Frau sein",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Aus welchem Zustand bist du",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wie alt bist du",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Bänder für immer",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Hallo!",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie sind intelligent",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "bist du hungrig",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Können Sie mit mir chatten",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist gefeuert!",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Langweiliger könnte man nicht sein",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Haben Sie Geschwister",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich fühle mich traurig",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Macht man Hunger",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Mögen Sie meinen Hut",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wie geht dein Tag",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Kennen Sie andere Bots",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin hier",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ein Lied singen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Freuen Sie sich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Genaue",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin verhungert",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Können wir uns unterhalten",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "So müde",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Warum sagen Sie immer dasselbe",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sag mir, wie sehr du mich liebst",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du magst siri",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was willst du über mich wissen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich liebe neue Yuork.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Mensch oder Roboter",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich mag dich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was machst du jetzt?",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Es ist mir eine Freude",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was denken Sie über Bots",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sind Sie nicht fröhlich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sagen Sie einen Witz",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wer bin ich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Das macht keinen Sinn",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist mein Favorit",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Haben Sie jemals Hunger",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin so gelangweilt",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was hast du vor",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich hasse dich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Das stimmt nicht.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was ist dein Lieblingstier",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist ein Genie!",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin so traurig",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Entschuldigung",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist wunderbar",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Haben Sie einen Papa",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin so hungrig",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "are you pansexual",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sagen Sie eine dumme Sache",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Mögen Sie Äpfel",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Können Sie Sport treiben",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wer ist dein Schöpfer",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "bist du hal",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie sind queer",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wer bist du",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Geben Sie mir einen Faustschlag",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Heben Sie jemals ein Lied gesungen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Schimpfen!",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Goodbye",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was ist die Antwort auf das Universum",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Dein Gesicht ist hässlich.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Kennst du irgendwelche Lieder",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was essen Sie",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Fragen Sie mich etwas.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Thnx",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin verärgert",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Können Sie noch etwas sagen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wie fühlen Sie sich über die späte Arbeit",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wo befinden Sie sich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie sind ein Fan von alexa",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie sind trans",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "K.x",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Glauben Sie, Drachen sind cool",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Guten Abend",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Das ist so falsch.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich wünschte, ich wäre nicht so allein",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie sind erreichbar",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was man tun kann",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin Fan.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte, dass du mein Mann bist",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie sind schlau",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wer ist Ihr Lieblingsteam",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist so eine Smarty-Hose",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Fahr zur Hölle",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Mit mir chatten",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Warum nicht",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist ein Typ",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Bis später",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Der von uns ist schöner",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Küss mich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Können Sie mich jetzt hören",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist lustig",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Welche Baseball-Teams Ihnen gefallen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "False",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "'Nabend",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Hallo alexa",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Das ist ungenau.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Richtig",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Umarme mich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du machst keinen Sinn",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wie geht es dir",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Hahaha",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "are you the singularity",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Pissen Sie",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Dummer bist du",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Etwas singen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sag etwas",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Witz geht auf dich zu",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Bis wir uns wieder treffen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin von dort",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was ist neu",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich sehe gut in blau aus",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Können Sie mit mir sprechen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Bist du da",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Yup",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Welche Art von Süßigkeiten gefällt Ihnen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Haben Sie einen Bruder",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich denke, du bist gesund",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "So leid",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich spiele nur",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sagen Sie etwas Lächerliches",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was machst du beruflich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wie sind die Dinge",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin so schläfrig",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin drin",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Haben Sie eine Mama",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich mache nur Spaß",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Bst du besser aus als ich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Das stimmt",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wie hoch kann man springen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Haben Sie Booger",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Brb",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wie glücklich bist du",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Fist bump!",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Hsa",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was denken Sie über siri",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Hallo google",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich gehe auf einen Lauf",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Hallo siri",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Das war lustig",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was meinst du",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie sind mit der Nsa",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du fehlst mir",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Hiya",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Arbeitete für mich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was machst du",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was denkst du über mich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Warum",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Welche Leute dich gemacht haben",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie sind mit anderen Bots befreundet",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Das ist lustig",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wer dich erschaffen hat",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Verkaufen Sie meine Daten",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie sind ein Mensch",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist mein bester Freund",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Hier ist ein Kuss für Sie",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie interessieren mich überhaupt nicht",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich wünschte, Sie würden noch etwas sagen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wie war dein Tag",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was denken Sie über Liebe",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Das ist nicht genau",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Reißverschluss!",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Gute Nacht für Sie",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ja, das stimmt",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich kriege es nicht",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin so froh, dich zu treffen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Laut loslachen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Das war richtig",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "bist du mein Assistent",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was haben Sie gestern gemacht?",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin traurig heute",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was machst du",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist jung",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin wirklich traurig",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist weiblich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich liebe meine Familie.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Bist du beschäftigt",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Kennen Sie andere digitale Agenten",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sagen Sie etwas Dummes",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Kennst du irgendwelche Melodien",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Das ist genau",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Spielen Sie",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Das war eine dumme Antwort.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich liebe Musik.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "I ' m so madqw b",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist furchtbar",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte dich heiraten.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Versuch, Sinn zu machen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Lieben Sie jemanden",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Rofl",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie scheinen glücklich zu sein",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie sind gerade",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was denken Sie über ai",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wie schön bin ich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was kannst du mir helfen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du hast gefickt",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Das war ein Witz",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Test 1 2 3",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Kannst du mich hören",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie ehrlich gesagt könnte nicht mehr uninteressant sein",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du schläfst nie",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wie heißt Ihr Chef",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was essen Sie gerne?",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich fühle mich so toll",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Verpiss dich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist so einfach",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wer dich gemacht hat",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Srz",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wie heißt du",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was machst",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie sind so ärgerlich!",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist ein Arschloch",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was macht Sie so denken",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich glaube, du hasst mich.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie sind so schlecht darin.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "bist du ein Junge",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist so dumm",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Welche Farbe gefällt Ihnen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist ein Mädchen oder ein Junge",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Kennen Sie andere Chatbots",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ja, das stimmt",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was ist los",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du saugt",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie sind weit weg.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist das Schlimmste",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Frohe Weihnachten",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Haben Sie Schwestern",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wie sehe ich heute aus",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "In einer Minute wieder",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wie alt sind Sie",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Warum glauben Sie das",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wer ist dein Papa",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Bist du männlich oder weiblich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist so unlustig.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Können Sie meinen Geist lesen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Es gibt Google",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Haben Sie Brüder",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist dumm",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wie kannst du mir helfen?",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin glücklich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich starre",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich denke, du bist toll",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wem gehört",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wie heißt deine Mutter",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Glaubst du, ich sollte sie fragen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wie lange bist du geboren",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Das machte keinen Sinn",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Später",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie sind mit der cia",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was denken Sie über Technik",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "seid ihr toll",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du musst mich hassen.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin abgetickt",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "High-Five!",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist so schlau",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist so cool",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Mehr Spaß",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wer ist schöner, ich oder du",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte Sie auf einen Termin mitnehmen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wer ist dein Vater",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wer ist dein Vater",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was meinen Sie damit überhaupt?",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wie heiße ich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wer melden Sie sich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist ein Mädchen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Testen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin wütend",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Nicht wahr",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sagen Sie etwas komisch",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Kennst du Google",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was tun?",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was denkst du über mich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist dumm",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was passiert",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was haben Sie gestern gemacht?",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin müde",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Cool!",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Auf Wiedersehen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Kennst du meinen Namen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich wünschte, ich könnte dich umarmen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin es leid",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Frechen Sie sich wirklich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Yup, das stimmt",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Halten Sie und cortana aus",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Haben Sie eine Schwester",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie sind jetzt arbeitslos",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Herzlichen Glückwunsch zum Geburtstag!",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Liebst du mich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist gefeuert",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie scheinen wirklich schlau",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Glaubst du, ich sehe gut aus",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wie liebst du mich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wo wohnst Du",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist so glücklich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was ist los mit dir",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was meinst du damit",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sprich mit mir",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Es freut mich dich kennenzulernen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin verzweifelt",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Mein Freund sein",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie scheinen wirklich glücklich zu sein",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was ist los",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie werden bald arbeitslos",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Hallo",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist stumm",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "bist du Swinger",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was ist dein Ziel",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Es ist eine Freude, Sie zu treffen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Haben Sie einen Namen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Halten Sie sich auf eine Sekunde",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du siehst hässlich aus.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du kannst nicht mehr für mich arbeiten",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Haben Sie eine gute Nacht",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Vielen Dank",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich hasse alles über dich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich will mich hinlegen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Entschuldigung",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "I ' m all tuckered out",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Einen guten Tag",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Warum ist das so",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich fürchte, ich werde dich gehen lassen müssen.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Glaubst du an die Liebe",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Das Leben ist gut",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wie klug bist du",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich hoffe, dass du mich magst",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin hungrig",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Nachti Nacht",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Bist du da",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Können Sie ein Lied singen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich gebe dir einen rosa Zettel",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist frei",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin allein",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Verkaufen Sie meine Geheimnisse",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Großer Dank",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wer lieben Sie",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist smart",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich brauche eine Umarmung",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Das tut mir leid",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist ein Buttergesicht.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Bis später",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie sind sehr intelligent",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist der Beste",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Welche anderen Bots wissen Sie",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du intelligenter als ich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Herzlichen Dank",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Können Sie mir ein Sandwich machen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Warum hasst du mich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin Ingenieur",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ein Lied singen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Träumen Sie",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist nutzlos",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ein Lied",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was singen Sie am liebsten",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sollte ich einen neuen Job bekommen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Einen Witz erzählen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sind Sie nicht Chipper",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich habe einen neuen Haarschnitt",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich kann Auto fahren",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich denke, du bist so hübsch",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Geben Sie mir einen Witz",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Es gibt alexa",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie sind ein Spion",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wer ist klüger, ich oder du",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was Sie glauben macht, dass",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie sind in der Lage, die Stadt zu erreichen.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Heya",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wann werden Sie geschlossen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Alles, was Sie mir gesagt haben, war falsch.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie sind ein Lesbe",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Essen Sie",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Mögen Sie alexa",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "seid ihr echt",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Das ist nicht lustig.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin verliebt.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Mögen Sie Baseball",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Bitte",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Versucht ihr Weltherrschaft",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wie geht es dir",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was ist Liebe",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du hast Recht.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Können Sie mir eine Frage stellen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Aus welchem Land bist du",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Nein, das stimmt nicht",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist nicht lustig.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wie hoch kann man rechnen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin groß",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wo kommst du",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich mache nur Witze herum",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich wünschte, du gehst einfach weg.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was ist Ihr Geschlecht",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin müde",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was ist der Sinn des Lebens",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Große!",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ihr seid toll!",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Können Sie fliegen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist so ein Liebst",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte den Rest meines Lebens mit dir verbringen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin ein guter Mensch",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wer ist deine Mama",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was machen Sie morgen?",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wer ist Ihr Lieblingssänger",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "bist du schöner als ich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Bevorzugen Sie Rot oder Blau",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wer ist deine Mutter",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Haben Sie andere Antworten",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich verehre dich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie sind ein Roboter",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bitte um Verzeihung",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Das ist genial",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Weißt du, wer ich bin",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Bist du echt oder gefälscht",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Es gibt siri",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Hier bin ich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie sind ein Fan von Tech",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was soll ich dich nennen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was ist der Sinn des Lebens",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Gib mir einen Kuss",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Willst du mein bester Freund sein",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist lustig",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie sind ein Fan von Countrymusik",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Welcher von uns ist, der ist schlauer",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin dein größter Fan",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "omg sorry",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist wirklich langweilig",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wo bist du",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Woher kommst du",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Glaubst du, ich sollte ihn fragen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Warum bist du so langweilig",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ja, dazu",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wie ist dein Tag",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wo ist dein Haus",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wollen Sie die Welt regieren",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin so einsam",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "seid ihr asexuell",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Welche Art von Essen gefällt Ihnen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Verhungern Sie nicht",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Man weiß nichts.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich brauche einen Kuss",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin froh",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ungenau",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Singen Sie",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "In welchem Zustand bist du",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wie heißt dein Vater",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Bin gleich zurück",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ja",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sollte ich für Fußball ausprobieren",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Hasst du mich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin ein Republikaner",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist nett!",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte einkaufen gehen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Lächerlich sein",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Liebe dich!",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du hast keinen Sinn gemacht",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte, dass du mich magst",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Mögen Sie Computer",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Kennst du siri",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Dich verliebt mich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Schauen Sie, wie schlau Sie sind",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin wütend",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was ist Ihr Lieblingsessen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Warum hören Sie nicht auf zu reden",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich schätze es",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Haben Sie Familie",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Fragen Sie mich.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist so lustig.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wie viel genialer kann man",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Glaubst du, du bist intelligenter als ich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Fröhliches Halloween!",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Schwitzen Sie",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wer ist dein Meister",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sind Sie nicht toll",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Später alligatorisch",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Es tut mir leid",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wie bitte",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Glückliche Hannukah",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Hallöchen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Müde von dir",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin angepisst",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist lustig:)",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin Demokrat",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Kochen Sie mir etwas",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich kaute jetzt Kaugummi",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wie intelligent bist du",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "In welchem Land bist du",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Schmetterling.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Bist du mit dem fbi",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Woher kommen Sie",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Riechen Sie",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist wirklich schlau",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist eine Frau",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Nope, false",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Klingt gut",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich kann Sie nicht verstehen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin gelangweilt aus meinem Kopf",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Können wir Freunde sein",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Verweilen Sie Zeit im Garten",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Welches Alter bist du",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was ist dein Lieblingssong",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Können Sie Ihre Antworten nicht ändern",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was hast du heute gemacht",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Können Sie niesen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Niemand kümmert sich um mich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Gute Nacht",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Nacht",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Bissexuell",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich kann mir nichts vorstellen, was ich machen möchte",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Kann ich umarmen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Willst du mich heiraten",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist langweilig",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Prima",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Geben Sie mir eine hohe Fünf",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Kennst du alexa",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Danke",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Kennst du cortana",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist so nicht hübsch.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was ist Ihre Lieblingsaktivität",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was soll ich tun",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Oops, sorry",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich liebe dich.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Stellen Sie mir eine Frage.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich will nur schlafen gehen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Guten Morgen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie sind da",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Seien Sie lustig",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin einsam",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist so langweilig",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich fühle mich blau",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Weichspähen Sie mich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ruhe, du",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Können Sie singen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "hi cortana",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Geben Sie mir etwas Zucker",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist so ein Arschloch",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Singen Sie jemals",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist die Liebe meines Lebens",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich vermisse dich so sehr!",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was ist dein Lieblingsfilm",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Nicht lustig.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Das war richtig",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin gut aussehend",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Das stimmt",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist mein Freund",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin in so guter Laune",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich danke Ihnen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Kennen Sie ja schon Witze",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin bereit fürs Bett",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sagen Sie etwas Dumm",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Macht man sich müde",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was denken Sie über alexa",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin voller Traurigkeit",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich schaue okay aus",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist lahm",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist ein Mann",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist alt",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Seisch sein",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ihr Gesicht ist wie ein Pfannkuchen.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich langweile mich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Kennst du mich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Mögen Sie cortana",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte etwas essen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin ein Narr",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Es",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Guten Abend",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist rad.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Haben Sie Cortana getroffen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Können Sie schlafen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Bingo",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Willkommen im Frühling!",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Das war nicht wahr",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich glaube, du bist verträumt",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist nutzlos",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie sind nicht mehr angestellt",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich folge nicht",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich meinte nicht, dass",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin nicht dein Freund",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wo soll ich Urlaub machen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was denken Sie über Cortana",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich mache das",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Es ist wirklich schön, dich zu treffen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du hast mich gebissen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich verachte dich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "bist du mein imaginärer Freund",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was machst du später?",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wann bist du geboren",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Sie Gesicht saugt.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte dein Freund sein.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Hallo",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Magst du mich",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich liebe es, Valentinsten zu bekommen.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich will mich hinlegen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du antwortest nicht auf meine Frage.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin hübsch",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Haha",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was ist los",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wie heißt Ihr Chef",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Morgen",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin lesbisch",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "magst du mich nicht",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ich bin in dich verliebt.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Wie geht es dir heute",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Das war nicht lustig.",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Du bist ein Mann oder eine Frau",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "are you skynet",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Ist das auf",
+      "intent": "q_chitchat",
+      "entities": []
+    },
+    {
+      "text": "Was ist die Enterprise-Bot-Vorlage",
+      "intent": "q_faq",
+      "entities": []
+    }
+  ],
+  "patterns": [],
+  "patternAnyEntities": [],
+  "prebuiltEntities": [],
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.1",
+  "name": "dispatch",
+  "desc": "",
+  "culture": "en-us"
+}

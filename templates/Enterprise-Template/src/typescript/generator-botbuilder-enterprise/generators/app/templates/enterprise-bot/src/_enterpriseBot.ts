@@ -9,7 +9,7 @@ import { MainDialog } from "./dialogs/main/mainDialog";
 /**
  * Main entry point and orchestration for bot.
  */
-export class EnterpriseBot {
+export class <%= botNameClass %> {
     private readonly _botServices: BotServices;
     private readonly _conversationState: ConversationState;
     private readonly _userState: UserState;
@@ -31,7 +31,7 @@ export class EnterpriseBot {
         this._conversationState = conversationState;
         this._userState = userState;
 
-        this._dialogs = new DialogSet(this._conversationState.createProperty<DialogState>("EnterpriseBot"));
+        this._dialogs = new DialogSet(this._conversationState.createProperty<DialogState>("<%= botNameClass %>"));
         this._dialogs.add(new MainDialog(this._botServices, this._conversationState, this._userState));
     }
 

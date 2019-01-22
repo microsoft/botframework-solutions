@@ -1,0 +1,65 @@
+{
+  "version": "2.0",
+  "resources": [
+    {
+      "type": "endpoint",
+      "id": "1",
+      "name": "development",
+      "url": "http://localhost:3978/api/messages"
+    },
+    {
+      "type": "endpoint",
+      "id": "30",
+      "name": "production",
+      "url": "https://your-bot-url.azurewebsites.net/api/messages"
+    },
+    {
+      "type": "abs",
+      "id": "49",
+      "name": "EnterpriseBot"
+    },
+    {
+      "type": "appInsights",
+      "id": "3",
+      "name": "EnterpriseBotInsights"
+    },
+    {
+      "type": "blob",
+      "id": "2",
+      "name": "EnterpriseBotBlob",
+      "container": "transcripts"
+    },
+    {
+      "type": "cosmosdb",
+      "id": "8",
+      "name": "EntepriseBotCosmosDb",
+      "database": "botstate-db",
+      "collection": "botstate-collection"
+    },
+    {
+      "type": "luis",
+      "id": "general",
+      "name": "General"
+    },
+    {
+      "type": "qna",
+      "id": "faq",
+      "name": "FAQ"
+    },
+    {
+      "type": "qna",
+      "id": "chitchat",
+      "name": "ChitChat"
+    },
+    {
+      "type": "dispatch",
+      "id": "dispatch",
+      "name": "Dispatch",
+      "serviceIds": [
+        "general",
+        "faq",
+        "chitchat"
+      ]
+    }
+  ]
+}

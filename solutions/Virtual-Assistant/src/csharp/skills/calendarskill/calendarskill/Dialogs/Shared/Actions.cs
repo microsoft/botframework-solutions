@@ -30,6 +30,8 @@
         public const string TimePromptForUpdate = "TimePromptForUpdate";
         public const string TimePrompt = "TimePrompt";
         public const string GetEventPrompt = "GetEventPrompt";
+        public const string GetRecreateInfoPrompt = "GetRecreateInfoPrompt";
+        public const string GetRecreateInfo = "GetRecreateInfo";
         public const string Read = "read";
         public const string Greeting = "greeting";
         public const string GetEventsInit = "getEventsInit";

@@ -5,6 +5,7 @@ import { AutoSaveStateMiddleware, BotFrameworkAdapter, ConversationState, Transc
 import { BlobStorageService, BotConfiguration, IAppInsightsService, IBlobStorageService, ICosmosDBService, IEndpointService, IGenericService } from "botframework-config";
 import * as path from "path";
 import * as restify from "restify";
+import { <%= botNameClass %> } from "./<%= botNameFile %>";
 
 import * as i18n from "i18n";
 i18n.configure({
@@ -13,7 +14,6 @@ i18n.configure({
     objectNotation: true
 })
 
-import { EnterpriseBot } from "./enterpriseBot";
 
 // Read variables from .env file.
 import { config } from "dotenv";
@@ -126,10 +126,10 @@ if (cmConfig && cmConfig.configuration.key && cmConfig.configuration.region) {
     console.warn("Content Moderator not configured in .bot file.");
 }
 
-let bot: EnterpriseBot;
+let bot: <%= botNameClass %>;
 try {
     const services: BotServices = new BotServices(botConfig);
-    bot = new EnterpriseBot(services, conversationState, userState);
+    bot = new <%= botNameClass %>(services, conversationState, userState);
 } catch (err) {
     console.log(`Error: ${err}`);
     process.exit(BOT_CONFIGURATION_ERROR);
