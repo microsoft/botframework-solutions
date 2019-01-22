@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using CalendarSkill.Dialogs.TimeRemain.Resources;
+using CalendarSkill.Models;
 using CalendarSkillTest.Flow.Fakes;
 using CalendarSkillTest.Flow.Utterances;
 using Microsoft.Bot.Schema;
@@ -36,6 +37,8 @@ namespace CalendarSkillTest.Flow
         [TestMethod]
         public async Task Test_CalendarNextMeetingTimeRemaining()
         {
+            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
+            serviceManager.SetupCalendarService(new List<EventModel>() { MockCalendarService.CreateEventModel(startDateTime: DateTime.UtcNow.AddDays(1)) });
             await this.GetTestFlow()
                 .Send(TimeRemainingUtterances.NextMeetingTimeRemaining)
                 .AssertReply(this.ShowAuth())

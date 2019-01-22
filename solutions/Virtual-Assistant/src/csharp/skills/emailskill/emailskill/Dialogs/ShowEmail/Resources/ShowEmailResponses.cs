@@ -22,13 +22,13 @@ namespace EmailSkill.Dialogs.ShowEmail.Resources
         }
 
         // Generated accessors
-        public static BotResponse ReadOutPrompt => GetBotResponse();
-
-        public static BotResponse ReadOutOnlyOnePrompt => GetBotResponse();
-
         public static BotResponse ReadOutMessage => GetBotResponse();
 
         public static BotResponse ReadOutMorePrompt => GetBotResponse();
+
+        public static BotResponse ReadOutOnlyOnePrompt => GetBotResponse();
+
+        public static BotResponse ReadOutPrompt => GetBotResponse();
 
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {

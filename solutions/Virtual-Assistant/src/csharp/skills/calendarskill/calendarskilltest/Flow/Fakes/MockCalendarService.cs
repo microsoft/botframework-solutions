@@ -105,7 +105,10 @@ namespace CalendarSkillTest.Flow.Fakes
             // Another example date format: `new DateTime(2017, 12, 1, 9, 30, 0).ToString("o")`
             if (startDateTime == null)
             {
-                startDateTime = DateTime.UtcNow.AddDays(1);
+                DateTime now = DateTime.Now;
+                DateTime startTime = new DateTime(now.Year, now.Month, now.Day, 18, 0, 0);
+                startTime = TimeZoneInfo.ConvertTimeToUtc(startTime);
+                startDateTime = startTime.AddDays(1);
             }
 
             if (endDateTime == null)
