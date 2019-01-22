@@ -70,6 +70,24 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to all day.
+        /// </summary>
+        public static string AllDayLower {
+            get {
+                return ResourceManager.GetString("AllDayLower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to at {0}.
+        /// </summary>
+        public static string AtTime {
+            get {
+                return ResourceManager.GetString("AtTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to daily.
         /// </summary>
         public static string DailyToken {
@@ -88,6 +106,15 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to today.
+        /// </summary>
+        public static string Today {
+            get {
+                return ResourceManager.GetString("Today", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to weekly.
         /// </summary>
         public static string WeeklyToken {
@@ -95,14 +122,12 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
                 return ResourceManager.GetString("WeeklyToken", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to with a subject of {0}.
         /// </summary>
-        public static string WithTheSubject
-        {
-            get
-            {
+        public static string WithTheSubject {
+            get {
                 return ResourceManager.GetString("WithTheSubject", resourceCulture);
             }
         }

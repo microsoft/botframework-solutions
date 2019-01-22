@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Globalization;
+using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using Microsoft.Bot.Solutions.Resources;
 
 namespace CalendarSkill.Util
 {
     public class SpeakHelper
     {
-        public static string ToSpeechMeetingTime(DateTime dateTime, bool isAllDay)
+        public static string ToSpeechMeetingDateTime(DateTime dateTime, bool isAllDay)
         {
+            // All day: "{0} all day"
+            // Time: "h:mm tt"
             if (dateTime == null)
             {
                 return string.Empty;
@@ -23,14 +26,34 @@ namespace CalendarSkill.Util
             }
         }
 
+        public static string ToSpeechMeetingTime(DateTime dateTime, bool isAllDay)
+        {
+            // All day: "all day"
+            // Time: "at h:mm tt"
+            if (dateTime == null)
+            {
+                return string.Empty;
+            }
+
+            if (isAllDay)
+            {
+                return CalendarCommonStrings.AllDayLower;
+            }
+            else
+            {
+                return string.Format(CalendarCommonStrings.AtTime, dateTime.ToString(CommonStrings.DisplayTime));
+            }
+        }
+
         public static string ToSpeechMeetingDetail(string title, DateTime dateTime, bool isAllDay)
         {
+            // {title} at {time}
             if (title == null || dateTime == null)
             {
                 return string.Empty;
             }
 
-            return string.Format(CommonStrings.AtTimeDetailsFormat, title, ToSpeechMeetingTime(dateTime, isAllDay));
+            return string.Format(CommonStrings.AtTimeDetailsFormat, title, ToSpeechMeetingDateTime(dateTime, isAllDay));
         }
 
         public static string ToSpeechMeetingDuration(TimeSpan timeSpan)

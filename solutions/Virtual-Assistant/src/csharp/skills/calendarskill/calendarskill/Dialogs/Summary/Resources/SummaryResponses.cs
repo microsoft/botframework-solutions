@@ -54,6 +54,14 @@ namespace CalendarSkill.Dialogs.Summary.Resources
 
         public static BotResponse ReadNoLocation => GetBotResponse();
 
+        public static BotResponse AskForChangeStatus => GetBotResponse();
+
+        public static BotResponse AskForAction => GetBotResponse();
+
+        public static BotResponse AskForOrgnizerAction => GetBotResponse();
+
+        public static BotResponse AskForShowOverview => GetBotResponse();
+
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {
             return _responseManager.GetBotResponse(propertyName);
