@@ -1,0 +1,24 @@
+{
+  "MessagePrompt": {
+    "replies": [
+      {
+        "text": "Please type your message.",
+        "speak": "Please type your message."
+      },
+      {
+        "text": "Try saying something for this dialog.",
+        "speak": "Try saying something for this dialog."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "MessageResponse": {
+    "replies": [
+      {
+        "text": "You said: {Message}",
+        "speak": "You said: {Message}"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}
