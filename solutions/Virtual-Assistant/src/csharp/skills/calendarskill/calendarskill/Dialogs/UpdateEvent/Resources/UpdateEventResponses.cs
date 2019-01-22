@@ -32,6 +32,8 @@ namespace CalendarSkill.Dialogs.UpdateEvent.Resources
 
         public static BotResponse NoNewTime => GetBotResponse();
 
+        public static BotResponse NoNewTime_Retry => GetBotResponse();
+
         public static BotResponse EventWithStartTimeNotFound => GetBotResponse();
 
         public static BotResponse NoDeleteStartTime => GetBotResponse();
