@@ -1,7 +1,6 @@
 ﻿// https://docs.microsoft.com/en-us/visualstudio/modeling/t4-include-directive?view=vs-2017
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using System;
 using System.IO;
 using System.Runtime.CompilerServices;
 using Microsoft.Bot.Solutions.Dialogs;
@@ -23,15 +22,29 @@ namespace ToDoSkill.Dialogs.ShowToDo.Resources
         }
 
         // Generated accessors
-        public static BotResponse FirstToDoTasks => GetBotResponse();
+        public static BotResponse LatestOneTask => GetBotResponse();
 
-        public static BotResponse ShowNextToDoTasks => GetBotResponse();
+        public static BotResponse LatestTwoTasks => GetBotResponse();
 
-        public static BotResponse ShowPreviousToDoTasks => GetBotResponse();
+        public static BotResponse LatestThreeOrMoreTasks => GetBotResponse();
 
-        public static BotResponse ShowingMoreTasks => GetBotResponse();
+        public static BotResponse AskAddOrCompleteTaskMessage => GetBotResponse();
 
-        public static BotResponse NoToDoTasksPrompt => GetBotResponse();
+        public static BotResponse ReadMoreTasksPrompt => GetBotResponse();
+
+        public static BotResponse ReadNextTasksPrompt => GetBotResponse();
+
+        public static BotResponse NextOneTask => GetBotResponse();
+
+        public static BotResponse NextTwoTasks => GetBotResponse();
+
+        public static BotResponse NextThreeOrMoreTask => GetBotResponse();
+
+        public static BotResponse ShowPreviousTasks => GetBotResponse();
+
+        public static BotResponse NoTasksMessage => GetBotResponse();
+
+        public static BotResponse InstructionMessage => GetBotResponse();
 
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {

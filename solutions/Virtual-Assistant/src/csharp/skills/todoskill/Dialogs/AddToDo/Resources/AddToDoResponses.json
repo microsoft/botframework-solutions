@@ -1,0 +1,46 @@
+{
+  "AskTaskContentText": {
+    "replies": [
+      {
+        "text": "Sure. What do you want to put on the list?",
+        "speak": "Sure. What do you want to put on the list?"
+      },
+      {
+        "text": "Alright, what do you want to put on the list?",
+        "speak": "Alright, what do you want to put on the list?"
+      },
+      {
+        "text": "What do you want to put on the list?",
+        "speak": "What do you want to put on the list?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AfterTaskAdded": {
+    "replies": [
+      {
+        "text": "I have added {taskContent} to your {listType} list.",
+        "speak": "I have added {taskContent} to your {listType} list."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "SwitchListType": {
+    "replies": [
+      {
+        "text": "Alright, this looks like a task for your {listType} list. Would you like me to add this to your {listType} list?",
+        "speak": "Alright, this looks like a task for your {listType} list. Would you like me to add this to your {listType} list?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AddMoreTask": {
+    "replies": [
+      {
+        "text": "Anything else you want to add to your {listType} list?",
+        "speak": "Anything else you want to add to your {listType} list?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  }
+}

@@ -1,51 +1,110 @@
 {
-  "FirstToDoTasks": {
+  "LatestOneTask": {
     "replies": [
       {
-        "text": "the first {taskCount} are:",
-        "speak": "the first {taskCount} are:"
+        "text": "Your latest task is",
+        "speak": "Your latest task is"
       }
     ],
     "inputHint": "ignoringInput"
   },
-  "ShowNextToDoTasks": {
+  "LatestTwoTasks": {
     "replies": [
       {
-        "text": "Here's something you can do:",
-        "speak": "Here's something you can do:"
+        "text": "Your latest tasks are",
+        "speak": "Your latest tasks are"
       }
     ],
     "inputHint": "ignoringInput"
   },
-  "ShowPreviousToDoTasks": {
+  "LatestThreeOrMoreTasks": {
     "replies": [
       {
-        "text": "Showing your list:",
-        "speak": "Showing your list:"
+        "text": "Your latest {taskCount} tasks are",
+        "speak": "Your latest {taskCount} tasks are"
       }
     ],
     "inputHint": "ignoringInput"
   },
-  "ShowingMoreTasks": {
+  "AskAddOrCompleteTaskMessage": {
     "replies": [
       {
-        "text": "You have more items on the list, if you want to know the rest please ask me for \"next\" or \"more\" items.",
-        "speak": "You have more items on the list, if you want to know the rest please ask me for \"next\" or \"more\" items."
+        "text": "You can let me know if you want to add or complete a task.",
+        "speak": "You can let me know if you want to add or complete a task."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "ReadMoreTasksPrompt": {
+    "replies": [
+      {
+        "text": "Do you want me to read out more from your list?",
+        "speak": "Do you want me to read out more from your list?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ReadNextTasksPrompt": {
+    "replies": [
+      {
+        "text": "Do you want me to read out the next {taskCount}?",
+        "speak": "Do you want me to read out the next {taskCount}?"
       }
     ],
     "inputHint": "acceptingInput"
   },
-  "NoToDoTasksPrompt": {
+  "NextOneTask": {
     "replies": [
       {
-        "text": "Your list is empty. Do you want to add something?",
-        "speak": "Your list is empty. Do you want to add something?"
-      },
-      {
-        "text": "Your list has no tasks. Want to add a new one?",
-        "speak": "Your list has no tasks. Want to add a new one?"
+        "text": "The next task is",
+        "speak": "The next task is"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "ignoringInput"
+  },
+  "NextTwoTasks": {
+    "replies": [
+      {
+        "text": "The next tasks are",
+        "speak": "The next tasks are"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "NextThreeOrMoreTask": {
+    "replies": [
+      {
+        "text": "The next {taskCount} tasks are",
+        "speak": "The next {taskCount} tasks are"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "ShowPreviousTasks": {
+    "replies": [
+      {
+        "text": "The previous {taskCount} tasks are",
+        "speak": "The previous {taskCount} tasks are"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "NoTasksMessage": {
+    "replies": [
+      {
+        "text": "It seems you have no tasks in your {listType} list. Just let me know if you want to create a new task.",
+        "speak": "It seems you have no tasks in your {listType} list. Just let me know if you want to create a new task."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "InstructionMessage": {
+    "replies": [
+      {
+        "text": "Alright, I am able to create a new task for you. I can also complete or delete a task. Just let me know if you want to take any action.",
+        "speak": "Alright, I am able to create a new task for you. I can also complete or delete a task. Just let me know if you want to take any action."
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }

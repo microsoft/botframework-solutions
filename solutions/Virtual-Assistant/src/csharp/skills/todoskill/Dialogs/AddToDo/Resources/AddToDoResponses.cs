@@ -5,30 +5,30 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using Microsoft.Bot.Solutions.Dialogs;
 
-namespace ToDoSkill.Dialogs.MarkToDo.Resources
+namespace ToDoSkill.Dialogs.AddToDo.Resources
 {
     /// <summary>
     /// Contains bot responses.
     /// </summary>
-    public static class MarkToDoResponses
+    public static class AddToDoResponses
     {
         private static readonly ResponseManager _responseManager;
 
-        static MarkToDoResponses()
+        static AddToDoResponses()
         {
-            var dir = Path.GetDirectoryName(typeof(MarkToDoResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\MarkToDo\Resources");
-            _responseManager = new ResponseManager(resDir, "MarkToDoResponses");
+            var dir = Path.GetDirectoryName(typeof(AddToDoResponses).Assembly.Location);
+            var resDir = Path.Combine(dir, @"Dialogs\AddToDo\Resources");
+            _responseManager = new ResponseManager(resDir, "AddToDoResponses");
         }
 
         // Generated accessors
-        public static BotResponse AfterTaskCompleted => GetBotResponse();
+        public static BotResponse AskTaskContentText => GetBotResponse();
 
-        public static BotResponse AfterAllTasksCompleted => GetBotResponse();
+        public static BotResponse AfterTaskAdded => GetBotResponse();
 
-        public static BotResponse ListTypePrompt => GetBotResponse();
+        public static BotResponse SwitchListType => GetBotResponse();
 
-        public static BotResponse AskTaskIndex => GetBotResponse();
+        public static BotResponse AddMoreTask => GetBotResponse();
 
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {

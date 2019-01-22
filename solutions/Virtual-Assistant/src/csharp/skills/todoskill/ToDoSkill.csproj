@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Dialogs\Shared\CollectTaskIndexPrompt.cs" />
     <Compile Remove="ServiceClients\IOutlookService.cs" />
   </ItemGroup>
 
@@ -33,6 +34,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Dialogs\AddToDo\Resources\AddToDoResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AddToDoResponses.tt</DependentUpon>
+    </Compile>
     <Compile Update="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -90,19 +96,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Dialogs\AddToDo\Resources\AddToDoResponses.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\AddToDo\Resources\AddToDoResponses.zh.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.it.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.json">
@@ -111,52 +111,16 @@
     <Content Update="Dialogs\Main\Resources\ToDoMainResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\Main\Resources\ToDoMainResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\ToDoMainResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\ToDoMainResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\ToDoMainResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Update="Dialogs\Main\Resources\ToDoMainResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\MarkToDo\Resources\MarkToDoResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\MarkToDo\Resources\MarkToDoResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\MarkToDo\Resources\MarkToDoResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\MarkToDo\Resources\MarkToDoResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\MarkToDo\Resources\MarkToDoResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Update="Dialogs\MarkToDo\Resources\MarkToDoResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Shared\Resources\ToDoSharedResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\ToDoSharedResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\ToDoSharedResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\ToDoSharedResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\ToDoSharedResponses.it.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\Shared\Resources\ToDoSharedResponses.json">
@@ -186,6 +150,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Dialogs\AddToDo\Resources\AddToDoResponses.tt">
+      <LastGenOutput>AddToDoResponses.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
     <None Update="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.tt">
       <LastGenOutput>DeleteToDoResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -206,6 +174,10 @@
       <LastGenOutput>ShowToDoResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
 </Project>

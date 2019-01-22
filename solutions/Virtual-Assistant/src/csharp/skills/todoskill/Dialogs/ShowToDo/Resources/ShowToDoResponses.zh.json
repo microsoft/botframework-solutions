@@ -1,51 +1,110 @@
 ﻿{
-  "FirstToDoTasks": {
+  "LatestOneTask": {
     "replies": [
       {
-        "text": "前{taskCount}个是：",
-        "speak": "前{taskCount}个是："
+        "text": "你最新的任务是",
+        "speak": "你最新的任务是"
       }
     ],
     "inputHint": "ignoringInput"
   },
-  "ShowNextToDoTasks": {
+  "LatestTwoTasks": {
     "replies": [
       {
-        "text": "您可以选择下列操作：",
-        "speak": "您可以选择下列操作："
+        "text": "你最新的任务是",
+        "speak": "你最新的任务是"
       }
     ],
     "inputHint": "ignoringInput"
   },
-  "ShowPreviousToDoTasks": {
+  "LatestThreeOrMoreTasks": {
     "replies": [
       {
-        "text": "正在显示您的事项表：",
-        "speak": "正在显示您的事项表："
+        "text": "你最新的{taskCount}个任务是",
+        "speak": "你最新的{taskCount}个任务是"
       }
     ],
     "inputHint": "ignoringInput"
   },
-  "ShowingMoreTasks": {
+  "AskAddOrCompleteTaskMessage": {
     "replies": [
       {
-        "text": "如果您要浏览其余的事项，请问我‘下一页’或‘更多’。",
-        "speak": "如果您要浏览其余的事项，请问我‘下一页’或‘更多’。"
+        "text": "如果想要添加或者完成一项任务的话请告诉我。",
+        "speak": "如果想要添加或者完成一项任务的话请告诉我。"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "ReadMoreTasksPrompt": {
+    "replies": [
+      {
+        "text": "请问你想要听更多的任务吗？",
+        "speak": "请问你想要听更多的任务吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ReadNextTasksMessage": {
+    "replies": [
+      {
+        "text": "请问您想要听下面{taskCount}个任务吗？",
+        "speak": "请问您想要听下面{taskCount}个任务吗？"
       }
     ],
     "inputHint": "acceptingInput"
   },
-  "NoToDoTasksPrompt": {
+  "NextOneTask": {
     "replies": [
       {
-        "text": "您的事项表是空的。您需要添加第一个任务吗？",
-        "speak": "您的事项表是空的。您需要添加第一个任务吗？"
-      },
-      {
-        "text": "您的事项表是空的。需要添加一个新的？",
-        "speak": "您的事项表是空的。需要添加一个新的？"
+        "text": "下一个任务是",
+        "speak": "下一个任务是"
       }
     ],
-    "inputHint": "expectingInput"
+    "inputHint": "ignoringInput"
+  },
+  "NextTwoTasks": {
+    "replies": [
+      {
+        "text": "接下来的任务是",
+        "speak": "接下来的任务是"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "NextThreeOrMoreTask": {
+    "replies": [
+      {
+        "text": "接下来的{taskCount}个任务是",
+        "speak": "接下来的{taskCount}个任务是"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "ShowPreviousTasks": {
+    "replies": [
+      {
+        "text": "前面的{taskCount}项任务是",
+        "speak": "前面的{taskCount}项任务是"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "NoTasksMessage": {
+    "replies": [
+      {
+        "text": "您的{listType}列表没有事项。如果您想要创建一个的话尽管告诉我。",
+        "speak": "您的{listType}列表没有事项。如果您想要创建一个的话尽管告诉我。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "InstructionMessage": {
+    "replies": [
+      {
+        "text": "好的, 我能够添加任务. 我也能够完成或者删除一个任务. 如果您要采取任何行动的话请尽管告诉我。",
+        "speak": "好的, 我能够添加任务. 我也能够完成或者删除一个任务. 如果您要采取任何行动的话请尽管告诉我。"
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }

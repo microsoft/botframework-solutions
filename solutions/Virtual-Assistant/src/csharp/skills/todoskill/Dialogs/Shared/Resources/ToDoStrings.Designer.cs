@@ -61,6 +61,15 @@ namespace ToDoSkill.Dialogs.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to  and {0}. .
+        /// </summary>
+        public static string And {
+            get {
+                return ResourceManager.GetString("And", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please refer to the link {0} to see the lists created for you..
         /// </summary>
         public static string EmailContent {

@@ -138,7 +138,7 @@ namespace ToDoSkill.Dialogs.Main
                             else
                             {
                                 // No intent was identified, send confused message
-                                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(ToDoSharedResponses.DidntUnderstandMessage));
+                                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(ToDoMainResponses.DidntUnderstandMessage));
                                 if (_skillMode)
                                 {
                                     await CompleteAsync(dc);

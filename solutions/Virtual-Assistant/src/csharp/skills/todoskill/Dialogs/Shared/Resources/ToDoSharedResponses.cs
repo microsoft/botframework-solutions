@@ -22,13 +22,7 @@ namespace ToDoSkill.Dialogs.Shared.Resources
         }
 
         // Generated accessors
-        public static BotResponse DidntUnderstandMessage => GetBotResponse();
-
-        public static BotResponse CancellingMessage => GetBotResponse();
-
         public static BotResponse NoAuth => GetBotResponse();
-
-        public static BotResponse AuthFailed => GetBotResponse();
 
         public static BotResponse ActionEnded => GetBotResponse();
 
@@ -46,15 +40,9 @@ namespace ToDoSkill.Dialogs.Shared.Resources
 
         public static BotResponse ShowToDoTasks => GetBotResponse();
 
-        public static BotResponse AskToDoTaskIndex => GetBotResponse();
-
-        public static BotResponse AskToDoContentText => GetBotResponse();
-
-        public static BotResponse AfterToDoTaskAdded => GetBotResponse();
-
         public static BotResponse NoTasksInList => GetBotResponse();
 
-        public static BotResponse SwitchListType => GetBotResponse();
+        public static BotResponse AnythingElsePrompt => GetBotResponse();
 
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {

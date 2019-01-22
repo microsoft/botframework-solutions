@@ -1,0 +1,46 @@
+﻿{
+  "AskTaskContentText": {
+    "replies": [
+      {
+        "text": "当然。您想加入什么到事项表？",
+        "speak": "当然。您想加入什么到待办事项表？"
+      },
+      {
+        "text": "好的，您想加入什么到事项表？",
+        "speak": "好的，您想加入什么到事项表？"
+      },
+      {
+        "text": "您想加入什么到事项表？",
+        "speak": "您想加入什么到事项表？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AfterTaskAdded": {
+    "replies": [
+      {
+        "text": "已经将{taskContent}加入到您的{listType}列表。",
+        "speak": "已经将{taskContent}加入到您的{listType}列表。"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "SwitchListType": {
+    "replies": [
+      {
+        "text": "这看起来像是{listType}列表的任务。你想要把它加入到{listType}列表吗?",
+        "speak": "这看起来像是{listType}列表的任务。你想要把它加入到{listType}列表吗?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AddMoreTask": {
+    "replies": [
+      {
+        "text": "您还要往{listType}列表里面添加其它东西吗？",
+        "speak": "您还要往{listType}列表里面添加其它东西吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  }
+}

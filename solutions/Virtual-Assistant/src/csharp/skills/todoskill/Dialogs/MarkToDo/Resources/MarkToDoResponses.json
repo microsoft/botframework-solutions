@@ -1,20 +1,38 @@
 {
-  "AfterToDoTaskCompleted": {
+  "AfterTaskCompleted": {
     "replies": [
       {
-        "text": "I have completed the item {taskContent} for you.",
-        "speak": "I have completed the item {taskContent} for you."
+        "text": "I have completed {taskContent} from your {listType} list.",
+        "speak": "I have completed {taskContent} from your {listType} list."
       }
     ],
-    "inputHint": "acceptingInput"
+    "inputHint": "ignoringInput"
   },
-  "AfterAllToDoTasksCompleted": {
+  "AfterAllTasksCompleted": {
     "replies": [
       {
-        "text": "I have completed all the items for you.",
-        "speak": "I have completed all the items for you."
+        "text": "I have marked all your tasks as complete on your {listType} list.",
+        "speak": "I have marked all your tasks as complete on your {listType} list."
       }
     ],
-    "inputHint": "acceptingInput"
+    "inputHint": "ignoringInput"
+  },
+  "ListTypePrompt": {
+    "replies": [
+      {
+        "text": "Can you be specific from what list you would like to complete a task. Is it your To Do list, Shopping list or Grocery list?",
+        "speak": "Can you be specific from what list you would like to complete a task. Is it your To Do list, Shopping list or Grocery list?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AskTaskIndex": {
+    "replies": [
+      {
+        "text": "What task would you like to complete? It is also possible to complete all your tasks by naming out complete all.",
+        "speak": "What task would you like to complete? It is also possible to complete all your tasks by naming out complete all."
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }

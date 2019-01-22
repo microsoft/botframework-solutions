@@ -1,4 +1,45 @@
 {
+  "DidntUnderstandMessage": {
+    "replies": [
+      {
+        "text": "Sorry, I didn't understand what you meant.",
+        "speak": "Sorry, I didn't understand what you meant."
+      },
+      {
+        "text": "I didn't understand, perhaps try again in a different way.",
+        "speak": "I didn't understand, perhaps try again in a different way."
+      },
+      {
+        "text": "Can you try to ask in a different way?",
+        "speak": "Can you try to ask in a different way?"
+      },
+      {
+        "text": "I didn't get what you mean, can you try in a different way?",
+        "speak": "I didn't get what you mean, can you try in a different way?"
+      },
+      {
+        "text": "Could you elaborate?",
+        "speak": "Could you elaborate?"
+      },
+      {
+        "text": "Please say that again in a different way.",
+        "speak": "Please say that again in a different way."
+      },
+      {
+        "text": "I didn't quite get that.",
+        "speak": "I didn't quite get that."
+      },
+      {
+        "text": "Can you say that in a different way?",
+        "speak": "Can you say that in a different way?"
+      },
+      {
+        "text": "Can you try to ask me again? I didn't get what you mean.",
+        "speak": "Can you try to ask me again? I didn't get what you mean."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
   "ToDoWelcomeMessage": {
     "replies": [
       {
@@ -29,32 +70,6 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "GreetingMessage": {
-    "replies": [
-      {
-        "text": "Hi!",
-        "speak": "Hi!"
-      },
-      {
-        "text": "Hi there!",
-        "speak": "Hi there!"
-      },
-      {
-        "text": "Hello!",
-        "speak": "Hello!"
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
-  "GoodbyeMessage": {
-    "replies": [
-      {
-        "text": "Goodbye!",
-        "speak": "Goodbye!"
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
   "LogOut": {
     "replies": [
       {
@@ -75,8 +90,8 @@
   "FeatureNotAvailable": {
     "replies": [
       {
-        "text": "This feature is not yet available in the ToDo Skill. Please try asking something else.",
-        "speak": "This feature is not yet available in the ToDo Skill. Please try asking something else."
+        "text": "This feature is not yet available in the To Do Skill. Please try asking something else.",
+        "speak": "This feature is not yet available in the To Do Skill. Please try asking something else."
       }
     ],
     "inputHint": "acceptingInput"
