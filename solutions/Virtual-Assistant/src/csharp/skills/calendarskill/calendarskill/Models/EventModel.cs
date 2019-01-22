@@ -3,7 +3,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
+using System.Reflection;
 using CalendarSkill.Common;
 using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using CalendarSkill.Util;
@@ -751,13 +753,13 @@ namespace CalendarSkill.Models
                             {
                                 switch (attendee.ResponseStatus)
                                 {
-                                    case "accepted":
+                                    case GoogleAttendeeStatus.Accepted:
                                         return EventStatus.Accepted;
-                                    case "tentative":
+                                    case GoogleAttendeeStatus.Tentative:
                                         return EventStatus.Tentative;
-                                    case "declined":
+                                    case GoogleAttendeeStatus.Declined:
                                         return EventStatus.Cancelled;
-                                    case "needsAction":
+                                    case GoogleAttendeeStatus.NeedsAction:
                                         return EventStatus.NotResponded;
                                     default:
                                         return EventStatus.None;
@@ -801,13 +803,13 @@ namespace CalendarSkill.Models
                                 switch (value)
                                 {
                                     case EventStatus.Accepted:
-                                        attendee.ResponseStatus = "accepted";
+                                        attendee.ResponseStatus = GoogleAttendeeStatus.Accepted;
                                         break;
                                     case EventStatus.Tentative:
-                                        attendee.ResponseStatus = "tentative";
+                                        attendee.ResponseStatus = GoogleAttendeeStatus.Tentative;
                                         break;
                                     case EventStatus.Cancelled:
-                                        attendee.ResponseStatus = "declined";
+                                        attendee.ResponseStatus = GoogleAttendeeStatus.Declined;
                                         break;
                                     default:
                                         break;

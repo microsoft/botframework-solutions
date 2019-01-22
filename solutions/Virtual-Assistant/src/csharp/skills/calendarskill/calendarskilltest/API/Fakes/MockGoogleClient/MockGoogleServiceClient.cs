@@ -13,6 +13,8 @@ namespace CalendarSkillTest.API.Fakes.MockGoogleClient
 {
     public static class MockGoogleServiceClient
     {
+        public const string CalendarIdNotSupported = "Calendar ID not supported";
+        public const string EventIdNotFound = "Event id not found";
         private static Mock<GoogleCalendarService> mockCalendarService;
         private static Mock<EventsResource> mockEventsResource;
 
@@ -25,7 +27,7 @@ namespace CalendarSkillTest.API.Fakes.MockGoogleClient
             {
                 if (calendarId != "primary")
                 {
-                    throw new Exception("Calendar ID not support");
+                    throw new Exception(CalendarIdNotSupported);
                 }
 
                 MockEventsResource.MockInsertRequest mockInsertRequest = new MockEventsResource.MockInsertRequest(mockCalendarService.Object, body, calendarId);
@@ -37,7 +39,7 @@ namespace CalendarSkillTest.API.Fakes.MockGoogleClient
             {
                 if (calendarId != "primary")
                 {
-                    throw new Exception("Calendar ID not support");
+                    throw new Exception(CalendarIdNotSupported);
                 }
 
                 if (body.Id != eventId)
@@ -54,7 +56,7 @@ namespace CalendarSkillTest.API.Fakes.MockGoogleClient
             {
                 if (calendarId != "primary")
                 {
-                    throw new Exception("Calendar ID not support");
+                    throw new Exception(CalendarIdNotSupported);
                 }
 
                 MockEventsResource.MockListRequest mockListRequest = new MockEventsResource.MockListRequest(mockCalendarService.Object, calendarId);
@@ -66,7 +68,7 @@ namespace CalendarSkillTest.API.Fakes.MockGoogleClient
             {
                 if (calendarId != "primary")
                 {
-                    throw new Exception("Calendar ID not support");
+                    throw new Exception(CalendarIdNotSupported);
                 }
 
                 MockEventsResource.MockDeleteRequest mockDeleteRequest = new MockEventsResource.MockDeleteRequest(mockCalendarService.Object, calendarId, eventId);
@@ -78,7 +80,7 @@ namespace CalendarSkillTest.API.Fakes.MockGoogleClient
             {
                 if (calendarId != "primary")
                 {
-                    throw new Exception("Calendar ID not support");
+                    throw new Exception(CalendarIdNotSupported);
                 }
 
                 MockEventsResource.MockGetRequest mockGetRequest = new MockEventsResource.MockGetRequest(mockCalendarService.Object, calendarId, eventId);
@@ -108,7 +110,7 @@ namespace CalendarSkillTest.API.Fakes.MockGoogleClient
                 {
                     if (CalendarId != "primary")
                     {
-                        throw new Exception("Calendar ID not support");
+                        throw new Exception(CalendarIdNotSupported);
                     }
 
                     return this.Body;
@@ -129,7 +131,7 @@ namespace CalendarSkillTest.API.Fakes.MockGoogleClient
                 {
                     if (CalendarId != "primary")
                     {
-                        throw new Exception("Calendar ID not support");
+                        throw new Exception(CalendarIdNotSupported);
                     }
 
                     if (Body.Id != EventId)
@@ -259,7 +261,7 @@ namespace CalendarSkillTest.API.Fakes.MockGoogleClient
                 {
                     if (CalendarId != "primary")
                     {
-                        throw new Exception("Calendar ID not support");
+                        throw new Exception(CalendarIdNotSupported);
                     }
 
                     if (ShowDeleted.Value)
@@ -304,7 +306,7 @@ namespace CalendarSkillTest.API.Fakes.MockGoogleClient
                 {
                     if (CalendarId != "primary")
                     {
-                        throw new Exception("Calendar ID not support");
+                        throw new Exception(CalendarIdNotSupported);
                     }
 
                     if (EventId == "Test_Access_Denied")
@@ -325,7 +327,7 @@ namespace CalendarSkillTest.API.Fakes.MockGoogleClient
                     // we can change this to real data set in future and make not found logic real.
                     if (EventId != "delete_event")
                     {
-                        throw new Exception("Event id not found");
+                        throw new Exception(EventIdNotFound);
                     }
 
                     return this.EventId;
@@ -386,12 +388,12 @@ namespace CalendarSkillTest.API.Fakes.MockGoogleClient
                 {
                     if (CalendarId != "primary")
                     {
-                        throw new Exception("Calendar ID not support");
+                        throw new Exception(CalendarIdNotSupported);
                     }
 
                     if (EventId != buildInEvent.Id)
                     {
-                        throw new Exception("Event id not found");
+                        throw new Exception(EventIdNotFound);
                     }
 
                     return buildInEvent;

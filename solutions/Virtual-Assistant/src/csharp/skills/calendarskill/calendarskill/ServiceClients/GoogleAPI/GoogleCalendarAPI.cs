@@ -22,6 +22,8 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
     /// </summary>
     public class GoogleCalendarAPI : ICalendarService
     {
+        // the calendar id only used in google api, so set the const here.
+        private const string CalendarId = "primary";
         private readonly GoogleCalendarService _service;
 
         /// <summary>
@@ -167,7 +169,7 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
         {
             try
             {
-                var request = _service.Events.Patch(updateEvent, "primary", updateEvent.Id);
+                var request = _service.Events.Patch(updateEvent, CalendarId, updateEvent.Id);
                 var gevent = ((IClientServiceRequest<Event>)request).Execute();
                 return gevent;
             }
@@ -182,7 +184,7 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
             try
             {
                 // Define parameters of request.
-                var request = _service.Events.List("primary");
+                var request = _service.Events.List(CalendarId);
                 request.TimeMin = startTime;
                 request.TimeMax = endTime;
                 request.ShowDeleted = false;
@@ -204,7 +206,7 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
             try
             {
                 // Define parameters of request.
-                var request = _service.Events.List("primary");
+                var request = _service.Events.List(CalendarId);
                 request.TimeMin = startTime;
                 request.ShowDeleted = false;
                 request.SingleEvents = true;
@@ -226,7 +228,7 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
             try
             {
                 // Define parameters of request.
-                var request = _service.Events.List("primary");
+                var request = _service.Events.List(CalendarId);
                 request.TimeMin = DateTime.UtcNow;
                 request.ShowDeleted = false;
                 request.SingleEvents = true;
@@ -247,7 +249,7 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
         {
             try
             {
-                var request = _service.Events.Insert(newEvent, "primary");
+                var request = _service.Events.Insert(newEvent, CalendarId);
                 var gevent = ((IClientServiceRequest<Event>)request).Execute();
                 return gevent;
             }
@@ -261,7 +263,7 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
         {
             try
             {
-                var request = _service.Events.Delete("primary", id);
+                var request = _service.Events.Delete(CalendarId, id);
                 var result = ((IClientServiceRequest<string>)request).Execute();
                 return result;
             }
@@ -275,13 +277,13 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
         {
             try
             {
-                var request = _service.Events.Get("primary", id);
+                var request = _service.Events.Get(CalendarId, id);
                 var gevent = ((IClientServiceRequest<Event>)request).Execute();
                 foreach (var attendee in gevent.Attendees)
                 {
                     if (attendee.Self.HasValue && attendee.Self.Value)
                     {
-                        attendee.ResponseStatus = "declined";
+                        attendee.ResponseStatus = GoogleAttendeeStatus.Declined;
                         break;
                     }
                 }
@@ -298,13 +300,13 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
         {
             try
             {
-                var request = _service.Events.Get("primary", id);
+                var request = _service.Events.Get(CalendarId, id);
                 var gevent = ((IClientServiceRequest<Event>)request).Execute();
                 foreach (var attendee in gevent.Attendees)
                 {
                     if (attendee.Self.HasValue && attendee.Self.Value)
                     {
-                        attendee.ResponseStatus = "accepted";
+                        attendee.ResponseStatus = GoogleAttendeeStatus.Accepted;
                         break;
                     }
                 }

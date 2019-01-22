@@ -109,7 +109,7 @@ namespace CalendarSkillTest.API
             }
             catch (Exception e)
             {
-                Assert.IsTrue(e.Message == "Event id not found");
+                Assert.IsTrue(e.Message == MockGoogleServiceClient.EventIdNotFound);
                 return;
             }
 
@@ -150,7 +150,7 @@ namespace CalendarSkillTest.API
             }
             catch (Exception e)
             {
-                Assert.IsTrue(e.Message == "Event id not found");
+                Assert.IsTrue(e.Message == MockGoogleServiceClient.EventIdNotFound);
                 return;
             }
 
@@ -174,7 +174,7 @@ namespace CalendarSkillTest.API
             }
             catch (Exception e)
             {
-                Assert.IsTrue(e.Message == "Event id not found");
+                Assert.IsTrue(e.Message == MockGoogleServiceClient.EventIdNotFound);
                 return;
             }
 
