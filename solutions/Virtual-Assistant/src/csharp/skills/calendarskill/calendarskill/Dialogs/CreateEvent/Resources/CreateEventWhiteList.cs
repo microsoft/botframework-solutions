@@ -56,18 +56,6 @@ namespace CalendarSkill.Dialogs.CreateEvent.Resources
             return whiteLists[locale].DefaultTitle[rand];
         }
 
-        public static string[] GetContactNameSeparator()
-        {
-            var locale = CultureInfo.CurrentUICulture.Name.Split("-")[0].ToLower();
-
-            if (!whiteLists.ContainsKey(locale))
-            {
-                locale = DefaultCulture;
-            }
-
-            return whiteLists[locale].ContactSeparator;
-        }
-
         private class WhiteList
         {
             [JsonProperty("SkipPhrases")]
@@ -75,9 +63,6 @@ namespace CalendarSkill.Dialogs.CreateEvent.Resources
 
             [JsonProperty("DefaultTitle")]
             public List<string> DefaultTitle { get; private set; }
-
-            [JsonProperty("ContactSeparator")]
-            public string[] ContactSeparator { get; private set; }
         }
     }
 }

@@ -38,12 +38,6 @@ namespace CalendarSkill.Dialogs.CreateEvent.Resources
 
         public static BotResponse EventCreationFailed => GetBotResponse();
 
-        public static BotResponse NoAttendees => GetBotResponse();
-
-        public static BotResponse PromptTooManyPeople => GetBotResponse();
-
-        public static BotResponse PromptPersonNotFound => GetBotResponse();
-
         public static BotResponse NoStartDate => GetBotResponse();
 
         public static BotResponse NoStartDate_Retry => GetBotResponse();
@@ -61,8 +55,6 @@ namespace CalendarSkill.Dialogs.CreateEvent.Resources
         public static BotResponse GetRecreateInfo => GetBotResponse();
 
         public static BotResponse GetRecreateInfo_Retry => GetBotResponse();
-
-        public static BotResponse ConfirmRecipient => GetBotResponse();
 
         public static BotResponse InvaildDuration => GetBotResponse();
 

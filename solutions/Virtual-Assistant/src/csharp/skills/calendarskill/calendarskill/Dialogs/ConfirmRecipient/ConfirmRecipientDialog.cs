@@ -4,9 +4,10 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using CalendarSkill.Dialogs.CreateEvent.Resources;
+using CalendarSkill.Dialogs.ConfirmRecipient.Resources;
 using CalendarSkill.Dialogs.Shared;
 using CalendarSkill.Dialogs.Shared.DialogOptions;
+using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
 using Luis;
@@ -67,7 +68,7 @@ namespace CalendarSkill.Dialogs.ConfirmRecipient
                     return await sc.NextAsync(cancellationToken: cancellationToken);
                 }
 
-                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoAttendees) }, cancellationToken);
+                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(ConfirmRecipientResponses.NoAttendees) }, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -103,7 +104,7 @@ namespace CalendarSkill.Dialogs.ConfirmRecipient
                         {
                             if (userInput != null)
                             {
-                                var nameList = userInput.Split(CreateEventWhiteList.GetContactNameSeparator(), StringSplitOptions.None)
+                                var nameList = userInput.Split(GetContactNameSeparator(), StringSplitOptions.None)
                                     .Select(x => x.Trim())
                                     .Where(x => !string.IsNullOrWhiteSpace(x))
                                     .ToList();
@@ -286,11 +287,11 @@ namespace CalendarSkill.Dialogs.ConfirmRecipient
 
                 if (((UpdateUserNameDialogOptions)sc.Options).Reason == UpdateUserNameDialogOptions.UpdateReason.TooMany)
                 {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.PromptTooManyPeople, ResponseBuilder, new StringDictionary() { { "UserName", currentRecipientName } }) }, cancellationToken);
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(ConfirmRecipientResponses.PromptTooManyPeople, ResponseBuilder, new StringDictionary() { { "UserName", currentRecipientName } }) }, cancellationToken);
                 }
                 else
                 {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.PromptPersonNotFound, ResponseBuilder, new StringDictionary() { { "UserName", currentRecipientName } }) }, cancellationToken);
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(ConfirmRecipientResponses.PromptPersonNotFound, ResponseBuilder, new StringDictionary() { { "UserName", currentRecipientName } }) }, cancellationToken);
                 }
             }
             catch (Exception ex)
@@ -330,7 +331,7 @@ namespace CalendarSkill.Dialogs.ConfirmRecipient
             var options = new PromptOptions
             {
                 Choices = new List<Choice>(),
-                Prompt = dc.Context.Activity.CreateReply(CreateEventResponses.ConfirmRecipient),
+                Prompt = dc.Context.Activity.CreateReply(ConfirmRecipientResponses.ConfirmRecipient),
             };
             for (var i = 0; i < personList.Count; i++)
             {
@@ -426,6 +427,11 @@ namespace CalendarSkill.Dialogs.ConfirmRecipient
             }
 
             return result;
+        }
+
+        private string[] GetContactNameSeparator()
+        {
+            return CalendarCommonStrings.ContactSeparator.Split("|");
         }
     }
 }

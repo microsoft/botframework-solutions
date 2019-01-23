@@ -7,10 +7,5 @@
   ],
     "DefaultTitle": [
         "Meeting"
-    ],
-    "ContactSeparator": [
-        ",",
-        "and",
-        ";"
     ]
 }

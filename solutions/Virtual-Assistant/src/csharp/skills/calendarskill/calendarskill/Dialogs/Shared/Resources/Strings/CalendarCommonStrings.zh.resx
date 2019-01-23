@@ -126,6 +126,9 @@
   <data name="AtTime" xml:space="preserve">
     <value>在{0}</value>
   </data>
+  <data name="ContactSeparator" xml:space="preserve">
+    <value>，|；|和|,</value>
+  </data>
   <data name="DailyToken" xml:space="preserve">
     <value>每天</value>
   </data>

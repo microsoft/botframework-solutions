@@ -28,9 +28,7 @@ namespace CalendarSkill.Dialogs.ConfirmRecipient.Resources
 
         public static BotResponse ConfirmRecipient => GetBotResponse();
 
-        public static BotResponse ConfirmRecipientNotFirstPage => GetBotResponse();
-
-        public static BotResponse ConfirmRecipientLastPage => GetBotResponse();
+        public static BotResponse NoAttendees => GetBotResponse();
 
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {

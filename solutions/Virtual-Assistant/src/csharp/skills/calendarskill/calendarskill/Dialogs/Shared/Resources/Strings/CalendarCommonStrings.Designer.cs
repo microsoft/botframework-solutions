@@ -88,6 +88,15 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ,|and|;.
+        /// </summary>
+        public static string ContactSeparator {
+            get {
+                return ResourceManager.GetString("ContactSeparator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to daily.
         /// </summary>
         public static string DailyToken {
