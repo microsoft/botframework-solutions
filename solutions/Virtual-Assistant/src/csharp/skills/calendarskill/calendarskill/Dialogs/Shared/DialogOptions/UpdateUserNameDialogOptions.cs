@@ -1,13 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
-namespace CalendarSkill
+namespace CalendarSkill.Dialogs.Shared.DialogOptions
 {
     public class UpdateUserNameDialogOptions
     {
         public UpdateUserNameDialogOptions()
         {
-            Reason = UpdateReason.NotFound;
+            Reason = UpdateReason.TooMany;
         }
 
         public UpdateUserNameDialogOptions(UpdateReason reason)

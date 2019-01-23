@@ -1,4 +1,4 @@
-﻿namespace CalendarSkill
+﻿namespace CalendarSkill.Dialogs.Shared.DialogOptions
 {
     public class CalendarSkillDialogOptions
     {

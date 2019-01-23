@@ -7,6 +7,7 @@ using CalendarSkill.Common;
 using CalendarSkill.Dialogs.ChangeEventStatus.Resources;
 using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared;
+using CalendarSkill.Dialogs.Shared.DialogOptions;
 using CalendarSkill.Dialogs.Shared.Prompts.Options;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Models;

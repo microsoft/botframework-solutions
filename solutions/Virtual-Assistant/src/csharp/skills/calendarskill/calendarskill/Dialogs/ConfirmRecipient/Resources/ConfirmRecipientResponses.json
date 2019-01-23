@@ -1,0 +1,71 @@
+{
+  "PromptTooManyPeople": {
+    "replies": [
+      {
+        "text": "There are too many people named {UserName}, Please re-enter the name.",
+        "speak": "There are too many people named {UserName}, Please re-enter the name."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "PromptPersonNotFound": {
+    "replies": [
+      {
+        "text": "Didn't find someone named {UserName}, please input the right name.",
+        "speak": "Didn't find someone named {UserName}, please input the right name."
+      },
+      {
+        "text": "I could not find the contact '{UserName}' your are looking for. Can you try again?",
+        "speak": "I could not find the contact '{UserName}' your are looking for. Can you try again?"
+      },
+      {
+        "text": "Can you try again by stating out firstname and surname of {UserName}?",
+        "speak": "Can you try again by stating out firstname and surname of {UserName}?"
+      },
+      {
+        "text": "Can you provide the alias of the contact '{UserName}' you are looking for?",
+        "speak": "Can you provide the alias of the contact '{UserName}' you are looking for?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmRecipient": {
+    "replies": [
+      {
+        "text": "I found the following relevant contacts:",
+        "speak": "I found the following relevant contacts"
+      },
+      {
+        "text": "Which one do you want to email?",
+        "speak": "Which one do you want to email?"
+      },
+      {
+        "text": "Which contact do you want to select?",
+        "speak": "Which contact do you want to select?"
+      },
+      {
+        "text": "I found contacts that you work close with:",
+        "speak": "I found contacts that you work close with"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmRecipientNotFirstPage": {
+    "replies": [
+      {
+        "text": "I found more relevant contacts, anyone you would like to select?",
+        "speak": "I found more relevant contacts, anyone you would like to select?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmRecipientLastPage": {
+    "replies": [
+      {
+        "text": "I am showing you contacts within your organization. Anyone you would like to select?",
+        "speak": "I am showing you contacts within your organization. Anyone you would like to select?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  }
+}

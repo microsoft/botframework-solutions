@@ -12,6 +12,7 @@ using CalendarSkill.Dialogs.CreateEvent;
 using CalendarSkill.Dialogs.JoinEvent;
 using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared;
+using CalendarSkill.Dialogs.Shared.DialogOptions;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Dialogs.Summary;
 using CalendarSkill.Dialogs.TimeRemain;
