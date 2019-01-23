@@ -14,6 +14,7 @@ namespace Luis
         public enum Intent
         {
             Sample,
+            Auth,
             None
         };
         public Dictionary<Intent, Microsoft.Bot.Builder.IntentScore> Intents;

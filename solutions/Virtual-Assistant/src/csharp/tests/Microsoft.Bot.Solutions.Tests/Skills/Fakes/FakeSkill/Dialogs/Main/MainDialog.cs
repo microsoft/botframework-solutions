@@ -19,6 +19,7 @@ using FakeSkill.Dialogs.Shared;
 using FakeSkill.Dialogs.Shared.DialogOptions;
 using FakeSkill.Dialogs.Shared.Resources;
 using FakeSkill.ServiceClients;
+using FakeSkill.Dialogs.Auth;
 
 namespace FakeSkill.Dialogs.Main
 {
@@ -96,6 +97,12 @@ namespace FakeSkill.Dialogs.Main
                     case FakeSkillLU.Intent.Sample:
                         {
                             await dc.BeginDialogAsync(nameof(SampleDialog), skillOptions);
+                            break;
+                        }
+
+                    case FakeSkillLU.Intent.Auth:
+                        {
+                            await dc.BeginDialogAsync(nameof(AuthDialog), skillOptions);
                             break;
                         }
 
@@ -267,6 +274,7 @@ namespace FakeSkill.Dialogs.Main
         private void RegisterDialogs()
         {
             AddDialog(new SampleDialog(_services, _conversationStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new AuthDialog(_services, _conversationStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
         }
 
         private class Events

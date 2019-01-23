@@ -1,13 +1,16 @@
-﻿using Autofac;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Globalization;
+using System.Threading.Tasks;
+using Autofac;
 using FakeSkill.Dialogs.Sample.Resources;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
-using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Testing;
@@ -15,45 +18,35 @@ using Microsoft.Bot.Solutions.Testing.Fakes;
 using Microsoft.Bot.Solutions.Tests.Skills.LuisTestUtils;
 using Microsoft.Bot.Solutions.Tests.Skills.Utterances;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Globalization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Solutions.Tests.Skills
 {
-   [TestClass]
-   public class SkillTests : BotTestBase
+    [TestClass]
+    public class SkillTests : BotTestBase
     {
-        public ConversationState ConversationState { get; set; }
-        public IStatePropertyAccessor<DialogState> DialogState { get; set; }
-        public DialogSet Dialogs { get; set; }
-
-        public UserState UserState { get; set; }
-
-        public IBotTelemetryClient TelemetryClient { get; set; }
-
-        public SkillConfigurationBase Services { get; set; }
-        public SkillDialogOptions SkillDialogOptions { get; set; }
-        public Dictionary<string, SkillConfigurationBase> Skills;
-
-        public ConversationReference Conversation { get; set; }
+        private ConversationState _conversationState { get; set; }
+        private IStatePropertyAccessor<DialogState> _dialogState { get; set; }
+        private DialogSet _dialogs { get; set; }
+        private UserState _userState { get; set; }
+        private IBotTelemetryClient _telemetryClient { get; set; }
+        private SkillConfigurationBase _services { get; set; }
+        private SkillDialogOptions _skillDialogOptions { get; set; }
+        private Dictionary<string, SkillConfigurationBase> _skills;
+        private ConversationReference _conversation { get; set; }
 
         [TestInitialize]
         public new void Initialize()
         {
             var builder = new ContainerBuilder();
 
-            ConversationState = new ConversationState(new MemoryStorage());
-            DialogState = ConversationState.CreateProperty<DialogState>(nameof(DialogState));
-            UserState = new UserState(new MemoryStorage());
-            TelemetryClient = new NullBotTelemetryClient();         
+            _conversationState = new ConversationState(new MemoryStorage());
+            _dialogState = _conversationState.CreateProperty<DialogState>(nameof(_dialogState));
+            _userState = new UserState(new MemoryStorage());
+            _telemetryClient = new NullBotTelemetryClient();
 
             // Add the LUIS model fakes used by the Skill
-            Services = new MockSkillConfiguration();
-            Services.LocaleConfigurations.Add("en", new LocaleConfiguration()
+            _services = new MockSkillConfiguration();
+            _services.LocaleConfigurations.Add("en", new LocaleConfiguration()
             {
                 Locale = "en-us",
                 LuisServices = new Dictionary<string, ITelemetryLuisRecognizer>
@@ -62,8 +55,7 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
                     { "FakeSkill", FakeSkillTestUtil.CreateRecognizer() }
                 }
             });
-
-            Services.LocaleConfigurations.Add("es", new LocaleConfiguration()
+            _services.LocaleConfigurations.Add("es", new LocaleConfiguration()
             {
                 Locale = "es-mx",
                 LuisServices = new Dictionary<string, ITelemetryLuisRecognizer>
@@ -73,7 +65,11 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
                 }
             });
 
-            builder.RegisterInstance(new BotStateSet(UserState, ConversationState));
+            // Dummy Authentication connection for Auth testing
+            _services.AuthenticationConnections = new Dictionary<string, string>();
+            _services.AuthenticationConnections.Add("DummyAuth", "DummyAuthConnection");
+
+            builder.RegisterInstance(new BotStateSet(_userState, _conversationState));
             Container = builder.Build();
 
             BotResponseBuilder = new BotResponseBuilder();
@@ -87,33 +83,39 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
             fakeSkillDefinition.Id = fakeSkillName;
             fakeSkillDefinition.Name = fakeSkillName;
 
-            Skills = new Dictionary<string, SkillConfigurationBase>
+            _skills = new Dictionary<string, SkillConfigurationBase>
             {
-                { fakeSkillDefinition.Id, Services }
+                { fakeSkillDefinition.Id, _services }
             };
 
             // Options are passed to the SkillDialog
-            SkillDialogOptions = new SkillDialogOptions();
-            SkillDialogOptions.SkillDefinition = fakeSkillDefinition;
+            _skillDialogOptions = new SkillDialogOptions();
+            _skillDialogOptions.SkillDefinition = fakeSkillDefinition;
 
             // Add the SkillDialog to the available dialogs passing the initialized FakeSkill
-            Dialogs = new DialogSet(DialogState);
-            Dialogs.Add(new CustomSkillDialog(Skills, DialogState, null, TelemetryClient));            
+            _dialogs = new DialogSet(_dialogState);
+            _dialogs.Add(new CustomSkillDialog(_skills, _dialogState, null, _telemetryClient));
 
-            Conversation = new ConversationReference
-                {
-                    ChannelId = "test",
-                    ServiceUrl = "https://test.com",
-                };
+            // Manually mange the conversation metadata when we need finer grained control
+            _conversation = new ConversationReference
+            {
+                ChannelId = "test",
+                ServiceUrl = "https://test.com",
+            };
 
-            Conversation.User = new ChannelAccount("user1", "User1");
-            Conversation.Bot = new ChannelAccount("bot", "Bot");
-            Conversation.Conversation = new ConversationAccount(false, "convo1", "Conversation1");
+            _conversation.User = new ChannelAccount("user1", "User1");
+            _conversation.Bot = new ChannelAccount("bot", "Bot");
+            _conversation.Conversation = new ConversationAccount(false, "convo1", "Conversation1");
         }
 
+        /// <summary>
+        /// Test that we can create a skill and complete a end to end flow includign the EndOfConversation event
+        /// signalling the Skill has completed.
+        /// </summary>
+        /// <returns></returns>
         [TestMethod]
         public async Task InvokeFakeSkillAndDialog()
-        {            
+        {       
             await GetTestFlow()
                .Send(SampleDialogUtterances.Trigger)
                .AssertReply(MessagePrompt())
@@ -123,9 +125,13 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
                .StartTestAsync();
         }
 
+        /// <summary>
+        /// Replica of above test but testing that localisation is working
+        /// </summary>
+        /// <returns></returns>
         [TestMethod]
         public async Task InvokeFakeSkillAndDialog_Spanish()
-        {
+        {           
             string locale = "es-mx";
 
             // Set the culture to ES to ensure the reply asserts pull out the spanish variant
@@ -141,13 +147,32 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
                .StartTestAsync();
         }
 
+        /// <summary>
+        /// Test the AUth flow behaviour within the SkillDialog
+        /// </summary>
+        /// <returns></returns>
+        //[TestMethod]
+        //public async Task InvokeFakeSkillAndDialog_Auth()
+        //{
+        //    await GetTestFlow()
+        //       .Send(SampleDialogUtterances.Auth)
+        //       //.AssertReply(MessagePrompt())
+        //       //.AssertReply(this.CheckForEndOfConversationEvent())
+        //       .StartTestAsync();
+        //}
+
+        /// <summary>
+        /// Validate that Skill instantiation errors are surfaced as exceptions
+        /// </summary>
+        /// <returns></returns>
         [TestMethod]
-        [ExpectedException(typeof(System.InvalidOperationException), "Skill (FakeSkill) could not be created.")]
+        [ExpectedException(typeof(System.InvalidOperationException),
+            "Skill (FakeSkill) could not be created.")]
         public async Task MisconfiguredSkill()
         {
             // Deliberately incorrect assembly reference
             SkillDialogOptions brokenSkillDialogOptions = new SkillDialogOptions();
-            brokenSkillDialogOptions.Parameters = SkillDialogOptions.Parameters;
+            brokenSkillDialogOptions.Parameters = _skillDialogOptions.Parameters;
             brokenSkillDialogOptions.SkillDefinition = new SkillDefinition();
             brokenSkillDialogOptions.SkillDefinition.Assembly = "FakeSkill.FakeSkil, Microsoft.Bot.Solutions.Tests, Version = 1.0.0.0, Culture = neutral, PublicKeyToken = null";
             brokenSkillDialogOptions.SkillDefinition.Id = "FakeSkill";
@@ -158,6 +183,11 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
               .StartTestAsync();
         }
 
+        /// <summary>
+        /// Validate that we have received a EndOfConversation event. The SkillDialog internally consumes this but does
+        /// send a Trace Event that we check for the presence of.
+        /// </summary>
+        /// <returns></returns>
         private Action<IActivity> CheckForEndOfConversationEvent()
         {
             return activity =>
@@ -170,15 +200,21 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
             };
         }
 
+        /// <summary>
+        ///  Make an activity using the pre-configured Conversation metadata providing a way to control locale
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="locale"></param>
+        /// <returns></returns>
         public Activity MakeActivity(string text = null, string locale = null)
         {
             Activity activity = new Activity
             {
                 Type = ActivityTypes.Message,
-                From = Conversation.User,
-                Recipient = Conversation.Bot,
-                Conversation = Conversation.Conversation,
-                ServiceUrl = Conversation.ServiceUrl,
+                From = _conversation.User,
+                Recipient = _conversation.Bot,
+                Conversation = _conversation.Conversation,
+                ServiceUrl = _conversation.ServiceUrl,
                 Text = text,
                 Locale = locale ?? null
             };
@@ -186,14 +222,20 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
             return activity;
         }
 
+        /// <summary>
+        /// Create a TestFlow which spins up a CustomSkillDialog ready for the tests to execute against
+        /// </summary>
+        /// <param name="locale"></param>
+        /// <param name="overrideSkillDialogOptions"></param>
+        /// <returns></returns>
         public TestFlow GetTestFlow(string locale = null, SkillDialogOptions overrideSkillDialogOptions = null)
         {
-            var adapter = new TestAdapter(sendTraceActivity: true)              
-                .Use(new AutoSaveStateMiddleware(ConversationState));
+            var adapter = new TestAdapter(sendTraceActivity: true)
+                .Use(new AutoSaveStateMiddleware(_conversationState));
 
             var testFlow = new TestFlow(adapter, async (context, cancellationToken) =>
             {
-                var dc = await Dialogs.CreateContextAsync(context);
+                var dc = await _dialogs.CreateContextAsync(context);
 
                 if (dc.ActiveDialog != null)
                 {
@@ -201,7 +243,7 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
                 }
                 else
                 {
-                    await dc.BeginDialogAsync(nameof(CustomSkillDialog), overrideSkillDialogOptions ?? SkillDialogOptions);
+                    await dc.BeginDialogAsync(nameof(CustomSkillDialog), overrideSkillDialogOptions ?? _skillDialogOptions);
                     var result = await dc.ContinueDialogAsync();
                 }
             });
@@ -226,10 +268,10 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
                 CollectionAssert.Contains(ParseReplies(SampleResponses.MessageResponse.Replies, new[] { SampleDialogUtterances.MessagePromptResponse }), messageActivity.Text);
             };
         }
-    
+
         public override IBot BuildBot()
         {
-            return new FakeSkill.FakeSkill(Services, ConversationState, UserState, TelemetryClient, null, true);
+            return new FakeSkill.FakeSkill(_services, _conversationState, _userState, _telemetryClient, null, true);
         }
     }
 }

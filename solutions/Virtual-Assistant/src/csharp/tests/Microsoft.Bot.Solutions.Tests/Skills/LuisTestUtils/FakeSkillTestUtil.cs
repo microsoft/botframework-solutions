@@ -11,6 +11,7 @@ namespace Microsoft.Bot.Solutions.Tests.Skills.LuisTestUtils
         private static Dictionary<string, IRecognizerConvert> _utterances = new Dictionary<string, IRecognizerConvert>
         {
             { SampleDialogUtterances.Trigger, CreateIntent(SampleDialogUtterances.Trigger, FakeSkillLU.Intent.Sample) },
+            { SampleDialogUtterances.Auth, CreateIntent(SampleDialogUtterances.Auth, FakeSkillLU.Intent.Auth) }
         };
 
         public static MockLuisRecognizer CreateRecognizer()

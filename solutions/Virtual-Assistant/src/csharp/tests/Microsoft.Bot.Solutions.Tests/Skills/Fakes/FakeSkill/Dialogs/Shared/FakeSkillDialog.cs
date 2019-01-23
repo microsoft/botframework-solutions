@@ -36,13 +36,13 @@ namespace FakeSkill.Dialogs.Shared
             TelemetryClient = telemetryClient;
 
             // NOTE: Uncomment the following if your skill requires authentication
-            // if (!Services.AuthenticationConnections.Any())
-            // {
-            //     throw new Exception("You must configure an authentication connection in your bot file before using this component.");
-            // }
-            //
-            // AddDialog(new EventPrompt(DialogIds.SkillModeAuth, "tokens/response", TokenResponseValidator));
-            // AddDialog(new MultiProviderAuthDialog(services));
+            //if (!Services.AuthenticationConnections.Any())
+            //{
+            //    throw new Exception("You must configure an authentication connection in your bot file before using this component.");
+            //}
+
+            //AddDialog(new EventPrompt(DialogIds.SkillModeAuth, "tokens/response", TokenResponseValidator));
+            //AddDialog(new MultiProviderAuthDialog(services));
         }
 
         protected SkillConfigurationBase Services { get; set; }

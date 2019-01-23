@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.de.json" />
+    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.es.json" />
+    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.fr.json" />
+    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.it.json" />
+    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.json" />
+    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.zh.json" />
     <None Remove="Skills\Fakes\FakeSkill\Dialogs\Main\Resources\MainResponses.de.json" />
     <None Remove="Skills\Fakes\FakeSkill\Dialogs\Main\Resources\MainResponses.es.json" />
     <None Remove="Skills\Fakes\FakeSkill\Dialogs\Main\Resources\MainResponses.fr.json" />
@@ -44,6 +50,24 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Skills\Fakes\FakeSkill\Dialogs\Main\Resources\MainResponses.zh.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.de.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.es.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.fr.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.it.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.zh.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Skills\Fakes\FakeSkill\Dialogs\Sample\Resources\SampleResponses.de.json">
