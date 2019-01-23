@@ -20,8 +20,6 @@ namespace ToDoSkillTest.Flow
     [TestClass]
     public class DeleteToDoFlowTests : ToDoBotTestBase
     {
-        private const int PageSize = 6;
-
         [TestInitialize]
         public void SetupLuisService()
         {
@@ -43,14 +41,16 @@ namespace ToDoSkillTest.Flow
                 .Send(DeleteToDoFlowTestUtterances.BaseDeleteTask)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.CollectListType())
+                .Send(MockData.ToDo)
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReplyOneOf(this.CollectTaskIndex())
                 .Send(DeleteToDoFlowTestUtterances.TaskContent)
-                .AssertReplyOneOf(this.CollectConfirmationForToDo())
-                .Send("yes")
-                .AssertReply(this.AfterTaskDeletedCardMessage())
-                .AssertReply(this.ActionEndMessage())
+                .AssertReply(this.ShowUpdatedToDoCard())
+                .AssertReplyOneOf(this.DeleteAnotherTask())
+                .Send(MockData.ConfirmNo)
+                .AssertReplyOneOf(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -61,12 +61,14 @@ namespace ToDoSkillTest.Flow
                 .Send(DeleteToDoFlowTestUtterances.DeleteSpecificTask)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.CollectListType())
+                .Send(MockData.ToDo)
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
-                .AssertReplyOneOf(this.CollectConfirmationForToDo())
-                .Send("yes")
-                .AssertReply(this.AfterTaskDeletedCardMessage())
-                .AssertReply(this.ActionEndMessage())
+                .AssertReply(this.ShowUpdatedToDoCard())
+                .AssertReplyOneOf(this.DeleteAnotherTask())
+                .Send(MockData.ConfirmNo)
+                .AssertReplyOneOf(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -79,10 +81,10 @@ namespace ToDoSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
-                .AssertReplyOneOf(this.CollectConfirmationForShopping())
-                .Send("yes")
-                .AssertReply(this.AfterShoppingItemDeletedCardMessage())
-                .AssertReply(this.ActionEndMessage())
+                .AssertReply(this.ShowUpdatedShoppingCard())
+                .AssertReplyOneOf(this.DeleteAnotherTask())
+                .Send(MockData.ConfirmNo)
+                .AssertReplyOneOf(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -93,49 +95,18 @@ namespace ToDoSkillTest.Flow
                 .Send(DeleteToDoFlowTestUtterances.DeleteTaskByContent)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.CollectListType())
+                .Send(MockData.ToDo)
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
-                .AssertReplyOneOf(this.CollectConfirmationForToDo())
-                .Send("yes")
-                .AssertReply(this.AfterTaskDeletedCardMessage())
-                .AssertReply(this.ActionEndMessage())
+                .AssertReply(this.ShowUpdatedToDoCard())
+                .AssertReplyOneOf(this.DeleteAnotherTask())
+                .Send(MockData.ConfirmNo)
+                .AssertReplyOneOf(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
-        [TestMethod]
-        public async Task Test_DeleteToDoItem_Check_Empty_List()
-        {
-            (this.ServiceManager as MockServiceManager).MockTaskService.ChangeData(DataOperationType.OperationType.KeepOneItem);
-            await this.GetTestFlow()
-                .Send(DeleteToDoFlowTestUtterances.DeleteSpecificTask)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.SettingUpOneNote())
-                .AssertReplyOneOf(this.AfterSettingUpOneNote())
-                .AssertReplyOneOf(this.CollectConfirmationForToDo())
-                .Send("yes")
-                .AssertReply(this.AfterLastTaskDeletedMessage())
-                .AssertReply(this.ActionEndMessage())
-                .StartTestAsync();
-        }
-
-        [TestMethod]
-        public async Task Test_DeleteToDoItem_Confirm_No()
-        {
-            await this.GetTestFlow()
-                .Send(DeleteToDoFlowTestUtterances.DeleteSpecificTask)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.SettingUpOneNote())
-                .AssertReplyOneOf(this.AfterSettingUpOneNote())
-                .AssertReplyOneOf(this.CollectConfirmationForToDo())
-                .Send("no")
-                .AssertReplyOneOf(this.AfterDeletionRejectedMessage())
-                .AssertReply(this.ActionEndMessage())
-                .StartTestAsync();
-        }
-
-        private Action<IActivity> AfterTaskDeletedCardMessage()
+        private Action<IActivity> ShowUpdatedToDoCard()
         {
             return activity =>
             {
@@ -149,9 +120,9 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { MockData.TaskCount, (MockData.MockTaskItems.Count - 1).ToString() }, { MockData.ListType, MockData.ToDo } }),
+                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessage.Replies, new StringDictionary() { { MockData.TaskCount, (MockData.MockTaskItems.Count - 1).ToString() }, { MockData.ListType, MockData.ToDo } }),
                     adaptiveCardTitle.Text);
-                Assert.AreEqual(toDoChoiceCount, PageSize);
+                Assert.AreEqual(toDoChoiceCount, MockData.PageSize);
                 var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;
                 Assert.IsNotNull(columnSet);
                 var column = columnSet.Columns[1] as AdaptiveColumn;
@@ -159,12 +130,17 @@ namespace ToDoSkillTest.Flow
                 var content = column.Items[0] as AdaptiveTextBlock;
                 Assert.IsNotNull(content);
                 Assert.AreEqual(content.Text, MockData.MockTaskItems[1].Topic);
-                var speak = string.Format(MockData.AfterDeleteTaskMessage, MockData.MockTaskItems[0].Topic, MockData.MockTaskItems.Count - 1, MockData.ToDo);
-                Assert.AreEqual(speak, responseCard.Speak);
+
+                CollectionAssert.Contains(
+                    this.ParseReplies(DeleteToDoResponses.AfterTaskDeleted.Replies, new StringDictionary()
+                    {
+                        { MockData.TaskContent, MockData.MockTaskItems[0].Topic },
+                        { MockData.ListType, MockData.ToDo }
+                    }), responseCard.Speak);
             };
         }
 
-        private Action<IActivity> AfterShoppingItemDeletedCardMessage()
+        private Action<IActivity> ShowUpdatedShoppingCard()
         {
             return activity =>
             {
@@ -178,9 +154,9 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { MockData.TaskCount, (MockData.MockShoppingItems.Count - 1).ToString() }, { MockData.ListType, MockData.Shopping } }),
+                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessage.Replies, new StringDictionary() { { MockData.TaskCount, (MockData.MockShoppingItems.Count - 1).ToString() }, { MockData.ListType, MockData.Shopping } }),
                     adaptiveCardTitle.Text);
-                Assert.AreEqual(toDoChoiceCount, PageSize);
+                Assert.AreEqual(toDoChoiceCount, MockData.PageSize);
                 var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;
                 Assert.IsNotNull(columnSet);
                 var column = columnSet.Columns[1] as AdaptiveColumn;
@@ -188,39 +164,19 @@ namespace ToDoSkillTest.Flow
                 var content = column.Items[0] as AdaptiveTextBlock;
                 Assert.IsNotNull(content);
                 Assert.AreEqual(content.Text, MockData.MockShoppingItems[0].Topic);
-                var speak = string.Format(MockData.AfterDeleteTaskMessage, MockData.MockShoppingItems[1].Topic, MockData.MockShoppingItems.Count - 1, MockData.Shopping);
-                Assert.AreEqual(speak, responseCard.Speak);
-            };
-        }
 
-        private Action<IActivity> AfterLastTaskDeletedMessage()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-                var response = string.Format(MockData.AfterDeleteTaskMessage, MockData.MockTaskItems[0].Topic, 0, MockData.ToDo);
-                Assert.AreEqual(response, messageActivity.Text);
+                CollectionAssert.Contains(
+                    this.ParseReplies(DeleteToDoResponses.AfterTaskDeleted.Replies, new StringDictionary()
+                    {
+                        { MockData.TaskContent, MockData.MockShoppingItems[1].Topic },
+                        { MockData.ListType, MockData.Shopping }
+                    }), responseCard.Speak);
             };
-        }
-
-        private string[] AfterDeletionRejectedMessage()
-        {
-            return this.ParseReplies(ToDoSharedResponses.ActionEnded.Replies, new StringDictionary() { });
         }
 
         private string[] CollectTaskIndex()
         {
-            return this.ParseReplies(ToDoSharedResponses.AskToDoTaskIndex.Replies, new StringDictionary());
-        }
-
-        private string[] CollectConfirmationForToDo()
-        {
-            return this.ParseReplies(DeleteToDoResponses.AskDeletionConfirmation.Replies, new StringDictionary() { { MockData.ToDoTask, MockData.MockTaskItems[0].Topic } });
-        }
-
-        private string[] CollectConfirmationForShopping()
-        {
-            return this.ParseReplies(DeleteToDoResponses.AskDeletionConfirmation.Replies, new StringDictionary() { { MockData.ToDoTask, MockData.MockShoppingItems[1].Topic } });
+            return this.ParseReplies(DeleteToDoResponses.AskTaskIndex.Replies, new StringDictionary());
         }
 
         private string[] SettingUpOneNote()
@@ -241,12 +197,19 @@ namespace ToDoSkillTest.Flow
             };
         }
 
-        private Action<IActivity> ActionEndMessage()
+        private string[] DeleteAnotherTask()
         {
-            return activity =>
-            {
-                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
-            };
+            return this.ParseReplies(DeleteToDoResponses.DeleteAnotherTaskPrompt.Replies, new StringDictionary());
+        }
+
+        private string[] ActionEndMessage()
+        {
+            return this.ParseReplies(ToDoSharedResponses.ActionEnded.Replies, new StringDictionary());
+        }
+
+        private string[] CollectListType()
+        {
+            return this.ParseReplies(DeleteToDoResponses.ListTypePrompt.Replies, new StringDictionary());
         }
     }
 }

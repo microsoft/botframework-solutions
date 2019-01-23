@@ -34,6 +34,8 @@ namespace ToDoSkill.Dialogs.DeleteToDo.Resources
 
         public static BotResponse AskTaskIndex => GetBotResponse();
 
+        public static BotResponse DeleteAnotherTaskPrompt => GetBotResponse();
+
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {
             return _responseManager.GetBotResponse(propertyName);

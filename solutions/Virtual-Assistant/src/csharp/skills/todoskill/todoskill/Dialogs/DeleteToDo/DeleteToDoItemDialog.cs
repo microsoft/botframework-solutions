@@ -4,7 +4,6 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AdaptiveCards;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
@@ -14,7 +13,6 @@ using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using ToDoSkill.Dialogs.DeleteToDo.Resources;
 using ToDoSkill.Dialogs.Shared;
-using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.Models;
 using ToDoSkill.ServiceClients;
 using Action = ToDoSkill.Dialogs.Shared.Action;
@@ -106,6 +104,7 @@ namespace ToDoSkill.Dialogs.DeleteToDo
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 state.LastListType = state.ListType;
 
+                bool canDeleteAnotherTask = false;
                 var deletedTaskAttachment = new Attachment();
                 if (!state.MarkOrDeleteAllTasksFlag)
                 {
@@ -131,6 +130,8 @@ namespace ToDoSkill.Dialogs.DeleteToDo
                         taskTopicToBeDeleted,
                         state.ListType,
                         false);
+
+                    canDeleteAnotherTask = state.Tasks.Count > 0 ? true : false;
                 }
                 else
                 {
@@ -159,20 +160,18 @@ namespace ToDoSkill.Dialogs.DeleteToDo
                     }
                 }
 
-                var responseCard = deletedTaskAttachment.Content as AdaptiveCard;
-                var speakContent = responseCard.Speak;
-                responseCard.Speak = null;
-                var textReply = sc.Context.Activity.CreateReply(speakContent);
-
-                // Test if Speak is needed here.
-                textReply.Speak = speakContent;
-                await sc.Context.SendActivityAsync(textReply);
-
                 var cardReply = sc.Context.Activity.CreateReply();
                 cardReply.Attachments.Add(deletedTaskAttachment);
                 await sc.Context.SendActivityAsync(cardReply);
 
-                return await sc.NextAsync();
+                if (canDeleteAnotherTask)
+                {
+                    return await sc.NextAsync();
+                }
+                else
+                {
+                    return await sc.EndDialogAsync(true);
+                }
             }
             catch (SkillException ex)
             {
@@ -422,7 +421,7 @@ namespace ToDoSkill.Dialogs.DeleteToDo
         {
             try
             {
-                var prompt = sc.Context.Activity.CreateReply(ToDoSharedResponses.AnythingElsePrompt);
+                var prompt = sc.Context.Activity.CreateReply(DeleteToDoResponses.DeleteAnotherTaskPrompt);
                 return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
             }
             catch (Exception ex)
@@ -455,7 +454,7 @@ namespace ToDoSkill.Dialogs.DeleteToDo
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ActionEnded));
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(DeleteToDoResponses.DeleteAnotherTaskPrompt));
                     return await sc.EndDialogAsync(true);
                 }
             }

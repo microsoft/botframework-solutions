@@ -47,8 +47,17 @@
   "AskTaskIndex": {
     "replies": [
       {
-        "text": "What task would you like to delete? It is also possible to delete all your tasks by naming out delete all.",
-        "speak": "What task would you like to delete? It is also possible to delete all your tasks by naming out delete all."
+        "text": "What task do you want to delete? It is also possible to delete all your tasks by naming out delete all.",
+        "speak": "What task do you want to delete? It is also possible to delete all your tasks by naming out delete all."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "DeleteAnotherTaskPrompt": {
+    "replies": [
+      {
+        "text": "Do you want to delete another task?",
+        "speak": "Do you want to delete another task?"
       }
     ],
     "inputHint": "expectingInput"

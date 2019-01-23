@@ -132,18 +132,6 @@
     <Content Update="Dialogs\ShowToDo\Resources\ShowToDoResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\ShowToDo\Resources\ShowToDoResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ShowToDo\Resources\ShowToDoResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ShowToDo\Resources\ShowToDoResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ShowToDo\Resources\ShowToDoResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Update="Dialogs\ShowToDo\Resources\ShowToDoResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

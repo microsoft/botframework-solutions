@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AdaptiveCards;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs;
@@ -12,7 +11,6 @@ using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using ToDoSkill.Dialogs.MarkToDo.Resources;
 using ToDoSkill.Dialogs.Shared;
-using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.Models;
 using ToDoSkill.ServiceClients;
 using Action = ToDoSkill.Dialogs.Shared.Action;
@@ -121,20 +119,18 @@ namespace ToDoSkill.Dialogs.MarkToDo
                     state.ListType,
                     state.MarkOrDeleteAllTasksFlag);
 
-                var responseCard = markToDoAttachment.Content as AdaptiveCard;
-                var speakContent = responseCard.Speak;
-                responseCard.Speak = null;
-                var textReply = sc.Context.Activity.CreateReply(speakContent);
-
-                // Test if Speak is needed here.
-                textReply.Speak = speakContent;
-                await sc.Context.SendActivityAsync(textReply);
-
                 var cardReply = sc.Context.Activity.CreateReply();
                 cardReply.Attachments.Add(markToDoAttachment);
                 await sc.Context.SendActivityAsync(cardReply);
 
-                return await sc.NextAsync();
+                if (state.MarkOrDeleteAllTasksFlag)
+                {
+                    return await sc.EndDialogAsync(true);
+                }
+                else
+                {
+                    return await sc.NextAsync();
+                }
             }
             catch (SkillException ex)
             {
@@ -316,7 +312,7 @@ namespace ToDoSkill.Dialogs.MarkToDo
         {
             try
             {
-                var prompt = sc.Context.Activity.CreateReply(ToDoSharedResponses.AnythingElsePrompt);
+                var prompt = sc.Context.Activity.CreateReply(MarkToDoResponses.CompleteAnotherTaskPrompt);
                 return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
             }
             catch (Exception ex)
@@ -349,7 +345,7 @@ namespace ToDoSkill.Dialogs.MarkToDo
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ActionEnded));
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(MarkToDoResponses.CompleteAnotherTaskPrompt));
                     return await sc.EndDialogAsync(true);
                 }
             }

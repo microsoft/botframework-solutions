@@ -10,6 +10,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ToDoSkill.Dialogs.AddToDo.Resources;
 using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkillTest.Flow.Fakes;
 using ToDoSkillTest.Flow.Utterances;
@@ -19,8 +20,6 @@ namespace ToDoSkillTest.Flow
     [TestClass]
     public class AddToDoFlowTests : ToDoBotTestBase
     {
-        private const int PageSize = 6;
-
         [TestInitialize]
         public void SetupLuisService()
         {
@@ -47,7 +46,9 @@ namespace ToDoSkillTest.Flow
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.ShowUpdatedToDoList())
-                .AssertReply(this.ActionEndMessage())
+                .AssertReplyOneOf(this.AddMoreTask())
+                .Send(MockData.ConfirmNo)
+                .AssertReplyOneOf(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -59,11 +60,13 @@ namespace ToDoSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.AskSwitchListType())
-                .Send("yes")
+                .Send(MockData.ConfirmYes)
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.ShowUpdatedGroceryList())
-                .AssertReply(this.ActionEndMessage())
+                .AssertReplyOneOf(this.AddMoreTask())
+                .Send(MockData.ConfirmNo)
+                .AssertReplyOneOf(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -77,7 +80,9 @@ namespace ToDoSkillTest.Flow
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.ShowUpdatedGroceryList())
-                .AssertReply(this.ActionEndMessage())
+                .AssertReplyOneOf(this.AddMoreTask())
+                .Send(MockData.ConfirmNo)
+                .AssertReplyOneOf(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -91,13 +96,15 @@ namespace ToDoSkillTest.Flow
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.ShowUpdatedShoppingList())
-                .AssertReply(this.ActionEndMessage())
+                .AssertReplyOneOf(this.AddMoreTask())
+                .Send(MockData.ConfirmNo)
+                .AssertReplyOneOf(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
         private string[] CollectToDoContent()
         {
-            return this.ParseReplies(ToDoSharedResponses.AskToDoContentText.Replies, new StringDictionary());
+            return this.ParseReplies(AddToDoResponses.AskTaskContentText.Replies, new StringDictionary());
         }
 
         private string[] SettingUpOneNote()
@@ -112,7 +119,12 @@ namespace ToDoSkillTest.Flow
 
         private string[] AskSwitchListType()
         {
-            return this.ParseReplies(ToDoSharedResponses.SwitchListType.Replies, new StringDictionary() { { MockData.ListType, MockData.Grocery } });
+            return this.ParseReplies(AddToDoResponses.SwitchListType.Replies, new StringDictionary() { { MockData.ListType, MockData.Grocery } });
+        }
+
+        private string[] AddMoreTask()
+        {
+            return this.ParseReplies(AddToDoResponses.AddMoreTask.Replies, new StringDictionary());
         }
 
         private Action<IActivity> ShowUpdatedToDoList()
@@ -129,16 +141,23 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { MockData.TaskCount, (MockData.MockTaskItems.Count + 1).ToString() }, { MockData.ListType, MockData.ToDo } }),
+                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessage.Replies, new StringDictionary() { { MockData.TaskCount, (MockData.MockTaskItems.Count + 1).ToString() }, { MockData.ListType, MockData.ToDo } }),
                     adaptiveCardTitle.Text);
-                Assert.AreEqual(toDoChoiceCount, PageSize);
+                Assert.AreEqual(toDoChoiceCount, MockData.PageSize);
                 var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;
                 Assert.IsNotNull(columnSet);
                 var column = columnSet.Columns[1] as AdaptiveColumn;
                 Assert.IsNotNull(column);
                 var content = column.Items[0] as AdaptiveTextBlock;
                 Assert.IsNotNull(content);
-                Assert.AreEqual(content.Text, AddToDoFlowTestUtterances.TaskContent);
+                Assert.AreEqual(AddToDoFlowTestUtterances.TaskContent, content.Text);
+
+                CollectionAssert.Contains(
+                    this.ParseReplies(AddToDoResponses.AfterTaskAdded.Replies, new StringDictionary()
+                    {
+                        { MockData.TaskContent, AddToDoFlowTestUtterances.TaskContent },
+                        { MockData.ListType, MockData.ToDo }
+                    }), responseCard.Speak);
             };
         }
 
@@ -156,16 +175,23 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { MockData.TaskCount, (MockData.MockGroceryItems.Count + 1).ToString() }, { MockData.ListType, MockData.Grocery } }),
+                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessage.Replies, new StringDictionary() { { MockData.TaskCount, (MockData.MockGroceryItems.Count + 1).ToString() }, { MockData.ListType, MockData.Grocery } }),
                     adaptiveCardTitle.Text);
-                Assert.AreEqual(toDoChoiceCount, PageSize);
+                Assert.AreEqual(toDoChoiceCount, MockData.PageSize);
                 var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;
                 Assert.IsNotNull(columnSet);
                 var column = columnSet.Columns[1] as AdaptiveColumn;
                 Assert.IsNotNull(column);
                 var content = column.Items[0] as AdaptiveTextBlock;
                 Assert.IsNotNull(content);
-                Assert.AreEqual("eggs", content.Text);
+                Assert.AreEqual(MockData.GroceryItemEggs, content.Text);
+
+                CollectionAssert.Contains(
+                    this.ParseReplies(AddToDoResponses.AfterTaskAdded.Replies, new StringDictionary()
+                    {
+                        { MockData.TaskContent, MockData.GroceryItemEggs },
+                        { MockData.ListType, MockData.Grocery }
+                    }), responseCard.Speak);
             };
         }
 
@@ -183,16 +209,23 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { MockData.TaskCount, (MockData.MockShoppingItems.Count + 1).ToString() }, { MockData.ListType, MockData.Shopping } }),
+                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessage.Replies, new StringDictionary() { { MockData.TaskCount, (MockData.MockShoppingItems.Count + 1).ToString() }, { MockData.ListType, MockData.Shopping } }),
                     adaptiveCardTitle.Text);
-                Assert.AreEqual(toDoChoiceCount, PageSize);
+                Assert.AreEqual(toDoChoiceCount, MockData.PageSize);
                 var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;
                 Assert.IsNotNull(columnSet);
                 var column = columnSet.Columns[1] as AdaptiveColumn;
                 Assert.IsNotNull(column);
                 var content = column.Items[0] as AdaptiveTextBlock;
                 Assert.IsNotNull(content);
-                Assert.AreEqual("purchase shoes", content.Text);
+                Assert.AreEqual(MockData.ShoppingItemShoes, content.Text);
+
+                CollectionAssert.Contains(
+                   this.ParseReplies(AddToDoResponses.AfterTaskAdded.Replies, new StringDictionary()
+                   {
+                        { MockData.TaskContent, MockData.ShoppingItemShoes },
+                        { MockData.ListType, MockData.Shopping }
+                   }), responseCard.Speak);
             };
         }
 
@@ -204,12 +237,9 @@ namespace ToDoSkillTest.Flow
             };
         }
 
-        private Action<IActivity> ActionEndMessage()
+        private string[] ActionEndMessage()
         {
-            return activity =>
-            {
-                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
-            };
+            return this.ParseReplies(ToDoSharedResponses.ActionEnded.Replies, new StringDictionary());
         }
     }
 }

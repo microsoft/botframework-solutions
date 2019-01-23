@@ -2,8 +2,8 @@
   "LatestOneTask": {
     "replies": [
       {
-        "text": "Your latest task is",
-        "speak": "Your latest task is"
+        "text": "Your most recent task is",
+        "speak": "Your most recent task is"
       }
     ],
     "inputHint": "ignoringInput"
@@ -11,8 +11,8 @@
   "LatestTwoTasks": {
     "replies": [
       {
-        "text": "Your latest tasks are",
-        "speak": "Your latest tasks are"
+        "text": "Your most recent tasks are",
+        "speak": "Your most recent tasks are"
       }
     ],
     "inputHint": "ignoringInput"
@@ -20,8 +20,8 @@
   "LatestThreeOrMoreTasks": {
     "replies": [
       {
-        "text": "Your latest {taskCount} tasks are",
-        "speak": "Your latest {taskCount} tasks are"
+        "text": "Your most recent {taskCount} tasks are",
+        "speak": "Your most recent {taskCount} tasks are"
       }
     ],
     "inputHint": "ignoringInput"
@@ -38,20 +38,11 @@
   "ReadMoreTasksPrompt": {
     "replies": [
       {
-        "text": "Do you want me to read out more from your list?",
-        "speak": "Do you want me to read out more from your list?"
+        "text": "Do you want to hear more from your list?",
+        "speak": "Do you want to hear more from your list?"
       }
     ],
     "inputHint": "expectingInput"
-  },
-  "ReadNextTasksPrompt": {
-    "replies": [
-      {
-        "text": "Do you want me to read out the next {taskCount}?",
-        "speak": "Do you want me to read out the next {taskCount}?"
-      }
-    ],
-    "inputHint": "acceptingInput"
   },
   "NextOneTask": {
     "replies": [
@@ -101,10 +92,19 @@
   "InstructionMessage": {
     "replies": [
       {
-        "text": "Alright, I am able to create a new task for you. I can also complete or delete a task. Just let me know if you want to take any action.",
-        "speak": "Alright, I am able to create a new task for you. I can also complete or delete a task. Just let me know if you want to take any action."
+        "text": "Alright. If you want to set up a new to do, just ask me to create a new task. You can also ask me to complete or delete a task on your list.",
+        "speak": "Alright. If you want to set up a new to do, just ask me to create a new task. You can also ask me to complete or delete a task on your list."
       }
     ],
     "inputHint": "acceptingInput"
+  },
+  "TaskSummaryMessage": {
+    "replies": [
+      {
+        "text": "You have {taskCount} tasks on your {listType} list today.",
+        "speak": "You have {taskCount} tasks on your {listType} list today."
+      }
+    ],
+    "inputHint": "ignoringInput"
   }
 }

@@ -2,7 +2,6 @@
 using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
-using AdaptiveCards;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs;
@@ -105,15 +104,6 @@ namespace ToDoSkill.Dialogs.AddToDo
                     state.TaskContent,
                     state.AllTasks.Count,
                     state.ListType);
-
-                var responseCard = toDoListAttachment.Content as AdaptiveCard;
-                var speakContent = responseCard.Speak;
-                responseCard.Speak = null;
-                var textReply = sc.Context.Activity.CreateReply(speakContent);
-
-                // Test if Speak is needed here.
-                textReply.Speak = speakContent;
-                await sc.Context.SendActivityAsync(textReply);
 
                 var cardReply = sc.Context.Activity.CreateReply();
                 cardReply.Attachments.Add(toDoListAttachment);

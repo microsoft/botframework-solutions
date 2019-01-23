@@ -34,5 +34,14 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "CompleteAnotherTaskPrompt": {
+    "replies": [
+      {
+        "text": "你想要再完成一个任务吗？",
+        "speak": "你想要再完成一个任务吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }

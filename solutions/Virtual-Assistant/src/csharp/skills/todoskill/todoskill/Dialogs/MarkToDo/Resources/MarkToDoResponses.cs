@@ -30,6 +30,8 @@ namespace ToDoSkill.Dialogs.MarkToDo.Resources
 
         public static BotResponse AskTaskIndex => GetBotResponse();
 
+        public static BotResponse CompleteAnotherTaskPrompt => GetBotResponse();
+
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {
             return _responseManager.GetBotResponse(propertyName);

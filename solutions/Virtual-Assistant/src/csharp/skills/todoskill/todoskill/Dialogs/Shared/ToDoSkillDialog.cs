@@ -412,7 +412,7 @@ namespace ToDoSkill.Dialogs.Shared
         {
             var toDoCard = new AdaptiveCard();
 
-            var speakText = Format(ToDoSharedResponses.ShowToDoTasks.Reply.Speak, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } }) + " ";
+            var speakText = Format(ShowToDoResponses.TaskSummaryMessage.Reply.Speak, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } }) + " ";
             if (todos.Count == 1)
             {
                 speakText += Format(ShowToDoResponses.LatestOneTask.Reply.Speak) + " ";
@@ -429,7 +429,7 @@ namespace ToDoSkill.Dialogs.Shared
             toDoCard.Speak = speakText;
 
             var body = new List<AdaptiveElement>();
-            var showText = Format(ToDoSharedResponses.ShowToDoTasks.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() } });
+            var showText = Format(ToDoSharedResponses.CardSummaryMessage.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
             var textBlock = new AdaptiveTextBlock
             {
                 Text = showText,
@@ -516,7 +516,7 @@ namespace ToDoSkill.Dialogs.Shared
             }
 
             var body = new List<AdaptiveElement>();
-            var showText = Format(ToDoSharedResponses.ShowToDoTasks.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
+            var showText = Format(ToDoSharedResponses.CardSummaryMessage.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
             var textBlock = new AdaptiveTextBlock
             {
                 Text = showText,
@@ -586,7 +586,7 @@ namespace ToDoSkill.Dialogs.Shared
             toDoCard.Speak = Format(ShowToDoResponses.ShowPreviousTasks.Reply.Speak, new StringDictionary() { { "taskCount", readSize.ToString() } }) + " ";
 
             var body = new List<AdaptiveElement>();
-            var showText = Format(ToDoSharedResponses.ShowToDoTasks.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
+            var showText = Format(ToDoSharedResponses.CardSummaryMessage.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
             var textBlock = new AdaptiveTextBlock
             {
                 Text = showText,
@@ -655,7 +655,7 @@ namespace ToDoSkill.Dialogs.Shared
             toDoCard.Speak = Format(AddToDoResponses.AfterTaskAdded.Reply.Speak, new StringDictionary() { { "taskContent", taskContent }, { "listType", listType } });
 
             var body = new List<AdaptiveElement>();
-            var showText = Format(ToDoSharedResponses.ShowToDoTasks.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
+            var showText = Format(ToDoSharedResponses.CardSummaryMessage.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
             var textBlock = new AdaptiveTextBlock
             {
                 Text = showText,
@@ -713,7 +713,7 @@ namespace ToDoSkill.Dialogs.Shared
             }
 
             var body = new List<AdaptiveElement>();
-            var showText = Format(ToDoSharedResponses.ShowToDoTasks.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
+            var showText = Format(ToDoSharedResponses.CardSummaryMessage.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
             var textBlock = new AdaptiveTextBlock
             {
                 Text = showText,
@@ -771,7 +771,7 @@ namespace ToDoSkill.Dialogs.Shared
             }
 
             var body = new List<AdaptiveElement>();
-            var showText = Format(ToDoSharedResponses.ShowToDoTasks.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
+            var showText = Format(ToDoSharedResponses.CardSummaryMessage.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
             var textBlock = new AdaptiveTextBlock
             {
                 Text = showText,
@@ -820,7 +820,7 @@ namespace ToDoSkill.Dialogs.Shared
             toDoCard.Speak = Format(DeleteToDoResponses.DeletionAllConfirmationRefused.Reply.Speak, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
 
             var body = new List<AdaptiveElement>();
-            var showText = Format(ToDoSharedResponses.ShowToDoTasks.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
+            var showText = Format(ToDoSharedResponses.CardSummaryMessage.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
             var textBlock = new AdaptiveTextBlock
             {
                 Text = showText,

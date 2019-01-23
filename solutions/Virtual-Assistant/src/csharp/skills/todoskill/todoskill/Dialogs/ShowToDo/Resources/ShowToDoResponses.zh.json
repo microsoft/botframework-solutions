@@ -44,15 +44,6 @@
     ],
     "inputHint": "expectingInput"
   },
-  "ReadNextTasksMessage": {
-    "replies": [
-      {
-        "text": "请问您想要听下面{taskCount}个任务吗？",
-        "speak": "请问您想要听下面{taskCount}个任务吗？"
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
   "NextOneTask": {
     "replies": [
       {
@@ -101,10 +92,19 @@
   "InstructionMessage": {
     "replies": [
       {
-        "text": "好的, 我能够添加任务. 我也能够完成或者删除一个任务. 如果您要采取任何行动的话请尽管告诉我。",
-        "speak": "好的, 我能够添加任务. 我也能够完成或者删除一个任务. 如果您要采取任何行动的话请尽管告诉我。"
+        "text": "好的，如果你想要创建一个新的任务，请尽管告诉我。你也可以要求我为你完成或者删除列表中的任务。",
+        "speak": "好的，如果你想要创建一个新的任务，请尽管告诉我。你也可以要求我为你完成或者删除列表中的任务。"
       }
     ],
     "inputHint": "acceptingInput"
+  },
+  "TaskSummaryMessage": {
+    "replies": [
+      {
+        "text": "您今天的{listType}列表有{taskCount}个任务。",
+        "speak": "您今天的{listType}列表有{taskCount}个任务。"
+      }
+    ],
+    "inputHint": "ignoringInput"
   }
 }

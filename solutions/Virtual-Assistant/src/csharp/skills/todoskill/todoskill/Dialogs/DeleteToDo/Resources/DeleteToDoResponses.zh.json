@@ -52,5 +52,14 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "DeleteAnotherTaskPrompt": {
+    "replies": [
+      {
+        "text": "你想要再删除一个任务吗？",
+        "speak": "你想要再删除一个任务吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }

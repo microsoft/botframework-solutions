@@ -19,8 +19,6 @@ namespace ToDoSkillTest.Flow.Fakes
 
         public const string ToDoTask = "toDoTask";
 
-        public const string AfterDeleteTaskMessage = "I have deleted the item {0} for you. You have {1} items on your {2} list.";
-
         public const string TaskId = "MockTaskId";
 
         public const string LocaleEN = "en";
@@ -30,6 +28,24 @@ namespace ToDoSkillTest.Flow.Fakes
         public const string LuisGeneral = "general";
 
         public const string LuisToDo = "todo";
+
+        public const string TaskContent = "taskContent";
+
+        public const string ConfirmNo = "No";
+
+        public const string ConfirmYes = "Yes";
+
+        public const string GroceryItemEggs = "eggs";
+
+        public const string ShoppingItemShoes = "shoes";
+
+        public const string FirstTaskDetailMessage = "You have {0} tasks on your {1} list today. Your latest {2} tasks are {3}.";
+
+        public const string NextTaskDetailMessage = "The next {0} tasks are {1}.";
+
+        public const int ReadSize = 3;
+
+        public const int PageSize = 6;
 
         public static List<TaskItem> MockTaskItems { get; set; } = new List<TaskItem>
         {

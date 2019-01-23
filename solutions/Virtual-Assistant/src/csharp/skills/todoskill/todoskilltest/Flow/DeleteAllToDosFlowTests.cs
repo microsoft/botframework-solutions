@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
+using AdaptiveCards;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Skills;
@@ -19,8 +20,6 @@ namespace ToDoSkillTest.Flow
     [TestClass]
     public class DeleteAllToDosFlowTests : ToDoBotTestBase
     {
-        private const int PageSize = 6;
-
         [TestInitialize]
         public void SetupLuisService()
         {
@@ -42,13 +41,36 @@ namespace ToDoSkillTest.Flow
                 .Send(DeleteToDoFlowTestUtterances.DeleteAllTasks)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.CollectListType())
+                .Send(MockData.ToDo)
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.CollectConfirmation())
-                .Send("yes")
-                .AssertReply(this.AfterAllTasksDeletedTextMessage())
-                .AssertReply(this.ActionEndMessage())
+                .Send(MockData.ConfirmYes)
+                .AssertReply(this.ShowUpdatedCard())
                 .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_DeleteAllToDoItems_Confirm_No()
+        {
+            await this.GetTestFlow()
+                .Send(DeleteToDoFlowTestUtterances.DeleteAllTasks)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.CollectListType())
+                .Send(MockData.ToDo)
+                .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReplyOneOf(this.AfterSettingUpOneNote())
+                .AssertReply(this.CollectConfirmation())
+                .Send(MockData.ConfirmNo)
+                .AssertReply(this.ShowCardOfDeletionRefused())
+                .StartTestAsync();
+        }
+
+        private string[] CollectListType()
+        {
+            return this.ParseReplies(DeleteToDoResponses.ListTypePrompt.Replies, new StringDictionary());
         }
 
         private Action<IActivity> CollectConfirmation()
@@ -62,14 +84,51 @@ namespace ToDoSkillTest.Flow
             };
         }
 
-        private Action<IActivity> AfterAllTasksDeletedTextMessage()
+        private Action<IActivity> ShowUpdatedCard()
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
+                Assert.AreEqual(1, messageActivity.Attachments.Count);
+                var responseCard = messageActivity.Attachments[0].Content as AdaptiveCard;
+                Assert.IsNotNull(responseCard);
+                var adaptiveCardTitle = responseCard.Body[0] as AdaptiveTextBlock;
+                Assert.IsNotNull(adaptiveCardTitle);
+                var toDoChoices = responseCard.Body[1] as AdaptiveContainer;
+                Assert.IsNotNull(toDoChoices);
+                var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                   this.ParseReplies(DeleteToDoResponses.AfterAllTasksDeleted.Replies, new StringDictionary() { { MockData.ListType, MockData.ToDo } }),
-                   messageActivity.Text);
+                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessage.Replies, new StringDictionary() { { MockData.TaskCount, "0" }, { MockData.ListType, MockData.ToDo } }),
+                    adaptiveCardTitle.Text);
+                Assert.AreEqual(toDoChoiceCount, 0);
+
+                CollectionAssert.Contains(
+                  this.ParseReplies(DeleteToDoResponses.AfterAllTasksDeleted.Replies, new StringDictionary() { { MockData.ListType, MockData.ToDo } }),
+                  responseCard.Speak);
+            };
+        }
+
+        private Action<IActivity> ShowCardOfDeletionRefused()
+        {
+            return activity =>
+            {
+                var messageActivity = activity.AsMessageActivity();
+                Assert.AreEqual(1, messageActivity.Attachments.Count);
+                var responseCard = messageActivity.Attachments[0].Content as AdaptiveCard;
+                Assert.IsNotNull(responseCard);
+                var adaptiveCardTitle = responseCard.Body[0] as AdaptiveTextBlock;
+                Assert.IsNotNull(adaptiveCardTitle);
+                var toDoChoices = responseCard.Body[1] as AdaptiveContainer;
+                Assert.IsNotNull(toDoChoices);
+                var toDoChoiceCount = toDoChoices.Items.Count;
+                CollectionAssert.Contains(
+                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessage.Replies, new StringDictionary() { { MockData.TaskCount, MockData.MockTaskItems.Count.ToString() }, { MockData.ListType, MockData.ToDo } }),
+                    adaptiveCardTitle.Text);
+                Assert.AreEqual(toDoChoiceCount, MockData.PageSize);
+
+                CollectionAssert.Contains(
+                  this.ParseReplies(DeleteToDoResponses.DeletionAllConfirmationRefused.Replies, new StringDictionary() { { MockData.TaskCount, MockData.MockTaskItems.Count.ToString() }, { MockData.ListType, MockData.ToDo } }),
+                  responseCard.Speak);
             };
         }
 
@@ -88,14 +147,6 @@ namespace ToDoSkillTest.Flow
             return activity =>
             {
                 Assert.AreEqual(activity.Type, ActivityTypes.Event);
-            };
-        }
-
-        private Action<IActivity> ActionEndMessage()
-        {
-            return activity =>
-            {
-                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
             };
         }
     }

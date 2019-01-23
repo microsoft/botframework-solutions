@@ -10,6 +10,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ToDoSkill.Dialogs.MarkToDo.Resources;
 using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkillTest.Flow.Fakes;
 using ToDoSkillTest.Flow.Utterances;
@@ -19,8 +20,6 @@ namespace ToDoSkillTest.Flow
     [TestClass]
     public class MarkAllToDosFlowTests : ToDoBotTestBase
     {
-        private const int PageSize = 6;
-
         [TestInitialize]
         public void SetupLuisService()
         {
@@ -42,14 +41,15 @@ namespace ToDoSkillTest.Flow
                 .Send(MarkToDoFlowTestUtterances.MarkAllTasksAsCompleted)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.CollectListType())
+                .Send(MockData.ToDo)
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
-                .AssertReply(this.AfterAllTasksMarkedCardMessage())
-                .AssertReply(this.ActionEndMessage())
+                .AssertReply(this.ShowUpdatedCard())
                 .StartTestAsync();
         }
 
-        private Action<IActivity> AfterAllTasksMarkedCardMessage()
+        private Action<IActivity> ShowUpdatedCard()
         {
             return activity =>
             {
@@ -71,6 +71,10 @@ namespace ToDoSkillTest.Flow
                     Assert.IsNotNull(image);
                     Assert.AreEqual(image.UrlString, IconImageSource.CheckIconSource);
                 }
+
+                CollectionAssert.Contains(
+                  this.ParseReplies(MarkToDoResponses.AfterAllTasksCompleted.Replies, new StringDictionary() { { MockData.ListType, MockData.ToDo } }),
+                  responseCard.Speak);
             };
         }
 
@@ -84,19 +88,16 @@ namespace ToDoSkillTest.Flow
             return this.ParseReplies(ToDoSharedResponses.AfterOutlookSetupMessage.Replies, new StringDictionary());
         }
 
+        private string[] CollectListType()
+        {
+            return this.ParseReplies(MarkToDoResponses.ListTypePrompt.Replies, new StringDictionary());
+        }
+
         private Action<IActivity> ShowAuth()
         {
             return activity =>
             {
                 Assert.AreEqual(activity.Type, ActivityTypes.Event);
-            };
-        }
-
-        private Action<IActivity> ActionEndMessage()
-        {
-            return activity =>
-            {
-                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
             };
         }
     }

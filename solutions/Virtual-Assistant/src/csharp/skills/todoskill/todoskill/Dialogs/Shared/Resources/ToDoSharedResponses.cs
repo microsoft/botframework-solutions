@@ -38,11 +38,9 @@ namespace ToDoSkill.Dialogs.Shared.Resources
 
         public static BotResponse AfterOutlookSetupMessage => GetBotResponse();
 
-        public static BotResponse ShowToDoTasks => GetBotResponse();
+        public static BotResponse CardSummaryMessage => GetBotResponse();
 
         public static BotResponse NoTasksInList => GetBotResponse();
-
-        public static BotResponse AnythingElsePrompt => GetBotResponse();
 
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {

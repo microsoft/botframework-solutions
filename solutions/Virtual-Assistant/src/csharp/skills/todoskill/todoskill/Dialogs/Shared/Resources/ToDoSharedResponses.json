@@ -107,11 +107,11 @@
     ],
     "inputHint": "ignoringInput"
   },
-  "ShowToDoTasks": {
+  "CardSummaryMessage": {
     "replies": [
       {
-        "text": "You have {taskCount} tasks:",
-        "speak": "You have {taskCount} tasks on your {listType} list today."
+        "text": "You have {taskCount} tasks on your {listType} list:",
+        "speak": "You have {taskCount} tasks on your {listType} list:"
       }
     ],
     "inputHint": "ignoringInput"
@@ -124,14 +124,5 @@
       }
     ],
     "inputHint": "acceptingInput"
-  },
-  "AnythingElsePrompt": {
-    "replies": [
-      {
-        "text": "Is there anything else I can help you with?",
-        "speak": "Is there anything else I can help you with?"
-      }
-    ],
-    "inputHint": "expectingInput"
   }
 }

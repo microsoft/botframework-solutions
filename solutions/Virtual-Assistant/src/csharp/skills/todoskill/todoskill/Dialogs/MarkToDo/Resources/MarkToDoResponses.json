@@ -29,8 +29,17 @@
   "AskTaskIndex": {
     "replies": [
       {
-        "text": "What task would you like to complete? It is also possible to complete all your tasks by naming out complete all.",
-        "speak": "What task would you like to complete? It is also possible to complete all your tasks by naming out complete all."
+        "text": "What task do you want to complete? It is also possible to complete all your tasks by naming out complete all.",
+        "speak": "What task do you want to complete? It is also possible to complete all your tasks by naming out complete all."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "CompleteAnotherTaskPrompt": {
+    "replies": [
+      {
+        "text": "Do you want to complete another task?",
+        "speak": "Do you want to complete another task?"
       }
     ],
     "inputHint": "expectingInput"

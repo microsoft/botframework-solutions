@@ -103,11 +103,11 @@
     ],
     "inputHint": "ignoringInput"
   },
-  "ShowToDoTasks": {
+  "CardSummaryMessage": {
     "replies": [
       {
-        "text": "您有{taskCount}个任务：",
-        "speak": "今天您的{listType}列表有{taskCount}个任务："
+        "text": "您的{listType}列表上有{taskCount}个任务:",
+        "speak": "您的{listType}列表上有{taskCount}个任务:"
       }
     ],
     "inputHint": "ignoringInput"
@@ -120,14 +120,5 @@
       }
     ],
     "inputHint": "acceptingInput"
-  },
-  "AnythingElsePrompt": {
-    "replies": [
-      {
-        "text": "还有其它事我能帮你的吗？",
-        "speak": "还有其它事我能帮你的吗？"
-      }
-    ],
-    "inputHint": "expectingInput"
   }
 }
