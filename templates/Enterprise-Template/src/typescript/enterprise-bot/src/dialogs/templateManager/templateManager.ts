@@ -11,10 +11,9 @@ export class TemplateManager {
     private TEMPLATE_RENDERS: ITemplateRenderer[] = [];
     private LANGUAGE_FALLBACK: string[] = [];
 
-    /// <summary>
-    /// Add a template engine for binding templates
-    /// </summary>
-    /// <param name="renderer"></param>
+    /**
+     * Add a template engine for binding templates
+     */
     public register(renderer: ITemplateRenderer): TemplateManager {
         if (!this.TEMPLATE_RENDERS.some((x: ITemplateRenderer) => x === renderer)) {
             this.TEMPLATE_RENDERS.push(renderer);
@@ -23,10 +22,9 @@ export class TemplateManager {
         return this;
     }
 
-    /// <summary>
-    /// List registered template engines
-    /// </summary>
-    /// <returns></returns>
+    /**
+     * List registered template engines
+     */
     public list(): ITemplateRenderer[] {
         return this.TEMPLATE_RENDERS;
     }
@@ -39,13 +37,9 @@ export class TemplateManager {
         return this.LANGUAGE_FALLBACK;
     }
 
-    /// <summary>
-    /// Send a reply with the template
-    /// </summary>
-    /// <param name="turnContext"></param>
-    /// <param name="templateId"></param>
-    /// <param name="data"></param>
-    /// <returns></returns>
+    /**
+     * Send a reply with the template
+     */
     public async replyWith(turnContext: TurnContext, templateId: string, data?: any): Promise<void> {
         if (!turnContext) { throw new Error('turnContext is null'); }
 
@@ -60,14 +54,6 @@ export class TemplateManager {
         return;
     }
 
-    /// <summary>
-    /// Render the template
-    /// </summary>
-    /// <param name="turnContext"></param>
-    /// <param name="language"></param>
-    /// <param name="templateId"></param>
-    /// <param name="data"></param>
-    /// <returns></returns>
     public async renderTemplate(turnContext: TurnContext,
                                 templateId: string,
                                 language?: string, data?: any): Promise<Activity | undefined> {
