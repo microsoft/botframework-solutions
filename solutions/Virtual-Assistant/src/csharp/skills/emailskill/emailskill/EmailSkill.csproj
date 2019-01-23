@@ -209,6 +209,9 @@
     <Content Update="Dialogs\Shared\Resources\Cards\EmailCard.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="Dialogs\Shared\Resources\Cards\EmailContentPreview.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Dialogs\Shared\Resources\Cards\EmailDetailCard.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -301,6 +304,10 @@
 
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Dialogs\SendEmail\Prompts\" />
   </ItemGroup>
 
 </Project>

@@ -19,13 +19,65 @@
   },
   "NoMessageBody": {
     "replies": [
-
       {
         "text": "What's the message?",
         "speak": "What's the message?"
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "RetryNoSubject": {
+    "replies": [
+      {
+        "text": "Including a subject is often appreciated by contacts. Want to add a subject?",
+        "speak": "Including a subject is often appreciated by contacts. Want to add a subject?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "PlayBackMessage": {
+    "replies": [
+      {
+        "text": "I will playback the message for you to confirm:",
+        "speak": "I will playback the message for you to confirm: {EmailContent}"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "CheckContent": {
+    "replies": [
+      {
+        "text": "Do you want to include this in the email?",
+        "speak": "Do you want to include this in the email?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "RetryContent": {
+    "replies": [
+      {
+        "text": "Got it, this email will not be sent yet.",
+        "speak": "Got it, this email will not be sent yet."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "GetRecreateInfo": {
+    "replies": [
+      {
+        "text": "Would you like to adjust the Participants, Subject or the Content?",
+        "speak": "Would you like to adjust the Participants, Subject or the Content?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "GetRecreateInfo_Retry": {
+    "replies": [
+      {
+        "text": "I don't understand your input. You can try Participants, Subject, or Content. Or say cancel.",
+        "speak": "I don't understand your input. You can try Participants, Subject, or Content. Or say cancel."
+      }
+    ],
+    "inputHint": "expectingInput"
   }
-
 }

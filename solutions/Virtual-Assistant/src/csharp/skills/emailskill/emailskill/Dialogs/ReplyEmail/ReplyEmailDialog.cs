@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,6 +37,7 @@ namespace EmailSkill.Dialogs.ReplyEmail
                 CollectSelectedEmail,
                 AfterCollectSelectedEmail,
                 CollectAdditionalText,
+                AfterCollectAdditionalText,
                 ConfirmBeforeSending,
                 ReplyEmail,
             };

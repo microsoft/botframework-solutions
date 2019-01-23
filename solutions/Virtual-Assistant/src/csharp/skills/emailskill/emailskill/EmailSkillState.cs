@@ -140,6 +140,27 @@ namespace EmailSkill
             UserSelectIndex = -1;
         }
 
+        public void ClearParticipants()
+        {
+            NameList.Clear();
+            Recipients.Clear();
+            ConfirmRecipientIndex = 0;
+            ReadRecipientIndex = 0;
+            RecipientChoiceList.Clear();
+            EmailList = new List<string>();
+            ShowRecipientIndex = 0;
+        }
+
+        public void ClearSubject()
+        {
+            Subject = null;
+        }
+
+        public void ClearContent()
+        {
+            Content = null;
+        }
+
         public class UserInformation
         {
             public string Name { get; set; }

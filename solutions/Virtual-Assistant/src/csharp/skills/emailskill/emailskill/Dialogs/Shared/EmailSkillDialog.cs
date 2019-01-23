@@ -392,15 +392,6 @@ namespace EmailSkill.Dialogs.Shared
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                if (sc.Result != null)
-                {
-                    if (string.IsNullOrEmpty(state.Content))
-                    {
-                        sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                        state.Content = content != null ? content.ToString() : sc.Context.Activity.Text;
-                    }
-                }
-
                 string nameListString;
 
                 // this means reply confirm
@@ -483,7 +474,13 @@ namespace EmailSkill.Dialogs.Shared
             try
             {
                 var skillOptions = (EmailSkillDialogOptions)sc.Options;
-                return await sc.BeginDialogAsync(Actions.CollectRecipient, skillOptions);
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                if (state.Recipients.Count() == 0)
+                {
+                    return await sc.BeginDialogAsync(Actions.CollectRecipient, skillOptions);
+                }
+
+                return await sc.NextAsync();
             }
             catch (Exception ex)
             {
@@ -551,6 +548,31 @@ namespace EmailSkill.Dialogs.Shared
             {
                 await HandleDialogExceptions(sc, ex);
 
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> AfterCollectAdditionalText(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                if (sc.Result != null)
+                {
+                    sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
+                    var contentInput = content != null ? content.ToString() : sc.Context.Activity.Text;
+
+                    if (!EmailCommonPhrase.GetIsSkip(contentInput))
+                    {
+                        state.Content = contentInput;
+                    }
+                }
+
+                return await sc.NextAsync();
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }

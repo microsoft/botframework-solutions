@@ -38,6 +38,7 @@ namespace EmailSkill.Dialogs.ForwardEmail
                 AfterCollectSelectedEmail,
                 CollectRecipient,
                 CollectAdditionalText,
+                AfterCollectAdditionalText,
                 ConfirmBeforeSending,
                 ForwardEmail,
             };
