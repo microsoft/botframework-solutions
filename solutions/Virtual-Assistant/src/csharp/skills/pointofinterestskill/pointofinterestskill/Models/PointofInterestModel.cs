@@ -44,9 +44,27 @@ namespace PointOfInterestSkill.Models
         private SearchResult azureMapsPoiData;
 
         /// <summary>
-        /// The point of interst data of Foursquare.
+        /// The point of interest data of Foursquare.
         /// </summary>
         private Venue foursquarePoiData;
+
+        private string _id;
+
+        private string _thumbnailImageUrl;
+
+        private string _name;
+
+        private string _address;
+
+        private string _addressLine;
+
+        private LatLng _geolocation;
+
+        private int _price;
+
+        private string[] _categories;
+
+        private string _provider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PointOfInterestModel"/> class.、
@@ -68,9 +86,11 @@ namespace PointOfInterestSkill.Models
                 case PointofInterestSource.AzureMaps:
                     azureMapsPoiData = new SearchResult();
                     break;
+
                 case PointofInterestSource.Foursquare:
                     foursquarePoiData = new Venue();
                     break;
+
                 default:
                     throw new Exception("Point of Interest type not defined");
             }
@@ -104,10 +124,12 @@ namespace PointOfInterestSkill.Models
                 {
                     case PointofInterestSource.AzureMaps:
                         return azureMapsPoiData.Id;
+
                     case PointofInterestSource.Foursquare:
                         return foursquarePoiData.Id;
+
                     default:
-                        throw new Exception("Point of Interest type not defined");
+                        return _id;
                 }
             }
 
@@ -116,18 +138,19 @@ namespace PointOfInterestSkill.Models
                 switch (source)
                 {
                     case PointofInterestSource.AzureMaps:
-                        azureMapsPoiData.Id = value;
+                        _id = azureMapsPoiData.Id = value;
                         break;
+
                     case PointofInterestSource.Foursquare:
-                        foursquarePoiData.Id = value;
+                        _id = foursquarePoiData.Id = value;
                         break;
+
                     default:
-                        throw new Exception("Point of Interest type not defined");
+                        _id = value;
+                        break;
                 }
             }
         }
-
-        private string _thumbnailImageUrl;
 
         public string ThumbnailImageUrl
         {
@@ -137,10 +160,12 @@ namespace PointOfInterestSkill.Models
                 {
                     case PointofInterestSource.AzureMaps:
                         return _thumbnailImageUrl;
+
                     case PointofInterestSource.Foursquare:
                         return foursquarePoiData.BestPhoto.AbsoluteUrl;
+
                     default:
-                        throw new Exception("Point of Interest type not defined");
+                        return _thumbnailImageUrl;
                 }
             }
 
@@ -148,14 +173,14 @@ namespace PointOfInterestSkill.Models
             {
                 switch (source)
                 {
-                    case PointofInterestSource.AzureMaps:
-                        _thumbnailImageUrl = value;
-                        break;
                     case PointofInterestSource.Foursquare:
                         foursquarePoiData.BestPhoto.AbsoluteUrl = value;
                         break;
+
+                    case PointofInterestSource.AzureMaps:
                     default:
-                        throw new Exception("Point of Interest type not defined");
+                        _thumbnailImageUrl = value;
+                        break;
                 }
             }
         }
@@ -167,11 +192,13 @@ namespace PointOfInterestSkill.Models
                 switch (source)
                 {
                     case PointofInterestSource.AzureMaps:
-                        return (azureMapsPoiData.Poi != null && !string.IsNullOrEmpty(azureMapsPoiData.Poi.Name)) ? azureMapsPoiData.Poi.Name : azureMapsPoiData.Address.FreeformAddress;
+                        return azureMapsPoiData.Poi?.Name;
+
                     case PointofInterestSource.Foursquare:
                         return foursquarePoiData.Name;
+
                     default:
-                        throw new Exception("Point of Interest type not defined");
+                        return _name;
                 }
             }
 
@@ -180,13 +207,16 @@ namespace PointOfInterestSkill.Models
                 switch (source)
                 {
                     case PointofInterestSource.AzureMaps:
-                        azureMapsPoiData.Poi.Name = value;
+                        _name = azureMapsPoiData.Poi.Name = value;
                         break;
+
                     case PointofInterestSource.Foursquare:
-                        foursquarePoiData.Name = value;
+                        _name = foursquarePoiData.Name = value;
                         break;
+
                     default:
-                        throw new Exception("Point of Interest type not defined");
+                        _name = value;
+                        break;
                 }
             }
         }
@@ -199,10 +229,12 @@ namespace PointOfInterestSkill.Models
                 {
                     case PointofInterestSource.AzureMaps:
                         return azureMapsPoiData.Address.ToBingAddress().FormattedAddress;
+
                     case PointofInterestSource.Foursquare:
                         return foursquarePoiData.Location.FullFormattedAddress;
+
                     default:
-                        throw new Exception("Point of Interest type not defined");
+                        return _address;
                 }
             }
 
@@ -211,13 +243,16 @@ namespace PointOfInterestSkill.Models
                 switch (source)
                 {
                     case PointofInterestSource.AzureMaps:
-                        azureMapsPoiData.Address.ToBingAddress().FormattedAddress = value;
+                        _address = azureMapsPoiData.Address.ToBingAddress().FormattedAddress = value;
                         break;
+
                     case PointofInterestSource.Foursquare:
-                        foursquarePoiData.Location.FullFormattedAddress = value;
+                        _address = foursquarePoiData.Location.FullFormattedAddress = value;
                         break;
+
                     default:
-                        throw new Exception("Point of Interest type not defined");
+                        _address = value;
+                        break;
                 }
             }
         }
@@ -230,10 +265,12 @@ namespace PointOfInterestSkill.Models
                 {
                     case PointofInterestSource.AzureMaps:
                         return azureMapsPoiData.Address.ToBingAddress().AddressLine;
+
                     case PointofInterestSource.Foursquare:
                         return foursquarePoiData.Location.Address;
+
                     default:
-                        throw new Exception("Point of Interest type not defined");
+                        return _addressLine;
                 }
             }
 
@@ -242,18 +279,19 @@ namespace PointOfInterestSkill.Models
                 switch (source)
                 {
                     case PointofInterestSource.AzureMaps:
-                        azureMapsPoiData.Address.ToBingAddress().AddressLine = value;
+                        _addressLine = azureMapsPoiData.Address.ToBingAddress().AddressLine = value;
                         break;
+
                     case PointofInterestSource.Foursquare:
-                        foursquarePoiData.Location.Address = value;
+                        _addressLine = foursquarePoiData.Location.Address = value;
                         break;
+
                     default:
-                        throw new Exception("Point of Interest type not defined");
+                        _addressLine = value;
+                        break;
                 }
             }
         }
-
-        private LatLng _geolocation;
 
         public LatLng Geolocation
         {
@@ -263,10 +301,12 @@ namespace PointOfInterestSkill.Models
                 {
                     case PointofInterestSource.AzureMaps:
                         return azureMapsPoiData.Position;
+
                     case PointofInterestSource.Foursquare:
-                        return new LatLng() { Latitude = foursquarePoiData.Location.Lat, Longitude = foursquarePoiData.Location.Lng};
+                        return new LatLng() { Latitude = foursquarePoiData.Location.Lat, Longitude = foursquarePoiData.Location.Lng };
+
                     default:
-                        throw new Exception("Point of Interest type not defined");
+                        return _geolocation;
                 }
             }
 
@@ -275,13 +315,16 @@ namespace PointOfInterestSkill.Models
                 switch (source)
                 {
                     case PointofInterestSource.AzureMaps:
-                        azureMapsPoiData.Position = value;
+                        _geolocation = azureMapsPoiData.Position = value;
                         break;
+
                     case PointofInterestSource.Foursquare:
                         _geolocation = value;
                         break;
+
                     default:
-                        throw new Exception("Point of Interest type not defined");
+                        _geolocation = value;
+                        break;
                 }
             }
         }
@@ -292,8 +335,6 @@ namespace PointOfInterestSkill.Models
 
         public string Rating { get; set; }
 
-        private int _price;
-
         public int Price
         {
             get
@@ -302,10 +343,12 @@ namespace PointOfInterestSkill.Models
                 {
                     case PointofInterestSource.AzureMaps:
                         return _price;
+
                     case PointofInterestSource.Foursquare:
                         return foursquarePoiData.Price.Tier;
+
                     default:
-                        throw new Exception("Point of Interest type not defined");
+                        return _price;
                 }
             }
 
@@ -316,15 +359,17 @@ namespace PointOfInterestSkill.Models
                     case PointofInterestSource.AzureMaps:
                         _price = value;
                         break;
+
                     case PointofInterestSource.Foursquare:
-                        foursquarePoiData.Price.Tier = value;
+                        _price = foursquarePoiData.Price.Tier = value;
                         break;
+
                     default:
-                        throw new Exception("Point of Interest type not defined");
+                        _price = value;
+                        break;
                 }
             }
         }
-
 
         private string _hours;
 
@@ -336,10 +381,12 @@ namespace PointOfInterestSkill.Models
                 {
                     case PointofInterestSource.AzureMaps:
                         return _hours;
+
                     case PointofInterestSource.Foursquare:
                         return foursquarePoiData.Hours.Status;
+
                     default:
-                        throw new Exception("Point of Interest type not defined");
+                        return _hours;
                 }
             }
 
@@ -350,17 +397,17 @@ namespace PointOfInterestSkill.Models
                     case PointofInterestSource.AzureMaps:
                         _hours = value;
                         break;
+
                     case PointofInterestSource.Foursquare:
-                        foursquarePoiData.Hours.Status = value;
+                        _hours = foursquarePoiData.Hours.Status = value;
                         break;
+
                     default:
-                        throw new Exception("Point of Interest type not defined");
+                        _hours = value;
+                        break;
                 }
             }
         }
-
-
-        private string[] _categories;
 
         public string[] Categories
         {
@@ -370,10 +417,12 @@ namespace PointOfInterestSkill.Models
                 {
                     case PointofInterestSource.AzureMaps:
                         return azureMapsPoiData.Poi.Categories;
+
                     case PointofInterestSource.Foursquare:
                         return foursquarePoiData.Categories.Select(x => x.Name).ToArray();
+
                     default:
-                        throw new Exception("Point of Interest type not defined");
+                        return _categories;
                 }
             }
 
@@ -382,13 +431,16 @@ namespace PointOfInterestSkill.Models
                 switch (source)
                 {
                     case PointofInterestSource.AzureMaps:
-                        azureMapsPoiData.Poi.Categories = value;
+                        _categories = azureMapsPoiData.Poi.Categories = value;
                         break;
+
                     case PointofInterestSource.Foursquare:
                         _categories = value;
                         break;
+
                     default:
-                        throw new Exception("Point of Interest type not defined");
+                        _categories = value;
+                        break;
                 }
             }
         }
@@ -401,10 +453,12 @@ namespace PointOfInterestSkill.Models
                 {
                     case PointofInterestSource.AzureMaps:
                         return Enum.GetName(typeof(PointofInterestSource), 1);
+
                     case PointofInterestSource.Foursquare:
                         return Enum.GetName(typeof(PointofInterestSource), 2);
+
                     default:
-                        throw new Exception("Point of Interest type not defined");
+                        return _provider;
                 }
             }
 
@@ -413,13 +467,16 @@ namespace PointOfInterestSkill.Models
                 switch (source)
                 {
                     case PointofInterestSource.AzureMaps:
-                        Provider = value;
+                        _provider = value;
                         break;
+
                     case PointofInterestSource.Foursquare:
-                        Provider = value;
+                        _provider = value;
                         break;
+
                     default:
-                        throw new Exception("Point of Interest type not defined");
+                        _provider = value;
+                        break;
                 }
             }
         }
