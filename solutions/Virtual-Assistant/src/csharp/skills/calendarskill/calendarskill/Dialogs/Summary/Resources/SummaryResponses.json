@@ -44,6 +44,33 @@
     ],
     "inputHint": "acceptingInput"
   },
+  "ShowMeetingSummaryAgainMessage": {
+    "replies": [
+      {
+        "text": "You have {Count} events planned for {DateTime}.",
+        "speak": "You have {Count} events planned for {DateTime}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowMeetingSummaryNotFirstPageMessage": {
+    "replies": [
+      {
+        "text": "The first event in this page is with {Participants1} {EventTime1} titled {EventName1}.",
+        "speak": "The first event in this page is with {Participants1} {EventTime1} titled {EventName1}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowMultipleFilteredMeetings": {
+    "replies": [
+      {
+        "text": "I found {Count} meetings with your key word.",
+        "speak": "I found {Count} meetings with your key word."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
   "ReadOutPrompt": {
     "replies": [
       {

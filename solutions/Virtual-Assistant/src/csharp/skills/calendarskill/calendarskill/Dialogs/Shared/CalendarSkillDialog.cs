@@ -89,7 +89,7 @@ namespace CalendarSkill.Dialogs.Shared
         {
             try
             {
-                var skillOptions = (CalendarSkillDialogOptions)sc.Options;
+               var skillOptions = (CalendarSkillDialogOptions)sc.Options;
 
                 // If in Skill mode we ask the calling Bot for the token
                 if (skillOptions != null && skillOptions.SkillMode)
@@ -400,52 +400,6 @@ namespace CalendarSkill.Dialogs.Shared
                 var intent = luisResult.TopIntent().intent;
 
                 var entity = luisResult.Entities;
-
-                if (entity.ordinal != null)
-                {
-                    try
-                    {
-                        var eventList = state.SummaryEvents;
-                        var value = entity.ordinal[0];
-                        var num = int.Parse(value.ToString());
-                        if (eventList != null && num > 0)
-                        {
-                            var currentList = eventList.GetRange(0, Math.Min(state.PageSize, eventList.Count));
-                            if (num <= currentList.Count)
-                            {
-                                state.ReadOutEvents.Clear();
-                                state.ReadOutEvents.Add(currentList[num - 1]);
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
-                }
-
-                if (entity.number != null && (entity.ordinal == null || entity.ordinal.Length == 0))
-                {
-                    try
-                    {
-                        var eventList = state.SummaryEvents;
-                        var value = entity.ordinal[0];
-                        var num = int.Parse(value.ToString());
-                        if (eventList != null && num > 0)
-                        {
-                            var currentList = eventList.GetRange(0, Math.Min(state.PageSize, eventList.Count));
-                            if (num <= currentList.Count)
-                            {
-                                state.ReadOutEvents.Clear();
-                                state.ReadOutEvents.Add(currentList[num - 1]);
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
-                }
 
                 if (!isBeginDialog)
                 {
@@ -950,7 +904,7 @@ namespace CalendarSkill.Dialogs.Shared
             }
         }
 
-        private string GetSubjectFromEntity(Calendar._Entities entity)
+        protected string GetSubjectFromEntity(Calendar._Entities entity)
         {
             return entity.Subject[0];
         }
@@ -960,7 +914,7 @@ namespace CalendarSkill.Dialogs.Shared
             return entity.AskParameter[0];
         }
 
-        private List<string> GetAttendeesFromEntity(Calendar._Entities entity, string inputString, List<string> attendees = null)
+        protected List<string> GetAttendeesFromEntity(Calendar._Entities entity, string inputString, List<string> attendees = null)
         {
             if (attendees == null)
             {
