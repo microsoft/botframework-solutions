@@ -7,6 +7,9 @@ namespace PointOfInterestSkill.Models
 {
     public class SearchResult
     {
+        [JsonProperty(PropertyName = "id")]
+        public string Id { get; set; }
+
         [JsonProperty(PropertyName = "type")]
         public string ResultType { get; set; }
 
@@ -21,33 +24,5 @@ namespace PointOfInterestSkill.Models
 
         [JsonProperty(PropertyName = "viewport")]
         public Viewport Viewport { get; set; }
-
-        public Location ToLocation()
-        {
-            var c = new GeocodePoint()
-            {
-                Coordinates = new System.Collections.Generic.List<double>
-                {
-                    Position.Latitude, Position.Longitude,
-                },
-            };
-
-            return new Location()
-            {
-                Address = (Address != null) ? Address.ToBingAddress() : null,
-                Point = c,
-                BoundaryBox = (Viewport != null) ? new System.Collections.Generic.List<double>()
-                {
-                    Viewport.BtmRightPoint.Latitude, Viewport.TopLeftPoint.Longitude, Viewport.TopLeftPoint.Latitude, Viewport.BtmRightPoint.Longitude,
-                }
-                : null,
-                GeocodePoints = new System.Collections.Generic.List<GeocodePoint>()
-                {
-                    c,
-                },
-                Name = (Poi != null && !string.IsNullOrEmpty(Poi.Name)) ? Poi.Name : Address.FreeformAddress,
-                EntityType = ResultType,
-            };
-        }
     }
 }

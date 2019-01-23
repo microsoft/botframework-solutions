@@ -53,7 +53,7 @@ namespace PointOfInterestSkill.Models.Foursquare
         {
             get
             {
-                return string.Join(" ", FormattedAddress);
+                return string.Join("\n", FormattedAddress);
             }
 
             set

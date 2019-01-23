@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PointOfInterestSkill.Models;
+using PointOfInterestSkill.Models.Foursquare;
 
 namespace PointOfInterestSkill.ServiceClients
 {
@@ -78,7 +79,7 @@ namespace PointOfInterestSkill.ServiceClients
                 string.Format(CultureInfo.InvariantCulture, FindNearbyUrl, latitude, longitude) + "&client_id=" + clientId + "&client_secret=" + clientSecret);
         }
 
-        public string GetPointOfInterestMapImageURL(PointOfInterestModel pointOfInterest, int? index = null)
+        public string GetPointOfInterestImageURL(PointOfInterestModel pointOfInterest, int? index = null)
         {
             if (pointOfInterest == null)
             {
@@ -162,16 +163,15 @@ namespace PointOfInterestSkill.ServiceClients
 
                 var response = await client.GetStringAsync(url);
 
-                var apiResponse = JsonConvert.DeserializeObject<SearchResultSet>(response);
+                var apiResponse = JsonConvert.DeserializeObject<VenueResponse>(response);
 
                 var pointOfInterestList = new List<PointOfInterestModel>();
-                var results = new PointOfInterestModel();
 
-                if (apiResponse != null && apiResponse.Results != null)
+                if (apiResponse != null && apiResponse.Response.Venues != null)
                 {
-                    foreach (var r in apiResponse.Results)
+                    foreach (var venue in apiResponse.Response.Venues)
                     {
-                        var newPointOfInterest = new PointOfInterestModel(PointofInterestSource.Foursquare);
+                        var newPointOfInterest = new PointOfInterestModel(venue);
                         pointOfInterestList.Add(newPointOfInterest);
                     }
                 }

@@ -2,7 +2,7 @@
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.0",
   "type": "AdaptiveCard",
-  "speak": "Option {OptionNumber}, {LocationName} is located at {SpeakAddress}",
+  "speak": "{OptionNumber}: {Name} is located at {AddressLine}",
   "id": "PointOfInterestViewCard",
   "body": [
     {
@@ -11,11 +11,11 @@
         {
           "horizontalAlignment": "center",
           "type": "Image",
-          "url": "{ImageUrl}"
+          "url": "{ThumbnailImageUrl}"
         },
         {
           "size": "medium",
-          "text": "{LocationName}",
+          "text": "{Name}",
           "type": "TextBlock"
         },
         {
@@ -52,19 +52,13 @@
               "width": 65,
               "items": [
                 {
-                  "text": "*Find the fastest route to  {LocationName}*",
+                  "text": "*Find the fastest route to  {Name}*",
                   "type": "TextBlock",
                   "wrap": true,
                   "horizontalAlignment": "right"
                 },
                 {
-                  "text": "*How do I get to option {OptionNumber}*",
-                  "type": "TextBlock",
-                  "wrap": true,
-                  "horizontalAlignment": "right"
-                },
-                {
-                  "text": "*Show directions to {SpeakAddress}*",
+                  "text": "*Show directions to {AddressLine}*",
                   "type": "TextBlock",
                   "wrap": true,
                   "horizontalAlignment": "right"
@@ -84,7 +78,7 @@
         "event": {
           "name": "POI.ActiveLocation",
           "text": "Find a route",
-          "value": "{LocationName}"
+          "value": "{Name}"
         }
       }
     }

@@ -45,7 +45,7 @@ namespace PointOfInterestSkill.ServiceClients
         /// <param name="location">The location.</param>
         /// <param name="index">The pin point index.</param>
         /// <returns>Image URL string.</returns>
-        string GetPointOfInterestMapImageURL(PointOfInterestModel pointOfInterest, int? index = null);
+        string GetPointOfInterestImageURL(PointOfInterestModel pointOfInterest, int? index = null);
 
         /// <summary>
         /// Gets the locations nearby.

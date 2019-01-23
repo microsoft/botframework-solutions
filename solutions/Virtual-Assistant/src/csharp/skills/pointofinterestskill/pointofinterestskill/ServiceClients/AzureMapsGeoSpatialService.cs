@@ -26,63 +26,63 @@ namespace PointOfInterestSkill.ServiceClients
         private readonly string apiKey;
         private readonly string userLocale;
 
-    public AzureMapsGeoSpatialService(string key, string locale = "en")
-    {
-        apiKey = key;
-        userLocale = locale;
-    }
-
-    public async Task<RouteDirections> GetRouteDirectionsAsync(double currentLatitude, double currentLongitude, double destinationLatitude, double destinationLongitude, string routeType = null)
-    {
-        if (string.IsNullOrEmpty(routeType))
+        public AzureMapsGeoSpatialService(string key, string locale = "en")
         {
-            return await GetRouteDirectionsAsync(string.Format(CultureInfo.InvariantCulture, GetRouteDirections, currentLatitude + "," + currentLongitude + ":" + destinationLatitude + "," + destinationLongitude) + "&subscription-key=" + apiKey);
-        }
-        else
-        {
-            return await GetRouteDirectionsAsync(string.Format(CultureInfo.InvariantCulture, GetRouteDirectionsWithRouteType, currentLatitude + "," + currentLongitude + ":" + destinationLatitude + "," + destinationLongitude, routeType) + "&subscription-key=" + apiKey);
-        }
-    }
-
-    public async Task<List<PointOfInterestModel>> GetLocationsByFuzzyQueryAsync(double latitude, double longitude, string query, string country)
-    {
-        if (string.IsNullOrEmpty(query))
-        {
-            throw new ArgumentNullException(nameof(query));
+            apiKey = key;
+            userLocale = locale;
         }
 
-        if (string.IsNullOrEmpty(country))
+        public async Task<RouteDirections> GetRouteDirectionsAsync(double currentLatitude, double currentLongitude, double destinationLatitude, double destinationLongitude, string routeType = null)
         {
-            throw new ArgumentNullException(nameof(country));
+            if (string.IsNullOrEmpty(routeType))
+            {
+                return await GetRouteDirectionsAsync(string.Format(CultureInfo.InvariantCulture, GetRouteDirections, currentLatitude + "," + currentLongitude + ":" + destinationLatitude + "," + destinationLongitude) + "&subscription-key=" + apiKey);
+            }
+            else
+            {
+                return await GetRouteDirectionsAsync(string.Format(CultureInfo.InvariantCulture, GetRouteDirectionsWithRouteType, currentLatitude + "," + currentLongitude + ":" + destinationLatitude + "," + destinationLongitude, routeType) + "&subscription-key=" + apiKey);
+            }
         }
 
-        var url = string.Format(CultureInfo.InvariantCulture, FindByFuzzyQueryApiUrl, latitude, longitude, query, country);
-        return await GetLocationsAsync(url + "&subscription-key=" + apiKey);
-    }
-
-    public async Task<List<PointOfInterestModel>> GetLocationsByQueryAsync(string address)
-    {
-        if (string.IsNullOrEmpty(address))
+        public async Task<List<PointOfInterestModel>> GetLocationsByFuzzyQueryAsync(double latitude, double longitude, string query, string country)
         {
-            throw new ArgumentNullException(nameof(address));
+            if (string.IsNullOrEmpty(query))
+            {
+                throw new ArgumentNullException(nameof(query));
+            }
+
+            if (string.IsNullOrEmpty(country))
+            {
+                throw new ArgumentNullException(nameof(country));
+            }
+
+            var url = string.Format(CultureInfo.InvariantCulture, FindByFuzzyQueryApiUrl, latitude, longitude, query, country);
+            return await GetLocationsAsync(url + "&subscription-key=" + apiKey);
         }
 
-        return await GetLocationsAsync(FindByQueryApiUrl + Uri.EscapeDataString(address) + "&subscription-key=" + apiKey);
-    }
+        public async Task<List<PointOfInterestModel>> GetLocationsByQueryAsync(string address)
+        {
+            if (string.IsNullOrEmpty(address))
+            {
+                throw new ArgumentNullException(nameof(address));
+            }
 
-    public async Task<List<PointOfInterestModel>> GetLocationsByPointAsync(double latitude, double longitude)
-    {
-    return await GetLocationsAsync(
-        string.Format(CultureInfo.InvariantCulture, FindByPointUrl, latitude, longitude) + "&subscription-key=" + apiKey);
-    }
+            return await GetLocationsAsync(FindByQueryApiUrl + Uri.EscapeDataString(address) + "&subscription-key=" + apiKey);
+        }
 
-    public async Task<List<PointOfInterestModel>> GetLocationsNearby(double latitude, double longitude)
-    {
+        public async Task<List<PointOfInterestModel>> GetLocationsByPointAsync(double latitude, double longitude)
+        {
         return await GetLocationsAsync(
-            string.Format(CultureInfo.InvariantCulture, FindNearbyUrl, latitude, longitude) + "&subscription-key=" + apiKey);
-    }
+            string.Format(CultureInfo.InvariantCulture, FindByPointUrl, latitude, longitude) + "&subscription-key=" + apiKey);
+        }
 
-        public string GetPointOfInterestMapImageURL(PointOfInterestModel pointOfInterest, int? index = null)
+        public async Task<List<PointOfInterestModel>> GetLocationsNearby(double latitude, double longitude)
+        {
+            return await GetLocationsAsync(
+                string.Format(CultureInfo.InvariantCulture, FindNearbyUrl, latitude, longitude) + "&subscription-key=" + apiKey);
+        }
+
+        public string GetPointOfInterestImageURL(PointOfInterestModel pointOfInterest, int? index = null)
         {
             if (pointOfInterest == null)
             {
@@ -181,13 +181,12 @@ namespace PointOfInterestSkill.ServiceClients
                 var apiResponse = JsonConvert.DeserializeObject<SearchResultSet>(response);
 
                 var pointOfInterestList = new List<PointOfInterestModel>();
-                var results = new PointOfInterestModel();
 
                 if (apiResponse != null && apiResponse.Results != null)
                 {
-                    foreach (var r in apiResponse.Results)
+                    foreach (var searchResult in apiResponse.Results)
                     {
-                        var newPointOfInterest = new PointOfInterestModel(PointofInterestSource.AzureMaps);
+                        var newPointOfInterest = new PointOfInterestModel(searchResult);
                         pointOfInterestList.Add(newPointOfInterest);
                     }
                 }

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 using System;
+using System.Linq;
 using Microsoft.Bot.Solutions.Cards;
 using PointOfInterestSkill.Models.Foursquare;
 
@@ -40,7 +41,7 @@ namespace PointOfInterestSkill.Models
         /// <summary>
         /// The point of interest data of Azure Maps.
         /// </summary>
-        private Location azureMapsPoiData;
+        private SearchResult azureMapsPoiData;
 
         /// <summary>
         /// The point of interst data of Foursquare.
@@ -65,7 +66,7 @@ namespace PointOfInterestSkill.Models
             switch (this.source)
             {
                 case PointofInterestSource.AzureMaps:
-                    azureMapsPoiData = new Location();
+                    azureMapsPoiData = new SearchResult();
                     break;
                 case PointofInterestSource.Foursquare:
                     foursquarePoiData = new Venue();
@@ -79,7 +80,7 @@ namespace PointOfInterestSkill.Models
         /// Initializes a new instance of the <see cref="PointOfInterestModel"/> class from Azure Maps Point of Interest.
         /// </summary>
         /// <param name="azureMapsPoi">Azure Maps point of interest.</param>
-        public PointOfInterestModel(Location azureMapsPoi)
+        public PointOfInterestModel(SearchResult azureMapsPoi)
         {
             source = PointofInterestSource.AzureMaps;
             azureMapsPoiData = azureMapsPoi;
@@ -102,7 +103,7 @@ namespace PointOfInterestSkill.Models
                 switch (source)
                 {
                     case PointofInterestSource.AzureMaps:
-                        return string.Empty;
+                        return azureMapsPoiData.Id;
                     case PointofInterestSource.Foursquare:
                         return foursquarePoiData.Id;
                     default:
@@ -115,7 +116,7 @@ namespace PointOfInterestSkill.Models
                 switch (source)
                 {
                     case PointofInterestSource.AzureMaps:
-                        Id = value;
+                        azureMapsPoiData.Id = value;
                         break;
                     case PointofInterestSource.Foursquare:
                         foursquarePoiData.Id = value;
@@ -126,6 +127,8 @@ namespace PointOfInterestSkill.Models
             }
         }
 
+        private string _thumbnailImageUrl;
+
         public string ThumbnailImageUrl
         {
             get
@@ -133,7 +136,7 @@ namespace PointOfInterestSkill.Models
                 switch (source)
                 {
                     case PointofInterestSource.AzureMaps:
-                        return string.Empty;
+                        return _thumbnailImageUrl;
                     case PointofInterestSource.Foursquare:
                         return foursquarePoiData.BestPhoto.AbsoluteUrl;
                     default:
@@ -146,7 +149,7 @@ namespace PointOfInterestSkill.Models
                 switch (source)
                 {
                     case PointofInterestSource.AzureMaps:
-                        ThumbnailImageUrl = value;
+                        _thumbnailImageUrl = value;
                         break;
                     case PointofInterestSource.Foursquare:
                         foursquarePoiData.BestPhoto.AbsoluteUrl = value;
@@ -164,7 +167,7 @@ namespace PointOfInterestSkill.Models
                 switch (source)
                 {
                     case PointofInterestSource.AzureMaps:
-                        return azureMapsPoiData.Name;
+                        return (azureMapsPoiData.Poi != null && !string.IsNullOrEmpty(azureMapsPoiData.Poi.Name)) ? azureMapsPoiData.Poi.Name : azureMapsPoiData.Address.FreeformAddress;
                     case PointofInterestSource.Foursquare:
                         return foursquarePoiData.Name;
                     default:
@@ -177,7 +180,7 @@ namespace PointOfInterestSkill.Models
                 switch (source)
                 {
                     case PointofInterestSource.AzureMaps:
-                        azureMapsPoiData.Name = value;
+                        azureMapsPoiData.Poi.Name = value;
                         break;
                     case PointofInterestSource.Foursquare:
                         foursquarePoiData.Name = value;
@@ -195,7 +198,7 @@ namespace PointOfInterestSkill.Models
                 switch (source)
                 {
                     case PointofInterestSource.AzureMaps:
-                        return azureMapsPoiData.Address.FormattedAddress;
+                        return azureMapsPoiData.Address.ToBingAddress().FormattedAddress;
                     case PointofInterestSource.Foursquare:
                         return foursquarePoiData.Location.FullFormattedAddress;
                     default:
@@ -208,7 +211,7 @@ namespace PointOfInterestSkill.Models
                 switch (source)
                 {
                     case PointofInterestSource.AzureMaps:
-                        azureMapsPoiData.Name = value;
+                        azureMapsPoiData.Address.ToBingAddress().FormattedAddress = value;
                         break;
                     case PointofInterestSource.Foursquare:
                         foursquarePoiData.Location.FullFormattedAddress = value;
@@ -226,7 +229,7 @@ namespace PointOfInterestSkill.Models
                 switch (source)
                 {
                     case PointofInterestSource.AzureMaps:
-                        return azureMapsPoiData.Address.AddressLine;
+                        return azureMapsPoiData.Address.ToBingAddress().AddressLine;
                     case PointofInterestSource.Foursquare:
                         return foursquarePoiData.Location.Address;
                     default:
@@ -239,7 +242,7 @@ namespace PointOfInterestSkill.Models
                 switch (source)
                 {
                     case PointofInterestSource.AzureMaps:
-                        azureMapsPoiData.Address.AddressLine = value;
+                        azureMapsPoiData.Address.ToBingAddress().AddressLine = value;
                         break;
                     case PointofInterestSource.Foursquare:
                         foursquarePoiData.Location.Address = value;
@@ -250,6 +253,8 @@ namespace PointOfInterestSkill.Models
             }
         }
 
+        private LatLng _geolocation;
+
         public LatLng Geolocation
         {
             get
@@ -257,7 +262,7 @@ namespace PointOfInterestSkill.Models
                 switch (source)
                 {
                     case PointofInterestSource.AzureMaps:
-                        return new LatLng() { Latitude = azureMapsPoiData.Point.Coordinates[0], Longitude = azureMapsPoiData.Point.Coordinates[1] };
+                        return azureMapsPoiData.Position;
                     case PointofInterestSource.Foursquare:
                         return new LatLng() { Latitude = foursquarePoiData.Location.Lat, Longitude = foursquarePoiData.Location.Lng};
                     default:
@@ -270,10 +275,10 @@ namespace PointOfInterestSkill.Models
                 switch (source)
                 {
                     case PointofInterestSource.AzureMaps:
-                        Geolocation = value;
+                        azureMapsPoiData.Position = value;
                         break;
                     case PointofInterestSource.Foursquare:
-                        Geolocation = value;
+                        _geolocation = value;
                         break;
                     default:
                         throw new Exception("Point of Interest type not defined");
@@ -287,6 +292,8 @@ namespace PointOfInterestSkill.Models
 
         public string Rating { get; set; }
 
+        private int _price;
+
         public int Price
         {
             get
@@ -294,7 +301,7 @@ namespace PointOfInterestSkill.Models
                 switch (source)
                 {
                     case PointofInterestSource.AzureMaps:
-                        return 0;
+                        return _price;
                     case PointofInterestSource.Foursquare:
                         return foursquarePoiData.Price.Tier;
                     default:
@@ -307,7 +314,7 @@ namespace PointOfInterestSkill.Models
                 switch (source)
                 {
                     case PointofInterestSource.AzureMaps:
-                        Price = value;
+                        _price = value;
                         break;
                     case PointofInterestSource.Foursquare:
                         foursquarePoiData.Price.Tier = value;
@@ -318,6 +325,9 @@ namespace PointOfInterestSkill.Models
             }
         }
 
+
+        private string _hours;
+
         public string Hours
         {
             get
@@ -325,7 +335,7 @@ namespace PointOfInterestSkill.Models
                 switch (source)
                 {
                     case PointofInterestSource.AzureMaps:
-                        return string.Empty;
+                        return _hours;
                     case PointofInterestSource.Foursquare:
                         return foursquarePoiData.Hours.Status;
                     default:
@@ -338,7 +348,7 @@ namespace PointOfInterestSkill.Models
                 switch (source)
                 {
                     case PointofInterestSource.AzureMaps:
-                        Hours = value;
+                        _hours = value;
                         break;
                     case PointofInterestSource.Foursquare:
                         foursquarePoiData.Hours.Status = value;
@@ -349,16 +359,19 @@ namespace PointOfInterestSkill.Models
             }
         }
 
-        public string Category
+
+        private string[] _categories;
+
+        public string[] Categories
         {
             get
             {
                 switch (source)
                 {
                     case PointofInterestSource.AzureMaps:
-                        return string.Empty;
+                        return azureMapsPoiData.Poi.Categories;
                     case PointofInterestSource.Foursquare:
-                        return foursquarePoiData.Categories.ToString();
+                        return foursquarePoiData.Categories.Select(x => x.Name).ToArray();
                     default:
                         throw new Exception("Point of Interest type not defined");
                 }
@@ -369,10 +382,10 @@ namespace PointOfInterestSkill.Models
                 switch (source)
                 {
                     case PointofInterestSource.AzureMaps:
-                        Hours = value;
+                        azureMapsPoiData.Poi.Categories = value;
                         break;
                     case PointofInterestSource.Foursquare:
-                        foursquarePoiData.Hours.Status = value;
+                        _categories = value;
                         break;
                     default:
                         throw new Exception("Point of Interest type not defined");
