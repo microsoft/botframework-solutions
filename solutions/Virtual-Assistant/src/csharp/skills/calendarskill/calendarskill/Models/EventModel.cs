@@ -840,7 +840,7 @@ namespace CalendarSkill.Models
             string locationString = null;
             if (eventItem.Attendees.Count > 0)
             {
-                participantString = DisplayHelper.ToDisplayParticipantsStringSummary(eventItem.Attendees);
+                participantString = DisplayHelper.ToDisplayParticipantsStringSummaryInCard(eventItem.Attendees);
             }
 
             var userStartDateTime = TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone);
