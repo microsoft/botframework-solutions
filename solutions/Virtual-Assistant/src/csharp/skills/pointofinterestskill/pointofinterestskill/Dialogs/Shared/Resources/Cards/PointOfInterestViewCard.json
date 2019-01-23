@@ -9,63 +9,41 @@
       "type": "Container",
       "items": [
         {
-          "horizontalAlignment": "center",
-          "type": "Image",
-          "url": "{ThumbnailImageUrl}"
-        },
-        {
-          "size": "medium",
-          "text": "{Name}",
-          "type": "TextBlock"
-        },
-        {
-          "size": "medium",
-          "text": "{Address}",
-          "type": "TextBlock",
-          "weight": "lighter",
-          "wrap": true
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "verticalContentAlignment": "Center",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "horizontalAlignment": "Left",
+                  "size": "Large",
+                  "weight": "Bolder",
+                  "color": "Accent",
+                  "text": "{Name}"
+                },
+                {
+                  "type": "TextBlock",
+                  "size": "Medium",
+                  "color": "Dark",
+                  "text": "{Address}",
+                  "isSubtle": true
+                }
+              ],
+              "width": 90
+            }
+          ]
         }
       ]
     },
     {
       "type": "Container",
-      "separator": "true",
-      "style": "emphasis",
+      "separator": true,
       "items": [
         {
-          "type": "ColumnSet",
-          "columns": [
-            {
-              "type": "Column",
-              "width": 35,
-              "items": [
-                {
-                  "text": "Ask me like this:",
-                  "type": "TextBlock",
-                  "weight": "default",
-                  "size": "default"
-                }
-              ]
-            },
-            {
-              "type": "Column",
-              "width": 65,
-              "items": [
-                {
-                  "text": "*Find the fastest route to  {Name}*",
-                  "type": "TextBlock",
-                  "wrap": true,
-                  "horizontalAlignment": "right"
-                },
-                {
-                  "text": "*Show directions to {AddressLine}*",
-                  "type": "TextBlock",
-                  "wrap": true,
-                  "horizontalAlignment": "right"
-                }
-              ]
-            }
-          ]
+          "type": "Image",
+          "url": "{ThumbnailImageUrl}"
         }
       ]
     }
