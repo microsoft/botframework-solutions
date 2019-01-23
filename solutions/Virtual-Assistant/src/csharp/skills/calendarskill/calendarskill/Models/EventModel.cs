@@ -898,6 +898,24 @@ namespace CalendarSkill.Models
             return SpeakHelper.ToSpeechMeetingDuration(t);
         }
 
+        public bool ContainsAttendee(string contactName)
+        {
+            foreach (var attendee in Attendees)
+            {
+                if (attendee.DisplayName.ToLower().Contains(contactName.ToLower()))
+                {
+                    return true;
+                }
+
+                if (attendee.Address.ToLower().Contains(contactName.ToLower()))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public class Attendee
         {
             public string Address { get; set; }
