@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
 using System.Threading.Tasks;
+using CalendarSkill.Dialogs.ConfirmRecipient.Resources;
 using CalendarSkill.Dialogs.CreateEvent.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkillTest.Flow.Fakes;
@@ -409,7 +410,7 @@ namespace CalendarSkillTest.Flow
 
         private string[] AskForParticpantsPrompt()
         {
-            return this.ParseReplies(CreateEventResponses.NoAttendees.Replies, new StringDictionary());
+            return this.ParseReplies(ConfirmRecipientResponses.NoAttendees.Replies, new StringDictionary());
         }
 
         private string[] AskForSubjectWithEmailAddressPrompt()
@@ -507,7 +508,7 @@ namespace CalendarSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var recipientConfirmedMessage = this.ParseReplies(CreateEventResponses.ConfirmRecipient.Replies, new StringDictionary());
+                var recipientConfirmedMessage = this.ParseReplies(ConfirmRecipientResponses.ConfirmRecipient.Replies, new StringDictionary());
 
                 var messageLines = messageActivity.Text.Split("\r\n");
                 Assert.IsTrue(Array.IndexOf(recipientConfirmedMessage, messageLines[0]) != -1);
