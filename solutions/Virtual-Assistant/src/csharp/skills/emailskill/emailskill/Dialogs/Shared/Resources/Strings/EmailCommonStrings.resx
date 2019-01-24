@@ -127,7 +127,7 @@
     <value>Cc: {0}</value>
   </data>
   <data name="ContactSeparator" xml:space="preserve">
-    <value>;|and</value>
+    <value>; | and</value>
   </data>
   <data name="Content" xml:space="preserve">
     <value>content</value>
@@ -187,7 +187,7 @@
     <value>RE: {0}</value>
   </data>
   <data name="Skip" xml:space="preserve">
-    <value>skip|pass|no</value>
+    <value>skip | pass | no</value>
   </data>
   <data name="Split" xml:space="preserve">
     <value>|</value>

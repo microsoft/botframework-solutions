@@ -88,7 +88,7 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ;|and.
+        ///   Looks up a localized string similar to ; | and.
         /// </summary>
         public static string ContactSeparator {
             get {
@@ -268,7 +268,7 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to skip|pass|no.
+        ///   Looks up a localized string similar to skip | pass | no.
         /// </summary>
         public static string Skip {
             get {

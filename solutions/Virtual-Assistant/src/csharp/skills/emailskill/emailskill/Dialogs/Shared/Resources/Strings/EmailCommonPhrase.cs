@@ -11,6 +11,11 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings
         {
             var skipItems = EmailCommonStrings.Skip.Split(EmailCommonStrings.Split);
 
+            for (int i = 0; i < skipItems.Count(); i++)
+            {
+                skipItems[i] = skipItems[i].Trim();
+            }
+
             var isSkip = false;
             if (skipItems.Contains<string>(input.ToLowerInvariant()))
             {
