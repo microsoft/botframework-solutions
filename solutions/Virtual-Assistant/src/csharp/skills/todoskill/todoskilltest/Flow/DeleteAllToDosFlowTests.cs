@@ -37,6 +37,7 @@ namespace ToDoSkillTest.Flow
         [TestMethod]
         public async Task Test_DeleteAllToDoItems()
         {
+            (this.ServiceManager as MockServiceManager).MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(DeleteToDoFlowTestUtterances.DeleteAllTasks)
                 .AssertReply(this.ShowAuth())
@@ -54,6 +55,7 @@ namespace ToDoSkillTest.Flow
         [TestMethod]
         public async Task Test_DeleteAllToDoItems_Confirm_No()
         {
+            (this.ServiceManager as MockServiceManager).MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(DeleteToDoFlowTestUtterances.DeleteAllTasks)
                 .AssertReply(this.ShowAuth())

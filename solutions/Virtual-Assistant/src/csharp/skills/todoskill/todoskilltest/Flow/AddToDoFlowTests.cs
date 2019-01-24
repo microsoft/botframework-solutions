@@ -37,6 +37,7 @@ namespace ToDoSkillTest.Flow
         [TestMethod]
         public async Task Test_AddToDoItem_Prompt_To_Ask_Content()
         {
+            (this.ServiceManager as MockServiceManager).MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(AddToDoFlowTestUtterances.BaseAddTask)
                 .AssertReply(this.ShowAuth())
@@ -55,6 +56,7 @@ namespace ToDoSkillTest.Flow
         [TestMethod]
         public async Task Test_AddToDoItem_With_Content()
         {
+            (this.ServiceManager as MockServiceManager).MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(AddToDoFlowTestUtterances.AddTaskWithContent)
                 .AssertReply(this.ShowAuth())
@@ -73,6 +75,7 @@ namespace ToDoSkillTest.Flow
         [TestMethod]
         public async Task Test_AddToDoItem_With_Content_And_ListType()
         {
+            (this.ServiceManager as MockServiceManager).MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(AddToDoFlowTestUtterances.AddTaskWithContentAndListType)
                 .AssertReply(this.ShowAuth())
@@ -89,6 +92,7 @@ namespace ToDoSkillTest.Flow
         [TestMethod]
         public async Task Test_AddToDoItem_With_Content_And_ShopVerb()
         {
+            (this.ServiceManager as MockServiceManager).MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(AddToDoFlowTestUtterances.AddTaskWithContentAndShopVerb)
                 .AssertReply(this.ShowAuth())

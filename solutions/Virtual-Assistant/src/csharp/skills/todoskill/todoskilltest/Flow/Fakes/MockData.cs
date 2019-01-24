@@ -67,42 +67,42 @@ namespace ToDoSkillTest.Flow.Fakes
             {
                 Id = "ToDoNum3",
                 Topic = "Play Games 3",
-                IsCompleted = true
+                IsCompleted = false
             },
 
             new TaskItem()
             {
                 Id = "ToDoNum4",
                 Topic = "Play Games 4",
-                IsCompleted = true
+                IsCompleted = false
             },
 
             new TaskItem()
             {
                 Id = "ToDoNum5",
                 Topic = "Play Games 5",
-                IsCompleted = true
+                IsCompleted = false
             },
 
             new TaskItem()
             {
                 Id = "ToDoNum6",
                 Topic = "Play Games 6",
-                IsCompleted = true
+                IsCompleted = false
             },
 
             new TaskItem()
             {
                 Id = "ToDoNum7",
                 Topic = "Play Games 7",
-                IsCompleted = true
+                IsCompleted = false
             },
 
             new TaskItem()
             {
                 Id = "ToDoNum8",
                 Topic = "Play Games 8",
-                IsCompleted = true
+                IsCompleted = false
             }
         };
 
@@ -126,7 +126,7 @@ namespace ToDoSkillTest.Flow.Fakes
             {
                 Id = "ShoppingItem3",
                 Topic = "Buy Shoes 3",
-                IsCompleted = true
+                IsCompleted = false
             },
 
             new TaskItem()
@@ -147,7 +147,7 @@ namespace ToDoSkillTest.Flow.Fakes
             {
                 Id = "ShoppingItem6",
                 Topic = "Buy Shoes 6",
-                IsCompleted = true
+                IsCompleted = false
             },
             new TaskItem()
             {
@@ -198,7 +198,7 @@ namespace ToDoSkillTest.Flow.Fakes
             {
                 Id = "GroceryItem6",
                 Topic = "Buy Milk 6",
-                IsCompleted = true
+                IsCompleted = false
             },
 
             new TaskItem()

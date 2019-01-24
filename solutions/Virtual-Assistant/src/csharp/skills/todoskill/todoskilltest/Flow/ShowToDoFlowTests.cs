@@ -37,6 +37,7 @@ namespace ToDoSkillTest.Flow
         [TestMethod]
         public async Task Test_ShowToDoItems()
         {
+            (this.ServiceManager as MockServiceManager).MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(ShowToDoFlowTestUtterances.ShowToDoList)
                 .AssertReply(this.ShowAuth())
@@ -53,6 +54,7 @@ namespace ToDoSkillTest.Flow
         [TestMethod]
         public async Task Test_ShowGroceryItems()
         {
+            (this.ServiceManager as MockServiceManager).MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(ShowToDoFlowTestUtterances.ShowGroceryList)
                 .AssertReply(this.ShowAuth())
@@ -69,6 +71,7 @@ namespace ToDoSkillTest.Flow
         [TestMethod]
         public async Task Test_ShowShoppingItems()
         {
+            (this.ServiceManager as MockServiceManager).MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(ShowToDoFlowTestUtterances.ShowShoppingList)
                 .AssertReply(this.ShowAuth())
@@ -85,6 +88,7 @@ namespace ToDoSkillTest.Flow
         [TestMethod]
         public async Task Test_ReadMoreItems()
         {
+            (this.ServiceManager as MockServiceManager).MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(ShowToDoFlowTestUtterances.ShowToDoList)
                 .AssertReply(this.ShowAuth())
@@ -104,7 +108,7 @@ namespace ToDoSkillTest.Flow
         [TestMethod]
         public async Task Test_ShowEmptyList()
         {
-            (this.ServiceManager as MockServiceManager).MockTaskService.ChangeData(DataOperationType.OperationType.KeepZeroItem);
+            (this.ServiceManager as MockServiceManager).MockTaskService.ChangeData(DataOperationType.OperationType.ClearAllData);
             await this.GetTestFlow()
                 .Send(ShowToDoFlowTestUtterances.ShowToDoList)
                 .AssertReply(this.ShowAuth())
@@ -120,7 +124,7 @@ namespace ToDoSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                Assert.AreEqual(messageActivity.Attachments.Count, 1);
+                Assert.AreEqual(1, messageActivity.Attachments.Count);
                 var responseCard = messageActivity.Attachments[0].Content as AdaptiveCard;
                 Assert.IsNotNull(responseCard);
                 var adaptiveCardTitle = responseCard.Body[0] as AdaptiveTextBlock;

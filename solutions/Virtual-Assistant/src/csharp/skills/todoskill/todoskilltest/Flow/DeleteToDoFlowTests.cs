@@ -37,6 +37,7 @@ namespace ToDoSkillTest.Flow
         [TestMethod]
         public async Task Test_DeleteToDoItem()
         {
+            (this.ServiceManager as MockServiceManager).MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(DeleteToDoFlowTestUtterances.BaseDeleteTask)
                 .AssertReply(this.ShowAuth())
@@ -57,6 +58,7 @@ namespace ToDoSkillTest.Flow
         [TestMethod]
         public async Task Test_DeleteToDoItem_By_Specific_Index()
         {
+            (this.ServiceManager as MockServiceManager).MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(DeleteToDoFlowTestUtterances.DeleteSpecificTask)
                 .AssertReply(this.ShowAuth())
@@ -75,6 +77,7 @@ namespace ToDoSkillTest.Flow
         [TestMethod]
         public async Task Test_DeleteToDoItem_By_Specific_Index_And_ListType()
         {
+            (this.ServiceManager as MockServiceManager).MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(DeleteToDoFlowTestUtterances.DeleteSpecificTaskWithListType)
                 .AssertReply(this.ShowAuth())
@@ -91,6 +94,7 @@ namespace ToDoSkillTest.Flow
         [TestMethod]
         public async Task Test_DeleteToDoItem_By_Specific_Content()
         {
+            (this.ServiceManager as MockServiceManager).MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(DeleteToDoFlowTestUtterances.DeleteTaskByContent)
                 .AssertReply(this.ShowAuth())

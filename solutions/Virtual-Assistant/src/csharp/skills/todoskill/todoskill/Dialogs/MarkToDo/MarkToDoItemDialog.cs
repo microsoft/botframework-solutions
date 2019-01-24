@@ -100,6 +100,7 @@ namespace ToDoSkill.Dialogs.MarkToDo
                 if (state.MarkOrDeleteAllTasksFlag)
                 {
                     await service.MarkTasksCompletedAsync(state.ListType, state.AllTasks);
+                    state.AllTasks.ForEach(task => task.IsCompleted = true);
                 }
                 else
                 {
@@ -107,9 +108,9 @@ namespace ToDoSkill.Dialogs.MarkToDo
                     var tasksToBeMarked = new List<TaskItem>();
                     state.TaskIndexes.ForEach(i => tasksToBeMarked.Add(state.AllTasks[i]));
                     await service.MarkTasksCompletedAsync(state.ListType, tasksToBeMarked);
+                    state.TaskIndexes.ForEach(i => state.AllTasks[i].IsCompleted = true);
                 }
 
-                state.AllTasks = await service.GetTasksAsync(state.ListType);
                 var allTasksCount = state.AllTasks.Count;
                 var currentTaskIndex = state.ShowTaskPageIndex * state.PageSize;
                 state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));

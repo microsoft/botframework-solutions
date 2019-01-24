@@ -214,12 +214,15 @@ namespace ToDoSkill.ServiceClients
             var toDoTasks = new List<TaskItem>();
             foreach (var task in tasksObject)
             {
-                toDoTasks.Add(new TaskItem()
+                if (task["status"] != "completed")
                 {
-                    Topic = task["subject"],
-                    Id = task["id"],
-                    IsCompleted = task["status"] == "completed" ? true : false,
-                });
+                    toDoTasks.Add(new TaskItem()
+                    {
+                        Topic = task["subject"],
+                        Id = task["id"],
+                        IsCompleted = false,
+                    });
+                }
             }
 
             return toDoTasks;

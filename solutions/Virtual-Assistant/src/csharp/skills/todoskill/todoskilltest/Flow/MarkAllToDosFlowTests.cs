@@ -37,6 +37,7 @@ namespace ToDoSkillTest.Flow
         [TestMethod]
         public async Task Test_MarkAllToDoItems()
         {
+            (this.ServiceManager as MockServiceManager).MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(MarkToDoFlowTestUtterances.MarkAllTasksAsCompleted)
                 .AssertReply(this.ShowAuth())
