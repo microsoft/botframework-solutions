@@ -128,11 +128,7 @@ namespace CalendarSkill.Dialogs.Summary
 
                     var results = await GetEventsByTime(new List<DateTime>() { searchDate }, state.StartTime, state.EndDate, state.EndTime, state.GetUserTimeZone(), calendarService);
                     var searchedEvents = new List<EventModel>();
-                    bool searchTodayMeeting = state.StartDate.Any() &&
-                        !state.StartTime.Any() &&
-                        !state.EndDate.Any() &&
-                        !state.EndTime.Any() &&
-                        EventModel.IsSameDate(searchDate, TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, state.GetUserTimeZone()));
+                    bool searchTodayMeeting = searchesTodayMeeting(state);
                     foreach (var item in results)
                     {
                         if (!searchTodayMeeting || item.StartTime >= DateTime.UtcNow)
@@ -183,7 +179,7 @@ namespace CalendarSkill.Dialogs.Summary
                         }
                     }
 
-                    await ShowMeetingList(sc, GetCurrentPageMeetings(searchedEvents, state), false);
+                    await ShowMeetingList(sc, GetCurrentPageMeetings(searchedEvents, state), !searchTodayMeeting);
                     state.SummaryEvents = searchedEvents;
                     if (state.SummaryEvents.Count == 1)
                     {
@@ -193,7 +189,7 @@ namespace CalendarSkill.Dialogs.Summary
                 else
                 {
                     var currentPageMeetings = GetCurrentPageMeetings(state.SummaryEvents, state);
-                    if (options.Reason == ShowMeetingReason.ShowFilteredMeetings)
+                    if (options != null && options.Reason == ShowMeetingReason.ShowFilteredMeetings)
                     {
                         await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowMultipleFilteredMeetings, ResponseBuilder, new StringDictionary() { { "Count", state.SummaryEvents.Count.ToString() } }));
                     }
@@ -210,7 +206,7 @@ namespace CalendarSkill.Dialogs.Summary
                         await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowMeetingSummaryNotFirstPageMessage, ResponseBuilder, responseParams));
                     }
 
-                    await ShowMeetingList(sc, GetCurrentPageMeetings(state.SummaryEvents, state), false);
+                    await ShowMeetingList(sc, GetCurrentPageMeetings(state.SummaryEvents, state), !searchesTodayMeeting(state));
                 }
 
                 return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.ReadOutMorePrompt) });
@@ -708,6 +704,23 @@ namespace CalendarSkill.Dialogs.Summary
         private List<EventModel> GetCurrentPageMeetings(List<EventModel> allMeetings, CalendarSkillState state)
         {
             return allMeetings.GetRange(state.ShowEventIndex * state.PageSize, Math.Min(state.PageSize, allMeetings.Count - (state.ShowEventIndex * state.PageSize)));
+        }
+
+        private bool searchesTodayMeeting(CalendarSkillState state)
+        {
+            var userNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, state.GetUserTimeZone());
+            var searchDate = userNow;
+
+            if (state.StartDate.Any())
+            {
+                searchDate = state.StartDate.Last();
+            }
+
+            return state.StartDate.Any() &&
+                !state.StartTime.Any() &&
+                !state.EndDate.Any() &&
+                !state.EndTime.Any() &&
+                EventModel.IsSameDate(searchDate, userNow);
         }
     }
 }
