@@ -158,7 +158,7 @@ namespace PointOfInterestSkill.Dialogs.Route
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                var service = ServiceManager.InitMapsService(GetAzureMapsKey());
+                var service = ServiceManager.InitRoutingMapsService(Services);
                 var routeDirections = new RouteDirections();
 
                 state.CheckForValidCurrentCoordinates();

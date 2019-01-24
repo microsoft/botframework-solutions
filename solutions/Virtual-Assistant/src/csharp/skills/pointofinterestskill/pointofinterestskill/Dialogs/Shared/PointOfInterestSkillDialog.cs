@@ -85,7 +85,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
 
                 var state = await Accessor.GetAsync(sc.Context);
 
-                var service = ServiceManager.InitMapsService(GetAzureMapsKey(), sc.Context.Activity.Locale ?? "en-us");
+                var service = ServiceManager.InitMapsService(Services, sc.Context.Activity.Locale ?? "en-us");
                 var pointOfInterestList = new List<PointOfInterestModel>();
 
                 state.CheckForValidCurrentCoordinates();
@@ -168,7 +168,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
         protected async Task GetPointOfInterestLocationViewCards(DialogContext sc, List<PointOfInterestModel> pointOfInterestList)
         {
             var state = await Accessor.GetAsync(sc.Context);
-            var service = ServiceManager.InitMapsService(GetAzureMapsKey());
+            var service = ServiceManager.InitMapsService(Services);
 
             if (pointOfInterestList != null && pointOfInterestList.Count > 0)
             {
@@ -365,21 +365,6 @@ namespace PointOfInterestSkill.Dialogs.Shared
             catch
             {
                 // put log here
-            }
-        }
-
-        protected string GetAzureMapsKey()
-        {
-            Services.Properties.TryGetValue("AzureMapsKey", out var key);
-
-            var keyStr = (string)key;
-            if (string.IsNullOrWhiteSpace(keyStr))
-            {
-                throw new Exception("Could not get the Azure Maps key. Please make sure your settings are correctly configured.");
-            }
-            else
-            {
-                return keyStr;
             }
         }
 

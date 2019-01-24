@@ -162,7 +162,7 @@ namespace PointOfInterestSkill.Models
                         return _thumbnailImageUrl;
 
                     case PointofInterestSource.Foursquare:
-                        return foursquarePoiData.BestPhoto.AbsoluteUrl;
+                        return foursquarePoiData.BestPhoto?.AbsoluteUrl;
 
                     default:
                         return _thumbnailImageUrl;
@@ -174,7 +174,7 @@ namespace PointOfInterestSkill.Models
                 switch (source)
                 {
                     case PointofInterestSource.Foursquare:
-                        foursquarePoiData.BestPhoto.AbsoluteUrl = value;
+                        _thumbnailImageUrl = foursquarePoiData.BestPhoto.AbsoluteUrl = value;
                         break;
 
                     case PointofInterestSource.AzureMaps:
@@ -228,10 +228,10 @@ namespace PointOfInterestSkill.Models
                 switch (source)
                 {
                     case PointofInterestSource.AzureMaps:
-                        return azureMapsPoiData.Address.ToBingAddress().FormattedAddress;
+                        return azureMapsPoiData.Address?.ToBingAddress()?.FormattedAddress;
 
                     case PointofInterestSource.Foursquare:
-                        return foursquarePoiData.Location.FullFormattedAddress;
+                        return foursquarePoiData.Location?.FullFormattedAddress;
 
                     default:
                         return _address;
