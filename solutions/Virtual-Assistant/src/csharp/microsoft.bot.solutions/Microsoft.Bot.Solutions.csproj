@@ -61,7 +61,7 @@
       <LastGenOutput>CommonResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
-    <None Update="Resources\ResponsesTemplate.t4">
+    <None Update="Responses\ResponseTemplateCollection.t4">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
