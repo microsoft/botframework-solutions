@@ -71,21 +71,7 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
                .AssertReply(EchoMessage())
                .AssertReply(this.CheckForEndOfConversationEvent())
                .StartTestAsync();
-        }
-
-        /// <summary>
-        /// Test the Auth flow behaviour within the SkillDialog
-        /// </summary>
-        /// <returns></returns>
-        //[TestMethod]
-        //public async Task InvokeFakeSkillAndDialog_Auth()
-        //{
-        //    await GetTestFlow()
-        //       .Send(SampleDialogUtterances.Auth)
-        //       //.AssertReply(MessagePrompt())
-        //       //.AssertReply(this.CheckForEndOfConversationEvent())
-        //       .StartTestAsync();
-        //}
+        }      
 
         /// <summary>
         ///  Make an activity using the pre-configured Conversation metadata providing a way to control locale

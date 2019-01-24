@@ -76,8 +76,10 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
             });
 
             // Dummy Authentication connection for Auth testing
-            Services.AuthenticationConnections = new Dictionary<string, string>();
-            Services.AuthenticationConnections.Add("DummyAuth", "DummyAuthConnection");
+            Services.AuthenticationConnections = new Dictionary<string, string>
+            {
+                { "DummyAuth", "DummyAuthConnection" }
+            };
 
             builder.RegisterInstance(new BotStateSet(UserState, ConversationState));
             Container = builder.Build();
