@@ -11,6 +11,7 @@ using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using ToDoSkill.Dialogs.MarkToDo.Resources;
 using ToDoSkill.Dialogs.Shared;
+using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.Models;
 using ToDoSkill.ServiceClients;
 using Action = ToDoSkill.Dialogs.Shared.Action;
@@ -345,7 +346,7 @@ namespace ToDoSkill.Dialogs.MarkToDo
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(MarkToDoResponses.CompleteAnotherTaskPrompt));
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ActionEnded));
                     return await sc.EndDialogAsync(true);
                 }
             }

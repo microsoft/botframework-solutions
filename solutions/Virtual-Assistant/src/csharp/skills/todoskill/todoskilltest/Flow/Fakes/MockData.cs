@@ -39,9 +39,9 @@ namespace ToDoSkillTest.Flow.Fakes
 
         public const string ShoppingItemShoes = "shoes";
 
-        public const string FirstTaskDetailMessage = "You have {0} tasks on your {1} list today. Your latest {2} tasks are {3}.";
+        public const string FirstTaskDetailMessage = "You have {0} tasks on your {1} list today. Your most recent {2} tasks are {3}. ";
 
-        public const string NextTaskDetailMessage = "The next {0} tasks are {1}.";
+        public const string NextTaskDetailMessage = "The next {0} tasks are {1}. ";
 
         public const int ReadSize = 3;
 

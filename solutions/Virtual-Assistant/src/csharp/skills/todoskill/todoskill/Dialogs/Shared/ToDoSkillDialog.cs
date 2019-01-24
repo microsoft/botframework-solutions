@@ -438,6 +438,7 @@ namespace ToDoSkill.Dialogs.Shared
 
             var container = new AdaptiveContainer();
             int index = 0;
+            readSize = Math.Min(readSize, todos.Count);
             foreach (var todo in todos)
             {
                 var columnSet = new AdaptiveColumnSet();
@@ -457,21 +458,24 @@ namespace ToDoSkill.Dialogs.Shared
 
                 container.Items.Add(columnSet);
 
-                if (todos.Count == 1)
+                if (index < readSize)
                 {
-                    toDoCard.Speak += todo.Topic + ". ";
-                }
-                else if (index == todos.Count - 2)
-                {
-                    toDoCard.Speak += todo.Topic;
-                }
-                else if (index == todos.Count - 1)
-                {
-                    toDoCard.Speak += string.Format(ToDoStrings.And, todo.Topic);
-                }
-                else
-                {
-                    toDoCard.Speak += todo.Topic + ", ";
+                    if (readSize == 1)
+                    {
+                        toDoCard.Speak += todo.Topic + ". ";
+                    }
+                    else if (index == readSize - 2)
+                    {
+                        toDoCard.Speak += todo.Topic;
+                    }
+                    else if (index == readSize - 1)
+                    {
+                        toDoCard.Speak += string.Format(ToDoStrings.And, todo.Topic);
+                    }
+                    else
+                    {
+                        toDoCard.Speak += todo.Topic + ", ";
+                    }
                 }
 
                 index++;
@@ -543,22 +547,24 @@ namespace ToDoSkill.Dialogs.Shared
                 columnSet.Columns.Add(contentColumn);
 
                 container.Items.Add(columnSet);
-
-                if (todos.Count == 1)
+                if (index >= startIndexOfTasksToBeRead && index < startIndexOfTasksToBeRead + toBeReadTasksCount)
                 {
-                    toDoCard.Speak += todo.Topic + ". ";
-                }
-                else if (index == todos.Count - 2)
-                {
-                    toDoCard.Speak += todo.Topic + " ";
-                }
-                else if (index == todos.Count - 1)
-                {
-                    toDoCard.Speak += ToDoStrings.And + " " + todo.Topic + ". ";
-                }
-                else
-                {
-                    toDoCard.Speak += todo.Topic + ", ";
+                    if (toBeReadTasksCount == 1)
+                    {
+                        toDoCard.Speak += todo.Topic + ". ";
+                    }
+                    else if (index == startIndexOfTasksToBeRead + toBeReadTasksCount - 2)
+                    {
+                        toDoCard.Speak += todo.Topic;
+                    }
+                    else if (index == startIndexOfTasksToBeRead + toBeReadTasksCount - 1)
+                    {
+                        toDoCard.Speak += string.Format(ToDoStrings.And, todo.Topic);
+                    }
+                    else
+                    {
+                        toDoCard.Speak += todo.Topic + ", ";
+                    }
                 }
 
                 index++;
@@ -582,8 +588,7 @@ namespace ToDoSkill.Dialogs.Shared
            string listType)
         {
             var toDoCard = new AdaptiveCard();
-
-            toDoCard.Speak = Format(ShowToDoResponses.ShowPreviousTasks.Reply.Speak, new StringDictionary() { { "taskCount", readSize.ToString() } }) + " ";
+            toDoCard.Speak = Format(ShowToDoResponses.ShowPreviousTasks.Reply.Speak, new StringDictionary()) + " ";
 
             var body = new List<AdaptiveElement>();
             var showText = Format(ToDoSharedResponses.CardSummaryMessage.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
@@ -594,6 +599,7 @@ namespace ToDoSkill.Dialogs.Shared
             body.Add(textBlock);
 
             var container = new AdaptiveContainer();
+            readSize = Math.Min(readSize, todos.Count);
             var index = 0;
             foreach (var todo in todos)
             {
@@ -614,21 +620,24 @@ namespace ToDoSkill.Dialogs.Shared
 
                 container.Items.Add(columnSet);
 
-                if (todos.Count == 1)
+                if (index < readSize)
                 {
-                    toDoCard.Speak += todo.Topic + ". ";
-                }
-                else if (index == todos.Count - 2)
-                {
-                    toDoCard.Speak += todo.Topic + " ";
-                }
-                else if (index == todos.Count - 1)
-                {
-                    toDoCard.Speak += ToDoStrings.And + " " + todo.Topic + ". ";
-                }
-                else
-                {
-                    toDoCard.Speak += todo.Topic + ", ";
+                    if (readSize == 1)
+                    {
+                        toDoCard.Speak += todo.Topic + ". ";
+                    }
+                    else if (index == readSize - 2)
+                    {
+                        toDoCard.Speak += todo.Topic;
+                    }
+                    else if (index == readSize - 1)
+                    {
+                        toDoCard.Speak += string.Format(ToDoStrings.And, todo.Topic);
+                    }
+                    else
+                    {
+                        toDoCard.Speak += todo.Topic + ", ";
+                    }
                 }
 
                 index++;

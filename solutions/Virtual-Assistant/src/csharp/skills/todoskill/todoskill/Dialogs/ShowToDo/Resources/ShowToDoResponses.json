@@ -74,8 +74,8 @@
   "ShowPreviousTasks": {
     "replies": [
       {
-        "text": "The previous {taskCount} tasks are",
-        "speak": "The previous {taskCount} tasks are"
+        "text": "The previous tasks are",
+        "speak": "The previous tasks are"
       }
     ],
     "inputHint": "ignoringInput"
