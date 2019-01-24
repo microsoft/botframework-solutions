@@ -902,12 +902,12 @@ namespace CalendarSkill.Models
         {
             foreach (var attendee in Attendees)
             {
-                if (attendee.DisplayName.ToLower().Contains(contactName.ToLower()))
+                if (attendee.DisplayName != null && attendee.DisplayName.ToLower().Contains(contactName.ToLower()))
                 {
                     return true;
                 }
 
-                if (attendee.Address.ToLower().Contains(contactName.ToLower()))
+                if (attendee.Address != null && attendee.Address.ToLower().Contains(contactName.ToLower()))
                 {
                     return true;
                 }
