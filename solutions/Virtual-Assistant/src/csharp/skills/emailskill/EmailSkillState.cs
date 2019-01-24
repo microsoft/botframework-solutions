@@ -38,6 +38,9 @@ namespace EmailSkill
             EndDateTime = DateTime.UtcNow;
             UserSelectIndex = -1;
             MailSourceType = MailSource.Other;
+            UnconfirmedPerson = new List<Person>();
+            FirstRetryInFindContact = true;
+            ConfirmedPerson = new Person();
         }
 
         public DialogState ConversationDialogState { get; set; }
@@ -77,6 +80,12 @@ namespace EmailSkill
         public string Token { get; set; }
 
         public int ConfirmRecipientIndex { get; set; }
+
+        public List<Person> UnconfirmedPerson { get; set; }
+
+        public bool FirstRetryInFindContact { get; set; }
+
+        public Person ConfirmedPerson { get; set; }
 
         public bool DirectlyToMe { get; set; }
 
@@ -138,6 +147,9 @@ namespace EmailSkill
             LuisResultPassedFromSkill = null;
             MailSourceType = MailSource.Other;
             UserSelectIndex = -1;
+            UnconfirmedPerson = new List<Person>();
+            FirstRetryInFindContact = true;
+            ConfirmedPerson = new Person();
         }
 
         public class UserInformation

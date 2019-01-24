@@ -3,6 +3,8 @@ using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.ConfirmRecipient;
+using EmailSkill.Dialogs.FindContact;
+using EmailSkill.Dialogs.FindContact.Resources;
 using EmailSkill.Dialogs.SendEmail.Resources;
 using EmailSkill.Dialogs.Shared;
 using EmailSkill.Dialogs.Shared.Resources;
@@ -52,6 +54,8 @@ namespace EmailSkill.Dialogs.SendEmail
             AddDialog(new WaterfallDialog(Actions.Send, sendEmail) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.CollectRecipient, collectRecipients) { TelemetryClient = telemetryClient });
             AddDialog(new ConfirmRecipientDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
+            AddDialog(new FindContactDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
+
             InitialDialogId = Actions.Send;
         }
 
@@ -71,6 +75,12 @@ namespace EmailSkill.Dialogs.SendEmail
                 noSubjectMessage.Speak = recipientConfirmedMessage.Speak + " " + noSubjectMessage.Speak;
 
                 return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = noSubjectMessage, });
+            }
+            catch (NoRecipientsException)
+            {
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(FindContactResponses.UserNotFoundAgain, null, new StringDictionary() { { "source", state.MailSourceType == Model.MailSource.Microsoft ? "Outlook" : "Gmail" } }));
+                return await sc.EndDialogAsync();
             }
             catch (Exception ex)
             {
