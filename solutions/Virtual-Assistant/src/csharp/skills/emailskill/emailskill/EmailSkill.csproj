@@ -42,6 +42,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ConfirmRecipientResponses.tt</DependentUpon>
     </Compile>
+    <Compile Update="Dialogs\FindContact\Resources\FindContactResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FindContactResponses.tt</DependentUpon>
+    </Compile>
     <Compile Update="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -132,6 +137,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\FindContact\Resources\FindContactResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.zh.json">
@@ -260,6 +268,10 @@
     </None>
     <None Update="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.tt">
       <LastGenOutput>DeleteEmailResponses.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Dialogs\FindContact\Resources\FindContactResponses.tt">
+      <LastGenOutput>FindContactResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
     <None Update="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.tt">
