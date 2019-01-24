@@ -1,0 +1,39 @@
+{
+  "ReadOutMessage": {
+    "replies": [
+      {
+        "text": "The email is {EmailDetails}",
+        "speak": "The email is {EmailDetails}"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ReadOutMorePrompt": {
+    "replies": [
+      {
+        "text": "Would you like to see your latest email overview again? You can also ask me to forward, reply, delete this email for you, or show the next/previous page.",
+        "speak": "Would you like to see your latest email overview again? You can also ask me to forward, reply, delete this email for you, or show the next/previous page."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ReadOutOnlyOnePrompt": {
+    "replies": [
+      {
+        "speak": "Do you want to hear the content of this email?",
+        "text": "Do you want to hear the content of this email?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ReadOutPrompt": {
+    "replies": [
+      {
+        "speak": "Do you want to hear the content of the latest email? I can read out any email for you, just let me know by naming out the subject or from whom.",
+        "text": "Do you want to hear the content of the latest email? I can read out any email for you, just let me know by naming out the subject or from whom."
+      }
+    ],
+    "inputHint": "expectingInput"
+  }
+
+}

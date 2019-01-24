@@ -1,0 +1,114 @@
+{
+  "NotEventOrganizer": {
+    "replies": [
+      {
+        "text": "I can't update this event because you are not the organizer.",
+        "speak": "I can't update this event because you are not the organizer."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ConfirmUpdate": {
+    "replies": [
+      {
+        "text": "Are you sure you want to update the following?",
+        "speak": "Are you sure you want to update the following?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmUpdateFailed": {
+    "replies": [
+      {
+        "text": "Are you sure you want to update the following? Please confirm.",
+        "speak": "Are you sure you want to update the following? Please confirm."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "EventUpdated": {
+    "replies": [
+
+      {
+        "text": "I have changed the time of your event.",
+        "speak": "I have changed the time of your event."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "NoNewTime": {
+    "replies": [
+
+      {
+        "text": "What will be the new time of the event?",
+        "speak": "What will be the new time of the event?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoNewTime_Retry": {
+    "replies": [
+      {
+        "text": "I don't understand the time you provided, can you try again?",
+        "speak": "I don't understand the time you provided, can you try again?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "EventWithStartTimeNotFound": {
+    "replies": [
+
+      {
+        "text": "No event start at this time or with that title, please try again.",
+        "speak": "No event start at this time or with that title, please try again."
+      },
+      {
+        "text": "I could not find an event you mentioned, please try again.",
+        "speak": "I could not find an event you mentioned, please try again."
+      },
+      {
+        "text": "No event can be found with the event time or title, can you try again?",
+        "speak": "No event can be found with the event time or title, can you try again?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoDeleteStartTime": {
+    "replies": [
+
+      {
+        "text": "What event would you like to delete? By communicating the start time or title I can retrieve your event.",
+        "speak": "What event would you like to delete? By communicating the start time or title I can retrieve your event."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoUpdateStartTime": {
+    "replies": [
+
+      {
+        "text": "What event would you like to adjust? By communicating the start time or title I can retrieve your event.",
+        "speak": "What event would you like to adjust? By communicating the start time or title I can retrieve your event."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "MultipleEventsStartAtSameTime": {
+    "replies": [
+
+      {
+        "text": "Multiple events found, please select the one you need.",
+        "speak": "Multiple events found, please select the one you need."
+      },
+      {
+        "text": "I have found multiple events, can you select the event of choice.",
+        "speak": "I have found multiple events, can you select the event of choice."
+      },
+      {
+        "text": "There are multiple events, please select the relevant event.",
+        "speak": "There are multiple events, please select the relevant event."
+      }
+    ],
+    "inputHint": "expectingInput"
+  }
+}

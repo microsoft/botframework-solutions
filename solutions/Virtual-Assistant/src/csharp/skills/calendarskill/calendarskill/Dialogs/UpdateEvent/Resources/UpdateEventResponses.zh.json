@@ -1,0 +1,108 @@
+﻿{
+  "NotEventOrganizer": {
+    "replies": [
+      {
+        "text": "您不是组织者，不能更新这个会议。",
+        "speak": "您不是组织者，不能更新这个会议。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ConfirmUpdate": {
+    "replies": [
+      {
+        "text": "您确定要更新下列内容？ ",
+        "speak": "您确定要更新下列内容？ "
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmUpdateFailed": {
+    "replies": [
+      {
+        "text": "您确定要更新下列内容？ 请说 ‘是’ 或者 ‘不’ 或类似词语。",
+        "speak": "您确定要更新下列内容？ 请说 ‘是’ 或者 ‘不’ 或类似词语。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "EventUpdated": {
+    "replies": [
+      {
+        "text": "已为您更新会议时间。",
+        "speak": "已为您更新会议时间。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "NoNewTime": {
+    "replies": [
+      {
+        "text": "请为会议设定新的时间。",
+        "speak": "请为会议设定新的时间。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoNewTime_Retry": {
+    "replies": [
+      {
+        "text": "我没有明白你说的时间，你可以再输入一次吗？",
+        "speak": "我没有明白你说的时间，你可以再输入一次吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "EventWithStartTimeNotFound": {
+    "replies": [
+      {
+        "text": "没有找到此主题或开始时间的会议，请重试。",
+        "speak": "没有找到此主题或开始时间的会议，请重试。"
+      },
+      {
+        "text": "没找到您提到的会议，请重试。",
+        "speak": "没找到您提到的会议，请重试。"
+      },
+      {
+        "text": "没找到和此主题或时间相关的会议，请重试。",
+        "speak": "没找到和此主题或时间相关的会议，请重试。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoDeleteStartTime": {
+    "replies": [
+      {
+        "text": "您想删除哪个会议？我可以根据会议主题或开始时间找到你的会议。",
+        "speak": "您想删除哪个会议？我可以根据会议主题或开始时间找到你的会议。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoUpdateStartTime": {
+    "replies": [
+      {
+        "text": "您想调整哪个会议？我可以根据会议主题或开始时间找到你的会议。",
+        "speak": "您想调整哪个会议？我可以根据会议主题或开始时间找到你的会议。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "MultipleEventsStartAtSameTime": {
+    "replies": [
+      {
+        "text": "找到多个会议，请选择您需要的会议。",
+        "speak": "找到多个会议，请选择您需要的会议。"
+      },
+      {
+        "text": "找到多个会议，请选择您的会议。",
+        "speak": "找到多个会议，请选择您的会议。"
+      },
+      {
+        "text": "有多个会议，请选择相关的会议。",
+        "speak": "有多个会议，请选择相关的会议。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  }
+}

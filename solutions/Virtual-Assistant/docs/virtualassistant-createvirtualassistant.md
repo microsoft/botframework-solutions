@@ -11,17 +11,12 @@ Follow the instructions below to build, deploy and configure your Assistant.
 ### Prerequisites
 - Ensure you have updated [.NET Core](https://www.microsoft.com/net/download) to the latest version.
 - [Node.js](https://nodejs.org/) version 8.5 or higher.
-- Install the Azure Bot Service command line (CLI) tools. It's important to do this even if you have earlier versions as the Virtual Assistant makes use of new deployment capabilities. **Minimum version 4.0.7 required for msbot, and minimum version 1.1.0 required for ludown.**
+- Install the Azure Bot Service command line (CLI) tools. It's important to do this even if you have earlier versions as the Virtual Assistant makes use of new deployment capabilities. **Minimum version 4.3.2 required for msbot, and minimum version 1.1.0 required for ludown.**
 
 ```shell
 npm install -g botdispatch chatdown ludown luis-apis luisgen msbot qnamaker  
 ```
 - Install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)
-
-- Install the Az Extension for Bot Service
-```shell
-az extension add -n botservice
-```
 
 - Retrieve your LUIS Authoring Key
    - Review the [LUIS regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation page for the correct LUIS portal for the region you plan to deploy to. Note that www.luis.ai refers to the US region and an authoring key retrieved from this portal will not work with a europe deployment. 
@@ -129,7 +124,7 @@ msbot list --bot YOURBOTFILE.bot --secret YOUR_BOT_SECRET
   }
 ```
 
-- Finally, add the .bot file paths for each of your language configurations:
+- Finally, edit the .bot file paths for each of your language configurations:
 
 ```
 "defaultLocale": "en-us",
@@ -159,6 +154,8 @@ msbot list --bot YOURBOTFILE.bot --secret YOUR_BOT_SECRET
       "botFileSecret": ""
     }
 ```
+
+Note: update the language models for the languages that you support and feel free to remove the ones you don't support.
 
 ## Skill Configuration
 

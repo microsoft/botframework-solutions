@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
@@ -91,93 +92,95 @@ namespace VirtualAssistant
             // Create locale configuration object for each language config in appsettings.json
             foreach (var language in languageModels)
             {
-                var localeConfig = new LocaleConfiguration
+                if (language.Value.TryGetValue("botFilePath", out var botFilePath) && File.Exists(botFilePath))
                 {
-                    Locale = language.Key
-                };
+                    var botFileSecret = language.Value["botFileSecret"];
+                    var config = BotConfiguration.Load(botFilePath, !string.IsNullOrEmpty(botFileSecret) ? botFileSecret : null);
 
-                var path = language.Value["botFilePath"];
-                var secret = language.Value["botFileSecret"];
-                var config = BotConfiguration.Load(path, !string.IsNullOrEmpty(secret) ? secret : null);
-
-                foreach (var service in config.Services)
-                {
-                    switch (service.Type)
+                    var localeConfig = new LocaleConfiguration
                     {
-                        case ServiceTypes.Dispatch:
-                            {
-                                var dispatch = service as DispatchService;
-                                if (dispatch == null)
+                        Locale = language.Key
+                    };
+
+                    foreach (var service in config.Services)
+                    {
+                        switch (service.Type)
+                        {
+                            case ServiceTypes.Dispatch:
                                 {
-                                    throw new InvalidOperationException("The Dispatch service is not configured correctly in your '.bot' file.");
+                                    var dispatch = service as DispatchService;
+                                    if (dispatch == null)
+                                    {
+                                        throw new InvalidOperationException("The Dispatch service is not configured correctly in your '.bot' file.");
+                                    }
+
+                                    if (string.IsNullOrWhiteSpace(dispatch.AppId))
+                                    {
+                                        throw new InvalidOperationException("The Dispatch Luis Model Application Id ('appId') is required to run this sample.  Please update your '.bot' file.");
+                                    }
+
+                                    if (string.IsNullOrWhiteSpace(dispatch.SubscriptionKey))
+                                    {
+                                        throw new InvalidOperationException("The Subscription Key ('subscriptionKey') is required to run this sample.  Please update your '.bot' file.");
+                                    }
+
+                                    var dispatchApp = new LuisApplication(dispatch.AppId, dispatch.SubscriptionKey, dispatch.GetEndpoint());
+                                    localeConfig.DispatchRecognizer = new TelemetryLuisRecognizer(dispatchApp);
+                                    break;
                                 }
 
-                                if (string.IsNullOrWhiteSpace(dispatch.AppId))
+                            case ServiceTypes.Luis:
                                 {
-                                    throw new InvalidOperationException("The Dispatch Luis Model Application Id ('appId') is required to run this sample.  Please update your '.bot' file.");
+                                    var luis = service as LuisService;
+                                    if (luis == null)
+                                    {
+                                        throw new InvalidOperationException("The Luis service is not configured correctly in your '.bot' file.");
+                                    }
+
+                                    if (string.IsNullOrWhiteSpace(luis.AppId))
+                                    {
+                                        throw new InvalidOperationException("The Luis Model Application Id ('appId') is required to run this sample.  Please update your '.bot' file.");
+                                    }
+
+                                    if (string.IsNullOrWhiteSpace(luis.AuthoringKey))
+                                    {
+                                        throw new InvalidOperationException("The Luis Authoring Key ('authoringKey') is required to run this sample.  Please update your '.bot' file.");
+                                    }
+
+                                    if (string.IsNullOrWhiteSpace(luis.SubscriptionKey))
+                                    {
+                                        throw new InvalidOperationException("The Subscription Key ('subscriptionKey') is required to run this sample.  Please update your '.bot' file.");
+                                    }
+
+                                    if (string.IsNullOrWhiteSpace(luis.Region))
+                                    {
+                                        throw new InvalidOperationException("The Region ('region') is required to run this sample.  Please update your '.bot' file.");
+                                    }
+
+                                    var luisApp = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.GetEndpoint());
+                                    var recognizer = new TelemetryLuisRecognizer(luisApp);
+                                    localeConfig.LuisServices.Add(service.Id, recognizer);
+                                    break;
                                 }
 
-                                if (string.IsNullOrWhiteSpace(dispatch.SubscriptionKey))
+                            case ServiceTypes.QnA:
                                 {
-                                    throw new InvalidOperationException("The Subscription Key ('subscriptionKey') is required to run this sample.  Please update your '.bot' file.");
+                                    var qna = service as QnAMakerService;
+                                    var qnaEndpoint = new QnAMakerEndpoint()
+                                    {
+                                        KnowledgeBaseId = qna.KbId,
+                                        EndpointKey = qna.EndpointKey,
+                                        Host = qna.Hostname,
+                                    };
+                                    var qnaMaker = new TelemetryQnAMaker(qnaEndpoint);
+                                    localeConfig.QnAServices.Add(qna.Id, qnaMaker);
+                                    break;
                                 }
-
-                                var dispatchApp = new LuisApplication(dispatch.AppId, dispatch.SubscriptionKey, dispatch.GetEndpoint());
-                                localeConfig.DispatchRecognizer = new TelemetryLuisRecognizer(dispatchApp);
-                                break;
-                            }
-
-                        case ServiceTypes.Luis:
-                            {
-                                var luis = service as LuisService;
-                                if (luis == null)
-                                {
-                                    throw new InvalidOperationException("The Luis service is not configured correctly in your '.bot' file.");
-                                }
-
-                                if (string.IsNullOrWhiteSpace(luis.AppId))
-                                {
-                                    throw new InvalidOperationException("The Luis Model Application Id ('appId') is required to run this sample.  Please update your '.bot' file.");
-                                }
-
-                                if (string.IsNullOrWhiteSpace(luis.AuthoringKey))
-                                {
-                                    throw new InvalidOperationException("The Luis Authoring Key ('authoringKey') is required to run this sample.  Please update your '.bot' file.");
-                                }
-
-                                if (string.IsNullOrWhiteSpace(luis.SubscriptionKey))
-                                {
-                                    throw new InvalidOperationException("The Subscription Key ('subscriptionKey') is required to run this sample.  Please update your '.bot' file.");
-                                }
-
-                                if (string.IsNullOrWhiteSpace(luis.Region))
-                                {
-                                    throw new InvalidOperationException("The Region ('region') is required to run this sample.  Please update your '.bot' file.");
-                                }
-
-                                var luisApp = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.GetEndpoint());
-                                var recognizer = new TelemetryLuisRecognizer(luisApp);
-                                localeConfig.LuisServices.Add(service.Id, recognizer);
-                                break;
-                            }
-
-                        case ServiceTypes.QnA:
-                            {
-                                var qna = service as QnAMakerService;
-                                var qnaEndpoint = new QnAMakerEndpoint()
-                                {
-                                    KnowledgeBaseId = qna.KbId,
-                                    EndpointKey = qna.EndpointKey,
-                                    Host = qna.Hostname,
-                                };
-                                var qnaMaker = new TelemetryQnAMaker(qnaEndpoint);
-                                localeConfig.QnAServices.Add(qna.Id, qnaMaker);
-                                break;
-                            }
+                        }
                     }
-                }
 
-                LocaleConfigurations.Add(language.Key, localeConfig);
+                    LocaleConfigurations.Add(language.Key, localeConfig);
+                }
             }
 
             // Create a skill configurations for each skill in appsettings.json

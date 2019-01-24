@@ -29,7 +29,7 @@ The custom SkillDialog bootstraps the Adapter and processes appropriate middlewa
 
  ## Skill Registration
 
- Each Skill is registred with a Virtual Assistant through the configuration entry shown below
+ Each Skill is registered with a Virtual Assistant through the configuration entry shown below
 
  - Name: The name of your Skill
   - Assembly: Skills are invoked "in process" and are dynamically loaded using Reflection thus enabling a configuration only approach
