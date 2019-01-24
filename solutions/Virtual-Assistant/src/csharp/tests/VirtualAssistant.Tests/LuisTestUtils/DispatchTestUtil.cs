@@ -1,7 +1,7 @@
-﻿using Luis;
+﻿using System.Collections.Generic;
+using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Solutions.Testing.Fakes;
-using System.Collections.Generic;
 using VirtualAssistant.Tests.Utterances;
 
 namespace VirtualAssistant.Tests.LuisTestUtils
@@ -9,7 +9,7 @@ namespace VirtualAssistant.Tests.LuisTestUtils
     public class DispatchTestUtil
     {
         /// <summary>
-        /// Map utternaces to intents
+        /// Map utternaces to intents.
         /// </summary>
         private static Dictionary<string, IRecognizerConvert> _utterances = new Dictionary<string, IRecognizerConvert>
         {

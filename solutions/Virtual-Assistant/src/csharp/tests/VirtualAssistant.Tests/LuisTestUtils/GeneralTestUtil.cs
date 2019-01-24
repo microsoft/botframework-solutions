@@ -1,7 +1,7 @@
-﻿using Luis;
+﻿using System.Collections.Generic;
+using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Solutions.Testing.Fakes;
-using System.Collections.Generic;
 using VirtualAssistant.Tests.Utterances;
 
 namespace VirtualAssistant.Tests.LuisTestUtils
