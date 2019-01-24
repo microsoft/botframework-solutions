@@ -29,8 +29,8 @@
   "ShowOneMeetingSummaryMessage": {
     "replies": [
       {
-        "text": "You have 1 event planned for {DateTime}, your next event is with {Participants1} {EventTime1} titled {EventName1}. Want to hear the content of this event?",
-        "speak": "You have 1 event planned for {DateTime}, your next event is with {Participants1} {EventTime1} titled {EventName1}. Want to hear the content of this event?"
+        "text": "You have 1 meeting planned for {DateTime}, it is with {Participants1} {EventTime1} titled {EventName1}. Want to hear the content of this meeting?",
+        "speak": "You have 1 meeting planned for {DateTime}, it is with {Participants1} {EventTime1} titled {EventName1}. Want to hear the content of this meeting?"
       }
     ],
     "inputHint": "acceptingInput"
@@ -38,8 +38,8 @@
   "ShowMultipleMeetingSummaryMessage": {
     "replies": [
       {
-        "text": "It looks like you have {Count} events planned for {DateTime}, your next event is with {Participants1} {EventTime1} titled {EventName1}. The last event of {DateTime} is {EventTime2} with {Participants2} titled {EventName2}.",
-        "speak": "It looks like you have {Count} events planned for {DateTime}, your next event is with {Participants1} {EventTime1} titled {EventName1}. The last event of {DateTime} is {EventTime2} with {Participants2} titled {EventName2}."
+        "text": "It looks like you have {Count} meetings planned for {DateTime}, the first meeting is with {Participants1} {EventTime1} titled {EventName1}. The last meeting of {DateTime} is {EventTime2} with {Participants2} titled {EventName2}.",
+        "speak": "It looks like you have {Count} meetings planned for {DateTime}, the first meeting is with {Participants1} {EventTime1} titled {EventName1}. The last meeting of {DateTime} is {EventTime2} with {Participants2} titled {EventName2}."
       }
     ],
     "inputHint": "acceptingInput"
@@ -47,8 +47,8 @@
   "ShowMeetingSummaryAgainMessage": {
     "replies": [
       {
-        "text": "You have {Count} events planned for {DateTime}.",
-        "speak": "You have {Count} events planned for {DateTime}."
+        "text": "You have {Count} meetings planned for {DateTime}.",
+        "speak": "You have {Count} meetings planned for {DateTime}."
       }
     ],
     "inputHint": "acceptingInput"
@@ -56,8 +56,8 @@
   "ShowMeetingSummaryNotFirstPageMessage": {
     "replies": [
       {
-        "text": "The first event in this page is with {Participants1} {EventTime1} titled {EventName1}.",
-        "speak": "The first event in this page is with {Participants1} {EventTime1} titled {EventName1}."
+        "text": "The first meeting in this page is with {Participants1} {EventTime1} titled {EventName1}.",
+        "speak": "The first meeting in this page is with {Participants1} {EventTime1} titled {EventName1}."
       }
     ],
     "inputHint": "acceptingInput"
@@ -115,8 +115,8 @@
   "ReadOutMorePrompt": {
     "replies": [
       {
-        "text": "Do you want to hear the content of the upcoming event? I can read out any event for you, just let me know by providing the subject, time or attendees..",
-        "speak": "Do you want to hear the content of the upcoming event? I can read out any event for you, just let me know by providing the subject, time or attendees.."
+        "text": "Do you want to hear the content of the first meeting? I can read out any meeting for you, just let me know by providing the subject, time or attendees..",
+        "speak": "Do you want to hear the content of the first meeting? I can read out any meeting for you, just let me know by providing the subject, time or attendees.."
       }
     ],
     "inputHint": "expectingInput"
@@ -133,8 +133,8 @@
   "ShowNextMeetingNoLocationMessage": {
     "replies": [
       {
-        "text": "You have the following event on your calendar:",
-        "speak": "You have the following event on your calendar: {EventName} at {EventTime} with {PeopleCount} people."
+        "text": "You have the following meeting on your calendar:",
+        "speak": "You have the following meeting on your calendar: {EventName} at {EventTime} with {PeopleCount} people."
       }
     ],
     "inputHint": "acceptingInput"
@@ -142,8 +142,8 @@
   "ShowNextMeetingMessage": {
     "replies": [
       {
-        "text": "You have the following event on your calendar:",
-        "speak": "You have the following event on your calendar: {EventName} at {EventTime} with {PeopleCount} people at {Location}."
+        "text": "You have the following meeting on your calendar:",
+        "speak": "You have the following meeting on your calendar: {EventName} at {EventTime} with {PeopleCount} people at {Location}."
       }
     ],
     "inputHint": "acceptingInput"
@@ -151,8 +151,8 @@
   "ShowMultipleNextMeetingMessage": {
     "replies": [
       {
-        "text": "You have the following event on your calendar:",
-        "speak": "You have the following event on your calendar:"
+        "text": "You have the following meeting on your calendar:",
+        "speak": "You have the following meeting on your calendar:"
       }
     ],
     "inputHint": "acceptingInput"
@@ -160,8 +160,8 @@
   "BeforeShowEventDetails": {
     "replies": [
       {
-        "text": "Here is the details of your event {EventName}:",
-        "speak": "Here is the details of your event {EventName}"
+        "text": "Here is the details of your meeting {EventName}:",
+        "speak": "Here is the details of your meeting {EventName}"
       }
     ],
     "inputHint": "acceptingInput"
@@ -205,8 +205,8 @@
   "AskForChangeStatus": {
     "replies": [
       {
-        "text": "Would you like to see your calendar overview again for {DateTime}? You can also ask me to accept or decline this event for you.",
-        "speak": "Would you like to see your calendar overview again for {DateTime}? You can also ask me to accept or decline this event for you."
+        "text": "Would you like to see your calendar overview again for {DateTime}? You can also ask me to accept or decline this meeting for you.",
+        "speak": "Would you like to see your calendar overview again for {DateTime}? You can also ask me to accept or decline this meeting for you."
       }
     ],
     "inputHint": "acceptingInput"
@@ -214,8 +214,8 @@
   "AskForAction": {
     "replies": [
       {
-        "text": "Would you like to see your calendar overview again for {DateTime}? You can also ask me to decline this event for you.",
-        "speak": "Would you like to see your calendar overview again for {DateTime}? You can also ask me to decline this event for you."
+        "text": "Would you like to see your calendar overview again for {DateTime}? You can also ask me to decline this meeting for you.",
+        "speak": "Would you like to see your calendar overview again for {DateTime}? You can also ask me to decline this meeting for you."
       }
     ],
     "inputHint": "acceptingInput"
@@ -223,8 +223,8 @@
   "AskForOrgnizerAction": {
     "replies": [
       {
-        "text": "Would you like to see your calendar overview again for {DateTime}? You can also ask me to update or decline this event for you.",
-        "speak": "Would you like to see your calendar overview again for {DateTime}? You can also ask me to update or decline this event for you."
+        "text": "Would you like to see your calendar overview again for {DateTime}? You can also ask me to update or decline this meeting for you.",
+        "speak": "Would you like to see your calendar overview again for {DateTime}? You can also ask me to update or decline this meeting for you."
       }
     ],
     "inputHint": "acceptingInput"
