@@ -27,7 +27,7 @@
     "eslint-config-prettier": "^3.4.0",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-config-xo": "^0.26.0",
-    "jest": "^23.6.0"
+    "mocha": "^5.2.0"
   },
   "engines": {
     "npm": ">= 4.0.0"
@@ -36,9 +36,6 @@
     "chalk": "^2.4.2",
     "lodash": "^4.17.11",
     "yeoman-generator": "^3.2.0"
-  },
-  "jest": {
-    "testEnvironment": "node"
   },
   "lint-staged": {
     "*.js": [
@@ -56,7 +53,6 @@
       "prettier"
     ],
     "env": {
-      "jest": true,
       "node": true
     },
     "rules": {
@@ -68,7 +64,7 @@
   },
   "scripts": {
     "pretest": "eslint .",
-    "test": "jest"
+    "test": "cd test/ && mocha --opts mocha.opts"
   },
   "repository": "https://github.com/southworkscom/AI",
   "license": "MIT"
