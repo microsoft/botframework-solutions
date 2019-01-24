@@ -4,11 +4,10 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using EmailSkill.Dialogs.FindContact.Resources;
-using EmailSkill.Dialogs.Shared;
-using EmailSkill.Dialogs.Shared.DialogOptions;
-using EmailSkill.ServiceClients;
-using EmailSkill.Util;
+using CalendarSkill.Dialogs.FindContact.Resources;
+using CalendarSkill.Dialogs.Shared;
+using CalendarSkill.Models;
+using CalendarSkill.ServiceClients;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -18,18 +17,19 @@ using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Microsoft.Graph;
+using static CalendarSkill.CalendarSkillState;
 
-namespace EmailSkill.Dialogs.FindContact
+namespace CalendarSkill.Dialogs.FindContact
 {
-    public class FindContactDialog : EmailSkillDialog
+    public class FindContactDialog : CalendarSkillDialog
     {
+
         public FindContactDialog(
-            SkillConfigurationBase services,
-            IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
-            IStatePropertyAccessor<DialogState> dialogStateAccessor,
-            IServiceManager serviceManager,
-            IBotTelemetryClient telemetryClient)
-            : base(nameof(FindContactDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient)
+           SkillConfigurationBase services,
+           IStatePropertyAccessor<CalendarSkillState> accessor,
+           IServiceManager serviceManager,
+           IBotTelemetryClient telemetryClient)
+           : base(nameof(FindContactDialog), services, accessor, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -45,7 +45,7 @@ namespace EmailSkill.Dialogs.FindContact
                 AfterConfirmEmail
             };
 
-            var updateRecipientName = new WaterfallStep[]
+            var updateName = new WaterfallStep[]
             {
                 UpdateUserName,
                 AfterUpdateUserName,
@@ -53,8 +53,7 @@ namespace EmailSkill.Dialogs.FindContact
 
             AddDialog(new WaterfallDialog(Actions.ConfirmName, confirmName) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.ConfirmEmail, confirmEmail) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.UpdateRecipientName, updateRecipientName) { TelemetryClient = telemetryClient });
-            AddDialog(new ChoicePrompt(Actions.Choice, ChoiceValidator) { Style = ListStyle.None });
+            AddDialog(new WaterfallDialog(Actions.UpdateName, updateName) { TelemetryClient = telemetryClient });
             InitialDialogId = Actions.ConfirmName;
         }
 
@@ -62,8 +61,8 @@ namespace EmailSkill.Dialogs.FindContact
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var currentRecipientName = state.NameList[state.ConfirmRecipientIndex];
+                var state = await Accessor.GetAsync(sc.Context);
+                var currentRecipientName = state.AttendeesNameList[state.ConfirmAttendeesNameIndex];
                 if (state.FirstRetryInFindContact)
                 {
                     state.FirstRetryInFindContact = false;
@@ -87,24 +86,24 @@ namespace EmailSkill.Dialogs.FindContact
             try
             {
                 var userInput = sc.Result as string;
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var state = await Accessor.GetAsync(sc.Context);
 
                 if (string.IsNullOrEmpty(userInput))
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(FindContactResponses.UserNotFoundAgain, null, new StringDictionary() { { "source", state.MailSourceType == Model.MailSource.Microsoft ? "Outlook" : "Gmail" } }));
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(FindContactResponses.UserNotFoundAgain, null, new StringDictionary() { { "source", state.EventSource == EventSource.Microsoft ? "Outlook Calendar" : "Google Calendar" } }));
                     return await sc.EndDialogAsync();
                 }
 
                 if (IsEmail(userInput))
                 {
-                    if (!state.EmailList.Contains(userInput))
+                    if (!state.AttendeesNameList.Contains(userInput))
                     {
-                        state.EmailList.Add(userInput);
+                        state.AttendeesNameList.Add(userInput);
                     }
                 }
                 else
                 {
-                    state.NameList[state.ConfirmRecipientIndex] = userInput;
+                    state.AttendeesNameList[state.ConfirmAttendeesNameIndex] = userInput;
                 }
 
                 // should not return with value, next step use the return value for confirmation.
@@ -122,46 +121,51 @@ namespace EmailSkill.Dialogs.FindContact
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var skillOptions = (EmailSkillDialogOptions)sc.Options;
+                var state = await Accessor.GetAsync(sc.Context);
+                var skillOptions = sc.Options;
 
-                if (((state.NameList == null) || (state.NameList.Count == 0)) && state.EmailList.Count == 0)
+                if ((state.AttendeesNameList == null) || (state.AttendeesNameList.Count == 0))
                 {
-                    return await sc.BeginDialogAsync(Actions.UpdateRecipientName);
+                    return await sc.BeginDialogAsync(Actions.UpdateName);
                 }
 
-                var unionList = new List<Person>();
-
-                if (skillOptions != null || state.EmailList.Count > 0)
+                var unionList = new List<CustomizedPerson>();
+                var emailList = new List<string>();
+                if (skillOptions != null)
                 {
-                    if (state.NameList.Count > 1)
+                    foreach (var name in state.AttendeesNameList)
+                    {
+                        if (IsEmail(name))
+                        {
+                            emailList.Add(name);
+                        }
+                    }
+
+                    if (state.AttendeesNameList.Count > 1)
                     {
                         var nameString = await GetReadyToSendNameListStringAsync(sc);
                         await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(FindContactResponses.BeforeSendingMessage, null, new StringDictionary() { { "NameList", nameString } }));
                     }
                 }
 
-                if (state.EmailList.Count > 0)
+                if (emailList.Count > 0)
                 {
-                    foreach (var email in state.EmailList)
+                    foreach (var email in emailList)
                     {
-                        var recipient = new Recipient();
-                        var emailAddress = new EmailAddress
+                        var attendee = new EventModel.Attendee
                         {
-                            Name = email,
-                            Address = email,
+                            DisplayName = email,
+                            Address = email
                         };
-                        recipient.EmailAddress = emailAddress;
-
-                        if (state.Recipients.All(r => r.EmailAddress.Address != emailAddress.Address))
+                        if (state.Attendees.All(r => r.Address != attendee.Address))
                         {
-                            state.Recipients.Add(recipient);
+                            state.Attendees.Add(attendee);
                         }
                     }
 
-                    state.EmailList.Clear();
+                    state.AttendeesNameList.RemoveAll(n => IsEmail(n));
 
-                    if (state.NameList.Count > 0)
+                    if (state.AttendeesNameList.Count > 0)
                     {
                         return await sc.ReplaceDialogAsync(Actions.ConfirmName);
                     }
@@ -171,25 +175,25 @@ namespace EmailSkill.Dialogs.FindContact
                     }
                 }
 
-                if (state.ConfirmRecipientIndex < state.NameList.Count)
+                if (state.ConfirmAttendeesNameIndex < state.AttendeesNameList.Count)
                 {
-                    var currentRecipientName = state.NameList[state.ConfirmRecipientIndex];
+                    var currentRecipientName = state.AttendeesNameList[state.ConfirmAttendeesNameIndex];
 
-                    var originPersonList = await GetPeopleWorkWithAsync(sc.Context, currentRecipientName);
-                    var originContactList = await GetContactsAsync(sc.Context, currentRecipientName);
+                    var originPersonList = await GetPeopleWorkWithAsync(sc, currentRecipientName);
+                    var originContactList = await GetContactsAsync(sc, currentRecipientName);
                     originPersonList.AddRange(originContactList);
 
-                    var originUserList = new List<Person>();
+                    var originUserList = new List<PersonModel>();
                     try
                     {
-                        originUserList = await GetUserAsync(sc.Context, currentRecipientName);
+                        originUserList = await GetUserAsync(sc, currentRecipientName);
                     }
                     catch
                     {
                         // do nothing when get user failed. because can not use token to ensure user use a work account.
                     }
 
-                    (var personList, var userList) = DisplayHelper.FormatRecipientList(originPersonList, originUserList);
+                    (var personList, var userList) = FormatRecipientList(originPersonList, originUserList);
 
                     foreach (var person in personList)
                     {
@@ -198,18 +202,18 @@ namespace EmailSkill.Dialogs.FindContact
                             var personWithSameName = personList.FindAll(p => p.DisplayName == person.DisplayName);
                             if (personWithSameName.Count == 1)
                             {
-                                unionList.Add(personWithSameName.FirstOrDefault());
+                                unionList.Add(new CustomizedPerson(personWithSameName.First()));
                             }
                             else
                             {
-                                var unionPerson = personWithSameName.FirstOrDefault();
-                                var emailList = new List<ScoredEmailAddress>();
+                                var unionPerson = new CustomizedPerson(personWithSameName.FirstOrDefault());
+                                var curEmailList = new List<ScoredEmailAddress>();
                                 foreach (var sameNamePerson in personWithSameName)
                                 {
-                                    sameNamePerson.ScoredEmailAddresses.ToList().ForEach(e => emailList.Add(e));
+                                    sameNamePerson.Emails.ToList().ForEach(e => curEmailList.Add(new ScoredEmailAddress { Address = e }));
                                 }
 
-                                unionPerson.ScoredEmailAddresses = emailList;
+                                unionPerson.Emails = curEmailList;
                                 unionList.Add(unionPerson);
                             }
                         }
@@ -258,46 +262,31 @@ namespace EmailSkill.Dialogs.FindContact
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var state = await Accessor.GetAsync(sc.Context);
                 var luisResult = state.LuisResult;
                 var topIntent = luisResult?.TopIntent().intent;
                 var generlLuisResult = state.GeneralLuisResult;
                 var generalTopIntent = generlLuisResult?.TopIntent().intent;
 
-                if (state.NameList != null && state.NameList.Count > 0)
+                if (state.AttendeesNameList != null && state.AttendeesNameList.Count > 0)
                 {
                     if (sc.Result == null)
                     {
                         if (generalTopIntent == General.Intent.Next)
                         {
-                            state.ShowRecipientIndex++;
-                            state.ReadRecipientIndex = 0;
+                            state.ShowAttendeesIndex++;
                         }
                         else if (generalTopIntent == General.Intent.Previous)
                         {
-                            if (state.ShowRecipientIndex > 0)
+                            if (state.ShowAttendeesIndex > 0)
                             {
-                                state.ShowRecipientIndex--;
-                                state.ReadRecipientIndex = 0;
-                            }
-                        }
-                        else if (IsReadMoreIntent(generalTopIntent, sc.Context.Activity.Text))
-                        {
-                            if (state.RecipientChoiceList.Count <= ConfigData.GetInstance().MaxReadSize)
-                            {
-                                state.ShowRecipientIndex++;
-                                state.ReadRecipientIndex = 0;
-                            }
-                            else
-                            {
-                                state.ReadRecipientIndex++;
+                                state.ShowAttendeesIndex--;
                             }
                         }
                         else
                         {
                             // result is null when just update the recipient name. show recipients page should be reset.
-                            state.ShowRecipientIndex = 0;
-                            state.ReadRecipientIndex = 0;
+                            state.ShowAttendeesIndex = 0;
                         }
 
                         return await sc.ReplaceDialogAsync(Actions.ConfirmName);
@@ -307,9 +296,7 @@ namespace EmailSkill.Dialogs.FindContact
                     if (choiceResult != null)
                     {
                         // Clean up data
-                        state.ShowRecipientIndex = 0;
-                        state.ReadRecipientIndex = 0;
-                        state.RecipientChoiceList.Clear();
+                        state.ShowAttendeesIndex = 0;
 
                         // Start to confirm the email
                         var confirmedPerson = state.UnconfirmedPerson.Where(p => p.DisplayName.ToLower() == choiceResult.ToLower()).First();
@@ -330,30 +317,28 @@ namespace EmailSkill.Dialogs.FindContact
 
         public async Task<DialogTurnResult> ConfirmEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await EmailStateAccessor.GetAsync(sc.Context);
-            var confirmedPerson = sc.Options as Person;
+            var state = await Accessor.GetAsync(sc.Context);
+            var confirmedPerson = sc.Options as CustomizedPerson;
             var name = confirmedPerson.DisplayName;
-            if (confirmedPerson.ScoredEmailAddresses.Count() == 1)
+            if (confirmedPerson.Emails.Count() == 1)
             {
                 // Highest probability
-                var recipient = new Recipient();
-                var emailAddress = new EmailAddress
+                var attendee = new EventModel.Attendee
                 {
-                    Name = name,
-                    Address = confirmedPerson.ScoredEmailAddresses.First().Address
+                    DisplayName = name,
+                    Address = confirmedPerson.Emails.First().Address
                 };
-                recipient.EmailAddress = emailAddress;
-                if (state.Recipients.All(r => r.EmailAddress.Address != emailAddress.Address))
+                if (state.Attendees.All(r => r.Address != attendee.Address))
                 {
-                    state.Recipients.Add(recipient);
+                    state.Attendees.Add(attendee);
                 }
 
-                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(FindContactResponses.PromptOneNameOneAddress, null, new StringDictionary() { { "UserName", name }, { "EmailAddress", confirmedPerson.ScoredEmailAddresses.First().Address } }), });
+                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(FindContactResponses.PromptOneNameOneAddress, null, new StringDictionary() { { "UserName", name }, { "EmailAddress", confirmedPerson.Emails.First().Address } }), });
             }
             else
             {
                 var emailString = string.Empty;
-                var emailList = confirmedPerson.ScoredEmailAddresses.ToList();
+                var emailList = confirmedPerson.Emails.ToList();
 
                 if (emailList.Count <= ConfigData.GetInstance().MaxDisplaySize)
                 {
@@ -371,12 +356,12 @@ namespace EmailSkill.Dialogs.FindContact
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var state = await Accessor.GetAsync(sc.Context);
                 if (sc.Result is bool)
                 {
                     if ((bool)sc.Result)
                     {
-                        state.ConfirmRecipientIndex++;
+                        state.ConfirmAttendeesNameIndex++;
                         return await sc.EndDialogAsync();
                     }
                     else
@@ -390,40 +375,25 @@ namespace EmailSkill.Dialogs.FindContact
                 var generlLuisResult = state.GeneralLuisResult;
                 var generalTopIntent = generlLuisResult?.TopIntent().intent;
 
-                if (state.NameList != null && state.NameList.Count > 0)
+                if (state.AttendeesNameList != null && state.AttendeesNameList.Count > 0)
                 {
                     if (sc.Result == null)
                     {
                         if (generalTopIntent == General.Intent.Next)
                         {
-                            state.ShowRecipientIndex++;
-                            state.ReadRecipientIndex = 0;
+                            state.ShowAttendeesIndex++;
                         }
                         else if (generalTopIntent == General.Intent.Previous)
                         {
-                            if (state.ShowRecipientIndex > 0)
+                            if (state.ShowAttendeesIndex > 0)
                             {
-                                state.ShowRecipientIndex--;
-                                state.ReadRecipientIndex = 0;
-                            }
-                        }
-                        else if (IsReadMoreIntent(generalTopIntent, sc.Context.Activity.Text))
-                        {
-                            if (state.RecipientChoiceList.Count <= ConfigData.GetInstance().MaxReadSize)
-                            {
-                                state.ShowRecipientIndex++;
-                                state.ReadRecipientIndex = 0;
-                            }
-                            else
-                            {
-                                state.ReadRecipientIndex++;
+                                state.ShowAttendeesIndex--;
                             }
                         }
                         else
                         {
                             // result is null when just update the recipient name. show recipients page should be reset.
-                            state.ShowRecipientIndex = 0;
-                            state.ReadRecipientIndex = 0;
+                            state.ShowAttendeesIndex = 0;
                         }
 
                         var confirmedPerson = state.ConfirmedPerson;
@@ -434,29 +404,25 @@ namespace EmailSkill.Dialogs.FindContact
                     if (choiceResult != null)
                     {
                         // Find an recipient
-                        var recipient = new Recipient();
-                        var emailAddress = new EmailAddress
+                        var attendee = new EventModel.Attendee
                         {
-                            Name = choiceResult.Split(": ")[0],
+                            DisplayName = choiceResult.Split(": ")[0],
                             Address = choiceResult.Split(": ")[1],
                         };
-                        recipient.EmailAddress = emailAddress;
-                        if (state.Recipients.All(r => r.EmailAddress.Address != emailAddress.Address))
+                        if (state.Attendees.All(r => r.Address != attendee.Address))
                         {
-                            state.Recipients.Add(recipient);
+                            state.Attendees.Add(attendee);
                         }
 
-                        state.ConfirmRecipientIndex++;
+                        state.ConfirmAttendeesNameIndex++;
 
                         // Clean up data
-                        state.ShowRecipientIndex = 0;
-                        state.ReadRecipientIndex = 0;
-                        state.ConfirmedPerson = new Person();
-                        state.RecipientChoiceList.Clear();
+                        state.ShowAttendeesIndex = 0;
+                        state.ConfirmedPerson = new CustomizedPerson();
                     }
                 }
 
-                if (state.ConfirmRecipientIndex < state.NameList.Count)
+                if (state.ConfirmAttendeesNameIndex < state.AttendeesNameList.Count)
                 {
                     return await sc.ReplaceDialogAsync(Actions.ConfirmName);
                 }
@@ -476,15 +442,14 @@ namespace EmailSkill.Dialogs.FindContact
 
         protected async Task<bool> ChoiceValidator(PromptValidatorContext<FoundChoice> pc, CancellationToken cancellationToken)
         {
-            var state = await EmailStateAccessor.GetAsync(pc.Context);
+            var state = await Accessor.GetAsync(pc.Context);
             var luisResult = state.LuisResult;
             var topIntent = luisResult?.TopIntent().intent;
             var generlLuisResult = state.GeneralLuisResult;
             var generalTopIntent = generlLuisResult?.TopIntent().intent;
 
             if ((generalTopIntent == General.Intent.Next)
-                || (generalTopIntent == General.Intent.Previous)
-                || IsReadMoreIntent(generalTopIntent, pc.Context.Activity.Text))
+                || (generalTopIntent == General.Intent.Previous))
             {
                 return true;
             }
