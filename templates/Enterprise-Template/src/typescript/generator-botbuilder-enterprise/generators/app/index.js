@@ -153,22 +153,22 @@ module.exports = class extends Generator {
 
     this.fs.copy(
       this.templatePath(templateName, 'cognitiveModels', 'LUIS', botLang, '*'),
-      this.destinationPath('cognitiveModels', 'LUIS')
+      this.destinationPath(botName_camelCase + '/' + 'cognitiveModels', 'LUIS')
     );
 
     this.fs.copy(
       this.templatePath(templateName, 'cognitiveModels', 'QnA', botLang, '*'),
-      this.destinationPath('cognitiveModels', 'QnA')
+      this.destinationPath(botName_camelCase + '/' + 'cognitiveModels', 'QnA')
     );
 
     this.fs.copy(
       this.templatePath(templateName, 'deploymentScripts', botLang, '*'),
-      this.destinationPath('deploymentScripts')
+      this.destinationPath(botName_camelCase + '/' + 'deploymentScripts')
     );
 
     this.fs.copyTpl(
       this.templatePath(templateName, '_package.json'),
-      this.destinationPath('package.json'), {
+      this.destinationPath(botName_camelCase + '/' + 'package.json'), {
         name: botName,
         description: botDesc
       }
@@ -176,7 +176,7 @@ module.exports = class extends Generator {
 
     this.fs.copyTpl(
       this.templatePath(templateName, 'src', '_index.ts'),
-      this.destinationPath('src', 'index.ts'), {
+      this.destinationPath(botName_camelCase + '/' + 'src', 'index.ts'), {
         name: botName,
         description: botDesc,
         botNameClass: botName_pascalCase,
@@ -186,7 +186,7 @@ module.exports = class extends Generator {
 
     this.fs.copyTpl(
       this.templatePath(templateName, 'src', '_enterpriseBot.ts'),
-      this.destinationPath('src', `${botName_camelCase}.ts`), {
+      this.destinationPath(botName_camelCase + '/' + 'src', `${botName_camelCase}.ts`), {
         name: botName,
         description: botDesc,
         botNameClass: botName_pascalCase,
@@ -196,21 +196,21 @@ module.exports = class extends Generator {
 
     this.fs.copy(
       this.templatePath(templateName, 'src', 'botServices.ts'),
-      this.destinationPath('src', 'botServices.ts')
+      this.destinationPath(botName_camelCase + '/' + 'src', 'botServices.ts')
     );
 
     const commonFiles = [ '.env.development', '.env.production', '.gitignore', 'README.md', 'tsconfig.json', 'deploymentScripts/webConfigPrep.js' ];
 
     commonFiles.forEach(fileName => this.fs.copy(
       this.templatePath(templateName, fileName),
-      this.destinationPath(fileName)
+      this.destinationPath(botName_camelCase + '/' + fileName)
     ));
 
     const commonDirectories = [ 'dialogs', 'extensions', 'locales', 'middleware', 'serviceClients' ];
 
     commonDirectories.forEach(directory => this.fs.copy(
       this.templatePath(templateName, 'src', directory, '**', '*'),
-      this.destinationPath('src', directory)
+      this.destinationPath(botName_camelCase + '/' + 'src', directory)
     ));
   }
 
