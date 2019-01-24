@@ -53,6 +53,7 @@
       "prettier"
     ],
     "env": {
+      "mocha": true,
       "node": true
     },
     "rules": {
