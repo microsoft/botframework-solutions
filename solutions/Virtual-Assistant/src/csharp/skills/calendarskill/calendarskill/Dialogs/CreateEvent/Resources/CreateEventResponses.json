@@ -183,8 +183,8 @@
   "NoDuration": {
     "replies": [
       {
-        "text": "How long is the meeting for?",
-        "speak": "How long is the meeting for?"
+        "text": "How long is the event for?",
+        "speak": "How long is the event for?"
       }
     ],
     "inputHint": "expectingInput"
@@ -232,8 +232,8 @@
   "InvaildDuration": {
     "replies": [
       {
-        "text": "The end time of the meeting cannot be earlier than or equal to the start time. Please try again.",
-        "speak": "The end time of the meeting cannot be earlier than or equal to the start time. Please try again."
+        "text": "The end time of the event cannot be earlier than or equal to the start time. Please try again.",
+        "speak": "The end time of the event cannot be earlier than or equal to the start time. Please try again."
       }
     ],
     "inputHint": "expectingInput"
