@@ -127,5 +127,30 @@
       }
     ],
     "inputHint": "acceptingInput"
+  },
+  "NoAuth": {
+    "replies": [
+      {
+        "text": "Please log in before taking further action.",
+        "speak": "Please log in before taking further action."
+      },
+      {
+        "text": "Please log in so I can take further action.",
+        "speak": "Please log in so I can take further action."
+      },
+      {
+        "text": "Please log in so I can proceed with your request.",
+        "speak": "Please log in so I can proceed with your request."
+      },
+      {
+        "text": "Can you log in so I can help you out further?",
+        "speak": "Can you log in so I can help you out further?"
+      },
+      {
+        "text": "You need to log in so I can take further action.",
+        "speak": "You need to log in so I can take further action."
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }

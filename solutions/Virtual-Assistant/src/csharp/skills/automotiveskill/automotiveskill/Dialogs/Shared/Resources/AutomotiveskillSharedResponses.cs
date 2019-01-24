@@ -32,6 +32,8 @@ namespace AutomotiveSkill.Dialogs.Shared.Resources
 
         public static BotResponse ErrorMessage => GetBotResponse();
 
+        public static BotResponse NoAuth => GetBotResponse();
+
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {
             return _responseManager.GetBotResponse(propertyName);

@@ -97,7 +97,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
         /// <returns>Dialog Turn Result.</returns>
         public async Task<DialogTurnResult> ProcessSetting(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await Accessor.GetAsync(sc.Context, () => new AutomotiveSkillState());
 
             // Ensure we don't have state from a previous instantiation
             state.Changes.Clear();
