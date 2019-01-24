@@ -6,33 +6,33 @@ using VirtualAssistant.Tests.Utterances;
 
 namespace VirtualAssistant.Tests.LuisTestUtils
 {
-    public class CalendarTestUtil
+    public class PointOfInterestTestUtil
     {
         private static Dictionary<string, IRecognizerConvert> _utterances = new Dictionary<string, IRecognizerConvert>
         {
-            { CalendarUtterances.BookMeeting, CreateIntent(CalendarUtterances.BookMeeting, Luis.Calendar.Intent.CreateCalendarEntry) },
+            { PointOfInterestUtterances.FindCoffeeShop, CreateIntent(PointOfInterestUtterances.FindCoffeeShop, Luis.PointOfInterest.Intent.NAVIGATION_FIND_POINTOFINTEREST) },
         };
 
         public static MockLuisRecognizer CreateRecognizer()
         {
-            var recognizer = new MockLuisRecognizer(defaultIntent: CreateIntent(string.Empty, Luis.Calendar.Intent.None));
+            var recognizer = new MockLuisRecognizer(defaultIntent: CreateIntent(string.Empty, Luis.PointOfInterest.Intent.None));
             recognizer.RegisterUtterances(_utterances);
             return recognizer;
         }
 
-        public static Luis.Calendar CreateIntent(string userInput, Luis.Calendar.Intent intent)
+        public static Luis.PointOfInterest CreateIntent(string userInput, Luis.PointOfInterest.Intent intent)
         {
-            var result = new Luis.Calendar
+            var result = new Luis.PointOfInterest
             {
                 Text = userInput,
-                Intents = new Dictionary<Luis.Calendar.Intent, IntentScore>()
+                Intents = new Dictionary<Luis.PointOfInterest.Intent, IntentScore>()
             };
 
             result.Intents.Add(intent, new IntentScore() { Score = 0.9 });
 
-            result.Entities = new Luis.Calendar._Entities
+            result.Entities = new Luis.PointOfInterest._Entities
             {
-                _instance = new Luis.Calendar._Entities._Instance()
+                _instance = new Luis.PointOfInterest._Entities._Instance()
             };
 
             return result;

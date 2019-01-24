@@ -10,7 +10,7 @@ namespace PointOfInterestSkill.Dialogs.FindPointOfInterest
     public class FindPointOfInterestDialog : PointOfInterestSkillDialog
     {
         public FindPointOfInterestDialog(
-            SkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<PointOfInterestSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
