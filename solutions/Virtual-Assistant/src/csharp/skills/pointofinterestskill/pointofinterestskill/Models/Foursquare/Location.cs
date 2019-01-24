@@ -26,7 +26,7 @@ namespace PointOfInterestSkill.Models.Foursquare
         public int Distance { get; set; }
 
         [JsonProperty(PropertyName = "postalCode")]
-        public string OostalCode { get; set; }
+        public string PostalCode { get; set; }
 
         [JsonProperty(PropertyName = "cc")]
         public string Cc { get; set; }
@@ -49,16 +49,19 @@ namespace PointOfInterestSkill.Models.Foursquare
         [JsonProperty(PropertyName = "neighborhood")]
         public string Neighborhood { get; set; }
 
-        public string FullFormattedAddress
+        /// <summary>
+        /// Gets or sets a formatted address except for the last string (country)
+        /// </summary>
+        public string FriendlyFormattedAddress
         {
             get
             {
-                return string.Join("\n", FormattedAddress);
+                return string.Join("\n", FormattedAddress.Take(FormattedAddress.Length - 1));
             }
 
             set
             {
-                FullFormattedAddress = value;
+                FriendlyFormattedAddress = value;
             }
         }
     }

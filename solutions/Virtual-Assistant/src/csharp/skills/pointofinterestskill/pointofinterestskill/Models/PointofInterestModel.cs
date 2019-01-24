@@ -34,39 +34,6 @@ namespace PointOfInterestSkill.Models
     public partial class PointOfInterestModel : CardDataBase
     {
         /// <summary>
-        /// The point of interest source.
-        /// </summary>
-        private PointofInterestSource source;
-
-        /// <summary>
-        /// The point of interest data of Azure Maps.
-        /// </summary>
-        private SearchResult azureMapsPoiData;
-
-        /// <summary>
-        /// The point of interest data of Foursquare.
-        /// </summary>
-        private Venue foursquarePoiData;
-
-        private string _id;
-
-        private string _thumbnailImageUrl;
-
-        private string _name;
-
-        private string _address;
-
-        private string _addressLine;
-
-        private LatLng _geolocation;
-
-        private int _price;
-
-        private string[] _categories;
-
-        private string _provider;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="PointOfInterestModel"/> class.、
         /// DO NOT USE THIS ONE.
         /// </summary>
@@ -75,35 +42,28 @@ namespace PointOfInterestSkill.Models
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PointOfInterestModel"/> class.
-        /// </summary>
-        /// <param name="source">the event source.</param>
-        public PointOfInterestModel(PointofInterestSource source)
-        {
-            this.source = source;
-            switch (this.source)
-            {
-                case PointofInterestSource.AzureMaps:
-                    azureMapsPoiData = new SearchResult();
-                    break;
-
-                case PointofInterestSource.Foursquare:
-                    foursquarePoiData = new Venue();
-                    break;
-
-                default:
-                    throw new Exception("Point of Interest type not defined");
-            }
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="PointOfInterestModel"/> class from Azure Maps Point of Interest.
         /// </summary>
         /// <param name="azureMapsPoi">Azure Maps point of interest.</param>
         public PointOfInterestModel(SearchResult azureMapsPoi)
         {
-            source = PointofInterestSource.AzureMaps;
-            azureMapsPoiData = azureMapsPoi;
+            Id = !string.IsNullOrEmpty(azureMapsPoi.Id)
+                ? azureMapsPoi.Id
+                : Id;
+            Name = !string.IsNullOrEmpty(azureMapsPoi.Poi?.Name)
+                ? azureMapsPoi.Poi?.Name
+                : Name;
+            Address = !string.IsNullOrEmpty(azureMapsPoi.Address?.ToBingAddress()?.FormattedAddress)
+                ? azureMapsPoi.Address?.ToBingAddress()?.FormattedAddress
+                : Address;
+            AddressLine = !string.IsNullOrEmpty(azureMapsPoi.Address?.ToBingAddress()?.AddressLine)
+                ? azureMapsPoi.Address?.ToBingAddress()?.AddressLine
+                : AddressLine;
+            Geolocation = azureMapsPoi.Position ?? Geolocation;
+            Categories = (azureMapsPoi.Poi?.Categories != null)
+            ? azureMapsPoi.Poi.Categories
+            : Categories;
+            Provider = Enum.GetName(typeof(PointofInterestSource), 1);
         }
 
         /// <summary>
@@ -112,375 +72,114 @@ namespace PointOfInterestSkill.Models
         /// <param name="foursquarePoi">Foursquare point of interest.</param>
         public PointOfInterestModel(Venue foursquarePoi)
         {
-            source = PointofInterestSource.Foursquare;
-            foursquarePoiData = foursquarePoi;
+            Id = !string.IsNullOrEmpty(foursquarePoi.Id)
+                ? foursquarePoi.Id
+                : Id;
+            ThumbnailImageUrl = "https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/media/customassistant-linkedaccounts.png?raw=true";
+            // ThumbnailImageUrl = !string.IsNullOrEmpty(foursquarePoi.BestPhoto?.AbsoluteUrl)
+            //    ? foursquarePoi.BestPhoto?.AbsoluteUrl
+            //    : ThumbnailImageUrl;
+            Name = !string.IsNullOrEmpty(foursquarePoi.Name)
+                ? foursquarePoi.Name
+                : Name;
+            Address = !string.IsNullOrEmpty(foursquarePoi.Location?.FriendlyFormattedAddress)
+                ? foursquarePoi.Location?.FriendlyFormattedAddress
+                : Address;
+            AddressLine = !string.IsNullOrEmpty(foursquarePoi.Location?.Address)
+                ? foursquarePoi.Location?.Address
+                : Address;
+            Geolocation = (foursquarePoi.Location != null)
+                ? new LatLng() { Latitude = foursquarePoi.Location.Lat, Longitude = foursquarePoi.Location.Lng }
+                : Geolocation;
+            Price = (foursquarePoi.Price != null)
+                ? foursquarePoi.Price.Tier
+                : Price;
+            Hours = !string.IsNullOrEmpty(foursquarePoi.Hours?.Status)
+                ? foursquarePoi.Hours?.Status
+                : Hours;
+            Categories = (foursquarePoi.Categories != null)
+                ? foursquarePoi.Categories.Select(x => x.Name).ToArray()
+                : Categories;
+            Provider = Enum.GetName(typeof(PointofInterestSource), 2);
         }
 
-        public string Id
-        {
-            get
-            {
-                switch (source)
-                {
-                    case PointofInterestSource.AzureMaps:
-                        return azureMapsPoiData.Id;
+        /// <summary>
+        /// Gets or sets the id of the point of interest.
+        /// Availability: Azure Maps, Foursquare.
+        /// </summary>
+        public string Id { get; set; }
 
-                    case PointofInterestSource.Foursquare:
-                        return foursquarePoiData.Id;
+        /// <summary>
+        /// Gets or sets the thumbnail image url of the point of interest.
+        /// Availability: Azure Maps, Foursquare.
+        /// </summary>
+        public string ThumbnailImageUrl { get; set; }
 
-                    default:
-                        return _id;
-                }
-            }
+        /// <summary>
+        /// Gets or sets the name of the point of interest.
+        /// Availability: Azure Maps, Foursquare.
+        /// </summary>
+        public string Name { get; set; }
 
-            set
-            {
-                switch (source)
-                {
-                    case PointofInterestSource.AzureMaps:
-                        _id = azureMapsPoiData.Id = value;
-                        break;
+        /// <summary>
+        /// Gets or sets the address of the point of interest.
+        /// Availability: Azure Maps, Foursquare.
+        /// </summary>
+        public string Address { get; set; }
 
-                    case PointofInterestSource.Foursquare:
-                        _id = foursquarePoiData.Id = value;
-                        break;
+        /// <summary>
+        /// Gets or sets the address line of the point of interest.
+        /// Availability: Azure Maps, Foursquare.
+        /// </summary>
+        public string AddressLine { get; set; }
 
-                    default:
-                        _id = value;
-                        break;
-                }
-            }
-        }
+        /// <summary>
+        /// Gets or sets the geolocation of the point of interest.
+        /// Availability: Azure Maps, Foursquare.
+        /// </summary>
+        public LatLng Geolocation { get; set; }
 
-        public string ThumbnailImageUrl
-        {
-            get
-            {
-                switch (source)
-                {
-                    case PointofInterestSource.AzureMaps:
-                        return _thumbnailImageUrl;
+        /// <summary>
+        /// Gets or sets the estimated time of arrival to the point of interest.
+        /// Availability: Azure Maps.
+        /// </summary>
+        public string EstimatedTimeOfArrival { get; set; }
 
-                    case PointofInterestSource.Foursquare:
-                        return foursquarePoiData.BestPhoto?.AbsoluteUrl;
-
-                    default:
-                        return _thumbnailImageUrl;
-                }
-            }
-
-            set
-            {
-                switch (source)
-                {
-                    case PointofInterestSource.Foursquare:
-                        _thumbnailImageUrl = foursquarePoiData.BestPhoto.AbsoluteUrl = value;
-                        break;
-
-                    case PointofInterestSource.AzureMaps:
-                    default:
-                        _thumbnailImageUrl = value;
-                        break;
-                }
-            }
-        }
-
-        public string Name
-        {
-            get
-            {
-                switch (source)
-                {
-                    case PointofInterestSource.AzureMaps:
-                        return azureMapsPoiData.Poi?.Name;
-
-                    case PointofInterestSource.Foursquare:
-                        return foursquarePoiData.Name;
-
-                    default:
-                        return _name;
-                }
-            }
-
-            set
-            {
-                switch (source)
-                {
-                    case PointofInterestSource.AzureMaps:
-                        _name = azureMapsPoiData.Poi.Name = value;
-                        break;
-
-                    case PointofInterestSource.Foursquare:
-                        _name = foursquarePoiData.Name = value;
-                        break;
-
-                    default:
-                        _name = value;
-                        break;
-                }
-            }
-        }
-
-        public string Address
-        {
-            get
-            {
-                switch (source)
-                {
-                    case PointofInterestSource.AzureMaps:
-                        return azureMapsPoiData.Address?.ToBingAddress()?.FormattedAddress;
-
-                    case PointofInterestSource.Foursquare:
-                        return foursquarePoiData.Location?.FullFormattedAddress;
-
-                    default:
-                        return _address;
-                }
-            }
-
-            set
-            {
-                switch (source)
-                {
-                    case PointofInterestSource.AzureMaps:
-                        _address = azureMapsPoiData.Address.ToBingAddress().FormattedAddress = value;
-                        break;
-
-                    case PointofInterestSource.Foursquare:
-                        _address = foursquarePoiData.Location.FullFormattedAddress = value;
-                        break;
-
-                    default:
-                        _address = value;
-                        break;
-                }
-            }
-        }
-
-        public string AddressLine
-        {
-            get
-            {
-                switch (source)
-                {
-                    case PointofInterestSource.AzureMaps:
-                        return azureMapsPoiData.Address.ToBingAddress().AddressLine;
-
-                    case PointofInterestSource.Foursquare:
-                        return foursquarePoiData.Location.Address;
-
-                    default:
-                        return _addressLine;
-                }
-            }
-
-            set
-            {
-                switch (source)
-                {
-                    case PointofInterestSource.AzureMaps:
-                        _addressLine = azureMapsPoiData.Address.ToBingAddress().AddressLine = value;
-                        break;
-
-                    case PointofInterestSource.Foursquare:
-                        _addressLine = foursquarePoiData.Location.Address = value;
-                        break;
-
-                    default:
-                        _addressLine = value;
-                        break;
-                }
-            }
-        }
-
-        public LatLng Geolocation
-        {
-            get
-            {
-                switch (source)
-                {
-                    case PointofInterestSource.AzureMaps:
-                        return azureMapsPoiData.Position;
-
-                    case PointofInterestSource.Foursquare:
-                        return new LatLng() { Latitude = foursquarePoiData.Location.Lat, Longitude = foursquarePoiData.Location.Lng };
-
-                    default:
-                        return _geolocation;
-                }
-            }
-
-            set
-            {
-                switch (source)
-                {
-                    case PointofInterestSource.AzureMaps:
-                        _geolocation = azureMapsPoiData.Position = value;
-                        break;
-
-                    case PointofInterestSource.Foursquare:
-                        _geolocation = value;
-                        break;
-
-                    default:
-                        _geolocation = value;
-                        break;
-                }
-            }
-        }
-
-        public string ETA { get; set; }
-
+        /// <summary>
+        /// Gets or sets the distance to the point of interest.
+        /// Availability: Azure Maps.
+        /// </summary>
         public string Distance { get; set; }
 
+        /// <summary>
+        /// Gets or sets the rating of the point of interest.
+        /// Availability: Foursquare.
+        /// </summary>
         public string Rating { get; set; }
 
-        public int Price
-        {
-            get
-            {
-                switch (source)
-                {
-                    case PointofInterestSource.AzureMaps:
-                        return _price;
+        /// <summary>
+        /// Gets or sets the price level of the point of interest.
+        /// Availability: Foursquare.
+        /// </summary>
+        public int Price { get; set; }
 
-                    case PointofInterestSource.Foursquare:
-                        return foursquarePoiData.Price.Tier;
+        /// <summary>
+        /// Gets or sets the hours of the point of interest.
+        /// Availability: Foursquare.
+        /// </summary>
+        public string Hours { get; set; }
 
-                    default:
-                        return _price;
-                }
-            }
+        public string[] Categories { get; set; }
 
-            set
-            {
-                switch (source)
-                {
-                    case PointofInterestSource.AzureMaps:
-                        _price = value;
-                        break;
+        /// <summary>
+        /// Gets or sets the name of the point of interest.
+        /// Availability: Azure Maps, Foursquare.
+        /// </summary>
+        public string Provider { get; set; }
 
-                    case PointofInterestSource.Foursquare:
-                        _price = foursquarePoiData.Price.Tier = value;
-                        break;
-
-                    default:
-                        _price = value;
-                        break;
-                }
-            }
-        }
-
-        private string _hours;
-
-        public string Hours
-        {
-            get
-            {
-                switch (source)
-                {
-                    case PointofInterestSource.AzureMaps:
-                        return _hours;
-
-                    case PointofInterestSource.Foursquare:
-                        return foursquarePoiData.Hours.Status;
-
-                    default:
-                        return _hours;
-                }
-            }
-
-            set
-            {
-                switch (source)
-                {
-                    case PointofInterestSource.AzureMaps:
-                        _hours = value;
-                        break;
-
-                    case PointofInterestSource.Foursquare:
-                        _hours = foursquarePoiData.Hours.Status = value;
-                        break;
-
-                    default:
-                        _hours = value;
-                        break;
-                }
-            }
-        }
-
-        public string[] Categories
-        {
-            get
-            {
-                switch (source)
-                {
-                    case PointofInterestSource.AzureMaps:
-                        return azureMapsPoiData.Poi.Categories;
-
-                    case PointofInterestSource.Foursquare:
-                        return foursquarePoiData.Categories.Select(x => x.Name).ToArray();
-
-                    default:
-                        return _categories;
-                }
-            }
-
-            set
-            {
-                switch (source)
-                {
-                    case PointofInterestSource.AzureMaps:
-                        _categories = azureMapsPoiData.Poi.Categories = value;
-                        break;
-
-                    case PointofInterestSource.Foursquare:
-                        _categories = value;
-                        break;
-
-                    default:
-                        _categories = value;
-                        break;
-                }
-            }
-        }
-
-        public string Provider
-        {
-            get
-            {
-                switch (source)
-                {
-                    case PointofInterestSource.AzureMaps:
-                        return Enum.GetName(typeof(PointofInterestSource), 1);
-
-                    case PointofInterestSource.Foursquare:
-                        return Enum.GetName(typeof(PointofInterestSource), 2);
-
-                    default:
-                        return _provider;
-                }
-            }
-
-            set
-            {
-                switch (source)
-                {
-                    case PointofInterestSource.AzureMaps:
-                        _provider = value;
-                        break;
-
-                    case PointofInterestSource.Foursquare:
-                        _provider = value;
-                        break;
-
-                    default:
-                        _provider = value;
-                        break;
-                }
-            }
-        }
-
+        /// <summary>
+        /// Gets or sets the option number of the point of interest.
+        /// </summary>
         public int OptionNumber { get; set; }
     }
 }
