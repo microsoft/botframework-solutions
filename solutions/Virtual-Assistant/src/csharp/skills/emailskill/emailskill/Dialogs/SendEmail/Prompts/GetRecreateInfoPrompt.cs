@@ -6,6 +6,7 @@ using EmailSkill.Dialogs.Shared.Resources.Strings;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Dialogs;
 using static EmailSkill.Models.SendEmailStateModel;
 
 namespace EmailSkill.Dialogs.SendEmail.Prompts
@@ -54,6 +55,13 @@ namespace EmailSkill.Dialogs.SendEmail.Prompts
             {
                 var message = turnContext.Activity.AsMessageActivity();
                 ResendEmailState? recreateState = GetStateFromMessage(message.Text);
+
+                var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(message.Text, turnContext.Activity.Locale);
+                if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
+                {
+                    recreateState = ResendEmailState.Cancel;
+                }
+
                 if (recreateState != null)
                 {
                     result.Succeeded = true;

@@ -40,6 +40,7 @@ namespace EmailSkill.Dialogs.SendEmail
                 GetAuthToken,
                 AfterGetAuthToken,
                 CollectRecipient,
+                ByPassOptionalField,
                 CollectSubject,
                 CollectText,
                 ConfirmBeforeSending,
@@ -81,6 +82,47 @@ namespace EmailSkill.Dialogs.SendEmail
             AddDialog(new WaterfallDialog(Actions.GetRecreateInfo, getRecreateInfo) { TelemetryClient = telemetryClient });
             AddDialog(new GetRecreateInfoPrompt(Actions.GetRecreateInfoPrompt));
             InitialDialogId = Actions.Send;
+        }
+
+        public async Task<DialogTurnResult> ByPassOptionalField(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var skillOptions = (EmailSkillDialogOptions)sc.Options;
+
+                if (!skillOptions.SubFlowMode)
+                {
+                    if (state.NameList.Count > 0 || state.EmailList.Count > 0)
+                    {
+                        // Bypass logic: Send an email to Michelle saying I will be late today ->  Use “I will be late today” as subject. No need to ask for subject/content
+                        // If information is detected as content, move to subject.
+                        if (string.IsNullOrEmpty(state.Subject))
+                        {
+                            if (!string.IsNullOrEmpty(state.Content))
+                            {
+                                state.Subject = state.Content;
+                                state.Content = EmailCommonStrings.Skip;
+                            }
+                        }
+                        else
+                        {
+                            if (string.IsNullOrEmpty(state.Content))
+                            {
+                                state.Content = EmailCommonStrings.Skip;
+                            }
+                        }
+                    }
+                }
+
+                return await sc.NextAsync();
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
         }
 
         public async Task<DialogTurnResult> CollectSubject(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -370,6 +412,8 @@ namespace EmailSkill.Dialogs.SendEmail
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var skillOptions = (EmailSkillDialogOptions)sc.Options;
+                skillOptions.SubFlowMode = true;
                 if (sc.Result != null)
                 {
                     ResendEmailState? recreateState = sc.Result as ResendEmailState?;
@@ -381,13 +425,13 @@ namespace EmailSkill.Dialogs.SendEmail
                             return await sc.EndDialogAsync(true, cancellationToken);
                         case ResendEmailState.Participants:
                             state.ClearParticipants();
-                            return await sc.ReplaceDialogAsync(Actions.Send, options: sc.Options, cancellationToken: cancellationToken);
+                            return await sc.ReplaceDialogAsync(Actions.Send, options: skillOptions, cancellationToken: cancellationToken);
                         case ResendEmailState.Subject:
                             state.ClearSubject();
-                            return await sc.ReplaceDialogAsync(Actions.Send, options: sc.Options, cancellationToken: cancellationToken);
+                            return await sc.ReplaceDialogAsync(Actions.Send, options: skillOptions, cancellationToken: cancellationToken);
                         case ResendEmailState.Content:
                             state.ClearContent();
-                            return await sc.ReplaceDialogAsync(Actions.Send, options: sc.Options, cancellationToken: cancellationToken);
+                            return await sc.ReplaceDialogAsync(Actions.Send, options: skillOptions, cancellationToken: cancellationToken);
                         default:
                             // should not go to this part. place an error handling for save.
                             await HandleDialogExceptions(sc, new Exception("Get unexpect state in recreate."));

@@ -188,8 +188,8 @@
   "NoRecipients": {
     "replies": [
       {
-        "text": "Who's the email going to?",
-        "speak": "Who's the email going to?"
+        "text": "Sure, who's the email going to?",
+        "speak": "Sure, Who's the email going to?"
       }
     ],
     "inputHint": "expectingInput"
@@ -215,8 +215,8 @@
   "ConfirmSend": {
     "replies": [
       {
-        "text": "I'm ready to send it. Please confirm the following: ",
-        "speak": "I'm ready to send it. Please confirm the following: {EmailDetails}"
+        "text": "I'm ready to send the email. Can you confirm this event?",
+        "speak": "I'm ready to send the email. The Email detail is: {EmailDetails}. Can you confirm this event?"
       }
     ],
     "inputHint": "expectingInput"

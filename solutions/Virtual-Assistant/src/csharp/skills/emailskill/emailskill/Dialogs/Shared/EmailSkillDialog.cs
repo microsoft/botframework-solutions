@@ -394,6 +394,12 @@ namespace EmailSkill.Dialogs.Shared
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
                 string nameListString;
 
+                // Remove bypass logic
+                if (state.Content.Equals(EmailCommonStrings.Skip))
+                {
+                    state.Content = string.Empty;
+                }
+
                 // this means reply confirm
                 if (state.Recipients.FirstOrDefault() == null)
                 {
