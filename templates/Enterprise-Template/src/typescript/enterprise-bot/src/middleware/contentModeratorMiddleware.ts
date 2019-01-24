@@ -44,6 +44,12 @@ export class ContentModeratorMiddleware implements Middleware {
             );
     }
 
+    /**
+     * Analyzes activity text with Content Moderator and adds result to Bot Context. Run on each turn of the conversation.
+     * @param context - The Bot Context object.
+     * @param next - The next middleware component to run.
+     * @returns A Promise representing the asynchronous operation.
+     */
     public async onTurn(context: TurnContext, next: () => Promise<void>): Promise<void> {
         if (context.activity.type === ActivityTypes.Message) {
 
