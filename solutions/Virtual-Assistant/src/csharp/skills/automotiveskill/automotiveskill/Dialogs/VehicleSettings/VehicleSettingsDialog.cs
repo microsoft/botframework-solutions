@@ -214,7 +214,10 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
 
             if (promptContext.Recognized != null && promptContext.Recognized.Succeeded)
             {
-                string userChoice = promptContext.Recognized.Value.Value;
+                // The response from the user might be the exact setting name or more likely something like "first one" or "last one" so we need to ensure the activity text (used by the LUIS recognizer) is correct
+                // No way to identify this situation so we override
+                string settingChoice = promptContext.Recognized.Value.Value;
+                promptContext.Context.Activity.Text = settingChoice;
 
                 // Use the value selection LUIS model to perform validation of the users entered setting value
                 VehicleSettingsNameSelection nameSelectionResult = await vehicleSettingNameSelectionLuisRecognizer.RecognizeAsync<VehicleSettingsNameSelection>(promptContext.Context, CancellationToken.None);
@@ -329,6 +332,11 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
 
             if (promptContext.Recognized != null && promptContext.Recognized.Succeeded)
             {
+                // The response from the user might be the exact setting name or more likely something like "first one" or "last one" so we need to ensure the activity text (used by the LUIS recognizer) is correct
+                // No way to identify this situation so we override
+                string valueChoice = promptContext.Recognized.Value.Value;
+                promptContext.Context.Activity.Text = valueChoice;
+
                 // Use the value selection LUIS model to perform validation of the users entered setting value
                 VehicleSettingsValueSelection valueSelectionResult = await vehicleSettingValueSelectionLuisRecognizer.RecognizeAsync<VehicleSettingsValueSelection>(promptContext.Context, CancellationToken.None);
 
@@ -342,9 +350,13 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                     valueEntities.AddRange(valueSelectionResult.Entities.SETTING);
                 }
 
-                settingFilter.ApplySelectionToSettingValues(state, valueEntities);
-
-                return true;
+                var selectedValue = settingFilter.ApplySelectionToSettingValues(state, valueEntities);
+                // We identified a setting value, proceed
+                if (selectedValue != null)
+                {
+                    state.Changes = selectedValue;
+                    return true;
+                }
             }
 
             return false;
