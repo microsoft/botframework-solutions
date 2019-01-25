@@ -513,6 +513,17 @@ namespace CalendarSkill.Dialogs.CreateEvent
                     return await sc.NextAsync(result);
                 }
 
+                if (CreateEventWhiteList.GetMyself().Contains(currentRecipientName))
+                {
+                    var me = await GetMe(sc);
+                    var result =
+                        new FoundChoice()
+                        {
+                            Value = $"{me.DisplayName}: {me.Emails.First()}"
+                        };
+                    return await sc.NextAsync(result);
+                }
+
                 var originPersonList = await GetPeopleWorkWithAsync(sc, currentRecipientName);
                 var originContactList = await GetContactsAsync(sc, currentRecipientName);
                 originPersonList.AddRange(originContactList);
@@ -1229,6 +1240,14 @@ namespace CalendarSkill.Dialogs.CreateEvent
             result = await service.GetUserAsync(name);
 
             return result;
+        }
+
+        protected async Task<PersonModel> GetMe(WaterfallStepContext sc)
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+            var token = state.APIToken;
+            var service = ServiceManager.InitUserService(token, state.EventSource);
+            return await service.GetMe();
         }
 
         private string GetSelectPromptString(PromptOptions selectOption, bool containNumbers)
