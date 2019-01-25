@@ -97,7 +97,7 @@ namespace CalendarSkill.Dialogs.CreateEvent.Prompts
 
         private List<DateTimeResolution> RecognizeDateTime(string dateTimeString, string culture)
         {
-            var results = DateTimeRecognizer.RecognizeDateTime(dateTimeString, culture);
+            var results = DateTimeRecognizer.RecognizeDateTime(dateTimeString, culture, options: DateTimeOptions.CalendarMode);
             if (results.Count > 0)
             {
                 // Return list of resolutions from first match
