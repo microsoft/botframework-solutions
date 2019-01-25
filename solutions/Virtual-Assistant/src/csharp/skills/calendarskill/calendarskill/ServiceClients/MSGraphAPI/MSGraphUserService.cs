@@ -57,6 +57,12 @@ namespace CalendarSkill.ServiceClients.MSGraphAPI
             return result;
         }
 
+        public async Task<PersonModel> GetMe()
+        {
+            var me = await _graphClient.Me.Request().GetAsync();
+            return new PersonModel(me.ToPerson());
+        }
+
         /// <summary>
         /// GetUsersAsync.
         /// </summary>
