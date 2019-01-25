@@ -40,6 +40,7 @@ namespace ToDoSkill.Dialogs.AddToDo
             {
                 CollectTaskContent,
                 CollectSwitchListTypeConfirmation,
+                CollectAddDupTaskConfirmation,
                 AddTask,
                 ContinueAddTask,
             };
@@ -56,6 +57,12 @@ namespace ToDoSkill.Dialogs.AddToDo
                 AfterAskSwitchListTypeConfirmation,
             };
 
+            var collectAddDupTaskConfirmation = new WaterfallStep[]
+            {
+                AskAddDupTaskConfirmation,
+                AfterAskAddDupTaskConfirmation,
+            };
+
             var continueAddTask = new WaterfallStep[]
             {
                 AskContinueAddTask,
@@ -67,6 +74,7 @@ namespace ToDoSkill.Dialogs.AddToDo
             AddDialog(new WaterfallDialog(Action.AddTask, addTask) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Action.CollectTaskContent, collectTaskContent) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Action.CollectSwitchListTypeConfirmation, collectSwitchListTypeConfirmation) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Action.CollectAddDupTaskConfirmation, collectAddDupTaskConfirmation) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Action.ContinueAddTask, continueAddTask) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
@@ -91,25 +99,36 @@ namespace ToDoSkill.Dialogs.AddToDo
             try
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
-                state.ListType = state.ListType ?? ToDoStrings.ToDo;
-                state.LastListType = state.ListType;
-                var service = await InitListTypeIds(sc);
-                await service.AddTaskAsync(state.ListType, state.TaskContent);
-                state.AllTasks = await service.GetTasksAsync(state.ListType);
-                state.ShowTaskPageIndex = 0;
-                var rangeCount = Math.Min(state.PageSize, state.AllTasks.Count);
-                state.Tasks = state.AllTasks.GetRange(0, rangeCount);
-                var toDoListAttachment = ToAdaptiveCardForTaskAddedFlow(
-                    state.Tasks,
-                    state.TaskContent,
-                    state.AllTasks.Count,
-                    state.ListType);
+                if (state.AddDupTask)
+                {
+                    state.ListType = state.ListType ?? ToDoStrings.ToDo;
+                    state.LastListType = state.ListType;
+                    var service = await InitListTypeIds(sc);
+                    var currentAllTasks = await service.GetTasksAsync(state.ListType);
+                    var duplicatedTaskIndex = currentAllTasks.FindIndex(t => t.Topic.Equals(state.TaskContent, StringComparison.InvariantCultureIgnoreCase));
 
-                var cardReply = sc.Context.Activity.CreateReply();
-                cardReply.Attachments.Add(toDoListAttachment);
-                await sc.Context.SendActivityAsync(cardReply);
+                    await service.AddTaskAsync(state.ListType, state.TaskContent);
+                    state.AllTasks = await service.GetTasksAsync(state.ListType);
+                    state.ShowTaskPageIndex = 0;
+                    var rangeCount = Math.Min(state.PageSize, state.AllTasks.Count);
+                    state.Tasks = state.AllTasks.GetRange(0, rangeCount);
+                    var toDoListAttachment = ToAdaptiveCardForTaskAddedFlow(
+                        state.Tasks,
+                        state.TaskContent,
+                        state.AllTasks.Count,
+                        state.ListType);
 
-                return await sc.NextAsync();
+                    var cardReply = sc.Context.Activity.CreateReply();
+                    cardReply.Attachments.Add(toDoListAttachment);
+                    await sc.Context.SendActivityAsync(cardReply);
+
+                    return await sc.NextAsync();
+                }
+                else
+                {
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ActionEnded));
+                    return await sc.EndDialogAsync(true);
+                }
             }
             catch (SkillException ex)
             {
@@ -252,6 +271,75 @@ namespace ToDoSkill.Dialogs.AddToDo
                     state.LastListType = null;
                     return await sc.EndDialogAsync(true);
                 }
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        protected async Task<DialogTurnResult> CollectAddDupTaskConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                return await sc.BeginDialogAsync(Action.CollectAddDupTaskConfirmation);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        protected async Task<DialogTurnResult> AskAddDupTaskConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
+                state.ListType = state.ListType ?? ToDoStrings.ToDo;
+                state.LastListType = state.ListType;
+                var service = await InitListTypeIds(sc);
+                var currentAllTasks = await service.GetTasksAsync(state.ListType);
+                state.AddDupTask = false;
+                var duplicatedTaskIndex = currentAllTasks.FindIndex(t => t.Topic.Equals(state.TaskContent, StringComparison.InvariantCultureIgnoreCase));
+                if (duplicatedTaskIndex < 0)
+                {
+                    state.AddDupTask = true;
+                    return await sc.NextAsync();
+                }
+                else
+                {
+                    var token = new StringDictionary() { { "taskContent", state.TaskContent } };
+                    var prompt = sc.Context.Activity.CreateReply(AddToDoResponses.AskAddDupTaskPrompt, tokens: token);
+                    return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
+                }
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        protected async Task<DialogTurnResult> AfterAskAddDupTaskConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
+                if (!state.AddDupTask)
+                {
+                    sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
+                    var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
+                    var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
+
+                    if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
+                    {
+                        state.AddDupTask = true;
+                    }
+                }
+
+                return await sc.EndDialogAsync(true);
             }
             catch (Exception ex)
             {

@@ -30,6 +30,8 @@ namespace ToDoSkill.Dialogs.AddToDo.Resources
 
         public static BotResponse AddMoreTask => GetBotResponse();
 
+        public static BotResponse AskAddDupTaskPrompt => GetBotResponse();
+
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {
             return _responseManager.GetBotResponse(propertyName);

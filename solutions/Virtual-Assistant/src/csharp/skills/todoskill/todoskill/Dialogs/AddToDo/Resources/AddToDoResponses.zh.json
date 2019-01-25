@@ -42,5 +42,14 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "AskAddDupTaskPrompt": {
+    "replies": [
+      {
+        "text": "我发现你的列表里面已经有{taskContent}这个任务了，你还要添加这个任务吗？",
+        "speak": "我发现你的列表里面已经有{taskContent}这个任务了，你还要添加这个任务吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }

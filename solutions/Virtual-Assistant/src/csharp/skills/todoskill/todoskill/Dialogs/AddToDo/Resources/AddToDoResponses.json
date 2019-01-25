@@ -42,5 +42,14 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "AskAddDupTaskPrompt": {
+    "replies": [
+      {
+        "text": "I believe you already have {taskContent} on your list, still want to add this task?",
+        "speak": "I believe you already have {taskContent} on your list, still want to add this task?"
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }

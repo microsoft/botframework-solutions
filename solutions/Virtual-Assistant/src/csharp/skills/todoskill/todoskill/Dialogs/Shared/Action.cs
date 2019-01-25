@@ -45,5 +45,7 @@
         public const string ContinueDeleteTask = "continueDeleteTask";
 
         public const string DoDeleteTask = "doDeleteTask";
+
+        public const string CollectAddDupTaskConfirmation = "collectAddDupTaskConfirmation";
     }
 }

@@ -204,12 +204,12 @@ namespace ToDoSkill.Dialogs.ShowToDo
 
                 if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
                 {
-                    return await sc.NextAsync();
+                    return await sc.EndDialogAsync(true);
                 }
                 else
                 {
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ShowToDoResponses.InstructionMessage));
-                    return await sc.EndDialogAsync(true);
+                    return await sc.CancelAllDialogsAsync();
                 }
             }
             catch (Exception ex)
@@ -238,11 +238,11 @@ namespace ToDoSkill.Dialogs.ShowToDo
 
             if ((state.ShowTaskPageIndex + 1) * state.PageSize < state.AllTasks.Count)
             {
-                return await sc.NextAsync();
+                return await sc.EndDialogAsync(true);
             }
             else
             {
-                return await sc.EndDialogAsync(true);
+                return await sc.CancelAllDialogsAsync();
             }
         }
 
@@ -296,12 +296,12 @@ namespace ToDoSkill.Dialogs.ShowToDo
 
                 if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
                 {
-                    return await sc.NextAsync();
+                    return await sc.EndDialogAsync(true);
                 }
                 else
                 {
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ActionEnded));
-                    return await sc.EndDialogAsync(true);
+                    return await sc.CancelAllDialogsAsync();
                 }
             }
             catch (Exception ex)
