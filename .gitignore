@@ -340,3 +340,9 @@ ASALocalRun/
 
 # QnAMaker json files
 /solutions/**/*.qna
+/solutions/Virtual-Assistant/src/csharp/skills/calendarskill/Dialogs/ChangeEventStatus/Resources/TranslateResponse.ps1
+/solutions/Virtual-Assistant/src/csharp/skills/calendarskill/CognitiveModels/LUIS/UniqueLUISUtterance.py
+/solutions/Virtual-Assistant/src/csharp/skills/calendarskill/Dialogs/Shared/Resources/Strings/TranslateResourse.txt
+/solutions/Virtual-Assistant/src/csharp/skills/calendarskill/Dialogs/Shared/Resources/Strings/TranslateResourse.ps1
+/solutions/Virtual-Assistant/src/csharp/skills/calendarskill/Dialogs/Summary/Resources/TranslateResponse.ps1
+/solutions/Virtual-Assistant/src/csharp/skills/calendarskill/calendarskill/Dialogs/Summary/Resources/TranslateResponse.ps1
