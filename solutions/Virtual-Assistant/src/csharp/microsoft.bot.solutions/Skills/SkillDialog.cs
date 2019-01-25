@@ -15,53 +15,40 @@ using Microsoft.Bot.Solutions.Resources;
 
 namespace Microsoft.Bot.Solutions.Skills
 {
-    public class SkillDialog : Dialog
+    public class SkillDialog : ComponentDialog
     {
-        // Constants
-        private const string ActiveSkillStateKey = "ActiveSkill";
-
         // Fields
-        private Dictionary<string, SkillConfigurationBase> _skills;
-        private IStatePropertyAccessor<DialogState> _accessor;
+        private SkillDefinition _skillDefinition;
+        private SkillConfigurationBase _skillConfiguration;
         private EndpointService _endpointService;
         private IBotTelemetryClient _telemetryClient;
-        private DialogSet _dialogs;
         private InProcAdapter _inProcAdapter;
         private IBot _activatedSkill;
         private bool _skillInitialized;
         private bool _useCachedTokens;
 
-        public SkillDialog(Dictionary<string, SkillConfigurationBase> skills, IStatePropertyAccessor<DialogState> accessor, EndpointService endpointService, IBotTelemetryClient telemetryClient, bool useCachedTokens = true)
-            : base(nameof(SkillDialog))
+        public SkillDialog(SkillDefinition skillDefinition, SkillConfigurationBase skillConfiguration, EndpointService endpointService, IBotTelemetryClient telemetryClient, bool useCachedTokens = true)
+            : base(skillDefinition.Id)
         {
-            _skills = skills;
-            _accessor = accessor;
+            _skillDefinition = skillDefinition;
+            _skillConfiguration = skillConfiguration;
             _endpointService = endpointService;
             _telemetryClient = telemetryClient;
             _useCachedTokens = useCachedTokens;
-            _dialogs = new DialogSet(_accessor);
+
+            AddDialog(new MultiProviderAuthDialog(skillConfiguration));
         }
 
-        public override async Task<DialogTurnResult> BeginDialogAsync(DialogContext dc, object options = null, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
             var skillOptions = (SkillDialogOptions)options;
-
-            // Save the active skill in state
-            var skillDefinition = skillOptions.SkillDefinition;
-            dc.ActiveDialog.State[ActiveSkillStateKey] = skillDefinition;
-
-            var skillConfiguration = _skills[skillDefinition.Id];
-
-            // Initialize authentication prompt
-            _dialogs = _dialogs ?? new DialogSet(_accessor);
-            _dialogs.Add(new MultiProviderAuthDialog(skillConfiguration));
 
             // Send parameters to skill in skillBegin event
             var userData = new Dictionary<string, object>();
 
-            if (skillDefinition.Parameters != null)
+            if (_skillDefinition.Parameters != null)
             {
-                foreach (var parameter in skillDefinition.Parameters)
+                foreach (var parameter in _skillDefinition.Parameters)
                 {
                     if (skillOptions.Parameters.TryGetValue(parameter, out var paramValue))
                     {
@@ -70,7 +57,7 @@ namespace Microsoft.Bot.Solutions.Skills
                 }
             }
 
-            var activity = dc.Context.Activity;
+            var activity = innerDc.Context.Activity;
 
             var skillBeginEvent = new Activity(
               type: ActivityTypes.Event,
@@ -82,29 +69,17 @@ namespace Microsoft.Bot.Solutions.Skills
               value: userData);
 
             // Send event to Skill/Bot
-            return await ForwardToSkill(dc, skillBeginEvent);
+            return await ForwardToSkill(innerDc, skillBeginEvent);
         }
 
-        public override async Task<DialogTurnResult> ContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var activity = dc.Context.Activity;
-            var innerDc = await _dialogs.CreateContextAsync(dc.Context);
+            var activity = innerDc.Context.Activity;
 
-            // Add the oauth prompt to _dialogs if it is missing
-            var dialog = _dialogs.Find(nameof(MultiProviderAuthDialog));
-            if (dialog == null)
-            {
-                var skillDefinition = dc.ActiveDialog.State[ActiveSkillStateKey] as SkillDefinition;
-                var skillConfiguration = _skills[skillDefinition.Id];
-
-                _dialogs.Add(new MultiProviderAuthDialog(skillConfiguration));
-            }
-
-            // Check if we're in the oauth prompt
-            if (innerDc.ActiveDialog != null)
+            if (innerDc.ActiveDialog?.Id == nameof(MultiProviderAuthDialog))
             {
                 // Handle magic code auth
-                var result = await innerDc.ContinueDialogAsync();
+                var result = await innerDc.ContinueDialogAsync(cancellationToken);
 
                 // forward the token response to the skill
                 if (result.Status == DialogTurnStatus.Complete && result.Result is ProviderTokenResponse)
@@ -119,22 +94,19 @@ namespace Microsoft.Bot.Solutions.Skills
                 }
             }
 
-            return await ForwardToSkill(dc, activity);
+            return await ForwardToSkill(innerDc, activity);
         }
 
         private async Task InitializeSkill(DialogContext dc)
         {
             try
             {
-                var skillDefinition = dc.ActiveDialog.State[ActiveSkillStateKey] as SkillDefinition;
-                var skillConfiguration = _skills[skillDefinition.Id];
-
                 IStorage storage;
 
-                if (skillConfiguration.CosmosDbOptions != null)
+                if (_skillConfiguration.CosmosDbOptions != null)
                 {
-                    var cosmosDbOptions = skillConfiguration.CosmosDbOptions;
-                    cosmosDbOptions.CollectionId = skillDefinition.Name;
+                    var cosmosDbOptions = _skillConfiguration.CosmosDbOptions;
+                    cosmosDbOptions.CollectionId = _skillDefinition.Name;
                     storage = new CosmosDbStorage(cosmosDbOptions);
                 }
                 else
@@ -149,12 +121,12 @@ namespace Microsoft.Bot.Solutions.Skills
                 // Create skill instance
                 try
                 {
-                    var skillType = Type.GetType(skillDefinition.Assembly);
-                    _activatedSkill = (IBot)Activator.CreateInstance(skillType, skillConfiguration, conversationState, userState, _telemetryClient, null, true);
+                    var skillType = Type.GetType(_skillDefinition.Assembly);
+                    _activatedSkill = (IBot)Activator.CreateInstance(skillType, _skillConfiguration, conversationState, userState, _telemetryClient, null, true);
                 }
                 catch (Exception e)
                 {
-                    var message = $"Skill ({skillDefinition.Name}) could not be created.";
+                    var message = $"Skill ({_skillDefinition.Name}) could not be created.";
                     throw new InvalidOperationException(message, e);
                 }
 
@@ -186,13 +158,13 @@ namespace Microsoft.Bot.Solutions.Skills
             }
         }
 
-        private async Task<DialogTurnResult> ForwardToSkill(DialogContext dc, Activity activity)
+        private async Task<DialogTurnResult> ForwardToSkill(DialogContext innerDc, Activity activity)
         {
             try
             {
                 if (!_skillInitialized)
                 {
-                    await InitializeSkill(dc);
+                    await InitializeSkill(innerDc);
                 }
 
                 _inProcAdapter.ProcessActivity(activity, async (skillContext, ct) =>
@@ -213,20 +185,19 @@ namespace Microsoft.Bot.Solutions.Skills
                     else if (skillResponse?.Name == Events.TokenRequestEventName)
                     {
                         // Send trace to emulator
-                        await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Received a Token Request from a skill"));
+                        await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Received a Token Request from a skill"));
 
                         if (!_useCachedTokens)
                         {
-                            var adapter = dc.Context.Adapter as BotFrameworkAdapter;
-                            var tokens = await adapter.GetTokenStatusAsync(dc.Context, dc.Context.Activity.From.Id);
+                            var adapter = innerDc.Context.Adapter as BotFrameworkAdapter;
+                            var tokens = await adapter.GetTokenStatusAsync(innerDc.Context, innerDc.Context.Activity.From.Id);
 
                             foreach (var token in tokens)
                             {
-                                await adapter.SignOutUserAsync(dc.Context, token.ConnectionName, dc.Context.Activity.From.Id, default(CancellationToken));
+                                await adapter.SignOutUserAsync(innerDc.Context, token.ConnectionName, innerDc.Context.Activity.From.Id, default(CancellationToken));
                             }
                         }
 
-                        var innerDc = await _dialogs.CreateContextAsync(dc.Context);
                         var authResult = await innerDc.BeginDialogAsync(nameof(MultiProviderAuthDialog));
 
                         if (authResult.Result?.GetType() == typeof(ProviderTokenResponse))
@@ -236,7 +207,7 @@ namespace Microsoft.Bot.Solutions.Skills
                             tokenEvent.Name = Events.TokenResponseEventName;
                             tokenEvent.Value = authResult.Result as ProviderTokenResponse;
 
-                            return await ForwardToSkill(dc, tokenEvent);
+                            return await ForwardToSkill(innerDc, tokenEvent);
                         }
                         else
                         {
@@ -248,7 +219,7 @@ namespace Microsoft.Bot.Solutions.Skills
                         if (skillResponse.Type == ActivityTypes.Trace)
                         {
                             // Write out any trace messages from the skill to the emulator
-                            await dc.Context.SendActivityAsync(skillResponse);
+                            await innerDc.Context.SendActivityAsync(skillResponse);
                         }
                         else
                         {
@@ -263,24 +234,24 @@ namespace Microsoft.Bot.Solutions.Skills
                 if (queue.Count > 0)
                 {
                     var firstActivity = queue[0];
-                    if (firstActivity.Conversation.Id == dc.Context.Activity.Conversation.Id)
+                    if (firstActivity.Conversation.Id == innerDc.Context.Activity.Conversation.Id)
                     {
                         // if the conversation id from the activity is the same as the context activity, it's reactive message
-                        await dc.Context.SendActivitiesAsync(queue.ToArray());
+                        await innerDc.Context.SendActivitiesAsync(queue.ToArray());
                     }
                     else
                     {
                         // if the conversation id from the activity is differnt from the context activity, it's proactive message
-                        await dc.Context.Adapter.ContinueConversationAsync(_endpointService.AppId, firstActivity.GetConversationReference(), CreateCallback(queue.ToArray()), default(CancellationToken));
+                        await innerDc.Context.Adapter.ContinueConversationAsync(_endpointService.AppId, firstActivity.GetConversationReference(), CreateCallback(queue.ToArray()), default(CancellationToken));
                     }
                 }
 
                 // handle ending the skill conversation
                 if (endOfConversation)
                 {
-                    await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Ending the skill conversation"));
+                    await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Ending the skill conversation"));
 
-                    return await dc.EndDialogAsync();
+                    return await innerDc.EndDialogAsync();
                 }
                 else
                 {
@@ -291,7 +262,7 @@ namespace Microsoft.Bot.Solutions.Skills
             {
                 // something went wrong forwarding to the skill, so end dialog cleanly and throw so the error is logged.
                 // NOTE: errors within the skill itself are handled by the OnTurnError handler on the adapter.
-                await dc.EndDialogAsync();
+                await innerDc.EndDialogAsync();
                 throw;
             }
         }

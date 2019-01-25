@@ -1,9 +1,0 @@
-{
-  "generator-node": {
-    "promptValues": {
-      "authorName": "Microsoft",
-      "authorEmail": "botframework@microsoft.com",
-      "authorUrl": "http://dev.botframework.com"
-    }
-  }
-}

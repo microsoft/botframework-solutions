@@ -3,7 +3,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
+using System.Reflection;
 using CalendarSkill.Common;
 using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using CalendarSkill.Util;
@@ -54,6 +56,11 @@ namespace CalendarSkill.Models
         /// Event is Cancelled.
         /// </summary>
         Cancelled = 3,
+
+        /// <summary>
+        /// Event is not responded yet.
+        /// </summary>
+        NotResponded = 4,
     }
 
     /// <summary>
@@ -641,8 +648,7 @@ namespace CalendarSkill.Models
                     case EventSource.Microsoft:
                         return msftEventData.IsOrganizer.Value;
                     case EventSource.Google:
-                        // todo check google ones
-                        return true;
+                        return gmailEventData.Organizer.Self.HasValue && gmailEventData.Organizer.Self.Value;
                     default:
                         throw new Exception("Event Type not Defined");
                 }
@@ -730,32 +736,38 @@ namespace CalendarSkill.Models
                             case ResponseType.Organizer:
                             case ResponseType.Accepted:
                                 return EventStatus.Accepted;
-                            case ResponseType.NotResponded:
                             case ResponseType.TentativelyAccepted:
                                 return EventStatus.Tentative;
                             case ResponseType.Declined:
                                 return EventStatus.Cancelled;
+                            case ResponseType.NotResponded:
+                                return EventStatus.NotResponded;
                             default:
                                 return EventStatus.None;
                         }
 
                     case EventSource.Google:
-                        if (gmailEventData.Status.Equals("confirmed"))
+                        foreach (var attendee in gmailEventData.Attendees)
                         {
-                            return EventStatus.Accepted;
+                            if (attendee.Self.HasValue && attendee.Self.Value)
+                            {
+                                switch (attendee.ResponseStatus)
+                                {
+                                    case GoogleAttendeeStatus.Accepted:
+                                        return EventStatus.Accepted;
+                                    case GoogleAttendeeStatus.Tentative:
+                                        return EventStatus.Tentative;
+                                    case GoogleAttendeeStatus.Declined:
+                                        return EventStatus.Cancelled;
+                                    case GoogleAttendeeStatus.NeedsAction:
+                                        return EventStatus.NotResponded;
+                                    default:
+                                        return EventStatus.None;
+                                }
+                            }
                         }
-                        else if (gmailEventData.Status.Equals("tentative"))
-                        {
-                            return EventStatus.Tentative;
-                        }
-                        else if (gmailEventData.Status.Equals("cancelled"))
-                        {
-                            return EventStatus.Cancelled;
-                        }
-                        else
-                        {
-                            return EventStatus.None;
-                        }
+
+                        return EventStatus.None;
 
                     default:
                         throw new Exception("Event Type not Defined");
@@ -767,32 +779,42 @@ namespace CalendarSkill.Models
                 switch (source)
                 {
                     case EventSource.Microsoft:
-                        if (value == EventStatus.Accepted)
+                        switch (value)
                         {
-                            msftEventData.ResponseStatus.Response = ResponseType.Accepted;
-                        }
-                        else if (value == EventStatus.Tentative)
-                        {
-                            msftEventData.ResponseStatus.Response = ResponseType.TentativelyAccepted;
-                        }
-                        else if (value == EventStatus.Cancelled)
-                        {
-                            msftEventData.ResponseStatus.Response = ResponseType.Declined;
+                            case EventStatus.Accepted:
+                                msftEventData.ResponseStatus.Response = ResponseType.Accepted;
+                                break;
+                            case EventStatus.Tentative:
+                                msftEventData.ResponseStatus.Response = ResponseType.TentativelyAccepted;
+                                break;
+                            case EventStatus.Cancelled:
+                                msftEventData.ResponseStatus.Response = ResponseType.Declined;
+                                break;
+                            default:
+                                break;
                         }
 
                         break;
                     case EventSource.Google:
-                        if (value == EventStatus.Accepted)
+                        foreach (var attendee in gmailEventData.Attendees)
                         {
-                            gmailEventData.Status = "confirmed";
-                        }
-                        else if (value == EventStatus.Cancelled)
-                        {
-                            gmailEventData.Status = "cancelled";
-                        }
-                        else
-                        {
-                            gmailEventData.Status = "tentative";
+                            if (attendee.Self.HasValue && attendee.Self.Value)
+                            {
+                                switch (value)
+                                {
+                                    case EventStatus.Accepted:
+                                        attendee.ResponseStatus = GoogleAttendeeStatus.Accepted;
+                                        break;
+                                    case EventStatus.Tentative:
+                                        attendee.ResponseStatus = GoogleAttendeeStatus.Tentative;
+                                        break;
+                                    case EventStatus.Cancelled:
+                                        attendee.ResponseStatus = GoogleAttendeeStatus.Declined;
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
                         }
 
                         break;

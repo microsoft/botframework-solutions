@@ -2,71 +2,62 @@
 // Licensed under the MIT License.
 
 import { TurnContext } from 'botbuilder-core';
-import { Activity, ActivityTypes } from 'botframework-schema';
+import {
+    Activity,
+    ActivityTypes } from 'botframework-schema';
 import { ITemplateRenderer } from './ITemplateRenderer';
 
 export class TemplateManager {
-    private _templateRenderers: ITemplateRenderer[] = [];
-    private _languageFallback: string[] = [];
+    private TEMPLATE_RENDERS: ITemplateRenderer[] = [];
+    private LANGUAGE_FALLBACK: string[] = [];
 
-    /// <summary>
-    /// Add a template engine for binding templates
-    /// </summary>
-    /// <param name="renderer"></param>
+    /**
+     * Add a template engine for binding templates
+     */
     public register(renderer: ITemplateRenderer): TemplateManager {
-        if (!this._templateRenderers.some((x) => x === renderer)) {
-            this._templateRenderers.push(renderer);
+        if (!this.TEMPLATE_RENDERS.some((x: ITemplateRenderer) => x === renderer)) {
+            this.TEMPLATE_RENDERS.push(renderer);
         }
 
         return this;
     }
 
-    /// <summary>
-    /// List registered template engines
-    /// </summary>
-    /// <returns></returns>
+    /**
+     * List registered template engines
+     */
     public list(): ITemplateRenderer[] {
-        return this._templateRenderers;
+        return this.TEMPLATE_RENDERS;
     }
 
     public setLanguagePolicy(languageFallback: string[]): void {
-        this._languageFallback = languageFallback;
+        this.LANGUAGE_FALLBACK = languageFallback;
     }
 
     public getLanguagePolicy(): string[] {
-        return this._languageFallback;
+        return this.LANGUAGE_FALLBACK;
     }
 
-    /// <summary>
-    /// Send a reply with the template
-    /// </summary>
-    /// <param name="turnContext"></param>
-    /// <param name="templateId"></param>
-    /// <param name="data"></param>
-    /// <returns></returns>
+    /**
+     * Send a reply with the template
+     */
     public async replyWith(turnContext: TurnContext, templateId: string, data?: any): Promise<void> {
         if (!turnContext) { throw new Error('turnContext is null'); }
 
         // apply template
         const boundActivity: Activity | undefined = await this.renderTemplate(turnContext, templateId, turnContext.activity.locale, data);
-        if (boundActivity != undefined) {
+        if (boundActivity !== undefined) {
             await turnContext.sendActivity(boundActivity);
+
             return;
         }
 
         return;
     }
 
-    /// <summary>
-    /// Render the template
-    /// </summary>
-    /// <param name="turnContext"></param>
-    /// <param name="language"></param>
-    /// <param name="templateId"></param>
-    /// <param name="data"></param>
-    /// <returns></returns>
-    public async renderTemplate(turnContext: TurnContext, templateId: string, language?: string, data?: any): Promise<Activity | undefined> {
-        const fallbackLocales = this._languageFallback;
+    public async renderTemplate(turnContext: TurnContext,
+                                templateId: string,
+                                language?: string, data?: any): Promise<Activity | undefined> {
+        const fallbackLocales: string[] = this.LANGUAGE_FALLBACK;
 
         if (language) {
             fallbackLocales.push(language);
@@ -76,13 +67,15 @@ export class TemplateManager {
 
         // try each locale until successful
         for (const locale of fallbackLocales) {
-            for (const renderer of this._templateRenderers) {
-                const templateOutput = await renderer.renderTemplate(turnContext, locale, templateId, data);
+            for (const renderer of this.TEMPLATE_RENDERS) {
+                const templateOutput: any = await renderer.renderTemplate(turnContext, locale, templateId, data);
                 if (templateOutput) {
                     if (typeof templateOutput === 'string' || templateOutput instanceof String) {
-                        return { type: ActivityTypes.Message, text: templateOutput as string } as Activity;
+                        const def : Partial <Activity> = { type: ActivityTypes.Message, text: <string> templateOutput};
+
+                        return  <Activity> def;
                     } else {
-                        return templateOutput as Activity;
+                        return <Activity>templateOutput;
                     }
                 }
             }

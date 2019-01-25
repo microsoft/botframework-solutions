@@ -12,14 +12,14 @@ namespace CalendarSkill.ServiceClients
     {
         private ICalendarService calendarAPI;
 
+        public CalendarService()
+        {
+            // to get pass when serialize
+        }
+
         public CalendarService(ICalendarService calendarAPI, EventSource source)
         {
-            if (calendarAPI == null)
-            {
-                throw new Exception("calendarAPI is null");
-            }
-
-            this.calendarAPI = calendarAPI;
+            this.calendarAPI = calendarAPI ?? throw new Exception("calendarAPI is null");
         }
 
         /// <inheritdoc/>
