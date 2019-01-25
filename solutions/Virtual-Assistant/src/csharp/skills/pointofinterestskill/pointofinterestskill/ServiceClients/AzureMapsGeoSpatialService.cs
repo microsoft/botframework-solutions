@@ -34,7 +34,7 @@ namespace PointOfInterestSkill.ServiceClients
         /// <summary>
         /// Get points of interest weighted by coordinates and using a free for search query.
         /// </summary>
-        public async Task<List<PointOfInterestModel>> GetLocationsByFuzzyQueryAsync(double latitude, double longitude, string query, string country)
+        public async Task<List<PointOfInterestModel>> GetPointOfInterestByQueryAsync(double latitude, double longitude, string query, string country)
         {
             if (string.IsNullOrEmpty(query))
             {
@@ -52,7 +52,7 @@ namespace PointOfInterestSkill.ServiceClients
         /// <summary>
         /// Get coordinates from a street address.
         /// </summary>
-        public async Task<List<PointOfInterestModel>> GetLocationsByQueryAsync(string address)
+        public async Task<List<PointOfInterestModel>> GetPointOfInterestByAddressAsync(string address)
         {
             if (string.IsNullOrEmpty(address))
             {
@@ -65,7 +65,7 @@ namespace PointOfInterestSkill.ServiceClients
         /// <summary>
         /// Get a street address from coordinates.
         /// </summary>
-        public async Task<List<PointOfInterestModel>> GetLocationsByPointAsync(double latitude, double longitude)
+        public async Task<List<PointOfInterestModel>> GetPointOfInterestByPointAsync(double latitude, double longitude)
         {
         return await GetPointsOfInterestAsync(
             string.Format(CultureInfo.InvariantCulture, FindByPointUrl, latitude, longitude));
@@ -81,9 +81,9 @@ namespace PointOfInterestSkill.ServiceClients
         }
 
         /// <summary>
-        /// Get a static map image URL of the Point of Interest.
+        /// Get a static map image URL of the Point of Interest and returns PointOfInterestModel.
         /// </summary>
-        public string GetPointOfInterestImageURL(PointOfInterestModel pointOfInterest)
+        public async Task<PointOfInterestModel> GetPointOfInterestDetails(PointOfInterestModel pointOfInterest)
         {
             int zoom = 15;
 
@@ -93,7 +93,10 @@ namespace PointOfInterestSkill.ServiceClients
                 pointOfInterest?.Geolocation?.Latitude,
                 pointOfInterest?.Geolocation?.Longitude,
                 zoom) + "&subscription-key=" + apiKey;
-            return imageUrl;
+
+            pointOfInterest.ImageUrl = imageUrl;
+
+            return pointOfInterest;
         }
 
         /// <summary>

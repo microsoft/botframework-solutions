@@ -98,14 +98,14 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 }
                 else if (!string.IsNullOrEmpty(state.SearchText))
                 {
-                    // Fuzzy search
-                    pointOfInterestList = await service.GetLocationsByFuzzyQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.SearchText, country);
+                    // Fuzzy query search with keyword
+                    pointOfInterestList = await service.GetPointOfInterestByQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.SearchText, country);
                     await GetPointOfInterestLocationViewCards(sc, pointOfInterestList);
                 }
                 else if (!string.IsNullOrEmpty(state.SearchAddress))
                 {
-                    // Query search
-                    pointOfInterestList = await service.GetLocationsByFuzzyQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.SearchAddress, country);
+                    // Fuzzy query search with address
+                    pointOfInterestList = await service.GetPointOfInterestByQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.SearchAddress, country);
                     await GetPointOfInterestLocationViewCards(sc, pointOfInterestList);
                 }
 
@@ -172,14 +172,12 @@ namespace PointOfInterestSkill.Dialogs.Shared
 
             if (pointOfInterestList != null && pointOfInterestList.Count > 0)
             {
-                var optionNumber = 1;
                 state.LastFoundPointOfInterests = pointOfInterestList;
 
-                foreach (var pointOfInterest in pointOfInterestList)
+                for (int i = 0; i < pointOfInterestList.Count; i++)
                 {
-                    pointOfInterest.ThumbnailImageUrl = service.GetPointOfInterestImageURL(pointOfInterest);
-                    pointOfInterest.OptionNumber = optionNumber;
-                    optionNumber++;
+                    pointOfInterestList[i] = await service.GetPointOfInterestDetails(pointOfInterestList[i]);
+                    pointOfInterestList[i].OptionNumber = i;
                 }
 
                 if (pointOfInterestList.Count() > 1)

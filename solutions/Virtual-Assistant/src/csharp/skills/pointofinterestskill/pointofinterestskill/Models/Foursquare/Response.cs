@@ -12,5 +12,8 @@ namespace PointOfInterestSkill.Models.Foursquare
     {
         [JsonProperty(PropertyName = "venues")]
         public Venue[] Venues { get; set; }
+
+        [JsonProperty(PropertyName = "venue")]
+        public Venue Venue { get; set; }
     }
 }

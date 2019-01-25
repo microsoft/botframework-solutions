@@ -12,43 +12,51 @@ namespace PointOfInterestSkill.ServiceClients
     /// </summary>
     public interface IGeoSpatialService
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="currentLatitude"></param>
+        /// <param name="currentLongitude"></param>
+        /// <param name="destinationLatitude"></param>
+        /// <param name="destinationLongitude"></param>
+        /// <param name="routeType"></param>
+        /// <returns></returns>
         Task<RouteDirections> GetRouteDirectionsAsync(double currentLatitude, double currentLongitude, double destinationLatitude, double destinationLongitude, string routeType = null);
 
         /// <summary>
-        /// Gets the locations by a fuzzy search.
+        /// Gets the points of interest by a fuzzy search.
         /// </summary>
         /// <param name="latitude">The point latitude.</param>
         /// <param name="longitude">The point longitude.</param>
         /// <param name="query">The location query.</param>
         /// <param name="country">The country code.</param>
         /// <returns>The found locations.</returns>
-        Task<List<PointOfInterestModel>> GetLocationsByFuzzyQueryAsync(double latitude, double longitude, string query, string country);
+        Task<List<PointOfInterestModel>> GetPointOfInterestByQueryAsync(double latitude, double longitude, string query, string country);
 
         /// <summary>
-        /// Gets the locations by address.
+        /// Gets the point of interest by address.
         /// </summary>
         /// <param name="address">The address query.</param>
         /// <returns>The found locations.</returns>
-        Task<List<PointOfInterestModel>> GetLocationsByQueryAsync(string address);
+        Task<List<PointOfInterestModel>> GetPointOfInterestByAddressAsync(string address);
 
         /// <summary>
-        /// Gets the locations by coordinates.
+        /// Gets the point of interest by coordinates.
         /// </summary>
         /// <param name="latitude">The point latitude.</param>
         /// <param name="longitude">The point longitude.</param>
         /// <returns>The found locations.</returns>
-        Task<List<PointOfInterestModel>> GetLocationsByPointAsync(double latitude, double longitude);
+        Task<List<PointOfInterestModel>> GetPointOfInterestByPointAsync(double latitude, double longitude);
 
         /// <summary>
-        /// Gets the map image URL.
+        /// Gets point of interest details.
         /// </summary>
-        /// <param name="location">The location.</param>
-        /// <param name="index">The pin point index.</param>
+        /// <param name="pointOfInterest">The point of interest.</param>
         /// <returns>Image URL string.</returns>
-        string GetPointOfInterestImageURL(PointOfInterestModel pointOfInterest);
+        Task<PointOfInterestModel> GetPointOfInterestDetails(PointOfInterestModel pointOfInterest);
 
         /// <summary>
-        /// Gets the locations nearby.
+        /// Gets the points of interest nearby.
         /// </summary>
         /// <param name="latitude">The point latitude.</param>
         /// <param name="longitude">The point longitude.</param>

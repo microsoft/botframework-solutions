@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -16,8 +17,9 @@ namespace PointOfInterestSkill.ServiceClients
 {
     public sealed class FoursquareGeoSpatialService : IGeoSpatialService
     {
-        private static readonly string FindByFuzzyQueryApiUrl = $"https://api.foursquare.com/v2/venues/search?ll={{0}},{{1}}&query={{2}}&limit=3";
-        private static readonly string FindNearbyUrl = $"https://api.foursquare.com/v2/search/explore?ll={{0}},{{1}}&limit=3";
+        private static readonly string SearchForVenuesUrl = $"https://api.foursquare.com/v2/venues/search?ll={{0}},{{1}}&query={{2}}&limit=3";
+        private static readonly string ExploreNearbyVenuesUrl = $"https://api.foursquare.com/v2/search/explore?ll={{0}},{{1}}&limit=3";
+        private static readonly string GetVenueDetailsUrl = $"https://api.foursquare.com/v2/venues/{{0}}?";
         private readonly string userLocale;
         private readonly string clientId;
         private readonly string clientSecret;
@@ -42,20 +44,20 @@ namespace PointOfInterestSkill.ServiceClients
         /// <summary>
         /// Returns a list of venues near the provided coordinates, matching a search term.
         /// </summary>
-        public async Task<List<PointOfInterestModel>> GetLocationsByFuzzyQueryAsync(double latitude, double longitude, string query, string country = null)
+        public async Task<List<PointOfInterestModel>> GetPointOfInterestByQueryAsync(double latitude, double longitude, string query, string country = null)
         {
             if (string.IsNullOrEmpty(query))
             {
                 throw new ArgumentNullException(nameof(query));
             }
 
-            return await GetLocationsAsync(string.Format(CultureInfo.InvariantCulture, FindByFuzzyQueryApiUrl, latitude, longitude, query));
+            return await GetVenueAsync(string.Format(CultureInfo.InvariantCulture, SearchForVenuesUrl, latitude, longitude, query));
         }
 
         /// <summary>
         /// This provider does not offer search by address.
         /// </summary>
-        public async Task<List<PointOfInterestModel>> GetLocationsByQueryAsync(string address)
+        public async Task<List<PointOfInterestModel>> GetPointOfInterestByAddressAsync(string address)
         {
             throw new NotImplementedException();
         }
@@ -63,7 +65,7 @@ namespace PointOfInterestSkill.ServiceClients
         /// <summary>
         /// This provider does not offer search by only coordinates.
         /// </summary>
-        public async Task<List<PointOfInterestModel>> GetLocationsByPointAsync(double latitude, double longitude)
+        public async Task<List<PointOfInterestModel>> GetPointOfInterestByPointAsync(double latitude, double longitude)
         {
             throw new NotImplementedException();
         }
@@ -73,24 +75,27 @@ namespace PointOfInterestSkill.ServiceClients
         /// </summary>
         public async Task<List<PointOfInterestModel>> GetLocationsNearby(double latitude, double longitude)
         {
-            return await GetLocationsAsync(
-                string.Format(CultureInfo.InvariantCulture, FindNearbyUrl, latitude, longitude));
+            return await GetVenueAsync(
+                string.Format(CultureInfo.InvariantCulture, ExploreNearbyVenuesUrl, latitude, longitude));
         }
 
         /// <summary>
         /// Returns available image from point of interest.
         /// </summary>
-        public string GetPointOfInterestImageURL(PointOfInterestModel pointOfInterest)
+        public async Task<PointOfInterestModel> GetPointOfInterestDetails(PointOfInterestModel pointOfInterest)
         {
             if (pointOfInterest == null)
             {
                 throw new ArgumentNullException(nameof(pointOfInterest));
             }
 
-            return pointOfInterest.ThumbnailImageUrl;
+            var pointOfInterestList = await GetVenueAsync(
+                string.Format(CultureInfo.InvariantCulture, GetVenueDetailsUrl, pointOfInterest.Id));
+
+            return pointOfInterestList.FirstOrDefault() ?? pointOfInterest;
         }
 
-        private async Task<List<PointOfInterestModel>> GetLocationsAsync(string url)
+        private async Task<List<PointOfInterestModel>> GetVenueAsync(string url)
         {
             using (var client = new HttpClient())
             {
@@ -102,12 +107,21 @@ namespace PointOfInterestSkill.ServiceClients
 
                 var pointOfInterestList = new List<PointOfInterestModel>();
 
-                if (apiResponse != null && apiResponse.Response.Venues != null)
+                if (apiResponse?.Response != null)
                 {
-                    foreach (var venue in apiResponse.Response.Venues)
+                    if (apiResponse.Response.Venue != null)
                     {
+                        var venue = apiResponse.Response.Venue;
                         var newPointOfInterest = new PointOfInterestModel(venue);
                         pointOfInterestList.Add(newPointOfInterest);
+                    }
+                    else if (apiResponse?.Response?.Venues != null)
+                    {
+                        foreach (var venue in apiResponse.Response.Venues)
+                        {
+                            var newPointOfInterest = new PointOfInterestModel(venue);
+                            pointOfInterestList.Add(newPointOfInterest);
+                        }
                     }
                 }
 

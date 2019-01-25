@@ -104,7 +104,7 @@ namespace PointOfInterestSkill.Dialogs.Route
                 if (!string.IsNullOrEmpty(state.SearchAddress) && state.LastFoundPointOfInterests != null)
                 {
                     // Set ActiveLocation if one w/ matching address is found in FoundLocations
-                    var activeLocation = state.LastFoundPointOfInterests?.FirstOrDefault(x => x.Address.Contains(state.SearchAddress, StringComparison.InvariantCultureIgnoreCase));
+                    var activeLocation = state.LastFoundPointOfInterests?.FirstOrDefault(x => x.City.Contains(state.SearchAddress, StringComparison.InvariantCultureIgnoreCase));
                     if (activeLocation != null)
                     {
                         state.ActiveLocation = activeLocation;

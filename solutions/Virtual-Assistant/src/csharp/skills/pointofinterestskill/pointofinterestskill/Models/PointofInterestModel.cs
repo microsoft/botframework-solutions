@@ -53,13 +53,14 @@ namespace PointOfInterestSkill.Models
             Name = !string.IsNullOrEmpty(azureMapsPoi.Poi?.Name)
                 ? azureMapsPoi.Poi?.Name
                 : Name;
-            Address = !string.IsNullOrEmpty(azureMapsPoi.Address?.ToBingAddress()?.FormattedAddress)
-                ? azureMapsPoi.Address?.ToBingAddress()?.FormattedAddress
-                : Address;
-            AddressLine = !string.IsNullOrEmpty(azureMapsPoi.Address?.ToBingAddress()?.AddressLine)
+            City = !string.IsNullOrEmpty(azureMapsPoi.Address?.ToBingAddress()?.AdminDistrict)
+                ? azureMapsPoi.Address?.ToBingAddress()?.AdminDistrict
+                : City;
+            Street = !string.IsNullOrEmpty(azureMapsPoi.Address?.ToBingAddress()?.AddressLine)
                 ? azureMapsPoi.Address?.ToBingAddress()?.AddressLine
-                : AddressLine;
-            Geolocation = azureMapsPoi.Position ?? Geolocation;
+                : Street;
+            Geolocation = azureMapsPoi.Position 
+                ?? Geolocation;
             Categories = (azureMapsPoi.Poi?.Categories != null)
             ? azureMapsPoi.Poi.Categories
             : Categories;
@@ -75,19 +76,18 @@ namespace PointOfInterestSkill.Models
             Id = !string.IsNullOrEmpty(foursquarePoi.Id)
                 ? foursquarePoi.Id
                 : Id;
-            ThumbnailImageUrl = "https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/media/customassistant-linkedaccounts.png?raw=true";
-            // ThumbnailImageUrl = !string.IsNullOrEmpty(foursquarePoi.BestPhoto?.AbsoluteUrl)
-            //    ? foursquarePoi.BestPhoto?.AbsoluteUrl
-            //    : ThumbnailImageUrl;
+            ImageUrl = !string.IsNullOrEmpty(foursquarePoi.BestPhoto?.AbsoluteUrl)
+               ? foursquarePoi.BestPhoto?.AbsoluteUrl
+               : ImageUrl;
             Name = !string.IsNullOrEmpty(foursquarePoi.Name)
                 ? foursquarePoi.Name
                 : Name;
-            Address = !string.IsNullOrEmpty(foursquarePoi.Location?.FriendlyFormattedAddress)
-                ? foursquarePoi.Location?.FriendlyFormattedAddress
-                : Address;
-            AddressLine = !string.IsNullOrEmpty(foursquarePoi.Location?.Address)
+            City = !string.IsNullOrEmpty(foursquarePoi.Location?.City)
+                ? foursquarePoi.Location?.City
+                : City;
+            Street = !string.IsNullOrEmpty(foursquarePoi.Location?.Address)
                 ? foursquarePoi.Location?.Address
-                : Address;
+                : City;
             Geolocation = (foursquarePoi.Location != null)
                 ? new LatLng() { Latitude = foursquarePoi.Location.Lat, Longitude = foursquarePoi.Location.Lng }
                 : Geolocation;
@@ -97,6 +97,8 @@ namespace PointOfInterestSkill.Models
             Hours = !string.IsNullOrEmpty(foursquarePoi.Hours?.Status)
                 ? foursquarePoi.Hours?.Status
                 : Hours;
+            Rating = foursquarePoi.Rating.ToString("N1")
+                ?? Rating;
             Categories = (foursquarePoi.Categories != null)
                 ? foursquarePoi.Categories.Select(x => x.Name).ToArray()
                 : Categories;
@@ -113,7 +115,7 @@ namespace PointOfInterestSkill.Models
         /// Gets or sets the thumbnail image url of the point of interest.
         /// Availability: Azure Maps, Foursquare.
         /// </summary>
-        public string ThumbnailImageUrl { get; set; }
+        public string ImageUrl { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the point of interest.
@@ -125,13 +127,13 @@ namespace PointOfInterestSkill.Models
         /// Gets or sets the address of the point of interest.
         /// Availability: Azure Maps, Foursquare.
         /// </summary>
-        public string Address { get; set; }
+        public string City { get; set; }
 
         /// <summary>
         /// Gets or sets the address line of the point of interest.
         /// Availability: Azure Maps, Foursquare.
         /// </summary>
-        public string AddressLine { get; set; }
+        public string Street { get; set; }
 
         /// <summary>
         /// Gets or sets the geolocation of the point of interest.
