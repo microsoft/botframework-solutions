@@ -23,7 +23,6 @@ namespace CalendarSkill.Dialogs.FindContact
 {
     public class FindContactDialog : CalendarSkillDialog
     {
-
         public FindContactDialog(
            SkillConfigurationBase services,
            IStatePropertyAccessor<CalendarSkillState> accessor,
@@ -195,6 +194,8 @@ namespace CalendarSkill.Dialogs.FindContact
 
                     (var personList, var userList) = FormatRecipientList(originPersonList, originUserList);
 
+                    personList.AddRange(userList);
+
                     foreach (var person in personList)
                     {
                         if (unionList.Find(p => p.DisplayName == person.DisplayName) == null)
@@ -223,7 +224,7 @@ namespace CalendarSkill.Dialogs.FindContact
                 state.UnconfirmedPerson = unionList;
                 if (unionList.Count == 0)
                 {
-                    return await sc.BeginDialogAsync(Actions.UpdateRecipientName);
+                    return await sc.BeginDialogAsync(Actions.UpdateName);
                 }
                 else if (unionList.Count == 1)
                 {
@@ -242,7 +243,6 @@ namespace CalendarSkill.Dialogs.FindContact
                         return await sc.PromptAsync(Actions.Choice, await GenerateOptionsForName(unionList, sc.Context, false));
                     }
                 }
-
             }
             catch (SkillException skillEx)
             {
@@ -349,7 +349,6 @@ namespace CalendarSkill.Dialogs.FindContact
                     return await sc.PromptAsync(Actions.Choice, await GenerateOptionsForEmail(confirmedPerson, sc.Context, false));
                 }
             }
-
         }
 
         public async Task<DialogTurnResult> AfterConfirmEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -362,11 +361,18 @@ namespace CalendarSkill.Dialogs.FindContact
                     if ((bool)sc.Result)
                     {
                         state.ConfirmAttendeesNameIndex++;
-                        return await sc.EndDialogAsync();
+                        if (state.ConfirmAttendeesNameIndex < state.AttendeesNameList.Count)
+                        {
+                            return await sc.ReplaceDialogAsync(Actions.ConfirmName);
+                        }
+                        else
+                        {
+                            return await sc.EndDialogAsync();
+                        }
                     }
                     else
                     {
-                        return await sc.BeginDialogAsync(Actions.UpdateRecipientName);
+                        return await sc.BeginDialogAsync(Actions.UpdateName);
                     }
                 }
 
@@ -430,39 +436,12 @@ namespace CalendarSkill.Dialogs.FindContact
                 {
                     return await sc.EndDialogAsync();
                 }
-
             }
             catch (Exception ex)
             {
                 await HandleDialogExceptions(sc, ex);
 
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        protected async Task<bool> ChoiceValidator(PromptValidatorContext<FoundChoice> pc, CancellationToken cancellationToken)
-        {
-            var state = await Accessor.GetAsync(pc.Context);
-            var luisResult = state.LuisResult;
-            var topIntent = luisResult?.TopIntent().intent;
-            var generlLuisResult = state.GeneralLuisResult;
-            var generalTopIntent = generlLuisResult?.TopIntent().intent;
-
-            if ((generalTopIntent == General.Intent.Next)
-                || (generalTopIntent == General.Intent.Previous))
-            {
-                return true;
-            }
-            else
-            {
-                if (!pc.Recognized.Succeeded || pc.Recognized == null)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
             }
         }
     }

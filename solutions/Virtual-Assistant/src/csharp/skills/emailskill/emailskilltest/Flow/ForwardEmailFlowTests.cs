@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
+using EmailSkill.Dialogs.FindContact.Resources;
 using EmailSkill.Dialogs.Shared.Resources;
 using EmailSkill.Util;
 using EmailSkillTest.Flow.Fakes;
@@ -27,6 +28,11 @@ namespace EmailSkillTest.Flow
         [TestMethod]
         public async Task Test_NotSendingEmail()
         {
+            string testRecipient = ContextStrings.TestRecipient;
+            string testEmailAddress = ContextStrings.TestEmailAdress;
+
+            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+
             await this.GetTestFlow()
                 .Send(ForwardEmailUtterances.ForwardEmails)
                 .AssertReply(this.ShowAuth())
@@ -36,6 +42,8 @@ namespace EmailSkillTest.Flow
                 .Send(BaseTestUtterances.FirstOne)
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(ContextStrings.TestRecipient)
+                .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
+                .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
@@ -48,6 +56,11 @@ namespace EmailSkillTest.Flow
         [TestMethod]
         public async Task Test_SendingEmail()
         {
+            string testRecipient = ContextStrings.TestRecipient;
+            string testEmailAddress = ContextStrings.TestEmailAdress;
+
+            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+
             await this.GetTestFlow()
                 .Send(ForwardEmailUtterances.ForwardEmails)
                 .AssertReply(this.ShowAuth())
@@ -57,6 +70,8 @@ namespace EmailSkillTest.Flow
                 .Send(BaseTestUtterances.FirstOne)
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(ContextStrings.TestRecipient)
+                .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
+                .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
@@ -69,6 +84,11 @@ namespace EmailSkillTest.Flow
         [TestMethod]
         public async Task Test_ForwardEmailToRecipient()
         {
+            string testRecipient = ContextStrings.TestRecipient;
+            string testEmailAddress = ContextStrings.TestEmailAdress;
+
+            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+
             await this.GetTestFlow()
                 .Send(ForwardEmailUtterances.ForwardEmailsToRecipient)
                 .AssertReply(this.ShowAuth())
@@ -76,6 +96,8 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.ShowEmailList())
                 .AssertReply(this.AssertSelectOneOfTheMessage())
                 .Send(BaseTestUtterances.FirstOne)
+                .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
+                .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
@@ -88,6 +110,11 @@ namespace EmailSkillTest.Flow
         [TestMethod]
         public async Task Test_ForwardEmailToRecipientWithContent()
         {
+            string testRecipient = ContextStrings.TestRecipient;
+            string testEmailAddress = ContextStrings.TestEmailAdress;
+
+            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+
             await this.GetTestFlow()
                 .Send(ForwardEmailUtterances.ForwardEmailsToRecipientWithContent)
                 .AssertReply(this.ShowAuth())
@@ -95,6 +122,8 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.ShowEmailList())
                 .AssertReply(this.AssertSelectOneOfTheMessage())
                 .Send(BaseTestUtterances.FirstOne)
+                .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
+                .Send(GeneralTestUtterances.Yes)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(this.AfterSendingMessage())
@@ -124,6 +153,11 @@ namespace EmailSkillTest.Flow
             {
                 Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
             };
+        }
+
+        private string[] ConfirmOneNameOneAddress(StringDictionary recipientDict)
+        {
+            return this.ParseReplies(FindContactResponses.PromptOneNameOneAddress.Replies, recipientDict);
         }
 
         private string[] EmailNotFoundPrompt()

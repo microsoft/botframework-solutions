@@ -555,7 +555,6 @@ namespace EmailSkill.Dialogs.Shared
                 }
 
                 return await sc.BeginDialogAsync(nameof(FindContactDialog), skillOptions);
-                //return await sc.BeginDialogAsync(nameof(ConfirmRecipientDialog), skillOptions);
             }
             catch (Exception ex)
             {
@@ -792,7 +791,7 @@ namespace EmailSkill.Dialogs.Shared
             var options = new PromptOptions
             {
                 Choices = new List<Choice>(),
-                Prompt = context.Activity.CreateReply(FindContactResponses.ConfirmMultipleContactNameSinglePage, null, new StringDictionary() { { "UserName",  currentRecipientName} })
+                Prompt = context.Activity.CreateReply(FindContactResponses.ConfirmMultipleContactNameSinglePage, null, new StringDictionary() { { "UserName",  currentRecipientName } })
             };
 
             if (!isSinglePage)
@@ -1483,15 +1482,18 @@ namespace EmailSkill.Dialogs.Shared
             {
             }
 
-            public NoRecipientsException(string message) : base(message)
+            public NoRecipientsException(string message)
+                : base(message)
             {
             }
 
-            public NoRecipientsException(string message, Exception innerException) : base(message, innerException)
+            public NoRecipientsException(string message, Exception innerException)
+                : base(message, innerException)
             {
             }
 
-            protected NoRecipientsException(SerializationInfo info, StreamingContext context) : base(info, context)
+            protected NoRecipientsException(SerializationInfo info, StreamingContext context)
+                : base(info, context)
             {
             }
         }

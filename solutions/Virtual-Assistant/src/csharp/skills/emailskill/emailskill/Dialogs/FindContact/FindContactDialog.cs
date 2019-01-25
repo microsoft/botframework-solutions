@@ -191,6 +191,8 @@ namespace EmailSkill.Dialogs.FindContact
 
                     (var personList, var userList) = DisplayHelper.FormatRecipientList(originPersonList, originUserList);
 
+                    personList.AddRange(userList);
+
                     foreach (var person in personList)
                     {
                         if (unionList.Find(p => p.DisplayName == person.DisplayName) == null)
@@ -238,7 +240,6 @@ namespace EmailSkill.Dialogs.FindContact
                         return await sc.PromptAsync(Actions.Choice, await GenerateOptionsForName(unionList, sc.Context, false));
                     }
                 }
-
             }
             catch (SkillException skillEx)
             {
@@ -364,7 +365,6 @@ namespace EmailSkill.Dialogs.FindContact
                     return await sc.PromptAsync(Actions.Choice, await GenerateOptionsForEmail(confirmedPerson, sc.Context, false));
                 }
             }
-
         }
 
         public async Task<DialogTurnResult> AfterConfirmEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -377,7 +377,14 @@ namespace EmailSkill.Dialogs.FindContact
                     if ((bool)sc.Result)
                     {
                         state.ConfirmRecipientIndex++;
-                        return await sc.EndDialogAsync();
+                        if (state.ConfirmRecipientIndex < state.NameList.Count)
+                        {
+                            return await sc.ReplaceDialogAsync(Actions.ConfirmName);
+                        }
+                        else
+                        {
+                            return await sc.EndDialogAsync();
+                        }
                     }
                     else
                     {
@@ -464,7 +471,6 @@ namespace EmailSkill.Dialogs.FindContact
                 {
                     return await sc.EndDialogAsync();
                 }
-
             }
             catch (Exception ex)
             {
