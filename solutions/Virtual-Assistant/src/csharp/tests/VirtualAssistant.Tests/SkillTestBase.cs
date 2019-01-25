@@ -15,6 +15,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace VirtualAssistant.Tests
 {
+    /// <summary>
+    /// Base class for Skill tests which prepare common configuration such as the LUIS mocks.
+    /// </summary>
     [TestClass]
     public class SkillTestBase : BotTestBase
     {
