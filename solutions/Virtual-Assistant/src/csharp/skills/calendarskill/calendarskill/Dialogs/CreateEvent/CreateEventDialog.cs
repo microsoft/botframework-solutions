@@ -464,32 +464,22 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 {
                     sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
                     var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
-
-                    // TODO: can we do this somewhere else
-                    if (IsEmail(userInput))
+                    if (state.EventSource != EventSource.Other)
                     {
-                        state.Attendees.Add(new EventModel.Attendee { Address = userInput });
-                        return await sc.EndDialogAsync(true, cancellationToken);
+                        if (userInput != null)
+                        {
+                            var nameList = userInput.Split(CreateEventWhiteList.GetContactNameSeparator(), StringSplitOptions.None)
+                                .Select(x => x.Trim())
+                                .Where(x => !string.IsNullOrWhiteSpace(x))
+                                .ToList();
+                            state.AttendeesNameList = nameList;
+                        }
+
+                        return await sc.BeginDialogAsync(Actions.ConfirmAttendee, cancellationToken: cancellationToken);
                     }
                     else
                     {
-                        if (state.EventSource != EventSource.Other)
-                        {
-                            if (userInput != null)
-                            {
-                                var nameList = userInput.Split(CreateEventWhiteList.GetContactNameSeparator(), StringSplitOptions.None)
-                                    .Select(x => x.Trim())
-                                    .Where(x => !string.IsNullOrWhiteSpace(x))
-                                    .ToList();
-                                state.AttendeesNameList = nameList;
-                            }
-
-                            return await sc.BeginDialogAsync(Actions.ConfirmAttendee, cancellationToken: cancellationToken);
-                        }
-                        else
-                        {
-                            return await sc.BeginDialogAsync(Actions.UpdateAddress, new UpdateAddressDialogOptions(UpdateAddressDialogOptions.UpdateReason.NotAnAddress), cancellationToken);
-                        }
+                        return await sc.BeginDialogAsync(Actions.UpdateAddress, new UpdateAddressDialogOptions(UpdateAddressDialogOptions.UpdateReason.NotAnAddress), cancellationToken);
                     }
                 }
                 else
@@ -511,12 +501,13 @@ namespace CalendarSkill.Dialogs.CreateEvent
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 var currentRecipientName = state.AttendeesNameList[state.ConfirmAttendeesNameIndex];
-                if (IsEmail(currentRecipientName))
+                var email = GetEmail(currentRecipientName);
+                if (!string.IsNullOrEmpty(email))
                 {
                     var result =
                         new FoundChoice()
                         {
-                            Value = $"{currentRecipientName}: {currentRecipientName}",
+                            Value = $"{email}: {email}",
                         };
 
                     return await sc.NextAsync(result);
@@ -1259,9 +1250,9 @@ namespace CalendarSkill.Dialogs.CreateEvent
             return result;
         }
 
-        private bool IsEmail(string emailString)
+        private string GetEmail(string emailString)
         {
-            return Regex.IsMatch(emailString, @"\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}");
+            return Regex.Match(emailString, @"\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}").Value;
         }
     }
 }
