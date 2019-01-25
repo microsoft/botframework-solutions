@@ -42,7 +42,7 @@ namespace VirtualAssistant
             _endpointService = endpointService ?? throw new ArgumentNullException(nameof(endpointService));
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
             _botConfig = botConfig;
-
+            
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(VirtualAssistant)));
             _dialogs.Add(new MainDialog(_services, _botConfig, _conversationState, _userState, _endpointService, _telemetryClient));
         }
