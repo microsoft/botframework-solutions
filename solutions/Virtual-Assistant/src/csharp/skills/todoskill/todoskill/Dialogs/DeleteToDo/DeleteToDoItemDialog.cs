@@ -133,7 +133,7 @@ namespace ToDoSkill.Dialogs.DeleteToDo
                         state.ListType,
                         false);
 
-                    canDeleteAnotherTask = state.Tasks.Count > 0 ? true : false;
+                    canDeleteAnotherTask = state.AllTasks.Count > 0 ? true : false;
                 }
                 else
                 {

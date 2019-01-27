@@ -345,7 +345,8 @@ namespace ToDoSkill.Dialogs.ShowToDo
             cardReply.Attachments.Add(toDoListAttachment);
             await sc.Context.SendActivityAsync(cardReply);
 
-            if ((state.ShowTaskPageIndex + 1) * state.PageSize < state.AllTasks.Count)
+            if ((state.ReadTaskIndex + 1) * state.ReadSize < state.Tasks.Count
+                || (state.ShowTaskPageIndex + 1) * state.PageSize < state.AllTasks.Count)
             {
                 return await sc.ReplaceDialogAsync(Action.SecondReadMoreTasks);
             }

@@ -125,7 +125,8 @@ namespace ToDoSkill.Dialogs.MarkToDo
                 cardReply.Attachments.Add(markToDoAttachment);
                 await sc.Context.SendActivityAsync(cardReply);
 
-                if (state.MarkOrDeleteAllTasksFlag)
+                var uncompletedTaskIndex = state.AllTasks.FindIndex(t => t.IsCompleted == false);
+                if (state.MarkOrDeleteAllTasksFlag || uncompletedTaskIndex < 0)
                 {
                     return await sc.EndDialogAsync(true);
                 }

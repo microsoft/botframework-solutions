@@ -392,6 +392,8 @@ namespace ToDoSkill.Dialogs.AddToDo
                     state.TaskContentML = null;
                     state.ShopContent = null;
                     state.TaskContent = null;
+                    state.FoodOfGrocery = null;
+                    state.HasShopVerb = false;
 
                     // replace current dialog to continue add more tasks
                     return await sc.ReplaceDialogAsync(Action.DoAddTask);
@@ -411,35 +413,28 @@ namespace ToDoSkill.Dialogs.AddToDo
 
         private void ExtractListTypeAndTaskContent(ToDoSkillState state)
         {
-            if (state.ListType == ToDoStrings.Grocery
-                || (state.HasShopVerb && !string.IsNullOrEmpty(state.FoodOfGrocery)))
+            if (state.HasShopVerb && !string.IsNullOrEmpty(state.FoodOfGrocery))
             {
-                state.TaskContent = string.IsNullOrEmpty(state.ShopContent) ? state.TaskContentML ?? state.TaskContentPattern : state.ShopContent;
                 if (state.ListType != ToDoStrings.Grocery)
                 {
                     state.LastListType = state.ListType;
                     state.ListType = ToDoStrings.Grocery;
                     state.SwitchListType = true;
                 }
-                else
-                {
-                    state.ListType = ToDoStrings.Grocery;
-                }
             }
-            else if (state.ListType == ToDoStrings.Shopping
-                || (state.HasShopVerb && !string.IsNullOrEmpty(state.ShopContent)))
+            else if (state.HasShopVerb && !string.IsNullOrEmpty(state.ShopContent))
             {
-                state.TaskContent = string.IsNullOrEmpty(state.ShopContent) ? state.TaskContentML ?? state.TaskContentPattern : state.ShopContent;
                 if (state.ListType != ToDoStrings.Shopping)
                 {
                     state.LastListType = state.ListType;
                     state.ListType = ToDoStrings.Shopping;
                     state.SwitchListType = true;
                 }
-                else
-                {
-                    state.ListType = ToDoStrings.Shopping;
-                }
+            }
+
+            if (state.ListType == ToDoStrings.Grocery || state.ListType == ToDoStrings.Shopping)
+            {
+                state.TaskContent = string.IsNullOrEmpty(state.ShopContent) ? state.TaskContentML ?? state.TaskContentPattern : state.ShopContent;
             }
             else
             {
