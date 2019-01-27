@@ -37,8 +37,8 @@
   "AddMoreTask": {
     "replies": [
       {
-        "text": "您还要再添加一个任务吗？",
-        "speak": "您还要再添加一个任务吗？"
+        "text": "您还要再往{listType}列表添加一个任务吗？",
+        "speak": "您还要再往{listType}列表添加一个任务吗？"
       }
     ],
     "inputHint": "expectingInput"

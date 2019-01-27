@@ -47,7 +47,7 @@ namespace ToDoSkillTest.Flow
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.ShowUpdatedToDoList())
-                .AssertReplyOneOf(this.AddMoreTask())
+                .AssertReplyOneOf(this.AddMoreTask(MockData.ToDo))
                 .Send(MockData.ConfirmNo)
                 .AssertReplyOneOf(this.ActionEndMessage())
                 .StartTestAsync();
@@ -66,7 +66,7 @@ namespace ToDoSkillTest.Flow
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.ShowUpdatedGroceryList())
-                .AssertReplyOneOf(this.AddMoreTask())
+                .AssertReplyOneOf(this.AddMoreTask(MockData.Grocery))
                 .Send(MockData.ConfirmNo)
                 .AssertReplyOneOf(this.ActionEndMessage())
                 .StartTestAsync();
@@ -83,7 +83,7 @@ namespace ToDoSkillTest.Flow
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.ShowUpdatedGroceryList())
-                .AssertReplyOneOf(this.AddMoreTask())
+                .AssertReplyOneOf(this.AddMoreTask(MockData.Grocery))
                 .Send(MockData.ConfirmNo)
                 .AssertReplyOneOf(this.ActionEndMessage())
                 .StartTestAsync();
@@ -100,7 +100,7 @@ namespace ToDoSkillTest.Flow
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReply(this.ShowUpdatedShoppingList())
-                .AssertReplyOneOf(this.AddMoreTask())
+                .AssertReplyOneOf(this.AddMoreTask(MockData.Shopping))
                 .Send(MockData.ConfirmNo)
                 .AssertReplyOneOf(this.ActionEndMessage())
                 .StartTestAsync();
@@ -126,9 +126,9 @@ namespace ToDoSkillTest.Flow
             return this.ParseReplies(AddToDoResponses.SwitchListType.Replies, new StringDictionary() { { MockData.ListType, MockData.Grocery } });
         }
 
-        private string[] AddMoreTask()
+        private string[] AddMoreTask(string listType)
         {
-            return this.ParseReplies(AddToDoResponses.AddMoreTask.Replies, new StringDictionary());
+            return this.ParseReplies(AddToDoResponses.AddMoreTask.Replies, new StringDictionary() { { MockData.ListType, listType } });
         }
 
         private Action<IActivity> ShowUpdatedToDoList()

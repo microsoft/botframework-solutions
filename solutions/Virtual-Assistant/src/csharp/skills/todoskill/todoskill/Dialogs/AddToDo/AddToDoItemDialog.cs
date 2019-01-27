@@ -365,7 +365,8 @@ namespace ToDoSkill.Dialogs.AddToDo
         {
             try
             {
-                var prompt = sc.Context.Activity.CreateReply(AddToDoResponses.AddMoreTask);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
+                var prompt = sc.Context.Activity.CreateReply(AddToDoResponses.AddMoreTask, tokens: new StringDictionary() { { "listType", state.ListType } });
                 return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
             }
             catch (Exception ex)
