@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using EmailSkill.Dialogs.ConfirmRecipient.Resources;
 using EmailSkill.Dialogs.FindContact.Resources;
 using EmailSkill.Dialogs.SendEmail.Resources;
 using EmailSkill.Dialogs.Shared.Resources;
@@ -488,17 +487,6 @@ namespace EmailSkillTest.Flow
                 }
 
                 CollectionAssert.Contains(verifyInfo, messageActivity.Text);
-            };
-        }
-
-        private Action<IActivity> RecipientNotFoundMessage(StringDictionary recipients)
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-                var recipientNotFoundMessage = this.ParseReplies(ConfirmRecipientResponses.PromptPersonNotFound.Replies, recipients);
-
-                CollectionAssert.Contains(recipientNotFoundMessage, messageActivity.Text);
             };
         }
 

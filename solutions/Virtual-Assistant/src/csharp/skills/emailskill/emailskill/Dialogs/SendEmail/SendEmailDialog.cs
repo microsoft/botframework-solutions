@@ -2,7 +2,6 @@
 using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
-using EmailSkill.Dialogs.ConfirmRecipient;
 using EmailSkill.Dialogs.FindContact;
 using EmailSkill.Dialogs.FindContact.Resources;
 using EmailSkill.Dialogs.SendEmail.Resources;
@@ -53,7 +52,6 @@ namespace EmailSkill.Dialogs.SendEmail
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Actions.Send, sendEmail) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.CollectRecipient, collectRecipients) { TelemetryClient = telemetryClient });
-            AddDialog(new ConfirmRecipientDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
             AddDialog(new FindContactDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
 
             InitialDialogId = Actions.Send;
