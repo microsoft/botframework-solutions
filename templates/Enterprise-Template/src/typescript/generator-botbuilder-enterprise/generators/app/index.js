@@ -2,7 +2,7 @@
 const Generator = require("yeoman-generator");
 const chalk = require("chalk");
 const pkg = require("../../package.json");
-
+const path = require("path");
 const _pick = require("lodash/pick");
 const _camelCase = require("lodash/camelCase");
 const _upperFirst = require("lodash/upperFirst");
@@ -61,6 +61,8 @@ const bigBot =
 
 const tinyBot =
   " " + chalk.blue.bold("<") + " ** " + chalk.blue.bold(">") + " ";
+
+var botGenerationPath;
 
 module.exports = class extends Generator {
   constructor(args, opts) {
@@ -262,6 +264,8 @@ module.exports = class extends Generator {
         this.destinationPath(botNameCamelCase, "src", directory)
       )
     );
+
+    botGenerationPath = path.join(process.cwd(), botNameCamelCase);
   }
 
   install() {
@@ -269,6 +273,7 @@ module.exports = class extends Generator {
       return;
     }
 
+    process.chdir(botGenerationPath);
     this.installDependencies({ npm: true, bower: false });
   }
 

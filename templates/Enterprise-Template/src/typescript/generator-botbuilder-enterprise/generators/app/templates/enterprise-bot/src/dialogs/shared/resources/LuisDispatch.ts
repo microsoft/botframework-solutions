@@ -6,7 +6,7 @@
 * regenerated.
 * </auto-generated>
 */
-import {IntentData} from "botbuilder-ai";
+import {IntentData} from 'botbuilder-ai';
 
 export interface _Intents {
     l_General: IntentData;

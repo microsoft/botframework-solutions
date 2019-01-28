@@ -1,11 +1,17 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
-import { TelemetryClient } from "applicationinsights";
-import { RecognizerResult, TurnContext } from "botbuilder";
-import { LuisApplication, LuisPredictionOptions, LuisRecognizer } from "botbuilder-ai";
-import { LuisTelemetryConstants } from "./luisTelemetryConstants";
-import { TelemetryLoggerMiddleware } from "./telemetryLoggerMiddleware";
+import { TelemetryClient } from 'applicationinsights';
+import {
+    RecognizerResult,
+    TurnContext } from 'botbuilder';
+import {
+    LuisApplication,
+    LuisPredictionOptions,
+    LuisRecognizer } from 'botbuilder-ai';
+import { DialogContext } from 'botbuilder-dialogs';
+import { LuisTelemetryConstants } from './luisTelemetryConstants';
+import { TelemetryLoggerMiddleware } from './telemetryLoggerMiddleware';
 
 /**
  * TelemetryLuisRecognizer invokes the Luis Recognizer and logs some results into Application Insights.
@@ -15,41 +21,80 @@ import { TelemetryLoggerMiddleware } from "./telemetryLoggerMiddleware";
  * For example, if intent name was "add_calender": LuisIntent.add_calendar
  */
 export class TelemetryLuisRecognizer extends LuisRecognizer {
-    private readonly _logOriginalMessage: boolean;
-    private readonly _logUsername: boolean;
-
+    private readonly LUIS_APPLICATION: LuisApplication;
+    private readonly LOG_ORIGINAL_MESSAGE: boolean;
+    private readonly LOG_USERNAME: boolean;
+    private readonly LUIS_TELEMETRY_CONSTANTS: LuisTelemetryConstants = new LuisTelemetryConstants();
     /**
      * Initializes a new instance of the TelemetryLuisRecognizer class.
-     * @param {LuisApplication} application The LUIS application to use to recognize text.
-     * @param {LuisPredictionOptions} predictionOptions The LUIS prediction options to use.
-     * @param {boolean} includeApiResults TRUE to include raw LUIS API response.
-     * @param {boolean} logOriginalMessage TRUE to include original user message.
-     * @param {boolean} logUserName TRUE to include user name.
+     * @param application The LUIS application to use to recognize text.
+     * @param predictionOptions The LUIS prediction options to use.
+     * @param includeApiResults TRUE to include raw LUIS API response.
+     * @param logOriginalMessage TRUE to include original user message.
+     * @param logUserName TRUE to include user name.
      */
-    constructor(application: LuisApplication, predictionOptions?: LuisPredictionOptions, includeApiResults: boolean = false, logOriginalMessage: boolean = false, logUserName: boolean = false) {
+    constructor(
+        application: LuisApplication,
+        predictionOptions?: LuisPredictionOptions,
+        includeApiResults: boolean = false,
+        logOriginalMessage: boolean = false,
+        logUserName: boolean = false) {
         super(application, predictionOptions, includeApiResults);
-        this._logOriginalMessage = logOriginalMessage;
-        this._logUsername = logUserName;
+        this.LOG_ORIGINAL_MESSAGE = logOriginalMessage;
+        this.LOG_USERNAME = logUserName;
+        this.LUIS_APPLICATION = application;
     }
-
     /**
      * Gets a value indicating whether determines whether to log the Activity message text that came from the user.
+     * value - If true, will log the Activity Message text into the AppInsights Custom Event for Luis intents.
      */
-    public get logOriginalMessage(): boolean { return this._logOriginalMessage; }
+    public get logOriginalMessage(): boolean { return this.LOG_ORIGINAL_MESSAGE; }
 
     /**
      * Gets a value indicating whether determines whether to log the User name.
+     * value - If true, will log the user name into the AppInsights Custom Event for Luis intents.
      */
-    public get logUsername(): boolean { return this._logUsername; }
+    public get logUsername(): boolean { return this.LOG_USERNAME; }
+
+    /**
+     * Return results of the analysis (Suggested actions and intents), passing the dialog id from dialog context to the TelemetryClient.
+     * @param dialogContext - Dialog context object containing information for the dialog being executed.
+     * @param logOriginalMessage - Determines if the original message is logged into Application Insights.  This is a privacy consideration.
+     * @returns The LUIS results of the analysis of the current message text in the current turn's context activity.
+     */
+    public async recognizeDialog(dialogContext: DialogContext, logOriginalMessage: boolean = true): Promise<RecognizerResult> {
+        if (dialogContext === null) {
+            throw new Error ('Error');
+        }
+
+        return this.recognizeInternal(
+            dialogContext.context,
+            logOriginalMessage,
+            dialogContext.activeDialog ? dialogContext.activeDialog.id : undefined);
+    }
+    /**
+     * Return results of the analysis (Suggested actions and intents), using the turn context. This is missing a dialog id used for telemetry.
+     * @param context - Context object containing information for a single turn of conversation with a user.
+     * @param logOriginalMessage - Determines if the original message is logged into Application Insights.  This is a privacy consideration.
+     * @returns The LUIS results of the analysis of the current message text in the current turn's context activity.
+     */
+    public async recognizeTurn(context: TurnContext, logOriginalMessage: boolean = true): Promise<RecognizerResult> {
+        return this.recognizeInternal(context, logOriginalMessage);
+    }
 
     /**
      * Analyze the current message text and return results of the analysis (Suggested actions and intents).
-     * @param {TurnContext} context Context object containing information for a single turn of conversation with a user.
-     * @param {boolean} logOriginalMessage Determines if the original message is logged into Application Insights. This is a privacy consideration.
+     * @param context Context object containing information for a single turn of conversation with a user.
+     * @param logOriginalMessage Determines if the original message is logged into Application Insights. This is a privacy consideration.
+     * @returns The LUIS results of the analysis of the current message text in the current turn's context activity.
      */
-    public async recognize(context: TurnContext, logOriginalMessage: boolean = false): Promise<RecognizerResult> {
+    private async recognizeInternal(
+        context: TurnContext,
+        logOriginalMessage: boolean = false,
+        dialogId?: string): Promise<RecognizerResult> {
+
         if (context === null) {
-            throw new Error("context is null");
+            throw new Error('context is null');
         }
 
         // Call Luis Recognizer
@@ -58,41 +103,45 @@ export class TelemetryLuisRecognizer extends LuisRecognizer {
         const conversationId: string = context.activity.conversation.id;
 
         // Find the Telemetry Client
-        if (recognizerResult && context.turnState.has(TelemetryLoggerMiddleware.AppInsightsServiceKey)) {
-            const telemetryClient: TelemetryClient = context.turnState.get(TelemetryLoggerMiddleware.AppInsightsServiceKey);
-
+        if (recognizerResult && context.turnState.has(TelemetryLoggerMiddleware.APP_INSIGHTS_SERVICE_KEY)) {
+            const telemetryClient: TelemetryClient = context.turnState.get(TelemetryLoggerMiddleware.APP_INSIGHTS_SERVICE_KEY);
             const topLuisIntent: string = LuisRecognizer.topIntent(recognizerResult);
             const intentScore: number = recognizerResult.intents[topLuisIntent].score;
 
             // Add the intent score and conversation id properties
             const properties: { [key: string]: string } = {};
-            properties[LuisTelemetryConstants.ActivityIdProperty] = context.activity.id || "";
-            properties[LuisTelemetryConstants.IntentProperty] = topLuisIntent;
-            properties[LuisTelemetryConstants.IntentScoreProperty] = intentScore.toString();
+            properties[this.LUIS_TELEMETRY_CONSTANTS.APPLICATION_ID] = this.LUIS_APPLICATION.applicationId;
+            properties[this.LUIS_TELEMETRY_CONSTANTS.INTENT_PROPERTY] = topLuisIntent;
+            properties[this.LUIS_TELEMETRY_CONSTANTS.INTENT_SCORE_PROPERTY] = intentScore.toString();
+
+            if (dialogId !== undefined) {
+                properties[this.LUIS_TELEMETRY_CONSTANTS.DIALOG_ID] = dialogId;
+            }
 
             if (recognizerResult.sentiment) {
                 if (recognizerResult.sentiment.label) {
-                    properties[LuisTelemetryConstants.SentimentLabelProperty] = recognizerResult.sentiment.label;
+                    properties[this.LUIS_TELEMETRY_CONSTANTS.SENTIMENT_LABEL_PROPERTY] = recognizerResult.sentiment.label;
                 }
 
                 if (recognizerResult.sentiment.score) {
-                    properties[LuisTelemetryConstants.SentimentScoreProperty] = recognizerResult.sentiment.score.toString();
+                    properties[this.LUIS_TELEMETRY_CONSTANTS.SENTIMENT_SCORE_PROPERTY] = recognizerResult.sentiment.score.toString();
                 }
             }
 
             if (conversationId) {
-                properties[LuisTelemetryConstants.ConversationIdProperty] = conversationId;
+                properties[this.LUIS_TELEMETRY_CONSTANTS.CONVERSATION_ID_PROPERTY] = conversationId;
             }
 
-            // For some customers, logging user name within Application Insights might be an issue so have provided a config setting to disable this feature
+            //For some customers,
+            //logging user name within Application Insights might be an issue so have provided a config setting to disable this feature
             if (logOriginalMessage && context.activity.text) {
-                properties[LuisTelemetryConstants.QuestionProperty] = context.activity.text;
+                properties[this.LUIS_TELEMETRY_CONSTANTS.QUESTION_PROPERTY] = context.activity.text;
             }
 
             // Track the event
             telemetryClient.trackEvent({
-                name: `${LuisTelemetryConstants.IntentPrefix}.${topLuisIntent}`,
-                properties,
+                name: `${this.LUIS_TELEMETRY_CONSTANTS.INTENT_PREFIX}.${topLuisIntent}`,
+                properties
             });
         }
 
