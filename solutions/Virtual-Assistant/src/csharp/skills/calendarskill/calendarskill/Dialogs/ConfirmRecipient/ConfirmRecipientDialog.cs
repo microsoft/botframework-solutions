@@ -158,9 +158,10 @@ namespace CalendarSkill.Dialogs.ConfirmRecipient
                 {
                     originUserList = await GetUserAsync(sc, currentRecipientName);
                 }
-                catch
+                catch (Exception ex)
                 {
                     // do nothing when get user failed. because can not use token to ensure user use a work account.
+                    await HandleDialogExceptions(sc, ex);
                 }
 
                 (var personList, var userList) = FormatRecipientList(originPersonList, originUserList);
