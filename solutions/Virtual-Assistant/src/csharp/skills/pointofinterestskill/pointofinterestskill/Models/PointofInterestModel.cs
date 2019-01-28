@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 using System;
+using System.Globalization;
 using System.Linq;
+using System.Text;
 using Microsoft.Bot.Solutions.Cards;
 using PointOfInterestSkill.Models.Foursquare;
 
@@ -53,17 +55,17 @@ namespace PointOfInterestSkill.Models
             Name = !string.IsNullOrEmpty(azureMapsPoi.Poi?.Name)
                 ? azureMapsPoi.Poi?.Name
                 : Name;
-            City = !string.IsNullOrEmpty(azureMapsPoi.Address?.ToBingAddress()?.AdminDistrict)
-                ? azureMapsPoi.Address?.ToBingAddress()?.AdminDistrict
+            City = !string.IsNullOrEmpty(azureMapsPoi.Address?.ToBingAddress()?.AdminDistrict2)
+                ? azureMapsPoi.Address?.ToBingAddress()?.AdminDistrict2
                 : City;
             Street = !string.IsNullOrEmpty(azureMapsPoi.Address?.ToBingAddress()?.AddressLine)
                 ? azureMapsPoi.Address?.ToBingAddress()?.AddressLine
                 : Street;
-            Geolocation = azureMapsPoi.Position 
+            Geolocation = azureMapsPoi.Position
                 ?? Geolocation;
-            Categories = (azureMapsPoi.Poi?.Categories != null)
-            ? azureMapsPoi.Poi.Categories
-            : Categories;
+            Category = (azureMapsPoi.Poi?.Categories != null)
+            ? CultureInfo.CurrentCulture.TextInfo.ToTitleCase(azureMapsPoi.Poi.Categories.First().ToLower())
+            : Category;
             Provider = Enum.GetName(typeof(PointofInterestSource), 1);
         }
 
@@ -92,16 +94,19 @@ namespace PointOfInterestSkill.Models
                 ? new LatLng() { Latitude = foursquarePoi.Location.Lat, Longitude = foursquarePoi.Location.Lng }
                 : Geolocation;
             Price = (foursquarePoi.Price != null)
-                ? foursquarePoi.Price.Tier
+                ? new string('$', foursquarePoi.Price.Tier)
                 : Price;
             Hours = !string.IsNullOrEmpty(foursquarePoi.Hours?.Status)
                 ? foursquarePoi.Hours?.Status
                 : Hours;
             Rating = foursquarePoi.Rating.ToString("N1")
                 ?? Rating;
-            Categories = (foursquarePoi.Categories != null)
-                ? foursquarePoi.Categories.Select(x => x.Name).ToArray()
-                : Categories;
+            RatingCount = foursquarePoi.RatingSignals != 0
+                ? foursquarePoi.RatingSignals
+                : RatingCount;
+            Category = (foursquarePoi.Categories != null)
+                ? foursquarePoi.Categories.First().ShortName
+                : Category;
             Provider = Enum.GetName(typeof(PointofInterestSource), 2);
         }
 
@@ -160,10 +165,15 @@ namespace PointOfInterestSkill.Models
         public string Rating { get; set; }
 
         /// <summary>
+        /// Gets or sets the number of ratings of the point of interest.
+        /// </summary>
+        public int RatingCount { get; set; }
+
+        /// <summary>
         /// Gets or sets the price level of the point of interest.
         /// Availability: Foursquare.
         /// </summary>
-        public int Price { get; set; }
+        public string Price { get; set; }
 
         /// <summary>
         /// Gets or sets the hours of the point of interest.
@@ -171,7 +181,11 @@ namespace PointOfInterestSkill.Models
         /// </summary>
         public string Hours { get; set; }
 
-        public string[] Categories { get; set; }
+        /// <summary>
+        /// Gets or sets the top category ofthe point of interest.
+        /// Availability: Azure Maps, Foursquare.
+        /// </summary>
+        public string Category { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the point of interest.
@@ -183,5 +197,43 @@ namespace PointOfInterestSkill.Models
         /// Gets or sets the option number of the point of interest.
         /// </summary>
         public int OptionNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets the formatted string for available details.
+        /// </summary>
+        public string AvailableDetails
+        {
+            get
+            {
+                StringBuilder availableDetailsString = new StringBuilder();
+
+                if (!string.IsNullOrEmpty(Category))
+                {
+                    availableDetailsString.Append(Category);
+                }
+
+                if (!string.IsNullOrEmpty(Rating))
+                {
+                    availableDetailsString.Append($" · {Rating} ⭐");
+                }
+
+                if (RatingCount != 0)
+                {
+                    availableDetailsString.Append($" ({RatingCount})");
+                }
+
+                if (!string.IsNullOrEmpty(Price))
+                {
+                    availableDetailsString.Append($" · {Price}");
+                }
+
+                return availableDetailsString.ToString();
+            }
+
+            set
+            {
+                AvailableDetails = value;
+            }
+        }
     }
 }

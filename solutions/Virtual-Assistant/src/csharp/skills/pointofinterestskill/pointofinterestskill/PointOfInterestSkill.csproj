@@ -167,9 +167,6 @@
     <Content Update="Dialogs\Shared\Resources\Cards\PointOfInterestViewCard.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\Shared\Resources\Cards\PointOfInterestViewNoDrivingButtonCard.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Update="Dialogs\Shared\Resources\Cards\RouteDirectionsViewCard.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -13,6 +13,7 @@
               "verticalContentAlignment": "Center",
               "items": [
                 {
+                  "id": "Name",
                   "type": "TextBlock",
                   "horizontalAlignment": "Left",
                   "spacing": "None",
@@ -22,12 +23,14 @@
                   "text": "{Name}"
                 },
                 {
+                  "id": "AvailableDetails",
                   "type": "TextBlock",
                   "spacing": "None",
-                  "text": "{Categories[0]} · {Rating} ⭐ (93) · {Price} 💲",
+                  "text": "{AvailableDetails}",
                   "isSubtle": true
                 },
                 {
+                  "id": "Address",
                   "type": "TextBlock",
                   "spacing": "None",
                   "color": "Dark",
@@ -36,12 +39,20 @@
                   "wrap": true
                 },
                 {
+                  "id": "Hours",
                   "type": "TextBlock",
                   "spacing": "None",
                   "color": "Dark",
                   "text": "{Hours}",
                   "isSubtle": true,
                   "wrap": true
+                },
+                {
+                  "id": "Provider",
+                  "type": "TextBlock",
+                  "horizontalAlignment": "Right",
+                  "text": "Provided by **{Provider}**",
+                  "isSubtle": true
                 }
               ],
               "width": 90
@@ -55,6 +66,7 @@
       "separator": true,
       "items": [
         {
+          "id": "Image",
           "type": "Image",
           "url": "{ImageUrl}"
         }

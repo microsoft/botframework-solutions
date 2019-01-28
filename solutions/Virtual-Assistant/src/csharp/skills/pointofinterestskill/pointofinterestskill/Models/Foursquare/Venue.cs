@@ -76,6 +76,12 @@ namespace PointOfInterestSkill.Models.Foursquare
         public float Rating { get; set; }
 
         /// <summary>
+        /// Gets or sets the rating signal count for this venue.
+        /// </summary>
+        [JsonProperty(PropertyName = "ratingSignals")]
+        public int RatingSignals { get; set; }
+
+        /// <summary>
         /// Gets or sets the url for this venue.
         /// </summary>
         [JsonProperty(PropertyName = "url")]
