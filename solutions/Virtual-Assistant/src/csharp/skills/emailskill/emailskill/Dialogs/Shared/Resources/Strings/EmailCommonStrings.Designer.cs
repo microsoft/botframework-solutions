@@ -133,7 +133,7 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to empty content.
+        ///   Looks up a localized string similar to Empty content.
         /// </summary>
         public static string EmptyContent {
             get {
@@ -142,7 +142,7 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to empty subject.
+        ///   Looks up a localized string similar to Empty subject.
         /// </summary>
         public static string EmptySubject {
             get {
@@ -322,7 +322,7 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to unknown recipient.
+        ///   Looks up a localized string similar to Unknown recipient.
         /// </summary>
         public static string UnknownRecipient {
             get {
@@ -331,7 +331,7 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to unknown sender.
+        ///   Looks up a localized string similar to Unknown sender.
         /// </summary>
         public static string UnknownSender {
             get {

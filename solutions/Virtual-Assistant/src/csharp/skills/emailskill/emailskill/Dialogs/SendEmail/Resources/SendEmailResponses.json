@@ -11,8 +11,8 @@
   "NoSubject": {
     "replies": [
       {
-        "text": "What is the subject of the email?",
-        "speak": "What is the subject of the email?"
+        "text": "What is the subject of the email? Or you can say skip to bypass it.",
+        "speak": "What is the subject of the email? Or you can say skip to bypass it."
       }
     ],
     "inputHint": "expectingInput"
@@ -20,8 +20,8 @@
   "NoMessageBody": {
     "replies": [
       {
-        "text": "What do you want to add as the message?",
-        "speak": "What do you want to add as the message?"
+        "text": "What do you want to add as the message body? Or you can say skip to bypass it.",
+        "speak": "What do you want to add as the message body? Or you can say skip to bypass it."
       }
     ],
     "inputHint": "expectingInput"
@@ -29,8 +29,8 @@
   "RetryNoSubject": {
     "replies": [
       {
-        "text": "Including a subject is often appreciated by contacts. Want to add a subject?",
-        "speak": "Including a subject is often appreciated by contacts. Want to add a subject?"
+        "text": "Including a subject is often appreciated by contacts. Want to add a subject? Or you can say skip to bypass it.",
+        "speak": "Including a subject is often appreciated by contacts. Want to add a subject? Or you can say skip to bypass it."
       }
     ],
     "inputHint": "expectingInput"
@@ -69,8 +69,8 @@
   "GetRecreateInfo": {
     "replies": [
       {
-        "text": "Would you like to adjust the Participants, Subject or the Content?",
-        "speak": "Would you like to adjust the Participants, Subject or the Content?"
+        "text": "Would you like to change the Participants, Subject or the Content?",
+        "speak": "Would you like to change the Participants, Subject or the Content?"
       }
     ],
     "suggestedActions": [

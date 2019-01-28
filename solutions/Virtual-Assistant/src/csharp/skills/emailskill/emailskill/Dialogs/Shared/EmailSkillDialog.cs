@@ -394,12 +394,6 @@ namespace EmailSkill.Dialogs.Shared
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
                 string nameListString;
 
-                // Remove bypass logic
-                if (state.Content.Equals(EmailCommonStrings.Skip))
-                {
-                    state.Content = string.Empty;
-                }
-
                 // this means reply confirm
                 if (state.Recipients.FirstOrDefault() == null)
                 {
@@ -558,7 +552,7 @@ namespace EmailSkill.Dialogs.Shared
             }
         }
 
-        public async Task<DialogTurnResult> AfterCollectAdditionalText(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> AfterCollectAdditionalText(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -571,6 +565,10 @@ namespace EmailSkill.Dialogs.Shared
                     if (!EmailCommonPhrase.GetIsSkip(contentInput))
                     {
                         state.Content = contentInput;
+                    }
+                    else
+                    {
+                        state.Content = EmailCommonStrings.EmptyContent;
                     }
                 }
 

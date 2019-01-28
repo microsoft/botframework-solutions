@@ -102,14 +102,14 @@ namespace EmailSkill.Dialogs.SendEmail
                             if (!string.IsNullOrEmpty(state.Content))
                             {
                                 state.Subject = state.Content;
-                                state.Content = EmailCommonStrings.Skip;
+                                state.Content = EmailCommonStrings.EmptyContent;
                             }
                         }
                         else
                         {
                             if (string.IsNullOrEmpty(state.Content))
                             {
-                                state.Content = EmailCommonStrings.Skip;
+                                state.Content = EmailCommonStrings.EmptyContent;
                             }
                         }
                     }
@@ -184,7 +184,7 @@ namespace EmailSkill.Dialogs.SendEmail
                     }
                 }
 
-                if (state.Subject != null)
+                if (!string.IsNullOrWhiteSpace(state.Subject))
                 {
                     return await sc.NextAsync();
                 }
@@ -205,7 +205,7 @@ namespace EmailSkill.Dialogs.SendEmail
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
 
-                if (state.Subject != null)
+                if (!string.IsNullOrWhiteSpace(state.Subject))
                 {
                     return await sc.EndDialogAsync(cancellationToken: cancellationToken);
                 }
@@ -218,6 +218,10 @@ namespace EmailSkill.Dialogs.SendEmail
                     if (!EmailCommonPhrase.GetIsSkip(subjectInput))
                     {
                         state.Subject = subjectInput;
+                    }
+                    else
+                    {
+                        state.Subject = EmailCommonStrings.EmptySubject;
                     }
                 }
 
@@ -236,7 +240,8 @@ namespace EmailSkill.Dialogs.SendEmail
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                if (state.Content != null)
+
+                if (!string.IsNullOrWhiteSpace(state.Content))
                 {
                     return await sc.NextAsync();
                 }
@@ -299,6 +304,7 @@ namespace EmailSkill.Dialogs.SendEmail
                     }
                     else
                     {
+                        state.Content = EmailCommonStrings.EmptyContent;
                         return await sc.EndDialogAsync(cancellationToken);
                     }
                 }

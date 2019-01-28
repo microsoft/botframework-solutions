@@ -133,7 +133,7 @@
     <value>抄送：{0}</value>
   </data>
   <data name="EmptyContent" xml:space="preserve">
-    <value>空内容</value>
+    <value>空白内容</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>日期：{0}</value>
@@ -148,7 +148,7 @@
     <value>取消</value>
   </data>
   <data name="EmptySubject" xml:space="preserve">
-    <value>空主题</value>
+    <value>空白主题</value>
   </data>
   <data name="ReplyReplyFormat" xml:space="preserve">
     <value>Re:{0}</value>
