@@ -17,6 +17,11 @@ namespace ToDoSkillTest.Flow.Utterances
             return GetToDoIntent();
         }
 
+        public ToDo GetNoneIntent(string[] listType = null)
+        {
+            return GetToDoIntent(listType: listType);
+        }
+
         protected ToDo GetToDoIntent(
             string userInput = null,
             ToDo.Intent intents = ToDo.Intent.None,
