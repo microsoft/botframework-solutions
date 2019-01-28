@@ -31,7 +31,8 @@
         "dotenv": "^6.0.0",
         "i18n": "^0.8.3",
         "ms-rest-azure": "^2.5.0",
-        "restify": "^7.2.1"
+        "restify": "^7.2.1",
+        "mocha": "^5.2.0"
     },
     "devDependencies": {
         "@types/dotenv": "^4.0.3",
@@ -45,5 +46,9 @@
         "typescript": "^3.2.2",
         "tslint": "^5.12.1",
         "tslint-microsoft-contrib": "6.0.0"
+    },
+    "env": {
+        "mocha": true,
+        "node": true
     }
 }
