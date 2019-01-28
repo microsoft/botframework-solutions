@@ -11,12 +11,12 @@
   "MessageResponse": {
     "replies": [
       {
-        "text": "Hi, {Message}!",
-        "speak": "Hi, {Message}!"
+        "text": "Hi, {Name}!",
+        "speak": "Hi, {Name}!"
       },
       {
-        "text": "Nice to meet you, {Message}!",
-        "speak": "Nice to meet you, {Message}!"
+        "text": "Nice to meet you, {Name}!",
+        "speak": "Nice to meet you, {Name}!"
       }
     ],
     "inputHint": "acceptingInput"

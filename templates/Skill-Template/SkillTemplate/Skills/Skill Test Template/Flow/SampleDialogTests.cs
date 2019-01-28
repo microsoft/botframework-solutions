@@ -19,7 +19,6 @@ namespace $safeprojectname$.Flow
                .AssertReply(MessagePrompt())
                .Send(SampleDialogUtterances.MessagePromptResponse)
                .AssertReply(EchoMessage())
-               .AssertReply(ActionEndMessage())
                .StartTestAsync();
         }
 
@@ -38,14 +37,6 @@ namespace $safeprojectname$.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
                 CollectionAssert.Contains(ParseReplies(SampleResponses.MessageResponse.Replies, new[] { SampleDialogUtterances.MessagePromptResponse }), messageActivity.Text);
-            };
-        }
-
-        private Action<IActivity> ActionEndMessage()
-        {
-            return activity =>
-            {
-                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
             };
         }
     }

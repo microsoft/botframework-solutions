@@ -9,6 +9,8 @@ namespace $safeprojectname$
         }
 
         public string Token { get; internal set; }
+    
+        public $safeprojectname$LU LuisResult { get; set; }
 
         public void Clear()
         {

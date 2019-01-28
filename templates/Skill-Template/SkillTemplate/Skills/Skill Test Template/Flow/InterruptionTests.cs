@@ -32,7 +32,6 @@ namespace $safeprojectname$.Flow
                .AssertReply(MessagePrompt())
                .Send(GeneralUtterances.Cancel)
                .AssertReply(CancelResponse())
-               .AssertReply(ActionEndMessage())
                .StartTestAsync();
         }
 
@@ -60,14 +59,6 @@ namespace $safeprojectname$.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
                 CollectionAssert.Contains(ParseReplies(MainResponses.CancelMessage.Replies, new StringDictionary()), messageActivity.Text);
-            };
-        }
-
-        private Action<IActivity> ActionEndMessage()
-        {
-            return activity =>
-            {
-                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
             };
         }
     }

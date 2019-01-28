@@ -15,6 +15,7 @@ using Newtonsoft.Json.Linq;
 using $safeprojectname$.Dialogs.Shared.DialogOptions;
 using $safeprojectname$.Dialogs.Shared.Resources;
 using $safeprojectname$.ServiceClients;
+using System.Globalization;
 
 namespace $safeprojectname$.Dialogs.Shared
 {
@@ -57,13 +58,13 @@ namespace $safeprojectname$.Dialogs.Shared
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
-            await DigestLuisResult(dc);
+            await GetLuisResult(dc);
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }
 
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            await DigestLuisResult(dc);
+            await GetLuisResult(dc);
             return await base.OnContinueDialogAsync(dc, cancellationToken);
         }
 
@@ -78,7 +79,6 @@ namespace $safeprojectname$.Dialogs.Shared
                 if (skillOptions != null && skillOptions.SkillMode)
                 {
                     // We trigger a Token Request from the Parent Bot by sending a "TokenRequest" event back and then waiting for a "TokenResponse"
-                    // TODO Error handling - if we get a new activity that isn't an event
                     var response = sc.Context.Activity.CreateReply();
                     response.Type = ActivityTypes.Event;
                     response.Name = "tokens/request";
@@ -170,9 +170,18 @@ namespace $safeprojectname$.Dialogs.Shared
         }
 
         // Helpers
-        protected Task DigestLuisResult(DialogContext dc)
+        protected async Task GetLuisResult(DialogContext dc)
         {
-            return Task.CompletedTask;
+            var state = await ConversationStateAccessor.GetAsync(dc.Context);
+
+            // Get luis service for current locale
+            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            var localeConfig = Services.LocaleConfigurations[locale];
+            var luisService = localeConfig.LuisServices["$safeprojectname$"];
+
+            // Get intent and entities for activity
+            var result = await luisService.RecognizeAsync<$safeprojectname$LU > (dc.Context, CancellationToken.None);
+            state.LuisResult = result;
         }
 
         // This method is called by any waterfall step that throws an exception to ensure consistency
