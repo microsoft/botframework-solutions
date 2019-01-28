@@ -123,6 +123,9 @@
   <data name="AllDayLower" xml:space="preserve">
     <value>全天</value>
   </data>
+  <data name="AttendeesSummary" xml:space="preserve">
+    <value>{0}和其他{1}人</value>
+  </data>
   <data name="AtTime" xml:space="preserve">
     <value>在{0}</value>
   </data>

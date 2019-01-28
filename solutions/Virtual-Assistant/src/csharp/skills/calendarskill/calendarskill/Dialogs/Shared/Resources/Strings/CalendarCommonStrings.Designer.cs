@@ -79,6 +79,15 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} and {1} more.
+        /// </summary>
+        public static string AttendeesSummary {
+            get {
+                return ResourceManager.GetString("AttendeesSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to at {0}.
         /// </summary>
         public static string AtTime {

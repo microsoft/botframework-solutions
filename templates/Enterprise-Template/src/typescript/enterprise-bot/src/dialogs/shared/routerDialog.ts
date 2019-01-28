@@ -58,20 +58,45 @@ export abstract class RouterDialog extends ComponentDialog {
         return Dialog.EndOfTurn;
     }
 
+    /**
+     * Called when the inner dialog stack is empty.
+     * @param innerDC - The dialog context for the component.
+     * @returns A Promise representing the asynchronous operation.
+     */
     protected abstract route(innerDC: DialogContext): Promise<void>;
 
+    /**
+     * Called when the inner dialog stack is complete
+     * @param innerDC - The dialog context for the component.
+     * @returns A Promise representing the asynchronous operation.
+     */
     protected complete(innerDC: DialogContext): Promise<void> {
         return Promise.resolve();
     }
 
+    /**
+     * Called when an event activity is received.
+     * @param innerDC - The dialog context for the component.
+     * @returns A Promise representing the asynchronous operation. 
+     */
     protected onEvent(innerDC: DialogContext): Promise<void> {
         return Promise.resolve();
     }
 
+    /**
+     * Called when a system activity is received.
+     * @param innerDC - The dialog context for the component.
+     * @returns A promise representing the asynchronous operation.
+     */
     protected onSystemMessage(innerDC: DialogContext): Promise<void> {
         return Promise.resolve();
     }
 
+    /**
+     * Called when a conversation update activity is received.
+     * @param innerDC - The dialog context for the component.
+     * @returns A Promise representing the asynchronous operation.
+     */
     protected onStart(innerDC: DialogContext): Promise<void> {
         return Promise.resolve();
     }

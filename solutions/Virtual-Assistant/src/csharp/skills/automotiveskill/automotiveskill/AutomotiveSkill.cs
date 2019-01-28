@@ -22,12 +22,12 @@ namespace AutomotiveSkill
     {
         private readonly SkillConfigurationBase _services;
         private readonly ConversationState _conversationState;
-        private readonly IBotTelemetryClient _telemetryClient;
         private readonly UserState _userState;
-        private bool _skillMode;
+        private readonly IBotTelemetryClient _telemetryClient;
         private IServiceManager _serviceManager;
-        private IHttpContextAccessor _httpContext;
         private DialogSet _dialogs;
+        private bool _skillMode;
+        private IHttpContextAccessor _httpContext;
 
         public AutomotiveSkill(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, ServiceManager serviceManager = null, IHttpContextAccessor httpContext = null, bool skillMode = false)
         {
@@ -52,29 +52,14 @@ namespace AutomotiveSkill
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             var dc = await _dialogs.CreateContextAsync(turnContext);
-            var result = await dc.ContinueDialogAsync();
 
-            if (result.Status == DialogTurnStatus.Empty)
+            if (dc.ActiveDialog != null)
             {
-                if (!_skillMode)
-                {
-                    // if localMode, check for conversation update from user before starting dialog
-                    if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
-                    {
-                        var activity = turnContext.Activity.AsConversationUpdateActivity();
-
-                        // if conversation update is not from the bot.
-                        if (!activity.MembersAdded.Any(m => m.Id == activity.Recipient.Id))
-                        {
-                            await dc.BeginDialogAsync(nameof(MainDialog));
-                        }
-                    }
-                }
-                else
-                {
-                    // if skillMode, begin dialog
-                    await dc.BeginDialogAsync(nameof(MainDialog));
-                }
+                var result = await dc.ContinueDialogAsync();
+            }
+            else
+            {
+                await dc.BeginDialogAsync(nameof(MainDialog));
             }
         }
     }
