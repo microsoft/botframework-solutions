@@ -196,13 +196,18 @@ namespace ToDoSkill.ServiceClients
 
         private async Task<Dictionary<string, string>> GetTaskFoldersAsync(string url)
         {
-            var taskFoldersObject = await this.ExecuteGraphFetchAsync(url);
             var taskFolderIdNameDic = new Dictionary<string, string>();
-            foreach (var taskFolder in taskFoldersObject)
+            while (!string.IsNullOrEmpty(url))
             {
-                string taskFolderId = taskFolder["id"];
-                string taskFolderName = taskFolder["name"];
-                taskFolderIdNameDic.Add(taskFolderId, taskFolderName);
+                var taskFoldersObject = await this.ExecuteGraphFetchAsync(url);
+                foreach (var taskFolder in taskFoldersObject.value)
+                {
+                    string taskFolderId = taskFolder["id"];
+                    string taskFolderName = taskFolder["name"];
+                    taskFolderIdNameDic.Add(taskFolderId, taskFolderName);
+                }
+
+                url = taskFoldersObject["@odata.nextLink"];
             }
 
             return taskFolderIdNameDic;
@@ -210,19 +215,24 @@ namespace ToDoSkill.ServiceClients
 
         private async Task<List<TaskItem>> ExecuteTasksGetAsync(string url)
         {
-            var tasksObject = await this.ExecuteGraphFetchAsync(url);
             var toDoTasks = new List<TaskItem>();
-            foreach (var task in tasksObject)
+            while (!string.IsNullOrEmpty(url))
             {
-                if (task["status"] != "completed")
+                var tasksObject = await this.ExecuteGraphFetchAsync(url);
+                foreach (var task in tasksObject.value)
                 {
-                    toDoTasks.Add(new TaskItem()
+                    if (task["status"] != "completed")
                     {
-                        Topic = task["subject"],
-                        Id = task["id"],
-                        IsCompleted = false,
-                    });
+                        toDoTasks.Add(new TaskItem()
+                        {
+                            Topic = task["subject"],
+                            Id = task["id"],
+                            IsCompleted = false,
+                        });
+                    }
                 }
+
+                url = tasksObject["@odata.nextLink"];
             }
 
             return toDoTasks;
@@ -284,7 +294,7 @@ namespace ToDoSkill.ServiceClients
             dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
             if (result.IsSuccessStatusCode)
             {
-                return responseContent.value;
+                return responseContent;
             }
             else
             {

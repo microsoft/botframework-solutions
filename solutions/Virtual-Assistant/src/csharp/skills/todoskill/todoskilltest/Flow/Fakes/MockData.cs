@@ -103,6 +103,34 @@ namespace ToDoSkillTest.Flow.Fakes
                 Id = "ToDoNum8",
                 Topic = "Play Games 8",
                 IsCompleted = false
+            },
+
+            new TaskItem()
+            {
+                Id = "ToDoNum9",
+                Topic = "Play Games 9",
+                IsCompleted = false
+            },
+
+            new TaskItem()
+            {
+                Id = "ToDoNum10",
+                Topic = "Play Games 10",
+                IsCompleted = false
+            },
+
+            new TaskItem()
+            {
+                Id = "ToDoNum11",
+                Topic = "Play Games 11",
+                IsCompleted = false
+            },
+
+            new TaskItem()
+            {
+                Id = "ToDoNum12",
+                Topic = "Play Games 12",
+                IsCompleted = false
             }
         };
 
