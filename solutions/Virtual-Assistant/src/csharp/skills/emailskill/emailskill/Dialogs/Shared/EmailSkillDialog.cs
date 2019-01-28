@@ -577,6 +577,7 @@ namespace EmailSkill.Dialogs.Shared
 
                     if (displayMessages.Count == 1)
                     {
+                        state.Message.Clear();
                         state.Message.Add(displayMessages[0]);
                     }
 
@@ -595,6 +596,55 @@ namespace EmailSkill.Dialogs.Shared
                 await HandleDialogExceptions(sc, ex);
 
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        protected async Task<DialogTurnResult> SearchEmailsFromList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
+                var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
+
+                var messages = state.MessageList;
+                var searchSender = state.SenderName?.ToLowerInvariant();
+                var searchSubject = state.SearchTexts?.ToLowerInvariant();
+                var searchUserInput = userInput?.ToLowerInvariant();
+
+                // Get display messages
+                var displayMessages = new List<Message>();
+                for (int i = 0; i < messages.Count(); i++)
+                {
+                    var messageSender = messages[i].Sender?.EmailAddress?.Name?.ToLowerInvariant();
+                    var messageSubject = messages[i].Subject?.ToLowerInvariant();
+
+                    if (messageSender != null
+                        && (((searchSender != null) && messageSender.Contains(searchSender))
+                        || ((searchUserInput != null) && messageSender.Contains(searchUserInput))))
+                    {
+                        displayMessages.Add(messages[i]);
+                    }
+                    else if (messageSubject != null
+                        && (((searchSubject != null) && messageSubject.Contains(searchSubject))
+                        || ((searchUserInput != null) && messageSubject.Contains(searchUserInput))))
+                    {
+                        displayMessages.Add(messages[i]);
+                    }
+                }
+
+                if (displayMessages.Count > 0)
+                {
+                    state.MessageList = displayMessages;
+                }
+
+                return await sc.NextAsync();
             }
             catch (Exception ex)
             {
@@ -1029,6 +1079,7 @@ namespace EmailSkill.Dialogs.Shared
                 state.ReadEmailIndex = 0;
                 state.ReadRecipientIndex = 0;
                 state.RecipientChoiceList.Clear();
+                state.SearchTexts = null;
             }
             catch (Exception)
             {
@@ -1173,6 +1224,11 @@ namespace EmailSkill.Dialogs.Shared
                             {
                                 state.SenderName = entity.SenderName[0];
                                 state.IsUnreadOnly = false;
+                            }
+
+                            if (entity.SearchTexts != null)
+                            {
+                                state.SearchTexts = entity.SearchTexts[0];
                             }
 
                             break;

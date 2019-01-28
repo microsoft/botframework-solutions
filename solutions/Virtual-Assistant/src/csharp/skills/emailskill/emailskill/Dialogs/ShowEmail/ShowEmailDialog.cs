@@ -79,6 +79,14 @@ namespace EmailSkill.Dialogs.ShowEmail
                 HandleMore
             };
 
+            var displayFilteredEmail = new WaterfallStep[]
+            {
+                ShowFilteredEmails,
+                PromptToHandle,
+                CheckRead,
+                HandleMore
+            };
+
             var redisplayEmail = new WaterfallStep[]
             {
                 PromptToReshow,
@@ -93,6 +101,7 @@ namespace EmailSkill.Dialogs.ShowEmail
             AddDialog(new WaterfallDialog(Actions.Forward, forwardEmail) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.Reply, replyEmail) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.Display, displayEmail) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.DisplayFiltered, displayFilteredEmail) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.ReDisplay, redisplayEmail) { TelemetryClient = telemetryClient });
             AddDialog(new DeleteEmailDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
             AddDialog(new ReplyEmailDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
@@ -208,7 +217,9 @@ namespace EmailSkill.Dialogs.ShowEmail
 
                 var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
 
-                if ((topIntent == Email.Intent.SelectItem
+                if ((topIntent == Email.Intent.None
+                    || topIntent == Email.Intent.SearchMessages
+                    || topIntent == Email.Intent.SelectItem
                     || (topIntent == Email.Intent.ReadAloud && !IsReadMoreIntent(generalTopIntent, sc.Context.Activity.Text))
                     || (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true))
                     && message != null)
@@ -319,7 +330,7 @@ namespace EmailSkill.Dialogs.ShowEmail
 
                     if (message == null)
                     {
-                        return await sc.BeginDialogAsync(Actions.Display, skillOptions);
+                        return await sc.ReplaceDialogAsync(Actions.Display, skillOptions);
                     }
                     else
                     {
@@ -332,7 +343,16 @@ namespace EmailSkill.Dialogs.ShowEmail
                 }
                 else
                 {
+                    await DigestEmailLuisResult(sc, state.LuisResult, true);
+                    await SearchEmailsFromList(sc, cancellationToken);
+
+                    if (state.MessageList.Count > 0)
+                    {
+                        return await sc.ReplaceDialogAsync(Actions.DisplayFiltered, skillOptions);
+                    }
+
                     // return a signal for main flow need to start a new ComponentDialog.
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.DidntUnderstandMessage));
                     return await sc.EndDialogAsync(true);
                 }
             }
@@ -416,6 +436,48 @@ namespace EmailSkill.Dialogs.ShowEmail
             {
                 var skillOptions = (EmailSkillDialogOptions)sc.Options;
                 return await sc.ReplaceDialogAsync(Actions.ReDisplay, skillOptions);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        protected async Task<DialogTurnResult> ShowFilteredEmails(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+
+                if (state.MessageList.Count > 0)
+                {
+                    state.Message.Add(state.MessageList[0]);
+
+                    if (state.MessageList.Count > 1)
+                    {
+                        await ShowMailList(sc, state.MessageList, state.MessageList.Count(), cancellationToken);
+                    }
+                    else
+                    {
+                        return await sc.ReplaceDialogAsync(Actions.Read, options: sc.Options);
+                    }
+
+                    return await sc.NextAsync();
+                }
+                else
+                {
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.EmailNotFound, ResponseBuilder));
+                }
+
+                return await sc.EndDialogAsync(true);
+            }
+            catch (SkillException ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
             catch (Exception ex)
             {

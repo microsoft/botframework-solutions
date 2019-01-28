@@ -38,6 +38,7 @@ namespace EmailSkill
             EndDateTime = DateTime.UtcNow;
             UserSelectIndex = -1;
             MailSourceType = MailSource.Other;
+            SearchTexts = null;
         }
 
         public DialogState ConversationDialogState { get; set; }
@@ -53,6 +54,8 @@ namespace EmailSkill
         public List<string> NameList { get; set; }
 
         public string SenderName { get; set; }
+
+        public string SearchTexts { get; set; }
 
         public List<string> EmailList { get; set; }
 
@@ -138,6 +141,7 @@ namespace EmailSkill
             LuisResultPassedFromSkill = null;
             MailSourceType = MailSource.Other;
             UserSelectIndex = -1;
+            SearchTexts = null;
         }
 
         public class UserInformation
