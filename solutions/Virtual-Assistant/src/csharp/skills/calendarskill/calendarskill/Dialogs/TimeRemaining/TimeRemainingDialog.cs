@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Dialogs.Shared;
 using CalendarSkill.Dialogs.Shared.Resources.Strings;
-using CalendarSkill.Dialogs.TimeRemain.Resources;
+using CalendarSkill.Dialogs.TimeRemaining.Resources;
 using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
 using Microsoft.Bot.Builder;
@@ -16,16 +16,17 @@ using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 
-namespace CalendarSkill.Dialogs.TimeRemain
+namespace CalendarSkill.Dialogs.TimeRemaining
 {
     public class TimeRemainingDialog : CalendarSkillDialog
     {
         public TimeRemainingDialog(
             SkillConfigurationBase services,
+            ResponseTemplateManager responseManager,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(TimeRemainingDialog), services, accessor, serviceManager, telemetryClient)
+            : base(nameof(TimeRemainingDialog), services, responseManager, accessor, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -83,7 +84,8 @@ namespace CalendarSkill.Dialogs.TimeRemain
 
                 if (nextEventList.Count == 0)
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(TimeRemainResponses.ShowNoMeetingMessage));
+                    var prompt = ResponseManager.GetResponse(TimeRemainingResponses.ShowNoMeetingMessage);
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = prompt }, cancellationToken);
                 }
                 else
                 {
@@ -146,7 +148,8 @@ namespace CalendarSkill.Dialogs.TimeRemain
                     tokens["RemainingTime"] = remainingTime;
                     if (state.OrderReference == "next")
                     {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(TimeRemainResponses.ShowNextMeetingTimeRemainingMessage, ResponseBuilder, tokens));
+                        var prompt = ResponseManager.GetResponse(TimeRemainingResponses.ShowNextMeetingTimeRemainingMessage, tokens);
+                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = prompt }, cancellationToken);
                     }
                     else
                     {
@@ -180,7 +183,8 @@ namespace CalendarSkill.Dialogs.TimeRemain
                             tokens["Title"] = string.Format(CalendarCommonStrings.WithTheSubject, state.Title);
                         }
 
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(TimeRemainResponses.ShowTimeRemainingMessage, ResponseBuilder, tokens));
+                        var prompt = ResponseManager.GetResponse(TimeRemainingResponses.ShowTimeRemainingMessage, tokens);
+                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = prompt }, cancellationToken);;
                     }
                 }
 

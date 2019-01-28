@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
-using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
-using Microsoft.Bot.Solutions.Prompts;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Newtonsoft.Json.Linq;
-using TestSkill.Dialogs.Sample;
 using TestSkill.Dialogs.Shared.DialogOptions;
 using TestSkill.Dialogs.Shared.Resources;
 using TestSkill.ServiceClients;
@@ -25,6 +21,7 @@ namespace TestSkill.Dialogs.Shared
         public SkillTemplateDialog(
             string dialogId,
             SkillConfigurationBase services,
+            ResponseTemplateManager responseManager,
             IStatePropertyAccessor<SkillConversationState> conversationStateAccessor,
             IStatePropertyAccessor<SkillUserState> userStateAccessor,
             IServiceManager serviceManager,
@@ -32,12 +29,11 @@ namespace TestSkill.Dialogs.Shared
             : base(dialogId)
         {
             Services = services;
+            ResponseManager = responseManager;
             ConversationStateAccessor = conversationStateAccessor;
             UserStateAccessor = userStateAccessor;
             ServiceManager = serviceManager;
             TelemetryClient = telemetryClient;
-
-            SharedResponder = new ResponseTemplateManager(new SharedResponses());
 
             // NOTE: Uncomment the following if your skill requires authentication
             // if (!Services.AuthenticationConnections.Any())
@@ -57,7 +53,7 @@ namespace TestSkill.Dialogs.Shared
 
         protected IServiceManager ServiceManager { get; set; }
 
-        protected ResponseTemplateManager SharedResponder { get; set; }
+        protected ResponseTemplateManager ResponseManager { get; set; }
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -95,7 +91,10 @@ namespace TestSkill.Dialogs.Shared
                 }
                 else
                 {
-                    var prompt = await SharedResponder.RenderTemplate(sc.Context, sc.Context.Activity.Locale, SharedResponses.NoAuth);
+                    var prompt = ResponseManager.GetResponse(
+                        SharedResponses.NoAuth,
+                        sc.Context.Activity.Locale);
+
                     return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = prompt });
                 }
             }

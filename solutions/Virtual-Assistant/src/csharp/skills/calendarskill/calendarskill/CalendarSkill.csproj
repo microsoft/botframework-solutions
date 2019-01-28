@@ -80,10 +80,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>SummaryResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.cs">
+    <Compile Update="Dialogs\TimeRemaining\Resources\TimeRemainingResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>TimeRemainResponses.tt</DependentUpon>
+      <DependentUpon>TimeRemainingResponses.tt</DependentUpon>
     </Compile>
     <Compile Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.cs">
       <DesignTime>True</DesignTime>
@@ -134,9 +134,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SummaryResponses.cs</LastGenOutput>
     </None>
-    <None Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.tt">
+    <None Update="Dialogs\TimeRemaining\Resources\TimeRemainingResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>TimeRemainResponses.cs</LastGenOutput>
+      <LastGenOutput>TimeRemainingResponses.cs</LastGenOutput>
     </None>
     <None Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -310,22 +310,22 @@
     <Content Update="Dialogs\Summary\Resources\SummaryResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.json">
+    <Content Update="Dialogs\TimeRemaining\Resources\TimeRemainingResponses.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.zh.json">
+    <Content Update="Dialogs\TimeRemaining\Resources\TimeRemainingResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.es.json">
+    <Content Update="Dialogs\TimeRemaining\Resources\TimeRemainingResponses.es.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.fr.json">
+    <Content Update="Dialogs\TimeRemaining\Resources\TimeRemainingResponses.fr.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.de.json">
+    <Content Update="Dialogs\TimeRemaining\Resources\TimeRemainingResponses.de.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.it.json">
+    <Content Update="Dialogs\TimeRemaining\Resources\TimeRemainingResponses.it.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.zh.json">

@@ -13,9 +13,9 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
-using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Prompts;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Newtonsoft.Json.Linq;
@@ -36,6 +36,7 @@ namespace ToDoSkill.Dialogs.Shared
         public ToDoSkillDialog(
             string dialogId,
             SkillConfigurationBase services,
+            ResponseTemplateManager responseManager,
             IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
             IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
             IServiceManager serviceManager,
@@ -66,7 +67,7 @@ namespace ToDoSkill.Dialogs.Shared
 
         protected IServiceManager ServiceManager { get; set; }
 
-        protected ToDoSkillResponseBuilder ResponseBuilder { get; set; }
+        protected ResponseTemplateManager ResponseManager { get; set; }
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -117,7 +118,7 @@ namespace ToDoSkill.Dialogs.Shared
                 }
                 else
                 {
-                    return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = sc.Context.Activity.CreateReply(ToDoSharedResponses.NoAuth, ResponseBuilder) });
+                    return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = ResponseManager.GetResponse(ToDoSharedResponses.NoAuth) });
                 }
             }
             catch (Exception ex)
@@ -264,7 +265,7 @@ namespace ToDoSkill.Dialogs.Shared
 
                 if (state.AllTasks.Count <= 0)
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.NoTasksInList));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.NoTasksInList));
                     return await sc.EndDialogAsync(true);
                 }
                 else
@@ -313,7 +314,7 @@ namespace ToDoSkill.Dialogs.Shared
                 }
                 else
                 {
-                    var prompt = sc.Context.Activity.CreateReply(ToDoSharedResponses.AskToDoTaskIndex);
+                    var prompt = ResponseManager.GetResponse(ToDoSharedResponses.AskToDoTaskIndex);
                     return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
                 }
             }
@@ -405,7 +406,7 @@ namespace ToDoSkill.Dialogs.Shared
                 }
                 else
                 {
-                    var prompt = sc.Context.Activity.CreateReply(ToDoSharedResponses.AskToDoContentText);
+                    var prompt = ResponseManager.GetResponse(ToDoSharedResponses.AskToDoContentText);
                     return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
                 }
             }
@@ -477,9 +478,7 @@ namespace ToDoSkill.Dialogs.Shared
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 var token = new StringDictionary() { { "listType", state.ListType } };
-                var response = GenerateResponseWithTokens(ToDoSharedResponses.SwitchListType, token);
-                var prompt = sc.Context.Activity.CreateReply(response);
-                prompt.Speak = response;
+                var prompt = ResponseManager.GetResponse(ToDoSharedResponses.SwitchListType, token);
                 return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
             }
             catch (Exception ex)
@@ -602,7 +601,7 @@ namespace ToDoSkill.Dialogs.Shared
                 {
                     var indexOfOrdinal = entities.ordinal == null ? 0 : (int)entities.ordinal[0];
                     var indexOfNumber = entities.number == null ? 0 : (int)entities.number[0];
-                    int index = 0;
+                    var index = 0;
                     if (indexOfOrdinal > 0 && indexOfOrdinal <= state.PageSize)
                     {
                         index = indexOfOrdinal;
@@ -709,10 +708,14 @@ namespace ToDoSkill.Dialogs.Shared
             {
                 var columnSet = new AdaptiveColumnSet();
 
-                var icon = new AdaptiveImage();
-                icon.UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource;
-                var iconColumn = new AdaptiveColumn();
-                iconColumn.Width = "auto";
+                var icon = new AdaptiveImage
+                {
+                    UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource
+                };
+                var iconColumn = new AdaptiveColumn
+                {
+                    Width = "auto"
+                };
                 iconColumn.Items.Add(icon);
                 columnSet.Columns.Add(iconColumn);
 
@@ -763,10 +766,14 @@ namespace ToDoSkill.Dialogs.Shared
             {
                 var columnSet = new AdaptiveColumnSet();
 
-                var icon = new AdaptiveImage();
-                icon.UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource;
-                var iconColumn = new AdaptiveColumn();
-                iconColumn.Width = "auto";
+                var icon = new AdaptiveImage
+                {
+                    UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource
+                };
+                var iconColumn = new AdaptiveColumn
+                {
+                    Width = "auto"
+                };
                 iconColumn.Items.Add(icon);
                 columnSet.Columns.Add(iconColumn);
 
@@ -819,10 +826,14 @@ namespace ToDoSkill.Dialogs.Shared
             {
                 var columnSet = new AdaptiveColumnSet();
 
-                var icon = new AdaptiveImage();
-                icon.UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource;
-                var iconColumn = new AdaptiveColumn();
-                iconColumn.Width = "auto";
+                var icon = new AdaptiveImage
+                {
+                    UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource
+                };
+                var iconColumn = new AdaptiveColumn
+                {
+                    Width = "auto"
+                };
                 iconColumn.Items.Add(icon);
                 columnSet.Columns.Add(iconColumn);
 
@@ -874,10 +885,14 @@ namespace ToDoSkill.Dialogs.Shared
             {
                 var columnSet = new AdaptiveColumnSet();
 
-                var icon = new AdaptiveImage();
-                icon.UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource;
-                var iconColumn = new AdaptiveColumn();
-                iconColumn.Width = "auto";
+                var icon = new AdaptiveImage
+                {
+                    UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource
+                };
+                var iconColumn = new AdaptiveColumn
+                {
+                    Width = "auto"
+                };
                 iconColumn.Items.Add(icon);
                 columnSet.Columns.Add(iconColumn);
 
@@ -910,8 +925,8 @@ namespace ToDoSkill.Dialogs.Shared
             List<TaskItem> todos,
             int allTaskCount,
             string taskContent,
-            BotResponse botResponse1,
-            BotResponse botResponse2,
+            ResponseTemplate botResponse1,
+            ResponseTemplate botResponse2,
             string listType)
         {
             var toDoCard = new AdaptiveCard();
@@ -932,10 +947,14 @@ namespace ToDoSkill.Dialogs.Shared
             {
                 var columnSet = new AdaptiveColumnSet();
 
-                var icon = new AdaptiveImage();
-                icon.UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource;
-                var iconColumn = new AdaptiveColumn();
-                iconColumn.Width = "auto";
+                var icon = new AdaptiveImage
+                {
+                    UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource
+                };
+                var iconColumn = new AdaptiveColumn
+                {
+                    Width = "auto"
+                };
                 iconColumn.Items.Add(icon);
                 columnSet.Columns.Add(iconColumn);
 
@@ -959,7 +978,7 @@ namespace ToDoSkill.Dialogs.Shared
             return attachment;
         }
 
-        protected string GenerateResponseWithTokens(BotResponse botResponse, StringDictionary tokens)
+        protected string GenerateResponseWithTokens(ResponseTemplate botResponse, StringDictionary tokens)
         {
             return Format(botResponse.Reply.Text, tokens);
         }
@@ -1006,7 +1025,7 @@ namespace ToDoSkill.Dialogs.Shared
             TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
 
             // send error message to bot user
-            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ToDoErrorMessage));
+            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ToDoErrorMessage));
 
             // clear state
             var state = await ToDoStateAccessor.GetAsync(sc.Context);
@@ -1026,11 +1045,11 @@ namespace ToDoSkill.Dialogs.Shared
             // send error message to bot user
             if (ex.ExceptionType == SkillExceptionType.APIAccessDenied)
             {
-                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ToDoErrorMessage_BotProblem));
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ToDoErrorMessage_BotProblem));
             }
             else
             {
-                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ToDoErrorMessage));
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ToDoErrorMessage));
             }
 
             // clear state
@@ -1050,11 +1069,11 @@ namespace ToDoSkill.Dialogs.Shared
                 {
                     if (state.TaskServiceType == ProviderTypes.OneNote)
                     {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.SettingUpOneNoteMessage));
                     }
                     else
                     {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOutlookMessage));
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.SettingUpOutlookMessage));
                     }
 
                     var taskService = ServiceManager.InitTaskService(state.MsGraphToken, state.ListTypeIds, state.TaskServiceType);
@@ -1064,11 +1083,11 @@ namespace ToDoSkill.Dialogs.Shared
 
                     if (state.TaskServiceType == ProviderTypes.OneNote)
                     {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.AfterOneNoteSetupMessage));
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.AfterOneNoteSetupMessage));
                     }
                     else
                     {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.AfterOutlookSetupMessage));
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.AfterOutlookSetupMessage));
                     }
 
                     await StoreListTypeIdsAsync(sc, senderMailAddress);

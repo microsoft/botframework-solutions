@@ -16,7 +16,7 @@ namespace <#= namespaceName #>
     /// <summary>
     /// Contains bot responses.
     /// </summary>
-    public class <#= className #> : IResponseTemplateCollection
+    public class <#= className #> : IResponseIdCollection
     {
         // Generated accessors
 <#
@@ -25,5 +25,6 @@ foreach (var propertyName in json)  {
 #>
 		public const string <#= propertyName.Key.Substring(0, 1).ToUpperInvariant() + propertyName.Key.Substring(1) #> = "<#= propertyName.Key #>";
 <# } #>
+
     }
 }

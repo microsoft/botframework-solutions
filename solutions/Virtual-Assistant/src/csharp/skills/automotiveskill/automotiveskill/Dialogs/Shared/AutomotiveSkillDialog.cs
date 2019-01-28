@@ -9,7 +9,7 @@ using AutomotiveSkill.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 
 namespace AutomotiveSkill.Dialogs.Shared
@@ -23,16 +23,17 @@ namespace AutomotiveSkill.Dialogs.Shared
         public AutomotiveSkillDialog(
             string dialogId,
             SkillConfigurationBase services,
+            ResponseTemplateManager responseManager,
             IStatePropertyAccessor<AutomotiveSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
             : base(dialogId)
-                {
-                    Services = services;
-                    Accessor = accessor;
-                    ServiceManager = serviceManager;
-                    TelemetryClient = telemetryClient;
-            }
+        {
+            Services = services;
+            Accessor = accessor;
+            ServiceManager = serviceManager;
+            TelemetryClient = telemetryClient;
+        }
 
         protected SkillConfigurationBase Services { get; set; }
 
@@ -40,7 +41,7 @@ namespace AutomotiveSkill.Dialogs.Shared
 
         protected IServiceManager ServiceManager { get; set; }
 
-        protected AutomotiveSkillResponseBuilder ResponseBuilder { get; set; } = new AutomotiveSkillResponseBuilder();
+        protected ResponseTemplateManager ResponseManager { get; set; }
 
         // Shared steps
         public async Task<DialogTurnResult> GetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -78,7 +79,7 @@ namespace AutomotiveSkill.Dialogs.Shared
         // This method is called by any waterfall step that throws an exception to ensure consistency
         public async Task<Exception> HandleDialogExceptions(WaterfallStepContext sc, Exception ex)
         {
-            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(AutomotiveSkillSharedResponses.ErrorMessage));
+            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(AutomotiveSkillSharedResponses.ErrorMessage));
             await sc.CancelAllDialogsAsync();
             return ex;
         }

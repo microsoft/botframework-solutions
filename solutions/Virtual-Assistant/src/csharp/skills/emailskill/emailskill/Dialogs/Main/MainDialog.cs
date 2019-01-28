@@ -23,6 +23,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Data;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 
 namespace EmailSkill.Dialogs.Main
@@ -31,6 +32,7 @@ namespace EmailSkill.Dialogs.Main
     {
         private bool _skillMode;
         private SkillConfigurationBase _skillConfig;
+        private ResponseTemplateManager _responseManager;
         private UserState _userState;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
@@ -38,11 +40,19 @@ namespace EmailSkill.Dialogs.Main
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
         private EmailSkillResponseBuilder _responseBuilder = new EmailSkillResponseBuilder();
 
-        public MainDialog(SkillConfigurationBase skillConfiguration, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, IServiceManager serviceManager, bool skillMode)
+        public MainDialog(
+            SkillConfigurationBase skillConfiguration,
+            ResponseTemplateManager responseManager,
+            ConversationState conversationState,
+            UserState userState,
+            IBotTelemetryClient telemetryClient,
+            IServiceManager serviceManager,
+            bool skillMode)
             : base(nameof(MainDialog), telemetryClient)
         {
             _skillMode = skillMode;
             _skillConfig = skillConfiguration;
+            _responseManager = responseManager;
             _conversationState = conversationState;
             _userState = userState;
             TelemetryClient = telemetryClient;
@@ -61,7 +71,7 @@ namespace EmailSkill.Dialogs.Main
             if (!_skillMode)
             {
                 // send a greeting if we're in local mode
-                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(EmailMainResponses.EmailWelcomeMessage));
+                await dc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailMainResponses.EmailWelcomeMessage));
             }
         }
 
@@ -136,7 +146,7 @@ namespace EmailSkill.Dialogs.Main
                             }
                             else
                             {
-                                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(EmailSharedResponses.DidntUnderstandMessage));
+                                await dc.Context.SendActivityAsync(_responseManager.GetResponse(EmailSharedResponses.DidntUnderstandMessage));
                                 if (_skillMode)
                                 {
                                     await CompleteAsync(dc);
@@ -148,7 +158,7 @@ namespace EmailSkill.Dialogs.Main
 
                     default:
                         {
-                            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(EmailMainResponses.FeatureNotAvailable));
+                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(EmailMainResponses.FeatureNotAvailable));
 
                             if (_skillMode)
                             {
@@ -270,7 +280,7 @@ namespace EmailSkill.Dialogs.Main
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
-            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(EmailMainResponses.CancelMessage));
+            await dc.Context.SendActivityAsync(_responseManager.GetResponse(EmailMainResponses.CancelMessage));
             await CompleteAsync(dc);
             await dc.CancelAllDialogsAsync();
             return InterruptionAction.StartedDialog;
@@ -278,7 +288,7 @@ namespace EmailSkill.Dialogs.Main
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
-            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(EmailMainResponses.HelpMessage));
+            await dc.Context.SendActivityAsync(_responseManager.GetResponse(EmailMainResponses.HelpMessage));
             return InterruptionAction.MessageSentToUser;
         }
 
@@ -304,18 +314,18 @@ namespace EmailSkill.Dialogs.Main
                 await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
             }
 
-            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(EmailMainResponses.LogOut));
+            await dc.Context.SendActivityAsync(_responseManager.GetResponse(EmailMainResponses.LogOut));
 
             return InterruptionAction.StartedDialog;
         }
 
         private void RegisterDialogs()
         {
-            AddDialog(new ForwardEmailDialog(_skillConfig, _stateAccessor, _dialogStateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new SendEmailDialog(_skillConfig, _stateAccessor, _dialogStateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new ShowEmailDialog(_skillConfig, _stateAccessor, _dialogStateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new ReplyEmailDialog(_skillConfig, _stateAccessor, _dialogStateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new DeleteEmailDialog(_skillConfig, _stateAccessor, _dialogStateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new ForwardEmailDialog(_skillConfig, _responseManager, _stateAccessor, _dialogStateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new SendEmailDialog(_skillConfig, _responseManager, _stateAccessor, _dialogStateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new ShowEmailDialog(_skillConfig, _responseManager, _stateAccessor, _dialogStateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new ReplyEmailDialog(_skillConfig, _responseManager, _stateAccessor, _dialogStateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new DeleteEmailDialog(_skillConfig, _responseManager, _stateAccessor, _dialogStateAccessor, _serviceManager, TelemetryClient));
         }
 
         private void GetReadingDisplayConfig()

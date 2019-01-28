@@ -1,70 +1,37 @@
 ﻿// https://docs.microsoft.com/en-us/visualstudio/modeling/t4-include-directive?view=vs-2017
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using System.IO;
-using System.Runtime.CompilerServices;
-using Microsoft.Bot.Solutions.Dialogs;
+
+using Microsoft.Bot.Solutions.Resources;
 
 namespace CalendarSkill.Dialogs.Summary.Resources
 {
     /// <summary>
     /// Contains bot responses.
     /// </summary>
-    public static class SummaryResponses
+    public class SummaryResponses : IResponseIdCollection
     {
-        private static readonly ResponseManager _responseManager;
-
-        static SummaryResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(SummaryResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\Summary\Resources");
-            _responseManager = new ResponseManager(resDir, "SummaryResponses");
-        }
-
         // Generated accessors
-        public static BotResponse CalendarNoMoreEvent => GetBotResponse();
+		public const string CalendarNoMoreEvent = "CalendarNoMoreEvent";
+		public const string CalendarNoPreviousEvent = "CalendarNoPreviousEvent";
+		public const string ShowNoMeetingMessage = "ShowNoMeetingMessage";
+		public const string ShowOneMeetingSummaryMessage = "ShowOneMeetingSummaryMessage";
+		public const string ShowMultipleMeetingSummaryMessage = "ShowMultipleMeetingSummaryMessage";
+		public const string ReadOutPrompt = "ReadOutPrompt";
+		public const string ReadOutMorePrompt = "ReadOutMorePrompt";
+		public const string ReadOutMessage = "ReadOutMessage";
+		public const string ShowNextMeetingNoLocationMessage = "ShowNextMeetingNoLocationMessage";
+		public const string ShowNextMeetingMessage = "ShowNextMeetingMessage";
+		public const string ShowMultipleNextMeetingMessage = "ShowMultipleNextMeetingMessage";
+		public const string BeforeShowEventDetails = "BeforeShowEventDetails";
+		public const string ReadTime = "ReadTime";
+		public const string ReadDuration = "ReadDuration";
+		public const string ReadLocation = "ReadLocation";
+		public const string ReadNoLocation = "ReadNoLocation";
+		public const string AskForChangeStatus = "AskForChangeStatus";
+		public const string AskForAction = "AskForAction";
+		public const string AskForOrgnizerAction = "AskForOrgnizerAction";
+		public const string AskForShowOverview = "AskForShowOverview";
 
-        public static BotResponse CalendarNoPreviousEvent => GetBotResponse();
-
-        public static BotResponse ShowNoMeetingMessage => GetBotResponse();
-
-        public static BotResponse ShowOneMeetingSummaryMessage => GetBotResponse();
-
-        public static BotResponse ShowMultipleMeetingSummaryMessage => GetBotResponse();
-
-        public static BotResponse ReadOutPrompt => GetBotResponse();
-
-        public static BotResponse ReadOutMorePrompt => GetBotResponse();
-
-        public static BotResponse ReadOutMessage => GetBotResponse();
-
-        public static BotResponse ShowNextMeetingNoLocationMessage => GetBotResponse();
-
-        public static BotResponse ShowNextMeetingMessage => GetBotResponse();
-
-        public static BotResponse ShowMultipleNextMeetingMessage => GetBotResponse();
-
-        public static BotResponse BeforeShowEventDetails => GetBotResponse();
-
-        public static BotResponse ReadTime => GetBotResponse();
-
-        public static BotResponse ReadDuration => GetBotResponse();
-
-        public static BotResponse ReadLocation => GetBotResponse();
-
-        public static BotResponse ReadNoLocation => GetBotResponse();
-
-        public static BotResponse AskForChangeStatus => GetBotResponse();
-
-        public static BotResponse AskForAction => GetBotResponse();
-
-        public static BotResponse AskForOrgnizerAction => GetBotResponse();
-
-        public static BotResponse AskForShowOverview => GetBotResponse();
-
-        private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
-        {
-            return _responseManager.GetBotResponse(propertyName);
-        }
     }
 }

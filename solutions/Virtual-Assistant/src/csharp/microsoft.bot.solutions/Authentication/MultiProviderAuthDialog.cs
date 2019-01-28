@@ -145,7 +145,7 @@ namespace Microsoft.Bot.Solutions.Authentication
             {
                 TelemetryClient.TrackEventEx("TokenRetrievalFailure", stepContext.Context.Activity);
 
-                stepContext.Context.Activity.CreateReply(CommonResponses.ErrorMessage_AuthFailure, null, new StringDictionary { { "authType", _selectedAuthType } });
+                // stepContext.Context.Activity.CreateReply(CommonResponses.ErrorMessage_AuthFailure, null, new StringDictionary { { "authType", _selectedAuthType } });
 
                 return new DialogTurnResult(DialogTurnStatus.Cancelled);
             }

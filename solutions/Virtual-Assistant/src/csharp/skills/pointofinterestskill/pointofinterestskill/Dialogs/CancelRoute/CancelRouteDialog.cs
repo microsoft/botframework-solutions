@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using PointOfInterestSkill.Dialogs.CancelRoute.Resources;
 using PointOfInterestSkill.Dialogs.Shared;
@@ -14,10 +15,11 @@ namespace PointOfInterestSkill.Dialogs.CancelRoute
     {
         public CancelRouteDialog(
             SkillConfiguration services,
+            ResponseTemplateManager responseManager,
             IStatePropertyAccessor<PointOfInterestSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(CancelRouteDialog), services, accessor, serviceManager, telemetryClient)
+            : base(nameof(CancelRouteDialog), services, responseManager, accessor, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -40,14 +42,14 @@ namespace PointOfInterestSkill.Dialogs.CancelRoute
                 var state = await Accessor.GetAsync(sc.Context);
                 if (state.ActiveRoute != null)
                 {
-                    var replyMessage = sc.Context.Activity.CreateReply(CancelRouteResponses.CancelActiveRoute, ResponseBuilder);
+                    var replyMessage = ResponseManager.GetResponse(CancelRouteResponses.CancelActiveRoute);
                     await sc.Context.SendActivityAsync(replyMessage);
                     state.ActiveRoute = null;
                     state.ActiveLocation = null;
                 }
                 else
                 {
-                    var replyMessage = sc.Context.Activity.CreateReply(CancelRouteResponses.CannotCancelActiveRoute, ResponseBuilder);
+                    var replyMessage = ResponseManager.GetResponse(CancelRouteResponses.CannotCancelActiveRoute);
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
 

@@ -8,6 +8,7 @@ using CalendarSkill.Dialogs.Main;
 using CalendarSkill.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 
 namespace CalendarSkill
@@ -18,6 +19,7 @@ namespace CalendarSkill
     public class CalendarSkill : IBot
     {
         private readonly SkillConfigurationBase _services;
+        private readonly ResponseTemplateManager _responseManager;
         private readonly UserState _userState;
         private readonly ConversationState _conversationState;
         private readonly IBotTelemetryClient _telemetryClient;
@@ -25,17 +27,18 @@ namespace CalendarSkill
         private readonly bool _skillMode;
         private DialogSet _dialogs;
 
-        public CalendarSkill(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, IServiceManager serviceManager = null, bool skillMode = false)
+        public CalendarSkill(SkillConfigurationBase services, ResponseTemplateManager responseManager, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, IServiceManager serviceManager = null, bool skillMode = false)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));
+            _responseManager = responseManager ?? throw new ArgumentNullException(nameof(responseManager));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _serviceManager = serviceManager ?? new ServiceManager(_services);
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(DialogState)));
-            _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _telemetryClient, _serviceManager, _skillMode));
+            _dialogs.Add(new MainDialog(_services, _responseManager, _conversationState, _userState, _telemetryClient, _serviceManager, _skillMode));
         }
 
         /// <summary>

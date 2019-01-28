@@ -21,6 +21,7 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Recognizers.Text;
 
@@ -46,11 +47,12 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
 
         public VehicleSettingsDialog(
             SkillConfigurationBase services,
+            ResponseTemplateManager responseManager,
             IStatePropertyAccessor<AutomotiveSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             IHttpContextAccessor httpContext)
-            : base(nameof(VehicleSettingsDialog), services, accessor, serviceManager, telemetryClient)
+            : base(nameof(VehicleSettingsDialog), services, responseManager, accessor, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -152,7 +154,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                     if (!settingNames.Any())
                     {
                         // missing setting name
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(VehicleSettingsResponses.VehicleSettingsMissingSettingName));
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsMissingSettingName));
                         return await sc.EndDialogAsync();
                     }
                     else if (settingNames.Count() > 1)
@@ -197,7 +199,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                     return await sc.EndDialogAsync(true, cancellationToken);
 
                 default:
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(VehicleSettingsResponses.VehicleSettingsOutOfDomain));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsOutOfDomain));
                     return await sc.EndDialogAsync(true, cancellationToken);
             }
         }
@@ -259,7 +261,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                 if (!settingValues.Any())
                 {
                     // This shouldn't happen because the SettingFilter would just add all possible values to let the user select from them.
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(VehicleSettingsResponses.VehicleSettingsOutOfDomain));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsOutOfDomain));
                     return await sc.EndDialogAsync();
                 }
                 else
@@ -286,9 +288,13 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                             options.Choices.Add(choice);
                         }
 
-                        BotResponse promptTemplate = VehicleSettingsResponses.VehicleSettingsSettingValueSelectionPre;
                         var promptReplacements = new StringDictionary { { "settingName", settingName } };
-                        options.Prompt = sc.Context.Activity.CreateReply(promptTemplate, ResponseBuilder, promptReplacements);
+
+                        var response = ResponseManager.GetResponse(
+                            VehicleSettingsResponses.VehicleSettingsSettingValueSelectionPre,
+                            promptReplacements);
+
+                        options.Prompt = response;
 
                         var card = new HeroCard
                         {
@@ -312,7 +318,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
             else
             {
                 // No setting value was understood
-                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(VehicleSettingsResponses.VehicleSettingsOutOfDomain));
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsOutOfDomain));
                 return await sc.EndDialogAsync();
             }
         }
@@ -395,7 +401,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                         }
 
                         // TODO - Explore moving to ConfirmPrompt following usability testing
-                        var prompt = sc.Context.Activity.CreateReply(promptTemplate, ResponseBuilder, promptReplacements);
+                        var prompt = ResponseManager.GetResponse(promptTemplate, promptReplacements);
                         return await sc.PromptAsync(Actions.SettingConfirmationPrompt, new PromptOptions { Prompt = prompt });
                     }
                     else
@@ -406,13 +412,15 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(VehicleSettingsResponses.VehicleSettingsSettingChangeUnsupported));
+                    var response = ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsSettingChangeUnsupported);
+                    await sc.Context.SendActivityAsync(response);
                     return await sc.EndDialogAsync();
                 }
             }
             else
             {
-                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(VehicleSettingsResponses.VehicleSettingsSettingChangeUnsupported));
+                var response = ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsSettingChangeUnsupported);
+                await sc.Context.SendActivityAsync(response);
                 return await sc.EndDialogAsync();
             }
         }
@@ -461,43 +469,45 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                         // Send an event to the device along with the text confirmation
                         await SendActionToDevice(sc, change, promptReplacements);
 
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(
-                            VehicleSettingsResponses.VehicleSettingsChangingRelativeAmount, ResponseBuilder));
+                        var response = ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsChangingRelativeAmount);
+                        await sc.Context.SendActivityAsync(response);
                     }
                     else
                     {
                         // Send an event to the device along with the text confirmation
                         await SendActionToDevice(sc, change, promptReplacements);
 
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(
-                            VehicleSettingsResponses.VehicleSettingsChangingAmount, ResponseBuilder, promptReplacements));
+                        var response = ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsChangingAmount, promptReplacements);
+                        await sc.Context.SendActivityAsync(response);
                     }
                 }
                 else
                 {
                     // Binary event (on/off)
-                    BotResponse promptTemplate;
+                    string promptTemplateId;
                     var promptReplacements = new StringDictionary { { "settingName", change.SettingName } };
                     if (SettingValueToSpeakableIngForm.TryGetValue(change.Value.ToLowerInvariant(), out var valueIngForm))
                     {
-                        promptTemplate = VehicleSettingsResponses.VehicleSettingsChangingValueKnown;
+                        promptTemplateId = VehicleSettingsResponses.VehicleSettingsChangingValueKnown;
                         promptReplacements["valueIngForm"] = valueIngForm;
                     }
                     else
                     {
-                        promptTemplate = VehicleSettingsResponses.VehicleSettingsChangingValue;
+                        promptTemplateId = VehicleSettingsResponses.VehicleSettingsChangingValue;
                         promptReplacements["value"] = change.Value;
                     }
 
                     // Send an event to the device along with the text confirmation
                     await SendActionToDevice(sc, change, promptReplacements);
 
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(promptTemplate, ResponseBuilder, promptReplacements));
+                    var response = ResponseManager.GetResponse(promptTemplateId, promptReplacements);
+                    await sc.Context.SendActivityAsync(response);
                 }
             }
             else
             {
-                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(VehicleSettingsResponses.VehicleSettingsSettingChangeConfirmationDenied));
+                var response = ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsSettingChangeConfirmationDenied);
+                await sc.Context.SendActivityAsync(response);
             }
 
             return await sc.EndDialogAsync();

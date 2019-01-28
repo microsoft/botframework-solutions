@@ -11,13 +11,13 @@ namespace Microsoft.Bot.Solutions.Dialogs
 
     public interface IBotResponseBuilder
     {
-        void BuildAdaptiveCardReply<T>(Activity reply, BotResponse response, string cardPath, T cardDataAdapter, StringDictionary tokens = null)
+        void BuildAdaptiveCardReply<T>(Activity reply, ResponseTemplate response, string cardPath, T cardDataAdapter, StringDictionary tokens = null)
             where T : CardDataBase;
 
-        void BuildAdaptiveCardGroupReply<T>(Activity reply, BotResponse response, string cardPath, string attachmentLayout, List<T> cardDataAdapters, StringDictionary tokens = null)
+        void BuildAdaptiveCardGroupReply<T>(Activity reply, ResponseTemplate response, string cardPath, string attachmentLayout, List<T> cardDataAdapters, StringDictionary tokens = null)
             where T : CardDataBase;
 
-        void BuildMessageReply(Activity reply, BotResponse response, StringDictionary tokens = null);
+        void BuildMessageReply(Activity reply, ResponseTemplate response, StringDictionary tokens = null);
 
         void AddFormatter(IBotResponseFormatter formatter);
     }

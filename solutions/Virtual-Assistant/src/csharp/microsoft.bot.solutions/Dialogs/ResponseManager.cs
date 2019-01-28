@@ -14,7 +14,7 @@ namespace Microsoft.Bot.Solutions.Dialogs
         private readonly string _defaultJsonFile;
         private readonly string _extraLanguageJsonFileSearchPattern;
         private readonly string _jsonFilePath;
-        private Dictionary<string, Dictionary<string, BotResponse>> _jsonResponses;
+        private Dictionary<string, Dictionary<string, ResponseTemplate>> _jsonResponses;
         private Exception _resourceLoadingException;
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Microsoft.Bot.Solutions.Dialogs
             _jsonFilePath = resourcePath;
         }
 
-        private Dictionary<string, Dictionary<string, BotResponse>> JsonResponses
+        private Dictionary<string, Dictionary<string, ResponseTemplate>> JsonResponses
         {
             get
             {
@@ -44,7 +44,7 @@ namespace Microsoft.Bot.Solutions.Dialogs
             }
         }
 
-        public virtual BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
+        public virtual ResponseTemplate GetBotResponse([CallerMemberName] string propertyName = null)
         {
             // warm up the JsonResponses loading to see if it actually exist. If not, throw with the loading time exception that's actually helpful
             var jsonResponses = JsonResponses;
@@ -71,12 +71,12 @@ namespace Microsoft.Bot.Solutions.Dialogs
             }
 
             var botResponse = JsonResponses[locale][key ?? throw new KeyNotFoundException($"Unable to find response \"{propertyName}\".")];
-            return JsonConvert.DeserializeObject<BotResponse>(JsonConvert.SerializeObject(botResponse));
+            return JsonConvert.DeserializeObject<ResponseTemplate>(JsonConvert.SerializeObject(botResponse));
         }
 
-        protected virtual Dictionary<string, Dictionary<string, BotResponse>> LoadResponses()
+        protected virtual Dictionary<string, Dictionary<string, ResponseTemplate>> LoadResponses()
         {
-            var jsonResponses = new Dictionary<string, Dictionary<string, BotResponse>>();
+            var jsonResponses = new Dictionary<string, Dictionary<string, ResponseTemplate>>();
 
             var jsonFiles = new List<string>(Directory.GetFiles(_jsonFilePath, _extraLanguageJsonFileSearchPattern));
 
@@ -99,7 +99,7 @@ namespace Microsoft.Bot.Solutions.Dialogs
                         jsonData = sr.ReadToEnd();
                     }
 
-                    var responses = JsonConvert.DeserializeObject<Dictionary<string, BotResponse>>(jsonData);
+                    var responses = JsonConvert.DeserializeObject<Dictionary<string, ResponseTemplate>>(jsonData);
 
                     var fileInfo = new FileInfo(file);
                     var localeKey = string.Equals(fileInfo.Name, _defaultJsonFile, StringComparison.CurrentCultureIgnoreCase) ? _defaultLocaleKey : fileInfo.Name.Split(".")[1].ToLower();

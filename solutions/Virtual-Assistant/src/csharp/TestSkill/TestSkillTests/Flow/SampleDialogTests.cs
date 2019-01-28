@@ -13,7 +13,7 @@ namespace TestSkillTests.Flow
     [TestClass]
     public class SampleDialogTests : TestSkillTestBase
     {
-        private ResponseTemplateManager _responder = new ResponseTemplateManager(new IResponseTemplateCollection[]
+        private JsonTemplateManager _responder = new JsonTemplateManager(new IResponseIdCollection[]
         {
             new SampleResponses(),
             new MainResponses()

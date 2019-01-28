@@ -7,6 +7,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using ToDoSkill.Dialogs.Shared;
@@ -21,11 +22,12 @@ namespace ToDoSkill.Dialogs.ShowToDo
     {
         public ShowToDoItemDialog(
             SkillConfigurationBase services,
+            ResponseTemplateManager responseManager,
             IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
             IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(ShowToDoItemDialog), services, toDoStateAccessor, userStateAccessor, serviceManager, telemetryClient)
+            : base(nameof(ShowToDoItemDialog), services, responseManager, toDoStateAccessor, userStateAccessor, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -145,7 +147,7 @@ namespace ToDoSkill.Dialogs.ShowToDo
                     await sc.Context.SendActivityAsync(toDoListReply);
                     if (topIntent == ToDo.Intent.ShowToDo && allTasksCount > (state.ShowTaskPageIndex + 1) * state.PageSize)
                     {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ShowToDoResponses.ShowingMoreTasks));
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ShowToDoResponses.ShowingMoreTasks));
                     }
 
                     return await sc.EndDialogAsync(true);
@@ -193,7 +195,7 @@ namespace ToDoSkill.Dialogs.ShowToDo
         {
             try
             {
-                var prompt = sc.Context.Activity.CreateReply(ShowToDoResponses.NoToDoTasksPrompt);
+                var prompt = ResponseManager.GetResponse(ShowToDoResponses.NoToDoTasksPrompt);
                 return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
             }
             catch (Exception ex)
@@ -226,7 +228,7 @@ namespace ToDoSkill.Dialogs.ShowToDo
                 }
                 else if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ActionEnded));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ActionEnded));
                     return await sc.EndDialogAsync(true);
                 }
                 else

@@ -63,10 +63,10 @@ namespace EmailSkill.Dialogs.ConfirmRecipient
                 // todo: should make a reason enum
                 if (((UpdateUserDialogOptions)sc.Options).Reason == UpdateUserDialogOptions.UpdateReason.TooMany)
                 {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(ConfirmRecipientResponses.PromptTooManyPeople, null, new StringDictionary() { { "UserName", currentRecipientName } }), });
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(ConfirmRecipientResponses.PromptTooManyPeople, new StringDictionary() { { "UserName", currentRecipientName } }), });
                 }
 
-                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(ConfirmRecipientResponses.PromptPersonNotFound, null, new StringDictionary() { { "UserName", currentRecipientName } }), });
+                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(ConfirmRecipientResponses.PromptPersonNotFound, new StringDictionary() { { "UserName", currentRecipientName } }), });
             }
             catch (Exception ex)
             {
@@ -213,7 +213,7 @@ namespace EmailSkill.Dialogs.ConfirmRecipient
                 // TODO: should be removed if use adaptive card show choices.
                 var choiceString = GetSelectPromptString(selectOption, true);
                 selectOption.Prompt.Text += "\r\n" + choiceString;
-                selectOption.RetryPrompt = sc.Context.Activity.CreateReply(EmailSharedResponses.NoChoiceOptions_Retry);
+                selectOption.RetryPrompt = ResponseManager.GetResponse(EmailSharedResponses.NoChoiceOptions_Retry);
 
                 return await sc.PromptAsync(Actions.Choice, selectOption);
             }

@@ -17,9 +17,14 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PointOfInterestSkill.Dialogs.CancelRoute.Resources;
+using PointOfInterestSkill.Dialogs.FindPointOfInterest.Resources;
+using PointOfInterestSkill.Dialogs.Main.Resources;
+using PointOfInterestSkill.Dialogs.Route.Resources;
 using PointOfInterestSkill.Dialogs.Shared.Resources;
 using PointOfInterestSkill.ServiceClients;
 
@@ -59,6 +64,21 @@ namespace PointOfInterestSkill
             var languageModels = Configuration.GetSection("languageModels").Get<Dictionary<string, Dictionary<string, string>>>();
             var connectedServices = new SkillConfiguration(botConfig, languageModels, null, parameters, configuration);
             services.AddSingleton<SkillConfigurationBase>(sp => connectedServices);
+
+            var supportedLanguages = languageModels.Select(l => l.Key).ToArray();
+            var responses = new IResponseIdCollection[]
+            {
+                new CancelRouteResponses(),
+                new FindPointOfInterestResponses(),
+                new POIMainResponses(),
+                new RouteResponses(),
+                new POISharedResponses(),
+            };
+
+            var responseManager = new ResponseTemplateManager(responses, supportedLanguages);
+
+            // Register bot responses for all supported languages.
+            services.AddSingleton(sp => responseManager);
 
             // Initialize Bot State
             var cosmosDbService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.CosmosDB) ?? throw new Exception("Please configure your CosmosDb service in your .bot file.");
@@ -104,7 +124,7 @@ namespace PointOfInterestSkill
                 options.OnTurnError = async (context, exception) =>
                 {
                     CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
-                    await context.SendActivityAsync(context.Activity.CreateReply(POISharedResponses.PointOfInterestErrorMessage));
+                    await context.SendActivityAsync(responseManager.GetResponse(POISharedResponses.PointOfInterestErrorMessage));
                     await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"PointOfInterestSkill Error: {exception.Message} | {exception.StackTrace}"));
                     telemetryClient.TrackExceptionEx(exception, context.Activity);
                 };

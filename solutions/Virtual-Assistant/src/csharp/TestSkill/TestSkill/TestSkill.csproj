@@ -5,27 +5,28 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Dialogs\Main\Resources\MainResponses.de.json" />
-    <Content Remove="Dialogs\Main\Resources\MainResponses.es.json" />
-    <Content Remove="Dialogs\Main\Resources\MainResponses.fr.json" />
-    <Content Remove="Dialogs\Main\Resources\MainResponses.it.json" />
-    <Content Remove="Dialogs\Main\Resources\MainResponses.json" />
-    <Content Remove="Dialogs\Main\Resources\MainResponses.zh.json" />
-    <Content Remove="Dialogs\Sample\Resources\SampleResponses.de.json" />
-    <Content Remove="Dialogs\Sample\Resources\SampleResponses.es.json" />
-    <Content Remove="Dialogs\Sample\Resources\SampleResponses.fr.json" />
-    <Content Remove="Dialogs\Sample\Resources\SampleResponses.it.json" />
-    <Content Remove="Dialogs\Sample\Resources\SampleResponses.json" />
-    <Content Remove="Dialogs\Sample\Resources\SampleResponses.zh.json" />
-    <Content Remove="Dialogs\Shared\Resources\SharedResponses.de.json" />
-    <Content Remove="Dialogs\Shared\Resources\SharedResponses.es.json" />
-    <Content Remove="Dialogs\Shared\Resources\SharedResponses.fr.json" />
-    <Content Remove="Dialogs\Shared\Resources\SharedResponses.it.json" />
-    <Content Remove="Dialogs\Shared\Resources\SharedResponses.json" />
-    <Content Remove="Dialogs\Shared\Resources\SharedResponses.zh.json" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
+    <PackageReference Include="Microsoft.AspNetCore.All" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Bot.Connector" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.2.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj" />
+  </ItemGroup>
+
+    <ItemGroup>
     <EmbeddedResource Include="Dialogs\Main\Resources\MainResponses.de.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -81,29 +82,7 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
-    <PackageReference Include="Microsoft.AspNetCore.All" />
-    <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Connector" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.2.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj" />
-  </ItemGroup>
-
+    
   <ItemGroup>
     <None Update="Dialogs\Main\Resources\MainResponses.tt">
       <LastGenOutput>MainResponses.cs</LastGenOutput>
@@ -154,4 +133,9 @@
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="LocaleConfigurations\" />
+  </ItemGroup>
+
+<PropertyGroup><UserSecretsId>944666ed-e8c7-43f7-b18b-b34928120e71</UserSecretsId></PropertyGroup>
 </Project>

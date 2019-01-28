@@ -4,7 +4,7 @@
 
 namespace Microsoft.Bot.Solutions.Resources
 {
-    public interface IResponseTemplateCollection
+    public interface IResponseIdCollection
     {
     }
 }

@@ -1,159 +1,146 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Microsoft.Bot.Builder.TemplateManager;
+using System.Text.RegularExpressions;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
 using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Solutions.Resources
 {
-    public class ResponseTemplateManager : TemplateManager
+    public class ResponseTemplateManager
     {
         private const string _defaultLocaleKey = "default";
+        private static readonly Regex SimpleTokensRegex = new Regex(@"\{(\w+)\}", RegexOptions.Compiled);
+        private static readonly Regex ComplexTokensRegex = new Regex(@"\{[^{\}]+(?=})\}", RegexOptions.Compiled);
 
-        public ResponseTemplateManager(IResponseTemplateCollection responseTemplate)
+        public ResponseTemplateManager(IResponseIdCollection[] responseTemplates, string[] locales = null)
         {
-            var type = responder.GetType();
-            var resourceName = Name = nameof(type);
-            var assembly = type.Assembly;
+            JsonResponses = new Dictionary<string, Dictionary<string, ResponseTemplate>>();
 
-            JsonResponses = LoadResponses(resourceName, assembly);
-
-            ResponseTemplates = new LanguageTemplateDictionary();
-
-            foreach (var language in JsonResponses.Keys)
+            foreach (var responseTemplate in responseTemplates)
             {
-                var responses = JsonResponses[language];
-                var map = new TemplateIdMap();
+                var type = responseTemplate.GetType();
+                var resourceName = type.FullName;
+                var resourceAssembly = type.Assembly;
 
-                foreach (var response in responses)
+                LoadResponses(resourceName, resourceAssembly);
+
+                foreach (var locale in locales)
                 {
-                    map.Add(response.Key, (context, data) =>
-                    {
-                        return GetActivity(response.Key, language);
-                    });
-                }
-
-                ResponseTemplates.Add(language, map);
-            }
-
-            Register(new DictionaryRenderer(ResponseTemplates));
-        }
-
-        public ResponseTemplateManager(IResponseTemplateCollection[] responseTemplates)
-        {
-            JsonResponses = new Dictionary<string, Dictionary<string, BotResponse>>();
-
-            foreach (var r in responseTemplates)
-            {
-                var type = r.GetType();
-                var resourceName = Name = nameof(type);
-                var assembly = type.Assembly;
-
-                LoadResponses(resourceName, assembly).ToList().ForEach(x => JsonResponses.Add(x.Key, x.Value));
-
-                ResponseTemplates = new LanguageTemplateDictionary();
-
-                foreach (var language in JsonResponses.Keys)
-                {
-                    var responses = JsonResponses[language];
-                    var map = new TemplateIdMap();
-
-                    foreach (var response in responses)
-                    {
-                        map.Add(response.Key, (context, data) =>
-                        {
-                            return GetActivity(response.Key, language);
-                        });
-                    }
-
-                    ResponseTemplates.Add(language, map);
+                    LoadResponses(resourceName, resourceAssembly, locale);
                 }
             }
-
-            Register(new DictionaryRenderer(ResponseTemplates));
         }
 
-        public string Name { get; set; }
+        public Dictionary<string, Dictionary<string, ResponseTemplate>> JsonResponses { get; set; }
 
-        public Dictionary<string, Dictionary<string, BotResponse>> JsonResponses { get; set; }
-
-        public LanguageTemplateDictionary ResponseTemplates { get; set; }
-
-        public Activity GetActivity(string responseId, string locale)
+        public Activity GetResponse(string templateId, StringDictionary data = null, string locale = null)
         {
-            var botResponse = GetBotResponse(responseId, locale);
+            locale = locale ?? CultureInfo.CurrentUICulture.Name;
+            var template = GetResponseTemplate(templateId, locale);
 
-            // create the response Activity
-            var response = new Activity()
-            {
-                Text = botResponse.Reply.Text,
-                Speak = botResponse.Reply.Speak,
-            };
-
-            if (botResponse.SuggestedActions != null)
-            {
-                response.SuggestedActions = new SuggestedActions();
-
-                foreach (var action in botResponse.SuggestedActions)
-                {
-                    response.SuggestedActions.Actions.Add(new CardAction(type: ActionTypes.ImBack, title: action, value: action));
-                }
-            }
-
-            return response;
+            // create the response the data items
+            return ParseResponse(template, data);
         }
 
-        public BotResponse GetBotResponse(string responseId, string locale)
+        public void GetAdaptiveCardResponse(string templateId, string cardPath, StringDictionary tokens = null)
+        {
+            //var tokensCopy = CopyTokens(tokens);
+            //var parsedResponse = this.ParseResponse(response, tokensCopy);
+            //var parsedCards = this.ParseAndCreateCards(cardPath, new List<T> { cardDataAdapter }, tokensCopy, parsedResponse);
+            //this.PopulateReplyFromResponse(reply, response);
+
+            //if (reply.Attachments == null)
+            //{
+            //    reply.Attachments = new List<Attachment>();
+            //}
+
+            //reply.Attachments.Add(AdaptiveCardHelper.CreateCardAttachment(parsedCards[0]));
+
+            //if (response.SuggestedActions?.Length > 0)
+            //{
+            //    reply.SuggestedActions = new SuggestedActions(
+            //        actions: response.SuggestedActions.Select(choice =>
+            //            new CardAction(
+            //                ActionTypes.ImBack,
+            //                choice,
+            //                value: choice.ToLower(),
+            //                displayText: choice.ToLower(),
+            //                text: choice.ToLower())).ToList());
+            //}
+        }
+
+        public ResponseTemplate GetResponseTemplate(string templateId, string locale)
         {
             // warm up the JsonResponses loading to see if it actually exist. If not, throw with the loading time exception that's actually helpful
-            var key = GetJsonResponseKeyForLocale(responseId, locale);
+            var key = GetJsonResponseKeyForLocale(templateId, locale);
 
             // if no matching json file found for locale, try parent language
             if (key == null)
             {
                 locale = locale.Split("-")[0].ToLower();
-                key = GetJsonResponseKeyForLocale(responseId, locale);
+                key = GetJsonResponseKeyForLocale(templateId, locale);
 
                 // fall back to default
                 if (key == null)
                 {
                     locale = _defaultLocaleKey;
-                    key = GetJsonResponseKeyForLocale(responseId, locale);
+                    key = GetJsonResponseKeyForLocale(templateId, locale);
                 }
             }
 
             // Get the bot response from the .json file
-            return JsonResponses[locale][key ?? throw new KeyNotFoundException($"Unable to find response {Name}.{responseId}.")];
+            return JsonResponses[locale][key ?? throw new KeyNotFoundException($"Unable to find response {templateId}.")];
         }
 
-        private Dictionary<string, Dictionary<string, BotResponse>> LoadResponses(string resourceName, Assembly resourceAssembly)
+        private void LoadResponses(string resourceName, Assembly resourceAssembly, string locale = null)
         {
-            var defaultJsonFile = resourceName + ".json";
-            var jsonResponses = new Dictionary<string, Dictionary<string, BotResponse>>();
+            var resources = new List<string>();
 
-            var resources = resourceAssembly.GetManifestResourceNames().Where(x => x.Contains(resourceName) && x.EndsWith(".json")).ToList();
-            if (resources == null || resources.Count() == 0)
+            // if locale is not set, add resources under the default key.
+            var localeKey = _defaultLocaleKey;
+
+            if (locale == null)
             {
-                throw new FileNotFoundException($"Unable to find \"{defaultJsonFile}\" in \"{resourceName}\" assembly.");
+                var jsonFile = $"{resourceName}.json";
+
+                resources = resourceAssembly
+                    .GetManifestResourceNames()
+                    .Where(x => x.Contains(resourceName) && x.EndsWith(".json"))
+                    .ToList();
+
+                if (resources == null || resources.Count() == 0)
+                {
+                    throw new FileNotFoundException($"Unable to find \"{jsonFile}\" in \"{resourceName}\" assembly.");
+                }
             }
+            else
+            {
+                var culture = new CultureInfo(locale);
+                var langCode = culture.TwoLetterISOLanguageName;
+                localeKey = langCode;
+                var jsonFile = $"{resourceName}.{langCode}.json";
 
-            //var cultures = CultureInfo.GetCultures(CultureTypes.NeutralCultures);
-            //var satelliteAssemblies = new List<string>();
-            //foreach (var culture in cultures)
-            //{
-            //    // var localeAssembly = resourceAssembly.GetSatelliteAssembly(culture);
-            //    var localeAssembly = $"{resourceName}";
-            //    if (localeAssembly != null)
-            //    {
-            //        satelliteAssemblies.Add(localeAssembly.FullName);
-            //    }
-            //}
-
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+                try
+                {
+                    resources = resourceAssembly
+                        .GetSatelliteAssembly(culture)
+                        .GetManifestResourceNames()
+                        .Where(x => x.Contains(resourceName) && x.EndsWith(".json"))
+                        .ToList();
+                }
+                catch
+                {
+                    // Do not throw an error if a language is missing.
+                    // If a response in another language is missing, bot will fall back to the default language.
+                }
+            }
 
             foreach (var resource in resources)
             {
@@ -165,24 +152,27 @@ namespace Microsoft.Bot.Solutions.Resources
                         jsonData = sr.ReadToEnd();
                     }
 
-                    var responses = JsonConvert.DeserializeObject<Dictionary<string, BotResponse>>(jsonData);
+                    var responses = JsonConvert.DeserializeObject<Dictionary<string, ResponseTemplate>>(jsonData);
 
-                    var localeKey = resource.Contains(defaultJsonFile) ? _defaultLocaleKey : resource.Replace(".json", string.Empty).Split(".").Last().ToLower();
-                    jsonResponses.Add(localeKey, responses);
+                    if (JsonResponses.ContainsKey(localeKey))
+                    {
+                        var localeResponses = JsonResponses[localeKey] ?? new Dictionary<string, ResponseTemplate>();
+                        JsonResponses[localeKey] = localeResponses.Concat(responses).ToDictionary(x => x.Key, y => y.Value);
+                    }
+                    else
+                    {
+                        JsonResponses.Add(localeKey, responses);
+                    }
                 }
                 catch (JsonReaderException ex)
                 {
-                    jsonResponses = null;
                     throw new JsonReaderException($"Error deserializing {resource}. {ex.Message}", ex);
                 }
                 catch (Exception ex)
                 {
-                    jsonResponses = null;
                     throw ex;
                 }
             }
-
-            return jsonResponses;
         }
 
         private string GetJsonResponseKeyForLocale(string responseId, string locale)
@@ -193,6 +183,62 @@ namespace Microsoft.Bot.Solutions.Resources
             }
 
             return null;
+        }
+
+        private Activity ParseResponse(ResponseTemplate template, StringDictionary data)
+        {
+            var reply = template.Reply;
+
+            if (reply.Text != null)
+            {
+                reply.Text = this.Format(reply.Text, data);
+            }
+
+            if (reply.Speak != null)
+            {
+                reply.Speak = this.Format(reply.Speak, data);
+            }
+
+            var activity = new Activity()
+            {
+                Type = ActivityTypes.Message,
+                Text = reply.Text,
+                Speak = reply.Speak,
+                InputHint = template.InputHint
+            };
+
+            if (template.SuggestedActions != null && template.SuggestedActions.Count() > 0)
+            {
+                activity.SuggestedActions = new SuggestedActions();
+
+                foreach (var action in template.SuggestedActions)
+                {
+                    activity.SuggestedActions.Actions.Add(new CardAction(type: ActionTypes.ImBack, title: action, value: action));
+                }
+            }
+
+            return activity;
+        }
+
+        private string Format(string messageTemplate, StringDictionary tokens)
+        {
+            var result = messageTemplate;
+            var matches = ComplexTokensRegex.Matches(messageTemplate);
+            foreach (var match in matches)
+            {
+                var bindingJson = match.ToString();
+
+                var tokenKey = bindingJson
+                  .Replace("{", string.Empty)
+                  .Replace("}", string.Empty);
+
+                // TODO: change to use the dynamic obj
+                result = tokens.ContainsKey(tokenKey)
+                    ? result.Replace(bindingJson, tokens[tokenKey])
+                    : result;
+            }
+
+            return result;
         }
     }
 }

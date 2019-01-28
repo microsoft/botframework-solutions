@@ -11,12 +11,10 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using TestSkill.Dialogs.Main.Resources;
 using TestSkill.Dialogs.Sample;
-using TestSkill.Dialogs.Shared;
 using TestSkill.Dialogs.Shared.DialogOptions;
 using TestSkill.Dialogs.Shared.Resources;
 using TestSkill.ServiceClients;
@@ -32,10 +30,11 @@ namespace TestSkill.Dialogs.Main
         private IServiceManager _serviceManager;
         private IStatePropertyAccessor<SkillConversationState> _conversationStateAccessor;
         private IStatePropertyAccessor<SkillUserState> _userStateAccessor;
-        private ResponseTemplateManager _responder = new ResponseTemplateManager(new IResponseTemplateCollection[] { new MainResponses(), new SharedResponses() });
+        private ResponseTemplateManager _responseManager;
 
         public MainDialog(
             SkillConfigurationBase services,
+            ResponseTemplateManager responseManager,
             ConversationState conversationState,
             UserState userState,
             IBotTelemetryClient telemetryClient,
@@ -45,6 +44,7 @@ namespace TestSkill.Dialogs.Main
         {
             _skillMode = skillMode;
             _services = services;
+            _responseManager = responseManager;
             _conversationState = conversationState;
             _userState = userState;
             _serviceManager = serviceManager;
@@ -54,7 +54,7 @@ namespace TestSkill.Dialogs.Main
             _conversationStateAccessor = _conversationState.CreateProperty<SkillConversationState>(nameof(SkillConversationState));
             _userStateAccessor = _userState.CreateProperty<SkillUserState>(nameof(SkillUserState));
 
-            // RegisterDialogs
+            // Register dialogs
             RegisterDialogs();
         }
 
@@ -63,7 +63,8 @@ namespace TestSkill.Dialogs.Main
             if (!_skillMode)
             {
                 // send a greeting if we're in local mode
-                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(MainResponses.WelcomeMessage));
+                var message = _responseManager.GetResponse(MainResponses.WelcomeMessage, dc.Context.Activity.Locale);
+                await dc.Context.SendActivityAsync(message);
             }
         }
 
@@ -103,9 +104,10 @@ namespace TestSkill.Dialogs.Main
                     case TestSkillLU.Intent.None:
                         {
                             // No intent was identified, send confused message
-                            await _responder.ReplyWith(dc.Context, SharedResponses.DidntUnderstandMessage);
+                            var response = _responseManager.GetResponse(SharedResponses.DidntUnderstandMessage, dc.Context.Activity.Locale);
+                            await dc.Context.SendActivityAsync(response);
 
-                            if(_skillMode)
+                            if (_skillMode)
                             {
                                 await CompleteAsync(dc);
                             }
@@ -116,7 +118,9 @@ namespace TestSkill.Dialogs.Main
                     default:
                         {
                             // intent was identified but not yet implemented
-                            await _responder.ReplyWith(dc.Context, MainResponses.FeatureNotAvailable);
+                            var response = _responseManager.GetResponse(MainResponses.FeatureNotAvailable, dc.Context.Activity.Locale);
+                            await dc.Context.SendActivityAsync(response);
+
                             if (_skillMode)
                             {
                                 await CompleteAsync(dc);
@@ -227,7 +231,9 @@ namespace TestSkill.Dialogs.Main
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
-            await _responder.ReplyWith(dc.Context, MainResponses.CancelMessage);
+            var response = _responseManager.GetResponse(MainResponses.CancelMessage, dc.Context.Activity.Locale);
+            await dc.Context.SendActivityAsync(response);
+
             await CompleteAsync(dc);
             await dc.CancelAllDialogsAsync();
             return InterruptionAction.StartedDialog;
@@ -235,7 +241,8 @@ namespace TestSkill.Dialogs.Main
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
-            await _responder.ReplyWith(dc.Context, MainResponses.HelpMessage);
+            var response = _responseManager.GetResponse(MainResponses.HelpMessage, dc.Context.Activity.Locale);
+            await dc.Context.SendActivityAsync(response);
             return InterruptionAction.MessageSentToUser;
         }
 
@@ -261,13 +268,14 @@ namespace TestSkill.Dialogs.Main
                 await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
             }
 
-            await _responder.ReplyWith(dc.Context, MainResponses.LogOut);
+            var response = _responseManager.GetResponse(MainResponses.LogOut, dc.Context.Activity.Locale);
+            await dc.Context.SendActivityAsync(response);
             return InterruptionAction.StartedDialog;
         }
 
         private void RegisterDialogs()
         {
-            AddDialog(new SampleDialog(_services, _conversationStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new SampleDialog(_services, _responseManager, _conversationStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
         }
 
         private class Events

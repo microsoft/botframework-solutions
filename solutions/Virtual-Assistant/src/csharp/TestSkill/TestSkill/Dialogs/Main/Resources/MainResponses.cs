@@ -9,7 +9,7 @@ namespace TestSkill.Dialogs.Main.Resources
     /// <summary>
     /// Contains bot responses.
     /// </summary>
-    public class MainResponses : IResponseTemplateCollection
+    public class MainResponses : IResponseIdCollection
     {
         // Generated accessors
 		public const string WelcomeMessage = "WelcomeMessage";
@@ -19,5 +19,6 @@ namespace TestSkill.Dialogs.Main.Resources
 		public const string LogOut = "LogOut";
 		public const string FeatureNotAvailable = "FeatureNotAvailable";
 		public const string CancelMessage = "CancelMessage";
+
     }
 }

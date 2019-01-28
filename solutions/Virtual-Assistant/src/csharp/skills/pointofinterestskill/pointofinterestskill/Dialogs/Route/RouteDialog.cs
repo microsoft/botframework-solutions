@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using PointOfInterestSkill.Dialogs.Route.Resources;
 using PointOfInterestSkill.Dialogs.Shared;
@@ -19,10 +19,11 @@ namespace PointOfInterestSkill.Dialogs.Route
     {
         public RouteDialog(
             SkillConfiguration services,
+            ResponseTemplateManager responseManager,
             IStatePropertyAccessor<PointOfInterestSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(RouteDialog), services, accessor, serviceManager, telemetryClient)
+            : base(nameof(RouteDialog), services, responseManager, accessor, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -166,7 +167,7 @@ namespace PointOfInterestSkill.Dialogs.Route
                 if (state.ActiveLocation == null)
                 {
                     // No ActiveLocation found
-                    return await sc.PromptAsync(Action.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(RouteResponses.MissingActiveLocationErrorMessage, ResponseBuilder) });
+                    return await sc.PromptAsync(Action.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(RouteResponses.MissingActiveLocationErrorMessage) });
                 }
 
                 if (!string.IsNullOrEmpty(state.SearchDescriptor))
@@ -184,7 +185,7 @@ namespace PointOfInterestSkill.Dialogs.Route
 
                 if (routeDirections?.Routes?.ToList().Count == 1)
                 {
-                    return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(RouteResponses.PromptToStartRoute, ResponseBuilder) });
+                    return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions { Prompt = ResponseManager.GetResponse(RouteResponses.PromptToStartRoute) });
                 }
 
                 state.ClearLuisResults();
@@ -213,7 +214,7 @@ namespace PointOfInterestSkill.Dialogs.Route
                         state.FoundRoutes = null;
                     }
 
-                    var replyMessage = sc.Context.Activity.CreateReply(RouteResponses.SendingRouteDetails);
+                    var replyMessage = ResponseManager.GetResponse(RouteResponses.SendingRouteDetails);
                     await sc.Context.SendActivityAsync(replyMessage);
 
                     // Send event with active route data
@@ -221,16 +222,18 @@ namespace PointOfInterestSkill.Dialogs.Route
                     replyEvent.Type = ActivityTypes.Event;
                     replyEvent.Name = "ActiveRoute.Directions";
 
-                    DirectionsEventResponse eventPayload = new DirectionsEventResponse();
-                    eventPayload.Destination = state.ActiveLocation;
-                    eventPayload.Route = state.ActiveRoute;
+                    var eventPayload = new DirectionsEventResponse
+                    {
+                        Destination = state.ActiveLocation,
+                        Route = state.ActiveRoute
+                    };
                     replyEvent.Value = eventPayload;
 
                     await sc.Context.SendActivityAsync(replyEvent);
                 }
                 else
                 {
-                    var replyMessage = sc.Context.Activity.CreateReply(RouteResponses.AskAboutRouteLater);
+                    var replyMessage = ResponseManager.GetResponse(RouteResponses.AskAboutRouteLater);
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
 

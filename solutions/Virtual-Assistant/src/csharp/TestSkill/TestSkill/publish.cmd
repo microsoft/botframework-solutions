@@ -1,0 +1,1 @@
+az bot publish --resource-group LamilTestSkill4 -n LamilTestSkill4 --subscription 4c0d07e4-5490-4784-8d89-d8c504ba2a75 -v v4 --proj-name "TestSkill.csproj" 

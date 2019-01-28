@@ -17,10 +17,15 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ToDoSkill.Dialogs.DeleteToDo.Resources;
+using ToDoSkill.Dialogs.Main.Resources;
+using ToDoSkill.Dialogs.MarkToDo.Resources;
 using ToDoSkill.Dialogs.Shared.Resources;
+using ToDoSkill.Dialogs.ShowToDo.Resources;
 using ToDoSkill.ServiceClients;
 
 namespace ToDoSkill
@@ -58,8 +63,23 @@ namespace ToDoSkill
             var configuration = Configuration.GetSection("configuration")?.GetChildren()?.ToDictionary(x => x.Key, y => y.Value as object);
             var supportedProviders = Configuration.GetSection("supportedProviders")?.Get<string[]>();
             var languageModels = Configuration.GetSection("languageModels").Get<Dictionary<string, Dictionary<string, string>>>();
-            SkillConfigurationBase connectedServices = new SkillConfiguration(botConfig, languageModels, supportedProviders, parameters, configuration);
+            var connectedServices = new SkillConfiguration(botConfig, languageModels, supportedProviders, parameters, configuration);
             services.AddSingleton<SkillConfigurationBase>(sp => connectedServices);
+
+            var supportedLanguages = languageModels.Select(l => l.Key).ToArray();
+            var responses = new IResponseIdCollection[]
+            {
+                new DeleteToDoResponses(),
+                new ToDoMainResponses(),
+                new MarkToDoResponses(),
+                new ToDoSharedResponses(),
+                new ShowToDoResponses(),
+            };
+
+            var responseManager = new ResponseTemplateManager(responses, supportedLanguages);
+
+            // Register bot responses for all supported languages.
+            services.AddSingleton(sp => responseManager);
 
             var defaultLocale = Configuration.GetSection("defaultLocale").Get<string>();
 
@@ -107,7 +127,7 @@ namespace ToDoSkill
                 options.OnTurnError = async (context, exception) =>
                 {
                     CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
-                    await context.SendActivityAsync(context.Activity.CreateReply(ToDoSharedResponses.ToDoErrorMessage));
+                    await context.SendActivityAsync(responseManager.GetResponse(ToDoSharedResponses.ToDoErrorMessage));
                     await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"To Do Skill Error: {exception.Message} | {exception.StackTrace}"));
                     telemetryClient.TrackExceptionEx(exception, context.Activity);
                 };

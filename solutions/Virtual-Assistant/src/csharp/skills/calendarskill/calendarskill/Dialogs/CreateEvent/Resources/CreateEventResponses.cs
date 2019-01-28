@@ -1,74 +1,39 @@
 ﻿// https://docs.microsoft.com/en-us/visualstudio/modeling/t4-include-directive?view=vs-2017
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using System.IO;
-using System.Runtime.CompilerServices;
-using Microsoft.Bot.Solutions.Dialogs;
+
+using Microsoft.Bot.Solutions.Resources;
 
 namespace CalendarSkill.Dialogs.CreateEvent.Resources
 {
     /// <summary>
     /// Contains bot responses.
     /// </summary>
-    public static class CreateEventResponses
+    public class CreateEventResponses : IResponseIdCollection
     {
-        private static readonly ResponseManager _responseManager;
-
-        static CreateEventResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(CreateEventResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\CreateEvent\Resources");
-            _responseManager = new ResponseManager(resDir, "CreateEventResponses");
-        }
-
         // Generated accessors
-        public static BotResponse NoTitle => GetBotResponse();
+		public const string NoTitle = "NoTitle";
+		public const string NoTitle_Short = "NoTitle_Short";
+		public const string NoContent = "NoContent";
+		public const string NoLocation = "NoLocation";
+		public const string ConfirmCreate = "ConfirmCreate";
+		public const string ConfirmCreateFailed = "ConfirmCreateFailed";
+		public const string EventCreated = "EventCreated";
+		public const string EventCreationFailed = "EventCreationFailed";
+		public const string NoAttendees = "NoAttendees";
+		public const string PromptTooManyPeople = "PromptTooManyPeople";
+		public const string PromptPersonNotFound = "PromptPersonNotFound";
+		public const string NoStartDate = "NoStartDate";
+		public const string NoStartDate_Retry = "NoStartDate_Retry";
+		public const string NoStartTime = "NoStartTime";
+		public const string NoStartTime_Retry = "NoStartTime_Retry";
+		public const string NoStartTime_NoSkip = "NoStartTime_NoSkip";
+		public const string NoDuration = "NoDuration";
+		public const string NoDuration_Retry = "NoDuration_Retry";
+		public const string GetRecreateInfo = "GetRecreateInfo";
+		public const string GetRecreateInfo_Retry = "GetRecreateInfo_Retry";
+		public const string ConfirmRecipient = "ConfirmRecipient";
+		public const string InvaildDuration = "InvaildDuration";
 
-        public static BotResponse NoTitle_Short => GetBotResponse();
-
-        public static BotResponse NoContent => GetBotResponse();
-
-        public static BotResponse NoLocation => GetBotResponse();
-
-        public static BotResponse ConfirmCreate => GetBotResponse();
-
-        public static BotResponse ConfirmCreateFailed => GetBotResponse();
-
-        public static BotResponse EventCreated => GetBotResponse();
-
-        public static BotResponse EventCreationFailed => GetBotResponse();
-
-        public static BotResponse NoAttendees => GetBotResponse();
-
-        public static BotResponse PromptTooManyPeople => GetBotResponse();
-
-        public static BotResponse PromptPersonNotFound => GetBotResponse();
-
-        public static BotResponse NoStartDate => GetBotResponse();
-
-        public static BotResponse NoStartDate_Retry => GetBotResponse();
-
-        public static BotResponse NoStartTime => GetBotResponse();
-
-        public static BotResponse NoStartTime_Retry => GetBotResponse();
-
-        public static BotResponse NoStartTime_NoSkip => GetBotResponse();
-
-        public static BotResponse NoDuration => GetBotResponse();
-
-        public static BotResponse NoDuration_Retry => GetBotResponse();
-
-        public static BotResponse GetRecreateInfo => GetBotResponse();
-
-        public static BotResponse GetRecreateInfo_Retry => GetBotResponse();
-
-        public static BotResponse ConfirmRecipient => GetBotResponse();
-
-        public static BotResponse InvaildDuration => GetBotResponse();
-
-        private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
-        {
-            return _responseManager.GetBotResponse(propertyName);
-        }
     }
 }

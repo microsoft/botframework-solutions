@@ -6,7 +6,9 @@ namespace AutomotiveSkill
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using global::AutomotiveSkill.Dialogs.Main.Resources;
     using global::AutomotiveSkill.Dialogs.Shared.Resources;
+    using global::AutomotiveSkill.Dialogs.VehicleSettings.Resources;
     using global::AutomotiveSkill.ServiceClients;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -20,6 +22,7 @@ namespace AutomotiveSkill
     using Microsoft.Bot.Schema;
     using Microsoft.Bot.Solutions.Extensions;
     using Microsoft.Bot.Solutions.Middleware.Telemetry;
+    using Microsoft.Bot.Solutions.Resources;
     using Microsoft.Bot.Solutions.Skills;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -62,8 +65,21 @@ namespace AutomotiveSkill
             var configuration = Configuration.GetSection("Configuration")?.Get<Dictionary<string, object>>();
             var supportedProviders = Configuration.GetSection("SupportedProviders")?.Get<string[]>();
             var languageModels = Configuration.GetSection("languageModels").Get<Dictionary<string, Dictionary<string, string>>>();
-            SkillConfigurationBase connectedServices = new SkillConfiguration(botConfig, languageModels, supportedProviders, parameters, configuration);
-            services.AddSingleton(sp => connectedServices);
+            var connectedServices = new SkillConfiguration(botConfig, languageModels, supportedProviders, parameters, configuration);
+            services.AddSingleton<SkillConfigurationBase>(sp => connectedServices);
+
+            var supportedLanguages = languageModels.Select(l => l.Key).ToArray();
+            var responses = new IResponseIdCollection[]
+            {
+                new AutomotiveSkillMainResponses(),
+                new AutomotiveSkillSharedResponses(),
+                new VehicleSettingsResponses(),
+            };
+
+            var responseManager = new ResponseTemplateManager(responses, supportedLanguages);
+
+            // Register bot responses for all supported languages.
+            services.AddSingleton(sp => responseManager);
 
             // Initialize Bot State
             var cosmosDbService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.CosmosDB) ?? throw new Exception("Please configure your CosmosDb service in your .bot file.");
@@ -112,7 +128,7 @@ namespace AutomotiveSkill
                 // Catches any errors that occur during a conversation turn and logs them to AppInsights.
                 options.OnTurnError = async (context, exception) =>
                 {
-                    await context.SendActivityAsync(context.Activity.CreateReply(AutomotiveSkillSharedResponses.ErrorMessage));
+                    await context.SendActivityAsync(responseManager.GetResponse(AutomotiveSkillSharedResponses.ErrorMessage));
                     await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Skill Error: {exception.Message} | {exception.StackTrace}"));
                     telemetryClient.TrackExceptionEx(exception, context.Activity);
                 };

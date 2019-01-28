@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using ToDoSkill.Dialogs.MarkToDo.Resources;
@@ -20,11 +21,12 @@ namespace ToDoSkill.Dialogs.MarkToDo
     {
         public MarkToDoItemDialog(
             SkillConfigurationBase services,
+            ResponseTemplateManager responseManager,
             IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
             IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(MarkToDoItemDialog), services, toDoStateAccessor, userStateAccessor, serviceManager, telemetryClient)
+            : base(nameof(MarkToDoItemDialog), services, responseManager, toDoStateAccessor, userStateAccessor, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -59,7 +61,7 @@ namespace ToDoSkill.Dialogs.MarkToDo
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 state.LastListType = state.ListType;
                 var service = await InitListTypeIds(sc);
-                BotResponse botResponse;
+                ResponseTemplate botResponse;
                 string taskTopicToBeMarked = null;
                 if (state.MarkOrDeleteAllTasksFlag)
                 {

@@ -7,6 +7,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using ToDoSkill.Dialogs.DeleteToDo.Resources;
@@ -22,11 +23,12 @@ namespace ToDoSkill.Dialogs.DeleteToDo
     {
         public DeleteToDoItemDialog(
             SkillConfigurationBase services,
+            ResponseTemplateManager responseManager,
             IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
             IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(DeleteToDoItemDialog), services, toDoStateAccessor, userStateAccessor, serviceManager, telemetryClient)
+            : base(nameof(DeleteToDoItemDialog), services, responseManager, toDoStateAccessor, userStateAccessor, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -115,7 +117,7 @@ namespace ToDoSkill.Dialogs.DeleteToDo
                     {
                         var token = new StringDictionary() { { "listType", state.ListType } };
                         var response = GenerateResponseWithTokens(DeleteToDoResponses.AfterAllTasksDeleted, token);
-                        var message = sc.Context.Activity.CreateReply(response);
+                        var message = ResponseManager.GetResponse(response);
                         message.Speak = response;
                         await sc.Context.SendActivityAsync(message);
                     }
@@ -171,18 +173,14 @@ namespace ToDoSkill.Dialogs.DeleteToDo
                 if (state.MarkOrDeleteAllTasksFlag)
                 {
                     var token = new StringDictionary() { { "listType", state.ListType } };
-                    var response = GenerateResponseWithTokens(DeleteToDoResponses.AskDeletionAllConfirmation, token);
-                    var prompt = sc.Context.Activity.CreateReply(response);
-                    prompt.Speak = response;
+                    var prompt = ResponseManager.GetResponse(DeleteToDoResponses.AskDeletionAllConfirmation, token);
                     return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
                 }
                 else
                 {
                     var toDoTask = state.Tasks[state.TaskIndexes[0]].Topic;
                     var token = new StringDictionary() { { "toDoTask", toDoTask } };
-                    var response = GenerateResponseWithTokens(DeleteToDoResponses.AskDeletionConfirmation, token);
-                    var prompt = sc.Context.Activity.CreateReply(response);
-                    prompt.Speak = response;
+                    var prompt = ResponseManager.GetResponse(DeleteToDoResponses.AskDeletionConfirmation, token);
                     return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
                 }
             }
@@ -213,7 +211,7 @@ namespace ToDoSkill.Dialogs.DeleteToDo
                 else if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
                 {
                     state.DeleteTaskConfirmation = false;
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ActionEnded));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ActionEnded));
                     return await sc.EndDialogAsync(true);
                 }
                 else

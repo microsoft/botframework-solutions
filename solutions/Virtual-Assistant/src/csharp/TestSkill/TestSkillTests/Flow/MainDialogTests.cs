@@ -14,7 +14,7 @@ namespace TestSkillTests.Flow
     [TestClass]
     public class MainDialogTests : TestSkillTestBase
     {
-        private ResponseTemplateManager _responder = new ResponseTemplateManager(new [] { typeof(MainResponses), typeof(SharedResponses)});
+        private JsonTemplateManager _responder = new JsonTemplateManager(new [] { typeof(MainResponses), typeof(SharedResponses)});
 
         [TestMethod]
         public async Task Test_Unhandled_Message()

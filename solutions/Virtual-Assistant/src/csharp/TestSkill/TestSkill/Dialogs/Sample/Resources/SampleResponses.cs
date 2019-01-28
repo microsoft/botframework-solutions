@@ -9,10 +9,11 @@ namespace TestSkill.Dialogs.Sample.Resources
     /// <summary>
     /// Contains bot responses.
     /// </summary>
-    public class SampleResponses : IResponseTemplateCollection
+    public class SampleResponses : IResponseIdCollection
     {
         // Generated accessors
 		public const string NamePrompt = "NamePrompt";
 		public const string HaveNameMessage = "HaveNameMessage";
+
     }
 }

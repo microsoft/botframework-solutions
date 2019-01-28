@@ -7,24 +7,24 @@ namespace Microsoft.Bot.Solutions.Dialogs
     using Microsoft.Bot.Schema;
     using Newtonsoft.Json;
 
-    public class BotResponse
+    public class ResponseTemplate
     {
         private string inputHint;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BotResponse"/> class.
+        /// Initializes a new instance of the <see cref="ResponseTemplate"/> class.
         /// </summary>
-        public BotResponse()
+        public ResponseTemplate()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BotResponse"/> class.
+        /// Initializes a new instance of the <see cref="ResponseTemplate"/> class.
         /// </summary>
         /// <param name="text"></param>
         /// <param name="speak"></param>
         /// <param name="inputHint"></param>
-        public BotResponse(string text, string speak, string inputHint = InputHints.AcceptingInput)
+        public ResponseTemplate(string text, string speak, string inputHint = InputHints.AcceptingInput)
         {
             this.Replies = new Reply[1];
             this.Replies[0] = new Reply

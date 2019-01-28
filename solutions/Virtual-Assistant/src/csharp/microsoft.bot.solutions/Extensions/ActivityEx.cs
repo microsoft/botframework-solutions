@@ -54,19 +54,19 @@ namespace Microsoft.Bot.Solutions.Extensions
             }
         }
 
-        public static Activity CreateReply(this Activity activity, BotResponse response, BotResponseBuilder responseBuilder = null, StringDictionary tokens = null)
-        {
-            var reply = activity.CreateReply();
-            if (responseBuilder == null)
-            {
-                responseBuilder = BotResponseBuilder();
-            }
+        //public static Activity CreateReply(this Activity activity, ResponseTemplate response, BotResponseBuilder responseBuilder = null, StringDictionary tokens = null)
+        //{
+        //    var reply = activity.CreateReply();
+        //    if (responseBuilder == null)
+        //    {
+        //        responseBuilder = BotResponseBuilder();
+        //    }
 
-            responseBuilder.BuildMessageReply(reply, response, tokens);
-            return reply;
-        }
+        //    responseBuilder.BuildMessageReply(reply, response, tokens);
+        //    return reply;
+        //}
 
-        public static Activity CreateAdaptiveCardGroupReply<T>(this Activity activity, BotResponse response, string cardPath, string attachmentLayout, List<T> cardDataAdapters, BotResponseBuilder responseBuilder = null, StringDictionary tokens = null)
+        public static Activity CreateAdaptiveCardGroupReply<T>(this Activity activity, ResponseTemplate response, string cardPath, string attachmentLayout, List<T> cardDataAdapters, BotResponseBuilder responseBuilder = null, StringDictionary tokens = null)
             where T : CardDataBase
         {
             var reply = activity.CreateReply();
@@ -79,7 +79,7 @@ namespace Microsoft.Bot.Solutions.Extensions
             return reply;
         }
 
-        public static Activity CreateAdaptiveCardReply<T>(this Activity activity, BotResponse response, string cardPath, T cardDataAdapter, BotResponseBuilder responseBuilder = null, StringDictionary tokens = null, Activity replyToUse = null)
+        public static Activity CreateAdaptiveCardReply<T>(this Activity activity, ResponseTemplate response, string cardPath, T cardDataAdapter, BotResponseBuilder responseBuilder = null, StringDictionary tokens = null, Activity replyToUse = null)
             where T : CardDataBase
         {
             var reply = replyToUse ?? activity.CreateReply();

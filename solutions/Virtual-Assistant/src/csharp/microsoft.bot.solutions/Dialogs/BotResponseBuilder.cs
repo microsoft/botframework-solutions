@@ -26,7 +26,7 @@ namespace Microsoft.Bot.Solutions.Dialogs
         private readonly List<IBotResponseFormatter> responseFormatters = new List<IBotResponseFormatter>();
 
         /// <inheritdoc/>
-        public void BuildAdaptiveCardReply<T>(Activity reply, BotResponse response, string cardPath, T cardDataAdapter, StringDictionary tokens = null)
+        public void BuildAdaptiveCardReply<T>(Activity reply, ResponseTemplate response, string cardPath, T cardDataAdapter, StringDictionary tokens = null)
             where T : CardDataBase
         {
             var tokensCopy = CopyTokens(tokens);
@@ -55,7 +55,7 @@ namespace Microsoft.Bot.Solutions.Dialogs
         }
 
         /// <inheritdoc/>
-        public void BuildAdaptiveCardGroupReply<T>(Activity reply, BotResponse response, string cardPath, string attachmentLayout, List<T> cardDataAdapters, StringDictionary tokens = null)
+        public void BuildAdaptiveCardGroupReply<T>(Activity reply, ResponseTemplate response, string cardPath, string attachmentLayout, List<T> cardDataAdapters, StringDictionary tokens = null)
             where T : CardDataBase
         {
             var tokensCopy = CopyTokens(tokens);
@@ -87,7 +87,7 @@ namespace Microsoft.Bot.Solutions.Dialogs
         }
 
         /// <inheritdoc/>
-        public void BuildMessageReply(Activity reply, BotResponse response, StringDictionary tokens = null)
+        public void BuildMessageReply(Activity reply, ResponseTemplate response, StringDictionary tokens = null)
         {
             var parsedResponse = this.ParseResponse(response, tokens);
             this.PopulateReplyFromResponse(reply, parsedResponse);
@@ -162,7 +162,7 @@ namespace Microsoft.Bot.Solutions.Dialogs
             return tokensCopy;
         }
 
-        private List<AdaptiveCard> ParseAndCreateCards<T>(string cardPath, List<T> cardDataAdapters, StringDictionary tokens, BotResponse parsedResponse)
+        private List<AdaptiveCard> ParseAndCreateCards<T>(string cardPath, List<T> cardDataAdapters, StringDictionary tokens, ResponseTemplate parsedResponse)
             where T : CardDataBase
         {
             if (!tokens.ContainsKey("Text"))
@@ -213,7 +213,7 @@ namespace Microsoft.Bot.Solutions.Dialogs
             return cards;
         }
 
-        private void PopulateReplyFromResponse(Activity reply, BotResponse response)
+        private void PopulateReplyFromResponse(Activity reply, ResponseTemplate response)
         {
             var replyTemplate = response.Reply;
             reply.Text = replyTemplate.Text;
@@ -221,7 +221,7 @@ namespace Microsoft.Bot.Solutions.Dialogs
             reply.InputHint = response.InputHint;
         }
 
-        private BotResponse ParseResponse(BotResponse response, StringDictionary tokens)
+        private ResponseTemplate ParseResponse(ResponseTemplate response, StringDictionary tokens)
         {
             foreach (var reply in response.Replies)
             {

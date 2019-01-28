@@ -9,7 +9,7 @@ namespace TestSkill.Dialogs.Shared.Resources
     /// <summary>
     /// Contains bot responses.
     /// </summary>
-    public class SharedResponses : IResponseTemplateCollection
+    public class SharedResponses : IResponseIdCollection
     {
         // Generated accessors
 		public const string DidntUnderstandMessage = "DidntUnderstandMessage";
@@ -18,5 +18,6 @@ namespace TestSkill.Dialogs.Shared.Resources
 		public const string AuthFailed = "AuthFailed";
 		public const string ActionEnded = "ActionEnded";
 		public const string ErrorMessage = "ErrorMessage";
+
     }
 }

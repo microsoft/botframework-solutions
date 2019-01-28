@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 using System;
@@ -14,12 +14,14 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TestSkill.Dialogs.Main.Resources;
+using TestSkill.Dialogs.Sample.Resources;
 using TestSkill.Dialogs.Shared.Resources;
 using TestSkill.ServiceClients;
 
@@ -36,6 +38,11 @@ namespace TestSkill
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
+
+            if (env.IsDevelopment())
+            {
+                builder.AddUserSecrets<Startup>();
+            }
 
             Configuration = builder.Build();
         }
@@ -58,8 +65,22 @@ namespace TestSkill
             var configuration = Configuration.GetSection("configuration")?.GetChildren()?.ToDictionary(x => x.Key, y => y.Value as object);
             var supportedProviders = Configuration.GetSection("supportedProviders")?.Get<string[]>();
             var languageModels = Configuration.GetSection("languageModels").Get<Dictionary<string, Dictionary<string, string>>>();
-            SkillConfigurationBase connectedServices = new SkillConfiguration(botConfig, languageModels, supportedProviders, parameters, configuration);
+            var connectedServices = new SkillConfiguration(botConfig, languageModels, supportedProviders, parameters, configuration);
             services.AddSingleton<SkillConfigurationBase>(sp => connectedServices);
+
+            // Register bot responses for all supported languages.
+            services.AddSingleton(sp =>
+            {
+                var supportedLanguages = languageModels.Select(l => l.Key).ToArray();
+                var responses = new IResponseIdCollection[]
+                {
+                    new MainResponses(),
+                    new SharedResponses(),
+                    new SampleResponses(),
+                };
+
+                return new ResponseTemplateManager(responses, supportedLanguages);
+            });
 
             var defaultLocale = Configuration.GetSection("defaultLocale").Get<string>();
 
