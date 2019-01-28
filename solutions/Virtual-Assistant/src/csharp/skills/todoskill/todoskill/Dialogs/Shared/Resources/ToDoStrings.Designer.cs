@@ -97,6 +97,15 @@ namespace ToDoSkill.Dialogs.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to grocery, groceries, grocer.
+        /// </summary>
+        public static string GrocerySynonym {
+            get {
+                return ResourceManager.GetString("GrocerySynonym", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Task Notebook.
         /// </summary>
         public static string OneNoteBookName {
@@ -124,11 +133,29 @@ namespace ToDoSkill.Dialogs.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to shopping.
+        /// </summary>
+        public static string ShoppingSynonym {
+            get {
+                return ResourceManager.GetString("ShoppingSynonym", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to To Do.
         /// </summary>
         public static string ToDo {
             get {
                 return ResourceManager.GetString("ToDo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to to do, todo, to-do, to dos, todos. to-dos, to - do.
+        /// </summary>
+        public static string ToDoSynonym {
+            get {
+                return ResourceManager.GetString("ToDoSynonym", resourceCulture);
             }
         }
     }

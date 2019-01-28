@@ -347,11 +347,11 @@ namespace ToDoSkill.Dialogs.Shared
 
                 if (entities.ListType != null)
                 {
-                    if (entities.ListType[0].Equals(ToDoStrings.Grocery, StringComparison.InvariantCultureIgnoreCase))
+                    if (ToDoStrings.GrocerySynonym.Contains(entities.ListType[0], StringComparison.InvariantCultureIgnoreCase))
                     {
                         state.ListType = ToDoStrings.Grocery;
                     }
-                    else if (entities.ListType[0].Equals(ToDoStrings.Shopping, StringComparison.InvariantCultureIgnoreCase))
+                    else if (ToDoStrings.ShoppingSynonym.Contains(entities.ListType[0], StringComparison.InvariantCultureIgnoreCase))
                     {
                         state.ListType = ToDoStrings.Shopping;
                     }

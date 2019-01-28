@@ -129,6 +129,9 @@
   <data name="Grocery" xml:space="preserve">
     <value>杂货</value>
   </data>
+  <data name="GrocerySynonym" xml:space="preserve">
+    <value>杂货 杂物</value>
+  </data>
   <data name="OneNoteBookName" xml:space="preserve">
     <value>任务笔记本</value>
   </data>
@@ -138,7 +141,13 @@
   <data name="Shopping" xml:space="preserve">
     <value>购物</value>
   </data>
+  <data name="ShoppingSynonym" xml:space="preserve">
+    <value>购物 购买</value>
+  </data>
   <data name="ToDo" xml:space="preserve">
     <value>待办事项</value>
+  </data>
+  <data name="ToDoSynonym" xml:space="preserve">
+    <value>代办事项 代办项</value>
   </data>
 </root>

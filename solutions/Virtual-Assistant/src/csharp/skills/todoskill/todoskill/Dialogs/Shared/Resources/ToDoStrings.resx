@@ -129,6 +129,9 @@
   <data name="Grocery" xml:space="preserve">
     <value>Grocery</value>
   </data>
+  <data name="GrocerySynonym" xml:space="preserve">
+    <value>grocery, groceries, grocer</value>
+  </data>
   <data name="OneNoteBookName" xml:space="preserve">
     <value>Task Notebook</value>
   </data>
@@ -138,7 +141,13 @@
   <data name="Shopping" xml:space="preserve">
     <value>Shopping</value>
   </data>
+  <data name="ShoppingSynonym" xml:space="preserve">
+    <value>shopping</value>
+  </data>
   <data name="ToDo" xml:space="preserve">
     <value>To Do</value>
+  </data>
+  <data name="ToDoSynonym" xml:space="preserve">
+    <value>to do, todo, to-do, to dos, todos. to-dos, to - do</value>
   </data>
 </root>
