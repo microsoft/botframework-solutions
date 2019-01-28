@@ -47,17 +47,34 @@ namespace ToDoSkill.ServiceClients
                     var taskFolderId = await GetOrCreateTaskFolderAsync(ToDoStrings.ToDo);
                     taskFolderIds.Add(ToDoStrings.ToDo, taskFolderId);
                 }
+                else
+                {
+                    // This is used for the scenario of task folder being deleted.
+                    // If a task folder is deleted, will create a new one.
+                    var taskFolderId = await GetOrCreateTaskFolderByIdAsync(taskFolderIds[ToDoStrings.ToDo], ToDoStrings.ToDo);
+                    taskFolderIds[ToDoStrings.ToDo] = taskFolderId;
+                }
 
                 if (!taskFolderIds.ContainsKey(ToDoStrings.Grocery))
                 {
                     var taskFolderId = await GetOrCreateTaskFolderAsync(ToDoStrings.Grocery);
                     taskFolderIds.Add(ToDoStrings.Grocery, taskFolderId);
                 }
+                else
+                {
+                    var taskFolderId = await GetOrCreateTaskFolderByIdAsync(taskFolderIds[ToDoStrings.Grocery], ToDoStrings.Grocery);
+                    taskFolderIds[ToDoStrings.Grocery] = taskFolderId;
+                }
 
                 if (!taskFolderIds.ContainsKey(ToDoStrings.Shopping))
                 {
                     var taskFolderId = await GetOrCreateTaskFolderAsync(ToDoStrings.Shopping);
                     taskFolderIds.Add(ToDoStrings.Shopping, taskFolderId);
+                }
+                else
+                {
+                    var taskFolderId = await GetOrCreateTaskFolderByIdAsync(taskFolderIds[ToDoStrings.Shopping], ToDoStrings.Shopping);
+                    taskFolderIds[ToDoStrings.Shopping] = taskFolderId;
                 }
 
                 this.taskFolderIds = taskFolderIds;
@@ -164,6 +181,17 @@ namespace ToDoSkill.ServiceClients
             return taskFolderId;
         }
 
+        private async Task<string> GetOrCreateTaskFolderByIdAsync(string taskFolderId, string taskFolderName)
+        {
+            var newTaskFolderId = await GetTaskFolderByIdAsync(taskFolderId);
+            if (string.IsNullOrEmpty(newTaskFolderId))
+            {
+                newTaskFolderId = await CreateTaskFolderAsync(taskFolderName);
+            }
+
+            return newTaskFolderId;
+        }
+
         private async Task<string> GetTaskFolderAsync(string taskFolderName)
         {
             var taskFolderIdNameDic = await this.GetTaskFoldersAsync(GraphBaseUrl + "taskFolders");
@@ -176,6 +204,19 @@ namespace ToDoSkill.ServiceClients
             }
 
             return null;
+        }
+
+        private async Task<string> GetTaskFolderByIdAsync(string taskFolderId)
+        {
+            var result = await this.httpClient.GetAsync(GraphBaseUrl + "taskFolders/" + taskFolderId);
+            string newTaskFolderId = string.Empty;
+            if (result.IsSuccessStatusCode)
+            {
+                dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
+                newTaskFolderId = responseContent["id"];
+            }
+
+            return newTaskFolderId;
         }
 
         private async Task<string> CreateTaskFolderAsync(string taskFolderName)

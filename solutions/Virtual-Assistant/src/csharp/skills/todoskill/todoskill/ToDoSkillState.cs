@@ -38,6 +38,7 @@ namespace ToDoSkill
             SwitchListType = false;
             TaskServiceType = ProviderTypes.Other;
             AddDupTask = false;
+            UserStateId = null;
         }
 
         /// <summary>
@@ -241,6 +242,14 @@ namespace ToDoSkill
         public bool AddDupTask { get; set; }
 
         /// <summary>
+        /// Gets or sets UserStateId.
+        /// </summary>
+        /// <value>
+        /// UserStateId.
+        /// </value>
+        public string UserStateId { get; set; }
+
+        /// <summary>
         /// Clear state.
         /// </summary>
         public void Clear()
@@ -269,6 +278,7 @@ namespace ToDoSkill
             SwitchListType = false;
             TaskServiceType = ProviderTypes.Other;
             AddDupTask = false;
+            UserStateId = null;
         }
     }
 }

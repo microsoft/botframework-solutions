@@ -959,7 +959,8 @@ namespace ToDoSkill.Dialogs.Shared
             {
                 var emailService = ServiceManager.InitMailService(state.MsGraphToken);
                 var senderMailAddress = await emailService.GetSenderMailAddressAsync();
-                var recovered = await RecoverListTypeIdsAsync(sc, senderMailAddress);
+                state.UserStateId = senderMailAddress;
+                var recovered = await RecoverListTypeIdsAsync(sc);
                 if (!recovered)
                 {
                     if (state.TaskServiceType == ProviderTypes.OneNote)
@@ -971,8 +972,8 @@ namespace ToDoSkill.Dialogs.Shared
                         await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOutlookMessage));
                     }
 
-                    var taskService = ServiceManager.InitTaskService(state.MsGraphToken, state.ListTypeIds, state.TaskServiceType);
-                    var taskWebLink = await taskService.GetTaskWebLink();
+                    var taskServiceInit = ServiceManager.InitTaskService(state.MsGraphToken, state.ListTypeIds, state.TaskServiceType);
+                    var taskWebLink = await taskServiceInit.GetTaskWebLink();
                     var emailContent = string.Format(ToDoStrings.EmailContent, taskWebLink);
                     await emailService.SendMessageAsync(emailContent, ToDoStrings.EmailSubject);
 
@@ -985,18 +986,21 @@ namespace ToDoSkill.Dialogs.Shared
                         await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.AfterOutlookSetupMessage));
                     }
 
-                    await StoreListTypeIdsAsync(sc, senderMailAddress);
-                    return taskService;
+                    await StoreListTypeIdsAsync(sc);
+                    return taskServiceInit;
                 }
             }
 
-            return ServiceManager.InitTaskService(state.MsGraphToken, state.ListTypeIds, state.TaskServiceType);
+            var taskService = ServiceManager.InitTaskService(state.MsGraphToken, state.ListTypeIds, state.TaskServiceType);
+            await StoreListTypeIdsAsync(sc);
+            return taskService;
         }
 
-        private async Task<bool> RecoverListTypeIdsAsync(DialogContext dc, string senderMailAddress)
+        private async Task<bool> RecoverListTypeIdsAsync(DialogContext dc)
         {
             var userState = await UserStateAccessor.GetAsync(dc.Context, () => new ToDoSkillUserState());
             var state = await ToDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
+            var senderMailAddress = state.UserStateId;
             if (userState.ListTypeIds.ContainsKey(senderMailAddress)
                 && state.ListTypeIds.Count <= 0
                 && userState.ListTypeIds[senderMailAddress].Count > 0)
@@ -1012,16 +1016,31 @@ namespace ToDoSkill.Dialogs.Shared
             return false;
         }
 
-        private async Task StoreListTypeIdsAsync(DialogContext dc, string senderMailAddress)
+        private async Task StoreListTypeIdsAsync(DialogContext dc)
         {
             var userState = await UserStateAccessor.GetAsync(dc.Context, () => new ToDoSkillUserState());
             var state = await ToDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
-            if (!userState.ListTypeIds.ContainsKey(senderMailAddress) && state.ListTypeIds.Count > 0)
+            var senderMailAddress = state.UserStateId;
+            if (!userState.ListTypeIds.ContainsKey(senderMailAddress))
             {
                 userState.ListTypeIds.Add(senderMailAddress, new Dictionary<string, string>());
                 foreach (var listType in state.ListTypeIds)
                 {
                     userState.ListTypeIds[senderMailAddress].Add(listType.Key, listType.Value);
+                }
+            }
+            else
+            {
+                foreach (var listType in state.ListTypeIds)
+                {
+                    if (userState.ListTypeIds[senderMailAddress].ContainsKey(listType.Key))
+                    {
+                        userState.ListTypeIds[senderMailAddress][listType.Key] = listType.Value;
+                    }
+                    else
+                    {
+                        userState.ListTypeIds[senderMailAddress].Add(listType.Key, listType.Value);
+                    }
                 }
             }
         }
