@@ -22,9 +22,9 @@ namespace $safeprojectname$.Dialogs.Sample.Resources
         }
 
         // Generated accessors
-        public static BotResponse MessagePrompt => GetBotResponse();
+        public static BotResponse NamePrompt => GetBotResponse();
 
-        public static BotResponse MessageResponse => GetBotResponse();
+        public static BotResponse HaveNameMessage => GetBotResponse();
 
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {
