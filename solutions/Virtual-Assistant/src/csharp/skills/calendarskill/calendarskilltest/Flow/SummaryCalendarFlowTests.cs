@@ -164,12 +164,57 @@ namespace CalendarSkillTest.Flow
                 .StartTestAsync();
         }
 
+        [TestMethod]
+        public async Task Test_CalendarSummaryShowOverviewAgain()
+        {
+            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
+            serviceManager.SetupCalendarService(MockCalendarService.FakeDefaultEvents());
+            await this.GetTestFlow()
+                .Send(FindMeetingTestUtterances.BaseFindMeeting)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.FoundOneEventPrompt())
+                .AssertReply(this.ShowCalendarList(1))
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(this.ShowReadOutEventList())
+                .AssertReplyOneOf(this.AskForOrgnizerActionPrompt())
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.ShowOneMeetingOverviewAgainResponse())
+                //.AssertReply(this.ShowCalendarList(1))
+                //.Send(Strings.Strings.ConfirmNo)
+                //.AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
         private Action<IActivity> ActionEndMessage()
         {
             return activity =>
             {
                 Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
             };
+        }
+
+        private string[] ShowOneMeetingOverviewAgainResponse(string dateTime = "today")
+        {
+            var responseParams = new StringDictionary()
+            {
+                { "DateTime", dateTime }
+            };
+
+            return this.ParseReplies(SummaryResponses.ShowOneMeetingSummaryAgainMessage.Replies, responseParams);
+        }
+
+        private string[] ShowOverviewAgainResponse(int count, string dateTime = "today")
+        {
+            var responseParams = new StringDictionary()
+            {
+                { "Count", count.ToString() },
+                { "DateTime", dateTime }
+            };
+
+            return this.ParseReplies(SummaryResponses.ShowMeetingSummaryAgainMessage.Replies, responseParams);
         }
 
         private string[] FoundOneEventPrompt(string dateTime = "today")

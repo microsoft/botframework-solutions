@@ -12,9 +12,11 @@ namespace CalendarSkill.Dialogs.Shared.DialogOptions
             Reason = ShowMeetingReason.FirstShowOverview;
         }
 
-        public ShowMeetingsDialogOptions(ShowMeetingReason reason)
+        public ShowMeetingsDialogOptions(ShowMeetingReason reason, object options)
         {
+            var calendarOptions = options as CalendarSkillDialogOptions;
             Reason = reason;
+            SkillMode = calendarOptions == null ? false : calendarOptions.SkillMode;
         }
 
         public enum ShowMeetingReason

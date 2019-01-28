@@ -147,11 +147,19 @@ namespace CalendarSkill.Dialogs.Summary
                     {
                         if (options != null && options.Reason == ShowMeetingReason.ShowOverviewAgain)
                         {
-                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowMeetingSummaryAgainMessage, ResponseBuilder, new StringDictionary()
+                            var responseParams = new StringDictionary()
                             {
                                 { "Count", searchedEvents.Count.ToString() },
                                 { "DateTime", state.StartDateString ?? CalendarCommonStrings.Today }
-                            }));
+                            };
+                            if (searchedEvents.Count == 1)
+                            {
+                                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowOneMeetingSummaryAgainMessage, ResponseBuilder, responseParams));
+                            }
+                            else
+                            {
+                                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowMeetingSummaryAgainMessage, ResponseBuilder, responseParams));
+                            }
                         }
                         else
                         {
@@ -384,13 +392,13 @@ namespace CalendarSkill.Dialogs.Summary
                     else if (filteredMeetingList.Count > 1)
                     {
                         state.SummaryEvents = filteredMeetingList;
-                        return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, new ShowMeetingsDialogOptions(ShowMeetingReason.ShowFilteredMeetings));
+                        return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, new ShowMeetingsDialogOptions(ShowMeetingReason.ShowFilteredMeetings, sc.Options));
                     }
                 }
 
                 if (state.ReadOutEvents != null && state.ReadOutEvents.Count > 0)
                 {
-                    return await sc.BeginDialogAsync(Actions.Read);
+                    return await sc.BeginDialogAsync(Actions.Read, sc.Options);
                 }
                 else
                 {
@@ -493,7 +501,7 @@ namespace CalendarSkill.Dialogs.Summary
                     {
                         state.ReadOutEvents = null;
                         state.SummaryEvents = null;
-                        return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, new ShowMeetingsDialogOptions(ShowMeetingReason.ShowOverviewAgain));
+                        return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, new ShowMeetingsDialogOptions(ShowMeetingReason.ShowOverviewAgain, sc.Options));
                     }
 
                     var readoutEvent = state.ReadOutEvents[0];
@@ -685,7 +693,7 @@ namespace CalendarSkill.Dialogs.Summary
                 var result = (bool)sc.Result;
                 if (result)
                 {
-                    return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, new ShowMeetingsDialogOptions(ShowMeetingReason.ShowOverviewAgain));
+                    return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, new ShowMeetingsDialogOptions(ShowMeetingReason.ShowOverviewAgain, sc.Options));
                 }
                 else
                 {
