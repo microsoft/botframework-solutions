@@ -92,7 +92,9 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
         {
             try
             {
-                var me = await service.People.Get("people/me").ExecuteAsync();
+                var peopleRequest = service.People.Get("people/me");
+                peopleRequest.RequestMaskIncludeField = "person.emailAddresses,person.names";
+                var me = await peopleRequest.ExecuteAsync();
                 return new PersonModel(me);
             }
             catch (GoogleApiException ex)
