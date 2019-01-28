@@ -28,6 +28,9 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
 {
     public class VehicleSettingsDialog : AutomotiveSkillDialog
     {
+        private const string ClimateImageFileName = "Black_Climate.png";
+        private const string CarImageFileName = "Black_Car.png";
+        private const string MusicImageFileName = "Black_Music.png";
         private static readonly Regex WordRequiresAn = new Regex("^([aio]|e(?!u)|u(?![^aeoiu])).*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex WordCharacter = new Regex("^\\w", RegexOptions.Compiled);
         private static readonly IReadOnlyDictionary<string, string> SettingValueToSpeakableIngForm = new Dictionary<string, string>
@@ -174,15 +177,22 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                             options.Choices.Add(choice);
                         }
 
-                        var card = new HeroCard
+                        BotResponse settingNamePrompt = VehicleSettingsResponses.VehicleSettingsSettingNameSelection;
+                        options.Prompt = sc.Context.Activity.CreateReply(settingNamePrompt, ResponseBuilder);
+
+                        var card = new ThumbnailCard
                         {
-                            Images = new List<CardImage> { new CardImage(GetSettingCardImageUri("settingcog.jpg")) },
+                            Images = new List<CardImage> { new CardImage(GetSettingCardImageUri(CarImageFileName)) },
                             Text = "Please choose from one of the available settings shown below",
                             Buttons = options.Choices.Select(choice =>
                                 new CardAction(ActionTypes.ImBack, choice.Value, value: choice.Value)).ToList(),
                         };
 
-                        options.Prompt = (Activity)MessageFactory.Attachment(card.ToAttachment());
+                        options.Prompt.Attachments.Add(card.ToAttachment());
+
+                        // Default Text property is clumsy for speech
+                        var speakOptions = options.Choices.Select(choice => choice.Value.ToString()).ToList();
+                        options.Prompt.Speak = $"{options.Prompt.Text} {string.Join(",", speakOptions)}";
 
                         return await sc.PromptAsync(Actions.SettingNameSelectionPrompt, options);
                     }
@@ -271,6 +281,25 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                     if (settingValues.Count() > 1)
                     {
                         string settingName = state.Changes.First().SettingName;
+                        var setting = this.settingList.FindSetting(settingName);
+                        var categoryName = setting.Categories.First();
+
+                        string imageName;
+                        switch (categoryName)
+                        {
+                            case "Climate Control":
+                                imageName = ClimateImageFileName;
+                                break;
+                            case "Active Safety":
+                                imageName = CarImageFileName;
+                                break;
+                            case "Audio":
+                                imageName = MusicImageFileName;
+                                break;
+                            default:
+                                imageName = CarImageFileName;
+                                break;
+                        }
 
                         // If we have more than one setting name matching prompt the user to choose
                         var options = new PromptOptions()
@@ -293,15 +322,20 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                         var promptReplacements = new StringDictionary { { "settingName", settingName } };
                         options.Prompt = sc.Context.Activity.CreateReply(promptTemplate, ResponseBuilder, promptReplacements);
 
-                        var card = new HeroCard
+                        var card = new ThumbnailCard
                         {
-                            Images = new List<CardImage> { new CardImage(GetSettingCardImageUri("settingcog.jpg")) },
-                            Text = options.Prompt.Text,
+                            Title = options.Prompt.Text,
+                            Text = VehicleSettingsResponses.WhichSettingValue.Reply.Text,
+                            Images = new List<CardImage> { new CardImage(GetSettingCardImageUri(imageName)) },
                             Buttons = options.Choices.Select(choice =>
                                 new CardAction(ActionTypes.ImBack, choice.Value, value: choice.Value)).ToList(),
                         };
 
                         options.Prompt.Attachments.Add(card.ToAttachment());
+
+                        // Default Text property is clumsy for speech
+                        var speakOptions = options.Choices.Select(choice => choice.Value.ToString()).ToList();
+                        options.Prompt.Speak = $"{options.Prompt.Text} {string.Join(",", speakOptions)}";
 
                         return await sc.PromptAsync(Actions.SettingValueSelectionPrompt, options);
                     }
@@ -351,6 +385,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                 }
 
                 var selectedValue = settingFilter.ApplySelectionToSettingValues(state, valueEntities);
+
                 // We identified a setting value, proceed
                 if (selectedValue != null)
                 {

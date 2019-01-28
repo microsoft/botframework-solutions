@@ -187,5 +187,14 @@
       }
     ],
     "inputHint": "ignoringInput"
+  },
+  "WhichSettingValue": {
+    "replies": [
+      {
+        "text": "Which setting would you like?",
+        "speak": "Which setting would you like?"
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }
