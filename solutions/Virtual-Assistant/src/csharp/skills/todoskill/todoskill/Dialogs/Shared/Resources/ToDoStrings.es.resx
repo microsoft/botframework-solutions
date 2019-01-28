@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="And" xml:space="preserve">
+    <value> y {0}. </value>
+  </data>
   <data name="EmailContent" xml:space="preserve">
     <value>Consulte el vínculo {0} para ver las listas creadas para usted.</value>
   </data>
@@ -124,6 +127,9 @@
     <value>Las listas se crean para usted</value>
   </data>
   <data name="Grocery" xml:space="preserve">
+    <value>Comestibles</value>
+  </data>
+  <data name="GrocerySynonym" xml:space="preserve">
     <value>Comestibles</value>
   </data>
   <data name="OneNoteBookName" xml:space="preserve">
@@ -135,7 +141,13 @@
   <data name="Shopping" xml:space="preserve">
     <value>Compras</value>
   </data>
+  <data name="ShoppingSynonym" xml:space="preserve">
+    <value>Compras</value>
+  </data>
   <data name="ToDo" xml:space="preserve">
+    <value>Hacer</value>
+  </data>
+  <data name="ToDoSynonym" xml:space="preserve">
     <value>Hacer</value>
   </data>
 </root>

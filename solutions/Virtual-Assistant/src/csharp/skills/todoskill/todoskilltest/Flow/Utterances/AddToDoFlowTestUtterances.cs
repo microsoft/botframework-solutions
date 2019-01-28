@@ -38,8 +38,9 @@ namespace ToDoSkillTest.Flow.Utterances
                 foodOfGrocery: foodOfGrocery));
 
             listType = new string[] { MockData.Shopping };
+            taskContentPattern = new string[] { "shoes" };
             shopVerb[0][0] = "purchase";
-            taskContentML = new string[] { "purchase shoes" };
+            taskContentML = new string[] { "shoes" };
 
             this.Add(AddTaskWithContentAndShopVerb, GetBaseAddTaskIntent(
                 AddTaskWithContentAndShopVerb,
