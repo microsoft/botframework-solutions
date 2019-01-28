@@ -1,4 +1,5 @@
-﻿using Microsoft.Bot.Builder.Dialogs;
+﻿using Luis;
+using Microsoft.Bot.Builder.Dialogs;
 
 namespace $safeprojectname$
 {

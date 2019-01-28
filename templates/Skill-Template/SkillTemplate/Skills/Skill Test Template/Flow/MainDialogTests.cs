@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using $ext_safeprojectname$.Dialogs.Main.Resources;
 using $ext_safeprojectname$.Dialogs.Shared.Resources;
+using $safeprojectname$.Flow.Utterances;
 
 namespace $safeprojectname$.Flow
 {

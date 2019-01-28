@@ -1,5 +1,5 @@
 {
-  "MessagePrompt": {
+  "NamePrompt": {
     "replies": [
       {
         "text": "What is your name?",
@@ -8,7 +8,7 @@
     ],
     "inputHint": "expectingInput"
   },
-  "MessageResponse": {
+  "HaveNameMessage": {
     "replies": [
       {
         "text": "Hi, {Name}!",

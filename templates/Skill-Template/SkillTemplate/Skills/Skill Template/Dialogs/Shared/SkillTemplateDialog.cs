@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
@@ -15,7 +17,6 @@ using Newtonsoft.Json.Linq;
 using $safeprojectname$.Dialogs.Shared.DialogOptions;
 using $safeprojectname$.Dialogs.Shared.Resources;
 using $safeprojectname$.ServiceClients;
-using System.Globalization;
 
 namespace $safeprojectname$.Dialogs.Shared
 {
@@ -172,16 +173,19 @@ namespace $safeprojectname$.Dialogs.Shared
         // Helpers
         protected async Task GetLuisResult(DialogContext dc)
         {
-            var state = await ConversationStateAccessor.GetAsync(dc.Context);
+            if (dc.Context.Activity.Type == ActivityTypes.Message)
+            {
+                var state = await ConversationStateAccessor.GetAsync(dc.Context);
 
-            // Get luis service for current locale
-            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            var localeConfig = Services.LocaleConfigurations[locale];
-            var luisService = localeConfig.LuisServices["$safeprojectname$"];
+                // Get luis service for current locale
+                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                var localeConfig = Services.LocaleConfigurations[locale];
+                var luisService = localeConfig.LuisServices["$safeprojectname$"];
 
-            // Get intent and entities for activity
-            var result = await luisService.RecognizeAsync<$safeprojectname$LU > (dc.Context, CancellationToken.None);
-            state.LuisResult = result;
+                // Get intent and entities for activity
+                var result = await luisService.RecognizeAsync<$safeprojectname$LU>(dc.Context, CancellationToken.None);
+                state.LuisResult = result;
+            }
         }
 
         // This method is called by any waterfall step that throws an exception to ensure consistency
