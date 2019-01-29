@@ -120,8 +120,17 @@
   <data name="All" xml:space="preserve">
     <value>all</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>cancel</value>
+  </data>
   <data name="CCFormat" xml:space="preserve">
     <value>Cc: {0}</value>
+  </data>
+  <data name="ContactSeparator" xml:space="preserve">
+    <value>; | and</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>content</value>
   </data>
   <data name="ContentFormat" xml:space="preserve">
     <value>Content: {0}</value>
@@ -133,10 +142,10 @@
     <value>On {0}, {1} wrote:</value>
   </data>
   <data name="EmptyContent" xml:space="preserve">
-    <value>empty content</value>
+    <value>Empty content</value>
   </data>
   <data name="EmptySubject" xml:space="preserve">
-    <value>empty subject</value>
+    <value>Empty subject</value>
   </data>
   <data name="Forward" xml:space="preserve">
     <value>fw:</value>
@@ -162,6 +171,9 @@
   <data name="Important" xml:space="preserve">
     <value>important</value>
   </data>
+  <data name="Participants" xml:space="preserve">
+    <value>participants</value>
+  </data>
   <data name="Relevant" xml:space="preserve">
     <value>relevant</value>
   </data>
@@ -174,6 +186,15 @@
   <data name="ReplyReplyFormat" xml:space="preserve">
     <value>RE: {0}</value>
   </data>
+  <data name="Skip" xml:space="preserve">
+    <value>skip | pass | no</value>
+  </data>
+  <data name="Split" xml:space="preserve">
+    <value>|</value>
+  </data>
+  <data name="Subject" xml:space="preserve">
+    <value>subject</value>
+  </data>
   <data name="SubjectFormat" xml:space="preserve">
     <value>Subject: {0}</value>
   </data>
@@ -184,10 +205,10 @@
     <value>To: {0}</value>
   </data>
   <data name="UnknownRecipient" xml:space="preserve">
-    <value>unknown recipient</value>
+    <value>Unknown recipient</value>
   </data>
   <data name="UnknownSender" xml:space="preserve">
-    <value>unknown sender</value>
+    <value>Unknown sender</value>
   </data>
   <data name="Unread" xml:space="preserve">
     <value>unread</value>

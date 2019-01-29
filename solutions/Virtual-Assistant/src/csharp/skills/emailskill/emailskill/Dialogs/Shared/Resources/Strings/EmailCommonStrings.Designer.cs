@@ -70,11 +70,38 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to cancel.
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cc: {0}.
         /// </summary>
         public static string CCFormat {
             get {
                 return ResourceManager.GetString("CCFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ; | and.
+        /// </summary>
+        public static string ContactSeparator {
+            get {
+                return ResourceManager.GetString("ContactSeparator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to content.
+        /// </summary>
+        public static string Content {
+            get {
+                return ResourceManager.GetString("Content", resourceCulture);
             }
         }
         
@@ -106,7 +133,7 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to empty content.
+        ///   Looks up a localized string similar to Empty content.
         /// </summary>
         public static string EmptyContent {
             get {
@@ -115,7 +142,7 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to empty subject.
+        ///   Looks up a localized string similar to Empty subject.
         /// </summary>
         public static string EmptySubject {
             get {
@@ -196,6 +223,15 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to participants.
+        /// </summary>
+        public static string Participants {
+            get {
+                return ResourceManager.GetString("Participants", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to relevant.
         /// </summary>
         public static string Relevant {
@@ -232,6 +268,33 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to skip | pass | no.
+        /// </summary>
+        public static string Skip {
+            get {
+                return ResourceManager.GetString("Skip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to |.
+        /// </summary>
+        public static string Split {
+            get {
+                return ResourceManager.GetString("Split", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to subject.
+        /// </summary>
+        public static string Subject {
+            get {
+                return ResourceManager.GetString("Subject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Subject: {0}.
         /// </summary>
         public static string SubjectFormat {
@@ -259,7 +322,7 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to unknown recipient.
+        ///   Looks up a localized string similar to Unknown recipient.
         /// </summary>
         public static string UnknownRecipient {
             get {
@@ -268,7 +331,7 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to unknown sender.
+        ///   Looks up a localized string similar to Unknown sender.
         /// </summary>
         public static string UnknownSender {
             get {

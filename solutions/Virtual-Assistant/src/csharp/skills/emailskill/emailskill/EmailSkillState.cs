@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using EmailSkill.Dialogs.Shared.Resources.Strings;
 using EmailSkill.Model;
 using Luis;
 using Microsoft.Bot.Builder;
@@ -138,6 +139,32 @@ namespace EmailSkill
             LuisResultPassedFromSkill = null;
             MailSourceType = MailSource.Other;
             UserSelectIndex = -1;
+        }
+
+        public void ClearParticipants()
+        {
+            NameList.Clear();
+            Recipients.Clear();
+            ConfirmRecipientIndex = 0;
+            ReadRecipientIndex = 0;
+            RecipientChoiceList.Clear();
+            EmailList = new List<string>();
+            ShowRecipientIndex = 0;
+
+            Subject = string.IsNullOrEmpty(Subject) ? EmailCommonStrings.Skip : Subject;
+            Content = string.IsNullOrEmpty(Content) ? EmailCommonStrings.Skip : Content;
+        }
+
+        public void ClearSubject()
+        {
+            Subject = null;
+            Content = string.IsNullOrEmpty(Content) ? EmailCommonStrings.Skip : Content;
+        }
+
+        public void ClearContent()
+        {
+            Content = null;
+            Subject = string.IsNullOrEmpty(Subject) ? EmailCommonStrings.Skip : Subject;
         }
 
         public class UserInformation
