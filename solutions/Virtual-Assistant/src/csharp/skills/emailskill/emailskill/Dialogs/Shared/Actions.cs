@@ -43,5 +43,11 @@
         public const string Help = "help";
 
         public const string GetRecreateInfoPrompt = "GetRecreateInfoPrompt";
+
+        public const string FindContact = "findContact";
+
+        public const string ConfirmName = "confirmName";
+
+        public const string ConfirmEmail = "confirmEmail";
     }
 }

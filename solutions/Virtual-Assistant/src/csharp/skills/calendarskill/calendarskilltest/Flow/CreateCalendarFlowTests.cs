@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.Threading.Tasks;
 using CalendarSkill.Dialogs.CreateEvent.Resources;
+using CalendarSkill.Dialogs.FindContact.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkillTest.Flow.Fakes;
 using CalendarSkillTest.Flow.Models;
@@ -40,12 +41,19 @@ namespace CalendarSkillTest.Flow
         [TestMethod]
         public async Task Test_CalendarCreate()
         {
+            string testRecipient = Strings.Strings.DefaultUserName;
+            string testEmailAddress = Strings.Strings.DefaultUserEmail;
+
+            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+
             await this.GetTestFlow()
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
+                .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
+                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.AskForSubjectWithContactNamePrompt())
                 .Send(Strings.Strings.DefaultEventName)
                 .AssertReplyOneOf(this.AskForContentPrompt())
@@ -150,6 +158,11 @@ namespace CalendarSkillTest.Flow
         [TestMethod]
         public async Task Test_CalendarCreate_ConfirmNo_ChangeParticipants()
         {
+            string testRecipient = Strings.Strings.DefaultUserName;
+            string testEmailAddress = Strings.Strings.DefaultUserEmail;
+
+            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+
             await this.GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
                 .AssertReply(this.ShowAuth())
@@ -166,6 +179,8 @@ namespace CalendarSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
+                .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
+                .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowCalendarList())
@@ -256,7 +271,14 @@ namespace CalendarSkillTest.Flow
         [TestMethod]
         public async Task Test_CalendarCreateWithMultipleContacts()
         {
-            int userCount = 1;
+            string testDupRecipient = string.Format(Strings.Strings.UserName, 0);
+            string testDupEmailAddress = string.Format(Strings.Strings.UserEmailAddress, 0);
+            string testRecipient = Strings.Strings.DefaultUserName;
+            string testEmailAddress = Strings.Strings.DefaultUserEmail;
+
+            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+            StringDictionary recipientDupDict = new StringDictionary() { { "UserName", testDupRecipient }, { "EmailAddress", testDupEmailAddress } };
+
             int peopleCount = 3;
             var serviceManager = this.ServiceManager as MockCalendarServiceManager;
             serviceManager.SetupUserService(MockUserService.FakeDefaultUsers(), MockUserService.FakeMultiplePeoples(peopleCount));
@@ -266,8 +288,10 @@ namespace CalendarSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
-                .AssertReply(this.ShowContactsList(userCount, peopleCount))
+                .AssertReply(this.ShowContactsList(recipientDict))
                 .Send(CreateMeetingTestUtterances.ChooseFirstUser)
+                .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDupDict))
+                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.AskForSubjectWithContactNamePrompt(string.Format(Strings.Strings.UserName, 0)))
                 .Send(Strings.Strings.DefaultEventName)
                 .AssertReplyOneOf(this.AskForContentPrompt())
@@ -407,6 +431,11 @@ namespace CalendarSkillTest.Flow
                 .StartTestAsync();
         }
 
+        private string[] ConfirmOneNameOneAddress(StringDictionary recipientDict)
+        {
+            return this.ParseReplies(FindContactResponses.PromptOneNameOneAddress.Replies, recipientDict);
+        }
+
         private string[] AskForParticpantsPrompt()
         {
             return this.ParseReplies(CreateEventResponses.NoAttendees.Replies, new StringDictionary());
@@ -502,16 +531,16 @@ namespace CalendarSkillTest.Flow
             };
         }
 
-        private Action<IActivity> ShowContactsList(int userCount, int peopleCount)
+        private Action<IActivity> ShowContactsList(StringDictionary recipientDict)
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var recipientConfirmedMessage = this.ParseReplies(CreateEventResponses.ConfirmRecipient.Replies, new StringDictionary());
+                var recipientConfirmedMessage = this.ParseReplies(FindContactResponses.ConfirmMultipleContactNameSinglePage.Replies, recipientDict);
 
                 var messageLines = messageActivity.Text.Split("\r\n");
-                Assert.IsTrue(Array.IndexOf(recipientConfirmedMessage, messageLines[0]) != -1);
-                Assert.IsTrue(messageLines.Length - 2 == userCount + peopleCount);
+                Assert.IsTrue(messageActivity.Text.StartsWith(recipientConfirmedMessage[0]));
+                Assert.IsTrue(messageLines.Length == 5);
             };
         }
 

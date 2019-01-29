@@ -3,7 +3,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using EmailSkill.Dialogs.ConfirmRecipient;
+using EmailSkill.Dialogs.FindContact;
 using EmailSkill.Dialogs.Shared;
 using EmailSkill.Dialogs.Shared.Resources;
 using EmailSkill.Dialogs.Shared.Resources.Cards;
@@ -68,8 +68,7 @@ namespace EmailSkill.Dialogs.ForwardEmail
             AddDialog(new WaterfallDialog(Actions.Show, showEmail) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.CollectRecipient, collectRecipients) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateSelectMessage, updateSelectMessage) { TelemetryClient = telemetryClient });
-            AddDialog(new ConfirmRecipientDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
-
+            AddDialog(new FindContactDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
             InitialDialogId = Actions.Forward;
         }
 
