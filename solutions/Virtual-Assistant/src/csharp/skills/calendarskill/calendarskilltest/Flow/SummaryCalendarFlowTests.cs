@@ -182,9 +182,9 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.ShowOneMeetingOverviewAgainResponse())
-                //.AssertReply(this.ShowCalendarList(1))
-                //.Send(Strings.Strings.ConfirmNo)
-                //.AssertReply(this.ActionEndMessage())
+                .AssertReply(this.ShowCalendarList(1))
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 

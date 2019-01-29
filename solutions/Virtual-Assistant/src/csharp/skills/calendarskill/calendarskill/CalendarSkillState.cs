@@ -26,6 +26,10 @@ namespace CalendarSkill
             OriginalStartTime = new List<DateTime>();
             OriginalEndDate = new List<DateTime>();
             OriginalEndTime = new List<DateTime>();
+            NewStartDate = new List<DateTime>();
+            NewStartTime = new List<DateTime>();
+            NewEndDate = new List<DateTime>();
+            NewEndTime = new List<DateTime>();
             Location = null;
             Attendees = new List<EventModel.Attendee>();
             APIToken = null;
@@ -46,6 +50,7 @@ namespace CalendarSkill
             CreateHasDetail = false;
             RecreateState = null;
             NewEventStatus = EventStatus.None;
+            IsActionFromSummary = false;
         }
 
         public User User { get; set; }
@@ -86,6 +91,18 @@ namespace CalendarSkill
 
         // user time zone
         public List<DateTime> OriginalEndTime { get; set; }
+
+        // user time zone
+        public List<DateTime> NewStartDate { get; set; }
+
+        // user time zone
+        public List<DateTime> NewStartTime { get; set; }
+
+        // user time zone
+        public List<DateTime> NewEndDate { get; set; }
+
+        // user time zone
+        public List<DateTime> NewEndTime { get; set; }
 
         // the order reference, such as 'next'
         public string OrderReference { get; set; }
@@ -140,6 +157,8 @@ namespace CalendarSkill
 
         public RecreateEventState? RecreateState { get; set; }
 
+        public bool IsActionFromSummary { get; set; }
+
         public TimeZoneInfo GetUserTimeZone()
         {
             if ((UserInfo != null) && (UserInfo.Timezone != null))
@@ -167,6 +186,10 @@ namespace CalendarSkill
             OriginalStartTime = new List<DateTime>();
             OriginalEndDate = new List<DateTime>();
             OriginalEndTime = new List<DateTime>();
+            NewStartDate = new List<DateTime>();
+            NewStartTime = new List<DateTime>();
+            NewEndDate = new List<DateTime>();
+            NewEndTime = new List<DateTime>();
             OrderReference = null;
             Location = null;
             Attendees = new List<EventModel.Attendee>();
@@ -188,6 +211,30 @@ namespace CalendarSkill
             CreateHasDetail = false;
             NewEventStatus = EventStatus.None;
             RecreateState = null;
+            IsActionFromSummary = false;
+        }
+
+        public void ClearChangeStautsInfo()
+        {
+            // only clear change status flow related info if begin the flow from summary
+            NewEventStatus = EventStatus.None;
+            Events = new List<EventModel>();
+            IsActionFromSummary = false;
+        }
+
+        public void ClearUpdateEventInfo()
+        {
+            // only clear update meeting flow related info if begin the flow from summary
+            OriginalStartDate = new List<DateTime>();
+            OriginalStartTime = new List<DateTime>();
+            OriginalEndDate = new List<DateTime>();
+            OriginalEndTime = new List<DateTime>();
+            NewStartDate = new List<DateTime>();
+            NewStartTime = new List<DateTime>();
+            NewEndDate = new List<DateTime>();
+            NewEndTime = new List<DateTime>();
+            Events = new List<EventModel>();
+            IsActionFromSummary = false;
         }
 
         public void ClearTimes()
