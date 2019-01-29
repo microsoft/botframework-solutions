@@ -391,6 +391,15 @@ namespace EmailSkill.Dialogs.Shared
         {
             try
             {
+                if (sc.Result != null && sc.Result is bool)
+                {
+                    var checkLastStepSuccess = (bool)sc.Result;
+                    if (!checkLastStepSuccess)
+                    {
+                        return await sc.EndDialogAsync(true, cancellationToken);
+                    }
+                }
+
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
                 string nameListString;
 

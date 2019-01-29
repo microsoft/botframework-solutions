@@ -88,5 +88,18 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "ConfirmMessage_Retry": {
+    "replies": [
+      {
+        "text": "Please confirm this message. You can say yes or no.",
+        "speak": "Please confirm this message. You can say yes or no."
+      },
+      {
+        "text": "Please confirm this message.",
+        "speak": "Please confirm this message."
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }

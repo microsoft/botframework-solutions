@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.Shared.Resources;
+using EmailSkill.Dialogs.Shared.Resources.Strings;
 using EmailSkill.Util;
 using EmailSkillTest.Flow.Fakes;
 using EmailSkillTest.Flow.Strings;
@@ -61,7 +62,7 @@ namespace EmailSkillTest.Flow
                 .Send(ContextStrings.TestContent)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
-                .AssertReplyOneOf(this.AfterSendingMessage())
+                .AssertReply(this.AfterSendingMessage(string.Format(EmailCommonStrings.ForwardReplyFormat, ContextStrings.TestSubject + "0")))
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
@@ -80,7 +81,7 @@ namespace EmailSkillTest.Flow
                 .Send(ContextStrings.TestContent)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
-                .AssertReplyOneOf(this.AfterSendingMessage())
+                .AssertReply(this.AfterSendingMessage(string.Format(EmailCommonStrings.ForwardReplyFormat, ContextStrings.TestSubject + "0")))
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
@@ -97,7 +98,7 @@ namespace EmailSkillTest.Flow
                 .Send(BaseTestUtterances.FirstOne)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
-                .AssertReplyOneOf(this.AfterSendingMessage())
+                .AssertReply(this.AfterSendingMessage(string.Format(EmailCommonStrings.ForwardReplyFormat, ContextStrings.TestSubject + "0")))
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
@@ -131,9 +132,20 @@ namespace EmailSkillTest.Flow
             return this.ParseReplies(EmailSharedResponses.EmailNotFound.Replies, new StringDictionary());
         }
 
-        private string[] AfterSendingMessage()
+        private Action<IActivity> AfterSendingMessage(string subject)
         {
-            return this.ParseReplies(EmailSharedResponses.SentSuccessfully.Replies, new StringDictionary());
+            return activity =>
+            {
+                var messageActivity = activity.AsMessageActivity();
+
+                var stringToken = new StringDictionary
+                {
+                    { "Subject", subject },
+                };
+
+                var replies = this.ParseReplies(EmailSharedResponses.SentSuccessfully.Replies, stringToken);
+                CollectionAssert.Contains(replies, messageActivity.Text);
+            };
         }
 
         private string[] NotSendingMessage()

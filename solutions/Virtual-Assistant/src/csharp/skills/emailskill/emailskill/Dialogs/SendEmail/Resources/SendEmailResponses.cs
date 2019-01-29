@@ -40,6 +40,8 @@ namespace EmailSkill.Dialogs.SendEmail.Resources
 
         public static BotResponse GetRecreateInfo_Retry => GetBotResponse();
 
+        public static BotResponse ConfirmMessage_Retry => GetBotResponse();
+
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {
             return _responseManager.GetBotResponse(propertyName);

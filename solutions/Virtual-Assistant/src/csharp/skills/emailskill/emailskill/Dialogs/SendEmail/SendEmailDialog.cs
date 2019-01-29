@@ -300,7 +300,11 @@ namespace EmailSkill.Dialogs.SendEmail
                         var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(SendEmailResponses.PlayBackMessage, "Dialogs/Shared/Resources/Cards/EmailContentPreview.json", emailCard, ResponseBuilder, stringToken);
                         await sc.Context.SendActivityAsync(replyMessage);
 
-                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = sc.Context.Activity.CreateReply(SendEmailResponses.CheckContent), });
+                        return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions()
+                        {
+                            Prompt = sc.Context.Activity.CreateReply(SendEmailResponses.CheckContent),
+                            RetryPrompt = sc.Context.Activity.CreateReply(SendEmailResponses.ConfirmMessage_Retry, ResponseBuilder),
+                        });
                     }
                     else
                     {
@@ -324,16 +328,10 @@ namespace EmailSkill.Dialogs.SendEmail
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                if (sc.Result != null)
+                var confirmResult = (bool)sc.Result;
+                if (confirmResult)
                 {
-                    sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                    var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
-
-                    var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
-                    if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
-                    {
-                        return await sc.EndDialogAsync(true);
-                    }
+                    return await sc.EndDialogAsync(true);
                 }
 
                 await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SendEmailResponses.RetryContent));
@@ -370,8 +368,12 @@ namespace EmailSkill.Dialogs.SendEmail
                         NameList = string.Format(EmailCommonStrings.ToFormat, nameListString),
                         EmailContent = string.Format(EmailCommonStrings.ContentFormat, state.Content),
                     };
-                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(EmailSharedResponses.SentSuccessfully, "Dialogs/Shared/Resources/Cards/EmailWithOutButtonCard.json", emailCard);
 
+                    var stringToken = new StringDictionary
+                    {
+                        { "Subject", state.Subject },
+                    };
+                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(EmailSharedResponses.SentSuccessfully, "Dialogs/Shared/Resources/Cards/EmailWithOutButtonCard.json", emailCard, tokens: stringToken);
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
                 else
@@ -428,7 +430,7 @@ namespace EmailSkill.Dialogs.SendEmail
                         case ResendEmailState.Cancel:
                             await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.CancellingMessage));
                             await ClearConversationState(sc);
-                            return await sc.EndDialogAsync(true, cancellationToken);
+                            return await sc.EndDialogAsync(false, cancellationToken);
                         case ResendEmailState.Participants:
                             state.ClearParticipants();
                             return await sc.ReplaceDialogAsync(Actions.Send, options: skillOptions, cancellationToken: cancellationToken);

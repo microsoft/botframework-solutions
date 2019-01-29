@@ -179,8 +179,8 @@
   "SentSuccessfully": {
     "replies": [
       {
-        "text": "I've sent it.",
-        "speak": "I've sent it."
+        "text": "I have send the email with subject {Subject}.",
+        "speak": "I have send the email with subject {Subject}."
       }
     ],
     "inputHint": "acceptingInput"
@@ -215,8 +215,8 @@
   "ConfirmSend": {
     "replies": [
       {
-        "text": "I'm ready to send the email. Can you confirm this event?",
-        "speak": "I'm ready to send the email. The Email detail is: {EmailDetails}. Can you confirm this event?"
+        "text": "I'm ready to send the email. Can you confirm this email?",
+        "speak": "I'm ready to send the email. The Email detail is: {EmailDetails}. Can you confirm this email?"
       }
     ],
     "inputHint": "expectingInput"
