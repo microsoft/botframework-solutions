@@ -179,8 +179,8 @@
   "SentSuccessfully": {
     "replies": [
       {
-        "text": "I've sent it.",
-        "speak": "I've sent it."
+        "text": "I have send the email with subject {Subject}.",
+        "speak": "I have send the email with subject {Subject}."
       }
     ],
     "inputHint": "acceptingInput"
@@ -188,8 +188,8 @@
   "NoRecipients": {
     "replies": [
       {
-        "text": "Who's the email going to?",
-        "speak": "Who's the email going to?"
+        "text": "Sure, who's the email going to?",
+        "speak": "Sure, Who's the email going to?"
       }
     ],
     "inputHint": "expectingInput"
@@ -215,8 +215,8 @@
   "ConfirmSend": {
     "replies": [
       {
-        "text": "I'm ready to send it. Please confirm the following: ",
-        "speak": "I'm ready to send it. Please confirm the following: {EmailDetails}"
+        "text": "I'm ready to send the email. Can you confirm this email?",
+        "speak": "I'm ready to send the email. The Email detail is: {EmailDetails}. Can you confirm this email?"
       }
     ],
     "inputHint": "expectingInput"
@@ -237,12 +237,12 @@
   "EmailNotFound": {
     "replies": [
       {
-        "text": "You have no relevant email.",
-        "speak": "You have no relevant email."
+        "text": "It seems you have no new emails. Just let me know if you want to set up a new email.",
+        "speak": "It seems you have no new emails. Just let me know if you want to set up a new email."
       },
       {
-        "text": "I did not retrieve any relevant emails at this time. You can try again later.",
-        "speak": "I did not retrieve any relevant emails at this time. You can try again later."
+        "text": "I did not retrieve any relevant emails at this time. Just let me know if you want to set up a new email.",
+        "speak": "I did not retrieve any relevant emails at this time. Just let me know if you want to set up a new email."
       }
     ],
     "inputHint": "acceptingInput"

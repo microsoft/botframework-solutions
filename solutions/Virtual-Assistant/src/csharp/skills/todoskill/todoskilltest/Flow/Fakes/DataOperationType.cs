@@ -5,14 +5,14 @@
         public enum OperationType
         {
             /// <summary>
-            /// Remove all the items in the list.
+            /// Remove all data.
             /// </summary>
-            KeepZeroItem,
+            ClearAllData,
 
             /// <summary>
-            /// Remove all the items in the list except the first one.
+            /// Reset all data.
             /// </summary>
-            KeepOneItem,
+            ResetAllData,
         }
     }
 }

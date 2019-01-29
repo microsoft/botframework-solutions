@@ -308,6 +308,10 @@ namespace ToDoSkill.ServiceClients
             {
                 todosList = new List<TaskItem>();
             }
+            else
+            {
+                todosList.RemoveAll(t => t.IsCompleted);
+            }
 
             return todosList;
         }

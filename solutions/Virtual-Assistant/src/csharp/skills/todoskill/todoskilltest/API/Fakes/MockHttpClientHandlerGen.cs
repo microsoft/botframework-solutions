@@ -46,7 +46,7 @@ namespace ToDoSkillTest.API.Fakes
                 {
                     Id = "4",
                     Topic = "Task 4",
-                    IsCompleted = false,
+                    IsCompleted = true,
                 },
             };
         }

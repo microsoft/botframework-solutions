@@ -28,6 +28,20 @@ namespace EmailSkill.Dialogs.SendEmail.Resources
 
         public static BotResponse NoMessageBody => GetBotResponse();
 
+        public static BotResponse RetryNoSubject => GetBotResponse();
+
+        public static BotResponse PlayBackMessage => GetBotResponse();
+
+        public static BotResponse CheckContent => GetBotResponse();
+
+        public static BotResponse RetryContent => GetBotResponse();
+
+        public static BotResponse GetRecreateInfo => GetBotResponse();
+
+        public static BotResponse GetRecreateInfo_Retry => GetBotResponse();
+
+        public static BotResponse ConfirmMessage_Retry => GetBotResponse();
+
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {
             return _responseManager.GetBotResponse(propertyName);
