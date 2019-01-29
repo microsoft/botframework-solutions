@@ -62,9 +62,17 @@ namespace EmailSkill.Dialogs.SendEmail
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
+
                 if (state.Subject != null)
                 {
                     return await sc.NextAsync();
+                }
+
+                if (state.Recipients.Count == 0 || state.Recipients == null)
+                {
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(FindContactResponses.UserNotFoundAgain, null, new StringDictionary() { { "source", state.MailSourceType == Model.MailSource.Microsoft ? "Outlook" : "Gmail" } }));
+                    state.FirstRetryInFindContact = true;
+                    return await sc.EndDialogAsync();
                 }
 
                 var recipientConfirmedMessage = sc.Context.Activity.CreateReply(EmailSharedResponses.RecipientConfirmed, null, new StringDictionary() { { "UserName", await GetNameListStringAsync(sc) } });
@@ -73,12 +81,6 @@ namespace EmailSkill.Dialogs.SendEmail
                 noSubjectMessage.Speak = recipientConfirmedMessage.Speak + " " + noSubjectMessage.Speak;
 
                 return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = noSubjectMessage, });
-            }
-            catch (NoRecipientsException)
-            {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
-                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(FindContactResponses.UserNotFoundAgain, null, new StringDictionary() { { "source", state.MailSourceType == Model.MailSource.Microsoft ? "Outlook" : "Gmail" } }));
-                return await sc.EndDialogAsync();
             }
             catch (Exception ex)
             {

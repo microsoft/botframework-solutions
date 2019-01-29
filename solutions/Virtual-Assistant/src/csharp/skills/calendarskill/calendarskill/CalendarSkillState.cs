@@ -50,6 +50,7 @@ namespace CalendarSkill
             FirstRetryInFindContact = true;
             UnconfirmedPerson = new List<CustomizedPerson>();
             ConfirmedPerson = new CustomizedPerson();
+            FirstEnterFindContact = true;
         }
 
         public User User { get; set; }
@@ -146,6 +147,8 @@ namespace CalendarSkill
 
         public bool FirstRetryInFindContact { get; set; }
 
+        public bool FirstEnterFindContact { get; set; }
+
         public List<CustomizedPerson> UnconfirmedPerson { get; set; }
 
         public CustomizedPerson ConfirmedPerson { get; set; }
@@ -201,6 +204,7 @@ namespace CalendarSkill
             FirstRetryInFindContact = true;
             UnconfirmedPerson = new List<CustomizedPerson>();
             ConfirmedPerson = new CustomizedPerson();
+            FirstEnterFindContact = true;
         }
 
         public void ClearTimes()

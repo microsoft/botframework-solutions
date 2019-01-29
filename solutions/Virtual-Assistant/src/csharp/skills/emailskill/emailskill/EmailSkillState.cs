@@ -41,6 +41,7 @@ namespace EmailSkill
             UnconfirmedPerson = new List<Person>();
             FirstRetryInFindContact = true;
             ConfirmedPerson = new Person();
+            FirstEnterFindContact = true;
         }
 
         public DialogState ConversationDialogState { get; set; }
@@ -109,6 +110,8 @@ namespace EmailSkill
 
         public int UserSelectIndex { get; set; }
 
+        public bool FirstEnterFindContact { get; set; }
+
         public TimeZoneInfo GetUserTimeZone()
         {
             if ((UserInfo != null) && (UserInfo.Timezone != null))
@@ -150,6 +153,7 @@ namespace EmailSkill
             UnconfirmedPerson = new List<Person>();
             FirstRetryInFindContact = true;
             ConfirmedPerson = new Person();
+            FirstEnterFindContact = true;
         }
 
         public class UserInformation

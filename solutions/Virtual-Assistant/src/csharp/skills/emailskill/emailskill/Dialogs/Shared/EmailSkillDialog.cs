@@ -6,8 +6,6 @@ using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using EmailSkill.Dialogs.ConfirmRecipient;
-using EmailSkill.Dialogs.ConfirmRecipient.Resources;
 using EmailSkill.Dialogs.FindContact;
 using EmailSkill.Dialogs.FindContact.Resources;
 using EmailSkill.Dialogs.ForwardEmail;
@@ -458,6 +456,13 @@ namespace EmailSkill.Dialogs.Shared
                     var noEmailContentMessage = sc.Context.Activity.CreateReply(EmailSharedResponses.NoEmailContent, ResponseBuilder);
                     if (sc.ActiveDialog.Id == nameof(ForwardEmailDialog))
                     {
+                        if (state.Recipients.Count == 0 || state.Recipients == null)
+                        {
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(FindContactResponses.UserNotFoundAgain, null, new StringDictionary() { { "source", state.MailSourceType == Model.MailSource.Microsoft ? "Outlook" : "Gmail" } }));
+                            state.FirstRetryInFindContact = true;
+                            return await sc.EndDialogAsync();
+                        }
+
                         var recipientConfirmedMessage =
                             sc.Context.Activity.CreateReply(EmailSharedResponses.RecipientConfirmed, null, new StringDictionary() { { "UserName", await GetNameListStringAsync(sc) } });
                         noEmailContentMessage.Text = recipientConfirmedMessage.Text + " " + noEmailContentMessage.Text;
@@ -472,12 +477,6 @@ namespace EmailSkill.Dialogs.Shared
                 {
                     return await sc.NextAsync();
                 }
-            }
-            catch (NoRecipientsException)
-            {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
-                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(FindContactResponses.UserNotFoundAgain, null, new StringDictionary() { { "source", state.MailSourceType == Model.MailSource.Microsoft ? "Outlook" : "Gmail" } }));
-                return await sc.EndDialogAsync();
             }
             catch (Exception ex)
             {
@@ -554,6 +553,7 @@ namespace EmailSkill.Dialogs.Shared
                     }
                 }
 
+                state.FirstEnterFindContact = true;
                 return await sc.BeginDialogAsync(nameof(FindContactDialog), skillOptions);
             }
             catch (Exception ex)
@@ -836,105 +836,6 @@ namespace EmailSkill.Dialogs.Shared
             options.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(options, ConfigData.GetInstance().MaxReadSize);
             options.Prompt.Text += "\r\n" + GetSelectPromptString(options, true);
             options.RetryPrompt = context.Activity.CreateReply(EmailSharedResponses.NoChoiceOptions_Retry);
-            return options;
-        }
-
-        protected async Task<PromptOptions> GenerateOptions(List<Person> personList, List<Person> userList, ITurnContext context)
-        {
-            var state = await EmailStateAccessor.GetAsync(context);
-            var pageIndex = state.ShowRecipientIndex;
-            var pageSize = ConfigData.GetInstance().MaxDisplaySize;
-            var skip = pageSize * pageIndex;
-
-            // Go back to the last page when reaching the end.
-            if (skip >= personList.Count + userList.Count && pageIndex > 0)
-            {
-                state.ShowRecipientIndex--;
-                state.ReadRecipientIndex = 0;
-                pageIndex = state.ShowRecipientIndex;
-                skip = pageSize * pageIndex;
-            }
-
-            var options = new PromptOptions
-            {
-                Choices = new List<Choice>(),
-                Prompt = context.Activity.CreateReply(ConfirmRecipientResponses.ConfirmRecipient),
-            };
-
-            if (pageIndex > 0)
-            {
-                options.Prompt = context.Activity.CreateReply(ConfirmRecipientResponses.ConfirmRecipientNotFirstPage);
-            }
-
-            for (var i = 0; i < personList.Count; i++)
-            {
-                var user = personList[i];
-                var mailAddress = user.ScoredEmailAddresses.FirstOrDefault()?.Address ?? user.UserPrincipalName;
-
-                var choice = new Choice()
-                {
-                    Value = $"**{user.DisplayName}: {mailAddress}**",
-                    Synonyms = new List<string> { (options.Choices.Count + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
-                };
-                var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
-                if (!string.IsNullOrEmpty(userName))
-                {
-                    choice.Synonyms.Add(userName);
-                    choice.Synonyms.Add(userName.ToLower());
-                }
-
-                if (skip <= 0)
-                {
-                    if (options.Choices.Count >= pageSize)
-                    {
-                        return options;
-                    }
-
-                    options.Choices.Add(choice);
-                }
-                else
-                {
-                    skip--;
-                }
-            }
-
-            if (options.Choices.Count == 0)
-            {
-                pageSize = ConfigData.GetInstance().MaxDisplaySize;
-                options.Prompt = context.Activity.CreateReply(ConfirmRecipientResponses.ConfirmRecipientLastPage);
-            }
-
-            for (var i = 0; i < userList.Count; i++)
-            {
-                var user = userList[i];
-                var mailAddress = user.ScoredEmailAddresses.FirstOrDefault()?.Address ?? user.UserPrincipalName;
-                var choice = new Choice()
-                {
-                    Value = $"{user.DisplayName}: {mailAddress}",
-                    Synonyms = new List<string> { (options.Choices.Count + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
-                };
-                var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
-                if (!string.IsNullOrEmpty(userName))
-                {
-                    choice.Synonyms.Add(userName);
-                    choice.Synonyms.Add(userName.ToLower());
-                }
-
-                if (skip <= 0)
-                {
-                    if (options.Choices.Count >= pageSize)
-                    {
-                        return options;
-                    }
-
-                    options.Choices.Add(choice);
-                }
-                else
-                {
-                    skip--;
-                }
-            }
-
             return options;
         }
 

@@ -123,7 +123,6 @@ namespace EmailSkill.Dialogs.FindContact
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var skillOptions = (EmailSkillDialogOptions)sc.Options;
 
                 if (((state.NameList == null) || (state.NameList.Count == 0)) && state.EmailList.Count == 0)
                 {
@@ -132,8 +131,9 @@ namespace EmailSkill.Dialogs.FindContact
 
                 var unionList = new List<Person>();
 
-                if (skillOptions != null || state.EmailList.Count > 0)
+                if (state.FirstEnterFindContact || state.EmailList.Count > 0)
                 {
+                    state.FirstEnterFindContact = false;
                     if (state.NameList.Count > 1)
                     {
                         var nameString = await GetReadyToSendNameListStringAsync(sc);
@@ -163,7 +163,7 @@ namespace EmailSkill.Dialogs.FindContact
 
                     if (state.NameList.Count > 0)
                     {
-                        return await sc.ReplaceDialogAsync(Actions.ConfirmName);
+                        return await sc.ReplaceDialogAsync(Actions.ConfirmName, sc.Options);
                     }
                     else
                     {
@@ -171,7 +171,7 @@ namespace EmailSkill.Dialogs.FindContact
                     }
                 }
 
-                if (state.ConfirmRecipientIndex < state.NameList.Count)
+                if (state.UnconfirmedPerson.Count == 0 || state.ConfirmRecipientIndex < state.NameList.Count)
                 {
                     var currentRecipientName = state.NameList[state.ConfirmRecipientIndex];
 
@@ -190,6 +190,12 @@ namespace EmailSkill.Dialogs.FindContact
                     }
 
                     (var personList, var userList) = DisplayHelper.FormatRecipientList(originPersonList, originUserList);
+
+                    // people you work with has the distinct email address has the highest priority
+                    if (personList.Count == 1 && personList.First().ScoredEmailAddresses.Count() == 1)
+                    {
+                        return await sc.ReplaceDialogAsync(Actions.ConfirmEmail, personList.First());
+                    }
 
                     personList.AddRange(userList);
 
@@ -216,9 +222,10 @@ namespace EmailSkill.Dialogs.FindContact
                             }
                         }
                     }
+
+                    state.UnconfirmedPerson = unionList;
                 }
 
-                state.UnconfirmedPerson = unionList;
                 if (unionList.Count == 0)
                 {
                     return await sc.BeginDialogAsync(Actions.UpdateRecipientName);
@@ -301,7 +308,7 @@ namespace EmailSkill.Dialogs.FindContact
                             state.ReadRecipientIndex = 0;
                         }
 
-                        return await sc.ReplaceDialogAsync(Actions.ConfirmName);
+                        return await sc.ReplaceDialogAsync(Actions.ConfirmName, sc.Options);
                     }
 
                     var choiceResult = (sc.Result as FoundChoice)?.Value.Trim('*');
@@ -379,7 +386,7 @@ namespace EmailSkill.Dialogs.FindContact
                         state.ConfirmRecipientIndex++;
                         if (state.ConfirmRecipientIndex < state.NameList.Count)
                         {
-                            return await sc.ReplaceDialogAsync(Actions.ConfirmName);
+                            return await sc.ReplaceDialogAsync(Actions.ConfirmName, sc.Options);
                         }
                         else
                         {
@@ -465,7 +472,7 @@ namespace EmailSkill.Dialogs.FindContact
 
                 if (state.ConfirmRecipientIndex < state.NameList.Count)
                 {
-                    return await sc.ReplaceDialogAsync(Actions.ConfirmName);
+                    return await sc.ReplaceDialogAsync(Actions.ConfirmName, sc.Options);
                 }
                 else
                 {

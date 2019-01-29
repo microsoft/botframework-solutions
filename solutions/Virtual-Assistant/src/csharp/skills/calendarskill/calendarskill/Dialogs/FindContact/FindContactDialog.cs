@@ -6,8 +6,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Dialogs.FindContact.Resources;
 using CalendarSkill.Dialogs.Shared;
+using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
+using CalendarSkill.Util;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -69,6 +71,8 @@ namespace CalendarSkill.Dialogs.FindContact
                 }
                 else
                 {
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(FindContactResponses.UserNotFoundAgain, null, new StringDictionary() { { "source", state.EventSource == EventSource.Microsoft ? "Outlook Calendar" : "Google Calendar" } }));
+                    state.FirstRetryInFindContact = true;
                     return await sc.CancelAllDialogsAsync();
                 }
             }
@@ -121,7 +125,6 @@ namespace CalendarSkill.Dialogs.FindContact
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                var skillOptions = sc.Options;
 
                 if ((state.AttendeesNameList == null) || (state.AttendeesNameList.Count == 0))
                 {
@@ -130,8 +133,10 @@ namespace CalendarSkill.Dialogs.FindContact
 
                 var unionList = new List<CustomizedPerson>();
                 var emailList = new List<string>();
-                if (skillOptions != null)
+
+                if (state.FirstEnterFindContact)
                 {
+                    state.FirstEnterFindContact = false;
                     foreach (var name in state.AttendeesNameList)
                     {
                         if (IsEmail(name))
@@ -166,7 +171,7 @@ namespace CalendarSkill.Dialogs.FindContact
 
                     if (state.AttendeesNameList.Count > 0)
                     {
-                        return await sc.ReplaceDialogAsync(Actions.ConfirmName);
+                        return await sc.ReplaceDialogAsync(Actions.ConfirmName, options: sc.Options, cancellationToken: cancellationToken);
                     }
                     else
                     {
@@ -174,7 +179,7 @@ namespace CalendarSkill.Dialogs.FindContact
                     }
                 }
 
-                if (state.ConfirmAttendeesNameIndex < state.AttendeesNameList.Count)
+                if (state.UnconfirmedPerson.Count == 0 || state.ConfirmAttendeesNameIndex < state.AttendeesNameList.Count)
                 {
                     var currentRecipientName = state.AttendeesNameList[state.ConfirmAttendeesNameIndex];
 
@@ -193,6 +198,13 @@ namespace CalendarSkill.Dialogs.FindContact
                     }
 
                     (var personList, var userList) = FormatRecipientList(originPersonList, originUserList);
+
+                    // people you work with has the distinct email address has the highest priority
+                    if (personList.Count == 1 && personList.First().Emails.Count == 1)
+                    {
+                        var highestPriorityPerson = new CustomizedPerson(personList.First());
+                        return await sc.ReplaceDialogAsync(Actions.ConfirmEmail, highestPriorityPerson);
+                    }
 
                     personList.AddRange(userList);
 
@@ -219,9 +231,10 @@ namespace CalendarSkill.Dialogs.FindContact
                             }
                         }
                     }
+
+                    state.UnconfirmedPerson = unionList;
                 }
 
-                state.UnconfirmedPerson = unionList;
                 if (unionList.Count == 0)
                 {
                     return await sc.BeginDialogAsync(Actions.UpdateName);
@@ -289,7 +302,7 @@ namespace CalendarSkill.Dialogs.FindContact
                             state.ShowAttendeesIndex = 0;
                         }
 
-                        return await sc.ReplaceDialogAsync(Actions.ConfirmName);
+                        return await sc.ReplaceDialogAsync(Actions.ConfirmName, options: sc.Options, cancellationToken: cancellationToken);
                     }
 
                     var choiceResult = (sc.Result as FoundChoice)?.Value.Trim('*');
@@ -363,7 +376,7 @@ namespace CalendarSkill.Dialogs.FindContact
                         state.ConfirmAttendeesNameIndex++;
                         if (state.ConfirmAttendeesNameIndex < state.AttendeesNameList.Count)
                         {
-                            return await sc.ReplaceDialogAsync(Actions.ConfirmName);
+                            return await sc.ReplaceDialogAsync(Actions.ConfirmName, options: sc.Options, cancellationToken: cancellationToken);
                         }
                         else
                         {
@@ -430,7 +443,7 @@ namespace CalendarSkill.Dialogs.FindContact
 
                 if (state.ConfirmAttendeesNameIndex < state.AttendeesNameList.Count)
                 {
-                    return await sc.ReplaceDialogAsync(Actions.ConfirmName);
+                    return await sc.ReplaceDialogAsync(Actions.ConfirmName, options: sc.Options, cancellationToken: cancellationToken);
                 }
                 else
                 {
@@ -443,6 +456,159 @@ namespace CalendarSkill.Dialogs.FindContact
 
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
+        }
+
+        private async Task<PromptOptions> GenerateOptionsForEmail(CustomizedPerson confirmedPerson, ITurnContext context, bool isSinglePage = true)
+        {
+            var state = await Accessor.GetAsync(context);
+            var pageIndex = state.ShowAttendeesIndex;
+            var pageSize = 3;
+            var skip = pageSize * pageIndex;
+            var emailList = confirmedPerson.Emails.ToList();
+
+            // Go back to the last page when reaching the end.
+            if (skip >= emailList.Count && pageIndex > 0)
+            {
+                state.ShowAttendeesIndex--;
+                pageIndex = state.ShowAttendeesIndex;
+                skip = pageSize * pageIndex;
+            }
+
+            var options = new PromptOptions
+            {
+                Choices = new List<Choice>(),
+                Prompt = context.Activity.CreateReply(FindContactResponses.ConfirmMultiplContactEmailSinglePage, null, new StringDictionary() { { "UserName", confirmedPerson.DisplayName } })
+            };
+
+            if (!isSinglePage)
+            {
+                options.Prompt = context.Activity.CreateReply(FindContactResponses.ConfirmMultiplContactEmailMultiPage, null, new StringDictionary() { { "UserName", confirmedPerson.DisplayName } });
+            }
+
+            for (var i = 0; i < emailList.Count; i++)
+            {
+                var user = confirmedPerson;
+                var mailAddress = emailList[i].Address ?? user.UserPrincipalName;
+
+                var choice = new Choice()
+                {
+                    Value = $"{user.DisplayName}: {mailAddress}",
+                    Synonyms = new List<string> { (options.Choices.Count + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
+                };
+                var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
+                if (!string.IsNullOrEmpty(userName))
+                {
+                    choice.Synonyms.Add(userName);
+                    choice.Synonyms.Add(userName.ToLower());
+                }
+
+                if (skip <= 0)
+                {
+                    if (options.Choices.Count >= pageSize)
+                    {
+                        options.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(options, Common.ConfigData.GetInstance().MaxDisplaySize);
+                        options.Prompt.Text += "\r\n" + GetSelectPromptEmailString(options, true);
+                        options.RetryPrompt = context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage);
+                        return options;
+                    }
+
+                    options.Choices.Add(choice);
+                }
+                else
+                {
+                    skip--;
+                }
+            }
+
+            options.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(options, Common.ConfigData.GetInstance().MaxDisplaySize);
+            options.Prompt.Text += "\r\n" + GetSelectPromptEmailString(options, true);
+            options.RetryPrompt = context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage);
+            return options;
+        }
+
+        private string GetSelectPromptEmailString(PromptOptions selectOption, bool containNumbers)
+        {
+            var result = string.Empty;
+            for (var i = 0; i < selectOption.Choices.Count; i++)
+            {
+                var choice = selectOption.Choices[i];
+                result += "  ";
+                if (containNumbers)
+                {
+                    result += i + 1 + ": ";
+                }
+
+                result += choice.Value.Split(":").LastOrDefault() + "\r\n";
+            }
+
+            return result;
+        }
+
+        private async Task<PromptOptions> GenerateOptionsForName(List<CustomizedPerson> unionList, ITurnContext context, bool isSinglePage = true)
+        {
+            var state = await Accessor.GetAsync(context);
+            var pageIndex = state.ShowAttendeesIndex;
+            var pageSize = 3;
+            var skip = pageSize * pageIndex;
+            var currentRecipientName = state.AttendeesNameList[state.ConfirmAttendeesNameIndex];
+
+            // Go back to the last page when reaching the end.
+            if (skip >= unionList.Count && pageIndex > 0)
+            {
+                state.ShowAttendeesIndex--;
+                pageIndex = state.ShowAttendeesIndex;
+                skip = pageSize * pageIndex;
+            }
+
+            var options = new PromptOptions
+            {
+                Choices = new List<Choice>(),
+                Prompt = context.Activity.CreateReply(FindContactResponses.ConfirmMultipleContactNameSinglePage, null, new StringDictionary() { { "UserName", currentRecipientName } })
+            };
+
+            if (!isSinglePage)
+            {
+                options.Prompt = context.Activity.CreateReply(FindContactResponses.ConfirmMultipleContactNameMultiPage, null, new StringDictionary() { { "UserName", currentRecipientName } });
+            }
+
+            for (var i = 0; i < unionList.Count; i++)
+            {
+                var user = unionList[i];
+
+                var choice = new Choice()
+                {
+                    Value = $"**{user.DisplayName}**",
+                    Synonyms = new List<string> { (options.Choices.Count + 1).ToString(), user.DisplayName, user.DisplayName.ToLower() },
+                };
+                var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
+                if (!string.IsNullOrEmpty(userName))
+                {
+                    choice.Synonyms.Add(userName);
+                    choice.Synonyms.Add(userName.ToLower());
+                }
+
+                if (skip <= 0)
+                {
+                    if (options.Choices.Count >= pageSize)
+                    {
+                        options.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(options, Common.ConfigData.GetInstance().MaxDisplaySize);
+                        options.Prompt.Text = GetSelectPromptString(options, true);
+                        options.RetryPrompt = context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage);
+                        return options;
+                    }
+
+                    options.Choices.Add(choice);
+                }
+                else
+                {
+                    skip--;
+                }
+            }
+
+            options.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(options, Common.ConfigData.GetInstance().MaxDisplaySize);
+            options.Prompt.Text = GetSelectPromptString(options, true);
+            options.RetryPrompt = context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage);
+            return options;
         }
     }
 }

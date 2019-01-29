@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using EmailSkill.Dialogs.ConfirmRecipient;
 using EmailSkill.Dialogs.FindContact;
 using EmailSkill.Dialogs.Shared;
 using EmailSkill.Dialogs.Shared.Resources;
