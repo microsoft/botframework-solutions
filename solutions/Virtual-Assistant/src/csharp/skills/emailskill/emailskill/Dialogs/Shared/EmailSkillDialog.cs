@@ -155,7 +155,7 @@ namespace EmailSkill.Dialogs.Shared
                     state.ShowEmailIndex++;
                     state.ReadEmailIndex = 0;
                 }
-                else if (skillLuisResult == Email.Intent.None && generalTopIntent == General.Intent.Previous && state.ShowEmailIndex > 0)
+                else if (skillLuisResult == Email.Intent.None && generalTopIntent == General.Intent.Previous && state.ShowEmailIndex >= 0)
                 {
                     state.ShowEmailIndex--;
                     state.ReadEmailIndex = 0;
@@ -683,9 +683,11 @@ namespace EmailSkill.Dialogs.Shared
                     }
                 }
 
-                if (displayMessages.Count > 0)
+                state.MessageList = displayMessages;
+                if (state.MessageList.Count > 0)
                 {
-                    state.MessageList = displayMessages;
+                    state.Message.Clear();
+                    state.Message.Add(state.MessageList[0]);
                 }
 
                 return await sc.NextAsync();
@@ -860,8 +862,7 @@ namespace EmailSkill.Dialogs.Shared
             // Go back to last page if next page didn't get anything
             if (skip >= result.Count)
             {
-                state.ShowEmailIndex--;
-                skip = state.ShowEmailIndex * pageSize;
+                skip = (state.ShowEmailIndex - 1) * pageSize;
             }
 
             // get messages for current page
@@ -931,9 +932,35 @@ namespace EmailSkill.Dialogs.Shared
             };
 
             var reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
-            if (updatedMessages.Count == 1)
+            if (state.ShowEmailIndex == 0)
             {
-                reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowOneEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
+                if (updatedMessages.Count == 1)
+                {
+                    reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowOneEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
+                }
+            }
+            else
+            {
+                reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowEmailPrompt_OtherPage, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
+                if (updatedMessages.Count == 1)
+                {
+                    reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowOneEmailPrompt_OtherPage, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
+                }
+            }
+
+            if (state.ShowEmailIndex < 0)
+            {
+                var pagingInfo = sc.Context.Activity.CreateReply(EmailSharedResponses.FirstPageAlready);
+                reply.Text = pagingInfo.Text + reply.Text;
+                reply.Speak = pagingInfo.Speak + reply.Speak;
+                state.ShowEmailIndex = 0;
+            }
+            else if (state.ShowEmailIndex * ConfigData.GetInstance().MaxDisplaySize > totalCount)
+            {
+                var pagingInfo = sc.Context.Activity.CreateReply(EmailSharedResponses.LastPageAlready);
+                reply.Text = pagingInfo.Text + reply.Text;
+                reply.Speak = pagingInfo.Speak + reply.Speak;
+                state.ShowEmailIndex--;
             }
 
             await sc.Context.SendActivityAsync(reply);

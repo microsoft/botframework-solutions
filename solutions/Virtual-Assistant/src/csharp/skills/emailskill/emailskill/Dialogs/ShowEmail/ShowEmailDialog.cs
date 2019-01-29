@@ -459,9 +459,14 @@ namespace EmailSkill.Dialogs.ShowEmail
                     {
                         await ShowMailList(sc, state.MessageList, state.MessageList.Count(), cancellationToken);
                     }
-                    else
+                    else if (state.MessageList.Count == 1)
                     {
                         return await sc.ReplaceDialogAsync(Actions.Read, options: sc.Options);
+                    }
+                    else
+                    {
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.DidntUnderstandMessage));
+                        return await sc.EndDialogAsync(true);
                     }
 
                     return await sc.NextAsync();

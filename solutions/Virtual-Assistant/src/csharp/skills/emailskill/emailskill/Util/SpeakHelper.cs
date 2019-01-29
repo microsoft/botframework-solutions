@@ -20,16 +20,15 @@ namespace EmailSkill.Util
                 return speakString;
             }
 
-            List<string> emailDetails = new List<string>();
+            var emailDetail = string.Empty;
 
             int readSize = Math.Min(messages.Count, maxReadSize);
-            if (readSize == 1)
+            if (readSize >= 1)
             {
-                var emailDetail = ToSpeechEmailDetailOverallString(messages[0], timeZone);
-                emailDetails.Add(emailDetail);
+                emailDetail = ToSpeechEmailDetailOverallString(messages[0], timeZone);
             }
 
-            speakString = emailDetails.ToSpeechString(CommonStrings.And);
+            speakString = emailDetail;
             return speakString;
         }
 

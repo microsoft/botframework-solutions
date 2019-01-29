@@ -124,8 +124,8 @@
       <LastGenOutput>ChangeEventStatusResponses.cs</LastGenOutput>
     </None>
     <None Update="Dialogs\FindContact\Resources\FindContactResponses.tt">
-      <LastGenOutput>FindContactResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>FindContactResponses.cs</LastGenOutput>
     </None>
     <None Update="Dialogs\JoinEvent\Resources\JoinEventResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
