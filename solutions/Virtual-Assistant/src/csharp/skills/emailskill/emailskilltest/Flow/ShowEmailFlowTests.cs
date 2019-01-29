@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.DeleteEmail.Resources;
+using EmailSkill.Dialogs.FindContact.Resources;
 using EmailSkill.Dialogs.Shared.Resources;
 using EmailSkill.Dialogs.ShowEmail.Resources;
 using EmailSkill.Util;
@@ -139,6 +140,8 @@ namespace EmailSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(ContextStrings.TestRecipient)
+                .AssertReplyOneOf(this.ConfirmOneNameOneAddress())
+                .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
@@ -168,6 +171,8 @@ namespace EmailSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(ContextStrings.TestRecipient)
+                .AssertReplyOneOf(this.ConfirmOneNameOneAddress())
+                .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
@@ -415,6 +420,11 @@ namespace EmailSkillTest.Flow
         private string[] CollectRecipientsMessage()
         {
             return this.ParseReplies(EmailSharedResponses.NoRecipients.Replies, new StringDictionary());
+        }
+
+        private string[] ConfirmOneNameOneAddress()
+        {
+            return this.ParseReplies(FindContactResponses.PromptOneNameOneAddress.Replies, new StringDictionary() { { "UserName", ContextStrings.TestRecipient }, { "EmailAddress", ContextStrings.TestEmailAdress } });
         }
 
         private string[] CollectFocusedMessage()

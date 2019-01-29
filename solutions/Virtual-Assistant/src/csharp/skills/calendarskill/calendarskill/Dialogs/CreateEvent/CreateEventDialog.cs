@@ -9,6 +9,8 @@ using CalendarSkill.Common;
 using CalendarSkill.Dialogs.CreateEvent.Prompts;
 using CalendarSkill.Dialogs.CreateEvent.Prompts.Options;
 using CalendarSkill.Dialogs.CreateEvent.Resources;
+using CalendarSkill.Dialogs.FindContact;
+using CalendarSkill.Dialogs.FindContact.Resources;
 using CalendarSkill.Dialogs.Shared;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Models;
@@ -108,6 +110,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
             AddDialog(new TimePrompt(Actions.TimePromptForCreate));
             AddDialog(new DurationPrompt(Actions.DurationPromptForCreate));
             AddDialog(new GetRecreateInfoPrompt(Actions.GetRecreateInfoPrompt));
+            AddDialog(new FindContactDialog(services, accessor, serviceManager, telemetryClient));
 
             // Set starting dialog for component
             InitialDialogId = Actions.CreateEvent;
@@ -457,7 +460,8 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (state.AttendeesNameList.Any())
                 {
-                    return await sc.BeginDialogAsync(Actions.ConfirmAttendee, cancellationToken: cancellationToken);
+                    state.FirstEnterFindContact = true;
+                    return await sc.BeginDialogAsync(nameof(FindContactDialog), options: sc.Options, cancellationToken: cancellationToken);
                 }
 
                 if (sc.Result != null)
@@ -475,7 +479,8 @@ namespace CalendarSkill.Dialogs.CreateEvent
                             state.AttendeesNameList = nameList;
                         }
 
-                        return await sc.BeginDialogAsync(Actions.ConfirmAttendee, cancellationToken: cancellationToken);
+                        state.FirstEnterFindContact = true;
+                        return await sc.BeginDialogAsync(nameof(FindContactDialog), options: sc.Options, cancellationToken: cancellationToken);
                     }
                     else
                     {
