@@ -1,22 +1,22 @@
 {
-  "MessagePrompt": {
+  "NamePrompt": {
     "replies": [
       {
-        "text": "Please type your message.",
-        "speak": "Please type your message."
-      },
-      {
-        "text": "Try saying something for this dialog.",
-        "speak": "Try saying something for this dialog."
+        "text": "What is your name?",
+        "speak": "What is your name?"
       }
     ],
     "inputHint": "expectingInput"
   },
-  "MessageResponse": {
+  "HaveNameMessage": {
     "replies": [
       {
-        "text": "You said: {Message}",
-        "speak": "You said: {Message}"
+        "text": "Hi, {Name}!",
+        "speak": "Hi, {Name}!"
+      },
+      {
+        "text": "Nice to meet you, {Name}!",
+        "speak": "Nice to meet you, {Name}!"
       }
     ],
     "inputHint": "acceptingInput"
