@@ -126,6 +126,36 @@ namespace AutomotiveSkillTest.Flow
                 .StartTestAsync();
         }
 
+        [TestMethod]
+        public async Task Test_SettingAndValueSelectionWithOrdinals()
+        {
+            await this.GetTestFlow()
+                .Send("adjust equalizer")
+                .AssertReply(this.CheckReply(" (1) Equalizer (Bass)(2) Equalizer (Midrange)(3) Equalizer (Treble)(4) Equalizer (Surround)(5) Air Recirculation"))
+                .Send("first one")
+                .AssertReply(this.CheckReply("Here are the settings for Equalizer (Bass): (1) Decrease(2) Increase"))
+                .Send("second one")
+                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckReply("Increasing Equalizer (Bass)."))
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_IncorrectValueChoice()
+        {
+            await this.GetTestFlow()
+                .Send("adjust equalizer")
+                .AssertReply(this.CheckReply(" (1) Equalizer (Bass)(2) Equalizer (Midrange)(3) Equalizer (Treble)(4) Equalizer (Surround)(5) Air Recirculation"))
+                .Send("first one")
+                .AssertReply(this.CheckReply("Here are the settings for Equalizer (Bass): (1) Decrease(2) Increase"))
+                .Send("blah blah")
+                .AssertReply(this.CheckReply("Here are the settings for Equalizer (Bass): (1) Decrease(2) Increase"))
+                .Send("Decrease")
+                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckReply("Decreasing Equalizer (Bass)."))
+                .StartTestAsync();
+        }
+
         private Action<IActivity> CheckForSettingEvent()
         {
             return activity =>

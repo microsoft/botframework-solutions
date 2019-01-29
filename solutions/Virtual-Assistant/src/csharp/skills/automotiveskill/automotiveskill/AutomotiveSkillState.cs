@@ -60,5 +60,13 @@ namespace AutomotiveSkill
 
             return settingValues;
         }
+
+        public void Clear()
+        {
+            VehicleSettingsLuisResult = null;
+            Entities = null;
+            Changes = null;
+            Statuses = null;
+        }
     }
 }

@@ -28,12 +28,11 @@ namespace AutomotiveSkill.Dialogs.Main
         private bool _skillMode;
         private SkillConfigurationBase _services;
         private UserState _userState;
-        private IBotTelemetryClient _telemetryClient;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
-        private IHttpContextAccessor _httpContext;
         private IStatePropertyAccessor<AutomotiveSkillState> _stateAccessor;
         private AutomotiveSkillResponseBuilder _responseBuilder = new AutomotiveSkillResponseBuilder();
+        private IHttpContextAccessor _httpContext;
 
         public MainDialog(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IServiceManager serviceManager, IHttpContextAccessor httpContext, IBotTelemetryClient telemetryClient, bool skillMode)
             : base(nameof(MainDialog), telemetryClient)
@@ -42,7 +41,7 @@ namespace AutomotiveSkill.Dialogs.Main
             _services = services;
             _conversationState = conversationState;
             _userState = userState;
-            _telemetryClient = telemetryClient;
+            TelemetryClient = telemetryClient;
             _serviceManager = serviceManager;
             _httpContext = httpContext;
 
@@ -79,13 +78,16 @@ namespace AutomotiveSkill.Dialogs.Main
             }
             else
             {
-                var result = await luisService.RecognizeAsync<Luis.VehicleSettings>(dc.Context, CancellationToken.None);
-                var intent = result?.TopIntent().intent;
-
                 var skillOptions = new AutomotiveSkillDialogOptions
                 {
                     SkillMode = _skillMode,
                 };
+
+                var result = await luisService.RecognizeAsync<Luis.VehicleSettings>(dc.Context, CancellationToken.None);
+                var intent = result?.TopIntent().intent;
+
+                /// Update state with vehiclesettings luis result and entities
+                state.VehicleSettingsLuisResult = result;
 
                 // switch on general intents
                 switch (intent)
@@ -164,19 +166,12 @@ namespace AutomotiveSkill.Dialogs.Main
 
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
-                // Update state with luis result and entities
-                var state = await _stateAccessor.GetAsync(dc.Context, () => new AutomotiveSkillState());
-
                 // get current activity locale
                 var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
                 var localeConfig = _services.LocaleConfigurations[locale];
 
-                // Update state with vehiclesettings luis result and entities
-                var vehicleSettingsLuisResult = await localeConfig.LuisServices["settings"].RecognizeAsync<Luis.VehicleSettings>(dc.Context, cancellationToken);
-                state.VehicleSettingsLuisResult = vehicleSettingsLuisResult;
-
-                // check luis intent
-                localeConfig.LuisServices.TryGetValue("general", out var luisService);
+                // check general luis intent
+                localeConfig.LuisServices.TryGetValue("general", out var luisService);              
 
                 if (luisService == null)
                 {
@@ -223,7 +218,7 @@ namespace AutomotiveSkill.Dialogs.Main
         private void RegisterDialogs()
         {
             AddDialog(new CancelDialog());
-            AddDialog(new VehicleSettingsDialog(_services, _stateAccessor, _serviceManager, _telemetryClient, _httpContext));
+            AddDialog(new VehicleSettingsDialog(_services, _stateAccessor, _serviceManager, TelemetryClient, _httpContext));
         }
 
         private class Events

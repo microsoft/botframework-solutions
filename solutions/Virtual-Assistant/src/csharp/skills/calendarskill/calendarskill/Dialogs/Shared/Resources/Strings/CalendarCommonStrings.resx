@@ -123,6 +123,9 @@
   <data name="AllDayLower" xml:space="preserve">
     <value>all day</value>
   </data>
+  <data name="AttendeesSummary" xml:space="preserve">
+    <value>{0} and {1} more</value>
+  </data>
   <data name="AtTime" xml:space="preserve">
     <value>at {0}</value>
   </data>

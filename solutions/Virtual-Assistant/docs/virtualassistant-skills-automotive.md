@@ -40,6 +40,8 @@ The following vehicle setting areas are supported at this time, example utteranc
 - *Increase the bass*
 - *Increase the volume*
 
+Vehicle settings can be selected through explicit entry of the vehicle setting name, numeric or ordinal (first one, last one).
+
 An example transcript file demonstrating the Skill in action can be found [here](./transcripts/skills-automotive.transcript), you can use the Bot Framework Emulator to open transcripts.
 
 ![ Automotive Skill Transcript Example](./media/skills-auto-transcript.png)

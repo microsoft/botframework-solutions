@@ -37,6 +37,10 @@ namespace ToDoSkillTest.Flow.Utterances
             this.Add(DeleteAllTasks, GetBaseDeleteToDoIntent(
                 DeleteAllTasks,
                 containsAll: containsAll));
+
+            listType = new string[] { MockData.ToDo };
+            this.Add(ConfirmListType, GetNoneIntent(
+                listType: listType));
         }
 
         public static string BaseDeleteTask { get; } = "delete a task";
@@ -50,6 +54,8 @@ namespace ToDoSkillTest.Flow.Utterances
         public static string DeleteTaskByContent { get; } = "delete task Play Games 1";
 
         public static string DeleteAllTasks { get; } = "remove all my tasks";
+
+        public static string ConfirmListType { get; } = "To Do list";
 
         private ToDo GetBaseDeleteToDoIntent(
             string userInput,

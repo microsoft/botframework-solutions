@@ -1,7 +1,6 @@
 ﻿// https://docs.microsoft.com/en-us/visualstudio/modeling/t4-include-directive?view=vs-2017
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using System;
 using System.IO;
 using System.Runtime.CompilerServices;
 using Microsoft.Bot.Solutions.Dialogs;
@@ -23,13 +22,11 @@ namespace ToDoSkill.Dialogs.Main.Resources
         }
 
         // Generated accessors
+        public static BotResponse DidntUnderstandMessage => GetBotResponse();
+
         public static BotResponse ToDoWelcomeMessage => GetBotResponse();
 
         public static BotResponse HelpMessage => GetBotResponse();
-
-        public static BotResponse GreetingMessage => GetBotResponse();
-
-        public static BotResponse GoodbyeMessage => GetBotResponse();
 
         public static BotResponse LogOut => GetBotResponse();
 
