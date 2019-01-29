@@ -12,7 +12,7 @@
           "type": "TextBlock",
           "text": "{EmailContent}",
           "wrap": true,
-          "maxLines": 20
+          "maxLines": 5
         }
       ]
     }

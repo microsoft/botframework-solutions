@@ -169,7 +169,7 @@
     <value>FW: {0}</value>
   </data>
   <data name="FromDetailsFormatAll" xml:space="preserve">
-    <value>desde {0} a {1} titulado {2}. El contenido es {3}.</value>
+    <value>desde {0} a {1} titulado {2}</value>
   </data>
   <data name="FromDetailsFormat" xml:space="preserve">
     <value>desde {0} a {1}</value>

@@ -271,8 +271,17 @@
   "ShowEmailPrompt": {
     "replies": [
       {
-        "text": "You have {TotalCount} emails. {EmailListDetails}.",
-        "speak": "You have {TotalCount} emails. {EmailListDetails}."
+        "text": "You have {TotalCount} emails. The latest email is {EmailListDetails}.",
+        "speak": "You have {TotalCount} emails. The latest email is {EmailListDetails}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowEmailPrompt_OtherPage": {
+    "replies": [
+      {
+        "text": "You have {TotalCount} emails. The first email is {EmailListDetails}.",
+        "speak": "You have {TotalCount} emails. The first email is {EmailListDetails}."
       }
     ],
     "inputHint": "acceptingInput"
@@ -280,8 +289,35 @@
   "ShowOneEmailPrompt": {
     "replies": [
       {
-        "text": "You have 1 email. {EmailListDetails}.",
-        "speak": "You have 1 email. {EmailListDetails}."
+        "text": "You have 1 email. The latest email is {EmailListDetails}.",
+        "speak": "You have 1 email. The latest email is {EmailListDetails}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowOneEmailPrompt_OtherPage": {
+    "replies": [
+      {
+        "text": "You have 1 email. The first email is {EmailListDetails}.",
+        "speak": "You have 1 email. The first email is {EmailListDetails}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "FirstPageAlready": {
+    "replies": [
+      {
+        "text": "This is already the first page. ",
+        "speak": ""
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "LastPageAlready": {
+    "replies": [
+      {
+        "text": "This is already the last page. ",
+        "speak": ""
       }
     ],
     "inputHint": "acceptingInput"

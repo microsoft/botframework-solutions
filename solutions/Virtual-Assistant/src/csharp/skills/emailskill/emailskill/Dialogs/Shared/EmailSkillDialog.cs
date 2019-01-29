@@ -155,7 +155,7 @@ namespace EmailSkill.Dialogs.Shared
                     state.ShowEmailIndex++;
                     state.ReadEmailIndex = 0;
                 }
-                else if (skillLuisResult == Email.Intent.None && generalTopIntent == General.Intent.Previous && state.ShowEmailIndex > 0)
+                else if (skillLuisResult == Email.Intent.None && generalTopIntent == General.Intent.Previous && state.ShowEmailIndex >= 0)
                 {
                     state.ShowEmailIndex--;
                     state.ReadEmailIndex = 0;
@@ -621,6 +621,7 @@ namespace EmailSkill.Dialogs.Shared
 
                     if (displayMessages.Count == 1)
                     {
+                        state.Message.Clear();
                         state.Message.Add(displayMessages[0]);
                     }
 
@@ -639,6 +640,57 @@ namespace EmailSkill.Dialogs.Shared
                 await HandleDialogExceptions(sc, ex);
 
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        protected async Task<DialogTurnResult> SearchEmailsFromList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
+                var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
+
+                var messages = state.MessageList;
+                var searchSender = state.SenderName?.ToLowerInvariant();
+                var searchSubject = state.SearchTexts?.ToLowerInvariant();
+                var searchUserInput = userInput?.ToLowerInvariant();
+
+                // Get display messages
+                var displayMessages = new List<Message>();
+                for (int i = 0; i < messages.Count(); i++)
+                {
+                    var messageSender = messages[i].Sender?.EmailAddress?.Name?.ToLowerInvariant();
+                    var messageSubject = messages[i].Subject?.ToLowerInvariant();
+
+                    if (messageSender != null
+                        && (((searchSender != null) && messageSender.Contains(searchSender))
+                        || ((searchUserInput != null) && messageSender.Contains(searchUserInput))))
+                    {
+                        displayMessages.Add(messages[i]);
+                    }
+                    else if (messageSubject != null
+                        && (((searchSubject != null) && messageSubject.Contains(searchSubject))
+                        || ((searchUserInput != null) && messageSubject.Contains(searchUserInput))))
+                    {
+                        displayMessages.Add(messages[i]);
+                    }
+                }
+
+                state.MessageList = displayMessages;
+                if (state.MessageList.Count > 0)
+                {
+                    state.Message.Clear();
+                    state.Message.Add(state.MessageList[0]);
+                }
+
+                return await sc.NextAsync();
             }
             catch (Exception ex)
             {
@@ -810,8 +862,7 @@ namespace EmailSkill.Dialogs.Shared
             // Go back to last page if next page didn't get anything
             if (skip >= result.Count)
             {
-                state.ShowEmailIndex--;
-                skip = state.ShowEmailIndex * pageSize;
+                skip = (state.ShowEmailIndex - 1) * pageSize;
             }
 
             // get messages for current page
@@ -881,9 +932,35 @@ namespace EmailSkill.Dialogs.Shared
             };
 
             var reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
-            if (updatedMessages.Count == 1)
+            if (state.ShowEmailIndex == 0)
             {
-                reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowOneEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
+                if (updatedMessages.Count == 1)
+                {
+                    reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowOneEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
+                }
+            }
+            else
+            {
+                reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowEmailPrompt_OtherPage, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
+                if (updatedMessages.Count == 1)
+                {
+                    reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowOneEmailPrompt_OtherPage, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
+                }
+            }
+
+            if (state.ShowEmailIndex < 0)
+            {
+                var pagingInfo = sc.Context.Activity.CreateReply(EmailSharedResponses.FirstPageAlready);
+                reply.Text = pagingInfo.Text + reply.Text;
+                reply.Speak = pagingInfo.Speak + reply.Speak;
+                state.ShowEmailIndex = 0;
+            }
+            else if (state.ShowEmailIndex * ConfigData.GetInstance().MaxDisplaySize > totalCount)
+            {
+                var pagingInfo = sc.Context.Activity.CreateReply(EmailSharedResponses.LastPageAlready);
+                reply.Text = pagingInfo.Text + reply.Text;
+                reply.Speak = pagingInfo.Speak + reply.Speak;
+                state.ShowEmailIndex--;
             }
 
             await sc.Context.SendActivityAsync(reply);
@@ -974,6 +1051,7 @@ namespace EmailSkill.Dialogs.Shared
                 state.ReadEmailIndex = 0;
                 state.ReadRecipientIndex = 0;
                 state.RecipientChoiceList.Clear();
+                state.SearchTexts = null;
             }
             catch (Exception)
             {
@@ -1118,6 +1196,11 @@ namespace EmailSkill.Dialogs.Shared
                             {
                                 state.SenderName = entity.SenderName[0];
                                 state.IsUnreadOnly = false;
+                            }
+
+                            if (entity.SearchTexts != null)
+                            {
+                                state.SearchTexts = entity.SearchTexts[0];
                             }
 
                             break;

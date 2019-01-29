@@ -43,6 +43,7 @@ namespace EmailSkill
             FirstRetryInFindContact = true;
             ConfirmedPerson = new Person();
             FirstEnterFindContact = true;
+            SearchTexts = null;
         }
 
         public DialogState ConversationDialogState { get; set; }
@@ -58,6 +59,8 @@ namespace EmailSkill
         public List<string> NameList { get; set; }
 
         public string SenderName { get; set; }
+
+        public string SearchTexts { get; set; }
 
         public List<string> EmailList { get; set; }
 
@@ -155,6 +158,7 @@ namespace EmailSkill
             FirstRetryInFindContact = true;
             ConfirmedPerson = new Person();
             FirstEnterFindContact = true;
+            SearchTexts = null;
         }
 
         public void ClearParticipants()
