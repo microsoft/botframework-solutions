@@ -68,6 +68,18 @@ namespace CalendarSkill.Dialogs.CreateEvent.Resources
             return whiteLists[locale].ContactSeparator;
         }
 
+        public static string[] GetMyself()
+        {
+            var locale = CultureInfo.CurrentUICulture.Name.Split("-")[0].ToLower();
+
+            if (!whiteLists.ContainsKey(locale))
+            {
+                locale = DefaultCulture;
+            }
+
+            return whiteLists[locale].Myself;
+        }
+
         private class WhiteList
         {
             [JsonProperty("SkipPhrases")]
@@ -78,6 +90,9 @@ namespace CalendarSkill.Dialogs.CreateEvent.Resources
 
             [JsonProperty("ContactSeparator")]
             public string[] ContactSeparator { get; private set; }
+
+            [JsonProperty("Myself")]
+            public string[] Myself { get; private set; }
         }
     }
 }

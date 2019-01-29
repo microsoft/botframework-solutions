@@ -39,6 +39,10 @@ namespace EmailSkill
             EndDateTime = DateTime.UtcNow;
             UserSelectIndex = -1;
             MailSourceType = MailSource.Other;
+            UnconfirmedPerson = new List<Person>();
+            FirstRetryInFindContact = true;
+            ConfirmedPerson = new Person();
+            FirstEnterFindContact = true;
             SearchTexts = null;
         }
 
@@ -82,6 +86,12 @@ namespace EmailSkill
 
         public int ConfirmRecipientIndex { get; set; }
 
+        public List<Person> UnconfirmedPerson { get; set; }
+
+        public bool FirstRetryInFindContact { get; set; }
+
+        public Person ConfirmedPerson { get; set; }
+
         public bool DirectlyToMe { get; set; }
 
         public int ShowEmailIndex { get; set; }
@@ -103,6 +113,8 @@ namespace EmailSkill
         public MailSource MailSourceType { get; set; }
 
         public int UserSelectIndex { get; set; }
+
+        public bool FirstEnterFindContact { get; set; }
 
         public TimeZoneInfo GetUserTimeZone()
         {
@@ -142,6 +154,10 @@ namespace EmailSkill
             LuisResultPassedFromSkill = null;
             MailSourceType = MailSource.Other;
             UserSelectIndex = -1;
+            UnconfirmedPerson = new List<Person>();
+            FirstRetryInFindContact = true;
+            ConfirmedPerson = new Person();
+            FirstEnterFindContact = true;
             SearchTexts = null;
         }
 
