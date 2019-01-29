@@ -1,9 +1,11 @@
 # Creating a skill using the Skill Template
 1. Install VSIX from [MyGet](https://botbuilder.myget.org/gallery/aitemplates).
-1. Add a new **Skill Template with Tests** project to your solution in the Skills folder
+1. Add a new **Skill Template with Tests** project to your solution in the Skills folder. 
     ![Screenshot](./media/skills_addproject.jpg)
 
     ![Screenshot](./media/skills_addproject2.jpg)
+
+     > NOTE: Your skill must be in the Virtual-Assistant\src\csharp\skills directory to ensure proper resource loading.
 
     ![Screenshot](./media/skills_projects.jpg)
 
