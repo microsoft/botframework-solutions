@@ -48,7 +48,7 @@ namespace EmailSkillTest.API.Helper
 
             var nameList = await GetNameListStringAsync(null);
 
-            Assert.AreEqual(nameList, "test0");
+            Assert.AreEqual(nameList, "test0: test0@test.com");
         }
 
         [TestMethod]
@@ -64,7 +64,7 @@ namespace EmailSkillTest.API.Helper
 
             var nameList = await GetNameListStringAsync(null);
 
-            Assert.AreEqual(nameList, "test0 and test1");
+            Assert.AreEqual(nameList, "test0: test0@test.com and test1: test1@test.com");
         }
 
         [TestMethod]
@@ -80,7 +80,7 @@ namespace EmailSkillTest.API.Helper
 
             var nameList = await GetNameListStringAsync(null);
 
-            Assert.AreEqual(nameList, "test0, test1 and test2");
+            Assert.AreEqual(nameList, "test0: test0@test.com, test1: test1@test.com and test2: test2@test.com");
         }
 
         [TestMethod]

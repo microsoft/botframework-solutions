@@ -6,7 +6,7 @@
 * regenerated.
 * </auto-generated>
 */
-import {DateTimeSpec, InstanceData, IntentData} from "botbuilder-ai";
+import {DateTimeSpec, InstanceData, IntentData} from 'botbuilder-ai';
 
 export interface _Intents {
     Cancel: IntentData;

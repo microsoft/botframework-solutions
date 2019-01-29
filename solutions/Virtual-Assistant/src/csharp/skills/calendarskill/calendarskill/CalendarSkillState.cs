@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CalendarSkill.Models;
 using Microsoft.Graph;
 using static CalendarSkill.Models.CreateEventStateModel;
@@ -50,6 +51,10 @@ namespace CalendarSkill
             CreateHasDetail = false;
             RecreateState = null;
             NewEventStatus = EventStatus.None;
+            FirstRetryInFindContact = true;
+            UnconfirmedPerson = new List<CustomizedPerson>();
+            ConfirmedPerson = new CustomizedPerson();
+            FirstEnterFindContact = true;
             IsActionFromSummary = false;
         }
 
@@ -157,6 +162,14 @@ namespace CalendarSkill
 
         public RecreateEventState? RecreateState { get; set; }
 
+        public bool FirstRetryInFindContact { get; set; }
+
+        public bool FirstEnterFindContact { get; set; }
+
+        public List<CustomizedPerson> UnconfirmedPerson { get; set; }
+
+        public CustomizedPerson ConfirmedPerson { get; set; }
+
         public bool IsActionFromSummary { get; set; }
 
         public TimeZoneInfo GetUserTimeZone()
@@ -211,6 +224,10 @@ namespace CalendarSkill
             CreateHasDetail = false;
             NewEventStatus = EventStatus.None;
             RecreateState = null;
+            FirstRetryInFindContact = true;
+            UnconfirmedPerson = new List<CustomizedPerson>();
+            ConfirmedPerson = new CustomizedPerson();
+            FirstEnterFindContact = true;
             IsActionFromSummary = false;
         }
 
@@ -313,6 +330,27 @@ namespace CalendarSkill
             public double Latitude { get; set; }
 
             public double Longitude { get; set; }
+        }
+
+        public class CustomizedPerson
+        {
+            public CustomizedPerson()
+            {
+            }
+
+            public CustomizedPerson(PersonModel person)
+            {
+                this.Emails = new List<ScoredEmailAddress>();
+                person.Emails.ToList().ForEach(e => this.Emails.Add(new ScoredEmailAddress() { Address = e }));
+                this.DisplayName = person.DisplayName;
+                this.UserPrincipalName = person.UserPrincipalName;
+            }
+
+            public List<ScoredEmailAddress> Emails { get; set; }
+
+            public string DisplayName { get; set; }
+
+            public string UserPrincipalName { get; set; }
         }
     }
 }

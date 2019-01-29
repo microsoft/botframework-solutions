@@ -5,12 +5,14 @@
  * The Application Insights property names that we're logging.
  */
 export class LuisTelemetryConstants {
-    public static readonly IntentPrefix: string = "LuisIntent";  // Application Insights Custom Event name (with Intent)
-    public static readonly IntentProperty: string = "Intent";
-    public static readonly IntentScoreProperty: string = "IntentScore";
-    public static readonly ConversationIdProperty: string = "ConversationId";
-    public static readonly QuestionProperty: string = "Question";
-    public static readonly ActivityIdProperty: string = "ActivityId";
-    public static readonly SentimentLabelProperty: string = "SentimentLabel";
-    public static readonly SentimentScoreProperty: string = "SentimentScore";
+    public readonly APPLICATION_ID: string = 'applicationId';
+    public readonly INTENT_PREFIX: string = 'luisIntent';  // Application Insights Custom Event name (with Intent)
+    public readonly INTENT_PROPERTY: string = 'intent';
+    public readonly INTENT_SCORE_PROPERTY: string = 'intentScore';
+    public readonly CONVERSATION_ID_PROPERTY: string = 'conversationId';
+    public readonly QUESTION_PROPERTY: string = 'question';
+    public readonly ACTIVITY_ID_PROPERTY: string = 'activityId';
+    public readonly SENTIMENT_LABEL_PROPERTY: string = 'sentimentLabel';
+    public readonly SENTIMENT_SCORE_PROPERTY: string = 'sentimentScore';
+    public readonly DIALOG_ID: string = 'dialogId';
 }

@@ -97,6 +97,11 @@ namespace Microsoft.Bot.Solutions.Skills
             return await ForwardToSkill(innerDc, activity);
         }
 
+        protected override Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
+        {
+            return outerDc.EndDialogAsync(result, cancellationToken);
+        }
+
         private async Task InitializeSkill(DialogContext dc)
         {
             try

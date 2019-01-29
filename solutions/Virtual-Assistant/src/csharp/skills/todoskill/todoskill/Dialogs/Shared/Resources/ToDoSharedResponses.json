@@ -1,70 +1,4 @@
 {
-  "DidntUnderstandMessage": {
-    "replies": [
-      {
-        "text": "Sorry, I didn't understand what you meant.",
-        "speak": "Sorry, I didn't understand what you meant."
-      },
-      {
-        "text": "I didn't understand, perhaps try again in a different way.",
-        "speak": "I didn't understand, perhaps try again in a different way."
-      },
-      {
-        "text": "Can you try to ask in a different way?",
-        "speak": "Can you try to ask in a different way?"
-      },
-      {
-        "text": "I didn't get what you mean, can you try in a different way?",
-        "speak": "I didn't get what you mean, can you try in a different way?"
-      },
-      {
-        "text": "Could you elaborate?",
-        "speak": "Could you elaborate?"
-      },
-      {
-        "text": "Please say that again in a different way.",
-        "speak": "Please say that again in a different way."
-      },
-      {
-        "text": "I didn't quite get that.",
-        "speak": "I didn't quite get that."
-      },
-      {
-        "text": "Can you say that in a different way?",
-        "speak": "Can you say that in a different way?"
-      },
-      {
-        "text": "Can you try to ask me again? I didn't get what you mean.",
-        "speak": "Can you try to ask me again? I didn't get what you mean."
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
-  "CancellingMessage": {
-    "replies": [
-      {
-        "text": "Sure, we can do this later.",
-        "speak": "Sure, we can do this later."
-      },
-      {
-        "text": "Sure, we can start this later.",
-        "speak": "Sure, we can start this later."
-      },
-      {
-        "text": "No problem, you can try again at another time.",
-        "speak": "No problem, you can try again at another time."
-      },
-      {
-        "text": "Alright, let me know when you need my help.",
-        "speak": "Alright, let me know when you need my help."
-      },
-      {
-        "text": "Sure, I'm here if you need me.",
-        "speak": "Sure, I'm here if you need me."
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
   "NoAuth": {
     "replies": [
       {
@@ -90,23 +24,6 @@
     ],
     "inputHint": "expectingInput"
   },
-  "AuthFailed": {
-    "replies": [
-      {
-        "text": "Authentication failed. Please try again",
-        "speak": "Authentication failed. Please try again."
-      },
-      {
-        "text": "You failed to log in. Please try again later.",
-        "speak": "You failed to log in. please try again later."
-      },
-      {
-        "text": "Your log in failed. Let's try this again.",
-        "speak": "Your log in failed. Let's try this again."
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
   "ActionEnded": {
     "replies": [
       {
@@ -114,8 +31,8 @@
         "speak": "Let me know if you need my help with something else."
       },
       {
-        "text": "I'm here if you need me.",
-        "speak": "I'm here if you need me."
+        "text": "Okay, I'm here if you need me.",
+        "speak": "Okay, I'm here if you need me."
       }
     ],
     "inputHint": "acceptingInput"
@@ -157,8 +74,8 @@
   "SettingUpOneNoteMessage": {
     "replies": [
       {
-        "text": "I noticed you don't have a OneNote anymore, I'm creating a new OneNote for you, including a To Do list, a Shopping list and a Grocery list.",
-        "speak": "I noticed you don't have a OneNote anymore, I'm creating a new OneNote for you, including a To Do list, a Shopping list and a Grocery list."
+        "text": "I noticed you don't have a OneNote anymore, I'm creating a new OneNote for you, including a To Do list.",
+        "speak": "I noticed you don't have a OneNote anymore, I'm creating a new OneNote for you, including a To Do list."
       }
     ],
     "inputHint": "ignoringInput"
@@ -166,8 +83,8 @@
   "AfterOneNoteSetupMessage": {
     "replies": [
       {
-        "text": "All set. I have sent you an email with a link to your new OneNote. I'm ready to note down your task.",
-        "speak": "All set. I have sent you an email with a link to your new OneNote. I'm ready to note down your task."
+        "text": "All set. I have sent you an email with a link to your new OneNote. I'm ready to note down your To Do.",
+        "speak": "All set. I have sent you an email with a link to your new OneNote. I'm ready to note down your To Do."
       }
     ],
     "inputHint": "ignoringInput"
@@ -175,8 +92,8 @@
   "SettingUpOutlookMessage": {
     "replies": [
       {
-        "text": "I noticed you don't have any Outlook task folders anymore, I'm creating new task folders for you, including a To Do folder, a Shopping folder and a Grocery folder.",
-        "speak": "I noticed you don't have any Outlook task folders anymore, I'm creating new task folders for you, including a To Do folder, a Shopping folder and a Grocery folder."
+        "text": "I noticed you don't have any Outlook task folders anymore, I'm creating new task folders for you, including a To Do folder.",
+        "speak": "I noticed you don't have any Outlook task folders anymore, I'm creating new task folders for you, including a To Do folder."
       }
     ],
     "inputHint": "ignoringInput"
@@ -184,59 +101,20 @@
   "AfterOutlookSetupMessage": {
     "replies": [
       {
-        "text": "All set. I have sent you an email with a link to your new Outlook task folders. I'm ready to note down your task.",
-        "speak": "All set. I have sent you an email with a link to your new Outlook task folders. I'm ready to note down your task."
+        "text": "All set. I have sent you an email with a link to your new Outlook task folders. I'm ready to note down your To Do.",
+        "speak": "All set. I have sent you an email with a link to your new Outlook task folders. I'm ready to note down your To Do."
       }
     ],
     "inputHint": "ignoringInput"
   },
-  "ShowToDoTasks": {
+  "CardSummaryMessage": {
     "replies": [
       {
-        "text": "You have {taskCount} items on your {listType} list:",
-        "speak": "You have {taskCount} items on your {listType} list:"
+        "text": "You have {taskCount} tasks on your {listType} list:",
+        "speak": "You have {taskCount} tasks on your {listType} list:"
       }
     ],
     "inputHint": "ignoringInput"
-  },
-  "AskToDoTaskIndex": {
-    "replies": [
-      {
-        "text": "Which task do you want to select for this action?",
-        "speak": "Which task do you want to select for this action?"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "AskToDoContentText": {
-    "replies": [
-      {
-        "text": "Sure. What do you want to put on the list?",
-        "speak": "Sure. What do you want to put on the list?"
-      },
-      {
-        "text": "Ok, what can I add to the list?",
-        "speak": "Ok, what can I add to the list?"
-      },
-      {
-        "text": "Alright, what do you want to put on the list?",
-        "speak": "Alright, what do you want to put on the list?"
-      },
-      {
-        "text": "What do you want to add to the list?",
-        "speak": "What do you want to add to the list?"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "AfterToDoTaskAdded": {
-    "replies": [
-      {
-        "text": "I have added the task {taskContent} to your list.",
-        "speak": "I have added the task {taskContent} to your list."
-      }
-    ],
-    "inputHint": "acceptingInput"
   },
   "NoTasksInList": {
     "replies": [
@@ -246,14 +124,5 @@
       }
     ],
     "inputHint": "acceptingInput"
-  },
-  "SwitchListType": {
-    "replies": [
-      {
-        "text": "Alright, this looks like a task for your {listType} list. Would you like me to add this to your {listType} list?",
-        "speak": "Alright, this looks like a task for your {listType} list. Would you like me to add this to your {listType} list?"
-      }
-    ],
-    "inputHint": "expectingInput"
   }
 }
