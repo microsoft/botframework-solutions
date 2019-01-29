@@ -229,11 +229,6 @@ namespace PointOfInterestSkill.Models
 
                 return availableDetailsString.ToString();
             }
-
-            set
-            {
-                AvailableDetails = value;
-            }
         }
     }
 }

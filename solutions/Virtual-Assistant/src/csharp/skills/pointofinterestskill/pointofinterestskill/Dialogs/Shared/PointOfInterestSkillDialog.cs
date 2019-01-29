@@ -180,15 +180,33 @@ namespace PointOfInterestSkill.Dialogs.Shared
                     pointOfInterestList[i].OptionNumber = i;
                 }
 
-                if (sc.ActiveDialog.Id.Equals(Action.FindAlongRoute) && state.ActiveRoute != null)
+                if (pointOfInterestList.Count() > 1)
                 {
-                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardGroupReply(POISharedResponses.MultipleLocationsFoundAlongActiveRoute, "Dialogs/Shared/Resources/Cards/PointOfInterestViewCard.json", AttachmentLayoutTypes.Carousel, pointOfInterestList, ResponseBuilder);
-                    await sc.Context.SendActivityAsync(replyMessage);
+                    if (sc.ActiveDialog.Id.Equals(Action.FindAlongRoute) && state.ActiveRoute != null)
+                    {
+                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardGroupReply(POISharedResponses.MultipleLocationsFoundAlongActiveRoute, "Dialogs/Shared/Resources/Cards/PointOfInterestViewCard.json", AttachmentLayoutTypes.Carousel, pointOfInterestList, ResponseBuilder);
+                        await sc.Context.SendActivityAsync(replyMessage);
+                    }
+                    else
+                    {
+                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardGroupReply(POISharedResponses.MultipleLocationsFound, "Dialogs/Shared/Resources/Cards/PointOfInterestViewCard.json", AttachmentLayoutTypes.Carousel, pointOfInterestList, ResponseBuilder);
+                        await sc.Context.SendActivityAsync(replyMessage);
+                    }
                 }
                 else
                 {
-                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardGroupReply(POISharedResponses.MultipleLocationsFound, "Dialogs/Shared/Resources/Cards/PointOfInterestViewCard.json", AttachmentLayoutTypes.Carousel, pointOfInterestList, ResponseBuilder);
-                    await sc.Context.SendActivityAsync(replyMessage);
+                    state.ActiveLocation = state.LastFoundPointOfInterests.Single();
+
+                    if (sc.ActiveDialog.Id.Equals(Action.FindAlongRoute) && state.ActiveRoute != null)
+                    {
+                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(POISharedResponses.SingleLocationFoundAlongActiveRoute, "Dialogs/Shared/Resources/Cards/PointOfInterestViewCard.json", pointOfInterestList.SingleOrDefault(), ResponseBuilder);
+                        await sc.Context.SendActivityAsync(replyMessage);
+                    }
+                    else
+                    {
+                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(POISharedResponses.SingleLocationFound, "Dialogs/Shared/Resources/Cards/PointOfInterestViewCard.json", pointOfInterestList.SingleOrDefault(), ResponseBuilder);
+                        await sc.Context.SendActivityAsync(replyMessage);
+                    }
                 }
             }
             else
