@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
@@ -120,6 +121,7 @@ namespace ToDoSkill.Dialogs.AddToDo
 
                     var cardReply = sc.Context.Activity.CreateReply();
                     cardReply.Attachments.Add(toDoListAttachment);
+                    cardReply.InputHint = InputHints.IgnoringInput;
                     await sc.Context.SendActivityAsync(cardReply);
 
                     return await sc.NextAsync();

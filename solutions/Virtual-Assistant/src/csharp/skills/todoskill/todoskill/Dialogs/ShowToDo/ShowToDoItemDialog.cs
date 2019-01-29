@@ -100,36 +100,52 @@ namespace ToDoSkill.Dialogs.ShowToDo
                 }
                 else
                 {
-                    Attachment toDoListAttachment = null;
+                    var cardReply = sc.Context.Activity.CreateReply();
+
                     if (topIntent == ToDo.Intent.ShowToDo)
                     {
-                        toDoListAttachment = ToAdaptiveCardForShowToDos(
+                        var toDoListAttachment = ToAdaptiveCardForShowToDos(
                             state.Tasks,
                             state.AllTasks.Count,
                             state.ReadSize,
                             state.ListType);
+
+                        cardReply.Attachments.Add(toDoListAttachment);
+
+                        if (state.Tasks.Count <= state.ReadSize)
+                        {
+                            cardReply.InputHint = InputHints.AcceptingInput;
+                        }
+                        else
+                        {
+                            cardReply.InputHint = InputHints.IgnoringInput;
+                        }
                     }
                     else if (generalTopIntent == General.Intent.Next)
                     {
                         var remainingTasksCount = state.Tasks.Count - (state.ReadTaskIndex * state.ReadSize);
-                        toDoListAttachment = ToAdaptiveCardForReadMore(
+                        var toDoListAttachment = ToAdaptiveCardForReadMore(
                             state.Tasks,
                             state.ReadTaskIndex * state.ReadSize,
                             Math.Min(remainingTasksCount, state.ReadSize),
                             state.AllTasks.Count,
                             state.ListType);
+
+                        cardReply.Attachments.Add(toDoListAttachment);
+                        cardReply.InputHint = InputHints.AcceptingInput;
                     }
                     else if (generalTopIntent == General.Intent.Previous)
                     {
-                        toDoListAttachment = ToAdaptiveCardForPreviousPage(
+                        var toDoListAttachment = ToAdaptiveCardForPreviousPage(
                             state.Tasks,
                             state.ReadSize,
                             state.AllTasks.Count,
                             state.ListType);
+
+                        cardReply.Attachments.Add(toDoListAttachment);
+                        cardReply.InputHint = InputHints.AcceptingInput;
                     }
 
-                    var cardReply = sc.Context.Activity.CreateReply();
-                    cardReply.Attachments.Add(toDoListAttachment);
                     await sc.Context.SendActivityAsync(cardReply);
 
                     if (topIntent == ToDo.Intent.ShowToDo && state.Tasks.Count > state.ReadSize)
@@ -234,14 +250,17 @@ namespace ToDoSkill.Dialogs.ShowToDo
 
             var cardReply = sc.Context.Activity.CreateReply();
             cardReply.Attachments.Add(toDoListAttachment);
-            await sc.Context.SendActivityAsync(cardReply);
 
             if ((state.ShowTaskPageIndex + 1) * state.PageSize < state.AllTasks.Count)
             {
+                cardReply.InputHint = InputHints.IgnoringInput;
+                await sc.Context.SendActivityAsync(cardReply);
                 return await sc.EndDialogAsync(true);
             }
             else
             {
+                cardReply.InputHint = InputHints.AcceptingInput;
+                await sc.Context.SendActivityAsync(cardReply);
                 return await sc.CancelAllDialogsAsync();
             }
         }
@@ -343,15 +362,18 @@ namespace ToDoSkill.Dialogs.ShowToDo
 
             var cardReply = sc.Context.Activity.CreateReply();
             cardReply.Attachments.Add(toDoListAttachment);
-            await sc.Context.SendActivityAsync(cardReply);
 
             if ((state.ReadTaskIndex + 1) * state.ReadSize < state.Tasks.Count
                 || (state.ShowTaskPageIndex + 1) * state.PageSize < state.AllTasks.Count)
             {
+                cardReply.InputHint = InputHints.IgnoringInput;
+                await sc.Context.SendActivityAsync(cardReply);
                 return await sc.ReplaceDialogAsync(Action.SecondReadMoreTasks);
             }
             else
             {
+                cardReply.InputHint = InputHints.AcceptingInput;
+                await sc.Context.SendActivityAsync(cardReply);
                 return await sc.EndDialogAsync(true);
             }
         }

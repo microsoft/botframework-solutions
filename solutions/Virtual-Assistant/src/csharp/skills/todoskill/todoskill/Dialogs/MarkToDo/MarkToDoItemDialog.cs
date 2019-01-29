@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
@@ -123,15 +124,18 @@ namespace ToDoSkill.Dialogs.MarkToDo
 
                 var cardReply = sc.Context.Activity.CreateReply();
                 cardReply.Attachments.Add(markToDoAttachment);
-                await sc.Context.SendActivityAsync(cardReply);
 
                 var uncompletedTaskIndex = state.AllTasks.FindIndex(t => t.IsCompleted == false);
                 if (state.MarkOrDeleteAllTasksFlag || uncompletedTaskIndex < 0)
                 {
+                    cardReply.InputHint = InputHints.AcceptingInput;
+                    await sc.Context.SendActivityAsync(cardReply);
                     return await sc.EndDialogAsync(true);
                 }
                 else
                 {
+                    cardReply.InputHint = InputHints.IgnoringInput;
+                    await sc.Context.SendActivityAsync(cardReply);
                     return await sc.NextAsync();
                 }
             }

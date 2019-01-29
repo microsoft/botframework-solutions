@@ -164,14 +164,17 @@ namespace ToDoSkill.Dialogs.DeleteToDo
 
                 var cardReply = sc.Context.Activity.CreateReply();
                 cardReply.Attachments.Add(deletedTaskAttachment);
-                await sc.Context.SendActivityAsync(cardReply);
 
                 if (canDeleteAnotherTask)
                 {
+                    cardReply.InputHint = InputHints.IgnoringInput;
+                    await sc.Context.SendActivityAsync(cardReply);
                     return await sc.NextAsync();
                 }
                 else
                 {
+                    cardReply.InputHint = InputHints.AcceptingInput;
+                    await sc.Context.SendActivityAsync(cardReply);
                     return await sc.EndDialogAsync(true);
                 }
             }
