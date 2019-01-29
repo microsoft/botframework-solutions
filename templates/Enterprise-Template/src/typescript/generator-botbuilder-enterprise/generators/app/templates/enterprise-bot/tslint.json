@@ -1,0 +1,16 @@
+{
+    "defaultSeverity": "warning",
+    "extends": [
+        "tslint:recommended",
+        "tslint-microsoft-contrib"
+    ],
+    "linterOptions":{
+
+    },
+    "rules": {
+      "member-ordering": [false]
+    },
+    "rulesDirectory": [
+      "node_modules/tslint-microsoft-contrib"
+    ]
+  }

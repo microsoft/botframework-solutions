@@ -1,0 +1,55 @@
+{
+  "AskTaskContentText": {
+    "replies": [
+      {
+        "text": "Sure. What do you want to put on the list?",
+        "speak": "Sure. What do you want to put on the list?"
+      },
+      {
+        "text": "Alright, what do you want to put on the list?",
+        "speak": "Alright, what do you want to put on the list?"
+      },
+      {
+        "text": "What do you want to put on the list?",
+        "speak": "What do you want to put on the list?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AfterTaskAdded": {
+    "replies": [
+      {
+        "text": "I have added {taskContent} to your {listType} list.",
+        "speak": "I have added {taskContent} to your {listType} list."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "SwitchListType": {
+    "replies": [
+      {
+        "text": "Alright, this looks like a task for your {listType} list. Would you like me to add this to your {listType} list?",
+        "speak": "Alright, this looks like a task for your {listType} list. Would you like me to add this to your {listType} list?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AddMoreTask": {
+    "replies": [
+      {
+        "text": "Do you want to add another task to your {listType} list?",
+        "speak": "Do you want to add another task to your {listType} list?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AskAddDupTaskPrompt": {
+    "replies": [
+      {
+        "text": "I believe you already have {taskContent} on your list, still want to add this task?",
+        "speak": "I believe you already have {taskContent} on your list, still want to add this task?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  }
+}

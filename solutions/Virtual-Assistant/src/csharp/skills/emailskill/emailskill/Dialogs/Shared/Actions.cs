@@ -30,11 +30,19 @@
 
         public const string CollectRecipient = "collectRecipient";
 
+        public const string UpdateSubject = "updateSubject";
+
+        public const string UpdateContent = "updateContent";
+
         public const string UpdateRecipientName = "updateName";
 
         public const string UpdateSelectMessage = "updateMessage";
 
+        public const string GetRecreateInfo = "getRecreateInfo";
+
         public const string Help = "help";
+
+        public const string GetRecreateInfoPrompt = "GetRecreateInfoPrompt";
 
         public const string FindContact = "findContact";
 

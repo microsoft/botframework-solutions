@@ -61,6 +61,15 @@ namespace ToDoSkill.Dialogs.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to  and {0}. .
+        /// </summary>
+        public static string And {
+            get {
+                return ResourceManager.GetString("And", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please refer to the link {0} to see the lists created for you..
         /// </summary>
         public static string EmailContent {
@@ -84,6 +93,15 @@ namespace ToDoSkill.Dialogs.Shared.Resources {
         public static string Grocery {
             get {
                 return ResourceManager.GetString("Grocery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to grocery, groceries, grocer.
+        /// </summary>
+        public static string GrocerySynonym {
+            get {
+                return ResourceManager.GetString("GrocerySynonym", resourceCulture);
             }
         }
         
@@ -115,11 +133,29 @@ namespace ToDoSkill.Dialogs.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to shopping.
+        /// </summary>
+        public static string ShoppingSynonym {
+            get {
+                return ResourceManager.GetString("ShoppingSynonym", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to To Do.
         /// </summary>
         public static string ToDo {
             get {
                 return ResourceManager.GetString("ToDo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to to do, todo, to-do, to dos, todos. to-dos, to - do.
+        /// </summary>
+        public static string ToDoSynonym {
+            get {
+                return ResourceManager.GetString("ToDoSynonym", resourceCulture);
             }
         }
     }

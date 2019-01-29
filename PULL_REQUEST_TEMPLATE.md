@@ -15,6 +15,7 @@
 ## Checklist
 - [ ] I have commented my code, particularly in hard-to-understand areas
 - [ ] I have added or updated the appropriate unit tests
+- [ ] I have tested any new/updated dialogs using Speech in the emulator to ensure the [Speak](https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-text-to-speech?view=azure-bot-service-3.0) property is set to enable a high quality speech-first experience and the appropriate [InputHints](https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-add-input-hints?view=azure-bot-service-3.0) are set correctly. 
 - [ ] I have updated related documentation
 
 If this contains changes that needs to be replicated between the Enterprise Template <-> Virtual Assistant

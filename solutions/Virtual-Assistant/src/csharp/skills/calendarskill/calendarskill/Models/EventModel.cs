@@ -862,7 +862,7 @@ namespace CalendarSkill.Models
             string locationString = null;
             if (eventItem.Attendees.Count > 0)
             {
-                participantString = DisplayHelper.ToDisplayParticipantsStringSummary(eventItem.Attendees);
+                participantString = DisplayHelper.ToDisplayParticipantsStringSummaryInCard(eventItem.Attendees);
             }
 
             var userStartDateTime = TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone);
@@ -918,6 +918,24 @@ namespace CalendarSkill.Models
         {
             TimeSpan t = EndTime.Subtract(StartTime);
             return SpeakHelper.ToSpeechMeetingDuration(t);
+        }
+
+        public bool ContainsAttendee(string contactName)
+        {
+            foreach (var attendee in Attendees)
+            {
+                if (attendee.DisplayName != null && attendee.DisplayName.ToLower().Contains(contactName.ToLower()))
+                {
+                    return true;
+                }
+
+                if (attendee.Address != null && attendee.Address.ToLower().Contains(contactName.ToLower()))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public class Attendee

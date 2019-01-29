@@ -194,6 +194,9 @@
     <Content Update="Dialogs\Shared\Resources\Cards\EmailCard.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="Dialogs\Shared\Resources\Cards\EmailContentPreview.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Dialogs\Shared\Resources\Cards\EmailDetailCard.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

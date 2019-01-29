@@ -410,7 +410,7 @@ namespace AutomotiveSkill.Common
                 return newCandidates;
             }
 
-            return state.Changes;
+            return null;
         }
 
         /// <summary>
