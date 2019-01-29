@@ -169,11 +169,11 @@ namespace EmailSkill.Dialogs.ShowEmail
                 {
                     await sc.Context.SendActivityAsync(
                         sc.Context.Activity.CreateReply(EmailSharedResponses.CancellingMessage));
-                    return await sc.EndDialogAsync(true);
+                    return await sc.EndDialogAsync(false);
                 }
                 else if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
                 {
-                    return await sc.BeginDialogAsync(Actions.Read, skillOptions);
+                    return await sc.ReplaceDialogAsync(Actions.Read, skillOptions);
                 }
 
                 return await sc.NextAsync();
@@ -280,7 +280,7 @@ namespace EmailSkill.Dialogs.ShowEmail
                 }
                 else if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
                 {
-                    return await sc.BeginDialogAsync(Actions.Display, skillOptions);
+                    return await sc.ReplaceDialogAsync(Actions.Display, skillOptions);
                 }
 
                 return await sc.NextAsync();
@@ -334,12 +334,12 @@ namespace EmailSkill.Dialogs.ShowEmail
                     }
                     else
                     {
-                        return await sc.BeginDialogAsync(Actions.Read, skillOptions);
+                        return await sc.ReplaceDialogAsync(Actions.Read, skillOptions);
                     }
                 }
                 else if (topIntent == Email.Intent.None && (topGeneralIntent == General.Intent.Previous || topGeneralIntent == General.Intent.Next))
                 {
-                    return await sc.BeginDialogAsync(Actions.Display, skillOptions);
+                    return await sc.ReplaceDialogAsync(Actions.Display, skillOptions);
                 }
                 else
                 {

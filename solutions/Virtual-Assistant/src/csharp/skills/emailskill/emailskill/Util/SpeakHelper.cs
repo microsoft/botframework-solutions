@@ -11,7 +11,7 @@ namespace EmailSkill.Util
 {
     public class SpeakHelper
     {
-        public static string ToSpeechEmailListString(List<Message> messages, TimeZoneInfo timeZone, int maxReadSize)
+        public static string ToSpeechEmailListString(List<Message> messages, TimeZoneInfo timeZone, int maxReadSize = 1)
         {
             string speakString = string.Empty;
 
@@ -28,29 +28,6 @@ namespace EmailSkill.Util
                 var emailDetail = ToSpeechEmailDetailOverallString(messages[0], timeZone);
                 emailDetails.Add(emailDetail);
             }
-            else
-            {
-                for (int i = 0; i < readSize; i++)
-                {
-                    var readFormat = string.Empty;
-
-                    if (i == 0)
-                    {
-                        readFormat = CommonStrings.FirstItem;
-                    }
-                    else if (i == 1)
-                    {
-                        readFormat = CommonStrings.SecondItem;
-                    }
-                    else if (i == 2)
-                    {
-                        readFormat = CommonStrings.ThirdItem;
-                    }
-
-                    var emailDetail = string.Format(readFormat, ToSpeechEmailDetailOverallString(messages[i], timeZone));
-                    emailDetails.Add(emailDetail);
-                }
-            }
 
             speakString = emailDetails.ToSpeechString(CommonStrings.And);
             return speakString;
@@ -66,7 +43,8 @@ namespace EmailSkill.Util
                     ? CommonStrings.NotAvailable
                     : message.ReceivedDateTime.Value.UtcDateTime.ToRelativeString(timeZone);
                 string sender = (message.Sender?.EmailAddress?.Name != null) ? message.Sender.EmailAddress.Name : EmailCommonStrings.UnknownSender;
-                speakString = string.Format(EmailCommonStrings.FromDetailsFormat, sender, time);
+                string subject = (message.Subject != null) ? message.Subject : EmailCommonStrings.EmptySubject;
+                speakString = string.Format(EmailCommonStrings.FromDetailsFormatAll, sender, time, subject);
             }
 
             return speakString;

@@ -280,8 +280,8 @@
   "ShowOneEmailPrompt": {
     "replies": [
       {
-        "text": "You have 1 email. {EmailListDetails}.",
-        "speak": "You have 1 email. {EmailListDetails}."
+        "text": "You have 1 email. The latest email is {EmailListDetails}.",
+        "speak": "You have 1 email. The latest email is {EmailListDetails}."
       }
     ],
     "inputHint": "acceptingInput"
