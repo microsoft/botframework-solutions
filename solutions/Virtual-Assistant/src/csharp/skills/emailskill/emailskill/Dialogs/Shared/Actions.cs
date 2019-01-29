@@ -14,6 +14,8 @@
 
         public const string Display = "reshow";
 
+        public const string DisplayFiltered = "reshowFilterd";
+
         public const string ReDisplay = "checkReshow";
 
         public const string Read = "read";

@@ -169,7 +169,7 @@
     <value>Fw: {0}</value>
   </data>
   <data name="FromDetailsFormatAll" xml:space="preserve">
-    <value>Von {0} bei {1} betitelt {2}. Der Inhalt ist {3}.</value>
+    <value>Von {0} bei {1} betitelt {2}</value>
   </data>
   <data name="FromDetailsFormat" xml:space="preserve">
     <value>Von {0} bei {1}</value>

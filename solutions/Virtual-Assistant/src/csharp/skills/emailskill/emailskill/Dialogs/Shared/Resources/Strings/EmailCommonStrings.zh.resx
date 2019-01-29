@@ -169,7 +169,7 @@
     <value>Fw:{0}</value>
   </data>
   <data name="FromDetailsFormatAll" xml:space="preserve">
-    <value>来自{0}于{1}标题是{2}。内容是{3}。</value>
+    <value>来自{0}于{1}标题是{2}</value>
   </data>
   <data name="FromDetailsFormat" xml:space="preserve">
     <value>来自{1}于{0}</value>
