@@ -249,11 +249,11 @@ namespace CalendarSkill.Dialogs.FindContact
                     var nameString = string.Empty;
                     if (unionList.Count <= ConfigData.GetInstance().MaxDisplaySize)
                     {
-                        return await sc.PromptAsync(Actions.Choice, await GenerateOptionsForName(unionList, sc.Context, true));
+                        return await sc.PromptAsync(Actions.Choice, await GenerateOptionsForName(sc, unionList, sc.Context, true));
                     }
                     else
                     {
-                        return await sc.PromptAsync(Actions.Choice, await GenerateOptionsForName(unionList, sc.Context, false));
+                        return await sc.PromptAsync(Actions.Choice, await GenerateOptionsForName(sc, unionList, sc.Context, false));
                     }
                 }
             }
@@ -294,6 +294,10 @@ namespace CalendarSkill.Dialogs.FindContact
                             if (state.ShowAttendeesIndex > 0)
                             {
                                 state.ShowAttendeesIndex--;
+                            }
+                            else
+                            {
+                                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(FindContactResponses.AlreadyFirstPage));
                             }
                         }
                         else
@@ -355,11 +359,11 @@ namespace CalendarSkill.Dialogs.FindContact
 
                 if (emailList.Count <= ConfigData.GetInstance().MaxDisplaySize)
                 {
-                    return await sc.PromptAsync(Actions.Choice, await GenerateOptionsForEmail(confirmedPerson, sc.Context, true));
+                    return await sc.PromptAsync(Actions.Choice, await GenerateOptionsForEmail(sc, confirmedPerson, sc.Context, true));
                 }
                 else
                 {
-                    return await sc.PromptAsync(Actions.Choice, await GenerateOptionsForEmail(confirmedPerson, sc.Context, false));
+                    return await sc.PromptAsync(Actions.Choice, await GenerateOptionsForEmail(sc, confirmedPerson, sc.Context, false));
                 }
             }
         }
@@ -407,6 +411,10 @@ namespace CalendarSkill.Dialogs.FindContact
                             if (state.ShowAttendeesIndex > 0)
                             {
                                 state.ShowAttendeesIndex--;
+                            }
+                            else
+                            {
+                                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(FindContactResponses.AlreadyFirstPage));
                             }
                         }
                         else
@@ -458,7 +466,7 @@ namespace CalendarSkill.Dialogs.FindContact
             }
         }
 
-        private async Task<PromptOptions> GenerateOptionsForEmail(CustomizedPerson confirmedPerson, ITurnContext context, bool isSinglePage = true)
+        private async Task<PromptOptions> GenerateOptionsForEmail(WaterfallStepContext sc, CustomizedPerson confirmedPerson, ITurnContext context, bool isSinglePage = true)
         {
             var state = await Accessor.GetAsync(context);
             var pageIndex = state.ShowAttendeesIndex;
@@ -472,6 +480,7 @@ namespace CalendarSkill.Dialogs.FindContact
                 state.ShowAttendeesIndex--;
                 pageIndex = state.ShowAttendeesIndex;
                 skip = pageSize * pageIndex;
+                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(FindContactResponses.AlreadyLastPage));
             }
 
             var options = new PromptOptions
@@ -544,7 +553,7 @@ namespace CalendarSkill.Dialogs.FindContact
             return result;
         }
 
-        private async Task<PromptOptions> GenerateOptionsForName(List<CustomizedPerson> unionList, ITurnContext context, bool isSinglePage = true)
+        private async Task<PromptOptions> GenerateOptionsForName(WaterfallStepContext sc, List<CustomizedPerson> unionList, ITurnContext context, bool isSinglePage = true)
         {
             var state = await Accessor.GetAsync(context);
             var pageIndex = state.ShowAttendeesIndex;
@@ -558,6 +567,7 @@ namespace CalendarSkill.Dialogs.FindContact
                 state.ShowAttendeesIndex--;
                 pageIndex = state.ShowAttendeesIndex;
                 skip = pageSize * pageIndex;
+                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(FindContactResponses.AlreadyLastPage));
             }
 
             var options = new PromptOptions

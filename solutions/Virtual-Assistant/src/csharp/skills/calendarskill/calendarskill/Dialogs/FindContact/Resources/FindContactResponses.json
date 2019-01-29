@@ -88,5 +88,23 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "AlreadyFirstPage": {
+    "replies": [
+      {
+        "text": "This is already the first page.",
+        "speak": " "
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AlreadyLastPage": {
+    "replies": [
+      {
+        "text": "This is already the last page.",
+        "speak": " "
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }

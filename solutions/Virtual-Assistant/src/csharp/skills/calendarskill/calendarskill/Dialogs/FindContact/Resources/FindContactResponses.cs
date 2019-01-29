@@ -42,6 +42,10 @@ namespace CalendarSkill.Dialogs.FindContact.Resources
 
         public static BotResponse BeforeSendingMessage => GetBotResponse();
 
+        public static BotResponse AlreadyFirstPage => GetBotResponse();
+
+        public static BotResponse AlreadyLastPage => GetBotResponse();
+
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {
             return _responseManager.GetBotResponse(propertyName);

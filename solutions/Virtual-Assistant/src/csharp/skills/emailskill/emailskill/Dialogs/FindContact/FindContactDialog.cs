@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using EmailSkill.Dialogs.FindContact.Resources;
 using EmailSkill.Dialogs.Shared;
 using EmailSkill.Dialogs.Shared.DialogOptions;
+using EmailSkill.Dialogs.Shared.Resources;
 using EmailSkill.ServiceClients;
 using EmailSkill.Util;
 using Luis;
@@ -15,6 +16,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Solutions.Data;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Microsoft.Graph;
@@ -240,11 +242,11 @@ namespace EmailSkill.Dialogs.FindContact
                     var nameString = string.Empty;
                     if (unionList.Count <= ConfigData.GetInstance().MaxDisplaySize)
                     {
-                        return await sc.PromptAsync(Actions.Choice, await GenerateOptionsForName(unionList, sc.Context, true));
+                        return await sc.PromptAsync(Actions.Choice, await GenerateOptionsForName(sc, unionList, sc.Context, true));
                     }
                     else
                     {
-                        return await sc.PromptAsync(Actions.Choice, await GenerateOptionsForName(unionList, sc.Context, false));
+                        return await sc.PromptAsync(Actions.Choice, await GenerateOptionsForName(sc, unionList, sc.Context, false));
                     }
                 }
             }
@@ -287,6 +289,10 @@ namespace EmailSkill.Dialogs.FindContact
                             {
                                 state.ShowRecipientIndex--;
                                 state.ReadRecipientIndex = 0;
+                            }
+                            else
+                            {
+                                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(FindContactResponses.AlreadyFirstPage));
                             }
                         }
                         else if (IsReadMoreIntent(generalTopIntent, sc.Context.Activity.Text))
@@ -365,11 +371,11 @@ namespace EmailSkill.Dialogs.FindContact
 
                 if (emailList.Count <= ConfigData.GetInstance().MaxDisplaySize)
                 {
-                    return await sc.PromptAsync(Actions.Choice, await GenerateOptionsForEmail(confirmedPerson, sc.Context, true));
+                    return await sc.PromptAsync(Actions.Choice, await GenerateOptionsForEmail(sc, confirmedPerson, sc.Context, true));
                 }
                 else
                 {
-                    return await sc.PromptAsync(Actions.Choice, await GenerateOptionsForEmail(confirmedPerson, sc.Context, false));
+                    return await sc.PromptAsync(Actions.Choice, await GenerateOptionsForEmail(sc, confirmedPerson, sc.Context, false));
                 }
             }
         }
@@ -419,6 +425,10 @@ namespace EmailSkill.Dialogs.FindContact
                             {
                                 state.ShowRecipientIndex--;
                                 state.ReadRecipientIndex = 0;
+                            }
+                            else
+                            {
+                                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(FindContactResponses.AlreadyFirstPage));
                             }
                         }
                         else if (IsReadMoreIntent(generalTopIntent, sc.Context.Activity.Text))
@@ -512,6 +522,176 @@ namespace EmailSkill.Dialogs.FindContact
                     return true;
                 }
             }
+        }
+
+        private async Task<string> GetReadyToSendNameListStringAsync(WaterfallStepContext sc)
+        {
+            var state = await EmailStateAccessor.GetAsync(sc?.Context);
+            var unionList = state.NameList.Concat(state.EmailList).ToList();
+            if (unionList.Count == 1)
+            {
+                return unionList.First();
+            }
+
+            var nameString = string.Join(", ", unionList.ToArray().SkipLast(1)) + string.Format(CommonStrings.SeparatorFormat, CommonStrings.And) + unionList.Last();
+            return nameString;
+        }
+
+        private async Task<PromptOptions> GenerateOptionsForEmail(WaterfallStepContext sc, Person confirmedPerson, ITurnContext context, bool isSinglePage = true)
+        {
+            var state = await EmailStateAccessor.GetAsync(context);
+            var pageIndex = state.ShowRecipientIndex;
+            var pageSize = ConfigData.GetInstance().MaxDisplaySize;
+            var skip = pageSize * pageIndex;
+            var emailList = confirmedPerson.ScoredEmailAddresses.ToList();
+
+            // Go back to the last page when reaching the end.
+            if (skip >= emailList.Count && pageIndex > 0)
+            {
+                state.ShowRecipientIndex--;
+                state.ReadRecipientIndex = 0;
+                pageIndex = state.ShowRecipientIndex;
+                skip = pageSize * pageIndex;
+                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(FindContactResponses.AlreadyLastPage));
+            }
+
+            var options = new PromptOptions
+            {
+                Choices = new List<Choice>(),
+                Prompt = context.Activity.CreateReply(FindContactResponses.ConfirmMultiplContactEmailSinglePage, null, new StringDictionary() { { "UserName", confirmedPerson.DisplayName } })
+            };
+
+            if (!isSinglePage)
+            {
+                options.Prompt = context.Activity.CreateReply(FindContactResponses.ConfirmMultiplContactEmailMultiPage, null, new StringDictionary() { { "UserName", confirmedPerson.DisplayName } });
+            }
+
+            for (var i = 0; i < emailList.Count; i++)
+            {
+                var user = confirmedPerson;
+                var mailAddress = emailList[i].Address ?? user.UserPrincipalName;
+
+                var choice = new Choice()
+                {
+                    Value = $"{user.DisplayName}: {mailAddress}",
+                    Synonyms = new List<string> { (options.Choices.Count + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
+                };
+                var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
+                if (!string.IsNullOrEmpty(userName))
+                {
+                    choice.Synonyms.Add(userName);
+                    choice.Synonyms.Add(userName.ToLower());
+                }
+
+                if (skip <= 0)
+                {
+                    if (options.Choices.Count >= pageSize)
+                    {
+                        options.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(options, ConfigData.GetInstance().MaxReadSize);
+                        options.Prompt.Text += "\r\n" + GetSelectPromptEmailString(options, true);
+                        options.RetryPrompt = context.Activity.CreateReply(EmailSharedResponses.NoChoiceOptions_Retry);
+                        return options;
+                    }
+
+                    options.Choices.Add(choice);
+                }
+                else
+                {
+                    skip--;
+                }
+            }
+
+            options.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(options, ConfigData.GetInstance().MaxReadSize);
+            options.Prompt.Text += "\r\n" + GetSelectPromptEmailString(options, true);
+            options.RetryPrompt = context.Activity.CreateReply(EmailSharedResponses.NoChoiceOptions_Retry);
+            return options;
+        }
+
+        private string GetSelectPromptEmailString(PromptOptions selectOption, bool containNumbers)
+        {
+            var result = string.Empty;
+            for (var i = 0; i < selectOption.Choices.Count; i++)
+            {
+                var choice = selectOption.Choices[i];
+                result += "  ";
+                if (containNumbers)
+                {
+                    result += i + 1 + ": ";
+                }
+
+                result += choice.Value.Split(":").LastOrDefault() + "\r\n";
+            }
+
+            return result;
+        }
+
+        private async Task<PromptOptions> GenerateOptionsForName(WaterfallStepContext sc, List<Person> unionList, ITurnContext context, bool isSinglePage = true)
+        {
+            var state = await EmailStateAccessor.GetAsync(context);
+            var pageIndex = state.ShowRecipientIndex;
+            var pageSize = ConfigData.GetInstance().MaxDisplaySize;
+            var skip = pageSize * pageIndex;
+            var currentRecipientName = state.NameList[state.ConfirmRecipientIndex];
+
+            // Go back to the last page when reaching the end.
+            if (skip >= unionList.Count && pageIndex > 0)
+            {
+                state.ShowRecipientIndex--;
+                state.ReadRecipientIndex = 0;
+                pageIndex = state.ShowRecipientIndex;
+                skip = pageSize * pageIndex;
+                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(FindContactResponses.AlreadyLastPage));
+            }
+
+            var options = new PromptOptions
+            {
+                Choices = new List<Choice>(),
+                Prompt = context.Activity.CreateReply(FindContactResponses.ConfirmMultipleContactNameSinglePage, null, new StringDictionary() { { "UserName", currentRecipientName } })
+            };
+
+            if (!isSinglePage)
+            {
+                options.Prompt = context.Activity.CreateReply(FindContactResponses.ConfirmMultipleContactNameMultiPage, null, new StringDictionary() { { "UserName", currentRecipientName } });
+            }
+
+            for (var i = 0; i < unionList.Count; i++)
+            {
+                var user = unionList[i];
+
+                var choice = new Choice()
+                {
+                    Value = $"**{user.DisplayName}**",
+                    Synonyms = new List<string> { (options.Choices.Count + 1).ToString(), user.DisplayName, user.DisplayName.ToLower() },
+                };
+                var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
+                if (!string.IsNullOrEmpty(userName))
+                {
+                    choice.Synonyms.Add(userName);
+                    choice.Synonyms.Add(userName.ToLower());
+                }
+
+                if (skip <= 0)
+                {
+                    if (options.Choices.Count >= pageSize)
+                    {
+                        options.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(options, ConfigData.GetInstance().MaxReadSize);
+                        options.Prompt.Text += "\r\n" + GetSelectPromptString(options, true);
+                        options.RetryPrompt = context.Activity.CreateReply(EmailSharedResponses.NoChoiceOptions_Retry);
+                        return options;
+                    }
+
+                    options.Choices.Add(choice);
+                }
+                else
+                {
+                    skip--;
+                }
+            }
+
+            options.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(options, ConfigData.GetInstance().MaxReadSize);
+            options.Prompt.Text += "\r\n" + GetSelectPromptString(options, true);
+            options.RetryPrompt = context.Activity.CreateReply(EmailSharedResponses.NoChoiceOptions_Retry);
+            return options;
         }
     }
 }
