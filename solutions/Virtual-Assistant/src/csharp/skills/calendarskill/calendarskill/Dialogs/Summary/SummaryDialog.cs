@@ -128,7 +128,7 @@ namespace CalendarSkill.Dialogs.Summary
 
                     var results = await GetEventsByTime(new List<DateTime>() { searchDate }, state.StartTime, state.EndDate, state.EndTime, state.GetUserTimeZone(), calendarService);
                     var searchedEvents = new List<EventModel>();
-                    bool searchTodayMeeting = searchesTodayMeeting(state);
+                    bool searchTodayMeeting = SearchesTodayMeeting(state);
                     foreach (var item in results)
                     {
                         if (!searchTodayMeeting || item.StartTime >= DateTime.UtcNow)
@@ -214,7 +214,7 @@ namespace CalendarSkill.Dialogs.Summary
                         await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowMeetingSummaryNotFirstPageMessage, ResponseBuilder, responseParams));
                     }
 
-                    await ShowMeetingList(sc, GetCurrentPageMeetings(state.SummaryEvents, state), !searchesTodayMeeting(state));
+                    await ShowMeetingList(sc, GetCurrentPageMeetings(state.SummaryEvents, state), !SearchesTodayMeeting(state));
                 }
 
                 return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(SummaryResponses.ReadOutMorePrompt) });
@@ -387,7 +387,7 @@ namespace CalendarSkill.Dialogs.Summary
                     if (filteredMeetingList.Count == 1)
                     {
                         state.ReadOutEvents = filteredMeetingList;
-                        return await sc.BeginDialogAsync(Actions.Read);
+                        return await sc.BeginDialogAsync(Actions.Read, sc.Options);
                     }
                     else if (filteredMeetingList.Count > 1)
                     {
@@ -512,13 +512,15 @@ namespace CalendarSkill.Dialogs.Summary
                         if (topIntent == Calendar.Intent.ChangeCalendarEntry)
                         {
                             state.Events.Add(readoutEvent);
-                            return await sc.BeginDialogAsync(nameof(UpdateEventDialog));
+                            state.IsActionFromSummary = true;
+                            return await sc.BeginDialogAsync(nameof(UpdateEventDialog), sc.Options);
                         }
 
                         if (topIntent == Calendar.Intent.DeleteCalendarEntry)
                         {
                             state.Events.Add(readoutEvent);
-                            return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog));
+                            state.IsActionFromSummary = true;
+                            return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog), sc.Options);
                         }
 
                         state.Clear();
@@ -529,7 +531,8 @@ namespace CalendarSkill.Dialogs.Summary
                         if (topIntent == Calendar.Intent.DeleteCalendarEntry)
                         {
                             state.Events.Add(readoutEvent);
-                            return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog));
+                            state.IsActionFromSummary = true;
+                            return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog), sc.Options);
                         }
 
                         state.Clear();
@@ -540,7 +543,8 @@ namespace CalendarSkill.Dialogs.Summary
                         if (topIntent == Calendar.Intent.DeleteCalendarEntry || topIntent == Calendar.Intent.AcceptEventEntry)
                         {
                             state.Events.Add(readoutEvent);
-                            return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog));
+                            state.IsActionFromSummary = true;
+                            return await sc.BeginDialogAsync(nameof(ChangeEventStatusDialog), sc.Options);
                         }
 
                         state.Clear();
@@ -714,7 +718,7 @@ namespace CalendarSkill.Dialogs.Summary
             return allMeetings.GetRange(state.ShowEventIndex * state.PageSize, Math.Min(state.PageSize, allMeetings.Count - (state.ShowEventIndex * state.PageSize)));
         }
 
-        private bool searchesTodayMeeting(CalendarSkillState state)
+        private bool SearchesTodayMeeting(CalendarSkillState state)
         {
             var userNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, state.GetUserTimeZone());
             var searchDate = userNow;
@@ -724,8 +728,7 @@ namespace CalendarSkill.Dialogs.Summary
                 searchDate = state.StartDate.Last();
             }
 
-            return state.StartDate.Any() &&
-                !state.StartTime.Any() &&
+            return !state.StartTime.Any() &&
                 !state.EndDate.Any() &&
                 !state.EndTime.Any() &&
                 EventModel.IsSameDate(searchDate, userNow);

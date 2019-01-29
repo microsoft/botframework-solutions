@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using CalendarSkill.Dialogs.Summary.Resources;
+using CalendarSkill.Dialogs.UpdateEvent.Resources;
 using CalendarSkill.Models;
 using CalendarSkillTest.Flow.Fakes;
 using CalendarSkillTest.Flow.Utterances;
@@ -178,10 +179,19 @@ namespace CalendarSkillTest.Flow
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowReadOutEventList())
                 .AssertReplyOneOf(this.AskForOrgnizerActionPrompt())
+                .Send(UpdateMeetingTestUtterances.BaseUpdateMeeting)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.AskForNewTimePrompt())
+                .Send(Strings.Strings.DefaultStartTime)
+                .AssertReply(this.ShowUpdateCalendarList())
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(this.ShowUpdateCalendarList())
+                .AssertReplyOneOf(this.AskForShowOverviewAgainPrompt())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.ShowOneMeetingOverviewAgainResponse())
+                .AssertReplyOneOf(this.FoundOneEventAgainPrompt())
                 .AssertReply(this.ShowCalendarList(1))
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReply(this.ActionEndMessage())
@@ -217,6 +227,16 @@ namespace CalendarSkillTest.Flow
             return this.ParseReplies(SummaryResponses.ShowMeetingSummaryAgainMessage.Replies, responseParams);
         }
 
+        private string[] AskForShowOverviewAgainPrompt(string dateTime = "today")
+        {
+            var responseParams = new StringDictionary()
+            {
+                { "DateTime", dateTime }
+            };
+
+            return this.ParseReplies(SummaryResponses.AskForShowOverview.Replies, responseParams);
+        }
+
         private string[] FoundOneEventPrompt(string dateTime = "today")
         {
             var responseParams = new StringDictionary()
@@ -230,6 +250,17 @@ namespace CalendarSkillTest.Flow
             };
 
             return this.ParseReplies(SummaryResponses.ShowOneMeetingSummaryMessage.Replies, responseParams);
+        }
+
+        private string[] FoundOneEventAgainPrompt(string dateTime = "today")
+        {
+            var responseParams = new StringDictionary()
+            {
+                { "Count", "1" },
+                { "DateTime", dateTime },
+            };
+
+            return this.ParseReplies(SummaryResponses.ShowOneMeetingSummaryAgainMessage.Replies, responseParams);
         }
 
         private string[] FoundMultipleEventPrompt(int count, string dateTime = "today")
@@ -309,6 +340,20 @@ namespace CalendarSkillTest.Flow
         private string[] NoEventResponse()
         {
             return this.ParseReplies(SummaryResponses.ShowNoMeetingMessage.Replies, new StringDictionary());
+        }
+
+        private string[] AskForNewTimePrompt()
+        {
+            return this.ParseReplies(UpdateEventResponses.NoNewTime.Replies, new StringDictionary());
+        }
+
+        private Action<IActivity> ShowUpdateCalendarList()
+        {
+            return activity =>
+            {
+                var messageActivity = activity.AsMessageActivity();
+                Assert.AreEqual(messageActivity.Attachments.Count, 1);
+            };
         }
     }
 }
