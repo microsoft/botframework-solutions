@@ -20,25 +20,49 @@ namespace PointOfInterestSkill.ServiceClients
         private static readonly string SearchForVenuesUrl = $"https://api.foursquare.com/v2/venues/search?ll={{0}},{{1}}&query={{2}}&limit=3";
         private static readonly string ExploreNearbyVenuesUrl = $"https://api.foursquare.com/v2/search/explore?ll={{0}},{{1}}&limit=3";
         private static readonly string GetVenueDetailsUrl = $"https://api.foursquare.com/v2/venues/{{0}}?";
-        private readonly string userLocale;
-        private readonly string clientId;
-        private readonly string clientSecret;
+        private string userLocale;
+        private string clientId;
+        private string clientSecret;
+        private HttpClient httpClient;
 
         /// <summary>
         /// Versioning is controlled by the v parameter, which is a date that represents the “version” of the API for which you expect from Foursquare.
         /// </summary>
         private readonly string apiVersion = "20190123";
 
-        public FoursquareGeoSpatialService(string id, string secret, string locale = "en")
+        public async Task<IGeoSpatialService> InitClientAsync(string id, string secret, string locale = "en", HttpClient client = null)
         {
-            clientId = id;
-            clientSecret = secret;
-            userLocale = locale;
+            try
+            {
+                clientId = id;
+                clientSecret = secret;
+                userLocale = locale;
+
+                if (client == null)
+                {
+                    httpClient = ServiceHelper.GetHttpClient();
+                }
+                else
+                {
+                    httpClient = client;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return this;
+        }
+
+        public async Task<IGeoSpatialService> InitKeyAsync(string key, string locale = "en", HttpClient client = null)
+        {
+            throw new NotSupportedException();
         }
 
         public async Task<RouteDirections> GetRouteDirectionsAsync(double currentLatitude, double currentLongitude, double destinationLatitude, double destinationLongitude, string routeType = null)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -59,21 +83,21 @@ namespace PointOfInterestSkill.ServiceClients
         /// </summary>
         public async Task<List<PointOfInterestModel>> GetPointOfInterestByAddressAsync(string address)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
         /// This provider does not offer search by only coordinates.
         /// </summary>
-        public async Task<List<PointOfInterestModel>> GetPointOfInterestByPointAsync(double latitude, double longitude)
+        public async Task<List<PointOfInterestModel>> GetPointOfInterestByCoordinatesAsync(double latitude, double longitude)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
         /// Get venue recommendations using the latitude and longitude of the user's location.
         /// </summary>
-        public async Task<List<PointOfInterestModel>> GetLocationsNearby(double latitude, double longitude)
+        public async Task<List<PointOfInterestModel>> GetNearbyPointsOfInterestAsync(double latitude, double longitude)
         {
             return await GetVenueAsync(
                 string.Format(CultureInfo.InvariantCulture, ExploreNearbyVenuesUrl, latitude, longitude));
@@ -82,7 +106,7 @@ namespace PointOfInterestSkill.ServiceClients
         /// <summary>
         /// Returns available image from point of interest.
         /// </summary>
-        public async Task<PointOfInterestModel> GetPointOfInterestDetails(PointOfInterestModel pointOfInterest)
+        public async Task<PointOfInterestModel> GetPointOfInterestDetailsAsync(PointOfInterestModel pointOfInterest)
         {
             if (pointOfInterest == null)
             {
@@ -97,36 +121,33 @@ namespace PointOfInterestSkill.ServiceClients
 
         private async Task<List<PointOfInterestModel>> GetVenueAsync(string url)
         {
-            using (var client = new HttpClient())
+            url = url + $"&client_id={clientId}&client_secret={clientSecret}&v={apiVersion}";
+
+            var response = await httpClient.GetStringAsync(url);
+
+            var apiResponse = JsonConvert.DeserializeObject<VenueResponse>(response);
+
+            var pointOfInterestList = new List<PointOfInterestModel>();
+
+            if (apiResponse?.Response != null)
             {
-                url = url + $"&client_id={clientId}&client_secret={clientSecret}&v={apiVersion}";
-
-                var response = await client.GetStringAsync(url);
-
-                var apiResponse = JsonConvert.DeserializeObject<VenueResponse>(response);
-
-                var pointOfInterestList = new List<PointOfInterestModel>();
-
-                if (apiResponse?.Response != null)
+                if (apiResponse.Response.Venue != null)
                 {
-                    if (apiResponse.Response.Venue != null)
+                    var venue = apiResponse.Response.Venue;
+                    var newPointOfInterest = new PointOfInterestModel(venue);
+                    pointOfInterestList.Add(newPointOfInterest);
+                }
+                else if (apiResponse?.Response?.Venues != null)
+                {
+                    foreach (var venue in apiResponse.Response.Venues)
                     {
-                        var venue = apiResponse.Response.Venue;
                         var newPointOfInterest = new PointOfInterestModel(venue);
                         pointOfInterestList.Add(newPointOfInterest);
                     }
-                    else if (apiResponse?.Response?.Venues != null)
-                    {
-                        foreach (var venue in apiResponse.Response.Venues)
-                        {
-                            var newPointOfInterest = new PointOfInterestModel(venue);
-                            pointOfInterestList.Add(newPointOfInterest);
-                        }
-                    }
                 }
-
-                return pointOfInterestList;
             }
+
+            return pointOfInterestList;
         }
     }
 }

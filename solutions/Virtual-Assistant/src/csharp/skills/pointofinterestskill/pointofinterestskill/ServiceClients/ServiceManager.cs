@@ -18,13 +18,13 @@ namespace PointOfInterestSkill.ServiceClients
 
             if (clientIdStr != null && clientSecretStr != null)
             {
-                return new FoursquareGeoSpatialService(clientIdStr, clientSecretStr);
+                return new FoursquareGeoSpatialService().InitClientAsync(clientIdStr, clientSecretStr).Result;
             }
             else
             {
                 var key = GetAzureMapsKey(services);
 
-                return new AzureMapsGeoSpatialService(key, locale);
+                return new AzureMapsGeoSpatialService().InitKeyAsync(key, locale).Result;
             }
         }
 
@@ -36,7 +36,7 @@ namespace PointOfInterestSkill.ServiceClients
         {
             var key = GetAzureMapsKey(services);
 
-            return new AzureMapsGeoSpatialService(key, locale);
+            return new AzureMapsGeoSpatialService().InitKeyAsync(key, locale).Result;
         }
 
         protected string GetAzureMapsKey(SkillConfiguration services)

@@ -93,7 +93,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 if (string.IsNullOrEmpty(state.SearchText) && string.IsNullOrEmpty(state.SearchAddress))
                 {
                     // No entities identified, find nearby locations
-                    pointOfInterestList = await service.GetLocationsNearby(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude);
+                    pointOfInterestList = await service.GetNearbyPointsOfInterestAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude);
                     await GetPointOfInterestLocationViewCards(sc, pointOfInterestList);
                 }
                 else if (!string.IsNullOrEmpty(state.SearchText))
@@ -176,7 +176,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
 
                 for (int i = 0; i < pointOfInterestList.Count; i++)
                 {
-                    pointOfInterestList[i] = await service.GetPointOfInterestDetails(pointOfInterestList[i]);
+                    pointOfInterestList[i] = await service.GetPointOfInterestDetailsAsync(pointOfInterestList[i]);
                     pointOfInterestList[i].OptionNumber = i;
                 }
 

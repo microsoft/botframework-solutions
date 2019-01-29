@@ -9,6 +9,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using PointOfInterestSkill.Models;
 
 namespace PointOfInterestSkill.ServiceClients
@@ -22,13 +23,37 @@ namespace PointOfInterestSkill.ServiceClients
         private static readonly string ImageUrlByPoint = $"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={{2}}&center={{1}},{{0}}&width=512&height=512";
         private static readonly string GetRouteDirections = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&query={{0}}";
         private static readonly string GetRouteDirectionsWithRouteType = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&query={{0}}&&routeType={{1}}";
-        private readonly string apiKey;
-        private readonly string userLocale;
+        private static string apiKey;
+        private static string userLocale;
+        private static HttpClient httpClient;
 
-        public AzureMapsGeoSpatialService(string key, string locale = "en")
+        public async Task<IGeoSpatialService> InitClientAsync(string clientId, string clientSecret, string locale = "en", HttpClient client = null)
         {
-            apiKey = key;
-            userLocale = locale;
+            throw new NotImplementedException();
+        }
+
+        public async Task<IGeoSpatialService> InitKeyAsync(string key, string locale = "en", HttpClient client = null)
+        {
+            try
+            {
+                apiKey = key;
+                userLocale = locale;
+
+                if (client == null)
+                {
+                    httpClient = ServiceHelper.GetHttpClient();
+                }
+                else
+                {
+                    httpClient = client;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return this;
         }
 
         /// <summary>
@@ -65,7 +90,7 @@ namespace PointOfInterestSkill.ServiceClients
         /// <summary>
         /// Get a street address from coordinates.
         /// </summary>
-        public async Task<List<PointOfInterestModel>> GetPointOfInterestByPointAsync(double latitude, double longitude)
+        public async Task<List<PointOfInterestModel>> GetPointOfInterestByCoordinatesAsync(double latitude, double longitude)
         {
         return await GetPointsOfInterestAsync(
             string.Format(CultureInfo.InvariantCulture, FindByPointUrl, latitude, longitude));
@@ -74,7 +99,7 @@ namespace PointOfInterestSkill.ServiceClients
         /// <summary>
         /// Get Point of Interest results around a specific location.
         /// </summary>
-        public async Task<List<PointOfInterestModel>> GetLocationsNearby(double latitude, double longitude)
+        public async Task<List<PointOfInterestModel>> GetNearbyPointsOfInterestAsync(double latitude, double longitude)
         {
             return await GetPointsOfInterestAsync(
                 string.Format(CultureInfo.InvariantCulture, FindNearbyUrl, latitude, longitude));
@@ -83,7 +108,7 @@ namespace PointOfInterestSkill.ServiceClients
         /// <summary>
         /// Get a static map image URL of the Point of Interest and returns PointOfInterestModel.
         /// </summary>
-        public async Task<PointOfInterestModel> GetPointOfInterestDetails(PointOfInterestModel pointOfInterest)
+        public async Task<PointOfInterestModel> GetPointOfInterestDetailsAsync(PointOfInterestModel pointOfInterest)
         {
             int zoom = 15;
 
@@ -119,14 +144,11 @@ namespace PointOfInterestSkill.ServiceClients
         /// </summary>
         private async Task<RouteDirections> GetRouteDirectionsAsync(string url)
         {
-            using (var client = new HttpClient())
-            {
-                var response = await client.GetStringAsync(url);
+            var response = await httpClient.GetStringAsync(url);
 
-                var apiResponse = JsonConvert.DeserializeObject<RouteDirections>(response);
+            var apiResponse = JsonConvert.DeserializeObject<RouteDirections>(response);
 
-                return apiResponse;
-            }
+            return apiResponse;
         }
 
         /// <summary>
@@ -134,27 +156,24 @@ namespace PointOfInterestSkill.ServiceClients
         /// </summary>
         private async Task<List<PointOfInterestModel>> GetPointsOfInterestAsync(string url)
         {
-            using (var client = new HttpClient())
+            url = url + $"&language={userLocale}&subscription-key={apiKey}";
+
+            var response = await httpClient.GetStringAsync(url);
+
+            var apiResponse = JsonConvert.DeserializeObject<SearchResultSet>(response);
+
+            var pointOfInterestList = new List<PointOfInterestModel>();
+
+            if (apiResponse != null && apiResponse.Results != null)
             {
-                url = url + $"&language={userLocale}&subscription-key={apiKey}";
-
-                var response = await client.GetStringAsync(url);
-
-                var apiResponse = JsonConvert.DeserializeObject<SearchResultSet>(response);
-
-                var pointOfInterestList = new List<PointOfInterestModel>();
-
-                if (apiResponse != null && apiResponse.Results != null)
+                foreach (var searchResult in apiResponse.Results)
                 {
-                    foreach (var searchResult in apiResponse.Results)
-                    {
-                        var newPointOfInterest = new PointOfInterestModel(searchResult);
-                        pointOfInterestList.Add(newPointOfInterest);
-                    }
+                    var newPointOfInterest = new PointOfInterestModel(searchResult);
+                    pointOfInterestList.Add(newPointOfInterest);
                 }
-
-                return pointOfInterestList;
             }
+
+            return pointOfInterestList;
         }
     }
 }
