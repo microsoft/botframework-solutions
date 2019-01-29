@@ -468,33 +468,23 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 {
                     sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
                     var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
-
-                    // TODO: can we do this somewhere else
-                    if (IsEmail(userInput))
+                    if (state.EventSource != EventSource.Other)
                     {
-                        state.Attendees.Add(new EventModel.Attendee { Address = userInput });
-                        return await sc.EndDialogAsync(true, cancellationToken);
+                        if (userInput != null)
+                        {
+                            var nameList = userInput.Split(CreateEventWhiteList.GetContactNameSeparator(), StringSplitOptions.None)
+                                .Select(x => x.Trim())
+                                .Where(x => !string.IsNullOrWhiteSpace(x))
+                                .ToList();
+                            state.AttendeesNameList = nameList;
+                        }
+
+                        state.FirstEnterFindContact = true;
+                        return await sc.BeginDialogAsync(nameof(FindContactDialog), options: sc.Options, cancellationToken: cancellationToken);
                     }
                     else
                     {
-                        if (state.EventSource != EventSource.Other)
-                        {
-                            if (userInput != null)
-                            {
-                                var nameList = userInput.Split(CreateEventWhiteList.GetContactNameSeparator(), StringSplitOptions.None)
-                                    .Select(x => x.Trim())
-                                    .Where(x => !string.IsNullOrWhiteSpace(x))
-                                    .ToList();
-                                state.AttendeesNameList = nameList;
-                            }
-
-                            state.FirstEnterFindContact = true;
-                            return await sc.BeginDialogAsync(nameof(FindContactDialog), options: sc.Options, cancellationToken: cancellationToken);
-                        }
-                        else
-                        {
-                            return await sc.BeginDialogAsync(Actions.UpdateAddress, new UpdateAddressDialogOptions(UpdateAddressDialogOptions.UpdateReason.NotAnAddress), cancellationToken);
-                        }
+                        return await sc.BeginDialogAsync(Actions.UpdateAddress, new UpdateAddressDialogOptions(UpdateAddressDialogOptions.UpdateReason.NotAnAddress), cancellationToken);
                     }
                 }
                 else
@@ -516,14 +506,26 @@ namespace CalendarSkill.Dialogs.CreateEvent
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 var currentRecipientName = state.AttendeesNameList[state.ConfirmAttendeesNameIndex];
-                if (IsEmail(currentRecipientName))
+                var email = GetEmail(currentRecipientName);
+                if (!string.IsNullOrEmpty(email))
                 {
                     var result =
                         new FoundChoice()
                         {
-                            Value = $"{currentRecipientName}: {currentRecipientName}",
+                            Value = $"{email}: {email}",
                         };
 
+                    return await sc.NextAsync(result);
+                }
+
+                if (CreateEventWhiteList.GetMyself().Contains(currentRecipientName))
+                {
+                    var me = await GetMe(sc);
+                    var result =
+                        new FoundChoice()
+                        {
+                            Value = $"{me.DisplayName}: {me.Emails.First()}"
+                        };
                     return await sc.NextAsync(result);
                 }
 
@@ -1050,6 +1052,231 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 await HandleDialogExceptions(sc, ex);
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
+        }
+
+        protected static (List<PersonModel> formattedPersonList, List<PersonModel> formattedUserList) FormatRecipientList(List<PersonModel> personList, List<PersonModel> userList)
+        {
+            // Remove dup items
+            List<PersonModel> formattedPersonList = new List<PersonModel>();
+            List<PersonModel> formattedUserList = new List<PersonModel>();
+
+            foreach (var person in personList)
+            {
+                var mailAddress = person.Emails[0] ?? person.UserPrincipalName;
+
+                bool isDup = false;
+                foreach (var formattedPerson in formattedPersonList)
+                {
+                    var formattedMailAddress = formattedPerson.Emails[0] ?? formattedPerson.UserPrincipalName;
+
+                    if (mailAddress.Equals(formattedMailAddress))
+                    {
+                        isDup = true;
+                        break;
+                    }
+                }
+
+                if (!isDup)
+                {
+                    formattedPersonList.Add(person);
+                }
+            }
+
+            foreach (var user in userList)
+            {
+                var mailAddress = user.Emails[0] ?? user.UserPrincipalName;
+
+                bool isDup = false;
+                foreach (var formattedPerson in formattedPersonList)
+                {
+                    var formattedMailAddress = formattedPerson.Emails[0] ?? formattedPerson.UserPrincipalName;
+
+                    if (mailAddress.Equals(formattedMailAddress))
+                    {
+                        isDup = true;
+                        break;
+                    }
+                }
+
+                if (!isDup)
+                {
+                    foreach (var formattedUser in formattedUserList)
+                    {
+                        var formattedMailAddress = formattedUser.Emails[0] ?? formattedUser.UserPrincipalName;
+
+                        if (mailAddress.Equals(formattedMailAddress))
+                        {
+                            isDup = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!isDup)
+                {
+                    formattedUserList.Add(user);
+                }
+            }
+
+            return (formattedPersonList, formattedUserList);
+        }
+
+        protected async Task<PromptOptions> GenerateOptions(List<PersonModel> personList, List<PersonModel> userList, DialogContext dc)
+        {
+            var state = await Accessor.GetAsync(dc.Context);
+            var pageIndex = state.ShowAttendeesIndex;
+            var pageSize = 5;
+            var skip = pageSize * pageIndex;
+            var options = new PromptOptions
+            {
+                Choices = new List<Choice>(),
+                Prompt = dc.Context.Activity.CreateReply(CreateEventResponses.ConfirmRecipient),
+            };
+            for (var i = 0; i < personList.Count; i++)
+            {
+                var user = personList[i];
+                var mailAddress = user.Emails[0] ?? user.UserPrincipalName;
+
+                var choice = new Choice()
+                {
+                    Value = $"**{user.DisplayName}: {mailAddress}**",
+                    Synonyms = new List<string> { (options.Choices.Count + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
+                };
+
+                var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
+                if (!string.IsNullOrEmpty(userName))
+                {
+                    choice.Synonyms.Add(userName);
+                    choice.Synonyms.Add(userName.ToLower());
+                }
+
+                if (skip <= 0)
+                {
+                    if (options.Choices.Count >= pageSize)
+                    {
+                        return options;
+                    }
+
+                    options.Choices.Add(choice);
+                }
+                else
+                {
+                    skip--;
+                }
+            }
+
+            if (options.Choices.Count == 0)
+            {
+                pageSize = 10;
+            }
+
+            for (var i = 0; i < userList.Count; i++)
+            {
+                var user = userList[i];
+                var mailAddress = user.Emails[0] ?? user.UserPrincipalName;
+                var choice = new Choice()
+                {
+                    Value = $"{user.DisplayName}: {mailAddress}",
+                    Synonyms = new List<string> { (options.Choices.Count + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
+                };
+
+                var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
+                if (!string.IsNullOrEmpty(userName))
+                {
+                    choice.Synonyms.Add(userName);
+                    choice.Synonyms.Add(userName.ToLower());
+                }
+
+                if (skip <= 0)
+                {
+                    if (options.Choices.Count >= pageSize)
+                    {
+                        return options;
+                    }
+
+                    options.Choices.Add(choice);
+                }
+                else if (skip >= 10)
+                {
+                    return options;
+                }
+                else
+                {
+                    skip--;
+                }
+            }
+
+            return options;
+        }
+
+        protected async Task<List<PersonModel>> GetContactsAsync(WaterfallStepContext sc, string name)
+        {
+            var result = new List<PersonModel>();
+            var state = await Accessor.GetAsync(sc.Context);
+            var token = state.APIToken;
+            var service = ServiceManager.InitUserService(token, state.EventSource);
+
+            // Get users.
+            result = await service.GetContactsAsync(name);
+            return result;
+        }
+
+        protected async Task<List<PersonModel>> GetPeopleWorkWithAsync(WaterfallStepContext sc, string name)
+        {
+            var result = new List<PersonModel>();
+            var state = await Accessor.GetAsync(sc.Context);
+            var token = state.APIToken;
+            var service = ServiceManager.InitUserService(token, state.EventSource);
+
+            // Get users.
+            result = await service.GetPeopleAsync(name);
+
+            return result;
+        }
+
+        protected async Task<List<PersonModel>> GetUserAsync(WaterfallStepContext sc, string name)
+        {
+            var result = new List<PersonModel>();
+            var state = await Accessor.GetAsync(sc.Context);
+            var token = state.APIToken;
+            var service = ServiceManager.InitUserService(token, state.EventSource);
+
+            // Get users.
+            result = await service.GetUserAsync(name);
+
+            return result;
+        }
+
+        protected async Task<PersonModel> GetMe(WaterfallStepContext sc)
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+            var token = state.APIToken;
+            var service = ServiceManager.InitUserService(token, state.EventSource);
+            return await service.GetMe();
+        }
+
+        private string GetSelectPromptString(PromptOptions selectOption, bool containNumbers)
+        {
+            var result = string.Empty;
+            result += selectOption.Prompt.Text + "\r\n";
+            for (var i = 0; i < selectOption.Choices.Count; i++)
+            {
+                var choice = selectOption.Choices[i];
+                result += "  ";
+                if (containNumbers)
+                {
+                    result += (i + 1) + "-";
+                }
+
+                result += choice.Value + "\r\n";
+            }
+
+            return result;
+        }
+
+        private string GetEmail(string emailString)
+        {
+            return Regex.Match(emailString, @"\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}").Value;
         }
     }
 }
