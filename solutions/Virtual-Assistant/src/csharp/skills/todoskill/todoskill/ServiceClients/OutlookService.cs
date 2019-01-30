@@ -23,6 +23,15 @@ namespace ToDoSkill.ServiceClients
         private Dictionary<string, string> taskFolderIds;
 
         /// <summary>
+        /// Gets or sets a value indicating whether the task folder is created or not.
+        /// </summary>
+        /// <returns>the bool value.</returns>
+        /// <value>
+        /// A value indicating whether the task folder is created or not.
+        /// </value>
+        public bool IsListCreated { get; set; }
+
+        /// <summary>
         /// Initializes Outlook task service using token.
         /// </summary>
         /// <param name="token">The token used for msgraph API call.</param>
@@ -33,6 +42,8 @@ namespace ToDoSkill.ServiceClients
         {
             try
             {
+                IsListCreated = taskFolderIds.Count == 0;
+
                 if (client == null)
                 {
                     this.httpClient = ServiceHelper.GetHttpClient(token);
@@ -45,7 +56,8 @@ namespace ToDoSkill.ServiceClients
                 if (!taskFolderIds.ContainsKey(ToDoStrings.ToDo))
                 {
                     var taskFolderId = await GetOrCreateTaskFolderAsync(ToDoStrings.ToDo);
-                    taskFolderIds.Add(ToDoStrings.ToDo, taskFolderId);
+                    taskFolderIds.Add(ToDoStrings.ToDo, taskFolderId.Item1);
+                    IsListCreated = IsListCreated && taskFolderId.Item2;
                 }
                 else
                 {
@@ -58,7 +70,8 @@ namespace ToDoSkill.ServiceClients
                 if (!taskFolderIds.ContainsKey(ToDoStrings.Grocery))
                 {
                     var taskFolderId = await GetOrCreateTaskFolderAsync(ToDoStrings.Grocery);
-                    taskFolderIds.Add(ToDoStrings.Grocery, taskFolderId);
+                    taskFolderIds.Add(ToDoStrings.Grocery, taskFolderId.Item1);
+                    IsListCreated = IsListCreated && taskFolderId.Item2;
                 }
                 else
                 {
@@ -69,7 +82,8 @@ namespace ToDoSkill.ServiceClients
                 if (!taskFolderIds.ContainsKey(ToDoStrings.Shopping))
                 {
                     var taskFolderId = await GetOrCreateTaskFolderAsync(ToDoStrings.Shopping);
-                    taskFolderIds.Add(ToDoStrings.Shopping, taskFolderId);
+                    taskFolderIds.Add(ToDoStrings.Shopping, taskFolderId.Item1);
+                    IsListCreated = IsListCreated && taskFolderId.Item2;
                 }
                 else
                 {
@@ -170,15 +184,17 @@ namespace ToDoSkill.ServiceClients
             return await Task.Run(() => OutlookTaskUrl);
         }
 
-        private async Task<string> GetOrCreateTaskFolderAsync(string taskFolderName)
+        private async Task<Tuple<string, bool>> GetOrCreateTaskFolderAsync(string taskFolderName)
         {
+            bool folderNotExist = false;
             var taskFolderId = await GetTaskFolderAsync(taskFolderName);
             if (string.IsNullOrEmpty(taskFolderId))
             {
+                folderNotExist = true;
                 taskFolderId = await CreateTaskFolderAsync(taskFolderName);
             }
 
-            return taskFolderId;
+            return new Tuple<string, bool>(taskFolderId, folderNotExist);
         }
 
         private async Task<string> GetOrCreateTaskFolderByIdAsync(string taskFolderId, string taskFolderName)

@@ -963,29 +963,24 @@ namespace ToDoSkill.Dialogs.Shared
                 var recovered = await RecoverListTypeIdsAsync(sc);
                 if (!recovered)
                 {
-                    if (state.TaskServiceType == ProviderTypes.OneNote)
+                    var taskServiceInit = ServiceManager.InitTaskService(state.MsGraphToken, state.ListTypeIds, state.TaskServiceType);
+                    if (taskServiceInit.IsListCreated)
                     {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
-                    }
-                    else
-                    {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOutlookMessage));
+                        if (state.TaskServiceType == ProviderTypes.OneNote)
+                        {
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.AfterOneNoteSetupMessage));
+                        }
+                        else
+                        {
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOutlookMessage));
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.AfterOutlookSetupMessage));
+                        }
                     }
 
-                    var taskServiceInit = ServiceManager.InitTaskService(state.MsGraphToken, state.ListTypeIds, state.TaskServiceType);
                     var taskWebLink = await taskServiceInit.GetTaskWebLink();
                     var emailContent = string.Format(ToDoStrings.EmailContent, taskWebLink);
                     await emailService.SendMessageAsync(emailContent, ToDoStrings.EmailSubject);
-
-                    if (state.TaskServiceType == ProviderTypes.OneNote)
-                    {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.AfterOneNoteSetupMessage));
-                    }
-                    else
-                    {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.AfterOutlookSetupMessage));
-                    }
-
                     await StoreListTypeIdsAsync(sc);
                     return taskServiceInit;
                 }
