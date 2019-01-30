@@ -120,23 +120,26 @@
   <data name="AllDay" xml:space="preserve">
     <value>Tutto il giorno</value>
   </data>
-  <data name="Today" xml:space="preserve">
-    <value>Oggi</value>
+  <data name="NoAttendees" xml:space="preserve">
+    <value>Nessun partecipante</value>
   </data>
   <data name="DailyToken" xml:space="preserve">
     <value>Quotidiana</value>
   </data>
+  <data name="Today" xml:space="preserve">
+    <value>Oggi</value>
+  </data>
   <data name="AttendeesSummary" xml:space="preserve">
-    <value>{0} e {1} in più</value>
+    <value>{0} e {1} di più</value>
   </data>
   <data name="WeeklyToken" xml:space="preserve">
     <value>Settimanale</value>
   </data>
   <data name="WithTheSubject" xml:space="preserve">
-    <value>con un oggetto {0}</value>
+    <value>con un oggetto di {0}</value>
   </data>
   <data name="AtTime" xml:space="preserve">
-    <value>a {0}</value>
+    <value>alle {0}</value>
   </data>
   <data name="MonthlyToken" xml:space="preserve">
     <value>Mensile</value>
