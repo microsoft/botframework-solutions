@@ -43,6 +43,7 @@ namespace AutomotiveSkillTest.Flow
             this.UserState = new UserState(new MemoryStorage());
             this.AutomotiveSkillStateAccessor = this.ConversationState.CreateProperty<AutomotiveSkillState>(nameof(AutomotiveSkillState));
             this.Services = new MockSkillConfiguration();
+            this.Services.Properties.Add("ImageAssetLocation", "http://localhost");
 
             builder.RegisterInstance(new BotStateSet(this.UserState, this.ConversationState));
 
@@ -79,7 +80,7 @@ namespace AutomotiveSkillTest.Flow
 
         public override IBot BuildBot()
         {
-            return new AutomotiveSkill.AutomotiveSkill(this.Services, this.ConversationState, this.UserState, this.TelemetryClient,null, MockHttpContextAcessor, true);
+            return new AutomotiveSkill.AutomotiveSkill(this.Services, this.ConversationState, this.UserState, this.TelemetryClient, true, null, MockHttpContextAcessor);
         }
     }
 }

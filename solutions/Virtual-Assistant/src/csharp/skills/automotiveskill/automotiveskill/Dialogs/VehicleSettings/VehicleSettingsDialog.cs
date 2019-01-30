@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
@@ -28,9 +29,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
 {
     public class VehicleSettingsDialog : AutomotiveSkillDialog
     {
-        private const string ClimateImageFileName = "Black_Climate.png";
-        private const string CarImageFileName = "Black_Car.png";
-        private const string MusicImageFileName = "Black_Music.png";
+        private const string FallbackSettingImageFileName = "Black_Car.png";
         private static readonly Regex WordRequiresAn = new Regex("^([aio]|e(?!u)|u(?![^aeoiu])).*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex WordCharacter = new Regex("^\\w", RegexOptions.Compiled);
         private static readonly IReadOnlyDictionary<string, string> SettingValueToSpeakableIngForm = new Dictionary<string, string>
@@ -182,7 +181,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
 
                         var card = new ThumbnailCard
                         {
-                            Images = new List<CardImage> { new CardImage(GetSettingCardImageUri(CarImageFileName)) },
+                            Images = new List<CardImage> { new CardImage(GetSettingCardImageUri(FallbackSettingImageFileName)) },
                             Text = "Please choose from one of the available settings shown below",
                             Buttons = options.Choices.Select(choice =>
                                 new CardAction(ActionTypes.ImBack, choice.Value, value: choice.Value)).ToList(),
@@ -282,24 +281,9 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                     {
                         string settingName = state.Changes.First().SettingName;
                         var setting = this.settingList.FindSetting(settingName);
-                        var categoryName = setting.Categories.First();
 
-                        string imageName;
-                        switch (categoryName)
-                        {
-                            case "Climate Control":
-                                imageName = ClimateImageFileName;
-                                break;
-                            case "Active Safety":
-                                imageName = CarImageFileName;
-                                break;
-                            case "Audio":
-                                imageName = MusicImageFileName;
-                                break;
-                            default:
-                                imageName = CarImageFileName;
-                                break;
-                        }
+                        // If a category image filename is provided we'll use it otherwise fall back to the generic car one
+                        string imageName = setting.CategoryImageFileName ?? FallbackSettingImageFileName;
 
                         // If we have more than one setting name matching prompt the user to choose
                         var options = new PromptOptions()
@@ -427,10 +411,10 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                                     { "value", change.Value },
                         };
 
-                        if (availableSetting != null && availableSetting.Categories != null && availableSetting.Categories.Any())
+                        if (availableSetting != null && !string.IsNullOrEmpty(availableSetting.Category))
                         {
                             promptTemplate = VehicleSettingsResponses.VehicleSettingsSettingChangeConfirmationWithCategory;
-                            promptReplacements.Add("category", availableSetting.Categories[0]);
+                            promptReplacements.Add("category", availableSetting.Category);
                             if (WordRequiresAn.Match(promptReplacements["category"]).Success)
                             {
                                 promptReplacements.Add("aOrAnBeforeCategory", "an");
@@ -577,8 +561,27 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
 
         private string GetSettingCardImageUri(string imagePath)
         {
-            string serverUrl = _httpContext.HttpContext.Request.Scheme + "://" + _httpContext.HttpContext.Request.Host.Value;
-            return $"{serverUrl}/images/{imagePath}";
+            // If we are in local mode we leverage the HttpContext to get the current path to the image assets
+            if (_httpContext != null)
+            {
+                string serverUrl = _httpContext.HttpContext.Request.Scheme + "://" + _httpContext.HttpContext.Request.Host.Value;
+                return $"{serverUrl}/images/{imagePath}";
+            }
+            else
+            {
+                // In skill-mode we don't have HttpContext and require skills to provide their own storage for assets
+                Services.Properties.TryGetValue("ImageAssetLocation", out var imageUri);
+
+                var imageUriStr = (string)imageUri;
+                if (string.IsNullOrWhiteSpace(imageUriStr))
+                {
+                    throw new Exception("ImageAssetLocation Uri not configured on the skill.");
+                }
+                else
+                {
+                    return $"{imageUriStr}/{imagePath}";
+                }
+            }
         }
     }
 }

@@ -71,7 +71,9 @@ An example transcript file demonstrating the Skill in action can be found [here]
     ],
     "parameters": []
     ],
-    "configuration": { }
+    "configuration": {
+       "ImageAssetLocation": "http://tempuri.org"
+     }
 }
 ```
 
@@ -243,5 +245,6 @@ Once you have followed the deployment instructions above, open the provided .bot
 5. Update **MainDialog.cs** with the dispatch intent for your skill (l_automotive)
     ![](./media/skills_maindialogupdate.jpg)
 6. Add a project reference to your Virtual Assistant project to the Automotive Skill, this will ensure the DLL housing the skill can be found at runtime for skill activation.
+7. In order for Adaptive Cards to render images associated with the automotive skill you will need to take the Image assets located in the `wwwroot\images` folder and place in a HTTP location and place the base URI path in the skill configuration `ImageAssetLocation` property.
 
 

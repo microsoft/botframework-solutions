@@ -86,7 +86,7 @@ namespace AutomotiveSkill.Dialogs.Main
                 var result = await luisService.RecognizeAsync<Luis.VehicleSettings>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
-                /// Update state with vehiclesettings luis result and entities
+                // Update state with vehiclesettings luis result and entities
                 state.VehicleSettingsLuisResult = result;
 
                 // switch on general intents
@@ -171,7 +171,7 @@ namespace AutomotiveSkill.Dialogs.Main
                 var localeConfig = _services.LocaleConfigurations[locale];
 
                 // check general luis intent
-                localeConfig.LuisServices.TryGetValue("general", out var luisService);              
+                localeConfig.LuisServices.TryGetValue("general", out var luisService);
 
                 if (luisService == null)
                 {

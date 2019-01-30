@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -122,7 +124,14 @@ namespace Microsoft.Bot.Solutions.Skills
                 try
                 {
                     var skillType = Type.GetType(_skillDefinition.Assembly);
-                    _activatedSkill = (IBot)Activator.CreateInstance(skillType, _skillConfiguration, conversationState, userState, _telemetryClient, null, true);
+
+                    // Have to use refined BindingFlags to allow for optional parameters on constructors.
+                    _activatedSkill = (IBot)Activator.CreateInstance(
+                        skillType,
+                        BindingFlags.CreateInstance | BindingFlags.Public | BindingFlags.Instance | BindingFlags.OptionalParamBinding,
+                        default(Binder),
+                        new object[] { _skillConfiguration, conversationState, userState, _telemetryClient, true },
+                        CultureInfo.CurrentCulture);
                 }
                 catch (Exception e)
                 {
