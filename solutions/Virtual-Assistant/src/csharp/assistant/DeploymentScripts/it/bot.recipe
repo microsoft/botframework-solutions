@@ -38,12 +38,6 @@
       "luPath": "CognitiveModels\\QnA\\it\\faq.lu"
     },
     {
-      "type": "luis",
-      "id": "Skill1",
-      "name": "Skill1",
-      "luPath": "..\\skills\\Skill1\\Skill1\\CognitiveModels\\LUIS\\it\\Skill1.lu"
-    },
-    {
       "type": "dispatch",
       "id": "dispatch",
       "name": "Dispatch",
