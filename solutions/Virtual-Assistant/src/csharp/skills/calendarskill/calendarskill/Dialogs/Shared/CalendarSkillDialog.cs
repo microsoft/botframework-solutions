@@ -914,9 +914,9 @@ namespace CalendarSkill.Dialogs.Shared
             }
         }
 
-        protected bool IsEmail(string emailString)
+        protected string GetEmail(string emailString)
         {
-            return Regex.IsMatch(emailString, @"\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}");
+            return Regex.Match(emailString, @"\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}").Value;
         }
 
         protected async Task<string> GetReadyToSendNameListStringAsync(WaterfallStepContext sc)
@@ -1035,6 +1035,14 @@ namespace CalendarSkill.Dialogs.Shared
             result = await service.GetUserAsync(name);
 
             return result;
+        }
+
+        protected async Task<PersonModel> GetMe(WaterfallStepContext sc)
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+            var token = state.APIToken;
+            var service = ServiceManager.InitUserService(token, state.EventSource);
+            return await service.GetMe();
         }
 
         protected string GetSelectPromptString(PromptOptions selectOption, bool containNumbers)
