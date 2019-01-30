@@ -94,7 +94,7 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    const templateName = "newDialog";
+    const templateName = "customDialog";
     if (this.props.finalConfirmation !== true) {
       return;
     }
