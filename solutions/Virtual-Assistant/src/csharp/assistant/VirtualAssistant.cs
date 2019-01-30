@@ -32,16 +32,16 @@ namespace VirtualAssistant
         /// <param name="userState">Bot user state.</param>
         /// <param name="endpointService">Bot endpoint service.</param>
         /// <param name="telemetryClient">Bot telemetry client.</param>
-        public VirtualAssistant(BotServices botServices, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, EndpointService endpointService)
+        public VirtualAssistant(BotServices botServices, ConversationState conversationState, UserState userState, EndpointService endpointService, IBotTelemetryClient telemetryClient)
         {
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
             _services = botServices ?? throw new ArgumentNullException(nameof(botServices));
+            _endpointService = endpointService ?? throw new ArgumentNullException(nameof(endpointService));
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
-            _endpointService = endpointService;
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(VirtualAssistant)));
-            _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _telemetryClient, _endpointService));
+            _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _endpointService, _telemetryClient));
         }
 
         /// <summary>

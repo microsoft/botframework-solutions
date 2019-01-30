@@ -29,7 +29,7 @@ namespace Microsoft.Bot.Solutions.Skills
         private bool _skillInitialized;
         private bool _useCachedTokens;
 
-        public SkillDialog(SkillDefinition skillDefinition, SkillConfigurationBase skillConfiguration, IBotTelemetryClient telemetryClient, EndpointService endpointService, bool useCachedTokens = true)
+        public SkillDialog(SkillDefinition skillDefinition, SkillConfigurationBase skillConfiguration, EndpointService endpointService, IBotTelemetryClient telemetryClient, bool useCachedTokens = true)
             : base(skillDefinition.Id)
         {
             _skillDefinition = skillDefinition;
@@ -253,7 +253,7 @@ namespace Microsoft.Bot.Solutions.Skills
                         // if the conversation id from the activity is the same as the context activity, it's reactive message
                         await innerDc.Context.SendActivitiesAsync(queue.ToArray());
                     }
-                    else if (_endpointService != null)
+                    else
                     {
                         // if the conversation id from the activity is different from the context activity, it's proactive message
                         await innerDc.Context.Adapter.ContinueConversationAsync(_endpointService.AppId, firstActivity.GetConversationReference(), CreateCallback(queue.ToArray()), default(CancellationToken));

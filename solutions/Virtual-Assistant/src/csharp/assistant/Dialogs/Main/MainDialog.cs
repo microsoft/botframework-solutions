@@ -37,7 +37,7 @@ namespace VirtualAssistant.Dialogs.Main
 
         private bool _conversationStarted = false;
 
-        public MainDialog(BotServices services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, EndpointService endpointService)
+        public MainDialog(BotServices services, ConversationState conversationState, UserState userState, EndpointService endpointService, IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
@@ -388,7 +388,7 @@ namespace VirtualAssistant.Dialogs.Main
         {
             foreach (var definition in skillDefinitions)
             {
-                AddDialog(new SkillDialog(definition, _services.SkillConfigurations[definition.Id], TelemetryClient, _endpointService));
+                AddDialog(new SkillDialog(definition, _services.SkillConfigurations[definition.Id], _endpointService, TelemetryClient));
             }
 
             // Initialize skill dispatcher
