@@ -74,81 +74,107 @@ namespace CalendarSkillTest.Flow.Fakes
             return mockServiceManager.Object;
         }
 
-        public static IServiceManager SetNextMeetingToNull()
+        public static IServiceManager SetMeetingsToSpecial(List<EventModel> eventList)
         {
-            mockCalendarService.Setup(service => service.GetUpcomingEvents()).Returns(Task.FromResult(new List<EventModel>()));
+            mockCalendarService.Setup(service => service.GetUpcomingEvents()).Returns(Task.FromResult(eventList));
+            mockCalendarService.Setup(service => service.GetEventsByTime(It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(Task.FromResult(eventList));
+            mockCalendarService.Setup(service => service.GetEventsByStartTime(It.IsAny<DateTime>())).Returns(Task.FromResult(eventList));
+            mockCalendarService.Setup(service => service.GetEventsByTitle(It.IsAny<string>())).Returns(Task.FromResult(eventList));
             return mockServiceManager.Object;
         }
 
-        public static IServiceManager SetNextMeetingToMultiple(int count)
+        public static IServiceManager SetMeetingsToNull()
         {
             List<EventModel> eventList = new List<EventModel>();
-            DateTime startDateTime = DateTime.UtcNow.AddHours(1);
-            DateTime endDateTime = startDateTime.AddHours(1);
+
+            mockCalendarService.Setup(service => service.GetUpcomingEvents()).Returns(Task.FromResult(eventList));
+            mockCalendarService.Setup(service => service.GetEventsByTime(It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(Task.FromResult(eventList));
+            mockCalendarService.Setup(service => service.GetEventsByStartTime(It.IsAny<DateTime>())).Returns(Task.FromResult(eventList));
+            mockCalendarService.Setup(service => service.GetEventsByTitle(It.IsAny<string>())).Returns(Task.FromResult(eventList));
+            return mockServiceManager.Object;
+        }
+
+        public static IServiceManager SetMeetingsToMultiple(int count)
+        {
+            List<EventModel> eventList = new List<EventModel>();
             for (int i = 0; i < count; i++)
             {
-                eventList.Add(CreateEventModel(
-                    startDateTime: startDateTime,
-                    endDateTime: endDateTime));
+                eventList.Add(CreateEventModel());
             }
 
             mockCalendarService.Setup(service => service.GetUpcomingEvents()).Returns(Task.FromResult(eventList));
+            mockCalendarService.Setup(service => service.GetEventsByTime(It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(Task.FromResult(eventList));
+            mockCalendarService.Setup(service => service.GetEventsByStartTime(It.IsAny<DateTime>())).Returns(Task.FromResult(eventList));
+            mockCalendarService.Setup(service => service.GetEventsByTitle(It.IsAny<string>())).Returns(Task.FromResult(eventList));
             return mockServiceManager.Object;
         }
 
-        public static IServiceManager SetNextMeetingToDefault()
-        {
-            mockCalendarService.Setup(service => service.GetUpcomingEvents()).Returns(Task.FromResult(BuildinEvents));
-            return mockServiceManager.Object;
-        }
-
-        private static List<EventModel> GetFakeEvents()
-        {
-            List<EventModel> events = new List<EventModel>();
-            events.Add(CreateEventModel());
-            return events;
-        }
-
-        private static List<PersonModel> GetFakePeoples()
+        public static IServiceManager SetPeopleToMultiple(int count)
         {
             List<PersonModel> peoples = new List<PersonModel>();
-            var addressList = new List<ScoredEmailAddress>();
-            var emailAddress = new ScoredEmailAddress()
-            {
-                Address = Strings.Strings.DefaultUserEmail,
-                RelevanceScore = 1,
-            };
-            addressList.Add(emailAddress);
 
-            var people = new Person()
+            for (int i = 0; i < count; i++)
             {
-                UserPrincipalName = Strings.Strings.DefaultUserEmail,
-                ScoredEmailAddresses = addressList,
-                DisplayName = Strings.Strings.DefaultUserName,
-            };
+                var emailAddressStr = string.Format(Strings.Strings.UserEmailAddress, i);
+                var userNameStr = string.Format(Strings.Strings.UserName, i);
+                var addressList = new List<ScoredEmailAddress>();
+                var emailAddress = new ScoredEmailAddress()
+                {
+                    Address = emailAddressStr,
+                    RelevanceScore = 1,
+                };
+                addressList.Add(emailAddress);
 
-            peoples.Add(new PersonModel(people));
-            return peoples;
+                var people = new Person()
+                {
+                    UserPrincipalName = emailAddressStr,
+                    ScoredEmailAddresses = addressList,
+                    DisplayName = userNameStr,
+                };
+
+                peoples.Add(new PersonModel(people));
+            }
+
+            mockUserService.Setup(service => service.GetPeopleAsync(It.IsAny<string>())).Returns((string name) =>
+            {
+                if (name == Strings.Strings.ThrowErrorAccessDenied)
+                {
+                    throw new SkillException(SkillExceptionType.APIAccessDenied, Strings.Strings.ThrowErrorAccessDenied, new Exception());
+                }
+
+                return Task.FromResult(peoples);
+            });
+            return mockServiceManager.Object;
         }
 
-        private static List<PersonModel> GetFakeUsers()
+        public static IServiceManager SetAllToDefault()
         {
-            List<PersonModel> users = new List<PersonModel>();
-
-            var emailAddressStr = Strings.Strings.DefaultUserEmail;
-            var user = new User()
+            mockCalendarService.Setup(service => service.GetUpcomingEvents()).Returns(Task.FromResult(BuildinEvents));
+            mockCalendarService.Setup(service => service.GetEventsByTime(It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(Task.FromResult(BuildinEvents));
+            mockCalendarService.Setup(service => service.GetEventsByStartTime(It.IsAny<DateTime>())).Returns(Task.FromResult(BuildinEvents));
+            mockCalendarService.Setup(service => service.GetEventsByTitle(It.IsAny<string>())).Returns(Task.FromResult(BuildinEvents));
+            mockUserService.Setup(service => service.GetPeopleAsync(It.IsAny<string>())).Returns((string name) =>
             {
-                UserPrincipalName = Strings.Strings.DefaultUserEmail,
-                Mail = emailAddressStr,
-                DisplayName = Strings.Strings.DefaultUserName,
-            };
+                if (name == Strings.Strings.ThrowErrorAccessDenied)
+                {
+                    throw new SkillException(SkillExceptionType.APIAccessDenied, Strings.Strings.ThrowErrorAccessDenied, new Exception());
+                }
 
-            users.Add(new PersonModel(user.ToPerson()));
+                return Task.FromResult(BuildinPeoples);
+            });
+            mockUserService.Setup(service => service.GetUserAsync(It.IsAny<string>())).Returns((string name) =>
+            {
+                if (name == Strings.Strings.ThrowErrorAccessDenied)
+                {
+                    throw new SkillException(SkillExceptionType.APIAccessDenied, Strings.Strings.ThrowErrorAccessDenied, new Exception());
+                }
 
-            return users;
+                return Task.FromResult(BuildinUsers);
+            });
+            return mockServiceManager.Object;
         }
 
-        private static EventModel CreateEventModel(
+        public static EventModel CreateEventModel(
             EmailAddress[] emailAddress = null,
             string eventName = null,
             string content = null,
@@ -242,6 +268,52 @@ namespace CalendarSkillTest.Flow.Fakes
             };
 
             return new EventModel(createdEvent);
+        }
+
+        private static List<EventModel> GetFakeEvents()
+        {
+            List<EventModel> events = new List<EventModel>();
+            events.Add(CreateEventModel());
+            return events;
+        }
+
+        private static List<PersonModel> GetFakePeoples()
+        {
+            List<PersonModel> peoples = new List<PersonModel>();
+            var addressList = new List<ScoredEmailAddress>();
+            var emailAddress = new ScoredEmailAddress()
+            {
+                Address = Strings.Strings.DefaultUserEmail,
+                RelevanceScore = 1,
+            };
+            addressList.Add(emailAddress);
+
+            var people = new Person()
+            {
+                UserPrincipalName = Strings.Strings.DefaultUserEmail,
+                ScoredEmailAddresses = addressList,
+                DisplayName = Strings.Strings.DefaultUserName,
+            };
+
+            peoples.Add(new PersonModel(people));
+            return peoples;
+        }
+
+        private static List<PersonModel> GetFakeUsers()
+        {
+            List<PersonModel> users = new List<PersonModel>();
+
+            var emailAddressStr = Strings.Strings.DefaultUserEmail;
+            var user = new User()
+            {
+                UserPrincipalName = Strings.Strings.DefaultUserEmail,
+                Mail = emailAddressStr,
+                DisplayName = Strings.Strings.DefaultUserName,
+            };
+
+            users.Add(new PersonModel(user.ToPerson()));
+
+            return users;
         }
     }
 }

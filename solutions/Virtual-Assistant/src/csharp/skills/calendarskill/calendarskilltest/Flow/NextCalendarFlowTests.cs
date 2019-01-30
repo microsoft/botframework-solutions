@@ -28,8 +28,6 @@ namespace CalendarSkillTest.Flow
                     { "calendar", new MockLuisRecognizer(new FindMeetingTestUtterances()) }
                 }
             });
-
-            this.ServiceManager = MockServiceManager.GetCalendarService();
         }
 
         [TestMethod]
@@ -63,7 +61,7 @@ namespace CalendarSkillTest.Flow
         [TestMethod]
         public async Task Test_CalendarNoNextMeetings()
         {
-            this.ServiceManager = MockServiceManager.SetNextMeetingToNull();
+            this.ServiceManager = MockServiceManager.SetMeetingsToNull();
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseNextMeeting)
                 .AssertReply(this.ShowAuth())
@@ -71,14 +69,13 @@ namespace CalendarSkillTest.Flow
                 .AssertReplyOneOf(this.NoMeetingResponse())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
-            this.ServiceManager = MockServiceManager.SetNextMeetingToDefault();
         }
 
         [TestMethod]
         public async Task Test_CalendarMultipleMeetings()
         {
             int eventCount = 3;
-            this.ServiceManager = MockServiceManager.SetNextMeetingToMultiple(eventCount);
+            this.ServiceManager = MockServiceManager.SetMeetingsToMultiple(eventCount);
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseNextMeeting)
                 .AssertReply(this.ShowAuth())
@@ -87,7 +84,6 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(this.ShowCalendarList(eventCount))
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
-            this.ServiceManager = MockServiceManager.SetNextMeetingToDefault();
         }
 
         private string[] NextMeetingPrompt()
