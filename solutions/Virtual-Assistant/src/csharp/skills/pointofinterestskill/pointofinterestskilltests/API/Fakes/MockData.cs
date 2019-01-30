@@ -1,7 +1,4 @@
 ﻿using PointOfInterestSkill.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PointOfInterestSkillTests.API.Fakes
 {
@@ -24,9 +21,5 @@ namespace PointOfInterestSkillTests.API.Fakes
         public const double Latitude = 47.639620;
 
         public const double Longitude = -122.130610;
-
-        public const PointOfInterestModel PointOfInterest = null;
-
-
     }
 }

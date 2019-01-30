@@ -94,7 +94,7 @@ namespace PointOfInterestSkill.Models
                 ? new LatLng() { Latitude = foursquarePoi.Location.Lat, Longitude = foursquarePoi.Location.Lng }
                 : Geolocation;
             Price = (foursquarePoi.Price != null)
-                ? new string('$', foursquarePoi.Price.Tier)
+                ? foursquarePoi.Price.Tier
                 : Price;
             Hours = !string.IsNullOrEmpty(foursquarePoi.Hours?.Status)
                 ? foursquarePoi.Hours?.Status
@@ -173,7 +173,7 @@ namespace PointOfInterestSkill.Models
         /// Gets or sets the price level of the point of interest.
         /// Availability: Foursquare.
         /// </summary>
-        public string Price { get; set; }
+        public int Price { get; set; }
 
         /// <summary>
         /// Gets or sets the hours of the point of interest.
@@ -222,9 +222,9 @@ namespace PointOfInterestSkill.Models
                     availableDetailsString.Append($" ({RatingCount})");
                 }
 
-                if (!string.IsNullOrEmpty(Price))
+                if (Price != 0)
                 {
-                    availableDetailsString.Append($" · {Price}");
+                    availableDetailsString.Append($" · {new string('$', Price)}");
                 }
 
                 return availableDetailsString.ToString();
