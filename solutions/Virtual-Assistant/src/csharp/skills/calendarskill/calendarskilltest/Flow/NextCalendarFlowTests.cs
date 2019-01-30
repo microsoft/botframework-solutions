@@ -29,9 +29,7 @@ namespace CalendarSkillTest.Flow
                 }
             });
 
-            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.SetupCalendarService(MockCalendarService.FakeDefaultEvents());
-            serviceManager.SetupUserService(MockUserService.FakeDefaultUsers(), MockUserService.FakeDefaultPeople());
+            this.ServiceManager = MockServiceManager.GetCalendarService();
         }
 
         [TestMethod]
@@ -48,10 +46,24 @@ namespace CalendarSkillTest.Flow
         }
 
         [TestMethod]
+        public async Task Test_CalendarOneNextMeeting_AskHowLong()
+        {
+            await this.GetTestFlow()
+                .Send(FindMeetingTestUtterances.HowLongNextMeetingMeeting)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.BeforeShowEventDetailsPrompt())
+                .AssertReplyOneOf(this.ReadDurationPrompt())
+                .AssertReplyOneOf(this.NextMeetingPrompt())
+                .AssertReply(this.ShowCalendarList())
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
         public async Task Test_CalendarNoNextMeetings()
         {
-            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.SetupCalendarService(new List<EventModel>());
+            this.ServiceManager = MockServiceManager.SetNextMeetingToNull();
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseNextMeeting)
                 .AssertReply(this.ShowAuth())
@@ -59,14 +71,14 @@ namespace CalendarSkillTest.Flow
                 .AssertReplyOneOf(this.NoMeetingResponse())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
+            this.ServiceManager = MockServiceManager.SetNextMeetingToDefault();
         }
 
         [TestMethod]
         public async Task Test_CalendarMultipleMeetings()
         {
             int eventCount = 3;
-            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.SetupCalendarService(MockCalendarService.FakeMultipleNextEvents(eventCount));
+            this.ServiceManager = MockServiceManager.SetNextMeetingToMultiple(eventCount);
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseNextMeeting)
                 .AssertReply(this.ShowAuth())
@@ -75,11 +87,45 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(this.ShowCalendarList(eventCount))
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
+            this.ServiceManager = MockServiceManager.SetNextMeetingToDefault();
         }
 
         private string[] NextMeetingPrompt()
         {
             return this.ParseReplies(SummaryResponses.ShowNextMeetingMessage.Replies, new StringDictionary());
+        }
+
+        private string[] BeforeShowEventDetailsPrompt()
+        {
+            var responseParams = new StringDictionary()
+            {
+                { "EventName", Strings.Strings.DefaultEventName },
+            };
+            return this.ParseReplies(SummaryResponses.BeforeShowEventDetails.Replies, responseParams);
+        }
+
+        private string[] ReadTimePrompt()
+        {
+            return this.ParseReplies(SummaryResponses.ReadTime.Replies, new StringDictionary());
+        }
+
+        private string[] ReadDurationPrompt()
+        {
+            var responseParams = new StringDictionary()
+            {
+                { "EventDuration", Strings.Strings.DefaultDuration },
+            };
+            return this.ParseReplies(SummaryResponses.ReadDuration.Replies, responseParams);
+        }
+
+        private string[] ReadLocationPrompt()
+        {
+            return this.ParseReplies(SummaryResponses.ReadLocation.Replies, new StringDictionary());
+        }
+
+        private string[] ReadNoLocationPrompt()
+        {
+            return this.ParseReplies(SummaryResponses.ReadNoLocation.Replies, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()

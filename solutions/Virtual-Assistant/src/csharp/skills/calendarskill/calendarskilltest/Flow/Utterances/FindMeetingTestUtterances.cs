@@ -25,6 +25,10 @@ namespace CalendarSkillTest.Flow.Utterances
                 ChooseFirstMeeting,
                 intents: Calendar.Intent.ReadAloud,
                 ordinal: new double[] { 1 }));
+            this.Add(HowLongNextMeetingMeeting, GetBaseFindMeetingIntent(
+                BaseNextMeeting,
+                askParameter: new string[] { "how long" },
+                orderReference: new string[] { "next" }));
         }
 
         public static string BaseFindMeeting { get; } = "What should I do today";
@@ -37,6 +41,8 @@ namespace CalendarSkillTest.Flow.Utterances
 
         public static string ChooseFirstMeeting { get; } = "the first";
 
+        public static string HowLongNextMeetingMeeting { get; } = "How long is my next meeting";
+
         private Calendar GetBaseFindMeetingIntent(
             string userInput,
             Calendar.Intent intents = Calendar.Intent.FindCalendarEntry,
@@ -46,7 +52,8 @@ namespace CalendarSkillTest.Flow.Utterances
             string[] toTime = null,
             double[] ordinal = null,
             double[] number = null,
-            string[] orderReference = null)
+            string[] orderReference = null,
+            string[] askParameter = null)
         {
             return GetCalendarIntent(
                 userInput,
@@ -57,7 +64,8 @@ namespace CalendarSkillTest.Flow.Utterances
                 toTime: toTime,
                 ordinal: ordinal,
                 number: number,
-                orderReference: orderReference);
+                orderReference: orderReference,
+                askParameter: askParameter);
         }
     }
 }

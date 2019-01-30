@@ -22,7 +22,7 @@ namespace CalendarSkillTest.Flow.Strings
 
         public const string DefaultEndTime = "10 AM";
 
-        public const string DefaultDuration = "one hour";
+        public const string DefaultDuration = "1 hour";
 
         public const string ConfirmYes = "yes";
 
