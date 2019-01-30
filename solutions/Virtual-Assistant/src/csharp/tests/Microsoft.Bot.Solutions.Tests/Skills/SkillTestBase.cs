@@ -133,7 +133,7 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
 
         public override IBot BuildBot()
         {
-            return new FakeSkill.FakeSkill(Services, ConversationState, UserState, TelemetryClient, null, true);
+            return new FakeSkill.FakeSkill(Services, ConversationState, UserState, TelemetryClient, true, null);
         }
     }
 }

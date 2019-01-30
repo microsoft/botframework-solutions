@@ -1,6 +1,7 @@
 using AutomotiveSkillTest.Flow;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 
@@ -22,6 +23,18 @@ namespace AutomotiveSkillTest.Flow
                 .Send("set temperature to 21 degrees")                
                 .AssertReply(this.CheckForSettingEvent())
                 .AssertReply(this.CheckReply("Setting Temperature to 21°."))
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_SettingTemperatureMissingValue()
+        {
+            await this.GetTestFlow()
+                .Send("change the temperature")
+                 .AssertReply(this.CheckReply("Here are the settings for Temperature: (1) Decrease(2) Increase"))
+                .Send("Increase")                
+                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckReply("Increasing Temperature."))
                 .StartTestAsync();
         }
 
@@ -75,7 +88,7 @@ namespace AutomotiveSkillTest.Flow
         {
             await this.GetTestFlow()
                 .Send("put the air on my feet")
-                .AssertReply(this.CheckReply(" (1) Front Combined Air Delivery Mode Control(2) Rear Combined Air Delivery Mode Control"))
+                .AssertReply(this.CheckReply("Any of these match what you're looking for? (1) Front Combined Air Delivery Mode Control(2) Rear Combined Air Delivery Mode Control"))
                 .Send("front combined air delivery mode control")
                 .AssertReply(this.CheckForSettingEvent())
                 .AssertReply(this.CheckReply("Setting Front Combined Air Delivery Mode Control to Floor."))
@@ -117,7 +130,7 @@ namespace AutomotiveSkillTest.Flow
         {
             await this.GetTestFlow()
                 .Send("adjust equalizer")
-                .AssertReply(this.CheckReply(" (1) Equalizer (Bass)(2) Equalizer (Midrange)(3) Equalizer (Treble)(4) Equalizer (Surround)(5) Air Recirculation"))
+                .AssertReply(this.CheckReply("Any of these match what you're looking for? (1) Equalizer (Bass)(2) Equalizer (Midrange)(3) Equalizer (Treble)(4) Equalizer (Surround)(5) Air Recirculation"))
                 .Send("Equalizer (Bass)")
                 .AssertReply(this.CheckReply("Here are the settings for Equalizer (Bass): (1) Decrease(2) Increase"))                
                  .Send("Decrease")
@@ -131,7 +144,7 @@ namespace AutomotiveSkillTest.Flow
         {
             await this.GetTestFlow()
                 .Send("adjust equalizer")
-                .AssertReply(this.CheckReply(" (1) Equalizer (Bass)(2) Equalizer (Midrange)(3) Equalizer (Treble)(4) Equalizer (Surround)(5) Air Recirculation"))
+                .AssertReply(this.CheckReply("Any of these match what you're looking for? (1) Equalizer (Bass)(2) Equalizer (Midrange)(3) Equalizer (Treble)(4) Equalizer (Surround)(5) Air Recirculation"))
                 .Send("first one")
                 .AssertReply(this.CheckReply("Here are the settings for Equalizer (Bass): (1) Decrease(2) Increase"))
                 .Send("second one")
@@ -145,7 +158,23 @@ namespace AutomotiveSkillTest.Flow
         {
             await this.GetTestFlow()
                 .Send("adjust equalizer")
-                .AssertReply(this.CheckReply(" (1) Equalizer (Bass)(2) Equalizer (Midrange)(3) Equalizer (Treble)(4) Equalizer (Surround)(5) Air Recirculation"))
+                .AssertReply(this.CheckReply("Any of these match what you're looking for? (1) Equalizer (Bass)(2) Equalizer (Midrange)(3) Equalizer (Treble)(4) Equalizer (Surround)(5) Air Recirculation"))
+                .Send("first one")
+                .AssertReply(this.CheckReply("Here are the settings for Equalizer (Bass): (1) Decrease(2) Increase"))
+                .Send("blah blah")
+                .AssertReply(this.CheckReply("Here are the settings for Equalizer (Bass): (1) Decrease(2) Increase"))
+                .Send("Decrease")
+                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckReply("Decreasing Equalizer (Bass)."))
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_VerifyImagePathConfigurationUsedOnAdaptiveCard()
+        {
+            await this.GetTestFlow()
+                .Send("adjust equalizer")
+                .AssertReply(this.CheckImagePathOnAdaptiveCard())
                 .Send("first one")
                 .AssertReply(this.CheckReply("Here are the settings for Equalizer (Bass): (1) Decrease(2) Increase"))
                 .Send("blah blah")
@@ -181,6 +210,16 @@ namespace AutomotiveSkillTest.Flow
                 var messageReceived = activity.AsMessageActivity();
                 Assert.IsNotNull(messageReceived, "Activity received is not of type Message");
                 Assert.AreEqual<string>(expectedResponse, messageReceived.Text);
+            };
+        }
+
+        private Action<IActivity> CheckImagePathOnAdaptiveCard()
+        {
+            return activity =>
+            {
+                var messageReceived = activity.AsMessageActivity();
+                var card = JsonConvert.DeserializeObject<ThumbnailCard>(messageReceived.Attachments[0].Content.ToString());
+                Assert.IsTrue(card.Images[0].Url.StartsWith(ImageAssetLocation), $"Image URI was expected to be prefixed with {ImageAssetLocation} but was actually {card.Images[0].Url.ToString()}");
             };
         }
     }

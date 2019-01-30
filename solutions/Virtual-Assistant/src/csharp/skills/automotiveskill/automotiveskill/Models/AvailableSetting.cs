@@ -17,10 +17,16 @@ namespace AutomotiveSkill.Models
         public string CanonicalName { get; set; }
 
         /// <summary>
-        /// Gets or sets the categories that this setting belongs too.
+        /// Gets or sets the category that this setting belongs too.
         /// </summary>
-        /// <value>The Categories of this setting.</value>
-        public IList<string> Categories { get; set; }
+        /// <value>The category of this setting.</value>
+        public string Category { get; set; }
+
+        /// <summary>
+        /// Gets or sets the image file name used to represent this category.
+        /// </summary>
+        /// /// <value>The filename of the image.</value>
+        public string CategoryImageFileName { get; set; }
 
         /// <summary>
         /// Gets or sets the values that are available for this setting.
