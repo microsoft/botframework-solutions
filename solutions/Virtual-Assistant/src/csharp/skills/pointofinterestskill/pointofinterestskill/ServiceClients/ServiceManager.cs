@@ -8,7 +8,7 @@ namespace PointOfInterestSkill.ServiceClients
 {
     public class ServiceManager : IServiceManager
     {
-        public IGeoSpatialService InitMapsService(SkillConfiguration services, string locale = "en")
+        public IGeoSpatialService InitMapsService(SkillConfigurationBase services, string locale = "en")
         {
             services.Properties.TryGetValue("FoursquareClientId", out var clientId);
             services.Properties.TryGetValue("FoursquareClientSecret", out var clientSecret);
@@ -32,14 +32,14 @@ namespace PointOfInterestSkill.ServiceClients
         /// Gets the supported GeoSpatialService for route directions.
         /// Azure Maps is the only supported provider.
         /// </summary>
-        public IGeoSpatialService InitRoutingMapsService(SkillConfiguration services, string locale = "en")
+        public IGeoSpatialService InitRoutingMapsService(SkillConfigurationBase services, string locale = "en")
         {
             var key = GetAzureMapsKey(services);
 
             return new AzureMapsGeoSpatialService().InitKeyAsync(key, locale).Result;
         }
 
-        protected string GetAzureMapsKey(SkillConfiguration services)
+        protected string GetAzureMapsKey(SkillConfigurationBase services)
         {
             services.Properties.TryGetValue("AzureMapsKey", out var key);
 

@@ -29,7 +29,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
 
         public PointOfInterestSkillDialog(
             string dialogId,
-            SkillConfiguration services,
+            SkillConfigurationBase services,
             IStatePropertyAccessor<PointOfInterestSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
@@ -44,7 +44,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
             AddDialog(new ConfirmPrompt(Action.ConfirmPrompt) { Style = ListStyle.Auto, });
         }
 
-        protected SkillConfiguration Services { get; set; }
+        protected SkillConfigurationBase Services { get; set; }
 
         protected IStatePropertyAccessor<PointOfInterestSkillState> Accessor { get; set; }
 

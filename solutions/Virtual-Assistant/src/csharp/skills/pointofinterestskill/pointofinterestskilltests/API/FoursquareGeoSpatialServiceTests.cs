@@ -29,6 +29,7 @@ namespace PointOfInterestSkillTests.API
             await service.InitClientAsync(MockData.ClientId, MockData.ClientSecret, MockData.Locale, mockClient);
 
             var pointOfInterestList = await service.GetNearbyPointsOfInterestAsync(MockData.Latitude, MockData.Longitude);
+
             Assert.AreEqual(pointOfInterestList[0].Id, "412d2800f964a520df0c1fe3");
             Assert.AreEqual(pointOfInterestList[0].Name, "Central Park");
             Assert.AreEqual(pointOfInterestList[0].City, "New York");
@@ -49,8 +50,10 @@ namespace PointOfInterestSkillTests.API
 
             await service.InitClientAsync(MockData.ClientId, MockData.ClientSecret, MockData.Locale, mockClient);
 
-            var pointOfInterest = await service.GetPointOfInterestDetailsAsync(MockData.PointOfInterest);
-            Assert.AreEqual(pointOfInterest.Id, "412d2800f964a520df0c1fe3");
+            var pointOfInterestList = await service.GetNearbyPointsOfInterestAsync(MockData.Latitude, MockData.Longitude);
+            
+            var pointOfInterest = await service.GetPointOfInterestDetailsAsync(pointOfInterestList[0]); Assert.AreEqual(pointOfInterest.Id, "412d2800f964a520df0c1fe3");
+
             Assert.AreEqual(pointOfInterest.Name, "Central Park");
             Assert.AreEqual(pointOfInterest.City, "New York");
             Assert.AreEqual(pointOfInterest.Street, "59th St to 110th St");

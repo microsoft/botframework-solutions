@@ -15,5 +15,20 @@
   <ItemGroup>
     <ProjectReference Include="..\PointOfInterestSkill\PointOfInterestSkill.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Update="Flow\Utterances\PointOfInterestDialogUtterances.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PointOfInterestDialogUtterances.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <EmbeddedResource Update="Flow\Utterances\PointOfInterestDialogUtterances.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PointOfInterestDialogUtterances.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
 
 </Project>
