@@ -86,7 +86,7 @@ namespace EmailSkillTest.Flow
 
         public override IBot BuildBot()
         {
-            return new EmailSkill.EmailSkill(this.Services, this.ConversationState, this.UserState,  this.TelemetryClient, this.ServiceManager, true);
+            return new EmailSkill.EmailSkill(this.Services, this.ConversationState, this.UserState,  this.TelemetryClient, true, this.ServiceManager);
         }
     }
 }

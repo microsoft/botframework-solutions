@@ -5,6 +5,45 @@
     <UserSecretsId>6a3184c3-074e-45b9-ad93-eceb8268ec01</UserSecretsId>
     <CodeAnalysisRuleSet>..\..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+     
+  <ItemGroup>
+    <Content Include="Dialogs\VehicleSettings\Resources\normalization\amount_percentage.tsv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dialogs\VehicleSettings\Resources\normalization\amount_type.tsv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dialogs\VehicleSettings\Resources\normalization\amount_unit.tsv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dialogs\VehicleSettings\Resources\normalization\color.tsv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dialogs\VehicleSettings\Resources\normalization\feel.tsv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dialogs\VehicleSettings\Resources\normalization\hand_side.tsv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dialogs\VehicleSettings\Resources\normalization\illumination.tsv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dialogs\VehicleSettings\Resources\normalization\index_map.tsv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dialogs\VehicleSettings\Resources\normalization\occurrence.tsv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dialogs\VehicleSettings\Resources\normalization\perception_type.tsv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dialogs\VehicleSettings\Resources\normalization\sound.tsv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dialogs\VehicleSettings\Resources\normalization\vehicle_part.tsv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
@@ -118,7 +157,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\VehicleSettings\Resources\available_settings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Dialogs\VehicleSettings\Resources\Cards\ListSelection.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
