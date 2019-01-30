@@ -3,8 +3,8 @@
 
 namespace ToDoSkill.ServiceClients
 {
-    using global::ToDoSkill.Dialogs.Shared;
     using System.Collections.Generic;
+    using global::ToDoSkill.Dialogs.Shared;
 
     public class ServiceManager : IServiceManager
     {

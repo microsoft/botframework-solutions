@@ -37,6 +37,10 @@ namespace ToDoSkillTest.Flow.Utterances
             this.Add(MarkAllTasksAsCompleted, GetBaseMarkToDoIntent(
                 MarkAllTasksAsCompleted,
                 containsAll: containsAll));
+
+            listType = new string[] { MockData.ToDo };
+            this.Add(ConfirmListType, GetNoneIntent(
+                listType: listType));
         }
 
         public static string BaseMarkTask { get; } = "mark a task as done";
@@ -50,6 +54,8 @@ namespace ToDoSkillTest.Flow.Utterances
         public static string MarkTaskAsCompletedByContent { get; } = "mark the task Play Games 1 as completed";
 
         public static string MarkAllTasksAsCompleted { get; } = "mark all tasks as completed";
+
+        public static string ConfirmListType { get; } = "To Do list";
 
         private ToDo GetBaseMarkToDoIntent(
             string userInput,

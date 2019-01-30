@@ -22,13 +22,11 @@ namespace ToDoSkill.Dialogs.Main.Resources
         }
 
         // Generated accessors
+        public static BotResponse DidntUnderstandMessage => GetBotResponse();
+
         public static BotResponse ToDoWelcomeMessage => GetBotResponse();
 
         public static BotResponse HelpMessage => GetBotResponse();
-
-        public static BotResponse GreetingMessage => GetBotResponse();
-
-        public static BotResponse GoodbyeMessage => GetBotResponse();
 
         public static BotResponse LogOut => GetBotResponse();
 

@@ -1,0 +1,103 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.0-preview-20181205-02" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.4.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.4.0" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\assistant\VirtualAssistant.csproj" />
+    <ProjectReference Include="..\..\Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj" />
+    <ProjectReference Include="..\..\skills\automotiveskill\automotiveskill\AutomotiveSkill.csproj" />
+    <ProjectReference Include="..\..\skills\calendarskill\calendarskill\CalendarSkill.csproj" />
+    <ProjectReference Include="..\..\skills\emailskill\emailskill\EmailSkill.csproj" />
+    <ProjectReference Include="..\..\skills\pointofinterestskill\pointofinterestskill\PointOfInterestSkill.csproj" />
+    <ProjectReference Include="..\..\skills\todoskill\todoskill\ToDoSkill.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <CodeAnalysisRuleSet>..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <CodeAnalysisRuleSet>..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Update="Utterances\CalendarUtterances.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CalendarUtterances.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Utterances\EmailUtterances.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EmailUtterances.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Utterances\GeneralUtterances.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GeneralUtterances.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Utterances\PointOfInterestUtterances.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PointOfInterestUtterances.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Utterances\SampleDialogUtterances.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SampleDialogUtterances.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Utterances\ToDoUtterances.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ToDoUtterances.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Utterances\CalendarUtterances.resx">
+      <CustomToolNamespace></CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CalendarUtterances.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Utterances\EmailUtterances.resx">
+      <CustomToolNamespace></CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>EmailUtterances.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Utterances\GeneralUtterances.resx">
+      <CustomToolNamespace></CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>GeneralUtterances.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Utterances\PointOfInterestUtterances.resx">
+      <CustomToolNamespace></CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PointOfInterestUtterances.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Utterances\SampleDialogUtterances.resx">
+      <CustomToolNamespace></CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SampleDialogUtterances.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Utterances\ToDoUtterances.resx">
+      <CustomToolNamespace></CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ToDoUtterances.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

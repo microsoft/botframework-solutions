@@ -17,7 +17,7 @@ namespace PointOfInterestSkill
     /// </summary>
     public class PointOfInterestSkill : IBot
     {
-        private readonly SkillConfiguration _services;
+        private readonly SkillConfigurationBase _services;
         private readonly UserState _userState;
         private readonly ConversationState _conversationState;
         private readonly IServiceManager _serviceManager;

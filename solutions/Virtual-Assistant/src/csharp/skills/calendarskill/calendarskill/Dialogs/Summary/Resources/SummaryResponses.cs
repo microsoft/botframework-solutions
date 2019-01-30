@@ -32,6 +32,14 @@ namespace CalendarSkill.Dialogs.Summary.Resources
 
         public static BotResponse ShowMultipleMeetingSummaryMessage => GetBotResponse();
 
+        public static BotResponse ShowOneMeetingSummaryAgainMessage => GetBotResponse();
+
+        public static BotResponse ShowMeetingSummaryAgainMessage => GetBotResponse();
+
+        public static BotResponse ShowMeetingSummaryNotFirstPageMessage => GetBotResponse();
+
+        public static BotResponse ShowMultipleFilteredMeetings => GetBotResponse();
+
         public static BotResponse ReadOutPrompt => GetBotResponse();
 
         public static BotResponse ReadOutMorePrompt => GetBotResponse();

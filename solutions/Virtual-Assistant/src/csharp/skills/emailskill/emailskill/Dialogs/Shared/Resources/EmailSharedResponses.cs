@@ -56,7 +56,15 @@ namespace EmailSkill.Dialogs.Shared.Resources
 
         public static BotResponse ShowEmailPrompt => GetBotResponse();
 
+        public static BotResponse ShowEmailPrompt_OtherPage => GetBotResponse();
+
         public static BotResponse ShowOneEmailPrompt => GetBotResponse();
+
+        public static BotResponse ShowOneEmailPrompt_OtherPage => GetBotResponse();
+
+        public static BotResponse FirstPageAlready => GetBotResponse();
+
+        public static BotResponse LastPageAlready => GetBotResponse();
 
         public static BotResponse NoChoiceOptions_Retry => GetBotResponse();
 
