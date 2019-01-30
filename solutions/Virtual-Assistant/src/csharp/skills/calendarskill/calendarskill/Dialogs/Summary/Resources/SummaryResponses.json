@@ -44,6 +44,15 @@
     ],
     "inputHint": "acceptingInput"
   },
+  "ShowOneMeetingSummaryAgainMessage": {
+    "replies": [
+      {
+        "text": "You have 1 event planned for {DateTime}. Want to hear the content of this event?",
+        "speak": "You have 1 event planned for {DateTime}. Want to hear the content of this event?"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
   "ShowMeetingSummaryAgainMessage": {
     "replies": [
       {

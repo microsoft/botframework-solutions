@@ -29,6 +29,7 @@ namespace CalendarSkillTest.Flow.Utterances
                 BaseNextMeeting,
                 askParameter: new string[] { "how long" },
                 orderReference: new string[] { "next" }));
+            this.Add(UpdateMeetingTestUtterances.BaseUpdateMeeting, UpdateMeetingTestUtterances.GetBaseUpdateMeetingIntent(UpdateMeetingTestUtterances.BaseUpdateMeeting));
         }
 
         public static string BaseFindMeeting { get; } = "What should I do today";
