@@ -914,9 +914,9 @@ namespace CalendarSkill.Dialogs.Shared
             }
         }
 
-        protected string GetEmail(string emailString)
+        protected bool IsEmail(string emailString)
         {
-            return Regex.Match(emailString, @"\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}").Value;
+            return Regex.IsMatch(emailString, @"\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}");
         }
 
         protected async Task<string> GetReadyToSendNameListStringAsync(WaterfallStepContext sc)

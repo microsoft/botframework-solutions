@@ -98,12 +98,11 @@ namespace CalendarSkill.Dialogs.FindContact
                     return await sc.EndDialogAsync();
                 }
 
-                var email = GetEmail(userInput);
-                if (!string.IsNullOrEmpty(email))
+                if (IsEmail(userInput))
                 {
-                    if (!state.AttendeesNameList.Contains(email))
+                    if (!state.AttendeesNameList.Contains(userInput))
                     {
-                        state.AttendeesNameList.Add(email);
+                        state.AttendeesNameList.Add(userInput);
                     }
                 }
                 else
@@ -141,10 +140,9 @@ namespace CalendarSkill.Dialogs.FindContact
                     state.FirstEnterFindContact = false;
                     foreach (var name in state.AttendeesNameList)
                     {
-                        var email = GetEmail(name);
-                        if (!string.IsNullOrEmpty(email))
+                        if (IsEmail(name))
                         {
-                            emailList.Add(email);
+                            emailList.Add(name);
                         }
                     }
 
@@ -170,7 +168,7 @@ namespace CalendarSkill.Dialogs.FindContact
                         }
                     }
 
-                    state.AttendeesNameList.RemoveAll(n => !string.IsNullOrEmpty(GetEmail(n)));
+                    state.AttendeesNameList.RemoveAll(n => IsEmail(n));
 
                     if (state.AttendeesNameList.Count > 0)
                     {
