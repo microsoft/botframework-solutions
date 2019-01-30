@@ -2,14 +2,14 @@
 // Licensed under the MIT License
 
 import { ComponentDialog } from 'botbuilder-dialogs';
-import { <%=dialogNameClass%>Responses } from './<%=dialogFileName%>Responses';
+import { <%=responsesNameClass%> } from './<%=responsesNameFile%>';
 
-export class <%=dialogNameClass%>Dialog extends ComponentDialog {
+export class <%=dialogNameClass%> extends ComponentDialog {
     // Fields
-    private static readonly RESPONDER:<%=dialogNameClass%>Responses = new <%=dialogNameClass%>Responses();
+    private static readonly RESPONDER: <%=responsesNameClass%> = new <%=responsesNameClass%>();
 
     constructor() {
-        super();
-        this.initialDialogId = <%=dialogNameClass%>Dialog.name;
+        super(<%=dialogNameClass%>.name);
+        this.initialDialogId = <%=dialogNameClass%>.name;
     }   
 }     

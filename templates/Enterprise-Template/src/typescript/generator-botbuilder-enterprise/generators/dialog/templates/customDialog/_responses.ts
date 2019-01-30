@@ -8,7 +8,7 @@ import {
     TemplateFunction } from '../templateManager/dictionaryRenderer';
 import { TemplateManager } from '../templateManager/templateManager';
 
-export class <%=dialogNameClass%>Responses extends TemplateManager {
+export class <%=responsesNameClass%> extends TemplateManager {
 
     // Fields
     public static RESPONSE_IDS: {
@@ -19,7 +19,7 @@ export class <%=dialogNameClass%>Responses extends TemplateManager {
 
     constructor() {
         super();
-        this.register(new DictionaryRenderer(<%=dialogNameClass%>Responses.RESPONSE_TEMPLATES));
+        this.register(new DictionaryRenderer(<%=responsesNameClass%>.RESPONSE_TEMPLATES));
     }
 
     private static fromResources(name: string): TemplateFunction {
