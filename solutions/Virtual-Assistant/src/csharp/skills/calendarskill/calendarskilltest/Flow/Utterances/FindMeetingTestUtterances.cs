@@ -25,6 +25,7 @@ namespace CalendarSkillTest.Flow.Utterances
                 ChooseFirstMeeting,
                 intents: Calendar.Intent.ReadAloud,
                 ordinal: new double[] { 1 }));
+            this.Add(UpdateMeetingTestUtterances.BaseUpdateMeeting, UpdateMeetingTestUtterances.GetBaseUpdateMeetingIntent(UpdateMeetingTestUtterances.BaseUpdateMeeting));
         }
 
         public static string BaseFindMeeting { get; } = "What should I do today";

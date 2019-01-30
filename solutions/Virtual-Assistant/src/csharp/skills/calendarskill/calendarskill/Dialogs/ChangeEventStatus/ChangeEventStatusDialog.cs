@@ -134,7 +134,15 @@ namespace CalendarSkill.Dialogs.ChangeEventStatus
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarSharedResponses.ActionEnded));
                 }
 
-                state.Clear();
+                if (state.IsActionFromSummary)
+                {
+                    state.ClearChangeStautsInfo();
+                }
+                else
+                {
+                    state.Clear();
+                }
+
                 return await sc.EndDialogAsync(true);
             }
             catch (SkillException ex)
