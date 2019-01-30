@@ -20,7 +20,7 @@ namespace PointOfInterestSkill
             LastFoundPointOfInterests = null;
             ActiveRoute = null;
             SearchDescriptor = string.Empty;
-            LastUtteredNumber = null;
+            UserSelectIndex = -1;
         }
 
         public UserInformation UserInfo { get; set; }
@@ -49,7 +49,7 @@ namespace PointOfInterestSkill
 
         public DialogState ConversationDialogState { get; set; }
 
-        public double[] LastUtteredNumber { get; set; }
+        public int UserSelectIndex { get; set; }
 
         public void Clear()
         {
@@ -60,7 +60,7 @@ namespace PointOfInterestSkill
             SearchAddress = string.Empty;
             SearchDescriptor = string.Empty;
             LastFoundPointOfInterests = null;
-            LastUtteredNumber = null;
+            UserSelectIndex = -1;
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace PointOfInterestSkill
             SearchText = string.Empty;
             SearchAddress = string.Empty;
             SearchDescriptor = string.Empty;
-            LastUtteredNumber = null;
+            UserSelectIndex = -1;
         }
 
         public void CheckForValidCurrentCoordinates()

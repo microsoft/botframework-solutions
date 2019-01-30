@@ -177,7 +177,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 for (int i = 0; i < pointOfInterestList.Count; i++)
                 {
                     pointOfInterestList[i] = await service.GetPointOfInterestDetailsAsync(pointOfInterestList[i]);
-                    pointOfInterestList[i].OptionNumber = i;
+                    pointOfInterestList[i].Index = i;
                 }
 
                 if (pointOfInterestList.Count() > 1)
@@ -354,9 +354,20 @@ namespace PointOfInterestSkill.Dialogs.Shared
                         state.SearchDescriptor = entities.DESCRIPTOR[0];
                     }
 
-                    if (entities.number != null && entities.number.Length != 0)
+                    if (entities.number != null)
                     {
-                        state.LastUtteredNumber = entities.number;
+                        try
+                        {
+                            var value = entities.number[0];
+                            if (Math.Abs(value - (int)value) < double.Epsilon)
+                            {
+                                state.UserSelectIndex = (int)value - 1;
+                            }
+                        }
+                        catch
+                        {
+                            // ignored
+                        }
                     }
                 }
             }

@@ -112,11 +112,10 @@ namespace PointOfInterestSkill.Dialogs.Route
                     }
                 }
 
-                if (state.LastUtteredNumber != null && state.LastFoundPointOfInterests != null)
+                if (state.UserSelectIndex >= 0 && state.UserSelectIndex < state.LastFoundPointOfInterests.Count)
                 {
                     // Set ActiveLocation if one w/ matching address is found in FoundLocations
-                    var indexNumber = (int)state.LastUtteredNumber[0] - 1;
-                    var activeLocation = state.LastFoundPointOfInterests?[indexNumber];
+                    var activeLocation = state.LastFoundPointOfInterests?[state.UserSelectIndex];
                     if (activeLocation != null)
                     {
                         state.ActiveLocation = activeLocation;

@@ -196,7 +196,7 @@ namespace PointOfInterestSkill.Models
         /// <summary>
         /// Gets or sets the option number of the point of interest.
         /// </summary>
-        public int OptionNumber { get; set; }
+        public int Index { get; set; }
 
         /// <summary>
         /// Gets or sets the formatted string for available details.
