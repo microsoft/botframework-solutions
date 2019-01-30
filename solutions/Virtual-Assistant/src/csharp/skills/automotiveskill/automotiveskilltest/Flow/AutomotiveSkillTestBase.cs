@@ -35,6 +35,8 @@ namespace AutomotiveSkillTest.Flow
 
         public HttpContextAccessor MockHttpContextAcessor { get; set; }
 
+        public string ImageAssetLocation { get; set; }
+
         public override void Initialize()
         {
            var builder = new ContainerBuilder();
@@ -43,7 +45,9 @@ namespace AutomotiveSkillTest.Flow
             this.UserState = new UserState(new MemoryStorage());
             this.AutomotiveSkillStateAccessor = this.ConversationState.CreateProperty<AutomotiveSkillState>(nameof(AutomotiveSkillState));
             this.Services = new MockSkillConfiguration();
-            this.Services.Properties.Add("ImageAssetLocation", "http://localhost");
+
+            ImageAssetLocation = "https://localhost";
+            this.Services.Properties.Add("ImageAssetLocation", ImageAssetLocation);
 
             builder.RegisterInstance(new BotStateSet(this.UserState, this.ConversationState));
 

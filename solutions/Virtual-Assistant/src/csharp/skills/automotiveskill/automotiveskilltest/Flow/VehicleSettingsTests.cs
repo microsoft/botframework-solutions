@@ -1,6 +1,7 @@
 using AutomotiveSkillTest.Flow;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 
@@ -168,6 +169,22 @@ namespace AutomotiveSkillTest.Flow
                 .StartTestAsync();
         }
 
+        [TestMethod]
+        public async Task Test_VerifyImagePathConfigurationUsedOnAdaptiveCard()
+        {
+            await this.GetTestFlow()
+                .Send("adjust equalizer")
+                .AssertReply(this.CheckImagePathOnAdaptiveCard())
+                .Send("first one")
+                .AssertReply(this.CheckReply("Here are the settings for Equalizer (Bass): (1) Decrease(2) Increase"))
+                .Send("blah blah")
+                .AssertReply(this.CheckReply("Here are the settings for Equalizer (Bass): (1) Decrease(2) Increase"))
+                .Send("Decrease")
+                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckReply("Decreasing Equalizer (Bass)."))
+                .StartTestAsync();
+        }
+
         private Action<IActivity> CheckForSettingEvent()
         {
             return activity =>
@@ -193,6 +210,16 @@ namespace AutomotiveSkillTest.Flow
                 var messageReceived = activity.AsMessageActivity();
                 Assert.IsNotNull(messageReceived, "Activity received is not of type Message");
                 Assert.AreEqual<string>(expectedResponse, messageReceived.Text);
+            };
+        }
+
+        private Action<IActivity> CheckImagePathOnAdaptiveCard()
+        {
+            return activity =>
+            {
+                var messageReceived = activity.AsMessageActivity();
+                var card = JsonConvert.DeserializeObject<ThumbnailCard>(messageReceived.Attachments[0].Content.ToString());
+                Assert.IsTrue(card.Images[0].Url.StartsWith(ImageAssetLocation), $"Image URI was expected to be prefixed with {ImageAssetLocation} but was actually {card.Images[0].Url.ToString()}");
             };
         }
     }
