@@ -10,13 +10,17 @@ import { TemplateManager } from '../templateManager/templateManager';
 
 export class <%=responsesNameClass%> extends TemplateManager {
 
-    // Fields
+    // Declare here the type of properties and the prompts
     public static RESPONSE_IDS: {
     }
 
+    // Declare the responses map prompts
     private static readonly RESPONSE_TEMPLATES: LanguageTemplateDictionary = new Map([
-    ]);
+        ['default', new Map([
+        ])]
+   ]);
 
+   // Initialize the responses class properties
     constructor() {
         super();
         this.register(new DictionaryRenderer(<%=responsesNameClass%>.RESPONSE_TEMPLATES));
