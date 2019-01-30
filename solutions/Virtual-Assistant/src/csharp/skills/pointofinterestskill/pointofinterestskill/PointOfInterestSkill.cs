@@ -25,7 +25,7 @@ namespace PointOfInterestSkill
         private DialogSet _dialogs;
         private bool _skillMode;
 
-        public PointOfInterestSkill(SkillConfiguration services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, bool skillMode = false, IServiceManager serviceManager = null)
+        public PointOfInterestSkill(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, bool skillMode = false, IServiceManager serviceManager = null)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));
