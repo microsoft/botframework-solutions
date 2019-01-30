@@ -5,43 +5,49 @@
       "type": "luis",
       "id": "general",
       "name": "General",
-      "luPath": "..\\CognitiveModels\\LUIS\\zh\\general.lu"
+      "luPath": "CognitiveModels\\LUIS\\zh\\general.lu"
     },
     {
       "type": "luis",
       "id": "calendar",
       "name": "Calendar",
-      "luPath": "..\\..\\skills\\calendarskill\\calendarskill\\CognitiveModels\\LUIS\\zh\\calendar.lu"
+      "luPath": "..\\skills\\calendarskill\\calendarskill\\CognitiveModels\\LUIS\\zh\\calendar.lu"
     },
     {
       "type": "luis",
       "id": "email",
       "name": "Email",
-      "luPath": "..\\..\\skills\\emailskill\\emailskill\\CognitiveModels\\LUIS\\zh\\email.lu"
+      "luPath": "..\\skills\\emailskill\\emailskill\\CognitiveModels\\LUIS\\zh\\email.lu"
     },
     {
       "type": "luis",
       "id": "todo",
       "name": "ToDo",
-      "luPath": "..\\..\\skills\\todoskill\\todoskill\\CognitiveModels\\LUIS\\zh\\todo.lu"
+      "luPath": "..\\skills\\todoskill\\todoskill\\CognitiveModels\\LUIS\\zh\\todo.lu"
     },
     {
       "type": "luis",
       "id": "pointofinterest",
       "name": "PointOfInterest",
-      "luPath": "..\\..\\skills\\pointofinterestskill\\pointofinterestskill\\CognitiveModels\\LUIS\\zh\\pointofinterest.lu"
+      "luPath": "..\\skills\\pointofinterestskill\\pointofinterestskill\\CognitiveModels\\LUIS\\zh\\pointofinterest.lu"
     },
     {
       "type": "qna",
       "id": "faq",
       "name": "FAQ",
-      "luPath": "..\\CognitiveModels\\QnA\\zh\\faq.lu"
+      "luPath": "CognitiveModels\\QnA\\zh\\faq.lu"
+    },
+    {
+      "type": "luis",
+      "id": "Skill1",
+      "name": "Skill1",
+      "luPath": "..\\skills\\Skill1\\Skill1\\CognitiveModels\\LUIS\\zh\\Skill1.lu"
     },
     {
       "type": "dispatch",
       "id": "dispatch",
       "name": "Dispatch",
-      "luPath": "..\\CognitiveModels\\LUIS\\zh\\dispatch.lu",
+      "luPath": "CognitiveModels\\LUIS\\zh\\dispatch.lu",
       "serviceIds": [
         "general",
         "calendar",

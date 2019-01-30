@@ -1,0 +1,120 @@
+> Entity Definitions
+$PREBUILT:datetimeV2
+$PREBUILT:number
+
+> Intent Definitions
+# Greeting
+- hi
+- hello
+- good morning
+- good evening
+- hello bot
+- hiya
+- how are you
+- how are you today
+- hey
+
+# Help
+- help
+- help me
+- help please
+- i'm stuck
+- i don't understand
+- what can I say
+- what can you help me with
+- what can you do
+- what do i do now
+- why doesn't this work
+- can you help me
+
+# Cancel
+- stop
+- abort
+- cancel
+- disregard
+- don't
+- don't do it
+- don't do that
+- i would like to cancel
+- never mind
+- please stop
+- exit
+
+# Restart
+- can i do that again
+- i need to change something
+- restart
+- start over
+- undo
+
+# Escalate
+- can i talk to a person
+- i want to talk to a human
+- talk to a human
+- transfer me please
+- contact support
+
+# Next
+- advance
+- go forward
+- go to next
+- next
+- next item
+- show next
+- could you show the next one
+- i need to go to the next one
+- go to the next one please
+- move to the next one
+- go on
+- go to the next page
+- move forward
+- move on
+- move on next
+- next one
+- next please
+- show me next
+- show me the next
+- show the next
+- show the next one
+- the next email
+
+# Previous
+- go back
+- last one
+- previous one
+- the last one
+- old one
+- last
+- back to the last one
+- bring the previous one
+- come to the last
+- go to previous
+- go to the last one
+- move back
+- previous
+- show me previous
+- previous one please
+- the previous one
+- what is the previous
+
+# Goodbye
+- good night
+- goodbye
+- bye
+- ok thanks
+- ok bye
+- that's it thanks
+
+# Logout
+- signout
+- forget me
+- sign out
+- logout
+- log out
+
+# None
+- my water bottle is green
+- turtles like to swim in the ocean
+- paper planes in the sky
+
+> PhraseList

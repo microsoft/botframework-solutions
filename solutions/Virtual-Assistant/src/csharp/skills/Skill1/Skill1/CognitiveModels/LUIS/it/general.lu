@@ -1,0 +1,109 @@
+﻿> Entity Definitions
+$PREBUILT:datetimeV2
+$PREBUILT:number
+
+> Intent Definitions
+# Greeting
+- Ciao
+- Buongiorno
+- Buona sera
+- Ciao bot
+- Come stai
+- Come stai oggi
+- Ehi
+
+# Help
+- Guida
+- Aiutami
+- aiuto per favore
+- sono bloccato
+- Non capisco
+- cosa posso dire
+- cosa mi può aiutare con
+- Cosa potete fare
+- cosa devo fare ora
+- perché non questo lavoro
+- Puoi aiutarmi
+
+# Cancel
+- Fermare
+- Interrompere
+- Annulla
+- Ignorare
+- Non
+- Non farlo
+- Vorrei annullare
+- Non importa
+- si prega di smettere
+- Uscita
+
+# Restart
+- Posso farlo di nuovo
+- Ho bisogno di cambiare qualcosa
+- Riavviare
+- ricominciare
+
+# Escalate
+- Posso parlare con una persona
+- Voglio parlare con un umano
+- parlare con un essere umano
+- Transfer me please
+- Contatta il supporto
+
+# Next
+- Anticipo
+- andare avanti
+- Vai al prossimo
+- Prossima
+- articolo successivo
+- Mostra successivo
+- Potresti mostrare quello successivo
+- Ho bisogno di andare a quello successivo
+- Vai a quello successivo per favore
+- passare a quella successiva
+- Continua
+- Vai alla pagina successiva
+- prossimo uno
+- Avanti per favore
+- Mostrami il prossimo
+- Mostra il prossimo
+- Mostra quello successivo
+- la prossima e-mail
+
+# Previous
+- Indietro
+- ultimo uno
+- precedente
+- l'ultimo
+- quello vecchio
+- Ultima
+- Torna all'ultimo
+- portare il precedente
+- venire all'ultimo
+- Vai al precedente
+- Vai all'ultimo
+- spostare indietro
+- Mostrami precedente
+- uno precedente per favore
+- quello precedente
+- Qual è il precedente
+
+# Goodbye
+- Buona notte
+- Addio
+- Ok grazie
+- Ok ciao
+- Questo è tutto grazie
+
+# Logout
+- SignOut
+- dimenticare me
+- Esci
+- logout
+
+# None
+- la mia bottiglia d'acqua è verde
+- le tartarughe amano nuotare nell'oceano
+- aerei di carta nel cielo
+
+> PhraseList
