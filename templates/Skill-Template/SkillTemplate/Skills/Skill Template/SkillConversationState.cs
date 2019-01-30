@@ -1,4 +1,5 @@
-﻿using Microsoft.Bot.Builder.Dialogs;
+﻿using Luis;
+using Microsoft.Bot.Builder.Dialogs;
 
 namespace $safeprojectname$
 {
@@ -9,6 +10,8 @@ namespace $safeprojectname$
         }
 
         public string Token { get; internal set; }
+    
+        public $safeprojectname$LU LuisResult { get; set; }
 
         public void Clear()
         {

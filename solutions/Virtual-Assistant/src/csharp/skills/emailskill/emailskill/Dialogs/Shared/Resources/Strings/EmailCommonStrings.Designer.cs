@@ -187,7 +187,7 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to from {0} at {1} titled {2}. The content is {3}..
+        ///   Looks up a localized string similar to from {0} at {1} titled {2}.
         /// </summary>
         public static string FromDetailsFormatAll {
             get {

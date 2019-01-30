@@ -588,7 +588,7 @@ namespace CalendarSkill.Dialogs.Shared
                                 var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone());
                                 if (date != null)
                                 {
-                                    state.StartDate = date;
+                                    state.NewStartDate = date;
                                 }
                             }
 
@@ -614,13 +614,13 @@ namespace CalendarSkill.Dialogs.Shared
                                 var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (time != null)
                                 {
-                                    state.StartTime = time;
+                                    state.NewEndTime = time;
                                 }
 
                                 time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
                                 if (time != null)
                                 {
-                                    state.EndTime = time;
+                                    state.NewEndTime = time;
                                 }
                             }
 
@@ -1035,6 +1035,14 @@ namespace CalendarSkill.Dialogs.Shared
             result = await service.GetUserAsync(name);
 
             return result;
+        }
+
+        protected async Task<PersonModel> GetMe(WaterfallStepContext sc)
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+            var token = state.APIToken;
+            var service = ServiceManager.InitUserService(token, state.EventSource);
+            return await service.GetMe();
         }
 
         protected string GetSelectPromptString(PromptOptions selectOption, bool containNumbers)

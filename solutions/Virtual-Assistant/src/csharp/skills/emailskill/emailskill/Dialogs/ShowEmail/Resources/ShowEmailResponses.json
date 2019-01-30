@@ -2,8 +2,8 @@
   "ReadOutMessage": {
     "replies": [
       {
-        "text": "The email is {EmailDetails}",
-        "speak": "The email is {EmailDetails}"
+        "text": "The email is {EmailDetails}.",
+        "speak": "The email is {EmailDetails}."
       }
     ],
     "inputHint": "acceptingInput"
@@ -35,5 +35,4 @@
     ],
     "inputHint": "expectingInput"
   }
-
 }

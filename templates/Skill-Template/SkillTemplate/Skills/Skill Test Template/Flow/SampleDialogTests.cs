@@ -16,37 +16,29 @@ namespace $safeprojectname$.Flow
         {
             await GetTestFlow()
                .Send(SampleDialogUtterances.Trigger)
-               .AssertReply(MessagePrompt())
+               .AssertReply(NamePrompt())
                .Send(SampleDialogUtterances.MessagePromptResponse)
-               .AssertReply(EchoMessage())
-               .AssertReply(ActionEndMessage())
+               .AssertReply(HaveNameMessage())
                .StartTestAsync();
         }
 
-        private Action<IActivity> MessagePrompt()
+        private Action<IActivity> NamePrompt()
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                CollectionAssert.Contains(ParseReplies(SampleResponses.MessagePrompt.Replies, new StringDictionary()), messageActivity.Text);
+                CollectionAssert.Contains(ParseReplies(SampleResponses.NamePrompt.Replies, new StringDictionary()), messageActivity.Text);
             };
         }
 
-        private Action<IActivity> EchoMessage()
+        private Action<IActivity> HaveNameMessage()
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                CollectionAssert.Contains(ParseReplies(SampleResponses.MessageResponse.Replies, new[] { SampleDialogUtterances.MessagePromptResponse }), messageActivity.Text);
+                CollectionAssert.Contains(ParseReplies(SampleResponses.HaveNameMessage.Replies, new StringDictionary() { { "Name", SampleDialogUtterances.MessagePromptResponse } }), messageActivity.Text);
             };
         }
 
-        private Action<IActivity> ActionEndMessage()
-        {
-            return activity =>
-            {
-                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
-            };
-        }
     }
 }
