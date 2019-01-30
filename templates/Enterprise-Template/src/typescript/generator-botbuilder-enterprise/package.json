@@ -9,9 +9,11 @@
     "url": "http://dev.botframework.com"
   },
   "files": [
-    "generators"
+    "generators",
+    "app",
+    "dialogs"
   ],
-  "main": "generators/index.js",
+  "main": "generators/app/index.js",
   "keywords": [
     "botbuilder",
     "bots",
