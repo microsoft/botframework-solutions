@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CalendarSkill.Dialogs.CreateEvent.Resources;
 using CalendarSkill.Dialogs.FindContact.Resources;
 using CalendarSkill.Dialogs.Shared;
 using CalendarSkill.Dialogs.Shared.Resources;
@@ -63,6 +64,12 @@ namespace CalendarSkill.Dialogs.FindContact
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
+                var options = (UpdateUserNameDialogOptions)sc.Options;
+                if (options.Reason == UpdateUserNameDialogOptions.UpdateReason.ConfirmNo)
+                {
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoAttendees) });
+                }
+
                 var currentRecipientName = state.AttendeesNameList[state.ConfirmAttendeesNameIndex];
                 if (state.FirstRetryInFindContact)
                 {
@@ -106,11 +113,12 @@ namespace CalendarSkill.Dialogs.FindContact
                 }
                 else
                 {
+                    state.UnconfirmedPerson.Clear();
                     state.AttendeesNameList[state.ConfirmAttendeesNameIndex] = userInput;
                 }
 
                 // should not return with value, next step use the return value for confirmation.
-                return await sc.EndDialogAsync();
+                return await sc.BeginDialogAsync(Actions.ConfirmName);
             }
             catch (Exception ex)
             {
@@ -128,7 +136,7 @@ namespace CalendarSkill.Dialogs.FindContact
 
                 if ((state.AttendeesNameList == null) || (state.AttendeesNameList.Count == 0))
                 {
-                    return await sc.BeginDialogAsync(Actions.UpdateName);
+                    return await sc.BeginDialogAsync(Actions.UpdateName, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.NotFound));
                 }
 
                 var unionList = new List<CustomizedPerson>();
@@ -237,7 +245,7 @@ namespace CalendarSkill.Dialogs.FindContact
 
                 if (unionList.Count == 0)
                 {
-                    return await sc.BeginDialogAsync(Actions.UpdateName);
+                    return await sc.BeginDialogAsync(Actions.UpdateName, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.NotFound));
                 }
                 else if (unionList.Count == 1)
                 {
@@ -340,16 +348,6 @@ namespace CalendarSkill.Dialogs.FindContact
             if (confirmedPerson.Emails.Count() == 1)
             {
                 // Highest probability
-                var attendee = new EventModel.Attendee
-                {
-                    DisplayName = name,
-                    Address = confirmedPerson.Emails.First().Address
-                };
-                if (state.Attendees.All(r => r.Address != attendee.Address))
-                {
-                    state.Attendees.Add(attendee);
-                }
-
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(FindContactResponses.PromptOneNameOneAddress, null, new StringDictionary() { { "UserName", name }, { "EmailAddress", confirmedPerson.Emails.First().Address } }), });
             }
             else
@@ -373,10 +371,22 @@ namespace CalendarSkill.Dialogs.FindContact
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
+                var confirmedPerson = sc.Options as CustomizedPerson;
+                var name = confirmedPerson.DisplayName;
                 if (sc.Result is bool)
                 {
                     if ((bool)sc.Result)
                     {
+                        var attendee = new EventModel.Attendee
+                        {
+                            DisplayName = name,
+                            Address = confirmedPerson.Emails.First().Address
+                        };
+                        if (state.Attendees.All(r => r.Address != attendee.Address))
+                        {
+                            state.Attendees.Add(attendee);
+                        }
+
                         state.ConfirmAttendeesNameIndex++;
                         if (state.ConfirmAttendeesNameIndex < state.AttendeesNameList.Count)
                         {
@@ -389,7 +399,7 @@ namespace CalendarSkill.Dialogs.FindContact
                     }
                     else
                     {
-                        return await sc.BeginDialogAsync(Actions.UpdateName);
+                        return await sc.BeginDialogAsync(Actions.UpdateName, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.ConfirmNo));
                     }
                 }
 
@@ -423,7 +433,6 @@ namespace CalendarSkill.Dialogs.FindContact
                             state.ShowAttendeesIndex = 0;
                         }
 
-                        var confirmedPerson = state.ConfirmedPerson;
                         return await sc.ReplaceDialogAsync(Actions.ConfirmEmail, confirmedPerson);
                     }
 

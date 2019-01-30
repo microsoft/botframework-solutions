@@ -26,6 +26,11 @@ namespace CalendarSkill
             /// NotFound.
             /// </summary>
             NotFound,
+
+            /// <summary>
+            /// ConfirmNo.
+            /// </summary>
+            ConfirmNo,
         }
 
         public bool SkillMode { get; set; }
