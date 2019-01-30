@@ -48,13 +48,9 @@ namespace $safeprojectname$.Dialogs.Shared
                                 case DialogTurnStatus.Empty:
                                     {
                                         await RouteAsync(innerDc);
-                                        // Waterfalls with no turns should fire EndDialog code.
+                                        // Waterfalls with no turns should Complete.
                                         if (innerDc.Stack.Count == 0)
-                                        {
                                             await CompleteAsync(innerDc);
-                                            // End active dialog
-                                            await innerDc.EndDialogAsync();
-                                        }
                                         break;
                                     }
 
