@@ -588,7 +588,7 @@ namespace CalendarSkill.Dialogs.Shared
                                 var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone());
                                 if (date != null)
                                 {
-                                    state.StartDate = date;
+                                    state.NewStartDate = date;
                                 }
                             }
 
@@ -614,13 +614,13 @@ namespace CalendarSkill.Dialogs.Shared
                                 var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (time != null)
                                 {
-                                    state.StartTime = time;
+                                    state.NewEndTime = time;
                                 }
 
                                 time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
                                 if (time != null)
                                 {
-                                    state.EndTime = time;
+                                    state.NewEndTime = time;
                                 }
                             }
 

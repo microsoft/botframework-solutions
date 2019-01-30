@@ -38,7 +38,7 @@
                 {
                     "type": "TextBlock",
                     "text": "{ContentPreview}",
-                    "maxLines": 10
+                    "maxLines": 3
                 }
             ]
         }
