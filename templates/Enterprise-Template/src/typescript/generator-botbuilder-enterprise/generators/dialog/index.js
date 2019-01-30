@@ -72,7 +72,7 @@ module.exports = class extends Generator {
         type: "input",
         name: "dialogName",
         message: `What's the name of your dialog?`,
-        default: this.options.dialogName ? this.options.dialogName : "custom",
+        default: this.options.dialogName ? this.options.dialogName : "custom"
       },
       {
         type: "confirm",
@@ -112,10 +112,7 @@ module.exports = class extends Generator {
     ];
 
     if (this.options.noPrompt) {
-      this.props = _pick(this.options, [
-        "dialogName",
-        "dialogGenerationPath"
-      ]);
+      this.props = _pick(this.options, ["dialogName", "dialogGenerationPath"]);
 
       // Validate we have what we need, or we'll need to throw
       if (!this.props.dialogName) {
@@ -147,20 +144,17 @@ module.exports = class extends Generator {
     if (!this.props.dialogName.replace(/\s/g, "").length) {
       this.props.dialogName = templateName;
     }
-   
-    this.props.dialogName = this.props.dialogName.replace(
-      /([^a-z0-9]+)/gi,
-      ""
-    );
 
-    var dialogName, responsesName;
-    const dialogNameFolder = this.props.dialogName
-    if(dialogRegExp.test(this.props.dialogName)){
+    this.props.dialogName = this.props.dialogName.replace(/([^a-z0-9]+)/gi, "");
+
+    var dialogName;
+    var responsesName;
+    const dialogNameFolder = this.props.dialogName;
+    if (dialogRegExp.test(this.props.dialogName)) {
       dialogName = this.props.dialogName;
-      responsesName = this.props.dialogName.slice(0,-6).concat("Responses");
-    }
-    else{
-      dialogName = this.props.dialogName.concat("Dialog") ;
+      responsesName = this.props.dialogName.slice(0, -6).concat("Responses");
+    } else {
+      dialogName = this.props.dialogName.concat("Dialog");
       responsesName = this.props.dialogName.concat("Responses");
     }
 
@@ -171,7 +165,10 @@ module.exports = class extends Generator {
     dialogGenerationPath = path.join(dialogGenerationPath, dialogName);
 
     if (this.props.dialogGenerationPath !== undefined) {
-      dialogGenerationPath = path.join(this.props.dialogGenerationPath, dialogNameFolder);
+      dialogGenerationPath = path.join(
+        this.props.dialogGenerationPath,
+        dialogNameFolder
+      );
     }
 
     if (fs.existsSync(dialogGenerationPath)) {
@@ -186,7 +183,7 @@ module.exports = class extends Generator {
     this.log(chalk.magenta("Path: " + dialogGenerationPath + "\n"));
 
     this.fs.copyTpl(
-      this.templatePath(templateName,"_dialog.ts"),
+      this.templatePath(templateName, "_dialog.ts"),
       this.destinationPath(dialogGenerationPath, `${dialogNameCamelCase}.ts`),
       {
         dialogNameClass: dialogNamePascalCase,
@@ -196,8 +193,11 @@ module.exports = class extends Generator {
     );
 
     this.fs.copyTpl(
-      this.templatePath(templateName,"_responses.ts"),
-      this.destinationPath(dialogGenerationPath, `${responsesNameCamelCase}.ts`),
+      this.templatePath(templateName, "_responses.ts"),
+      this.destinationPath(
+        dialogGenerationPath,
+        `${responsesNameCamelCase}.ts`
+      ),
       {
         dialogNameClass: dialogNamePascalCase,
         responsesNameClass: responsesNamePascalCase,
