@@ -59,6 +59,36 @@ namespace CalendarSkillTest.Flow
         }
 
         [TestMethod]
+        public async Task Test_CalendarOneNextMeeting_AskWhere()
+        {
+            await this.GetTestFlow()
+                .Send(FindMeetingTestUtterances.WhereNextMeetingMeeting)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.BeforeShowEventDetailsPrompt())
+                .AssertReplyOneOf(this.ReadLocationPrompt())
+                .AssertReplyOneOf(this.NextMeetingPrompt())
+                .AssertReply(this.ShowCalendarList())
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_CalendarOneNextMeeting_AskWhen()
+        {
+            await this.GetTestFlow()
+                .Send(FindMeetingTestUtterances.WhenNextMeetingMeeting)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.BeforeShowEventDetailsPrompt())
+                .AssertReplyOneOf(this.ReadTimePrompt())
+                .AssertReplyOneOf(this.NextMeetingPrompt())
+                .AssertReply(this.ShowCalendarList())
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
         public async Task Test_CalendarNoNextMeetings()
         {
             this.ServiceManager = MockServiceManager.SetMeetingsToNull();
@@ -102,7 +132,12 @@ namespace CalendarSkillTest.Flow
 
         private string[] ReadTimePrompt()
         {
-            return this.ParseReplies(SummaryResponses.ReadTime.Replies, new StringDictionary());
+            var responseParams = new StringDictionary()
+            {
+                { "EventStartTime", "6:00 PM" },
+                { "EventEndTime", "7:00 PM" },
+            };
+            return this.ParseReplies(SummaryResponses.ReadTime.Replies, responseParams);
         }
 
         private string[] ReadDurationPrompt()
@@ -116,7 +151,11 @@ namespace CalendarSkillTest.Flow
 
         private string[] ReadLocationPrompt()
         {
-            return this.ParseReplies(SummaryResponses.ReadLocation.Replies, new StringDictionary());
+            var responseParams = new StringDictionary()
+            {
+                { "EventLocation", Strings.Strings.DefaultLocation },
+            };
+            return this.ParseReplies(SummaryResponses.ReadLocation.Replies, responseParams);
         }
 
         private string[] ReadNoLocationPrompt()

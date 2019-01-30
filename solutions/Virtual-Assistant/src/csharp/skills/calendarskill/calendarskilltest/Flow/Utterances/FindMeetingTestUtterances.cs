@@ -29,6 +29,14 @@ namespace CalendarSkillTest.Flow.Utterances
                 BaseNextMeeting,
                 askParameter: new string[] { "how long" },
                 orderReference: new string[] { "next" }));
+            this.Add(WhereNextMeetingMeeting, GetBaseFindMeetingIntent(
+                BaseNextMeeting,
+                askParameter: new string[] { "where" },
+                orderReference: new string[] { "next" }));
+            this.Add(WhenNextMeetingMeeting, GetBaseFindMeetingIntent(
+                BaseNextMeeting,
+                askParameter: new string[] { "when" },
+                orderReference: new string[] { "next" }));
             this.Add(UpdateMeetingTestUtterances.BaseUpdateMeeting, UpdateMeetingTestUtterances.GetBaseUpdateMeetingIntent(UpdateMeetingTestUtterances.BaseUpdateMeeting));
         }
 
@@ -43,6 +51,10 @@ namespace CalendarSkillTest.Flow.Utterances
         public static string ChooseFirstMeeting { get; } = "the first";
 
         public static string HowLongNextMeetingMeeting { get; } = "How long is my next meeting";
+
+        public static string WhereNextMeetingMeeting { get; } = "Where is my next meeting";
+
+        public static string WhenNextMeetingMeeting { get; } = "When is my next meeting";
 
         private Calendar GetBaseFindMeetingIntent(
             string userInput,
