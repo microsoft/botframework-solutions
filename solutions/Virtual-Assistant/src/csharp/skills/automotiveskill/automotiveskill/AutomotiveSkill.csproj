@@ -5,22 +5,7 @@
     <UserSecretsId>6a3184c3-074e-45b9-ad93-eceb8268ec01</UserSecretsId>
     <CodeAnalysisRuleSet>..\..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="Dialogs\VehicleSettings\Resources\normalization\amount_percentage.tsv" />
-    <None Remove="Dialogs\VehicleSettings\Resources\normalization\amount_type.tsv" />
-    <None Remove="Dialogs\VehicleSettings\Resources\normalization\amount_unit.tsv" />
-    <None Remove="Dialogs\VehicleSettings\Resources\normalization\color.tsv" />
-    <None Remove="Dialogs\VehicleSettings\Resources\normalization\feel.tsv" />
-    <None Remove="Dialogs\VehicleSettings\Resources\normalization\hand_side.tsv" />
-    <None Remove="Dialogs\VehicleSettings\Resources\normalization\illumination.tsv" />
-    <None Remove="Dialogs\VehicleSettings\Resources\normalization\index_map.tsv" />
-    <None Remove="Dialogs\VehicleSettings\Resources\normalization\occurrence.tsv" />
-    <None Remove="Dialogs\VehicleSettings\Resources\normalization\perception_type.tsv" />
-    <None Remove="Dialogs\VehicleSettings\Resources\normalization\sound.tsv" />
-    <None Remove="Dialogs\VehicleSettings\Resources\normalization\vehicle_part.tsv" />
-  </ItemGroup>
-
+     
   <ItemGroup>
     <Content Include="Dialogs\VehicleSettings\Resources\normalization\amount_percentage.tsv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
