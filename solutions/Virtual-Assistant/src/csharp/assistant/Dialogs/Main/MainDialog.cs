@@ -267,14 +267,17 @@ namespace VirtualAssistant.Dialogs.Main
 
                     case Events.ResetUser:
                         {
-                            await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Reset User Event received, clearing down State and Tokens."));
+                            await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: "Reset User Event received, clearing down State and Tokens."));
 
                             // Clear State
                             await _onboardingState.DeleteAsync(dc.Context, cancellationToken);
 
                             // Clear Tokens
                             var adapter = dc.Context.Adapter as BotFrameworkAdapter;
-                            await adapter.SignOutUserAsync(dc.Context, null, dc.Context.Activity.From.Id, cancellationToken);
+                            if (adapter != null)
+                            {
+                                await adapter.SignOutUserAsync(dc.Context, null, dc.Context.Activity.From.Id, cancellationToken);
+                            }
 
                             forward = false;
 

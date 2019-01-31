@@ -69,6 +69,26 @@ namespace VirtualAssistant.Tests
         }
 
         [TestMethod]
+        public async Task CancelOnboardingFlow()
+        {
+            var startConversationEvent = new Activity
+            {
+                Type = ActivityTypes.Event,
+                Name = "startConversation",
+                Locale = "en-us"
+            };
+
+            await this.GetTestFlow()
+               .Send(startConversationEvent)
+               .AssertReply(ValidateEventReceived(startConversationEvent.Name))
+               .AssertReply(ValidateIntroCard())
+               .AssertReply(OnboardingStrings.NAME_PROMPT)
+               .Send(GeneralUtterances.Cancel)
+               .AssertReply(MainStrings.CANCELLED)
+               .StartTestAsync();
+        }
+
+        [TestMethod]
         public async Task Greeting()
         {
             await this.GetTestFlow()
@@ -101,6 +121,20 @@ namespace VirtualAssistant.Tests
             await this.GetTestFlow()
                .Send("Blah Blah")
                .AssertReply(MainStrings.CONFUSED)
+               .StartTestAsync();
+        }
+
+        /// <summary>
+        /// Test that we can invoke the signout logic
+        /// Test Adapter doesn't support SignOutUser so an exception indicates we've gone into the logic.
+        /// </summary>
+        /// <returns>Task.</returns>
+        [TestMethod]
+        [ExpectedExceptionAndMessage(typeof(InvalidOperationException), "OAuthPrompt.SignOutUser(): not supported by the current adapter")]
+        public async Task Logout()
+        {
+            await this.GetTestFlow()
+               .Send(GeneralUtterances.Logout)
                .StartTestAsync();
         }
 
@@ -187,6 +221,46 @@ namespace VirtualAssistant.Tests
                .StartTestAsync();
         }
 
+        /// <summary>
+        /// Test that reset user events are processed correctly.
+        /// </summary>
+        /// <returns>Task.</returns>
+        [TestMethod]
+        public async Task ResetUserEventProcessed()
+        {
+            var locationEvent = new Activity
+            {
+                Type = ActivityTypes.Event,
+                Name = "IPA.ResetUser",
+            };
+
+            await this.GetTestFlow()
+               .Send(locationEvent)
+               .AssertReply(ValidateEventReceived(locationEvent.Name))
+               .AssertReply(ValidateTraceMessage("Reset User Event received, clearing down State and Tokens."))
+               .StartTestAsync();
+        }
+
+        /// <summary>
+        /// Test that timezone events are processed correctly.
+        /// </summary>
+        /// <returns>Task.</returns>
+        [TestMethod]
+        public async Task TimeZoneEventProcessed()
+        {
+            var locationEvent = new Activity
+            {
+                Type = ActivityTypes.Event,
+                Name = "IPA.Timezone",
+                Value = "Pacific Standard Time"
+            };
+
+            await this.GetTestFlow()
+               .Send(locationEvent)
+               .AssertReply(ValidateEventReceived(locationEvent.Name))
+               .StartTestAsync();
+        }
+
         private Action<IActivity> ValidateIntroCard()
         {
             return activity =>
@@ -216,6 +290,17 @@ namespace VirtualAssistant.Tests
             {
                 var messageActivity = activity.AsMessageActivity();
                 Assert.AreEqual(messageActivity.Text, MainStrings.GREETING);
+            };
+        }
+
+        private Action<IActivity> ValidateTraceMessage(string message)
+        {
+            return activity =>
+            {
+                var traceActivity = activity as Activity;
+                Assert.IsNotNull(traceActivity);
+
+                Assert.IsTrue(traceActivity.Text.Equals(message));
             };
         }
 
