@@ -380,7 +380,7 @@ namespace EmailSkill.Dialogs.FindContact
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var confirmedPerson = sc.Options as Person ;
+                var confirmedPerson = sc.Options as Person;
                 var name = confirmedPerson.DisplayName;
                 if (sc.Result is bool)
                 {
@@ -458,6 +458,7 @@ namespace EmailSkill.Dialogs.FindContact
                             state.ShowRecipientIndex = 0;
                             state.ReadRecipientIndex = 0;
                         }
+
                         return await sc.ReplaceDialogAsync(Actions.ConfirmEmail, confirmedPerson);
                     }
 
