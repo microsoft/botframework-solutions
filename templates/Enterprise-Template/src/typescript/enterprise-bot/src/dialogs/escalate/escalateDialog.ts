@@ -18,6 +18,7 @@ export class EscalateDialog extends EnterpriseDialog {
         super(botServices, EscalateDialog.name);
         this.initialDialogId = EscalateDialog.name;
 
+        // tslint:disable-next-line:no-any
         const escalate: ((sc: WaterfallStepContext<{}>) => Promise<DialogTurnResult<any>>)[] = [
             EscalateDialog.sendPhone.bind(this)
         ];

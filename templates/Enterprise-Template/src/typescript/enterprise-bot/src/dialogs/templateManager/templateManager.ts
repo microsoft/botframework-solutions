@@ -40,6 +40,7 @@ export class TemplateManager {
     /**
      * Send a reply with the template
      */
+    // tslint:disable-next-line:no-any
     public async replyWith(turnContext: TurnContext, templateId: string, data?: any): Promise<void> {
         if (!turnContext) { throw new Error('turnContext is null'); }
 
@@ -56,6 +57,7 @@ export class TemplateManager {
 
     public async renderTemplate(turnContext: TurnContext,
                                 templateId: string,
+                                // tslint:disable-next-line:no-any
                                 language?: string, data?: any): Promise<Activity | undefined> {
         const fallbackLocales: string[] = this.LANGUAGE_FALLBACK;
 
@@ -68,6 +70,7 @@ export class TemplateManager {
         // try each locale until successful
         for (const locale of fallbackLocales) {
             for (const renderer of this.TEMPLATE_RENDERS) {
+                // tslint:disable-next-line:no-any
                 const templateOutput: any = await renderer.renderTemplate(turnContext, locale, templateId, data);
                 if (templateOutput) {
                     if (typeof templateOutput === 'string' || templateOutput instanceof String) {
