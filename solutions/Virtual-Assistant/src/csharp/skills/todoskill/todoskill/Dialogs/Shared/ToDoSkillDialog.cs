@@ -189,10 +189,12 @@ namespace ToDoSkill.Dialogs.Shared
                     state.Tasks = new List<TaskItem>();
                     state.AllTasks = new List<TaskItem>();
                     state.ListType = null;
+                    state.GoBackToStart = false;
                     await DigestToDoLuisResult(sc);
                 }
                 else if (generalTopIntent == General.Intent.Next)
                 {
+                    state.IsLastPage = false;
                     if ((state.ReadTaskIndex + 1) * state.ReadSize < state.Tasks.Count)
                     {
                         state.ReadTaskIndex++;
@@ -205,12 +207,24 @@ namespace ToDoSkill.Dialogs.Shared
                         {
                             state.ShowTaskPageIndex++;
                         }
+                        else
+                        {
+                            state.IsLastPage = true;
+                        }
                     }
                 }
-                else if (generalTopIntent == General.Intent.Previous && state.ShowTaskPageIndex > 0)
+                else if (generalTopIntent == General.Intent.Previous)
                 {
                     state.ReadTaskIndex = 0;
-                    state.ShowTaskPageIndex--;
+                    state.IsFirstPage = false;
+                    if (state.ShowTaskPageIndex > 0)
+                    {
+                        state.ShowTaskPageIndex--;
+                    }
+                    else
+                    {
+                        state.IsFirstPage = true;
+                    }
                 }
                 else if (topIntent == ToDo.Intent.AddToDo)
                 {
@@ -592,7 +606,6 @@ namespace ToDoSkill.Dialogs.Shared
         {
             var toDoCard = new AdaptiveCard();
             toDoCard.Speak = Format(ShowToDoResponses.ShowPreviousTasks.Reply.Speak, new StringDictionary()) + " ";
-
             var body = new List<AdaptiveElement>();
             var showText = Format(ToDoSharedResponses.CardSummaryMessage.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
             var textBlock = new AdaptiveTextBlock

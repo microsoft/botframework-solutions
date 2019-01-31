@@ -6,7 +6,6 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
@@ -30,14 +29,20 @@ namespace ToDoSkill.Dialogs.ShowToDo
         {
             TelemetryClient = telemetryClient;
 
-            var showToDoTasks = new WaterfallStep[]
+            var showTasks = new WaterfallStep[]
             {
                 GetAuthToken,
                 AfterGetAuthToken,
                 ClearContext,
-                ShowToDoTasks,
+                DoShowTasks,
+            };
+
+            var doShowTasks = new WaterfallStep[]
+            {
+                ShowTasks,
                 FirstReadMoreTasks,
                 SecondReadMoreTasks,
+                CollectGoBackToStartConfirmation,
             };
 
             var firstReadMoreTasks = new WaterfallStep[]
@@ -64,18 +69,46 @@ namespace ToDoSkill.Dialogs.ShowToDo
                 AfterAskSecondReadMoreConfirmation,
             };
 
+            var collectGoBackToStartConfirmation = new WaterfallStep[]
+            {
+                AskGoBackToStartConfirmation,
+                AfterAskGoBackToStartConfirmation,
+            };
+
+            var collectRepeatFirstPageConfirmation = new WaterfallStep[]
+            {
+                AskRepeatFirstPageConfirmation,
+                AfterAskRepeatFirstPageConfirmation,
+            };
+
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Action.ShowTasks, showToDoTasks) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Action.ShowTasks, showTasks) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Action.DoShowTasks, doShowTasks) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Action.FirstReadMoreTasks, firstReadMoreTasks) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Action.SecondReadMoreTasks, secondReadMoreTasks) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Action.CollectFirstReadMoreConfirmation, collectFirstReadMoreConfirmation) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Action.CollectSecondReadMoreConfirmation, collectSecondReadMoreConfirmation) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Action.CollectGoBackToStartConfirmation, collectGoBackToStartConfirmation) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Action.CollectRepeatFirstPageConfirmation, collectRepeatFirstPageConfirmation) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Action.ShowTasks;
         }
 
-        public async Task<DialogTurnResult> ShowToDoTasks(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> DoShowTasks(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                return await sc.BeginDialogAsync(Action.DoShowTasks);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> ShowTasks(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -102,7 +135,7 @@ namespace ToDoSkill.Dialogs.ShowToDo
                 {
                     var cardReply = sc.Context.Activity.CreateReply();
 
-                    if (topIntent == ToDo.Intent.ShowToDo)
+                    if (topIntent == ToDo.Intent.ShowToDo || state.GoBackToStart)
                     {
                         var toDoListAttachment = ToAdaptiveCardForShowToDos(
                             state.Tasks,
@@ -123,32 +156,46 @@ namespace ToDoSkill.Dialogs.ShowToDo
                     }
                     else if (generalTopIntent == General.Intent.Next)
                     {
-                        var remainingTasksCount = state.Tasks.Count - (state.ReadTaskIndex * state.ReadSize);
-                        var toDoListAttachment = ToAdaptiveCardForReadMore(
-                            state.Tasks,
-                            state.ReadTaskIndex * state.ReadSize,
-                            Math.Min(remainingTasksCount, state.ReadSize),
-                            state.AllTasks.Count,
-                            state.ListType);
+                        if (state.IsLastPage)
+                        {
+                            return await sc.ReplaceDialogAsync(Action.CollectGoBackToStartConfirmation);
+                        }
+                        else
+                        {
+                            var remainingTasksCount = state.Tasks.Count - (state.ReadTaskIndex * state.ReadSize);
+                            var toDoListAttachment = ToAdaptiveCardForReadMore(
+                                state.Tasks,
+                                state.ReadTaskIndex * state.ReadSize,
+                                Math.Min(remainingTasksCount, state.ReadSize),
+                                state.AllTasks.Count,
+                                state.ListType);
 
-                        cardReply.Attachments.Add(toDoListAttachment);
-                        cardReply.InputHint = InputHints.AcceptingInput;
+                            cardReply.Attachments.Add(toDoListAttachment);
+                            cardReply.InputHint = InputHints.AcceptingInput;
+                        }
                     }
                     else if (generalTopIntent == General.Intent.Previous)
                     {
-                        var toDoListAttachment = ToAdaptiveCardForPreviousPage(
-                            state.Tasks,
-                            state.ReadSize,
-                            state.AllTasks.Count,
-                            state.ListType);
+                        if (state.IsFirstPage)
+                        {
+                            return await sc.ReplaceDialogAsync(Action.CollectGoBackToStartConfirmation);
+                        }
+                        else
+                        {
+                            var toDoListAttachment = ToAdaptiveCardForPreviousPage(
+                                state.Tasks,
+                                state.ReadSize,
+                                state.AllTasks.Count,
+                                state.ListType);
 
-                        cardReply.Attachments.Add(toDoListAttachment);
-                        cardReply.InputHint = InputHints.AcceptingInput;
+                            cardReply.Attachments.Add(toDoListAttachment);
+                            cardReply.InputHint = InputHints.AcceptingInput;
+                        }
                     }
 
                     await sc.Context.SendActivityAsync(cardReply);
 
-                    if (topIntent == ToDo.Intent.ShowToDo && state.Tasks.Count > state.ReadSize)
+                    if ((topIntent == ToDo.Intent.ShowToDo || state.GoBackToStart) && state.Tasks.Count > state.ReadSize)
                     {
                         return await sc.NextAsync();
                     }
@@ -370,6 +417,100 @@ namespace ToDoSkill.Dialogs.ShowToDo
             {
                 cardReply.InputHint = InputHints.AcceptingInput;
                 await sc.Context.SendActivityAsync(cardReply);
+                return await sc.EndDialogAsync(true);
+            }
+        }
+
+        public async Task<DialogTurnResult> CollectGoBackToStartConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                return await sc.BeginDialogAsync(Action.CollectGoBackToStartConfirmation);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> AskGoBackToStartConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var prompt = sc.Context.Activity.CreateReply(ShowToDoResponses.GoBackToStartPrompt);
+                var retryPrompt = sc.Context.Activity.CreateReply(ShowToDoResponses.GoBackToStartConfirmFailed);
+                return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> AfterAskGoBackToStartConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await ToDoStateAccessor.GetAsync(sc.Context);
+            var confirmResult = (bool)sc.Result;
+            if (confirmResult)
+            {
+                state.ShowTaskPageIndex = 0;
+                state.ReadTaskIndex = 0;
+                state.GoBackToStart = true;
+                return await sc.ReplaceDialogAsync(Action.DoAddTask);
+            }
+            else
+            {
+                state.GoBackToStart = false;
+                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ActionEnded));
+                return await sc.EndDialogAsync(true);
+            }
+        }
+
+        public async Task<DialogTurnResult> CollectRepeatFirstPageConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                return await sc.BeginDialogAsync(Action.CollectGoBackToStartConfirmation);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> AskRepeatFirstPageConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var prompt = sc.Context.Activity.CreateReply(ShowToDoResponses.RepeatFirstPagePrompt);
+                var retryPrompt = sc.Context.Activity.CreateReply(ShowToDoResponses.RepeatFirstPageConfirmFailed);
+                return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> AfterAskRepeatFirstPageConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await ToDoStateAccessor.GetAsync(sc.Context);
+            var confirmResult = (bool)sc.Result;
+            if (confirmResult)
+            {
+                state.ShowTaskPageIndex = 0;
+                state.ReadTaskIndex = 0;
+                state.GoBackToStart = true;
+                return await sc.ReplaceDialogAsync(Action.DoAddTask);
+            }
+            else
+            {
+                state.GoBackToStart = false;
+                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ActionEnded));
                 return await sc.EndDialogAsync(true);
             }
         }

@@ -49,5 +49,11 @@
         public const string DoDeleteTask = "doDeleteTask";
 
         public const string CollectAddDupTaskConfirmation = "collectAddDupTaskConfirmation";
+
+        public const string DoShowTasks = "doShowTasks";
+
+        public const string CollectGoBackToStartConfirmation = "collectGoBackToStartConfirmation";
+
+        public const string CollectRepeatFirstPageConfirmation = "collectRepeatFirstPageConfirmation";
     }
 }
