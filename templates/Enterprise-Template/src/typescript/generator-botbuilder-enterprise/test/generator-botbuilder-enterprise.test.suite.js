@@ -7,7 +7,7 @@ const _camelCase = require("lodash/camelCase");
 const _upperFirst = require("lodash/upperFirst");
 const _kebabCase = require("lodash/kebabCase");
 
-describe("The generator-botbuilder-enterprise ", () => {
+describe("The generator-botbuilder-enterprise tests", () => {
   var botName = "myBot";
   const botDesc = "A description for myBot";
   const botLang = "en";
@@ -25,7 +25,7 @@ describe("The generator-botbuilder-enterprise ", () => {
         botDesc: botDesc,
         botLang: botLang,
         confirmationPath: true,
-        botPath: process.cwd(),
+        botGenerationPath: process.cwd(),
         finalConfirmation: true
       });
   });
@@ -76,7 +76,7 @@ describe("The generator-botbuilder-enterprise ", () => {
       "package.json"
     ];
     rootFiles.forEach(fileName =>
-      it(fileName + "file", () => {
+      it(fileName + " file", () => {
         assert.file(path.join(__dirname, botGenerationPath, fileName));
       })
     );
