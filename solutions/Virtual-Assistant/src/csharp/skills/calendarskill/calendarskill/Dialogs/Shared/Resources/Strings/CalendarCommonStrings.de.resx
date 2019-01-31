@@ -120,11 +120,14 @@
   <data name="AllDay" xml:space="preserve">
     <value>Ganztägig</value>
   </data>
-  <data name="Today" xml:space="preserve">
-    <value>Heute</value>
+  <data name="NoAttendees" xml:space="preserve">
+    <value>Keine Teilnehmer</value>
   </data>
   <data name="DailyToken" xml:space="preserve">
     <value>Täglich</value>
+  </data>
+  <data name="Today" xml:space="preserve">
+    <value>Heute</value>
   </data>
   <data name="AttendeesSummary" xml:space="preserve">
     <value>{0} und {1} mehr</value>

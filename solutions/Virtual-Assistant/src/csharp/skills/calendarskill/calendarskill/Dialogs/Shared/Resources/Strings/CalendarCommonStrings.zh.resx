@@ -144,4 +144,7 @@
   <data name="WithTheSubject" xml:space="preserve">
     <value>以{0}为标题</value>
   </data>
+  <data name="NoAttendees" xml:space="preserve">
+    <value>无与会人</value>
+  </data>
 </root>

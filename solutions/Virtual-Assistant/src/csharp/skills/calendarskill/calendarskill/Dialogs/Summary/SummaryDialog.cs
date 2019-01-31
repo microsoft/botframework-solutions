@@ -260,7 +260,7 @@ namespace CalendarSkill.Dialogs.Summary
                         await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.CalendarNoMoreEvent));
                     }
 
-                    return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary);
+                    return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, sc.Options);
                 }
                 else if (generalTopIntent == General.Intent.Previous && state.SummaryEvents != null)
                 {
@@ -273,7 +273,7 @@ namespace CalendarSkill.Dialogs.Summary
                         await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.CalendarNoPreviousEvent));
                     }
 
-                    return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary);
+                    return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, sc.Options);
                 }
 
                 sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
