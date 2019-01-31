@@ -49,31 +49,16 @@ namespace Microsoft.Bot.Solutions.Resources
             return ParseResponse(template, data);
         }
 
-        public void GetAdaptiveCardResponse(string templateId, string cardPath, StringDictionary tokens = null)
+        public Activity AddAdaptiveCard(Activity response, string cardPath, ICardData data)
         {
-            //var tokensCopy = CopyTokens(tokens);
-            //var parsedResponse = this.ParseResponse(response, tokensCopy);
-            //var parsedCards = this.ParseAndCreateCards(cardPath, new List<T> { cardDataAdapter }, tokensCopy, parsedResponse);
-            //this.PopulateReplyFromResponse(reply, response);
+            // get card json for locale
+            var dir = Path.GetDirectoryName(typeof(ResponseTemplateManager).Assembly.Location);
+            var filePath = Path.Combine(dir, $"{cardPath}");
+            var json = File.ReadAllText(filePath);
 
-            //if (reply.Attachments == null)
-            //{
-            //    reply.Attachments = new List<Attachment>();
-            //}
-
-            //reply.Attachments.Add(AdaptiveCardHelper.CreateCardAttachment(parsedCards[0]));
-
-            //if (response.SuggestedActions?.Length > 0)
-            //{
-            //    reply.SuggestedActions = new SuggestedActions(
-            //        actions: response.SuggestedActions.Select(choice =>
-            //            new CardAction(
-            //                ActionTypes.ImBack,
-            //                choice,
-            //                value: choice.ToLower(),
-            //                displayText: choice.ToLower(),
-            //                text: choice.ToLower())).ToList());
-            //}
+            response.Attachments = new List<Attachment>();
+            response.Attachments.Add(data.BuildCardAttachment(json, response.Locale));
+            return response;
         }
 
         public ResponseTemplate GetResponseTemplate(string templateId, string locale)

@@ -1,0 +1,24 @@
+﻿{
+  "NamePrompt": {
+    "replies": [
+      {
+        "text": "你叫什么名字？",
+        "speak": "你叫什么名字？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "HaveNameMessage": {
+    "replies": [
+      {
+        "text": "嗨, {Name}!",
+        "speak": "嗨, {Name}!"
+      },
+      {
+        "text": "很高兴见到你, {Name}!",
+        "speak": "很高兴见到你, {Name}!"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}

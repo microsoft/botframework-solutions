@@ -1,8 +1,11 @@
-﻿using Microsoft.Bot.Solutions.Cards;
+﻿using AdaptiveCards;
+using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Cards;
+using Microsoft.Bot.Solutions.Resources;
 
 namespace EmailSkill.Dialogs.Shared.Resources.Cards
 {
-    public class EmailCardData : CardDataBase
+    public class EmailCardData : ICardData
     {
         public string Subject { get; set; }
 
@@ -17,5 +20,13 @@ namespace EmailSkill.Dialogs.Shared.Resources.Cards
         public string EmailLink { get; set; }
 
         public string Speak { get; set; }
+
+        public Attachment BuildCardAttachment(string json)
+        {
+            // replace variables in json with values above
+            // use regex?
+            var card = AdaptiveCard.FromJson(json).Card;
+            return new Attachment(AdaptiveCard.ContentType, content: card);
+        }
     }
 }

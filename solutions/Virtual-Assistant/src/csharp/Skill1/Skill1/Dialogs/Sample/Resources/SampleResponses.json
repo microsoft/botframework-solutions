@@ -1,0 +1,24 @@
+{
+  "NamePrompt": {
+    "replies": [
+      {
+        "text": "What is your name?",
+        "speak": "What is your name?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "HaveNameMessage": {
+    "replies": [
+      {
+        "text": "Hi, {Name}!",
+        "speak": "Hi, {Name}!"
+      },
+      {
+        "text": "Nice to meet you, {Name}!",
+        "speak": "Nice to meet you, {Name}!"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}

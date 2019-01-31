@@ -936,13 +936,16 @@ namespace EmailSkill.Dialogs.Shared
                 { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(updatedMessages, state.GetUserTimeZone(), ConfigData.GetInstance().MaxReadSize) },
             };
 
-            var reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseManager, stringToken);
+            var response = ResponseManager.GetResponse(EmailSharedResponses.ShowEmailPrompt, stringToken);
+
             if (updatedMessages.Count == 1)
             {
-                reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowOneEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseManager, stringToken);
+                response = ResponseManager.GetResponse(EmailSharedResponses.ShowOneEmailPrompt, stringToken);
             }
 
-            await sc.Context.SendActivityAsync(reply);
+            ResponseManager.AddAdaptiveCard(response, "EmailCard.json", cardsData);
+
+            await sc.Context.SendActivityAsync(response);
             return;
         }
 

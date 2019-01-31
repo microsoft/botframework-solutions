@@ -54,7 +54,8 @@ namespace Microsoft.Bot.Solutions.Extensions
             }
         }
 
-        //public static Activity CreateReply(this Activity activity, ResponseTemplate response, BotResponseBuilder responseBuilder = null, StringDictionary tokens = null)
+        //public static Activity CreateAdaptiveCardGroupReply<T>(this Activity activity, ResponseTemplate response, string cardPath, string attachmentLayout, List<T> cardDataAdapters, BotResponseBuilder responseBuilder = null, StringDictionary tokens = null)
+        //    where T : CardDataBase
         //{
         //    var reply = activity.CreateReply();
         //    if (responseBuilder == null)
@@ -62,35 +63,22 @@ namespace Microsoft.Bot.Solutions.Extensions
         //        responseBuilder = BotResponseBuilder();
         //    }
 
-        //    responseBuilder.BuildMessageReply(reply, response, tokens);
+        //    responseBuilder.BuildAdaptiveCardGroupReply(reply, response, cardPath, attachmentLayout, cardDataAdapters, tokens);
         //    return reply;
         //}
 
-        public static Activity CreateAdaptiveCardGroupReply<T>(this Activity activity, ResponseTemplate response, string cardPath, string attachmentLayout, List<T> cardDataAdapters, BotResponseBuilder responseBuilder = null, StringDictionary tokens = null)
-            where T : CardDataBase
-        {
-            var reply = activity.CreateReply();
-            if (responseBuilder == null)
-            {
-                responseBuilder = BotResponseBuilder();
-            }
+        //public static Activity CreateAdaptiveCardReply<T>(this Activity activity, ResponseTemplate response, string cardPath, T cardDataAdapter, BotResponseBuilder responseBuilder = null, StringDictionary tokens = null, Activity replyToUse = null)
+        //    where T : CardDataBase
+        //{
+        //    var reply = replyToUse ?? activity.CreateReply();
+        //    if (responseBuilder == null)
+        //    {
+        //        responseBuilder = BotResponseBuilder();
+        //    }
 
-            responseBuilder.BuildAdaptiveCardGroupReply(reply, response, cardPath, attachmentLayout, cardDataAdapters, tokens);
-            return reply;
-        }
-
-        public static Activity CreateAdaptiveCardReply<T>(this Activity activity, ResponseTemplate response, string cardPath, T cardDataAdapter, BotResponseBuilder responseBuilder = null, StringDictionary tokens = null, Activity replyToUse = null)
-            where T : CardDataBase
-        {
-            var reply = replyToUse ?? activity.CreateReply();
-            if (responseBuilder == null)
-            {
-                responseBuilder = BotResponseBuilder();
-            }
-
-            responseBuilder.BuildAdaptiveCardReply(reply, response, cardPath, cardDataAdapter, tokens);
-            return reply;
-        }
+        //    responseBuilder.BuildAdaptiveCardReply(reply, response, cardPath, cardDataAdapter, tokens);
+        //    return reply;
+        //}
 
         private static BotResponseBuilder BotResponseBuilder()
         {
