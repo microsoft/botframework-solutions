@@ -13,10 +13,16 @@
   </ItemGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\..\..\assistant\VirtualAssistant.csproj" />
     <ProjectReference Include="..\PointOfInterestSkill\PointOfInterestSkill.csproj" />
   </ItemGroup>
   
   <ItemGroup>
+    <Compile Update="Flow\Utterances\GeneralUtterances.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GeneralUtterances.resx</DependentUpon>
+    </Compile>
     <Compile Update="Flow\Utterances\PointOfInterestDialogUtterances.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -25,6 +31,10 @@
   </ItemGroup>
   
   <ItemGroup>
+    <EmbeddedResource Update="Flow\Utterances\GeneralUtterances.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>GeneralUtterances.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Flow\Utterances\PointOfInterestDialogUtterances.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>PointOfInterestDialogUtterances.Designer.cs</LastGenOutput>

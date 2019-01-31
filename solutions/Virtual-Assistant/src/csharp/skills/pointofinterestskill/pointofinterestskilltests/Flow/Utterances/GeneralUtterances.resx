@@ -117,31 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ActiveLocationEvent" xml:space="preserve">
-    <value>/event:{ "Name": "IPA.ActiveLocation", "Value": "Pro Sports Club Coffee Shop","Text":"find a route" }</value>
+  <data name="No" xml:space="preserve">
+    <value>no</value>
   </data>
-  <data name="CancelRoute" xml:space="preserve">
-    <value>cancel my route</value>
+  <data name="OptionOne" xml:space="preserve">
+    <value>option 1</value>
   </data>
-  <data name="FindPointOfInterest" xml:space="preserve">
-    <value>find a coffee shop</value>
+  <data name="OptionTwo" xml:space="preserve">
+    <value>option 2</value>
   </data>
-  <data name="GetDirectionsByName" xml:space="preserve">
-    <value>get directions to pro sports club coffee shop</value>
-  </data>
-  <data name="GetDirectionsByNewName" xml:space="preserve">
-    <value>get directions to the pharmacy</value>
-  </data>
-  <data name="IFoundTheFollowingMatches" xml:space="preserve">
-    <value>I found the following matches.</value>
-  </data>
-  <data name="LocationEvent" xml:space="preserve">
-    <value>/event:{ "Name": "IPA.Location", "Value": "47.639620,-122.130610" }</value>
-  </data>
-  <data name="WhatElseCanIHelpYouWith" xml:space="preserve">
-    <value>What else can I help you with?</value>
-  </data>
-  <data name="WhatsNearby" xml:space="preserve">
-    <value>What's nearby?</value>
+  <data name="Yes" xml:space="preserve">
+    <value>yes</value>
   </data>
 </root>

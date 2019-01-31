@@ -3,13 +3,13 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
-using Microsoft.Bot.Solutions.Middleware.Telemetry;
+using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Testing;
-using Microsoft.Bot.Solutions.Testing.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PointOfInterestSkillTests.Flow.LuisTestUtils;
-using System.Collections.Generic;
+using PointOfInterestSkill.ServiceClients;
+using PointOfInterestSkillTests.API.Fakes;
+using PointOfInterestSkillTests.Flow.Fakes;
 using System.Threading;
 
 namespace PointOfInterestSkillTests.Flow
@@ -23,6 +23,7 @@ namespace PointOfInterestSkillTests.Flow
         public IBotTelemetryClient TelemetryClient { get; set; }
 
         public SkillConfigurationBase Services { get; set; }
+        public IServiceManager ServiceManager { get; set; }
 
         [TestInitialize]
         public override void Initialize()
@@ -34,17 +35,12 @@ namespace PointOfInterestSkillTests.Flow
             TelemetryClient = new NullBotTelemetryClient();
             Services = new MockSkillConfiguration();
 
-            Services.LocaleConfigurations.Add("en", new LocaleConfiguration()
-            {
-                Locale = "en-us",
-                LuisServices = new Dictionary<string, ITelemetryLuisRecognizer>
-                {
-                    { "PointOfInterest", PointOfInterestTestUtil.CreateRecognizer() }
-                }
-            });
-
             builder.RegisterInstance(new BotStateSet(UserState, ConversationState));
-            Container = builder.Build();
+            var fakeServiceManager = new MockServiceManager();
+            builder.RegisterInstance<IServiceManager>(fakeServiceManager);
+
+            this.Container = builder.Build();
+            this.ServiceManager = fakeServiceManager;
 
             BotResponseBuilder = new BotResponseBuilder();
             BotResponseBuilder.AddFormatter(new TextBotResponseFormatter());
@@ -53,7 +49,8 @@ namespace PointOfInterestSkillTests.Flow
         public TestFlow GetTestFlow()
         {
             var adapter = new TestAdapter()
-                .Use(new AutoSaveStateMiddleware(ConversationState));
+                .Use(new AutoSaveStateMiddleware(ConversationState))
+                .Use(new EventDebuggerMiddleware());
 
             var testFlow = new TestFlow(adapter, async (context, token) =>
             {
@@ -66,7 +63,7 @@ namespace PointOfInterestSkillTests.Flow
 
         public override IBot BuildBot()
         {
-            return new PointOfInterestSkill.PointOfInterestSkill(Services, ConversationState, UserState, TelemetryClient, null, true);
+            return new PointOfInterestSkill.PointOfInterestSkill(Services, ConversationState, UserState, TelemetryClient, ServiceManager, true);
         }
     }
 }

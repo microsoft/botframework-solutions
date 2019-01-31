@@ -61,20 +61,20 @@ namespace PointOfInterestSkillTests.Flow.Utterances {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to /event:{ &quot;Name&quot;: &quot;IPA.ActiveLocation&quot;, &quot;Value&quot;: &quot;Pro Sports Club Coffee Shop&quot;,&quot;Text&quot;:&quot;find a route&quot; }.
+        /// </summary>
+        internal static string ActiveLocationEvent {
+            get {
+                return ResourceManager.GetString("ActiveLocationEvent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to cancel my route.
         /// </summary>
         internal static string CancelRoute {
             get {
                 return ResourceManager.GetString("CancelRoute", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sorry, something went wrong trying to communicate with the skill. Please try again..
-        /// </summary>
-        internal static string Error {
-            get {
-                return ResourceManager.GetString("Error", resourceCulture);
             }
         }
         
@@ -88,6 +88,33 @@ namespace PointOfInterestSkillTests.Flow.Utterances {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to get directions to pro sports club coffee shop.
+        /// </summary>
+        internal static string GetDirectionsByName {
+            get {
+                return ResourceManager.GetString("GetDirectionsByName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to get directions to the pharmacy.
+        /// </summary>
+        internal static string GetDirectionsByNewName {
+            get {
+                return ResourceManager.GetString("GetDirectionsByNewName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I found the following matches..
+        /// </summary>
+        internal static string IFoundTheFollowingMatches {
+            get {
+                return ResourceManager.GetString("IFoundTheFollowingMatches", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to /event:{ &quot;Name&quot;: &quot;IPA.Location&quot;, &quot;Value&quot;: &quot;47.639620,-122.130610&quot; }.
         /// </summary>
         internal static string LocationEvent {
@@ -97,20 +124,20 @@ namespace PointOfInterestSkillTests.Flow.Utterances {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to no.
+        ///   Looks up a localized string similar to What else can I help you with?.
         /// </summary>
-        internal static string No {
+        internal static string WhatElseCanIHelpYouWith {
             get {
-                return ResourceManager.GetString("No", resourceCulture);
+                return ResourceManager.GetString("WhatElseCanIHelpYouWith", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to yes.
+        ///   Looks up a localized string similar to What&apos;s nearby?.
         /// </summary>
-        internal static string Yes {
+        internal static string WhatsNearby {
             get {
-                return ResourceManager.GetString("Yes", resourceCulture);
+                return ResourceManager.GetString("WhatsNearby", resourceCulture);
             }
         }
     }
