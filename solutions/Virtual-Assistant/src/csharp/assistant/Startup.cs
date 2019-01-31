@@ -46,8 +46,7 @@ namespace VirtualAssistant
             // Load the connected services from .bot file.
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
             var botFileSecret = Configuration.GetSection("botFileSecret")?.Value;
-            var botConfig = BotConfiguration.Load(botFilePath ?? @".\CustomAssistant.bot", botFileSecret);
-            services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded."));
+            var botConfig = BotConfiguration.Load(botFilePath ?? throw new Exception("Please configure your bot file path in appsettings.json."), botFileSecret);
 
             // Use Application Insights
             services.AddBotApplicationInsights(botConfig);
