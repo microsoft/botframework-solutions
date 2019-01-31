@@ -44,6 +44,15 @@
     ],
     "inputHint": "expectingInput"
   },
+  "ReadMoreTasksConfirmFailed": {
+    "replies": [
+      {
+        "text": "对不起，我没有理解您的意思。请问你想要听更多的任务吗？",
+        "speak": "对不起，我没有理解您的意思。请问你想要听更多的任务吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "NextOneTask": {
     "replies": [
       {

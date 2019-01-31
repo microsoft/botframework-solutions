@@ -9,6 +9,7 @@ using AdaptiveCards;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Dialogs;
@@ -18,6 +19,7 @@ using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Prompts;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
+using Microsoft.Recognizers.Text;
 using Newtonsoft.Json.Linq;
 using ToDoSkill.Dialogs.AddToDo.Resources;
 using ToDoSkill.Dialogs.DeleteToDo.Resources;
@@ -59,6 +61,7 @@ namespace ToDoSkill.Dialogs.Shared
             AddDialog(new EventPrompt(SkillModeAuth, "tokens/response", TokenResponseValidator));
             AddDialog(new MultiProviderAuthDialog(services));
             AddDialog(new TextPrompt(Action.Prompt));
+            AddDialog(new ConfirmPrompt(Action.ConfirmPrompt, null, Culture.English) { Style = ListStyle.SuggestedAction });
         }
 
         protected SkillConfigurationBase Services { get; set; }

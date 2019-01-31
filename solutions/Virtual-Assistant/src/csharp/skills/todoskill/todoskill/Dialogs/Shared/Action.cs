@@ -4,6 +4,8 @@
     {
         public const string Prompt = "prompt";
 
+        public const string ConfirmPrompt = "confirmPrompt";
+
         public const string ShowTasks = "showTasks";
 
         public const string CollectTaskContent = "collectTaskContent";

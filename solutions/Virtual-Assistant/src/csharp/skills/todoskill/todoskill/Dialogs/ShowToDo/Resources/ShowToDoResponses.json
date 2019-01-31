@@ -44,6 +44,15 @@
     ],
     "inputHint": "expectingInput"
   },
+  "ReadMoreTasksConfirmFailed": {
+    "replies": [
+      {
+        "text": "Sorry, I didn't understand what you meant. Do you want to hear more from your list?",
+        "speak": "Sorry, I didn't understand what you meant. Do you want to hear more from your list?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "NextOneTask": {
     "replies": [
       {

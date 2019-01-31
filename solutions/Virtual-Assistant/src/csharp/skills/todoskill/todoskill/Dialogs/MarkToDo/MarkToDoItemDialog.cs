@@ -320,7 +320,8 @@ namespace ToDoSkill.Dialogs.MarkToDo
             try
             {
                 var prompt = sc.Context.Activity.CreateReply(MarkToDoResponses.CompleteAnotherTaskPrompt);
-                return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
+                var retryPrompt = sc.Context.Activity.CreateReply(MarkToDoResponses.CompleteAnotherTaskConfirmFailed);
+                return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
             {
@@ -334,11 +335,8 @@ namespace ToDoSkill.Dialogs.MarkToDo
             try
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
-                sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
-                var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
-
-                if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
+                var confirmResult = (bool)sc.Result;
+                if (confirmResult)
                 {
                     // reset some fields here
                     state.TaskIndexes = new List<int>();

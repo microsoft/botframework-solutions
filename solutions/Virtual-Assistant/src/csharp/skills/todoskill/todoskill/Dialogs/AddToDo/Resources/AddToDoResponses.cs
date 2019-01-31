@@ -28,9 +28,15 @@ namespace ToDoSkill.Dialogs.AddToDo.Resources
 
         public static BotResponse SwitchListType => GetBotResponse();
 
+        public static BotResponse SwitchListTypeConfirmFailed => GetBotResponse();
+
         public static BotResponse AddMoreTask => GetBotResponse();
 
+        public static BotResponse AddMoreTaskConfirmFailed => GetBotResponse();
+
         public static BotResponse AskAddDupTaskPrompt => GetBotResponse();
+
+        public static BotResponse AskAddDupTaskConfirmFailed => GetBotResponse();
 
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {

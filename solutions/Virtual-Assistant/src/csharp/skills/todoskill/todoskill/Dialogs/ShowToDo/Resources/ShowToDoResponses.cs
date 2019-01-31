@@ -32,6 +32,8 @@ namespace ToDoSkill.Dialogs.ShowToDo.Resources
 
         public static BotResponse ReadMoreTasksPrompt => GetBotResponse();
 
+        public static BotResponse ReadMoreTasksConfirmFailed => GetBotResponse();
+
         public static BotResponse NextOneTask => GetBotResponse();
 
         public static BotResponse NextTwoTasks => GetBotResponse();
