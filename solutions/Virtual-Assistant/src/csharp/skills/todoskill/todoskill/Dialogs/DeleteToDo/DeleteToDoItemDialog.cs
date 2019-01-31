@@ -383,17 +383,20 @@ namespace ToDoSkill.Dialogs.DeleteToDo
             try
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
-                var confirmResult = (bool)sc.Result;
-                if (confirmResult)
+                if (state.MarkOrDeleteAllTasksFlag)
                 {
-                    state.DeleteTaskConfirmation = true;
-                    return await sc.EndDialogAsync(true);
+                    var confirmResult = (bool)sc.Result;
+                    if (confirmResult)
+                    {
+                        state.DeleteTaskConfirmation = true;
+                    }
+                    else
+                    {
+                        state.DeleteTaskConfirmation = false;
+                    }
                 }
-                else
-                {
-                    state.DeleteTaskConfirmation = false;
-                    return await sc.EndDialogAsync(true);
-                }
+
+                return await sc.EndDialogAsync(true);
             }
             catch (Exception ex)
             {

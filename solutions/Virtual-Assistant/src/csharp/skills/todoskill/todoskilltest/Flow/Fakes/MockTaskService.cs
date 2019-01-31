@@ -34,6 +34,8 @@ namespace ToDoSkillTest.Fakes
             IsCompleted = t.IsCompleted
         });
 
+        public bool IsListCreated { get; set; }
+
         public void ChangeData(DataOperationType.OperationType type)
         {
             if (type == DataOperationType.OperationType.ClearAllData)
@@ -82,6 +84,7 @@ namespace ToDoSkillTest.Fakes
                 listTypeIds.Add(MockData.Grocery, MockData.Grocery);
             }
 
+            IsListCreated = true;
             return Task.FromResult(this as ITaskService);
         }
 
