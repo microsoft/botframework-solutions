@@ -129,6 +129,9 @@ namespace EmailSkill.ServiceClients.GoogleAPI
                     forward.To.Add(new MailboxAddress(recipient.EmailAddress.Address));
                 }
 
+                // set the reply subject
+                forward.Subject = string.Format(EmailCommonStrings.ForwardReplyFormat, originalMessage.Subject);
+
                 // construct the References headers
                 foreach (var mid in originalMessage.References)
                 {
@@ -240,6 +243,16 @@ namespace EmailSkill.ServiceClients.GoogleAPI
                 else if (originMessage.Sender != null)
                 {
                     reply.To.Add(originMessage.Sender);
+                }
+
+                // set the reply subject
+                if (!originMessage.Subject.StartsWith(EmailCommonStrings.Reply, StringComparison.OrdinalIgnoreCase))
+                {
+                    reply.Subject = string.Format(EmailCommonStrings.ReplyReplyFormat, originMessage.Subject);
+                }
+                else
+                {
+                    reply.Subject = originMessage.Subject;
                 }
 
                 // construct the In-Reply-To and References headers

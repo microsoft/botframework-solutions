@@ -35,6 +35,7 @@ namespace EmailSkill.Dialogs.ForwardEmail
                 IfClearContextStep,
                 GetAuthToken,
                 AfterGetAuthToken,
+                SetDisplayConfig,
                 CollectSelectedEmail,
                 AfterCollectSelectedEmail,
                 CollectRecipient,
@@ -84,21 +85,21 @@ namespace EmailSkill.Dialogs.ForwardEmail
                     var token = state.Token;
                     var message = state.Message;
                     var id = message.FirstOrDefault()?.Id;
-                    var content = state.Content;
                     var recipients = state.Recipients;
 
                     var service = ServiceManager.InitMailService(token, state.GetUserTimeZone(), state.MailSourceType);
 
                     // send user message.
+                    var content = state.Content.Equals(EmailCommonStrings.EmptyContent) ? string.Empty : state.Content;
                     await service.ForwardMessageAsync(id, content, recipients);
 
                     var nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(state.Recipients);
 
                     var emailCard = new EmailCardData
                     {
-                        Subject = string.Format(EmailCommonStrings.SubjectFormat, state.Subject),
+                        Subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? null : string.Format(EmailCommonStrings.SubjectFormat, state.Subject),
                         NameList = string.Format(EmailCommonStrings.ToFormat, nameListString),
-                        EmailContent = string.Format(EmailCommonStrings.ContentFormat, state.Content),
+                        EmailContent = state.Content.Equals(EmailCommonStrings.EmptyContent) ? null : string.Format(EmailCommonStrings.ContentFormat, state.Content),
                     };
 
                     var stringToken = new StringDictionary
