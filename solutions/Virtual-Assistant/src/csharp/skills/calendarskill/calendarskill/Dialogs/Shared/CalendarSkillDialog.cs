@@ -1037,6 +1037,14 @@ namespace CalendarSkill.Dialogs.Shared
             return result;
         }
 
+        protected async Task<PersonModel> GetMe(WaterfallStepContext sc)
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+            var token = state.APIToken;
+            var service = ServiceManager.InitUserService(token, state.EventSource);
+            return await service.GetMe();
+        }
+
         protected string GetSelectPromptString(PromptOptions selectOption, bool containNumbers)
         {
             var result = string.Empty;
