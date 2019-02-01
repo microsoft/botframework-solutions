@@ -165,4 +165,7 @@
   <data name="AdjustTime" xml:space="preserve">
     <value>(adjust|change|update).*time</value>
   </data>
+  <data name="NoAttendees" xml:space="preserve">
+    <value>no attendees</value>
+  </data>
 </root>
