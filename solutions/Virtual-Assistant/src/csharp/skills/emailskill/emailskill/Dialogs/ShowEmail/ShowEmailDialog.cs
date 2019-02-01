@@ -315,6 +315,9 @@ namespace EmailSkill.Dialogs.ShowEmail
                     return await sc.EndDialogAsync(true);
                 }
 
+                sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
+                var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
+
                 await DigestFocusEmailAsync(sc);
 
                 var skillOptions = (EmailSkillDialogOptions)sc.Options;
@@ -332,7 +335,7 @@ namespace EmailSkill.Dialogs.ShowEmail
                 {
                     return await sc.BeginDialogAsync(Actions.Reply, skillOptions);
                 }
-                else if (topIntent == Email.Intent.ReadAloud || topIntent == Email.Intent.SelectItem)
+                else if ((topIntent == Email.Intent.ReadAloud && !IsReadMoreIntent(topGeneralIntent, userInput)) || topIntent == Email.Intent.SelectItem)
                 {
                     var message = state.Message.FirstOrDefault();
 
@@ -345,7 +348,8 @@ namespace EmailSkill.Dialogs.ShowEmail
                         return await sc.ReplaceDialogAsync(Actions.Read, skillOptions);
                     }
                 }
-                else if (topIntent == Email.Intent.None && (topGeneralIntent == General.Intent.Previous || topGeneralIntent == General.Intent.Next))
+                else if (IsReadMoreIntent(topGeneralIntent, userInput)
+                    || (topIntent == Email.Intent.None && (topGeneralIntent == General.Intent.Previous || topGeneralIntent == General.Intent.Next)))
                 {
                     return await sc.ReplaceDialogAsync(Actions.Display, skillOptions);
                 }
