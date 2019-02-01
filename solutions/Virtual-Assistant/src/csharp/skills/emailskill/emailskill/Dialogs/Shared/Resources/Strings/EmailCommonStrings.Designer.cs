@@ -196,6 +196,15 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to from {0} at {1} titled {2}, content is {3}..
+        /// </summary>
+        public static string FromDetailsWithContentFormat {
+            get {
+                return ResourceManager.GetString("FromDetailsWithContentFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to From: {0}.
         /// </summary>
         public static string FromFormat {

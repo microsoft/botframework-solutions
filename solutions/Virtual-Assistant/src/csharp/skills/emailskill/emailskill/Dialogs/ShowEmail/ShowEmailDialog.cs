@@ -239,9 +239,12 @@ namespace EmailSkill.Dialogs.ShowEmail
                         Speak = SpeakHelper.ToSpeechEmailDetailOverallString(message, state.GetUserTimeZone()),
                     };
 
-                    // Todo: workaround here to read out email details. Ignore body for now as we need a summary and filter.
-                    var emailDetails = SpeakHelper.ToSpeechEmailDetailString(message, state.GetUserTimeZone());
-                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(ShowEmailResponses.ReadOutMessage, "Dialogs/Shared/Resources/Cards/EmailDetailCard.json", emailCard, null, new StringDictionary() { { "EmailDetails", emailDetails } });
+                    var dict = new StringDictionary()
+                    {
+                        { "EmailDetails", SpeakHelper.ToSpeechEmailDetailString(message, state.GetUserTimeZone()) },
+                        { "EmailDetailsWithContent", SpeakHelper.ToSpeechEmailDetailString(message, state.GetUserTimeZone(), true) },
+                    };
+                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(ShowEmailResponses.ReadOutMessage, "Dialogs/Shared/Resources/Cards/EmailDetailCard.json", emailCard, null, dict);
 
                     // Set email as read.
                     var service = ServiceManager.InitMailService(state.Token, state.GetUserTimeZone(), state.MailSourceType);
