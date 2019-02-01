@@ -73,7 +73,8 @@ describe("The generator-botbuilder-enterprise tests", () => {
       "README.md",
       "tsconfig.json",
       "deploymentScripts/webConfigPrep.js",
-      "package.json"
+      "package.json",
+      "tslint.json"
     ];
     rootFiles.forEach(fileName =>
       it(fileName + " file", () => {

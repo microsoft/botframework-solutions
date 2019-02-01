@@ -24,7 +24,8 @@ export class AuthenticationResponses extends TemplateManager {
     private static readonly RESPONSE_TEMPLATES: LanguageTemplateDictionary = new Map([
         ['default', new Map([
             [AuthenticationResponses.RESPONSE_IDS.LoginPrompt, AuthenticationResponses.fromResources('authentication.prompt')],
-            [AuthenticationResponses.RESPONSE_IDS.SucceededMessage, async (data: any) => {
+            // tslint:disable-next-line:no-any
+            [AuthenticationResponses.RESPONSE_IDS.SucceededMessage, async (data: any): Promise<string> => {
                 const value: string = i18n.__('authentication.succeeded');
 
                 return value.replace('{0}', data.name);

@@ -6,7 +6,6 @@
  */
 export class QnATelemetryConstants {
     public readonly KNOWLEDGE_BASE_ID_PROPERTY: string = 'knowledgeBaseId';
-    public readonly ACTIVITY_ID_PROPERTY: string = 'activityId';
     public readonly ANSWER_PROPERTY: string = 'answer';
     public readonly ARTICLE_FOUND_PROPERTY: string = 'articleFound';
     public readonly CHANNEL_ID_PROPERTY: string = 'channelId';

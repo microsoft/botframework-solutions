@@ -41,8 +41,10 @@ export class MainResponses extends TemplateManager {
             [MainResponses.RESPONSE_IDS.Confused, MainResponses.fromResources('main.confused')],
             [MainResponses.RESPONSE_IDS.Greeting, MainResponses.fromResources('main.greeting')],
             [MainResponses.RESPONSE_IDS.Help,
+                // tslint:disable-next-line:no-any
                 (context: TurnContext, data: any): Promise<Activity> => MainResponses.BUILD_HELP_CARD(context, data)],
             [MainResponses.RESPONSE_IDS.Intro,
+                // tslint:disable-next-line:no-any
                 (context: TurnContext, data: any): Promise<Activity> => MainResponses.BUILD_INTRO_CARD(context, data)]
         ])]
     ]);
@@ -52,8 +54,10 @@ export class MainResponses extends TemplateManager {
         this.register(new DictionaryRenderer(MainResponses.RESPONSE_TEMPLATES));
     }
 
+    // tslint:disable-next-line:no-any
     public static BUILD_INTRO_CARD(turnContext: TurnContext, data: any): Promise<Activity> {
         const introPath: string = i18n.__('main.introPath');
+        // tslint:disable-next-line:no-any non-literal-require
         const introCard: any = require(introPath);
         const attachment: Attachment = CardFactory.adaptiveCard(introCard);
         const response: Partial<Activity> = MessageFactory.attachment(attachment, '', attachment.content.speak, InputHints.AcceptingInput);
@@ -82,6 +86,7 @@ export class MainResponses extends TemplateManager {
         return Promise.resolve(<Activity> response);
     }
 
+    // tslint:disable-next-line:no-any
     public static async BUILD_HELP_CARD(turnContext: TurnContext, data: any): Promise<Activity> {
         const title: string = i18n.__('main.helpTitle');
         const text: string = i18n.__('main.helpText');

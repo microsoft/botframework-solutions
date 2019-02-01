@@ -73,7 +73,8 @@ export class TelemetryLuisRecognizer extends LuisRecognizer {
             dialogContext.activeDialog ? dialogContext.activeDialog.id : undefined);
     }
     /**
-     * Return results of the analysis (Suggested actions and intents), using the turn context. This is missing a dialog id used for telemetry.
+     * Return results of the analysis (Suggested actions and intents), using the turn context.
+     * This is missing a dialog id used for telemetry.
      * @param context - Context object containing information for a single turn of conversation with a user.
      * @param logOriginalMessage - Determines if the original message is logged into Application Insights.  This is a privacy consideration.
      * @returns The LUIS results of the analysis of the current message text in the current turn's context activity.
