@@ -281,6 +281,10 @@ namespace EmailSkill.Dialogs.FindContact
                         }
                     }
                 }
+                else
+                {
+                    return await sc.EndDialogAsync();
+                }
 
                 state.UnconfirmedPerson = unionList;
 
