@@ -15,7 +15,6 @@ namespace CalendarSkillTest.API
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
-            userService = new UserService(MockBaseUserClient.GetUserService());
         }
 
         [ClassCleanup]
@@ -26,6 +25,7 @@ namespace CalendarSkillTest.API
         [TestInitialize]
         public void TestInit()
         {
+            userService = new UserService(MockBaseUserClient.GetUserService());
         }
 
         [TestCleanup]

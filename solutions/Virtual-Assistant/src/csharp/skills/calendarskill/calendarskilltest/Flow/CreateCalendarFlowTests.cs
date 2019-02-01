@@ -32,10 +32,6 @@ namespace CalendarSkillTest.Flow
                     { "calendar", new MockLuisRecognizer(new CreateMeetingTestUtterances()) }
                 }
             });
-
-            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.SetupCalendarService(MockCalendarService.FakeDefaultEvents());
-            serviceManager.SetupUserService(MockUserService.FakeDefaultUsers(), MockUserService.FakeDefaultPeople());
         }
 
         [TestMethod]
@@ -280,8 +276,8 @@ namespace CalendarSkillTest.Flow
             StringDictionary recipientDupDict = new StringDictionary() { { "UserName", testDupRecipient }, { "EmailAddress", testDupEmailAddress } };
 
             int peopleCount = 3;
-            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.SetupUserService(MockUserService.FakeDefaultUsers(), MockUserService.FakeMultiplePeoples(peopleCount));
+            this.ServiceManager = MockServiceManager.SetPeopleToMultiple(peopleCount);
+
             await this.GetTestFlow()
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
                 .AssertReply(this.ShowAuth())

@@ -21,9 +21,6 @@ namespace CalendarSkillTest.Flow
         [TestInitialize]
         public void SetupLuisService()
         {
-            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.SetupUserService(MockUserService.FakeDefaultUsers(), MockUserService.FakeDefaultPeople());
-
             this.Services.LocaleConfigurations.Add("en", new LocaleConfiguration()
             {
                 Locale = "en-us",
@@ -38,8 +35,6 @@ namespace CalendarSkillTest.Flow
         [TestMethod]
         public async Task Test_CalendarSummary()
         {
-            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.SetupCalendarService(MockCalendarService.FakeDefaultEvents());
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseFindMeeting)
                 .AssertReply(this.ShowAuth())
@@ -54,8 +49,7 @@ namespace CalendarSkillTest.Flow
         [TestMethod]
         public async Task Test_CalendarNoEventSummary()
         {
-            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.SetupCalendarService(new List<EventModel>());
+            this.ServiceManager = MockServiceManager.SetMeetingsToNull();
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseFindMeeting)
                 .AssertReply(this.ShowAuth())
@@ -69,8 +63,7 @@ namespace CalendarSkillTest.Flow
         public async Task Test_CalendarSummaryGetMultipleMeetings()
         {
             int eventCount = 3;
-            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.SetupCalendarService(MockCalendarService.FakeMultipleEvents(eventCount));
+            this.ServiceManager = MockServiceManager.SetMeetingsToMultiple(eventCount);
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseFindMeeting)
                 .AssertReply(this.ShowAuth())
@@ -86,8 +79,6 @@ namespace CalendarSkillTest.Flow
         [TestMethod]
         public async Task Test_CalendarSummaryReadOutWithOneMeeting()
         {
-            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.SetupCalendarService(MockCalendarService.FakeDefaultEvents());
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseFindMeeting)
                 .AssertReply(this.ShowAuth())
@@ -106,8 +97,7 @@ namespace CalendarSkillTest.Flow
         public async Task Test_CalendarSummaryReadOutWithMutipleMeeting()
         {
             int eventCount = 3;
-            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.SetupCalendarService(MockCalendarService.FakeMultipleEvents(eventCount));
+            this.ServiceManager = MockServiceManager.SetMeetingsToMultiple(eventCount);
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseFindMeeting)
                 .AssertReply(this.ShowAuth())
@@ -126,14 +116,13 @@ namespace CalendarSkillTest.Flow
         [TestMethod]
         public async Task Test_CalendarSummaryByTimeRange()
         {
-            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
             DateTime now = DateTime.Now;
             DateTime startTime = new DateTime(now.Year, now.Month, now.Day, 18, 0, 0);
             startTime = startTime.AddDays(1);
             startTime = TimeZoneInfo.ConvertTimeToUtc(startTime);
-            serviceManager.SetupCalendarService(new List<EventModel>()
+            this.ServiceManager = MockServiceManager.SetMeetingsToSpecial(new List<EventModel>()
             {
-                MockCalendarService.CreateEventModel(
+                MockServiceManager.CreateEventModel(
                     startDateTime: startTime.AddDays(7),
                     endDateTime: startTime.AddDays(8))
             });
@@ -152,8 +141,6 @@ namespace CalendarSkillTest.Flow
         [TestMethod]
         public async Task Test_CalendarSummaryByStartTime()
         {
-            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.SetupCalendarService(MockCalendarService.FakeDefaultEvents());
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.FindMeetingByStartTime)
                 .AssertReply(this.ShowAuth())
@@ -168,8 +155,6 @@ namespace CalendarSkillTest.Flow
         [TestMethod]
         public async Task Test_CalendarSummaryShowOverviewAgain()
         {
-            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.SetupCalendarService(MockCalendarService.FakeDefaultEvents());
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseFindMeeting)
                 .AssertReply(this.ShowAuth())
