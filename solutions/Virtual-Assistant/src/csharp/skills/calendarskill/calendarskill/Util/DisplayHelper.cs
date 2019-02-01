@@ -15,7 +15,7 @@ namespace CalendarSkill.Util
             // return the multiple names with "Alice and 2 more"
             if (participants == null || participants.Count() == 0)
             {
-                throw new Exception("No recipient!");
+                return CalendarCommonStrings.NoAttendees;
             }
 
             var participantString = string.IsNullOrEmpty(participants[0].DisplayName) ? participants[0].Address : participants[0].DisplayName;
@@ -32,7 +32,7 @@ namespace CalendarSkill.Util
             // return the multiple names with "Alice + 2 more"
             if (participants == null || participants.Count() == 0)
             {
-                throw new Exception("No recipient!");
+                return CalendarCommonStrings.NoAttendees;
             }
 
             var participantString = string.IsNullOrEmpty(participants[0].DisplayName) ? participants[0].Address : participants[0].DisplayName;

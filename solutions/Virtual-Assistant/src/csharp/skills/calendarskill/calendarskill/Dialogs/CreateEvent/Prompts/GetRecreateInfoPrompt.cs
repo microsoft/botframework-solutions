@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Dialogs.CreateEvent.Resources;
+using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
@@ -70,8 +72,66 @@ namespace CalendarSkill.Dialogs.CreateEvent.Prompts
         private RecreateEventState? GetStateFromMessage(string message, string culture)
         {
             RecreateEventState? result = null;
+            message = message.ToLower();
 
-            // use exactly match for now. We may discuss about to use white list or Luis in future.
+            // useregex and  exactly match for now. We may discuss about to use white list or Luis in future.
+            // check is no or cancel
+            Regex regex = new Regex(CalendarCommonStrings.CancelAdjust);
+            if (regex.IsMatch(message))
+            {
+                result = RecreateEventState.Cancel;
+                return result;
+            }
+
+            // check is change time
+            regex = new Regex(CalendarCommonStrings.AdjustTime);
+            if (regex.IsMatch(message))
+            {
+                result = RecreateEventState.Time;
+                return result;
+            }
+
+            // check is change duration
+            regex = new Regex(CalendarCommonStrings.AdjustDuration);
+            if (regex.IsMatch(message))
+            {
+                result = RecreateEventState.Duration;
+                return result;
+            }
+
+            // check is change subject
+            regex = new Regex(CalendarCommonStrings.AdjustSubject);
+            if (regex.IsMatch(message))
+            {
+                result = RecreateEventState.Subject;
+                return result;
+            }
+
+            // check is change content
+            regex = new Regex(CalendarCommonStrings.AdjustContent);
+            if (regex.IsMatch(message))
+            {
+                result = RecreateEventState.Content;
+                return result;
+            }
+
+            // check is change location
+            regex = new Regex(CalendarCommonStrings.AdjustLocation);
+            if (regex.IsMatch(message))
+            {
+                result = RecreateEventState.Location;
+                return result;
+            }
+
+            // check is change participants
+            regex = new Regex(CalendarCommonStrings.AdjustParticipants);
+            if (regex.IsMatch(message))
+            {
+                result = RecreateEventState.Participants;
+                return result;
+            }
+
+            // no match, go to exactly match
             try
             {
                 result = (RecreateEventState)Enum.Parse(typeof(RecreateEventState), message, true);

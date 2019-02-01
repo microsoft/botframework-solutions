@@ -130,6 +130,12 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 else
                 if (string.IsNullOrEmpty(state.Title) && !state.CreateHasDetail)
                 {
+                    if (state.Attendees.Count == 0 || state.Attendees == null)
+                    {
+                        state.FirstRetryInFindContact = true;
+                        return await sc.EndDialogAsync();
+                    }
+
                     var userNameString = state.Attendees.ToSpeechString(CommonStrings.And, li => li.DisplayName ?? li.Address);
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoTitle, ResponseBuilder, new StringDictionary() { { "UserName", userNameString } }) }, cancellationToken);
                 }
@@ -202,7 +208,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
 
                 ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
 
-                if (state.Attendees.Count == 0 && (!state.CreateHasDetail || state.RecreateState == RecreateEventState.Participants))
+                if (state.Attendees.Count == 0 && (!state.CreateHasDetail || state.RecreateState == RecreateEventState.Participants || state.AttendeesNameList.Count > 0))
                 {
                     return await sc.BeginDialogAsync(Actions.UpdateAddress, cancellationToken: cancellationToken);
                 }
@@ -362,11 +368,16 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 };
 
                 var startDateTimeInUserTimeZone = TimeConverter.ConvertUtcToUserTime(state.StartDateTime.Value, state.GetUserTimeZone());
+                var endDateTimeInUserTimeZone = TimeConverter.ConvertUtcToUserTime(state.EndDateTime.Value, state.GetUserTimeZone());
                 var tokens = new StringDictionary
                 {
                     { "Attendees", state.Attendees.ToSpeechString(CommonStrings.And, li => li.DisplayName ?? li.Address) },
                     { "Date", startDateTimeInUserTimeZone.ToSpeechDateString(true) },
                     { "Time", startDateTimeInUserTimeZone.ToSpeechTimeString(true) },
+                    { "EndTime", endDateTimeInUserTimeZone.ToSpeechTimeString(true) },
+                    { "Subject", state.Title },
+                    { "Location", state.Location },
+                    { "Content", state.Content },
                 };
 
                 var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(CreateEventResponses.ConfirmCreate, newEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", newEvent.ToAdaptiveCardData(state.GetUserTimeZone(), showContent: true), tokens: tokens);
@@ -403,8 +414,12 @@ namespace CalendarSkill.Dialogs.CreateEvent
                     var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
                     if (await calendarService.CreateEvent(newEvent) != null)
                     {
+                        var tokens = new StringDictionary
+                        {
+                            { "Subject", state.Title },
+                        };
                         newEvent.ContentPreview = state.Content;
-                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(CreateEventResponses.EventCreated, newEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", newEvent.ToAdaptiveCardData(state.GetUserTimeZone(), showContent: true));
+                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(CreateEventResponses.EventCreated, newEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", newEvent.ToAdaptiveCardData(state.GetUserTimeZone(), showContent: true), ResponseBuilder, tokens);
                         await sc.Context.SendActivityAsync(replyMessage, cancellationToken);
                     }
                     else

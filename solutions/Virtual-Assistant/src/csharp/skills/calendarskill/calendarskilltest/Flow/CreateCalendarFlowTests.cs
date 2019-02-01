@@ -32,10 +32,6 @@ namespace CalendarSkillTest.Flow
                     { "calendar", new MockLuisRecognizer(new CreateMeetingTestUtterances()) }
                 }
             });
-
-            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.SetupCalendarService(MockCalendarService.FakeDefaultEvents());
-            serviceManager.SetupUserService(MockUserService.FakeDefaultUsers(), MockUserService.FakeDefaultPeople());
         }
 
         [TestMethod]
@@ -80,6 +76,8 @@ namespace CalendarSkillTest.Flow
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.ConfirmOneContactPrompt())
+                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReply(this.ShowCalendarList())
@@ -110,6 +108,8 @@ namespace CalendarSkillTest.Flow
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.ConfirmOneContactPrompt())
+                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReply(this.ShowCalendarList())
@@ -136,6 +136,8 @@ namespace CalendarSkillTest.Flow
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.ConfirmOneContactPrompt())
+                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReply(this.ShowCalendarList())
@@ -167,6 +169,8 @@ namespace CalendarSkillTest.Flow
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.ConfirmOneContactPrompt())
+                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReply(this.ShowCalendarList())
@@ -195,6 +199,8 @@ namespace CalendarSkillTest.Flow
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.ConfirmOneContactPrompt())
+                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReply(this.ShowCalendarList())
@@ -221,6 +227,8 @@ namespace CalendarSkillTest.Flow
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.ConfirmOneContactPrompt())
+                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReply(this.ShowCalendarList())
@@ -280,8 +288,8 @@ namespace CalendarSkillTest.Flow
             StringDictionary recipientDupDict = new StringDictionary() { { "UserName", testDupRecipient }, { "EmailAddress", testDupEmailAddress } };
 
             int peopleCount = 3;
-            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.SetupUserService(MockUserService.FakeDefaultUsers(), MockUserService.FakeMultiplePeoples(peopleCount));
+            this.ServiceManager = MockServiceManager.SetPeopleToMultiple(peopleCount);
+
             await this.GetTestFlow()
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
                 .AssertReply(this.ShowAuth())
@@ -334,6 +342,8 @@ namespace CalendarSkillTest.Flow
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.ConfirmOneContactPrompt())
+                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReply(this.ShowCalendarList())
@@ -459,6 +469,17 @@ namespace CalendarSkillTest.Flow
             };
 
             return this.ParseReplies(CreateEventResponses.NoTitle.Replies, responseParams);
+        }
+
+        private string[] ConfirmOneContactPrompt(string userName = null, string emailAddress = null)
+        {
+            var responseParams = new StringDictionary()
+            {
+                { "UserName", userName ?? Strings.Strings.DefaultUserName },
+                { "EmailAddress", emailAddress ?? Strings.Strings.DefaultUserEmail }
+            };
+
+            return this.ParseReplies(FindContactResponses.PromptOneNameOneAddress.Replies, responseParams);
         }
 
         private string[] AskForSubjectShortPrompt(string userName = null)

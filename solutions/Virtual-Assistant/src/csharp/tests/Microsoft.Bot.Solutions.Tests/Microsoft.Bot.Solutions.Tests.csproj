@@ -7,33 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.de.json" />
-    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.es.json" />
-    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.fr.json" />
-    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.it.json" />
-    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.json" />
-    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.zh.json" />
-    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Main\Resources\MainResponses.de.json" />
-    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Main\Resources\MainResponses.es.json" />
-    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Main\Resources\MainResponses.fr.json" />
-    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Main\Resources\MainResponses.it.json" />
-    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Main\Resources\MainResponses.json" />
-    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Main\Resources\MainResponses.zh.json" />
-    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Sample\Resources\SampleResponses.de.json" />
-    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Sample\Resources\SampleResponses.es.json" />
-    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Sample\Resources\SampleResponses.fr.json" />
-    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Sample\Resources\SampleResponses.it.json" />
-    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Sample\Resources\SampleResponses.json" />
-    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Sample\Resources\SampleResponses.zh.json" />
-    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Shared\Resources\SharedResponses.de.json" />
-    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Shared\Resources\SharedResponses.es.json" />
-    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Shared\Resources\SharedResponses.fr.json" />
-    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Shared\Resources\SharedResponses.it.json" />
-    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Shared\Resources\SharedResponses.json" />
-    <None Remove="Skills\Fakes\FakeSkill\Dialogs\Shared\Resources\SharedResponses.zh.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="Skills\Fakes\FakeSkill\Dialogs\Main\Resources\MainResponses.de.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

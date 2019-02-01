@@ -132,6 +132,12 @@ namespace EmailSkill.Dialogs.SendEmail
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
 
+                if (state.Recipients.Count == 0 || state.Recipients == null)
+                {
+                    state.FirstRetryInFindContact = true;
+                    return await sc.EndDialogAsync();
+                }
+
                 if (!string.IsNullOrWhiteSpace(state.Subject))
                 {
                     return await sc.NextAsync();
@@ -157,7 +163,6 @@ namespace EmailSkill.Dialogs.SendEmail
 
                 if (state.Recipients.Count == 0 || state.Recipients == null)
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(FindContactResponses.UserNotFoundAgain, null, new StringDictionary() { { "source", state.MailSourceType == Model.MailSource.Microsoft ? "Outlook" : "Gmail" } }));
                     state.FirstRetryInFindContact = true;
                     return await sc.EndDialogAsync();
                 }
@@ -249,6 +254,12 @@ namespace EmailSkill.Dialogs.SendEmail
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
+
+                if (state.Recipients.Count == 0 || state.Recipients == null)
+                {
+                    state.FirstRetryInFindContact = true;
+                    return await sc.EndDialogAsync();
+                }
 
                 if (!string.IsNullOrWhiteSpace(state.Content))
                 {

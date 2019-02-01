@@ -255,7 +255,7 @@ namespace Microsoft.Bot.Solutions.Skills
                     }
                     else
                     {
-                        // if the conversation id from the activity is differnt from the context activity, it's proactive message
+                        // if the conversation id from the activity is different from the context activity, it's proactive message
                         await innerDc.Context.Adapter.ContinueConversationAsync(_endpointService.AppId, firstActivity.GetConversationReference(), CreateCallback(queue.ToArray()), default(CancellationToken));
                     }
                 }
