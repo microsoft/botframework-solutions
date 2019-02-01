@@ -73,5 +73,11 @@ namespace EmailSkillTest.API.Service
         {
             await MailService.DeleteMessageAsync("1");
         }
+
+        [TestMethod]
+        public async Task MartAsReadTest()
+        {
+            await MailService.MarkMessageAsReadAsync("1");
+        }
     }
 }

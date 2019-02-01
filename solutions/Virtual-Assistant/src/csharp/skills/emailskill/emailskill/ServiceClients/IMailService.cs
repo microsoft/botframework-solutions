@@ -54,5 +54,12 @@ namespace EmailSkill.ServiceClients
         /// <param name="id">Id of email to delete.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         Task DeleteMessageAsync(string id);
+
+        /// <summary>
+        /// Mark an email as read.
+        /// </summary>
+        /// <param name="id">Id of email to update.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        Task MarkMessageAsReadAsync(string id);
     }
 }

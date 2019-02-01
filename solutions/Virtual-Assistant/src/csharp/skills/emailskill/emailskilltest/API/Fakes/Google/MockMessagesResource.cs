@@ -99,5 +99,23 @@ namespace EmailSkillTest.API.Fakes.Google
                 return Task.FromResult(this.Id);
             }
         }
+
+        public class MockModifyRequest : MessagesResource.ModifyRequest, IClientServiceRequest<GmailMessage>
+        {
+            public MockModifyRequest(IClientService service, ModifyMessageRequest modifyRequest, string userId, string id)
+                : base(service, modifyRequest, userId, id)
+            {
+            }
+
+            public new Task<GmailMessage> ExecuteAsync()
+            {
+                if (UserId != "me")
+                {
+                    throw new Exception("User ID not support");
+                }
+
+                return Task.FromResult(GmailUtil.GetFakeGmailMessage());
+            }
+        }
     }
 }

@@ -390,9 +390,34 @@ namespace EmailSkill.ServiceClients.GoogleAPI
 
         public async Task DeleteMessageAsync(string id)
         {
-            var deleteRequest = service.Users.Messages.Delete(
+            try
+            {
+                var deleteRequest = service.Users.Messages.Delete(
                 "me", id);
-            await ((IClientServiceRequest<string>)deleteRequest).ExecuteAsync();
+                await ((IClientServiceRequest<string>)deleteRequest).ExecuteAsync();
+            }
+            catch (GoogleApiException ex)
+            {
+                throw GoogleClient.HandleGoogleAPIException(ex);
+            }
+        }
+
+        public async Task MarkMessageAsReadAsync(string id)
+        {
+            try
+            {
+                ModifyMessageRequest mods = new ModifyMessageRequest();
+                List<string> labelsToRemove = new List<string>() { "UNREAD" };
+                mods.RemoveLabelIds = labelsToRemove;
+
+                var updateRequest = service.Users.Messages.Modify(
+                    mods, "me", id);
+                await ((IClientServiceRequest<GmailMessage>)updateRequest).ExecuteAsync();
+            }
+            catch (GoogleApiException ex)
+            {
+                throw GoogleClient.HandleGoogleAPIException(ex);
+            }
         }
 
         public string AppendFilterString(string old, string filterString)

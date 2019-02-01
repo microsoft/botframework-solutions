@@ -1,4 +1,5 @@
 ﻿using Google.Apis.Gmail.v1;
+using Google.Apis.Gmail.v1.Data;
 using Moq;
 using static Google.Apis.Gmail.v1.UsersResource;
 using GmailMessage = Google.Apis.Gmail.v1.Data.Message;
@@ -51,6 +52,12 @@ namespace EmailSkillTest.API.Fakes.Google
             {
                 MockMessagesResource.MockDeleteRequest mockDeleteRequest = new MockMessagesResource.MockDeleteRequest(this.mockMailService.Object, userId, id);
                 return mockDeleteRequest;
+            });
+
+            this.mockMessagesResource.Setup(messages => messages.Modify(It.IsAny<ModifyMessageRequest>(), It.IsAny<string>(), It.IsAny<string>())).Returns((ModifyMessageRequest modifyRequest, string userId, string id) =>
+            {
+                MockMessagesResource.MockModifyRequest mockModifyRequest = new MockMessagesResource.MockModifyRequest(this.mockMailService.Object, modifyRequest, userId, id);
+                return mockModifyRequest;
             });
         }
 
