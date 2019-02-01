@@ -81,5 +81,23 @@ namespace EmailSkillTest.API.Fakes.Google
                 return Task.FromResult(result);
             }
         }
+
+        public class MockDeleteRequest : MessagesResource.DeleteRequest, IClientServiceRequest<string>
+        {
+            public MockDeleteRequest(IClientService service, string userId, string id)
+                : base(service, userId, id)
+            {
+            }
+
+            public new Task<string> ExecuteAsync()
+            {
+                if (UserId != "me")
+                {
+                    throw new Exception("User ID not support");
+                }
+
+                return Task.FromResult(this.Id);
+            }
+        }
     }
 }

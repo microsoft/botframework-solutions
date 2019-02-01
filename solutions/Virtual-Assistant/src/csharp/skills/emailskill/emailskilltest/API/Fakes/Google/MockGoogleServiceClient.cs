@@ -46,6 +46,12 @@ namespace EmailSkillTest.API.Fakes.Google
 
                 return mockListRequest;
             });
+
+            this.mockMessagesResource.Setup(messages => messages.Delete(It.IsAny<string>(), It.IsAny<string>())).Returns((string userId, string id) =>
+            {
+                MockMessagesResource.MockDeleteRequest mockDeleteRequest = new MockMessagesResource.MockDeleteRequest(this.mockMailService.Object, userId, id);
+                return mockDeleteRequest;
+            });
         }
 
         public Mock<GmailService> GetMockGraphServiceClient()
