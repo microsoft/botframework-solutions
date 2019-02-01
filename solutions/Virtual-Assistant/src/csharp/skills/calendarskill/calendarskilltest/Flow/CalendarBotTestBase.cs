@@ -46,14 +46,18 @@ namespace CalendarSkillTest.Flow
             this.Services = new MockSkillConfiguration();
 
             builder.RegisterInstance(new BotStateSet(this.UserState, this.ConversationState));
-            var fakeServiceManager = new MockCalendarServiceManager();
-            builder.RegisterInstance<IServiceManager>(fakeServiceManager);
 
             this.Container = builder.Build();
-            this.ServiceManager = fakeServiceManager;
+            this.ServiceManager = MockServiceManager.GetCalendarService();
 
             this.BotResponseBuilder = new BotResponseBuilder();
             this.BotResponseBuilder.AddFormatter(new TextBotResponseFormatter());
+        }
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            this.ServiceManager = MockServiceManager.SetAllToDefault();
         }
 
         public Activity GetAuthResponse()
