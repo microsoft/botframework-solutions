@@ -29,6 +29,7 @@ export abstract class RouterDialog extends ComponentDialog {
                 if (activity.value !== undefined) {
                     await this.onEvent(dc);
                 } else if (typeof activity.text !== undefined && activity.text) {
+                    // tslint:disable-next-line:no-any
                     const result: DialogTurnResult<any> = await dc.continueDialog();
                     switch (result.status) {
                         case DialogTurnStatus.empty: {
@@ -77,7 +78,7 @@ export abstract class RouterDialog extends ComponentDialog {
     /**
      * Called when an event activity is received.
      * @param innerDC - The dialog context for the component.
-     * @returns A Promise representing the asynchronous operation. 
+     * @returns A Promise representing the asynchronous operation.
      */
     protected onEvent(innerDC: DialogContext): Promise<void> {
         return Promise.resolve();

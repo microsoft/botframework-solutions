@@ -6,16 +6,18 @@ import {
     RecognizerResult,
     StatePropertyAccessor,
     UserState} from 'botbuilder';
-import { LuisRecognizer } from 'botbuilder-ai';
+import {
+        LuisRecognizer,
+        QnAMakerResult } from 'botbuilder-ai';
 import { DialogContext } from 'botbuilder-dialogs';
 import { BotServices } from '../../botServices';
+import { TelemetryLuisRecognizer } from '../../middleware/telemetry/telemetryLuisRecognizer';
+import { TelemetryQnAMaker } from '../../middleware/telemetry/telemetryQnAMaker';
 import { EscalateDialog } from '../escalate/escalateDialog';
 import { OnboardingDialog } from '../onboarding/onboardingDialog';
 import { IOnboardingState } from '../onboarding/onboardingState';
 import { RouterDialog } from '../shared/routerDialog';
 import { MainResponses } from './mainResponses';
-import { TelemetryLuisRecognizer } from '../../middleware/telemetry/telemetryLuisRecognizer';
-import { TelemetryQnAMaker } from '../../middleware/telemetry/telemetryQnAMaker';
 
 export class MainDialog extends RouterDialog {
 
@@ -91,7 +93,7 @@ export class MainDialog extends RouterDialog {
             if (!qnaService) {
                 return Promise.reject(new Error('The specified QnA Maker Service could not be found in your Bot Services configuration.'));
             } else {
-                const answers: any = await qnaService.getAnswersAsync(dc.context);
+                const answers: QnAMakerResult[] = await qnaService.getAnswersAsync(dc.context);
 
                 if (answers && answers.length !== 0) {
                     await dc.context.sendActivity(answers[0].answer);
@@ -102,6 +104,7 @@ export class MainDialog extends RouterDialog {
             if (!qnaService) {
                 return Promise.reject(new Error('The specified QnA Maker Service could not be found in your Bot Services configuration.'));
         } else {
+                // tslint:disable-next-line:no-any
                 const answers: any = await qnaService.getAnswersAsync(dc.context);
 
                 if (answers && answers.length !== 0) {
@@ -117,6 +120,7 @@ export class MainDialog extends RouterDialog {
     protected onEvent(dc: DialogContext): Promise<void> {
         // Check if there was an action submitted from intro card
         if (dc.context.activity.value) {
+            // tslint:disable-next-line:no-any
             const value: any = dc.context.activity.value;
             if (value.action === 'startOnboarding') {
                 dc.beginDialog(OnboardingDialog.name);

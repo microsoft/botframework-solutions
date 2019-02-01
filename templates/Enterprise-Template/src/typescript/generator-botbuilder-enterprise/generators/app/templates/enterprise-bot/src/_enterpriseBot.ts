@@ -44,6 +44,7 @@ export class <%= botNameClass %> {
      */
     public async onTurn(turnContext: TurnContext): Promise<void> {
         const dc: DialogContext = await this.DIALOGS.createContext(turnContext);
+        // tslint:disable-next-line:no-any
         const result: DialogTurnResult<any> = await dc.continueDialog();
 
         if (result.status === DialogTurnStatus.empty) {
