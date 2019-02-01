@@ -247,7 +247,7 @@ namespace EmailSkillTest.Flow
                 .Send(SendEmailUtterances.SendEmailToNobody)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.CoundNotFindUser())
+                .AssertReply(this.CoundNotFindUser(recipientDict))
                 .Send(testRecipientConfirm)
                 .AssertReply(this.CollectSubjectMessage(recipientConfirmDict))
                 .Send(ContextStrings.TestSubject)
@@ -382,9 +382,13 @@ namespace EmailSkillTest.Flow
             };
         }
 
-        private string[] CoundNotFindUser()
+        private Action<IActivity> CoundNotFindUser(StringDictionary recipient)
         {
-            return this.ParseReplies(FindContactResponses.UserNotFound.Replies, new StringDictionary());
+            return activity =>
+            {
+                var messageActivity = activity.AsMessageActivity();
+                CollectionAssert.Contains(this.ParseReplies(FindContactResponses.UserNotFound.Replies, recipient), messageActivity.Text);
+            };
         }
 
         private Action<IActivity> AssertComfirmBeforeSendingPrompt()
