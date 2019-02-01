@@ -60,7 +60,7 @@ namespace EmailSkill.Util
                     : message.ReceivedDateTime.Value.UtcDateTime.ToRelativeString(timeZone);
                 string subject = message.Subject ?? EmailCommonStrings.EmptySubject;
                 string sender = (message.Sender?.EmailAddress?.Name != null) ? message.Sender.EmailAddress.Name : EmailCommonStrings.UnknownSender;
-                string content = message.BodyPreview ?? EmailCommonStrings.EmptyContent;
+                string content = message.Body.Content ?? EmailCommonStrings.EmptyContent;
                 speakString = string.Format(EmailCommonStrings.FromDetailsFormatAll, sender, time, subject, content);
             }
 

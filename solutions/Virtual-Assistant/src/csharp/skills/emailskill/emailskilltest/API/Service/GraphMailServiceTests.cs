@@ -137,5 +137,14 @@ namespace EmailSkillTest.API.Service
 
             await mailService.DeleteMessageAsync("1");
         }
+
+        public async Task MarkAsReadTest()
+        {
+            var mockGraphServiceClient = new MockGraphServiceClient();
+            IGraphServiceClient serviceClient = mockGraphServiceClient.GetMockGraphServiceClient().Object;
+            MSGraphMailAPI mailService = new MSGraphMailAPI(serviceClient, timeZoneInfo: TimeZoneInfo.Local);
+
+            await mailService.MarkMessageAsReadAsync("1");
+        }
     }
 }

@@ -138,7 +138,7 @@ namespace EmailSkill.Dialogs.SendEmail
                     return await sc.EndDialogAsync();
                 }
 
-                if (state.Subject != null)
+                if (!string.IsNullOrWhiteSpace(state.Subject))
                 {
                     return await sc.NextAsync();
                 }
@@ -378,15 +378,17 @@ namespace EmailSkill.Dialogs.SendEmail
                     var service = ServiceManager.InitMailService(token, state.GetUserTimeZone(), state.MailSourceType);
 
                     // send user message.
-                    await service.SendMessageAsync(state.Content, state.Subject, state.Recipients);
+                    var subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? string.Empty : state.Subject;
+                    var content = state.Content.Equals(EmailCommonStrings.EmptyContent) ? string.Empty : state.Content;
+                    await service.SendMessageAsync(content, subject, state.Recipients);
 
                     var nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(state.Recipients);
 
                     var emailCard = new EmailCardData
                     {
-                        Subject = string.Format(EmailCommonStrings.SubjectFormat, state.Subject),
+                        Subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? null : string.Format(EmailCommonStrings.SubjectFormat, state.Subject),
                         NameList = string.Format(EmailCommonStrings.ToFormat, nameListString),
-                        EmailContent = string.Format(EmailCommonStrings.ContentFormat, state.Content),
+                        EmailContent = state.Content.Equals(EmailCommonStrings.EmptyContent) ? null : string.Format(EmailCommonStrings.ContentFormat, state.Content),
                     };
 
                     var stringToken = new StringDictionary

@@ -129,6 +129,9 @@ namespace EmailSkill.ServiceClients.GoogleAPI
                     forward.To.Add(new MailboxAddress(recipient.EmailAddress.Address));
                 }
 
+                // set the reply subject
+                forward.Subject = string.Format(EmailCommonStrings.ForwardReplyFormat, originalMessage.Subject);
+
                 // construct the References headers
                 foreach (var mid in originalMessage.References)
                 {
@@ -240,6 +243,16 @@ namespace EmailSkill.ServiceClients.GoogleAPI
                 else if (originMessage.Sender != null)
                 {
                     reply.To.Add(originMessage.Sender);
+                }
+
+                // set the reply subject
+                if (!originMessage.Subject.StartsWith(EmailCommonStrings.Reply, StringComparison.OrdinalIgnoreCase))
+                {
+                    reply.Subject = string.Format(EmailCommonStrings.ReplyReplyFormat, originMessage.Subject);
+                }
+                else
+                {
+                    reply.Subject = originMessage.Subject;
                 }
 
                 // construct the In-Reply-To and References headers
@@ -375,9 +388,36 @@ namespace EmailSkill.ServiceClients.GoogleAPI
             }
         }
 
-        public Task DeleteMessageAsync(string id)
+        public async Task DeleteMessageAsync(string id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var deleteRequest = service.Users.Messages.Delete(
+                "me", id);
+                await ((IClientServiceRequest<string>)deleteRequest).ExecuteAsync();
+            }
+            catch (GoogleApiException ex)
+            {
+                throw GoogleClient.HandleGoogleAPIException(ex);
+            }
+        }
+
+        public async Task MarkMessageAsReadAsync(string id)
+        {
+            try
+            {
+                ModifyMessageRequest mods = new ModifyMessageRequest();
+                List<string> labelsToRemove = new List<string>() { "UNREAD" };
+                mods.RemoveLabelIds = labelsToRemove;
+
+                var updateRequest = service.Users.Messages.Modify(
+                    mods, "me", id);
+                await ((IClientServiceRequest<GmailMessage>)updateRequest).ExecuteAsync();
+            }
+            catch (GoogleApiException ex)
+            {
+                throw GoogleClient.HandleGoogleAPIException(ex);
+            }
         }
 
         public string AppendFilterString(string old, string filterString)
