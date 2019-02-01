@@ -458,7 +458,6 @@ namespace EmailSkill.Dialogs.Shared
                     {
                         if (state.Recipients.Count == 0 || state.Recipients == null)
                         {
-                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(FindContactResponses.UserNotFoundAgain, null, new StringDictionary() { { "source", state.MailSourceType == Model.MailSource.Microsoft ? "Outlook" : "Gmail" } }));
                             state.FirstRetryInFindContact = true;
                             return await sc.EndDialogAsync();
                         }
