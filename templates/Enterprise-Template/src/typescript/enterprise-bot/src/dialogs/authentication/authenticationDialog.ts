@@ -25,6 +25,7 @@ export class AuthenticationDialog extends ComponentDialog {
         this.initialDialogId = AuthenticationDialog.name;
         this.CONNECTION_NAME = connectionName;
 
+        // tslint:disable-next-line:no-any
         const authenticate: ((sc: WaterfallStepContext<{}>) => Promise<DialogTurnResult<any>>)[] = [
             this.prompToLogin.bind(this),
             this.finishLoginhDialog.bind(this)

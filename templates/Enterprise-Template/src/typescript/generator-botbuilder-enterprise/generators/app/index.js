@@ -314,7 +314,8 @@ module.exports = class extends Generator {
       "gitignore",
       "README.md",
       "tsconfig.json",
-      "deploymentScripts/webConfigPrep.js"
+      "deploymentScripts/webConfigPrep.js",
+      "tslint.json"
     ];
 
     commonFiles.forEach(fileName =>

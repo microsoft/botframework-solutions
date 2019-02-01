@@ -28,6 +28,7 @@ export class OnboardingDialog extends EnterpriseDialog {
         this.ACCESSOR = accessor;
         this.initialDialogId = OnboardingDialog.name;
 
+        // tslint:disable-next-line:no-any
         const onboarding: ((sc: WaterfallStepContext<IOnboardingState>) => Promise<DialogTurnResult<any>>)[] = [
             this.askForName.bind(this),
             this.askForEmail.bind(this),

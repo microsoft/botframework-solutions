@@ -35,7 +35,6 @@ import { BotServices } from './botServices';
 import { EnterpriseBot } from './enterpriseBot';
 // Content Moderation Middleware (analyzes incoming messages for inappropriate content including PII, profanity, etc.)
 import { ContentModeratorMiddleware } from './middleware/contentModeratorMiddleware';
-import { RequestPolicyOptions } from 'ms-rest-js';
 
 i18n.configure({
     directory: path.join(__dirname, 'locales'),
@@ -71,7 +70,7 @@ const ADAPTER: BotFrameworkAdapter = new BotFrameworkAdapter({
     appPassword: ENDPOINT_CONFIG.appPassword || process.env.microsoftAppPassword
 });
 
-import { TelemetryLoggerMiddleware } from "./middleware/telemetry/telemetryLoggerMiddleware";
+import { TelemetryLoggerMiddleware } from './middleware/telemetry/telemetryLoggerMiddleware';
 // Get AppInsights configuration by service name
 const APPINSIGHTS_CONFIGURATION: string = process.env.APPINSIGHTS_NAME || '';
 const APPINSIGHTS_CONFIG: IAppInsightsService = <IAppInsightsService> BOT_CONFIG.findServiceByNameOrId(APPINSIGHTS_CONFIGURATION);
@@ -82,18 +81,18 @@ if (!APPINSIGHTS_CONFIG) {
 const TELEMETRY_CLIENT: TelemetryClient = new TelemetryClient(APPINSIGHTS_CONFIG.instrumentationKey);
 
 ADAPTER.onTurnError = async (turnContext: TurnContext, error: Error): Promise<void> => {
-let appInsightsLogger = new TelemetryLoggerMiddleware( TELEMETRY_CLIENT, true,  true);
+const appInsightsLogger: TelemetryLoggerMiddleware = new TelemetryLoggerMiddleware(TELEMETRY_CLIENT, true,  true);
 ADAPTER.use(appInsightsLogger);
 
-
-    // CAUTION:  The sample simply logs the error to the console.
-    console.error(error);
-    // For production bots, use AppInsights or similar telemetry system.
-    // tell the user something happen
-    TELEMETRY_CLIENT.trackException({ exception: error });
-    // for multi-turn dialog interactions,
-    // make sure we clear the conversation state
-    await turnContext.sendActivity('Sorry, it looks like something went wrong.');
+// CAUTION:  The sample simply logs the error to the console.
+// tslint:disable-next-line:no-console
+console.error(error);
+// For production bots, use AppInsights or similar telemetry system.
+// tell the user something happen
+TELEMETRY_CLIENT.trackException({ exception: error });
+// for multi-turn dialog interactions,
+// make sure we clear the conversation state
+await turnContext.sendActivity('Sorry, it looks like something went wrong.');
 };
 
 // CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
@@ -112,10 +111,11 @@ const COSMOS_DB_STORAGE_SETTINGS: CosmosDbStorageSettings = {
     serviceEndpoint: COSMOS_CONFIG.endpoint,
     databaseCreationRequestOptions: REQUEST_OPTIONS ,
     documentCollectionRequestOptions: REQUEST_OPTIONS
-}
+};
 const STORAGE: CosmosDbStorage  = new CosmosDbStorage(COSMOS_DB_STORAGE_SETTINGS);
 
 if (!COSMOS_CONFIG) {
+    // tslint:disable-next-line:no-console
     console.log('Please configure your CosmosDB connection in your .bot file.');
     process.exit(BOT_CONFIGURATION_ERROR);
 }
@@ -132,6 +132,7 @@ ADAPTER.use(new AutoSaveStateMiddleware(CONVERSATION_STATE, USER_STATE));
 const BLOB_CONFIGURATION: string = process.env.BLOB_NAME || ''; // this is the name of the BlobStorage configuration in your .bot file
 const BLOB_STORAGE_CONFIG: IBlobStorageService = <IBlobStorageService> BOT_CONFIG.findServiceByNameOrId(BLOB_CONFIGURATION);
 if (!BLOB_STORAGE_CONFIG) {
+    // tslint:disable-next-line:no-console
     console.log('Please configure your Blob storage connection in your .bot file.');
     process.exit(BOT_CONFIGURATION_ERROR);
 }
@@ -172,8 +173,11 @@ try {
 // Create server
 const SERVER: restify.Server = restify.createServer();
 SERVER.listen(process.env.port || process.env.PORT || 3978, (): void => {
+    // tslint:disable-next-line:no-console
     console.log(`${SERVER.name} listening to ${SERVER.url}`);
+    // tslint:disable-next-line:no-console
     console.log(`Get the Emulator: https://aka.ms/botframework-emulator`);
+    // tslint:disable-next-line:no-console
     console.log(`To talk to your bot, open your '.bot' file in the Emulator`);
 });
 

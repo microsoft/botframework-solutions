@@ -31,18 +31,21 @@ export class OnboardingResponses extends TemplateManager {
     private static readonly RESPONSE_TEMPLATES: LanguageTemplateDictionary = new Map([
         ['default', new Map([
             [OnboardingResponses.RESPONSE_IDS.NamePrompt, OnboardingResponses.fromResources('onBoarding.namePrompt')],
+            // tslint:disable-next-line:no-any
             [OnboardingResponses.RESPONSE_IDS.HaveNameMessage, async (context: TurnContext, data: any): Promise<string> => {
                 const value: string = i18n.__('onBoarding.haveName');
 
                 return value.replace('{0}', data.name);
             }],
             [OnboardingResponses.RESPONSE_IDS.EmailPrompt, OnboardingResponses.fromResources('onBoarding.emailPrompt')],
+            // tslint:disable-next-line:no-any
             [OnboardingResponses.RESPONSE_IDS.HaveEmailMessage, async (context: TurnContext, data: any): Promise<string> => {
                 const value: string = i18n.__('onBoarding.haveEmail');
 
                 return value.replace('{0}', data.email);
             }],
             [OnboardingResponses.RESPONSE_IDS.LocationPrompt, OnboardingResponses.fromResources('onBoarding.locationPrompt')],
+            // tslint:disable-next-line:no-any
             [OnboardingResponses.RESPONSE_IDS.HaveLocationMessage, async (context: TurnContext, data: any): Promise<string> => {
                 const value: string = i18n.__('onBoarding.haveLocation');
 
