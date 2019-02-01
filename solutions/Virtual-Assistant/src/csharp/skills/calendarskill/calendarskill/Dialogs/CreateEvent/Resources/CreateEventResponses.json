@@ -20,8 +20,12 @@
   "NoContent": {
     "replies": [
       {
-        "text": "What would you like to add in the meeting details?",
+        "text": "What do you want to add in the meeting details?",
         "speak": "What would you like to add in the meeting details?"
+      },
+      {
+        "text": "What do you want to add as content?",
+        "speak": "What do you want to add as content?"
       }
     ],
     "inputHint": "expectingInput"
@@ -29,8 +33,8 @@
   "NoLocation": {
     "replies": [
       {
-        "text": "What is the location for the meeting?",
-        "speak": "What is the location for the meeting?"
+        "text": "Where will be the event take place?",
+        "speak": "Where will be the event take place?"
       }
     ],
     "inputHint": "expectingInput"
@@ -38,8 +42,8 @@
   "ConfirmCreate": {
     "replies": [
       {
-        "text": "I'm ready to create the meeting. Please confirm the following:",
-        "speak": "OK, I'll setup a meeting with {Attendees} for {Date} {Time}, sound good?"
+        "text": "I'm ready to create the event. The event is on {Date} at {Time} till {EndTime}, with {Attendees}. The subject of the event is {Subject}. The event will take place at {Location}. The message is {Content}. Can you confirm this event?",
+        "speak": "I'm ready to create the event. The event is on {Date} at {Time} till {EndTime}, with {Attendees}. The subject of the event is {Subject}. The event will take place at {Location}. The message is {Content}. Can you confirm this event?"
       }
     ],
     "inputHint": "expectingInput"
@@ -56,8 +60,8 @@
   "EventCreated": {
     "replies": [
       {
-        "text": "OK, I have added the event to your calendar.",
-        "speak": "OK, I have added the event to your calendar."
+        "text": "OK, I have added the event to your calendar. named {Subject}",
+        "speak": "OK, I have added the event to your calendar. named {Subject}"
       }
     ],
     "inputHint": "acceptingInput"
@@ -91,8 +95,8 @@
   "NoAttendees": {
     "replies": [
       {
-        "text": "Who will join?",
-        "speak": "Who will join?"
+        "text": "Sure, who will join?",
+        "speak": "Sure, who will join?"
       }
     ],
     "inputHint": "expectingInput"
@@ -143,8 +147,8 @@
   "NoStartDate_Retry": {
     "replies": [
       {
-        "text": "I don't understand the date you provided, can you try again?",
-        "speak": "I don't understand the date you provided, can you try again?"
+        "text": "I did not understand the date you preference, can you try again?",
+        "speak": "I did not understand the date you preference, can you try again?"
       },
       {
         "text": "I don't understand the date you provided, can you try in a different way again? You can say tomorrow, Monday, or a specific date such as January 1st.",
@@ -156,8 +160,8 @@
   "NoStartTime": {
     "replies": [
       {
-        "text": "What time does it start?",
-        "speak": "What time does it start?"
+        "text": "What time does it start? You can help me by naming out AM or PM for the event.",
+        "speak": "What time does it start? You can help me by naming out AM or PM for the event."
       }
     ],
     "inputHint": "expectingInput"
@@ -167,6 +171,10 @@
       {
         "text": "I don't understand the time you provided, can you try again?",
         "speak": "I don't understand the date you provided, can you try again?"
+      },
+      {
+        "text": "I believe I misinterpretated your prefferred starting time. Want to try again?",
+        "speak": "I believe I misinterpretated your prefferred starting time. Want to try again?"
       }
     ],
     "inputHint": "expectingInput"
@@ -183,8 +191,8 @@
   "NoDuration": {
     "replies": [
       {
-        "text": "How long is the event for?",
-        "speak": "How long is the event for?"
+        "text": "For how long?",
+        "speak": "For how long?"
       }
     ],
     "inputHint": "expectingInput"
