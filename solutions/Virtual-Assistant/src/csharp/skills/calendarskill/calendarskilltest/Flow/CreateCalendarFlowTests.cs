@@ -76,6 +76,8 @@ namespace CalendarSkillTest.Flow
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.ConfirmOneContactPrompt())
+                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReply(this.ShowCalendarList())
@@ -106,6 +108,8 @@ namespace CalendarSkillTest.Flow
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.ConfirmOneContactPrompt())
+                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReply(this.ShowCalendarList())
@@ -132,6 +136,8 @@ namespace CalendarSkillTest.Flow
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.ConfirmOneContactPrompt())
+                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReply(this.ShowCalendarList())
@@ -163,6 +169,8 @@ namespace CalendarSkillTest.Flow
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.ConfirmOneContactPrompt())
+                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReply(this.ShowCalendarList())
@@ -191,6 +199,8 @@ namespace CalendarSkillTest.Flow
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.ConfirmOneContactPrompt())
+                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReply(this.ShowCalendarList())
@@ -217,6 +227,8 @@ namespace CalendarSkillTest.Flow
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.ConfirmOneContactPrompt())
+                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReply(this.ShowCalendarList())
@@ -330,6 +342,8 @@ namespace CalendarSkillTest.Flow
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.ConfirmOneContactPrompt())
+                .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReply(this.ShowCalendarList())
@@ -455,6 +469,17 @@ namespace CalendarSkillTest.Flow
             };
 
             return this.ParseReplies(CreateEventResponses.NoTitle.Replies, responseParams);
+        }
+
+        private string[] ConfirmOneContactPrompt(string userName = null, string emailAddress = null)
+        {
+            var responseParams = new StringDictionary()
+            {
+                { "UserName", userName ?? Strings.Strings.DefaultUserName },
+                { "EmailAddress", emailAddress ?? Strings.Strings.DefaultUserEmail }
+            };
+
+            return this.ParseReplies(FindContactResponses.PromptOneNameOneAddress.Replies, responseParams);
         }
 
         private string[] AskForSubjectShortPrompt(string userName = null)

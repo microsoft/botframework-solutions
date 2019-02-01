@@ -178,6 +178,15 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to no attendees.
+        /// </summary>
+        public static string NoAttendees {
+            get {
+                return ResourceManager.GetString("NoAttendees", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to today.
         /// </summary>
         public static string Today {
