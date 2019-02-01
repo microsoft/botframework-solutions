@@ -11,7 +11,9 @@
   "files": [
     "generators",
     "app",
-    "dialog"
+    "dialog",
+    ".gitignore",
+    ".npmignore"
   ],
   "main": "generators/app/index.js",
   "keywords": [
@@ -37,6 +39,7 @@
   "dependencies": {
     "chalk": "^2.4.2",
     "lodash": "^4.17.11",
+    "npmignore": "^0.2.0",
     "yeoman-generator": "^3.2.0"
   },
   "lint-staged": {
