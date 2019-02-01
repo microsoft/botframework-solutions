@@ -68,18 +68,62 @@ namespace EmailSkill.Dialogs.FindContact
                 var options = (UpdateUserDialogOptions)sc.Options;
                 if (options.Reason == UpdateUserDialogOptions.UpdateReason.ConfirmNo)
                 {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(EmailSharedResponses.NoRecipients) });
+                    return await sc.PromptAsync(
+                        Actions.Prompt,
+                        new PromptOptions
+                        {
+                            Prompt = sc.Context.Activity.CreateReply(EmailSharedResponses.NoRecipients)
+                        });
                 }
 
                 var currentRecipientName = state.NameList[state.ConfirmRecipientIndex];
                 if (state.FirstRetryInFindContact)
                 {
                     state.FirstRetryInFindContact = false;
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(FindContactResponses.UserNotFound) });
+                    return await sc.PromptAsync(
+                        Actions.Prompt,
+                        new PromptOptions
+                        {
+                            Prompt = sc.Context.Activity.CreateReply(
+                                FindContactResponses.UserNotFound,
+                                null,
+                                new StringDictionary()
+                                {
+                                    { "UserName", state.NameList[state.ConfirmRecipientIndex] }
+                                })
+                        });
                 }
                 else
                 {
-                    return await sc.CancelAllDialogsAsync();
+                    if (state.ConfirmRecipientIndex < state.NameList.Count())
+                    {
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(
+                            FindContactResponses.UserNotFoundAgain,
+                            null,
+                            new StringDictionary()
+                            {
+                                { "source", state.MailSourceType == Model.MailSource.Microsoft ? "Outlook" : "Gmail" },
+                                { "UserName", state.NameList[state.ConfirmRecipientIndex] }
+                            }));
+                        state.ConfirmRecipientIndex++;
+                        state.FirstRetryInFindContact = true;
+                        await sc.CancelAllDialogsAsync();
+                        return await sc.BeginDialogAsync(Actions.ConfirmName, options: sc.Options);
+                    }
+                    else
+                    {
+                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(
+                          FindContactResponses.UserNotFoundAgain,
+                          null,
+                          new StringDictionary()
+                          {
+                                { "source", state.MailSourceType == Model.MailSource.Microsoft ? "Outlook" : "Gmail" },
+                                { "UserName", state.NameList[state.ConfirmRecipientIndex] }
+                          }));
+                        state.ConfirmRecipientIndex = 0;
+                        state.FirstRetryInFindContact = true;
+                        return await sc.CancelAllDialogsAsync();
+                    }
                 }
             }
             catch (Exception ex)
@@ -109,6 +153,8 @@ namespace EmailSkill.Dialogs.FindContact
                     {
                         state.EmailList.Add(userInput);
                     }
+
+                    state.NameList.RemoveAt(state.ConfirmRecipientIndex);
                 }
                 else
                 {
@@ -116,8 +162,10 @@ namespace EmailSkill.Dialogs.FindContact
                     state.NameList[state.ConfirmRecipientIndex] = userInput;
                 }
 
+                await sc.CancelAllDialogsAsync();
+
                 // should not return with value, next step use the return value for confirmation.
-                return await sc.BeginDialogAsync(Actions.ConfirmName);
+                return await sc.BeginDialogAsync(Actions.ConfirmName, options: sc.Options);
             }
             catch (Exception ex)
             {
@@ -180,7 +228,7 @@ namespace EmailSkill.Dialogs.FindContact
                     }
                 }
 
-                if (state.UnconfirmedPerson.Count == 0 || state.ConfirmRecipientIndex < state.NameList.Count)
+                if (state.ConfirmRecipientIndex < state.NameList.Count)
                 {
                     var currentRecipientName = state.NameList[state.ConfirmRecipientIndex];
 
@@ -203,6 +251,7 @@ namespace EmailSkill.Dialogs.FindContact
                     // people you work with has the distinct email address has the highest priority
                     if (personList.Count == 1 && personList.First().ScoredEmailAddresses.Count() == 1)
                     {
+                        state.ConfirmedPerson = personList.First();
                         return await sc.ReplaceDialogAsync(Actions.ConfirmEmail, personList.First());
                     }
 
@@ -231,9 +280,13 @@ namespace EmailSkill.Dialogs.FindContact
                             }
                         }
                     }
-
-                    state.UnconfirmedPerson = unionList;
                 }
+                else
+                {
+                    return await sc.EndDialogAsync();
+                }
+
+                state.UnconfirmedPerson = unionList;
 
                 if (unionList.Count == 0)
                 {
@@ -380,7 +433,7 @@ namespace EmailSkill.Dialogs.FindContact
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var confirmedPerson = sc.Options as Person;
+                var confirmedPerson = state.ConfirmedPerson;
                 var name = confirmedPerson.DisplayName;
                 if (sc.Result is bool)
                 {
@@ -398,6 +451,7 @@ namespace EmailSkill.Dialogs.FindContact
                             state.Recipients.Add(recipient);
                         }
 
+                        state.FirstRetryInFindContact = true;
                         state.ConfirmRecipientIndex++;
                         if (state.ConfirmRecipientIndex < state.NameList.Count)
                         {
@@ -479,6 +533,7 @@ namespace EmailSkill.Dialogs.FindContact
                         }
 
                         state.ConfirmRecipientIndex++;
+                        state.FirstRetryInFindContact = true;
 
                         // Clean up data
                         state.ShowRecipientIndex = 0;

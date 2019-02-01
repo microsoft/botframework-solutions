@@ -47,8 +47,8 @@
   "UserNotFound": {
     "replies": [
       {
-        "text": "I could not find the contact you are looking for. Can you call out the name of the contact again? Please try to be as specific as possible.",
-        "speak": "I could not find the contact you are looking for. Can you call out the name of the contact again? Please try to be as specific as possible."
+        "text": "I could not find the \"{UserName}\" you are looking for. Can you call out the name of the contact again? Please try to be as specific as possible.",
+        "speak": "I could not find the \"{UserName}\" you are looking for. Can you call out the name of the contact again? Please try to be as specific as possible."
       }
     ],
     "inputHint": "expectingInput"
@@ -56,8 +56,8 @@
   "UserNotFoundAgain": {
     "replies": [
       {
-        "text": "Unfortunately, I could not find the contact you want to select. For next time, it could help if you add the contact to your contact book in {Source}.",
-        "speak": "Unfortunately, I could not find the contact you want to select. For next time, it could help if you add the contact to your contact book in {Source}."
+        "text": "Unfortunately, I could not find the \"{UserName}\" you want to select. For next time, it could help if you add the contact to your contact book in {Source}.",
+        "speak": "Unfortunately, I could not find the \"{UserName}\" you want to select. For next time, it could help if you add the contact to your contact book in {Source}."
       }
     ],
     "inputHint": "expectingInput"

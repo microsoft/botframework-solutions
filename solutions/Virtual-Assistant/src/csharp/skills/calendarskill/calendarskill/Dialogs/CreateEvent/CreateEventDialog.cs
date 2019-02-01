@@ -130,6 +130,12 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 else
                 if (string.IsNullOrEmpty(state.Title) && !state.CreateHasDetail)
                 {
+                    if (state.Attendees.Count == 0 || state.Attendees == null)
+                    {
+                        state.FirstRetryInFindContact = true;
+                        return await sc.EndDialogAsync();
+                    }
+
                     var userNameString = state.Attendees.ToSpeechString(CommonStrings.And, li => li.DisplayName ?? li.Address);
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoTitle, ResponseBuilder, new StringDictionary() { { "UserName", userNameString } }) }, cancellationToken);
                 }
