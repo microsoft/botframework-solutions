@@ -16,9 +16,6 @@
     <Content Include="Dialogs\VehicleSettings\Resources\normalization\amount_unit.tsv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dialogs\VehicleSettings\Resources\normalization\index_map.tsv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>
