@@ -16,31 +16,7 @@
     <Content Include="Dialogs\VehicleSettings\Resources\normalization\amount_unit.tsv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Dialogs\VehicleSettings\Resources\normalization\color.tsv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Dialogs\VehicleSettings\Resources\normalization\feel.tsv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Dialogs\VehicleSettings\Resources\normalization\hand_side.tsv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Dialogs\VehicleSettings\Resources\normalization\illumination.tsv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Dialogs\VehicleSettings\Resources\normalization\index_map.tsv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Dialogs\VehicleSettings\Resources\normalization\occurrence.tsv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Dialogs\VehicleSettings\Resources\normalization\perception_type.tsv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Dialogs\VehicleSettings\Resources\normalization\sound.tsv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Dialogs\VehicleSettings\Resources\normalization\vehicle_part.tsv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
