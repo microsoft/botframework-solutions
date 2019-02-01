@@ -388,9 +388,11 @@ namespace EmailSkill.ServiceClients.GoogleAPI
             }
         }
 
-        public Task DeleteMessageAsync(string id)
+        public async Task DeleteMessageAsync(string id)
         {
-            throw new NotImplementedException();
+            var deleteRequest = service.Users.Messages.Delete(
+                "me", id);
+            await ((IClientServiceRequest<string>)deleteRequest).ExecuteAsync();
         }
 
         public string AppendFilterString(string old, string filterString)
