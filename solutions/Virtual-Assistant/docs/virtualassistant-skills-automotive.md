@@ -209,7 +209,7 @@ Once you have followed the deployment instructions above, open the provided .bot
 ## Deploying the Virtual Assistant with the Automotive Skill
 
 1. Update the Virtual Assistant deployment scripts.
-    - Add the addition automotive skill LUIS models to the bot.recipe file located witnin your assistant project: `assistant\DeploymentScripts\en\bot.recipe`
+    - Add the additional automotive skill LUIS models to the bot.recipe file located witnin your assistant project: `assistant\DeploymentScripts\en\bot.recipe`
         ```
         {
             "type": "luis",
