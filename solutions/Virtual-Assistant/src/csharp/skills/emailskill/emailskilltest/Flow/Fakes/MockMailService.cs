@@ -131,5 +131,10 @@ namespace EmailSkillTest.Flow.Fakes
 
             return message;
         }
+
+        public async Task MarkMessageAsReadAsync(string id)
+        {
+            await Task.CompletedTask;
+        }
     }
 }

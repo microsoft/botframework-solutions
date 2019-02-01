@@ -139,6 +139,30 @@ namespace EmailSkill.Dialogs.Shared
             }
         }
 
+        protected virtual async Task<DialogTurnResult> SetDisplayConfig(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var skillOptions = (EmailSkillDialogOptions)sc.Options;
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+
+                if (skillOptions == null || !skillOptions.SubFlowMode)
+                {
+                    // For forward/reply/display email, display all emails by default.
+                    state.IsUnreadOnly = false;
+                }
+
+                return await sc.NextAsync();
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+
         protected virtual async Task<DialogTurnResult> PagingStep(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -423,9 +447,9 @@ namespace EmailSkill.Dialogs.Shared
 
                 var emailCard = new EmailCardData
                 {
-                    Subject = string.Format(EmailCommonStrings.SubjectFormat, state.Subject),
+                    Subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? null : string.Format(EmailCommonStrings.SubjectFormat, state.Subject),
                     NameList = string.Format(EmailCommonStrings.ToFormat, nameListString),
-                    EmailContent = string.Format(EmailCommonStrings.ContentFormat, state.Content),
+                    EmailContent = state.Content.Equals(EmailCommonStrings.EmptyContent) ? null : string.Format(EmailCommonStrings.ContentFormat, state.Content),
                 };
 
                 var speech = SpeakHelper.ToSpeechEmailSendDetailString(state.Subject, nameListString, state.Content);

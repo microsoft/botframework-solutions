@@ -272,7 +272,31 @@ namespace EmailSkill.ServiceClients.MSGraphAPI
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task DeleteMessageAsync(string id)
         {
-            await this._graphClient.Me.Messages[id].Request().DeleteAsync();
+            try
+            {
+                await this._graphClient.Me.Messages[id].Request().DeleteAsync();
+            }
+            catch (ServiceException ex)
+            {
+                throw GraphClient.HandleGraphAPIException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Mark an email as read.
+        /// </summary>
+        /// <param name="id">Message id.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task MarkMessageAsReadAsync(string id)
+        {
+            try
+            {
+                await this._graphClient.Me.Messages[id].Request().Select("IsRead").UpdateAsync(new Message { IsRead = true });
+            }
+            catch (ServiceException ex)
+            {
+                throw GraphClient.HandleGraphAPIException(ex);
+            }
         }
     }
 }

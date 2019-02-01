@@ -34,6 +34,7 @@ namespace EmailSkill.Dialogs.ReplyEmail
                 IfClearContextStep,
                 GetAuthToken,
                 AfterGetAuthToken,
+                SetDisplayConfig,
                 CollectSelectedEmail,
                 AfterCollectSelectedEmail,
                 CollectAdditionalText,
@@ -73,13 +74,13 @@ namespace EmailSkill.Dialogs.ReplyEmail
                     var state = await EmailStateAccessor.GetAsync(sc.Context);
                     var token = state.Token;
                     var message = state.Message.FirstOrDefault();
-                    var content = state.Content;
 
                     var service = ServiceManager.InitMailService(token, state.GetUserTimeZone(), state.MailSourceType);
 
                     // reply user message.
                     if (message != null)
                     {
+                        var content = state.Content.Equals(EmailCommonStrings.EmptyContent) ? string.Empty : state.Content;
                         await service.ReplyToMessageAsync(message.Id, content);
                     }
 
@@ -87,9 +88,9 @@ namespace EmailSkill.Dialogs.ReplyEmail
 
                     var emailCard = new EmailCardData
                     {
-                        Subject = string.Format(EmailCommonStrings.SubjectFormat, state.Subject),
+                        Subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? null : string.Format(EmailCommonStrings.SubjectFormat, state.Subject),
                         NameList = string.Format(EmailCommonStrings.ToFormat, nameListString),
-                        EmailContent = string.Format(EmailCommonStrings.ContentFormat, state.Content),
+                        EmailContent = state.Content.Equals(EmailCommonStrings.EmptyContent) ? null : string.Format(EmailCommonStrings.ContentFormat, state.Content),
                     };
 
                     var stringToken = new StringDictionary
