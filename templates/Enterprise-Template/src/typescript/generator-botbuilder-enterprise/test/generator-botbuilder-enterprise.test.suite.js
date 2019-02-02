@@ -69,7 +69,7 @@ describe("The generator-botbuilder-enterprise tests", () => {
     const rootFiles = [
       ".env.development",
       ".env.production",
-      ".gitignore",
+      "gitignore",
       "README.md",
       "tsconfig.json",
       "deploymentScripts/webConfigPrep.js",
