@@ -213,4 +213,7 @@
   <data name="Participants" xml:space="preserve">
     <value>参与者</value>
   </data>
+  <data name="FromDetailsWithContentFormat" xml:space="preserve">
+    <value>来自{0}于{1}标题是{2}，内容为{3}。</value>
+  </data>
 </root>

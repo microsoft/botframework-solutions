@@ -507,10 +507,10 @@ namespace EmailSkill.ServiceClients.GoogleAPI
 
             if (mime.Body != null)
             {
-                var textBody = mime.BodyParts.OfType<TextPart>().FirstOrDefault();
+                var textBody = mime.TextBody;
                 message.Body = new ItemBody
                 {
-                    Content = textBody.Text,
+                    Content = textBody,
                     ContentType = BodyType.Text,
                 };
             }
