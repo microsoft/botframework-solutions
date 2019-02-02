@@ -43,5 +43,14 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "CompleteAnotherTaskConfirmFailed": {
+    "replies": [
+      {
+        "text": "Sorry, I didn't understand what you meant. Do you want to complete another task?",
+        "speak": "Sorry, I didn't understand what you meant. Do you want to complete another task?"
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }

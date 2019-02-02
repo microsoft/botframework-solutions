@@ -4,6 +4,8 @@
     {
         public const string Prompt = "prompt";
 
+        public const string ConfirmPrompt = "confirmPrompt";
+
         public const string ShowTasks = "showTasks";
 
         public const string CollectTaskContent = "collectTaskContent";
@@ -47,5 +49,11 @@
         public const string DoDeleteTask = "doDeleteTask";
 
         public const string CollectAddDupTaskConfirmation = "collectAddDupTaskConfirmation";
+
+        public const string DoShowTasks = "doShowTasks";
+
+        public const string CollectGoBackToStartConfirmation = "collectGoBackToStartConfirmation";
+
+        public const string CollectRepeatFirstPageConfirmation = "collectRepeatFirstPageConfirmation";
     }
 }

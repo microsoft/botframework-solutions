@@ -8,6 +8,15 @@
     ],
     "inputHint": "expectingInput"
   },
+  "AskDeletionAllConfirmationFailed": {
+    "replies": [
+      {
+        "text": "Sorry, I didn't understand what you meant. Are you sure you want to delete all tasks from your {listType} list?",
+        "speak": "Sorry, I didn't understand what you meant. Are you sure you want to delete all tasks from your {listType} list?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "AfterTaskDeleted": {
     "replies": [
       {
@@ -58,6 +67,15 @@
       {
         "text": "Do you want to delete another task?",
         "speak": "Do you want to delete another task?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "DeleteAnotherTaskConfirmFailed": {
+    "replies": [
+      {
+        "text": "Sorry, I didn't understand what you meant. Do you want to delete another task?",
+        "speak": "Sorry, I didn't understand what you meant. Do you want to delete another task?"
       }
     ],
     "inputHint": "expectingInput"

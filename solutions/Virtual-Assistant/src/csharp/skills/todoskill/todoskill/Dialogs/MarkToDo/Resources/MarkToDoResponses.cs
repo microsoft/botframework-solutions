@@ -32,6 +32,8 @@ namespace ToDoSkill.Dialogs.MarkToDo.Resources
 
         public static BotResponse CompleteAnotherTaskPrompt => GetBotResponse();
 
+        public static BotResponse CompleteAnotherTaskConfirmFailed => GetBotResponse();
+
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {
             return _responseManager.GetBotResponse(propertyName);

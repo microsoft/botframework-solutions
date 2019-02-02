@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
@@ -120,6 +121,7 @@ namespace ToDoSkill.Dialogs.AddToDo
 
                     var cardReply = sc.Context.Activity.CreateReply();
                     cardReply.Attachments.Add(toDoListAttachment);
+                    cardReply.InputHint = InputHints.IgnoringInput;
                     await sc.Context.SendActivityAsync(cardReply);
 
                     return await sc.NextAsync();
@@ -240,10 +242,9 @@ namespace ToDoSkill.Dialogs.AddToDo
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 var token = new StringDictionary() { { "listType", state.ListType } };
-                var response = GenerateResponseWithTokens(AddToDoResponses.SwitchListType, token);
-                var prompt = sc.Context.Activity.CreateReply(response);
-                prompt.Speak = response;
-                return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
+                var prompt = sc.Context.Activity.CreateReply(AddToDoResponses.SwitchListType, tokens: token);
+                var retryPrompt = sc.Context.Activity.CreateReply(AddToDoResponses.SwitchListTypeConfirmFailed, tokens: token);
+                return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
             {
@@ -257,11 +258,8 @@ namespace ToDoSkill.Dialogs.AddToDo
             try
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
-                sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
-                var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
-
-                if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
+                var confirmResult = (bool)sc.Result;
+                if (confirmResult)
                 {
                     return await sc.EndDialogAsync(true);
                 }
@@ -312,7 +310,8 @@ namespace ToDoSkill.Dialogs.AddToDo
                 {
                     var token = new StringDictionary() { { "taskContent", state.TaskContent } };
                     var prompt = sc.Context.Activity.CreateReply(AddToDoResponses.AskAddDupTaskPrompt, tokens: token);
-                    return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
+                    var retryPrompt = sc.Context.Activity.CreateReply(AddToDoResponses.AskAddDupTaskConfirmFailed);
+                    return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
                 }
             }
             catch (Exception ex)
@@ -329,11 +328,8 @@ namespace ToDoSkill.Dialogs.AddToDo
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 if (!state.AddDupTask)
                 {
-                    sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                    var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
-                    var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
-
-                    if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
+                    var confirmResult = (bool)sc.Result;
+                    if (confirmResult)
                     {
                         state.AddDupTask = true;
                     }
@@ -366,8 +362,10 @@ namespace ToDoSkill.Dialogs.AddToDo
             try
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
-                var prompt = sc.Context.Activity.CreateReply(AddToDoResponses.AddMoreTask, tokens: new StringDictionary() { { "listType", state.ListType } });
-                return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
+                var token = new StringDictionary() { { "listType", state.ListType } };
+                var prompt = sc.Context.Activity.CreateReply(AddToDoResponses.AddMoreTask, tokens: token);
+                var retryPrompt = sc.Context.Activity.CreateReply(AddToDoResponses.AddMoreTaskConfirmFailed, tokens: token);
+                return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
             {
@@ -381,11 +379,9 @@ namespace ToDoSkill.Dialogs.AddToDo
             try
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
-                sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
-                var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
 
-                if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
+                var confirmResult = (bool)sc.Result;
+                if (confirmResult)
                 {
                     // reset some fields here
                     state.TaskContentPattern = null;
