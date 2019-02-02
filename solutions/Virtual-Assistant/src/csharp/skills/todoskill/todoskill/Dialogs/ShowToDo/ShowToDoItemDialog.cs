@@ -197,10 +197,12 @@ namespace ToDoSkill.Dialogs.ShowToDo
 
                     if ((topIntent == ToDo.Intent.ShowToDo || state.GoBackToStart) && state.Tasks.Count > state.ReadSize)
                     {
+                        state.GoBackToStart = false;
                         return await sc.NextAsync();
                     }
                     else
                     {
+                        state.GoBackToStart = false;
                         return await sc.EndDialogAsync(true);
                     }
                 }
