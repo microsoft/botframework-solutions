@@ -178,7 +178,7 @@ namespace ToDoSkill.Dialogs.ShowToDo
                     {
                         if (state.IsFirstPage)
                         {
-                            return await sc.ReplaceDialogAsync(Action.CollectGoBackToStartConfirmation);
+                            return await sc.ReplaceDialogAsync(Action.CollectRepeatFirstPageConfirmation);
                         }
                         else
                         {
@@ -438,7 +438,9 @@ namespace ToDoSkill.Dialogs.ShowToDo
         {
             try
             {
-                var prompt = sc.Context.Activity.CreateReply(ShowToDoResponses.GoBackToStartPrompt);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
+                var token = new StringDictionary() { { "listType", state.ListType } };
+                var prompt = sc.Context.Activity.CreateReply(ShowToDoResponses.GoBackToStartPrompt, tokens: token);
                 var retryPrompt = sc.Context.Activity.CreateReply(ShowToDoResponses.GoBackToStartConfirmFailed);
                 return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
@@ -458,7 +460,7 @@ namespace ToDoSkill.Dialogs.ShowToDo
                 state.ShowTaskPageIndex = 0;
                 state.ReadTaskIndex = 0;
                 state.GoBackToStart = true;
-                return await sc.ReplaceDialogAsync(Action.DoAddTask);
+                return await sc.ReplaceDialogAsync(Action.DoShowTasks);
             }
             else
             {
@@ -485,7 +487,9 @@ namespace ToDoSkill.Dialogs.ShowToDo
         {
             try
             {
-                var prompt = sc.Context.Activity.CreateReply(ShowToDoResponses.RepeatFirstPagePrompt);
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
+                var token = new StringDictionary() { { "listType", state.ListType } };
+                var prompt = sc.Context.Activity.CreateReply(ShowToDoResponses.RepeatFirstPagePrompt, tokens: token);
                 var retryPrompt = sc.Context.Activity.CreateReply(ShowToDoResponses.RepeatFirstPageConfirmFailed);
                 return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
@@ -505,7 +509,7 @@ namespace ToDoSkill.Dialogs.ShowToDo
                 state.ShowTaskPageIndex = 0;
                 state.ReadTaskIndex = 0;
                 state.GoBackToStart = true;
-                return await sc.ReplaceDialogAsync(Action.DoAddTask);
+                return await sc.ReplaceDialogAsync(Action.DoShowTasks);
             }
             else
             {

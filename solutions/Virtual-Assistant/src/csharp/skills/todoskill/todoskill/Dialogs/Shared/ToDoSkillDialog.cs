@@ -992,11 +992,12 @@ namespace ToDoSkill.Dialogs.Shared
                             await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOutlookMessage));
                             await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.AfterOutlookSetupMessage));
                         }
+
+                        var taskWebLink = await taskServiceInit.GetTaskWebLink();
+                        var emailContent = string.Format(ToDoStrings.EmailContent, taskWebLink);
+                        await emailService.SendMessageAsync(emailContent, ToDoStrings.EmailSubject);
                     }
 
-                    var taskWebLink = await taskServiceInit.GetTaskWebLink();
-                    var emailContent = string.Format(ToDoStrings.EmailContent, taskWebLink);
-                    await emailService.SendMessageAsync(emailContent, ToDoStrings.EmailSubject);
                     await StoreListTypeIdsAsync(sc);
                     return taskServiceInit;
                 }

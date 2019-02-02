@@ -362,8 +362,9 @@ namespace ToDoSkill.Dialogs.AddToDo
             try
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
-                var prompt = sc.Context.Activity.CreateReply(AddToDoResponses.AddMoreTask, tokens: new StringDictionary() { { "listType", state.ListType } });
-                var retryPrompt = sc.Context.Activity.CreateReply(AddToDoResponses.AddMoreTaskConfirmFailed, tokens: new StringDictionary() { { "listType", state.ListType } });
+                var token = new StringDictionary() { { "listType", state.ListType } };
+                var prompt = sc.Context.Activity.CreateReply(AddToDoResponses.AddMoreTask, tokens: token);
+                var retryPrompt = sc.Context.Activity.CreateReply(AddToDoResponses.AddMoreTaskConfirmFailed, tokens: token);
                 return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
