@@ -8,6 +8,15 @@
     ],
     "inputHint": "expectingInput"
   },
+  "AskDeletionAllConfirmationFailed": {
+    "replies": [
+      {
+        "text": "对不起，我没有理解您的意思。您确定要删除所有{listType}列表上的任务吗？",
+        "speak": "对不起，我没有理解您的意思。您确定要删除所有{listType}列表上的任务吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "AfterTaskDeleted": {
     "replies": [
       {
@@ -58,6 +67,15 @@
       {
         "text": "你想要再删除一个任务吗？",
         "speak": "你想要再删除一个任务吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "DeleteAnotherTaskConfirmFailed": {
+    "replies": [
+      {
+        "text": "对不起，我没有理解您的意思。你想要再删除一个任务吗？",
+        "speak": "对不起，我没有理解您的意思。你想要再删除一个任务吗？"
       }
     ],
     "inputHint": "expectingInput"

@@ -32,6 +32,8 @@ namespace ToDoSkill.Dialogs.ShowToDo.Resources
 
         public static BotResponse ReadMoreTasksPrompt => GetBotResponse();
 
+        public static BotResponse ReadMoreTasksConfirmFailed => GetBotResponse();
+
         public static BotResponse NextOneTask => GetBotResponse();
 
         public static BotResponse NextTwoTasks => GetBotResponse();
@@ -45,6 +47,14 @@ namespace ToDoSkill.Dialogs.ShowToDo.Resources
         public static BotResponse InstructionMessage => GetBotResponse();
 
         public static BotResponse TaskSummaryMessage => GetBotResponse();
+
+        public static BotResponse RepeatFirstPagePrompt => GetBotResponse();
+
+        public static BotResponse RepeatFirstPageConfirmFailed => GetBotResponse();
+
+        public static BotResponse GoBackToStartPrompt => GetBotResponse();
+
+        public static BotResponse GoBackToStartConfirmFailed => GetBotResponse();
 
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {

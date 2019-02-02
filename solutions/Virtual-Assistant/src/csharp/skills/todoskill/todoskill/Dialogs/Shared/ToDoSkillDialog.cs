@@ -9,6 +9,7 @@ using AdaptiveCards;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Dialogs;
@@ -18,6 +19,7 @@ using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Prompts;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
+using Microsoft.Recognizers.Text;
 using Newtonsoft.Json.Linq;
 using ToDoSkill.Dialogs.AddToDo.Resources;
 using ToDoSkill.Dialogs.DeleteToDo.Resources;
@@ -59,6 +61,7 @@ namespace ToDoSkill.Dialogs.Shared
             AddDialog(new EventPrompt(SkillModeAuth, "tokens/response", TokenResponseValidator));
             AddDialog(new MultiProviderAuthDialog(services));
             AddDialog(new TextPrompt(Action.Prompt));
+            AddDialog(new ConfirmPrompt(Action.ConfirmPrompt, null, Culture.English) { Style = ListStyle.SuggestedAction });
         }
 
         protected SkillConfigurationBase Services { get; set; }
@@ -186,10 +189,12 @@ namespace ToDoSkill.Dialogs.Shared
                     state.Tasks = new List<TaskItem>();
                     state.AllTasks = new List<TaskItem>();
                     state.ListType = null;
+                    state.GoBackToStart = false;
                     await DigestToDoLuisResult(sc);
                 }
                 else if (generalTopIntent == General.Intent.Next)
                 {
+                    state.IsLastPage = false;
                     if ((state.ReadTaskIndex + 1) * state.ReadSize < state.Tasks.Count)
                     {
                         state.ReadTaskIndex++;
@@ -202,12 +207,24 @@ namespace ToDoSkill.Dialogs.Shared
                         {
                             state.ShowTaskPageIndex++;
                         }
+                        else
+                        {
+                            state.IsLastPage = true;
+                        }
                     }
                 }
-                else if (generalTopIntent == General.Intent.Previous && state.ShowTaskPageIndex > 0)
+                else if (generalTopIntent == General.Intent.Previous)
                 {
                     state.ReadTaskIndex = 0;
-                    state.ShowTaskPageIndex--;
+                    state.IsFirstPage = false;
+                    if (state.ShowTaskPageIndex > 0)
+                    {
+                        state.ShowTaskPageIndex--;
+                    }
+                    else
+                    {
+                        state.IsFirstPage = true;
+                    }
                 }
                 else if (topIntent == ToDo.Intent.AddToDo)
                 {
@@ -589,7 +606,6 @@ namespace ToDoSkill.Dialogs.Shared
         {
             var toDoCard = new AdaptiveCard();
             toDoCard.Speak = Format(ShowToDoResponses.ShowPreviousTasks.Reply.Speak, new StringDictionary()) + " ";
-
             var body = new List<AdaptiveElement>();
             var showText = Format(ToDoSharedResponses.CardSummaryMessage.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
             var textBlock = new AdaptiveTextBlock
@@ -963,27 +979,23 @@ namespace ToDoSkill.Dialogs.Shared
                 var recovered = await RecoverListTypeIdsAsync(sc);
                 if (!recovered)
                 {
-                    if (state.TaskServiceType == ProviderTypes.OneNote)
-                    {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
-                    }
-                    else
-                    {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOutlookMessage));
-                    }
-
                     var taskServiceInit = ServiceManager.InitTaskService(state.MsGraphToken, state.ListTypeIds, state.TaskServiceType);
-                    var taskWebLink = await taskServiceInit.GetTaskWebLink();
-                    var emailContent = string.Format(ToDoStrings.EmailContent, taskWebLink);
-                    await emailService.SendMessageAsync(emailContent, ToDoStrings.EmailSubject);
+                    if (taskServiceInit.IsListCreated)
+                    {
+                        if (state.TaskServiceType == ProviderTypes.OneNote)
+                        {
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.AfterOneNoteSetupMessage));
+                        }
+                        else
+                        {
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOutlookMessage));
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.AfterOutlookSetupMessage));
+                        }
 
-                    if (state.TaskServiceType == ProviderTypes.OneNote)
-                    {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.AfterOneNoteSetupMessage));
-                    }
-                    else
-                    {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.AfterOutlookSetupMessage));
+                        var taskWebLink = await taskServiceInit.GetTaskWebLink();
+                        var emailContent = string.Format(ToDoStrings.EmailContent, taskWebLink);
+                        await emailService.SendMessageAsync(emailContent, ToDoStrings.EmailSubject);
                     }
 
                     await StoreListTypeIdsAsync(sc);

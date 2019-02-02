@@ -34,6 +34,15 @@
     ],
     "inputHint": "expectingInput"
   },
+  "SwitchListTypeConfirmFailed": {
+    "replies": [
+      {
+        "text": "Sorry, I didn't understand what you meant. Would you like me to add this to your {listType} list?",
+        "speak": "Sorry, I didn't understand what you meant. Would you like me to add this to your {listType} list?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "AddMoreTask": {
     "replies": [
       {
@@ -43,11 +52,29 @@
     ],
     "inputHint": "expectingInput"
   },
+  "AddMoreTaskConfirmFailed": {
+    "replies": [
+      {
+        "text": "Sorry, I didn't understand what you meant. Do you want to add another task to your {listType} list?",
+        "speak": "Sorry, I didn't understand what you meant. Do you want to add another task to your {listType} list?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "AskAddDupTaskPrompt": {
     "replies": [
       {
         "text": "I believe you already have {taskContent} on your list, still want to add this task?",
         "speak": "I believe you already have {taskContent} on your list, still want to add this task?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AskAddDupTaskConfirmFailed": {
+    "replies": [
+      {
+        "text": "Sorry, I didn't understand what you meant. Do you still want to add this task?",
+        "speak": "Sorry, I didn't understand what you meant. Do you still want to add this task?"
       }
     ],
     "inputHint": "expectingInput"

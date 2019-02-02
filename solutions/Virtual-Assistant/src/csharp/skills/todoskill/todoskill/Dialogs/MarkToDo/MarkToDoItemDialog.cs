@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
@@ -123,15 +124,18 @@ namespace ToDoSkill.Dialogs.MarkToDo
 
                 var cardReply = sc.Context.Activity.CreateReply();
                 cardReply.Attachments.Add(markToDoAttachment);
-                await sc.Context.SendActivityAsync(cardReply);
 
                 var uncompletedTaskIndex = state.AllTasks.FindIndex(t => t.IsCompleted == false);
                 if (state.MarkOrDeleteAllTasksFlag || uncompletedTaskIndex < 0)
                 {
+                    cardReply.InputHint = InputHints.AcceptingInput;
+                    await sc.Context.SendActivityAsync(cardReply);
                     return await sc.EndDialogAsync(true);
                 }
                 else
                 {
+                    cardReply.InputHint = InputHints.IgnoringInput;
+                    await sc.Context.SendActivityAsync(cardReply);
                     return await sc.NextAsync();
                 }
             }
@@ -316,7 +320,8 @@ namespace ToDoSkill.Dialogs.MarkToDo
             try
             {
                 var prompt = sc.Context.Activity.CreateReply(MarkToDoResponses.CompleteAnotherTaskPrompt);
-                return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
+                var retryPrompt = sc.Context.Activity.CreateReply(MarkToDoResponses.CompleteAnotherTaskConfirmFailed);
+                return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
             {
@@ -330,11 +335,8 @@ namespace ToDoSkill.Dialogs.MarkToDo
             try
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
-                sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
-                var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
-
-                if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
+                var confirmResult = (bool)sc.Result;
+                if (confirmResult)
                 {
                     // reset some fields here
                     state.TaskIndexes = new List<int>();
