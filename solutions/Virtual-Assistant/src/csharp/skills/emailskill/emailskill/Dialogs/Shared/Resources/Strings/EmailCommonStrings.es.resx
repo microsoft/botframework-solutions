@@ -213,4 +213,7 @@
   <data name="Participants" xml:space="preserve">
     <value>Participantes</value>
   </data>
+  <data name="FromDetailsWithContentFormat" xml:space="preserve">
+    <value>desde {0} en {1} titulado {2}, el contenido es {3}.</value>
+  </data>
 </root>

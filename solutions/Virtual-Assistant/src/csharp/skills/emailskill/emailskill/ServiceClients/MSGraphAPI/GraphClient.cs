@@ -27,6 +27,7 @@ namespace EmailSkill.ServiceClients.MSGraphAPI
 
                         // Get event times in the current time zone.
                         requestMessage.Headers.Add("Prefer", "outlook.timezone=\"" + timeZoneInfo.Id + "\"");
+                        requestMessage.Headers.Add("Prefer", "outlook.body-content-type=\"text\"");
 
                         await Task.CompletedTask;
                     }));

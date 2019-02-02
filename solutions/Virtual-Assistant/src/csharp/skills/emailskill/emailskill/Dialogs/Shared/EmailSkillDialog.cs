@@ -641,12 +641,8 @@ namespace EmailSkill.Dialogs.Shared
                 if (displayMessages.Count > 0)
                 {
                     state.MessageList = displayMessages;
-
-                    if (displayMessages.Count == 1)
-                    {
-                        state.Message.Clear();
-                        state.Message.Add(displayMessages[0]);
-                    }
+                    state.Message.Clear();
+                    state.Message.Add(displayMessages[0]);
 
                     await ShowMailList(sc, displayMessages, totalCount, cancellationToken);
                     return await sc.NextAsync();
