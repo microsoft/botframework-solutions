@@ -28,7 +28,8 @@ export class AuthenticationResponses extends TemplateManager {
             // tslint:disable-next-line:no-any
             [AuthenticationResponses.RESPONSE_IDS.SucceededMessage, async (context: TurnContext, data: any): Promise<string> => {
                 const value: string = i18n.__('authentication.succeeded');
-                const firstName: string = data.name.substring(data.name.indexOf(',') _ 1);
+                const firstName: string = data.name.substring(data.name.indexOf(',') + 1);
+
                 return value.replace('{0}', firstName);
             }],
             [AuthenticationResponses.RESPONSE_IDS.FailedMessage, AuthenticationResponses.fromResources('authentication.failed')]
