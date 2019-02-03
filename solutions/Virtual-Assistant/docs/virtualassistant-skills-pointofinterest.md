@@ -21,7 +21,10 @@ The following scenarios are currently supported by the Skill:
 
 ## Supported Sources
 
-> [Azure Maps](https://azure.microsoft.com/en-gb/services/azure-maps/) is supported at this time. A provider model is planned for a coming release to enable plugin of your own data source.
+> **Mandatory**: [Azure Maps](https://azure.microsoft.com/en-us/services/azure-maps/) is supported for finding Points of Interest and getting route directions to a selected location. 
+> As this is the only supported provider to get directions, this provider is required.
+
+> [Foursquare](https://developer.foursquare.com/docs/api) is supported for finding Points of Interest and related details (rating, business hours, price level, etc.).
 
 ## Auth Connection Settings
 
@@ -37,7 +40,10 @@ The following Configuration entries are required to be passed to the Skill and a
 - LuisAppId
 - LuisSubscriptionKey
 - LuisEndpoint
-- AzureMapsKey.
+- AzureMapsKey
+- FoursquareClientId
+- FoursquareClientSecret
+
 
 > You can retrieve an [Azure Maps](https://azure.microsoft.com/en-gb/services/azure-maps/) key through the Azure Portal.
 
@@ -56,7 +62,9 @@ The following Configuration entries are required to be passed to the Skill and a
     "LuisAppId": "YOUR_LUIS_APP_ID",
     "LuisSubscriptionKey": "YOUR_LUIS_SUBSCRIPTION_KEY",
     "LuisEndpoint": "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/"
-    "AzureMapsKey": "YOUR_AZURE_MAPS_KEY"
+    "AzureMapsKey": "YOUR_AZURE_MAPS_KEY",
+    "FoursquareClientId": "YOUR_FOURSQUARE_CLIENT_ID",
+    "FoursquareClientSecret": "YOUR_FOURSQUARE_CLIENT_SECRET"
     }
 }
 ```
