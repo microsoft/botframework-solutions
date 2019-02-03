@@ -11,6 +11,7 @@ import {
     OAuthPrompt,
     WaterfallDialog,
     WaterfallStepContext } from 'botbuilder-dialogs';
+import * as i18n from 'i18n';
 import { GraphClient } from '../../serviceClients/graphClient';
 import { AuthenticationResponses } from './authenticationResponses';
 

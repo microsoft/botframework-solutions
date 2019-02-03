@@ -113,17 +113,22 @@ Once the **Initial Deployment** and the **Final Deployment Configuration** are c
 
 To enable authentication follow these steps:
 
-Register the SignInDialog in the MainDialog constructor
+Import the AuthenticationDialog in the MainDialog class
     
   ```typescript
-  this.addDialog(new SignInDialog(this._services.authConnectionName);
+  import { AuthenticationDialog } from '../authentication/authenticationDialog';
+  ```
+
+Register the AuthenticationDialog in the MainDialog constructor
+    
+  ```typescript
+  this.addDialog(new AuthenticationDialog(this.SERVICES.authConnectionName));
   ```
 
 Add the following in your code at your desired location to test a simple login flow:
   ```typescript
-  const signInResult = await dc.beginDialog('SignInDialog');
+  const signInResult = await dc.beginDialog('AuthenticationDialog');
   ```
-
 ### Content Moderation
 
 Content moderation can be used to identify PII and adult content in the messages sent to the bot. To enable this functionality, go to the azure portal and create a new content moderator service. Collect your subscription key and region to configure your .bot file.

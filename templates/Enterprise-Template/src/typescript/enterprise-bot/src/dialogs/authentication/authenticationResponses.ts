@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
+import { TurnContext } from 'botbuilder';
 import * as i18n from 'i18n';
 import {
     DictionaryRenderer,
@@ -25,10 +26,10 @@ export class AuthenticationResponses extends TemplateManager {
         ['default', new Map([
             [AuthenticationResponses.RESPONSE_IDS.LoginPrompt, AuthenticationResponses.fromResources('authentication.prompt')],
             // tslint:disable-next-line:no-any
-            [AuthenticationResponses.RESPONSE_IDS.SucceededMessage, async (data: any): Promise<string> => {
+            [AuthenticationResponses.RESPONSE_IDS.SucceededMessage, async (context: TurnContext, data: any): Promise<string> => {
                 const value: string = i18n.__('authentication.succeeded');
-
-                return value.replace('{0}', data.name);
+                const firstName: string = data.name.substring(data.name.indexOf(',') _ 1);
+                return value.replace('{0}', firstName);
             }],
             [AuthenticationResponses.RESPONSE_IDS.FailedMessage, AuthenticationResponses.fromResources('authentication.failed')]
         ])]
