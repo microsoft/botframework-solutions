@@ -42,11 +42,19 @@ namespace PointOfInterestSkillTests.Flow.Fakes
                 case "cancel my route":
                     this.Intents.Add(PointOfInterest.Intent.NAVIGATION_CANCEL_ROUTE, intentScore);
                     break;
+                case "find a route":
+                    this.Intents.Add(PointOfInterest.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y, intentScore);
+                    break;
+                case "get directions to microsoft corporation":
+                    this.Entities.KEYWORD = new string[] { "microsoft corporation" };
+                    this.Intents.Add(PointOfInterest.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y, intentScore);
+                    break;
                 case "get directions to the pharmacy":
                     this.Entities.KEYWORD = new string[] { "pharmacy" };
                     this.Intents.Add(PointOfInterest.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y, intentScore);
                     break;
                 case "option 1":
+                    this.Intents.Add(PointOfInterest.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y, intentScore);
                     this.Entities.number = new double[] { 1 };
                     break;
                 default:

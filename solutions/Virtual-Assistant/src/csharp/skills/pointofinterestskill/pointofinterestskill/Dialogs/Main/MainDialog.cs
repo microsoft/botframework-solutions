@@ -372,8 +372,8 @@ namespace PointOfInterestSkill.Dialogs.Main
 
         public class Events
         {
-            public const string ActiveLocation = "POI.ActiveLocation";
-            public const string ActiveRoute = "POI.ActiveRoute";
+            public const string ActiveLocation = "IPA.ActiveLocation";
+            public const string ActiveRoute = "IPA.ActiveRoute";
             public const string Location = "IPA.Location";
             public const string SkillBeginEvent = "skillBegin";
         }

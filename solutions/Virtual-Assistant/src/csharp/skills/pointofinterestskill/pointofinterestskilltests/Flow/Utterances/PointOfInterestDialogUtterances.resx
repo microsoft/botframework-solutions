@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ActiveLocationEvent" xml:space="preserve">
-    <value>/event:{ "Name": "IPA.ActiveLocation", "Value": "Pro Sports Club Coffee Shop","Text":"find a route" }</value>
+    <value>/event:{ "Name": "IPA.ActiveLocation", "Value": "Microsoft Corporation","Text":"find a route" }</value>
   </data>
   <data name="CancelRoute" xml:space="preserve">
     <value>cancel my route</value>
@@ -127,7 +127,7 @@
     <value>find a coffee shop</value>
   </data>
   <data name="GetDirectionsByName" xml:space="preserve">
-    <value>get directions to pro sports club coffee shop</value>
+    <value>get directions to microsoft corporation</value>
   </data>
   <data name="GetDirectionsByNewName" xml:space="preserve">
     <value>get directions to the pharmacy</value>

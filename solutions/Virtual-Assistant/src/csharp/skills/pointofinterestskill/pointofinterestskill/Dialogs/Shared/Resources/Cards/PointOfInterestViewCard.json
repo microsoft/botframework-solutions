@@ -79,7 +79,7 @@
       "title": "Find a route",
       "data": {
         "event": {
-          "name": "POI.ActiveLocation",
+          "name": "IPA.ActiveLocation",
           "text": "Find a route",
           "value": "{Name}"
         }

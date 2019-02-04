@@ -47,6 +47,7 @@ namespace PointOfInterestSkillTests.Flow
                 .Send(GeneralUtterances.Yes)
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
+                .AssertReply(CompleteDialog())
                 .StartTestAsync();
         }
 
@@ -68,6 +69,7 @@ namespace PointOfInterestSkillTests.Flow
                 .Send(GeneralUtterances.Yes)
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
+                .AssertReply(CompleteDialog())
                 .StartTestAsync();
         }
 
@@ -89,6 +91,7 @@ namespace PointOfInterestSkillTests.Flow
                 .Send(GeneralUtterances.Yes)
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
+                .AssertReply(CompleteDialog())
                 .StartTestAsync();
         }
 
@@ -107,10 +110,15 @@ namespace PointOfInterestSkillTests.Flow
                 .AssertReply(MultipleLocationsFound())
                 .AssertReply(CompleteDialog())
                 .Send(PointOfInterestDialogUtterances.GetDirectionsByNewName)
+                .AssertReply(MultipleLocationsFound())
+                .AssertReply(CompleteDialog())
+                .Send(GeneralUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
                 .AssertReply(PromptToStartRoute())
                 .Send(GeneralUtterances.Yes)
-                .AssertReply(MultipleLocationsFound())
+                .AssertReply(SendingRouteDetails())
+                .AssertReply(CheckForEvent())
+                .AssertReply(CompleteDialog())
                 .StartTestAsync();
         }
 
@@ -130,6 +138,7 @@ namespace PointOfInterestSkillTests.Flow
                 .AssertReply(CompleteDialog())
                 .Send(PointOfInterestDialogUtterances.CancelRoute)
                 .AssertReply(CannotCancelActiveRoute())
+                .AssertReply(CompleteDialog())
                 .StartTestAsync();
         }
 
@@ -145,14 +154,14 @@ namespace PointOfInterestSkillTests.Flow
                 .Send(PointOfInterestDialogUtterances.WhatsNearby)
                 .AssertReply(MultipleLocationsFound())
                 .AssertReply(CompleteDialog())
-                .Send(PointOfInterestDialogUtterances.LocationEvent)
+                .Send(PointOfInterestDialogUtterances.ActiveLocationEvent)
                 .AssertReply(SingleRouteFound())
                 .AssertReply(PromptToStartRoute())
                 .Send(GeneralUtterances.Yes)
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
                 .Send(PointOfInterestDialogUtterances.CancelRoute)
-                .AssertReply(CancelActiveRoute())
+                .AssertReply(CompleteDialog())
                 .StartTestAsync();
         }
 
@@ -224,7 +233,7 @@ namespace PointOfInterestSkillTests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                CollectionAssert.Contains(ParseReplies(RouteResponses.PromptToStartRoute.Replies, new StringDictionary()), messageActivity.Text);
+                CollectionAssert.Contains(ParseReplies(RouteResponses.PromptToStartRoute.Replies, new StringDictionary()), messageActivity.Speak);
             };
         }
 
@@ -279,8 +288,8 @@ namespace PointOfInterestSkillTests.Flow
         {
             return activity =>
             {
-                var messageActivity = activity.AsMessageActivity();
-                Assert.AreEqual(messageActivity.Text, MainStrings.COMPLETED);
+                var endOfConversationActivity = activity.AsEndOfConversationActivity();
+                Assert.AreEqual(endOfConversationActivity.Type, ActivityTypes.EndOfConversation);
             };
         }
 

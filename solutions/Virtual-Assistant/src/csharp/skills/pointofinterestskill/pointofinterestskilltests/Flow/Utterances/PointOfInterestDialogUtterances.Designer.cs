@@ -61,7 +61,7 @@ namespace PointOfInterestSkillTests.Flow.Utterances {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to /event:{ &quot;Name&quot;: &quot;IPA.ActiveLocation&quot;, &quot;Value&quot;: &quot;Pro Sports Club Coffee Shop&quot;,&quot;Text&quot;:&quot;find a route&quot; }.
+        ///   Looks up a localized string similar to /event:{ &quot;Name&quot;: &quot;IPA.ActiveLocation&quot;, &quot;Value&quot;: &quot;Microsoft Corporation&quot;,&quot;Text&quot;:&quot;find a route&quot; }.
         /// </summary>
         internal static string ActiveLocationEvent {
             get {
@@ -88,7 +88,7 @@ namespace PointOfInterestSkillTests.Flow.Utterances {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to get directions to pro sports club coffee shop.
+        ///   Looks up a localized string similar to get directions to microsoft corporation.
         /// </summary>
         internal static string GetDirectionsByName {
             get {

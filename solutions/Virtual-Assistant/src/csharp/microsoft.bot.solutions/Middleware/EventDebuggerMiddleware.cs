@@ -28,6 +28,7 @@ namespace Microsoft.Bot.Solutions.Middleware
 
                     turnContext.Activity.Type = ActivityTypes.Event;
                     turnContext.Activity.Name = body.Name;
+                    turnContext.Activity.Text = body.Text;
                     turnContext.Activity.Value = body.Value;
                 }
 
