@@ -12,6 +12,7 @@
     "generators",
     "app",
     "dialog",
+    "middleware",
     ".gitignore",
     ".npmignore"
   ],
