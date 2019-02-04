@@ -441,7 +441,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                         await SendActionToDevice(sc, change, promptReplacements);
 
                         await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(
-                            VehicleSettingsResponses.VehicleSettingsChangingRelativeAmount, ResponseBuilder));
+                            VehicleSettingsResponses.VehicleSettingsChangingRelativeAmount, ResponseBuilder, promptReplacements));
                     }
                     else
                     {
