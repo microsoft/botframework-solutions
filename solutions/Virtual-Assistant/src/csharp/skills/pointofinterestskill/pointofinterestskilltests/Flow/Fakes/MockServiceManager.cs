@@ -27,13 +27,13 @@ namespace PointOfInterestSkillTests.API.Fakes
 
             if (clientIdStr != null && clientSecretStr != null)
             {
-                return new FoursquareGeoSpatialService().InitClientAsync(clientIdStr, clientSecretStr, MockData.Locale, mockClient).Result;
+                return new FoursquareGeoSpatialService().InitClientAsync(clientIdStr, clientSecretStr, MockData.Radius, MockData.Locale, mockClient).Result;
             }
             else
             {
                 var key = GetAzureMapsKey(services);
 
-                return new AzureMapsGeoSpatialService().InitKeyAsync(key, locale, mockClient).Result;
+                return new AzureMapsGeoSpatialService().InitKeyAsync(key, MockData.Radius, locale, mockClient).Result;
             }
         }
 
@@ -41,7 +41,7 @@ namespace PointOfInterestSkillTests.API.Fakes
         {
             var key = GetAzureMapsKey(services);
 
-            return new AzureMapsGeoSpatialService().InitKeyAsync(key, locale, mockClient).Result;
+            return new AzureMapsGeoSpatialService().InitKeyAsync(key, MockData.Radius, locale, mockClient).Result;
         }
 
         protected string GetAzureMapsKey(SkillConfigurationBase services)

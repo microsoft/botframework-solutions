@@ -15,8 +15,8 @@ namespace PointOfInterestSkill.ServiceClients
 {
     public sealed class FoursquareGeoSpatialService : IGeoSpatialService
     {
-        private static readonly string SearchForVenuesUrl = $"https://api.foursquare.com/v2/venues/search?ll={{0}},{{1}}&query={{2}}&limit=3";
-        private static readonly string ExploreNearbyVenuesUrl = $"https://api.foursquare.com/v2/search/explore?ll={{0}},{{1}}&limit=3";
+        private static readonly string SearchForVenuesUrl = $"https://api.foursquare.com/v2/venues/search?ll={{0}},{{1}}&query={{2}}&radius={{3}}&intent=browse&limit=3";
+        private static readonly string ExploreNearbyVenuesUrl = $"https://api.foursquare.com/v2/venues/explore?ll={{0}},{{1}}&radius={{2}}&limit=3";
         private static readonly string GetVenueDetailsUrl = $"https://api.foursquare.com/v2/venues/{{0}}?";
         private string userLocale;
         private string clientId;
@@ -24,17 +24,23 @@ namespace PointOfInterestSkill.ServiceClients
         private HttpClient httpClient;
 
         /// <summary>
+        /// The maximum radius value for Foursquare is 100,000 meters.
+        /// </summary>
+        private int radius;
+
+        /// <summary>
         /// Versioning is controlled by the v parameter, which is a date that represents the “version” of the API for which you expect from Foursquare.
         /// </summary>
         private readonly string apiVersion = "20190123";
 
-        public async Task<IGeoSpatialService> InitClientAsync(string id, string secret, string locale = "en", HttpClient client = null)
+        public async Task<IGeoSpatialService> InitClientAsync(string id, string secret, int radiusConfiguration, string locale = "en", HttpClient client = null)
         {
             try
             {
                 clientId = id;
                 clientSecret = secret;
                 userLocale = locale;
+                radius = radiusConfiguration;
 
                 if (client == null)
                 {
@@ -52,7 +58,7 @@ namespace PointOfInterestSkill.ServiceClients
             return this;
         }
 
-        public async Task<IGeoSpatialService> InitKeyAsync(string key, string locale = "en", HttpClient client = null)
+        public async Task<IGeoSpatialService> InitKeyAsync(string key, int radiusConfiguration = 25000, string locale = "en", HttpClient client = null)
         {
             throw new NotSupportedException();
         }
@@ -77,7 +83,7 @@ namespace PointOfInterestSkill.ServiceClients
                 throw new ArgumentNullException(nameof(query));
             }
 
-            return await GetVenueAsync(string.Format(CultureInfo.InvariantCulture, SearchForVenuesUrl, latitude, longitude, query));
+            return await GetVenueAsync(string.Format(CultureInfo.InvariantCulture, SearchForVenuesUrl, latitude, longitude, query, radius));
         }
 
         /// <summary>
@@ -110,7 +116,7 @@ namespace PointOfInterestSkill.ServiceClients
         public async Task<List<PointOfInterestModel>> GetNearbyPointsOfInterestAsync(double latitude, double longitude)
         {
             return await GetVenueAsync(
-                string.Format(CultureInfo.InvariantCulture, ExploreNearbyVenuesUrl, latitude, longitude));
+                string.Format(CultureInfo.InvariantCulture, ExploreNearbyVenuesUrl, latitude, longitude, radius));
         }
 
         /// <summary>
@@ -138,7 +144,7 @@ namespace PointOfInterestSkill.ServiceClients
         /// <returns>A list of PointOfInterestModels.</returns>
         private async Task<List<PointOfInterestModel>> GetVenueAsync(string url)
         {
-            url = url + $"&client_id={clientId}&client_secret={clientSecret}&v={apiVersion}";
+            url = string.Concat(url, $"&client_id={clientId}&client_secret={clientSecret}&v={apiVersion}");
 
             var response = await httpClient.GetStringAsync(url);
 
@@ -159,6 +165,14 @@ namespace PointOfInterestSkill.ServiceClients
                     foreach (var venue in apiResponse.Response.Venues)
                     {
                         var newPointOfInterest = new PointOfInterestModel(venue);
+                        pointOfInterestList.Add(newPointOfInterest);
+                    }
+                }
+                else if (apiResponse?.Response?.Groups != null)
+                {
+                    foreach (var item in apiResponse.Response.Groups.First().Items)
+                    {
+                        var newPointOfInterest = new PointOfInterestModel(item.Venue);
                         pointOfInterestList.Add(newPointOfInterest);
                     }
                 }

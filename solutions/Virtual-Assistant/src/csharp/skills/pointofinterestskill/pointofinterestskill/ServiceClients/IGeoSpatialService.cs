@@ -69,9 +69,10 @@ namespace PointOfInterestSkill.ServiceClients
         /// </summary>
         /// <param name="key">Geospatial service key.</param>
         /// <param name="locale">The user locale.</param>
+        /// <param name="radiusConfiguration">The radius from configuration.</param>
         /// <param name="client">the httpclient for making the API request.</param>
         /// <returns>Task service itself.</returns>
-        Task<IGeoSpatialService> InitKeyAsync(string key, string locale = "en", HttpClient client = null);
+        Task<IGeoSpatialService> InitKeyAsync(string key, int radiusConfiguration, string locale = "en", HttpClient client = null);
 
         /// <summary>
         /// Init task service.
@@ -79,8 +80,9 @@ namespace PointOfInterestSkill.ServiceClients
         /// <param name="clientId">Geospatial service client id.</param>
         /// <param name="clientSecret">Geospatial service client secret.</param>
         /// <param name="locale">The user locale.</param>
+        /// <param name="radiusConfiguration">The radius from configuration.</param>
         /// <param name="client">the httpclient for making the API request.</param>
         /// <returns>Task service itself.</returns>
-        Task<IGeoSpatialService> InitClientAsync(string clientId, string clientSecret, string locale = "en", HttpClient client = null);
+        Task<IGeoSpatialService> InitClientAsync(string clientId, string clientSecret, int radiusConfiguration, string locale = "en", HttpClient client = null);
     }
 }

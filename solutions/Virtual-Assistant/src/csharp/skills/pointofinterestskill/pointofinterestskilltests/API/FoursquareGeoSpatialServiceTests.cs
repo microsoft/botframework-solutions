@@ -26,7 +26,7 @@ namespace PointOfInterestSkillTests.API
         {
             var service = new FoursquareGeoSpatialService();
 
-            await service.InitClientAsync(MockData.ClientId, MockData.ClientSecret, MockData.Locale, mockClient);
+            await service.InitClientAsync(MockData.ClientId, MockData.ClientSecret, MockData.Radius, MockData.Locale, mockClient);
 
             var pointOfInterestList = await service.GetNearbyPointsOfInterestAsync(MockData.Latitude, MockData.Longitude);
 
@@ -48,7 +48,7 @@ namespace PointOfInterestSkillTests.API
         {
             var service = new FoursquareGeoSpatialService();
 
-            await service.InitClientAsync(MockData.ClientId, MockData.ClientSecret, MockData.Locale, mockClient);
+            await service.InitClientAsync(MockData.ClientId, MockData.ClientSecret, MockData.Radius, MockData.Locale, mockClient);
 
             var pointOfInterestList = await service.GetNearbyPointsOfInterestAsync(MockData.Latitude, MockData.Longitude);
             
@@ -71,7 +71,7 @@ namespace PointOfInterestSkillTests.API
         {
             var service = new FoursquareGeoSpatialService();
 
-            await service.InitClientAsync(MockData.ClientId, MockData.ClientSecret, MockData.Locale, mockClient);
+            await service.InitClientAsync(MockData.ClientId, MockData.ClientSecret, MockData.Radius, MockData.Locale, mockClient);
 
             var pointOfInterestList = await service.GetPointOfInterestByQueryAsync(MockData.Latitude, MockData.Longitude, MockData.Query, MockData.Country);
             Assert.AreEqual(pointOfInterestList[0].Id, "412d2800f964a520df0c1fe3");

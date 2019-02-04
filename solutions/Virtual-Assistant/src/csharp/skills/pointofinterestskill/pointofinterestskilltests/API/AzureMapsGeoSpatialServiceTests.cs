@@ -27,7 +27,7 @@ namespace PointOfInterestSkillTests.API
         {
             var service = new AzureMapsGeoSpatialService();
 
-            await service.InitKeyAsync(MockData.Key, MockData.Locale, mockClient);
+            await service.InitKeyAsync(MockData.Key, MockData.Radius, MockData.Locale, mockClient);
 
             var pointOfInterestList = await service.GetNearbyPointsOfInterestAsync(MockData.Latitude, MockData.Longitude);
             Assert.AreEqual(pointOfInterestList[0].Id, "US/POI/p1/101761");
@@ -44,7 +44,7 @@ namespace PointOfInterestSkillTests.API
         {
             var service = new AzureMapsGeoSpatialService();
 
-            await service.InitKeyAsync(MockData.Key, MockData.Locale, mockClient);
+            await service.InitKeyAsync(MockData.Key, MockData.Radius, MockData.Locale, mockClient);
 
             var pointOfInterestList = await service.GetNearbyPointsOfInterestAsync(MockData.Latitude, MockData.Longitude);
 
@@ -58,7 +58,7 @@ namespace PointOfInterestSkillTests.API
         {
             var service = new AzureMapsGeoSpatialService();
 
-            await service.InitKeyAsync(MockData.Key, MockData.Locale, mockClient);
+            await service.InitKeyAsync(MockData.Key, MockData.Radius, MockData.Locale, mockClient);
 
             var pointOfInterestList = await service.GetPointOfInterestByQueryAsync(MockData.Latitude, MockData.Longitude, MockData.Query, MockData.Country);
             Assert.AreEqual(pointOfInterestList[0].Id, "US/POI/p1/101761");
@@ -75,7 +75,7 @@ namespace PointOfInterestSkillTests.API
         {
             var service = new AzureMapsGeoSpatialService();
 
-            await service.InitKeyAsync(MockData.Key, MockData.Locale, mockClient);
+            await service.InitKeyAsync(MockData.Key, MockData.Radius, MockData.Locale, mockClient);
 
             var routeDirections = await service.GetRouteDirectionsAsync(MockData.Latitude, MockData.Longitude, MockData.Latitude, MockData.Longitude);
             Assert.AreEqual(routeDirections.Routes[0].Summary.LengthInMeters, 1147);

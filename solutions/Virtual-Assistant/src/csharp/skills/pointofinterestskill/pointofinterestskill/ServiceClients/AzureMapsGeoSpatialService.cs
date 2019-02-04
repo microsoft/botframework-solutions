@@ -13,10 +13,10 @@ namespace PointOfInterestSkill.ServiceClients
 {
     public sealed class AzureMapsGeoSpatialService : IGeoSpatialService
     {
-        private static readonly string FindByFuzzyQueryApiUrl = $"https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&limit=3&lat={{0}}&lon={{1}}&query={{2}}&countryset={{3}}";
+        private static readonly string FindByFuzzyQueryApiUrl = $"https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&limit=3&lat={{0}}&lon={{1}}&query={{2}}&radius={{3}}";
         private static readonly string FindByQueryApiUrl = $"https://atlas.microsoft.com/search/address/json?api-version=1.0&limit=3&query=";
         private static readonly string FindByPointUrl = $"https://atlas.microsoft.com/search/address/reverse/json?api-version=1.0&query={{0}},{{1}}";
-        private static readonly string FindNearbyUrl = $"https://atlas.microsoft.com/search/nearby/json?api-version=1.0&limit=3&lat={{0}}&lon={{1}}";
+        private static readonly string FindNearbyUrl = $"https://atlas.microsoft.com/search/nearby/json?api-version=1.0&limit=3&lat={{0}}&lon={{1}}&radius={{2}}";
         private static readonly string ImageUrlByPoint = $"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={{2}}&center={{1}},{{0}}&width=512&height=512";
         private static readonly string GetRouteDirections = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&query={{0}}";
         private static readonly string GetRouteDirectionsWithRouteType = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&query={{0}}&&routeType={{1}}";
@@ -24,17 +24,23 @@ namespace PointOfInterestSkill.ServiceClients
         private static string userLocale;
         private static HttpClient httpClient;
 
-        public async Task<IGeoSpatialService> InitClientAsync(string clientId, string clientSecret, string locale = "en", HttpClient client = null)
+        /// <summary>
+        /// The maximum radius value for Azure Maps is 50,000 meters.
+        /// </summary>
+        private int radius;
+
+        public async Task<IGeoSpatialService> InitClientAsync(string clientId, string clientSecret, int radiusConfiguration, string locale = "en", HttpClient client = null)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IGeoSpatialService> InitKeyAsync(string key, string locale = "en", HttpClient client = null)
+        public async Task<IGeoSpatialService> InitKeyAsync(string key, int radiusConfiguration, string locale = "en", HttpClient client = null)
         {
             try
             {
                 apiKey = key;
                 userLocale = locale;
+                radius = radiusConfiguration;
 
                 if (client == null)
                 {
@@ -67,12 +73,7 @@ namespace PointOfInterestSkill.ServiceClients
                 throw new ArgumentNullException(nameof(query));
             }
 
-            if (string.IsNullOrEmpty(country))
-            {
-                throw new ArgumentNullException(nameof(country));
-            }
-
-            return await GetPointsOfInterestAsync(string.Format(CultureInfo.InvariantCulture, FindByFuzzyQueryApiUrl, latitude, longitude, query, country));
+            return await GetPointsOfInterestAsync(string.Format(CultureInfo.InvariantCulture, FindByFuzzyQueryApiUrl, latitude, longitude, query, radius));
         }
 
         /// <summary>
@@ -111,7 +112,7 @@ namespace PointOfInterestSkill.ServiceClients
         public async Task<List<PointOfInterestModel>> GetNearbyPointsOfInterestAsync(double latitude, double longitude)
         {
             return await GetPointsOfInterestAsync(
-                string.Format(CultureInfo.InvariantCulture, FindNearbyUrl, latitude, longitude));
+                string.Format(CultureInfo.InvariantCulture, FindNearbyUrl, latitude, longitude, radius));
         }
 
         /// <summary>
@@ -175,7 +176,7 @@ namespace PointOfInterestSkill.ServiceClients
         /// <returns>List of PointOfInterestModels.</returns>
         private async Task<List<PointOfInterestModel>> GetPointsOfInterestAsync(string url)
         {
-            url = url + $"&language={userLocale}&subscription-key={apiKey}";
+            url = string.Concat(url, $"&language={userLocale}&subscription-key={apiKey}");
 
             var response = await httpClient.GetStringAsync(url);
 

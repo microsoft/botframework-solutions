@@ -8,23 +8,27 @@ namespace PointOfInterestSkill.ServiceClients
 {
     public class ServiceManager : IServiceManager
     {
+        private int radiusInt = 25000;
+
         public IGeoSpatialService InitMapsService(SkillConfigurationBase services, string locale = "en")
         {
             services.Properties.TryGetValue("FoursquareClientId", out var clientId);
             services.Properties.TryGetValue("FoursquareClientSecret", out var clientSecret);
+            services.Properties.TryGetValue("Radius", out var radius);
 
             var clientIdStr = (string)clientId;
             var clientSecretStr = (string)clientSecret;
+            radiusInt = (radius != null) ? int.Parse((string)radius) : radiusInt;
 
             if (clientIdStr != null && clientSecretStr != null)
             {
-                return new FoursquareGeoSpatialService().InitClientAsync(clientIdStr, clientSecretStr).Result;
+                return new FoursquareGeoSpatialService().InitClientAsync(clientIdStr, clientSecretStr, radiusInt, locale).Result;
             }
             else
             {
                 var key = GetAzureMapsKey(services);
 
-                return new AzureMapsGeoSpatialService().InitKeyAsync(key, locale).Result;
+                return new AzureMapsGeoSpatialService().InitKeyAsync(key, radiusInt, locale).Result;
             }
         }
 
@@ -37,9 +41,12 @@ namespace PointOfInterestSkill.ServiceClients
         /// <returns>IGeoSpatialService.</returns>
         public IGeoSpatialService InitRoutingMapsService(SkillConfigurationBase services, string locale = "en")
         {
+            services.Properties.TryGetValue("Radius", out var radius);
+            radiusInt = (radius != null) ? (int)radius : radiusInt;
+
             var key = GetAzureMapsKey(services);
 
-            return new AzureMapsGeoSpatialService().InitKeyAsync(key, locale).Result;
+            return new AzureMapsGeoSpatialService().InitKeyAsync(key, radiusInt, locale).Result;
         }
 
         protected string GetAzureMapsKey(SkillConfigurationBase services)

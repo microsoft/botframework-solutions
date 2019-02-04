@@ -43,7 +43,7 @@ The following Configuration entries are required to be passed to the Skill and a
 - AzureMapsKey
 - FoursquareClientId
 - FoursquareClientSecret
-
+- Radius *(in meters)*
 
 > You can retrieve an [Azure Maps](https://azure.microsoft.com/en-gb/services/azure-maps/) key through the Azure Portal.
 
@@ -64,7 +64,8 @@ The following Configuration entries are required to be passed to the Skill and a
     "LuisEndpoint": "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/"
     "AzureMapsKey": "YOUR_AZURE_MAPS_KEY",
     "FoursquareClientId": "YOUR_FOURSQUARE_CLIENT_ID",
-    "FoursquareClientSecret": "YOUR_FOURSQUARE_CLIENT_SECRET"
+    "FoursquareClientSecret": "YOUR_FOURSQUARE_CLIENT_SECRET",
+    "Radius": "SEARCH_RADIUS_FROM_LOCATION"
     }
 }
 ```
