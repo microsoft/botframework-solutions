@@ -70,19 +70,6 @@ namespace PointOfInterestSkill.Dialogs.Shared
         {
             try
             {
-                // Defensive for scenarios where locale isn't correctly set
-                var country = "US";
-
-                try
-                {
-                    var cultureInfo = new RegionInfo(sc.Context.Activity.Locale);
-                    country = cultureInfo.TwoLetterISORegionName;
-                }
-                catch (Exception)
-                {
-                    // Default to everything if we can't restrict the country
-                }
-
                 var state = await Accessor.GetAsync(sc.Context);
 
                 var service = ServiceManager.InitMapsService(Services, sc.Context.Activity.Locale ?? "en-us");
@@ -99,13 +86,13 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 else if (!string.IsNullOrEmpty(state.SearchText))
                 {
                     // Fuzzy query search with keyword
-                    pointOfInterestList = await service.GetPointOfInterestByQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.SearchText, country);
+                    pointOfInterestList = await service.GetPointOfInterestByQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.SearchText);
                     await GetPointOfInterestLocationViewCards(sc, pointOfInterestList);
                 }
                 else if (!string.IsNullOrEmpty(state.SearchAddress))
                 {
                     // Fuzzy query search with address
-                    pointOfInterestList = await service.GetPointOfInterestByQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.SearchAddress, country);
+                    pointOfInterestList = await service.GetPointOfInterestByQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.SearchAddress);
                     await GetPointOfInterestLocationViewCards(sc, pointOfInterestList);
                 }
 

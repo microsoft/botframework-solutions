@@ -60,7 +60,7 @@ namespace PointOfInterestSkillTests.API
 
             await service.InitKeyAsync(MockData.Key, MockData.Radius, MockData.Locale, mockClient);
 
-            var pointOfInterestList = await service.GetPointOfInterestByQueryAsync(MockData.Latitude, MockData.Longitude, MockData.Query, MockData.Country);
+            var pointOfInterestList = await service.GetPointOfInterestByQueryAsync(MockData.Latitude, MockData.Longitude, MockData.Query);
             Assert.AreEqual(pointOfInterestList[0].Id, "US/POI/p1/101761");
             Assert.AreEqual(pointOfInterestList[0].Name, "Microsoft Way");
             Assert.AreEqual(pointOfInterestList[0].City, "King");

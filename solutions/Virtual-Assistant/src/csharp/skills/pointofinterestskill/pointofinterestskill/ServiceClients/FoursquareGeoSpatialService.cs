@@ -74,9 +74,8 @@ namespace PointOfInterestSkill.ServiceClients
         /// <param name="latitude">The current latitude.</param>
         /// <param name="longitude">The current longitude.</param>
         /// <param name="query">The search query.</param>
-        /// <param name="country">The user's country.</param>
         /// <returns>List of PointOfInterestModels.</returns>
-        public async Task<List<PointOfInterestModel>> GetPointOfInterestByQueryAsync(double latitude, double longitude, string query, string country = null)
+        public async Task<List<PointOfInterestModel>> GetPointOfInterestByQueryAsync(double latitude, double longitude, string query)
         {
             if (string.IsNullOrEmpty(query))
             {

@@ -16,8 +16,6 @@ namespace PointOfInterestSkillTests.API.Fakes
 
         public const string Query = "MockQuery";
 
-        public const string Country = "MockCountry";
-
         public const string SendAsync = "SendAsync";
 
         public const double Latitude = 47.639620;
