@@ -82,6 +82,5 @@ namespace PointOfInterestSkill.ServiceClients
         /// <param name="client">the httpclient for making the API request.</param>
         /// <returns>Task service itself.</returns>
         Task<IGeoSpatialService> InitClientAsync(string clientId, string clientSecret, string locale = "en", HttpClient client = null);
-
     }
 }

@@ -3,13 +3,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Globalization;
-using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using PointOfInterestSkill.Models;
 
 namespace PointOfInterestSkill.ServiceClients
@@ -50,7 +47,6 @@ namespace PointOfInterestSkill.ServiceClients
             }
             catch (Exception ex)
             {
-
             }
 
             return this;
@@ -59,6 +55,11 @@ namespace PointOfInterestSkill.ServiceClients
         /// <summary>
         /// Get points of interest weighted by coordinates and using a free for search query.
         /// </summary>
+        /// <param name="latitude">The current latitude.</param>
+        /// <param name="longitude">The current longitude.</param>
+        /// <param name="query">The search query.</param>
+        /// <param name="country">The user's country.</param>
+        /// <returns>List of PointOfInterestModels.</returns>
         public async Task<List<PointOfInterestModel>> GetPointOfInterestByQueryAsync(double latitude, double longitude, string query, string country)
         {
             if (string.IsNullOrEmpty(query))
@@ -77,6 +78,8 @@ namespace PointOfInterestSkill.ServiceClients
         /// <summary>
         /// Get coordinates from a street address.
         /// </summary>
+        /// <param name="address">The search address.</param>
+        /// <returns>List of PointOfInterestModels.</returns>
         public async Task<List<PointOfInterestModel>> GetPointOfInterestByAddressAsync(string address)
         {
             if (string.IsNullOrEmpty(address))
@@ -90,6 +93,9 @@ namespace PointOfInterestSkill.ServiceClients
         /// <summary>
         /// Get a street address from coordinates.
         /// </summary>
+        /// <param name="latitude">The current latitude.</param>
+        /// <param name="longitude">The current longitude.</param>
+        /// <returns>List of PointOfInterestModels.</returns>
         public async Task<List<PointOfInterestModel>> GetPointOfInterestByCoordinatesAsync(double latitude, double longitude)
         {
         return await GetPointsOfInterestAsync(
@@ -99,6 +105,9 @@ namespace PointOfInterestSkill.ServiceClients
         /// <summary>
         /// Get Point of Interest results around a specific location.
         /// </summary>
+        /// <param name="latitude">The current latitude.</param>
+        /// <param name="longitude">The current longitude.</param>
+        /// <returns>List of PointOfInterestModels.</returns>
         public async Task<List<PointOfInterestModel>> GetNearbyPointsOfInterestAsync(double latitude, double longitude)
         {
             return await GetPointsOfInterestAsync(
@@ -108,6 +117,8 @@ namespace PointOfInterestSkill.ServiceClients
         /// <summary>
         /// Get a static map image URL of the Point of Interest and returns PointOfInterestModel.
         /// </summary>
+        /// <param name="pointOfInterest">The point of interest model.</param>
+        /// <returns>PointOfInterestModel.</returns>
         public async Task<PointOfInterestModel> GetPointOfInterestDetailsAsync(PointOfInterestModel pointOfInterest)
         {
             int zoom = 15;
@@ -127,6 +138,12 @@ namespace PointOfInterestSkill.ServiceClients
         /// <summary>
         /// Get Azure Maps route based on available parameters.
         /// </summary>
+        /// <param name="currentLatitude">The current latitude.</param>
+        /// <param name="currentLongitude">The current longitude.</param>
+        /// <param name="destinationLatitude">The destination latitude.</param>
+        /// <param name="destinationLongitude">The destination longitude.</param>
+        /// <param name="routeType">The (optional) route type.</param>
+        /// <returns>RouteDirections.</returns>
         public async Task<RouteDirections> GetRouteDirectionsAsync(double currentLatitude, double currentLongitude, double destinationLatitude, double destinationLongitude, string routeType = null)
         {
             if (string.IsNullOrEmpty(routeType))
@@ -142,6 +159,7 @@ namespace PointOfInterestSkill.ServiceClients
         /// <summary>
         /// Get route directions response from Azure Maps.
         /// </summary>
+        /// <returns>RouteDirections.</returns>
         private async Task<RouteDirections> GetRouteDirectionsAsync(string url)
         {
             var response = await httpClient.GetStringAsync(url);
@@ -154,6 +172,7 @@ namespace PointOfInterestSkill.ServiceClients
         /// <summary>
         /// Get search reuslts response from Azure Maps and convert to point of interest list.
         /// </summary>
+        /// <returns>List of PointOfInterestModels.</returns>
         private async Task<List<PointOfInterestModel>> GetPointsOfInterestAsync(string url)
         {
             url = url + $"&language={userLocale}&subscription-key={apiKey}";

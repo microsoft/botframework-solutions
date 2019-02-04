@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Bot.Solutions.Skills;
 using System;
+using Microsoft.Bot.Solutions.Skills;
 
 namespace PointOfInterestSkill.ServiceClients
 {
@@ -32,6 +32,9 @@ namespace PointOfInterestSkill.ServiceClients
         /// Gets the supported GeoSpatialService for route directions.
         /// Azure Maps is the only supported provider.
         /// </summary>
+        /// <param name="services">The SkillConfigurationBase services.</param>
+        /// <param name="locale">The user's locale.</param>
+        /// <returns>IGeoSpatialService.</returns>
         public IGeoSpatialService InitRoutingMapsService(SkillConfigurationBase services, string locale = "en")
         {
             var key = GetAzureMapsKey(services);

@@ -3,9 +3,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -49,7 +47,6 @@ namespace PointOfInterestSkill.ServiceClients
             }
             catch (Exception ex)
             {
-
             }
 
             return this;
@@ -68,6 +65,11 @@ namespace PointOfInterestSkill.ServiceClients
         /// <summary>
         /// Returns a list of venues near the provided coordinates, matching a search term.
         /// </summary>
+        /// <param name="latitude">The current latitude.</param>
+        /// <param name="longitude">The current longitude.</param>
+        /// <param name="query">The search query.</param>
+        /// <param name="country">The user's country.</param>
+        /// <returns>List of PointOfInterestModels.</returns>
         public async Task<List<PointOfInterestModel>> GetPointOfInterestByQueryAsync(double latitude, double longitude, string query, string country = null)
         {
             if (string.IsNullOrEmpty(query))
@@ -81,6 +83,8 @@ namespace PointOfInterestSkill.ServiceClients
         /// <summary>
         /// This provider does not offer search by address.
         /// </summary>
+        /// <param name="address">The search address.</param>
+        /// <returns>List of PointOfInterestModels.</returns>
         public async Task<List<PointOfInterestModel>> GetPointOfInterestByAddressAsync(string address)
         {
             throw new NotSupportedException();
@@ -89,6 +93,9 @@ namespace PointOfInterestSkill.ServiceClients
         /// <summary>
         /// This provider does not offer search by only coordinates.
         /// </summary>
+        /// <param name="latitude">The current latitude.</param>
+        /// <param name="longitude">The current longitude.</param>
+        /// <returns>List of PointOfInterestModels.</returns>
         public async Task<List<PointOfInterestModel>> GetPointOfInterestByCoordinatesAsync(double latitude, double longitude)
         {
             throw new NotSupportedException();
@@ -97,6 +104,9 @@ namespace PointOfInterestSkill.ServiceClients
         /// <summary>
         /// Get venue recommendations using the latitude and longitude of the user's location.
         /// </summary>
+        /// <param name="latitude">The current latitude.</param>
+        /// <param name="longitude">The current longitude.</param>
+        /// <returns>List of PointOfInterestModels.</returns>
         public async Task<List<PointOfInterestModel>> GetNearbyPointsOfInterestAsync(double latitude, double longitude)
         {
             return await GetVenueAsync(
@@ -106,6 +116,8 @@ namespace PointOfInterestSkill.ServiceClients
         /// <summary>
         /// Returns available image from point of interest.
         /// </summary>
+        /// <param name="pointOfInterest">The point of interest model.</param>
+        /// <returns>PointOfInterestModel.</returns>
         public async Task<PointOfInterestModel> GetPointOfInterestDetailsAsync(PointOfInterestModel pointOfInterest)
         {
             if (pointOfInterest == null)
@@ -119,6 +131,11 @@ namespace PointOfInterestSkill.ServiceClients
             return pointOfInterestList.FirstOrDefault() ?? pointOfInterest;
         }
 
+        /// <summary>
+        /// Gets a request to Foursquare API & convert to PointOfInterestModels.
+        /// </summary>
+        /// <param name="url">The HTTP request URL.</param>
+        /// <returns>A list of PointOfInterestModels.</returns>
         private async Task<List<PointOfInterestModel>> GetVenueAsync(string url)
         {
             url = url + $"&client_id={clientId}&client_secret={clientSecret}&v={apiVersion}";
