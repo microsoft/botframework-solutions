@@ -93,6 +93,19 @@ namespace PointOfInterestSkillTests.API
             Assert.AreEqual(pointOfInterestList[2].City, "Norkirk, Kirkland");
         }
 
+        [TestMethod]
+        public async Task GetParkingCategoryTest()
+        {
+            var service = new AzureMapsGeoSpatialService();
+
+            await service.InitKeyAsync(MockData.Key, MockData.Radius, MockData.Locale, mockClient);
+
+            var pointOfInterestList = await service.GetPointOfInterestListByParkingCategoryAsync(MockData.Latitude, MockData.Longitude);
+            Assert.AreEqual(pointOfInterestList[0].Name, "1110 Elliott Avenue West");
+            Assert.AreEqual(pointOfInterestList[1].Name, "1108 Elliott Ave W");
+            Assert.AreEqual(pointOfInterestList[2].Name, "660 Elliott Avenue West");
+        }
+
 
     }
 }
