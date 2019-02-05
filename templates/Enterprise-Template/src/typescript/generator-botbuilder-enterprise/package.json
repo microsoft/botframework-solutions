@@ -9,9 +9,13 @@
     "url": "http://dev.botframework.com"
   },
   "files": [
-    "generators"
+    "generators",
+    "app",
+    "dialog",
+    ".gitignore",
+    ".npmignore"
   ],
-  "main": "generators/index.js",
+  "main": "generators/app/index.js",
   "keywords": [
     "botbuilder",
     "bots",
@@ -35,6 +39,7 @@
   "dependencies": {
     "chalk": "^2.4.2",
     "lodash": "^4.17.11",
+    "npmignore": "^0.2.0",
     "yeoman-generator": "^3.2.0"
   },
   "lint-staged": {
@@ -45,22 +50,6 @@
     "*.json": [
       "prettier --write",
       "git add"
-    ]
-  },
-  "eslintConfig": {
-    "extends": [
-      "xo",
-      "prettier"
-    ],
-    "env": {
-      "mocha": true,
-      "node": true
-    },
-    "rules": {
-      "prettier/prettier": "error"
-    },
-    "plugins": [
-      "prettier"
     ]
   },
   "scripts": {

@@ -1,7 +1,7 @@
 [
   {
     "canonicalName": "Front Left Air Delivery Mode Control",
-    "categories": [ "Climate Control" ],
+    "category": "Climate Control",
     "values": [
       { "canonicalName": "Auto" },
       { "canonicalName": "Floor" },
@@ -15,7 +15,7 @@
   },
   {
     "canonicalName": "Rear Left Air Delivery Mode Control",
-    "categories": [ "Climate Control" ],
+    "category": "Climate Control",
     "values": [
       { "canonicalName": "Auto" },
       { "canonicalName": "Floor" },
@@ -29,7 +29,7 @@
   },
   {
     "canonicalName": "Front Right Air Delivery Mode Control",
-    "categories": [ "Climate Control" ],
+    "category": "Climate Control",
     "values": [
       { "canonicalName": "Auto" },
       { "canonicalName": "Floor" },
@@ -43,7 +43,7 @@
   },
   {
     "canonicalName": "Rear Right Air Delivery Mode Control",
-    "categories": [ "Climate Control" ],
+    "category": "Climate Control",
     "values": [
       { "canonicalName": "Auto" },
       { "canonicalName": "Floor" },
@@ -58,7 +58,7 @@
   {
     "includedSettings": [ "Front Left Air Delivery Mode Control", "Front Right Air Delivery Mode Control" ],
     "canonicalName": "Front Combined Air Delivery Mode Control",
-    "categories": [ "Climate Control" ],
+    "category": "Climate Control",
     "values": [
       { "canonicalName": "Auto" },
       { "canonicalName": "Floor" },
@@ -73,7 +73,7 @@
   {
     "includedSettings": [ "Rear Left Air Delivery Mode Control", "Rear Right Air Delivery Mode Control" ],
     "canonicalName": "Rear Combined Air Delivery Mode Control",
-    "categories": [ "Climate Control" ],
+    "category": "Climate Control",
     "values": [
       { "canonicalName": "Auto" },
       { "canonicalName": "Floor" },
@@ -87,7 +87,7 @@
   },
   {
     "canonicalName": "Sync HVAC",
-    "categories": [ "Climate Control" ],
+    "category": "Climate Control",
     "values": [
       { "canonicalName": "Sync All" },
       { "canonicalName": "UnSync All" },
@@ -97,7 +97,7 @@
   },
   {
     "canonicalName": "Rear Window Defogger",
-    "categories": [ "Climate Control" ],
+    "category": "Climate Control",
     "values": [
       { "canonicalName": "Off" },
       { "canonicalName": "On" }
@@ -105,7 +105,7 @@
   },
   {
     "canonicalName": "Front and Rear HVAC",
-    "categories": [ "Climate Control" ],
+    "category": "Climate Control",
     "values": [
       { "canonicalName": "All Off" },
       { "canonicalName": "All On" },
@@ -115,7 +115,7 @@
   },
   {
     "canonicalName": "Auto Front HVAC",
-    "categories": [ "Climate Control" ],
+    "category": "Climate Control",
     "values": [
       { "canonicalName": "Auto Off" },
       { "canonicalName": "Auto On" }
@@ -123,7 +123,7 @@
   },
   {
     "canonicalName": "Auto Rear HVAC",
-    "categories": [ "Climate Control" ],
+    "category": "Climate Control",
     "values": [
       { "canonicalName": "Auto Off" },
       { "canonicalName": "Auto On" }
@@ -139,7 +139,7 @@
       }
     ],
     "canonicalName": "Front Fan Control",
-    "categories": [ "Climate Control" ],
+    "category": "Climate Control",
     "values": [
       {
         "canonicalName": "Set",
@@ -165,7 +165,7 @@
       }
     ],
     "canonicalName": "Rear Fan Control",
-    "categories": [ "Climate Control" ],
+    "category": "Climate Control",
     "values": [
       {
         "canonicalName": "Set",
@@ -204,7 +204,7 @@
         "unit": "\u00b0"
       }
     ],
-    "categories": [ "Climate Control" ],
+    "category": "Climate Control",
     "allowsAmount": true,
     "includedSettings": [ "Front Left Set Temperature", "Front Right Set Temperature", "Front Combined Set Temperature", "Rear Left Set Temperature", "Rear Right Set Temperature", "Rear Combined Set Temperature" ],
     "canonicalName": "Temperature",
@@ -248,7 +248,7 @@
       }
     ],
     "canonicalName": "Front Left Set Temperature",
-    "categories": [ "Climate Control" ],
+    "category": "Climate Control",
     "values": [
       {
         "canonicalName": "Set",
@@ -289,7 +289,7 @@
       }
     ],
     "canonicalName": "Front Right Set Temperature",
-    "categories": [ "Climate Control" ],
+    "category": "Climate Control",
     "values": [
       {
         "canonicalName": "Set",
@@ -328,7 +328,7 @@
         "unit": "\u00b0"
       }
     ],
-    "categories": [ "Climate Control" ],
+    "category": "Climate Control",
     "allowsAmount": true,
     "includedSettings": [ "Front Left Set Temperature", "Front Right Set Temperature" ],
     "canonicalName": "Front Combined Set Temperature",
@@ -372,7 +372,7 @@
       }
     ],
     "canonicalName": "Rear Left Set Temperature",
-    "categories": [ "Climate Control" ],
+    "category": "Climate Control",
     "values": [
       {
         "canonicalName": "Set",
@@ -413,7 +413,7 @@
       }
     ],
     "canonicalName": "Rear Right Set Temperature",
-    "categories": [ "Climate Control" ],
+    "category": "Climate Control",
     "values": [
       {
         "canonicalName": "Set",
@@ -452,7 +452,7 @@
         "unit": "\u00b0"
       }
     ],
-    "categories": [ "Climate Control" ],
+    "category": "Climate Control",
     "allowsAmount": true,
     "includedSettings": [ "Rear Left Set Temperature", "Rear Right Set Temperature" ],
     "canonicalName": "Rear Combined Set Temperature",
@@ -473,7 +473,7 @@
   },
   {
     "canonicalName": "Air Recirculation",
-    "categories": [ "Climate Control" ],
+    "category": "Climate Control",
     "values": [
       { "canonicalName": "Fresh Air" },
       { "canonicalName": "Recirculate Air" }
@@ -481,7 +481,7 @@
   },
   {
     "canonicalName": "Climate Mode",
-    "categories": [ "Climate Control" ],
+    "category": "Climate Control",
     "values": [
       { "canonicalName": "Comfort" },
       { "canonicalName": "Economy" },
@@ -490,7 +490,7 @@
   },
   {
     "canonicalName": "Heater Mode",
-    "categories": [ "Climate Control" ],
+    "category": "Climate Control",
     "values": [
       { "canonicalName": "Comfort" },
       { "canonicalName": "Economy" }
@@ -498,7 +498,7 @@
   },
   {
     "canonicalName": "Max Defrost",
-    "categories": [ "Climate Control" ],
+    "category": "Climate Control",
     "values": [
       { "canonicalName": "Off" },
       { "canonicalName": "On" }
@@ -506,7 +506,7 @@
   },
   {
     "canonicalName": "Alert Type",
-    "categories": [ "Active Safety" ],
+    "category": "Active Safety",
     "values": [
       { "canonicalName": "Beeps" },
       { "canonicalName": "Safety Alert Seat" }
@@ -514,7 +514,7 @@
   },
   {
     "canonicalName": "Drowsy Driver Alert",
-    "categories": [ "Active Safety" ],
+    "category": "Active Safety",
     "values": [
       {
         "canonicalName": "Off",
@@ -525,7 +525,7 @@
   },
   {
     "canonicalName": "Rear Cross Traffic Alert",
-    "categories": [ "Active Safety" ],
+    "category": "Active Safety",
     "values": [
       {
         "canonicalName": "Off",
@@ -536,7 +536,7 @@
   },
   {
     "canonicalName": "Side Blind Zone Alert",
-    "categories": [ "Active Safety" ],
+    "category": "Active Safety",
     "values": [
       {
         "canonicalName": "Off",
@@ -547,7 +547,7 @@
   },
   {
     "canonicalName": "Forward Collision System",
-    "categories": [ "Active Safety" ],
+    "category": "Active Safety",
     "values": [
       {
         "canonicalName": "Off",
@@ -560,7 +560,7 @@
   },
   {
     "canonicalName": "Forward Automatic Braking",
-    "categories": [ "Active Safety" ],
+    "category": "Active Safety",
     "values": [
       {
         "canonicalName": "Off",
@@ -573,7 +573,7 @@
   },
   {
     "canonicalName": "Front Pedestrian Detection",
-    "categories": [ "Active Safety" ],
+    "category": "Active Safety",
     "values": [
       {
         "canonicalName": "Off",
@@ -586,7 +586,7 @@
   },
   {
     "canonicalName": "Rear Pedestrian Detection",
-    "categories": [ "Active Safety" ],
+    "category": "Active Safety",
     "values": [
       {
         "canonicalName": "Off",
@@ -599,7 +599,7 @@
   },
   {
     "canonicalName": "Lane Change Alert",
-    "categories": [ "Active Safety" ],
+    "category": "Active Safety",
     "values": [
       {
         "canonicalName": "Off",
@@ -610,7 +610,7 @@
   },
   {
     "canonicalName": "Park Assist",
-    "categories": [ "Active Safety" ],
+    "category": "Active Safety",
     "values": [
       {
         "canonicalName": "Off",
@@ -630,7 +630,7 @@
       }
     ],
     "canonicalName": "Equalizer (Bass)",
-    "categories": [ "Audio" ],
+    "category": "Audio",
     "values": [
       {
         "canonicalName": "Set",
@@ -656,7 +656,7 @@
       }
     ],
     "canonicalName": "Equalizer (Midrange)",
-    "categories": [ "Audio" ],
+    "category": "Audio",
     "values": [
       {
         "canonicalName": "Set",
@@ -682,7 +682,7 @@
       }
     ],
     "canonicalName": "Equalizer (Treble)",
-    "categories": [ "Audio" ],
+    "category": "Audio",
     "values": [
       {
         "canonicalName": "Set",
@@ -708,7 +708,7 @@
       }
     ],
     "canonicalName": "Equalizer (Surround)",
-    "categories": [ "Audio" ],
+    "category": "Audio",
     "values": [
       {
         "canonicalName": "Set",
@@ -728,7 +728,7 @@
     "allowsAmount": true,
     "amounts": [ { "unit": "" } ],
     "canonicalName": "Set Volume",
-    "categories": [ "Audio" ],
+    "category": "Audio",
     "values": [
       {
         "canonicalName": "Set",
@@ -746,7 +746,7 @@
   },
   {
     "canonicalName": "Forward Collision Gap Setting",
-    "categories": [ "Active Safety" ],
+    "category": "Active Safety",
     "values": [
       {
         "canonicalName": "Off",

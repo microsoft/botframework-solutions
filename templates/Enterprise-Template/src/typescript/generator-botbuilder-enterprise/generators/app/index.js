@@ -1,12 +1,13 @@
 "use strict";
 const Generator = require("yeoman-generator");
 const chalk = require("chalk");
+const path = require("path");
 const pkg = require("../../package.json");
-
 const _pick = require("lodash/pick");
 const _camelCase = require("lodash/camelCase");
 const _upperFirst = require("lodash/upperFirst");
 const _kebabCase = require("lodash/kebabCase");
+const fs = require("fs");
 
 const languages = [
   {
@@ -62,19 +63,22 @@ const bigBot =
 const tinyBot =
   " " + chalk.blue.bold("<") + " ** " + chalk.blue.bold(">") + " ";
 
+var botGenerationPath = process.cwd();
+var isAlreadyCreated = false;
+
 module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
 
     this.option("botName", {
-      description: "The name you want to give to your bot",
+      description: "The name you want to give to your bot.",
       type: String,
       default: "enterprise-bot",
       alias: "n"
     });
 
     this.option("botDesc", {
-      description: "A brief bit of text used to describe what your bot does",
+      description: "A brief bit of text used to describe what your bot does.",
       type: String,
       alias: "d"
     });
@@ -86,8 +90,15 @@ module.exports = class extends Generator {
       alias: "l"
     });
 
+    this.option("botGenerationPath", {
+      description: "The path where the bot will be generated.",
+      type: String,
+      default: process.cwd(),
+      alias: "p"
+    });
+
     this.option("noPrompt", {
-      description: "Do not prompt for any information or confirmation",
+      description: "Do not prompt for any information or confirmation.",
       type: Boolean,
       default: false
     });
@@ -95,7 +106,11 @@ module.exports = class extends Generator {
 
   prompting() {
     this.log(bigBot);
-
+    this.log(
+      chalk.magenta(
+        "\nREMINDER: For deployment's steps, the bot's name needs to be unique."
+      )
+    );
     // Validate language option
     if (
       this.options.botLang &&
@@ -118,7 +133,18 @@ module.exports = class extends Generator {
         type: "input",
         name: "botName",
         message: `What's the name of your bot?`,
-        default: this.options.botName ? this.options.botName : "enterprise-bot"
+        default: this.options.botName ? this.options.botName : "enterprise-bot",
+        validate: input => {
+          if (input.length > 12) {
+            this.log(
+              chalk.yellow(
+                "\nWARNING: If the name of the bot has more than 12 characters, it could have some problems deploying some services."
+              )
+            );
+          }
+
+          return true;
+        }
       },
       {
         type: "input",
@@ -126,7 +152,7 @@ module.exports = class extends Generator {
         message: "What will your bot do?",
         default: this.options.botDesc
           ? this.options.botDesc
-          : "Demonstrate advanced capabilities of a Conversational AI bot"
+          : "Demonstrate advanced capabilities of a Conversational AI bot."
       },
       {
         type: "list",
@@ -136,15 +162,49 @@ module.exports = class extends Generator {
         default: selectedLang
       },
       {
-        name: "finalConfirmation",
         type: "confirm",
+        name: "pathConfirmation",
+        message: "Do you want to change the location of the generation?",
+        default: false
+      },
+      {
+        when: function(response) {
+          return response.pathConfirmation === true;
+        },
+        type: "input",
+        name: "botGenerationPath",
+        message: "Where do you want to generate the bot?",
+        default: this.options.botGenerationPath
+          ? this.options.botGenerationPath
+          : process.cwd(),
+        validate: path => {
+          if (fs.existsSync(path)) {
+            return true;
+          }
+
+          this.log(
+            chalk.red(
+              "\n",
+              "ERROR: This is not a valid path. Please try again."
+            )
+          );
+        }
+      },
+      {
+        type: "confirm",
+        name: "finalConfirmation",
         message: "Looking good. Shall I go ahead and create your new bot?",
         default: true
       }
     ];
 
     if (this.options.noPrompt) {
-      this.props = _pick(this.options, ["botName", "botDesc", "botLang"]);
+      this.props = _pick(this.options, [
+        "botName",
+        "botDesc",
+        "botLang",
+        "botGenerationPath"
+      ]);
 
       // Validate we have what we need, or we'll need to throw
       if (!this.props.botName) {
@@ -171,34 +231,50 @@ module.exports = class extends Generator {
     const templateName = "enterprise-bot";
     const botLang = this.props.botLang;
     const botDesc = this.props.botDesc;
-    const botName = _kebabCase(this.props.botName);
+    if (!this.props.botName.replace(/\s/g, "").length) {
+      this.props.botName = templateName;
+    }
+
+    const botName = _kebabCase(this.props.botName).replace(
+      /([^a-z0-9-]+)/gi,
+      ""
+    );
     const botNamePascalCase = _upperFirst(_camelCase(this.props.botName));
     const botNameCamelCase = _camelCase(this.props.botName);
+    botGenerationPath = path.join(botGenerationPath, botName);
+    if (this.props.botGenerationPath !== undefined) {
+      botGenerationPath = path.join(this.props.botGenerationPath, botName);
+    }
 
-    this.log("Current values:");
-    this.log(botName);
-    this.log(botNameCamelCase);
-    this.log(botDesc);
-    this.log(botLang);
+    if (fs.existsSync(botGenerationPath)) {
+      isAlreadyCreated = true;
+      return;
+    }
+
+    this.log(chalk.magenta("\nCurrent values for the new bot:"));
+    this.log(chalk.magenta("Name: " + botName));
+    this.log(chalk.magenta("Description: " + botDesc));
+    this.log(chalk.magenta("Language: " + botLang));
+    this.log(chalk.magenta("Path: " + botGenerationPath + "\n"));
 
     this.fs.copy(
       this.templatePath(templateName, "cognitiveModels", "LUIS", botLang, "*"),
-      this.destinationPath(botNameCamelCase, "cognitiveModels", "LUIS")
+      this.destinationPath(botGenerationPath, "cognitiveModels", "LUIS")
     );
 
     this.fs.copy(
       this.templatePath(templateName, "cognitiveModels", "QnA", botLang, "*"),
-      this.destinationPath(botNameCamelCase, "cognitiveModels", "QnA")
+      this.destinationPath(botGenerationPath, "cognitiveModels", "QnA")
     );
 
     this.fs.copy(
       this.templatePath(templateName, "deploymentScripts", botLang, "*"),
-      this.destinationPath(botNameCamelCase, "deploymentScripts")
+      this.destinationPath(botGenerationPath, "deploymentScripts")
     );
 
     this.fs.copyTpl(
       this.templatePath(templateName, "_package.json"),
-      this.destinationPath(botNameCamelCase, "package.json"),
+      this.destinationPath(botGenerationPath, "package.json"),
       {
         name: botName,
         description: botDesc
@@ -207,7 +283,7 @@ module.exports = class extends Generator {
 
     this.fs.copyTpl(
       this.templatePath(templateName, "src", "_index.ts"),
-      this.destinationPath(botNameCamelCase, "src", "index.ts"),
+      this.destinationPath(botGenerationPath, "src", "index.ts"),
       {
         name: botName,
         description: botDesc,
@@ -218,7 +294,7 @@ module.exports = class extends Generator {
 
     this.fs.copyTpl(
       this.templatePath(templateName, "src", "_enterpriseBot.ts"),
-      this.destinationPath(botNameCamelCase, "src", `${botNameCamelCase}.ts`),
+      this.destinationPath(botGenerationPath, "src", `${botNameCamelCase}.ts`),
       {
         name: botName,
         description: botDesc,
@@ -229,22 +305,23 @@ module.exports = class extends Generator {
 
     this.fs.copy(
       this.templatePath(templateName, "src", "botServices.ts"),
-      this.destinationPath(botNameCamelCase, "src", "botServices.ts")
+      this.destinationPath(botGenerationPath, "src", "botServices.ts")
     );
 
     const commonFiles = [
       ".env.development",
       ".env.production",
-      ".gitignore",
+      "gitignore",
       "README.md",
       "tsconfig.json",
-      "deploymentScripts/webConfigPrep.js"
+      "deploymentScripts/webConfigPrep.js",
+      "tslint.json"
     ];
 
     commonFiles.forEach(fileName =>
       this.fs.copy(
         this.templatePath(templateName, fileName),
-        this.destinationPath(botNameCamelCase + "/" + fileName)
+        this.destinationPath(botGenerationPath, fileName)
       )
     );
 
@@ -259,29 +336,53 @@ module.exports = class extends Generator {
     commonDirectories.forEach(directory =>
       this.fs.copy(
         this.templatePath(templateName, "src", directory, "**", "*"),
-        this.destinationPath(botNameCamelCase, "src", directory)
+        this.destinationPath(botGenerationPath, "src", directory)
       )
     );
   }
 
   install() {
-    if (this.props.finalConfirmation !== true) {
+    if (this.props.finalConfirmation !== true || isAlreadyCreated) {
       return;
     }
 
+    process.chdir(botGenerationPath);
     this.installDependencies({ npm: true, bower: false });
   }
 
   end() {
     if (this.props.finalConfirmation === true) {
-      this.log(chalk.green("------------------------ "));
-      this.log(chalk.green(" Your new bot is ready!  "));
-      this.log(chalk.green("------------------------ "));
-      this.log(
-        "Open the " +
-          chalk.green.bold("README.md") +
-          " to learn how to run your bot. "
-      );
+      if (isAlreadyCreated) {
+        this.log(
+          chalk.red.bold(
+            "-------------------------------------------------------------------------------------------- "
+          )
+        );
+        this.log(
+          chalk.red.bold(
+            " ERROR: It's seems like you already have a bot with the same name in the destination path. "
+          )
+        );
+        this.log(
+          chalk.red.bold(
+            " Try again changing the name or the destination path or deleting the previous bot. "
+          )
+        );
+        this.log(
+          chalk.red.bold(
+            "-------------------------------------------------------------------------------------------- "
+          )
+        );
+      } else {
+        this.log(chalk.green("------------------------ "));
+        this.log(chalk.green(" Your new bot is ready!  "));
+        this.log(chalk.green("------------------------ "));
+        this.log(
+          "Open the " +
+            chalk.green.bold("README.md") +
+            " to learn how to run your bot. "
+        );
+      }
     } else {
       this.log(chalk.red.bold("-------------------------------- "));
       this.log(chalk.red.bold(" New bot creation was canceled. "));

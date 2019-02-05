@@ -6,6 +6,7 @@ namespace AutomotiveSkill.Common
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
     using global::AutomotiveSkill.Models;
@@ -40,9 +41,14 @@ namespace AutomotiveSkill.Common
             this.settingList = settingList;
             this.settingMatcher = new SettingMatcher(this.settingList);
             this.numberNormalizer = new NumberNormalizer();
-            this.amountNormalizer = new EntityNormalizer("Dialogs/VehicleSettings/Resources/normalization/amount_percentage.tsv");
-            this.typeNormalizer = new EntityNormalizer("Dialogs/VehicleSettings/Resources/normalization/amount_type.tsv");
-            this.unitNormalizer = new EntityNormalizer("Dialogs/VehicleSettings/Resources/normalization/amount_unit.tsv");
+
+            var resDir = Path.Combine(
+                Path.GetDirectoryName(typeof(SettingFilter).Assembly.Location),
+                "Dialogs\\VehicleSettings\\Resources\\normalization\\");
+
+            this.amountNormalizer = new EntityNormalizer(resDir + "amount_percentage.tsv");
+            this.typeNormalizer = new EntityNormalizer(resDir + "amount_type.tsv");
+            this.unitNormalizer = new EntityNormalizer(resDir + "amount_unit.tsv");
         }
 
         /// <summary>

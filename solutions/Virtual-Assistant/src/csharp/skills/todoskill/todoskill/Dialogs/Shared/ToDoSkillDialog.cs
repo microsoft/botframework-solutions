@@ -9,6 +9,7 @@ using AdaptiveCards;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Dialogs;
@@ -18,7 +19,11 @@ using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Prompts;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
+using Microsoft.Recognizers.Text;
 using Newtonsoft.Json.Linq;
+using ToDoSkill.Dialogs.AddToDo.Resources;
+using ToDoSkill.Dialogs.DeleteToDo.Resources;
+using ToDoSkill.Dialogs.MarkToDo.Resources;
 using ToDoSkill.Dialogs.Shared.DialogOptions;
 using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.Dialogs.ShowToDo.Resources;
@@ -56,6 +61,7 @@ namespace ToDoSkill.Dialogs.Shared
             AddDialog(new EventPrompt(SkillModeAuth, "tokens/response", TokenResponseValidator));
             AddDialog(new MultiProviderAuthDialog(services));
             AddDialog(new TextPrompt(Action.Prompt));
+            AddDialog(new ConfirmPrompt(Action.ConfirmPrompt, null, Culture.English) { Style = ListStyle.SuggestedAction });
         }
 
         protected SkillConfigurationBase Services { get; set; }
@@ -183,23 +189,12 @@ namespace ToDoSkill.Dialogs.Shared
                     state.Tasks = new List<TaskItem>();
                     state.AllTasks = new List<TaskItem>();
                     state.ListType = null;
+                    state.GoBackToStart = false;
                     await DigestToDoLuisResult(sc);
                 }
                 else if (generalTopIntent == General.Intent.Next)
                 {
-                    state.ReadTaskIndex = 0;
-                    if ((state.ShowTaskPageIndex + 1) * state.PageSize < state.AllTasks.Count)
-                    {
-                        state.ShowTaskPageIndex++;
-                    }
-                }
-                else if (generalTopIntent == General.Intent.Previous && state.ShowTaskPageIndex > 0)
-                {
-                    state.ReadTaskIndex = 0;
-                    state.ShowTaskPageIndex--;
-                }
-                else if (generalTopIntent == General.Intent.ReadMore)
-                {
+                    state.IsLastPage = false;
                     if ((state.ReadTaskIndex + 1) * state.ReadSize < state.Tasks.Count)
                     {
                         state.ReadTaskIndex++;
@@ -212,6 +207,23 @@ namespace ToDoSkill.Dialogs.Shared
                         {
                             state.ShowTaskPageIndex++;
                         }
+                        else
+                        {
+                            state.IsLastPage = true;
+                        }
+                    }
+                }
+                else if (generalTopIntent == General.Intent.Previous)
+                {
+                    state.ReadTaskIndex = 0;
+                    state.IsFirstPage = false;
+                    if (state.ShowTaskPageIndex > 0)
+                    {
+                        state.ShowTaskPageIndex--;
+                    }
+                    else
+                    {
+                        state.IsFirstPage = true;
                     }
                 }
                 else if (topIntent == ToDo.Intent.AddToDo)
@@ -249,7 +261,6 @@ namespace ToDoSkill.Dialogs.Shared
             try
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
-                state.ListType = state.ListType ?? ToDoStrings.ToDo;
 
                 // LastListType is used to switch between list types in DeleteToDoItemDialog and MarkToDoItemDialog.
                 if (!state.ListTypeIds.ContainsKey(state.ListType)
@@ -271,280 +282,6 @@ namespace ToDoSkill.Dialogs.Shared
                 {
                     return await sc.NextAsync();
                 }
-            }
-            catch (SkillException ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        protected async Task<DialogTurnResult> CollectToDoTaskIndex(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                return await sc.BeginDialogAsync(Action.CollectToDoTaskIndex);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        protected async Task<DialogTurnResult> AskToDoTaskIndex(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await ToDoStateAccessor.GetAsync(sc.Context);
-                if (!string.IsNullOrEmpty(state.TaskContentPattern)
-                    || !string.IsNullOrEmpty(state.TaskContentML)
-                    || state.MarkOrDeleteAllTasksFlag
-                    || (state.TaskIndexes.Count == 1
-                        && state.TaskIndexes[0] >= 0
-                        && state.TaskIndexes[0] < state.Tasks.Count))
-                {
-                    return await sc.NextAsync();
-                }
-                else
-                {
-                    var prompt = sc.Context.Activity.CreateReply(ToDoSharedResponses.AskToDoTaskIndex);
-                    return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
-                }
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        protected async Task<DialogTurnResult> AfterAskToDoTaskIndex(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await ToDoStateAccessor.GetAsync(sc.Context);
-                var matchedIndexes = Enumerable.Range(0, state.AllTasks.Count)
-                    .Where(i => state.AllTasks[i].Topic.Equals(state.TaskContentPattern, StringComparison.OrdinalIgnoreCase)
-                    || state.AllTasks[i].Topic.Equals(state.TaskContentML, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
-
-                if (matchedIndexes?.Count > 0)
-                {
-                    state.TaskIndexes = matchedIndexes;
-                    return await sc.EndDialogAsync(true);
-                }
-                else
-                {
-                    var userInput = sc.Context.Activity.Text;
-                    matchedIndexes = Enumerable.Range(0, state.AllTasks.Count)
-                        .Where(i => state.AllTasks[i].Topic.Equals(userInput, StringComparison.OrdinalIgnoreCase))
-                        .ToList();
-
-                    if (matchedIndexes?.Count > 0)
-                    {
-                        state.TaskIndexes = matchedIndexes;
-                        return await sc.EndDialogAsync(true);
-                    }
-                }
-
-                if (state.MarkOrDeleteAllTasksFlag)
-                {
-                    return await sc.EndDialogAsync(true);
-                }
-
-                if (state.TaskIndexes.Count == 1
-                    && state.TaskIndexes[0] >= 0
-                    && state.TaskIndexes[0] < state.Tasks.Count)
-                {
-                    state.TaskIndexes[0] = (state.PageSize * state.ShowTaskPageIndex) + state.TaskIndexes[0];
-                    return await sc.EndDialogAsync(true);
-                }
-                else
-                {
-                    state.TaskContentPattern = null;
-                    state.TaskContentML = null;
-                    return await sc.BeginDialogAsync(Action.CollectToDoTaskIndex);
-                }
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        protected async Task<DialogTurnResult> CollectToDoTaskContent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                return await sc.BeginDialogAsync(Action.CollectToDoTaskContent);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        protected async Task<DialogTurnResult> AskToDoTaskContent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await this.ToDoStateAccessor.GetAsync(sc.Context);
-                if (!string.IsNullOrEmpty(state.TaskContentPattern)
-                    || !string.IsNullOrEmpty(state.TaskContentML)
-                    || !string.IsNullOrEmpty(state.ShopContent))
-                {
-                    return await sc.NextAsync();
-                }
-                else
-                {
-                    var prompt = sc.Context.Activity.CreateReply(ToDoSharedResponses.AskToDoContentText);
-                    return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
-                }
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        protected async Task<DialogTurnResult> AfterAskToDoTaskContent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await ToDoStateAccessor.GetAsync(sc.Context);
-                if (string.IsNullOrEmpty(state.TaskContentPattern)
-                    && string.IsNullOrEmpty(state.TaskContentML)
-                    && string.IsNullOrEmpty(state.ShopContent))
-                {
-                    if (sc.Result != null)
-                    {
-                        sc.Context.Activity.Properties.TryGetValue("OriginText", out var toDoContent);
-                        state.TaskContent = toDoContent != null ? toDoContent.ToString() : sc.Context.Activity.Text;
-                        return await sc.EndDialogAsync(true);
-                    }
-                    else
-                    {
-                        return await sc.BeginDialogAsync(Action.CollectToDoTaskContent);
-                    }
-                }
-                else
-                {
-                    this.ExtractListTypeAndTaskContent(state);
-                    return await sc.EndDialogAsync(true);
-                }
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        protected async Task<DialogTurnResult> CollectSwitchListTypeConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await ToDoStateAccessor.GetAsync(sc.Context);
-                if (state.SwitchListType)
-                {
-                    state.SwitchListType = false;
-                    return await sc.BeginDialogAsync(Action.CollectSwitchListTypeConfirmation);
-                }
-                else
-                {
-                    return await sc.NextAsync();
-                }
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        protected async Task<DialogTurnResult> AskSwitchListTypeConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await ToDoStateAccessor.GetAsync(sc.Context);
-                var token = new StringDictionary() { { "listType", state.ListType } };
-                var response = GenerateResponseWithTokens(ToDoSharedResponses.SwitchListType, token);
-                var prompt = sc.Context.Activity.CreateReply(response);
-                prompt.Speak = response;
-                return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        protected async Task<DialogTurnResult> AfterAskSwitchListTypeConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await ToDoStateAccessor.GetAsync(sc.Context);
-                sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
-                var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
-
-                if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
-                {
-                    return await sc.EndDialogAsync(true);
-                }
-                else if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
-                {
-                    state.ListType = state.LastListType;
-                    state.LastListType = null;
-                    return await sc.EndDialogAsync(true);
-                }
-                else
-                {
-                    return await sc.BeginDialogAsync(Action.CollectSwitchListTypeConfirmation);
-                }
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        protected async Task<DialogTurnResult> AddToDoTask(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await ToDoStateAccessor.GetAsync(sc.Context);
-                state.ListType = state.ListType ?? ToDoStrings.ToDo;
-                state.LastListType = state.ListType;
-                var service = await InitListTypeIds(sc);
-                await service.AddTaskAsync(state.ListType, state.TaskContent);
-                state.AllTasks = await service.GetTasksAsync(state.ListType);
-                state.ShowTaskPageIndex = 0;
-                var rangeCount = Math.Min(state.PageSize, state.AllTasks.Count);
-                state.Tasks = state.AllTasks.GetRange(0, rangeCount);
-                var toDoListAttachment = ToAdaptiveCardForOtherFlows(
-                    state.Tasks,
-                    state.AllTasks.Count,
-                    state.TaskContent,
-                    ToDoSharedResponses.AfterToDoTaskAdded,
-                    ToDoSharedResponses.ShowToDoTasks,
-                    state.ListType);
-
-                var toDoListReply = sc.Context.Activity.CreateReply();
-                toDoListReply.Attachments.Add(toDoListAttachment);
-                await sc.Context.SendActivityAsync(toDoListReply);
-                return await sc.EndDialogAsync(true);
             }
             catch (SkillException ex)
             {
@@ -627,11 +364,11 @@ namespace ToDoSkill.Dialogs.Shared
 
                 if (entities.ListType != null)
                 {
-                    if (entities.ListType[0].Equals(ToDoStrings.Grocery, StringComparison.InvariantCultureIgnoreCase))
+                    if (ToDoStrings.GrocerySynonym.Contains(entities.ListType[0], StringComparison.InvariantCultureIgnoreCase))
                     {
                         state.ListType = ToDoStrings.Grocery;
                     }
-                    else if (entities.ListType[0].Equals(ToDoStrings.Shopping, StringComparison.InvariantCultureIgnoreCase))
+                    else if (ToDoStrings.ShoppingSynonym.Contains(entities.ListType[0], StringComparison.InvariantCultureIgnoreCase))
                     {
                         state.ListType = ToDoStrings.Shopping;
                     }
@@ -686,17 +423,30 @@ namespace ToDoSkill.Dialogs.Shared
 
         protected Attachment ToAdaptiveCardForShowToDos(
            List<TaskItem> todos,
-           int toBeReadTasksCount,
            int allTasksCount,
+           int readSize,
            string listType)
         {
             var toDoCard = new AdaptiveCard();
-            var speakText = Format(ToDoSharedResponses.ShowToDoTasks.Reply.Speak, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } })
-                + Format(ShowToDoResponses.FirstToDoTasks.Reply.Speak, new StringDictionary() { { "taskCount", toBeReadTasksCount.ToString() } });
+
+            var speakText = Format(ShowToDoResponses.TaskSummaryMessage.Reply.Speak, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } }) + " ";
+            if (todos.Count == 1)
+            {
+                speakText += Format(ShowToDoResponses.LatestOneTask.Reply.Speak) + " ";
+            }
+            else if (todos.Count == 2)
+            {
+                speakText += Format(ShowToDoResponses.LatestTwoTasks.Reply.Speak) + " ";
+            }
+            else if (todos.Count >= readSize)
+            {
+                speakText += Format(ShowToDoResponses.LatestThreeOrMoreTasks.Reply.Speak, new StringDictionary() { { "taskCount", readSize.ToString() } }) + " ";
+            }
+
             toDoCard.Speak = speakText;
 
             var body = new List<AdaptiveElement>();
-            var showText = Format(ToDoSharedResponses.ShowToDoTasks.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
+            var showText = Format(ToDoSharedResponses.CardSummaryMessage.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
             var textBlock = new AdaptiveTextBlock
             {
                 Text = showText,
@@ -704,7 +454,8 @@ namespace ToDoSkill.Dialogs.Shared
             body.Add(textBlock);
 
             var container = new AdaptiveContainer();
-            var index = 0;
+            int index = 0;
+            readSize = Math.Min(readSize, todos.Count);
             foreach (var todo in todos)
             {
                 var columnSet = new AdaptiveColumnSet();
@@ -724,10 +475,32 @@ namespace ToDoSkill.Dialogs.Shared
 
                 container.Items.Add(columnSet);
 
-                if (index < toBeReadTasksCount)
+                if (index < readSize)
                 {
-                    toDoCard.Speak += (++index) + " " + todo.Topic + " ";
+                    if (readSize == 1)
+                    {
+                        toDoCard.Speak += todo.Topic + ". ";
+                    }
+                    else if (index == readSize - 2)
+                    {
+                        toDoCard.Speak += todo.Topic;
+                    }
+                    else if (index == readSize - 1)
+                    {
+                        toDoCard.Speak += string.Format(ToDoStrings.And, todo.Topic);
+                    }
+                    else
+                    {
+                        toDoCard.Speak += todo.Topic + ", ";
+                    }
                 }
+
+                index++;
+            }
+
+            if (todos.Count <= readSize)
+            {
+                toDoCard.Speak += Format(ShowToDoResponses.AskAddOrCompleteTaskMessage.Reply.Speak);
             }
 
             body.Add(container);
@@ -749,64 +522,22 @@ namespace ToDoSkill.Dialogs.Shared
            string listType)
         {
             var toDoCard = new AdaptiveCard();
-            var body = new List<AdaptiveElement>();
-            var showText = Format(ToDoSharedResponses.ShowToDoTasks.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
-            var textBlock = new AdaptiveTextBlock
+
+            if (toBeReadTasksCount == 1)
             {
-                Text = showText,
-            };
-            body.Add(textBlock);
-
-            var container = new AdaptiveContainer();
-            var index = 0;
-            foreach (var todo in todos)
+                toDoCard.Speak = Format(ShowToDoResponses.NextOneTask.Reply.Speak) + " ";
+            }
+            else if (toBeReadTasksCount == 2)
             {
-                var columnSet = new AdaptiveColumnSet();
-
-                var icon = new AdaptiveImage();
-                icon.UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource;
-                var iconColumn = new AdaptiveColumn();
-                iconColumn.Width = "auto";
-                iconColumn.Items.Add(icon);
-                columnSet.Columns.Add(iconColumn);
-
-                var content = new AdaptiveTextBlock(todo.Topic);
-                var contentColumn = new AdaptiveColumn();
-                iconColumn.Width = "auto";
-                contentColumn.Items.Add(content);
-                columnSet.Columns.Add(contentColumn);
-
-                container.Items.Add(columnSet);
-
-                index++;
-                if (index > startIndexOfTasksToBeRead && index <= toBeReadTasksCount + startIndexOfTasksToBeRead)
-                {
-                    toDoCard.Speak += index + " " + todo.Topic + " ";
-                }
+                toDoCard.Speak += Format(ShowToDoResponses.NextTwoTasks.Reply.Speak) + " ";
+            }
+            else
+            {
+                toDoCard.Speak += Format(ShowToDoResponses.NextThreeOrMoreTask.Reply.Speak, new StringDictionary() { { "taskCount", toBeReadTasksCount.ToString() } }) + " ";
             }
 
-            body.Add(container);
-            toDoCard.Body = body;
-
-            var attachment = new Attachment()
-            {
-                ContentType = AdaptiveCard.ContentType,
-                Content = toDoCard,
-            };
-            return attachment;
-        }
-
-        protected Attachment ToAdaptiveCardForNextPage(
-           List<TaskItem> todos,
-           int toBeReadTasksCount)
-        {
-            var toDoCard = new AdaptiveCard();
-            var speakText = Format(ShowToDoResponses.ShowNextToDoTasks.Reply.Speak, new StringDictionary() { })
-                + Format(ShowToDoResponses.FirstToDoTasks.Reply.Speak, new StringDictionary() { { "taskCount", toBeReadTasksCount.ToString() } });
-            toDoCard.Speak = speakText;
-
             var body = new List<AdaptiveElement>();
-            var showText = Format(ShowToDoResponses.ShowNextToDoTasks.Reply.Text, new StringDictionary() { });
+            var showText = Format(ToDoSharedResponses.CardSummaryMessage.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
             var textBlock = new AdaptiveTextBlock
             {
                 Text = showText,
@@ -814,7 +545,7 @@ namespace ToDoSkill.Dialogs.Shared
             body.Add(textBlock);
 
             var container = new AdaptiveContainer();
-            var index = 0;
+            int index = 0;
             foreach (var todo in todos)
             {
                 var columnSet = new AdaptiveColumnSet();
@@ -833,11 +564,27 @@ namespace ToDoSkill.Dialogs.Shared
                 columnSet.Columns.Add(contentColumn);
 
                 container.Items.Add(columnSet);
-
-                if (index < toBeReadTasksCount)
+                if (index >= startIndexOfTasksToBeRead && index < startIndexOfTasksToBeRead + toBeReadTasksCount)
                 {
-                    toDoCard.Speak += (++index) + " " + todo.Topic + " ";
+                    if (toBeReadTasksCount == 1)
+                    {
+                        toDoCard.Speak += todo.Topic + ". ";
+                    }
+                    else if (index == startIndexOfTasksToBeRead + toBeReadTasksCount - 2)
+                    {
+                        toDoCard.Speak += todo.Topic;
+                    }
+                    else if (index == startIndexOfTasksToBeRead + toBeReadTasksCount - 1)
+                    {
+                        toDoCard.Speak += string.Format(ToDoStrings.And, todo.Topic);
+                    }
+                    else
+                    {
+                        toDoCard.Speak += todo.Topic + ", ";
+                    }
                 }
+
+                index++;
             }
 
             body.Add(container);
@@ -853,15 +600,14 @@ namespace ToDoSkill.Dialogs.Shared
 
         protected Attachment ToAdaptiveCardForPreviousPage(
            List<TaskItem> todos,
-           int toBeReadTasksCount)
+           int readSize,
+           int allTasksCount,
+           string listType)
         {
             var toDoCard = new AdaptiveCard();
-            var speakText = Format(ShowToDoResponses.ShowPreviousToDoTasks.Reply.Speak, new StringDictionary() { })
-                + Format(ShowToDoResponses.FirstToDoTasks.Reply.Speak, new StringDictionary() { { "taskCount", toBeReadTasksCount.ToString() } });
-            toDoCard.Speak = speakText;
-
+            toDoCard.Speak = Format(ShowToDoResponses.ShowPreviousTasks.Reply.Speak, new StringDictionary()) + " ";
             var body = new List<AdaptiveElement>();
-            var showText = Format(ShowToDoResponses.ShowPreviousToDoTasks.Reply.Text, new StringDictionary() { });
+            var showText = Format(ToDoSharedResponses.CardSummaryMessage.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
             var textBlock = new AdaptiveTextBlock
             {
                 Text = showText,
@@ -869,6 +615,7 @@ namespace ToDoSkill.Dialogs.Shared
             body.Add(textBlock);
 
             var container = new AdaptiveContainer();
+            readSize = Math.Min(readSize, todos.Count);
             var index = 0;
             foreach (var todo in todos)
             {
@@ -889,10 +636,27 @@ namespace ToDoSkill.Dialogs.Shared
 
                 container.Items.Add(columnSet);
 
-                if (index < toBeReadTasksCount)
+                if (index < readSize)
                 {
-                    toDoCard.Speak += (++index) + " " + todo.Topic + " ";
+                    if (readSize == 1)
+                    {
+                        toDoCard.Speak += todo.Topic + ". ";
+                    }
+                    else if (index == readSize - 2)
+                    {
+                        toDoCard.Speak += todo.Topic;
+                    }
+                    else if (index == readSize - 1)
+                    {
+                        toDoCard.Speak += string.Format(ToDoStrings.And, todo.Topic);
+                    }
+                    else
+                    {
+                        toDoCard.Speak += todo.Topic + ", ";
+                    }
                 }
+
+                index++;
             }
 
             body.Add(container);
@@ -906,21 +670,182 @@ namespace ToDoSkill.Dialogs.Shared
             return attachment;
         }
 
-        protected Attachment ToAdaptiveCardForOtherFlows(
+        protected Attachment ToAdaptiveCardForTaskAddedFlow(
+           List<TaskItem> todos,
+           string taskContent,
+           int allTasksCount,
+           string listType)
+        {
+            var toDoCard = new AdaptiveCard();
+            toDoCard.Speak = Format(AddToDoResponses.AfterTaskAdded.Reply.Speak, new StringDictionary() { { "taskContent", taskContent }, { "listType", listType } });
+
+            var body = new List<AdaptiveElement>();
+            var showText = Format(ToDoSharedResponses.CardSummaryMessage.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
+            var textBlock = new AdaptiveTextBlock
+            {
+                Text = showText,
+            };
+            body.Add(textBlock);
+
+            var container = new AdaptiveContainer();
+            foreach (var todo in todos)
+            {
+                var columnSet = new AdaptiveColumnSet();
+
+                var icon = new AdaptiveImage();
+                icon.UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource;
+                var iconColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                iconColumn.Items.Add(icon);
+                columnSet.Columns.Add(iconColumn);
+
+                var content = new AdaptiveTextBlock(todo.Topic);
+                var contentColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                contentColumn.Items.Add(content);
+                columnSet.Columns.Add(contentColumn);
+
+                container.Items.Add(columnSet);
+            }
+
+            body.Add(container);
+            toDoCard.Body = body;
+
+            var attachment = new Attachment()
+            {
+                ContentType = AdaptiveCard.ContentType,
+                Content = toDoCard,
+            };
+            return attachment;
+        }
+
+        protected Attachment ToAdaptiveCardForTaskCompletedFlow(
             List<TaskItem> todos,
-            int allTaskCount,
+            int allTasksCount,
             string taskContent,
-            BotResponse botResponse1,
-            BotResponse botResponse2,
+            string listType,
+            bool isCompleteAll)
+        {
+            var toDoCard = new AdaptiveCard();
+
+            if (isCompleteAll)
+            {
+                toDoCard.Speak = Format(MarkToDoResponses.AfterAllTasksCompleted.Reply.Speak, new StringDictionary() { { "listType", listType } });
+            }
+            else
+            {
+                toDoCard.Speak = Format(MarkToDoResponses.AfterTaskCompleted.Reply.Speak, new StringDictionary() { { "taskContent", taskContent }, { "listType", listType } });
+            }
+
+            var body = new List<AdaptiveElement>();
+            var showText = Format(ToDoSharedResponses.CardSummaryMessage.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
+            var textBlock = new AdaptiveTextBlock
+            {
+                Text = showText,
+            };
+            body.Add(textBlock);
+
+            var container = new AdaptiveContainer();
+            foreach (var todo in todos)
+            {
+                var columnSet = new AdaptiveColumnSet();
+
+                var icon = new AdaptiveImage();
+                icon.UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource;
+                var iconColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                iconColumn.Items.Add(icon);
+                columnSet.Columns.Add(iconColumn);
+
+                var content = new AdaptiveTextBlock(todo.Topic);
+                var contentColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                contentColumn.Items.Add(content);
+                columnSet.Columns.Add(contentColumn);
+
+                container.Items.Add(columnSet);
+            }
+
+            body.Add(container);
+            toDoCard.Body = body;
+
+            var attachment = new Attachment()
+            {
+                ContentType = AdaptiveCard.ContentType,
+                Content = toDoCard,
+            };
+            return attachment;
+        }
+
+        protected Attachment ToAdaptiveCardForTaskDeletedFlow(
+            List<TaskItem> todos,
+            int allTasksCount,
+            string taskContent,
+            string listType,
+            bool isDeleteAll)
+        {
+            var toDoCard = new AdaptiveCard();
+
+            if (isDeleteAll)
+            {
+                toDoCard.Speak = Format(DeleteToDoResponses.AfterAllTasksDeleted.Reply.Speak, new StringDictionary() { { "listType", listType } });
+            }
+            else
+            {
+                toDoCard.Speak = Format(DeleteToDoResponses.AfterTaskDeleted.Reply.Speak, new StringDictionary() { { "taskContent", taskContent }, { "listType", listType } });
+            }
+
+            var body = new List<AdaptiveElement>();
+            var showText = Format(ToDoSharedResponses.CardSummaryMessage.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
+            var textBlock = new AdaptiveTextBlock
+            {
+                Text = showText,
+            };
+            body.Add(textBlock);
+
+            var container = new AdaptiveContainer();
+            foreach (var todo in todos)
+            {
+                var columnSet = new AdaptiveColumnSet();
+
+                var icon = new AdaptiveImage();
+                icon.UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource;
+                var iconColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                iconColumn.Items.Add(icon);
+                columnSet.Columns.Add(iconColumn);
+
+                var content = new AdaptiveTextBlock(todo.Topic);
+                var contentColumn = new AdaptiveColumn();
+                iconColumn.Width = "auto";
+                contentColumn.Items.Add(content);
+                columnSet.Columns.Add(contentColumn);
+
+                container.Items.Add(columnSet);
+            }
+
+            body.Add(container);
+            toDoCard.Body = body;
+
+            var attachment = new Attachment()
+            {
+                ContentType = AdaptiveCard.ContentType,
+                Content = toDoCard,
+            };
+            return attachment;
+        }
+
+        protected Attachment ToAdaptiveCardForDeletionRefusedFlow(
+            List<TaskItem> todos,
+            int allTasksCount,
             string listType)
         {
             var toDoCard = new AdaptiveCard();
-            var showText = Format(botResponse2.Reply.Text, new StringDictionary() { { "taskCount", allTaskCount.ToString() }, { "listType", listType } });
-            var speakText = Format(botResponse1.Reply.Speak, new StringDictionary() { { "taskContent", taskContent } })
-                 + " " + Format(botResponse2.Reply.Speak, new StringDictionary() { { "taskCount", allTaskCount.ToString() }, { "listType", listType } });
-            toDoCard.Speak = speakText.Remove(speakText.Length - 1) + ".";
+
+            toDoCard.Speak = Format(DeleteToDoResponses.DeletionAllConfirmationRefused.Reply.Speak, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
 
             var body = new List<AdaptiveElement>();
+            var showText = Format(ToDoSharedResponses.CardSummaryMessage.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
             var textBlock = new AdaptiveTextBlock
             {
                 Text = showText,
@@ -964,8 +889,13 @@ namespace ToDoSkill.Dialogs.Shared
             return Format(botResponse.Reply.Text, tokens);
         }
 
-        protected string Format(string messageTemplate, StringDictionary tokens)
+        protected string Format(string messageTemplate, StringDictionary tokens = null)
         {
+            if (tokens == null)
+            {
+                tokens = new StringDictionary() { };
+            }
+
             var complexTokensRegex = new Regex(@"\{[^{\}]+(?=})\}", RegexOptions.Compiled);
             var responseFormatters = new List<IBotResponseFormatter>();
             var defaultFormatter = new DefaultBotResponseFormatter();
@@ -1045,83 +975,44 @@ namespace ToDoSkill.Dialogs.Shared
             {
                 var emailService = ServiceManager.InitMailService(state.MsGraphToken);
                 var senderMailAddress = await emailService.GetSenderMailAddressAsync();
-                var recovered = await RecoverListTypeIdsAsync(sc, senderMailAddress);
+                state.UserStateId = senderMailAddress;
+                var recovered = await RecoverListTypeIdsAsync(sc);
                 if (!recovered)
                 {
-                    if (state.TaskServiceType == ProviderTypes.OneNote)
+                    var taskServiceInit = ServiceManager.InitTaskService(state.MsGraphToken, state.ListTypeIds, state.TaskServiceType);
+                    if (taskServiceInit.IsListCreated)
                     {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
-                    }
-                    else
-                    {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOutlookMessage));
+                        if (state.TaskServiceType == ProviderTypes.OneNote)
+                        {
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOneNoteMessage));
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.AfterOneNoteSetupMessage));
+                        }
+                        else
+                        {
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.SettingUpOutlookMessage));
+                            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.AfterOutlookSetupMessage));
+                        }
+
+                        var taskWebLink = await taskServiceInit.GetTaskWebLink();
+                        var emailContent = string.Format(ToDoStrings.EmailContent, taskWebLink);
+                        await emailService.SendMessageAsync(emailContent, ToDoStrings.EmailSubject);
                     }
 
-                    var taskService = ServiceManager.InitTaskService(state.MsGraphToken, state.ListTypeIds, state.TaskServiceType);
-                    var taskWebLink = await taskService.GetTaskWebLink();
-                    var emailContent = string.Format(ToDoStrings.EmailContent, taskWebLink);
-                    await emailService.SendMessageAsync(emailContent, ToDoStrings.EmailSubject);
-
-                    if (state.TaskServiceType == ProviderTypes.OneNote)
-                    {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.AfterOneNoteSetupMessage));
-                    }
-                    else
-                    {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.AfterOutlookSetupMessage));
-                    }
-
-                    await StoreListTypeIdsAsync(sc, senderMailAddress);
-                    return taskService;
+                    await StoreListTypeIdsAsync(sc);
+                    return taskServiceInit;
                 }
             }
 
-            return ServiceManager.InitTaskService(state.MsGraphToken, state.ListTypeIds, state.TaskServiceType);
+            var taskService = ServiceManager.InitTaskService(state.MsGraphToken, state.ListTypeIds, state.TaskServiceType);
+            await StoreListTypeIdsAsync(sc);
+            return taskService;
         }
 
-        private void ExtractListTypeAndTaskContent(ToDoSkillState state)
-        {
-            if (state.ListType == ToDoStrings.Grocery
-                || (state.HasShopVerb && !string.IsNullOrEmpty(state.FoodOfGrocery)))
-            {
-                state.TaskContent = string.IsNullOrEmpty(state.ShopContent) ? state.TaskContentML ?? state.TaskContentPattern : state.ShopContent;
-                if (state.ListType != ToDoStrings.Grocery)
-                {
-                    state.LastListType = state.ListType;
-                    state.ListType = ToDoStrings.Grocery;
-                    state.SwitchListType = true;
-                }
-                else
-                {
-                    state.ListType = ToDoStrings.Grocery;
-                }
-            }
-            else if (state.ListType == ToDoStrings.Shopping
-                || (state.HasShopVerb && !string.IsNullOrEmpty(state.ShopContent)))
-            {
-                state.TaskContent = string.IsNullOrEmpty(state.ShopContent) ? state.TaskContentML ?? state.TaskContentPattern : state.ShopContent;
-                if (state.ListType != ToDoStrings.Shopping)
-                {
-                    state.LastListType = state.ListType;
-                    state.ListType = ToDoStrings.Shopping;
-                    state.SwitchListType = true;
-                }
-                else
-                {
-                    state.ListType = ToDoStrings.Shopping;
-                }
-            }
-            else
-            {
-                state.ListType = ToDoStrings.ToDo;
-                state.TaskContent = state.TaskContentML ?? state.TaskContentPattern;
-            }
-        }
-
-        private async Task<bool> RecoverListTypeIdsAsync(DialogContext dc, string senderMailAddress)
+        private async Task<bool> RecoverListTypeIdsAsync(DialogContext dc)
         {
             var userState = await UserStateAccessor.GetAsync(dc.Context, () => new ToDoSkillUserState());
             var state = await ToDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
+            var senderMailAddress = state.UserStateId;
             if (userState.ListTypeIds.ContainsKey(senderMailAddress)
                 && state.ListTypeIds.Count <= 0
                 && userState.ListTypeIds[senderMailAddress].Count > 0)
@@ -1137,16 +1028,31 @@ namespace ToDoSkill.Dialogs.Shared
             return false;
         }
 
-        private async Task StoreListTypeIdsAsync(DialogContext dc, string senderMailAddress)
+        private async Task StoreListTypeIdsAsync(DialogContext dc)
         {
             var userState = await UserStateAccessor.GetAsync(dc.Context, () => new ToDoSkillUserState());
             var state = await ToDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
-            if (!userState.ListTypeIds.ContainsKey(senderMailAddress) && state.ListTypeIds.Count > 0)
+            var senderMailAddress = state.UserStateId;
+            if (!userState.ListTypeIds.ContainsKey(senderMailAddress))
             {
                 userState.ListTypeIds.Add(senderMailAddress, new Dictionary<string, string>());
                 foreach (var listType in state.ListTypeIds)
                 {
                     userState.ListTypeIds[senderMailAddress].Add(listType.Key, listType.Value);
+                }
+            }
+            else
+            {
+                foreach (var listType in state.ListTypeIds)
+                {
+                    if (userState.ListTypeIds[senderMailAddress].ContainsKey(listType.Key))
+                    {
+                        userState.ListTypeIds[senderMailAddress][listType.Key] = listType.Value;
+                    }
+                    else
+                    {
+                        userState.ListTypeIds[senderMailAddress].Add(listType.Key, listType.Value);
+                    }
                 }
             }
         }

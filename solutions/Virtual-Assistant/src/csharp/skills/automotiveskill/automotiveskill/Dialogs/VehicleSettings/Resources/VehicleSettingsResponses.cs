@@ -64,6 +64,8 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings.Resources
 
         public static BotResponse VehicleSettingsOutOfDomain => GetBotResponse();
 
+        public static BotResponse WhichSettingValue => GetBotResponse();
+
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {
             return _responseManager.GetBotResponse(propertyName);

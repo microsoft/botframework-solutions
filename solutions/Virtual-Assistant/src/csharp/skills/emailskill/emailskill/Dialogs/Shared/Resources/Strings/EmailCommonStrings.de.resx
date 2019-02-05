@@ -117,79 +117,103 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="All" xml:space="preserve">
-    <value>alles</value>
+  <data name="EmailInfoFormat" xml:space="preserve">
+    <value>Auf {0} schrieb {1}:</value>
+  </data>
+  <data name="UnknownRecipient" xml:space="preserve">
+    <value>Unbekannter Empfänger</value>
+  </data>
+  <data name="Unread" xml:space="preserve">
+    <value>Ungelesene</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>Inhalt</value>
   </data>
   <data name="CCFormat" xml:space="preserve">
     <value>Cc: {0}</value>
   </data>
-  <data name="ContentFormat" xml:space="preserve">
-    <value>Inhalt: {0}</value>
+  <data name="EmptyContent" xml:space="preserve">
+    <value>Leerstand</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>Datum: {0}</value>
   </data>
-  <data name="EmailInfoFormat" xml:space="preserve">
-    <value>Auf {0} schrieb {1}:</value>
-  </data>
-  <data name="EmptyContent" xml:space="preserve">
-    <value>Leerer Inhalt</value>
-  </data>
-  <data name="EmptySubject" xml:space="preserve">
-    <value>Leerer Betreff</value>
-  </data>
-  <data name="Forward" xml:space="preserve">
-    <value>fw:</value>
-  </data>
-  <data name="ForwardMessage" xml:space="preserve">
-    <value>---------- Weitergeleitete Nachricht ----------</value>
-  </data>
-  <data name="ForwardReplyFormat" xml:space="preserve">
-    <value>FW: {0}</value>
-  </data>
-  <data name="FromDetailsFormat" xml:space="preserve">
-    <value>von {0} um {1}</value>
-  </data>
-  <data name="FromDetailsFormatAll" xml:space="preserve">
-    <value>von {0} um {1} mit dem Titel {2}. Der Inhalt ist {3}.</value>
+  <data name="Subject" xml:space="preserve">
+    <value>Betreff</value>
   </data>
   <data name="FromFormat" xml:space="preserve">
     <value>Von: {0}</value>
   </data>
-  <data name="High" xml:space="preserve">
-    <value>hoch</value>
+  <data name="Cancel" xml:space="preserve">
+    <value>Abbrechen</value>
   </data>
-  <data name="Important" xml:space="preserve">
-    <value>wichtig</value>
-  </data>
-  <data name="Relevant" xml:space="preserve">
-    <value>relevanten</value>
-  </data>
-  <data name="RelevantFormat" xml:space="preserve">
-    <value>relevanten {0}</value>
-  </data>
-  <data name="Reply" xml:space="preserve">
-    <value>re:</value>
+  <data name="EmptySubject" xml:space="preserve">
+    <value>leeres Thema</value>
   </data>
   <data name="ReplyReplyFormat" xml:space="preserve">
     <value>RE: {0}</value>
   </data>
-  <data name="SubjectFormat" xml:space="preserve">
-    <value>Betreff: {0}</value>
-  </data>
-  <data name="ToDetailsFormat" xml:space="preserve">
-    <value>{0} an {1} und inhalt ist {2}</value>
-  </data>
   <data name="ToFormat" xml:space="preserve">
-    <value>An: {0}</value>
+    <value>Zu: {0}</value>
   </data>
-  <data name="UnknownRecipient" xml:space="preserve">
-    <value>unbekannter empfänger</value>
+  <data name="RelevantFormat" xml:space="preserve">
+    <value>Relevant {0}</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Überspringen | Pass | Nein</value>
   </data>
   <data name="UnknownSender" xml:space="preserve">
-    <value>unbekannter absender</value>
+    <value>Unbekannter Absender</value>
   </data>
-  <data name="Unread" xml:space="preserve">
-    <value>ungelesene</value>
+  <data name="ForwardReplyFormat" xml:space="preserve">
+    <value>Fw: {0}</value>
+  </data>
+  <data name="FromDetailsFormatAll" xml:space="preserve">
+    <value>Von {0} bei {1} betitelt {2}</value>
+  </data>
+  <data name="FromDetailsFormat" xml:space="preserve">
+    <value>Von {0} bei {1}</value>
+  </data>
+  <data name="ToDetailsFormat" xml:space="preserve">
+    <value>{0} bis {1} und Inhalt ist {2}</value>
+  </data>
+  <data name="SubjectFormat" xml:space="preserve">
+    <value>Thema: {0}</value>
+  </data>
+  <data name="ContentFormat" xml:space="preserve">
+    <value>Inhalt: {0}</value>
+  </data>
+  <data name="Reply" xml:space="preserve">
+    <value>Re:</value>
+  </data>
+  <data name="Relevant" xml:space="preserve">
+    <value>Relevanten</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>Alle</value>
+  </data>
+  <data name="Important" xml:space="preserve">
+    <value>Wichtig</value>
+  </data>
+  <data name="Split" xml:space="preserve">
+    <value>|</value>
+  </data>
+  <data name="High" xml:space="preserve">
+    <value>Hohe</value>
+  </data>
+  <data name="ContactSeparator" xml:space="preserve">
+    <value>; | und</value>
+  </data>
+  <data name="Forward" xml:space="preserve">
+    <value>Fw:</value>
+  </data>
+  <data name="ForwardMessage" xml:space="preserve">
+    <value>----------weiterleitete Nachricht----------</value>
+  </data>
+  <data name="Participants" xml:space="preserve">
+    <value>Teilnehmer</value>
+  </data>
+  <data name="FromDetailsWithContentFormat" xml:space="preserve">
+    <value>von {0} bei {1} betitelt {2}, Inhalt {3}.</value>
   </data>
 </root>

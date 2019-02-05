@@ -22,9 +22,17 @@ namespace ToDoSkill.Dialogs.MarkToDo.Resources
         }
 
         // Generated accessors
-        public static BotResponse AfterToDoTaskCompleted => GetBotResponse();
+        public static BotResponse AfterTaskCompleted => GetBotResponse();
 
-        public static BotResponse AfterAllToDoTasksCompleted => GetBotResponse();
+        public static BotResponse AfterAllTasksCompleted => GetBotResponse();
+
+        public static BotResponse ListTypePrompt => GetBotResponse();
+
+        public static BotResponse AskTaskIndex => GetBotResponse();
+
+        public static BotResponse CompleteAnotherTaskPrompt => GetBotResponse();
+
+        public static BotResponse CompleteAnotherTaskConfirmFailed => GetBotResponse();
 
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {

@@ -1,18 +1,18 @@
 ﻿{
-  "AskDeletionConfirmation": {
+  "AskDeletionAllConfirmation": {
     "replies": [
       {
-        "text": "您确定您要删除事项：{toDoTask}?",
-        "speak": "您确定您要删除事项：{toDoTask}?"
+        "text": "您确定要删除所有{listType}列表上的任务吗？",
+        "speak": "您确定要删除所有{listType}列表上的任务吗？"
       }
     ],
     "inputHint": "expectingInput"
   },
-  "AskDeletionAllConfirmation": {
+  "AskDeletionAllConfirmationFailed": {
     "replies": [
       {
-        "text": "您确定您要删除所有{listType}任务？",
-        "speak": "您确定您要删除所有{listType}任务？"
+        "text": "对不起，我没有理解您的意思。您确定要删除所有{listType}列表上的任务吗？",
+        "speak": "对不起，我没有理解您的意思。您确定要删除所有{listType}列表上的任务吗？"
       }
     ],
     "inputHint": "expectingInput"
@@ -20,11 +20,11 @@
   "AfterTaskDeleted": {
     "replies": [
       {
-        "text": "已经为您删除事项{taskContent}。",
-        "speak": "已经为您删除事项{taskContent}。"
+        "text": "已经为您删除{listType}列表中的{taskContent}任务。",
+        "speak": "已经为您删除{listType}列表中的{taskContent}任务。"
       }
     ],
-    "inputHint": "acceptingInput"
+    "inputHint": "ignoringInput"
   },
   "AfterAllTasksDeleted": {
     "replies": [
@@ -33,6 +33,51 @@
         "speak": "已经为您清空{listType}列表。"
       }
     ],
-    "inputHint": "acceptingInput"
+    "inputHint": "ignoringInput"
+  },
+  "DeletionAllConfirmationRefused": {
+    "replies": [
+      {
+        "text": "好，我没有删除你所有的任务。你今天的{listType}列表还有{taskCount}个任务。",
+        "speak": "好，我没有删除你所有的任务。你今天的{listType}列表还有{taskCount}个任务。"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "ListTypePrompt": {
+    "replies": [
+      {
+        "text": "你能更具体点要删除哪个列表的任务吗？是你的代办事项列表，购物列表还是杂货列表？",
+        "speak": "你能更具体点要删除哪个列表的任务吗？是你的代办事项列表，购物列表还是杂货列表？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AskTaskIndex": {
+    "replies": [
+      {
+        "text": "你想要删除哪个任务？你也可以说删除所有来删除所有的任务。",
+        "speak": "你想要删除哪个任务？你也可以说删除所有来删除所有的任务。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "DeleteAnotherTaskPrompt": {
+    "replies": [
+      {
+        "text": "你想要再删除一个任务吗？",
+        "speak": "你想要再删除一个任务吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "DeleteAnotherTaskConfirmFailed": {
+    "replies": [
+      {
+        "text": "对不起，我没有理解您的意思。你想要再删除一个任务吗？",
+        "speak": "对不起，我没有理解您的意思。你想要再删除一个任务吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }

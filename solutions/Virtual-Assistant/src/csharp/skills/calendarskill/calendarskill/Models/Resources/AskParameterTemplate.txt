@@ -2,16 +2,16 @@
 AskForDetail	what*about
 AskForDetail	what is
 AskForDetail	what are
-AskForStartTime	when*start
-AskForEndTime	when*end
-AskForTime	when*
+AskForStartTime	when.*start
+AskForEndTime	when.*end
+AskForTime	when.*
 AskForTime	what time
-AskForDuration	how long*
-AskForLocation	where*
-AskForLocation	what*location
-AskForAttendee	who*with
-AskForTitle	what*title
-AskForContent	what*content
+AskForDuration	how long.*
+AskForLocation	where.*
+AskForLocation	what.*location
+AskForAttendee	who.*with
+AskForTitle	what.*title
+AskForContent	what.*content
 #Chinese
 AskForDetail	有关什么
 AskForStartTime	几点开始

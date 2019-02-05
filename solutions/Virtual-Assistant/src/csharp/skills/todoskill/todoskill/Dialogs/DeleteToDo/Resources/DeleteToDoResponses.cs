@@ -22,13 +22,23 @@ namespace ToDoSkill.Dialogs.DeleteToDo.Resources
         }
 
         // Generated accessors
+        public static BotResponse AskDeletionAllConfirmation => GetBotResponse();
+
+        public static BotResponse AskDeletionAllConfirmationFailed => GetBotResponse();
+
         public static BotResponse AfterTaskDeleted => GetBotResponse();
 
         public static BotResponse AfterAllTasksDeleted => GetBotResponse();
 
-        public static BotResponse AskDeletionConfirmation => GetBotResponse();
+        public static BotResponse DeletionAllConfirmationRefused => GetBotResponse();
 
-        public static BotResponse AskDeletionAllConfirmation => GetBotResponse();
+        public static BotResponse ListTypePrompt => GetBotResponse();
+
+        public static BotResponse AskTaskIndex => GetBotResponse();
+
+        public static BotResponse DeleteAnotherTaskPrompt => GetBotResponse();
+
+        public static BotResponse DeleteAnotherTaskConfirmFailed => GetBotResponse();
 
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {

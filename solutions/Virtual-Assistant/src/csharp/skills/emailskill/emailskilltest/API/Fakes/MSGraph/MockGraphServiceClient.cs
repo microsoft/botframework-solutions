@@ -93,6 +93,11 @@ namespace EmailSkillTest.API.Fakes.MSGraph
             this.mockMailService.Setup(f => f.Me.Messages[It.IsAny<string>()].Request().DeleteAsync()).Returns(Task.CompletedTask);
         }
 
+        private void MockMarkMessageAsRead()
+        {
+            this.mockMailService.Setup(f => f.Me.Messages[It.IsAny<string>()].Request().Select("IsRead").UpdateAsync(It.IsAny<Message>())).Returns(Task.FromResult(new Message()));
+        }
+
         private void MockGetUserAsync()
         {
             this.mockMailService.Setup(f => f.Users.Request(It.IsAny<List<QueryOption>>()).GetAsync()).Returns(Task.FromResult(this.Users));

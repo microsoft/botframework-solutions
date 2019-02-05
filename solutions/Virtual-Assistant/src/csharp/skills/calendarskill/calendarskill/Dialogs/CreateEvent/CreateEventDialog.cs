@@ -9,6 +9,8 @@ using CalendarSkill.Common;
 using CalendarSkill.Dialogs.CreateEvent.Prompts;
 using CalendarSkill.Dialogs.CreateEvent.Prompts.Options;
 using CalendarSkill.Dialogs.CreateEvent.Resources;
+using CalendarSkill.Dialogs.FindContact;
+using CalendarSkill.Dialogs.FindContact.Resources;
 using CalendarSkill.Dialogs.Shared;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Models;
@@ -108,6 +110,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
             AddDialog(new TimePrompt(Actions.TimePromptForCreate));
             AddDialog(new DurationPrompt(Actions.DurationPromptForCreate));
             AddDialog(new GetRecreateInfoPrompt(Actions.GetRecreateInfoPrompt));
+            AddDialog(new FindContactDialog(services, accessor, serviceManager, telemetryClient));
 
             // Set starting dialog for component
             InitialDialogId = Actions.CreateEvent;
@@ -127,6 +130,12 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 else
                 if (string.IsNullOrEmpty(state.Title) && !state.CreateHasDetail)
                 {
+                    if (state.Attendees.Count == 0 || state.Attendees == null)
+                    {
+                        state.FirstRetryInFindContact = true;
+                        return await sc.EndDialogAsync();
+                    }
+
                     var userNameString = state.Attendees.ToSpeechString(CommonStrings.And, li => li.DisplayName ?? li.Address);
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoTitle, ResponseBuilder, new StringDictionary() { { "UserName", userNameString } }) }, cancellationToken);
                 }
@@ -199,7 +208,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
 
                 ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
 
-                if (state.Attendees.Count == 0 && (!state.CreateHasDetail || state.RecreateState == RecreateEventState.Participants))
+                if (state.Attendees.Count == 0 && (!state.CreateHasDetail || state.RecreateState == RecreateEventState.Participants || state.AttendeesNameList.Count > 0))
                 {
                     return await sc.BeginDialogAsync(Actions.UpdateAddress, cancellationToken: cancellationToken);
                 }
@@ -359,11 +368,16 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 };
 
                 var startDateTimeInUserTimeZone = TimeConverter.ConvertUtcToUserTime(state.StartDateTime.Value, state.GetUserTimeZone());
+                var endDateTimeInUserTimeZone = TimeConverter.ConvertUtcToUserTime(state.EndDateTime.Value, state.GetUserTimeZone());
                 var tokens = new StringDictionary
                 {
                     { "Attendees", state.Attendees.ToSpeechString(CommonStrings.And, li => li.DisplayName ?? li.Address) },
                     { "Date", startDateTimeInUserTimeZone.ToSpeechDateString(true) },
                     { "Time", startDateTimeInUserTimeZone.ToSpeechTimeString(true) },
+                    { "EndTime", endDateTimeInUserTimeZone.ToSpeechTimeString(true) },
+                    { "Subject", state.Title },
+                    { "Location", state.Location },
+                    { "Content", state.Content },
                 };
 
                 var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(CreateEventResponses.ConfirmCreate, newEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", newEvent.ToAdaptiveCardData(state.GetUserTimeZone(), showContent: true), tokens: tokens);
@@ -400,8 +414,12 @@ namespace CalendarSkill.Dialogs.CreateEvent
                     var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
                     if (await calendarService.CreateEvent(newEvent) != null)
                     {
+                        var tokens = new StringDictionary
+                        {
+                            { "Subject", state.Title },
+                        };
                         newEvent.ContentPreview = state.Content;
-                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(CreateEventResponses.EventCreated, newEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", newEvent.ToAdaptiveCardData(state.GetUserTimeZone(), showContent: true));
+                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(CreateEventResponses.EventCreated, newEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", newEvent.ToAdaptiveCardData(state.GetUserTimeZone(), showContent: true), ResponseBuilder, tokens);
                         await sc.Context.SendActivityAsync(replyMessage, cancellationToken);
                     }
                     else
@@ -457,39 +475,31 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (state.AttendeesNameList.Any())
                 {
-                    return await sc.BeginDialogAsync(Actions.ConfirmAttendee, cancellationToken: cancellationToken);
+                    state.FirstEnterFindContact = true;
+                    return await sc.BeginDialogAsync(nameof(FindContactDialog), options: sc.Options, cancellationToken: cancellationToken);
                 }
 
                 if (sc.Result != null)
                 {
                     sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
                     var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
-
-                    // TODO: can we do this somewhere else
-                    if (IsEmail(userInput))
+                    if (state.EventSource != EventSource.Other)
                     {
-                        state.Attendees.Add(new EventModel.Attendee { Address = userInput });
-                        return await sc.EndDialogAsync(true, cancellationToken);
+                        if (userInput != null)
+                        {
+                            var nameList = userInput.Split(CreateEventWhiteList.GetContactNameSeparator(), StringSplitOptions.None)
+                                .Select(x => x.Trim())
+                                .Where(x => !string.IsNullOrWhiteSpace(x))
+                                .ToList();
+                            state.AttendeesNameList = nameList;
+                        }
+
+                        state.FirstEnterFindContact = true;
+                        return await sc.BeginDialogAsync(nameof(FindContactDialog), options: sc.Options, cancellationToken: cancellationToken);
                     }
                     else
                     {
-                        if (state.EventSource != EventSource.Other)
-                        {
-                            if (userInput != null)
-                            {
-                                var nameList = userInput.Split(CreateEventWhiteList.GetContactNameSeparator(), StringSplitOptions.None)
-                                    .Select(x => x.Trim())
-                                    .Where(x => !string.IsNullOrWhiteSpace(x))
-                                    .ToList();
-                                state.AttendeesNameList = nameList;
-                            }
-
-                            return await sc.BeginDialogAsync(Actions.ConfirmAttendee, cancellationToken: cancellationToken);
-                        }
-                        else
-                        {
-                            return await sc.BeginDialogAsync(Actions.UpdateAddress, new UpdateAddressDialogOptions(UpdateAddressDialogOptions.UpdateReason.NotAnAddress), cancellationToken);
-                        }
+                        return await sc.BeginDialogAsync(Actions.UpdateAddress, new UpdateAddressDialogOptions(UpdateAddressDialogOptions.UpdateReason.NotAnAddress), cancellationToken);
                     }
                 }
                 else
@@ -511,14 +521,26 @@ namespace CalendarSkill.Dialogs.CreateEvent
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 var currentRecipientName = state.AttendeesNameList[state.ConfirmAttendeesNameIndex];
-                if (IsEmail(currentRecipientName))
+                var email = GetEmail(currentRecipientName);
+                if (!string.IsNullOrEmpty(email))
                 {
                     var result =
                         new FoundChoice()
                         {
-                            Value = $"{currentRecipientName}: {currentRecipientName}",
+                            Value = $"{email}: {email}",
                         };
 
+                    return await sc.NextAsync(result);
+                }
+
+                if (CreateEventWhiteList.GetMyself().Contains(currentRecipientName))
+                {
+                    var me = await GetMe(sc);
+                    var result =
+                        new FoundChoice()
+                        {
+                            Value = $"{me.DisplayName}: {me.Emails.First()}"
+                        };
                     return await sc.NextAsync(result);
                 }
 
@@ -1240,6 +1262,14 @@ namespace CalendarSkill.Dialogs.CreateEvent
             return result;
         }
 
+        protected async Task<PersonModel> GetMe(WaterfallStepContext sc)
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+            var token = state.APIToken;
+            var service = ServiceManager.InitUserService(token, state.EventSource);
+            return await service.GetMe();
+        }
+
         private string GetSelectPromptString(PromptOptions selectOption, bool containNumbers)
         {
             var result = string.Empty;
@@ -1259,9 +1289,9 @@ namespace CalendarSkill.Dialogs.CreateEvent
             return result;
         }
 
-        private bool IsEmail(string emailString)
+        private string GetEmail(string emailString)
         {
-            return Regex.IsMatch(emailString, @"\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}");
+            return Regex.Match(emailString, @"\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}").Value;
         }
     }
 }

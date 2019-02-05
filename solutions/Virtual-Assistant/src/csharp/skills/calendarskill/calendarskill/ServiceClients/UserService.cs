@@ -33,5 +33,10 @@ namespace CalendarSkill.ServiceClients
         {
             return await userService.GetContactsAsync(name);
         }
+
+        public async Task<PersonModel> GetMe()
+        {
+            return await userService.GetMe();
+        }
     }
 }

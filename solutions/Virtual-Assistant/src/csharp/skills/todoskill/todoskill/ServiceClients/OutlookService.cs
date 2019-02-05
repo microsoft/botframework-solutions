@@ -23,6 +23,15 @@ namespace ToDoSkill.ServiceClients
         private Dictionary<string, string> taskFolderIds;
 
         /// <summary>
+        /// Gets or sets a value indicating whether the task folder is created or not.
+        /// </summary>
+        /// <returns>the bool value.</returns>
+        /// <value>
+        /// A value indicating whether the task folder is created or not.
+        /// </value>
+        public bool IsListCreated { get; set; }
+
+        /// <summary>
         /// Initializes Outlook task service using token.
         /// </summary>
         /// <param name="token">The token used for msgraph API call.</param>
@@ -33,6 +42,8 @@ namespace ToDoSkill.ServiceClients
         {
             try
             {
+                IsListCreated = taskFolderIds.Count == 0;
+
                 if (client == null)
                 {
                     this.httpClient = ServiceHelper.GetHttpClient(token);
@@ -45,19 +56,39 @@ namespace ToDoSkill.ServiceClients
                 if (!taskFolderIds.ContainsKey(ToDoStrings.ToDo))
                 {
                     var taskFolderId = await GetOrCreateTaskFolderAsync(ToDoStrings.ToDo);
-                    taskFolderIds.Add(ToDoStrings.ToDo, taskFolderId);
+                    taskFolderIds.Add(ToDoStrings.ToDo, taskFolderId.Item1);
+                    IsListCreated = IsListCreated && taskFolderId.Item2;
+                }
+                else
+                {
+                    // This is used for the scenario of task folder being deleted.
+                    // If a task folder is deleted, will create a new one.
+                    var taskFolderId = await GetOrCreateTaskFolderByIdAsync(taskFolderIds[ToDoStrings.ToDo], ToDoStrings.ToDo);
+                    taskFolderIds[ToDoStrings.ToDo] = taskFolderId;
                 }
 
                 if (!taskFolderIds.ContainsKey(ToDoStrings.Grocery))
                 {
                     var taskFolderId = await GetOrCreateTaskFolderAsync(ToDoStrings.Grocery);
-                    taskFolderIds.Add(ToDoStrings.Grocery, taskFolderId);
+                    taskFolderIds.Add(ToDoStrings.Grocery, taskFolderId.Item1);
+                    IsListCreated = IsListCreated && taskFolderId.Item2;
+                }
+                else
+                {
+                    var taskFolderId = await GetOrCreateTaskFolderByIdAsync(taskFolderIds[ToDoStrings.Grocery], ToDoStrings.Grocery);
+                    taskFolderIds[ToDoStrings.Grocery] = taskFolderId;
                 }
 
                 if (!taskFolderIds.ContainsKey(ToDoStrings.Shopping))
                 {
                     var taskFolderId = await GetOrCreateTaskFolderAsync(ToDoStrings.Shopping);
-                    taskFolderIds.Add(ToDoStrings.Shopping, taskFolderId);
+                    taskFolderIds.Add(ToDoStrings.Shopping, taskFolderId.Item1);
+                    IsListCreated = IsListCreated && taskFolderId.Item2;
+                }
+                else
+                {
+                    var taskFolderId = await GetOrCreateTaskFolderByIdAsync(taskFolderIds[ToDoStrings.Shopping], ToDoStrings.Shopping);
+                    taskFolderIds[ToDoStrings.Shopping] = taskFolderId;
                 }
 
                 this.taskFolderIds = taskFolderIds;
@@ -153,15 +184,28 @@ namespace ToDoSkill.ServiceClients
             return await Task.Run(() => OutlookTaskUrl);
         }
 
-        private async Task<string> GetOrCreateTaskFolderAsync(string taskFolderName)
+        private async Task<Tuple<string, bool>> GetOrCreateTaskFolderAsync(string taskFolderName)
         {
+            bool folderNotExist = false;
             var taskFolderId = await GetTaskFolderAsync(taskFolderName);
             if (string.IsNullOrEmpty(taskFolderId))
             {
+                folderNotExist = true;
                 taskFolderId = await CreateTaskFolderAsync(taskFolderName);
             }
 
-            return taskFolderId;
+            return new Tuple<string, bool>(taskFolderId, folderNotExist);
+        }
+
+        private async Task<string> GetOrCreateTaskFolderByIdAsync(string taskFolderId, string taskFolderName)
+        {
+            var newTaskFolderId = await GetTaskFolderByIdAsync(taskFolderId);
+            if (string.IsNullOrEmpty(newTaskFolderId))
+            {
+                newTaskFolderId = await CreateTaskFolderAsync(taskFolderName);
+            }
+
+            return newTaskFolderId;
         }
 
         private async Task<string> GetTaskFolderAsync(string taskFolderName)
@@ -176,6 +220,19 @@ namespace ToDoSkill.ServiceClients
             }
 
             return null;
+        }
+
+        private async Task<string> GetTaskFolderByIdAsync(string taskFolderId)
+        {
+            var result = await this.httpClient.GetAsync(GraphBaseUrl + "taskFolders/" + taskFolderId);
+            string newTaskFolderId = string.Empty;
+            if (result.IsSuccessStatusCode)
+            {
+                dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
+                newTaskFolderId = responseContent["id"];
+            }
+
+            return newTaskFolderId;
         }
 
         private async Task<string> CreateTaskFolderAsync(string taskFolderName)
@@ -196,13 +253,18 @@ namespace ToDoSkill.ServiceClients
 
         private async Task<Dictionary<string, string>> GetTaskFoldersAsync(string url)
         {
-            var taskFoldersObject = await this.ExecuteGraphFetchAsync(url);
             var taskFolderIdNameDic = new Dictionary<string, string>();
-            foreach (var taskFolder in taskFoldersObject)
+            while (!string.IsNullOrEmpty(url))
             {
-                string taskFolderId = taskFolder["id"];
-                string taskFolderName = taskFolder["name"];
-                taskFolderIdNameDic.Add(taskFolderId, taskFolderName);
+                var taskFoldersObject = await this.ExecuteGraphFetchAsync(url);
+                foreach (var taskFolder in taskFoldersObject.value)
+                {
+                    string taskFolderId = taskFolder["id"];
+                    string taskFolderName = taskFolder["name"];
+                    taskFolderIdNameDic.Add(taskFolderId, taskFolderName);
+                }
+
+                url = taskFoldersObject["@odata.nextLink"];
             }
 
             return taskFolderIdNameDic;
@@ -210,16 +272,24 @@ namespace ToDoSkill.ServiceClients
 
         private async Task<List<TaskItem>> ExecuteTasksGetAsync(string url)
         {
-            var tasksObject = await this.ExecuteGraphFetchAsync(url);
             var toDoTasks = new List<TaskItem>();
-            foreach (var task in tasksObject)
+            while (!string.IsNullOrEmpty(url))
             {
-                toDoTasks.Add(new TaskItem()
+                var tasksObject = await this.ExecuteGraphFetchAsync(url);
+                foreach (var task in tasksObject.value)
                 {
-                    Topic = task["subject"],
-                    Id = task["id"],
-                    IsCompleted = task["status"] == "completed" ? true : false,
-                });
+                    if (task["status"] != "completed")
+                    {
+                        toDoTasks.Add(new TaskItem()
+                        {
+                            Topic = task["subject"],
+                            Id = task["id"],
+                            IsCompleted = false,
+                        });
+                    }
+                }
+
+                url = tasksObject["@odata.nextLink"];
             }
 
             return toDoTasks;
@@ -281,7 +351,7 @@ namespace ToDoSkill.ServiceClients
             dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
             if (result.IsSuccessStatusCode)
             {
-                return responseContent.value;
+                return responseContent;
             }
             else
             {

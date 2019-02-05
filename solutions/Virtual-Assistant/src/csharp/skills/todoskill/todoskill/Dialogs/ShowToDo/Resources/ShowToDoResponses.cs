@@ -22,15 +22,39 @@ namespace ToDoSkill.Dialogs.ShowToDo.Resources
         }
 
         // Generated accessors
-        public static BotResponse FirstToDoTasks => GetBotResponse();
+        public static BotResponse LatestOneTask => GetBotResponse();
 
-        public static BotResponse ShowNextToDoTasks => GetBotResponse();
+        public static BotResponse LatestTwoTasks => GetBotResponse();
 
-        public static BotResponse ShowPreviousToDoTasks => GetBotResponse();
+        public static BotResponse LatestThreeOrMoreTasks => GetBotResponse();
 
-        public static BotResponse ShowingMoreTasks => GetBotResponse();
+        public static BotResponse AskAddOrCompleteTaskMessage => GetBotResponse();
 
-        public static BotResponse NoToDoTasksPrompt => GetBotResponse();
+        public static BotResponse ReadMoreTasksPrompt => GetBotResponse();
+
+        public static BotResponse ReadMoreTasksConfirmFailed => GetBotResponse();
+
+        public static BotResponse NextOneTask => GetBotResponse();
+
+        public static BotResponse NextTwoTasks => GetBotResponse();
+
+        public static BotResponse NextThreeOrMoreTask => GetBotResponse();
+
+        public static BotResponse ShowPreviousTasks => GetBotResponse();
+
+        public static BotResponse NoTasksMessage => GetBotResponse();
+
+        public static BotResponse InstructionMessage => GetBotResponse();
+
+        public static BotResponse TaskSummaryMessage => GetBotResponse();
+
+        public static BotResponse RepeatFirstPagePrompt => GetBotResponse();
+
+        public static BotResponse RepeatFirstPageConfirmFailed => GetBotResponse();
+
+        public static BotResponse GoBackToStartPrompt => GetBotResponse();
+
+        public static BotResponse GoBackToStartConfirmFailed => GetBotResponse();
 
         private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
         {

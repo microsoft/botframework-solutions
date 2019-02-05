@@ -12,7 +12,6 @@ namespace AutomotiveSkill
     using Microsoft.AspNetCore.Http;
     using Microsoft.Bot.Builder;
     using Microsoft.Bot.Builder.Dialogs;
-    using Microsoft.Bot.Schema;
     using Microsoft.Bot.Solutions.Skills;
 
     /// <summary>
@@ -29,12 +28,28 @@ namespace AutomotiveSkill
         private bool _skillMode;
         private IHttpContextAccessor _httpContext;
 
-        public AutomotiveSkill(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, ServiceManager serviceManager = null, IHttpContextAccessor httpContext = null, bool skillMode = false)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AutomotiveSkill"/> class.
+        /// </summary>
+        /// <param name="services">Skill Configuration information.</param>
+        /// <param name="conversationState">Conversation State.</param>
+        /// <param name="userState">User State.</param>
+        /// <param name="telemetryClient">Telemetry Client</param>
+        /// <param name="serviceManager">Service Manager</param>
+        /// <param name="skillMode">Indicates whether the skill is running in skill or local mode.</param>
+        /// <param name="httpContext">HttpContext accessor used to create relative URIs for images when in local mode.</param>
+        public AutomotiveSkill(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, bool skillMode = false, IServiceManager serviceManager = null, IHttpContextAccessor httpContext = null)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
-            _httpContext = httpContext ?? throw new ArgumentNullException(nameof(httpContext));
+
+            // If we are running in local-mode we need the HttpContext to create image file paths
+            if (!skillMode)
+            {
+                _httpContext = httpContext ?? throw new ArgumentNullException(nameof(httpContext));
+            }
+
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _serviceManager = serviceManager ?? new ServiceManager();
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));

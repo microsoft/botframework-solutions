@@ -88,6 +88,21 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
             return Task.FromResult(new List<PersonModel>());
         }
 
+        public async Task<PersonModel> GetMe()
+        {
+            try
+            {
+                var peopleRequest = service.People.Get("people/me");
+                peopleRequest.RequestMaskIncludeField = "person.emailAddresses,person.names";
+                var me = await peopleRequest.ExecuteAsync();
+                return new PersonModel(me);
+            }
+            catch (GoogleApiException ex)
+            {
+                throw GoogleClient.HandleGoogleAPIException(ex);
+            }
+}
+
         // get people work with
         private async Task<List<Person>> GetGooglePeopleAsync(string name)
         {

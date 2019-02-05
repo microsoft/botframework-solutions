@@ -3,6 +3,7 @@
 
 namespace ToDoSkill.ServiceClients
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net.Http;
@@ -24,6 +25,15 @@ namespace ToDoSkill.ServiceClients
         private Dictionary<string, string> pageIds;
 
         /// <summary>
+        /// Gets or sets a value indicating whether the task page is created or not.
+        /// </summary>
+        /// <returns>the bool value.</returns>
+        /// <value>
+        /// A value indicating whether the task page is created or not.
+        /// </value>
+        public bool IsListCreated { get; set; }
+
+        /// <summary>
         /// Init task service.
         /// </summary>
         /// <param name="token">Task service token.</param>
@@ -34,6 +44,8 @@ namespace ToDoSkill.ServiceClients
         {
             try
             {
+                IsListCreated = pageIds.Count == 0;
+
                 if (client == null)
                 {
                     httpClient = ServiceHelper.GetHttpClient(token);
@@ -53,19 +65,22 @@ namespace ToDoSkill.ServiceClients
                     if (!pageIds.ContainsKey(ToDoStrings.ToDo))
                     {
                         var toDoPageId = await GetOrCreatePageAsync(sectionId, ToDoStrings.ToDo);
-                        pageIds.Add(ToDoStrings.ToDo, toDoPageId);
+                        pageIds.Add(ToDoStrings.ToDo, toDoPageId.Item1);
+                        IsListCreated = IsListCreated && toDoPageId.Item2;
                     }
 
                     if (!pageIds.ContainsKey(ToDoStrings.Grocery))
                     {
                         var groceryPageId = await GetOrCreatePageAsync(sectionId, ToDoStrings.Grocery);
-                        pageIds.Add(ToDoStrings.Grocery, groceryPageId);
+                        pageIds.Add(ToDoStrings.Grocery, groceryPageId.Item1);
+                        IsListCreated = IsListCreated && groceryPageId.Item2;
                     }
 
                     if (!pageIds.ContainsKey(ToDoStrings.Shopping))
                     {
                         var shoppingPageId = await GetOrCreatePageAsync(sectionId, ToDoStrings.Shopping);
-                        pageIds.Add(ToDoStrings.Shopping, shoppingPageId);
+                        pageIds.Add(ToDoStrings.Shopping, shoppingPageId.Item1);
+                        IsListCreated = IsListCreated && shoppingPageId.Item2;
                     }
                 }
 
@@ -257,12 +272,14 @@ namespace ToDoSkill.ServiceClients
             return result;
         }
 
-        private async Task<string> GetOrCreatePageAsync(string sectionId, string pageTitle)
+        private async Task<Tuple<string, bool>> GetOrCreatePageAsync(string sectionId, string pageTitle)
         {
+            bool pageNotExist = false;
             var pagesUrl = $"{graphBaseUrl}/onenote/sections/{sectionId}/pages";
             var onenotePage = await GetOneNotePageAsync($"{pagesUrl}?filter=title eq '{pageTitle}'");
             if (onenotePage == null || onenotePage.Count == 0)
             {
+                pageNotExist = true;
                 var successFlag = await CreateOneNotePageAsync(pagesUrl, pageTitle);
                 if (successFlag)
                 {
@@ -275,7 +292,7 @@ namespace ToDoSkill.ServiceClients
                 }
             }
 
-            return onenotePage[0].Id;
+            return new Tuple<string, bool>(onenotePage[0].Id, pageNotExist);
         }
 
         private async Task<List<OnenotePage>> GetOneNotePageAsync(string url)
@@ -307,6 +324,10 @@ namespace ToDoSkill.ServiceClients
             if (todosList == null)
             {
                 todosList = new List<TaskItem>();
+            }
+            else
+            {
+                todosList.RemoveAll(t => t.IsCompleted);
             }
 
             return todosList;

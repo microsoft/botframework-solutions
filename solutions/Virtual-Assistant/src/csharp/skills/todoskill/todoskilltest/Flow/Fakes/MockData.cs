@@ -19,8 +19,6 @@ namespace ToDoSkillTest.Flow.Fakes
 
         public const string ToDoTask = "toDoTask";
 
-        public const string AfterDeleteTaskMessage = "I have deleted the item {0} for you. You have {1} items on your {2} list.";
-
         public const string TaskId = "MockTaskId";
 
         public const string LocaleEN = "en";
@@ -30,6 +28,24 @@ namespace ToDoSkillTest.Flow.Fakes
         public const string LuisGeneral = "general";
 
         public const string LuisToDo = "todo";
+
+        public const string TaskContent = "taskContent";
+
+        public const string ConfirmNo = "No";
+
+        public const string ConfirmYes = "Yes";
+
+        public const string GroceryItemEggs = "eggs";
+
+        public const string ShoppingItemShoes = "shoes";
+
+        public const string FirstTaskDetailMessage = "You have {0} tasks on your {1} list today. Your most recent {2} tasks are {3}. ";
+
+        public const string NextTaskDetailMessage = "The next {0} tasks are {1}. ";
+
+        public const int ReadSize = 3;
+
+        public const int PageSize = 6;
 
         public static List<TaskItem> MockTaskItems { get; set; } = new List<TaskItem>
         {
@@ -51,42 +67,70 @@ namespace ToDoSkillTest.Flow.Fakes
             {
                 Id = "ToDoNum3",
                 Topic = "Play Games 3",
-                IsCompleted = true
+                IsCompleted = false
             },
 
             new TaskItem()
             {
                 Id = "ToDoNum4",
                 Topic = "Play Games 4",
-                IsCompleted = true
+                IsCompleted = false
             },
 
             new TaskItem()
             {
                 Id = "ToDoNum5",
                 Topic = "Play Games 5",
-                IsCompleted = true
+                IsCompleted = false
             },
 
             new TaskItem()
             {
                 Id = "ToDoNum6",
                 Topic = "Play Games 6",
-                IsCompleted = true
+                IsCompleted = false
             },
 
             new TaskItem()
             {
                 Id = "ToDoNum7",
                 Topic = "Play Games 7",
-                IsCompleted = true
+                IsCompleted = false
             },
 
             new TaskItem()
             {
                 Id = "ToDoNum8",
                 Topic = "Play Games 8",
-                IsCompleted = true
+                IsCompleted = false
+            },
+
+            new TaskItem()
+            {
+                Id = "ToDoNum9",
+                Topic = "Play Games 9",
+                IsCompleted = false
+            },
+
+            new TaskItem()
+            {
+                Id = "ToDoNum10",
+                Topic = "Play Games 10",
+                IsCompleted = false
+            },
+
+            new TaskItem()
+            {
+                Id = "ToDoNum11",
+                Topic = "Play Games 11",
+                IsCompleted = false
+            },
+
+            new TaskItem()
+            {
+                Id = "ToDoNum12",
+                Topic = "Play Games 12",
+                IsCompleted = false
             }
         };
 
@@ -110,7 +154,7 @@ namespace ToDoSkillTest.Flow.Fakes
             {
                 Id = "ShoppingItem3",
                 Topic = "Buy Shoes 3",
-                IsCompleted = true
+                IsCompleted = false
             },
 
             new TaskItem()
@@ -131,7 +175,7 @@ namespace ToDoSkillTest.Flow.Fakes
             {
                 Id = "ShoppingItem6",
                 Topic = "Buy Shoes 6",
-                IsCompleted = true
+                IsCompleted = false
             },
             new TaskItem()
             {
@@ -182,7 +226,7 @@ namespace ToDoSkillTest.Flow.Fakes
             {
                 Id = "GroceryItem6",
                 Topic = "Buy Milk 6",
-                IsCompleted = true
+                IsCompleted = false
             },
 
             new TaskItem()

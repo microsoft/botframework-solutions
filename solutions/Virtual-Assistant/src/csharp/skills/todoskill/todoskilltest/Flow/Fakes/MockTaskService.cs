@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using ToDoSkill.Models;
@@ -12,25 +13,57 @@ namespace ToDoSkillTest.Fakes
 {
     public class MockTaskService : ITaskService
     {
-        private List<TaskItem> allToDoItems = new List<TaskItem>(MockData.MockTaskItems);
-
-        private List<TaskItem> allShoppingItems = new List<TaskItem>(MockData.MockShoppingItems);
-
-        private List<TaskItem> allGroceryItems = new List<TaskItem>(MockData.MockGroceryItems);
-
-        public MockTaskService()
+        private List<TaskItem> allToDoItems = MockData.MockTaskItems.ConvertAll(t => new TaskItem()
         {
-        }
+            Id = t.Id,
+            Topic = t.Topic,
+            IsCompleted = t.IsCompleted
+        });
+
+        private List<TaskItem> allShoppingItems = MockData.MockShoppingItems.ConvertAll(t => new TaskItem()
+        {
+            Id = t.Id,
+            Topic = t.Topic,
+            IsCompleted = t.IsCompleted
+        });
+
+        private List<TaskItem> allGroceryItems = MockData.MockGroceryItems.ConvertAll(t => new TaskItem()
+        {
+            Id = t.Id,
+            Topic = t.Topic,
+            IsCompleted = t.IsCompleted
+        });
+
+        public bool IsListCreated { get; set; }
 
         public void ChangeData(DataOperationType.OperationType type)
         {
-            if (type == DataOperationType.OperationType.KeepZeroItem)
+            if (type == DataOperationType.OperationType.ClearAllData)
             {
                 allToDoItems.Clear();
             }
-            else if (type == DataOperationType.OperationType.KeepOneItem)
+            else if (type == DataOperationType.OperationType.ResetAllData)
             {
-                allToDoItems.RemoveRange(1, allToDoItems.Count - 1);
+                allToDoItems = MockData.MockTaskItems.ConvertAll(t => new TaskItem()
+                {
+                    Id = t.Id,
+                    Topic = t.Topic,
+                    IsCompleted = t.IsCompleted
+                });
+
+                allShoppingItems = MockData.MockShoppingItems.ConvertAll(t => new TaskItem()
+                {
+                    Id = t.Id,
+                    Topic = t.Topic,
+                    IsCompleted = t.IsCompleted
+                });
+
+                allGroceryItems = MockData.MockGroceryItems.ConvertAll(t => new TaskItem()
+                {
+                    Id = t.Id,
+                    Topic = t.Topic,
+                    IsCompleted = t.IsCompleted
+                });
             }
         }
 
@@ -51,6 +84,7 @@ namespace ToDoSkillTest.Fakes
                 listTypeIds.Add(MockData.Grocery, MockData.Grocery);
             }
 
+            IsListCreated = true;
             return Task.FromResult(this as ITaskService);
         }
 
@@ -76,14 +110,17 @@ namespace ToDoSkillTest.Fakes
         {
             if (listType.Equals(MockData.ToDo, StringComparison.InvariantCultureIgnoreCase))
             {
+                this.allToDoItems.RemoveAll(t => t.IsCompleted);
                 return Task.FromResult(this.allToDoItems);
             }
             else if (listType.Equals(MockData.Shopping, StringComparison.InvariantCultureIgnoreCase))
             {
+                this.allShoppingItems.RemoveAll(t => t.IsCompleted);
                 return Task.FromResult(this.allShoppingItems);
             }
             else
             {
+                this.allGroceryItems.RemoveAll(t => t.IsCompleted);
                 return Task.FromResult(this.allGroceryItems);
             }
         }
@@ -95,7 +132,7 @@ namespace ToDoSkillTest.Fakes
                 this.allToDoItems.Insert(0, new TaskItem()
                 {
                     Topic = taskText,
-                    IsCompleted = true,
+                    IsCompleted = false,
                     Id = MockData.TaskId
                 });
             }
@@ -104,7 +141,7 @@ namespace ToDoSkillTest.Fakes
                 this.allShoppingItems.Insert(0, new TaskItem()
                 {
                     Topic = taskText,
-                    IsCompleted = true,
+                    IsCompleted = false,
                     Id = MockData.TaskId
                 });
             }
@@ -113,7 +150,7 @@ namespace ToDoSkillTest.Fakes
                 this.allGroceryItems.Insert(0, new TaskItem()
                 {
                     Topic = taskText,
-                    IsCompleted = true,
+                    IsCompleted = false,
                     Id = MockData.TaskId
                 });
             }
