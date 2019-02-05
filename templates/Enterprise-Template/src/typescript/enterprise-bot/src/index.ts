@@ -25,7 +25,7 @@ import {
     ICosmosDBService,
     IEndpointService,
     IGenericService } from 'botframework-config';
-import { RequestOptions } from 'documentdb';
+
 // Read variables from .env file.
 import { config } from 'dotenv';
 import * as i18n from 'i18n';
@@ -99,7 +99,6 @@ await turnContext.sendActivity('Sorry, it looks like something went wrong.');
 // is restarted, anything stored in memory will be gone.
 // const storage = new MemoryStorage();
 
-const REQUEST_OPTIONS: RequestOptions = {};
  // this is the name of the cosmos DB configuration in your .bot file
 const STORAGE_CONFIGURATION: string = process.env.STORAGE_NAME || '';
 const COSMOS_CONFIG: ICosmosDBService = <ICosmosDBService> BOT_CONFIG.findServiceByNameOrId(STORAGE_CONFIGURATION);
@@ -109,8 +108,8 @@ const COSMOS_DB_STORAGE_SETTINGS: CosmosDbStorageSettings = {
     collectionId: COSMOS_CONFIG.collection,
     databaseId: COSMOS_CONFIG.database,
     serviceEndpoint: COSMOS_CONFIG.endpoint,
-    databaseCreationRequestOptions: REQUEST_OPTIONS ,
-    documentCollectionRequestOptions: REQUEST_OPTIONS
+    documentCollectionRequestOptions: {},
+    databaseCreationRequestOptions: {}
 };
 const STORAGE: CosmosDbStorage  = new CosmosDbStorage(COSMOS_DB_STORAGE_SETTINGS);
 
