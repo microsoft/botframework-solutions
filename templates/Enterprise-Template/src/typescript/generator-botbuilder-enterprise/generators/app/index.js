@@ -248,17 +248,17 @@ module.exports = class extends Generator {
 
     this.fs.copy(
       this.templatePath(templateName, "cognitiveModels", "LUIS", botLang, "*"),
-      this.destinationPath(botGenerationPath, "cognitiveModels", "LUIS")
+      this.destinationPath(botGenerationPath, "cognitiveModels", "LUIS", botLang)
     );
 
     this.fs.copy(
       this.templatePath(templateName, "cognitiveModels", "QnA", botLang, "*"),
-      this.destinationPath(botGenerationPath, "cognitiveModels", "QnA")
+      this.destinationPath(botGenerationPath, "cognitiveModels", "QnA", botLang)
     );
 
     this.fs.copy(
       this.templatePath(templateName, "deploymentScripts", botLang, "*"),
-      this.destinationPath(botGenerationPath, "deploymentScripts")
+      this.destinationPath(botGenerationPath, "deploymentScripts", botLang)
     );
 
     this.fs.copyTpl(
