@@ -7,31 +7,31 @@ using PointOfInterestSkill.Dialogs.Route;
 using PointOfInterestSkill.Dialogs.Shared;
 using PointOfInterestSkill.ServiceClients;
 
-namespace PointOfInterestSkill.Dialogs.FindPointOfInterest
+namespace PointOfInterestSkill.Dialogs.FindParking
 {
-    public class FindPointOfInterestDialog : PointOfInterestSkillDialog
+    public class FindParkingDialog : PointOfInterestSkillDialog
     {
-        public FindPointOfInterestDialog(
+        public FindParkingDialog(
             SkillConfigurationBase services,
             IStatePropertyAccessor<PointOfInterestSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(FindPointOfInterestDialog), services, accessor, serviceManager, telemetryClient)
+            : base(nameof(FindParkingDialog), services, accessor, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
-            var findPointOfInterest = new WaterfallStep[]
+            var findParking = new WaterfallStep[]
             {
-                GetPointOfInterestLocations,
+                GetParkingInterestPoints,
                 ResponseToGetRoutePrompt,
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Action.FindPointOfInterest, findPointOfInterest) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Action.FindParking, findParking) { TelemetryClient = telemetryClient });
             AddDialog(new RouteDialog(services, Accessor, ServiceManager, TelemetryClient));
 
             // Set starting dialog for component
-            InitialDialogId = Action.FindPointOfInterest;
+            InitialDialogId = Action.FindParking;
         }
     }
 }

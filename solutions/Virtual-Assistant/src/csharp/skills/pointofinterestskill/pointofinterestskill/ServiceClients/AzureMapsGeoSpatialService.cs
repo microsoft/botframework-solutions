@@ -17,6 +17,7 @@ namespace PointOfInterestSkill.ServiceClients
         private static readonly string FindByQueryApiUrl = $"https://atlas.microsoft.com/search/address/json?api-version=1.0&limit=3&query=";
         private static readonly string FindByPointUrl = $"https://atlas.microsoft.com/search/address/reverse/json?api-version=1.0&query={{0}},{{1}}";
         private static readonly string FindNearbyUrl = $"https://atlas.microsoft.com/search/nearby/json?api-version=1.0&limit=3&lat={{0}}&lon={{1}}&radius={{2}}";
+        private static readonly string FindByCategoryUrl = $"https://atlas.microsoft.com/search/poi/category/json?api-version=1.0&limit=3&lat={{0}}&lon={{1}}&query={{2}}&radius={{3}}";
         private static readonly string ImageUrlByPoint = $"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={{2}}&center={{1}},{{0}}&width=512&height=512";
         private static readonly string GetRouteDirections = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&query={{0}}";
         private static readonly string GetRouteDirectionsWithRouteType = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&query={{0}}&&routeType={{1}}";
@@ -112,6 +113,21 @@ namespace PointOfInterestSkill.ServiceClients
         {
             return await GetPointsOfInterestAsync(
                 string.Format(CultureInfo.InvariantCulture, FindNearbyUrl, latitude, longitude, radius));
+        }
+
+        /// <summary>
+        /// Get Point of Interest parking results around a specific location.
+        /// </summary>
+        /// <param name="latitude">The current latitude.</param>
+        /// <param name="longitude">The current longitude.</param>
+        /// <returns>List of PointOfInterestModels.</returns>
+        public async Task<List<PointOfInterestModel>> GetPointOfInterestByParkingCategoryAsync(double latitude, double longitude)
+        {
+            // Available categories described at https://docs.microsoft.com/en-us/azure/azure-maps/supported-search-categories
+            var parkingCategory = "OPEN_PARKING_AREA,PARKING_GARAGE";
+
+            return await GetPointsOfInterestAsync(
+                string.Format(CultureInfo.InvariantCulture, FindByCategoryUrl, latitude, longitude, parkingCategory, radius));
         }
 
         /// <summary>

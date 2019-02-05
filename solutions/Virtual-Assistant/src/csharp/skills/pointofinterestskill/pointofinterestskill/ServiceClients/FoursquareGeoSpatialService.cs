@@ -16,6 +16,7 @@ namespace PointOfInterestSkill.ServiceClients
     public sealed class FoursquareGeoSpatialService : IGeoSpatialService
     {
         private static readonly string SearchForVenuesUrl = $"https://api.foursquare.com/v2/venues/search?ll={{0}},{{1}}&query={{2}}&radius={{3}}&intent=browse&limit=3";
+        private static readonly string SearchForVenuesByCategoryUrl = $"https://api.foursquare.com/v2/venues/search?ll={{0}},{{1}}&categoryId={{2}}&radius={{3}}&intent=browse&limit=3";
         private static readonly string ExploreNearbyVenuesUrl = $"https://api.foursquare.com/v2/venues/explore?ll={{0}},{{1}}&radius={{2}}&limit=3";
         private static readonly string GetVenueDetailsUrl = $"https://api.foursquare.com/v2/venues/{{0}}?";
         private string userLocale;
@@ -116,6 +117,21 @@ namespace PointOfInterestSkill.ServiceClients
         {
             return await GetVenueAsync(
                 string.Format(CultureInfo.InvariantCulture, ExploreNearbyVenuesUrl, latitude, longitude, radius));
+        }
+
+        /// <summary>
+        /// Get Point of Interest parking results around a specific location.
+        /// </summary>
+        /// <param name="latitude">The current latitude.</param>
+        /// <param name="longitude">The current longitude.</param>
+        /// <returns>List of PointOfInterestModels.</returns>
+        public async Task<List<PointOfInterestModel>> GetPointOfInterestByParkingCategoryAsync(double latitude, double longitude)
+        {
+            // Available categories described at https://developer.foursquare.com/docs/resources/categories
+            var parkingCategory = "4c38df4de52ce0d596b336e1";
+
+            return await GetVenueAsync(
+                string.Format(CultureInfo.InvariantCulture, SearchForVenuesByCategoryUrl, latitude, longitude, parkingCategory, radius));
         }
 
         /// <summary>

@@ -16,6 +16,7 @@ using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 using PointOfInterestSkill.Dialogs.Cancel;
 using PointOfInterestSkill.Dialogs.CancelRoute;
+using PointOfInterestSkill.Dialogs.FindParking;
 using PointOfInterestSkill.Dialogs.FindPointOfInterest;
 using PointOfInterestSkill.Dialogs.Main.Resources;
 using PointOfInterestSkill.Dialogs.Route;
@@ -114,6 +115,12 @@ namespace PointOfInterestSkill.Dialogs.Main
                     case PointOfInterest.Intent.NAVIGATION_FIND_POINTOFINTEREST:
                         {
                             routeResult = await dc.BeginDialogAsync(nameof(FindPointOfInterestDialog), skillOptions);
+                            break;
+                        }
+
+                    case PointOfInterest.Intent.NAVIGATION_FIND_PARKING:
+                        {
+                            routeResult = await dc.BeginDialogAsync(nameof(FindParkingDialog), skillOptions);
                             break;
                         }
 
@@ -367,6 +374,7 @@ namespace PointOfInterestSkill.Dialogs.Main
             AddDialog(new RouteDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
             AddDialog(new CancelRouteDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
             AddDialog(new FindPointOfInterestDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new FindParkingDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
             AddDialog(new CancelDialog(_stateAccessor, TelemetryClient));
         }
 

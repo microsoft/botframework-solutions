@@ -49,6 +49,14 @@ namespace PointOfInterestSkill.ServiceClients
         Task<List<PointOfInterestModel>> GetPointOfInterestByCoordinatesAsync(double latitude, double longitude);
 
         /// <summary>
+        /// Gets the point of interest by parking category.
+        /// </summary>
+        /// <param name="latitude">The point latitude.</param>
+        /// <param name="longitude">The point longitude.</param>
+        /// <returns>The found locations.</returns>
+        Task<List<PointOfInterestModel>> GetPointOfInterestByParkingCategoryAsync(double latitude, double longitude);
+
+        /// <summary>
         /// Gets point of interest details.
         /// </summary>
         /// <param name="pointOfInterest">The point of interest.</param>
