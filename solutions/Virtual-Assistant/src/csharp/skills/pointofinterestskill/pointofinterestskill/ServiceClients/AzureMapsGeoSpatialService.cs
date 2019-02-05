@@ -66,7 +66,7 @@ namespace PointOfInterestSkill.ServiceClients
         /// <param name="longitude">The current longitude.</param>
         /// <param name="query">The search query.</param>
         /// <returns>List of PointOfInterestModels.</returns>
-        public async Task<List<PointOfInterestModel>> GetPointOfInterestByQueryAsync(double latitude, double longitude, string query)
+        public async Task<List<PointOfInterestModel>> GetPointOfInterestListByQueryAsync(double latitude, double longitude, string query)
         {
             if (string.IsNullOrEmpty(query))
             {
@@ -83,7 +83,7 @@ namespace PointOfInterestSkill.ServiceClients
         /// <param name="longitude">The current longitude.</param>
         /// <param name="address">The search address.</param>
         /// <returns>List of PointOfInterestModels.</returns>
-        public async Task<List<PointOfInterestModel>> GetPointOfInterestByAddressAsync(double latitude, double longitude, string address)
+        public async Task<List<PointOfInterestModel>> GetPointOfInterestListByAddressAsync(double latitude, double longitude, string address)
         {
             if (string.IsNullOrEmpty(address))
             {
@@ -111,7 +111,7 @@ namespace PointOfInterestSkill.ServiceClients
         /// <param name="latitude">The current latitude.</param>
         /// <param name="longitude">The current longitude.</param>
         /// <returns>List of PointOfInterestModels.</returns>
-        public async Task<List<PointOfInterestModel>> GetNearbyPointsOfInterestAsync(double latitude, double longitude)
+        public async Task<List<PointOfInterestModel>> GetNearbyPointOfInterestListAsync(double latitude, double longitude)
         {
             return await GetPointsOfInterestAsync(
                 string.Format(CultureInfo.InvariantCulture, FindNearbyUrl, latitude, longitude, radius));
@@ -123,7 +123,7 @@ namespace PointOfInterestSkill.ServiceClients
         /// <param name="latitude">The current latitude.</param>
         /// <param name="longitude">The current longitude.</param>
         /// <returns>List of PointOfInterestModels.</returns>
-        public async Task<List<PointOfInterestModel>> GetPointOfInterestByParkingCategoryAsync(double latitude, double longitude)
+        public async Task<List<PointOfInterestModel>> GetPointOfInterestListByParkingCategoryAsync(double latitude, double longitude)
         {
             // Available categories described at https://docs.microsoft.com/en-us/azure/azure-maps/supported-search-categories
             var parkingCategory = "OPEN_PARKING_AREA,PARKING_GARAGE";
@@ -162,7 +162,7 @@ namespace PointOfInterestSkill.ServiceClients
         /// <param name="destinationLongitude">The destination longitude.</param>
         /// <param name="routeType">The (optional) route type.</param>
         /// <returns>RouteDirections.</returns>
-        public async Task<RouteDirections> GetRouteDirectionsAsync(double currentLatitude, double currentLongitude, double destinationLatitude, double destinationLongitude, string routeType = null)
+        public async Task<RouteDirections> GetRouteDirectionsToDestinationAsync(double currentLatitude, double currentLongitude, double destinationLatitude, double destinationLongitude, string routeType = null)
         {
             if (string.IsNullOrEmpty(routeType))
             {

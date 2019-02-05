@@ -64,7 +64,7 @@ namespace PointOfInterestSkill.ServiceClients
             throw new NotSupportedException();
         }
 
-        public async Task<RouteDirections> GetRouteDirectionsAsync(double currentLatitude, double currentLongitude, double destinationLatitude, double destinationLongitude, string routeType = null)
+        public async Task<RouteDirections> GetRouteDirectionsToDestinationAsync(double currentLatitude, double currentLongitude, double destinationLatitude, double destinationLongitude, string routeType = null)
         {
             throw new NotSupportedException();
         }
@@ -76,7 +76,7 @@ namespace PointOfInterestSkill.ServiceClients
         /// <param name="longitude">The current longitude.</param>
         /// <param name="query">The search query.</param>
         /// <returns>List of PointOfInterestModels.</returns>
-        public async Task<List<PointOfInterestModel>> GetPointOfInterestByQueryAsync(double latitude, double longitude, string query)
+        public async Task<List<PointOfInterestModel>> GetPointOfInterestListByQueryAsync(double latitude, double longitude, string query)
         {
             if (string.IsNullOrEmpty(query))
             {
@@ -93,7 +93,7 @@ namespace PointOfInterestSkill.ServiceClients
         /// <param name="longitude">The current longitude.</param>
         /// <param name="address">The search address.</param>
         /// <returns>List of PointOfInterestModels.</returns>
-        public async Task<List<PointOfInterestModel>> GetPointOfInterestByAddressAsync(double latitude, double longitude, string address)
+        public async Task<List<PointOfInterestModel>> GetPointOfInterestListByAddressAsync(double latitude, double longitude, string address)
         {
             throw new NotSupportedException();
         }
@@ -115,7 +115,7 @@ namespace PointOfInterestSkill.ServiceClients
         /// <param name="latitude">The current latitude.</param>
         /// <param name="longitude">The current longitude.</param>
         /// <returns>List of PointOfInterestModels.</returns>
-        public async Task<List<PointOfInterestModel>> GetNearbyPointsOfInterestAsync(double latitude, double longitude)
+        public async Task<List<PointOfInterestModel>> GetNearbyPointOfInterestListAsync(double latitude, double longitude)
         {
             return await GetVenueAsync(
                 string.Format(CultureInfo.InvariantCulture, ExploreNearbyVenuesUrl, latitude, longitude, radius));
@@ -127,7 +127,7 @@ namespace PointOfInterestSkill.ServiceClients
         /// <param name="latitude">The current latitude.</param>
         /// <param name="longitude">The current longitude.</param>
         /// <returns>List of PointOfInterestModels.</returns>
-        public async Task<List<PointOfInterestModel>> GetPointOfInterestByParkingCategoryAsync(double latitude, double longitude)
+        public async Task<List<PointOfInterestModel>> GetPointOfInterestListByParkingCategoryAsync(double latitude, double longitude)
         {
             // Available categories described at https://developer.foursquare.com/docs/resources/categories
             var parkingCategory = "4c38df4de52ce0d596b336e1";
