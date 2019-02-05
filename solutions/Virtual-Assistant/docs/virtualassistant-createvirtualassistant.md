@@ -180,7 +180,8 @@ The [Add Authentication to your bot](https://docs.microsoft.com/en-us/azure/bot-
     - Click on **Add** next to Delegated Permissions.
     - Click the checkbox next to the following eight scopes: 
         - `Calendars.ReadWrite`, `Contacts.Read`, `Mail.ReadWrite`, `Mail.Send`,  `Notes.ReadWrite`, `People.Read`, `Tasks.ReadWrite`, `User.Read`  
-    - Click **Ok** when done.  
+    - Click **Ok** when done. 
+- **Save** all updates to your application when done. 
 
 Next you need to create the Authentication Connection for your Bot. Ensure you use the same combination of Scopes that you provided in the above command. The first command shown below will retrieve the appId (ApplicationId) and appPassword (Client Secret) that you need to complete this step.
 
@@ -190,7 +191,17 @@ The commands shown below assume you have used the deployment process and your re
 msbot get production --secret YOUR_SECRET
 
 az bot authsetting create --resource-group YOUR_BOT_NAME --name YOUR_BOT_NAME --setting-name "YOUR_AUTH_CONNECTION_DISPLAY_NAME" --client-id "YOUR_APPLICATION_ID" --client-secret "YOUR_APPLICATION_PASSWORD" --service Aadv2 --parameters clientId="YOUR_APPLICATION_ID" clientSecret="YOUR_APPLICATION_PASSWORD" tenantId=common --provider-scope-string "Calendars.ReadWrite Mail.ReadWrite Mail.Send Tasks.ReadWrite Notes.ReadWrite People.Read User.Read Contacts.Read" 
-```
+```  
+
+> NOTE: Take special care when running the `authsetting` commands to correctly escape special characters in your client secret key (or parameters that contain special characters).     
+> 1. For **Windows command prompt**, enclose the client-secret in double quotes.  
+>     - e.g.  `--client-secret "!&*^|%gr%"`  
+>  
+> 2. For **Windows PowerShell**, pass in the client-secret  after the *Powershell* special `--%` argument.  
+>     -  e.g. `--% --client-secret "!&*^|%gr%"`  
+>
+> 3. For MacOS or Linux, enclose the client-secret in single quotes.  
+>     -  e.g. `--client-secret "!&*^|%gr%"`
 
 The final step is to update your .bot file and associated Skills (in appSettings.config) with the Authentication connection name, this is used by the Assistant to enable Authentication prompts or use of Linked Accounts.
 
