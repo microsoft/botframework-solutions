@@ -133,18 +133,7 @@ module.exports = class extends Generator {
         type: "input",
         name: "botName",
         message: `What's the name of your bot?`,
-        default: this.options.botName ? this.options.botName : "enterprise-bot",
-        validate: input => {
-          if (input.length > 12) {
-            this.log(
-              chalk.yellow(
-                "\nWARNING: If the name of the bot has more than 12 characters, it could have some problems deploying some services."
-              )
-            );
-          }
-
-          return true;
-        }
+        default: this.options.botName ? this.options.botName : "enterprise-bot"
       },
       {
         type: "input",
