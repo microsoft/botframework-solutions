@@ -13,6 +13,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 
@@ -22,7 +23,7 @@ namespace CalendarSkill.Dialogs.TimeRemaining
     {
         public TimeRemainingDialog(
             SkillConfigurationBase services,
-            ResponseTemplateManager responseManager,
+            ResponseManager responseManager,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
@@ -85,7 +86,8 @@ namespace CalendarSkill.Dialogs.TimeRemaining
                 if (nextEventList.Count == 0)
                 {
                     var prompt = ResponseManager.GetResponse(TimeRemainingResponses.ShowNoMeetingMessage);
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = prompt }, cancellationToken);
+                    await sc.Context.SendActivityAsync(prompt);
+                    return await sc.EndDialogAsync();
                 }
                 else
                 {
@@ -149,7 +151,8 @@ namespace CalendarSkill.Dialogs.TimeRemaining
                     if (state.OrderReference == "next")
                     {
                         var prompt = ResponseManager.GetResponse(TimeRemainingResponses.ShowNextMeetingTimeRemainingMessage, tokens);
-                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = prompt }, cancellationToken);
+                        await sc.Context.SendActivityAsync(prompt);
+                        return await sc.EndDialogAsync();
                     }
                     else
                     {
@@ -184,12 +187,10 @@ namespace CalendarSkill.Dialogs.TimeRemaining
                         }
 
                         var prompt = ResponseManager.GetResponse(TimeRemainingResponses.ShowTimeRemainingMessage, tokens);
-                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = prompt }, cancellationToken);;
+                        await sc.Context.SendActivityAsync(prompt);
+                        return await sc.EndDialogAsync();
                     }
                 }
-
-                state.Clear();
-                return await sc.EndDialogAsync(true);
             }
             catch (SkillException ex)
             {

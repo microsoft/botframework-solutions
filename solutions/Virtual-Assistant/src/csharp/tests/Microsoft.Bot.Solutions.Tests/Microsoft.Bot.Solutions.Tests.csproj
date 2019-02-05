@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Dialogs\TestResponses.es.json" />
+    <None Remove="Resources\TestResponses.es.json" />
+    <None Remove="Resources\TestResponses.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Responses\TestResponses.es-es.json" />
+    <EmbeddedResource Include="Responses\TestResponses.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.3.2" />
     <PackageReference Include="MSTest.TestFramework" Version="1.3.2" />
@@ -25,22 +36,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="AdaptiveCards\TestCard.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Dialogs\BrokenJson.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Dialogs\TestResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Dialogs\TestResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\TestResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\TestResponses.tt">
+    <None Update="Responses\TestResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>TestResponses.cs</LastGenOutput>
     </None>
@@ -51,7 +47,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Resources\TestResponses.cs">
+    <Compile Update="Responses\TestResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>TestResponses.tt</DependentUpon>

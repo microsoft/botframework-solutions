@@ -12,8 +12,7 @@ using EmailSkill.ServiceClients;
 using EmailSkill.Util;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 
@@ -23,7 +22,7 @@ namespace EmailSkill.Dialogs.SendEmail
     {
         public SendEmailDialog(
             SkillConfigurationBase services,
-            ResponseTemplateManager responseManager,
+            ResponseManager responseManager,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IServiceManager serviceManager,
@@ -53,7 +52,7 @@ namespace EmailSkill.Dialogs.SendEmail
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Actions.Send, sendEmail) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.CollectRecipient, collectRecipients) { TelemetryClient = telemetryClient });
-            AddDialog(new ConfirmRecipientDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
+            AddDialog(new ConfirmRecipientDialog(services, responseManager, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
             InitialDialogId = Actions.Send;
         }
 
@@ -98,7 +97,7 @@ namespace EmailSkill.Dialogs.SendEmail
                     var noMessageBodyMessage = ResponseManager.GetResponse(SendEmailResponses.NoMessageBody);
                     if (sc.Result == null)
                     {
-                        var recipientConfirmedMessage = ResponseManager.GetResponse(EmailSharedResponses.RecipientConfirmed, null, new StringDictionary() { { "UserName", await GetNameListStringAsync(sc) } });
+                        var recipientConfirmedMessage = ResponseManager.GetResponse(EmailSharedResponses.RecipientConfirmed, new StringDictionary() { { "UserName", await GetNameListStringAsync(sc) } });
                         noMessageBodyMessage.Text = recipientConfirmedMessage.Text + " " + noMessageBodyMessage.Text;
                         noMessageBodyMessage.Speak = recipientConfirmedMessage.Speak + " " + noMessageBodyMessage.Speak;
                     }
@@ -141,9 +140,12 @@ namespace EmailSkill.Dialogs.SendEmail
                         NameList = string.Format(EmailCommonStrings.ToFormat, nameListString),
                         EmailContent = string.Format(EmailCommonStrings.ContentFormat, state.Content),
                     };
-                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(EmailSharedResponses.SentSuccessfully, "Dialogs/Shared/Resources/Cards/EmailWithOutButtonCard.json", emailCard);
 
-                    await sc.Context.SendActivityAsync(replyMessage);
+                    var reply = ResponseManager.GetCardResponse(
+                        EmailSharedResponses.SentSuccessfully,
+                        new Card("EmailWithOutButtonCard", emailCard));
+
+                    await sc.Context.SendActivityAsync(reply);
                 }
             }
             catch (SkillException ex)

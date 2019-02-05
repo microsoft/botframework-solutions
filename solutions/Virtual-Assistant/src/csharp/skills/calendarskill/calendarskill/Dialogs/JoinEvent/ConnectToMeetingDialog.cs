@@ -12,8 +12,7 @@ using HtmlAgilityPack;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Extensions;
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Newtonsoft.Json;
@@ -24,7 +23,7 @@ namespace CalendarSkill.Dialogs.JoinEvent
     {
         public ConnectToMeetingDialog(
             SkillConfigurationBase services,
-            ResponseTemplateManager responseManager,
+            ResponseManager responseManager,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)

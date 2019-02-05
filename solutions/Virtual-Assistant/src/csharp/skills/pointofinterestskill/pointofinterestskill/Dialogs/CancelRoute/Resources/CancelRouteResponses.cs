@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 
 namespace PointOfInterestSkill.Dialogs.CancelRoute.Resources
 {
@@ -11,9 +11,6 @@ namespace PointOfInterestSkill.Dialogs.CancelRoute.Resources
     /// </summary>
     public class CancelRouteResponses : IResponseIdCollection
     {
-        // Generated accessors
 		public const string CancelActiveRoute = "CancelActiveRoute";
-		public const string CannotCancelActiveRoute = "CannotCancelActiveRoute";
-
-    }
+		public const string CannotCancelActiveRoute = "CannotCancelActiveRoute";    }
 }

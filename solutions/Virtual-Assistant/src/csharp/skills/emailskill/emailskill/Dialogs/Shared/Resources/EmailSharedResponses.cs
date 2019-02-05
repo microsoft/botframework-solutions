@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 
 namespace EmailSkill.Dialogs.Shared.Resources
 {
@@ -11,7 +11,6 @@ namespace EmailSkill.Dialogs.Shared.Resources
     /// </summary>
     public class EmailSharedResponses : IResponseIdCollection
     {
-        // Generated accessors
 		public const string DidntUnderstandMessage = "DidntUnderstandMessage";
 		public const string DidntUnderstandMessageIgnoringInput = "DidntUnderstandMessageIgnoringInput";
 		public const string CancellingMessage = "CancellingMessage";
@@ -30,7 +29,5 @@ namespace EmailSkill.Dialogs.Shared.Resources
 		public const string NoFocusMessage = "NoFocusMessage";
 		public const string ShowEmailPrompt = "ShowEmailPrompt";
 		public const string ShowOneEmailPrompt = "ShowOneEmailPrompt";
-		public const string NoChoiceOptions_Retry = "NoChoiceOptions_Retry";
-
-    }
+		public const string NoChoiceOptions_Retry = "NoChoiceOptions_Retry";    }
 }

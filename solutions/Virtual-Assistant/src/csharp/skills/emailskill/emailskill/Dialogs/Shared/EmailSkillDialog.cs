@@ -23,10 +23,10 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Data;
-using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Prompts;
 using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Microsoft.Graph;
@@ -43,7 +43,7 @@ namespace EmailSkill.Dialogs.Shared
         public EmailSkillDialog(
             string dialogId,
             SkillConfigurationBase services,
-            ResponseTemplateManager responseManager,
+            ResponseManager responseManager,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IServiceManager serviceManager,
@@ -81,7 +81,7 @@ namespace EmailSkill.Dialogs.Shared
 
         protected IServiceManager ServiceManager { get; set; }
 
-        protected ResponseTemplateManager ResponseManager { get; set; }
+        protected ResponseManager ResponseManager { get; set; }
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -209,7 +209,8 @@ namespace EmailSkill.Dialogs.Shared
                 }
                 else
                 {
-                    return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = ResponseManager.GetResponse(EmailSharedResponses.NoAuth, ResponseManager), });
+                    var retry = ResponseManager.GetResponse(EmailSharedResponses.NoAuth);
+                    return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = retry });
                 }
             }
             catch (Exception ex)
@@ -430,13 +431,19 @@ namespace EmailSkill.Dialogs.Shared
                 };
 
                 var speech = SpeakHelper.ToSpeechEmailSendDetailString(state.Subject, nameListString, state.Content);
-                var stringToken = new StringDictionary
+                var tokens = new StringDictionary
                 {
                     { "EmailDetails", speech },
                 };
-                var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(EmailSharedResponses.ConfirmSend, "Dialogs/Shared/Resources/Cards/EmailWithOutButtonCard.json", emailCard, ResponseManager, stringToken);
 
-                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = replyMessage, RetryPrompt = ResponseManager.GetResponse(EmailSharedResponses.ConfirmSendFailed, ResponseManager), });
+                var prompt = ResponseManager.GetCardResponse(
+                    EmailSharedResponses.ConfirmSend,
+                    new Card("EmailWithOutButtonCard", emailCard),
+                    tokens);
+
+                var retry = ResponseManager.GetResponse(EmailSharedResponses.ConfirmSendFailed);
+
+                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = prompt, RetryPrompt = retry });
             }
             catch (Exception ex)
             {
@@ -567,7 +574,7 @@ namespace EmailSkill.Dialogs.Shared
                 // Get display messages
                 var displayMessages = new List<Message>();
                 var startIndex = ConfigData.GetInstance().MaxReadSize * state.ReadEmailIndex;
-                for (int i = startIndex; i < messages.Count(); i++)
+                for (var i = startIndex; i < messages.Count(); i++)
                 {
                     displayMessages.Add(messages[i]);
                 }
@@ -647,8 +654,8 @@ namespace EmailSkill.Dialogs.Shared
                 return recipients.FirstOrDefault()?.EmailAddress.Name;
             }
 
-            string result = recipients.FirstOrDefault()?.EmailAddress.Name;
-            for (int i = 1; i < recipients.Count; i++)
+            var result = recipients.FirstOrDefault()?.EmailAddress.Name;
+            for (var i = 1; i < recipients.Count; i++)
             {
                 if (i == recipients.Count - 1)
                 {
@@ -836,7 +843,7 @@ namespace EmailSkill.Dialogs.Shared
         {
             var result = new List<Message>();
 
-            int pageSize = ConfigData.GetInstance().MaxDisplaySize;
+            var pageSize = ConfigData.GetInstance().MaxDisplaySize;
             var state = await EmailStateAccessor.GetAsync(sc.Context);
             var token = state.Token;
             var serivce = ServiceManager.InitMailService(token, state.GetUserTimeZone(), state.MailSourceType);
@@ -872,7 +879,7 @@ namespace EmailSkill.Dialogs.Shared
 
             // get messages for current page
             var filteredResult = new List<Message>();
-            for (int i = 0; i < result.Count; i++)
+            for (var i = 0; i < result.Count; i++)
             {
                 if (skip > 0)
                 {
@@ -898,6 +905,8 @@ namespace EmailSkill.Dialogs.Shared
         {
             var updatedMessages = new List<Message>();
             var state = await EmailStateAccessor.GetAsync(sc.Context);
+
+            var cards = new List<Card>();
             var cardsData = new List<EmailCardData>();
 
             foreach (var message in messages)
@@ -916,7 +925,7 @@ namespace EmailSkill.Dialogs.Shared
                     : message.ReceivedDateTime.Value.UtcDateTime.ToRelativeString(state.GetUserTimeZone()),
                     Speak = SpeakHelper.ToSpeechEmailDetailOverallString(message, state.GetUserTimeZone()),
                 };
-                cardsData.Add(emailCard);
+                cards.Add(new Card("EmailCard", emailCard));
                 updatedMessages.Add(message);
             }
 
@@ -930,22 +939,20 @@ namespace EmailSkill.Dialogs.Shared
                 searchType = string.Format(EmailCommonStrings.RelevantFormat, EmailCommonStrings.Important);
             }
 
-            var stringToken = new StringDictionary
+            var tokens = new StringDictionary
             {
                 { "TotalCount", totalCount.ToString() },
                 { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(updatedMessages, state.GetUserTimeZone(), ConfigData.GetInstance().MaxReadSize) },
             };
 
-            var response = ResponseManager.GetResponse(EmailSharedResponses.ShowEmailPrompt, stringToken);
+            var reply = ResponseManager.GetCardResponse(EmailSharedResponses.ShowEmailPrompt, cards, tokens);
 
             if (updatedMessages.Count == 1)
             {
-                response = ResponseManager.GetResponse(EmailSharedResponses.ShowOneEmailPrompt, stringToken);
+                reply = ResponseManager.GetCardResponse(EmailSharedResponses.ShowOneEmailPrompt, cards, tokens);
             }
 
-            ResponseManager.AddAdaptiveCard(response, "EmailCard.json", cardsData);
-
-            await sc.Context.SendActivityAsync(response);
+            await sc.Context.SendActivityAsync(reply);
             return;
         }
 
@@ -1257,7 +1264,7 @@ namespace EmailSkill.Dialogs.Shared
 
         protected bool IsReadMoreIntent(General.Intent? topIntent, string userInput)
         {
-            bool isReadMoreUserInput = userInput == null ? false : userInput.ToLowerInvariant().Contains(CommonStrings.More);
+            var isReadMoreUserInput = userInput == null ? false : userInput.ToLowerInvariant().Contains(CommonStrings.More);
             return topIntent == General.Intent.ReadMore && isReadMoreUserInput;
         }
 

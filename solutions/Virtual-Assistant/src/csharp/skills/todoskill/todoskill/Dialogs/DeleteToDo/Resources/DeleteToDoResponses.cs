@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 
 namespace ToDoSkill.Dialogs.DeleteToDo.Resources
 {
@@ -11,11 +11,8 @@ namespace ToDoSkill.Dialogs.DeleteToDo.Resources
     /// </summary>
     public class DeleteToDoResponses : IResponseIdCollection
     {
-        // Generated accessors
 		public const string AfterTaskDeleted = "AfterTaskDeleted";
 		public const string AfterAllTasksDeleted = "AfterAllTasksDeleted";
 		public const string AskDeletionConfirmation = "AskDeletionConfirmation";
-		public const string AskDeletionAllConfirmation = "AskDeletionAllConfirmation";
-
-    }
+		public const string AskDeletionAllConfirmation = "AskDeletionAllConfirmation";    }
 }

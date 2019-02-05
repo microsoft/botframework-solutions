@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 
 namespace EmailSkill.Dialogs.ForwardEmail.Resources
 {
@@ -10,8 +10,5 @@ namespace EmailSkill.Dialogs.ForwardEmail.Resources
     /// Contains bot responses.
     /// </summary>
     public class ForwardEmailResponses : IResponseIdCollection
-    {
-        // Generated accessors
-
-    }
+    {    }
 }

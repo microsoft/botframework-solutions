@@ -128,17 +128,20 @@ namespace EmailSkillTest.Flow
 
         private string[] EmailNotFoundPrompt()
         {
-            return this.ParseReplies(EmailSharedResponses.EmailNotFound.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(EmailSharedResponses.EmailNotFound);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private string[] AfterSendingMessage()
         {
-            return this.ParseReplies(EmailSharedResponses.SentSuccessfully.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(EmailSharedResponses.SentSuccessfully);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private string[] NotSendingMessage()
         {
-            return this.ParseReplies(EmailSharedResponses.CancellingMessage.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(EmailSharedResponses.CancellingMessage);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private Action<IActivity> ShowEmailList()
@@ -149,7 +152,8 @@ namespace EmailSkillTest.Flow
 
                 // Get showed mails:
                 var showedItems = ((MockServiceManager)this.ServiceManager).MailService.MyMessages;
-                var replies = this.ParseReplies(EmailSharedResponses.ShowEmailPrompt.Replies, new StringDictionary()
+                var response = ResponseManager.GetResponseTemplate(EmailSharedResponses.ShowEmailPrompt);
+                var replies = this.ParseReplies(response.Replies, new StringDictionary()
                 {
                     { "TotalCount", showedItems.Count.ToString() },
                     { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(showedItems, TimeZoneInfo.Local, ConfigData.GetInstance().MaxReadSize) },
@@ -165,7 +169,8 @@ namespace EmailSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                CollectionAssert.Contains(this.ParseReplies(EmailSharedResponses.NoFocusMessage.Replies, new StringDictionary()), messageActivity.Text);
+                var response = ResponseManager.GetResponseTemplate(EmailSharedResponses.NoFocusMessage);
+                CollectionAssert.Contains(this.ParseReplies(response.Replies, new StringDictionary()), messageActivity.Text);
             };
         }
 
@@ -174,24 +179,28 @@ namespace EmailSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                CollectionAssert.Contains(this.ParseReplies(EmailSharedResponses.ConfirmSend.Replies, new StringDictionary()), messageActivity.Text);
+                var response = ResponseManager.GetResponseTemplate(EmailSharedResponses.ConfirmSend);
+                CollectionAssert.Contains(this.ParseReplies(response.Replies, new StringDictionary()), messageActivity.Text);
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
         }
 
         private string[] CollectRecipientsMessage()
         {
-            return this.ParseReplies(EmailSharedResponses.NoRecipients.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(EmailSharedResponses.NoRecipients);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private string[] CollectFocusedMessage()
         {
-            return this.ParseReplies(EmailSharedResponses.NoFocusMessage.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(EmailSharedResponses.NoFocusMessage);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private string[] CollectEmailContentMessage()
         {
-            return this.ParseReplies(EmailSharedResponses.NoEmailContent.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(EmailSharedResponses.NoEmailContent);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()

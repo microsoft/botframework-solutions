@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 
 namespace CalendarSkill.Dialogs.CreateEvent.Resources
 {
@@ -11,7 +11,6 @@ namespace CalendarSkill.Dialogs.CreateEvent.Resources
     /// </summary>
     public class CreateEventResponses : IResponseIdCollection
     {
-        // Generated accessors
 		public const string NoTitle = "NoTitle";
 		public const string NoTitle_Short = "NoTitle_Short";
 		public const string NoContent = "NoContent";
@@ -33,7 +32,5 @@ namespace CalendarSkill.Dialogs.CreateEvent.Resources
 		public const string GetRecreateInfo = "GetRecreateInfo";
 		public const string GetRecreateInfo_Retry = "GetRecreateInfo_Retry";
 		public const string ConfirmRecipient = "ConfirmRecipient";
-		public const string InvaildDuration = "InvaildDuration";
-
-    }
+		public const string InvaildDuration = "InvaildDuration";    }
 }

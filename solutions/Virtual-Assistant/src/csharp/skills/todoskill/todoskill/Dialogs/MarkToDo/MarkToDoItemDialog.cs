@@ -6,6 +6,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using ToDoSkill.Dialogs.MarkToDo.Resources;
@@ -21,7 +22,7 @@ namespace ToDoSkill.Dialogs.MarkToDo
     {
         public MarkToDoItemDialog(
             SkillConfigurationBase services,
-            ResponseTemplateManager responseManager,
+            ResponseManager responseManager,
             IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
             IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
             IServiceManager serviceManager,
@@ -66,7 +67,7 @@ namespace ToDoSkill.Dialogs.MarkToDo
                 if (state.MarkOrDeleteAllTasksFlag)
                 {
                     await service.MarkTasksCompletedAsync(state.ListType, state.AllTasks);
-                    botResponse = MarkToDoResponses.AfterAllToDoTasksCompleted;
+                    botResponse = ResponseManager.GetResponseTemplate(MarkToDoResponses.AfterAllToDoTasksCompleted);
                 }
                 else
                 {
@@ -74,7 +75,7 @@ namespace ToDoSkill.Dialogs.MarkToDo
                     var tasksToBeMarked = new List<TaskItem>();
                     state.TaskIndexes.ForEach(i => tasksToBeMarked.Add(state.AllTasks[i]));
                     await service.MarkTasksCompletedAsync(state.ListType, tasksToBeMarked);
-                    botResponse = MarkToDoResponses.AfterToDoTaskCompleted;
+                    botResponse = ResponseManager.GetResponseTemplate(MarkToDoResponses.AfterToDoTaskCompleted);
                 }
 
                 state.AllTasks = await service.GetTasksAsync(state.ListType);
@@ -86,7 +87,7 @@ namespace ToDoSkill.Dialogs.MarkToDo
                     state.AllTasks.Count,
                     taskTopicToBeMarked,
                     botResponse,
-                    ToDoSharedResponses.ShowToDoTasks,
+                    ResponseManager.GetResponseTemplate(ToDoSharedResponses.ShowToDoTasks),
                     state.ListType);
                 var markToDoReply = sc.Context.Activity.CreateReply();
                 markToDoReply.Attachments.Add(markToDoAttachment);

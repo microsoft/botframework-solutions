@@ -12,16 +12,13 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
-using PointOfInterestSkill.Dialogs.Cancel;
 using PointOfInterestSkill.Dialogs.CancelRoute;
 using PointOfInterestSkill.Dialogs.FindPointOfInterest;
 using PointOfInterestSkill.Dialogs.Main.Resources;
 using PointOfInterestSkill.Dialogs.Route;
 using PointOfInterestSkill.Dialogs.Route.Resources;
-using PointOfInterestSkill.Dialogs.Shared;
 using PointOfInterestSkill.Dialogs.Shared.DialogOptions;
 using PointOfInterestSkill.Dialogs.Shared.Resources;
 using PointOfInterestSkill.Models;
@@ -33,16 +30,15 @@ namespace PointOfInterestSkill.Dialogs.Main
     {
         private bool _skillMode;
         private SkillConfiguration _services;
-        private ResponseTemplateManager _responseManager;
+        private ResponseManager _responseManager;
         private UserState _userState;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
         private IStatePropertyAccessor<PointOfInterestSkillState> _stateAccessor;
-        private PointOfInterestResponseBuilder _responseBuilder = new PointOfInterestResponseBuilder();
 
         public MainDialog(
             SkillConfiguration services,
-            ResponseTemplateManager responseManager,
+            ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
             IBotTelemetryClient telemetryClient,

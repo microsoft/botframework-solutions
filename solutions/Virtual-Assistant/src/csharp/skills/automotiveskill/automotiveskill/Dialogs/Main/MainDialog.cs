@@ -7,7 +7,6 @@ using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using AutomotiveSkill.Dialogs.Main.Resources;
-using AutomotiveSkill.Dialogs.Shared;
 using AutomotiveSkill.Dialogs.Shared.Resources;
 using AutomotiveSkill.Dialogs.VehicleSettings;
 using AutomotiveSkill.ServiceClients;
@@ -17,8 +16,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 
 namespace AutomotiveSkill.Dialogs.Main
@@ -27,18 +25,17 @@ namespace AutomotiveSkill.Dialogs.Main
     {
         private bool _skillMode;
         private SkillConfigurationBase _services;
-        private ResponseTemplateManager _responseManager;
+        private ResponseManager _responseManager;
         private UserState _userState;
         private IBotTelemetryClient _telemetryClient;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
         private IHttpContextAccessor _httpContext;
         private IStatePropertyAccessor<AutomotiveSkillState> _stateAccessor;
-        private AutomotiveSkillResponseBuilder _responseBuilder = new AutomotiveSkillResponseBuilder();
 
         public MainDialog(
             SkillConfigurationBase services,
-            ResponseTemplateManager responseManager,
+            ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
             IServiceManager serviceManager,

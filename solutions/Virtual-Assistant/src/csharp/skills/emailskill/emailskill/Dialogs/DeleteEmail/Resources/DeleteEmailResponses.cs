@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 
 namespace EmailSkill.Dialogs.DeleteEmail.Resources
 {
@@ -11,10 +11,7 @@ namespace EmailSkill.Dialogs.DeleteEmail.Resources
     /// </summary>
     public class DeleteEmailResponses : IResponseIdCollection
     {
-        // Generated accessors
 		public const string DeletePrompt = "DeletePrompt";
 		public const string DeleteConfirm = "DeleteConfirm";
-		public const string DeleteSuccessfully = "DeleteSuccessfully";
-
-    }
+		public const string DeleteSuccessfully = "DeleteSuccessfully";    }
 }

@@ -106,8 +106,9 @@ namespace ToDoSkillTest.Flow
                 var toDoChoices = responseCard.Body[1] as AdaptiveContainer;
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
+                var response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.ShowToDoTasks);
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { MockData.TaskCount, MockData.MockTaskItems.Count.ToString() }, { MockData.ListType, MockData.ToDo } }),
+                    this.ParseReplies(response.Replies, new StringDictionary() { { MockData.TaskCount, MockData.MockTaskItems.Count.ToString() }, { MockData.ListType, MockData.ToDo } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
                 var columnSet = toDoChoices.Items[index] as AdaptiveColumnSet;
@@ -132,8 +133,9 @@ namespace ToDoSkillTest.Flow
                 var toDoChoices = responseCard.Body[1] as AdaptiveContainer;
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
+                var response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.ShowToDoTasks);
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { MockData.TaskCount, MockData.MockGroceryItems.Count.ToString() }, { MockData.ListType, MockData.Grocery } }),
+                    this.ParseReplies(response.Replies, new StringDictionary() { { MockData.TaskCount, MockData.MockGroceryItems.Count.ToString() }, { MockData.ListType, MockData.Grocery } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
                 var columnSet = toDoChoices.Items[2] as AdaptiveColumnSet;
@@ -147,17 +149,20 @@ namespace ToDoSkillTest.Flow
 
         private string[] CollectTaskIndex()
         {
-            return this.ParseReplies(ToDoSharedResponses.AskToDoTaskIndex.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.AskToDoTaskIndex);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private string[] SettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.SettingUpOutlookMessage.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.SettingUpOutlookMessage);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private string[] AfterSettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.AfterOutlookSetupMessage.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.AfterOutlookSetupMessage);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()

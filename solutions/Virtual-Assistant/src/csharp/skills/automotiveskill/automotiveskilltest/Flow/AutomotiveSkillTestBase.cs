@@ -1,19 +1,17 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using System.Threading;
+﻿using System.Threading;
 using Autofac;
 using AutomotiveSkill;
+using AutomotiveSkill.Dialogs.Main.Resources;
+using AutomotiveSkill.Dialogs.Shared.Resources;
+using AutomotiveSkill.Dialogs.VehicleSettings.Resources;
 using AutomotiveSkillTest.Flow.Fakes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Configuration;
-using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Testing;
-using Microsoft.Extensions.Configuration;
 
 namespace AutomotiveSkillTest.Flow
 {
@@ -37,40 +35,48 @@ namespace AutomotiveSkillTest.Flow
 
         public override void Initialize()
         {
-           var builder = new ContainerBuilder();
+            var builder = new ContainerBuilder();
 
-            this.ConversationState = new ConversationState(new MemoryStorage());
-            this.UserState = new UserState(new MemoryStorage());
-            this.AutomotiveSkillStateAccessor = this.ConversationState.CreateProperty<AutomotiveSkillState>(nameof(AutomotiveSkillState));
-            this.Services = new MockSkillConfiguration();
+            ConversationState = new ConversationState(new MemoryStorage());
+            UserState = new UserState(new MemoryStorage());
+            AutomotiveSkillStateAccessor = ConversationState.CreateProperty<AutomotiveSkillState>(nameof(AutomotiveSkillState));
+            Services = new MockSkillConfiguration();
 
-            builder.RegisterInstance(new BotStateSet(this.UserState, this.ConversationState));
+            ResponseManager = new ResponseManager(
+                responseTemplates: new IResponseIdCollection[] 
+                {
+                    new AutomotiveSkillMainResponses(),
+                    new AutomotiveSkillSharedResponses(),
+                    new VehicleSettingsResponses()
+                },
+                locales: new string[] { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" });
 
-            this.Container = builder.Build();
-            
-            this.BotResponseBuilder = new BotResponseBuilder();
-            this.BotResponseBuilder.AddFormatter(new TextBotResponseFormatter());
+            builder.RegisterInstance(new BotStateSet(UserState, ConversationState));
 
-            this.TelemetryClient = new NullBotTelemetryClient();
+            Container = builder.Build();
+
+            TelemetryClient = new NullBotTelemetryClient();
 
             // Mock HttpContext for image path resolution
-            MockHttpContext = new DefaultHttpContext();            
+            MockHttpContext = new DefaultHttpContext();
             MockHttpContext.Request.Scheme = "http";
-            MockHttpContext.Request.Host = new HostString("localhost",3980);
+            MockHttpContext.Request.Host = new HostString("localhost", 3980);
 
-            MockHttpContextAcessor = new HttpContextAccessor();
-            MockHttpContextAcessor.HttpContext = MockHttpContext;
+            MockHttpContextAcessor = new HttpContextAccessor
+            {
+                HttpContext = MockHttpContext
+            };
         }
 
         public TestFlow GetTestFlow()
         {
             var adapter = new TestAdapter()
-                .Use(new AutoSaveStateMiddleware(this.ConversationState));
+                .Use(new AutoSaveStateMiddleware(ConversationState));
 
             var testFlow = new TestFlow(adapter, async (context, token) =>
             {
-                var bot = this.BuildBot() as AutomotiveSkill.AutomotiveSkill;
-                var state = await this.AutomotiveSkillStateAccessor.GetAsync(context, () => new AutomotiveSkillState());
+                var bot = BuildBot() as AutomotiveSkill.AutomotiveSkill;
+                var state = await AutomotiveSkillStateAccessor.GetAsync(context, () => new AutomotiveSkillState());
                 await bot.OnTurnAsync(context, CancellationToken.None);
             });
 
@@ -79,7 +85,7 @@ namespace AutomotiveSkillTest.Flow
 
         public override IBot BuildBot()
         {
-            return new AutomotiveSkill.AutomotiveSkill(this.Services, this.ConversationState, this.UserState, this.TelemetryClient,null, MockHttpContextAcessor, true);
+            return new AutomotiveSkill.AutomotiveSkill(Services, ConversationState, UserState, TelemetryClient, ResponseManager, null, MockHttpContextAcessor, true);
         }
     }
 }

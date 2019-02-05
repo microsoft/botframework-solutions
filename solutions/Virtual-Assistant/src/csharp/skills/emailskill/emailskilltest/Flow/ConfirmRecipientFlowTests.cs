@@ -128,7 +128,8 @@ namespace EmailSkillTest.Flow
 
         private string[] CancellingMessage()
         {
-            return this.ParseReplies(EmailMainResponses.CancelMessage.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(EmailMainResponses.CancelMessage);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private Action<IActivity> ActionEndMessage()
@@ -144,7 +145,8 @@ namespace EmailSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var recipientConfirmedMessage = this.ParseReplies(ConfirmRecipientResponses.ConfirmRecipientLastPage.Replies, new StringDictionary());
+                var response = ResponseManager.GetResponseTemplate(ConfirmRecipientResponses.ConfirmRecipientLastPage);
+                var recipientConfirmedMessage = this.ParseReplies(response.Replies, new StringDictionary());
 
                 Assert.IsTrue(recipientConfirmedMessage.Length == 1);
                 Assert.IsTrue(messageActivity.Text.StartsWith(recipientConfirmedMessage[0]));
@@ -156,8 +158,10 @@ namespace EmailSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var recipientConfirmedMessage = this.ParseReplies(EmailSharedResponses.RecipientConfirmed.Replies, recipients);
-                var noSubjectMessage = this.ParseReplies(SendEmailResponses.NoSubject.Replies, new StringDictionary());
+                var response = ResponseManager.GetResponseTemplate(EmailSharedResponses.RecipientConfirmed);
+                var recipientConfirmedMessage = this.ParseReplies(response.Replies, recipients);
+                response = ResponseManager.GetResponseTemplate(SendEmailResponses.NoSubject);
+                var noSubjectMessage = this.ParseReplies(response.Replies, new StringDictionary());
 
                 string[] subjectVerifyInfo = new string[recipientConfirmedMessage.Length * noSubjectMessage.Length];
                 int index = -1;
@@ -179,8 +183,8 @@ namespace EmailSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var recipientNotFoundMessage = this.ParseReplies(ConfirmRecipientResponses.PromptPersonNotFound.Replies, recipients);
-
+                var response = ResponseManager.GetResponseTemplate(ConfirmRecipientResponses.PromptPersonNotFound);
+                var recipientNotFoundMessage = this.ParseReplies(response.Replies, recipients);
                 CollectionAssert.Contains(recipientNotFoundMessage, messageActivity.Text);
             };
         }

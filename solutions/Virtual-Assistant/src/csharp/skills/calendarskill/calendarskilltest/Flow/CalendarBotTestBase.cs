@@ -1,7 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using Autofac;
 using CalendarSkill;
+using CalendarSkill.Dialogs.ChangeEventStatus.Resources;
+using CalendarSkill.Dialogs.CreateEvent.Resources;
+using CalendarSkill.Dialogs.JoinEvent.Resources;
+using CalendarSkill.Dialogs.Main.Resources;
+using CalendarSkill.Dialogs.Shared.Resources;
+using CalendarSkill.Dialogs.Summary.Resources;
+using CalendarSkill.Dialogs.TimeRemaining.Resources;
+using CalendarSkill.Dialogs.UpdateEvent.Resources;
 using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
 using CalendarSkillTest.Flow.Fakes;
@@ -10,8 +17,7 @@ using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
-using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -52,13 +58,24 @@ namespace CalendarSkillTest.Flow
             this.Container = builder.Build();
             this.ServiceManager = fakeServiceManager;
 
-            this.BotResponseBuilder = new BotResponseBuilder();
-            this.BotResponseBuilder.AddFormatter(new TextBotResponseFormatter());
+            ResponseManager = new ResponseManager(
+                responseTemplates: new IResponseIdCollection[]
+                {
+                    new ChangeEventStatusResponses(),
+                    new CreateEventResponses(),
+                    new JoinEventResponses(),
+                    new CalendarMainResponses(),
+                    new CalendarSharedResponses(),
+                    new SummaryResponses(),
+                    new TimeRemainingResponses(),
+                    new UpdateEventResponses(),
+                },
+                locales: new string[] { "en", "de", "es", "fr", "it", "zh" });
         }
 
         public Activity GetAuthResponse()
         {
-            ProviderTokenResponse providerTokenResponse = new ProviderTokenResponse
+            var providerTokenResponse = new ProviderTokenResponse
             {
                 TokenResponse = new TokenResponse(token: "test")
             };
@@ -73,7 +90,7 @@ namespace CalendarSkillTest.Flow
             var testFlow = new TestFlow(adapter, async (context, token) =>
             {
                 var bot = this.BuildBot() as CalendarSkill.CalendarSkill;
-                var state = await this.CalendarStateAccessor.GetAsync(context, () => new CalendarSkillState());
+                var state = await CalendarStateAccessor.GetAsync(context, () => new CalendarSkillState());
                 state.APIToken = "test";
                 state.EventSource = EventSource.Microsoft;
                 await bot.OnTurnAsync(context, CancellationToken.None);
@@ -84,7 +101,7 @@ namespace CalendarSkillTest.Flow
 
         public override IBot BuildBot()
         {
-            return new CalendarSkill.CalendarSkill(this.Services, this.ConversationState, this.UserState, this.TelemetryClient, this.ServiceManager, true);
+            return new CalendarSkill.CalendarSkill(Services, ConversationState, UserState, TelemetryClient, ResponseManager, ServiceManager, true);
         }
     }
 }

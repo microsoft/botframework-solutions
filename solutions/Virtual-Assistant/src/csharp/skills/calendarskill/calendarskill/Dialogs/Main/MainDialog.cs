@@ -11,7 +11,6 @@ using CalendarSkill.Dialogs.ChangeEventStatus;
 using CalendarSkill.Dialogs.CreateEvent;
 using CalendarSkill.Dialogs.JoinEvent;
 using CalendarSkill.Dialogs.Main.Resources;
-using CalendarSkill.Dialogs.Shared;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Dialogs.Summary;
 using CalendarSkill.Dialogs.TimeRemaining;
@@ -22,8 +21,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 
 namespace CalendarSkill.Dialogs.Main
@@ -32,16 +30,15 @@ namespace CalendarSkill.Dialogs.Main
     {
         private bool _skillMode;
         private SkillConfigurationBase _services;
-        private ResponseTemplateManager _responseManager;
+        private ResponseManager _responseManager;
         private UserState _userState;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
         private IStatePropertyAccessor<CalendarSkillState> _stateAccessor;
-        private CalendarSkillResponseBuilder _responseBuilder = new CalendarSkillResponseBuilder();
 
         public MainDialog(
             SkillConfigurationBase services,
-            ResponseTemplateManager responseManager,
+            ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
             IBotTelemetryClient telemetryClient,
@@ -346,8 +343,8 @@ namespace CalendarSkill.Dialogs.Main
             // Initialize PageSize when the first input comes.
             if (state.PageSize <= 0)
             {
-                int pageSize = 0;
-                if (_services.Properties.TryGetValue("DisplaySize", out object displaySizeObj))
+                var pageSize = 0;
+                if (_services.Properties.TryGetValue("DisplaySize", out var displaySizeObj))
                 {
                     int.TryParse(displaySizeObj.ToString(), out pageSize);
                 }

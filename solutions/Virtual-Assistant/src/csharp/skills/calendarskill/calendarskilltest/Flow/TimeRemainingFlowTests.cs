@@ -63,7 +63,8 @@ namespace CalendarSkillTest.Flow
                 { "RemainingTime", "23 hours 59 minutes " },
             };
 
-            return this.ParseReplies(TimeRemainResponses.ShowNextMeetingTimeRemainingMessage.Replies, responseParams);
+            var response = ResponseManager.GetResponseTemplate(TimeRemainingResponses.ShowNextMeetingTimeRemainingMessage);
+            return this.ParseReplies(response.Replies, responseParams);
         }
 
         private Action<IActivity> ActionEndMessage()

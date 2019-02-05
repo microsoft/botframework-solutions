@@ -256,8 +256,8 @@ namespace CalendarSkillTest.Flow
         [TestMethod]
         public async Task Test_CalendarCreateWithMultipleContacts()
         {
-            int userCount = 1;
-            int peopleCount = 3;
+            var userCount = 1;
+            var peopleCount = 3;
             var serviceManager = this.ServiceManager as MockCalendarServiceManager;
             serviceManager.SetupUserService(MockUserService.FakeDefaultUsers(), MockUserService.FakeMultiplePeoples(peopleCount));
             await this.GetTestFlow()
@@ -409,7 +409,8 @@ namespace CalendarSkillTest.Flow
 
         private string[] AskForParticpantsPrompt()
         {
-            return this.ParseReplies(CreateEventResponses.NoAttendees.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(CreateEventResponses.NoAttendees);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private string[] AskForSubjectWithEmailAddressPrompt()
@@ -419,7 +420,8 @@ namespace CalendarSkillTest.Flow
                 { "UserName", Strings.Strings.DefaultUserEmail },
             };
 
-            return this.ParseReplies(CreateEventResponses.NoTitle.Replies, responseParams);
+            var response = ResponseManager.GetResponseTemplate(CreateEventResponses.NoTitle);
+            return this.ParseReplies(response.Replies, responseParams);
         }
 
         private string[] AskForSubjectWithContactNamePrompt(string userName = null)
@@ -429,42 +431,50 @@ namespace CalendarSkillTest.Flow
                 { "UserName", userName ?? Strings.Strings.DefaultUserName },
             };
 
-            return this.ParseReplies(CreateEventResponses.NoTitle.Replies, responseParams);
+            var response = ResponseManager.GetResponseTemplate(CreateEventResponses.NoTitle);
+            return this.ParseReplies(response.Replies, responseParams);
         }
 
         private string[] AskForSubjectShortPrompt(string userName = null)
         {
-            return this.ParseReplies(CreateEventResponses.NoTitle_Short.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(CreateEventResponses.NoTitle_Short);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private string[] AskForContentPrompt()
         {
-            return this.ParseReplies(CreateEventResponses.NoContent.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(CreateEventResponses.NoContent);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private string[] AskForDatePrompt()
         {
-            return this.ParseReplies(CreateEventResponses.NoStartDate.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(CreateEventResponses.NoStartDate);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private string[] AskForStartTimePrompt()
         {
-            return this.ParseReplies(CreateEventResponses.NoStartTime.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(CreateEventResponses.NoStartTime);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private string[] AskForDurationPrompt()
         {
-            return this.ParseReplies(CreateEventResponses.NoDuration.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(CreateEventResponses.NoDuration);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private string[] AskForLocationPrompt()
         {
-            return this.ParseReplies(CreateEventResponses.NoLocation.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(CreateEventResponses.NoLocation);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private string[] AskForRecreateInfoPrompt()
         {
-            return this.ParseReplies(CreateEventResponses.GetRecreateInfo.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(CreateEventResponses.GetRecreateInfo);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()
@@ -494,10 +504,10 @@ namespace CalendarSkillTest.Flow
                 var meetingCardJsonString = ((Newtonsoft.Json.Linq.JObject)messageActivity.Attachments[0].Content).ToString();
                 var meetingCard = JsonConvert.DeserializeObject<MeetingAdaptiveCard>(meetingCardJsonString);
                 var meetingDate = meetingCard.Bodies[0].Items[2].Text;
-                CultureInfo cultureInfo = (CultureInfo)CultureInfo.CurrentUICulture.Clone();
+                var cultureInfo = (CultureInfo)CultureInfo.CurrentUICulture.Clone();
                 cultureInfo.DateTimeFormat.DateSeparator = "-";
-                DateTime date = DateTime.ParseExact(meetingDate, "d", cultureInfo);
-                DateTime utcToday = DateTime.UtcNow.Date;
+                var date = DateTime.ParseExact(meetingDate, "d", cultureInfo);
+                var utcToday = DateTime.UtcNow.Date;
                 Assert.IsTrue(date >= utcToday);
             };
         }
@@ -507,7 +517,8 @@ namespace CalendarSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var recipientConfirmedMessage = this.ParseReplies(CreateEventResponses.ConfirmRecipient.Replies, new StringDictionary());
+                var response = ResponseManager.GetResponseTemplate(CreateEventResponses.ConfirmRecipient);
+                var recipientConfirmedMessage = this.ParseReplies(response.Replies, new StringDictionary());
 
                 var messageLines = messageActivity.Text.Split("\r\n");
                 Assert.IsTrue(Array.IndexOf(recipientConfirmedMessage, messageLines[0]) != -1);
@@ -525,7 +536,8 @@ namespace CalendarSkillTest.Flow
 
         private string[] BotErrorResponse()
         {
-            return this.ParseReplies(CalendarSharedResponses.CalendarErrorMessageBotProblem.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(CalendarSharedResponses.CalendarErrorMessageBotProblem);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
     }
 }

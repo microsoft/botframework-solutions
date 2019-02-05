@@ -9,7 +9,7 @@ using AutomotiveSkill.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 
 namespace AutomotiveSkill.Dialogs.Shared
@@ -23,13 +23,14 @@ namespace AutomotiveSkill.Dialogs.Shared
         public AutomotiveSkillDialog(
             string dialogId,
             SkillConfigurationBase services,
-            ResponseTemplateManager responseManager,
+            ResponseManager responseManager,
             IStatePropertyAccessor<AutomotiveSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
             : base(dialogId)
         {
             Services = services;
+            ResponseManager = responseManager;
             Accessor = accessor;
             ServiceManager = serviceManager;
             TelemetryClient = telemetryClient;
@@ -41,7 +42,7 @@ namespace AutomotiveSkill.Dialogs.Shared
 
         protected IServiceManager ServiceManager { get; set; }
 
-        protected ResponseTemplateManager ResponseManager { get; set; }
+        protected ResponseManager ResponseManager { get; set; }
 
         // Shared steps
         public async Task<DialogTurnResult> GetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))

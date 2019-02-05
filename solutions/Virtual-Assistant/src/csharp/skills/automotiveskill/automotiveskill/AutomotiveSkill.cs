@@ -8,12 +8,15 @@ namespace AutomotiveSkill
     using System.Threading;
     using System.Threading.Tasks;
     using global::AutomotiveSkill.Dialogs.Main;
+    using global::AutomotiveSkill.Dialogs.Main.Resources;
+    using global::AutomotiveSkill.Dialogs.Shared.Resources;
+    using global::AutomotiveSkill.Dialogs.VehicleSettings.Resources;
     using global::AutomotiveSkill.ServiceClients;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Bot.Builder;
     using Microsoft.Bot.Builder.Dialogs;
     using Microsoft.Bot.Schema;
-    using Microsoft.Bot.Solutions.Resources;
+    using Microsoft.Bot.Solutions.Responses;
     using Microsoft.Bot.Solutions.Skills;
 
     /// <summary>
@@ -22,7 +25,7 @@ namespace AutomotiveSkill
     public class AutomotiveSkill : IBot
     {
         private readonly SkillConfigurationBase _services;
-        private readonly ResponseTemplateManager _responseManager;
+        private readonly ResponseManager _responseManager;
         private readonly ConversationState _conversationState;
         private readonly IBotTelemetryClient _telemetryClient;
         private readonly UserState _userState;
@@ -31,17 +34,29 @@ namespace AutomotiveSkill
         private IHttpContextAccessor _httpContext;
         private DialogSet _dialogs;
 
-        public AutomotiveSkill(SkillConfigurationBase services, ResponseTemplateManager responseManager, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, ServiceManager serviceManager = null, IHttpContextAccessor httpContext = null, bool skillMode = false)
+        public AutomotiveSkill(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, ResponseManager responseManager = null, ServiceManager serviceManager = null, IHttpContextAccessor httpContext = null, bool skillMode = false)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));
-            _responseManager = responseManager ?? throw new ArgumentNullException(nameof(responseManager));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
             _httpContext = httpContext ?? throw new ArgumentNullException(nameof(httpContext));
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _serviceManager = serviceManager ?? new ServiceManager();
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
 
+            if (responseManager == null)
+            {
+                var supportedLanguages = services.LocaleConfigurations.Keys.ToArray();
+                responseManager = new ResponseManager(
+                    new IResponseIdCollection[]
+                    {
+                        new AutomotiveSkillMainResponses(),
+                        new AutomotiveSkillSharedResponses(),
+                        new VehicleSettingsResponses(),
+                    }, supportedLanguages);
+            }
+
+            _responseManager = responseManager;
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(DialogState)));
             _dialogs.Add(new MainDialog(_services, _responseManager, _conversationState, _userState, _serviceManager, _httpContext, _telemetryClient, _skillMode));
         }

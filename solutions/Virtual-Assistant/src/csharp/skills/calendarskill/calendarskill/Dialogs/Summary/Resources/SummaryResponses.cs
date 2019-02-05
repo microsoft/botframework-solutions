@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 
 namespace CalendarSkill.Dialogs.Summary.Resources
 {
@@ -11,7 +11,6 @@ namespace CalendarSkill.Dialogs.Summary.Resources
     /// </summary>
     public class SummaryResponses : IResponseIdCollection
     {
-        // Generated accessors
 		public const string CalendarNoMoreEvent = "CalendarNoMoreEvent";
 		public const string CalendarNoPreviousEvent = "CalendarNoPreviousEvent";
 		public const string ShowNoMeetingMessage = "ShowNoMeetingMessage";
@@ -31,7 +30,5 @@ namespace CalendarSkill.Dialogs.Summary.Resources
 		public const string AskForChangeStatus = "AskForChangeStatus";
 		public const string AskForAction = "AskForAction";
 		public const string AskForOrgnizerAction = "AskForOrgnizerAction";
-		public const string AskForShowOverview = "AskForShowOverview";
-
-    }
+		public const string AskForShowOverview = "AskForShowOverview";    }
 }

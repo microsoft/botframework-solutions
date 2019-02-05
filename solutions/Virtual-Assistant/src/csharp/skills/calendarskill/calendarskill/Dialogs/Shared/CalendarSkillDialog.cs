@@ -17,11 +17,9 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
-using Microsoft.Bot.Solutions.Data;
-using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Prompts;
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Microsoft.Recognizers.Text;
@@ -39,7 +37,7 @@ namespace CalendarSkill.Dialogs.Shared
         public CalendarSkillDialog(
             string dialogId,
             SkillConfigurationBase services,
-            ResponseTemplateManager responseManager,
+            ResponseManager responseManager,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
@@ -74,7 +72,7 @@ namespace CalendarSkill.Dialogs.Shared
 
         protected IServiceManager ServiceManager { get; set; }
 
-        protected ResponseTemplateManager ResponseManager { get; set; }
+        protected ResponseManager ResponseManager { get; set; }
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -254,20 +252,20 @@ namespace CalendarSkill.Dialogs.Shared
         // Helpers
         protected async Task ShowMeetingList(DialogContext dc, List<EventModel> events, bool showDate = true)
         {
-            var replyToConversation = dc.Context.Activity.CreateReply();
-            replyToConversation.AttachmentLayout = AttachmentLayoutTypes.Carousel;
-            replyToConversation.Attachments = new List<Microsoft.Bot.Schema.Attachment>();
-
-            var cardsData = new List<CalendarCardData>();
             var state = await Accessor.GetAsync(dc.Context);
+
+            var cards = new List<Card>();
             foreach (var item in events)
             {
-                var meetingCard = item.ToAdaptiveCardData(state.GetUserTimeZone(), showDate);
-                var replyTemp = dc.Context.Activity.CreateAdaptiveCardReply(CalendarMainResponses.GreetingMessage, item.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", meetingCard);
-                replyToConversation.Attachments.Add(replyTemp.Attachments[0]);
+                cards.Add(new Card()
+                {
+                    Name = item.OnlineMeetingUrl == null ? "CalendarCardNoJoinButton" : "CalendarCard",
+                    Data = item.ToAdaptiveCardData(state.GetUserTimeZone(), showDate)
+                });
             }
 
-            await dc.Context.SendActivityAsync(replyToConversation);
+            var reply = ResponseManager.GetCardResponse(cards);
+            await dc.Context.SendActivityAsync(reply);
         }
 
         protected bool IsRelativeTime(string userInput, string resolverResult, string timex)
@@ -314,7 +312,7 @@ namespace CalendarSkill.Dialogs.Shared
                 endDate = endDateList.Last();
             }
 
-            bool searchByStartTime = startTimeList.Any() && endDate == null && !endTimeList.Any();
+            var searchByStartTime = startTimeList.Any() && endDate == null && !endTimeList.Any();
 
             startDate = startDate ?? TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, userTimeZone);
             endDate = endDate ?? startDate ?? TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, userTimeZone);
@@ -536,7 +534,7 @@ namespace CalendarSkill.Dialogs.Shared
 
                             if (entity.Duration != null)
                             {
-                                int duration = GetDurationFromEntity(entity, dc.Context.Activity.Locale);
+                                var duration = GetDurationFromEntity(entity, dc.Context.Activity.Locale);
                                 if (duration != -1)
                                 {
                                     state.CreateHasDetail = true;
@@ -992,7 +990,7 @@ namespace CalendarSkill.Dialogs.Shared
         private int GetDurationFromEntity(Calendar._Entities entity, string local)
         {
             var culture = local ?? English;
-            List<DateTimeResolution> result = RecognizeDateTime(entity.Duration[0], culture);
+            var result = RecognizeDateTime(entity.Duration[0], culture);
             if (result != null)
             {
                 if (result[0].Value != null)
@@ -1007,7 +1005,7 @@ namespace CalendarSkill.Dialogs.Shared
         private int GetMoveTimeSpanFromEntity(string timeSpan, string local, bool later)
         {
             var culture = local ?? English;
-            List<DateTimeResolution> result = RecognizeDateTime(timeSpan, culture);
+            var result = RecognizeDateTime(timeSpan, culture);
             if (result != null)
             {
                 if (result[0].Value != null)
@@ -1044,7 +1042,7 @@ namespace CalendarSkill.Dialogs.Shared
         private List<DateTime> GetDateFromDateTimeString(string date, string local, TimeZoneInfo userTimeZone)
         {
             var culture = local ?? English;
-            List<DateTimeResolution> results = RecognizeDateTime(date, culture);
+            var results = RecognizeDateTime(date, culture);
             var dateTimeResults = new List<DateTime>();
             if (results != null)
             {
@@ -1055,7 +1053,7 @@ namespace CalendarSkill.Dialogs.Shared
 
                     if (dateTime != null)
                     {
-                        bool isRelativeTime = IsRelativeTime(date, result.Value, result.Timex);
+                        var isRelativeTime = IsRelativeTime(date, result.Value, result.Timex);
                         dateTimeResults.Add(isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, userTimeZone) : dateTime);
                     }
                 }
@@ -1067,7 +1065,7 @@ namespace CalendarSkill.Dialogs.Shared
         private List<DateTime> GetTimeFromDateTimeString(string time, string local, TimeZoneInfo userTimeZone, bool isStart = true)
         {
             var culture = local ?? English;
-            List<DateTimeResolution> results = RecognizeDateTime(time, culture);
+            var results = RecognizeDateTime(time, culture);
             var dateTimeResults = new List<DateTime>();
             if (results != null)
             {
@@ -1085,7 +1083,7 @@ namespace CalendarSkill.Dialogs.Shared
 
                         if (dateTime != null)
                         {
-                            bool isRelativeTime = IsRelativeTime(time, result.Value, result.Timex);
+                            var isRelativeTime = IsRelativeTime(time, result.Value, result.Timex);
                             dateTimeResults.Add(isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, userTimeZone) : dateTime);
                         }
                     }

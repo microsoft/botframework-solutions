@@ -11,8 +11,7 @@ using EmailSkill.ServiceClients;
 using EmailSkill.Util;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 
@@ -22,7 +21,7 @@ namespace EmailSkill.Dialogs.ForwardEmail
     {
         public ForwardEmailDialog(
             SkillConfigurationBase services,
-            ResponseTemplateManager responseManager,
+            ResponseManager responseManager,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IServiceManager serviceManager,
@@ -68,7 +67,7 @@ namespace EmailSkill.Dialogs.ForwardEmail
             AddDialog(new WaterfallDialog(Actions.Show, showEmail) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.CollectRecipient, collectRecipients) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateSelectMessage, updateSelectMessage) { TelemetryClient = telemetryClient });
-            AddDialog(new ConfirmRecipientDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
+            AddDialog(new ConfirmRecipientDialog(services, responseManager, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
 
             InitialDialogId = Actions.Forward;
         }
@@ -101,9 +100,12 @@ namespace EmailSkill.Dialogs.ForwardEmail
                         NameList = string.Format(EmailCommonStrings.ToFormat, nameListString),
                         EmailContent = string.Format(EmailCommonStrings.ContentFormat, state.Content),
                     };
-                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(EmailSharedResponses.SentSuccessfully, "Dialogs/Shared/Resources/Cards/EmailWithOutButtonCard.json", emailCard);
 
-                    await sc.Context.SendActivityAsync(replyMessage);
+                    var reply = ResponseManager.GetCardResponse(
+                        EmailSharedResponses.SentSuccessfully,
+                        new Card("EmailWithOutButtonCard", emailCard));
+
+                    await sc.Context.SendActivityAsync(reply);
                 }
                 else
                 {

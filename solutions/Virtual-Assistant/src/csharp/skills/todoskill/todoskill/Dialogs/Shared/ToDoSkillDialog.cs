@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -12,10 +13,9 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Prompts;
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Newtonsoft.Json.Linq;
@@ -36,7 +36,7 @@ namespace ToDoSkill.Dialogs.Shared
         public ToDoSkillDialog(
             string dialogId,
             SkillConfigurationBase services,
-            ResponseTemplateManager responseManager,
+            ResponseManager responseManager,
             IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
             IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
             IServiceManager serviceManager,
@@ -44,6 +44,7 @@ namespace ToDoSkill.Dialogs.Shared
             : base(dialogId)
         {
             Services = services;
+            ResponseManager = responseManager;
             ToDoStateAccessor = toDoStateAccessor;
             UserStateAccessor = userStateAccessor;
             ServiceManager = serviceManager;
@@ -67,7 +68,7 @@ namespace ToDoSkill.Dialogs.Shared
 
         protected IServiceManager ServiceManager { get; set; }
 
-        protected ResponseTemplateManager ResponseManager { get; set; }
+        protected ResponseManager ResponseManager { get; set; }
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -536,8 +537,8 @@ namespace ToDoSkill.Dialogs.Shared
                     state.Tasks,
                     state.AllTasks.Count,
                     state.TaskContent,
-                    ToDoSharedResponses.AfterToDoTaskAdded,
-                    ToDoSharedResponses.ShowToDoTasks,
+                    ResponseManager.GetResponseTemplate(ToDoSharedResponses.AfterToDoTaskAdded),
+                    ResponseManager.GetResponseTemplate(ToDoSharedResponses.ShowToDoTasks),
                     state.ListType);
 
                 var toDoListReply = sc.Context.Activity.CreateReply();
@@ -689,13 +690,14 @@ namespace ToDoSkill.Dialogs.Shared
            int allTasksCount,
            string listType)
         {
+            var response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.ShowToDoTasks);
             var toDoCard = new AdaptiveCard();
-            var speakText = Format(ToDoSharedResponses.ShowToDoTasks.Reply.Speak, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } })
-                + Format(ShowToDoResponses.FirstToDoTasks.Reply.Speak, new StringDictionary() { { "taskCount", toBeReadTasksCount.ToString() } });
+            var speakText = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } })
+                + ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskCount", toBeReadTasksCount.ToString() } });
             toDoCard.Speak = speakText;
 
             var body = new List<AdaptiveElement>();
-            var showText = Format(ToDoSharedResponses.ShowToDoTasks.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
+            var showText = ResponseManager.Format(response.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
             var textBlock = new AdaptiveTextBlock
             {
                 Text = showText,
@@ -751,9 +753,17 @@ namespace ToDoSkill.Dialogs.Shared
            int allTasksCount,
            string listType)
         {
+            var response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.ShowToDoTasks);
             var toDoCard = new AdaptiveCard();
             var body = new List<AdaptiveElement>();
-            var showText = Format(ToDoSharedResponses.ShowToDoTasks.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
+            var showText = ResponseManager.Format(
+                response.Reply.Text,
+                new StringDictionary()
+                {
+                    { "taskCount", allTasksCount.ToString() },
+                    { "listType", listType }
+                });
+
             var textBlock = new AdaptiveTextBlock
             {
                 Text = showText,
@@ -807,13 +817,14 @@ namespace ToDoSkill.Dialogs.Shared
            List<TaskItem> todos,
            int toBeReadTasksCount)
         {
+            var response = ResponseManager.GetResponseTemplate(ShowToDoResponses.ShowNextToDoTasks);
             var toDoCard = new AdaptiveCard();
-            var speakText = Format(ShowToDoResponses.ShowNextToDoTasks.Reply.Speak, new StringDictionary() { })
-                + Format(ShowToDoResponses.FirstToDoTasks.Reply.Speak, new StringDictionary() { { "taskCount", toBeReadTasksCount.ToString() } });
+            var speakText = response.Reply.Speak
+                + ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskCount", toBeReadTasksCount.ToString() } });
             toDoCard.Speak = speakText;
 
             var body = new List<AdaptiveElement>();
-            var showText = Format(ShowToDoResponses.ShowNextToDoTasks.Reply.Text, new StringDictionary() { });
+            var showText = response.Reply.Text;
             var textBlock = new AdaptiveTextBlock
             {
                 Text = showText,
@@ -866,13 +877,14 @@ namespace ToDoSkill.Dialogs.Shared
            List<TaskItem> todos,
            int toBeReadTasksCount)
         {
+            var response = ResponseManager.GetResponseTemplate(ShowToDoResponses.ShowPreviousToDoTasks);
             var toDoCard = new AdaptiveCard();
-            var speakText = Format(ShowToDoResponses.ShowPreviousToDoTasks.Reply.Speak, new StringDictionary() { })
-                + Format(ShowToDoResponses.FirstToDoTasks.Reply.Speak, new StringDictionary() { { "taskCount", toBeReadTasksCount.ToString() } });
+            var speakText = response.Reply.Speak 
+                + ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskCount", toBeReadTasksCount.ToString() } });
             toDoCard.Speak = speakText;
 
             var body = new List<AdaptiveElement>();
-            var showText = Format(ShowToDoResponses.ShowPreviousToDoTasks.Reply.Text, new StringDictionary() { });
+            var showText = response.Reply.Text;
             var textBlock = new AdaptiveTextBlock
             {
                 Text = showText,
@@ -930,9 +942,9 @@ namespace ToDoSkill.Dialogs.Shared
             string listType)
         {
             var toDoCard = new AdaptiveCard();
-            var showText = Format(botResponse2.Reply.Text, new StringDictionary() { { "taskCount", allTaskCount.ToString() }, { "listType", listType } });
-            var speakText = Format(botResponse1.Reply.Speak, new StringDictionary() { { "taskContent", taskContent } })
-                 + " " + Format(botResponse2.Reply.Speak, new StringDictionary() { { "taskCount", allTaskCount.ToString() }, { "listType", listType } });
+            var showText = ResponseManager.Format(botResponse2.Reply.Text, new StringDictionary() { { "taskCount", allTaskCount.ToString() }, { "listType", listType } });
+            var speakText = ResponseManager.Format(botResponse1.Reply.Speak, new StringDictionary() { { "taskContent", taskContent } })
+                 + " " + ResponseManager.Format(botResponse2.Reply.Speak, new StringDictionary() { { "taskCount", allTaskCount.ToString() }, { "listType", listType } });
             toDoCard.Speak = speakText.Remove(speakText.Length - 1) + ".";
 
             var body = new List<AdaptiveElement>();
@@ -976,42 +988,6 @@ namespace ToDoSkill.Dialogs.Shared
                 Content = toDoCard,
             };
             return attachment;
-        }
-
-        protected string GenerateResponseWithTokens(ResponseTemplate botResponse, StringDictionary tokens)
-        {
-            return Format(botResponse.Reply.Text, tokens);
-        }
-
-        protected string Format(string messageTemplate, StringDictionary tokens)
-        {
-            var complexTokensRegex = new Regex(@"\{[^{\}]+(?=})\}", RegexOptions.Compiled);
-            var responseFormatters = new List<IBotResponseFormatter>();
-            var defaultFormatter = new DefaultBotResponseFormatter();
-
-            var result = messageTemplate;
-            var matches = complexTokensRegex.Matches(messageTemplate);
-            foreach (var match in matches)
-            {
-                var formatted = false;
-                var bindingJson = match.ToString();
-                foreach (var formatter in responseFormatters)
-                {
-                    if (formatter.CanFormat(bindingJson))
-                    {
-                        result = formatter.FormatResponse(result, bindingJson, tokens);
-                        formatted = true;
-                        break;
-                    }
-                }
-
-                if (!formatted)
-                {
-                    result = defaultFormatter.FormatResponse(result, bindingJson, tokens);
-                }
-            }
-
-            return result;
         }
 
         // This method is called by any waterfall step that throws an exception to ensure consistency

@@ -56,8 +56,9 @@ namespace ToDoSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
+                var response = ResponseManager.GetResponseTemplate(DeleteToDoResponses.AskDeletionAllConfirmation);
                 CollectionAssert.Contains(
-                   this.ParseReplies(DeleteToDoResponses.AskDeletionAllConfirmation.Replies, new StringDictionary() { { MockData.ListType, MockData.ToDo } }),
+                   this.ParseReplies(response.Replies, new StringDictionary() { { MockData.ListType, MockData.ToDo } }),
                    messageActivity.Text);
             };
         }
@@ -67,20 +68,23 @@ namespace ToDoSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
+                var response = ResponseManager.GetResponseTemplate(DeleteToDoResponses.AfterAllTasksDeleted);
                 CollectionAssert.Contains(
-                   this.ParseReplies(DeleteToDoResponses.AfterAllTasksDeleted.Replies, new StringDictionary() { { MockData.ListType, MockData.ToDo } }),
+                   this.ParseReplies(response.Replies, new StringDictionary() { { MockData.ListType, MockData.ToDo } }),
                    messageActivity.Text);
             };
         }
 
         private string[] SettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.SettingUpOutlookMessage.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.SettingUpOutlookMessage);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private string[] AfterSettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.AfterOutlookSetupMessage.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.AfterOutlookSetupMessage);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()

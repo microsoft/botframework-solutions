@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 
 namespace EmailSkill.Dialogs.SendEmail.Resources
 {
@@ -11,10 +11,7 @@ namespace EmailSkill.Dialogs.SendEmail.Resources
     /// </summary>
     public class SendEmailResponses : IResponseIdCollection
     {
-        // Generated accessors
 		public const string RecipientConfirmed = "RecipientConfirmed";
 		public const string NoSubject = "NoSubject";
-		public const string NoMessageBody = "NoMessageBody";
-
-    }
+		public const string NoMessageBody = "NoMessageBody";    }
 }

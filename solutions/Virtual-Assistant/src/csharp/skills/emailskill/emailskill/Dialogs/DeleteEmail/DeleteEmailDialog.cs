@@ -13,8 +13,7 @@ using EmailSkill.ServiceClients;
 using EmailSkill.Util;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 
@@ -24,7 +23,7 @@ namespace EmailSkill.Dialogs.DeleteEmail
     {
         public DeleteEmailDialog(
             SkillConfigurationBase services,
-            ResponseTemplateManager responseManager,
+            ResponseManager responseManager,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IServiceManager serviceManager,
@@ -83,13 +82,19 @@ namespace EmailSkill.Dialogs.DeleteEmail
                     };
 
                     var speech = SpeakHelper.ToSpeechEmailSendDetailString(focusedMessage.Subject, nameListString, focusedMessage.BodyPreview);
-                    var stringToken = new StringDictionary
+                    var tokens = new StringDictionary
                     {
                         { "EmailDetails", speech },
                     };
-                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(DeleteEmailResponses.DeleteConfirm, "Dialogs/Shared/Resources/Cards/EmailWithOutButtonCard.json", emailCard, ResponseManager, stringToken);
 
-                    return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = replyMessage, RetryPrompt = ResponseManager.GetResponse(EmailSharedResponses.ConfirmSendFailed, ResponseManager), });
+                    var prompt = ResponseManager.GetCardResponse(
+                        DeleteEmailResponses.DeleteConfirm,
+                        new Card("EmailWithOutButtonCard", emailCard),
+                        tokens);
+
+                    var retry = ResponseManager.GetResponse(EmailSharedResponses.ConfirmSendFailed);
+
+                    return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = prompt, RetryPrompt = retry });
                 }
 
                 skillOptions.SubFlowMode = true;

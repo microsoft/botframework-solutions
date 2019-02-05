@@ -148,8 +148,9 @@ namespace ToDoSkillTest.Flow
                 var toDoChoices = responseCard.Body[1] as AdaptiveContainer;
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
+                var response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.ShowToDoTasks);
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { MockData.TaskCount, (MockData.MockTaskItems.Count - 1).ToString() }, { MockData.ListType, MockData.ToDo } }),
+                    this.ParseReplies(response.Replies, new StringDictionary() { { MockData.TaskCount, (MockData.MockTaskItems.Count - 1).ToString() }, { MockData.ListType, MockData.ToDo } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
                 var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;
@@ -177,8 +178,9 @@ namespace ToDoSkillTest.Flow
                 var toDoChoices = responseCard.Body[1] as AdaptiveContainer;
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
+                var response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.ShowToDoTasks);
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.ShowToDoTasks.Replies, new StringDictionary() { { MockData.TaskCount, (MockData.MockShoppingItems.Count - 1).ToString() }, { MockData.ListType, MockData.Shopping } }),
+                    this.ParseReplies(response.Replies, new StringDictionary() { { MockData.TaskCount, (MockData.MockShoppingItems.Count - 1).ToString() }, { MockData.ListType, MockData.Shopping } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, PageSize);
                 var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;
@@ -205,32 +207,38 @@ namespace ToDoSkillTest.Flow
 
         private string[] AfterDeletionRejectedMessage()
         {
-            return this.ParseReplies(ToDoSharedResponses.ActionEnded.Replies, new StringDictionary() { });
+            var response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.ActionEnded);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private string[] CollectTaskIndex()
         {
-            return this.ParseReplies(ToDoSharedResponses.AskToDoTaskIndex.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.AskToDoTaskIndex);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private string[] CollectConfirmationForToDo()
         {
-            return this.ParseReplies(DeleteToDoResponses.AskDeletionConfirmation.Replies, new StringDictionary() { { MockData.ToDoTask, MockData.MockTaskItems[0].Topic } });
+            var response = ResponseManager.GetResponseTemplate(DeleteToDoResponses.AskDeletionConfirmation);
+            return this.ParseReplies(response.Replies, new StringDictionary() { { MockData.ToDoTask, MockData.MockTaskItems[0].Topic } });
         }
 
         private string[] CollectConfirmationForShopping()
         {
-            return this.ParseReplies(DeleteToDoResponses.AskDeletionConfirmation.Replies, new StringDictionary() { { MockData.ToDoTask, MockData.MockShoppingItems[1].Topic } });
+            var response = ResponseManager.GetResponseTemplate(DeleteToDoResponses.AskDeletionConfirmation);
+            return this.ParseReplies(response.Replies, new StringDictionary() { { MockData.ToDoTask, MockData.MockShoppingItems[1].Topic } });
         }
 
         private string[] SettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.SettingUpOutlookMessage.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.SettingUpOutlookMessage);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private string[] AfterSettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.AfterOutlookSetupMessage.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.AfterOutlookSetupMessage);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()

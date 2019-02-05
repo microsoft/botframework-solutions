@@ -11,7 +11,6 @@ using EmailSkill.Dialogs.ForwardEmail;
 using EmailSkill.Dialogs.Main.Resources;
 using EmailSkill.Dialogs.ReplyEmail;
 using EmailSkill.Dialogs.SendEmail;
-using EmailSkill.Dialogs.Shared;
 using EmailSkill.Dialogs.Shared.DialogOptions;
 using EmailSkill.Dialogs.Shared.Resources;
 using EmailSkill.Dialogs.ShowEmail;
@@ -22,8 +21,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Data;
 using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 
 namespace EmailSkill.Dialogs.Main
@@ -32,17 +30,16 @@ namespace EmailSkill.Dialogs.Main
     {
         private bool _skillMode;
         private SkillConfigurationBase _skillConfig;
-        private ResponseTemplateManager _responseManager;
+        private ResponseManager _responseManager;
         private UserState _userState;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
         private IStatePropertyAccessor<EmailSkillState> _stateAccessor;
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
-        private EmailSkillResponseBuilder _responseBuilder = new EmailSkillResponseBuilder();
 
         public MainDialog(
             SkillConfigurationBase skillConfiguration,
-            ResponseTemplateManager responseManager,
+            ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
             IBotTelemetryClient telemetryClient,
@@ -71,7 +68,7 @@ namespace EmailSkill.Dialogs.Main
             if (!_skillMode)
             {
                 // send a greeting if we're in local mode
-                await dc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailMainResponses.EmailWelcomeMessage));
+                await dc.Context.SendActivityAsync(_responseManager.GetResponse(EmailMainResponses.EmailWelcomeMessage));
             }
         }
 
@@ -330,8 +327,8 @@ namespace EmailSkill.Dialogs.Main
 
         private void GetReadingDisplayConfig()
         {
-            _skillConfig.Properties.TryGetValue("displaySize", out object maxDisplaySize);
-            _skillConfig.Properties.TryGetValue("readSize", out object maxReadSize);
+            _skillConfig.Properties.TryGetValue("displaySize", out var maxDisplaySize);
+            _skillConfig.Properties.TryGetValue("readSize", out var maxReadSize);
 
             if (maxDisplaySize != null)
             {

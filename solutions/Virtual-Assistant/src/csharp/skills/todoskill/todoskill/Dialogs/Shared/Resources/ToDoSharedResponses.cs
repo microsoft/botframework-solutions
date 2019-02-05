@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 
 namespace ToDoSkill.Dialogs.Shared.Resources
 {
@@ -11,7 +11,6 @@ namespace ToDoSkill.Dialogs.Shared.Resources
     /// </summary>
     public class ToDoSharedResponses : IResponseIdCollection
     {
-        // Generated accessors
 		public const string DidntUnderstandMessage = "DidntUnderstandMessage";
 		public const string CancellingMessage = "CancellingMessage";
 		public const string NoAuth = "NoAuth";
@@ -28,7 +27,5 @@ namespace ToDoSkill.Dialogs.Shared.Resources
 		public const string AskToDoContentText = "AskToDoContentText";
 		public const string AfterToDoTaskAdded = "AfterToDoTaskAdded";
 		public const string NoTasksInList = "NoTasksInList";
-		public const string SwitchListType = "SwitchListType";
-
-    }
+		public const string SwitchListType = "SwitchListType";    }
 }

@@ -20,6 +20,7 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Microsoft.Recognizers.Text.DateTime;
@@ -31,7 +32,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
     {
         public CreateEventDialog(
             SkillConfigurationBase services,
-            ResponseTemplateManager responseManager,
+            ResponseManager responseManager,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
@@ -162,7 +163,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
                         else
                         {
                             sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                            string title = content != null ? content.ToString() : sc.Context.Activity.Text;
+                            var title = content != null ? content.ToString() : sc.Context.Activity.Text;
                             if (CreateEventWhiteList.IsSkip(title))
                             {
                                 state.Title = CreateEventWhiteList.GetDefaultTitle();
@@ -234,7 +235,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
                     if (string.IsNullOrEmpty(state.Content))
                     {
                         sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                        string merged_content = content != null ? content.ToString() : sc.Context.Activity.Text;
+                        var merged_content = content != null ? content.ToString() : sc.Context.Activity.Text;
                         if (!CreateEventWhiteList.IsSkip(merged_content))
                         {
                             state.Content = merged_content;
@@ -370,7 +371,13 @@ namespace CalendarSkill.Dialogs.CreateEvent
                     { "Time", startDateTimeInUserTimeZone.ToSpeechTimeString(true) },
                 };
 
-                var prompt = sc.Context.Activity.CreateAdaptiveCardReply(CreateEventResponses.ConfirmCreate, newEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", newEvent.ToAdaptiveCardData(state.GetUserTimeZone(), showContent: true), tokens: tokens);
+                var card = new Card()
+                {
+                    Name = newEvent.OnlineMeetingUrl == null ? "CalendarCardNoJoinButton" : "CalendarCard",
+                    Data = newEvent.ToAdaptiveCardData(state.GetUserTimeZone(), showContent: true)
+                };
+
+                var prompt = ResponseManager.GetCardResponse(CreateEventResponses.ConfirmCreate, card, tokens);
                 var retryPrompt = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreateFailed, tokens);
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = prompt, RetryPrompt = retryPrompt }, cancellationToken);
             }
@@ -405,7 +412,22 @@ namespace CalendarSkill.Dialogs.CreateEvent
                     if (await calendarService.CreateEvent(newEvent) != null)
                     {
                         newEvent.ContentPreview = state.Content;
-                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(CreateEventResponses.EventCreated, newEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", newEvent.ToAdaptiveCardData(state.GetUserTimeZone(), showContent: true));
+
+                        var card = new Card()
+                        {
+                            Name = newEvent.OnlineMeetingUrl == null ? "CalendarCardNoJoinButton" : "CalendarCard",
+                            Data = newEvent.ToAdaptiveCardData(state.GetUserTimeZone(), showContent: true)
+                        };
+
+                        var startDateTimeInUserTimeZone = TimeConverter.ConvertUtcToUserTime(state.StartDateTime.Value, state.GetUserTimeZone());
+                        var tokens = new StringDictionary()
+                        {
+                            { "Attendees", state.Attendees.ToSpeechString(CommonStrings.And, li => li.DisplayName ?? li.Address) },
+                            { "Date", startDateTimeInUserTimeZone.ToSpeechDateString(true) },
+                            { "Time", startDateTimeInUserTimeZone.ToSpeechTimeString(true) },
+                        };
+
+                        var replyMessage = ResponseManager.GetCardResponse(CreateEventResponses.ConfirmCreate, card, tokens);
                         await sc.Context.SendActivityAsync(replyMessage, cancellationToken);
                     }
                     else
@@ -734,7 +756,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (state.CreateHasDetail && state.RecreateState != RecreateEventState.Time)
                 {
-                    DateTime datetime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, state.GetUserTimeZone());
+                    var datetime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, state.GetUserTimeZone());
                     state.StartDate.Add(datetime);
                 }
                 else
@@ -1010,7 +1032,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (sc.Result != null)
                 {
-                    RecreateEventState? recreateState = sc.Result as RecreateEventState?;
+                    var recreateState = sc.Result as RecreateEventState?;
                     switch (recreateState.Value)
                     {
                         case RecreateEventState.Cancel:
@@ -1058,14 +1080,14 @@ namespace CalendarSkill.Dialogs.CreateEvent
         protected static (List<PersonModel> formattedPersonList, List<PersonModel> formattedUserList) FormatRecipientList(List<PersonModel> personList, List<PersonModel> userList)
         {
             // Remove dup items
-            List<PersonModel> formattedPersonList = new List<PersonModel>();
-            List<PersonModel> formattedUserList = new List<PersonModel>();
+            var formattedPersonList = new List<PersonModel>();
+            var formattedUserList = new List<PersonModel>();
 
             foreach (var person in personList)
             {
                 var mailAddress = person.Emails[0] ?? person.UserPrincipalName;
 
-                bool isDup = false;
+                var isDup = false;
                 foreach (var formattedPerson in formattedPersonList)
                 {
                     var formattedMailAddress = formattedPerson.Emails[0] ?? formattedPerson.UserPrincipalName;
@@ -1087,7 +1109,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
             {
                 var mailAddress = user.Emails[0] ?? user.UserPrincipalName;
 
-                bool isDup = false;
+                var isDup = false;
                 foreach (var formattedPerson in formattedPersonList)
                 {
                     var formattedMailAddress = formattedPerson.Emails[0] ?? formattedPerson.UserPrincipalName;

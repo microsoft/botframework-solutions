@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 using EmailSkill.Dialogs.ConfirmRecipient.Resources;
 using EmailSkill.Dialogs.Shared;
 using EmailSkill.Dialogs.Shared.DialogOptions;
-using EmailSkill.ServiceClients;
 using EmailSkill.Dialogs.Shared.Resources;
+using EmailSkill.ServiceClients;
 using EmailSkill.Util;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Solutions.Data;
-using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Microsoft.Graph;
@@ -26,11 +26,12 @@ namespace EmailSkill.Dialogs.ConfirmRecipient
     {
         public ConfirmRecipientDialog(
             SkillConfigurationBase services,
+            ResponseManager responseManager,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(ConfirmRecipientDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient)
+            : base(nameof(ConfirmRecipientDialog), services, responseManager, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -190,7 +191,7 @@ namespace EmailSkill.Dialogs.ConfirmRecipient
 
                 var startIndex = ConfigData.GetInstance().MaxReadSize * state.ReadRecipientIndex;
                 var choices = new List<Choice>();
-                for (int i = startIndex; i < selectOption.Choices.Count; i++)
+                for (var i = startIndex; i < selectOption.Choices.Count; i++)
                 {
                     choices.Add(selectOption.Choices[i]);
                 }

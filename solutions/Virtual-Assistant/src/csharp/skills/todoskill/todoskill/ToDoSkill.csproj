@@ -7,7 +7,36 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ServiceClients\IOutlookService.cs" />
+    <Content Remove="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.de.json" />
+    <Content Remove="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.es.json" />
+    <Content Remove="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.fr.json" />
+    <Content Remove="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.it.json" />
+    <Content Remove="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.json" />
+    <Content Remove="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.zh.json" />
+    <Content Remove="Dialogs\Main\Resources\ToDoMainResponses.de.json" />
+    <Content Remove="Dialogs\Main\Resources\ToDoMainResponses.es.json" />
+    <Content Remove="Dialogs\Main\Resources\ToDoMainResponses.fr.json" />
+    <Content Remove="Dialogs\Main\Resources\ToDoMainResponses.it.json" />
+    <Content Remove="Dialogs\Main\Resources\ToDoMainResponses.json" />
+    <Content Remove="Dialogs\Main\Resources\ToDoMainResponses.zh.json" />
+    <Content Remove="Dialogs\MarkToDo\Resources\MarkToDoResponses.de.json" />
+    <Content Remove="Dialogs\MarkToDo\Resources\MarkToDoResponses.es.json" />
+    <Content Remove="Dialogs\MarkToDo\Resources\MarkToDoResponses.fr.json" />
+    <Content Remove="Dialogs\MarkToDo\Resources\MarkToDoResponses.it.json" />
+    <Content Remove="Dialogs\MarkToDo\Resources\MarkToDoResponses.json" />
+    <Content Remove="Dialogs\MarkToDo\Resources\MarkToDoResponses.zh.json" />
+    <Content Remove="Dialogs\Shared\Resources\ToDoSharedResponses.de.json" />
+    <Content Remove="Dialogs\Shared\Resources\ToDoSharedResponses.es.json" />
+    <Content Remove="Dialogs\Shared\Resources\ToDoSharedResponses.fr.json" />
+    <Content Remove="Dialogs\Shared\Resources\ToDoSharedResponses.it.json" />
+    <Content Remove="Dialogs\Shared\Resources\ToDoSharedResponses.json" />
+    <Content Remove="Dialogs\Shared\Resources\ToDoSharedResponses.zh.json" />
+    <Content Remove="Dialogs\ShowToDo\Resources\ShowToDoResponses.de.json" />
+    <Content Remove="Dialogs\ShowToDo\Resources\ShowToDoResponses.es.json" />
+    <Content Remove="Dialogs\ShowToDo\Resources\ShowToDoResponses.fr.json" />
+    <Content Remove="Dialogs\ShowToDo\Resources\ShowToDoResponses.it.json" />
+    <Content Remove="Dialogs\ShowToDo\Resources\ShowToDoResponses.json" />
+    <Content Remove="Dialogs\ShowToDo\Resources\ShowToDoResponses.zh.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,6 +63,68 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.json" />
+    <EmbeddedResource Include="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\ToDoMainResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\ToDoMainResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\ToDoMainResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\ToDoMainResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\ToDoMainResponses.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\ToDoMainResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\MarkToDo\Resources\MarkToDoResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\MarkToDo\Resources\MarkToDoResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\MarkToDo\Resources\MarkToDoResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\MarkToDo\Resources\MarkToDoResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\MarkToDo\Resources\MarkToDoResponses.json" />
+    <EmbeddedResource Include="Dialogs\MarkToDo\Resources\MarkToDoResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\ToDoSharedResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\ToDoSharedResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\ToDoSharedResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\ToDoSharedResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\ToDoSharedResponses.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\ToDoSharedResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\ShowToDo\Resources\ShowToDoResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\ShowToDo\Resources\ShowToDoResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\ShowToDo\Resources\ShowToDoResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\ShowToDo\Resources\ShowToDoResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\ShowToDo\Resources\ShowToDoResponses.json" />
+    <EmbeddedResource Include="Dialogs\ShowToDo\Resources\ShowToDoResponses.zh.json" />
+    <EmbeddedResource Update="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.zh.json" />
+    <EmbeddedResource Update="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.fr.json" />
+    <EmbeddedResource Update="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.de.json" />
+    <EmbeddedResource Update="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.es.json" />
+    <EmbeddedResource Update="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.it.json" />
+    <EmbeddedResource Update="Dialogs\Main\Resources\ToDoMainResponses.zh.json" />
+    <EmbeddedResource Update="Dialogs\Main\Resources\ToDoMainResponses.fr.json" />
+    <EmbeddedResource Update="Dialogs\Main\Resources\ToDoMainResponses.de.json" />
+    <EmbeddedResource Update="Dialogs\Main\Resources\ToDoMainResponses.es.json" />
+    <EmbeddedResource Update="Dialogs\Main\Resources\ToDoMainResponses.it.json" />
+    <EmbeddedResource Update="Dialogs\Main\Resources\ToDoMainResponses.json" />
+    <EmbeddedResource Update="Dialogs\MarkToDo\Resources\MarkToDoResponses.zh.json" />
+    <EmbeddedResource Update="Dialogs\MarkToDo\Resources\MarkToDoResponses.fr.json" />
+    <EmbeddedResource Update="Dialogs\MarkToDo\Resources\MarkToDoResponses.de.json" />
+    <EmbeddedResource Update="Dialogs\MarkToDo\Resources\MarkToDoResponses.es.json" />
+    <EmbeddedResource Update="Dialogs\MarkToDo\Resources\MarkToDoResponses.it.json" />
+    <EmbeddedResource Update="Dialogs\MarkToDo\Resources\MarkToDoResponses.json" />
+    <EmbeddedResource Update="Dialogs\Shared\Resources\ToDoSharedResponses.zh.json" />
+    <EmbeddedResource Update="Dialogs\Shared\Resources\ToDoSharedResponses.fr.json" />
+    <EmbeddedResource Update="Dialogs\Shared\Resources\ToDoSharedResponses.de.json" />
+    <EmbeddedResource Update="Dialogs\Shared\Resources\ToDoSharedResponses.es.json" />
+    <EmbeddedResource Update="Dialogs\Shared\Resources\ToDoSharedResponses.it.json" />
+    <EmbeddedResource Update="Dialogs\Shared\Resources\ToDoSharedResponses.json" />
+    <EmbeddedResource Update="Dialogs\ShowToDo\Resources\ShowToDoResponses.zh.json" />
+    <EmbeddedResource Update="Dialogs\ShowToDo\Resources\ShowToDoResponses.fr.json" />
+    <EmbeddedResource Update="Dialogs\ShowToDo\Resources\ShowToDoResponses.de.json" />
+    <EmbeddedResource Update="Dialogs\ShowToDo\Resources\ShowToDoResponses.es.json" />
+    <EmbeddedResource Update="Dialogs\ShowToDo\Resources\ShowToDoResponses.it.json" />
+    <EmbeddedResource Update="Dialogs\ShowToDo\Resources\ShowToDoResponses.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -87,102 +178,6 @@
     <None Update="LocaleConfigurations\*.bot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\ToDoMainResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\ToDoMainResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\ToDoMainResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\ToDoMainResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\ToDoMainResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\ToDoMainResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\MarkToDo\Resources\MarkToDoResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\MarkToDo\Resources\MarkToDoResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\MarkToDo\Resources\MarkToDoResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\MarkToDo\Resources\MarkToDoResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\MarkToDo\Resources\MarkToDoResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\MarkToDo\Resources\MarkToDoResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\ToDoSharedResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\ToDoSharedResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\ToDoSharedResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\ToDoSharedResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\ToDoSharedResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\ToDoSharedResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\old_ToDoSharedResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ShowToDo\Resources\ShowToDoResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ShowToDo\Resources\ShowToDoResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ShowToDo\Resources\ShowToDoResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ShowToDo\Resources\ShowToDoResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ShowToDo\Resources\ShowToDoResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ShowToDo\Resources\ShowToDoResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>

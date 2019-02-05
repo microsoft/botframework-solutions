@@ -10,8 +10,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Extensions;
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using PointOfInterestSkill.Dialogs.Route;
 using PointOfInterestSkill.Dialogs.Shared.Resources;
@@ -29,7 +28,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
         public PointOfInterestSkillDialog(
             string dialogId,
             SkillConfiguration services,
-            ResponseTemplateManager responseManager,
+            ResponseManager responseManager,
             IStatePropertyAccessor<PointOfInterestSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
@@ -51,7 +50,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
 
         protected IServiceManager ServiceManager { get; set; }
 
-        protected ResponseTemplateManager ResponseManager { get; set; }
+        protected ResponseManager ResponseManager { get; set; }
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -170,7 +169,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
         {
             var locations = locationSet.Locations;
             var state = await Accessor.GetAsync(sc.Context);
-            var cardsData = new List<LocationCardModelData>();
+            var cardData = new List<LocationCardModelData>();
             var service = ServiceManager.InitMapsService(GetAzureMapsKey());
 
             if (locations != null && locations.Count > 0)
@@ -191,37 +190,49 @@ namespace PointOfInterestSkill.Dialogs.Shared
                         OptionNumber = optionNumber,
                     };
 
-                    cardsData.Add(locationCardModel);
+                    cardData.Add(locationCardModel);
                     optionNumber++;
                 }
 
-                if (cardsData.Count() > 1)
+                if (cardData.Count() > 1)
                 {
+                    var templateId = string.Empty;
+                    var cards = new List<Card>();
+
                     if (sc.ActiveDialog.Id.Equals(Action.FindAlongRoute) && state.ActiveRoute != null)
                     {
-                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardGroupReply(POISharedResponses.MultipleLocationsFoundAlongActiveRoute, "Dialogs/Shared/Resources/Cards/PointOfInterestViewCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseManager);
-                        await sc.Context.SendActivityAsync(replyMessage);
+                        templateId = POISharedResponses.MultipleLocationsFoundAlongActiveRoute;
                     }
                     else
                     {
-                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardGroupReply(POISharedResponses.MultipleLocationsFound, "Dialogs/Shared/Resources/Cards/PointOfInterestViewCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseManager);
-                        await sc.Context.SendActivityAsync(replyMessage);
+                        templateId = POISharedResponses.MultipleLocationsFound;
                     }
+
+                    foreach (var data in cardData)
+                    {
+                        cards.Add(new Card("PointOfInterestViewCard", data));
+                    }
+
+                    var replyMessage = ResponseManager.GetCardResponse(templateId, cards);
+                    await sc.Context.SendActivityAsync(replyMessage);
                 }
                 else
                 {
                     state.ActiveLocation = state.FoundLocations.Single();
+                    var templateId = string.Empty;
 
                     if (sc.ActiveDialog.Id.Equals(Action.FindAlongRoute) && state.ActiveRoute != null)
                     {
-                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(POISharedResponses.SingleLocationFoundAlongActiveRoute, "Dialogs/Shared/Resources/Cards/PointOfInterestViewNoDrivingButtonCard.json", cardsData.SingleOrDefault(), ResponseManager);
-                        await sc.Context.SendActivityAsync(replyMessage);
+                        templateId = POISharedResponses.SingleLocationFoundAlongActiveRoute;
                     }
                     else
                     {
-                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(POISharedResponses.SingleLocationFound, "Dialogs/Shared/Resources/Cards/PointOfInterestViewNoDrivingButtonCard.json", cardsData.SingleOrDefault(), ResponseManager);
-                        await sc.Context.SendActivityAsync(replyMessage);
+                        templateId = POISharedResponses.SingleLocationFound;
                     }
+
+                    var card = new Card("PointOfInterestViewNoDrivingButtonCard", cardData.SingleOrDefault());
+                    var replyMessage = ResponseManager.GetCardResponse(templateId, card);
+                    await sc.Context.SendActivityAsync(replyMessage);
                 }
             }
             else
@@ -302,7 +313,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
         {
             var routes = routeDirections.Routes;
             var state = await Accessor.GetAsync(sc.Context);
-            var cardsData = new List<RouteDirectionsModelCardData>();
+            var cardData = new List<RouteDirectionsModelCardData>();
             var routeId = 0;
 
             if (routes != null)
@@ -322,18 +333,25 @@ namespace PointOfInterestSkill.Dialogs.Shared
                         RouteId = routeId,
                     };
 
-                    cardsData.Add(routeDirectionsModel);
+                    cardData.Add(routeDirectionsModel);
                     routeId++;
                 }
 
-                if (cardsData.Count() > 1)
+                if (cardData.Count() > 1)
                 {
-                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardGroupReply(POISharedResponses.MultipleRoutesFound, "Dialogs/Shared/Resources/Cards/RouteDirectionsViewCard.json", AttachmentLayoutTypes.Carousel, cardsData);
+                    var cards = new List<Card>();
+                    foreach (var data in cardData)
+                    {
+                        cards.Add(new Card("RouteDirectionsViewCard", data));
+                    }
+
+                    var replyMessage = ResponseManager.GetCardResponse(POISharedResponses.MultipleRoutesFound, cards);
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
                 else
                 {
-                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(POISharedResponses.SingleRouteFound, "Dialogs/Shared/Resources/Cards/RouteDirectionsViewCardNoGetStartedButton.json", cardsData.SingleOrDefault());
+                    var card = new Card("RouteDirectionsViewCardNoGetStartedButton", cardData.SingleOrDefault());
+                    var replyMessage = ResponseManager.GetCardResponse(POISharedResponses.SingleRouteFound, card);
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
             }

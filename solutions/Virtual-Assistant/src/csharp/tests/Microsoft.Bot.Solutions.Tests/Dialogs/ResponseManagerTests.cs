@@ -5,6 +5,9 @@ using System.IO;
 using System.Reflection;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
+using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.Tests.Resources;
+using Microsoft.Bot.Solutions.Tests.Responses;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 
@@ -15,12 +18,16 @@ namespace Microsoft.Bot.Solutions.Tests.Dialogs
     {
         private string _resourceDir;
         private CultureInfo _currentCulture;
+        private ResponseManager _responseManager;
 
         [TestInitialize]
         public void Initialize()
         {
             _currentCulture = CultureInfo.CurrentUICulture;
             _resourceDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Dialogs");
+            _responseManager = new ResponseManager(
+                new IResponseIdCollection[] { new TestResponses() }, 
+                new string[] { "en", "es" });
         }
 
         [TestCleanup]
@@ -28,15 +35,13 @@ namespace Microsoft.Bot.Solutions.Tests.Dialogs
         {
             // restore culture in case we changed it.
             CultureInfo.CurrentUICulture = _currentCulture;
-
         }
 
         [TestMethod]
         public void ReturnedResponseIsClone()
         {
-            var rm = new ResponseManager(_resourceDir, "TestResponses");
-            var copy1 = rm.GetBotResponse("GetResponseText");
-            var copy2 = rm.GetBotResponse("GetResponseText");
+            var copy1 = _responseManager.GetResponseTemplate("GetResponseText");
+            var copy2 = _responseManager.GetResponseTemplate("GetResponseText");
             Assert.AreEqual(copy1.Replies[0].Text, copy2.Replies[0].Text);
             
             copy2.Replies[0].Text = "Something different";
@@ -44,41 +49,18 @@ namespace Microsoft.Bot.Solutions.Tests.Dialogs
         }
 
         [TestMethod]
-        public void JsonNotFoundThrowsException()
-        {
-            Console.WriteLine(Directory.GetCurrentDirectory());
-            Assert.ThrowsException<FileNotFoundException>(() =>
-            {
-                var rm = new ResponseManager(_resourceDir, "NotThere");
-                rm.GetBotResponse("Test");
-            });
-        }
-
-        [TestMethod]
         public void KeyNotFoundThrowsException()
         {
             Assert.ThrowsException<KeyNotFoundException>(() =>
             {
-                var rm = new ResponseManager(_resourceDir, "TestResponses");
-                rm.GetBotResponse("NotThere");
-            });
-        }
-
-        [TestMethod]
-        public void MalFormedJsonThrowsException()
-        {
-            Assert.ThrowsException<JsonSerializationException>(() =>
-            {
-                var rm = new ResponseManager(_resourceDir, "BrokenJson");
-                rm.GetBotResponse("GetResponseText");
+                _responseManager.GetResponseTemplate("NotThere");
             });
         }
 
         [TestMethod]
         public void InputHintDefaultsToAcceptingInput()
         {
-            var rm = new ResponseManager(_resourceDir, "TestResponses");
-            var response = rm.GetBotResponse("NoInputHint");
+            var response = _responseManager.GetResponseTemplate("NoInputHint");
             Assert.AreEqual(InputHints.AcceptingInput, response.InputHint);
         }
 
@@ -86,25 +68,22 @@ namespace Microsoft.Bot.Solutions.Tests.Dialogs
         public void LanguageFallback()
         {
             CultureInfo.CurrentUICulture = new CultureInfo("es");
-            var rm = new ResponseManager(_resourceDir, "TestResponses");
-            var response = rm.GetBotResponse("GetResponseText");
+            var response = _responseManager.GetResponseTemplate("GetResponseText");
             Assert.AreEqual("El texto", response.Reply.Text);
 
-            response = rm.GetBotResponse("EnglishOnly");
+            response = _responseManager.GetResponseTemplate("EnglishOnly");
             Assert.AreEqual("This wasn't found in spanish so the fallback answer is returned", response.Reply.Text);
-
         }
 
         [TestMethod]
         public void MultiLanguage()
         {
             CultureInfo.CurrentUICulture = new CultureInfo("en-US");
-            var rm = new ResponseManager(_resourceDir, "TestResponses");
-            var response = rm.GetBotResponse("MultiLanguage");
+            var response = _responseManager.GetResponseTemplate("MultiLanguage");
             Assert.AreEqual("This is in English", response.Reply.Text);
 
             CultureInfo.CurrentUICulture = new CultureInfo("es-MX");
-            response = rm.GetBotResponse("MultiLanguage");
+            response = _responseManager.GetResponseTemplate("MultiLanguage");
             Assert.AreEqual("Esto sería en español", response.Reply.Text);
         }
     }

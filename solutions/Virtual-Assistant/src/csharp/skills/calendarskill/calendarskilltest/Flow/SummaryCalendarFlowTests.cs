@@ -184,7 +184,8 @@ namespace CalendarSkillTest.Flow
                 { "Participants1", Strings.Strings.DefaultUserName }
             };
 
-            return this.ParseReplies(SummaryResponses.ShowOneMeetingSummaryMessage.Replies, responseParams);
+            var response = ResponseManager.GetResponseTemplate(SummaryResponses.ShowOneMeetingSummaryMessage);
+            return this.ParseReplies(response.Replies, responseParams);
         }
 
         private string[] FoundMultipleEventPrompt(int count, string dateTime = "today")
@@ -201,7 +202,8 @@ namespace CalendarSkillTest.Flow
                 { "EventTime2", "at 6:00 PM" },
             };
 
-            return this.ParseReplies(SummaryResponses.ShowMultipleMeetingSummaryMessage.Replies, responseParams);
+            var response = ResponseManager.GetResponseTemplate(SummaryResponses.ShowMultipleMeetingSummaryMessage);
+            return this.ParseReplies(response.Replies, responseParams);
         }
 
         private Action<IActivity> ShowCalendarList(int count)
@@ -223,17 +225,20 @@ namespace CalendarSkillTest.Flow
 
         private string[] ReadOutMorePrompt()
         {
-            return this.ParseReplies(SummaryResponses.ReadOutMorePrompt.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(SummaryResponses.ReadOutMorePrompt);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private string[] ReadOutPrompt()
         {
-            return this.ParseReplies(SummaryResponses.ReadOutPrompt.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(SummaryResponses.ReadOutPrompt);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private string[] AskForOrgnizerActionPrompt(string dateString = "today")
         {
-            return this.ParseReplies(SummaryResponses.AskForOrgnizerAction.Replies, new StringDictionary() { { "DateTime", dateString } });
+            var response = ResponseManager.GetResponseTemplate(SummaryResponses.AskForOrgnizerAction);
+            return this.ParseReplies(response.Replies, new StringDictionary() { { "DateTime", dateString } });
         }
 
         private Action<IActivity> ShowReadOutEventList()
@@ -241,29 +246,26 @@ namespace CalendarSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                CollectionAssert.Contains(
-                    this.ParseReplies(SummaryResponses.ReadOutMessage.Replies, new StringDictionary()
+                var response = ResponseManager.GetResponseTemplate(SummaryResponses.ReadOutMessage);
+                var parsedResponses = this.ParseReplies(
+                    response.Replies,
+                    new StringDictionary()
                     {
-                        {
-                            "Date", DateTime.Now.AddDays(1).ToString(CommonStrings.DisplayDateFormat_CurrentYear)
-                        },
-                        {
-                            "Time", "at 6:00 PM"
-                        },
-                        {
-                            "Participants", Strings.Strings.DefaultUserName
-                        },
-                        {
-                            "Subject", Strings.Strings.DefaultEventName
-                        }
-                    }), messageActivity.Text);
+                        { "Date", DateTime.Now.AddDays(2).ToString(CommonStrings.DisplayDateFormat_CurrentYear) },
+                        { "Time", "at 6:00 PM" },
+                        { "Participants", Strings.Strings.DefaultUserName },
+                        { "Subject", Strings.Strings.DefaultEventName }
+                    });
+
+                CollectionAssert.Contains(parsedResponses, messageActivity.Text);
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
         }
 
         private string[] NoEventResponse()
         {
-            return this.ParseReplies(SummaryResponses.ShowNoMeetingMessage.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(SummaryResponses.ShowNoMeetingMessage);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
     }
 }

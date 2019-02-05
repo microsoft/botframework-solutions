@@ -79,7 +79,8 @@ namespace CalendarSkillTest.Flow
 
         private string[] NextMeetingPrompt()
         {
-            return this.ParseReplies(SummaryResponses.ShowNextMeetingMessage.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(SummaryResponses.ShowNextMeetingMessage);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()
@@ -101,7 +102,8 @@ namespace CalendarSkillTest.Flow
 
         private string[] NoMeetingResponse()
         {
-            return this.ParseReplies(SummaryResponses.ShowNoMeetingMessage.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(SummaryResponses.ShowNoMeetingMessage);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private Action<IActivity> ActionEndMessage()

@@ -126,12 +126,14 @@ namespace CalendarSkillTest.Flow
 
         private string[] AskForTitleTimePrompt()
         {
-            return this.ParseReplies(UpdateEventResponses.NoUpdateStartTime.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(UpdateEventResponses.NoUpdateStartTime);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private string[] AskForNewTimePrompt()
         {
-            return this.ParseReplies(UpdateEventResponses.NoNewTime.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(UpdateEventResponses.NoNewTime);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()

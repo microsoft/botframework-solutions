@@ -19,9 +19,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Recognizers.Text;
 
@@ -47,15 +45,13 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
 
         public VehicleSettingsDialog(
             SkillConfigurationBase services,
-            ResponseTemplateManager responseManager,
+            ResponseManager responseManager,
             IStatePropertyAccessor<AutomotiveSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             IHttpContextAccessor httpContext)
             : base(nameof(VehicleSettingsDialog), services, responseManager, accessor, serviceManager, telemetryClient)
         {
-            TelemetryClient = telemetryClient;
-
             // Initialise supporting LUIS models for followup questions
             vehicleSettingNameSelectionLuisRecognizer = services.LocaleConfigurations["en"].LuisServices["settings_name"];
             vehicleSettingValueSelectionLuisRecognizer = services.LocaleConfigurations["en"].LuisServices["settings_value"];
@@ -216,10 +212,10 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
 
             if (promptContext.Recognized != null && promptContext.Recognized.Succeeded)
             {
-                string userChoice = promptContext.Recognized.Value.Value;
+                var userChoice = promptContext.Recognized.Value.Value;
 
                 // Use the value selection LUIS model to perform validation of the users entered setting value
-                VehicleSettingsNameSelection nameSelectionResult = await vehicleSettingNameSelectionLuisRecognizer.RecognizeAsync<VehicleSettingsNameSelection>(promptContext.Context, CancellationToken.None);
+                var nameSelectionResult = await vehicleSettingNameSelectionLuisRecognizer.RecognizeAsync<VehicleSettingsNameSelection>(promptContext.Context, CancellationToken.None);
 
                 if (nameSelectionResult.Entities.SETTING != null)
                 {
@@ -269,7 +265,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                     // We have found multiple settings which we need to prompt the user to resolve
                     if (settingValues.Count() > 1)
                     {
-                        string settingName = state.Changes.First().SettingName;
+                        var settingName = state.Changes.First().SettingName;
 
                         // If we have more than one setting name matching prompt the user to choose
                         var options = new PromptOptions()
@@ -336,9 +332,9 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
             if (promptContext.Recognized != null && promptContext.Recognized.Succeeded)
             {
                 // Use the value selection LUIS model to perform validation of the users entered setting value
-                VehicleSettingsValueSelection valueSelectionResult = await vehicleSettingValueSelectionLuisRecognizer.RecognizeAsync<VehicleSettingsValueSelection>(promptContext.Context, CancellationToken.None);
+                var valueSelectionResult = await vehicleSettingValueSelectionLuisRecognizer.RecognizeAsync<VehicleSettingsValueSelection>(promptContext.Context, CancellationToken.None);
 
-                List<string> valueEntities = new List<string>();
+                var valueEntities = new List<string>();
                 if (valueSelectionResult.Entities.VALUE != null)
                 {
                     valueEntities.AddRange(valueSelectionResult.Entities.VALUE);
@@ -528,7 +524,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
         private async Task SendActionToDevice(WaterfallStepContext sc, SettingChange setting, StringDictionary settingDetail)
         {
             // remove whitespace to create Event Name and prefix with Automotive Skill
-            string reducedName = $"AutomotiveSkill.{Regex.Replace(setting.SettingName, @"\s+", string.Empty)}";
+            var reducedName = $"AutomotiveSkill.{Regex.Replace(setting.SettingName, @"\s+", string.Empty)}";
 
             var actionEvent = sc.Context.Activity.CreateReply();
             actionEvent.Type = ActivityTypes.Event;
@@ -540,7 +536,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
 
         private string GetSettingCardImageUri(string imagePath)
         {
-            string serverUrl = _httpContext.HttpContext.Request.Scheme + "://" + _httpContext.HttpContext.Request.Host.Value;
+            var serverUrl = _httpContext.HttpContext.Request.Scheme + "://" + _httpContext.HttpContext.Request.Host.Value;
             return $"{serverUrl}/images/{imagePath}";
         }
     }

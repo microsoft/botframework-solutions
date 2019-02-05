@@ -15,8 +15,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Extensions;
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
@@ -27,7 +26,7 @@ namespace CalendarSkill.Dialogs.UpdateEvent
     {
         public UpdateEventDialog(
             SkillConfigurationBase services,
-            ResponseTemplateManager responseManager,
+            ResponseManager responseManager,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
@@ -107,14 +106,19 @@ namespace CalendarSkill.Dialogs.UpdateEvent
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-
                 var newStartTime = (DateTime)state.NewStartDateTime;
-
                 var origin = state.Events[0];
                 var last = origin.EndTime - origin.StartTime;
                 origin.StartTime = newStartTime;
                 origin.EndTime = (newStartTime + last).AddSeconds(1);
-                var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(UpdateEventResponses.ConfirmUpdate, origin.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", origin.ToAdaptiveCardData(state.GetUserTimeZone()));
+
+                var replyMessage = ResponseManager.GetCardResponse(
+                    UpdateEventResponses.ConfirmUpdate,
+                    new Card()
+                    {
+                        Name = origin.OnlineMeetingUrl == null ? "CalendarCardNoJoinButton" : "CalendarCard",
+                        Data = origin.ToAdaptiveCardData(state.GetUserTimeZone())
+                    });
 
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
@@ -154,7 +158,14 @@ namespace CalendarSkill.Dialogs.UpdateEvent
                     var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
                     var newEvent = await calendarService.UpdateEventById(updateEvent);
 
-                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(UpdateEventResponses.EventUpdated, newEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", newEvent.ToAdaptiveCardData(state.GetUserTimeZone()));
+                    var replyMessage = ResponseManager.GetCardResponse(
+                        UpdateEventResponses.EventUpdated,
+                        new Card()
+                        {
+                            Name = newEvent.OnlineMeetingUrl == null ? "CalendarCardNoJoinButton" : "CalendarCard",
+                            Data = newEvent.ToAdaptiveCardData(state.GetUserTimeZone())
+                        });
+
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
                 else
@@ -449,19 +460,19 @@ namespace CalendarSkill.Dialogs.UpdateEvent
                         options.Choices.Add(choice);
                     }
 
-                    var replyToConversation = ResponseManager.GetResponse(UpdateEventResponses.MultipleEventsStartAtSameTime);
-                    replyToConversation.AttachmentLayout = AttachmentLayoutTypes.Carousel;
-                    replyToConversation.Attachments = new List<Microsoft.Bot.Schema.Attachment>();
-
-                    var cardsData = new List<CalendarCardData>();
+                    var cards = new List<Card>();
                     foreach (var item in state.Events)
                     {
-                        var meetingCard = item.ToAdaptiveCardData(state.GetUserTimeZone());
-                        var replyTemp = sc.Context.Activity.CreateAdaptiveCardReply(CalendarMainResponses.GreetingMessage, item.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", meetingCard);
-                        replyToConversation.Attachments.Add(replyTemp.Attachments[0]);
+                        cards.Add(new Card()
+                        {
+                            Name = item.OnlineMeetingUrl == null ? "CalendarCardNoJoinButton" : "CalendarCard",
+                            Data = item.ToAdaptiveCardData(state.GetUserTimeZone())
+                        });
                     }
 
-                    options.Prompt = replyToConversation;
+                    options.Prompt = ResponseManager.GetCardResponse(
+                        UpdateEventResponses.MultipleEventsStartAtSameTime,
+                        cards);
 
                     return await sc.PromptAsync(Actions.EventChoice, options);
                 }

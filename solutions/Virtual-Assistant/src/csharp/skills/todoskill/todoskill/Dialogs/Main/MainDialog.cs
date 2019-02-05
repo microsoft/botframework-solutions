@@ -11,14 +11,13 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using ToDoSkill.Dialogs.AddToDo;
 using ToDoSkill.Dialogs.DeleteToDo;
 using ToDoSkill.Dialogs.Main.Resources;
 using ToDoSkill.Dialogs.MarkToDo;
-using ToDoSkill.Dialogs.Shared;
 using ToDoSkill.Dialogs.Shared.DialogOptions;
 using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.Dialogs.ShowToDo;
@@ -31,17 +30,16 @@ namespace ToDoSkill.Dialogs.Main
     {
         private bool _skillMode;
         private SkillConfigurationBase _services;
-        private ResponseTemplateManager _responseManager;
+        private ResponseManager _responseManager;
         private UserState _userState;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
         private IStatePropertyAccessor<ToDoSkillState> _toDoStateAccessor;
         private IStatePropertyAccessor<ToDoSkillUserState> _userStateAccessor;
-        private ToDoSkillResponseBuilder _responseBuilder = new ToDoSkillResponseBuilder();
 
         public MainDialog(
             SkillConfigurationBase services,
-            ResponseTemplateManager responseManager,
+            ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
             IBotTelemetryClient telemetryClient,

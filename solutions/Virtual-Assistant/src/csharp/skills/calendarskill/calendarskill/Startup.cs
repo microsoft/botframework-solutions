@@ -26,6 +26,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -81,7 +82,7 @@ namespace CalendarSkill
                 new UpdateEventResponses(),
             };
 
-            var responseManager = new ResponseTemplateManager(responses, supportedLanguages);
+            var responseManager = new ResponseManager(responses, supportedLanguages);
 
             // Register bot responses for all supported languages.
             services.AddSingleton(sp => responseManager);

@@ -2,8 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using PointOfInterestSkill.Dialogs.CancelRoute.Resources;
 using PointOfInterestSkill.Dialogs.Shared;
@@ -15,7 +14,7 @@ namespace PointOfInterestSkill.Dialogs.CancelRoute
     {
         public CancelRouteDialog(
             SkillConfiguration services,
-            ResponseTemplateManager responseManager,
+            ResponseManager responseManager,
             IStatePropertyAccessor<PointOfInterestSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)

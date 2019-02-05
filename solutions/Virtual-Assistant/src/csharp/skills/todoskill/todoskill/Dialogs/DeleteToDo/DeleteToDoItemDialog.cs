@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using ToDoSkill.Dialogs.DeleteToDo.Resources;
@@ -23,7 +22,7 @@ namespace ToDoSkill.Dialogs.DeleteToDo
     {
         public DeleteToDoItemDialog(
             SkillConfigurationBase services,
-            ResponseTemplateManager responseManager,
+            ResponseManager responseManager,
             IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
             IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
             IServiceManager serviceManager,
@@ -115,11 +114,12 @@ namespace ToDoSkill.Dialogs.DeleteToDo
 
                     if (state.MarkOrDeleteAllTasksFlag)
                     {
-                        var token = new StringDictionary() { { "listType", state.ListType } };
-                        var response = GenerateResponseWithTokens(DeleteToDoResponses.AfterAllTasksDeleted, token);
-                        var message = ResponseManager.GetResponse(response);
-                        message.Speak = response;
-                        await sc.Context.SendActivityAsync(message);
+                        var token = new StringDictionary()
+                        {
+                            { "listType", state.ListType }
+                        };
+                        var response = ResponseManager.GetResponse(DeleteToDoResponses.AfterAllTasksDeleted, token);
+                        await sc.Context.SendActivityAsync(response);
                     }
                     else
                     {
@@ -129,8 +129,8 @@ namespace ToDoSkill.Dialogs.DeleteToDo
                                 state.Tasks,
                                 state.AllTasks.Count,
                                 taskTopicToBeDeleted,
-                                DeleteToDoResponses.AfterTaskDeleted,
-                                ToDoSharedResponses.ShowToDoTasks,
+                                ResponseManager.GetResponseTemplate(DeleteToDoResponses.AfterTaskDeleted),
+                                ResponseManager.GetResponseTemplate(ToDoSharedResponses.ShowToDoTasks),
                                 state.ListType);
 
                             var deletedToDoListReply = sc.Context.Activity.CreateReply();
@@ -140,10 +140,10 @@ namespace ToDoSkill.Dialogs.DeleteToDo
                         else
                         {
                             var token1 = new StringDictionary() { { "taskContent", taskTopicToBeDeleted } };
-                            var response1 = GenerateResponseWithTokens(DeleteToDoResponses.AfterTaskDeleted, token1);
+                            var response1 = ResponseManager.GetResponse(DeleteToDoResponses.AfterTaskDeleted, token1);
                             var token2 = new StringDictionary() { { "taskCount", "0" }, { "listType", state.ListType } };
-                            var response2 = GenerateResponseWithTokens(ToDoSharedResponses.ShowToDoTasks, token2);
-                            var response = response1 + " " + response2.Remove(response2.Length - 1) + ".";
+                            var response2 = ResponseManager.GetResponse(ToDoSharedResponses.ShowToDoTasks, token2);
+                            var response = response1.Text + " " + response2.Text.Remove(response2.Text.Length - 1) + ".";
                             var botResponse = sc.Context.Activity.CreateReply(response);
                             botResponse.Speak = response;
                             await sc.Context.SendActivityAsync(botResponse);

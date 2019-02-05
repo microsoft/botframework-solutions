@@ -19,8 +19,8 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 
@@ -30,7 +30,7 @@ namespace EmailSkill.Dialogs.ShowEmail
     {
         public ShowEmailDialog(
             SkillConfigurationBase services,
-            ResponseTemplateManager responseManager,
+            ResponseManager responseManager,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IServiceManager serviceManager,
@@ -95,9 +95,9 @@ namespace EmailSkill.Dialogs.ShowEmail
             AddDialog(new WaterfallDialog(Actions.Reply, replyEmail) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.Display, displayEmail) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.ReDisplay, redisplayEmail) { TelemetryClient = telemetryClient });
-            AddDialog(new DeleteEmailDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
-            AddDialog(new ReplyEmailDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
-            AddDialog(new ForwardEmailDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
+            AddDialog(new DeleteEmailDialog(services, responseManager, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
+            AddDialog(new ReplyEmailDialog(services, responseManager, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
+            AddDialog(new ForwardEmailDialog(services, responseManager, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
             InitialDialogId = Actions.Show;
         }
 
@@ -230,8 +230,14 @@ namespace EmailSkill.Dialogs.ShowEmail
 
                     // Todo: workaround here to read out email details. Ignore body for now as we need a summary and filter.
                     var emailDetails = SpeakHelper.ToSpeechEmailDetailString(message, state.GetUserTimeZone());
-                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(ShowEmailResponses.ReadOutMessage, "Dialogs/Shared/Resources/Cards/EmailDetailCard.json", emailCard, null, new StringDictionary() { { "EmailDetails", emailDetails } });
-                    await sc.Context.SendActivityAsync(replyMessage);
+                    var tokens = new StringDictionary() { { "EmailDetails", emailDetails } };
+
+                    var reply = ResponseManager.GetCardResponse(
+                        ShowEmailResponses.ReadOutMessage,
+                        new Card("EmailDetailCard", emailCard),
+                        tokens);
+
+                    await sc.Context.SendActivityAsync(reply);
                 }
 
                 return await sc.NextAsync();

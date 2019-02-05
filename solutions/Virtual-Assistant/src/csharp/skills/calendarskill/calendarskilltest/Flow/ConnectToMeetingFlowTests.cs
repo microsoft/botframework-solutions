@@ -55,7 +55,8 @@ namespace CalendarSkillTest.Flow
 
         private string[] ShowNoMeetings()
         {
-            return this.ParseReplies(JoinEventResponses.MeetingNotFound.Replies, new StringDictionary());
+            var response = ResponseManager.GetResponseTemplate(JoinEventResponses.MeetingNotFound);
+            return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
         private Action<IActivity> ActionEndMessage()

@@ -17,10 +17,9 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Data;
 using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 
@@ -30,7 +29,7 @@ namespace CalendarSkill.Dialogs.Summary
     {
         public SummaryDialog(
             SkillConfigurationBase services,
-            ResponseTemplateManager responseManager,
+            ResponseManager responseManager,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
@@ -73,8 +72,8 @@ namespace CalendarSkill.Dialogs.Summary
             AddDialog(new WaterfallDialog(Actions.ShowNextEvent, showNext) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.ShowEventsSummary, showSummary) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.Read, readEvent) { TelemetryClient = telemetryClient });
-            AddDialog(new UpdateEventDialog(services, accessor, serviceManager, telemetryClient));
-            AddDialog(new ChangeEventStatusDialog(services, accessor, serviceManager, telemetryClient));
+            AddDialog(new UpdateEventDialog(services, responseManager, accessor, serviceManager, telemetryClient));
+            AddDialog(new ChangeEventStatusDialog(services, responseManager, accessor, serviceManager, telemetryClient));
 
             // Set starting dialog for component
             InitialDialogId = Actions.GetEventsInit;
@@ -178,7 +177,7 @@ namespace CalendarSkill.Dialogs.Summary
 
                     var results = await GetEventsByTime(new List<DateTime>() { searchDate }, state.StartTime, state.EndDate, state.EndTime, state.GetUserTimeZone(), calendarService);
                     var searchedEvents = new List<EventModel>();
-                    bool searchTodayMeeting = state.StartDate.Any() &&
+                    var searchTodayMeeting = state.StartDate.Any() &&
                         !state.StartTime.Any() &&
                         !state.EndDate.Any() &&
                         !state.EndTime.Any() &&
@@ -328,26 +327,16 @@ namespace CalendarSkill.Dialogs.Summary
 
                 if (eventItem != null && topIntent != Luis.Calendar.Intent.ChangeCalendarEntry && topIntent != Luis.Calendar.Intent.DeleteCalendarEntry)
                 {
-                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(
-                        SummaryResponses.ReadOutMessage,
-                        eventItem.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json",
-                        eventItem.ToAdaptiveCardData(state.GetUserTimeZone(), showContent: true),
-                        null,
-                        new StringDictionary()
-                        {
-                            {
-                                "Date", eventItem.StartTime.ToString(CommonStrings.DisplayDateFormat_CurrentYear)
-                            },
-                            {
-                                "Time", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, state.GetUserTimeZone()), eventItem.IsAllDay == true)
-                            },
-                            {
-                                "Participants", DisplayHelper.ToDisplayParticipantsStringSummary(eventItem.Attendees)
-                            },
-                            {
-                                "Subject", eventItem.Title
-                            }
-                        });
+                    var tokens = new StringDictionary()
+                    {
+                        { "Date", eventItem.StartTime.ToString(CommonStrings.DisplayDateFormat_CurrentYear) },
+                        { "Time", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, state.GetUserTimeZone()), eventItem.IsAllDay == true) },
+                        { "Participants", DisplayHelper.ToDisplayParticipantsStringSummary(eventItem.Attendees) },
+                        { "Subject", eventItem.Title }
+                    };
+
+                    var card = new Card(eventItem.OnlineMeetingUrl == null ? "CalendarCardNoJoinButton" : "CalendarCard", eventItem.ToAdaptiveCardData(state.GetUserTimeZone(), showContent: true));
+                    var replyMessage = ResponseManager.GetCardResponse(SummaryResponses.ReadOutMessage, card, tokens);
                     await sc.Context.SendActivityAsync(replyMessage);
 
                     if (eventItem.IsOrganizer)
@@ -461,7 +450,7 @@ namespace CalendarSkill.Dialogs.Summary
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                AskParameterModel askParameter = new AskParameterModel(state.AskParameterContent);
+                var askParameter = new AskParameterModel(state.AskParameterContent);
                 if (string.IsNullOrEmpty(state.APIToken))
                 {
                     return await sc.EndDialogAsync(true);
