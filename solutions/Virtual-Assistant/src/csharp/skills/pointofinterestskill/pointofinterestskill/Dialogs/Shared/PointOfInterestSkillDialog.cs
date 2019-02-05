@@ -80,19 +80,19 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 if (string.IsNullOrEmpty(state.Keyword) && string.IsNullOrEmpty(state.Address))
                 {
                     // No entities identified, find nearby locations
-                    pointOfInterestList = await service.GetNearbyPointsOfInterestAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude);
+                    pointOfInterestList = await service.GetNearbyPointOfInterestListAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude);
                     await GetPointOfInterestLocationViewCards(sc, pointOfInterestList);
                 }
                 else if (!string.IsNullOrEmpty(state.Keyword))
                 {
                     // Fuzzy query search with keyword
-                    pointOfInterestList = await service.GetPointOfInterestByQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.Keyword);
+                    pointOfInterestList = await service.GetPointOfInterestListByQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.Keyword);
                     await GetPointOfInterestLocationViewCards(sc, pointOfInterestList);
                 }
                 else if (!string.IsNullOrEmpty(state.Address))
                 {
                     // Fuzzy query search with address
-                    pointOfInterestList = await service.GetPointOfInterestByQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.Address);
+                    pointOfInterestList = await service.GetPointOfInterestListByQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.Address);
                     await GetPointOfInterestLocationViewCards(sc, pointOfInterestList);
                 }
 
