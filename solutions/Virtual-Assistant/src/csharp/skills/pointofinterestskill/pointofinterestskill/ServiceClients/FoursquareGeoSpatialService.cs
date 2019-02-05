@@ -89,9 +89,11 @@ namespace PointOfInterestSkill.ServiceClients
         /// <summary>
         /// This provider does not offer search by address.
         /// </summary>
+        /// <param name="latitude">The current latitude.</param>
+        /// <param name="longitude">The current longitude.</param>
         /// <param name="address">The search address.</param>
         /// <returns>List of PointOfInterestModels.</returns>
-        public async Task<List<PointOfInterestModel>> GetPointOfInterestByAddressAsync(string address)
+        public async Task<List<PointOfInterestModel>> GetPointOfInterestByAddressAsync(double latitude, double longitude, string address)
         {
             throw new NotSupportedException();
         }

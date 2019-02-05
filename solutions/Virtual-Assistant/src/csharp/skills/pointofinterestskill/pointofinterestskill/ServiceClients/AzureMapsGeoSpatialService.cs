@@ -14,7 +14,7 @@ namespace PointOfInterestSkill.ServiceClients
     public sealed class AzureMapsGeoSpatialService : IGeoSpatialService
     {
         private static readonly string FindByFuzzyQueryApiUrl = $"https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&limit=3&lat={{0}}&lon={{1}}&query={{2}}&radius={{3}}";
-        private static readonly string FindByQueryApiUrl = $"https://atlas.microsoft.com/search/address/json?api-version=1.0&limit=3&query=";
+        private static readonly string FindByAddressQueryUrl = $"https://atlas.microsoft.com/search/address/json?api-version=1.0&limit=3&lat={{0}}&lon={{1}}&query={{2}}&radius={{3}}";
         private static readonly string FindByPointUrl = $"https://atlas.microsoft.com/search/address/reverse/json?api-version=1.0&query={{0}},{{1}}";
         private static readonly string FindNearbyUrl = $"https://atlas.microsoft.com/search/nearby/json?api-version=1.0&limit=3&lat={{0}}&lon={{1}}&radius={{2}}";
         private static readonly string FindByCategoryUrl = $"https://atlas.microsoft.com/search/poi/category/json?api-version=1.0&limit=3&lat={{0}}&lon={{1}}&query={{2}}&radius={{3}}";
@@ -79,16 +79,18 @@ namespace PointOfInterestSkill.ServiceClients
         /// <summary>
         /// Get coordinates from a street address.
         /// </summary>
+        /// <param name="latitude">The current latitude.</param>
+        /// <param name="longitude">The current longitude.</param>
         /// <param name="address">The search address.</param>
         /// <returns>List of PointOfInterestModels.</returns>
-        public async Task<List<PointOfInterestModel>> GetPointOfInterestByAddressAsync(string address)
+        public async Task<List<PointOfInterestModel>> GetPointOfInterestByAddressAsync(double latitude, double longitude, string address)
         {
             if (string.IsNullOrEmpty(address))
             {
                 throw new ArgumentNullException(nameof(address));
             }
 
-            return await GetPointsOfInterestAsync(FindByQueryApiUrl + Uri.EscapeDataString(address));
+            return await GetPointsOfInterestAsync(string.Format(CultureInfo.InvariantCulture, FindByAddressQueryUrl, latitude, longitude, Uri.EscapeDataString(address), radius));
         }
 
         /// <summary>

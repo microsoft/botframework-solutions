@@ -49,6 +49,28 @@ namespace PointOfInterestSkill.ServiceClients
             return new AzureMapsGeoSpatialService().InitKeyAsync(key, radiusInt, locale).Result;
         }
 
+        /// <summary>
+        /// Gets the supported GeoSpatialService for reverse address search.
+        /// Azure Maps is the only supported provider.
+        /// </summary>
+        /// <param name="services">The SkillConfigurationBase services.</param>
+        /// <param name="locale">The user's locale.</param>
+        /// <returns>IGeoSpatialService.</returns>
+        public IGeoSpatialService InitAddressMapsService(SkillConfigurationBase services, string locale = "en-us")
+        {
+            services.Properties.TryGetValue("Radius", out var radius);
+            radiusInt = (radius != null) ? (int)radius : radiusInt;
+
+            var key = GetAzureMapsKey(services);
+
+            return new AzureMapsGeoSpatialService().InitKeyAsync(key, radiusInt, locale).Result;
+        }
+
+        /// <summary>
+        /// Gets Azure Maps key from the skill configuration.
+        /// </summary>
+        /// <param name="services">The skill configuration object.</param>
+        /// <returns>Azure Maps key string.</returns>
         protected string GetAzureMapsKey(SkillConfigurationBase services)
         {
             services.Properties.TryGetValue("AzureMapsKey", out var key);
