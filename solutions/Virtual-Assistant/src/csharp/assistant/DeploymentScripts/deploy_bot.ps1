@@ -9,7 +9,7 @@ Param(
 	[string] $luisPublishRegion,
 	[string] $subscriptionId,
 	[string] $insightsRegion,
-	[string] $groupName,
+	[string] $groupName = $name,
 	[string] $sdkLanguage,
 	[string] $sdkVersion,
 	[string] $prefix,
