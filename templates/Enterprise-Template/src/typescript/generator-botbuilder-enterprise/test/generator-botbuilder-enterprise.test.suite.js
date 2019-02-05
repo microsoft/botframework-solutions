@@ -63,6 +63,38 @@ describe("The generator-botbuilder-enterprise tests", () => {
         );
       })
     );
+
+    cognitiveDirectories.forEach(directoryName =>
+      it("language '" + botLang + "' folder in " + directoryName, () => {
+        assert.file(
+          path.join(
+            __dirname,
+            botGenerationPath,
+            "cognitiveModels",
+            directoryName,
+            botLang
+          )
+        );
+      })
+    );
+
+    it("language '" + botLang + "' folder in deploymentScript", () => {
+      assert.file(
+        path.join(__dirname, botGenerationPath, "deploymentScripts", botLang)
+      );
+    });
+
+    it("language '" + botLang + "' file in locales", () => {
+      assert.file(
+        path.join(
+          __dirname,
+          botGenerationPath,
+          "src",
+          "locales",
+          botLang + ".json"
+        )
+      );
+    });
   });
 
   describe("should create in the root folder", () => {
