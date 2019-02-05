@@ -8,13 +8,13 @@ const _upperFirst = require("lodash/upperFirst");
 
 describe("The generator-botbuilder-enterprise middleware tests ", () => {
   var middlewareName = "customMiddleware";
-  const middlwareNameCamelCase = _camelCase(middlewareName);
+  const middlewareNameCamelCase = _camelCase(middlewareName);
   const middlewareNamePascalCase = _upperFirst(_camelCase(middlewareName));
   const middlewareGenerationPath = path.join("tmp", middlewareName);
 
   before(() => {
     return helpers
-      .run(path.join(__dirname, "../generators/dialog"))
+      .run(path.join(__dirname, "../generators/middleware"))
       .inDir(path.join(__dirname, "tmp"))
       .withPrompts({
         middlewareName: middlewareName,
@@ -29,7 +29,7 @@ describe("The generator-botbuilder-enterprise middleware tests ", () => {
   });
 
   describe("should create", () => {
-    const files = [middlwareNameCamelCase + ".ts"];
+    const files = [middlewareNameCamelCase + ".ts"];
 
     files.forEach(fileName =>
       it(fileName + " file", () => {
@@ -38,19 +38,15 @@ describe("The generator-botbuilder-enterprise middleware tests ", () => {
     );
   });
 
-  describe("should have in the dialog file with the given name", () => {
-      
+  describe("should have in the middleware file with the given name", () => {
     it("an export component with the given name", () => {
       assert.fileContent(
-        path.join(__dirname, middlewareGenerationPath, middlwareNameCamelCase + ".ts"),
+        path.join(
+          __dirname,
+          middlewareGenerationPath,
+          middlewareNameCamelCase + ".ts"
+        ),
         `export class ${middlewareNamePascalCase}`
-      );
-    });
-
-    it("a super method with the given name as parameter", () => {
-      assert.fileContent(
-        path.join(__dirname, middlewareGenerationPath, middlwareNameCamelCase + ".ts"),
-        `super(${middlewareNamePascalCase}.name)`
       );
     });
   });
