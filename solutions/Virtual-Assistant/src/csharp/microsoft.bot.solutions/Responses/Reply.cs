@@ -3,7 +3,7 @@
 
 using Microsoft.Bot.Schema;
 
-namespace Microsoft.Bot.Solutions.Dialogs
+namespace Microsoft.Bot.Solutions.Responses
 {
     using Newtonsoft.Json;
 

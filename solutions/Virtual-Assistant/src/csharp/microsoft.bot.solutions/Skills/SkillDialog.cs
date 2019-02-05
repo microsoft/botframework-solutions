@@ -12,6 +12,7 @@ using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 
 namespace Microsoft.Bot.Solutions.Skills
 {
@@ -22,6 +23,7 @@ namespace Microsoft.Bot.Solutions.Skills
 
         // Fields
         private Dictionary<string, SkillConfigurationBase> _skills;
+        private ResponseManager _responseManager;
         private IStatePropertyAccessor<DialogState> _accessor;
         private EndpointService _endpointService;
         private IBotTelemetryClient _telemetryClient;
@@ -150,7 +152,7 @@ namespace Microsoft.Bot.Solutions.Skills
                 try
                 {
                     var skillType = Type.GetType(skillDefinition.Assembly);
-                    _activatedSkill = (IBot)Activator.CreateInstance(skillType, skillConfiguration, conversationState, userState, _telemetryClient, null, true);
+                    _activatedSkill = (IBot)Activator.CreateInstance(skillType, skillConfiguration, conversationState, userState, _telemetryClient, null, null, true);
                 }
                 catch (Exception e)
                 {
@@ -163,7 +165,7 @@ namespace Microsoft.Bot.Solutions.Skills
                     // set up skill turn error handling
                     OnTurnError = async (context, exception) =>
                     {
-                        await context.SendActivityAsync(context.Activity.CreateReply(CommonResponses.ErrorMessage_SkillError));
+                        await context.SendActivityAsync(CommonResponses.ErrorMessage_SkillError);
 
                         await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Skill Error: {exception.Message} | {exception.StackTrace}"));
 

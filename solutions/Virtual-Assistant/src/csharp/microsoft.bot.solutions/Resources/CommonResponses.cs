@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 
 namespace Microsoft.Bot.Solutions.Resources
 {
@@ -11,7 +11,6 @@ namespace Microsoft.Bot.Solutions.Resources
     /// </summary>
     public class CommonResponses : IResponseIdCollection
     {
-        // Generated accessors
 		public const string ConfirmUserInfo = "ConfirmUserInfo";
 		public const string ConfirmSaveInfoFailed = "ConfirmSaveInfoFailed";
 		public const string ErrorMessage = "ErrorMessage";
@@ -21,6 +20,5 @@ namespace Microsoft.Bot.Solutions.Resources
 		public const string SkillAuthenticationPrompt = "SkillAuthenticationPrompt";
 		public const string AuthProvidersPrompt = "AuthProvidersPrompt";
 		public const string ConfiguredAuthProvidersPrompt = "ConfiguredAuthProvidersPrompt";
-
     }
 }

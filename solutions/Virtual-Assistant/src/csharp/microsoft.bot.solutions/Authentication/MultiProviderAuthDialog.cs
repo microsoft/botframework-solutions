@@ -8,10 +8,9 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
-using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 
 namespace Microsoft.Bot.Solutions.Authentication
@@ -19,13 +18,19 @@ namespace Microsoft.Bot.Solutions.Authentication
     public class MultiProviderAuthDialog : ComponentDialog
     {
         private SkillConfigurationBase _skillConfiguration;
-        private CommonResponseBuilder _responseBuilder = new CommonResponseBuilder();
+        private ResponseManager _responseManager;
         private string _selectedAuthType = string.Empty;
 
         public MultiProviderAuthDialog(SkillConfigurationBase skillConfiguration)
             : base(nameof(MultiProviderAuthDialog))
         {
             _skillConfiguration = skillConfiguration;
+            _responseManager = new ResponseManager(
+                new IResponseIdCollection[]
+                {
+                    new CommonResponses()
+                },
+                _skillConfiguration.LocaleConfigurations.Keys.ToArray());
 
             if (_skillConfiguration.IsAuthenticatedSkill && !_skillConfiguration.AuthenticationConnections.Any())
             {
@@ -91,7 +96,7 @@ namespace Microsoft.Bot.Solutions.Authentication
 
                     return await stepContext.PromptAsync(DialogIds.ProviderPrompt, new PromptOptions
                     {
-                        Prompt = stepContext.Context.Activity.CreateReply(CommonResponses.ConfiguredAuthProvidersPrompt),
+                        Prompt = _responseManager.GetResponse(CommonResponses.ConfiguredAuthProvidersPrompt),
                         Choices = choices,
                     });
                 }
@@ -110,7 +115,7 @@ namespace Microsoft.Bot.Solutions.Authentication
 
                     return await stepContext.PromptAsync(DialogIds.ProviderPrompt, new PromptOptions
                     {
-                        Prompt = stepContext.Context.Activity.CreateReply(CommonResponses.AuthProvidersPrompt),
+                        Prompt = _responseManager.GetResponse(CommonResponses.AuthProvidersPrompt),
                         Choices = choices,
                     });
                 }
@@ -144,9 +149,6 @@ namespace Microsoft.Bot.Solutions.Authentication
             else
             {
                 TelemetryClient.TrackEventEx("TokenRetrievalFailure", stepContext.Context.Activity);
-
-                // stepContext.Context.Activity.CreateReply(CommonResponses.ErrorMessage_AuthFailure, null, new StringDictionary { { "authType", _selectedAuthType } });
-
                 return new DialogTurnResult(DialogTurnStatus.Cancelled);
             }
         }
