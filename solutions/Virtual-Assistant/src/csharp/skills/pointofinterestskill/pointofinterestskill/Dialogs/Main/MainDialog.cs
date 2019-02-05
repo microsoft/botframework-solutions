@@ -227,11 +227,11 @@ namespace PointOfInterestSkill.Dialogs.Main
                         var activeLocationName = dc.Context.Activity.Value.ToString();
 
                         // Set ActiveLocation if one w/ matching name is found in FoundLocations
-                        var activeLocation = state.FoundLocations?.FirstOrDefault(x => x.Name.Contains(activeLocationName, StringComparison.InvariantCultureIgnoreCase));
+                        var activeLocation = state.LastFoundPointOfInterests?.FirstOrDefault(x => x.Name.Contains(activeLocationName, StringComparison.InvariantCultureIgnoreCase));
                         if (activeLocation != null)
                         {
                             state.ActiveLocation = activeLocation;
-                            state.FoundLocations = null;
+                            state.LastFoundPointOfInterests = null;
                         }
 
                         // Activity should have text to trigger next intent, update Type & Route again
@@ -371,8 +371,8 @@ namespace PointOfInterestSkill.Dialogs.Main
 
         public class Events
         {
-            public const string ActiveLocation = "POI.ActiveLocation";
-            public const string ActiveRoute = "POI.ActiveRoute";
+            public const string ActiveLocation = "IPA.ActiveLocation";
+            public const string ActiveRoute = "IPA.ActiveRoute";
             public const string Location = "IPA.Location";
             public const string SkillBeginEvent = "skillBegin";
         }

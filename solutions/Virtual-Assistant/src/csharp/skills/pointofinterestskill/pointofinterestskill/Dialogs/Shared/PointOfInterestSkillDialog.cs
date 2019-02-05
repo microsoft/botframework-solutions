@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -70,46 +72,33 @@ namespace PointOfInterestSkill.Dialogs.Shared
         {
             try
             {
-                // Defensive for scenarios where locale isn't correctly set
-                var country = "US";
-
-                try
-                {
-                    var cultureInfo = new RegionInfo(sc.Context.Activity.Locale);
-                    country = cultureInfo.TwoLetterISORegionName;
-                }
-                catch (Exception)
-                {
-                    // Default to everything if we can't restrict the country
-                }
-
                 var state = await Accessor.GetAsync(sc.Context);
 
-                var service = ServiceManager.InitMapsService(GetAzureMapsKey(), sc.Context.Activity.Locale ?? "en-us");
-                var locationSet = new LocationSet();
+                var service = ServiceManager.InitMapsService(Services, sc.Context.Activity.Locale ?? "en-us");
+                var pointOfInterestList = new List<PointOfInterestModel>();
 
                 state.CheckForValidCurrentCoordinates();
 
                 if (string.IsNullOrEmpty(state.SearchText) && string.IsNullOrEmpty(state.SearchAddress))
                 {
                     // No entities identified, find nearby locations
-                    locationSet = await service.GetLocationsNearby(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude);
-                    await GetPointOfInterestLocationViewCards(sc, locationSet);
+                    pointOfInterestList = await service.GetNearbyPointsOfInterestAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude);
+                    await GetPointOfInterestLocationViewCards(sc, pointOfInterestList);
                 }
                 else if (!string.IsNullOrEmpty(state.SearchText))
                 {
-                    // Fuzzy search
-                    locationSet = await service.GetLocationsByFuzzyQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.SearchText, country);
-                    await GetPointOfInterestLocationViewCards(sc, locationSet);
+                    // Fuzzy query search with keyword
+                    pointOfInterestList = await service.GetPointOfInterestByQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.SearchText);
+                    await GetPointOfInterestLocationViewCards(sc, pointOfInterestList);
                 }
                 else if (!string.IsNullOrEmpty(state.SearchAddress))
                 {
-                    // Query search
-                    locationSet = await service.GetLocationsByFuzzyQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.SearchAddress, country);
-                    await GetPointOfInterestLocationViewCards(sc, locationSet);
+                    // Fuzzy query search with address
+                    pointOfInterestList = await service.GetPointOfInterestByQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.SearchAddress);
+                    await GetPointOfInterestLocationViewCards(sc, pointOfInterestList);
                 }
 
-                if (locationSet?.Locations?.ToList().Count == 1)
+                if (pointOfInterestList?.ToList().Count == 1)
                 {
                     return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions { Prompt = ResponseManager.GetResponse(POISharedResponses.PromptToGetRoute) });
                 }
@@ -135,8 +124,8 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 {
                     if (state.ActiveLocation != null)
                     {
-                        state.ActiveLocation = state.FoundLocations.SingleOrDefault();
-                        state.FoundLocations = null;
+                        state.ActiveLocation = state.LastFoundPointOfInterests.SingleOrDefault();
+                        state.LastFoundPointOfInterests = null;
                     }
 
                     await sc.EndDialogAsync();
@@ -165,36 +154,22 @@ namespace PointOfInterestSkill.Dialogs.Shared
         }
 
         // Helpers
-        protected async Task GetPointOfInterestLocationViewCards(DialogContext sc, LocationSet locationSet)
+        protected async Task GetPointOfInterestLocationViewCards(DialogContext sc, List<PointOfInterestModel> pointOfInterestList)
         {
-            var locations = locationSet.Locations;
             var state = await Accessor.GetAsync(sc.Context);
-            var cardData = new List<LocationCardModelData>();
-            var service = ServiceManager.InitMapsService(GetAzureMapsKey());
+            var service = ServiceManager.InitMapsService(Services);
 
-            if (locations != null && locations.Count > 0)
+            if (pointOfInterestList != null && pointOfInterestList.Count > 0)
             {
-                var optionNumber = 1;
-                state.FoundLocations = locations.ToList();
+                state.LastFoundPointOfInterests = pointOfInterestList;
 
-                foreach (var location in locations)
+                for (int i = 0; i < pointOfInterestList.Count; i++)
                 {
-                    var imageUrl = service.GetLocationMapImageUrl(location);
-
-                    var locationCardModel = new LocationCardModelData()
-                    {
-                        ImageUrl = imageUrl,
-                        LocationName = location.Name,
-                        Address = location.Address.FormattedAddress,
-                        SpeakAddress = location.Address.AddressLine,
-                        OptionNumber = optionNumber,
-                    };
-
-                    cardData.Add(locationCardModel);
-                    optionNumber++;
+                    pointOfInterestList[i] = await service.GetPointOfInterestDetailsAsync(pointOfInterestList[i]);
+                    pointOfInterestList[i].Index = i;
                 }
 
-                if (cardData.Count() > 1)
+                if (pointOfInterestList.Count() > 1)
                 {
                     var templateId = string.Empty;
                     var cards = new List<Card>();
@@ -208,9 +183,9 @@ namespace PointOfInterestSkill.Dialogs.Shared
                         templateId = POISharedResponses.MultipleLocationsFound;
                     }
 
-                    foreach (var data in cardData)
+                    foreach (var pointOfInterest in pointOfInterestList)
                     {
-                        cards.Add(new Card("PointOfInterestViewCard", data));
+                        cards.Add(new Card("PointOfInterestViewCard", pointOfInterest));
                     }
 
                     var replyMessage = ResponseManager.GetCardResponse(templateId, cards);
@@ -218,7 +193,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 }
                 else
                 {
-                    state.ActiveLocation = state.FoundLocations.Single();
+                    state.ActiveLocation = state.LastFoundPointOfInterests.Single();
                     var templateId = string.Empty;
 
                     if (sc.ActiveDialog.Id.Equals(Action.FindAlongRoute) && state.ActiveRoute != null)
@@ -230,7 +205,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
                         templateId = POISharedResponses.SingleLocationFound;
                     }
 
-                    var card = new Card("PointOfInterestViewNoDrivingButtonCard", cardData.SingleOrDefault());
+                    var card = new Card("PointOfInterestViewCard", state.ActiveLocation);
                     var replyMessage = ResponseManager.GetCardResponse(templateId, card);
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
@@ -387,30 +362,26 @@ namespace PointOfInterestSkill.Dialogs.Shared
                         state.SearchDescriptor = entities.DESCRIPTOR[0];
                     }
 
-                    if (entities.number != null && entities.number.Length != 0)
+                    if (entities.number != null)
                     {
-                        state.LastUtteredNumber = entities.number;
+                        try
+                        {
+                            var value = entities.number[0];
+                            if (Math.Abs(value - (int)value) < double.Epsilon)
+                            {
+                                state.UserSelectIndex = (int)value - 1;
+                            }
+                        }
+                        catch
+                        {
+                            // ignored
+                        }
                     }
                 }
             }
             catch
             {
                 // put log here
-            }
-        }
-
-        protected string GetAzureMapsKey()
-        {
-            Services.Properties.TryGetValue("AzureMapsKey", out var key);
-
-            var keyStr = (string)key;
-            if (string.IsNullOrWhiteSpace(keyStr))
-            {
-                throw new Exception("Could not get the Azure Maps key. Please make sure your settings are correctly configured.");
-            }
-            else
-            {
-                return keyStr;
             }
         }
 

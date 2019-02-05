@@ -122,7 +122,6 @@
     <EmbeddedResource Include="Dialogs\Route\Resources\RouteResponses.json" />
     <EmbeddedResource Include="Dialogs\Route\Resources\RouteResponses.zh.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\PointOfInterestViewCard.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\PointOfInterestViewNoDrivingButtonCard.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\RouteDirectionsViewCard.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\RouteDirectionsViewCardNoGetStartedButton.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\POISharedResponses.de.json" />

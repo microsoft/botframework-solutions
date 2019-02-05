@@ -36,7 +36,7 @@ The `EventDebugMiddleware` component provides a workaround to this for use durin
 
 For example this message would result in an Activity being received by the Bot with a `ActivityType` of `Event`, ` Name` of `IPA.Location` and `Value` of a latitude, longitude pair
 ```
-/event:{ "Name": "IPA.Location", "Value": "34.05222222222222,-118.24277777777778" }
+/event:{ "Name": "IPA.Location", "Value": "47.639620,-122.130610" }
 ```
 This example would result in an Activity being received by the Bot with a `ActivityType` of `Event`, `Name` of `IPA.Timezone` and `Value` of `Pacific Standard Time`.
 ```
