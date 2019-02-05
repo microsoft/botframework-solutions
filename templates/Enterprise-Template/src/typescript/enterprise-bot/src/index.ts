@@ -109,7 +109,7 @@ const COSMOS_DB_STORAGE_SETTINGS: CosmosDbStorageSettings = {
     databaseId: COSMOS_CONFIG.database,
     serviceEndpoint: COSMOS_CONFIG.endpoint,
     documentCollectionRequestOptions: {},
-    databaseCreationRequestOptions: {}
+    databaseCreationRequestOptions: {},
 };
 const STORAGE: CosmosDbStorage  = new CosmosDbStorage(COSMOS_DB_STORAGE_SETTINGS);
 
