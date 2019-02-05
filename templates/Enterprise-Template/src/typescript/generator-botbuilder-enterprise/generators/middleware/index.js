@@ -72,7 +72,9 @@ module.exports = class extends Generator {
         type: "input",
         name: "middlewareName",
         message: `What's the name of your middleware?`,
-        default: this.options.middlewareName ? this.options.middlewareName : "custom"
+        default: this.options.middlewareName
+          ? this.options.middlewareName
+          : "custom"
       },
       {
         type: "confirm",
@@ -106,13 +108,17 @@ module.exports = class extends Generator {
       {
         type: "confirm",
         name: "finalConfirmation",
-        message: "Looking good. Shall I go ahead and create your new middleware?",
+        message:
+          "Looking good. Shall I go ahead and create your new middleware?",
         default: true
       }
     ];
 
     if (this.options.noPrompt) {
-      this.props = _pick(this.options, ["middlewareName", "middlewareGenerationPath"]);
+      this.props = _pick(this.options, [
+        "middlewareName",
+        "middlewareGenerationPath"
+      ]);
 
       // Validate we have what we need, or we'll need to throw
       if (!this.props.middlewareName) {
@@ -145,7 +151,10 @@ module.exports = class extends Generator {
       this.props.middlewareName = templateName;
     }
 
-    this.props.middlewareName = this.props.middlewareName.replace(/([^a-z0-9]+)/gi, "");
+    this.props.middlewareName = this.props.middlewareName.replace(
+      /([^a-z0-9]+)/gi,
+      ""
+    );
 
     var middlewareName;
     const middlewareNameFolder = this.props.middlewareName;
@@ -153,12 +162,14 @@ module.exports = class extends Generator {
       middlewareName = this.props.middlewareName;
     } else {
       middlewareName = this.props.middlewareName.concat("Middleware");
-
     }
 
     const middlewareNameCamelCase = _camelCase(middlewareName);
     const middlewareNamePascalCase = _upperFirst(_camelCase(middlewareName));
-    middlewareGenerationPath = path.join(middlewareGenerationPath, middlewareName);
+    middlewareGenerationPath = path.join(
+      middlewareGenerationPath,
+      middlewareName
+    );
 
     if (this.props.middlewareGenerationPath !== undefined) {
       middlewareGenerationPath = path.join(
@@ -179,9 +190,12 @@ module.exports = class extends Generator {
 
     this.fs.copyTpl(
       this.templatePath(templateName, "_middleware.ts"),
-      this.destinationPath(middlewareGenerationPath, `${middlewareNameCamelCase}.ts`),
+      this.destinationPath(
+        middlewareGenerationPath,
+        `${middlewareNameCamelCase}.ts`
+      ),
       {
-        middlewareNameClass: middlewareNamePascalCase,
+        middlewareNameClass: middlewareNamePascalCase
       }
     );
   }
