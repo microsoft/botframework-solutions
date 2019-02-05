@@ -9,6 +9,8 @@ namespace PointOfInterestSkill.ServiceClients
     {
         IGeoSpatialService InitMapsService(SkillConfigurationBase services, string locale = "en-us");
 
+        IGeoSpatialService InitAddressMapsService(SkillConfigurationBase services, string locale = "en-us");
+
         IGeoSpatialService InitRoutingMapsService(SkillConfigurationBase services, string locale = "en-us");
     }
 }

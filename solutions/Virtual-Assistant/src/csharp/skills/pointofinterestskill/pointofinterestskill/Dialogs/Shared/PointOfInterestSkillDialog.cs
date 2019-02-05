@@ -112,37 +112,6 @@ namespace PointOfInterestSkill.Dialogs.Shared
             }
         }
 
-        protected async Task<DialogTurnResult> GetParkingInterestPoints(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await Accessor.GetAsync(sc.Context);
-
-                var service = ServiceManager.InitMapsService(Services, sc.Context.Activity.Locale ?? "en-us");
-                var pointOfInterestList = new List<PointOfInterestModel>();
-
-                state.CheckForValidCurrentCoordinates();
-
-                // No entities identified, find nearby locations
-                pointOfInterestList = await service.GetPointOfInterestByParkingCategoryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude);
-                await GetPointOfInterestLocationViewCards(sc, pointOfInterestList);
-
-                if (pointOfInterestList?.ToList().Count == 1)
-                {
-                    return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(POISharedResponses.PromptToGetRoute, ResponseBuilder) });
-                }
-
-                state.ClearLuisResults();
-
-                return await sc.EndDialogAsync(true);
-            }
-            catch
-            {
-                await HandleDialogException(sc);
-                throw;
-            }
-        }
-
         protected async Task<DialogTurnResult> ResponseToGetRoutePrompt(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             try

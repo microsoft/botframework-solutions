@@ -36,9 +36,11 @@ namespace PointOfInterestSkill.ServiceClients
         /// <summary>
         /// Gets the point of interest by address.
         /// </summary>
+        /// <param name="latitude">The current latitude.</param>
+        /// <param name="longitude">The current longitude.</param>
         /// <param name="address">The address query.</param>
         /// <returns>The found locations.</returns>
-        Task<List<PointOfInterestModel>> GetPointOfInterestByAddressAsync(string address);
+        Task<List<PointOfInterestModel>> GetPointOfInterestByAddressAsync(double latitude, double longitude, string address);
 
         /// <summary>
         /// Gets the point of interest by coordinates.
