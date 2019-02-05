@@ -159,7 +159,7 @@ Note: update the language models for the languages that you support and feel fre
 
 ## Skill Configuration
 
-The Virtual Assistant Solution is fully integrated with all available skills out of the box. Skill configuration can be found in your appSettings.json file and is detailed further in the [Adding A Skill](./virtualassistant-addingaskill.md)documentation.
+The Virtual Assistant Solution is fully integrated with all available skills out of the box. Skill configuration can be found in your appSettings.json file and is detailed further in the [Adding A Skill](./virtualassistant-addingaskill.md) documentation.
 
 ## Skill Authentication
 
