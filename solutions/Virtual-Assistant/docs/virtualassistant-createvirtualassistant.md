@@ -203,7 +203,7 @@ az bot authsetting create --resource-group YOUR_BOT_NAME --name YOUR_BOT_NAME --
 > 3. For MacOS or Linux, enclose the client-secret in single quotes.  
 >     -  e.g. `--client-secret "!&*^|%gr%"`
 
-The final step is to update your .bot file and associated Skills (in appSettings.config) with the Authentication connection name, this is used by the Assistant to enable Authentication prompts or use of Linked Accounts.
+The final step is to update your `.bot` file and associated Skills (in appSettings.config) with the authentication connection name. This is used by the Assistant to enable authentication prompts or use of Linked Accounts.
 
 ```shell
 msbot connect generic --name "Authentication" --keys "{\"YOUR_AUTH_CONNECTION_NAME\":\"Azure Active Directory v2\"}" --bot YOURBOTFILE.bot --secret "YOUR_BOT_SECRET" --url "portal.azure.net"
@@ -219,9 +219,14 @@ $keys = ConvertTo-Json -InputObject $authKeyObject
 > Other Authentication Service Providers exist including the ability to create custom oAuth providers. `az bot authsetting list-providers` is a quick way to review the pre-configured ones.
 
 ## Testing
-Once deployment is complete, run your bot project within your development environment and open the [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator). Within the Emulator, choose Open Bot from the File menu and navigate to the .bot file in your directory which was created in the previous step. 
+Once deployment is complete, run your bot project within your development environment and open the [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator). Within the Emulator, choose Open Bot from the File menu and navigate to the .bot file in your directory which was created in the deployment step. 
 
->Ensure you have the latest emulator installed and update the development endpoint to reflect the port number that Visual Studio chooses when you start debugging otherwise you'll receive connection errors.
+> **IMPORTANT NOTES**  
+> 1. Ensure you have the latest emulator installed and update the development endpoint to reflect the port number that Visual Studio chooses when you start debugging otherwise you'll receive connection errors.  
+> 2. Ensure you have [ngrok](https://ngrok.com/download) downloaded and the path to the executable path configured correctly in the emulator for the demo to work.  
+>     - From the emulator edit the emulator settings: Gear icon bottom left of the emulator.   
+>     - Browse or enter the path to the ngrok exe. 
+>     - Enter a locale based on the language(s) deployed.
 
 You should see an Introduction Adaptive card and the example on-boarding process will start.
 
