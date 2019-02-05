@@ -82,5 +82,18 @@ namespace PointOfInterestSkillTests.API
             Assert.AreEqual(pointOfInterestList[0].Geolocation.Longitude, -73.964851379394531);
             Assert.AreEqual(pointOfInterestList[0].Category, "Park");
         }
+
+        [TestMethod]
+        public async Task GetParkingCategoryTest()
+        {
+            var service = new FoursquareGeoSpatialService();
+
+            await service.InitClientAsync(MockData.ClientId, MockData.ClientSecret, MockData.Radius, MockData.Locale, mockClient);
+
+            var pointOfInterestList = await service.GetPointOfInterestListByParkingCategoryAsync(MockData.Latitude, MockData.Longitude);
+            Assert.AreEqual(pointOfInterestList[0].Name, "Sea-Tac Airport Parking Garage");
+            Assert.AreEqual(pointOfInterestList[1].Name, "Bellevue Square Parking Garage");
+            Assert.AreEqual(pointOfInterestList[2].Name, "Sea-Tac Cell Phone Lot");
+        }
     }
 }
