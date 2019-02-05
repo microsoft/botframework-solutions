@@ -248,7 +248,12 @@ module.exports = class extends Generator {
 
     this.fs.copy(
       this.templatePath(templateName, "cognitiveModels", "LUIS", botLang, "*"),
-      this.destinationPath(botGenerationPath, "cognitiveModels", "LUIS", botLang)
+      this.destinationPath(
+        botGenerationPath,
+        "cognitiveModels",
+        "LUIS",
+        botLang
+      )
     );
 
     this.fs.copy(
@@ -259,6 +264,16 @@ module.exports = class extends Generator {
     this.fs.copy(
       this.templatePath(templateName, "deploymentScripts", botLang, "*"),
       this.destinationPath(botGenerationPath, "deploymentScripts", botLang)
+    );
+
+    this.fs.copy(
+      this.templatePath(templateName, "src", "locales", botLang + ".json"),
+      this.destinationPath(
+        botGenerationPath,
+        "src",
+        "locales",
+        botLang + ".json"
+      )
     );
 
     this.fs.copyTpl(
@@ -317,7 +332,6 @@ module.exports = class extends Generator {
     const commonDirectories = [
       "dialogs",
       "extensions",
-      "locales",
       "middleware",
       "serviceClients"
     ];
