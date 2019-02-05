@@ -15,5 +15,7 @@
         public const string CancelActiveRoute = "CancelActiveRoute";
 
         public const string GetActiveRoute = "GetActiveRoute";
+
+        public const string FindParking = "FindParking";
     }
 }
