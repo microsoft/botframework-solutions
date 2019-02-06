@@ -28,12 +28,11 @@
         "botbuilder-dialogs": "^4.2.0",
         "botframework-config": "^4.0.6",
         "botframework-schema": "^4.0.6",
-        "documentdb": "^1.10.5",
         "dotenv": "^6.0.0",
         "i18n": "^0.8.3",
+        "mocha": "^5.2.0",
         "ms-rest-azure": "^2.5.0",
-        "restify": "^7.2.1",
-        "mocha": "^5.2.0"
+        "restify": "^7.2.1"
     },
     "devDependencies": {
         "@types/documentdb": "1.10.5",
