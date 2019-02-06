@@ -23,6 +23,7 @@ To install the generator using npm:
 |-----------------------------------------------------|-------------------------------------------------|
 | [botbuilder-enterprise](generators/app/README.md)             | Generator that creates a basic sample            |
 | [botbuilder-enterprise:dialog](generators/dialog/README.md)   | Generator that creates a basic dialog            |
+| [botbuilder-enterprise:middleware](generators/middleware/README.md)   | Generator that creates a basic middleware        |
 
 ## License
 
