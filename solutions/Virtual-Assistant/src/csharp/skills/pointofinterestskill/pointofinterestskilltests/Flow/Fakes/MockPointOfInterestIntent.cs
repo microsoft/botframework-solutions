@@ -53,6 +53,13 @@ namespace PointOfInterestSkillTests.Flow.Fakes
                     this.Entities.KEYWORD = new string[] { "pharmacy" };
                     this.Intents.Add(PointOfInterest.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y, intentScore);
                     break;
+                case "find a parking garage":
+                    this.Intents.Add(PointOfInterest.Intent.NAVIGATION_FIND_PARKING, intentScore);
+                    break;
+                case "find a parking garage near 1635 11th ave":
+                    this.Entities.KEYWORD = new string[] { "1635 11th ave" };
+                    this.Intents.Add(PointOfInterest.Intent.NAVIGATION_FIND_PARKING, intentScore);
+                    break;
                 case "option 1":
                     this.Intents.Add(PointOfInterest.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y, intentScore);
                     this.Entities.number = new double[] { 1 };

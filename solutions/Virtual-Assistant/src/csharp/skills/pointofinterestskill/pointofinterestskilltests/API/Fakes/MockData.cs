@@ -12,6 +12,8 @@ namespace PointOfInterestSkillTests.API.Fakes
 
         public const string Locale = "MockLocale";
 
+        public const string Address = "MockAddress";
+
         public const int Radius = 25000;
 
         public const string Query = "MockQuery";

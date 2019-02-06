@@ -77,22 +77,22 @@ namespace PointOfInterestSkill.Dialogs.Shared
 
                 state.CheckForValidCurrentCoordinates();
 
-                if (string.IsNullOrEmpty(state.SearchText) && string.IsNullOrEmpty(state.SearchAddress))
+                if (string.IsNullOrEmpty(state.Keyword) && string.IsNullOrEmpty(state.Address))
                 {
                     // No entities identified, find nearby locations
-                    pointOfInterestList = await service.GetNearbyPointsOfInterestAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude);
+                    pointOfInterestList = await service.GetNearbyPointOfInterestListAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude);
                     await GetPointOfInterestLocationViewCards(sc, pointOfInterestList);
                 }
-                else if (!string.IsNullOrEmpty(state.SearchText))
+                else if (!string.IsNullOrEmpty(state.Keyword))
                 {
                     // Fuzzy query search with keyword
-                    pointOfInterestList = await service.GetPointOfInterestByQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.SearchText);
+                    pointOfInterestList = await service.GetPointOfInterestListByQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.Keyword);
                     await GetPointOfInterestLocationViewCards(sc, pointOfInterestList);
                 }
-                else if (!string.IsNullOrEmpty(state.SearchAddress))
+                else if (!string.IsNullOrEmpty(state.Address))
                 {
                     // Fuzzy query search with address
-                    pointOfInterestList = await service.GetPointOfInterestByQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.SearchAddress);
+                    pointOfInterestList = await service.GetPointOfInterestListByQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.Address);
                     await GetPointOfInterestLocationViewCards(sc, pointOfInterestList);
                 }
 
@@ -326,19 +326,19 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 {
                     var entities = luisResult.Entities;
 
-                    if (entities.KEYWORD != null && entities.KEYWORD.Length != 0)
+                    if (entities.KEYWORD != null)
                     {
-                        state.SearchText = string.Join(" ", entities.KEYWORD);
+                        state.Keyword = string.Join(" ", entities.KEYWORD);
                     }
 
-                    if (entities.ADDRESS != null && entities.ADDRESS.Length != 0)
+                    if (entities.ADDRESS != null)
                     {
-                        state.SearchAddress = string.Join(" ", entities.ADDRESS);
+                        state.Address = string.Join(" ", entities.ADDRESS);
                     }
 
-                    if (entities.DESCRIPTOR != null && entities.DESCRIPTOR.Length != 0)
+                    if (entities.ROUTE_TYPE != null)
                     {
-                        state.SearchDescriptor = entities.DESCRIPTOR[0];
+                        state.RouteType = entities.ROUTE_TYPE[0][0];
                     }
 
                     if (entities.number != null)

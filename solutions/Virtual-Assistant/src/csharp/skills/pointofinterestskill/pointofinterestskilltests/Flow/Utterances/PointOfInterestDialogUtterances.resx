@@ -123,6 +123,12 @@
   <data name="CancelRoute" xml:space="preserve">
     <value>cancel my route</value>
   </data>
+  <data name="FindParkingNearAddress" xml:space="preserve">
+    <value>find a parking garage near 1635 11th Ave</value>
+  </data>
+  <data name="FindParkingNearby" xml:space="preserve">
+    <value>find a parking garage</value>
+  </data>
   <data name="FindPointOfInterest" xml:space="preserve">
     <value>find a coffee shop</value>
   </data>
