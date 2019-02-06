@@ -14,12 +14,12 @@ namespace PointOfInterestSkill
             ActiveLocation = null;
             APIKey = string.Empty;
             DialogName = string.Empty;
-            SearchText = string.Empty;
-            SearchAddress = string.Empty;
+            Keyword = string.Empty;
+            Address = string.Empty;
             CurrentCoordinates = null;
             LastFoundPointOfInterests = null;
             ActiveRoute = null;
-            SearchDescriptor = string.Empty;
+            RouteType = string.Empty;
             UserSelectIndex = -1;
         }
 
@@ -39,11 +39,11 @@ namespace PointOfInterestSkill
 
         public string DialogName { get; set; }
 
-        public string SearchText { get; set; }
+        public string Keyword { get; set; }
 
-        public string SearchAddress { get; set; }
+        public string Address { get; set; }
 
-        public string SearchDescriptor { get; set; }
+        public string RouteType { get; set; }
 
         public PointOfInterestLU LuisResult { get; set; }
 
@@ -56,9 +56,9 @@ namespace PointOfInterestSkill
             ActiveLocation = null;
             APIKey = null;
             DialogName = string.Empty;
-            SearchText = string.Empty;
-            SearchAddress = string.Empty;
-            SearchDescriptor = string.Empty;
+            Keyword = string.Empty;
+            Address = string.Empty;
+            RouteType = string.Empty;
             LastFoundPointOfInterests = null;
             UserSelectIndex = -1;
         }
@@ -68,9 +68,9 @@ namespace PointOfInterestSkill
         /// </summary>
         public void ClearLuisResults()
         {
-            SearchText = string.Empty;
-            SearchAddress = string.Empty;
-            SearchDescriptor = string.Empty;
+            Keyword = string.Empty;
+            Address = string.Empty;
+            RouteType = string.Empty;
             UserSelectIndex = -1;
         }
 

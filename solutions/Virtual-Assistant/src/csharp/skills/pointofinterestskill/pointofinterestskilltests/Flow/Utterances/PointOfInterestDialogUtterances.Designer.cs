@@ -79,6 +79,24 @@ namespace PointOfInterestSkillTests.Flow.Utterances {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to find a parking garage near 1635 11th Ave.
+        /// </summary>
+        internal static string FindParkingNearAddress {
+            get {
+                return ResourceManager.GetString("FindParkingNearAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to find a parking garage.
+        /// </summary>
+        internal static string FindParkingNearby {
+            get {
+                return ResourceManager.GetString("FindParkingNearby", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to find a coffee shop.
         /// </summary>
         internal static string FindPointOfInterest {

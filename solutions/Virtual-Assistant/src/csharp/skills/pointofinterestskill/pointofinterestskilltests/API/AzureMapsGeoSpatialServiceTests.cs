@@ -29,10 +29,9 @@ namespace PointOfInterestSkillTests.API
 
             await service.InitKeyAsync(MockData.Key, MockData.Radius, MockData.Locale, mockClient);
 
-            var pointOfInterestList = await service.GetNearbyPointsOfInterestAsync(MockData.Latitude, MockData.Longitude);
+            var pointOfInterestList = await service.GetNearbyPointOfInterestListAsync(MockData.Latitude, MockData.Longitude);
             Assert.AreEqual(pointOfInterestList[0].Id, "US/POI/p1/101761");
             Assert.AreEqual(pointOfInterestList[0].Name, "Microsoft Way");
-            Assert.AreEqual(pointOfInterestList[0].City, "King");
             Assert.AreEqual(pointOfInterestList[0].Street, "157th Ave NE");
             Assert.AreEqual(pointOfInterestList[0].Geolocation.Latitude, 47.63954);
             Assert.AreEqual(pointOfInterestList[0].Geolocation.Longitude, -122.1307);
@@ -46,7 +45,7 @@ namespace PointOfInterestSkillTests.API
 
             await service.InitKeyAsync(MockData.Key, MockData.Radius, MockData.Locale, mockClient);
 
-            var pointOfInterestList = await service.GetNearbyPointsOfInterestAsync(MockData.Latitude, MockData.Longitude);
+            var pointOfInterestList = await service.GetNearbyPointOfInterestListAsync(MockData.Latitude, MockData.Longitude);
 
 
             var pointOfInterest = await service.GetPointOfInterestDetailsAsync(pointOfInterestList[0]);
@@ -60,10 +59,9 @@ namespace PointOfInterestSkillTests.API
 
             await service.InitKeyAsync(MockData.Key, MockData.Radius, MockData.Locale, mockClient);
 
-            var pointOfInterestList = await service.GetPointOfInterestByQueryAsync(MockData.Latitude, MockData.Longitude, MockData.Query);
+            var pointOfInterestList = await service.GetPointOfInterestListByQueryAsync(MockData.Latitude, MockData.Longitude, MockData.Query);
             Assert.AreEqual(pointOfInterestList[0].Id, "US/POI/p1/101761");
             Assert.AreEqual(pointOfInterestList[0].Name, "Microsoft Way");
-            Assert.AreEqual(pointOfInterestList[0].City, "King");
             Assert.AreEqual(pointOfInterestList[0].Street, "157th Ave NE");
             Assert.AreEqual(pointOfInterestList[0].Geolocation.Latitude, 47.63954);
             Assert.AreEqual(pointOfInterestList[0].Geolocation.Longitude, -122.1307);
@@ -77,9 +75,35 @@ namespace PointOfInterestSkillTests.API
 
             await service.InitKeyAsync(MockData.Key, MockData.Radius, MockData.Locale, mockClient);
 
-            var routeDirections = await service.GetRouteDirectionsAsync(MockData.Latitude, MockData.Longitude, MockData.Latitude, MockData.Longitude);
+            var routeDirections = await service.GetRouteDirectionsToDestinationAsync(MockData.Latitude, MockData.Longitude, MockData.Latitude, MockData.Longitude);
             Assert.AreEqual(routeDirections.Routes[0].Summary.LengthInMeters, 1147);
             Assert.AreEqual(routeDirections.Routes[0].Summary.TravelTimeInSeconds, 162);
+        }
+
+        [TestMethod]
+        public async Task GetAddressSearchTest()
+        {
+            var service = new AzureMapsGeoSpatialService();
+
+            await service.InitKeyAsync(MockData.Key, MockData.Radius, MockData.Locale, mockClient);
+
+            var pointOfInterestList = await service.GetPointOfInterestListByAddressAsync(MockData.Latitude, MockData.Longitude, MockData.Address);
+            Assert.AreEqual(pointOfInterestList[0].City, "Issaquah");
+            Assert.AreEqual(pointOfInterestList[1].City, "West Queen Anne, Seattle");
+            Assert.AreEqual(pointOfInterestList[2].City, "Norkirk, Kirkland");
+        }
+
+        [TestMethod]
+        public async Task GetParkingCategoryTest()
+        {
+            var service = new AzureMapsGeoSpatialService();
+
+            await service.InitKeyAsync(MockData.Key, MockData.Radius, MockData.Locale, mockClient);
+
+            var pointOfInterestList = await service.GetPointOfInterestListByParkingCategoryAsync(MockData.Latitude, MockData.Longitude);
+            Assert.AreEqual(pointOfInterestList[0].Name, "1110 Elliott Avenue West");
+            Assert.AreEqual(pointOfInterestList[1].Name, "1108 Elliott Ave W");
+            Assert.AreEqual(pointOfInterestList[2].Name, "660 Elliott Avenue West");
         }
 
 

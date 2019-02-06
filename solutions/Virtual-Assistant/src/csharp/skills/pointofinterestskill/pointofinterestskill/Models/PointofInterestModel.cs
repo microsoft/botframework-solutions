@@ -55,8 +55,8 @@ namespace PointOfInterestSkill.Models
             Name = !string.IsNullOrEmpty(azureMapsPoi.Poi?.Name)
                 ? azureMapsPoi.Poi?.Name
                 : Name;
-            City = !string.IsNullOrEmpty(azureMapsPoi.Address?.ToBingAddress()?.AdminDistrict2)
-                ? azureMapsPoi.Address?.ToBingAddress()?.AdminDistrict2
+            City = !string.IsNullOrEmpty(azureMapsPoi.Address?.MunicipalitySubdivision)
+                ? azureMapsPoi.Address.MunicipalitySubdivision
                 : City;
             Street = !string.IsNullOrEmpty(azureMapsPoi.Address?.ToBingAddress()?.AddressLine)
                 ? azureMapsPoi.Address?.ToBingAddress()?.AddressLine

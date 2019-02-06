@@ -166,6 +166,36 @@ namespace PointOfInterestSkillTests.Flow
         }
 
         /// <summary>
+        /// Find parking nearby.
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task ParkingNearbyTest()
+        {
+            await GetTestFlow()
+                .Send(PointOfInterestDialogUtterances.LocationEvent)
+                .Send(PointOfInterestDialogUtterances.FindParkingNearby)
+                .AssertReply(MultipleLocationsFound())
+                .AssertReply(CompleteDialog())
+                .StartTestAsync();
+        }
+
+        /// <summary>
+        /// Find parking nearby.
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task ParkingNearAddressTest()
+        {
+            await GetTestFlow()
+                .Send(PointOfInterestDialogUtterances.LocationEvent)
+                .Send(PointOfInterestDialogUtterances.FindParkingNearAddress)
+                .AssertReply(MultipleLocationsFound())
+                .AssertReply(CompleteDialog())
+                .StartTestAsync();
+        }
+
+        /// <summary>
         /// Asserts bot response of MultipleLocationsFound
         /// </summary>
         /// <returns></returns>

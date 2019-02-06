@@ -44,11 +44,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>CancelRouteResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\Cancel\Resources\CancelStrings.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>CancelStrings.resx</DependentUpon>
-    </Compile>
     <Compile Update="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -74,13 +69,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>POISharedResponses.tt</DependentUpon>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Dialogs\Cancel\Resources\CancelStrings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>CancelStrings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

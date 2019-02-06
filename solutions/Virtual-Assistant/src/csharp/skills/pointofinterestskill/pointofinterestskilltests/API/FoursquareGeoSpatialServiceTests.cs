@@ -28,7 +28,7 @@ namespace PointOfInterestSkillTests.API
 
             await service.InitClientAsync(MockData.ClientId, MockData.ClientSecret, MockData.Radius, MockData.Locale, mockClient);
 
-            var pointOfInterestList = await service.GetNearbyPointsOfInterestAsync(MockData.Latitude, MockData.Longitude);
+            var pointOfInterestList = await service.GetNearbyPointOfInterestListAsync(MockData.Latitude, MockData.Longitude);
 
             Assert.AreEqual(pointOfInterestList[0].Id, "412d2800f964a520df0c1fe3");
             Assert.AreEqual(pointOfInterestList[0].Name, "Central Park");
@@ -50,7 +50,7 @@ namespace PointOfInterestSkillTests.API
 
             await service.InitClientAsync(MockData.ClientId, MockData.ClientSecret, MockData.Radius, MockData.Locale, mockClient);
 
-            var pointOfInterestList = await service.GetNearbyPointsOfInterestAsync(MockData.Latitude, MockData.Longitude);
+            var pointOfInterestList = await service.GetNearbyPointOfInterestListAsync(MockData.Latitude, MockData.Longitude);
             
             var pointOfInterest = await service.GetPointOfInterestDetailsAsync(pointOfInterestList[0]); Assert.AreEqual(pointOfInterest.Id, "412d2800f964a520df0c1fe3");
 
@@ -73,7 +73,7 @@ namespace PointOfInterestSkillTests.API
 
             await service.InitClientAsync(MockData.ClientId, MockData.ClientSecret, MockData.Radius, MockData.Locale, mockClient);
 
-            var pointOfInterestList = await service.GetPointOfInterestByQueryAsync(MockData.Latitude, MockData.Longitude, MockData.Query);
+            var pointOfInterestList = await service.GetPointOfInterestListByQueryAsync(MockData.Latitude, MockData.Longitude, MockData.Query);
             Assert.AreEqual(pointOfInterestList[0].Id, "412d2800f964a520df0c1fe3");
             Assert.AreEqual(pointOfInterestList[0].Name, "Central Park");
             Assert.AreEqual(pointOfInterestList[0].City, "New York");
@@ -81,6 +81,19 @@ namespace PointOfInterestSkillTests.API
             Assert.AreEqual(pointOfInterestList[0].Geolocation.Latitude, 40.784084320068359);
             Assert.AreEqual(pointOfInterestList[0].Geolocation.Longitude, -73.964851379394531);
             Assert.AreEqual(pointOfInterestList[0].Category, "Park");
+        }
+
+        [TestMethod]
+        public async Task GetParkingCategoryTest()
+        {
+            var service = new FoursquareGeoSpatialService();
+
+            await service.InitClientAsync(MockData.ClientId, MockData.ClientSecret, MockData.Radius, MockData.Locale, mockClient);
+
+            var pointOfInterestList = await service.GetPointOfInterestListByParkingCategoryAsync(MockData.Latitude, MockData.Longitude);
+            Assert.AreEqual(pointOfInterestList[0].Name, "Sea-Tac Airport Parking Garage");
+            Assert.AreEqual(pointOfInterestList[1].Name, "Bellevue Square Parking Garage");
+            Assert.AreEqual(pointOfInterestList[2].Name, "Sea-Tac Cell Phone Lot");
         }
     }
 }

@@ -37,6 +37,13 @@ namespace PointOfInterestSkillTests.API.Fakes
             }
         }
 
+        public IGeoSpatialService InitAddressMapsService(SkillConfigurationBase services, string locale = "en-us")
+        {
+            var key = GetAzureMapsKey(services);
+
+            return new AzureMapsGeoSpatialService().InitKeyAsync(key, MockData.Radius, locale, mockClient).Result;
+        }
+
         public IGeoSpatialService InitRoutingMapsService(SkillConfigurationBase services, string locale = "en-us")
         {
             var key = GetAzureMapsKey(services);
