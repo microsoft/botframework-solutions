@@ -28,17 +28,12 @@ namespace CalendarSkillTest.Flow
                     { "calendar", new MockLuisRecognizer(new TimeRemainingUtterances()) }
                 }
             });
-
-            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.SetupCalendarService(MockCalendarService.FakeDefaultEvents());
-            serviceManager.SetupUserService(MockUserService.FakeDefaultUsers(), MockUserService.FakeDefaultPeople());
         }
 
         [TestMethod]
         public async Task Test_CalendarNextMeetingTimeRemaining()
         {
-            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.SetupCalendarService(new List<EventModel>() { MockCalendarService.CreateEventModel(startDateTime: DateTime.UtcNow.AddDays(1)) });
+            this.ServiceManager = MockServiceManager.SetMeetingsToSpecial(new List<EventModel>() { MockServiceManager.CreateEventModel(startDateTime: DateTime.UtcNow.AddDays(1)) });
             await this.GetTestFlow()
                 .Send(TimeRemainingUtterances.NextMeetingTimeRemaining)
                 .AssertReply(this.ShowAuth())

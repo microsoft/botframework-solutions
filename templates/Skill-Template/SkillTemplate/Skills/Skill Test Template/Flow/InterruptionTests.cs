@@ -17,10 +17,10 @@ namespace $safeprojectname$.Flow
         {
             await GetTestFlow()
                .Send(SampleDialogUtterances.Trigger)
-               .AssertReply(MessagePrompt())
+               .AssertReply(NamePrompt())
                .Send(GeneralUtterances.Help)
                .AssertReply(HelpResponse())
-               .AssertReply(MessagePrompt())
+               .AssertReply(NamePrompt())
                .StartTestAsync();
         }
 
@@ -29,19 +29,18 @@ namespace $safeprojectname$.Flow
         {
             await GetTestFlow()
                .Send(SampleDialogUtterances.Trigger)
-               .AssertReply(MessagePrompt())
+               .AssertReply(NamePrompt())
                .Send(GeneralUtterances.Cancel)
                .AssertReply(CancelResponse())
-               .AssertReply(ActionEndMessage())
                .StartTestAsync();
         }
 
-        private Action<IActivity> MessagePrompt()
+        private Action<IActivity> NamePrompt()
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                CollectionAssert.Contains(ParseReplies(SampleResponses.MessagePrompt.Replies, new StringDictionary()), messageActivity.Text);
+                CollectionAssert.Contains(ParseReplies(SampleResponses.NamePrompt.Replies, new StringDictionary()), messageActivity.Text);
             };
         }
 
@@ -60,14 +59,6 @@ namespace $safeprojectname$.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
                 CollectionAssert.Contains(ParseReplies(MainResponses.CancelMessage.Replies, new StringDictionary()), messageActivity.Text);
-            };
-        }
-
-        private Action<IActivity> ActionEndMessage()
-        {
-            return activity =>
-            {
-                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
             };
         }
     }

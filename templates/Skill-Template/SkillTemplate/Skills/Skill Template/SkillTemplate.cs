@@ -25,7 +25,7 @@ namespace $safeprojectname$
         private DialogSet _dialogs;
         private bool _skillMode;
 
-        public $safeprojectname$(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, ServiceManager serviceManager = null, bool skillMode = false)
+        public $safeprojectname$(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, bool skillMode = false, ServiceManager serviceManager = null)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));

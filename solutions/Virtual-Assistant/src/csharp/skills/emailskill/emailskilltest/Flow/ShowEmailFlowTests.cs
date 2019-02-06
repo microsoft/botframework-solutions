@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.DeleteEmail.Resources;
+using EmailSkill.Dialogs.FindContact.Resources;
 using EmailSkill.Dialogs.Shared.Resources;
 using EmailSkill.Dialogs.ShowEmail.Resources;
 using EmailSkill.Util;
@@ -139,6 +140,8 @@ namespace EmailSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(ContextStrings.TestRecipient)
+                .AssertReplyOneOf(this.ConfirmOneNameOneAddress())
+                .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
@@ -168,6 +171,8 @@ namespace EmailSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(ContextStrings.TestRecipient)
+                .AssertReplyOneOf(this.ConfirmOneNameOneAddress())
+                .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
@@ -291,7 +296,7 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.ShowEmailList(2, 1))
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(GeneralTestUtterances.NextPage)
-                .AssertReply(this.ShowEmailList(2, 1))
+                .AssertReply(this.ShowEmailList(2, 2))
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(GeneralTestUtterances.No)
                 .AssertReplyOneOf(this.NotShowingMessage())
@@ -315,7 +320,7 @@ namespace EmailSkillTest.Flow
                 .AssertReply(this.ShowEmailList(ConfigData.GetInstance().MaxDisplaySize))
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(GeneralTestUtterances.PreviousPage)
-                .AssertReply(this.ShowEmailList(ConfigData.GetInstance().MaxDisplaySize))
+                .AssertReply(this.ShowEmailList(ConfigData.GetInstance().MaxDisplaySize, -1))
                 .AssertReplyOneOf(this.ReadOutPrompt())
                 .Send(GeneralTestUtterances.No)
                 .AssertReplyOneOf(this.NotShowingMessage())
@@ -423,6 +428,11 @@ namespace EmailSkillTest.Flow
             return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
+        private string[] ConfirmOneNameOneAddress()
+        {
+            return this.ParseReplies(FindContactResponses.PromptOneNameOneAddress.Replies, new StringDictionary() { { "UserName", ContextStrings.TestRecipient }, { "EmailAddress", ContextStrings.TestEmailAdress } });
+        }
+
         private string[] CollectFocusedMessage()
         {
             var response = ResponseManager.GetResponseTemplate(EmailSharedResponses.NoFocusMessage);
@@ -469,6 +479,25 @@ namespace EmailSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
+                var prompt = EmailSharedResponses.ShowEmailPrompt;
+                if (page == 0)
+                {
+                    if (expectCount == 1)
+                    {
+                        prompt = EmailSharedResponses.ShowOneEmailPrompt;
+                    }
+                }
+                else
+                {
+                    if (expectCount == 1)
+                    {
+                        prompt = EmailSharedResponses.ShowOneEmailPrompt_OtherPage;
+                    }
+                    else
+                    {
+                        prompt = EmailSharedResponses.ShowEmailPrompt_OtherPage;
+                    }
+                }
                 var prompt = ResponseManager.GetResponseTemplate(EmailSharedResponses.ShowEmailPrompt);
                 if (expectCount == 1)
                 {
@@ -477,19 +506,33 @@ namespace EmailSkillTest.Flow
 
                 var totalEmails = ((MockServiceManager)this.ServiceManager).MailService.MyMessages;
                 var showEmails = new List<Message>();
-                for (int i = ConfigData.GetInstance().MaxDisplaySize * page; i < totalEmails.Count; i++)
+
+                if (page < 0)
                 {
-                    showEmails.Add(totalEmails[i]);
+                    var pagingInfo = this.ParseReplies(EmailSharedResponses.FirstPageAlready.Replies, new StringDictionary())[0];
+                    Assert.IsTrue(messageActivity.Text.StartsWith(pagingInfo));
                 }
-
-                var replies = this.ParseReplies(prompt.Replies, new StringDictionary()
+                else if (page * ConfigData.GetInstance().MaxDisplaySize > totalEmails.Count)
                 {
-                    { "TotalCount", totalEmails.Count.ToString() },
-                    { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(showEmails, TimeZoneInfo.Local, ConfigData.GetInstance().MaxReadSize) },
-                });
+                    var pagingInfo = this.ParseReplies(EmailSharedResponses.LastPageAlready.Replies, new StringDictionary())[0];
+                    Assert.IsTrue(messageActivity.Text.StartsWith(pagingInfo));
+                }
+                else
+                {
+                    for (int i = ConfigData.GetInstance().MaxDisplaySize * page; i < totalEmails.Count; i++)
+                    {
+                        showEmails.Add(totalEmails[i]);
+                    }
 
-                CollectionAssert.Contains(replies, messageActivity.Text);
-                Assert.AreEqual(messageActivity.Attachments.Count, expectCount);
+                    var replies = this.ParseReplies(prompt.Replies, new StringDictionary()
+                    {
+                        { "TotalCount", totalEmails.Count.ToString() },
+                        { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(showEmails, TimeZoneInfo.Local, ConfigData.GetInstance().MaxReadSize) },
+                    });
+
+                    CollectionAssert.Contains(replies, messageActivity.Text);
+                    Assert.AreEqual(messageActivity.Attachments.Count, expectCount);
+                }
             };
         }
 

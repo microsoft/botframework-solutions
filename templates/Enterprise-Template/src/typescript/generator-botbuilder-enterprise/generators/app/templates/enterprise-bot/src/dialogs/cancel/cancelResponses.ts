@@ -1,34 +1,40 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
-import { TurnContext } from "botbuilder";
-import { DictionaryRenderer, LanguageTemplateDictionary, TemplateFunction } from "../templateManager/dictionaryRenderer";
-import { TemplateManager } from "../templateManager/templateManager";
-import * as i18n from "i18n";
+import * as i18n from 'i18n';
+import {
+    DictionaryRenderer,
+    LanguageTemplateDictionary,
+    TemplateFunction } from '../templateManager/dictionaryRenderer';
+import { TemplateManager } from '../templateManager/templateManager';
 
 export class CancelResponses extends TemplateManager {
 
     // Fields
-    public static ResponseIds = {
-        CancelPrompt:  "cancelPrompt",
-        CancelConfirmedMessage: "cancelConfirmed",
-        CancelDeniedMessage: "cancelDenied",
-    }
+    public static RESPONSE_IDS: {
+        CancelPrompt: string;
+        CancelConfirmedMessage: string;
+        CancelDeniedMessage: string;
+    }  = {
+        CancelPrompt:  'cancelPrompt',
+        CancelConfirmedMessage: 'cancelConfirmed',
+        CancelDeniedMessage: 'cancelDenied'
+    };
 
-    private static readonly _responseTemplates: LanguageTemplateDictionary = new Map([
-        ["default", new Map([
-            [CancelResponses.ResponseIds.CancelPrompt, CancelResponses.fromResources("cancel.prompt")],
-            [CancelResponses.ResponseIds.CancelConfirmedMessage, CancelResponses.fromResources("cancel.confirmed")],
-            [CancelResponses.ResponseIds.CancelDeniedMessage, CancelResponses.fromResources("cancel.denied")],
+    private static readonly RESPONSE_TEMPLATES: LanguageTemplateDictionary = new Map([
+        ['default', new Map([
+            [CancelResponses.RESPONSE_IDS.CancelPrompt, CancelResponses.fromResources('cancel.prompt')],
+            [CancelResponses.RESPONSE_IDS.CancelConfirmedMessage, CancelResponses.fromResources('cancel.confirmed')],
+            [CancelResponses.RESPONSE_IDS.CancelDeniedMessage, CancelResponses.fromResources('cancel.denied')]
         ])]
     ]);
 
-    private static fromResources(name: string): TemplateFunction {
-        return (context: TurnContext, data: any) => Promise.resolve(i18n.__(name));
-    }
-
     constructor() {
         super();
-        this.register(new DictionaryRenderer(CancelResponses._responseTemplates));
+        this.register(new DictionaryRenderer(CancelResponses.RESPONSE_TEMPLATES));
+    }
+
+    private static fromResources(name: string): TemplateFunction {
+        return (): Promise<string> => Promise.resolve(i18n.__(name));
     }
 }

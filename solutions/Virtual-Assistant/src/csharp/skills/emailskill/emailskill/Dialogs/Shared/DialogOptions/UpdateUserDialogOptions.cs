@@ -26,6 +26,11 @@ namespace EmailSkill.Dialogs.Shared.DialogOptions
             /// The person not found.
             /// </summary>
             NotFound,
+
+            /// <summary>
+            /// Confirm no.
+            /// </summary>
+            ConfirmNo,
         }
 
         public UpdateReason Reason { get; set; }

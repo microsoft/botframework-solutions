@@ -13,6 +13,7 @@ export abstract class InterruptableDialog extends ComponentDialog {
         if (status === InterruptionStatus.Interrupted) {
             // Resume the waiting dialog after interruption.
             await dc.repromptDialog();
+
             return Dialog.EndOfTurn;
         } else if (status === InterruptionStatus.Waiting) {
             // Stack is already waiting for a response, shelve innner stack.

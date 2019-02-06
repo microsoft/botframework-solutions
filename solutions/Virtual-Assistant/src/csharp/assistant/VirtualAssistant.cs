@@ -18,7 +18,6 @@ namespace VirtualAssistant
     public class VirtualAssistant : IBot
     {
         private readonly BotServices _services;
-        private readonly BotConfiguration _botConfig;
         private readonly ConversationState _conversationState;
         private readonly UserState _userState;
         private readonly EndpointService _endpointService;
@@ -28,23 +27,21 @@ namespace VirtualAssistant
         /// <summary>
         /// Initializes a new instance of the <see cref="VirtualAssistant"/> class.
         /// </summary>
-        /// <param name="botConfig">Bot configuration.</param>
         /// <param name="botServices">Bot services.</param>
         /// <param name="conversationState">Bot conversation state.</param>
         /// <param name="userState">Bot user state.</param>
         /// <param name="endpointService">Bot endpoint service.</param>
         /// <param name="telemetryClient">Bot telemetry client.</param>
-        public VirtualAssistant(BotServices botServices, BotConfiguration botConfig, ConversationState conversationState, UserState userState, EndpointService endpointService, IBotTelemetryClient telemetryClient)
+        public VirtualAssistant(BotServices botServices, ConversationState conversationState, UserState userState, EndpointService endpointService, IBotTelemetryClient telemetryClient)
         {
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
             _services = botServices ?? throw new ArgumentNullException(nameof(botServices));
             _endpointService = endpointService ?? throw new ArgumentNullException(nameof(endpointService));
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
-            _botConfig = botConfig;
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(VirtualAssistant)));
-            _dialogs.Add(new MainDialog(_services, _botConfig, _conversationState, _userState, _endpointService, _telemetryClient));
+            _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _endpointService, _telemetryClient));
         }
 
         /// <summary>

@@ -136,5 +136,10 @@ namespace CalendarSkillTest.Flow.Fakes
 
             return await Task.FromResult(items);
         }
+
+        public Task<PersonModel> GetMe()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

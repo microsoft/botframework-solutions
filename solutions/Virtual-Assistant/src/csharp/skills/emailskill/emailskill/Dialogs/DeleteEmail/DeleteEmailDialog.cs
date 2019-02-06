@@ -37,6 +37,7 @@ namespace EmailSkill.Dialogs.DeleteEmail
                 IfClearContextStep,
                 GetAuthToken,
                 AfterGetAuthToken,
+                SetDisplayConfig,
                 CollectSelectedEmail,
                 AfterCollectSelectedEmail,
                 PromptToDelete,

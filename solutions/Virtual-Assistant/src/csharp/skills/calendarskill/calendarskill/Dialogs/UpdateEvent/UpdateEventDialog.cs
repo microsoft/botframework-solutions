@@ -173,7 +173,15 @@ namespace CalendarSkill.Dialogs.UpdateEvent
                     await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.ActionEnded));
                 }
 
-                state.Clear();
+                if (state.IsActionFromSummary)
+                {
+                    state.ClearUpdateEventInfo();
+                }
+                else
+                {
+                    state.Clear();
+                }
+
                 return await sc.EndDialogAsync(true);
             }
             catch (SkillException ex)
@@ -193,7 +201,7 @@ namespace CalendarSkill.Dialogs.UpdateEvent
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                if (state.StartDate.Any() || state.StartTime.Any() || state.MoveTimeSpan != 0)
+                if (state.NewStartDate.Any() || state.NewStartTime.Any() || state.MoveTimeSpan != 0)
                 {
                     return await sc.ContinueDialogAsync();
                 }
@@ -216,22 +224,22 @@ namespace CalendarSkill.Dialogs.UpdateEvent
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                if (state.StartDate.Any() || state.StartTime.Any() || state.MoveTimeSpan != 0)
+                if (state.NewStartDate.Any() || state.NewStartTime.Any() || state.MoveTimeSpan != 0)
                 {
                     var originalEvent = state.Events[0];
                     var originalStartDateTime = TimeConverter.ConvertUtcToUserTime(originalEvent.StartTime, state.GetUserTimeZone());
                     var userNow = TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, state.GetUserTimeZone());
 
-                    if (state.StartDate.Any() || state.StartTime.Any())
+                    if (state.NewStartDate.Any() || state.NewStartTime.Any())
                     {
-                        var newStartDate = state.StartDate.Any() ?
-                            state.StartDate.Last() :
+                        var newStartDate = state.NewStartDate.Any() ?
+                            state.NewStartDate.Last() :
                             originalStartDateTime;
 
                         var newStartTime = new List<DateTime>();
-                        if (state.StartTime.Any())
+                        if (state.NewStartTime.Any())
                         {
-                            foreach (var time in state.StartTime)
+                            foreach (var time in state.NewStartTime)
                             {
                                 var newStartDateTime = new DateTime(
                                     newStartDate.Year,

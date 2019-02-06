@@ -14,6 +14,15 @@ namespace ToDoSkill.ServiceClients
     public interface ITaskService
     {
         /// <summary>
+        /// Gets or sets a value indicating whether the task list is created or not.
+        /// </summary>
+        /// <returns>the bool value.</returns>
+        /// <value>
+        /// A value indicating whether the task list is created or not.
+        /// </value>
+        bool IsListCreated { get; set; }
+
+        /// <summary>
         /// Get tasks.
         /// </summary>
         /// <param name="listType">Task list type.</param>

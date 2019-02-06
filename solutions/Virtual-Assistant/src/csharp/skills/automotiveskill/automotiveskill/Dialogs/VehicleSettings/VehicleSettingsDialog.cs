@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
@@ -27,6 +28,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
 {
     public class VehicleSettingsDialog : AutomotiveSkillDialog
     {
+        private const string FallbackSettingImageFileName = "Black_Car.png";
         private static readonly Regex WordRequiresAn = new Regex("^([aio]|e(?!u)|u(?![^aeoiu])).*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex WordCharacter = new Regex("^\\w", RegexOptions.Compiled);
         private static readonly IReadOnlyDictionary<string, string> SettingValueToSpeakableIngForm = new Dictionary<string, string>
@@ -95,7 +97,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
         /// <returns>Dialog Turn Result.</returns>
         public async Task<DialogTurnResult> ProcessSetting(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await Accessor.GetAsync(sc.Context, () => new AutomotiveSkillState());
 
             // Ensure we don't have state from a previous instantiation
             state.Changes.Clear();
@@ -172,15 +174,22 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                             options.Choices.Add(choice);
                         }
 
-                        var card = new HeroCard
+                        BotResponse settingNamePrompt = VehicleSettingsResponses.VehicleSettingsSettingNameSelection;
+                        options.Prompt = sc.Context.Activity.CreateReply(settingNamePrompt, ResponseBuilder);
+
+                        var card = new ThumbnailCard
                         {
-                            Images = new List<CardImage> { new CardImage(GetSettingCardImageUri("settingcog.jpg")) },
+                            Images = new List<CardImage> { new CardImage(GetSettingCardImageUri(FallbackSettingImageFileName)) },
                             Text = "Please choose from one of the available settings shown below",
                             Buttons = options.Choices.Select(choice =>
                                 new CardAction(ActionTypes.ImBack, choice.Value, value: choice.Value)).ToList(),
                         };
 
-                        options.Prompt = (Activity)MessageFactory.Attachment(card.ToAttachment());
+                        options.Prompt.Attachments.Add(card.ToAttachment());
+
+                        // Default Text property is clumsy for speech
+                        var speakOptions = options.Choices.Select(choice => choice.Value.ToString()).ToList();
+                        options.Prompt.Speak = $"{options.Prompt.Text} {string.Join(",", speakOptions)}";
 
                         return await sc.PromptAsync(Actions.SettingNameSelectionPrompt, options);
                     }
@@ -212,7 +221,10 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
 
             if (promptContext.Recognized != null && promptContext.Recognized.Succeeded)
             {
-                var userChoice = promptContext.Recognized.Value.Value;
+                // The response from the user might be the exact setting name or more likely something like "first one" or "last one" so we need to ensure the activity text (used by the LUIS recognizer) is correct
+                // No way to identify this situation so we override
+                string settingChoice = promptContext.Recognized.Value.Value;
+                promptContext.Context.Activity.Text = settingChoice;
 
                 // Use the value selection LUIS model to perform validation of the users entered setting value
                 var nameSelectionResult = await vehicleSettingNameSelectionLuisRecognizer.RecognizeAsync<VehicleSettingsNameSelection>(promptContext.Context, CancellationToken.None);
@@ -265,7 +277,11 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                     // We have found multiple settings which we need to prompt the user to resolve
                     if (settingValues.Count() > 1)
                     {
-                        var settingName = state.Changes.First().SettingName;
+                        string settingName = state.Changes.First().SettingName;
+                        var setting = this.settingList.FindSetting(settingName);
+
+                        // If a category image filename is provided we'll use it otherwise fall back to the generic car one
+                        string imageName = setting.CategoryImageFileName ?? FallbackSettingImageFileName;
 
                         // If we have more than one setting name matching prompt the user to choose
                         var options = new PromptOptions()
@@ -286,21 +302,20 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
 
                         var promptReplacements = new StringDictionary { { "settingName", settingName } };
 
-                        var response = ResponseManager.GetResponse(
-                            VehicleSettingsResponses.VehicleSettingsSettingValueSelectionPre,
-                            promptReplacements);
-
-                        options.Prompt = response;
-
-                        var card = new HeroCard
+                        var card = new ThumbnailCard
                         {
-                            Images = new List<CardImage> { new CardImage(GetSettingCardImageUri("settingcog.jpg")) },
-                            Text = options.Prompt.Text,
+                            Title = options.Prompt.Text,
+                            Text = VehicleSettingsResponses.WhichSettingValue.Reply.Text,
+                            Images = new List<CardImage> { new CardImage(GetSettingCardImageUri(imageName)) },
                             Buttons = options.Choices.Select(choice =>
                                 new CardAction(ActionTypes.ImBack, choice.Value, value: choice.Value)).ToList(),
                         };
 
                         options.Prompt.Attachments.Add(card.ToAttachment());
+
+                        // Default Text property is clumsy for speech
+                        var speakOptions = options.Choices.Select(choice => choice.Value.ToString()).ToList();
+                        options.Prompt.Speak = $"{options.Prompt.Text} {string.Join(",", speakOptions)}";
 
                         return await sc.PromptAsync(Actions.SettingValueSelectionPrompt, options);
                     }
@@ -331,6 +346,11 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
 
             if (promptContext.Recognized != null && promptContext.Recognized.Succeeded)
             {
+                // The response from the user might be the exact setting name or more likely something like "first one" or "last one" so we need to ensure the activity text (used by the LUIS recognizer) is correct
+                // No way to identify this situation so we override
+                string valueChoice = promptContext.Recognized.Value.Value;
+                promptContext.Context.Activity.Text = valueChoice;
+
                 // Use the value selection LUIS model to perform validation of the users entered setting value
                 var valueSelectionResult = await vehicleSettingValueSelectionLuisRecognizer.RecognizeAsync<VehicleSettingsValueSelection>(promptContext.Context, CancellationToken.None);
 
@@ -344,9 +364,14 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                     valueEntities.AddRange(valueSelectionResult.Entities.SETTING);
                 }
 
-                settingFilter.ApplySelectionToSettingValues(state, valueEntities);
+                var selectedValue = settingFilter.ApplySelectionToSettingValues(state, valueEntities);
 
-                return true;
+                // We identified a setting value, proceed
+                if (selectedValue != null)
+                {
+                    state.Changes = selectedValue;
+                    return true;
+                }
             }
 
             return false;
@@ -382,10 +407,10 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                                     { "value", change.Value },
                         };
 
-                        if (availableSetting != null && availableSetting.Categories != null && availableSetting.Categories.Any())
+                        if (availableSetting != null && !string.IsNullOrEmpty(availableSetting.Category))
                         {
                             promptTemplate = VehicleSettingsResponses.VehicleSettingsSettingChangeConfirmationWithCategory;
-                            promptReplacements.Add("category", availableSetting.Categories[0]);
+                            promptReplacements.Add("category", availableSetting.Category);
                             if (WordRequiresAn.Match(promptReplacements["category"]).Success)
                             {
                                 promptReplacements.Add("aOrAnBeforeCategory", "an");
@@ -536,8 +561,27 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
 
         private string GetSettingCardImageUri(string imagePath)
         {
-            var serverUrl = _httpContext.HttpContext.Request.Scheme + "://" + _httpContext.HttpContext.Request.Host.Value;
-            return $"{serverUrl}/images/{imagePath}";
+            // If we are in local mode we leverage the HttpContext to get the current path to the image assets
+            if (_httpContext != null)
+            {
+                string serverUrl = _httpContext.HttpContext.Request.Scheme + "://" + _httpContext.HttpContext.Request.Host.Value;
+                return $"{serverUrl}/images/{imagePath}";
+            }
+            else
+            {
+                // In skill-mode we don't have HttpContext and require skills to provide their own storage for assets
+                Services.Properties.TryGetValue("ImageAssetLocation", out var imageUri);
+
+                var imageUriStr = (string)imageUri;
+                if (string.IsNullOrWhiteSpace(imageUriStr))
+                {
+                    throw new Exception("ImageAssetLocation Uri not configured on the skill.");
+                }
+                else
+                {
+                    return $"{imageUriStr}/{imagePath}";
+                }
+            }
         }
     }
 }

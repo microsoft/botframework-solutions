@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Responses;
@@ -32,53 +32,86 @@ namespace ToDoSkill.Dialogs.ShowToDo
         {
             TelemetryClient = telemetryClient;
 
-            var showToDoTasks = new WaterfallStep[]
+            var showTasks = new WaterfallStep[]
             {
                 GetAuthToken,
                 AfterGetAuthToken,
                 ClearContext,
-                ShowToDoTasks,
-                AddFirstTask,
+                DoShowTasks,
             };
 
-            var addFirstTask = new WaterfallStep[]
+            var doShowTasks = new WaterfallStep[]
             {
-                CollectAddFirstTaskConfirmation,
-                CollectToDoTaskContent,
-                CollectSwitchListTypeConfirmation,
-                AddToDoTask,
+                ShowTasks,
+                FirstReadMoreTasks,
+                SecondReadMoreTasks,
+                CollectGoBackToStartConfirmation,
             };
 
-            var collectAddFirstTaskConfirmation = new WaterfallStep[]
+            var firstReadMoreTasks = new WaterfallStep[]
             {
-                AskAddFirstTaskConfirmation,
-                AfterAskAddFirstTaskConfirmation,
+                CollectFirstReadMoreConfirmation,
+                FirstReadMore,
             };
 
-            var collectToDoTaskContent = new WaterfallStep[]
+            var secondReadMoreTasks = new WaterfallStep[]
             {
-                AskToDoTaskContent,
-                AfterAskToDoTaskContent,
+                CollectSecondReadMoreConfirmation,
+                SecondReadMore,
             };
 
-            var collectSwitchListTypeConfirmation = new WaterfallStep[]
+            var collectFirstReadMoreConfirmation = new WaterfallStep[]
             {
-                AskSwitchListTypeConfirmation,
-                AfterAskSwitchListTypeConfirmation,
+                AskFirstReadMoreConfirmation,
+                AfterAskFirstReadMoreConfirmation,
+            };
+
+            var collectSecondReadMoreConfirmation = new WaterfallStep[]
+            {
+                AskSecondReadMoreConfirmation,
+                AfterAskSecondReadMoreConfirmation,
+            };
+
+            var collectGoBackToStartConfirmation = new WaterfallStep[]
+            {
+                AskGoBackToStartConfirmation,
+                AfterAskGoBackToStartConfirmation,
+            };
+
+            var collectRepeatFirstPageConfirmation = new WaterfallStep[]
+            {
+                AskRepeatFirstPageConfirmation,
+                AfterAskRepeatFirstPageConfirmation,
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Action.ShowToDoTasks, showToDoTasks) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Action.AddFirstTask, addFirstTask) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Action.CollectAddFirstTaskConfirmation, collectAddFirstTaskConfirmation) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Action.CollectToDoTaskContent, collectToDoTaskContent) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Action.CollectSwitchListTypeConfirmation, collectSwitchListTypeConfirmation) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Action.ShowTasks, showTasks) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Action.DoShowTasks, doShowTasks) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Action.FirstReadMoreTasks, firstReadMoreTasks) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Action.SecondReadMoreTasks, secondReadMoreTasks) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Action.CollectFirstReadMoreConfirmation, collectFirstReadMoreConfirmation) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Action.CollectSecondReadMoreConfirmation, collectSecondReadMoreConfirmation) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Action.CollectGoBackToStartConfirmation, collectGoBackToStartConfirmation) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Action.CollectRepeatFirstPageConfirmation, collectRepeatFirstPageConfirmation) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
-            InitialDialogId = Action.ShowToDoTasks;
+            InitialDialogId = Action.ShowTasks;
         }
 
-        public async Task<DialogTurnResult> ShowToDoTasks(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> DoShowTasks(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                return await sc.BeginDialogAsync(Action.DoShowTasks);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> ShowTasks(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -98,60 +131,83 @@ namespace ToDoSkill.Dialogs.ShowToDo
                 var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
                 if (state.Tasks.Count <= 0)
                 {
-                    return await sc.NextAsync();
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ShowToDoResponses.NoTasksMessage, tokens: new StringDictionary() { { "listType", state.ListType } }));
+                    return await sc.EndDialogAsync(true);
                 }
                 else
                 {
-                    Attachment toDoListAttachment = null;
-                    if (topIntent == ToDo.Intent.ShowToDo)
+                    var cardReply = sc.Context.Activity.CreateReply();
+
+                    if (topIntent == ToDo.Intent.ShowToDo || state.GoBackToStart)
                     {
-                        toDoListAttachment = ToAdaptiveCardForShowToDos(
+                        var toDoListAttachment = ToAdaptiveCardForShowToDos(
                             state.Tasks,
-                            Math.Min(state.Tasks.Count, state.ReadSize),
                             state.AllTasks.Count,
+                            state.ReadSize,
                             state.ListType);
+
+                        cardReply.Attachments.Add(toDoListAttachment);
+
+                        if (state.Tasks.Count <= state.ReadSize)
+                        {
+                            cardReply.InputHint = InputHints.AcceptingInput;
+                        }
+                        else
+                        {
+                            cardReply.InputHint = InputHints.IgnoringInput;
+                        }
                     }
                     else if (generalTopIntent == General.Intent.Next)
                     {
-                        toDoListAttachment = ToAdaptiveCardForNextPage(
-                            state.Tasks,
-                            Math.Min(state.Tasks.Count, state.ReadSize));
-                    }
-                    else if (generalTopIntent == General.Intent.Previous)
-                    {
-                        toDoListAttachment = ToAdaptiveCardForPreviousPage(
-                            state.Tasks,
-                            Math.Min(state.Tasks.Count, state.ReadSize));
-                    }
-                    else if (generalTopIntent == General.Intent.ReadMore)
-                    {
-                        if (state.ReadTaskIndex == 0)
+                        if (state.IsLastPage)
                         {
-                            toDoListAttachment = ToAdaptiveCardForNextPage(
-                            state.Tasks,
-                            Math.Min(state.Tasks.Count, state.ReadSize));
+                            return await sc.ReplaceDialogAsync(Action.CollectGoBackToStartConfirmation);
                         }
                         else
                         {
                             var remainingTasksCount = state.Tasks.Count - (state.ReadTaskIndex * state.ReadSize);
-                            toDoListAttachment = ToAdaptiveCardForReadMore(
+                            var toDoListAttachment = ToAdaptiveCardForReadMore(
                                 state.Tasks,
                                 state.ReadTaskIndex * state.ReadSize,
                                 Math.Min(remainingTasksCount, state.ReadSize),
                                 state.AllTasks.Count,
                                 state.ListType);
+
+                            cardReply.Attachments.Add(toDoListAttachment);
+                            cardReply.InputHint = InputHints.AcceptingInput;
+                        }
+                    }
+                    else if (generalTopIntent == General.Intent.Previous)
+                    {
+                        if (state.IsFirstPage)
+                        {
+                            return await sc.ReplaceDialogAsync(Action.CollectRepeatFirstPageConfirmation);
+                        }
+                        else
+                        {
+                            var toDoListAttachment = ToAdaptiveCardForPreviousPage(
+                                state.Tasks,
+                                state.ReadSize,
+                                state.AllTasks.Count,
+                                state.ListType);
+
+                            cardReply.Attachments.Add(toDoListAttachment);
+                            cardReply.InputHint = InputHints.AcceptingInput;
                         }
                     }
 
-                    var toDoListReply = sc.Context.Activity.CreateReply();
-                    toDoListReply.Attachments.Add(toDoListAttachment);
-                    await sc.Context.SendActivityAsync(toDoListReply);
-                    if (topIntent == ToDo.Intent.ShowToDo && allTasksCount > (state.ShowTaskPageIndex + 1) * state.PageSize)
-                    {
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ShowToDoResponses.ShowingMoreTasks));
-                    }
+                    await sc.Context.SendActivityAsync(cardReply);
 
-                    return await sc.EndDialogAsync(true);
+                    if ((topIntent == ToDo.Intent.ShowToDo || state.GoBackToStart) && state.Tasks.Count > state.ReadSize)
+                    {
+                        state.GoBackToStart = false;
+                        return await sc.NextAsync();
+                    }
+                    else
+                    {
+                        state.GoBackToStart = false;
+                        return await sc.EndDialogAsync(true);
+                    }
                 }
             }
             catch (SkillException ex)
@@ -166,11 +222,11 @@ namespace ToDoSkill.Dialogs.ShowToDo
             }
         }
 
-        public async Task<DialogTurnResult> AddFirstTask(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> FirstReadMoreTasks(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                return await sc.BeginDialogAsync(Action.AddFirstTask);
+                return await sc.BeginDialogAsync(Action.FirstReadMoreTasks);
             }
             catch (Exception ex)
             {
@@ -179,11 +235,11 @@ namespace ToDoSkill.Dialogs.ShowToDo
             }
         }
 
-        public async Task<DialogTurnResult> CollectAddFirstTaskConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> CollectFirstReadMoreConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                return await sc.BeginDialogAsync(Action.CollectAddFirstTaskConfirmation);
+                return await sc.BeginDialogAsync(Action.CollectFirstReadMoreConfirmation);
             }
             catch (Exception ex)
             {
@@ -192,12 +248,15 @@ namespace ToDoSkill.Dialogs.ShowToDo
             }
         }
 
-        public async Task<DialogTurnResult> AskAddFirstTaskConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> AskFirstReadMoreConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
                 var prompt = ResponseManager.GetResponse(ShowToDoResponses.NoToDoTasksPrompt);
                 return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
+                var prompt = sc.Context.Activity.CreateReply(ShowToDoResponses.ReadMoreTasksPrompt);
+                var retryPrompt = sc.Context.Activity.CreateReply(ShowToDoResponses.ReadMoreTasksConfirmFailed);
+                return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
             {
@@ -206,41 +265,264 @@ namespace ToDoSkill.Dialogs.ShowToDo
             }
         }
 
-        public async Task<DialogTurnResult> AfterAskAddFirstTaskConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> AfterAskFirstReadMoreConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                var state = await ToDoStateAccessor.GetAsync(sc.Context);
-                var topIntent = state.GeneralLuisResult?.TopIntent().intent;
-
-                sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
-                var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
-
-                if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
+                var confirmResult = (bool)sc.Result;
+                if (confirmResult)
                 {
-                    state.TaskContentPattern = null;
-                    state.TaskContentML = null;
-                    state.TaskContent = null;
-                    state.FoodOfGrocery = null;
-                    state.ShopContent = null;
-                    state.HasShopVerb = false;
-                    return await sc.NextAsync();
-                }
-                else if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
-                {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ActionEnded));
                     return await sc.EndDialogAsync(true);
                 }
                 else
                 {
-                    return await sc.BeginDialogAsync(Action.CollectAddFirstTaskConfirmation);
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ShowToDoResponses.InstructionMessage));
+                    return await sc.CancelAllDialogsAsync();
                 }
             }
             catch (Exception ex)
             {
                 await HandleDialogExceptions(sc, ex);
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> FirstReadMore(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await ToDoStateAccessor.GetAsync(sc.Context);
+
+            state.ReadTaskIndex++;
+            var remainingTasksCount = state.Tasks.Count - (state.ReadTaskIndex * state.ReadSize);
+            var toDoListAttachment = ToAdaptiveCardForReadMore(
+                    state.Tasks,
+                    state.ReadTaskIndex * state.ReadSize,
+                    Math.Min(remainingTasksCount, state.ReadSize),
+                    state.AllTasks.Count,
+                    state.ListType);
+
+            var cardReply = sc.Context.Activity.CreateReply();
+            cardReply.Attachments.Add(toDoListAttachment);
+
+            if ((state.ShowTaskPageIndex + 1) * state.PageSize < state.AllTasks.Count)
+            {
+                cardReply.InputHint = InputHints.IgnoringInput;
+                await sc.Context.SendActivityAsync(cardReply);
+                return await sc.EndDialogAsync(true);
+            }
+            else
+            {
+                cardReply.InputHint = InputHints.AcceptingInput;
+                await sc.Context.SendActivityAsync(cardReply);
+                return await sc.CancelAllDialogsAsync();
+            }
+        }
+
+        public async Task<DialogTurnResult> SecondReadMoreTasks(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                return await sc.BeginDialogAsync(Action.SecondReadMoreTasks);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> CollectSecondReadMoreConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                return await sc.BeginDialogAsync(Action.CollectSecondReadMoreConfirmation);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> AskSecondReadMoreConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var prompt = sc.Context.Activity.CreateReply(ShowToDoResponses.ReadMoreTasksPrompt);
+                var retryPrompt = sc.Context.Activity.CreateReply(ShowToDoResponses.ReadMoreTasksConfirmFailed);
+                return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> AfterAskSecondReadMoreConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var confirmResult = (bool)sc.Result;
+                if (confirmResult)
+                {
+                    return await sc.EndDialogAsync(true);
+                }
+                else
+                {
+                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ActionEnded));
+                    return await sc.CancelAllDialogsAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> SecondReadMore(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await ToDoStateAccessor.GetAsync(sc.Context);
+
+            if ((state.ReadTaskIndex + 1) * state.ReadSize < state.Tasks.Count)
+            {
+                state.ReadTaskIndex++;
+            }
+            else
+            {
+                // Go to next page if having more pages.
+                state.ReadTaskIndex = 0;
+                if ((state.ShowTaskPageIndex + 1) * state.PageSize < state.AllTasks.Count)
+                {
+                    state.ShowTaskPageIndex++;
+                }
+            }
+
+            var allTasksCount = state.AllTasks.Count;
+            var currentTaskIndex = state.ShowTaskPageIndex * state.PageSize;
+            state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));
+
+            var remainingTasksCount = state.Tasks.Count - (state.ReadTaskIndex * state.ReadSize);
+            var toDoListAttachment = ToAdaptiveCardForReadMore(
+                    state.Tasks,
+                    state.ReadTaskIndex * state.ReadSize,
+                    Math.Min(remainingTasksCount, state.ReadSize),
+                    state.AllTasks.Count,
+                    state.ListType);
+
+            var cardReply = sc.Context.Activity.CreateReply();
+            cardReply.Attachments.Add(toDoListAttachment);
+
+            if ((state.ReadTaskIndex + 1) * state.ReadSize < state.Tasks.Count
+                || (state.ShowTaskPageIndex + 1) * state.PageSize < state.AllTasks.Count)
+            {
+                cardReply.InputHint = InputHints.IgnoringInput;
+                await sc.Context.SendActivityAsync(cardReply);
+                return await sc.ReplaceDialogAsync(Action.SecondReadMoreTasks);
+            }
+            else
+            {
+                cardReply.InputHint = InputHints.AcceptingInput;
+                await sc.Context.SendActivityAsync(cardReply);
+                return await sc.EndDialogAsync(true);
+            }
+        }
+
+        public async Task<DialogTurnResult> CollectGoBackToStartConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                return await sc.BeginDialogAsync(Action.CollectGoBackToStartConfirmation);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> AskGoBackToStartConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
+                var token = new StringDictionary() { { "listType", state.ListType } };
+                var prompt = sc.Context.Activity.CreateReply(ShowToDoResponses.GoBackToStartPrompt, tokens: token);
+                var retryPrompt = sc.Context.Activity.CreateReply(ShowToDoResponses.GoBackToStartConfirmFailed);
+                return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> AfterAskGoBackToStartConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await ToDoStateAccessor.GetAsync(sc.Context);
+            var confirmResult = (bool)sc.Result;
+            if (confirmResult)
+            {
+                state.ShowTaskPageIndex = 0;
+                state.ReadTaskIndex = 0;
+                state.GoBackToStart = true;
+                return await sc.ReplaceDialogAsync(Action.DoShowTasks);
+            }
+            else
+            {
+                state.GoBackToStart = false;
+                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ActionEnded));
+                return await sc.EndDialogAsync(true);
+            }
+        }
+
+        public async Task<DialogTurnResult> CollectRepeatFirstPageConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                return await sc.BeginDialogAsync(Action.CollectGoBackToStartConfirmation);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> AskRepeatFirstPageConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
+                var token = new StringDictionary() { { "listType", state.ListType } };
+                var prompt = sc.Context.Activity.CreateReply(ShowToDoResponses.RepeatFirstPagePrompt, tokens: token);
+                var retryPrompt = sc.Context.Activity.CreateReply(ShowToDoResponses.RepeatFirstPageConfirmFailed);
+                return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> AfterAskRepeatFirstPageConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await ToDoStateAccessor.GetAsync(sc.Context);
+            var confirmResult = (bool)sc.Result;
+            if (confirmResult)
+            {
+                state.ShowTaskPageIndex = 0;
+                state.ReadTaskIndex = 0;
+                state.GoBackToStart = true;
+                return await sc.ReplaceDialogAsync(Action.DoShowTasks);
+            }
+            else
+            {
+                state.GoBackToStart = false;
+                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ActionEnded));
+                return await sc.EndDialogAsync(true);
             }
         }
     }

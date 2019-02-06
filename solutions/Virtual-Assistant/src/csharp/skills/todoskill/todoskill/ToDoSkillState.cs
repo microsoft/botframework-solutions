@@ -37,6 +37,11 @@ namespace ToDoSkill
             TaskContent = null;
             SwitchListType = false;
             TaskServiceType = ProviderTypes.Other;
+            AddDupTask = false;
+            UserStateId = null;
+            IsFirstPage = false;
+            IsLastPage = false;
+            GoBackToStart = false;
         }
 
         /// <summary>
@@ -232,6 +237,46 @@ namespace ToDoSkill
         public ProviderTypes TaskServiceType { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether gets or sets AddDupTask.
+        /// </summary>
+        /// <value>
+        /// bool.
+        /// </value>
+        public bool AddDupTask { get; set; }
+
+        /// <summary>
+        /// Gets or sets UserStateId.
+        /// </summary>
+        /// <value>
+        /// UserStateId.
+        /// </value>
+        public string UserStateId { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether gets or sets IsFirstPage.
+        /// </summary>
+        /// <value>
+        /// bool.
+        /// </value>
+        public bool IsFirstPage { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether gets or sets IsLastPage.
+        /// </summary>
+        /// <value>
+        /// bool.
+        /// </value>
+        public bool IsLastPage { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether gets or sets GoBackToStart.
+        /// </summary>
+        /// <value>
+        /// bool.
+        /// </value>
+        public bool GoBackToStart { get; set; }
+
+        /// <summary>
         /// Clear state.
         /// </summary>
         public void Clear()
@@ -259,6 +304,11 @@ namespace ToDoSkill
             TaskContent = null;
             SwitchListType = false;
             TaskServiceType = ProviderTypes.Other;
+            AddDupTask = false;
+            UserStateId = null;
+            IsFirstPage = false;
+            IsLastPage = false;
+            GoBackToStart = false;
         }
     }
 }

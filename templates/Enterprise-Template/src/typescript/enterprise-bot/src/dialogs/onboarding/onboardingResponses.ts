@@ -3,13 +3,23 @@
 
 import { TurnContext } from 'botbuilder';
 import * as i18n from 'i18n';
-import { DictionaryRenderer, LanguageTemplateDictionary, TemplateFunction } from '../templateManager/dictionaryRenderer';
+import {
+    DictionaryRenderer,
+    LanguageTemplateDictionary,
+    TemplateFunction } from '../templateManager/dictionaryRenderer';
 import { TemplateManager } from '../templateManager/templateManager';
 
 export class OnboardingResponses extends TemplateManager {
 
    // Fields
-   public static ResponseIds = {
+   public static RESPONSE_IDS: {
+    EmailPrompt: string;
+    HaveEmailMessage: string;
+    HaveNameMessage: string;
+    HaveLocationMessage: string;
+    LocationPrompt: string;
+    NamePrompt: string;
+    } = {
         EmailPrompt:  'emailPrompt',
         HaveEmailMessage: 'haveEmail',
         HaveNameMessage: 'haveName',
@@ -18,32 +28,39 @@ export class OnboardingResponses extends TemplateManager {
         NamePrompt: 'namePrompt'
     };
 
-    private static readonly _responseTemplates: LanguageTemplateDictionary = new Map([
+    private static readonly RESPONSE_TEMPLATES: LanguageTemplateDictionary = new Map([
         ['default', new Map([
-            [OnboardingResponses.ResponseIds.NamePrompt, OnboardingResponses.fromResources('onBoarding.namePrompt')],
-            [OnboardingResponses.ResponseIds.HaveNameMessage, async (context: TurnContext, data: any) => {
-                const value = i18n.__('onBoarding.haveName');
+            [OnboardingResponses.RESPONSE_IDS.NamePrompt, OnboardingResponses.fromResources('onBoarding.namePrompt')],
+            // tslint:disable-next-line:no-any
+            [OnboardingResponses.RESPONSE_IDS.HaveNameMessage, async (context: TurnContext, data: any): Promise<string> => {
+                const value: string = i18n.__('onBoarding.haveName');
+
                 return value.replace('{0}', data.name);
             }],
-            [OnboardingResponses.ResponseIds.EmailPrompt, OnboardingResponses.fromResources('onBoarding.emailPrompt')],
-            [OnboardingResponses.ResponseIds.HaveEmailMessage, async (context: TurnContext, data: any) => {
-                const value = i18n.__('onBoarding.haveEmail');
+            [OnboardingResponses.RESPONSE_IDS.EmailPrompt, OnboardingResponses.fromResources('onBoarding.emailPrompt')],
+            // tslint:disable-next-line:no-any
+            [OnboardingResponses.RESPONSE_IDS.HaveEmailMessage, async (context: TurnContext, data: any): Promise<string> => {
+                const value: string = i18n.__('onBoarding.haveEmail');
+
                 return value.replace('{0}', data.email);
             }],
-            [OnboardingResponses.ResponseIds.LocationPrompt, OnboardingResponses.fromResources('onBoarding.locationPrompt')],
-            [OnboardingResponses.ResponseIds.HaveLocationMessage, async (context: TurnContext, data: any) => {
-                const value = i18n.__('onBoarding.haveLocation');
-                return value.replace('{0}', data.name).replace('{1}', data.location);
+            [OnboardingResponses.RESPONSE_IDS.LocationPrompt, OnboardingResponses.fromResources('onBoarding.locationPrompt')],
+            // tslint:disable-next-line:no-any
+            [OnboardingResponses.RESPONSE_IDS.HaveLocationMessage, async (context: TurnContext, data: any): Promise<string> => {
+                const value: string = i18n.__('onBoarding.haveLocation');
+
+                return value.replace('{0}', data.name)
+                            .replace('{1}', data.location);
             }]
         ])]
     ]);
 
     constructor() {
         super();
-        this.register(new DictionaryRenderer(OnboardingResponses._responseTemplates));
+        this.register(new DictionaryRenderer(OnboardingResponses.RESPONSE_TEMPLATES));
     }
 
     private static fromResources(name: string): TemplateFunction {
-        return (context: TurnContext, data: any) => Promise.resolve(i18n.__(name));
+        return (): Promise<string> => Promise.resolve(i18n.__(name));
     }
 }

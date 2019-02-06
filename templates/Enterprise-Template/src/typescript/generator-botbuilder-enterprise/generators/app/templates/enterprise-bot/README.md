@@ -75,25 +75,27 @@ msbot clone services --name "YOUR_BOT_NAME" --luisAuthoringKey "YOUR_AUTHORING_K
 
 Once the Initial Deployment is completed, ensure that you take note of the .bot file secret provided as this will be required in later steps.
 
-Now you can update your `.env` file with the following information.
-- `BOT_FILE_NAME`: Bot file name (i.e. `MyEnterpriseBot.bot`)
+Now you can update your `.env.production` file with the following information.
+- `BOT_FILE_NAME`: Bot file name* (i.e. `MyEnterpriseBot.bot`)
 - `BOT_FILE_SECRET`: Bot file secret
-- `APPINSIGHTS_NAME`: AppInsights service name
-- `STORAGE_NAME`: CosmosDB service name
-- `BLOB_NAME`: BlobStorage service name
-- `LUIS_GENERAL`: Luis service name
-- `CONTENT_MODERATOR_NAME`: Content Moderator service name (only if used)
+- `APPINSIGHTS_NAME`: AppInsights service name*
+- `STORAGE_NAME`: CosmosDB service name*
+- `BLOB_NAME`: BlobStorage service name*
+- `LUIS_GENERAL`: Luis service name*
+- `CONTENT_MODERATOR_NAME`: Content Moderator service name (only if used)*
+
+> \*This information can be found in the `.bot` file
 
 ## Final Deployment
 
-Once the Initial Deployment and the Post Deployment Configuration are completed, the Bot itself can be deployed using the `publish.cmd` that the `msbot clone services` created, which will execute the following command
+Once the **Initial Deployment** and the **Post Deployment Configuration** are completed, the updated Bot itself can be deployed using the `publish.cmd` that the `msbot clone services` created, which will execute the following command
 ```bash
 az bot publish --resource-group "RESOURCE_GROUP_NAME" -n "BOT_NAME" --subscription "SUBSCRIPTION_ID" -v v4 --verbose --code-dir "." 
 ```
 
 ## Testing
 
-Once the Initial Deployment and the Post Deployment Configuration are completed, you can use the [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) for testing your Bot locally. After the Final Deployment, you can test the deployed Bot.
+Once the **Initial Deployment** and the **Final Deployment Configuration** are completed, you can use the [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) for testing your Bot locally. After the **Final Deployment**, you can test the deployed Bot using the `production endpoint`.
 
 ### Testing the bot using Bot Framework Emulator
 
@@ -126,7 +128,7 @@ Add the following in your code at your desired location to test a simple login f
 
 Content moderation can be used to identify PII and adult content in the messages sent to the bot. To enable this functionality, go to the azure portal and create a new content moderator service. Collect your subscription key and region to configure your .bot file.
 
-Add your Content Moderator name to the `.env` file using `CONTENT_MODERATOR_NAME` key. With this middleware enabled, all messages will be analyzed for inappropriate content, like PII, profanity, etc. The result of content moderation can be accessed via your bot state using the following code:
+Add your Content Moderator name to the `.env.production` file using `CONTENT_MODERATOR_NAME` key. With this middleware enabled, all messages will be analyzed for inappropriate content, like PII, profanity, etc. The result of content moderation can be accessed via your bot state using the following code:
   ```typescript
   onTurn(context: TurnContext, next: () => Promise<void>): Promise<void> {
         const screenResult: Screen = context.turnState.get(ContentModeratorMiddleware.TextModeratorResultKey);

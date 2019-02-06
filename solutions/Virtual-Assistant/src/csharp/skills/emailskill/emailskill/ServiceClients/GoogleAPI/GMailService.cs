@@ -388,9 +388,36 @@ namespace EmailSkill.ServiceClients.GoogleAPI
             }
         }
 
-        public Task DeleteMessageAsync(string id)
+        public async Task DeleteMessageAsync(string id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var deleteRequest = service.Users.Messages.Delete(
+                "me", id);
+                await ((IClientServiceRequest<string>)deleteRequest).ExecuteAsync();
+            }
+            catch (GoogleApiException ex)
+            {
+                throw GoogleClient.HandleGoogleAPIException(ex);
+            }
+        }
+
+        public async Task MarkMessageAsReadAsync(string id)
+        {
+            try
+            {
+                ModifyMessageRequest mods = new ModifyMessageRequest();
+                List<string> labelsToRemove = new List<string>() { "UNREAD" };
+                mods.RemoveLabelIds = labelsToRemove;
+
+                var updateRequest = service.Users.Messages.Modify(
+                    mods, "me", id);
+                await ((IClientServiceRequest<GmailMessage>)updateRequest).ExecuteAsync();
+            }
+            catch (GoogleApiException ex)
+            {
+                throw GoogleClient.HandleGoogleAPIException(ex);
+            }
         }
 
         public string AppendFilterString(string old, string filterString)
@@ -480,10 +507,10 @@ namespace EmailSkill.ServiceClients.GoogleAPI
 
             if (mime.Body != null)
             {
-                var textBody = mime.BodyParts.OfType<TextPart>().FirstOrDefault();
+                var textBody = mime.TextBody;
                 message.Body = new ItemBody
                 {
-                    Content = textBody.Text,
+                    Content = textBody,
                     ContentType = BodyType.Text,
                 };
             }

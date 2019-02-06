@@ -2,8 +2,8 @@
   "CalendarNoMoreEvent": {
     "replies": [
       {
-        "text": "No more meetings!",
-        "speak": "No more meetings!"
+        "text": "No more events!",
+        "speak": "No more events!"
       }
     ],
     "inputHint": "acceptingInput"
@@ -20,8 +20,8 @@
   "ShowNoMeetingMessage": {
     "replies": [
       {
-        "text": "You don't have any meetings.",
-        "speak": "You don't have any meetings."
+        "text": "You don't have any events.",
+        "speak": "You don't have any events."
       }
     ],
     "inputHint": "acceptingInput"
@@ -29,8 +29,8 @@
   "ShowOneMeetingSummaryMessage": {
     "replies": [
       {
-        "text": "You have 1 event planned for {DateTime}, your next event is with {Participants1} {EventTime1} titled {EventName1}. Want to hear the content of this event?",
-        "speak": "You have 1 event planned for {DateTime}, your next event is with {Participants1} {EventTime1} titled {EventName1}. Want to hear the content of this event?"
+        "text": "You have 1 event planned for {DateTime}, it is with {Participants1} {EventTime1} titled {EventName1}. Want to hear the content of this event?",
+        "speak": "You have 1 event planned for {DateTime}, it is with {Participants1} {EventTime1} titled {EventName1}. Want to hear the content of this event?"
       }
     ],
     "inputHint": "acceptingInput"
@@ -38,8 +38,44 @@
   "ShowMultipleMeetingSummaryMessage": {
     "replies": [
       {
-        "text": "It looks like you have {Count} events planned for {DateTime}, your next event is with {Participants1} {EventTime1} titled {EventName1}. The last event of {DateTime} is {EventTime2} with {Participants2} titled {EventName2}.",
-        "speak": "It looks like you have {Count} events planned for {DateTime}, your next event is with {Participants1} {EventTime1} titled {EventName1}. The last event of {DateTime} is {EventTime2} with {Participants2} titled {EventName2}."
+        "text": "It looks like you have {Count} events planned for {DateTime}, the first event is with {Participants1} {EventTime1} titled {EventName1}. The last event of {DateTime} is {EventTime2} with {Participants2} titled {EventName2}.",
+        "speak": "It looks like you have {Count} events planned for {DateTime}, the first event is with {Participants1} {EventTime1} titled {EventName1}. The last event of {DateTime} is {EventTime2} with {Participants2} titled {EventName2}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowOneMeetingSummaryAgainMessage": {
+    "replies": [
+      {
+        "text": "You have 1 event planned for {DateTime}. Want to hear the content of this event?",
+        "speak": "You have 1 event planned for {DateTime}. Want to hear the content of this event?"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowMeetingSummaryAgainMessage": {
+    "replies": [
+      {
+        "text": "You have {Count} events planned for {DateTime}.",
+        "speak": "You have {Count} events planned for {DateTime}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowMeetingSummaryNotFirstPageMessage": {
+    "replies": [
+      {
+        "text": "The first event in this page is with {Participants1} {EventTime1} titled {EventName1}.",
+        "speak": "The first event in this page is with {Participants1} {EventTime1} titled {EventName1}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ShowMultipleFilteredMeetings": {
+    "replies": [
+      {
+        "text": "I found {Count} events with your key word.",
+        "speak": "I found {Count} events with your key word."
       }
     ],
     "inputHint": "acceptingInput"
@@ -51,36 +87,36 @@
         "speak": "Which one do you want to hear?"
       },
       {
-        "text": "Which meeting would you like me to read out?",
-        "speak": "Which meeting would you like me to read out?"
+        "text": "Which event would you like me to read out?",
+        "speak": "Which event would you like me to read out?"
       },
       {
-        "text": "Any meetings you would like me to read out?",
-        "speak": "Any meetings you would like me to read out?"
+        "text": "Any events you would like me to read out?",
+        "speak": "Any events you would like me to read out?"
       },
       {
-        "text": "Which meeting do you want more details on?",
-        "speak": "Which meeting do you want more details on?"
+        "text": "Which event do you want more details on?",
+        "speak": "Which event do you want more details on?"
       },
       {
         "text": "Which one do you want more information on?",
         "speak": "Which one do you want more information on?"
       },
       {
-        "text": "Which meeting do you want me to read out?",
-        "speak": "Which meeting do you want me to read out?"
+        "text": "Which event do you want me to read out?",
+        "speak": "Which event do you want me to read out?"
       },
       {
         "text": "Which one do you want to hear about?",
         "speak": "Which one do you want to hear about?"
       },
       {
-        "text": "Which meeting do you want me to give you the details of?",
-        "speak": "Which meeting do you want me to give you the details of?"
+        "text": "Which event do you want me to give you the details of?",
+        "speak": "Which event do you want me to give you the details of?"
       },
       {
-        "text": "Which meeting should I read to you?",
-        "speak": "Which meeting should I read to you?"
+        "text": "Which event should I read to you?",
+        "speak": "Which event should I read to you?"
       }
     ],
     "inputHint": "expectingInput"
@@ -88,8 +124,8 @@
   "ReadOutMorePrompt": {
     "replies": [
       {
-        "text": "Do you want to hear the content of the upcoming event? I can read out any event for you, just let me know by providing the subject, time or attendees..",
-        "speak": "Do you want to hear the content of the upcoming event? I can read out any event for you, just let me know by providing the subject, time or attendees.."
+        "text": "Do you want to hear the content of the first event? I can read out any event for you, just let me know by providing the subject, time or attendees..",
+        "speak": "Do you want to hear the content of the first event? I can read out any event for you, just let me know by providing the subject, time or attendees.."
       }
     ],
     "inputHint": "expectingInput"
@@ -97,8 +133,8 @@
   "ReadOutMessage": {
     "replies": [
       {
-        "text": "The meeting on {Date} is {Time} with {Participants} titled {Subject}.",
-        "speak": "The meeting on {Date} is {Time} with {Participants} titled {Subject}."
+        "text": "The event on {Date} is {Time} with {Participants} titled {Subject}.",
+        "speak": "The event on {Date} is {Time} with {Participants} titled {Subject}."
       }
     ],
     "inputHint": "acceptingInput"

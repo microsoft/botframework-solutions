@@ -9,9 +9,13 @@
     "url": "http://dev.botframework.com"
   },
   "files": [
-    "generators"
+    "generators",
+    "app",
+    "dialog",
+    ".gitignore",
+    ".npmignore"
   ],
-  "main": "generators/index.js",
+  "main": "generators/app/index.js",
   "keywords": [
     "botbuilder",
     "bots",
@@ -27,7 +31,7 @@
     "eslint-config-prettier": "^3.4.0",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-config-xo": "^0.26.0",
-    "jest": "^23.6.0"
+    "mocha": "^5.2.0"
   },
   "engines": {
     "npm": ">= 4.0.0"
@@ -35,10 +39,8 @@
   "dependencies": {
     "chalk": "^2.4.2",
     "lodash": "^4.17.11",
+    "npmignore": "^0.2.0",
     "yeoman-generator": "^3.2.0"
-  },
-  "jest": {
-    "testEnvironment": "node"
   },
   "lint-staged": {
     "*.js": [
@@ -50,25 +52,9 @@
       "git add"
     ]
   },
-  "eslintConfig": {
-    "extends": [
-      "xo",
-      "prettier"
-    ],
-    "env": {
-      "jest": true,
-      "node": true
-    },
-    "rules": {
-      "prettier/prettier": "error"
-    },
-    "plugins": [
-      "prettier"
-    ]
-  },
   "scripts": {
     "pretest": "eslint .",
-    "test": "jest"
+    "test": "cd test/ && mocha --opts mocha.opts"
   },
   "repository": "https://github.com/southworkscom/AI",
   "license": "MIT"

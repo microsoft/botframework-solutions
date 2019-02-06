@@ -29,6 +29,8 @@ namespace CalendarSkillTest.Flow
                 }
             });
 
+            // keep this use old mock, Moq has some conflict with Prompt. It will throw exception in GetEventPrompt
+            this.ServiceManager = new MockCalendarServiceManager();
             var serviceManager = this.ServiceManager as MockCalendarServiceManager;
             serviceManager.SetupCalendarService(MockCalendarService.FakeDefaultEvents());
             serviceManager.SetupUserService(MockUserService.FakeDefaultUsers(), MockUserService.FakeDefaultPeople());

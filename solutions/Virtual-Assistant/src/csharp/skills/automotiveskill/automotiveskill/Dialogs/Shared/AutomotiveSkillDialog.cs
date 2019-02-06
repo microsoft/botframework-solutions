@@ -10,7 +10,10 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.Authentication;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 
 namespace AutomotiveSkill.Dialogs.Shared
 {
@@ -44,6 +47,18 @@ namespace AutomotiveSkill.Dialogs.Shared
 
         protected ResponseManager ResponseManager { get; set; }
 
+        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await Accessor.GetAsync(dc.Context);
+            return await base.OnBeginDialogAsync(dc, options, cancellationToken);
+        }
+
+        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await Accessor.GetAsync(dc.Context);
+            return await base.OnContinueDialogAsync(dc, cancellationToken);
+        }
+
         // Shared steps
         public async Task<DialogTurnResult> GetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -64,37 +79,47 @@ namespace AutomotiveSkill.Dialogs.Shared
                     await sc.Context.SendActivityAsync(response);
 
                     // Wait for the tokens/response event
-                    return await sc.PromptAsync(SkillModeAuth, new PromptOptions());
+                    return await sc.PromptAsync(DialogIds.SkillModeAuth, new PromptOptions());
                 }
                 else
                 {
-                    return await sc.PromptAsync(LocalModeAuth, new PromptOptions());
+                    return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = sc.Context.Activity.CreateReply(AutomotiveSkillSharedResponses.NoAuth, ResponseBuilder) });
                 }
             }
             catch (Exception ex)
             {
-                throw await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
+        // Helpers
+        protected Task DigestLuisResult(DialogContext dc)
+        {
+            return Task.CompletedTask;
+        }
+
         // This method is called by any waterfall step that throws an exception to ensure consistency
-        public async Task<Exception> HandleDialogExceptions(WaterfallStepContext sc, Exception ex)
+        protected async Task HandleDialogExceptions(WaterfallStepContext sc, Exception ex)
         {
-            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(AutomotiveSkillSharedResponses.ErrorMessage));
-            await sc.CancelAllDialogsAsync();
-            return ex;
+            // send trace back to emulator
+            var trace = new Activity(type: ActivityTypes.Trace, text: $"DialogException: {ex.Message}, StackTrace: {ex.StackTrace}");
+            await sc.Context.SendActivityAsync(trace);
+
+            // log exception
+            TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
+
+            // send error message to bot user
+            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(AutomotiveSkillSharedResponses.ErrorMessage));
+
+            // clear state
+            var state = await Accessor.GetAsync(sc.Context);
+            state.Clear();
         }
 
-        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
+        private class DialogIds
         {
-            var state = await Accessor.GetAsync(dc.Context);
-            return await base.OnBeginDialogAsync(dc, options, cancellationToken);
-        }
-
-        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var state = await Accessor.GetAsync(dc.Context);
-            return await base.OnContinueDialogAsync(dc, cancellationToken);
+            public const string SkillModeAuth = "SkillAuth";
         }
     }
 }

@@ -44,7 +44,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
             AddDialog(new ConfirmPrompt(Action.ConfirmPrompt) { Style = ListStyle.Auto, });
         }
 
-        protected SkillConfiguration Services { get; set; }
+        protected SkillConfigurationBase Services { get; set; }
 
         protected IStatePropertyAccessor<PointOfInterestSkillState> Accessor { get; set; }
 

@@ -13,13 +13,12 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Bot.Solutions.Util;
+using ToDoSkill.Common;
 using ToDoSkill.Dialogs.AddToDo;
 using ToDoSkill.Dialogs.DeleteToDo;
 using ToDoSkill.Dialogs.Main.Resources;
 using ToDoSkill.Dialogs.MarkToDo;
 using ToDoSkill.Dialogs.Shared.DialogOptions;
-using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.Dialogs.ShowToDo;
 using ToDoSkill.ServiceClients;
 using static ToDoSkill.Dialogs.Shared.ServiceProviderTypes;
@@ -327,7 +326,7 @@ namespace ToDoSkill.Dialogs.Main
                     int.TryParse(displaySizeObj.ToString(), out pageSize);
                 }
 
-                state.PageSize = pageSize <= 0 || pageSize > CommonUtil.MaxDisplaySize ? CommonUtil.MaxDisplaySize : pageSize;
+                state.PageSize = pageSize <= 0 || pageSize > ToDoCommonUtil.MaxDisplaySize ? ToDoCommonUtil.MaxDisplaySize : pageSize;
             }
 
             if (state.ReadSize <= 0)
@@ -338,7 +337,7 @@ namespace ToDoSkill.Dialogs.Main
                     int.TryParse(readSizeObj.ToString(), out readSize);
                 }
 
-                state.ReadSize = readSize <= 0 || readSize > CommonUtil.MaxReadSize ? CommonUtil.MaxReadSize : readSize;
+                state.ReadSize = readSize <= 0 || readSize > ToDoCommonUtil.MaxReadSize ? ToDoCommonUtil.MaxReadSize : readSize;
             }
 
             if (state.TaskServiceType == ProviderTypes.Other)

@@ -37,6 +37,7 @@ namespace CalendarSkill
         private DialogSet _dialogs;
 
         public CalendarSkill(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, ResponseManager responseManager = null, IServiceManager serviceManager = null, bool skillMode = false)
+        public CalendarSkill(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, bool skillMode = false, IServiceManager serviceManager = null)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));

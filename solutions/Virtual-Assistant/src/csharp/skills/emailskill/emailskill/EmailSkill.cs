@@ -37,6 +37,7 @@ namespace EmailSkill
         private bool _skillMode;
 
         public EmailSkill(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, ResponseManager responseManager = null, IServiceManager serviceManager = null, bool skillMode = false)
+        public EmailSkill(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, bool skillMode = false, IServiceManager serviceManager = null)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));

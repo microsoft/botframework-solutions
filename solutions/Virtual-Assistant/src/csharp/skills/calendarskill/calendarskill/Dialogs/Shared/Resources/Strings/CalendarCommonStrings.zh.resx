@@ -123,6 +123,9 @@
   <data name="AllDayLower" xml:space="preserve">
     <value>全天</value>
   </data>
+  <data name="AttendeesSummary" xml:space="preserve">
+    <value>{0}和其他{1}人</value>
+  </data>
   <data name="AtTime" xml:space="preserve">
     <value>在{0}</value>
   </data>
@@ -140,5 +143,11 @@
   </data>
   <data name="WithTheSubject" xml:space="preserve">
     <value>以{0}为标题</value>
+  </data>
+  <data name="CancelAdjust" xml:space="preserve">
+    <value>^(不|不要|不调整|取消)$</value>
+  </data>
+  <data name="NoAttendees" xml:space="preserve">
+    <value>无与会人</value>
   </data>
 </root>

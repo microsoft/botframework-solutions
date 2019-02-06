@@ -33,6 +33,8 @@ namespace AutomotiveSkillTest.Flow
 
         public HttpContextAccessor MockHttpContextAcessor { get; set; }
 
+        public string ImageAssetLocation { get; set; }
+
         public override void Initialize()
         {
             var builder = new ContainerBuilder();
@@ -50,6 +52,10 @@ namespace AutomotiveSkillTest.Flow
                     new VehicleSettingsResponses()
                 },
                 locales: new string[] { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" });
+            ImageAssetLocation = "https://localhost";
+            this.Services.Properties.Add("ImageAssetLocation", ImageAssetLocation);
+
+            builder.RegisterInstance(new BotStateSet(this.UserState, this.ConversationState));
 
             builder.RegisterInstance(new BotStateSet(UserState, ConversationState));
 

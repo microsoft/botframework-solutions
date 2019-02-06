@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using EmailSkill.Dialogs.Shared.Resources.Strings;
 using EmailSkill.Model;
 using Luis;
 using Microsoft.Bot.Builder;
@@ -38,6 +39,11 @@ namespace EmailSkill
             EndDateTime = DateTime.UtcNow;
             UserSelectIndex = -1;
             MailSourceType = MailSource.Other;
+            UnconfirmedPerson = new List<Person>();
+            FirstRetryInFindContact = true;
+            ConfirmedPerson = new Person();
+            FirstEnterFindContact = true;
+            SearchTexts = null;
         }
 
         public DialogState ConversationDialogState { get; set; }
@@ -53,6 +59,8 @@ namespace EmailSkill
         public List<string> NameList { get; set; }
 
         public string SenderName { get; set; }
+
+        public string SearchTexts { get; set; }
 
         public List<string> EmailList { get; set; }
 
@@ -78,6 +86,12 @@ namespace EmailSkill
 
         public int ConfirmRecipientIndex { get; set; }
 
+        public List<Person> UnconfirmedPerson { get; set; }
+
+        public bool FirstRetryInFindContact { get; set; }
+
+        public Person ConfirmedPerson { get; set; }
+
         public bool DirectlyToMe { get; set; }
 
         public int ShowEmailIndex { get; set; }
@@ -99,6 +113,8 @@ namespace EmailSkill
         public MailSource MailSourceType { get; set; }
 
         public int UserSelectIndex { get; set; }
+
+        public bool FirstEnterFindContact { get; set; }
 
         public TimeZoneInfo GetUserTimeZone()
         {
@@ -138,6 +154,37 @@ namespace EmailSkill
             LuisResultPassedFromSkill = null;
             MailSourceType = MailSource.Other;
             UserSelectIndex = -1;
+            UnconfirmedPerson = new List<Person>();
+            FirstRetryInFindContact = true;
+            ConfirmedPerson = new Person();
+            FirstEnterFindContact = true;
+            SearchTexts = null;
+        }
+
+        public void ClearParticipants()
+        {
+            NameList.Clear();
+            Recipients.Clear();
+            ConfirmRecipientIndex = 0;
+            ReadRecipientIndex = 0;
+            RecipientChoiceList.Clear();
+            EmailList = new List<string>();
+            ShowRecipientIndex = 0;
+
+            Subject = string.IsNullOrEmpty(Subject) ? EmailCommonStrings.Skip : Subject;
+            Content = string.IsNullOrEmpty(Content) ? EmailCommonStrings.Skip : Content;
+        }
+
+        public void ClearSubject()
+        {
+            Subject = null;
+            Content = string.IsNullOrEmpty(Content) ? EmailCommonStrings.Skip : Content;
+        }
+
+        public void ClearContent()
+        {
+            Content = null;
+            Subject = string.IsNullOrEmpty(Subject) ? EmailCommonStrings.Skip : Subject;
         }
 
         public class UserInformation

@@ -145,10 +145,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Dialogs\ConfirmRecipient\Resources\ConfirmRecipientResponses.cs">
+    <Compile Update="Dialogs\FindContact\Resources\FindContactResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>ConfirmRecipientResponses.tt</DependentUpon>
+      <DependentUpon>FindContactResponses.tt</DependentUpon>
     </Compile>
     <Compile Update="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.cs">
       <DesignTime>True</DesignTime>
@@ -260,12 +260,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Dialogs\ConfirmRecipient\Resources\ConfirmRecipientResponses.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ConfirmRecipientResponses.cs</LastGenOutput>
-    </None>
     <None Update="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.tt">
       <LastGenOutput>DeleteEmailResponses.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Dialogs\FindContact\Resources\FindContactResponses.tt">
+      <LastGenOutput>FindContactResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
     <None Update="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.tt">

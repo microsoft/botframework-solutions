@@ -5,14 +5,13 @@
  * The Application Insights property names that we're logging.
  */
 export class QnATelemetryConstants {
-    public static readonly KnowledgeBaseIdProperty: string = "knowledgeBaseId";
-    public static readonly ActivityIdProperty: string = "activityId";
-    public static readonly AnswerProperty: string = "answer";
-    public static readonly ArticleFoundProperty: string = "articleFound";
-    public static readonly ChannelIdProperty: string = "channelId";
-    public static readonly ConversationIdProperty: string = "conversationId";
-    public static readonly OriginalQuestionProperty: string = "originalQuestion";
-    public static readonly QuestionProperty: string = "question";
-    public static readonly ScoreProperty: string = "score";
-    public static readonly UsernameProperty: string = "username";
+    public readonly KNOWLEDGE_BASE_ID_PROPERTY: string = 'knowledgeBaseId';
+    public readonly ANSWER_PROPERTY: string = 'answer';
+    public readonly ARTICLE_FOUND_PROPERTY: string = 'articleFound';
+    public readonly CHANNEL_ID_PROPERTY: string = 'channelId';
+    public readonly CONVERSATION_ID_PROPERTY: string = 'conversationId';
+    public readonly ORIGINAL_QUESTION_PROPERTY: string = 'originalQuestion';
+    public readonly QUESTION_PROPERTY: string = 'question';
+    public readonly SCORE_PROPERTY: string = 'score';
+    public readonly USERNAME_PROPERTY: string = 'username';
 }

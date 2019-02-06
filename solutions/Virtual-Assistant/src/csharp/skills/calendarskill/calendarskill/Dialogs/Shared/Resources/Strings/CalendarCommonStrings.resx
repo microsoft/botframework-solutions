@@ -123,6 +123,9 @@
   <data name="AllDayLower" xml:space="preserve">
     <value>all day</value>
   </data>
+  <data name="AttendeesSummary" xml:space="preserve">
+    <value>{0} and {1} more</value>
+  </data>
   <data name="AtTime" xml:space="preserve">
     <value>at {0}</value>
   </data>
@@ -140,5 +143,29 @@
   </data>
   <data name="WithTheSubject" xml:space="preserve">
     <value>with a subject of {0}</value>
+  </data>
+  <data name="CancelAdjust" xml:space="preserve">
+    <value>^(no|cancel|nop|don't|not)</value>
+  </data>
+  <data name="AdjustContent" xml:space="preserve">
+    <value>(adjust|change|update).*(content|body|detail|details)</value>
+  </data>
+  <data name="AdjustDuration" xml:space="preserve">
+    <value>(adjust|change|update).*(duration|length)</value>
+  </data>
+  <data name="AdjustLocation" xml:space="preserve">
+    <value>(adjust|change|update).*(location|place|where)</value>
+  </data>
+  <data name="AdjustParticipants" xml:space="preserve">
+    <value>(adjust|change|update|add|delete).*(participants|attendee|attendees|people|person)</value>
+  </data>
+  <data name="AdjustSubject" xml:space="preserve">
+    <value>(adjust|change|update).*(subject|title)</value>
+  </data>
+  <data name="AdjustTime" xml:space="preserve">
+    <value>(adjust|change|update).*time</value>
+  </data>
+  <data name="NoAttendees" xml:space="preserve">
+    <value>no attendees</value>
   </data>
 </root>

@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using EmailSkill.Dialogs.ConfirmRecipient;
+using EmailSkill.Dialogs.FindContact;
 using EmailSkill.Dialogs.Shared;
 using EmailSkill.Dialogs.Shared.Resources;
 using EmailSkill.Dialogs.Shared.Resources.Cards;
@@ -35,10 +36,12 @@ namespace EmailSkill.Dialogs.ForwardEmail
                 IfClearContextStep,
                 GetAuthToken,
                 AfterGetAuthToken,
+                SetDisplayConfig,
                 CollectSelectedEmail,
                 AfterCollectSelectedEmail,
                 CollectRecipient,
                 CollectAdditionalText,
+                AfterCollectAdditionalText,
                 ConfirmBeforeSending,
                 ForwardEmail,
             };
@@ -67,8 +70,7 @@ namespace EmailSkill.Dialogs.ForwardEmail
             AddDialog(new WaterfallDialog(Actions.Show, showEmail) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.CollectRecipient, collectRecipients) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateSelectMessage, updateSelectMessage) { TelemetryClient = telemetryClient });
-            AddDialog(new ConfirmRecipientDialog(services, responseManager, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
-
+            AddDialog(new FindContactDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
             InitialDialogId = Actions.Forward;
         }
 
@@ -84,21 +86,26 @@ namespace EmailSkill.Dialogs.ForwardEmail
                     var token = state.Token;
                     var message = state.Message;
                     var id = message.FirstOrDefault()?.Id;
-                    var content = state.Content;
                     var recipients = state.Recipients;
 
                     var service = ServiceManager.InitMailService(token, state.GetUserTimeZone(), state.MailSourceType);
 
                     // send user message.
+                    var content = state.Content.Equals(EmailCommonStrings.EmptyContent) ? string.Empty : state.Content;
                     await service.ForwardMessageAsync(id, content, recipients);
 
                     var nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(state.Recipients);
 
                     var emailCard = new EmailCardData
                     {
-                        Subject = string.Format(EmailCommonStrings.SubjectFormat, string.Format(EmailCommonStrings.ForwardReplyFormat, message.FirstOrDefault()?.Subject)),
+                        Subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? null : string.Format(EmailCommonStrings.SubjectFormat, state.Subject),
                         NameList = string.Format(EmailCommonStrings.ToFormat, nameListString),
-                        EmailContent = string.Format(EmailCommonStrings.ContentFormat, state.Content),
+                        EmailContent = state.Content.Equals(EmailCommonStrings.EmptyContent) ? null : string.Format(EmailCommonStrings.ContentFormat, state.Content),
+                    };
+
+                    var stringToken = new StringDictionary
+                    {
+                        { "Subject", state.Subject },
                     };
 
                     var reply = ResponseManager.GetCardResponse(

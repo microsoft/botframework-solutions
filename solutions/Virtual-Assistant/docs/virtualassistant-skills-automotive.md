@@ -40,6 +40,8 @@ The following vehicle setting areas are supported at this time, example utteranc
 - *Increase the bass*
 - *Increase the volume*
 
+Vehicle settings can be selected through explicit entry of the vehicle setting name, numeric or ordinal (first one, last one).
+
 An example transcript file demonstrating the Skill in action can be found [here](./transcripts/skills-automotive.transcript), you can use the Bot Framework Emulator to open transcripts.
 
 ![ Automotive Skill Transcript Example](./media/skills-auto-transcript.png)
@@ -59,7 +61,7 @@ An example transcript file demonstrating the Skill in action can be found [here]
     "id": "automotiveSkill",
     "name": "automotiveSkill",
     "assembly": "AutomotiveSkill.AutomotiveSkill, AutomotiveSkill, Version=1.0.0.0, Culture=neutral",
-    "dispatchIntent": "l_Automotive",
+    "dispatchIntent": "l_automotive",
     "supportedProviders": [],
     "luisServiceIds": [
       "settings",
@@ -69,7 +71,9 @@ An example transcript file demonstrating the Skill in action can be found [here]
     ],
     "parameters": []
     ],
-    "configuration": { }
+    "configuration": {
+       "ImageAssetLocation": "http://tempuri.org"
+     }
 }
 ```
 
@@ -201,3 +205,46 @@ msbot list --bot YOURBOTFILE.bot --secret YOUR_BOT_SECRET
 ## Testing the skill in local-mode
 
 Once you have followed the deployment instructions above, open the provided .bot file with the Bot Framework Emulator.
+
+## Deploying the Virtual Assistant with the Automotive Skill
+
+1. Update the Virtual Assistant deployment scripts.
+    - Add the additional automotive skill LUIS models to the bot.recipe file located witnin your assistant project: `assistant\DeploymentScripts\en\bot.recipe`
+        ```
+        {
+            "type": "luis",
+            "id": "settings",
+            "name": "settings",
+            "luPath": "..\\skills\automotiveskill\automotiveskill\CognitiveModels\LUIS\en\settings.lu"
+        },
+        {
+            "type": "luis",
+            "id": "settings_name",
+            "name": "settings_name",
+            "luPath": "..\\skills\automotiveskill\automotiveskill\CognitiveModels\LUIS\en\settings_name.lu"
+        },
+        {
+            "type": "luis",
+            "id": "settings_value",
+            "name": "settings_value",
+            "luPath": "..\\skills\automotiveskill\automotiveskill\CognitiveModels\LUIS\en\settings_value.lu"
+        },
+
+        ```
+    - Add references to your skill intents in **dispatch.lu** for all languages
+        ```
+        # l_automotive 
+        - [VEHICLE_SETTINGS_CHANGE](../../../../skills/automotiveskill/automotiveskill/CognitiveModels/LUIS/en/settings_dispatch.lu#VEHICLE_SETTINGS_CHANGE)
+        ```
+2. Run the following script to deploy the Virtual Assistant and automotive skill. `PowerShell.exe -ExecutionPolicy Bypass -File DeploymentScripts\deploy_bot.ps1`
+1. In Virtual Assistant, add the skill configuration entry (above) to **appsettings.json**
+2. Run the LuisGen tool to update Dispatch.cs.
+    ```
+    LUISGen DeploymentScripts\en\dispatch.luis -cs Dispatch -o Dialogs\Shared\Resources 
+    ```
+5. Update **MainDialog.cs** with the dispatch intent for your skill (l_automotive)
+    ![](./media/skills_maindialogupdate.jpg)
+6. Add a project reference to your Virtual Assistant project to the Automotive Skill, this will ensure the DLL housing the skill can be found at runtime for skill activation.
+7. In order for Adaptive Cards to render images associated with the automotive skill you will need to take the Image assets located in the `wwwroot\images` folder and place in a HTTP location and place the base URI path in the skill configuration `ImageAssetLocation` property.
+
+

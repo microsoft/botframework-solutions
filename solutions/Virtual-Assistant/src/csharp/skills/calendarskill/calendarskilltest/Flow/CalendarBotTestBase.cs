@@ -52,11 +52,9 @@ namespace CalendarSkillTest.Flow
             this.Services = new MockSkillConfiguration();
 
             builder.RegisterInstance(new BotStateSet(this.UserState, this.ConversationState));
-            var fakeServiceManager = new MockCalendarServiceManager();
-            builder.RegisterInstance<IServiceManager>(fakeServiceManager);
 
             this.Container = builder.Build();
-            this.ServiceManager = fakeServiceManager;
+            this.ServiceManager = MockServiceManager.GetCalendarService();
 
             ResponseManager = new ResponseManager(
                 responseTemplates: new IResponseIdCollection[]
@@ -71,6 +69,12 @@ namespace CalendarSkillTest.Flow
                     new UpdateEventResponses(),
                 },
                 locales: new string[] { "en", "de", "es", "fr", "it", "zh" });
+        }
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            this.ServiceManager = MockServiceManager.SetAllToDefault();
         }
 
         public Activity GetAuthResponse()
@@ -102,6 +106,7 @@ namespace CalendarSkillTest.Flow
         public override IBot BuildBot()
         {
             return new CalendarSkill.CalendarSkill(Services, ConversationState, UserState, TelemetryClient, ResponseManager, ServiceManager, true);
+            return new CalendarSkill.CalendarSkill(this.Services, this.ConversationState, this.UserState, this.TelemetryClient, true, this.ServiceManager);
         }
     }
 }

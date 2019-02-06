@@ -10,6 +10,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ToDoSkill.Dialogs.MarkToDo.Resources;
 using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkillTest.Flow.Fakes;
 using ToDoSkillTest.Flow.Utterances;
@@ -19,8 +20,6 @@ namespace ToDoSkillTest.Flow
     [TestClass]
     public class MarkToDoFlowTests : ToDoBotTestBase
     {
-        private const int PageSize = 6;
-
         [TestInitialize]
         public void SetupLuisService()
         {
@@ -38,62 +37,80 @@ namespace ToDoSkillTest.Flow
         [TestMethod]
         public async Task Test_MarkToDoItem()
         {
+            (this.ServiceManager as MockServiceManager).MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(MarkToDoFlowTestUtterances.BaseMarkTask)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.CollectListType())
+                .Send(MarkToDoFlowTestUtterances.ConfirmListType)
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
                 .AssertReplyOneOf(this.CollectTaskIndex())
                 .Send(MarkToDoFlowTestUtterances.TaskContent)
-                .AssertReply(this.AfterTaskMarkedCardMessage(0))
-                .AssertReply(this.ActionEndMessage())
+                .AssertReply(this.ShowUpdatedToDoCard(0))
+                .AssertReplyOneOf(this.CompleteAnotherTask())
+                .Send(MockData.ConfirmNo)
+                .AssertReplyOneOf(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
         [TestMethod]
         public async Task Test_MarkToDoItem_By_Specific_Index()
         {
+            (this.ServiceManager as MockServiceManager).MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(MarkToDoFlowTestUtterances.MarkSpecificTaskAsCompleted)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.CollectListType())
+                .Send(MarkToDoFlowTestUtterances.ConfirmListType)
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
-                .AssertReply(this.AfterTaskMarkedCardMessage(1))
-                .AssertReply(this.ActionEndMessage())
+                .AssertReply(this.ShowUpdatedToDoCard(1))
+                .AssertReplyOneOf(this.CompleteAnotherTask())
+                .Send(MockData.ConfirmNo)
+                .AssertReplyOneOf(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
         [TestMethod]
         public async Task Test_MarkToDoItem_By_Specific_Index_And_ListType()
         {
+            (this.ServiceManager as MockServiceManager).MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(MarkToDoFlowTestUtterances.MarkSpecificTaskAsCompletedWithListType)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
-                .AssertReply(this.AfterGroceryItemMarkedCompletedCardMessage())
-                .AssertReply(this.ActionEndMessage())
+                .AssertReply(this.ShowUpdatedGroceryCard(2))
+                .AssertReplyOneOf(this.CompleteAnotherTask())
+                .Send(MockData.ConfirmNo)
+                .AssertReplyOneOf(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
         [TestMethod]
         public async Task Test_MarkToDoItem_By_Specific_Content()
         {
+            (this.ServiceManager as MockServiceManager).MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(MarkToDoFlowTestUtterances.MarkTaskAsCompletedByContent)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.CollectListType())
+                .Send(MarkToDoFlowTestUtterances.ConfirmListType)
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
-                .AssertReply(this.AfterTaskMarkedCardMessage(0))
-                .AssertReply(this.ActionEndMessage())
+                .AssertReply(this.ShowUpdatedToDoCard(0))
+                .AssertReplyOneOf(this.CompleteAnotherTask())
+                .Send(MockData.ConfirmNo)
+                .AssertReplyOneOf(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
-        private Action<IActivity> AfterTaskMarkedCardMessage(int index)
+        private Action<IActivity> ShowUpdatedToDoCard(int index)
         {
             return activity =>
             {
@@ -106,21 +123,28 @@ namespace ToDoSkillTest.Flow
                 var toDoChoices = responseCard.Body[1] as AdaptiveContainer;
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
-                var response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.ShowToDoTasks);
+                var response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessage);
                 CollectionAssert.Contains(
                     this.ParseReplies(response.Replies, new StringDictionary() { { MockData.TaskCount, MockData.MockTaskItems.Count.ToString() }, { MockData.ListType, MockData.ToDo } }),
                     adaptiveCardTitle.Text);
-                Assert.AreEqual(toDoChoiceCount, PageSize);
+                Assert.AreEqual(toDoChoiceCount, MockData.PageSize);
                 var columnSet = toDoChoices.Items[index] as AdaptiveColumnSet;
                 Assert.IsNotNull(columnSet);
                 var column = columnSet.Columns[0];
                 Assert.IsNotNull(column);
                 var image = column.Items[0] as AdaptiveImage;
                 Assert.AreEqual(image.UrlString, IconImageSource.CheckIconSource);
+
+                CollectionAssert.Contains(
+                    this.ParseReplies(MarkToDoResponses.AfterTaskCompleted.Replies, new StringDictionary()
+                    {
+                        { MockData.TaskContent, MockData.MockTaskItems[index].Topic },
+                        { MockData.ListType, MockData.ToDo }
+                    }), responseCard.Speak);
             };
         }
 
-        private Action<IActivity> AfterGroceryItemMarkedCompletedCardMessage()
+        private Action<IActivity> ShowUpdatedGroceryCard(int index)
         {
             return activity =>
             {
@@ -133,23 +157,35 @@ namespace ToDoSkillTest.Flow
                 var toDoChoices = responseCard.Body[1] as AdaptiveContainer;
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
-                var response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.ShowToDoTasks);
+                var response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessage);
                 CollectionAssert.Contains(
                     this.ParseReplies(response.Replies, new StringDictionary() { { MockData.TaskCount, MockData.MockGroceryItems.Count.ToString() }, { MockData.ListType, MockData.Grocery } }),
                     adaptiveCardTitle.Text);
-                Assert.AreEqual(toDoChoiceCount, PageSize);
-                var columnSet = toDoChoices.Items[2] as AdaptiveColumnSet;
+                Assert.AreEqual(toDoChoiceCount, MockData.PageSize);
+                var columnSet = toDoChoices.Items[index] as AdaptiveColumnSet;
                 Assert.IsNotNull(columnSet);
                 var column = columnSet.Columns[0];
                 Assert.IsNotNull(column);
                 var image = column.Items[0] as AdaptiveImage;
                 Assert.AreEqual(image.UrlString, IconImageSource.CheckIconSource);
+
+                CollectionAssert.Contains(
+                    this.ParseReplies(MarkToDoResponses.AfterTaskCompleted.Replies, new StringDictionary()
+                    {
+                        { MockData.TaskContent, MockData.MockGroceryItems[index].Topic },
+                        { MockData.ListType, MockData.Grocery }
+                    }), responseCard.Speak);
             };
+        }
+
+        private string[] CollectListType()
+        {
+            return this.ParseReplies(MarkToDoResponses.ListTypePrompt.Replies, new StringDictionary());
         }
 
         private string[] CollectTaskIndex()
         {
-            var response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.AskToDoTaskIndex);
+            var response = ResponseManager.GetResponseTemplate(MarkToDoResponses.AskTaskIndex);
             return this.ParseReplies(response.Replies, new StringDictionary());
         }
 
@@ -173,12 +209,14 @@ namespace ToDoSkillTest.Flow
             };
         }
 
-        private Action<IActivity> ActionEndMessage()
+        private string[] CompleteAnotherTask()
         {
-            return activity =>
-            {
-                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
-            };
+            return this.ParseReplies(MarkToDoResponses.CompleteAnotherTaskPrompt.Replies, new StringDictionary());
+        }
+
+        private string[] ActionEndMessage()
+        {
+            return this.ParseReplies(ToDoSharedResponses.ActionEnded.Replies, new StringDictionary());
         }
     }
 }

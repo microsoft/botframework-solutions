@@ -26,7 +26,6 @@ namespace VirtualAssistant.Dialogs.Main
     {
         // Fields
         private BotServices _services;
-        private BotConfiguration _botConfig;
         private UserState _userState;
         private ConversationState _conversationState;
         private EndpointService _endpointService;
@@ -38,11 +37,10 @@ namespace VirtualAssistant.Dialogs.Main
 
         private bool _conversationStarted = false;
 
-        public MainDialog(BotServices services, BotConfiguration botConfig, ConversationState conversationState, UserState userState, EndpointService endpointService, IBotTelemetryClient telemetryClient)
+        public MainDialog(BotServices services, ConversationState conversationState, UserState userState, EndpointService endpointService, IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
-            _botConfig = botConfig;
             _conversationState = conversationState;
             _userState = userState;
             _endpointService = endpointService;
@@ -50,14 +48,11 @@ namespace VirtualAssistant.Dialogs.Main
             _onboardingState = _userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             _parametersAccessor = _userState.CreateProperty<Dictionary<string, object>>("userInfo");
             _virtualAssistantState = _conversationState.CreateProperty<VirtualAssistantState>(nameof(VirtualAssistantState));
-            var dialogState = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
 
             AddDialog(new OnboardingDialog(_services, _onboardingState, telemetryClient));
             AddDialog(new EscalateDialog(_services, telemetryClient));
-            AddDialog(new CustomSkillDialog(_services.SkillConfigurations, dialogState, endpointService, telemetryClient));
 
-            // Initialize skill dispatcher
-            _skillRouter = new SkillRouter(_services.SkillDefinitions);
+            RegisterSkills(_services.SkillDefinitions);
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -272,14 +267,17 @@ namespace VirtualAssistant.Dialogs.Main
 
                     case Events.ResetUser:
                         {
-                            await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Reset User Event received, clearing down State and Tokens."));
+                            await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: "Reset User Event received, clearing down State and Tokens."));
 
                             // Clear State
                             await _onboardingState.DeleteAsync(dc.Context, cancellationToken);
 
                             // Clear Tokens
                             var adapter = dc.Context.Adapter as BotFrameworkAdapter;
-                            await adapter.SignOutUserAsync(dc.Context, null, dc.Context.Activity.From.Id, cancellationToken);
+                            if (adapter != null)
+                            {
+                                await adapter.SignOutUserAsync(dc.Context, null, dc.Context.Activity.From.Id, cancellationToken);
+                            }
 
                             forward = false;
 
@@ -350,7 +348,7 @@ namespace VirtualAssistant.Dialogs.Main
                 await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Forwarding your utterance to the {options.SkillDefinition.Name} skill."));
 
                 // Begin the SkillDialog and pass the arguments in
-                await dc.BeginDialogAsync(nameof(CustomSkillDialog), options);
+                await dc.BeginDialogAsync(options.SkillDefinition.Id, options);
 
                 // Pass the activity we have
                 var result = await dc.ContinueDialogAsync();
@@ -387,6 +385,17 @@ namespace VirtualAssistant.Dialogs.Main
             await dc.Context.SendActivityAsync(MainStrings.LOGOUT);
 
             return InterruptionAction.StartedDialog;
+        }
+
+        private void RegisterSkills(List<SkillDefinition> skillDefinitions)
+        {
+            foreach (var definition in skillDefinitions)
+            {
+                AddDialog(new SkillDialog(definition, _services.SkillConfigurations[definition.Id], _endpointService, TelemetryClient));
+            }
+
+            // Initialize skill dispatcher
+            _skillRouter = new SkillRouter(_services.SkillDefinitions);
         }
 
         private class Events

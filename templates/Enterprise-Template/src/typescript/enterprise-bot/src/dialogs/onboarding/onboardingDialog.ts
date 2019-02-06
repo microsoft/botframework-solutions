@@ -1,99 +1,125 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
-import { StatePropertyAccessor, TurnContext } from 'botbuilder';
-import { DialogTurnResult, TextPrompt, WaterfallDialog, WaterfallStepContext } from 'botbuilder-dialogs';
+import {
+    StatePropertyAccessor,
+    TurnContext } from 'botbuilder';
+import {
+    DialogTurnResult,
+    TextPrompt,
+    WaterfallDialog,
+    WaterfallStepContext } from 'botbuilder-dialogs';
 import { BotServices } from '../../botServices';
 import { EnterpriseDialog } from '../shared/enterpriseDialog';
 import { OnboardingResponses } from './onboardingResponses';
-import { OnboardingState } from './onboardingState';
+import { IOnboardingState } from './onboardingState';
 
 export class OnboardingDialog extends EnterpriseDialog {
 
     // Fields
-    private static readonly _responder: OnboardingResponses = new OnboardingResponses();
-    private readonly _accessor: StatePropertyAccessor<OnboardingState>;
-    private _state!: OnboardingState;
+    private static readonly RESPONDER: OnboardingResponses = new OnboardingResponses();
+    private readonly ACCESSOR: StatePropertyAccessor<IOnboardingState>;
+    private STATE!: IOnboardingState;
+    private DIALOG_IDS: DialogIds = new DialogIds();
 
-    constructor(botServices: BotServices, accessor: StatePropertyAccessor<OnboardingState>) {
+    constructor(botServices: BotServices, accessor: StatePropertyAccessor<IOnboardingState>) {
         super(botServices, OnboardingDialog.name);
 
-        this._accessor = accessor;
+        this.ACCESSOR = accessor;
         this.initialDialogId = OnboardingDialog.name;
 
-        const onboarding = [
+        // tslint:disable-next-line:no-any
+        const onboarding: ((sc: WaterfallStepContext<IOnboardingState>) => Promise<DialogTurnResult<any>>)[] = [
             this.askForName.bind(this),
             this.askForEmail.bind(this),
             this.askForLocation.bind(this),
             this.finishOnboardingDialog.bind(this)
         ];
 
-        this.addDialog(new WaterfallDialog<OnboardingState>(this.initialDialogId, onboarding));
-        this.addDialog(new TextPrompt(DialogIds.NamePrompt));
-        this.addDialog(new TextPrompt(DialogIds.EmailPrompt));
-        this.addDialog(new TextPrompt(DialogIds.LocationPrompt));
+        this.addDialog(new WaterfallDialog<IOnboardingState>(this.initialDialogId, onboarding));
+        this.addDialog(new TextPrompt(this.DIALOG_IDS.NAME_PROMPT));
+        this.addDialog(new TextPrompt(this.DIALOG_IDS.EMAIL_PROMPT));
+        this.addDialog(new TextPrompt(this.DIALOG_IDS.LOCATION_PROMPT));
     }
 
-    public async askForName(sc: WaterfallStepContext<OnboardingState>): Promise<DialogTurnResult> {
-        this._state = await this.getStateFromAccessor(sc.context);
+    public async askForName(sc: WaterfallStepContext<IOnboardingState>): Promise<DialogTurnResult> {
+        this.STATE = await this.getStateFromAccessor(sc.context);
 
-        if (this._state.name) {
-            return sc.next(this._state.name);
+        if (this.STATE.name) {
+            return sc.next(this.STATE.name);
         } else {
-            return sc.prompt(DialogIds.NamePrompt, {
-                prompt: await OnboardingDialog._responder.renderTemplate(sc.context, OnboardingResponses.ResponseIds.NamePrompt, sc.context.activity.locale as string)
+            return sc.prompt(this.DIALOG_IDS.NAME_PROMPT, {
+                prompt: await OnboardingDialog.RESPONDER.renderTemplate(
+                    sc.context,
+                    OnboardingResponses.RESPONSE_IDS.NamePrompt,
+                    <string> sc.context.activity.locale)
             });
         }
     }
 
-    public async askForEmail(sc: WaterfallStepContext<OnboardingState>): Promise<DialogTurnResult> {
-        this._state = await this.getStateFromAccessor(sc.context);
-        this._state.name = sc.result;
+    public async askForEmail(sc: WaterfallStepContext<IOnboardingState>): Promise<DialogTurnResult> {
+        this.STATE = await this.getStateFromAccessor(sc.context);
+        this.STATE.name = sc.result;
 
-        await OnboardingDialog._responder.replyWith(sc.context, OnboardingResponses.ResponseIds.HaveNameMessage, { name: this._state.name });
+        await OnboardingDialog.RESPONDER.replyWith(sc.context, OnboardingResponses.RESPONSE_IDS.HaveNameMessage, { name: this.STATE.name });
 
-        return sc.prompt(DialogIds.EmailPrompt, {
-            prompt: await OnboardingDialog._responder.renderTemplate(sc.context, OnboardingResponses.ResponseIds.EmailPrompt, sc.context.activity.locale as string)
+        return sc.prompt(this.DIALOG_IDS.EMAIL_PROMPT, {
+            prompt: await OnboardingDialog.RESPONDER.renderTemplate(
+                sc.context,
+                OnboardingResponses.RESPONSE_IDS.EmailPrompt,
+                <string> sc.context.activity.locale)
         });
     }
 
-    public async askForLocation(sc: WaterfallStepContext<OnboardingState>): Promise<DialogTurnResult> {
-        this._state = await this.getStateFromAccessor(sc.context);
-        this._state.email = sc.result;
+    public async askForLocation(sc: WaterfallStepContext<IOnboardingState>): Promise<DialogTurnResult> {
+        this.STATE = await this.getStateFromAccessor(sc.context);
+        this.STATE.email = sc.result;
 
-        await OnboardingDialog._responder.replyWith(sc.context, OnboardingResponses.ResponseIds.HaveEmailMessage, { email: this._state.email });
+        await OnboardingDialog.RESPONDER.replyWith(
+            sc.context, OnboardingResponses.RESPONSE_IDS.HaveEmailMessage, { email: this.STATE.email });
 
-        return sc.prompt(DialogIds.LocationPrompt, {
-            prompt: await OnboardingDialog._responder.renderTemplate(sc.context, OnboardingResponses.ResponseIds.LocationPrompt, sc.context.activity.locale as string)
+        return sc.prompt(this.DIALOG_IDS.LOCATION_PROMPT, {
+            prompt: await OnboardingDialog.RESPONDER.renderTemplate(
+                sc.context,
+                OnboardingResponses.RESPONSE_IDS.LocationPrompt,
+                <string> sc.context.activity.locale)
         });
     }
 
-    public async finishOnboardingDialog(sc: WaterfallStepContext<OnboardingState>): Promise<DialogTurnResult> {
-        this._state = await this.getStateFromAccessor(sc.context);
-        this._state.location = sc.result as string;
+    public async finishOnboardingDialog(sc: WaterfallStepContext<IOnboardingState>): Promise<DialogTurnResult> {
+        this.STATE = await this.getStateFromAccessor(sc.context);
+        this.STATE.location = <string> sc.result;
 
-        await OnboardingDialog._responder.replyWith(sc.context, OnboardingResponses.ResponseIds.HaveLocationMessage, { name: this._state.name, location: this._state.location });
+        await OnboardingDialog.RESPONDER.replyWith(
+            sc.context,
+            OnboardingResponses.RESPONSE_IDS.HaveLocationMessage,
+            {
+                name: this.STATE.name,
+                location: this.STATE.location
+            });
 
         return sc.endDialog();
     }
 
-    private async getStateFromAccessor(context: TurnContext): Promise<OnboardingState>  {
-        const state: OnboardingState | undefined = await this._accessor.get(context);
+    private async getStateFromAccessor(context: TurnContext): Promise<IOnboardingState>  {
+        const state: IOnboardingState | undefined = await this.ACCESSOR.get(context);
         if (!state) {
-            const newState: OnboardingState = {
+            const newState: IOnboardingState = {
                 email: '',
                 location: '',
                 name: ''
             };
-            await this._accessor.set(context, newState);
+            await this.ACCESSOR.set(context, newState);
+
             return newState;
         }
+
         return state;
     }
 }
 
 class DialogIds {
-    public static NamePrompt: string = 'namePrompt';
-    public static EmailPrompt: string = 'emailPrompt';
-    public static LocationPrompt: string =  'locationPrompt';
+    public NAME_PROMPT: string = 'namePrompt';
+    public EMAIL_PROMPT: string = 'emailPrompt';
+    public LOCATION_PROMPT: string =  'locationPrompt';
 }
