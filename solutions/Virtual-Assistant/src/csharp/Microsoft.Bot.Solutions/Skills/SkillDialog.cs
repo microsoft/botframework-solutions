@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -39,12 +40,14 @@ namespace Microsoft.Bot.Solutions.Skills
             _endpointService = endpointService;
             _telemetryClient = telemetryClient;
             _useCachedTokens = useCachedTokens;
+
+            var supportedLanguages = skillConfiguration.LocaleConfigurations.Keys.ToArray();
             _responseManager = new ResponseManager(
                 new IResponseIdCollection[]
                 {
                     new CommonResponses()
                 },
-                new string[] { "en", "de", "es", "fr", "it", "zh" });
+                supportedLanguages);
 
             AddDialog(new MultiProviderAuthDialog(skillConfiguration));
         }
