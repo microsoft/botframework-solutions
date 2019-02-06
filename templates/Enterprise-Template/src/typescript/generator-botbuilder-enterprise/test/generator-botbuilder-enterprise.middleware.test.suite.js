@@ -6,47 +6,89 @@ const rimraf = require("rimraf");
 const _camelCase = require("lodash/camelCase");
 const _upperFirst = require("lodash/upperFirst");
 
-describe("The generator-botbuilder-enterprise middleware tests ", () => {
-  var middlewareName = "customMiddleware";
-  const middlewareNameCamelCase = _camelCase(middlewareName);
-  const middlewareNamePascalCase = _upperFirst(_camelCase(middlewareName));
-  const middlewareGenerationPath = path.join("tmp", middlewareName);
+describe("The generator-botbuilder-enterprise middleware tests ", function() {
+  var middlewareName;
+  var middlewareNameCamelCase;
+  var middlewareNamePascalCase;
+  var middlewareGenerationPath;
+  var confirmationPath;
+  var finalConfirmation;
 
-  before(() => {
-    return helpers
-      .run(path.join(__dirname, "../generators/middleware"))
-      .inDir(path.join(__dirname, "tmp"))
-      .withPrompts({
-        middlewareName: middlewareName,
-        confirmationPath: true,
-        middlewarePath: process.cwd(),
-        finalConfirmation: true
+  describe("should create", function() {
+    middlewareName = "customMiddleware";
+    middlewareNameCamelCase = _camelCase(middlewareName);
+    middlewareNamePascalCase = _upperFirst(_camelCase(middlewareName));
+    middlewareGenerationPath = path.join("tmp", middlewareName);
+    confirmationPath = true;
+    finalConfirmation = true;
+
+    before(() => {
+      return helpers
+        .run(path.join(__dirname, "../generators/middleware"))
+        .inDir(path.join(__dirname, "tmp"))
+        .withPrompts({
+          middlewareName: middlewareName,
+          confirmationPath: true,
+          middlewarePath: process.cwd(),
+          finalConfirmation: true
+        });
+    });
+
+    after(function() {
+      rimraf.sync(path.join(__dirname, "tmp/*"));
+    });
+
+    describe("the file", function() {
+      const file = [middlewareNameCamelCase + ".ts"];
+
+      file.forEach(fileName =>
+        it(fileName + " file", function(done) {
+          assert.file(path.join(__dirname, middlewareGenerationPath, fileName));
+          done();
+        })
+      );
+    });
+
+    describe("and have in the middleware file with the given name", () => {
+      it("an export component with the given name", function(done) {
+        assert.fileContent(
+          path.join(
+            __dirname,
+            middlewareGenerationPath,
+            middlewareNameCamelCase + ".ts"
+          ),
+          `export class ${middlewareNamePascalCase}`
+        );
+        done();
       });
+    });
   });
 
-  after(() => {
-    rimraf.sync(path.join(__dirname, "tmp/*"));
-  });
+  describe("should not create", function() {
+    before(function() {
+      finalConfirmation = false;
+      return helpers
+        .run(path.join(__dirname, "../generators/middleware"))
+        .inDir(path.join(__dirname, "tmp"))
+        .withPrompts({
+          middlewareName: middlewareName,
+          confirmationPath: confirmationPath,
+          middlewareGenerationPath: middlewareGenerationPath,
+          finalConfirmation: finalConfirmation
+        });
+    });
 
-  describe("should create", () => {
-    const files = [middlewareNameCamelCase + ".ts"];
+    after(function() {
+      rimraf.sync(path.join(__dirname, "tmp/*"));
+    });
 
-    files.forEach(fileName =>
-      it(fileName + " file", () => {
-        assert.file(path.join(__dirname, middlewareGenerationPath, fileName));
-      })
-    );
-  });
-
-  describe("should have in the middleware file with the given name", () => {
-    it("an export component with the given name", () => {
-      assert.fileContent(
-        path.join(
-          __dirname,
-          middlewareGenerationPath,
-          middlewareNameCamelCase + ".ts"
-        ),
-        `export class ${middlewareNamePascalCase}`
+    describe("the base", function() {
+      it(
+        middlewareName + " folder when the final confirmation is deny",
+        function(done) {
+          assert.noFile(path.join(__dirname, middlewareGenerationPath));
+          done();
+        }
       );
     });
   });
