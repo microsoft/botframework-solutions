@@ -131,7 +131,7 @@ namespace ToDoSkill.Dialogs.ShowToDo
                 var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
                 if (state.Tasks.Count <= 0)
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ShowToDoResponses.NoTasksMessage, tokens: new StringDictionary() { { "listType", state.ListType } }));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ShowToDoResponses.NoTasksMessage, new StringDictionary() { { "listType", state.ListType } }));
                     return await sc.EndDialogAsync(true);
                 }
                 else
@@ -252,10 +252,8 @@ namespace ToDoSkill.Dialogs.ShowToDo
         {
             try
             {
-                var prompt = ResponseManager.GetResponse(ShowToDoResponses.NoToDoTasksPrompt);
-                return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
-                var prompt = sc.Context.Activity.CreateReply(ShowToDoResponses.ReadMoreTasksPrompt);
-                var retryPrompt = sc.Context.Activity.CreateReply(ShowToDoResponses.ReadMoreTasksConfirmFailed);
+                var prompt = ResponseManager.GetResponse(ShowToDoResponses.ReadMoreTasksPrompt);
+                var retryPrompt = ResponseManager.GetResponse(ShowToDoResponses.ReadMoreTasksConfirmFailed);
                 return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
@@ -276,7 +274,7 @@ namespace ToDoSkill.Dialogs.ShowToDo
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ShowToDoResponses.InstructionMessage));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ShowToDoResponses.InstructionMessage));
                     return await sc.CancelAllDialogsAsync();
                 }
             }
@@ -347,8 +345,8 @@ namespace ToDoSkill.Dialogs.ShowToDo
         {
             try
             {
-                var prompt = sc.Context.Activity.CreateReply(ShowToDoResponses.ReadMoreTasksPrompt);
-                var retryPrompt = sc.Context.Activity.CreateReply(ShowToDoResponses.ReadMoreTasksConfirmFailed);
+                var prompt = ResponseManager.GetResponse(ShowToDoResponses.ReadMoreTasksPrompt);
+                var retryPrompt = ResponseManager.GetResponse(ShowToDoResponses.ReadMoreTasksConfirmFailed);
                 return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
@@ -369,7 +367,7 @@ namespace ToDoSkill.Dialogs.ShowToDo
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ActionEnded));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ActionEnded));
                     return await sc.CancelAllDialogsAsync();
                 }
             }
@@ -447,8 +445,8 @@ namespace ToDoSkill.Dialogs.ShowToDo
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 var token = new StringDictionary() { { "listType", state.ListType } };
-                var prompt = sc.Context.Activity.CreateReply(ShowToDoResponses.GoBackToStartPrompt, tokens: token);
-                var retryPrompt = sc.Context.Activity.CreateReply(ShowToDoResponses.GoBackToStartConfirmFailed);
+                var prompt = ResponseManager.GetResponse(ShowToDoResponses.GoBackToStartPrompt, token);
+                var retryPrompt = ResponseManager.GetResponse(ShowToDoResponses.GoBackToStartConfirmFailed);
                 return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
@@ -472,7 +470,7 @@ namespace ToDoSkill.Dialogs.ShowToDo
             else
             {
                 state.GoBackToStart = false;
-                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ActionEnded));
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ActionEnded));
                 return await sc.EndDialogAsync(true);
             }
         }
@@ -496,8 +494,8 @@ namespace ToDoSkill.Dialogs.ShowToDo
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 var token = new StringDictionary() { { "listType", state.ListType } };
-                var prompt = sc.Context.Activity.CreateReply(ShowToDoResponses.RepeatFirstPagePrompt, tokens: token);
-                var retryPrompt = sc.Context.Activity.CreateReply(ShowToDoResponses.RepeatFirstPageConfirmFailed);
+                var prompt = ResponseManager.GetResponse(ShowToDoResponses.RepeatFirstPagePrompt, tokens: token);
+                var retryPrompt = ResponseManager.GetResponse(ShowToDoResponses.RepeatFirstPageConfirmFailed);
                 return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
@@ -521,7 +519,7 @@ namespace ToDoSkill.Dialogs.ShowToDo
             else
             {
                 state.GoBackToStart = false;
-                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ActionEnded));
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ActionEnded));
                 return await sc.EndDialogAsync(true);
             }
         }

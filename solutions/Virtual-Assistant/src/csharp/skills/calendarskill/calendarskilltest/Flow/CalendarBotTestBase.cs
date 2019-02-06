@@ -3,6 +3,7 @@ using Autofac;
 using CalendarSkill;
 using CalendarSkill.Dialogs.ChangeEventStatus.Resources;
 using CalendarSkill.Dialogs.CreateEvent.Resources;
+using CalendarSkill.Dialogs.FindContact.Resources;
 using CalendarSkill.Dialogs.JoinEvent.Resources;
 using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
@@ -59,6 +60,7 @@ namespace CalendarSkillTest.Flow
             ResponseManager = new ResponseManager(
                 responseTemplates: new IResponseIdCollection[]
                 {
+                    new FindContactResponses(),
                     new ChangeEventStatusResponses(),
                     new CreateEventResponses(),
                     new JoinEventResponses(),
@@ -105,8 +107,7 @@ namespace CalendarSkillTest.Flow
 
         public override IBot BuildBot()
         {
-            return new CalendarSkill.CalendarSkill(Services, ConversationState, UserState, TelemetryClient, ResponseManager, ServiceManager, true);
-            return new CalendarSkill.CalendarSkill(this.Services, this.ConversationState, this.UserState, this.TelemetryClient, true, this.ServiceManager);
+            return new CalendarSkill.CalendarSkill(this.Services, this.ConversationState, this.UserState, this.TelemetryClient, true, ResponseManager, this.ServiceManager);
         }
     }
 }

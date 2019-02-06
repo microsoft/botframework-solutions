@@ -54,6 +54,8 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
             IHttpContextAccessor httpContext)
             : base(nameof(VehicleSettingsDialog), services, responseManager, accessor, serviceManager, telemetryClient)
         {
+            TelemetryClient = telemetryClient;
+
             // Initialise supporting LUIS models for followup questions
             vehicleSettingNameSelectionLuisRecognizer = services.LocaleConfigurations["en"].LuisServices["settings_name"];
             vehicleSettingValueSelectionLuisRecognizer = services.LocaleConfigurations["en"].LuisServices["settings_value"];
@@ -174,8 +176,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                             options.Choices.Add(choice);
                         }
 
-                        BotResponse settingNamePrompt = VehicleSettingsResponses.VehicleSettingsSettingNameSelection;
-                        options.Prompt = sc.Context.Activity.CreateReply(settingNamePrompt, ResponseBuilder);
+                        options.Prompt = ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsSettingNameSelection);
 
                         var card = new ThumbnailCard
                         {
@@ -223,7 +224,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
             {
                 // The response from the user might be the exact setting name or more likely something like "first one" or "last one" so we need to ensure the activity text (used by the LUIS recognizer) is correct
                 // No way to identify this situation so we override
-                string settingChoice = promptContext.Recognized.Value.Value;
+                var settingChoice = promptContext.Recognized.Value.Value;
                 promptContext.Context.Activity.Text = settingChoice;
 
                 // Use the value selection LUIS model to perform validation of the users entered setting value
@@ -277,11 +278,11 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                     // We have found multiple settings which we need to prompt the user to resolve
                     if (settingValues.Count() > 1)
                     {
-                        string settingName = state.Changes.First().SettingName;
+                        var settingName = state.Changes.First().SettingName;
                         var setting = this.settingList.FindSetting(settingName);
 
                         // If a category image filename is provided we'll use it otherwise fall back to the generic car one
-                        string imageName = setting.CategoryImageFileName ?? FallbackSettingImageFileName;
+                        var imageName = setting.CategoryImageFileName ?? FallbackSettingImageFileName;
 
                         // If we have more than one setting name matching prompt the user to choose
                         var options = new PromptOptions()
@@ -301,11 +302,14 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                         }
 
                         var promptReplacements = new StringDictionary { { "settingName", settingName } };
+                        options.Prompt = ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsSettingValueSelectionPre, promptReplacements);
+
+                        var whichSettingTemplate = ResponseManager.GetResponseTemplate(VehicleSettingsResponses.WhichSettingValue);
 
                         var card = new ThumbnailCard
                         {
                             Title = options.Prompt.Text,
-                            Text = VehicleSettingsResponses.WhichSettingValue.Reply.Text,
+                            Text = whichSettingTemplate.Reply.Text,
                             Images = new List<CardImage> { new CardImage(GetSettingCardImageUri(imageName)) },
                             Buttons = options.Choices.Select(choice =>
                                 new CardAction(ActionTypes.ImBack, choice.Value, value: choice.Value)).ToList(),
@@ -348,7 +352,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
             {
                 // The response from the user might be the exact setting name or more likely something like "first one" or "last one" so we need to ensure the activity text (used by the LUIS recognizer) is correct
                 // No way to identify this situation so we override
-                string valueChoice = promptContext.Recognized.Value.Value;
+                var valueChoice = promptContext.Recognized.Value.Value;
                 promptContext.Context.Activity.Text = valueChoice;
 
                 // Use the value selection LUIS model to perform validation of the users entered setting value
@@ -433,15 +437,13 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                 }
                 else
                 {
-                    var response = ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsSettingChangeUnsupported);
-                    await sc.Context.SendActivityAsync(response);
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsSettingChangeUnsupported));
                     return await sc.EndDialogAsync();
                 }
             }
             else
             {
-                var response = ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsSettingChangeUnsupported);
-                await sc.Context.SendActivityAsync(response);
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsSettingChangeUnsupported));
                 return await sc.EndDialogAsync();
             }
         }
@@ -490,45 +492,43 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                         // Send an event to the device along with the text confirmation
                         await SendActionToDevice(sc, change, promptReplacements);
 
-                        var response = ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsChangingRelativeAmount);
-                        await sc.Context.SendActivityAsync(response);
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(
+                            VehicleSettingsResponses.VehicleSettingsChangingRelativeAmount));
                     }
                     else
                     {
                         // Send an event to the device along with the text confirmation
                         await SendActionToDevice(sc, change, promptReplacements);
 
-                        var response = ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsChangingAmount, promptReplacements);
-                        await sc.Context.SendActivityAsync(response);
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(
+                            VehicleSettingsResponses.VehicleSettingsChangingAmount, promptReplacements));
                     }
                 }
                 else
                 {
                     // Binary event (on/off)
-                    string promptTemplateId;
+                    string promptTemplate;
                     var promptReplacements = new StringDictionary { { "settingName", change.SettingName } };
                     if (SettingValueToSpeakableIngForm.TryGetValue(change.Value.ToLowerInvariant(), out var valueIngForm))
                     {
-                        promptTemplateId = VehicleSettingsResponses.VehicleSettingsChangingValueKnown;
+                        promptTemplate = VehicleSettingsResponses.VehicleSettingsChangingValueKnown;
                         promptReplacements["valueIngForm"] = valueIngForm;
                     }
                     else
                     {
-                        promptTemplateId = VehicleSettingsResponses.VehicleSettingsChangingValue;
+                        promptTemplate = VehicleSettingsResponses.VehicleSettingsChangingValue;
                         promptReplacements["value"] = change.Value;
                     }
 
                     // Send an event to the device along with the text confirmation
                     await SendActionToDevice(sc, change, promptReplacements);
 
-                    var response = ResponseManager.GetResponse(promptTemplateId, promptReplacements);
-                    await sc.Context.SendActivityAsync(response);
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(promptTemplate, promptReplacements));
                 }
             }
             else
             {
-                var response = ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsSettingChangeConfirmationDenied);
-                await sc.Context.SendActivityAsync(response);
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsSettingChangeConfirmationDenied));
             }
 
             return await sc.EndDialogAsync();
@@ -564,7 +564,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
             // If we are in local mode we leverage the HttpContext to get the current path to the image assets
             if (_httpContext != null)
             {
-                string serverUrl = _httpContext.HttpContext.Request.Scheme + "://" + _httpContext.HttpContext.Request.Host.Value;
+                var serverUrl = _httpContext.HttpContext.Request.Scheme + "://" + _httpContext.HttpContext.Request.Host.Value;
                 return $"{serverUrl}/images/{imagePath}";
             }
             else

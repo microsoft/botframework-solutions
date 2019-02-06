@@ -31,6 +31,10 @@
     <Content Remove="Dialogs\Route\Resources\RouteResponses.it.json" />
     <Content Remove="Dialogs\Route\Resources\RouteResponses.json" />
     <Content Remove="Dialogs\Route\Resources\RouteResponses.zh.json" />
+    <Content Remove="Dialogs\Shared\Resources\Cards\PointOfInterestViewCard.json" />
+    <Content Remove="Dialogs\Shared\Resources\Cards\PointOfInterestViewNoDrivingButtonCard.json" />
+    <Content Remove="Dialogs\Shared\Resources\Cards\RouteDirectionsViewCard.json" />
+    <Content Remove="Dialogs\Shared\Resources\Cards\RouteDirectionsViewCardNoGetStartedButton.json" />
     <Content Remove="Dialogs\Shared\Resources\POISharedResponses.de.json" />
     <Content Remove="Dialogs\Shared\Resources\POISharedResponses.es.json" />
     <Content Remove="Dialogs\Shared\Resources\POISharedResponses.fr.json" />
@@ -64,6 +68,10 @@
     <EmbeddedResource Include="Dialogs\Route\Resources\RouteResponses.it.json" />
     <EmbeddedResource Include="Dialogs\Route\Resources\RouteResponses.json" />
     <EmbeddedResource Include="Dialogs\Route\Resources\RouteResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\PointOfInterestViewCard.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\PointOfInterestViewNoDrivingButtonCard.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\RouteDirectionsViewCard.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\RouteDirectionsViewCardNoGetStartedButton.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\POISharedResponses.de.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\POISharedResponses.fr.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\POISharedResponses.it.json" />

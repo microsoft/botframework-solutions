@@ -11,7 +11,10 @@ namespace CalendarSkill.Dialogs.TimeRemaining.Resources
     /// </summary>
     public class TimeRemainingResponses : IResponseIdCollection
     {
+        // Generated accessors
 		public const string ShowNextMeetingTimeRemainingMessage = "ShowNextMeetingTimeRemainingMessage";
 		public const string ShowTimeRemainingMessage = "ShowTimeRemainingMessage";
-		public const string ShowNoMeetingMessage = "ShowNoMeetingMessage";    }
+		public const string ShowNoMeetingMessage = "ShowNoMeetingMessage";
+
+    }
 }

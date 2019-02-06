@@ -120,14 +120,12 @@ namespace CalendarSkillTest.Flow
 
         private string[] AskForDeletePrompt()
         {
-            var response = ResponseManager.GetResponseTemplate(ChangeEventStatusResponses.NoDeleteStartTime);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            return this.ParseReplies(ChangeEventStatusResponses.NoDeleteStartTime, new StringDictionary());
         }
 
         private string[] DeleteEventPrompt()
         {
-            var response = ResponseManager.GetResponseTemplate(ChangeEventStatusResponses.EventDeleted);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            return this.ParseReplies(ChangeEventStatusResponses.EventDeleted, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()

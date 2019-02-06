@@ -11,6 +11,7 @@ namespace EmailSkill.Dialogs.Shared.Resources
     /// </summary>
     public class EmailSharedResponses : IResponseIdCollection
     {
+        // Generated accessors
 		public const string DidntUnderstandMessage = "DidntUnderstandMessage";
 		public const string DidntUnderstandMessageIgnoringInput = "DidntUnderstandMessageIgnoringInput";
 		public const string CancellingMessage = "CancellingMessage";
@@ -28,6 +29,12 @@ namespace EmailSkill.Dialogs.Shared.Resources
 		public const string EmailNotFound = "EmailNotFound";
 		public const string NoFocusMessage = "NoFocusMessage";
 		public const string ShowEmailPrompt = "ShowEmailPrompt";
+		public const string ShowEmailPrompt_OtherPage = "ShowEmailPrompt_OtherPage";
 		public const string ShowOneEmailPrompt = "ShowOneEmailPrompt";
-		public const string NoChoiceOptions_Retry = "NoChoiceOptions_Retry";    }
+		public const string ShowOneEmailPrompt_OtherPage = "ShowOneEmailPrompt_OtherPage";
+		public const string FirstPageAlready = "FirstPageAlready";
+		public const string LastPageAlready = "LastPageAlready";
+		public const string NoChoiceOptions_Retry = "NoChoiceOptions_Retry";
+
+    }
 }

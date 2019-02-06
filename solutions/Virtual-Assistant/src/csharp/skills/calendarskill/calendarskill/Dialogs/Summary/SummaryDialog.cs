@@ -154,11 +154,11 @@ namespace CalendarSkill.Dialogs.Summary
                             };
                             if (searchedEvents.Count == 1)
                             {
-                                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowOneMeetingSummaryAgainMessage, ResponseBuilder, responseParams));
+                                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ShowOneMeetingSummaryAgainMessage, responseParams));
                             }
                             else
                             {
-                                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowMeetingSummaryAgainMessage, ResponseBuilder, responseParams));
+                                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ShowMeetingSummaryAgainMessage, responseParams));
                             }
                         }
                         else
@@ -174,7 +174,7 @@ namespace CalendarSkill.Dialogs.Summary
 
                             if (searchedEvents.Count == 1)
                             {
-                                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowOneMeetingSummaryMessage, ResponseBuilder, responseParams));
+                                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ShowOneMeetingSummaryMessage, responseParams));
                             }
                             else
                             {
@@ -182,7 +182,7 @@ namespace CalendarSkill.Dialogs.Summary
                                 responseParams.Add("EventTime2", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(searchedEvents[searchedEvents.Count - 1].StartTime, state.GetUserTimeZone()), searchedEvents[searchedEvents.Count - 1].IsAllDay == true));
                                 responseParams.Add("Participants2", DisplayHelper.ToDisplayParticipantsStringSummary(searchedEvents[searchedEvents.Count - 1].Attendees));
 
-                                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowMultipleMeetingSummaryMessage, ResponseBuilder, responseParams));
+                                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ShowMultipleMeetingSummaryMessage, responseParams));
                             }
                         }
                     }
@@ -199,7 +199,7 @@ namespace CalendarSkill.Dialogs.Summary
                     var currentPageMeetings = GetCurrentPageMeetings(state.SummaryEvents, state);
                     if (options != null && options.Reason == ShowMeetingReason.ShowFilteredMeetings)
                     {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowMultipleFilteredMeetings, ResponseBuilder, new StringDictionary() { { "Count", state.SummaryEvents.Count.ToString() } }));
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ShowMultipleFilteredMeetings, new StringDictionary() { { "Count", state.SummaryEvents.Count.ToString() } }));
                     }
                     else
                     {
@@ -211,7 +211,7 @@ namespace CalendarSkill.Dialogs.Summary
                             { "EventTime1", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(currentPageMeetings[0].StartTime, state.GetUserTimeZone()), currentPageMeetings[0].IsAllDay == true) },
                             { "Participants1", DisplayHelper.ToDisplayParticipantsStringSummary(currentPageMeetings[0].Attendees) }
                         };
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.ShowMeetingSummaryNotFirstPageMessage, ResponseBuilder, responseParams));
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ShowMeetingSummaryNotFirstPageMessage, responseParams));
                     }
 
                     await ShowMeetingList(sc, GetCurrentPageMeetings(state.SummaryEvents, state), !SearchesTodayMeeting(state));
@@ -257,7 +257,7 @@ namespace CalendarSkill.Dialogs.Summary
                     }
                     else
                     {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.CalendarNoMoreEvent));
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.CalendarNoMoreEvent));
                     }
 
                     return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, sc.Options);
@@ -270,7 +270,7 @@ namespace CalendarSkill.Dialogs.Summary
                     }
                     else
                     {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SummaryResponses.CalendarNoPreviousEvent));
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.CalendarNoPreviousEvent));
                     }
 
                     return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, sc.Options);

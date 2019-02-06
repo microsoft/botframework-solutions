@@ -112,7 +112,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
             AddDialog(new TimePrompt(Actions.TimePromptForCreate));
             AddDialog(new DurationPrompt(Actions.DurationPromptForCreate));
             AddDialog(new GetRecreateInfoPrompt(Actions.GetRecreateInfoPrompt));
-            AddDialog(new FindContactDialog(services, accessor, serviceManager, telemetryClient));
+            AddDialog(new FindContactDialog(services, responseManager, accessor, serviceManager, telemetryClient));
 
             // Set starting dialog for component
             InitialDialogId = Actions.CreateEvent;
@@ -429,8 +429,18 @@ namespace CalendarSkill.Dialogs.CreateEvent
                         {
                             { "Subject", state.Title },
                         };
+
                         newEvent.ContentPreview = state.Content;
-                        var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(CreateEventResponses.EventCreated, newEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", newEvent.ToAdaptiveCardData(state.GetUserTimeZone(), showContent: true), ResponseBuilder, tokens);
+
+                        var replyMessage = ResponseManager.GetCardResponse(
+                            CreateEventResponses.EventCreated,
+                            new Card()
+                            {
+                                Name = newEvent.OnlineMeetingUrl == null ? "CalendarCardNoJoinButton" : "CalendarCard",
+                                Data = newEvent.ToAdaptiveCardData(state.GetUserTimeZone(), showContent: true)
+                            },
+                            tokens);
+
                         await sc.Context.SendActivityAsync(replyMessage, cancellationToken);
                     }
                     else

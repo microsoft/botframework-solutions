@@ -18,7 +18,7 @@ namespace PointOfInterestSkill.Dialogs.Route
     public class RouteDialog : PointOfInterestSkillDialog
     {
         public RouteDialog(
-            SkillConfiguration services,
+            SkillConfigurationBase services,
             ResponseManager responseManager,
             IStatePropertyAccessor<PointOfInterestSkillState> accessor,
             IServiceManager serviceManager,

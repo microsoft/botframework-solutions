@@ -40,11 +40,20 @@ namespace AutomotiveSkill
         /// <param name="services">Skill Configuration information.</param>
         /// <param name="conversationState">Conversation State.</param>
         /// <param name="userState">User State.</param>
-        /// <param name="telemetryClient">Telemetry Client</param>
-        /// <param name="serviceManager">Service Manager</param>
+        /// <param name="telemetryClient">Telemetry Client.</param>
+        /// <param name="serviceManager">Service Manager.</param>
         /// <param name="skillMode">Indicates whether the skill is running in skill or local mode.</param>
+        /// <param name="responseManager">The responses for the bot.</param>
         /// <param name="httpContext">HttpContext accessor used to create relative URIs for images when in local mode.</param>
-        public AutomotiveSkill(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, bool skillMode = false, IServiceManager serviceManager = null, IHttpContextAccessor httpContext = null)
+        public AutomotiveSkill(
+            SkillConfigurationBase services,
+            ConversationState conversationState,
+            UserState userState,
+            IBotTelemetryClient telemetryClient,
+            bool skillMode = false,
+            ResponseManager responseManager = null,
+            IServiceManager serviceManager = null,
+            IHttpContextAccessor httpContext = null)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));

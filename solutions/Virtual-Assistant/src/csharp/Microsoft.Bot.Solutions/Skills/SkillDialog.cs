@@ -23,6 +23,7 @@ namespace Microsoft.Bot.Solutions.Skills
         // Fields
         private SkillDefinition _skillDefinition;
         private SkillConfigurationBase _skillConfiguration;
+        private ResponseManager _responseManager;
         private EndpointService _endpointService;
         private IBotTelemetryClient _telemetryClient;
         private InProcAdapter _inProcAdapter;
@@ -38,6 +39,12 @@ namespace Microsoft.Bot.Solutions.Skills
             _endpointService = endpointService;
             _telemetryClient = telemetryClient;
             _useCachedTokens = useCachedTokens;
+            _responseManager = new ResponseManager(
+                new IResponseIdCollection[]
+                {
+                    new CommonResponses()
+                },
+                new string[] { "en", "de", "es", "fr", "it", "zh" });
 
             AddDialog(new MultiProviderAuthDialog(skillConfiguration));
         }
@@ -150,7 +157,7 @@ namespace Microsoft.Bot.Solutions.Skills
                     // set up skill turn error handling
                     OnTurnError = async (context, exception) =>
                     {
-                        await context.SendActivityAsync(CommonResponses.ErrorMessage_SkillError);
+                        await context.SendActivityAsync(_responseManager.GetResponse(CommonResponses.ErrorMessage_SkillError));
 
                         await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Skill Error: {exception.Message} | {exception.StackTrace}"));
 

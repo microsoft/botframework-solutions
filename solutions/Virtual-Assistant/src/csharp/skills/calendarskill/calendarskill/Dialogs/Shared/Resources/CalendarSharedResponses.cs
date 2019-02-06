@@ -11,8 +11,11 @@ namespace CalendarSkill.Dialogs.Shared.Resources
     /// </summary>
     public class CalendarSharedResponses : IResponseIdCollection
     {
+        // Generated accessors
 		public const string DidntUnderstandMessage = "DidntUnderstandMessage";
 		public const string ActionEnded = "ActionEnded";
 		public const string CalendarErrorMessage = "CalendarErrorMessage";
-		public const string CalendarErrorMessageBotProblem = "CalendarErrorMessageBotProblem";    }
+		public const string CalendarErrorMessageBotProblem = "CalendarErrorMessageBotProblem";
+
+    }
 }

@@ -5,8 +5,8 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using EmailSkill.Dialogs.ConfirmRecipient.Resources;
 using EmailSkill.Dialogs.DeleteEmail.Resources;
+using EmailSkill.Dialogs.FindContact.Resources;
 using EmailSkill.Dialogs.ForwardEmail.Resources;
 using EmailSkill.Dialogs.Main;
 using EmailSkill.Dialogs.Main.Resources;
@@ -36,8 +36,14 @@ namespace EmailSkill
         private DialogSet _dialogs;
         private bool _skillMode;
 
-        public EmailSkill(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, ResponseManager responseManager = null, IServiceManager serviceManager = null, bool skillMode = false)
-        public EmailSkill(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, bool skillMode = false, IServiceManager serviceManager = null)
+        public EmailSkill(
+            SkillConfigurationBase services,
+            ConversationState conversationState,
+            UserState userState,
+            IBotTelemetryClient telemetryClient,
+            bool skillMode = false,
+            ResponseManager responseManager = null,
+            IServiceManager serviceManager = null)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));
@@ -52,7 +58,7 @@ namespace EmailSkill
                 responseManager = new ResponseManager(
                     new IResponseIdCollection[]
                     {
-                        new ConfirmRecipientResponses(),
+                        new FindContactResponses(),
                         new DeleteEmailResponses(),
                         new ForwardEmailResponses(),
                         new EmailMainResponses(),

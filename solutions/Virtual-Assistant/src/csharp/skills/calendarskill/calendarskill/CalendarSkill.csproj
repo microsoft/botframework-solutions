@@ -21,6 +21,12 @@
     <Content Remove="Dialogs\CreateEvent\Resources\CreateEventResponses.zh.json" />
     <Content Remove="Dialogs\CreateEvent\Resources\CreateEventWhiteList.json" />
     <Content Remove="Dialogs\CreateEvent\Resources\CreateEventWhiteList.zh.json" />
+    <Content Remove="Dialogs\FindContact\Resources\FindContactResponses.de.json" />
+    <Content Remove="Dialogs\FindContact\Resources\FindContactResponses.es.json" />
+    <Content Remove="Dialogs\FindContact\Resources\FindContactResponses.fr.json" />
+    <Content Remove="Dialogs\FindContact\Resources\FindContactResponses.it.json" />
+    <Content Remove="Dialogs\FindContact\Resources\FindContactResponses.json" />
+    <Content Remove="Dialogs\FindContact\Resources\FindContactResponses.zh.json" />
     <Content Remove="Dialogs\JoinEvent\Resources\JoinEventResponses.de.json" />
     <Content Remove="Dialogs\JoinEvent\Resources\JoinEventResponses.es.json" />
     <Content Remove="Dialogs\JoinEvent\Resources\JoinEventResponses.fr.json" />
@@ -80,6 +86,12 @@
     <EmbeddedResource Include="Dialogs\CreateEvent\Resources\CreateEventResponses.json" />
     <EmbeddedResource Include="Dialogs\CreateEvent\Resources\CreateEventResponses.zh.json" />
     <EmbeddedResource Include="Dialogs\CreateEvent\Resources\CreateEventWhiteList.zh.json" />
+    <EmbeddedResource Include="Dialogs\FindContact\Resources\FindContactResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\FindContact\Resources\FindContactResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\FindContact\Resources\FindContactResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\FindContact\Resources\FindContactResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\FindContact\Resources\FindContactResponses.json" />
+    <EmbeddedResource Include="Dialogs\FindContact\Resources\FindContactResponses.zh.json" />
     <EmbeddedResource Include="Dialogs\JoinEvent\Resources\JoinEventResponses.de.json" />
     <EmbeddedResource Include="Dialogs\JoinEvent\Resources\JoinEventResponses.es.json" />
     <EmbeddedResource Include="Dialogs\JoinEvent\Resources\JoinEventResponses.fr.json" />

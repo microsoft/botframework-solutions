@@ -11,7 +11,10 @@ namespace EmailSkill.Dialogs.DeleteEmail.Resources
     /// </summary>
     public class DeleteEmailResponses : IResponseIdCollection
     {
+        // Generated accessors
 		public const string DeletePrompt = "DeletePrompt";
 		public const string DeleteConfirm = "DeleteConfirm";
-		public const string DeleteSuccessfully = "DeleteSuccessfully";    }
+		public const string DeleteSuccessfully = "DeleteSuccessfully";
+
+    }
 }

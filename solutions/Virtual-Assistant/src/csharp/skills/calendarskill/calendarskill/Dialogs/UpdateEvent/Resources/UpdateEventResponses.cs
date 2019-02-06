@@ -11,6 +11,7 @@ namespace CalendarSkill.Dialogs.UpdateEvent.Resources
     /// </summary>
     public class UpdateEventResponses : IResponseIdCollection
     {
+        // Generated accessors
 		public const string NotEventOrganizer = "NotEventOrganizer";
 		public const string ConfirmUpdate = "ConfirmUpdate";
 		public const string ConfirmUpdateFailed = "ConfirmUpdateFailed";
@@ -20,5 +21,7 @@ namespace CalendarSkill.Dialogs.UpdateEvent.Resources
 		public const string EventWithStartTimeNotFound = "EventWithStartTimeNotFound";
 		public const string NoDeleteStartTime = "NoDeleteStartTime";
 		public const string NoUpdateStartTime = "NoUpdateStartTime";
-		public const string MultipleEventsStartAtSameTime = "MultipleEventsStartAtSameTime";    }
+		public const string MultipleEventsStartAtSameTime = "MultipleEventsStartAtSameTime";
+
+    }
 }

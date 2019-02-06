@@ -495,8 +495,6 @@ namespace EmailSkill.Dialogs.Shared
                             return await sc.EndDialogAsync();
                         }
 
-                        var recipientConfirmedMessage =
-                            sc.Context.Activity.CreateReply(EmailSharedResponses.RecipientConfirmed, null, new StringDictionary() { { "UserName", await GetNameListStringAsync(sc) } });
                         var recipientConfirmedMessage = ResponseManager.GetResponse(EmailSharedResponses.RecipientConfirmed, new StringDictionary() { { "UserName", await GetNameListStringAsync(sc) } });
                         noEmailContentMessage.Text = recipientConfirmedMessage.Text + " " + noEmailContentMessage.Text;
                         noEmailContentMessage.Speak = recipientConfirmedMessage.Speak + " " + noEmailContentMessage.Speak;
@@ -924,8 +922,6 @@ namespace EmailSkill.Dialogs.Shared
             var state = await EmailStateAccessor.GetAsync(sc.Context);
 
             var cards = new List<Card>();
-            var cardsData = new List<EmailCardData>();
-
             foreach (var message in messages)
             {
                 var nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(message.ToRecipients);
@@ -962,33 +958,34 @@ namespace EmailSkill.Dialogs.Shared
                 { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(updatedMessages, state.GetUserTimeZone(), ConfigData.GetInstance().MaxReadSize) },
             };
 
-            var reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
+            var reply = ResponseManager.GetCardResponse(EmailSharedResponses.ShowEmailPrompt, cards, tokens);
+
             if (state.ShowEmailIndex == 0)
             {
                 if (updatedMessages.Count == 1)
                 {
-                    reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowOneEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
+                    reply = ResponseManager.GetCardResponse(EmailSharedResponses.ShowOneEmailPrompt, cards, tokens);
                 }
             }
             else
             {
-                reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowEmailPrompt_OtherPage, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
+                reply = ResponseManager.GetCardResponse(EmailSharedResponses.ShowEmailPrompt_OtherPage, cards, tokens);
                 if (updatedMessages.Count == 1)
                 {
-                    reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowOneEmailPrompt_OtherPage, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
+                    reply = ResponseManager.GetCardResponse(EmailSharedResponses.ShowOneEmailPrompt_OtherPage, cards, tokens);
                 }
             }
 
             if (state.ShowEmailIndex < 0)
             {
-                var pagingInfo = sc.Context.Activity.CreateReply(EmailSharedResponses.FirstPageAlready);
+                var pagingInfo = ResponseManager.GetResponse(EmailSharedResponses.FirstPageAlready);
                 reply.Text = pagingInfo.Text + reply.Text;
                 reply.Speak = pagingInfo.Speak + reply.Speak;
                 state.ShowEmailIndex = 0;
             }
             else if (state.ShowEmailIndex * ConfigData.GetInstance().MaxDisplaySize > totalCount)
             {
-                var pagingInfo = sc.Context.Activity.CreateReply(EmailSharedResponses.LastPageAlready);
+                var pagingInfo = ResponseManager.GetResponse(EmailSharedResponses.LastPageAlready);
                 reply.Text = pagingInfo.Text + reply.Text;
                 reply.Speak = pagingInfo.Speak + reply.Speak;
                 state.ShowEmailIndex--;
@@ -1127,171 +1124,174 @@ namespace EmailSkill.Dialogs.Shared
 
                 var entity = luisResult.Entities;
 
-                if (entity.ordinal != null)
+                if (entity != null)
                 {
-                    try
+                    if (entity.ordinal != null)
                     {
-                        var emailList = state.MessageList;
-                        var value = entity.ordinal[0];
-                        if (Math.Abs(value - (int)value) < double.Epsilon)
+                        try
                         {
-                            state.UserSelectIndex = (int)value - 1;
+                            var emailList = state.MessageList;
+                            var value = entity.ordinal[0];
+                            if (Math.Abs(value - (int)value) < double.Epsilon)
+                            {
+                                state.UserSelectIndex = (int)value - 1;
+                            }
+                        }
+                        catch
+                        {
+                            // ignored
                         }
                     }
-                    catch
-                    {
-                        // ignored
-                    }
-                }
 
-                if (entity.number != null && (entity.ordinal == null || entity.ordinal.Length == 0))
-                {
-                    try
+                    if (entity.number != null && (entity.ordinal == null || entity.ordinal.Length == 0))
                     {
-                        var emailList = state.MessageList;
-                        var value = entity.number[0];
-                        if (Math.Abs(value - (int)value) < double.Epsilon)
+                        try
                         {
-                            state.UserSelectIndex = (int)value - 1;
+                            var emailList = state.MessageList;
+                            var value = entity.number[0];
+                            if (Math.Abs(value - (int)value) < double.Epsilon)
+                            {
+                                state.UserSelectIndex = (int)value - 1;
+                            }
+                        }
+                        catch
+                        {
+                            // ignored
                         }
                     }
-                    catch
+
+                    if (!isBeginDialog)
                     {
-                        // ignored
+                        return;
                     }
-                }
 
-                if (!isBeginDialog)
-                {
-                    return;
-                }
-
-                switch (intent)
-                {
-                    case Email.Intent.CheckMessages:
-                    case Email.Intent.SearchMessages:
-                        {
-                            // Get email search type
-                            if (dc.Context.Activity.Text != null)
+                    switch (intent)
+                    {
+                        case Email.Intent.CheckMessages:
+                        case Email.Intent.SearchMessages:
                             {
-                                var words = dc.Context.Activity.Text.Split(' ');
+                                // Get email search type
+                                if (dc.Context.Activity.Text != null)
                                 {
-                                    foreach (var word in words)
+                                    var words = dc.Context.Activity.Text.Split(' ');
                                     {
-                                        var lowerInput = word.ToLower();
+                                        foreach (var word in words)
+                                        {
+                                            var lowerInput = word.ToLower();
 
-                                        if (lowerInput.Contains(EmailCommonStrings.High) || lowerInput.Contains(EmailCommonStrings.Important))
-                                        {
-                                            state.IsImportant = true;
-                                        }
-                                        else if (lowerInput.Contains(EmailCommonStrings.Unread))
-                                        {
-                                            state.IsUnreadOnly = true;
-                                        }
-                                        else if (lowerInput.Contains(EmailCommonStrings.All))
-                                        {
-                                            state.IsUnreadOnly = false;
+                                            if (lowerInput.Contains(EmailCommonStrings.High) || lowerInput.Contains(EmailCommonStrings.Important))
+                                            {
+                                                state.IsImportant = true;
+                                            }
+                                            else if (lowerInput.Contains(EmailCommonStrings.Unread))
+                                            {
+                                                state.IsUnreadOnly = true;
+                                            }
+                                            else if (lowerInput.Contains(EmailCommonStrings.All))
+                                            {
+                                                state.IsUnreadOnly = false;
+                                            }
                                         }
                                     }
                                 }
-                            }
 
-                            if (entity.ContactName != null)
-                            {
-                                foreach (var name in entity.ContactName)
+                                if (entity.ContactName != null)
                                 {
-                                    if (!state.NameList.Contains(name))
+                                    foreach (var name in entity.ContactName)
                                     {
-                                        state.NameList.Add(name);
+                                        if (!state.NameList.Contains(name))
+                                        {
+                                            state.NameList.Add(name);
+                                        }
                                     }
                                 }
-                            }
 
-                            if (entity.EmailAddress != null)
-                            {
-                                // As luis result for email address often contains extra spaces for word breaking
-                                // (e.g. send email to test@test.com, email address entity will be test @ test . com)
-                                // So use original user input as email address.
-                                var rawEntity = luisResult.Entities._instance.EmailAddress;
-                                foreach (var emailAddress in rawEntity)
+                                if (entity.EmailAddress != null)
                                 {
-                                    var email = luisResult.Text.Substring(emailAddress.StartIndex, emailAddress.EndIndex - emailAddress.StartIndex);
-                                    if (IsEmail(email) && !state.EmailList.Contains(email))
+                                    // As luis result for email address often contains extra spaces for word breaking
+                                    // (e.g. send email to test@test.com, email address entity will be test @ test . com)
+                                    // So use original user input as email address.
+                                    var rawEntity = luisResult.Entities._instance.EmailAddress;
+                                    foreach (var emailAddress in rawEntity)
                                     {
-                                        state.EmailList.Add(email);
+                                        var email = luisResult.Text.Substring(emailAddress.StartIndex, emailAddress.EndIndex - emailAddress.StartIndex);
+                                        if (IsEmail(email) && !state.EmailList.Contains(email))
+                                        {
+                                            state.EmailList.Add(email);
+                                        }
                                     }
                                 }
+
+                                if (entity.SenderName != null)
+                                {
+                                    state.SenderName = entity.SenderName[0];
+                                    state.IsUnreadOnly = false;
+                                }
+
+                                if (entity.SearchTexts != null)
+                                {
+                                    state.SearchTexts = entity.SearchTexts[0];
+                                }
+
+                                break;
                             }
 
-                            if (entity.SenderName != null)
+                        case Email.Intent.SendEmail:
+                        case Email.Intent.Forward:
+                        case Email.Intent.Reply:
                             {
-                                state.SenderName = entity.SenderName[0];
-                                state.IsUnreadOnly = false;
+                                if (entity.EmailSubject != null)
+                                {
+                                    state.Subject = entity.EmailSubject[0];
+                                }
+
+                                if (entity.Message != null)
+                                {
+                                    state.Content = entity.Message[0];
+                                }
+
+                                if (entity.ContactName != null)
+                                {
+                                    foreach (var name in entity.ContactName)
+                                    {
+                                        if (!state.NameList.Contains(name))
+                                        {
+                                            state.NameList.Add(name);
+                                        }
+                                    }
+                                }
+
+                                if (entity.EmailAddress != null)
+                                {
+                                    // As luis result for email address often contains extra spaces for word breaking
+                                    // (e.g. send email to test@test.com, email address entity will be test @ test . com)
+                                    // So use original user input as email address.
+                                    var rawEntity = luisResult.Entities._instance.EmailAddress;
+                                    foreach (var emailAddress in rawEntity)
+                                    {
+                                        var email = luisResult.Text.Substring(emailAddress.StartIndex, emailAddress.EndIndex - emailAddress.StartIndex);
+                                        if (IsEmail(email) && !state.EmailList.Contains(email))
+                                        {
+                                            state.EmailList.Add(email);
+                                        }
+                                    }
+                                }
+
+                                if (entity.SenderName != null)
+                                {
+                                    state.SenderName = entity.SenderName[0];
+                                    state.IsUnreadOnly = false;
+
+                                    // Clear focus email if there is any.
+                                    state.Message.Clear();
+                                }
+
+                                break;
                             }
 
-                            if (entity.SearchTexts != null)
-                            {
-                                state.SearchTexts = entity.SearchTexts[0];
-                            }
-
+                        default:
                             break;
-                        }
-
-                    case Email.Intent.SendEmail:
-                    case Email.Intent.Forward:
-                    case Email.Intent.Reply:
-                        {
-                            if (entity.EmailSubject != null)
-                            {
-                                state.Subject = entity.EmailSubject[0];
-                            }
-
-                            if (entity.Message != null)
-                            {
-                                state.Content = entity.Message[0];
-                            }
-
-                            if (entity.ContactName != null)
-                            {
-                                foreach (var name in entity.ContactName)
-                                {
-                                    if (!state.NameList.Contains(name))
-                                    {
-                                        state.NameList.Add(name);
-                                    }
-                                }
-                            }
-
-                            if (entity.EmailAddress != null)
-                            {
-                                // As luis result for email address often contains extra spaces for word breaking
-                                // (e.g. send email to test@test.com, email address entity will be test @ test . com)
-                                // So use original user input as email address.
-                                var rawEntity = luisResult.Entities._instance.EmailAddress;
-                                foreach (var emailAddress in rawEntity)
-                                {
-                                    var email = luisResult.Text.Substring(emailAddress.StartIndex, emailAddress.EndIndex - emailAddress.StartIndex);
-                                    if (IsEmail(email) && !state.EmailList.Contains(email))
-                                    {
-                                        state.EmailList.Add(email);
-                                    }
-                                }
-                            }
-
-                            if (entity.SenderName != null)
-                            {
-                                state.SenderName = entity.SenderName[0];
-                                state.IsUnreadOnly = false;
-
-                                // Clear focus email if there is any.
-                                state.Message.Clear();
-                            }
-
-                            break;
-                        }
-
-                    default:
-                        break;
+                    }
                 }
             }
             catch

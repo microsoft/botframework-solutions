@@ -83,7 +83,12 @@ namespace AutomotiveSkill.Dialogs.Shared
                 }
                 else
                 {
-                    return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = sc.Context.Activity.CreateReply(AutomotiveSkillSharedResponses.NoAuth, ResponseBuilder) });
+                    return await sc.PromptAsync(
+                        nameof(MultiProviderAuthDialog),
+                        new PromptOptions()
+                        {
+                            RetryPrompt = ResponseManager.GetResponse(AutomotiveSkillSharedResponses.NoAuth)
+                        });
                 }
             }
             catch (Exception ex)
@@ -110,7 +115,7 @@ namespace AutomotiveSkill.Dialogs.Shared
             TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
 
             // send error message to bot user
-            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(AutomotiveSkillSharedResponses.ErrorMessage));
+            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(AutomotiveSkillSharedResponses.ErrorMessage));
 
             // clear state
             var state = await Accessor.GetAsync(sc.Context);

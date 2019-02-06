@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 using Autofac;
 using EmailSkill;
-using EmailSkill.Dialogs.ConfirmRecipient.Resources;
 using EmailSkill.Dialogs.DeleteEmail.Resources;
+using EmailSkill.Dialogs.FindContact.Resources;
 using EmailSkill.Dialogs.ForwardEmail.Resources;
 using EmailSkill.Dialogs.Main.Resources;
 using EmailSkill.Dialogs.ReplyEmail.Resources;
@@ -59,7 +59,7 @@ namespace EmailSkillTest.Flow
             ResponseManager = new ResponseManager(
                 responseTemplates: new IResponseIdCollection[]
                 {
-                    new ConfirmRecipientResponses(),
+                    new FindContactResponses(),
                     new DeleteEmailResponses(),
                     new ForwardEmailResponses(),
                     new EmailMainResponses(),
@@ -104,7 +104,7 @@ namespace EmailSkillTest.Flow
 
         public override IBot BuildBot()
         {
-            return new EmailSkill.EmailSkill(Services, ConversationState, UserState, TelemetryClient, ResponseManager, ServiceManager, true);
+            return new EmailSkill.EmailSkill(Services, ConversationState, UserState, TelemetryClient, true, ResponseManager, ServiceManager);
         }
     }
 }

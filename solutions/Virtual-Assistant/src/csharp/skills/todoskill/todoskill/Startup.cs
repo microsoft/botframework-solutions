@@ -20,6 +20,7 @@ using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ToDoSkill.Dialogs.AddToDo.Resources;
 using ToDoSkill.Dialogs.DeleteToDo.Resources;
 using ToDoSkill.Dialogs.Main.Resources;
 using ToDoSkill.Dialogs.MarkToDo.Resources;
@@ -68,6 +69,7 @@ namespace ToDoSkill
             var supportedLanguages = languageModels.Select(l => l.Key).ToArray();
             var responses = new IResponseIdCollection[]
             {
+                new AddToDoResponses(),
                 new DeleteToDoResponses(),
                 new ToDoMainResponses(),
                 new MarkToDoResponses(),

@@ -11,10 +11,13 @@ namespace EmailSkill.Dialogs.Main.Resources
     /// </summary>
     public class EmailMainResponses : IResponseIdCollection
     {
+        // Generated accessors
 		public const string EmailWelcomeMessage = "EmailWelcomeMessage";
 		public const string HelpMessage = "HelpMessage";
 		public const string GreetingMessage = "GreetingMessage";
 		public const string LogOut = "LogOut";
 		public const string FeatureNotAvailable = "FeatureNotAvailable";
-		public const string CancelMessage = "CancelMessage";    }
+		public const string CancelMessage = "CancelMessage";
+
+    }
 }

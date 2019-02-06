@@ -11,10 +11,8 @@ namespace ToDoSkill.Dialogs.Shared.Resources
     /// </summary>
     public class ToDoSharedResponses : IResponseIdCollection
     {
-		public const string DidntUnderstandMessage = "DidntUnderstandMessage";
-		public const string CancellingMessage = "CancellingMessage";
+        // Generated accessors
 		public const string NoAuth = "NoAuth";
-		public const string AuthFailed = "AuthFailed";
 		public const string ActionEnded = "ActionEnded";
 		public const string ToDoErrorMessage = "ToDoErrorMessage";
 		public const string ToDoErrorMessage_BotProblem = "ToDoErrorMessage_BotProblem";
@@ -22,10 +20,8 @@ namespace ToDoSkill.Dialogs.Shared.Resources
 		public const string AfterOneNoteSetupMessage = "AfterOneNoteSetupMessage";
 		public const string SettingUpOutlookMessage = "SettingUpOutlookMessage";
 		public const string AfterOutlookSetupMessage = "AfterOutlookSetupMessage";
-		public const string ShowToDoTasks = "ShowToDoTasks";
-		public const string AskToDoTaskIndex = "AskToDoTaskIndex";
-		public const string AskToDoContentText = "AskToDoContentText";
-		public const string AfterToDoTaskAdded = "AfterToDoTaskAdded";
+		public const string CardSummaryMessage = "CardSummaryMessage";
 		public const string NoTasksInList = "NoTasksInList";
-		public const string SwitchListType = "SwitchListType";    }
+
+    }
 }

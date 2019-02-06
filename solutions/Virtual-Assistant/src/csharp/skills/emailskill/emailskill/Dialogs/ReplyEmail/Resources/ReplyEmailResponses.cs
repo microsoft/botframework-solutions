@@ -10,5 +10,8 @@ namespace EmailSkill.Dialogs.ReplyEmail.Resources
     /// Contains bot responses.
     /// </summary>
     public class ReplyEmailResponses : IResponseIdCollection
-    {    }
+    {
+        // Generated accessors
+
+    }
 }

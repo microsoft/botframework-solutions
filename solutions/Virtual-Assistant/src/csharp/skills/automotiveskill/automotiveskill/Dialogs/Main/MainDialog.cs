@@ -30,7 +30,8 @@ namespace AutomotiveSkill.Dialogs.Main
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
         private IStatePropertyAccessor<AutomotiveSkillState> _stateAccessor;
-        private AutomotiveSkillResponseBuilder _responseBuilder = new AutomotiveSkillResponseBuilder();
+        private IHttpContextAccessor _httpContext;
+        private IBotTelemetryClient _telemetryClient;
 
         public MainDialog(
             SkillConfigurationBase services,

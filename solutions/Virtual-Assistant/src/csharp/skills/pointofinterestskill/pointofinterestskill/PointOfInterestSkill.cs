@@ -24,7 +24,7 @@ namespace PointOfInterestSkill
     /// </summary>
     public class PointOfInterestSkill : IBot
     {
-        private readonly SkillConfiguration _services;
+        private readonly SkillConfigurationBase _services;
         private readonly ResponseManager _responseManager;
         private readonly UserState _userState;
         private readonly ConversationState _conversationState;
@@ -33,7 +33,14 @@ namespace PointOfInterestSkill
         private DialogSet _dialogs;
         private bool _skillMode;
 
-        public PointOfInterestSkill(SkillConfiguration services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, ResponseManager responseManager = null, IServiceManager serviceManager = null, bool skillMode = false)
+        public PointOfInterestSkill(
+            SkillConfigurationBase services,
+            ConversationState conversationState,
+            UserState userState,
+            IBotTelemetryClient telemetryClient,
+            bool skillMode = false,
+            ResponseManager responseManager = null,
+            IServiceManager serviceManager = null)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));

@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Linq;
 using CalendarSkill.Dialogs.ChangeEventStatus.Resources;
 using CalendarSkill.Dialogs.CreateEvent.Resources;
+using CalendarSkill.Dialogs.FindContact.Resources;
 using CalendarSkill.Dialogs.JoinEvent.Resources;
 using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
@@ -72,6 +73,7 @@ namespace CalendarSkill
             var supportedLanguages = languageModels.Select(l => l.Key).ToArray();
             var responses = new IResponseIdCollection[]
             {
+                new FindContactResponses(),
                 new ChangeEventStatusResponses(),
                 new CreateEventResponses(),
                 new JoinEventResponses(),

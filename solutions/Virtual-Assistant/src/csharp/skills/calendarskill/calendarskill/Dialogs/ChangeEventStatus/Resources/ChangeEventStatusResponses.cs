@@ -11,6 +11,7 @@ namespace CalendarSkill.Dialogs.ChangeEventStatus.Resources
     /// </summary>
     public class ChangeEventStatusResponses : IResponseIdCollection
     {
+        // Generated accessors
 		public const string ConfirmDelete = "ConfirmDelete";
 		public const string ConfirmDeleteFailed = "ConfirmDeleteFailed";
 		public const string ConfirmAccept = "ConfirmAccept";
@@ -20,5 +21,7 @@ namespace CalendarSkill.Dialogs.ChangeEventStatus.Resources
 		public const string EventWithStartTimeNotFound = "EventWithStartTimeNotFound";
 		public const string NoDeleteStartTime = "NoDeleteStartTime";
 		public const string NoAcceptStartTime = "NoAcceptStartTime";
-		public const string MultipleEventsStartAtSameTime = "MultipleEventsStartAtSameTime";    }
+		public const string MultipleEventsStartAtSameTime = "MultipleEventsStartAtSameTime";
+
+    }
 }

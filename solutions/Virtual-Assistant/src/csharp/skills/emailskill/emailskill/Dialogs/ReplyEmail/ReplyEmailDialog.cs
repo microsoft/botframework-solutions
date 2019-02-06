@@ -101,7 +101,8 @@ namespace EmailSkill.Dialogs.ReplyEmail
 
                     var reply = ResponseManager.GetCardResponse(
                         EmailSharedResponses.SentSuccessfully,
-                        new Card("EmailWithOutButtonCard", emailCard));
+                        new Card("EmailWithOutButtonCard", emailCard),
+                        stringToken);
 
                     await sc.Context.SendActivityAsync(reply);
                 }

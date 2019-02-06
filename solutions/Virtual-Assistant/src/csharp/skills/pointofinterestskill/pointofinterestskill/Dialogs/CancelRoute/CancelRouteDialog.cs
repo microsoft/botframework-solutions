@@ -13,7 +13,7 @@ namespace PointOfInterestSkill.Dialogs.CancelRoute
     public class CancelRouteDialog : PointOfInterestSkillDialog
     {
         public CancelRouteDialog(
-            SkillConfiguration services,
+            SkillConfigurationBase services,
             ResponseManager responseManager,
             IStatePropertyAccessor<PointOfInterestSkillState> accessor,
             IServiceManager serviceManager,

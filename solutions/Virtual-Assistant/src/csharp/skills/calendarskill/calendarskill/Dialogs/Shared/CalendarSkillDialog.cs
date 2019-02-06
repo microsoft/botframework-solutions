@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Common;
 using CalendarSkill.Dialogs.CreateEvent.Resources;
-using CalendarSkill.Dialogs.FindContact.Resources;
-using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Prompts;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
-using CalendarSkill.Util;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
@@ -24,13 +20,13 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Prompts;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Microsoft.Recognizers.Text;
 using Microsoft.Recognizers.Text.DateTime;
 using Newtonsoft.Json.Linq;
-using static CalendarSkill.CalendarSkillState;
 using static Microsoft.Recognizers.Text.Culture;
 
 namespace CalendarSkill.Dialogs.Shared
@@ -99,7 +95,7 @@ namespace CalendarSkill.Dialogs.Shared
         {
             try
             {
-               var skillOptions = (CalendarSkillDialogOptions)sc.Options;
+                var skillOptions = (CalendarSkillDialogOptions)sc.Options;
 
                 // If in Skill mode we ask the calling Bot for the token
                 if (skillOptions != null && skillOptions.SkillMode)
@@ -935,14 +931,14 @@ namespace CalendarSkill.Dialogs.Shared
         protected (List<PersonModel> formattedPersonList, List<PersonModel> formattedUserList) FormatRecipientList(List<PersonModel> personList, List<PersonModel> userList)
         {
             // Remove dup items
-            List<PersonModel> formattedPersonList = new List<PersonModel>();
-            List<PersonModel> formattedUserList = new List<PersonModel>();
+            var formattedPersonList = new List<PersonModel>();
+            var formattedUserList = new List<PersonModel>();
 
             foreach (var person in personList)
             {
                 var mailAddress = person.Emails[0] ?? person.UserPrincipalName;
 
-                bool isDup = false;
+                var isDup = false;
                 foreach (var formattedPerson in formattedPersonList)
                 {
                     var formattedMailAddress = formattedPerson.Emails[0] ?? formattedPerson.UserPrincipalName;
@@ -964,7 +960,7 @@ namespace CalendarSkill.Dialogs.Shared
             {
                 var mailAddress = user.Emails[0] ?? user.UserPrincipalName;
 
-                bool isDup = false;
+                var isDup = false;
                 foreach (var formattedPerson in formattedPersonList)
                 {
                     var formattedMailAddress = formattedPerson.Emails[0] ?? formattedPerson.UserPrincipalName;
@@ -1073,7 +1069,7 @@ namespace CalendarSkill.Dialogs.Shared
             var options = new PromptOptions
             {
                 Choices = new List<Choice>(),
-                Prompt = dc.Context.Activity.CreateReply(CreateEventResponses.ConfirmRecipient),
+                Prompt = ResponseManager.GetResponse(CreateEventResponses.ConfirmRecipient),
             };
             for (var i = 0; i < personList.Count; i++)
             {

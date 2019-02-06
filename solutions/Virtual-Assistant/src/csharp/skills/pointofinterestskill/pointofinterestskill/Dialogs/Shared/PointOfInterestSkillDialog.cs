@@ -27,7 +27,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
 
         public PointOfInterestSkillDialog(
             string dialogId,
-            SkillConfiguration services,
+            SkillConfigurationBase services,
             ResponseManager responseManager,
             IStatePropertyAccessor<PointOfInterestSkillState> accessor,
             IServiceManager serviceManager,

@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Responses;
-using Microsoft.Bot.Solutions.Tests.Resources;
 using Microsoft.Bot.Solutions.Tests.Responses;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
 
-namespace Microsoft.Bot.Solutions.Tests.Dialogs
+namespace Microsoft.Bot.Solutions.Tests
 {
     [TestClass]
     public class ResponseManagerTests
@@ -26,7 +22,7 @@ namespace Microsoft.Bot.Solutions.Tests.Dialogs
             _currentCulture = CultureInfo.CurrentUICulture;
             _resourceDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Dialogs");
             _responseManager = new ResponseManager(
-                new IResponseIdCollection[] { new TestResponses() }, 
+                new IResponseIdCollection[] { new TestResponses() },
                 new string[] { "en", "es" });
         }
 
@@ -43,7 +39,7 @@ namespace Microsoft.Bot.Solutions.Tests.Dialogs
             var copy1 = _responseManager.GetResponseTemplate("GetResponseText");
             var copy2 = _responseManager.GetResponseTemplate("GetResponseText");
             Assert.AreEqual(copy1.Replies[0].Text, copy2.Replies[0].Text);
-            
+
             copy2.Replies[0].Text = "Something different";
             Assert.AreNotEqual(copy1.Replies[0].Text, copy2.Replies[0].Text);
         }
@@ -67,7 +63,7 @@ namespace Microsoft.Bot.Solutions.Tests.Dialogs
         [TestMethod]
         public void LanguageFallback()
         {
-            CultureInfo.CurrentUICulture = new CultureInfo("es");
+            CultureInfo.CurrentUICulture = new CultureInfo("es-MX");
             var response = _responseManager.GetResponseTemplate("GetResponseText");
             Assert.AreEqual("El texto", response.Reply.Text);
 

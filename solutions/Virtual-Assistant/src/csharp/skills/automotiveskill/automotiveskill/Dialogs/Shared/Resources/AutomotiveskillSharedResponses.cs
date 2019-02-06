@@ -17,6 +17,7 @@ namespace AutomotiveSkill.Dialogs.Shared.Resources
 		public const string CancellingMessage = "CancellingMessage";
 		public const string ActionEnded = "ActionEnded";
 		public const string ErrorMessage = "ErrorMessage";
+		public const string NoAuth = "NoAuth";
 
     }
 }

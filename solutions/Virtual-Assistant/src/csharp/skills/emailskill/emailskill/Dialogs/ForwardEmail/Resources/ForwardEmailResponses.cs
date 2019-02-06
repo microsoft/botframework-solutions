@@ -10,5 +10,8 @@ namespace EmailSkill.Dialogs.ForwardEmail.Resources
     /// Contains bot responses.
     /// </summary>
     public class ForwardEmailResponses : IResponseIdCollection
-    {    }
+    {
+        // Generated accessors
+
+    }
 }

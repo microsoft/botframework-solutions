@@ -108,27 +108,27 @@ namespace ToDoSkillTest.Flow
 
         private string[] CollectToDoContent()
         {
-            return this.ParseReplies(AddToDoResponses.AskTaskContentText.Replies, new StringDictionary());
+            return this.ParseReplies(AddToDoResponses.AskTaskContentText, new StringDictionary());
         }
 
         private string[] SettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.SettingUpOutlookMessage.Replies, new StringDictionary());
+            return this.ParseReplies(ToDoSharedResponses.SettingUpOutlookMessage, new StringDictionary());
         }
 
         private string[] AfterSettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.AfterOutlookSetupMessage.Replies, new StringDictionary());
+            return this.ParseReplies(ToDoSharedResponses.AfterOutlookSetupMessage, new StringDictionary());
         }
 
         private string[] AskSwitchListType()
         {
-            return this.ParseReplies(AddToDoResponses.SwitchListType.Replies, new StringDictionary() { { MockData.ListType, MockData.Grocery } });
+            return this.ParseReplies(AddToDoResponses.SwitchListType, new StringDictionary() { { MockData.ListType, MockData.Grocery } });
         }
 
         private string[] AddMoreTask(string listType)
         {
-            return this.ParseReplies(AddToDoResponses.AddMoreTask.Replies, new StringDictionary() { { MockData.ListType, listType } });
+            return this.ParseReplies(AddToDoResponses.AddMoreTask, new StringDictionary() { { MockData.ListType, listType } });
         }
 
         private Action<IActivity> ShowUpdatedToDoList()
@@ -145,7 +145,7 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessage.Replies, new StringDictionary() { { MockData.TaskCount, (MockData.MockTaskItems.Count + 1).ToString() }, { MockData.ListType, MockData.ToDo } }),
+                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessage, new StringDictionary() { { MockData.TaskCount, (MockData.MockTaskItems.Count + 1).ToString() }, { MockData.ListType, MockData.ToDo } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, MockData.PageSize);
                 var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;
@@ -157,7 +157,7 @@ namespace ToDoSkillTest.Flow
                 Assert.AreEqual(AddToDoFlowTestUtterances.TaskContent, content.Text);
 
                 CollectionAssert.Contains(
-                    this.ParseReplies(AddToDoResponses.AfterTaskAdded.Replies, new StringDictionary()
+                    this.ParseReplies(AddToDoResponses.AfterTaskAdded, new StringDictionary()
                     {
                         { MockData.TaskContent, AddToDoFlowTestUtterances.TaskContent },
                         { MockData.ListType, MockData.ToDo }
@@ -179,7 +179,7 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessage.Replies, new StringDictionary() { { MockData.TaskCount, (MockData.MockGroceryItems.Count + 1).ToString() }, { MockData.ListType, MockData.Grocery } }),
+                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessage, new StringDictionary() { { MockData.TaskCount, (MockData.MockGroceryItems.Count + 1).ToString() }, { MockData.ListType, MockData.Grocery } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, MockData.PageSize);
                 var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;
@@ -191,7 +191,7 @@ namespace ToDoSkillTest.Flow
                 Assert.AreEqual(MockData.GroceryItemEggs, content.Text);
 
                 CollectionAssert.Contains(
-                    this.ParseReplies(AddToDoResponses.AfterTaskAdded.Replies, new StringDictionary()
+                    this.ParseReplies(AddToDoResponses.AfterTaskAdded, new StringDictionary()
                     {
                         { MockData.TaskContent, MockData.GroceryItemEggs },
                         { MockData.ListType, MockData.Grocery }
@@ -213,7 +213,7 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessage.Replies, new StringDictionary() { { MockData.TaskCount, (MockData.MockShoppingItems.Count + 1).ToString() }, { MockData.ListType, MockData.Shopping } }),
+                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessage, new StringDictionary() { { MockData.TaskCount, (MockData.MockShoppingItems.Count + 1).ToString() }, { MockData.ListType, MockData.Shopping } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, MockData.PageSize);
                 var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;
@@ -225,7 +225,7 @@ namespace ToDoSkillTest.Flow
                 Assert.AreEqual(MockData.ShoppingItemShoes, content.Text);
 
                 CollectionAssert.Contains(
-                   this.ParseReplies(AddToDoResponses.AfterTaskAdded.Replies, new StringDictionary()
+                   this.ParseReplies(AddToDoResponses.AfterTaskAdded, new StringDictionary()
                    {
                         { MockData.TaskContent, MockData.ShoppingItemShoes },
                         { MockData.ListType, MockData.Shopping }
@@ -243,7 +243,7 @@ namespace ToDoSkillTest.Flow
 
         private string[] ActionEndMessage()
         {
-            return this.ParseReplies(ToDoSharedResponses.ActionEnded.Replies, new StringDictionary());
+            return this.ParseReplies(ToDoSharedResponses.ActionEnded, new StringDictionary());
         }
     }
 }

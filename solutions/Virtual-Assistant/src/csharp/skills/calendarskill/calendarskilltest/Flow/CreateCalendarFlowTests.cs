@@ -443,13 +443,12 @@ namespace CalendarSkillTest.Flow
 
         private string[] ConfirmOneNameOneAddress(StringDictionary recipientDict)
         {
-            return this.ParseReplies(FindContactResponses.PromptOneNameOneAddress.Replies, recipientDict);
+            return this.ParseReplies(FindContactResponses.PromptOneNameOneAddress, recipientDict);
         }
 
         private string[] AskForParticpantsPrompt()
         {
-            var response = ResponseManager.GetResponseTemplate(CreateEventResponses.NoAttendees);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            return this.ParseReplies(CreateEventResponses.NoAttendees, new StringDictionary());
         }
 
         private string[] AskForSubjectWithEmailAddressPrompt()
@@ -459,8 +458,7 @@ namespace CalendarSkillTest.Flow
                 { "UserName", Strings.Strings.DefaultUserEmail },
             };
 
-            var response = ResponseManager.GetResponseTemplate(CreateEventResponses.NoTitle);
-            return this.ParseReplies(response.Replies, responseParams);
+            return this.ParseReplies(CreateEventResponses.NoTitle, responseParams);
         }
 
         private string[] AskForSubjectWithContactNamePrompt(string userName = null)
@@ -470,8 +468,7 @@ namespace CalendarSkillTest.Flow
                 { "UserName", userName ?? Strings.Strings.DefaultUserName },
             };
 
-            var response = ResponseManager.GetResponseTemplate(CreateEventResponses.NoTitle);
-            return this.ParseReplies(response.Replies, responseParams);
+            return this.ParseReplies(CreateEventResponses.NoTitle, responseParams);
         }
 
         private string[] ConfirmOneContactPrompt(string userName = null, string emailAddress = null)
@@ -482,49 +479,42 @@ namespace CalendarSkillTest.Flow
                 { "EmailAddress", emailAddress ?? Strings.Strings.DefaultUserEmail }
             };
 
-            return this.ParseReplies(FindContactResponses.PromptOneNameOneAddress.Replies, responseParams);
+            return this.ParseReplies(FindContactResponses.PromptOneNameOneAddress, responseParams);
         }
 
         private string[] AskForSubjectShortPrompt(string userName = null)
         {
-            var response = ResponseManager.GetResponseTemplate(CreateEventResponses.NoTitle_Short);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            return this.ParseReplies(CreateEventResponses.NoTitle_Short, new StringDictionary());
         }
 
         private string[] AskForContentPrompt()
         {
-            var response = ResponseManager.GetResponseTemplate(CreateEventResponses.NoContent);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            return this.ParseReplies(CreateEventResponses.NoContent, new StringDictionary());
         }
 
         private string[] AskForDatePrompt()
         {
-            var response = ResponseManager.GetResponseTemplate(CreateEventResponses.NoStartDate);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            return this.ParseReplies(CreateEventResponses.NoStartDate, new StringDictionary());
         }
 
         private string[] AskForStartTimePrompt()
         {
-            var response = ResponseManager.GetResponseTemplate(CreateEventResponses.NoStartTime);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            return this.ParseReplies(CreateEventResponses.NoStartTime, new StringDictionary());
         }
 
         private string[] AskForDurationPrompt()
         {
-            var response = ResponseManager.GetResponseTemplate(CreateEventResponses.NoDuration);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            return this.ParseReplies(CreateEventResponses.NoDuration, new StringDictionary());
         }
 
         private string[] AskForLocationPrompt()
         {
-            var response = ResponseManager.GetResponseTemplate(CreateEventResponses.NoLocation);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            return this.ParseReplies(CreateEventResponses.NoLocation, new StringDictionary());
         }
 
         private string[] AskForRecreateInfoPrompt()
         {
-            var response = ResponseManager.GetResponseTemplate(CreateEventResponses.GetRecreateInfo);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            return this.ParseReplies(CreateEventResponses.GetRecreateInfo, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()
@@ -567,8 +557,7 @@ namespace CalendarSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var response = ResponseManager.GetResponseTemplate(FindContactResponses.ConfirmMultipleContactNameSinglePage);
-                var recipientConfirmedMessage = this.ParseReplies(response.Replies, recipientDict);
+                var recipientConfirmedMessage = this.ParseReplies(FindContactResponses.ConfirmMultipleContactNameSinglePage, recipientDict);
 
                 var messageLines = messageActivity.Text.Split("\r\n");
                 Assert.IsTrue(messageActivity.Text.StartsWith(recipientConfirmedMessage[0]));
@@ -586,8 +575,7 @@ namespace CalendarSkillTest.Flow
 
         private string[] BotErrorResponse()
         {
-            var response = ResponseManager.GetResponseTemplate(CalendarSharedResponses.CalendarErrorMessageBotProblem);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            return this.ParseReplies(CalendarSharedResponses.CalendarErrorMessageBotProblem, new StringDictionary());
         }
     }
 }

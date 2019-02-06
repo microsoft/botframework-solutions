@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Dialogs\AddToDo\Resources\AddToDoResponses.de.json" />
+    <Content Remove="Dialogs\AddToDo\Resources\AddToDoResponses.es.json" />
+    <Content Remove="Dialogs\AddToDo\Resources\AddToDoResponses.fr.json" />
+    <Content Remove="Dialogs\AddToDo\Resources\AddToDoResponses.it.json" />
+    <Content Remove="Dialogs\AddToDo\Resources\AddToDoResponses.json" />
+    <Content Remove="Dialogs\AddToDo\Resources\AddToDoResponses.zh.json" />
     <Content Remove="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.de.json" />
     <Content Remove="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.es.json" />
     <Content Remove="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.fr.json" />
@@ -66,6 +72,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Dialogs\AddToDo\Resources\AddToDoResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\AddToDo\Resources\AddToDoResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\AddToDo\Resources\AddToDoResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\AddToDo\Resources\AddToDoResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\AddToDo\Resources\AddToDoResponses.json" />
+    <EmbeddedResource Include="Dialogs\AddToDo\Resources\AddToDoResponses.zh.json" />
     <EmbeddedResource Include="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.de.json" />
     <EmbeddedResource Include="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.es.json" />
     <EmbeddedResource Include="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.fr.json" />
@@ -128,6 +140,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Dialogs\AddToDo\Resources\AddToDoResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AddToDoResponses.tt</DependentUpon>
+    </Compile>
     <Compile Update="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -181,6 +198,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Dialogs\AddToDo\Resources\AddToDoResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AddToDoResponses.cs</LastGenOutput>
+    </None>
     <None Update="Dialogs\DeleteToDo\Resources\DeleteToDoResponses.tt">
       <LastGenOutput>DeleteToDoResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>

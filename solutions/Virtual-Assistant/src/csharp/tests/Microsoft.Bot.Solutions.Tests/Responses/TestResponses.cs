@@ -13,9 +13,9 @@ namespace Microsoft.Bot.Solutions.Tests.Responses
     {
         // Generated accessors
 		public const string GetResponseText = "GetResponseText";
+		public const string MultiLanguage = "MultiLanguage";
 		public const string EnglishOnly = "EnglishOnly";
 		public const string NoInputHint = "NoInputHint";
-		public const string MultiLanguage = "MultiLanguage";
 
     }
 }

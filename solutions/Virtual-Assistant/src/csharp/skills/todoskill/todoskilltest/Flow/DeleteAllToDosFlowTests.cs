@@ -72,7 +72,7 @@ namespace ToDoSkillTest.Flow
 
         private string[] CollectListType()
         {
-            return this.ParseReplies(DeleteToDoResponses.ListTypePrompt.Replies, new StringDictionary());
+            return this.ParseReplies(DeleteToDoResponses.ListTypePrompt, new StringDictionary());
         }
 
         private Action<IActivity> CollectConfirmation()
@@ -80,9 +80,8 @@ namespace ToDoSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var response = ResponseManager.GetResponseTemplate(DeleteToDoResponses.AskDeletionAllConfirmation);
                 CollectionAssert.Contains(
-                   this.ParseReplies(response.Replies, new StringDictionary() { { MockData.ListType, MockData.ToDo } }),
+                   this.ParseReplies(DeleteToDoResponses.AskDeletionAllConfirmation, new StringDictionary() { { MockData.ListType, MockData.ToDo } }),
                    messageActivity.Text);
             };
         }
@@ -101,13 +100,12 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessage.Replies, new StringDictionary() { { MockData.TaskCount, "0" }, { MockData.ListType, MockData.ToDo } }),
+                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessage, new StringDictionary() { { MockData.TaskCount, "0" }, { MockData.ListType, MockData.ToDo } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, 0);
 
-                var response = ResponseManager.GetResponseTemplate(DeleteToDoResponses.AfterAllTasksDeleted);
                 CollectionAssert.Contains(
-                  this.ParseReplies(response.Replies, new StringDictionary() { { MockData.ListType, MockData.ToDo } }),
+                  this.ParseReplies(DeleteToDoResponses.AfterAllTasksDeleted, new StringDictionary() { { MockData.ListType, MockData.ToDo } }),
                   responseCard.Speak);
             };
         }
@@ -126,26 +124,24 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessage.Replies, new StringDictionary() { { MockData.TaskCount, MockData.MockTaskItems.Count.ToString() }, { MockData.ListType, MockData.ToDo } }),
+                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessage, new StringDictionary() { { MockData.TaskCount, MockData.MockTaskItems.Count.ToString() }, { MockData.ListType, MockData.ToDo } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, MockData.PageSize);
 
                 CollectionAssert.Contains(
-                  this.ParseReplies(DeleteToDoResponses.DeletionAllConfirmationRefused.Replies, new StringDictionary() { { MockData.TaskCount, MockData.MockTaskItems.Count.ToString() }, { MockData.ListType, MockData.ToDo } }),
+                  this.ParseReplies(DeleteToDoResponses.DeletionAllConfirmationRefused, new StringDictionary() { { MockData.TaskCount, MockData.MockTaskItems.Count.ToString() }, { MockData.ListType, MockData.ToDo } }),
                   responseCard.Speak);
             };
         }
 
         private string[] SettingUpOneNote()
         {
-            var response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.SettingUpOutlookMessage);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            return this.ParseReplies(ToDoSharedResponses.SettingUpOutlookMessage, new StringDictionary());
         }
 
         private string[] AfterSettingUpOneNote()
         {
-            var response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.AfterOutlookSetupMessage);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            return this.ParseReplies(ToDoSharedResponses.AfterOutlookSetupMessage, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()

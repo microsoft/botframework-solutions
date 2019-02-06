@@ -33,7 +33,15 @@ namespace Microsoft.Bot.Solutions.Responses
 
                 foreach (var locale in locales)
                 {
-                    LoadResponses(resourceName, resourceAssembly, locale);
+                    try
+                    {
+                        resourceAssembly = resourceAssembly.GetSatelliteAssembly(new CultureInfo(locale));
+                        LoadResponses(resourceName, resourceAssembly, locale);
+                    }
+                    catch
+                    {
+                        // If satellite assembly doesn't exist, bot will fall back to default.
+                    }
                 }
             }
         }
@@ -196,46 +204,21 @@ namespace Microsoft.Bot.Solutions.Responses
 
             // if locale is not set, add resources under the default key.
             var localeKey = _defaultLocaleKey;
-
             if (locale != null)
             {
-                var culture = new CultureInfo(locale);
-                var langCode = culture.TwoLetterISOLanguageName;
-                localeKey = langCode;
-                var jsonFile = $"{resourceName}.{langCode}.json";
-
-                try
-                {
-                    resources = resourceAssembly
-                        .GetSatelliteAssembly(culture)
-                        .GetManifestResourceNames().ToList();
-
-                    resources = resources
-                        .Where(x => x.Contains($"{resourceName}.{localeKey}.json"))
-                        .ToList();
-                }
-                catch
-                {
-                    // Do not throw an error if a language is missing.
-                    // If a response in another language is missing, bot will fall back to the default language.
-                }
+                localeKey = new CultureInfo(locale).TwoLetterISOLanguageName;
             }
-            else
+
+            var jsonFile = $"{resourceName}.json";
+
+            resources = resourceAssembly
+                .GetManifestResourceNames()
+                .Where(x => x.Contains(jsonFile))
+                .ToList();
+
+            if (resources == null || resources.Count() == 0)
             {
-                var jsonFile = $"{resourceName}.json";
-
-                resources = resourceAssembly
-                    .GetManifestResourceNames()
-                    .ToList();
-
-                resources = resources
-                    .Where(x => x.Contains(resourceName) && x.EndsWith(".json"))
-                    .ToList();
-
-                if (resources == null || resources.Count() == 0)
-                {
-                    throw new FileNotFoundException($"Unable to find \"{jsonFile}\" in \"{resourceAssembly.FullName}\" assembly.");
-                }
+                throw new FileNotFoundException($"Unable to find \"{jsonFile}\" in \"{resourceAssembly.FullName}\" assembly.");
             }
 
             foreach (var resource in resources)
@@ -311,7 +294,10 @@ namespace Microsoft.Bot.Solutions.Responses
 
             if (template.SuggestedActions != null && template.SuggestedActions.Count() > 0)
             {
-                activity.SuggestedActions = new SuggestedActions();
+                activity.SuggestedActions = new SuggestedActions
+                {
+                    Actions = new List<CardAction>()
+                };
 
                 foreach (var action in template.SuggestedActions)
                 {
@@ -329,7 +315,7 @@ namespace Microsoft.Bot.Solutions.Responses
             // get card json for locale
             var culture = new CultureInfo(locale);
             var langCode = culture.TwoLetterISOLanguageName;
-            var jsonFile = $"{cardName}.{langCode}.json";
+            var jsonFile = $"{cardName}.json";
             var json = string.Empty;
             var resource = string.Empty;
 
@@ -345,8 +331,6 @@ namespace Microsoft.Bot.Solutions.Responses
             catch (FileNotFoundException ex)
             {
                 // If the localized file is missing, try falling back to the default language.
-                jsonFile = $"{cardName}.json";
-
                 resource = assembly
                     .GetManifestResourceNames()
                     .Where(x => x.Contains(jsonFile))

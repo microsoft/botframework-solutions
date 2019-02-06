@@ -11,7 +11,7 @@ namespace PointOfInterestSkill.Dialogs.FindPointOfInterest
     public class FindPointOfInterestDialog : PointOfInterestSkillDialog
     {
         public FindPointOfInterestDialog(
-            SkillConfiguration services,
+            SkillConfigurationBase services,
             ResponseManager responseManager,
             IStatePropertyAccessor<PointOfInterestSkillState> accessor,
             IServiceManager serviceManager,

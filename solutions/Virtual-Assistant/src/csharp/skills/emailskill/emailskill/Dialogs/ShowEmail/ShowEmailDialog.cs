@@ -244,22 +244,17 @@ namespace EmailSkill.Dialogs.ShowEmail
                         { "EmailDetails", SpeakHelper.ToSpeechEmailDetailString(message, state.GetUserTimeZone()) },
                         { "EmailDetailsWithContent", SpeakHelper.ToSpeechEmailDetailString(message, state.GetUserTimeZone(), true) },
                     };
-                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(ShowEmailResponses.ReadOutMessage, "Dialogs/Shared/Resources/Cards/EmailDetailCard.json", emailCard, null, dict);
-
-                    // Set email as read.
-                    var service = ServiceManager.InitMailService(state.Token, state.GetUserTimeZone(), state.MailSourceType);
-                    await service.MarkMessageAsReadAsync(message.Id);
-
-                    // Todo: workaround here to read out email details. Ignore body for now as we need a summary and filter.
-                    var emailDetails = SpeakHelper.ToSpeechEmailDetailString(message, state.GetUserTimeZone());
-                    var tokens = new StringDictionary() { { "EmailDetails", emailDetails } };
 
                     var replyMessage = ResponseManager.GetCardResponse(
                         ShowEmailResponses.ReadOutMessage,
                         new Card("EmailDetailCard", emailCard),
                         tokens);
 
-                    await sc.Context.SendActivityAsync(reply);
+                    // Set email as read.
+                    var service = ServiceManager.InitMailService(state.Token, state.GetUserTimeZone(), state.MailSourceType);
+                    await service.MarkMessageAsReadAsync(message.Id);
+
+                    await sc.Context.SendActivityAsync(replyMessage);
                 }
 
                 return await sc.NextAsync();
@@ -372,7 +367,7 @@ namespace EmailSkill.Dialogs.ShowEmail
                     }
 
                     // return a signal for main flow need to start a new ComponentDialog.
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.DidntUnderstandMessage));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.DidntUnderstandMessage));
                     return await sc.EndDialogAsync(true);
                 }
             }
@@ -485,7 +480,7 @@ namespace EmailSkill.Dialogs.ShowEmail
                     }
                     else
                     {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.DidntUnderstandMessage));
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.DidntUnderstandMessage));
                         return await sc.EndDialogAsync(true);
                     }
 
@@ -493,7 +488,7 @@ namespace EmailSkill.Dialogs.ShowEmail
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.EmailNotFound, ResponseBuilder));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.EmailNotFound));
                 }
 
                 return await sc.EndDialogAsync(true);

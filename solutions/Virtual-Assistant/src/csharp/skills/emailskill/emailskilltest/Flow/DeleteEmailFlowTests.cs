@@ -60,20 +60,20 @@ namespace EmailSkillTest.Flow
 
         private string[] NotSendingMessage()
         {
-            var response = ResponseManager.GetResponseTemplate(EmailSharedResponses.CancellingMessage);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            
+            return this.ParseReplies(EmailSharedResponses.CancellingMessage, new StringDictionary());
         }
 
         private string[] NoFocusMessage()
         {
-            var response = ResponseManager.GetResponseTemplate(EmailSharedResponses.NoFocusMessage);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            
+            return this.ParseReplies(EmailSharedResponses.NoFocusMessage, new StringDictionary());
         }
 
         private string[] DeleteSuccess()
         {
-            var response = ResponseManager.GetResponseTemplate(DeleteEmailResponses.DeleteSuccessfully);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            
+            return this.ParseReplies(DeleteEmailResponses.DeleteSuccessfully, new StringDictionary());
         }
 
         private Action<IActivity> DeleteConfirm()
@@ -81,8 +81,8 @@ namespace EmailSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var response = ResponseManager.GetResponseTemplate(DeleteEmailResponses.DeleteConfirm);
-                CollectionAssert.Contains(this.ParseReplies(response.Replies, new StringDictionary()), messageActivity.Text);
+                
+                CollectionAssert.Contains(this.ParseReplies(DeleteEmailResponses.DeleteConfirm, new StringDictionary()), messageActivity.Text);
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
         }
@@ -100,8 +100,8 @@ namespace EmailSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var response = ResponseManager.GetResponseTemplate(EmailSharedResponses.ConfirmSend);
-                CollectionAssert.Contains(this.ParseReplies(response.Replies, new StringDictionary()), messageActivity.Text);
+                
+                CollectionAssert.Contains(this.ParseReplies(EmailSharedResponses.ConfirmSend, new StringDictionary()), messageActivity.Text);
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
         }
@@ -114,8 +114,8 @@ namespace EmailSkillTest.Flow
 
                 // Get showed mails:
                 var showedItems = ((MockServiceManager)this.ServiceManager).MailService.MyMessages;
-                var response = ResponseManager.GetResponseTemplate(EmailSharedResponses.ShowEmailPrompt);
-                var replies = this.ParseReplies(response.Replies, new StringDictionary()
+                
+                var replies = this.ParseReplies(EmailSharedResponses.ShowEmailPrompt, new StringDictionary()
                 {
                     { "TotalCount", showedItems.Count.ToString() },
                     { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(showedItems, TimeZoneInfo.Local, ConfigData.GetInstance().MaxReadSize) },

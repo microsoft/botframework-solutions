@@ -10,5 +10,8 @@ namespace PointOfInterestSkill.Dialogs.FindPointOfInterest.Resources
     /// Contains bot responses.
     /// </summary>
     public class FindPointOfInterestResponses : IResponseIdCollection
-    {    }
+    {
+        // Generated accessors
+
+    }
 }

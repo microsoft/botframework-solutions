@@ -123,9 +123,8 @@ namespace ToDoSkillTest.Flow
                 var toDoChoices = responseCard.Body[1] as AdaptiveContainer;
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
-                var response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessage);
                 CollectionAssert.Contains(
-                    this.ParseReplies(response.Replies, new StringDictionary() { { MockData.TaskCount, (MockData.MockTaskItems.Count - 1).ToString() }, { MockData.ListType, MockData.ToDo } }),
+                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessage, new StringDictionary() { { MockData.TaskCount, (MockData.MockTaskItems.Count - 1).ToString() }, { MockData.ListType, MockData.ToDo } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, MockData.PageSize);
                 var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;
@@ -137,7 +136,7 @@ namespace ToDoSkillTest.Flow
                 Assert.AreEqual(content.Text, MockData.MockTaskItems[1].Topic);
 
                 CollectionAssert.Contains(
-                    this.ParseReplies(DeleteToDoResponses.AfterTaskDeleted.Replies, new StringDictionary()
+                    this.ParseReplies(DeleteToDoResponses.AfterTaskDeleted, new StringDictionary()
                     {
                         { MockData.TaskContent, MockData.MockTaskItems[0].Topic },
                         { MockData.ListType, MockData.ToDo }
@@ -158,9 +157,8 @@ namespace ToDoSkillTest.Flow
                 var toDoChoices = responseCard.Body[1] as AdaptiveContainer;
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
-                var response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessage);
                 CollectionAssert.Contains(
-                    this.ParseReplies(response.Replies, new StringDictionary() { { MockData.TaskCount, (MockData.MockShoppingItems.Count - 1).ToString() }, { MockData.ListType, MockData.Shopping } }),
+                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessage, new StringDictionary() { { MockData.TaskCount, (MockData.MockShoppingItems.Count - 1).ToString() }, { MockData.ListType, MockData.Shopping } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, MockData.PageSize);
                 var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;
@@ -172,7 +170,7 @@ namespace ToDoSkillTest.Flow
                 Assert.AreEqual(content.Text, MockData.MockShoppingItems[0].Topic);
 
                 CollectionAssert.Contains(
-                    this.ParseReplies(DeleteToDoResponses.AfterTaskDeleted.Replies, new StringDictionary()
+                    this.ParseReplies(DeleteToDoResponses.AfterTaskDeleted, new StringDictionary()
                     {
                         { MockData.TaskContent, MockData.MockShoppingItems[1].Topic },
                         { MockData.ListType, MockData.Shopping }
@@ -182,20 +180,17 @@ namespace ToDoSkillTest.Flow
 
         private string[] CollectTaskIndex()
         {
-            var response = ResponseManager.GetResponseTemplate(DeleteToDoResponses.AskTaskIndex);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            return this.ParseReplies(DeleteToDoResponses.AskTaskIndex, new StringDictionary());
         }
 
         private string[] SettingUpOneNote()
         {
-            var response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.SettingUpOutlookMessage);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            return this.ParseReplies(ToDoSharedResponses.SettingUpOutlookMessage, new StringDictionary());
         }
 
         private string[] AfterSettingUpOneNote()
         {
-            var response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.AfterOutlookSetupMessage);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            return this.ParseReplies(ToDoSharedResponses.AfterOutlookSetupMessage, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()
@@ -208,17 +203,17 @@ namespace ToDoSkillTest.Flow
 
         private string[] DeleteAnotherTask()
         {
-            return this.ParseReplies(DeleteToDoResponses.DeleteAnotherTaskPrompt.Replies, new StringDictionary());
+            return this.ParseReplies(DeleteToDoResponses.DeleteAnotherTaskPrompt, new StringDictionary());
         }
 
         private string[] ActionEndMessage()
         {
-            return this.ParseReplies(ToDoSharedResponses.ActionEnded.Replies, new StringDictionary());
+            return this.ParseReplies(ToDoSharedResponses.ActionEnded, new StringDictionary());
         }
 
         private string[] CollectListType()
         {
-            return this.ParseReplies(DeleteToDoResponses.ListTypePrompt.Replies, new StringDictionary());
+            return this.ParseReplies(DeleteToDoResponses.ListTypePrompt, new StringDictionary());
         }
     }
 }

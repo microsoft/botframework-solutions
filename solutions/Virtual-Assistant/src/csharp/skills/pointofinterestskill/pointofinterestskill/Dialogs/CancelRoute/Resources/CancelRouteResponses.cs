@@ -11,6 +11,9 @@ namespace PointOfInterestSkill.Dialogs.CancelRoute.Resources
     /// </summary>
     public class CancelRouteResponses : IResponseIdCollection
     {
+        // Generated accessors
 		public const string CancelActiveRoute = "CancelActiveRoute";
-		public const string CannotCancelActiveRoute = "CannotCancelActiveRoute";    }
+		public const string CannotCancelActiveRoute = "CannotCancelActiveRoute";
+
+    }
 }

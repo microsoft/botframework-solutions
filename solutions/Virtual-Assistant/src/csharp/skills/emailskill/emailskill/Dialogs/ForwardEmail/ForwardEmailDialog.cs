@@ -70,7 +70,7 @@ namespace EmailSkill.Dialogs.ForwardEmail
             AddDialog(new WaterfallDialog(Actions.Show, showEmail) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.CollectRecipient, collectRecipients) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateSelectMessage, updateSelectMessage) { TelemetryClient = telemetryClient });
-            AddDialog(new FindContactDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
+            AddDialog(new FindContactDialog(services, responseManager, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
             InitialDialogId = Actions.Forward;
         }
 
@@ -110,7 +110,8 @@ namespace EmailSkill.Dialogs.ForwardEmail
 
                     var reply = ResponseManager.GetCardResponse(
                         EmailSharedResponses.SentSuccessfully,
-                        new Card("EmailWithOutButtonCard", emailCard));
+                        new Card("EmailWithOutButtonCard", emailCard),
+                        stringToken);
 
                     await sc.Context.SendActivityAsync(reply);
                 }

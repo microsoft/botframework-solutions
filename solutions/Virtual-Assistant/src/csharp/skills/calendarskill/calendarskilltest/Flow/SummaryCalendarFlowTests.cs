@@ -198,7 +198,7 @@ namespace CalendarSkillTest.Flow
                 { "DateTime", dateTime }
             };
 
-            return this.ParseReplies(SummaryResponses.ShowOneMeetingSummaryAgainMessage.Replies, responseParams);
+            return this.ParseReplies(SummaryResponses.ShowOneMeetingSummaryAgainMessage, responseParams);
         }
 
         private string[] ShowOverviewAgainResponse(int count, string dateTime = "today")
@@ -209,7 +209,7 @@ namespace CalendarSkillTest.Flow
                 { "DateTime", dateTime }
             };
 
-            return this.ParseReplies(SummaryResponses.ShowMeetingSummaryAgainMessage.Replies, responseParams);
+            return this.ParseReplies(SummaryResponses.ShowMeetingSummaryAgainMessage, responseParams);
         }
 
         private string[] AskForShowOverviewAgainPrompt(string dateTime = "today")
@@ -219,7 +219,7 @@ namespace CalendarSkillTest.Flow
                 { "DateTime", dateTime }
             };
 
-            return this.ParseReplies(SummaryResponses.AskForShowOverview.Replies, responseParams);
+            return this.ParseReplies(SummaryResponses.AskForShowOverview, responseParams);
         }
 
         private string[] FoundOneEventPrompt(string dateTime = "today")
@@ -234,8 +234,7 @@ namespace CalendarSkillTest.Flow
                 { "Participants1", Strings.Strings.DefaultUserName }
             };
 
-            var response = ResponseManager.GetResponseTemplate(SummaryResponses.ShowOneMeetingSummaryMessage);
-            return this.ParseReplies(response.Replies, responseParams);
+            return this.ParseReplies(SummaryResponses.ShowOneMeetingSummaryMessage, responseParams);
         }
 
         private string[] FoundOneEventAgainPrompt(string dateTime = "today")
@@ -246,7 +245,7 @@ namespace CalendarSkillTest.Flow
                 { "DateTime", dateTime },
             };
 
-            return this.ParseReplies(SummaryResponses.ShowOneMeetingSummaryAgainMessage.Replies, responseParams);
+            return this.ParseReplies(SummaryResponses.ShowOneMeetingSummaryAgainMessage, responseParams);
         }
 
         private string[] FoundMultipleEventPrompt(int count, string dateTime = "today")
@@ -263,8 +262,7 @@ namespace CalendarSkillTest.Flow
                 { "EventTime2", "at 6:00 PM" },
             };
 
-            var response = ResponseManager.GetResponseTemplate(SummaryResponses.ShowMultipleMeetingSummaryMessage);
-            return this.ParseReplies(response.Replies, responseParams);
+            return this.ParseReplies(SummaryResponses.ShowMultipleMeetingSummaryMessage, responseParams);
         }
 
         private Action<IActivity> ShowCalendarList(int count)
@@ -286,20 +284,17 @@ namespace CalendarSkillTest.Flow
 
         private string[] ReadOutMorePrompt()
         {
-            var response = ResponseManager.GetResponseTemplate(SummaryResponses.ReadOutMorePrompt);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            return this.ParseReplies(SummaryResponses.ReadOutMorePrompt, new StringDictionary());
         }
 
         private string[] ReadOutPrompt()
         {
-            var response = ResponseManager.GetResponseTemplate(SummaryResponses.ReadOutPrompt);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            return this.ParseReplies(SummaryResponses.ReadOutPrompt, new StringDictionary());
         }
 
         private string[] AskForOrgnizerActionPrompt(string dateString = "today")
         {
-            var response = ResponseManager.GetResponseTemplate(SummaryResponses.AskForOrgnizerAction);
-            return this.ParseReplies(response.Replies, new StringDictionary() { { "DateTime", dateString } });
+            return this.ParseReplies(SummaryResponses.AskForOrgnizerAction, new StringDictionary() { { "DateTime", dateString } });
         }
 
         private Action<IActivity> ShowReadOutEventList()
@@ -307,9 +302,8 @@ namespace CalendarSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var response = ResponseManager.GetResponseTemplate(SummaryResponses.ReadOutMessage);
                 var parsedResponses = this.ParseReplies(
-                    response.Replies,
+                    SummaryResponses.ReadOutMessage,
                     new StringDictionary()
                     {
                         { "Date", DateTime.Now.AddDays(2).ToString(CommonStrings.DisplayDateFormat_CurrentYear) },
@@ -325,13 +319,12 @@ namespace CalendarSkillTest.Flow
 
         private string[] NoEventResponse()
         {
-            var response = ResponseManager.GetResponseTemplate(SummaryResponses.ShowNoMeetingMessage);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            return this.ParseReplies(SummaryResponses.ShowNoMeetingMessage, new StringDictionary());
         }
 
         private string[] AskForNewTimePrompt()
         {
-            return this.ParseReplies(UpdateEventResponses.NoNewTime.Replies, new StringDictionary());
+            return this.ParseReplies(UpdateEventResponses.NoNewTime, new StringDictionary());
         }
 
         private Action<IActivity> ShowUpdateCalendarList()

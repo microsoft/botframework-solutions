@@ -12,6 +12,7 @@ using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToDoSkill;
+using ToDoSkill.Dialogs.AddToDo.Resources;
 using ToDoSkill.Dialogs.DeleteToDo.Resources;
 using ToDoSkill.Dialogs.Main.Resources;
 using ToDoSkill.Dialogs.MarkToDo.Resources;
@@ -62,6 +63,7 @@ namespace ToDoSkillTest.Flow
             ResponseManager = new ResponseManager(
                 responseTemplates: new IResponseIdCollection[]
                 {
+                    new AddToDoResponses(),
                     new DeleteToDoResponses(),
                     new ToDoMainResponses(),
                     new MarkToDoResponses(),
@@ -98,7 +100,7 @@ namespace ToDoSkillTest.Flow
 
         public override IBot BuildBot()
         {
-            return new ToDoSkill.ToDoSkill(Services, ConversationState, UserState, TelemetryClient, ResponseManager, ServiceManager, true);
+            return new ToDoSkill.ToDoSkill(Services, ConversationState, UserState, TelemetryClient, true, ResponseManager, ServiceManager);
         }
     }
 }

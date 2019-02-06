@@ -91,7 +91,7 @@ namespace AutomotiveSkillTest.Flow
 
         public override IBot BuildBot()
         {
-            return new AutomotiveSkill.AutomotiveSkill(Services, ConversationState, UserState, TelemetryClient, ResponseManager, null, MockHttpContextAcessor, true);
+            return new AutomotiveSkill.AutomotiveSkill(Services, ConversationState, UserState, TelemetryClient, true, ResponseManager, null, MockHttpContextAcessor);
         }
     }
 }

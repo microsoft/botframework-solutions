@@ -29,7 +29,7 @@ namespace PointOfInterestSkill.Dialogs.Main
     public class MainDialog : RouterDialog
     {
         private bool _skillMode;
-        private SkillConfiguration _services;
+        private SkillConfigurationBase _services;
         private ResponseManager _responseManager;
         private UserState _userState;
         private ConversationState _conversationState;
@@ -37,7 +37,7 @@ namespace PointOfInterestSkill.Dialogs.Main
         private IStatePropertyAccessor<PointOfInterestSkillState> _stateAccessor;
 
         public MainDialog(
-            SkillConfiguration services,
+            SkillConfigurationBase services,
             ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,

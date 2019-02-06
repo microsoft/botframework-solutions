@@ -11,6 +11,7 @@ namespace PointOfInterestSkill.Dialogs.Shared.Resources
     /// </summary>
     public class POISharedResponses : IResponseIdCollection
     {
+        // Generated accessors
 		public const string DidntUnderstandMessage = "DidntUnderstandMessage";
 		public const string CancellingMessage = "CancellingMessage";
 		public const string NoAuth = "NoAuth";
@@ -25,5 +26,7 @@ namespace PointOfInterestSkill.Dialogs.Shared.Resources
 		public const string SingleLocationFoundAlongActiveRoute = "SingleLocationFoundAlongActiveRoute";
 		public const string NoLocationsFound = "NoLocationsFound";
 		public const string MultipleRoutesFound = "MultipleRoutesFound";
-		public const string SingleRouteFound = "SingleRouteFound";    }
+		public const string SingleRouteFound = "SingleRouteFound";
+
+    }
 }

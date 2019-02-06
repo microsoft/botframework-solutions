@@ -7,89 +7,94 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Main\Resources\MainResponses.de.json">
+    <EmbeddedResource Include="Responses\TestResponses.es.json" />
+    <EmbeddedResource Include="Responses\TestResponses.json" />
+    <EmbeddedResource Include="Skills\Fakes\FakeSkill\Dialogs\Main\Resources\MainResponses.de.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Main\Resources\MainResponses.es.json">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Skills\Fakes\FakeSkill\Dialogs\Main\Resources\MainResponses.es.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Main\Resources\MainResponses.fr.json">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Skills\Fakes\FakeSkill\Dialogs\Main\Resources\MainResponses.fr.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Main\Resources\MainResponses.it.json">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Skills\Fakes\FakeSkill\Dialogs\Main\Resources\MainResponses.it.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Main\Resources\MainResponses.json">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Skills\Fakes\FakeSkill\Dialogs\Main\Resources\MainResponses.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Main\Resources\MainResponses.zh.json">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Skills\Fakes\FakeSkill\Dialogs\Main\Resources\MainResponses.zh.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.de.json">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.de.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.es.json">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.es.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.fr.json">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.fr.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.it.json">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.it.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.json">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.zh.json">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.zh.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Sample\Resources\SampleResponses.de.json">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Skills\Fakes\FakeSkill\Dialogs\Sample\Resources\SampleResponses.de.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Sample\Resources\SampleResponses.es.json">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Skills\Fakes\FakeSkill\Dialogs\Sample\Resources\SampleResponses.es.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Sample\Resources\SampleResponses.fr.json">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Skills\Fakes\FakeSkill\Dialogs\Sample\Resources\SampleResponses.fr.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Sample\Resources\SampleResponses.it.json">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Skills\Fakes\FakeSkill\Dialogs\Sample\Resources\SampleResponses.it.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Sample\Resources\SampleResponses.json">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Skills\Fakes\FakeSkill\Dialogs\Sample\Resources\SampleResponses.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Sample\Resources\SampleResponses.zh.json">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Skills\Fakes\FakeSkill\Dialogs\Sample\Resources\SampleResponses.zh.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Shared\Resources\SharedResponses.de.json">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Skills\Fakes\FakeSkill\Dialogs\Shared\Resources\SharedResponses.de.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Shared\Resources\SharedResponses.es.json">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Skills\Fakes\FakeSkill\Dialogs\Shared\Resources\SharedResponses.es.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Shared\Resources\SharedResponses.fr.json">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Skills\Fakes\FakeSkill\Dialogs\Shared\Resources\SharedResponses.fr.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Shared\Resources\SharedResponses.it.json">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Skills\Fakes\FakeSkill\Dialogs\Shared\Resources\SharedResponses.it.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Shared\Resources\SharedResponses.json">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Skills\Fakes\FakeSkill\Dialogs\Shared\Resources\SharedResponses.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Skills\Fakes\FakeSkill\Dialogs\Shared\Resources\SharedResponses.zh.json">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Skills\Fakes\FakeSkill\Dialogs\Shared\Resources\SharedResponses.zh.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Dialogs\TestResponses.es.json" />
-    <None Remove="Resources\TestResponses.es.json" />
-    <None Remove="Resources\TestResponses.json" />
+    <None Remove="Responses\TestResponses.es.json" />
+    <None Remove="Responses\TestResponses.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Responses\TestResponses.es-es.json" />
-    <EmbeddedResource Include="Responses\TestResponses.json" />
+    <None Include="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SampleAuthResponses.tt</DependentUpon>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -115,6 +120,22 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>TestResponses.cs</LastGenOutput>
     </None>
+    <None Update="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SampleAuthResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Skills\Fakes\FakeSkill\Dialogs\Main\Resources\MainResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MainResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Skills\Fakes\FakeSkill\Dialogs\Sample\Resources\SampleResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SampleResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Skills\Fakes\FakeSkill\Dialogs\Shared\Resources\SharedResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SharedResponses.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -126,6 +147,26 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>TestResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SampleAuthResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Skills\Fakes\FakeSkill\Dialogs\Main\Resources\MainResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MainResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Skills\Fakes\FakeSkill\Dialogs\Sample\Resources\SampleResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SampleResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Skills\Fakes\FakeSkill\Dialogs\Shared\Resources\SharedResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SharedResponses.tt</DependentUpon>
     </Compile>
     <Compile Update="Skills\Utterances\GeneralUtterances.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -148,6 +189,10 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SampleDialogUtterances.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Dialogs\" />
   </ItemGroup>
 
 </Project>

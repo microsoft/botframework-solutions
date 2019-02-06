@@ -11,9 +11,24 @@ namespace ToDoSkill.Dialogs.ShowToDo.Resources
     /// </summary>
     public class ShowToDoResponses : IResponseIdCollection
     {
-		public const string FirstToDoTasks = "FirstToDoTasks";
-		public const string ShowNextToDoTasks = "ShowNextToDoTasks";
-		public const string ShowPreviousToDoTasks = "ShowPreviousToDoTasks";
-		public const string ShowingMoreTasks = "ShowingMoreTasks";
-		public const string NoToDoTasksPrompt = "NoToDoTasksPrompt";    }
+        // Generated accessors
+		public const string LatestOneTask = "LatestOneTask";
+		public const string LatestTwoTasks = "LatestTwoTasks";
+		public const string LatestThreeOrMoreTasks = "LatestThreeOrMoreTasks";
+		public const string AskAddOrCompleteTaskMessage = "AskAddOrCompleteTaskMessage";
+		public const string ReadMoreTasksPrompt = "ReadMoreTasksPrompt";
+		public const string ReadMoreTasksConfirmFailed = "ReadMoreTasksConfirmFailed";
+		public const string NextOneTask = "NextOneTask";
+		public const string NextTwoTasks = "NextTwoTasks";
+		public const string NextThreeOrMoreTask = "NextThreeOrMoreTask";
+		public const string ShowPreviousTasks = "ShowPreviousTasks";
+		public const string NoTasksMessage = "NoTasksMessage";
+		public const string InstructionMessage = "InstructionMessage";
+		public const string TaskSummaryMessage = "TaskSummaryMessage";
+		public const string RepeatFirstPagePrompt = "RepeatFirstPagePrompt";
+		public const string RepeatFirstPageConfirmFailed = "RepeatFirstPageConfirmFailed";
+		public const string GoBackToStartPrompt = "GoBackToStartPrompt";
+		public const string GoBackToStartConfirmFailed = "GoBackToStartConfirmFailed";
+
+    }
 }

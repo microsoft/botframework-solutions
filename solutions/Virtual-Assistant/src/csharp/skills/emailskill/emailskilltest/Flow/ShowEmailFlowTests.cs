@@ -386,8 +386,8 @@ namespace EmailSkillTest.Flow
 
         private string[] NotShowingMessage()
         {
-            var response = ResponseManager.GetResponseTemplate(EmailSharedResponses.CancellingMessage);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            
+            return this.ParseReplies(EmailSharedResponses.CancellingMessage, new StringDictionary());
         }
 
         private Action<IActivity> ActionEndMessage()
@@ -400,61 +400,61 @@ namespace EmailSkillTest.Flow
 
         private string[] ReadOutPrompt()
         {
-            var response = ResponseManager.GetResponseTemplate(ShowEmailResponses.ReadOutPrompt);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            
+            return this.ParseReplies(ShowEmailResponses.ReadOutPrompt, new StringDictionary());
         }
 
         private string[] ReadOutOnlyOnePrompt()
         {
-            var response = ResponseManager.GetResponseTemplate(ShowEmailResponses.ReadOutOnlyOnePrompt);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            
+            return this.ParseReplies(ShowEmailResponses.ReadOutOnlyOnePrompt, new StringDictionary());
         }
 
         private string[] ReadOutMorePrompt()
         {
-            var response = ResponseManager.GetResponseTemplate(ShowEmailResponses.ReadOutMorePrompt);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            
+            return this.ParseReplies(ShowEmailResponses.ReadOutMorePrompt, new StringDictionary());
         }
 
         private string[] EmailNotFoundPrompt()
         {
-            var response = ResponseManager.GetResponseTemplate(EmailSharedResponses.EmailNotFound);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            
+            return this.ParseReplies(EmailSharedResponses.EmailNotFound, new StringDictionary());
         }
 
         private string[] CollectRecipientsMessage()
         {
-            var response = ResponseManager.GetResponseTemplate(EmailSharedResponses.NoRecipients);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            
+            return this.ParseReplies(EmailSharedResponses.NoRecipients, new StringDictionary());
         }
 
         private string[] ConfirmOneNameOneAddress()
         {
-            return this.ParseReplies(FindContactResponses.PromptOneNameOneAddress.Replies, new StringDictionary() { { "UserName", ContextStrings.TestRecipient }, { "EmailAddress", ContextStrings.TestEmailAdress } });
+            return this.ParseReplies(FindContactResponses.PromptOneNameOneAddress, new StringDictionary() { { "UserName", ContextStrings.TestRecipient }, { "EmailAddress", ContextStrings.TestEmailAdress } });
         }
 
         private string[] CollectFocusedMessage()
         {
-            var response = ResponseManager.GetResponseTemplate(EmailSharedResponses.NoFocusMessage);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            
+            return this.ParseReplies(EmailSharedResponses.NoFocusMessage, new StringDictionary());
         }
 
         private string[] CollectEmailContentMessage()
         {
-            var response = ResponseManager.GetResponseTemplate(EmailSharedResponses.NoEmailContent);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            
+            return this.ParseReplies(EmailSharedResponses.NoEmailContent, new StringDictionary());
         }
 
         private string[] NotSendingMessage()
         {
-            var response = ResponseManager.GetResponseTemplate(EmailSharedResponses.CancellingMessage);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            
+            return this.ParseReplies(EmailSharedResponses.CancellingMessage, new StringDictionary());
         }
 
         private string[] DeleteConfirm()
         {
-            var response = ResponseManager.GetResponseTemplate(DeleteEmailResponses.DeleteConfirm);
-            return this.ParseReplies(response.Replies, new StringDictionary());
+            
+            return this.ParseReplies(DeleteEmailResponses.DeleteConfirm, new StringDictionary());
         }
 
         private Action<IActivity> AssertSelectOneOfTheMessage(int selection)
@@ -463,8 +463,8 @@ namespace EmailSkillTest.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
                 var totalEmails = ((MockServiceManager)this.ServiceManager).MailService.MyMessages;
-                var response = ResponseManager.GetResponseTemplate(ShowEmailResponses.ReadOutMessage);
-                var replies = this.ParseReplies(response.Replies, new StringDictionary()
+                
+                var replies = this.ParseReplies(ShowEmailResponses.ReadOutMessage, new StringDictionary()
                 {
                     { "EmailDetails", SpeakHelper.ToSpeechEmailDetailString(totalEmails[selection - 1], TimeZoneInfo.Local) },
                 });
@@ -498,23 +498,18 @@ namespace EmailSkillTest.Flow
                         prompt = EmailSharedResponses.ShowEmailPrompt_OtherPage;
                     }
                 }
-                var prompt = ResponseManager.GetResponseTemplate(EmailSharedResponses.ShowEmailPrompt);
-                if (expectCount == 1)
-                {
-                    prompt = ResponseManager.GetResponseTemplate(EmailSharedResponses.ShowOneEmailPrompt);
-                }
 
                 var totalEmails = ((MockServiceManager)this.ServiceManager).MailService.MyMessages;
                 var showEmails = new List<Message>();
 
                 if (page < 0)
                 {
-                    var pagingInfo = this.ParseReplies(EmailSharedResponses.FirstPageAlready.Replies, new StringDictionary())[0];
+                    var pagingInfo = this.ParseReplies(EmailSharedResponses.FirstPageAlready, new StringDictionary())[0];
                     Assert.IsTrue(messageActivity.Text.StartsWith(pagingInfo));
                 }
                 else if (page * ConfigData.GetInstance().MaxDisplaySize > totalEmails.Count)
                 {
-                    var pagingInfo = this.ParseReplies(EmailSharedResponses.LastPageAlready.Replies, new StringDictionary())[0];
+                    var pagingInfo = this.ParseReplies(EmailSharedResponses.LastPageAlready, new StringDictionary())[0];
                     Assert.IsTrue(messageActivity.Text.StartsWith(pagingInfo));
                 }
                 else
@@ -524,7 +519,7 @@ namespace EmailSkillTest.Flow
                         showEmails.Add(totalEmails[i]);
                     }
 
-                    var replies = this.ParseReplies(prompt.Replies, new StringDictionary()
+                    var replies = this.ParseReplies(prompt, new StringDictionary()
                     {
                         { "TotalCount", totalEmails.Count.ToString() },
                         { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(showEmails, TimeZoneInfo.Local, ConfigData.GetInstance().MaxReadSize) },
@@ -543,8 +538,8 @@ namespace EmailSkillTest.Flow
                 var messageActivity = activity.AsMessageActivity();
 
                 var showedItems = ((MockServiceManager)this.ServiceManager).MailService.MyMessages;
-                var response = ResponseManager.GetResponseTemplate(EmailSharedResponses.ShowEmailPrompt);
-                var replies = this.ParseReplies(response.Replies, new StringDictionary()
+                
+                var replies = this.ParseReplies(EmailSharedResponses.ShowEmailPrompt, new StringDictionary()
                 {
                     { "TotalCount", "1" },
                     { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(showedItems, TimeZoneInfo.Local, ConfigData.GetInstance().MaxReadSize) },
@@ -558,8 +553,8 @@ namespace EmailSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var response = ResponseManager.GetResponseTemplate(EmailSharedResponses.ShowEmailPrompt);
-                CollectionAssert.Contains(this.ParseReplies(response.Replies, new StringDictionary() { { "SearchType", "relevant" } }), messageActivity.Text);
+                
+                CollectionAssert.Contains(this.ParseReplies(EmailSharedResponses.ShowEmailPrompt, new StringDictionary() { { "SearchType", "relevant" } }), messageActivity.Text);
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
         }
@@ -569,8 +564,8 @@ namespace EmailSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var response = ResponseManager.GetResponseTemplate(EmailSharedResponses.ShowEmailPrompt);
-                CollectionAssert.Contains(this.ParseReplies(response.Replies, new StringDictionary()), messageActivity.Text);
+                
+                CollectionAssert.Contains(this.ParseReplies(EmailSharedResponses.ShowEmailPrompt, new StringDictionary()), messageActivity.Text);
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
         }
@@ -580,8 +575,8 @@ namespace EmailSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var response = ResponseManager.GetResponseTemplate(EmailSharedResponses.ConfirmSend);
-                CollectionAssert.Contains(this.ParseReplies(response.Replies, new StringDictionary()), messageActivity.Text);
+                
+                CollectionAssert.Contains(this.ParseReplies(EmailSharedResponses.ConfirmSend, new StringDictionary()), messageActivity.Text);
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
         }

@@ -11,11 +11,16 @@ namespace CalendarSkill.Dialogs.Summary.Resources
     /// </summary>
     public class SummaryResponses : IResponseIdCollection
     {
+        // Generated accessors
 		public const string CalendarNoMoreEvent = "CalendarNoMoreEvent";
 		public const string CalendarNoPreviousEvent = "CalendarNoPreviousEvent";
 		public const string ShowNoMeetingMessage = "ShowNoMeetingMessage";
 		public const string ShowOneMeetingSummaryMessage = "ShowOneMeetingSummaryMessage";
 		public const string ShowMultipleMeetingSummaryMessage = "ShowMultipleMeetingSummaryMessage";
+		public const string ShowOneMeetingSummaryAgainMessage = "ShowOneMeetingSummaryAgainMessage";
+		public const string ShowMeetingSummaryAgainMessage = "ShowMeetingSummaryAgainMessage";
+		public const string ShowMeetingSummaryNotFirstPageMessage = "ShowMeetingSummaryNotFirstPageMessage";
+		public const string ShowMultipleFilteredMeetings = "ShowMultipleFilteredMeetings";
 		public const string ReadOutPrompt = "ReadOutPrompt";
 		public const string ReadOutMorePrompt = "ReadOutMorePrompt";
 		public const string ReadOutMessage = "ReadOutMessage";
@@ -30,5 +35,7 @@ namespace CalendarSkill.Dialogs.Summary.Resources
 		public const string AskForChangeStatus = "AskForChangeStatus";
 		public const string AskForAction = "AskForAction";
 		public const string AskForOrgnizerAction = "AskForOrgnizerAction";
-		public const string AskForShowOverview = "AskForShowOverview";    }
+		public const string AskForShowOverview = "AskForShowOverview";
+
+    }
 }

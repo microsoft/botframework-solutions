@@ -5,8 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using EmailSkill.Dialogs.ConfirmRecipient.Resources;
 using EmailSkill.Dialogs.DeleteEmail.Resources;
+using EmailSkill.Dialogs.FindContact.Resources;
 using EmailSkill.Dialogs.ForwardEmail.Resources;
 using EmailSkill.Dialogs.Main.Resources;
 using EmailSkill.Dialogs.ReplyEmail.Resources;
@@ -23,10 +23,8 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
-using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;
@@ -73,7 +71,7 @@ namespace EmailSkill
             var supportedLanguages = languageModels.Select(l => l.Key).ToArray();
             var responses = new IResponseIdCollection[]
             {
-                    new ConfirmRecipientResponses(),
+                    new FindContactResponses(),
                     new DeleteEmailResponses(),
                     new ForwardEmailResponses(),
                     new EmailMainResponses(),

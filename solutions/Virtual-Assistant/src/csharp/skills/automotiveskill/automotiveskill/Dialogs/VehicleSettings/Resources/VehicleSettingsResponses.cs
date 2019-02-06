@@ -33,6 +33,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings.Resources
 		public const string VehicleSettingsCheckingStatusAmountSuccess = "VehicleSettingsCheckingStatusAmountSuccess";
 		public const string VehicleSettingsCheckingStatusUnsupported = "VehicleSettingsCheckingStatusUnsupported";
 		public const string VehicleSettingsOutOfDomain = "VehicleSettingsOutOfDomain";
+		public const string WhichSettingValue = "WhichSettingValue";
 
     }
 }

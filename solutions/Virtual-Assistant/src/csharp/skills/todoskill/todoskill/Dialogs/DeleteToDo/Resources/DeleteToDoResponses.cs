@@ -11,8 +11,16 @@ namespace ToDoSkill.Dialogs.DeleteToDo.Resources
     /// </summary>
     public class DeleteToDoResponses : IResponseIdCollection
     {
+        // Generated accessors
+		public const string AskDeletionAllConfirmation = "AskDeletionAllConfirmation";
+		public const string AskDeletionAllConfirmationFailed = "AskDeletionAllConfirmationFailed";
 		public const string AfterTaskDeleted = "AfterTaskDeleted";
 		public const string AfterAllTasksDeleted = "AfterAllTasksDeleted";
-		public const string AskDeletionConfirmation = "AskDeletionConfirmation";
-		public const string AskDeletionAllConfirmation = "AskDeletionAllConfirmation";    }
+		public const string DeletionAllConfirmationRefused = "DeletionAllConfirmationRefused";
+		public const string ListTypePrompt = "ListTypePrompt";
+		public const string AskTaskIndex = "AskTaskIndex";
+		public const string DeleteAnotherTaskPrompt = "DeleteAnotherTaskPrompt";
+		public const string DeleteAnotherTaskConfirmFailed = "DeleteAnotherTaskConfirmFailed";
+
+    }
 }

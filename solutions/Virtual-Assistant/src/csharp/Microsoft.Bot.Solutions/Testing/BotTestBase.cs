@@ -61,8 +61,9 @@ namespace Microsoft.Bot.Solutions.Testing
             return this.TestFlow((IMiddleware)null);
         }
 
-        protected string[] ParseReplies(Reply[] replies, string[] tokens)
+        protected string[] ParseReplies(string templateId, string[] tokens)
         {
+            var replies = ResponseManager.GetResponseTemplate(templateId).Replies;
             var responses = new string[replies.Length];
             for (var i = 0; i < replies.Length; i++)
             {
@@ -74,8 +75,9 @@ namespace Microsoft.Bot.Solutions.Testing
             return responses;
         }
 
-        protected string[] ParseReplies(Reply[] replies, StringDictionary tokens = null)
+        protected string[] ParseReplies(string templateId, StringDictionary tokens = null)
         {
+            var replies = ResponseManager.GetResponseTemplate(templateId).Replies;
             var responses = new string[replies.Length];
             if (tokens == null)
             {
@@ -90,8 +92,9 @@ namespace Microsoft.Bot.Solutions.Testing
             return responses;
         }
 
-        protected string[] ParseRepliesSpeak(Reply[] replies, StringDictionary tokens = null)
+        protected string[] ParseRepliesSpeak(string templateId, StringDictionary tokens = null)
         {
+            var replies = ResponseManager.GetResponseTemplate(templateId).Replies;
             var responses = new string[replies.Length];
             if (tokens == null)
             {

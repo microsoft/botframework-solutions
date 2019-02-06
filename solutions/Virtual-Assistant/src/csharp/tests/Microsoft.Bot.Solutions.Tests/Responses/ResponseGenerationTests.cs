@@ -4,7 +4,7 @@ using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Tests.Responses;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Bot.Solutions.Tests.Resources
+namespace Microsoft.Bot.Solutions.Tests
 {
     [TestClass]
     public class ResponseGenerationTests
