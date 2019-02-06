@@ -133,18 +133,7 @@ module.exports = class extends Generator {
         type: "input",
         name: "botName",
         message: `What's the name of your bot?`,
-        default: this.options.botName ? this.options.botName : "enterprise-bot",
-        validate: input => {
-          if (input.length > 12) {
-            this.log(
-              chalk.yellow(
-                "\nWARNING: If the name of the bot has more than 12 characters, it could have some problems deploying some services."
-              )
-            );
-          }
-
-          return true;
-        }
+        default: this.options.botName ? this.options.botName : "enterprise-bot"
       },
       {
         type: "input",
@@ -259,17 +248,32 @@ module.exports = class extends Generator {
 
     this.fs.copy(
       this.templatePath(templateName, "cognitiveModels", "LUIS", botLang, "*"),
-      this.destinationPath(botGenerationPath, "cognitiveModels", "LUIS")
+      this.destinationPath(
+        botGenerationPath,
+        "cognitiveModels",
+        "LUIS",
+        botLang
+      )
     );
 
     this.fs.copy(
       this.templatePath(templateName, "cognitiveModels", "QnA", botLang, "*"),
-      this.destinationPath(botGenerationPath, "cognitiveModels", "QnA")
+      this.destinationPath(botGenerationPath, "cognitiveModels", "QnA", botLang)
     );
 
     this.fs.copy(
       this.templatePath(templateName, "deploymentScripts", botLang, "*"),
-      this.destinationPath(botGenerationPath, "deploymentScripts")
+      this.destinationPath(botGenerationPath, "deploymentScripts", botLang)
+    );
+
+    this.fs.copy(
+      this.templatePath(templateName, "src", "locales", botLang + ".json"),
+      this.destinationPath(
+        botGenerationPath,
+        "src",
+        "locales",
+        botLang + ".json"
+      )
     );
 
     this.fs.copyTpl(
@@ -328,7 +332,6 @@ module.exports = class extends Generator {
     const commonDirectories = [
       "dialogs",
       "extensions",
-      "locales",
       "middleware",
       "serviceClients"
     ];
