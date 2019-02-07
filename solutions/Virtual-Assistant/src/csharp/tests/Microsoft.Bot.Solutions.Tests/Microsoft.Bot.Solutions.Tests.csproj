@@ -84,12 +84,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Dialogs\TestResponses.es.json" />
-    <None Remove="Responses\TestResponses.es.json" />
-    <None Remove="Responses\TestResponses.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="Skills\Fakes\FakeSkill\Dialogs\Auth\Resources\SampleAuthResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

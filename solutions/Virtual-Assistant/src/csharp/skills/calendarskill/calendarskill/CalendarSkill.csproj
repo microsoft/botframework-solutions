@@ -7,68 +7,32 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.de.json" />
-    <Content Remove="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.es.json" />
-    <Content Remove="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.fr.json" />
-    <Content Remove="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.it.json" />
-    <Content Remove="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.json" />
-    <Content Remove="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.zh.json" />
-    <Content Remove="Dialogs\CreateEvent\Resources\CreateEventResponses.de.json" />
-    <Content Remove="Dialogs\CreateEvent\Resources\CreateEventResponses.es.json" />
-    <Content Remove="Dialogs\CreateEvent\Resources\CreateEventResponses.fr.json" />
-    <Content Remove="Dialogs\CreateEvent\Resources\CreateEventResponses.it.json" />
-    <Content Remove="Dialogs\CreateEvent\Resources\CreateEventResponses.json" />
-    <Content Remove="Dialogs\CreateEvent\Resources\CreateEventResponses.zh.json" />
-    <Content Remove="Dialogs\CreateEvent\Resources\CreateEventWhiteList.json" />
-    <Content Remove="Dialogs\CreateEvent\Resources\CreateEventWhiteList.zh.json" />
-    <Content Remove="Dialogs\FindContact\Resources\FindContactResponses.de.json" />
-    <Content Remove="Dialogs\FindContact\Resources\FindContactResponses.es.json" />
-    <Content Remove="Dialogs\FindContact\Resources\FindContactResponses.fr.json" />
-    <Content Remove="Dialogs\FindContact\Resources\FindContactResponses.it.json" />
-    <Content Remove="Dialogs\FindContact\Resources\FindContactResponses.json" />
-    <Content Remove="Dialogs\FindContact\Resources\FindContactResponses.zh.json" />
-    <Content Remove="Dialogs\JoinEvent\Resources\JoinEventResponses.de.json" />
-    <Content Remove="Dialogs\JoinEvent\Resources\JoinEventResponses.es.json" />
-    <Content Remove="Dialogs\JoinEvent\Resources\JoinEventResponses.fr.json" />
-    <Content Remove="Dialogs\JoinEvent\Resources\JoinEventResponses.it.json" />
-    <Content Remove="Dialogs\JoinEvent\Resources\JoinEventResponses.json" />
-    <Content Remove="Dialogs\JoinEvent\Resources\JoinEventResponses.zh.json" />
-    <Content Remove="Dialogs\Main\Resources\CalendarMainResponses.de.json" />
-    <Content Remove="Dialogs\Main\Resources\CalendarMainResponses.es.json" />
-    <Content Remove="Dialogs\Main\Resources\CalendarMainResponses.fr.json" />
-    <Content Remove="Dialogs\Main\Resources\CalendarMainResponses.it.json" />
-    <Content Remove="Dialogs\Main\Resources\CalendarMainResponses.json" />
-    <Content Remove="Dialogs\Main\Resources\CalendarMainResponses.zh.json" />
-    <Content Remove="Dialogs\Shared\Resources\CalendarSharedResponses.de.json" />
-    <Content Remove="Dialogs\Shared\Resources\CalendarSharedResponses.es.json" />
-    <Content Remove="Dialogs\Shared\Resources\CalendarSharedResponses.fr.json" />
-    <Content Remove="Dialogs\Shared\Resources\CalendarSharedResponses.it.json" />
-    <Content Remove="Dialogs\Shared\Resources\CalendarSharedResponses.json" />
-    <Content Remove="Dialogs\Shared\Resources\CalendarSharedResponses.zh.json" />
-    <Content Remove="Dialogs\Shared\Resources\Cards\CalendarCard.json" />
-    <Content Remove="Dialogs\Shared\Resources\Cards\CalendarCardNoJoinButton.json" />
-    <Content Remove="Dialogs\Summary\Resources\SummaryResponses.de.json" />
-    <Content Remove="Dialogs\Summary\Resources\SummaryResponses.es.json" />
-    <Content Remove="Dialogs\Summary\Resources\SummaryResponses.fr.json" />
-    <Content Remove="Dialogs\Summary\Resources\SummaryResponses.it.json" />
-    <Content Remove="Dialogs\Summary\Resources\SummaryResponses.json" />
-    <Content Remove="Dialogs\Summary\Resources\SummaryResponses.zh.json" />
-    <Content Remove="Dialogs\TimeRemaining\Resources\TimeRemainingResponses.de.json" />
-    <Content Remove="Dialogs\TimeRemaining\Resources\TimeRemainingResponses.es.json" />
-    <Content Remove="Dialogs\TimeRemaining\Resources\TimeRemainingResponses.fr.json" />
-    <Content Remove="Dialogs\TimeRemaining\Resources\TimeRemainingResponses.it.json" />
-    <Content Remove="Dialogs\TimeRemaining\Resources\TimeRemainingResponses.json" />
-    <Content Remove="Dialogs\TimeRemaining\Resources\TimeRemainingResponses.zh.json" />
-    <Content Remove="Dialogs\UpdateEvent\Resources\UpdateEventResponses.de.json" />
-    <Content Remove="Dialogs\UpdateEvent\Resources\UpdateEventResponses.es.json" />
-    <Content Remove="Dialogs\UpdateEvent\Resources\UpdateEventResponses.fr.json" />
-    <Content Remove="Dialogs\UpdateEvent\Resources\UpdateEventResponses.it.json" />
-    <Content Remove="Dialogs\UpdateEvent\Resources\UpdateEventResponses.json" />
-    <Content Remove="Dialogs\UpdateEvent\Resources\UpdateEventResponses.zh.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Common\WindowsIanaMapping" />
+    <PackageReference Include="Google.Apis.Calendar.v3" Version="1.35.2.1354" />
+    <PackageReference Include="Google.Apis.People.v1" Version="1.25.0.830" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.8.10" />
+    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.8.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights.DependencyCollector" Version="2.8.1" />
+    <PackageReference Include="Microsoft.AspNetCore.All" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.NewsSearch" Version="1.2.0" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Bot.Connector" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Graph" Version="1.10.0" />
+    <PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Recognizers.Text.DataTypes.TimexExpression" Version="1.1.4" />
+    <PackageReference Include="Microsoft.Recognizers.Text.DateTime" Version="1.1.4" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
@@ -85,6 +49,7 @@
     <EmbeddedResource Include="Dialogs\CreateEvent\Resources\CreateEventResponses.it.json" />
     <EmbeddedResource Include="Dialogs\CreateEvent\Resources\CreateEventResponses.json" />
     <EmbeddedResource Include="Dialogs\CreateEvent\Resources\CreateEventResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\CreateEvent\Resources\CreateEventWhiteList.json" />
     <EmbeddedResource Include="Dialogs\CreateEvent\Resources\CreateEventWhiteList.zh.json" />
     <EmbeddedResource Include="Dialogs\FindContact\Resources\FindContactResponses.de.json" />
     <EmbeddedResource Include="Dialogs\FindContact\Resources\FindContactResponses.es.json" />
@@ -130,43 +95,6 @@
     <EmbeddedResource Include="Dialogs\UpdateEvent\Resources\UpdateEventResponses.it.json" />
     <EmbeddedResource Include="Dialogs\UpdateEvent\Resources\UpdateEventResponses.json" />
     <EmbeddedResource Include="Dialogs\UpdateEvent\Resources\UpdateEventResponses.zh.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Google.Apis.Calendar.v3" Version="1.35.2.1354" />
-    <PackageReference Include="Google.Apis.People.v1" Version="1.25.0.830" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.8.10" />
-    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.8.1" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
-    <PackageReference Include="Microsoft.ApplicationInsights.DependencyCollector" Version="2.8.1" />
-    <PackageReference Include="Microsoft.AspNetCore.All" />
-    <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
-    <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.NewsSearch" Version="1.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Connector" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Graph" Version="1.10.0" />
-    <PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.Recognizers.Text.DataTypes.TimexExpression" Version="1.1.4" />
-    <PackageReference Include="Microsoft.Recognizers.Text.DateTime" Version="1.1.4" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Dialogs\CreateEvent\Resources\CreateEventWhiteList.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -228,19 +156,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <WCFMetadata Include="Connected Services" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="*.bot">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="LocaleConfigurations\*.bot">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ChangeEventStatusResponses.cs</LastGenOutput>
@@ -287,78 +202,27 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.de.json" />
-    <EmbeddedResource Update="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.es.json" />
-    <EmbeddedResource Update="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.fr.json" />
-    <EmbeddedResource Update="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.it.json" />
-    <EmbeddedResource Update="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.json" />
-    <EmbeddedResource Update="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.zh.json" />
-    <EmbeddedResource Update="Dialogs\CreateEvent\Resources\CreateEventResponses.zh.json" />
-    <EmbeddedResource Update="Dialogs\CreateEvent\Resources\CreateEventResponses.fr.json" />
-    <EmbeddedResource Update="Dialogs\CreateEvent\Resources\CreateEventResponses.de.json" />
-    <EmbeddedResource Update="Dialogs\CreateEvent\Resources\CreateEventResponses.es.json" />
-    <EmbeddedResource Update="Dialogs\CreateEvent\Resources\CreateEventResponses.it.json" />
-    <EmbeddedResource Update="Dialogs\CreateEvent\Resources\CreateEventResponses.json" />
-    <EmbeddedResource Update="Dialogs\CreateEvent\Resources\CreateEventWhiteList.json" />
-    <EmbeddedResource Update="Dialogs\CreateEvent\Resources\CreateEventWhiteList.zh.json" />
-    <EmbeddedResource Update="Dialogs\DeleteEvent\Resources\ChangeEventStatusResponses.zh.json" />
-    <EmbeddedResource Update="Dialogs\DeleteEvent\Resources\ChangeEventStatusResponses.es.json" />
-    <EmbeddedResource Update="Dialogs\DeleteEvent\Resources\ChangeEventStatusResponses.fr.json" />
-    <EmbeddedResource Update="Dialogs\DeleteEvent\Resources\ChangeEventStatusResponses.de.json" />
-    <EmbeddedResource Update="Dialogs\DeleteEvent\Resources\ChangeEventStatusResponses.it.json" />
-    <EmbeddedResource Update="Dialogs\DeleteEvent\Resources\ChangeEventStatusResponses.json" />
-    <EmbeddedResource Update="Dialogs\JoinEvent\Resources\JoinEventResponses.zh.json" />
-    <EmbeddedResource Update="Dialogs\JoinEvent\Resources\JoinEventResponses.es.json" />
-    <EmbeddedResource Update="Dialogs\JoinEvent\Resources\JoinEventResponses.fr.json" />
-    <EmbeddedResource Update="Dialogs\JoinEvent\Resources\JoinEventResponses.de.json" />
-    <EmbeddedResource Update="Dialogs\JoinEvent\Resources\JoinEventResponses.it.json" />
-    <EmbeddedResource Update="Dialogs\JoinEvent\Resources\JoinEventResponses.json" />
-    <EmbeddedResource Update="Dialogs\Main\Resources\CalendarMainResponses.fr.json" />
-    <EmbeddedResource Update="Dialogs\Main\Resources\CalendarMainResponses.zh.json" />
-    <EmbeddedResource Update="Dialogs\Main\Resources\CalendarMainResponses.es.json" />
-    <EmbeddedResource Update="Dialogs\Main\Resources\CalendarMainResponses.de.json" />
-    <EmbeddedResource Update="Dialogs\Main\Resources\CalendarMainResponses.it.json" />
-    <EmbeddedResource Update="Dialogs\Main\Resources\CalendarMainResponses.json" />
-    <EmbeddedResource Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.zh.json" />
-    <EmbeddedResource Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.de.json" />
-    <EmbeddedResource Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.es.json" />
-    <EmbeddedResource Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.fr.json" />
-    <EmbeddedResource Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.it.json" />
-    <EmbeddedResource Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.json" />
-    <EmbeddedResource Update="Dialogs\Shared\Resources\CalendarSharedResponses.zh.json" />
-    <EmbeddedResource Update="Dialogs\Shared\Resources\CalendarSharedResponses.es.json" />
-    <EmbeddedResource Update="Dialogs\Shared\Resources\CalendarSharedResponses.de.json" />
-    <EmbeddedResource Update="Dialogs\Shared\Resources\CalendarSharedResponses.it.json" />
-    <EmbeddedResource Update="Dialogs\Shared\Resources\CalendarSharedResponses.fr.json" />
-    <EmbeddedResource Update="Dialogs\Shared\Resources\old_CalendarSharedResponses.zh.json" />
-    <EmbeddedResource Update="Dialogs\Shared\Resources\Cards\CalendarCard.json" />
-    <EmbeddedResource Update="Dialogs\Shared\Resources\Cards\CalendarCardNoJoinButton.json" />
-    <EmbeddedResource Update="Dialogs\Shared\Resources\CalendarSharedResponses.json" />
-    <EmbeddedResource Update="Dialogs\Summary\Resources\SummaryResponses.zh.json" />
-    <EmbeddedResource Update="Dialogs\Summary\Resources\SummaryResponses.es.json" />
-    <EmbeddedResource Update="Dialogs\Summary\Resources\SummaryResponses.de.json" />
-    <EmbeddedResource Update="Dialogs\Summary\Resources\SummaryResponses.fr.json" />
-    <EmbeddedResource Update="Dialogs\Summary\Resources\SummaryResponses.it.json" />
-    <EmbeddedResource Update="Dialogs\Summary\Resources\SummaryResponses.json" />
-    <EmbeddedResource Update="Dialogs\TimeRemaining\Resources\TimeRemainingResponses.json" />
-    <EmbeddedResource Update="Dialogs\TimeRemaining\Resources\TimeRemainingResponses.zh.json" />
-    <EmbeddedResource Update="Dialogs\TimeRemaining\Resources\TimeRemainingResponses.es.json" />
-    <EmbeddedResource Update="Dialogs\TimeRemaining\Resources\TimeRemainingResponses.fr.json" />
-    <EmbeddedResource Update="Dialogs\TimeRemaining\Resources\TimeRemainingResponses.de.json" />
-    <EmbeddedResource Update="Dialogs\TimeRemaining\Resources\TimeRemainingResponses.it.json" />
-    <EmbeddedResource Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.zh.json" />
-    <EmbeddedResource Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.es.json" />
-    <EmbeddedResource Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.fr.json" />
-    <EmbeddedResource Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.de.json" />
-    <EmbeddedResource Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.it.json" />
-    <EmbeddedResource Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.json" />
-  </ItemGroup>
-  
-  <ItemGroup>
     <EmbeddedResource Update="Dialogs\Shared\Resources\Strings\CalendarCommonStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CalendarCommonStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>  
+  
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="*.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="LocaleConfigurations\*.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj" />
   </ItemGroup>
   
   <ItemGroup>

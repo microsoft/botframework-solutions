@@ -7,79 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Dialogs\CancelRoute\Resources\CancelRouteResponses.de.json" />
-    <Content Remove="Dialogs\CancelRoute\Resources\CancelRouteResponses.es.json" />
-    <Content Remove="Dialogs\CancelRoute\Resources\CancelRouteResponses.fr.json" />
-    <Content Remove="Dialogs\CancelRoute\Resources\CancelRouteResponses.it.json" />
-    <Content Remove="Dialogs\CancelRoute\Resources\CancelRouteResponses.json" />
-    <Content Remove="Dialogs\CancelRoute\Resources\CancelRouteResponses.zh.json" />
-    <Content Remove="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.de.json" />
-    <Content Remove="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.es.json" />
-    <Content Remove="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.fr.json" />
-    <Content Remove="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.it.json" />
-    <Content Remove="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.json" />
-    <Content Remove="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.zh.json" />
-    <Content Remove="Dialogs\Main\Resources\POIMainResponses.de.json" />
-    <Content Remove="Dialogs\Main\Resources\POIMainResponses.es.json" />
-    <Content Remove="Dialogs\Main\Resources\POIMainResponses.fr.json" />
-    <Content Remove="Dialogs\Main\Resources\POIMainResponses.it.json" />
-    <Content Remove="Dialogs\Main\Resources\POIMainResponses.json" />
-    <Content Remove="Dialogs\Main\Resources\POIMainResponses.zh.json" />
-    <Content Remove="Dialogs\Route\Resources\RouteResponses.de.json" />
-    <Content Remove="Dialogs\Route\Resources\RouteResponses.es.json" />
-    <Content Remove="Dialogs\Route\Resources\RouteResponses.fr.json" />
-    <Content Remove="Dialogs\Route\Resources\RouteResponses.it.json" />
-    <Content Remove="Dialogs\Route\Resources\RouteResponses.json" />
-    <Content Remove="Dialogs\Route\Resources\RouteResponses.zh.json" />
-    <Content Remove="Dialogs\Shared\Resources\Cards\PointOfInterestViewCard.json" />
-    <Content Remove="Dialogs\Shared\Resources\Cards\PointOfInterestViewNoDrivingButtonCard.json" />
-    <Content Remove="Dialogs\Shared\Resources\Cards\RouteDirectionsViewCard.json" />
-    <Content Remove="Dialogs\Shared\Resources\Cards\RouteDirectionsViewCardNoGetStartedButton.json" />
-    <Content Remove="Dialogs\Shared\Resources\POISharedResponses.de.json" />
-    <Content Remove="Dialogs\Shared\Resources\POISharedResponses.es.json" />
-    <Content Remove="Dialogs\Shared\Resources\POISharedResponses.fr.json" />
-    <Content Remove="Dialogs\Shared\Resources\POISharedResponses.it.json" />
-    <Content Remove="Dialogs\Shared\Resources\POISharedResponses.json" />
-    <Content Remove="Dialogs\Shared\Resources\POISharedResponses.zh.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Dialogs\CancelRoute\Resources\CancelRouteResponses.de.json" />
-    <EmbeddedResource Include="Dialogs\CancelRoute\Resources\CancelRouteResponses.es.json" />
-    <EmbeddedResource Include="Dialogs\CancelRoute\Resources\CancelRouteResponses.fr.json" />
-    <EmbeddedResource Include="Dialogs\CancelRoute\Resources\CancelRouteResponses.it.json" />
-    <EmbeddedResource Include="Dialogs\CancelRoute\Resources\CancelRouteResponses.json" />
-    <EmbeddedResource Include="Dialogs\CancelRoute\Resources\CancelRouteResponses.zh.json" />
-    <EmbeddedResource Include="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.de.json" />
-    <EmbeddedResource Include="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.es.json" />
-    <EmbeddedResource Include="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.fr.json" />
-    <EmbeddedResource Include="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.it.json" />
-    <EmbeddedResource Include="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.json" />
-    <EmbeddedResource Include="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.zh.json" />
-    <EmbeddedResource Include="Dialogs\Main\Resources\POIMainResponses.de.json" />
-    <EmbeddedResource Include="Dialogs\Main\Resources\POIMainResponses.es.json" />
-    <EmbeddedResource Include="Dialogs\Main\Resources\POIMainResponses.fr.json" />
-    <EmbeddedResource Include="Dialogs\Main\Resources\POIMainResponses.it.json" />
-    <EmbeddedResource Include="Dialogs\Main\Resources\POIMainResponses.json" />
-    <EmbeddedResource Include="Dialogs\Main\Resources\POIMainResponses.zh.json" />
-    <EmbeddedResource Include="Dialogs\Route\Resources\RouteResponses.de.json" />
-    <EmbeddedResource Include="Dialogs\Route\Resources\RouteResponses.es.json" />
-    <EmbeddedResource Include="Dialogs\Route\Resources\RouteResponses.fr.json" />
-    <EmbeddedResource Include="Dialogs\Route\Resources\RouteResponses.it.json" />
-    <EmbeddedResource Include="Dialogs\Route\Resources\RouteResponses.json" />
-    <EmbeddedResource Include="Dialogs\Route\Resources\RouteResponses.zh.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\PointOfInterestViewCard.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\PointOfInterestViewNoDrivingButtonCard.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\RouteDirectionsViewCard.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\RouteDirectionsViewCardNoGetStartedButton.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\POISharedResponses.de.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\POISharedResponses.fr.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\POISharedResponses.it.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\POISharedResponses.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\POISharedResponses.zh.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
@@ -169,41 +96,39 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Dialogs\CancelRoute\Resources\CancelRouteResponses.zh.json" />
-    <EmbeddedResource Update="Dialogs\CancelRoute\Resources\CancelRouteResponses.de.json" />
-    <EmbeddedResource Update="Dialogs\CancelRoute\Resources\CancelRouteResponses.es.json" />
-    <EmbeddedResource Update="Dialogs\CancelRoute\Resources\CancelRouteResponses.fr.json" />
-    <EmbeddedResource Update="Dialogs\CancelRoute\Resources\CancelRouteResponses.it.json" />
-    <EmbeddedResource Update="Dialogs\CancelRoute\Resources\CancelRouteResponses.json" />
-    <EmbeddedResource Update="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.zh.json" />
-    <EmbeddedResource Update="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.de.json" />
-    <EmbeddedResource Update="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.es.json" />
-    <EmbeddedResource Update="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.fr.json" />
-    <EmbeddedResource Update="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.it.json" />
-    <EmbeddedResource Update="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.json" />
-    <EmbeddedResource Update="Dialogs\Main\Resources\POIMainResponses.zh.json" />
-    <EmbeddedResource Update="Dialogs\Main\Resources\POIMainResponses.de.json" />
-    <EmbeddedResource Update="Dialogs\Main\Resources\POIMainResponses.es.json" />
-    <EmbeddedResource Update="Dialogs\Main\Resources\POIMainResponses.fr.json" />
-    <EmbeddedResource Update="Dialogs\Main\Resources\POIMainResponses.it.json" />
-    <EmbeddedResource Update="Dialogs\Main\Resources\POIMainResponses.json" />
-    <EmbeddedResource Update="Dialogs\Route\Resources\RouteResponses.zh.json" />
-    <EmbeddedResource Update="Dialogs\Route\Resources\RouteResponses.de.json" />
-    <EmbeddedResource Update="Dialogs\Route\Resources\RouteResponses.es.json" />
-    <EmbeddedResource Update="Dialogs\Route\Resources\RouteResponses.fr.json" />
-    <EmbeddedResource Update="Dialogs\Route\Resources\RouteResponses.it.json" />
-    <EmbeddedResource Update="Dialogs\Route\Resources\RouteResponses.json" />
-    <EmbeddedResource Update="Dialogs\Shared\Resources\Cards\PointOfInterestViewCard.json" />
-    <EmbeddedResource Update="Dialogs\Shared\Resources\Cards\PointOfInterestViewNoDrivingButtonCard.json" />
-    <EmbeddedResource Update="Dialogs\Shared\Resources\Cards\RouteDirectionsViewCard.json" />
-    <EmbeddedResource Update="Dialogs\Shared\Resources\Cards\RouteDirectionsViewCardNoGetStartedButton.json" />
-    <EmbeddedResource Update="Dialogs\Shared\Resources\POISharedResponses.zh.json" />
-    <EmbeddedResource Update="Dialogs\Shared\Resources\POISharedResponses.es.json" />
-    <EmbeddedResource Update="Dialogs\Shared\Resources\POISharedResponses.fr.json" />
-    <EmbeddedResource Update="Dialogs\Shared\Resources\POISharedResponses.it.json" />
-    <EmbeddedResource Update="Dialogs\Shared\Resources\POISharedResponses.de.json" />
-    <EmbeddedResource Update="Dialogs\Shared\Resources\old_POISharedResponses.zh.json" />
-    <EmbeddedResource Update="Dialogs\Shared\Resources\POISharedResponses.json" />
+    <EmbeddedResource Include="Dialogs\CancelRoute\Resources\CancelRouteResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\CancelRoute\Resources\CancelRouteResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\CancelRoute\Resources\CancelRouteResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\CancelRoute\Resources\CancelRouteResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\CancelRoute\Resources\CancelRouteResponses.json" />
+    <EmbeddedResource Include="Dialogs\CancelRoute\Resources\CancelRouteResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.json" />
+    <EmbeddedResource Include="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\POIMainResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\POIMainResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\POIMainResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\POIMainResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\POIMainResponses.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\POIMainResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\Route\Resources\RouteResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\Route\Resources\RouteResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\Route\Resources\RouteResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\Route\Resources\RouteResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\Route\Resources\RouteResponses.json" />
+    <EmbeddedResource Include="Dialogs\Route\Resources\RouteResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\PointOfInterestViewCard.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\PointOfInterestViewNoDrivingButtonCard.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\RouteDirectionsViewCard.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\RouteDirectionsViewCardNoGetStartedButton.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\POISharedResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\POISharedResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\POISharedResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\POISharedResponses.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\POISharedResponses.zh.json" />
   </ItemGroup>
 
   <ItemGroup>
