@@ -21,6 +21,75 @@ namespace AutomotiveSkill
 
         public IList<SettingStatus> Statuses { get; set; } = new List<SettingStatus>();
 
+        public void AddRecognizerResult(VehicleSettings luisResult)
+        {
+            Clear();
+
+            VehicleSettingsLuisResult = luisResult;
+
+            if (luisResult.Entities.AMOUNT != null)
+            {
+                AddEntities(nameof(luisResult.Entities.AMOUNT), luisResult.Entities.AMOUNT);
+            }
+
+            if (luisResult.Entities.SETTING != null)
+            {
+                AddEntities(nameof(luisResult.Entities.SETTING), luisResult.Entities.SETTING);
+            }
+
+            if (luisResult.Entities.TYPE != null)
+            {
+                AddEntities(nameof(luisResult.Entities.TYPE), luisResult.Entities.TYPE);
+            }
+
+            if (luisResult.Entities.UNIT != null)
+            {
+                AddEntities(nameof(luisResult.Entities.UNIT), luisResult.Entities.UNIT);
+            }
+
+            if (luisResult.Entities.VALUE != null)
+            {
+                AddEntities(nameof(luisResult.Entities.VALUE), luisResult.Entities.VALUE);
+            }
+        }
+
+        public void AddRecognizerResult(VehicleSettingsNameSelection luisResult)
+        {
+            // Remove transient entity types.
+            Entities.Remove("INDEX");
+
+            if (luisResult.Entities.INDEX != null)
+            {
+                AddEntities(nameof(luisResult.Entities.INDEX), luisResult.Entities.INDEX);
+            }
+
+            if (luisResult.Entities.SETTING != null)
+            {
+                AddEntities(nameof(luisResult.Entities.SETTING), luisResult.Entities.SETTING);
+            }
+        }
+
+        public void AddRecognizerResult(VehicleSettingsValueSelection luisResult)
+        {
+            // Remove transient entity types.
+            Entities.Remove("INDEX");
+
+            if (luisResult.Entities.INDEX != null)
+            {
+                AddEntities(nameof(luisResult.Entities.INDEX), luisResult.Entities.INDEX);
+            }
+
+            if (luisResult.Entities.SETTING != null)
+            {
+                AddEntities(nameof(luisResult.Entities.SETTING), luisResult.Entities.SETTING);
+            }
+
+            if (luisResult.Entities.VALUE != null)
+            {
+                AddEntities(nameof(luisResult.Entities.VALUE), luisResult.Entities.VALUE);
+            }
+        }
+
         public IList<string> GetUniqueSettingNames()
         {
             IList<string> settingNames = new List<string>();
@@ -64,9 +133,23 @@ namespace AutomotiveSkill
         public void Clear()
         {
             VehicleSettingsLuisResult = null;
-            Entities = null;
-            Changes = null;
-            Statuses = null;
+            Entities.Clear();
+            Changes.Clear();
+            Statuses.Clear();
+        }
+
+        private void AddEntities(string key, IEnumerable<string> values)
+        {
+            if (!Entities.TryGetValue(key, out IList<string> entityValues))
+            {
+                entityValues = new List<string>();
+                Entities.Add(key, entityValues);
+            }
+
+            foreach (string value in values)
+            {
+                entityValues.Add(value);
+            }
         }
     }
 }
