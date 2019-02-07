@@ -244,6 +244,9 @@ namespace VirtualAssistant.Dialogs.Main
                         }
 
                     case Events.LocationEvent:
+                    case Events.HomeEvent:
+                    case Events.OfficeEvent:
+                    case Events.DestinationEvent:
                         {
                             parameters[ev.Name] = ev.Value;
                             forward = false;
@@ -256,8 +259,8 @@ namespace VirtualAssistant.Dialogs.Main
                             break;
                         }
 
-                    case Events.ActiveLocationUpdate:
-                    case Events.ActiveRouteUpdate:
+                    case Events.ActiveLocationEvent:
+                    case Events.ActiveRouteEvent:
                         {
                             var matchedSkill = _skillRouter.IdentifyRegisteredSkill(Dispatch.Intent.l_PointOfInterest.ToString());
 
@@ -394,8 +397,11 @@ namespace VirtualAssistant.Dialogs.Main
             public const string TokenResponseEvent = "tokens/response";
             public const string TimezoneEvent = "IPA.Timezone";
             public const string LocationEvent = "IPA.Location";
-            public const string ActiveLocationUpdate = "IPA.ActiveLocation";
-            public const string ActiveRouteUpdate = "IPA.ActiveRoute";
+            public const string ActiveLocationEvent = "IPA.ActiveLocation";
+            public const string ActiveRouteEvent = "IPA.ActiveRoute";
+            public const string DestinationEvent = "IPA.Destination";
+            public const string HomeEvent = "IPA.Home";
+            public const string OfficeEvent = "IPA.Office";
             public const string ResetUser = "IPA.ResetUser";
             public const string StartConversation = "startConversation";
         }

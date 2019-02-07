@@ -52,7 +52,7 @@ namespace PointOfInterestSkill.Dialogs.FindParking
 
                 var pointOfInterestList = new List<PointOfInterestModel>();
 
-                state.CheckForValidCurrentCoordinates();
+                state.GetCommonLocationCoordinates(state.CommonLocation);
 
                 if (!string.IsNullOrEmpty(state.Address))
                 {

@@ -30,8 +30,8 @@ namespace Luis
             public string[] ADDRESS;
             public string[] KEYWORD;
 
-            // Lists
-            public string[][] COMMON_LOCATION;
+            // Built-in entities
+            public double[] number;
 
             // Lists
             public string[][] COMMON_LOCATION;

@@ -75,24 +75,24 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 var service = ServiceManager.InitMapsService(Services, sc.Context.Activity.Locale ?? "en-us");
                 var pointOfInterestList = new List<PointOfInterestModel>();
 
-                var originCoordinates = state.GetOriginCoordinates(state.CommonLocation);
+                var originCoordinates = state.GetCommonLocationCoordinates(state.CommonLocation);
 
                 if (string.IsNullOrEmpty(state.Keyword) && string.IsNullOrEmpty(state.Address))
                 {
                     // No entities identified, find nearby locations
-                    pointOfInterestList = await service.GetNearbyPointOfInterestListAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude);
+                    pointOfInterestList = await service.GetNearbyPointOfInterestListAsync(originCoordinates.Latitude, originCoordinates.Longitude);
                     await GetPointOfInterestLocationViewCards(sc, pointOfInterestList);
                 }
                 else if (!string.IsNullOrEmpty(state.Keyword))
                 {
                     // Fuzzy query search with keyword
-                    pointOfInterestList = await service.GetPointOfInterestListByQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.Keyword);
+                    pointOfInterestList = await service.GetPointOfInterestListByQueryAsync(originCoordinates.Latitude, originCoordinates.Longitude, state.Keyword);
                     await GetPointOfInterestLocationViewCards(sc, pointOfInterestList);
                 }
                 else if (!string.IsNullOrEmpty(state.Address))
                 {
                     // Fuzzy query search with address
-                    pointOfInterestList = await service.GetPointOfInterestListByQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.Address);
+                    pointOfInterestList = await service.GetPointOfInterestListByQueryAsync(originCoordinates.Latitude, originCoordinates.Longitude, state.Address);
                     await GetPointOfInterestLocationViewCards(sc, pointOfInterestList);
                 }
 
@@ -122,7 +122,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 {
                     if (state.Destination != null)
                     {
-                        state.Destination = state.FoundLocations.SingleOrDefault();
+                        state.Destination = state.LastFoundPointOfInterests.SingleOrDefault();
                         state.LastFoundPointOfInterests = null;
                     }
 
@@ -339,6 +339,11 @@ namespace PointOfInterestSkill.Dialogs.Shared
                     if (entities.ROUTE_TYPE != null)
                     {
                         state.RouteType = entities.ROUTE_TYPE[0][0];
+                    }
+
+                    if (entities.COMMON_LOCATION != null)
+                    {
+                        state.CommonLocation = entities.COMMON_LOCATION[0][0];
                     }
 
                     if (entities.number != null)

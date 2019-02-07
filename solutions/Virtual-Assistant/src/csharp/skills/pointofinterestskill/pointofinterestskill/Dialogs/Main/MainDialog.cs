@@ -183,7 +183,7 @@ namespace PointOfInterestSkill.Dialogs.Main
                     {
                         if (dc.Context.Activity.Value is Dictionary<string, object> userData)
                         {
-                            if (userData.TryGetValue("IPA.Location", out var location))
+                            if (userData.TryGetValue(Events.Location, out var location))
                             {
                                 var coords = ((string)location).Split(',');
                                 if (coords.Length == 2)
@@ -196,6 +196,63 @@ namespace PointOfInterestSkill.Dialogs.Main
                                             Longitude = lng,
                                         };
                                         state.CurrentCoordinates = coordinates;
+                                    }
+                                }
+                            }
+
+                            if (userData.TryGetValue(Events.Destination, out var destination))
+                            {
+                                var coords = ((string)destination).Split(',');
+                                if (coords.Length == 2)
+                                {
+                                    if (double.TryParse(coords[0], out var lat) && double.TryParse(coords[1], out var lng))
+                                    {
+                                        var coordinates = new LatLng
+                                        {
+                                            Latitude = lat,
+                                            Longitude = lng,
+                                        };
+
+                                        if (state.Destination == null)
+                                        {
+                                            state.Destination = new PointOfInterestModel();
+                                        }
+
+                                        state.Destination.Geolocation = coordinates;
+                                    }
+                                }
+                            }
+
+                            if (userData.TryGetValue(Events.Home, out var home))
+                            {
+                                var coords = ((string)home).Split(',');
+                                if (coords.Length == 2)
+                                {
+                                    if (double.TryParse(coords[0], out var lat) && double.TryParse(coords[1], out var lng))
+                                    {
+                                        var coordinates = new LatLng
+                                        {
+                                            Latitude = lat,
+                                            Longitude = lng,
+                                        };
+                                        state.Home = coordinates;
+                                    }
+                                }
+                            }
+
+                            if (userData.TryGetValue(Events.Office, out var office))
+                            {
+                                var coords = ((string)office).Split(',');
+                                if (coords.Length == 2)
+                                {
+                                    if (double.TryParse(coords[0], out var lat) && double.TryParse(coords[1], out var lng))
+                                    {
+                                        var coordinates = new LatLng
+                                        {
+                                            Latitude = lat,
+                                            Longitude = lng,
+                                        };
+                                        state.Office = coordinates;
                                     }
                                 }
                             }
@@ -248,7 +305,13 @@ namespace PointOfInterestSkill.Dialogs.Main
                                         Latitude = lat,
                                         Longitude = lng,
                                     };
-                                    state.Destination.Point.Coordinates = new List<double>() { coordinates.Latitude, coordinates.Longitude };
+
+                                    if (state.Destination == null)
+                                    {
+                                        state.Destination = new PointOfInterestModel();
+                                    }
+
+                                    state.Destination.Geolocation = coordinates;
                                 }
                             }
                         }

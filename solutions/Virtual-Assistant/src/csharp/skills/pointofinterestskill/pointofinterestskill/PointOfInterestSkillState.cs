@@ -28,7 +28,7 @@ namespace PointOfInterestSkill
 
         public LatLng CurrentCoordinates { get; set; }
 
-        public Location Destination { get; set; }
+        public PointOfInterestModel Destination { get; set; }
 
         public LatLng Home { get; set; }
 
@@ -93,42 +93,41 @@ namespace PointOfInterestSkill
 
         /// <summary>
         /// Gets the origin coordinates for API calls based on what COMMON_LOCATION entity has matched.
-        /// TODO: Rather than throw exceptions for missing home/office/destination.
         /// </summary>
-        public LatLng GetOriginCoordinates(string commonLocation)
+        public LatLng GetCommonLocationCoordinates(string commonLocation)
         {
-            LatLng originCoordinates = null;
+            LatLng commonLocationCoordinates = null;
 
-            if (string.IsNullOrEmpty(commonLocation))
+            if (!string.IsNullOrEmpty(commonLocation))
             {
                 switch (CommonLocation)
                 {
                     case "home":
                         if (Home != null)
                         {
-                            originCoordinates = Home;
+                            commonLocationCoordinates = Home;
                         }
                         else
                         {
-                            throw new Exception("The bot state is missing any current coordinates. Make sure your event architecture is correctly configured to send the \"IPA.Location\" event.");
+                            throw new Exception("The bot state is missing any home coordinates. Make sure your event architecture is correctly configured to send the \"IPA.Home\" event.");
                         }
 
                         break;
                     case "office":
                         if (Office != null)
                         {
-                            originCoordinates = Office;
+                            commonLocationCoordinates = Office;
                         }
                         else
                         {
-                            throw new Exception("The bot state is missing any current coordinates. Make sure your event architecture is correctly configured to send the \"IPA.Location\" event.");
+                            throw new Exception("The bot state is missing any office coordinates. Make sure your event architecture is correctly configured to send the \"IPA.Office\" event.");
                         }
 
                         break;
                     case "destination":
                         if (Destination != null)
                         {
-                            originCoordinates = new LatLng() { Latitude = Destination.Point.Coordinates[0], Longitude = Destination.Point.Coordinates[1] };
+                            commonLocationCoordinates = new LatLng() { Latitude = Destination.Geolocation.Latitude, Longitude = Destination.Geolocation.Longitude };
                         }
 
                         break;
@@ -136,7 +135,7 @@ namespace PointOfInterestSkill
                     default:
                         if (CurrentCoordinates != null)
                         {
-                            originCoordinates = CurrentCoordinates;
+                            commonLocationCoordinates = CurrentCoordinates;
                         }
                         else
                         {
@@ -150,7 +149,7 @@ namespace PointOfInterestSkill
             {
                 if (CurrentCoordinates != null)
                 {
-                    originCoordinates = CurrentCoordinates;
+                    commonLocationCoordinates = CurrentCoordinates;
                 }
                 else
                 {
@@ -158,7 +157,7 @@ namespace PointOfInterestSkill
                 }
             }
 
-            return originCoordinates;
+            return commonLocationCoordinates;
         }
 
         public LatLng GetDestinationCoordinates()
@@ -167,7 +166,7 @@ namespace PointOfInterestSkill
 
             if (Destination != null)
             {
-                destinationCoordinates = new LatLng() { Latitude = Destination.Point.Coordinates[0], Longitude = Destination.Point.Coordinates[1] };
+                destinationCoordinates = new LatLng() { Latitude = Destination.Geolocation.Latitude, Longitude = Destination.Geolocation.Longitude };
             }
             else
             {
