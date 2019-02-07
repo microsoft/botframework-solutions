@@ -346,11 +346,11 @@ namespace AutomotiveSkill.Common
         }
 
         /// <summary>
-        /// Apply the selecting setting value to the setting values.
+        /// Apply the user's selection to the setting values.
         /// </summary>
         /// <param name="state">State object.</param>
         /// <param name="entityValues">List of entity values.</param>
-        /// <returns>Setting.</returns>
+        /// <returns>The selected SettingChanges or null if no selection was made.</returns>
         public IList<SettingChange> ApplySelectionToSettingValues(AutomotiveSkillState state, List<string> entityValues)
         {
             if (state == null)
@@ -528,7 +528,14 @@ namespace AutomotiveSkill.Common
             return validity;
         }
 
-        private IList<T> ApplySelectionToSettings<T>(AutomotiveSkillState state, List<string> settingEntities, IList<T> changesOrStatuses)
+        /// <summary>
+        /// Apply the user's selection to the setting names.
+        /// </summary>
+        /// <param name="state">State object.</param>
+        /// <param name="settingEntities">List of entity values.</param>
+        /// <param name="changesOrStatuses">The SettingChanges or SettingStatuses to select from.</param>
+        /// <returns>The selected SettingChanges or SettingStatuses or null if no selection was made.</returns>
+        public IList<T> ApplySelectionToSettings<T>(AutomotiveSkillState state, List<string> settingEntities, IList<T> changesOrStatuses)
             where T : SettingOperation
         {
             if (state == null)
@@ -651,7 +658,7 @@ namespace AutomotiveSkill.Common
                 return newCandidates;
             }
 
-            return changesOrStatuses;
+            return null;
         }
 
         /// <summary>

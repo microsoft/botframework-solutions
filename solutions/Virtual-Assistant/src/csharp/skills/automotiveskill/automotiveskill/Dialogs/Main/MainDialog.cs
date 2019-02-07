@@ -87,7 +87,7 @@ namespace AutomotiveSkill.Dialogs.Main
                 var intent = result?.TopIntent().intent;
 
                 // Update state with vehiclesettings luis result and entities
-                state.VehicleSettingsLuisResult = result;
+                state.AddRecognizerResult(result);
 
                 // switch on general intents
                 switch (intent)

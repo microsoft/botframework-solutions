@@ -130,7 +130,7 @@ namespace AutomotiveSkillTest.Flow
         {
             await this.GetTestFlow()
                 .Send("adjust equalizer")
-                .AssertReply(this.CheckReply("Here are the matching settings. Which one? (1) Equalizer (Bass)(2) Equalizer (Midrange)(3) Equalizer (Treble)(4) Equalizer (Surround)(5) Air Recirculation"))
+                .AssertReply(this.CheckReply("Here are the matching settings. Which one? (1) Equalizer (Bass)(2) Equalizer (Midrange)(3) Equalizer (Treble)(4) Equalizer (Surround)"))
                 .Send("Equalizer (Bass)")
                 .AssertReply(this.CheckReply("Here are the possible values for Equalizer (Bass). Which one? (1) Decrease(2) Increase"))                
                  .Send("Decrease")
@@ -140,11 +140,39 @@ namespace AutomotiveSkillTest.Flow
         }
 
         [TestMethod]
+        public async Task Test_SettingAndValueSelectionWithPartialMatches()
+        {
+            await this.GetTestFlow()
+                .Send("change pedestrian detection")
+                .AssertReply(this.CheckReply("Here are the matching settings. Which one? (1) Front Pedestrian Safety Detection(2) Rear Pedestrian Safety Detection"))
+                .Send("front")
+                .AssertReply(this.CheckReply("Here are the possible values for Front Pedestrian Safety Detection. Which one? (1) Off(2) Alert(3) Alert and Brake(4) Alert, Brake, and Steer"))
+                .Send("steer")
+                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckReply("Setting Front Pedestrian Safety Detection to Alert, Brake, and Steer."))
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_SettingAndValueSelectionWithSynonyms()
+        {
+            await this.GetTestFlow()
+                .Send("change pedestrian detection")
+                .AssertReply(this.CheckReply("Here are the matching settings. Which one? (1) Front Pedestrian Safety Detection(2) Rear Pedestrian Safety Detection"))
+                .Send("alerts for people in the back")
+                .AssertReply(this.CheckReply("Here are the possible values for Rear Pedestrian Safety Detection. Which one? (1) Off(2) Alert(3) Alert and Brake(4) Alert, Brake, and Steer"))
+                .Send("braking and alerts")
+                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckReply("Setting Rear Pedestrian Safety Detection to Alert and Brake."))
+                .StartTestAsync();
+        }
+
+        [TestMethod]
         public async Task Test_SettingAndValueSelectionWithOrdinals()
         {
             await this.GetTestFlow()
                 .Send("adjust equalizer")
-                .AssertReply(this.CheckReply("Here are the matching settings. Which one? (1) Equalizer (Bass)(2) Equalizer (Midrange)(3) Equalizer (Treble)(4) Equalizer (Surround)(5) Air Recirculation"))
+                .AssertReply(this.CheckReply("Here are the matching settings. Which one? (1) Equalizer (Bass)(2) Equalizer (Midrange)(3) Equalizer (Treble)(4) Equalizer (Surround)"))
                 .Send("first one")
                 .AssertReply(this.CheckReply("Here are the possible values for Equalizer (Bass). Which one? (1) Decrease(2) Increase"))
                 .Send("second one")
@@ -154,11 +182,13 @@ namespace AutomotiveSkillTest.Flow
         }
 
         [TestMethod]
-        public async Task Test_IncorrectValueChoice()
+        public async Task Test_SettingAndValueSelectionWithIncorrectChoices()
         {
             await this.GetTestFlow()
                 .Send("adjust equalizer")
-                .AssertReply(this.CheckReply("Here are the matching settings. Which one? (1) Equalizer (Bass)(2) Equalizer (Midrange)(3) Equalizer (Treble)(4) Equalizer (Surround)(5) Air Recirculation"))
+                .AssertReply(this.CheckReply("Here are the matching settings. Which one? (1) Equalizer (Bass)(2) Equalizer (Midrange)(3) Equalizer (Treble)(4) Equalizer (Surround)"))
+                .Send("blah blah")
+                .AssertReply(this.CheckReply("Here are the matching settings. Which one? (1) Equalizer (Bass)(2) Equalizer (Midrange)(3) Equalizer (Treble)(4) Equalizer (Surround)"))
                 .Send("first one")
                 .AssertReply(this.CheckReply("Here are the possible values for Equalizer (Bass). Which one? (1) Decrease(2) Increase"))
                 .Send("blah blah")
