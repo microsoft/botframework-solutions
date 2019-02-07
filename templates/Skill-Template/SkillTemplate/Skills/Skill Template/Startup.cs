@@ -67,12 +67,12 @@ namespace $safeprojectname$
             var responseManager = new ResponseManager(
                 new IResponseIdCollection[]
                 {
-                                new MainResponses(),
-                                new SharedResponses(),
-                                new SampleResponses()
+                    new MainResponses(),
+                    new SharedResponses(),
+                    new SampleResponses()
                 }, connectedServices.LocaleConfigurations.Keys.ToArray());
 
-            services.AddSingleton(sp => responseManager));
+            services.AddSingleton(sp => responseManager);
 
             var defaultLocale = Configuration.GetSection("defaultLocale").Get<string>();
 

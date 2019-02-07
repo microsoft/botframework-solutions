@@ -34,7 +34,7 @@ namespace $safeprojectname$.Dialogs.Shared
             : base(dialogId)
         {
             Services = services;
-            responseManager = responseManager;
+            ResponseManager = responseManager;
             ConversationStateAccessor = conversationStateAccessor;
             UserStateAccessor = userStateAccessor;
             ServiceManager = serviceManager;
@@ -58,7 +58,7 @@ namespace $safeprojectname$.Dialogs.Shared
 
         protected IServiceManager ServiceManager { get; set; }
 
-        protected SkillTemplateResponseBuilder ResponseBuilder { get; set; }
+        protected ResponseManager ResponseManager { get; set; }
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -95,7 +95,7 @@ namespace $safeprojectname$.Dialogs.Shared
                 }
                 else
                 {
-                    return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = ResponseManager.GetResponse(SharedResponses.NoAuth, ResponseBuilder) });
+                    return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = ResponseManager.GetResponse(SharedResponses.NoAuth) });
                 }
             }
             catch (Exception ex)

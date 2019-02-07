@@ -58,7 +58,7 @@ namespace $safeprojectname$.Dialogs.Sample
                 { "Name", stepContext.Result.ToString() },
             };
 
-            var response = ResponseManager.GetResponse(SampleResponses.HaveNameMessage, ResponseBuilder, tokens);
+            var response = ResponseManager.GetResponse(SampleResponses.HaveNameMessage, tokens);
             await stepContext.Context.SendActivityAsync(response);
 
             return await stepContext.NextAsync();

@@ -123,7 +123,6 @@
             <ProjectItem ReplaceParameters="true" TargetFileName="SharedResponses.cs">SharedResponses.cs</ProjectItem>
           </Folder>
           <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$Dialog.cs">SkillTemplateDialog.cs</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$ResponseBuilder.cs">SkillTemplateResponseBuilder.cs</ProjectItem>
         </Folder>
       </Folder>
       <Folder Name="ServiceClients" TargetFolderName="ServiceClients">
