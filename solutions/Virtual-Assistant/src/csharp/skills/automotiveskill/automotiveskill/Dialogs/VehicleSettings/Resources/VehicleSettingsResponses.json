@@ -11,8 +11,8 @@
   "VehicleSettingsSettingNameSelection": {
     "replies": [
       {
-        "text": "Any of these match what you're looking for?",
-        "speak": "Any of these match what you're looking for?"
+        "text": "Here are the matching settings. Which one?",
+        "speak": "Here are the matching settings. Which one?"
       }
     ],
     "inputHint": "expectingInput"
@@ -20,8 +20,8 @@
   "VehicleSettingsMissingSettingValue": {
     "replies": [
       {
-        "text": "Sorry, I don't know what setting value you're talking about.",
-        "speak": "Sorry, I don't know what setting value you're talking about."
+        "text": "Sorry, I don't know what you want to change it to.",
+        "speak": "Sorry, I don't know what you want to change it to."
       }
     ],
     "inputHint": "ignoringInput"
@@ -29,26 +29,8 @@
   "VehicleSettingsSettingValueSelection": {
     "replies": [
       {
-        "text": "Here are the settings for {settingName}. Which one?",
-        "speak": "Here are the settings for {settingName}. Which one?"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "VehicleSettingsSettingValueSelectionPre": {
-    "replies": [
-      {
-        "text": "Here are the settings for {settingName}:",
-        "speak": "Here are the settings for {settingName}:"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "VehicleSettingsSettingValueSelectionPost": {
-    "replies": [
-      {
-        "text": "Which one?",
-        "speak": "Which one?"
+        "text": "Here are the possible values for {settingName}. Which one?",
+        "speak": "Here are the possible values for {settingName}. Which one?"
       }
     ],
     "inputHint": "expectingInput"
@@ -56,17 +38,9 @@
   "VehicleSettingsSettingChangeConfirmation": {
     "replies": [
       {
-        "text": "Set {settingName} to {value}?",
-        "speak": "Set {settingName} to {value}?"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "VehicleSettingsSettingChangeConfirmationWithCategory": {
-    "replies": [
-      {
-        "text": "{settingName} is {aOrAnBeforeCategory} {category} feature. Set it to {value}?",
-        "speak": "{settingName} is {aOrAnBeforeCategory} {category} feature. Set it to {value}?"
+        "text": "So, you want to change {settingName} to {value}. Is that correct?",
+        // Do not add a comma to the speech output, so it sounds more continuous and natural.
+        "speak": "So you want to change {settingName} to {value}. Is that correct?"
       }
     ],
     "inputHint": "expectingInput"
@@ -187,14 +161,5 @@
       }
     ],
     "inputHint": "ignoringInput"
-  },
-  "WhichSettingValue": {
-    "replies": [
-      {
-        "text": "Which setting would you like?",
-        "speak": "Which setting would you like?"
-      }
-    ],
-    "inputHint": "expectingInput"
   }
 }
