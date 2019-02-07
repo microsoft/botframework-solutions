@@ -28,10 +28,6 @@ namespace CalendarSkillTest.Flow
                     { "calendar", new MockLuisRecognizer(new FindMeetingTestUtterances()) }
                 }
             });
-
-            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.SetupCalendarService(MockCalendarService.FakeDefaultEvents());
-            serviceManager.SetupUserService(MockUserService.FakeDefaultUsers(), MockUserService.FakeDefaultPeople());
         }
 
         [TestMethod]
@@ -48,10 +44,54 @@ namespace CalendarSkillTest.Flow
         }
 
         [TestMethod]
+        public async Task Test_CalendarOneNextMeeting_AskHowLong()
+        {
+            await this.GetTestFlow()
+                .Send(FindMeetingTestUtterances.HowLongNextMeetingMeeting)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.BeforeShowEventDetailsPrompt())
+                .AssertReplyOneOf(this.ReadDurationPrompt())
+                .AssertReplyOneOf(this.NextMeetingPrompt())
+                .AssertReply(this.ShowCalendarList())
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_CalendarOneNextMeeting_AskWhere()
+        {
+            await this.GetTestFlow()
+                .Send(FindMeetingTestUtterances.WhereNextMeetingMeeting)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.BeforeShowEventDetailsPrompt())
+                .AssertReplyOneOf(this.ReadLocationPrompt())
+                .AssertReplyOneOf(this.NextMeetingPrompt())
+                .AssertReply(this.ShowCalendarList())
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_CalendarOneNextMeeting_AskWhen()
+        {
+            await this.GetTestFlow()
+                .Send(FindMeetingTestUtterances.WhenNextMeetingMeeting)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.BeforeShowEventDetailsPrompt())
+                .AssertReplyOneOf(this.ReadTimePrompt())
+                .AssertReplyOneOf(this.NextMeetingPrompt())
+                .AssertReply(this.ShowCalendarList())
+                .AssertReply(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
         public async Task Test_CalendarNoNextMeetings()
         {
-            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.SetupCalendarService(new List<EventModel>());
+            this.ServiceManager = MockServiceManager.SetMeetingsToNull();
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseNextMeeting)
                 .AssertReply(this.ShowAuth())
@@ -65,8 +105,7 @@ namespace CalendarSkillTest.Flow
         public async Task Test_CalendarMultipleMeetings()
         {
             int eventCount = 3;
-            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.SetupCalendarService(MockCalendarService.FakeMultipleNextEvents(eventCount));
+            this.ServiceManager = MockServiceManager.SetMeetingsToMultiple(eventCount);
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseNextMeeting)
                 .AssertReply(this.ShowAuth())
@@ -79,7 +118,49 @@ namespace CalendarSkillTest.Flow
 
         private string[] NextMeetingPrompt()
         {
-            return this.ParseReplies(SummaryResponses.ShowNextMeetingMessage.Replies, new StringDictionary());
+            return this.ParseReplies(SummaryResponses.ShowNextMeetingMessage, new StringDictionary());
+        }
+
+        private string[] BeforeShowEventDetailsPrompt()
+        {
+            var responseParams = new StringDictionary()
+            {
+                { "EventName", Strings.Strings.DefaultEventName },
+            };
+            return this.ParseReplies(SummaryResponses.BeforeShowEventDetails, responseParams);
+        }
+
+        private string[] ReadTimePrompt()
+        {
+            var responseParams = new StringDictionary()
+            {
+                { "EventStartTime", "6:00 PM" },
+                { "EventEndTime", "7:00 PM" },
+            };
+            return this.ParseReplies(SummaryResponses.ReadTime, responseParams);
+        }
+
+        private string[] ReadDurationPrompt()
+        {
+            var responseParams = new StringDictionary()
+            {
+                { "EventDuration", Strings.Strings.DefaultDuration },
+            };
+            return this.ParseReplies(SummaryResponses.ReadDuration, responseParams);
+        }
+
+        private string[] ReadLocationPrompt()
+        {
+            var responseParams = new StringDictionary()
+            {
+                { "EventLocation", Strings.Strings.DefaultLocation },
+            };
+            return this.ParseReplies(SummaryResponses.ReadLocation, responseParams);
+        }
+
+        private string[] ReadNoLocationPrompt()
+        {
+            return this.ParseReplies(SummaryResponses.ReadNoLocation, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()
@@ -101,7 +182,7 @@ namespace CalendarSkillTest.Flow
 
         private string[] NoMeetingResponse()
         {
-            return this.ParseReplies(SummaryResponses.ShowNoMeetingMessage.Replies, new StringDictionary());
+            return this.ParseReplies(SummaryResponses.ShowNoMeetingMessage, new StringDictionary());
         }
 
         private Action<IActivity> ActionEndMessage()

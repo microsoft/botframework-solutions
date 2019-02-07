@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using CalendarSkill.Dialogs.TimeRemain.Resources;
+using CalendarSkill.Dialogs.TimeRemaining.Resources;
 using CalendarSkill.Models;
 using CalendarSkillTest.Flow.Fakes;
 using CalendarSkillTest.Flow.Utterances;
@@ -28,17 +28,12 @@ namespace CalendarSkillTest.Flow
                     { "calendar", new MockLuisRecognizer(new TimeRemainingUtterances()) }
                 }
             });
-
-            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.SetupCalendarService(MockCalendarService.FakeDefaultEvents());
-            serviceManager.SetupUserService(MockUserService.FakeDefaultUsers(), MockUserService.FakeDefaultPeople());
         }
 
         [TestMethod]
         public async Task Test_CalendarNextMeetingTimeRemaining()
         {
-            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.SetupCalendarService(new List<EventModel>() { MockCalendarService.CreateEventModel(startDateTime: DateTime.UtcNow.AddDays(1)) });
+            this.ServiceManager = MockServiceManager.SetMeetingsToSpecial(new List<EventModel>() { MockServiceManager.CreateEventModel(startDateTime: DateTime.UtcNow.AddDays(1)) });
             await this.GetTestFlow()
                 .Send(TimeRemainingUtterances.NextMeetingTimeRemaining)
                 .AssertReply(this.ShowAuth())
@@ -63,7 +58,7 @@ namespace CalendarSkillTest.Flow
                 { "RemainingTime", "23 hours 59 minutes " },
             };
 
-            return this.ParseReplies(TimeRemainResponses.ShowNextMeetingTimeRemainingMessage.Replies, responseParams);
+            return this.ParseReplies(TimeRemainingResponses.ShowNextMeetingTimeRemainingMessage, responseParams);
         }
 
         private Action<IActivity> ActionEndMessage()

@@ -1,7 +1,6 @@
 [
   {
     "canonicalName": "Front Left Air Delivery Mode Control",
-    "categories": [ "Climate Control" ],
     "values": [
       { "canonicalName": "Auto" },
       { "canonicalName": "Floor" },
@@ -15,7 +14,6 @@
   },
   {
     "canonicalName": "Rear Left Air Delivery Mode Control",
-    "categories": [ "Climate Control" ],
     "values": [
       { "canonicalName": "Auto" },
       { "canonicalName": "Floor" },
@@ -29,7 +27,6 @@
   },
   {
     "canonicalName": "Front Right Air Delivery Mode Control",
-    "categories": [ "Climate Control" ],
     "values": [
       { "canonicalName": "Auto" },
       { "canonicalName": "Floor" },
@@ -43,7 +40,6 @@
   },
   {
     "canonicalName": "Rear Right Air Delivery Mode Control",
-    "categories": [ "Climate Control" ],
     "values": [
       { "canonicalName": "Auto" },
       { "canonicalName": "Floor" },
@@ -56,9 +52,7 @@
     ]
   },
   {
-    "includedSettings": [ "Front Left Air Delivery Mode Control", "Front Right Air Delivery Mode Control" ],
     "canonicalName": "Front Combined Air Delivery Mode Control",
-    "categories": [ "Climate Control" ],
     "values": [
       { "canonicalName": "Auto" },
       { "canonicalName": "Floor" },
@@ -68,12 +62,11 @@
       { "canonicalName": "Windshield" },
       { "canonicalName": "Floor and Windshield" },
       { "canonicalName": "Floor and Vent and Windshield" }
-    ]
+    ],
+    "includedSettings": [ "Front Left Air Delivery Mode Control", "Front Right Air Delivery Mode Control" ]
   },
   {
-    "includedSettings": [ "Rear Left Air Delivery Mode Control", "Rear Right Air Delivery Mode Control" ],
     "canonicalName": "Rear Combined Air Delivery Mode Control",
-    "categories": [ "Climate Control" ],
     "values": [
       { "canonicalName": "Auto" },
       { "canonicalName": "Floor" },
@@ -83,11 +76,11 @@
       { "canonicalName": "Roof" },
       { "canonicalName": "Roof and Floor" },
       { "canonicalName": "Floor and Vent and Roof" }
-    ]
+    ],
+    "includedSettings": [ "Rear Left Air Delivery Mode Control", "Rear Right Air Delivery Mode Control" ]
   },
   {
     "canonicalName": "Sync HVAC",
-    "categories": [ "Climate Control" ],
     "values": [
       { "canonicalName": "Sync All" },
       { "canonicalName": "UnSync All" },
@@ -97,7 +90,6 @@
   },
   {
     "canonicalName": "Rear Window Defogger",
-    "categories": [ "Climate Control" ],
     "values": [
       { "canonicalName": "Off" },
       { "canonicalName": "On" }
@@ -105,7 +97,6 @@
   },
   {
     "canonicalName": "Front and Rear HVAC",
-    "categories": [ "Climate Control" ],
     "values": [
       { "canonicalName": "All Off" },
       { "canonicalName": "All On" },
@@ -115,7 +106,6 @@
   },
   {
     "canonicalName": "Auto Front HVAC",
-    "categories": [ "Climate Control" ],
     "values": [
       { "canonicalName": "Auto Off" },
       { "canonicalName": "Auto On" }
@@ -123,90 +113,62 @@
   },
   {
     "canonicalName": "Auto Rear HVAC",
-    "categories": [ "Climate Control" ],
     "values": [
       { "canonicalName": "Auto Off" },
       { "canonicalName": "Auto On" }
     ]
   },
   {
-    "allowsAmount": true,
-    "amounts": [
-      {
-        "max": 12,
-        "min": 0,
-        "unit": ""
-      }
-    ],
     "canonicalName": "Front Fan Control",
-    "categories": [ "Climate Control" ],
     "values": [
       {
         "canonicalName": "Set",
         "requiresAmount": true
       },
       {
-        "changesSignOfAmount": true,
-        "canonicalName": "Decrease"
+        "canonicalName": "Decrease",
+        "changesSignOfAmount": true
       },
       {
         "canonicalName": "Increase",
         "antonym": "Decrease"
       }
-    ]
-  },
-  {
+    ],
     "allowsAmount": true,
     "amounts": [
       {
-        "max": 12,
+        "unit": "",
         "min": 0,
-        "unit": ""
+        "max": 12
       }
-    ],
+    ]
+  },
+  {
     "canonicalName": "Rear Fan Control",
-    "categories": [ "Climate Control" ],
     "values": [
       {
         "canonicalName": "Set",
         "requiresAmount": true
       },
       {
-        "changesSignOfAmount": true,
-        "canonicalName": "Decrease"
+        "canonicalName": "Decrease",
+        "changesSignOfAmount": true
       },
       {
         "canonicalName": "Increase",
         "antonym": "Decrease"
       }
+    ],
+    "allowsAmount": true,
+    "amounts": [
+      {
+        "unit": "",
+        "min": 0,
+        "max": 12
+      }
     ]
   },
   {
-    "amounts": [
-      {
-        "max": 32,
-        "min": 14,
-        "unit": "\u00b0C"
-      },
-      {
-        "max": 91,
-        "min": 56,
-        "unit": "\u00b0F"
-      },
-      {
-        "max": 91,
-        "min": 14,
-        "unit": ""
-      },
-      {
-        "max": 91,
-        "min": 14,
-        "unit": "\u00b0"
-      }
-    ],
-    "categories": [ "Climate Control" ],
-    "allowsAmount": true,
-    "includedSettings": [ "Front Left Set Temperature", "Front Right Set Temperature", "Front Combined Set Temperature", "Rear Left Set Temperature", "Rear Right Set Temperature", "Rear Combined Set Temperature" ],
     "canonicalName": "Temperature",
     "values": [
       {
@@ -214,123 +176,120 @@
         "requiresAmount": true
       },
       {
-        "changesSignOfAmount": true,
-        "canonicalName": "Decrease"
+        "canonicalName": "Decrease",
+        "changesSignOfAmount": true
       },
       {
         "canonicalName": "Increase",
         "antonym": "Decrease"
       }
-    ]
-  },
-  {
+    ],
     "allowsAmount": true,
     "amounts": [
       {
-        "max": 32,
+        "unit": "\u00b0C",
         "min": 14,
-        "unit": "\u00b0C"
+        "max": 32
       },
       {
-        "max": 91,
+        "unit": "\u00b0F",
         "min": 56,
-        "unit": "\u00b0F"
+        "max": 91
       },
       {
-        "max": 91,
+        "unit": "",
         "min": 14,
-        "unit": ""
+        "max": 91
       },
       {
-        "max": 91,
+        "unit": "\u00b0",
         "min": 14,
-        "unit": "\u00b0"
+        "max": 91
       }
     ],
+    "includedSettings": [ "Front Left Set Temperature", "Front Right Set Temperature", "Front Combined Set Temperature", "Rear Left Set Temperature", "Rear Right Set Temperature", "Rear Combined Set Temperature" ]
+  },
+  {
     "canonicalName": "Front Left Set Temperature",
-    "categories": [ "Climate Control" ],
     "values": [
       {
         "canonicalName": "Set",
         "requiresAmount": true
       },
       {
-        "changesSignOfAmount": true,
-        "canonicalName": "Decrease"
+        "canonicalName": "Decrease",
+        "changesSignOfAmount": true
       },
       {
         "canonicalName": "Increase",
         "antonym": "Decrease"
       }
-    ]
-  },
-  {
+    ],
     "allowsAmount": true,
     "amounts": [
       {
-        "max": 32,
+        "unit": "\u00b0C",
         "min": 14,
-        "unit": "\u00b0C"
+        "max": 32
       },
       {
-        "max": 91,
+        "unit": "\u00b0F",
         "min": 56,
-        "unit": "\u00b0F"
+        "max": 91
       },
       {
-        "max": 91,
+        "unit": "",
         "min": 14,
-        "unit": ""
+        "max": 91
       },
       {
-        "max": 91,
+        "unit": "\u00b0",
         "min": 14,
-        "unit": "\u00b0"
+        "max": 91
       }
-    ],
+    ]
+  },
+  {
     "canonicalName": "Front Right Set Temperature",
-    "categories": [ "Climate Control" ],
     "values": [
       {
         "canonicalName": "Set",
         "requiresAmount": true
       },
       {
-        "changesSignOfAmount": true,
-        "canonicalName": "Decrease"
+        "canonicalName": "Decrease",
+        "changesSignOfAmount": true
       },
       {
         "canonicalName": "Increase",
         "antonym": "Decrease"
       }
+    ],
+    "allowsAmount": true,
+    "amounts": [
+      {
+        "unit": "\u00b0C",
+        "min": 14,
+        "max": 32
+      },
+      {
+        "unit": "\u00b0F",
+        "min": 56,
+        "max": 91
+      },
+      {
+        "unit": "",
+        "min": 14,
+        "max": 91
+      },
+      {
+        "unit": "\u00b0",
+        "min": 14,
+        "max": 91
+      }
     ]
   },
   {
-    "amounts": [
-      {
-        "max": 32,
-        "min": 14,
-        "unit": "\u00b0C"
-      },
-      {
-        "max": 91,
-        "min": 56,
-        "unit": "\u00b0F"
-      },
-      {
-        "max": 91,
-        "min": 14,
-        "unit": ""
-      },
-      {
-        "max": 91,
-        "min": 14,
-        "unit": "\u00b0"
-      }
-    ],
-    "categories": [ "Climate Control" ],
-    "allowsAmount": true,
-    "includedSettings": [ "Front Left Set Temperature", "Front Right Set Temperature" ],
     "canonicalName": "Front Combined Set Temperature",
     "values": [
       {
@@ -338,123 +297,120 @@
         "requiresAmount": true
       },
       {
-        "changesSignOfAmount": true,
-        "canonicalName": "Decrease"
+        "canonicalName": "Decrease",
+        "changesSignOfAmount": true
       },
       {
         "canonicalName": "Increase",
         "antonym": "Decrease"
       }
-    ]
-  },
-  {
+    ],
     "allowsAmount": true,
     "amounts": [
       {
-        "max": 32,
+        "unit": "\u00b0C",
         "min": 14,
-        "unit": "\u00b0C"
+        "max": 32
       },
       {
-        "max": 91,
+        "unit": "\u00b0F",
         "min": 56,
-        "unit": "\u00b0F"
+        "max": 91
       },
       {
-        "max": 91,
+        "unit": "",
         "min": 14,
-        "unit": ""
+        "max": 91
       },
       {
-        "max": 91,
+        "unit": "\u00b0",
         "min": 14,
-        "unit": "\u00b0"
+        "max": 91
       }
     ],
+    "includedSettings": [ "Front Left Set Temperature", "Front Right Set Temperature" ]
+  },
+  {
     "canonicalName": "Rear Left Set Temperature",
-    "categories": [ "Climate Control" ],
     "values": [
       {
         "canonicalName": "Set",
         "requiresAmount": true
       },
       {
-        "changesSignOfAmount": true,
-        "canonicalName": "Decrease"
+        "canonicalName": "Decrease",
+        "changesSignOfAmount": true
       },
       {
         "canonicalName": "Increase",
         "antonym": "Decrease"
       }
-    ]
-  },
-  {
+    ],
     "allowsAmount": true,
     "amounts": [
       {
-        "max": 32,
+        "unit": "\u00b0C",
         "min": 14,
-        "unit": "\u00b0C"
+        "max": 32
       },
       {
-        "max": 91,
+        "unit": "\u00b0F",
         "min": 56,
-        "unit": "\u00b0F"
+        "max": 91
       },
       {
-        "max": 91,
+        "unit": "",
         "min": 14,
-        "unit": ""
+        "max": 91
       },
       {
-        "max": 91,
+        "unit": "\u00b0",
         "min": 14,
-        "unit": "\u00b0"
+        "max": 91
       }
-    ],
+    ]
+  },
+  {
     "canonicalName": "Rear Right Set Temperature",
-    "categories": [ "Climate Control" ],
     "values": [
       {
         "canonicalName": "Set",
         "requiresAmount": true
       },
       {
-        "changesSignOfAmount": true,
-        "canonicalName": "Decrease"
+        "canonicalName": "Decrease",
+        "changesSignOfAmount": true
       },
       {
         "canonicalName": "Increase",
         "antonym": "Decrease"
       }
+    ],
+    "allowsAmount": true,
+    "amounts": [
+      {
+        "unit": "\u00b0C",
+        "min": 14,
+        "max": 32
+      },
+      {
+        "unit": "\u00b0F",
+        "min": 56,
+        "max": 91
+      },
+      {
+        "unit": "",
+        "min": 14,
+        "max": 91
+      },
+      {
+        "unit": "\u00b0",
+        "min": 14,
+        "max": 91
+      }
     ]
   },
   {
-    "amounts": [
-      {
-        "max": 32,
-        "min": 14,
-        "unit": "\u00b0C"
-      },
-      {
-        "max": 91,
-        "min": 56,
-        "unit": "\u00b0F"
-      },
-      {
-        "max": 91,
-        "min": 14,
-        "unit": ""
-      },
-      {
-        "max": 91,
-        "min": 14,
-        "unit": "\u00b0"
-      }
-    ],
-    "categories": [ "Climate Control" ],
-    "allowsAmount": true,
-    "includedSettings": [ "Rear Left Set Temperature", "Rear Right Set Temperature" ],
     "canonicalName": "Rear Combined Set Temperature",
     "values": [
       {
@@ -462,18 +418,41 @@
         "requiresAmount": true
       },
       {
-        "changesSignOfAmount": true,
-        "canonicalName": "Decrease"
+        "canonicalName": "Decrease",
+        "changesSignOfAmount": true
       },
       {
         "canonicalName": "Increase",
         "antonym": "Decrease"
       }
-    ]
+    ],
+    "allowsAmount": true,
+    "amounts": [
+      {
+        "unit": "\u00b0C",
+        "min": 14,
+        "max": 32
+      },
+      {
+        "unit": "\u00b0F",
+        "min": 56,
+        "max": 91
+      },
+      {
+        "unit": "",
+        "min": 14,
+        "max": 91
+      },
+      {
+        "unit": "\u00b0",
+        "min": 14,
+        "max": 91
+      }
+    ],
+    "includedSettings": [ "Rear Left Set Temperature", "Rear Right Set Temperature" ]
   },
   {
     "canonicalName": "Air Recirculation",
-    "categories": [ "Climate Control" ],
     "values": [
       { "canonicalName": "Fresh Air" },
       { "canonicalName": "Recirculate Air" }
@@ -481,7 +460,6 @@
   },
   {
     "canonicalName": "Climate Mode",
-    "categories": [ "Climate Control" ],
     "values": [
       { "canonicalName": "Comfort" },
       { "canonicalName": "Economy" },
@@ -490,7 +468,6 @@
   },
   {
     "canonicalName": "Heater Mode",
-    "categories": [ "Climate Control" ],
     "values": [
       { "canonicalName": "Comfort" },
       { "canonicalName": "Economy" }
@@ -498,7 +475,6 @@
   },
   {
     "canonicalName": "Max Defrost",
-    "categories": [ "Climate Control" ],
     "values": [
       { "canonicalName": "Off" },
       { "canonicalName": "On" }
@@ -506,15 +482,13 @@
   },
   {
     "canonicalName": "Alert Type",
-    "categories": [ "Active Safety" ],
     "values": [
       { "canonicalName": "Beeps" },
-      { "canonicalName": "Safety Alert Seat" }
+      { "canonicalName": "Seat" }
     ]
   },
   {
-    "canonicalName": "Drowsy Driver Alert",
-    "categories": [ "Active Safety" ],
+    "canonicalName": "Driver Alertness Detection",
     "values": [
       {
         "canonicalName": "Off",
@@ -524,8 +498,7 @@
     ]
   },
   {
-    "canonicalName": "Rear Cross Traffic Alert",
-    "categories": [ "Active Safety" ],
+    "canonicalName": "Rear Cross Traffic Detection",
     "values": [
       {
         "canonicalName": "Off",
@@ -535,8 +508,7 @@
     ]
   },
   {
-    "canonicalName": "Side Blind Zone Alert",
-    "categories": [ "Active Safety" ],
+    "canonicalName": "Blind Spot Detection",
     "values": [
       {
         "canonicalName": "Off",
@@ -546,8 +518,7 @@
     ]
   },
   {
-    "canonicalName": "Forward Collision System",
-    "categories": [ "Active Safety" ],
+    "canonicalName": "Front Collision Detection",
     "values": [
       {
         "canonicalName": "Off",
@@ -559,8 +530,7 @@
     ]
   },
   {
-    "canonicalName": "Forward Automatic Braking",
-    "categories": [ "Active Safety" ],
+    "canonicalName": "Front Automatic Brakes",
     "values": [
       {
         "canonicalName": "Off",
@@ -572,8 +542,7 @@
     ]
   },
   {
-    "canonicalName": "Front Pedestrian Detection",
-    "categories": [ "Active Safety" ],
+    "canonicalName": "Front Pedestrian Safety Detection",
     "values": [
       {
         "canonicalName": "Off",
@@ -585,8 +554,7 @@
     ]
   },
   {
-    "canonicalName": "Rear Pedestrian Detection",
-    "categories": [ "Active Safety" ],
+    "canonicalName": "Rear Pedestrian Safety Detection",
     "values": [
       {
         "canonicalName": "Off",
@@ -598,8 +566,7 @@
     ]
   },
   {
-    "canonicalName": "Lane Change Alert",
-    "categories": [ "Active Safety" ],
+    "canonicalName": "Lane Change Detection",
     "values": [
       {
         "canonicalName": "Off",
@@ -609,8 +576,7 @@
     ]
   },
   {
-    "canonicalName": "Park Assist",
-    "categories": [ "Active Safety" ],
+    "canonicalName": "Parking Assistance",
     "values": [
       {
         "canonicalName": "Off",
@@ -621,132 +587,126 @@
     ]
   },
   {
-    "allowsAmount": true,
-    "amounts": [
-      {
-        "max": 12,
-        "min": -12,
-        "unit": ""
-      }
-    ],
     "canonicalName": "Equalizer (Bass)",
-    "categories": [ "Audio" ],
     "values": [
       {
         "canonicalName": "Set",
         "requiresAmount": true
       },
       {
-        "changesSignOfAmount": true,
-        "canonicalName": "Decrease"
+        "canonicalName": "Decrease",
+        "changesSignOfAmount": true
       },
       {
         "canonicalName": "Increase",
         "antonym": "Decrease"
       }
-    ]
-  },
-  {
+    ],
     "allowsAmount": true,
     "amounts": [
       {
-        "max": 12,
+        "unit": "",
         "min": -12,
-        "unit": ""
+        "max": 12
       }
-    ],
+    ]
+  },
+  {
     "canonicalName": "Equalizer (Midrange)",
-    "categories": [ "Audio" ],
     "values": [
       {
         "canonicalName": "Set",
         "requiresAmount": true
       },
       {
-        "changesSignOfAmount": true,
-        "canonicalName": "Decrease"
+        "canonicalName": "Decrease",
+        "changesSignOfAmount": true
       },
       {
         "canonicalName": "Increase",
         "antonym": "Decrease"
       }
-    ]
-  },
-  {
+    ],
     "allowsAmount": true,
     "amounts": [
       {
-        "max": 12,
+        "unit": "",
         "min": -12,
-        "unit": ""
+        "max": 12
       }
-    ],
+    ]
+  },
+  {
     "canonicalName": "Equalizer (Treble)",
-    "categories": [ "Audio" ],
     "values": [
       {
         "canonicalName": "Set",
         "requiresAmount": true
       },
       {
-        "changesSignOfAmount": true,
-        "canonicalName": "Decrease"
+        "canonicalName": "Decrease",
+        "changesSignOfAmount": true
       },
       {
         "canonicalName": "Increase",
         "antonym": "Decrease"
       }
-    ]
-  },
-  {
+    ],
     "allowsAmount": true,
     "amounts": [
       {
-        "max": 12,
+        "unit": "",
         "min": -12,
-        "unit": ""
+        "max": 12
+      }
+    ]
+  },
+  {
+    "canonicalName": "Equalizer (Surround)",
+    "values": [
+      {
+        "canonicalName": "Set",
+        "requiresAmount": true
+      },
+      {
+        "canonicalName": "Decrease",
+        "changesSignOfAmount": true
+      },
+      {
+        "canonicalName": "Increase",
+        "antonym": "Decrease"
       }
     ],
-    "canonicalName": "Equalizer (Surround)",
-    "categories": [ "Audio" ],
-    "values": [
-      {
-        "canonicalName": "Set",
-        "requiresAmount": true
-      },
-      {
-        "changesSignOfAmount": true,
-        "canonicalName": "Decrease"
-      },
-      {
-        "canonicalName": "Increase",
-        "antonym": "Decrease"
-      }
-    ]
-  },
-  {
     "allowsAmount": true,
-    "amounts": [ { "unit": "" } ],
+    "amounts": [
+      {
+        "unit": "",
+        "min": -12,
+        "max": 12
+      }
+    ]
+  },
+  {
     "canonicalName": "Set Volume",
-    "categories": [ "Audio" ],
     "values": [
       {
         "canonicalName": "Set",
         "requiresAmount": true
       },
       {
-        "changesSignOfAmount": true,
-        "canonicalName": "Decrease"
+        "canonicalName": "Decrease",
+        "changesSignOfAmount": true
       },
       {
         "canonicalName": "Increase",
         "antonym": "Decrease"
       }
-    ]
+    ],
+    "allowsAmount": true,
+    "amounts": [ { "unit": "" } ]
   },
   {
-    "canonicalName": "Forward Collision Gap Setting",
-    "categories": [ "Active Safety" ],
+    "canonicalName": "Front Collision Distance Detection",
     "values": [
       {
         "canonicalName": "Off",

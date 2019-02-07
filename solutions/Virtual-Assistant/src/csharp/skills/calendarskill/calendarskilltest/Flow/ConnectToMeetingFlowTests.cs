@@ -27,10 +27,6 @@ namespace CalendarSkillTest.Flow
                     { "calendar", new MockLuisRecognizer(new ConnectToMeetingUtterances()) }
                 }
             });
-
-            var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            serviceManager.SetupCalendarService(MockCalendarService.FakeDefaultEvents());
-            serviceManager.SetupUserService(MockUserService.FakeDefaultUsers(), MockUserService.FakeDefaultPeople());
         }
 
         [TestMethod]
@@ -55,7 +51,7 @@ namespace CalendarSkillTest.Flow
 
         private string[] ShowNoMeetings()
         {
-            return this.ParseReplies(JoinEventResponses.MeetingNotFound.Replies, new StringDictionary());
+            return this.ParseReplies(JoinEventResponses.MeetingNotFound, new StringDictionary());
         }
 
         private Action<IActivity> ActionEndMessage()

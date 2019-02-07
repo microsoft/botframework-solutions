@@ -67,7 +67,7 @@ namespace $safeprojectname$.Flow
 
         public override IBot BuildBot()
         {
-            return new $ext_safeprojectname$.$ext_safeprojectname$(Services, ConversationState, UserState, TelemetryClient, null, false);
+            return new $ext_safeprojectname$.$ext_safeprojectname$(Services, ConversationState, UserState, TelemetryClient, false, null);
         }
     }
 }

@@ -340,3 +340,8 @@ ASALocalRun/
 
 # QnAMaker json files
 /solutions/**/*.qna
+
+# Local deployment files
+/solutions/**/.deployment
+/solutions/**/publish
+/solutions/**/publish.cmd

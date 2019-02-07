@@ -44,6 +44,15 @@
     ],
     "inputHint": "expectingInput"
   },
+  "ReadMoreTasksConfirmFailed": {
+    "replies": [
+      {
+        "text": "对不起，我没有理解您的意思。请问你想要听更多的任务吗？",
+        "speak": "对不起，我没有理解您的意思。请问你想要听更多的任务吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "NextOneTask": {
     "replies": [
       {
@@ -106,5 +115,41 @@
       }
     ],
     "inputHint": "ignoringInput"
+  },
+  "RepeatFirstPagePrompt": {
+    "replies": [
+      {
+        "text": "当前已经在{listType}列表的开始页了。您想要我重新读出最新的任务吗？",
+        "speak": "当前已经在{listType}列表的开始页了。您想要我重新读出最新的任务吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "RepeatFirstPageConfirmFailed": {
+    "replies": [
+      {
+        "text": "对不起，我没能理解您的意思。您想要我重新读出最新的任务吗？",
+        "speak": "对不起，我没能理解您的意思。您想要我重新读出最新的任务吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "GoBackToStartPrompt": {
+    "replies": [
+      {
+        "text": "这些已经是您{listtype}列表里面最后的任务了。您想要回到列表开头吗？",
+        "speak": "这些已经是您{listtype}列表里面最后的任务了。您想要回到列表开头吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "GoBackToStartConfirmFailed": {
+    "replies": [
+      {
+        "text": "对不起，我没能理解您的意思。您想要回到列表开头吗？",
+        "speak": "对不起，我没能理解您的意思。您想要回到列表开头吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }

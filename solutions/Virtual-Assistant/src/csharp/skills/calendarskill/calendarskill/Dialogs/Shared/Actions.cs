@@ -15,6 +15,10 @@
         public const string UpdateAddress = "UpdateAddress";
         public const string UpdateName = "UpdateName";
         public const string ConfirmAttendee = "ConfirmAttendee";
+        public const string ConfirmName = "ConfirmName";
+        public const string ConfirmEmail = "ConfirmEmail";
+        public const string FindContact = "FindContact";
+        public const string UpdateRecipientName = "UpdateRecipientName";
         public const string ShowTimeRemaining = "ShowTimeRemaining";
         public const string TakeFurtherAction = "TakeFurtherAction";
         public const string UpdateStartTime = "UpdateStartTime";

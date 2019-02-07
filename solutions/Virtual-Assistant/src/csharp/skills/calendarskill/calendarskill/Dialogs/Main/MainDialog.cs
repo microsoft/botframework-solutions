@@ -11,10 +11,9 @@ using CalendarSkill.Dialogs.ChangeEventStatus;
 using CalendarSkill.Dialogs.CreateEvent;
 using CalendarSkill.Dialogs.JoinEvent;
 using CalendarSkill.Dialogs.Main.Resources;
-using CalendarSkill.Dialogs.Shared;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Dialogs.Summary;
-using CalendarSkill.Dialogs.TimeRemain;
+using CalendarSkill.Dialogs.TimeRemaining;
 using CalendarSkill.Dialogs.UpdateEvent;
 using CalendarSkill.ServiceClients;
 using Luis;
@@ -22,7 +21,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 
 namespace CalendarSkill.Dialogs.Main
@@ -31,14 +30,15 @@ namespace CalendarSkill.Dialogs.Main
     {
         private bool _skillMode;
         private SkillConfigurationBase _services;
+        private ResponseManager _responseManager;
         private UserState _userState;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
         private IStatePropertyAccessor<CalendarSkillState> _stateAccessor;
-        private CalendarSkillResponseBuilder _responseBuilder = new CalendarSkillResponseBuilder();
 
         public MainDialog(
             SkillConfigurationBase services,
+            ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
             IBotTelemetryClient telemetryClient,
@@ -48,6 +48,7 @@ namespace CalendarSkill.Dialogs.Main
         {
             _skillMode = skillMode;
             _services = services;
+            _responseManager = responseManager;
             _userState = userState;
             _conversationState = conversationState;
             TelemetryClient = telemetryClient;
@@ -65,7 +66,7 @@ namespace CalendarSkill.Dialogs.Main
             if (!_skillMode)
             {
                 // send a greeting if we're in local mode
-                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(CalendarMainResponses.CalendarWelcomeMessage));
+                await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.CalendarWelcomeMessage));
             }
         }
 
@@ -147,7 +148,7 @@ namespace CalendarSkill.Dialogs.Main
                             }
                             else
                             {
-                                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage));
+                                await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage));
                                 if (_skillMode)
                                 {
                                     await CompleteAsync(dc);
@@ -159,7 +160,7 @@ namespace CalendarSkill.Dialogs.Main
 
                     default:
                         {
-                            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(CalendarMainResponses.FeatureNotAvailable));
+                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.FeatureNotAvailable));
 
                             if (_skillMode)
                             {
@@ -183,7 +184,7 @@ namespace CalendarSkill.Dialogs.Main
             }
             else
             {
-                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(CalendarSharedResponses.ActionEnded));
+                await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarSharedResponses.ActionEnded));
             }
 
             // End active dialog
@@ -288,7 +289,7 @@ namespace CalendarSkill.Dialogs.Main
         {
             var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
             state.Clear();
-            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(CalendarMainResponses.CancelMessage));
+            await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.CancelMessage));
             await CompleteAsync(dc);
             await dc.CancelAllDialogsAsync();
             return InterruptionAction.StartedDialog;
@@ -296,7 +297,7 @@ namespace CalendarSkill.Dialogs.Main
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
-            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(CalendarMainResponses.HelpMessage));
+            await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.HelpMessage));
             return InterruptionAction.MessageSentToUser;
         }
 
@@ -322,19 +323,19 @@ namespace CalendarSkill.Dialogs.Main
                 await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
             }
 
-            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(CalendarMainResponses.LogOut));
+            await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.LogOut));
 
             return InterruptionAction.StartedDialog;
         }
 
         private void RegisterDialogs()
         {
-            AddDialog(new CreateEventDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new ChangeEventStatusDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new TimeRemainingDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new SummaryDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new UpdateEventDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new ConnectToMeetingDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new CreateEventDialog(_services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new ChangeEventStatusDialog(_services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new TimeRemainingDialog(_services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new SummaryDialog(_services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new UpdateEventDialog(_services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new ConnectToMeetingDialog(_services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient));
         }
 
         private void InitializeConfig(CalendarSkillState state)
@@ -342,8 +343,8 @@ namespace CalendarSkill.Dialogs.Main
             // Initialize PageSize when the first input comes.
             if (state.PageSize <= 0)
             {
-                int pageSize = 0;
-                if (_services.Properties.TryGetValue("DisplaySize", out object displaySizeObj))
+                var pageSize = 0;
+                if (_services.Properties.TryGetValue("DisplaySize", out var displaySizeObj))
                 {
                     int.TryParse(displaySizeObj.ToString(), out pageSize);
                 }

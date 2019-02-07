@@ -15,7 +15,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
@@ -26,10 +26,11 @@ namespace CalendarSkill.Dialogs.UpdateEvent
     {
         public UpdateEventDialog(
             SkillConfigurationBase services,
+            ResponseManager responseManager,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(UpdateEventDialog), services, accessor, serviceManager, telemetryClient)
+            : base(nameof(UpdateEventDialog), services, responseManager, accessor, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
             var updateEvent = new WaterfallStep[]
@@ -80,7 +81,7 @@ namespace CalendarSkill.Dialogs.UpdateEvent
                 var origin = state.Events[0];
                 if (!origin.IsOrganizer)
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(UpdateEventResponses.NotEventOrganizer));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(UpdateEventResponses.NotEventOrganizer));
                     state.Clear();
                     return await sc.EndDialogAsync(true);
                 }
@@ -105,19 +106,24 @@ namespace CalendarSkill.Dialogs.UpdateEvent
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-
                 var newStartTime = (DateTime)state.NewStartDateTime;
-
                 var origin = state.Events[0];
                 var last = origin.EndTime - origin.StartTime;
                 origin.StartTime = newStartTime;
                 origin.EndTime = (newStartTime + last).AddSeconds(1);
-                var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(UpdateEventResponses.ConfirmUpdate, origin.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", origin.ToAdaptiveCardData(state.GetUserTimeZone()));
+
+                var replyMessage = ResponseManager.GetCardResponse(
+                    UpdateEventResponses.ConfirmUpdate,
+                    new Card()
+                    {
+                        Name = origin.OnlineMeetingUrl == null ? "CalendarCardNoJoinButton" : "CalendarCard",
+                        Data = origin.ToAdaptiveCardData(state.GetUserTimeZone())
+                    });
 
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
                     Prompt = replyMessage,
-                    RetryPrompt = sc.Context.Activity.CreateReply(UpdateEventResponses.ConfirmUpdateFailed, ResponseBuilder),
+                    RetryPrompt = ResponseManager.GetResponse(UpdateEventResponses.ConfirmUpdateFailed),
                 });
             }
             catch (Exception ex)
@@ -152,15 +158,30 @@ namespace CalendarSkill.Dialogs.UpdateEvent
                     var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
                     var newEvent = await calendarService.UpdateEventById(updateEvent);
 
-                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(UpdateEventResponses.EventUpdated, newEvent.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", newEvent.ToAdaptiveCardData(state.GetUserTimeZone()));
+                    var replyMessage = ResponseManager.GetCardResponse(
+                        UpdateEventResponses.EventUpdated,
+                        new Card()
+                        {
+                            Name = newEvent.OnlineMeetingUrl == null ? "CalendarCardNoJoinButton" : "CalendarCard",
+                            Data = newEvent.ToAdaptiveCardData(state.GetUserTimeZone())
+                        });
+
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarSharedResponses.ActionEnded));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.ActionEnded));
                 }
 
-                state.Clear();
+                if (state.IsActionFromSummary)
+                {
+                    state.ClearUpdateEventInfo();
+                }
+                else
+                {
+                    state.Clear();
+                }
+
                 return await sc.EndDialogAsync(true);
             }
             catch (SkillException ex)
@@ -180,15 +201,15 @@ namespace CalendarSkill.Dialogs.UpdateEvent
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                if (state.StartDate.Any() || state.StartTime.Any() || state.MoveTimeSpan != 0)
+                if (state.NewStartDate.Any() || state.NewStartTime.Any() || state.MoveTimeSpan != 0)
                 {
                     return await sc.ContinueDialogAsync();
                 }
 
                 return await sc.PromptAsync(Actions.TimePrompt, new PromptOptions
                 {
-                    Prompt = sc.Context.Activity.CreateReply(UpdateEventResponses.NoNewTime),
-                    RetryPrompt = sc.Context.Activity.CreateReply(UpdateEventResponses.NoNewTime_Retry)
+                    Prompt = ResponseManager.GetResponse(UpdateEventResponses.NoNewTime),
+                    RetryPrompt = ResponseManager.GetResponse(UpdateEventResponses.NoNewTime_Retry)
                 }, cancellationToken);
             }
             catch (Exception ex)
@@ -203,22 +224,22 @@ namespace CalendarSkill.Dialogs.UpdateEvent
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                if (state.StartDate.Any() || state.StartTime.Any() || state.MoveTimeSpan != 0)
+                if (state.NewStartDate.Any() || state.NewStartTime.Any() || state.MoveTimeSpan != 0)
                 {
                     var originalEvent = state.Events[0];
                     var originalStartDateTime = TimeConverter.ConvertUtcToUserTime(originalEvent.StartTime, state.GetUserTimeZone());
                     var userNow = TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, state.GetUserTimeZone());
 
-                    if (state.StartDate.Any() || state.StartTime.Any())
+                    if (state.NewStartDate.Any() || state.NewStartTime.Any())
                     {
-                        var newStartDate = state.StartDate.Any() ?
-                            state.StartDate.Last() :
+                        var newStartDate = state.NewStartDate.Any() ?
+                            state.NewStartDate.Last() :
                             originalStartDateTime;
 
                         var newStartTime = new List<DateTime>();
-                        if (state.StartTime.Any())
+                        if (state.NewStartTime.Any())
                         {
-                            foreach (var time in state.StartTime)
+                            foreach (var time in state.NewStartTime)
                             {
                                 var newStartDateTime = new DateTime(
                                     newStartDate.Year,
@@ -400,8 +421,8 @@ namespace CalendarSkill.Dialogs.UpdateEvent
 
                 return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
                 {
-                    Prompt = sc.Context.Activity.CreateReply(UpdateEventResponses.NoUpdateStartTime),
-                    RetryPrompt = sc.Context.Activity.CreateReply(UpdateEventResponses.EventWithStartTimeNotFound)
+                    Prompt = ResponseManager.GetResponse(UpdateEventResponses.NoUpdateStartTime),
+                    RetryPrompt = ResponseManager.GetResponse(UpdateEventResponses.EventWithStartTimeNotFound)
                 }, cancellationToken);
             }
             catch (Exception ex)
@@ -447,19 +468,19 @@ namespace CalendarSkill.Dialogs.UpdateEvent
                         options.Choices.Add(choice);
                     }
 
-                    var replyToConversation = sc.Context.Activity.CreateReply(UpdateEventResponses.MultipleEventsStartAtSameTime);
-                    replyToConversation.AttachmentLayout = AttachmentLayoutTypes.Carousel;
-                    replyToConversation.Attachments = new List<Microsoft.Bot.Schema.Attachment>();
-
-                    var cardsData = new List<CalendarCardData>();
+                    var cards = new List<Card>();
                     foreach (var item in state.Events)
                     {
-                        var meetingCard = item.ToAdaptiveCardData(state.GetUserTimeZone());
-                        var replyTemp = sc.Context.Activity.CreateAdaptiveCardReply(CalendarMainResponses.GreetingMessage, item.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", meetingCard);
-                        replyToConversation.Attachments.Add(replyTemp.Attachments[0]);
+                        cards.Add(new Card()
+                        {
+                            Name = item.OnlineMeetingUrl == null ? "CalendarCardNoJoinButton" : "CalendarCard",
+                            Data = item.ToAdaptiveCardData(state.GetUserTimeZone())
+                        });
                     }
 
-                    options.Prompt = replyToConversation;
+                    options.Prompt = ResponseManager.GetCardResponse(
+                        UpdateEventResponses.MultipleEventsStartAtSameTime,
+                        cards);
 
                     return await sc.PromptAsync(Actions.EventChoice, options);
                 }

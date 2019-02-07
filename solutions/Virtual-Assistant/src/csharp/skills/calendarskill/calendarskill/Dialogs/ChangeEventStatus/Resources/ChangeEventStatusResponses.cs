@@ -1,50 +1,27 @@
 ﻿// https://docs.microsoft.com/en-us/visualstudio/modeling/t4-include-directive?view=vs-2017
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using System.IO;
-using System.Runtime.CompilerServices;
-using Microsoft.Bot.Solutions.Dialogs;
+
+using Microsoft.Bot.Solutions.Responses;
 
 namespace CalendarSkill.Dialogs.ChangeEventStatus.Resources
 {
     /// <summary>
     /// Contains bot responses.
     /// </summary>
-    public static class ChangeEventStatusResponses
+    public class ChangeEventStatusResponses : IResponseIdCollection
     {
-        private static readonly ResponseManager _responseManager;
-
-        static ChangeEventStatusResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(ChangeEventStatusResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\ChangeEventStatus\Resources");
-            _responseManager = new ResponseManager(resDir, "ChangeEventStatusResponses");
-        }
-
         // Generated accessors
-        public static BotResponse ConfirmDelete => GetBotResponse();
+		public const string ConfirmDelete = "ConfirmDelete";
+		public const string ConfirmDeleteFailed = "ConfirmDeleteFailed";
+		public const string ConfirmAccept = "ConfirmAccept";
+		public const string ConfirmAcceptFailed = "ConfirmAcceptFailed";
+		public const string EventDeleted = "EventDeleted";
+		public const string EventAccepted = "EventAccepted";
+		public const string EventWithStartTimeNotFound = "EventWithStartTimeNotFound";
+		public const string NoDeleteStartTime = "NoDeleteStartTime";
+		public const string NoAcceptStartTime = "NoAcceptStartTime";
+		public const string MultipleEventsStartAtSameTime = "MultipleEventsStartAtSameTime";
 
-        public static BotResponse ConfirmDeleteFailed => GetBotResponse();
-
-        public static BotResponse ConfirmAccept => GetBotResponse();
-
-        public static BotResponse ConfirmAcceptFailed => GetBotResponse();
-
-        public static BotResponse EventDeleted => GetBotResponse();
-
-        public static BotResponse EventAccepted => GetBotResponse();
-
-        public static BotResponse EventWithStartTimeNotFound => GetBotResponse();
-
-        public static BotResponse NoDeleteStartTime => GetBotResponse();
-
-        public static BotResponse NoAcceptStartTime => GetBotResponse();
-
-        public static BotResponse MultipleEventsStartAtSameTime => GetBotResponse();
-
-        private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
-        {
-            return _responseManager.GetBotResponse(propertyName);
-        }
     }
 }

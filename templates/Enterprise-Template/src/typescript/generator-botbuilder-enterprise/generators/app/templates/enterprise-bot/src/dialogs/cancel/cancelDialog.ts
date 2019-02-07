@@ -40,6 +40,7 @@ export class CancelDialog extends ComponentDialog {
         return sc.endDialog(<boolean> sc.result);
     }
 
+    // tslint:disable-next-line:no-any
     protected async endComponent(outerDC: DialogContext, result: any): Promise<DialogTurnResult> {
         const doCancel: boolean = result;
 

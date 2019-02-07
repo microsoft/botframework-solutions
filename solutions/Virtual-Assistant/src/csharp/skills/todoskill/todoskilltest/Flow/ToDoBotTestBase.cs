@@ -8,11 +8,16 @@ using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
-using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToDoSkill;
+using ToDoSkill.Dialogs.AddToDo.Resources;
+using ToDoSkill.Dialogs.DeleteToDo.Resources;
+using ToDoSkill.Dialogs.Main.Resources;
+using ToDoSkill.Dialogs.MarkToDo.Resources;
+using ToDoSkill.Dialogs.Shared.Resources;
+using ToDoSkill.Dialogs.ShowToDo.Resources;
 using ToDoSkill.ServiceClients;
 using ToDoSkillTest.Flow.Fakes;
 
@@ -55,14 +60,25 @@ namespace ToDoSkillTest.Flow
             this.Container = builder.Build();
             this.ServiceManager = fakeServiceManager;
 
-            this.BotResponseBuilder = new BotResponseBuilder();
-            this.BotResponseBuilder.AddFormatter(new TextBotResponseFormatter());
+            ResponseManager = new ResponseManager(
+                responseTemplates: new IResponseIdCollection[]
+                {
+                    new AddToDoResponses(),
+                    new DeleteToDoResponses(),
+                    new ToDoMainResponses(),
+                    new MarkToDoResponses(),
+                    new ToDoSharedResponses(),
+                    new ShowToDoResponses(),
+                },
+                locales: new string[] { "en", "de", "es", "fr", "it", "zh" });
         }
 
         public Activity GetAuthResponse()
         {
-            ProviderTokenResponse providerTokenResponse = new ProviderTokenResponse();
-            providerTokenResponse.TokenResponse = new TokenResponse(token: "test");
+            var providerTokenResponse = new ProviderTokenResponse
+            {
+                TokenResponse = new TokenResponse(token: "test")
+            };
             return new Activity(ActivityTypes.Event, name: "tokens/response", value: providerTokenResponse);
         }
 
@@ -84,7 +100,7 @@ namespace ToDoSkillTest.Flow
 
         public override IBot BuildBot()
         {
-            return new ToDoSkill.ToDoSkill(this.Services, this.ConversationState, this.UserState, this.TelemetryClient, this.ServiceManager, true);
+            return new ToDoSkill.ToDoSkill(Services, ConversationState, UserState, TelemetryClient, true, ResponseManager, ServiceManager);
         }
     }
 }

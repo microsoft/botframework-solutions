@@ -69,8 +69,6 @@ export class TelemetryQnAMaker extends QnAMaker {
             const metrics: { [key: string]: number } = {};
 
             properties[this.QNA_TELEMETRY_CONSTANTS.KNOWLEDGE_BASE_ID_PROPERTY] = this.ENDPOINT.knowledgeBaseId;
-            // Make it so we can correlate our reports with Activity or Conversation
-            properties[this.QNA_TELEMETRY_CONSTANTS.ACTIVITY_ID_PROPERTY] = context.activity.id || '';
             const conversationId: string = context.activity.conversation.id;
             if (conversationId && conversationId.trim()) {
                 properties[this.QNA_TELEMETRY_CONSTANTS.CONVERSATION_ID_PROPERTY] = conversationId;

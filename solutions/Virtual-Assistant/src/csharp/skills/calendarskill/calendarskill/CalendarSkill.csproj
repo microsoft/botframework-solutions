@@ -36,7 +36,65 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj" />
+    <EmbeddedResource Include="Common\WindowsIanaMapping" />
+    <EmbeddedResource Include="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.json" />
+    <EmbeddedResource Include="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\CreateEvent\Resources\CreateEventResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\CreateEvent\Resources\CreateEventResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\CreateEvent\Resources\CreateEventResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\CreateEvent\Resources\CreateEventResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\CreateEvent\Resources\CreateEventResponses.json" />
+    <EmbeddedResource Include="Dialogs\CreateEvent\Resources\CreateEventResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\CreateEvent\Resources\CreateEventWhiteList.json" />
+    <EmbeddedResource Include="Dialogs\CreateEvent\Resources\CreateEventWhiteList.zh.json" />
+    <EmbeddedResource Include="Dialogs\FindContact\Resources\FindContactResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\FindContact\Resources\FindContactResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\FindContact\Resources\FindContactResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\FindContact\Resources\FindContactResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\FindContact\Resources\FindContactResponses.json" />
+    <EmbeddedResource Include="Dialogs\FindContact\Resources\FindContactResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\JoinEvent\Resources\JoinEventResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\JoinEvent\Resources\JoinEventResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\JoinEvent\Resources\JoinEventResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\JoinEvent\Resources\JoinEventResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\JoinEvent\Resources\JoinEventResponses.json" />
+    <EmbeddedResource Include="Dialogs\JoinEvent\Resources\JoinEventResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\CalendarMainResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\CalendarMainResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\CalendarMainResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\CalendarMainResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\CalendarMainResponses.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\CalendarMainResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\CalendarSharedResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\CalendarSharedResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\CalendarSharedResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\CalendarSharedResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\CalendarSharedResponses.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\CalendarSharedResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\CalendarCard.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\CalendarCardNoJoinButton.json" />
+    <EmbeddedResource Include="Dialogs\Summary\Resources\SummaryResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\Summary\Resources\SummaryResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\Summary\Resources\SummaryResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\Summary\Resources\SummaryResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\Summary\Resources\SummaryResponses.json" />
+    <EmbeddedResource Include="Dialogs\Summary\Resources\SummaryResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\TimeRemaining\Resources\TimeRemainingResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\TimeRemaining\Resources\TimeRemainingResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\TimeRemaining\Resources\TimeRemainingResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\TimeRemaining\Resources\TimeRemainingResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\TimeRemaining\Resources\TimeRemainingResponses.json" />
+    <EmbeddedResource Include="Dialogs\TimeRemaining\Resources\TimeRemainingResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\UpdateEvent\Resources\UpdateEventResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\UpdateEvent\Resources\UpdateEventResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\UpdateEvent\Resources\UpdateEventResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\UpdateEvent\Resources\UpdateEventResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\UpdateEvent\Resources\UpdateEventResponses.json" />
+    <EmbeddedResource Include="Dialogs\UpdateEvent\Resources\UpdateEventResponses.zh.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -54,6 +112,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ChangeEventStatusResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Dialogs\FindContact\Resources\FindContactResponses.cs">
+      <DependentUpon>FindContactResponses.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Update="Dialogs\JoinEvent\Resources\JoinEventResponses.cs">
       <DesignTime>True</DesignTime>
@@ -80,29 +143,16 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>SummaryResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.cs">
+    <Compile Update="Dialogs\TimeRemaining\Resources\TimeRemainingResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>TimeRemainResponses.tt</DependentUpon>
+      <DependentUpon>TimeRemainingResponses.tt</DependentUpon>
     </Compile>
     <Compile Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>UpdateEventResponses.tt</DependentUpon>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="*.bot">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="LocaleConfigurations\*.bot">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -117,6 +167,10 @@
     <None Update="Dialogs\DeleteEvent\Resources\ChangeEventStatusResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ChangeEventStatusResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Dialogs\FindContact\Resources\FindContactResponses.tt">
+      <LastGenOutput>FindContactResponses.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
     </None>
     <None Update="Dialogs\JoinEvent\Resources\JoinEventResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -134,9 +188,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SummaryResponses.cs</LastGenOutput>
     </None>
-    <None Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.tt">
+    <None Update="Dialogs\TimeRemaining\Resources\TimeRemainingResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>TimeRemainResponses.cs</LastGenOutput>
+      <LastGenOutput>TimeRemainingResponses.cs</LastGenOutput>
     </None>
     <None Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -145,214 +199,30 @@
     <None Update="Models\Resources\AskParameterTemplate.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Common\WindowsIanaMapping">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Update="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ChangeEventStatus\Resources\ChangeEventStatusResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\CreateEvent\Resources\CreateEventResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\CreateEvent\Resources\CreateEventResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\CreateEvent\Resources\CreateEventResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\CreateEvent\Resources\CreateEventResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\CreateEvent\Resources\CreateEventResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\CreateEvent\Resources\CreateEventResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\CreateEvent\Resources\CreateEventWhiteList.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\CreateEvent\Resources\CreateEventWhiteList.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\DeleteEvent\Resources\ChangeEventStatusResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\DeleteEvent\Resources\ChangeEventStatusResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\DeleteEvent\Resources\ChangeEventStatusResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\DeleteEvent\Resources\ChangeEventStatusResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\DeleteEvent\Resources\ChangeEventStatusResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\DeleteEvent\Resources\ChangeEventStatusResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\JoinEvent\Resources\JoinEventResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\JoinEvent\Resources\JoinEventResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\JoinEvent\Resources\JoinEventResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\JoinEvent\Resources\JoinEventResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\JoinEvent\Resources\JoinEventResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\JoinEvent\Resources\JoinEventResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\CalendarMainResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\CalendarMainResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\CalendarMainResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\CalendarMainResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\CalendarMainResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\CalendarMainResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\NextMeeting\Resources\NextMeetingResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\CalendarSharedResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\CalendarSharedResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\CalendarSharedResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\CalendarSharedResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\CalendarSharedResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\old_CalendarSharedResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\Cards\CalendarCard.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\Cards\CalendarCardNoJoinButton.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\CalendarSharedResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Summary\Resources\SummaryResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Summary\Resources\SummaryResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Summary\Resources\SummaryResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Summary\Resources\SummaryResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Summary\Resources\SummaryResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Summary\Resources\SummaryResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\TimeRemain\Resources\TimeRemainResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  
   <ItemGroup>
     <EmbeddedResource Update="Dialogs\Shared\Resources\Strings\CalendarCommonStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CalendarCommonStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>  
+  
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="*.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="LocaleConfigurations\*.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj" />
   </ItemGroup>
   
   <ItemGroup>

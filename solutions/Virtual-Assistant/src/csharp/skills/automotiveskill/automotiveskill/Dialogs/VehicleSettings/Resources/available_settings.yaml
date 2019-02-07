@@ -1,6 +1,4 @@
 - canonicalName: Front Left Air Delivery Mode Control
-  categories:
-    - Climate Control
   values:
     - canonicalName: Auto
     - canonicalName: Floor
@@ -12,8 +10,6 @@
     - canonicalName: Floor and Vent and Windshield
 
 - canonicalName: Rear Left Air Delivery Mode Control
-  categories:
-    - Climate Control
   values:
     - canonicalName: Auto
     - canonicalName: Floor
@@ -25,8 +21,6 @@
     - canonicalName: Floor and Vent and Roof
 
 - canonicalName: Front Right Air Delivery Mode Control
-  categories:
-    - Climate Control
   values:
     - canonicalName: Auto
     - canonicalName: Floor
@@ -38,8 +32,6 @@
     - canonicalName: Floor and Vent and Windshield
 
 - canonicalName: Rear Right Air Delivery Mode Control
-  categories:
-    - Climate Control
   values:
     - canonicalName: Auto
     - canonicalName: Floor
@@ -51,8 +43,6 @@
     - canonicalName: Floor and Vent and Roof
 
 - canonicalName: Front Combined Air Delivery Mode Control
-  categories:
-    - Climate Control
   values:
     - canonicalName: Auto
     - canonicalName: Floor
@@ -67,8 +57,6 @@
     - Front Right Air Delivery Mode Control
 
 - canonicalName: Rear Combined Air Delivery Mode Control
-  categories:
-    - Climate Control
   values:
     - canonicalName: Auto
     - canonicalName: Floor
@@ -83,8 +71,6 @@
     - Rear Right Air Delivery Mode Control
 
 - canonicalName: Sync HVAC
-  categories:
-    - Climate Control
   values:
     - canonicalName: Sync All
     - canonicalName: UnSync All
@@ -92,15 +78,11 @@
     - canonicalName: UnSync Rear to Driver
 
 - canonicalName: Rear Window Defogger
-  categories:
-    - Climate Control
   values:
     - canonicalName: Off
     - canonicalName: On
 
 - canonicalName: Front and Rear HVAC
-  categories:
-    - Climate Control
   values:
     - canonicalName: All Off
     - canonicalName: All On
@@ -108,22 +90,16 @@
     - canonicalName: Rear On Only
 
 - canonicalName: Auto Front HVAC
-  categories:
-    - Climate Control
   values:
     - canonicalName: Auto Off
     - canonicalName: Auto On
 
 - canonicalName: Auto Rear HVAC
-  categories:
-    - Climate Control
   values:
     - canonicalName: Auto Off
     - canonicalName: Auto On
 
 - canonicalName: Front Fan Control
-  categories:
-    - Climate Control
   values:
     - canonicalName: Set
       requiresAmount: true
@@ -138,8 +114,6 @@
       max: 12
 
 - canonicalName: Rear Fan Control
-  categories:
-    - Climate Control
   values:
     - canonicalName: Set
       requiresAmount: true
@@ -154,8 +128,6 @@
       max: 12
 
 - canonicalName: Temperature
-  categories:
-    - Climate Control
   values:
     - canonicalName: Set
       requiresAmount: true
@@ -186,8 +158,6 @@
     - Rear Combined Set Temperature
 
 - canonicalName: Front Left Set Temperature
-  categories:
-    - Climate Control
   values:
     - canonicalName: Set
       requiresAmount: true
@@ -211,8 +181,6 @@
       max: 91
 
 - canonicalName: Front Right Set Temperature
-  categories:
-    - Climate Control
   values:
     - canonicalName: Set
       requiresAmount: true
@@ -236,8 +204,6 @@
       max: 91
 
 - canonicalName: Front Combined Set Temperature
-  categories:
-    - Climate Control
   values:
     - canonicalName: Set
       requiresAmount: true
@@ -264,8 +230,6 @@
     - Front Right Set Temperature
 
 - canonicalName: Rear Left Set Temperature
-  categories:
-    - Climate Control
   values:
     - canonicalName: Set
       requiresAmount: true
@@ -289,8 +253,6 @@
       max: 91
 
 - canonicalName: Rear Right Set Temperature
-  categories:
-    - Climate Control
   values:
     - canonicalName: Set
       requiresAmount: true
@@ -314,8 +276,6 @@
       max: 91
 
 - canonicalName: Rear Combined Set Temperature
-  categories:
-    - Climate Control
   values:
     - canonicalName: Set
       requiresAmount: true
@@ -342,68 +302,50 @@
     - Rear Right Set Temperature
 
 - canonicalName: Air Recirculation
-  categories:
-    - Climate Control
   values:
     - canonicalName: Fresh Air
     - canonicalName: Recirculate Air
 
 - canonicalName: Climate Mode
-  categories:
-    - Climate Control
   values:
     - canonicalName: Comfort
     - canonicalName: Economy
     - canonicalName: Fan Only
 
 - canonicalName: Heater Mode
-  categories:
-    - Climate Control
   values:
     - canonicalName: Comfort
     - canonicalName: Economy
 
 - canonicalName: Max Defrost
-  categories:
-    - Climate Control
   values:
     - canonicalName: Off
     - canonicalName: On
 
 - canonicalName: Alert Type
-  categories:
-    - Active Safety
   values:
     - canonicalName: Beeps
-    - canonicalName: Safety Alert Seat
+    - canonicalName: Seat
 
-- canonicalName: Drowsy Driver Alert
-  categories:
-    - Active Safety
+- canonicalName: Driver Alertness Detection
   values:
     - canonicalName: Off
       requiresConfirmation: true
     - canonicalName: On
 
-- canonicalName: Rear Cross Traffic Alert
-  categories:
-    - Active Safety
+- canonicalName: Rear Cross Traffic Detection
   values:
     - canonicalName: Off
       requiresConfirmation: true
     - canonicalName: On
 
-- canonicalName: Side Blind Zone Alert
-  categories:
-    - Active Safety
+- canonicalName: Blind Spot Detection
   values:
     - canonicalName: Off
       requiresConfirmation: true
     - canonicalName: On
 
-- canonicalName: Forward Collision System
-  categories:
-    - Active Safety
+- canonicalName: Front Collision Detection
   values:
     - canonicalName: Off
       requiresConfirmation: true
@@ -411,9 +353,7 @@
     - canonicalName: Alert and Brake
     - canonicalName: Alert and Brake and Steer
 
-- canonicalName: Forward Automatic Braking
-  categories:
-    - Active Safety
+- canonicalName: Front Automatic Brakes
   values:
     - canonicalName: Off
       requiresConfirmation: true
@@ -421,9 +361,7 @@
     - canonicalName: Alert and Brake
     - canonicalName: Alert and Brake and Steer
 
-- canonicalName: Front Pedestrian Detection
-  categories:
-    - Active Safety
+- canonicalName: Front Pedestrian Safety Detection
   values:
     - canonicalName: Off
       requiresConfirmation: true
@@ -431,9 +369,7 @@
     - canonicalName: Alert and Brake
     - canonicalName: Alert, Brake, and Steer
 
-- canonicalName: Rear Pedestrian Detection
-  categories:
-    - Active Safety
+- canonicalName: Rear Pedestrian Safety Detection
   values:
     - canonicalName: Off
       requiresConfirmation: true
@@ -441,17 +377,13 @@
     - canonicalName: Alert and Brake
     - canonicalName: Alert, Brake, and Steer
 
-- canonicalName: Lane Change Alert
-  categories:
-    - Active Safety
+- canonicalName: Lane Change Detection
   values:
     - canonicalName: Off
       requiresConfirmation: true
     - canonicalName: On
 
-- canonicalName: Park Assist
-  categories:
-    - Active Safety
+- canonicalName: Parking Assistance
   values:
     - canonicalName: Off
       requiresConfirmation: true
@@ -459,8 +391,6 @@
     - canonicalName: Alert and Brake
 
 - canonicalName: Equalizer (Bass)
-  categories:
-    - Audio
   values:
     - canonicalName: Set
       requiresAmount: true
@@ -475,8 +405,6 @@
       max: 12
 
 - canonicalName: Equalizer (Midrange)
-  categories:
-    - Audio
   values:
     - canonicalName: Set
       requiresAmount: true
@@ -491,8 +419,6 @@
       max: 12
 
 - canonicalName: Equalizer (Treble)
-  categories:
-    - Audio
   values:
     - canonicalName: Set
       requiresAmount: true
@@ -507,8 +433,6 @@
       max: 12
 
 - canonicalName: Equalizer (Surround)
-  categories:
-    - Audio
   values:
     - canonicalName: Set
       requiresAmount: true
@@ -523,8 +447,6 @@
       max: 12
 
 - canonicalName: Set Volume
-  categories:
-    - Audio
   values:
     - canonicalName: Set
       requiresAmount: true
@@ -536,9 +458,7 @@
   amounts:
     - unit: ""
 
-- canonicalName: Forward Collision Gap Setting
-  categories:
-    - Active Safety
+- canonicalName: Front Collision Distance Detection
   values:
     - canonicalName: Off
       requiresConfirmation: true

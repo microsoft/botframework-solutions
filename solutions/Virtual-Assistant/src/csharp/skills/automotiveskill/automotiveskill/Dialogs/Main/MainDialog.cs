@@ -6,9 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
-using AutomotiveSkill.Dialogs.Cancel;
 using AutomotiveSkill.Dialogs.Main.Resources;
-using AutomotiveSkill.Dialogs.Shared;
 using AutomotiveSkill.Dialogs.Shared.Resources;
 using AutomotiveSkill.Dialogs.VehicleSettings;
 using AutomotiveSkill.ServiceClients;
@@ -18,7 +16,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 
 namespace AutomotiveSkill.Dialogs.Main
@@ -27,18 +25,28 @@ namespace AutomotiveSkill.Dialogs.Main
     {
         private bool _skillMode;
         private SkillConfigurationBase _services;
+        private ResponseManager _responseManager;
         private UserState _userState;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
         private IStatePropertyAccessor<AutomotiveSkillState> _stateAccessor;
-        private AutomotiveSkillResponseBuilder _responseBuilder = new AutomotiveSkillResponseBuilder();
         private IHttpContextAccessor _httpContext;
+        private IBotTelemetryClient _telemetryClient;
 
-        public MainDialog(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IServiceManager serviceManager, IHttpContextAccessor httpContext, IBotTelemetryClient telemetryClient, bool skillMode)
+        public MainDialog(
+            SkillConfigurationBase services,
+            ResponseManager responseManager,
+            ConversationState conversationState,
+            UserState userState,
+            IServiceManager serviceManager,
+            IHttpContextAccessor httpContext,
+            IBotTelemetryClient telemetryClient,
+            bool skillMode)
             : base(nameof(MainDialog), telemetryClient)
         {
             _skillMode = skillMode;
             _services = services;
+            _responseManager = responseManager;
             _conversationState = conversationState;
             _userState = userState;
             TelemetryClient = telemetryClient;
@@ -57,7 +65,7 @@ namespace AutomotiveSkill.Dialogs.Main
             if (!_skillMode)
             {
                 // send a greeting if we're in local mode
-                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(AutomotiveSkillMainResponses.WelcomeMessage));
+                await dc.Context.SendActivityAsync(_responseManager.GetResponse(AutomotiveSkillMainResponses.WelcomeMessage));
             }
         }
 
@@ -86,8 +94,8 @@ namespace AutomotiveSkill.Dialogs.Main
                 var result = await luisService.RecognizeAsync<Luis.VehicleSettings>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
-                /// Update state with vehiclesettings luis result and entities
-                state.VehicleSettingsLuisResult = result;
+                // Update state with vehiclesettings luis result and entities
+                state.AddRecognizerResult(result);
 
                 // switch on general intents
                 switch (intent)
@@ -100,7 +108,7 @@ namespace AutomotiveSkill.Dialogs.Main
                         break;
                     case Luis.VehicleSettings.Intent.None:
                         {
-                            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(AutomotiveSkillSharedResponses.DidntUnderstandMessage));
+                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(AutomotiveSkillSharedResponses.DidntUnderstandMessage));
                             if (_skillMode)
                             {
                                 await CompleteAsync(dc);
@@ -111,7 +119,7 @@ namespace AutomotiveSkill.Dialogs.Main
 
                     default:
                         {
-                            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(AutomotiveSkillMainResponses.FeatureNotAvailable));
+                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(AutomotiveSkillMainResponses.FeatureNotAvailable));
 
                             if (_skillMode)
                             {
@@ -135,7 +143,7 @@ namespace AutomotiveSkill.Dialogs.Main
             }
             else
             {
-                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(AutomotiveSkillSharedResponses.ActionEnded));
+                await dc.Context.SendActivityAsync(_responseManager.GetResponse(AutomotiveSkillSharedResponses.ActionEnded));
             }
 
             // End active dialog
@@ -171,7 +179,7 @@ namespace AutomotiveSkill.Dialogs.Main
                 var localeConfig = _services.LocaleConfigurations[locale];
 
                 // check general luis intent
-                localeConfig.LuisServices.TryGetValue("general", out var luisService);              
+                localeConfig.LuisServices.TryGetValue("general", out var luisService);
 
                 if (luisService == null)
                 {
@@ -205,20 +213,23 @@ namespace AutomotiveSkill.Dialogs.Main
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
-            await dc.BeginDialogAsync(nameof(CancelDialog));
+            var response = _responseManager.GetResponse(AutomotiveSkillMainResponses.CancelMessage);
+            await dc.Context.SendActivityAsync(response);
+
+            await CompleteAsync(dc);
+            await dc.CancelAllDialogsAsync();
             return InterruptionAction.StartedDialog;
         }
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
-            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(AutomotiveSkillMainResponses.HelpMessage));
+            await dc.Context.SendActivityAsync(_responseManager.GetResponse(AutomotiveSkillMainResponses.HelpMessage));
             return InterruptionAction.MessageSentToUser;
         }
 
         private void RegisterDialogs()
         {
-            AddDialog(new CancelDialog());
-            AddDialog(new VehicleSettingsDialog(_services, _stateAccessor, _serviceManager, TelemetryClient, _httpContext));
+            AddDialog(new VehicleSettingsDialog(_services, _responseManager, _stateAccessor, _serviceManager, _telemetryClient, _httpContext));
         }
 
         private class Events

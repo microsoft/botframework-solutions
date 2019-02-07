@@ -8,7 +8,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using ToDoSkill.Dialogs.DeleteToDo.Resources;
@@ -24,11 +24,12 @@ namespace ToDoSkill.Dialogs.DeleteToDo
     {
         public DeleteToDoItemDialog(
             SkillConfigurationBase services,
+            ResponseManager responseManager,
             IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
             IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(DeleteToDoItemDialog), services, toDoStateAccessor, userStateAccessor, serviceManager, telemetryClient)
+            : base(nameof(DeleteToDoItemDialog), services, responseManager, toDoStateAccessor, userStateAccessor, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -164,14 +165,17 @@ namespace ToDoSkill.Dialogs.DeleteToDo
 
                 var cardReply = sc.Context.Activity.CreateReply();
                 cardReply.Attachments.Add(deletedTaskAttachment);
-                await sc.Context.SendActivityAsync(cardReply);
 
                 if (canDeleteAnotherTask)
                 {
+                    cardReply.InputHint = InputHints.IgnoringInput;
+                    await sc.Context.SendActivityAsync(cardReply);
                     return await sc.NextAsync();
                 }
                 else
                 {
+                    cardReply.InputHint = InputHints.AcceptingInput;
+                    await sc.Context.SendActivityAsync(cardReply);
                     return await sc.EndDialogAsync(true);
                 }
             }
@@ -207,7 +211,7 @@ namespace ToDoSkill.Dialogs.DeleteToDo
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 if (string.IsNullOrEmpty(state.ListType))
                 {
-                    var prompt = sc.Context.Activity.CreateReply(DeleteToDoResponses.ListTypePrompt);
+                    var prompt = ResponseManager.GetResponse(DeleteToDoResponses.ListTypePrompt);
                     return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
                 }
                 else
@@ -272,7 +276,7 @@ namespace ToDoSkill.Dialogs.DeleteToDo
                 }
                 else
                 {
-                    var prompt = sc.Context.Activity.CreateReply(DeleteToDoResponses.AskTaskIndex);
+                    var prompt = ResponseManager.GetResponse(DeleteToDoResponses.AskTaskIndex);
                     return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
                 }
             }
@@ -359,10 +363,9 @@ namespace ToDoSkill.Dialogs.DeleteToDo
                 if (state.MarkOrDeleteAllTasksFlag)
                 {
                     var token = new StringDictionary() { { "listType", state.ListType } };
-                    var response = GenerateResponseWithTokens(DeleteToDoResponses.AskDeletionAllConfirmation, token);
-                    var prompt = sc.Context.Activity.CreateReply(response);
-                    prompt.Speak = response;
-                    return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
+                    var prompt = ResponseManager.GetResponse(DeleteToDoResponses.AskDeletionAllConfirmation, token);
+                    var retryPrompt = ResponseManager.GetResponse(DeleteToDoResponses.AskDeletionAllConfirmationFailed, token);
+                    return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
                 }
                 else
                 {
@@ -381,23 +384,20 @@ namespace ToDoSkill.Dialogs.DeleteToDo
             try
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
-                var luisResult = state.GeneralLuisResult;
-                var topIntent = luisResult?.TopIntent().intent;
-
-                sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
-                var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
-
-                if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
+                if (state.MarkOrDeleteAllTasksFlag)
                 {
-                    state.DeleteTaskConfirmation = true;
-                    return await sc.EndDialogAsync(true);
+                    var confirmResult = (bool)sc.Result;
+                    if (confirmResult)
+                    {
+                        state.DeleteTaskConfirmation = true;
+                    }
+                    else
+                    {
+                        state.DeleteTaskConfirmation = false;
+                    }
                 }
-                else
-                {
-                    state.DeleteTaskConfirmation = false;
-                    return await sc.EndDialogAsync(true);
-                }
+
+                return await sc.EndDialogAsync(true);
             }
             catch (Exception ex)
             {
@@ -423,8 +423,9 @@ namespace ToDoSkill.Dialogs.DeleteToDo
         {
             try
             {
-                var prompt = sc.Context.Activity.CreateReply(DeleteToDoResponses.DeleteAnotherTaskPrompt);
-                return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
+                var prompt = ResponseManager.GetResponse(DeleteToDoResponses.DeleteAnotherTaskPrompt);
+                var retryPrompt = ResponseManager.GetResponse(DeleteToDoResponses.DeleteAnotherTaskConfirmFailed);
+                return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
             {
@@ -438,11 +439,8 @@ namespace ToDoSkill.Dialogs.DeleteToDo
             try
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
-                sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
-                var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
-
-                if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
+                var confirmResult = (bool)sc.Result;
+                if (confirmResult)
                 {
                     // reset some fields here
                     state.TaskIndexes = new List<int>();
@@ -456,7 +454,7 @@ namespace ToDoSkill.Dialogs.DeleteToDo
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ActionEnded));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ActionEnded));
                     return await sc.EndDialogAsync(true);
                 }
             }

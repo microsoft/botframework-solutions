@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CalendarSkill.Models;
 using Microsoft.Graph;
 using static CalendarSkill.Models.CreateEventStateModel;
@@ -26,6 +27,10 @@ namespace CalendarSkill
             OriginalStartTime = new List<DateTime>();
             OriginalEndDate = new List<DateTime>();
             OriginalEndTime = new List<DateTime>();
+            NewStartDate = new List<DateTime>();
+            NewStartTime = new List<DateTime>();
+            NewEndDate = new List<DateTime>();
+            NewEndTime = new List<DateTime>();
             Location = null;
             Attendees = new List<EventModel.Attendee>();
             APIToken = null;
@@ -46,6 +51,11 @@ namespace CalendarSkill
             CreateHasDetail = false;
             RecreateState = null;
             NewEventStatus = EventStatus.None;
+            FirstRetryInFindContact = true;
+            UnconfirmedPerson = new List<CustomizedPerson>();
+            ConfirmedPerson = new CustomizedPerson();
+            FirstEnterFindContact = true;
+            IsActionFromSummary = false;
         }
 
         public User User { get; set; }
@@ -86,6 +96,18 @@ namespace CalendarSkill
 
         // user time zone
         public List<DateTime> OriginalEndTime { get; set; }
+
+        // user time zone
+        public List<DateTime> NewStartDate { get; set; }
+
+        // user time zone
+        public List<DateTime> NewStartTime { get; set; }
+
+        // user time zone
+        public List<DateTime> NewEndDate { get; set; }
+
+        // user time zone
+        public List<DateTime> NewEndTime { get; set; }
 
         // the order reference, such as 'next'
         public string OrderReference { get; set; }
@@ -140,6 +162,16 @@ namespace CalendarSkill
 
         public RecreateEventState? RecreateState { get; set; }
 
+        public bool FirstRetryInFindContact { get; set; }
+
+        public bool FirstEnterFindContact { get; set; }
+
+        public List<CustomizedPerson> UnconfirmedPerson { get; set; }
+
+        public CustomizedPerson ConfirmedPerson { get; set; }
+
+        public bool IsActionFromSummary { get; set; }
+
         public TimeZoneInfo GetUserTimeZone()
         {
             if ((UserInfo != null) && (UserInfo.Timezone != null))
@@ -167,6 +199,10 @@ namespace CalendarSkill
             OriginalStartTime = new List<DateTime>();
             OriginalEndDate = new List<DateTime>();
             OriginalEndTime = new List<DateTime>();
+            NewStartDate = new List<DateTime>();
+            NewStartTime = new List<DateTime>();
+            NewEndDate = new List<DateTime>();
+            NewEndTime = new List<DateTime>();
             OrderReference = null;
             Location = null;
             Attendees = new List<EventModel.Attendee>();
@@ -188,6 +224,34 @@ namespace CalendarSkill
             CreateHasDetail = false;
             NewEventStatus = EventStatus.None;
             RecreateState = null;
+            FirstRetryInFindContact = true;
+            UnconfirmedPerson = new List<CustomizedPerson>();
+            ConfirmedPerson = new CustomizedPerson();
+            FirstEnterFindContact = true;
+            IsActionFromSummary = false;
+        }
+
+        public void ClearChangeStautsInfo()
+        {
+            // only clear change status flow related info if begin the flow from summary
+            NewEventStatus = EventStatus.None;
+            Events = new List<EventModel>();
+            IsActionFromSummary = false;
+        }
+
+        public void ClearUpdateEventInfo()
+        {
+            // only clear update meeting flow related info if begin the flow from summary
+            OriginalStartDate = new List<DateTime>();
+            OriginalStartTime = new List<DateTime>();
+            OriginalEndDate = new List<DateTime>();
+            OriginalEndTime = new List<DateTime>();
+            NewStartDate = new List<DateTime>();
+            NewStartTime = new List<DateTime>();
+            NewEndDate = new List<DateTime>();
+            NewEndTime = new List<DateTime>();
+            Events = new List<EventModel>();
+            IsActionFromSummary = false;
         }
 
         public void ClearTimes()
@@ -266,6 +330,27 @@ namespace CalendarSkill
             public double Latitude { get; set; }
 
             public double Longitude { get; set; }
+        }
+
+        public class CustomizedPerson
+        {
+            public CustomizedPerson()
+            {
+            }
+
+            public CustomizedPerson(PersonModel person)
+            {
+                this.Emails = new List<ScoredEmailAddress>();
+                person.Emails.ToList().ForEach(e => this.Emails.Add(new ScoredEmailAddress() { Address = e }));
+                this.DisplayName = person.DisplayName;
+                this.UserPrincipalName = person.UserPrincipalName;
+            }
+
+            public List<ScoredEmailAddress> Emails { get; set; }
+
+            public string DisplayName { get; set; }
+
+            public string UserPrincipalName { get; set; }
         }
     }
 }

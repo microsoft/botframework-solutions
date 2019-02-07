@@ -61,6 +61,60 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (adjust|change|update).*(content|body|detail|details).
+        /// </summary>
+        public static string AdjustContent {
+            get {
+                return ResourceManager.GetString("AdjustContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (adjust|change|update).*(duration|length).
+        /// </summary>
+        public static string AdjustDuration {
+            get {
+                return ResourceManager.GetString("AdjustDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (adjust|change|update).*(location|place|where).
+        /// </summary>
+        public static string AdjustLocation {
+            get {
+                return ResourceManager.GetString("AdjustLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (adjust|change|update|add|delete).*(participants|attendee|attendees|people|person).
+        /// </summary>
+        public static string AdjustParticipants {
+            get {
+                return ResourceManager.GetString("AdjustParticipants", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (adjust|change|update).*(subject|title).
+        /// </summary>
+        public static string AdjustSubject {
+            get {
+                return ResourceManager.GetString("AdjustSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (adjust|change|update).*time.
+        /// </summary>
+        public static string AdjustTime {
+            get {
+                return ResourceManager.GetString("AdjustTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All day.
         /// </summary>
         public static string AllDay {
@@ -97,6 +151,15 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ^(no|cancel|nop|don&apos;t|not).
+        /// </summary>
+        public static string CancelAdjust {
+            get {
+                return ResourceManager.GetString("CancelAdjust", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to daily.
         /// </summary>
         public static string DailyToken {
@@ -111,6 +174,15 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         public static string MonthlyToken {
             get {
                 return ResourceManager.GetString("MonthlyToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to no attendees.
+        /// </summary>
+        public static string NoAttendees {
+            get {
+                return ResourceManager.GetString("NoAttendees", resourceCulture);
             }
         }
         

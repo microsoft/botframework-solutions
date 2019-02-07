@@ -82,5 +82,14 @@
       }
     ],
     "inputHint": "acceptingInput"
+  },
+  "CancelMessage": {
+    "replies": [
+      {
+        "text": "Ok, let's start over.",
+        "speak": "Ok, let's start over."
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }

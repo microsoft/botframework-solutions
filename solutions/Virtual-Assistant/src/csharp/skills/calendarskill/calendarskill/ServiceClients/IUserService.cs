@@ -19,5 +19,7 @@ namespace CalendarSkill.ServiceClients
         /// <param name="name">The contact's name.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         Task<List<PersonModel>> GetContactsAsync(string name);
+
+        Task<PersonModel> GetMe();
     }
 }

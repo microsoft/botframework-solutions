@@ -34,11 +34,9 @@ namespace CalendarSkill.Common
 
         private static void LoadData()
         {
-            var dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var resDir = Path.Combine(dir, @"Common\WindowsIanaMapping");
+            var assembly = Assembly.GetExecutingAssembly();
 
-            using (var mappingFile = new FileStream(resDir, FileMode.Open))
-            using (var sr = new StreamReader(mappingFile))
+            using (var sr = new StreamReader(assembly.GetManifestResourceStream("CalendarSkill.Common.WindowsIanaMapping")))
             {
                 string line;
                 while ((line = sr.ReadLine()) != null)

@@ -41,7 +41,7 @@
           "type": "TextBlock",
           "text": "{EmailContent}",
           "wrap": true,
-          "maxLines": 10
+          "maxLines": 2
         }
       ]
     }

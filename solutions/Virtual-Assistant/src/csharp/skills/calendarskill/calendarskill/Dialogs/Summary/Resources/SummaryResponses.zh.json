@@ -44,6 +44,15 @@
     ],
     "inputHint": "acceptingInput"
   },
+  "ShowOneMeetingSummaryAgainMessage": {
+    "replies": [
+      {
+        "text": "你在{DateTime}有1个会议。你想听这个会议的详细内容吗？",
+        "speak": "你在{DateTime}有1个会议。你想听这个会议的详细内容吗？"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
   "ShowMeetingSummaryAgainMessage": {
     "replies": [
       {

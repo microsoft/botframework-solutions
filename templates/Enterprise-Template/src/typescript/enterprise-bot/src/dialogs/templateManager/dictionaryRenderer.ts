@@ -4,6 +4,7 @@
 import { TurnContext } from 'botbuilder-core';
 import { ITemplateRenderer } from './ITemplateRenderer';
 
+// tslint:disable-next-line:no-any
 export declare type TemplateFunction = (turnContext: TurnContext, data: any) => Promise<any>;
 
 /**
@@ -35,11 +36,13 @@ export class DictionaryRenderer implements ITemplateRenderer {
         this.LANGUAGES = templates;
     }
 
+    // tslint:disable-next-line:no-any
     public renderTemplate(turnContext: TurnContext, language: string, templateId: string, data: any): Promise<any> {
         const templates: TemplateIdMap | undefined = this.LANGUAGES.get(language);
         if (templates) {
             const template: TemplateFunction | undefined = templates.get(templateId);
             if (template) {
+                // tslint:disable-next-line:no-any
                 const result: Promise<any> = template(turnContext, data);
                 if (result) {
                     return result;

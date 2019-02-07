@@ -4270,7 +4270,6 @@ Air Recirculation:
     - air distribute
     - air distribution
     - air flow circulation
-    - air flow equalizer
     - air flow recirculation
     - air flow recycling
     - air movement
@@ -4667,9 +4666,8 @@ Alert Type:
       - seat on
       - vibration on
 
-Drowsy Driver Alert:
+Driver Alertness Detection:
   alternativeNames:
-    - dds
     - driver drowsiness
     - driver drowsiness detection
     - driver drowsy detection
@@ -4706,6 +4704,7 @@ Drowsy Driver Alert:
     - drowsy alerts
     - drowsy detection
     - drowsy detection alert
+    - drowsy driver alert
     - drowsy driver detection
     - drowsy drivers detection
     - drowsy driving
@@ -4733,7 +4732,7 @@ Drowsy Driver Alert:
     - tiredness detection
     - tiredness detection alert
 
-Rear Cross Traffic Alert:
+Rear Cross Traffic Detection:
   alternativeNames:
     - automatic back cross traffic alert
     - automatic rear cross traffic alert
@@ -4859,7 +4858,6 @@ Rear Cross Traffic Alert:
     - rear cross traffic collision mitigation
     - rear cross traffic collision warning
     - rear cross traffic crash warning
-    - rear cross traffic detection
     - rear cross traffic detections
     - rear cross traffic detector
     - rear cross traffic guidance
@@ -4942,7 +4940,7 @@ Rear Cross Traffic Alert:
     - warning of back crossing
     - warning of rear crossing
 
-Side Blind Zone Alert:
+Blind Spot Detection:
   alternativeNames:
     - adjacent blind spot alarm
     - adjacent blind zone alarm
@@ -5012,7 +5010,6 @@ Side Blind Zone Alert:
     - blind spot collision avoidance
     - blind spot collision warning
     - blind spot crash alert
-    - blind spot detection
     - blind spot detection alert
     - blind spot detection icon
     - blind spot detection signal
@@ -5131,10 +5128,12 @@ Side Blind Zone Alert:
     - lane blind zone alert
     - lane blind zone warning
     - lane departure blind spot alert
-    - side blind spot alert warning
+    - side blind spot alert
+    - side blind spot warning
+    - side blind zone alert
     - side blind zone sensor
 
-Forward Collision System:
+Front Collision Detection:
   alternativeNames:
     - accident alert
     - accident assist
@@ -5203,8 +5202,6 @@ Forward Collision System:
     - emergency crash alert
     - emergency forward collision alert
     - emergency safety alert for front end collision
-    - fca
-    - fcs
     - fender bender avoidance alarm
     - fender bender detector
     - follow crash alert
@@ -5234,6 +5231,7 @@ Forward Collision System:
     - forward collision monitor
     - forward collision prevention
     - forward collision safety notification
+    - forward collision system
     - forward collision visual alert
     - forward collision warning
     - forward collision warning signal
@@ -5266,7 +5264,6 @@ Forward Collision System:
     - front collision assistance alert
     - front collision avoidance
     - front collision detect
-    - front collision detection
     - front collision detector
     - front collision indicator
     - front collision notification
@@ -5274,6 +5271,7 @@ Forward Collision System:
     - front collision prevention
     - front collision sensor
     - front collision sensor alert
+    - front collision system
     - front collision warning
     - front crash alert
     - front crash alert notification
@@ -5332,7 +5330,7 @@ Forward Collision System:
     - frontal collision alert
     - frontal collision warning
 
-Forward Automatic Braking:
+Front Automatic Brakes:
   alternativeNames:
     - accident avoidance braking
     - accident braking
@@ -5512,13 +5510,14 @@ Forward Automatic Braking:
     - collision sensor brake engage
     - collision severity braking
     - collision speed emergency brake
-    - fab
-    - fcb
+    - forward automatic braking
+    - forward automatic braking alert
+    - forward braking warning
     - front automatic braking
     - front automatic braking alert
     - front braking warning
 
-Front Pedestrian Detection:
+Front Pedestrian Safety Detection:
   alternativeNames:
     - alert for pedestrians
     - alert for pedestrians in the front
@@ -5528,6 +5527,7 @@ Front Pedestrian Detection:
     - detection of pedestrian in the front
     - front pedestrian alert
     - front pedestrian avoidance detection
+    - front pedestrian detection
     - front pedestrian detector
     - front pedestrian in the way detector
     - front pedestrian notification
@@ -5551,7 +5551,7 @@ Front Pedestrian Detection:
     - people in the way alert
     - people notification
 
-Rear Pedestrian Detection:
+Rear Pedestrian Safety Detection:
   alternativeNames:
     - alert for back pedestrians
     - alert for rear pedestrians
@@ -5559,6 +5559,7 @@ Rear Pedestrian Detection:
     - alerts for rear people
     - back pedestrian alert
     - back pedestrian avoidance detection
+    - back pedestrian detection
     - back pedestrian detector
     - back pedestrian in the way detector
     - back pedestrian notification
@@ -5575,6 +5576,7 @@ Rear Pedestrian Detection:
     - notifications for rear pedestrians
     - rear pedestrian alert
     - rear pedestrian avoidance detection
+    - rear pedestrian detection
     - rear pedestrian detector
     - rear pedestrian in the way detector
     - rear pedestrian notification
@@ -5584,7 +5586,7 @@ Rear Pedestrian Detection:
     - rear people in the way alert
     - rear people notification
 
-Lane Change Alert:
+Lane Change Detection:
   alternativeNames:
     - alert for lane change
     - alerts changing lanes
@@ -5593,7 +5595,6 @@ Lane Change Alert:
     - amber lane change alert
     - change lane assistant
     - changing lane notification
-    - changing lanes with
     - emergency lane change side alert
     - enhanced lane change safety
     - enhanced lane change safety notifications
@@ -5621,7 +5622,6 @@ Lane Change Alert:
     - lane change collision alert
     - lane change collision avoidance
     - lane change collision warning
-    - lane change detection
     - lane change detector
     - lane change guidance
     - lane change guide
@@ -5668,7 +5668,6 @@ Lane Change Alert:
     - lane switch alerts
     - lane switch safety alerts
     - lane switching assistance
-    - lca
     - mirror lane assist
     - mirror lane change alert warning
     - mirror lane change warning
@@ -5693,7 +5692,7 @@ Lane Change Alert:
     - warning for lane assist
     - warning for lane change
 
-Park Assist:
+Parking Assistance:
   alternativeNames:
     - 360 park assist
     - 360 parking assistant
@@ -5930,6 +5929,7 @@ Park Assist:
     - front to rear parking alerts
     - full parking alert
     - full parking assistance
+    - park assist
     - park assistance
     - park assistant
     - parking alert
@@ -6019,7 +6019,7 @@ Set Volume:
       - raised
       - up
 
-Forward Collision Gap Setting:
+Front Collision Distance Detection:
   alternativeNames:
     - collision avoidance gap
     - collision distance
@@ -6052,7 +6052,6 @@ Forward Collision Gap Setting:
     - distance
     - following distance
     - forward collision
-    - forward collision alert
     - forward collision distance
     - forward collision gap
     - forward collision length

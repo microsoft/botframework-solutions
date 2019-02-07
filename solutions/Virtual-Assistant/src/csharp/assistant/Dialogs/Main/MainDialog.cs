@@ -26,7 +26,6 @@ namespace VirtualAssistant.Dialogs.Main
     {
         // Fields
         private BotServices _services;
-        private BotConfiguration _botConfig;
         private UserState _userState;
         private ConversationState _conversationState;
         private EndpointService _endpointService;
@@ -38,11 +37,10 @@ namespace VirtualAssistant.Dialogs.Main
 
         private bool _conversationStarted = false;
 
-        public MainDialog(BotServices services, BotConfiguration botConfig, ConversationState conversationState, UserState userState, EndpointService endpointService, IBotTelemetryClient telemetryClient)
+        public MainDialog(BotServices services, ConversationState conversationState, UserState userState, EndpointService endpointService, IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
-            _botConfig = botConfig;
             _conversationState = conversationState;
             _userState = userState;
             _endpointService = endpointService;
@@ -269,14 +267,17 @@ namespace VirtualAssistant.Dialogs.Main
 
                     case Events.ResetUser:
                         {
-                            await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Reset User Event received, clearing down State and Tokens."));
+                            await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: "Reset User Event received, clearing down State and Tokens."));
 
                             // Clear State
                             await _onboardingState.DeleteAsync(dc.Context, cancellationToken);
 
                             // Clear Tokens
                             var adapter = dc.Context.Adapter as BotFrameworkAdapter;
-                            await adapter.SignOutUserAsync(dc.Context, null, dc.Context.Activity.From.Id, cancellationToken);
+                            if (adapter != null)
+                            {
+                                await adapter.SignOutUserAsync(dc.Context, null, dc.Context.Activity.From.Id, cancellationToken);
+                            }
 
                             forward = false;
 

@@ -23,5 +23,7 @@
         public const string TestSender = "TestSender";
 
         public const string TestSenderAddress = "testsender@test.com";
+
+        public const string TestDupEmail = "testdup0@test.com";
     }
 }

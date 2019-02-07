@@ -27,9 +27,20 @@ namespace AutomotiveSkillTest.Flow.Fakes
             intentScore.Score = 0.9909704;
             intentScore.Properties = new Dictionary<string, object>();
 
-            // This LUIS model is for followup setting clarification so we assume input for test purposes is the setting name
             this.Intents.Add(VehicleSettingsValueSelection.Intent.SETTING_VALUE_SELECTION, intentScore);
-            this.Entities.VALUE = new string[] { userInput.ToLower() };
+
+            switch (userInput.ToLower())
+            {
+                case "second one":
+                    this.Entities.INDEX = new string[] { "second" };
+                    break;
+                case "braking and alerts":
+                case "decrease":
+                case "increase":
+                case "steer":
+                    this.Entities.VALUE = new string[] { userInput.ToLower() };
+                    break;
+            }
 
             (intent, score) = this.TopIntent();
         }            

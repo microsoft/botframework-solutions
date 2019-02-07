@@ -2,8 +2,8 @@
   "WelcomeMessage": {
     "replies": [
       {
-        "text": "Welcome to the Automotive Skill! Right now I can help you with vehicle setting control - Climate Control, Active Safety and Audio.",
-        "speak": "Welcome to the Automotive Skill! Right now I can help you with vehicle setting control - Climate Control, Active Safety and Audio."
+        "text": "Welcome to the Automotive Skill! Right now I can help you with vehicle setting control - climate, safety, and audio settings.",
+        "speak": "Welcome to the Automotive Skill! Right now I can help you with vehicle setting control - climate, safety, and audio settings."
       }
     ],
     "inputHint": "expectingInput"
@@ -11,8 +11,8 @@
   "HelpMessage": {
     "replies": [
       {
-        "text": "Right now I can help you with vehicle setting control - Climate Control, Active Safety and Audio.",
-        "speak": "Right now I can help you with vehicle setting control - Climate Control, Active Safety and Audio."
+        "text": "Right now I can help you with vehicle setting control - climate, safety, and audio settings.",
+        "speak": "Right now I can help you with vehicle setting control - climate, safety, and audio settings."
       }
     ],
     "suggestedActions": [
@@ -47,8 +47,8 @@
         "speak": "Your sign out was successful."
       },
       {
-        "text": "You have successfully sign out.",
-        "speak": "You have successfully sign out."
+        "text": "You have successfully signed out.",
+        "speak": "You have successfully signed out."
       },
       {
         "text": "You have been logged out.",
@@ -62,6 +62,15 @@
       {
         "text": "This feature is not yet available in this skill. Please try asking something else.",
         "speak": "This feature is not yet available in this skill. Please try asking something else."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "CancelMessage": {
+    "replies": [
+      {
+        "text": "Ok, let's start over.",
+        "speak": "Ok, let's start over."
       }
     ],
     "inputHint": "acceptingInput"

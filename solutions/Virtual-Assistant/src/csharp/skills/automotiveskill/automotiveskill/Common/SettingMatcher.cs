@@ -43,12 +43,14 @@ namespace AutomotiveSkill.Common
         }
 
         /// <summary>
-        /// See if the provided setting name can be exactly matched to a setting (e.g. temperature)        ///. </summary>
+        /// See if the provided setting name can be exactly matched to a setting (e.g. temperature)
+        /// </summary>
         /// <param name="entityValue">Entity value to match.</param>
         /// <returns>Matched available setting.</returns>
         public IList<AvailableSetting> MatchSettingNamesExactly(string entityValue)
         {
-            if (this.preProcessedCanonicalNameMap.TryGetValue(entityValue, out var setting_info))
+            string preProcessedEntityValue = PreProcessPartial(entityValue);
+            if (this.preProcessedCanonicalNameMap.TryGetValue(preProcessedEntityValue, out var setting_info))
             {
                 return new List<AvailableSetting> { setting_info };
             }
@@ -103,11 +105,11 @@ namespace AutomotiveSkill.Common
         }
 
         public IList<SettingMatch> MatchSettingValues(
-            List<string> entity_types,
+            List<string> entityValues,
             double semantic_threshold,
             double antonym_disamb_percentage_of_max)
         {
-            var matchable_entity_bag = this.MakeMatchableBagOfTokens(entity_types);
+            var matchable_entity_bag = this.MakeMatchableBagOfTokens(entityValues);
             if (matchable_entity_bag.IsEmpty())
             {
                 return new List<SettingMatch>();
@@ -142,7 +144,7 @@ namespace AutomotiveSkill.Common
         }
 
         public IList<SelectableSettingValue> DisambiguateSettingValues(
-            List<string> entity_types,
+            List<string> entityValues,
             IList<SelectableSettingValue> values,
             double antonym_disamb_threshold,
             double antonym_disamb_percentage_of_max)
@@ -153,7 +155,7 @@ namespace AutomotiveSkill.Common
             }
 
             // Not using semantic matching because we expect the values to be antonyms of each other, e.g., "on" and "off"
-            var matchable_entity_bag = this.MakeMatchableBagOfTokens(entity_types);
+            var matchable_entity_bag = this.MakeMatchableBagOfTokens(entityValues);
             if (matchable_entity_bag.IsEmpty())
             {
                 return new List<SelectableSettingValue>();
@@ -266,11 +268,16 @@ namespace AutomotiveSkill.Common
             matchable.TokensList.Add(tokens_per_name);
         }
 
-        private MatchableBagOfTokens MakeMatchableBagOfTokens(List<string> entity_types)
+        private MatchableBagOfTokens MakeMatchableBagOfTokens(List<string> entityValues)
         {
             MatchableBagOfTokens matchable = new MatchableBagOfTokens();
 
-            string extracted_setting_name = string.Join(" ", entity_types);
+            IList<string> preProcessedValues = new List<string>();
+            foreach (string value in entityValues)
+            {
+                preProcessedValues.Add(PreProcessPartial(value));
+            }
+            string extracted_setting_name = string.Join(" ", preProcessedValues);
 
             AddNameToMatchable(matchable, extracted_setting_name);
 

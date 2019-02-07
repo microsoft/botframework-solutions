@@ -74,24 +74,24 @@ namespace ToDoSkillTest.Flow
                 }
 
                 CollectionAssert.Contains(
-                  this.ParseReplies(MarkToDoResponses.AfterAllTasksCompleted.Replies, new StringDictionary() { { MockData.ListType, MockData.ToDo } }),
+                  this.ParseReplies(MarkToDoResponses.AfterAllTasksCompleted, new StringDictionary() { { MockData.ListType, MockData.ToDo } }),
                   responseCard.Speak);
             };
         }
 
         private string[] SettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.SettingUpOutlookMessage.Replies, new StringDictionary());
+            return this.ParseReplies(ToDoSharedResponses.SettingUpOutlookMessage, new StringDictionary());
         }
 
         private string[] AfterSettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.AfterOutlookSetupMessage.Replies, new StringDictionary());
+            return this.ParseReplies(ToDoSharedResponses.AfterOutlookSetupMessage, new StringDictionary());
         }
 
         private string[] CollectListType()
         {
-            return this.ParseReplies(MarkToDoResponses.ListTypePrompt.Replies, new StringDictionary());
+            return this.ParseReplies(MarkToDoResponses.ListTypePrompt, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()

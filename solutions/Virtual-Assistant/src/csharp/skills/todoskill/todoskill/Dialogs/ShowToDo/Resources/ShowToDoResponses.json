@@ -44,6 +44,15 @@
     ],
     "inputHint": "expectingInput"
   },
+  "ReadMoreTasksConfirmFailed": {
+    "replies": [
+      {
+        "text": "Sorry, I didn't understand what you meant. Do you want to hear more from your list?",
+        "speak": "Sorry, I didn't understand what you meant. Do you want to hear more from your list?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "NextOneTask": {
     "replies": [
       {
@@ -106,5 +115,41 @@
       }
     ],
     "inputHint": "ignoringInput"
+  },
+  "RepeatFirstPagePrompt": {
+    "replies": [
+      {
+        "text": "You are at the start of your {listType} list. Do you want me to repeat the most recent tasks?",
+        "speak": "You are at the start of your {listType} list. Do you want me to repeat the most recent tasks?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "RepeatFirstPageConfirmFailed": {
+    "replies": [
+      {
+        "text": "Sorry, I didn't understand what you meant. Do you want me to repeat the most recent tasks?",
+        "speak": "Sorry, I didn't understand what you meant. Do you want me to repeat the most recent tasks?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "GoBackToStartPrompt": {
+    "replies": [
+      {
+        "text": "These are your final tasks on your {listType} list. Want to go back to the start of the list?",
+        "speak": "These are your final tasks on your {listType} list. Want to go back to the start of the list?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "GoBackToStartConfirmFailed": {
+    "replies": [
+      {
+        "text": "Sorry, I didn't understand what you meant. Want to go back to the start of the list?",
+        "speak": "Sorry, I didn't understand what you meant. Want to go back to the start of the list?"
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }

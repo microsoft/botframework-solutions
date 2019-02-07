@@ -13,7 +13,7 @@ using EmailSkill.ServiceClients;
 using EmailSkill.Util;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 
@@ -23,11 +23,12 @@ namespace EmailSkill.Dialogs.DeleteEmail
     {
         public DeleteEmailDialog(
             SkillConfigurationBase services,
+            ResponseManager responseManager,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(DeleteEmailDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient)
+            : base(nameof(DeleteEmailDialog), services, responseManager, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -36,6 +37,7 @@ namespace EmailSkill.Dialogs.DeleteEmail
                 IfClearContextStep,
                 GetAuthToken,
                 AfterGetAuthToken,
+                SetDisplayConfig,
                 CollectSelectedEmail,
                 AfterCollectSelectedEmail,
                 PromptToDelete,
@@ -81,13 +83,19 @@ namespace EmailSkill.Dialogs.DeleteEmail
                     };
 
                     var speech = SpeakHelper.ToSpeechEmailSendDetailString(focusedMessage.Subject, nameListString, focusedMessage.BodyPreview);
-                    var stringToken = new StringDictionary
+                    var tokens = new StringDictionary
                     {
                         { "EmailDetails", speech },
                     };
-                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(DeleteEmailResponses.DeleteConfirm, "Dialogs/Shared/Resources/Cards/EmailWithOutButtonCard.json", emailCard, ResponseBuilder, stringToken);
 
-                    return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = replyMessage, RetryPrompt = sc.Context.Activity.CreateReply(EmailSharedResponses.ConfirmSendFailed, ResponseBuilder), });
+                    var prompt = ResponseManager.GetCardResponse(
+                        DeleteEmailResponses.DeleteConfirm,
+                        new Card("EmailWithOutButtonCard", emailCard),
+                        tokens);
+
+                    var retry = ResponseManager.GetResponse(EmailSharedResponses.ConfirmSendFailed);
+
+                    return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = prompt, RetryPrompt = retry });
                 }
 
                 skillOptions.SubFlowMode = true;
@@ -112,11 +120,11 @@ namespace EmailSkill.Dialogs.DeleteEmail
                     var mailService = this.ServiceManager.InitMailService(state.Token, state.GetUserTimeZone(), state.MailSourceType);
                     var focusMessage = state.Message.FirstOrDefault();
                     await mailService.DeleteMessageAsync(focusMessage.Id);
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(DeleteEmailResponses.DeleteSuccessfully));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(DeleteEmailResponses.DeleteSuccessfully));
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.CancellingMessage));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.CancellingMessage));
                 }
 
                 return await sc.EndDialogAsync();

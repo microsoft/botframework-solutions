@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Common;
-using CalendarSkill.Dialogs.Main.Resources;
+using CalendarSkill.Dialogs.CreateEvent.Resources;
 using CalendarSkill.Dialogs.Shared.Prompts;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Dialogs.Shared.Resources.Strings;
@@ -17,10 +18,10 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
-using Microsoft.Bot.Solutions.Data;
-using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Prompts;
+using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Microsoft.Recognizers.Text;
@@ -38,12 +39,14 @@ namespace CalendarSkill.Dialogs.Shared
         public CalendarSkillDialog(
             string dialogId,
             SkillConfigurationBase services,
+            ResponseManager responseManager,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
             : base(dialogId)
         {
             Services = services;
+            ResponseManager = responseManager;
             Accessor = accessor;
             ServiceManager = serviceManager;
             TelemetryClient = telemetryClient;
@@ -71,7 +74,7 @@ namespace CalendarSkill.Dialogs.Shared
 
         protected IServiceManager ServiceManager { get; set; }
 
-        protected CalendarSkillResponseBuilder ResponseBuilder { get; set; } = new CalendarSkillResponseBuilder();
+        protected ResponseManager ResponseManager { get; set; }
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -92,7 +95,7 @@ namespace CalendarSkill.Dialogs.Shared
         {
             try
             {
-               var skillOptions = (CalendarSkillDialogOptions)sc.Options;
+                var skillOptions = (CalendarSkillDialogOptions)sc.Options;
 
                 // If in Skill mode we ask the calling Bot for the token
                 if (skillOptions != null && skillOptions.SkillMode)
@@ -251,20 +254,20 @@ namespace CalendarSkill.Dialogs.Shared
         // Helpers
         protected async Task ShowMeetingList(DialogContext dc, List<EventModel> events, bool showDate = true)
         {
-            var replyToConversation = dc.Context.Activity.CreateReply();
-            replyToConversation.AttachmentLayout = AttachmentLayoutTypes.Carousel;
-            replyToConversation.Attachments = new List<Microsoft.Bot.Schema.Attachment>();
-
-            var cardsData = new List<CalendarCardData>();
             var state = await Accessor.GetAsync(dc.Context);
+
+            var cards = new List<Card>();
             foreach (var item in events)
             {
-                var meetingCard = item.ToAdaptiveCardData(state.GetUserTimeZone(), showDate);
-                var replyTemp = dc.Context.Activity.CreateAdaptiveCardReply(CalendarMainResponses.GreetingMessage, item.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", meetingCard);
-                replyToConversation.Attachments.Add(replyTemp.Attachments[0]);
+                cards.Add(new Card()
+                {
+                    Name = item.OnlineMeetingUrl == null ? "CalendarCardNoJoinButton" : "CalendarCard",
+                    Data = item.ToAdaptiveCardData(state.GetUserTimeZone(), showDate)
+                });
             }
 
-            await dc.Context.SendActivityAsync(replyToConversation);
+            var reply = ResponseManager.GetCardResponse(cards);
+            await dc.Context.SendActivityAsync(reply);
         }
 
         protected bool IsRelativeTime(string userInput, string resolverResult, string timex)
@@ -311,7 +314,7 @@ namespace CalendarSkill.Dialogs.Shared
                 endDate = endDateList.Last();
             }
 
-            bool searchByStartTime = startTimeList.Any() && endDate == null && !endTimeList.Any();
+            var searchByStartTime = startTimeList.Any() && endDate == null && !endTimeList.Any();
 
             startDate = startDate ?? TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, userTimeZone);
             endDate = endDate ?? startDate ?? TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, userTimeZone);
@@ -487,7 +490,7 @@ namespace CalendarSkill.Dialogs.Shared
 
                             if (entity.Duration != null)
                             {
-                                int duration = GetDurationFromEntity(entity, dc.Context.Activity.Locale);
+                                var duration = GetDurationFromEntity(entity, dc.Context.Activity.Locale);
                                 if (duration != -1)
                                 {
                                     state.CreateHasDetail = true;
@@ -581,7 +584,7 @@ namespace CalendarSkill.Dialogs.Shared
                                 var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone());
                                 if (date != null)
                                 {
-                                    state.StartDate = date;
+                                    state.NewStartDate = date;
                                 }
                             }
 
@@ -607,13 +610,13 @@ namespace CalendarSkill.Dialogs.Shared
                                 var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (time != null)
                                 {
-                                    state.StartTime = time;
+                                    state.NewEndTime = time;
                                 }
 
                                 time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
                                 if (time != null)
                                 {
-                                    state.EndTime = time;
+                                    state.NewEndTime = time;
                                 }
                             }
 
@@ -848,7 +851,7 @@ namespace CalendarSkill.Dialogs.Shared
             TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
 
             // send error message to bot user
-            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarSharedResponses.CalendarErrorMessage));
+            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.CalendarErrorMessage));
 
             // clear state
             var state = await Accessor.GetAsync(sc.Context);
@@ -871,11 +874,11 @@ namespace CalendarSkill.Dialogs.Shared
             // send error message to bot user
             if (ex.ExceptionType == SkillExceptionType.APIAccessDenied)
             {
-                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarSharedResponses.CalendarErrorMessageBotProblem));
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.CalendarErrorMessageBotProblem));
             }
             else
             {
-                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarSharedResponses.CalendarErrorMessage));
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.CalendarErrorMessage));
             }
 
             // clear state
@@ -905,6 +908,244 @@ namespace CalendarSkill.Dialogs.Shared
             {
                 return base.EndComponentAsync(outerDc, result, cancellationToken);
             }
+        }
+
+        protected bool IsEmail(string emailString)
+        {
+            return Regex.IsMatch(emailString, @"\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}");
+        }
+
+        protected async Task<string> GetReadyToSendNameListStringAsync(WaterfallStepContext sc)
+        {
+            var state = await Accessor.GetAsync(sc?.Context);
+            var unionList = state.AttendeesNameList.ToList();
+            if (unionList.Count == 1)
+            {
+                return unionList.First();
+            }
+
+            var nameString = string.Join(", ", unionList.ToArray().SkipLast(1)) + string.Format(CommonStrings.SeparatorFormat, CommonStrings.And) + unionList.Last();
+            return nameString;
+        }
+
+        protected (List<PersonModel> formattedPersonList, List<PersonModel> formattedUserList) FormatRecipientList(List<PersonModel> personList, List<PersonModel> userList)
+        {
+            // Remove dup items
+            var formattedPersonList = new List<PersonModel>();
+            var formattedUserList = new List<PersonModel>();
+
+            foreach (var person in personList)
+            {
+                var mailAddress = person.Emails[0] ?? person.UserPrincipalName;
+
+                var isDup = false;
+                foreach (var formattedPerson in formattedPersonList)
+                {
+                    var formattedMailAddress = formattedPerson.Emails[0] ?? formattedPerson.UserPrincipalName;
+
+                    if (mailAddress.Equals(formattedMailAddress))
+                    {
+                        isDup = true;
+                        break;
+                    }
+                }
+
+                if (!isDup)
+                {
+                    formattedPersonList.Add(person);
+                }
+            }
+
+            foreach (var user in userList)
+            {
+                var mailAddress = user.Emails[0] ?? user.UserPrincipalName;
+
+                var isDup = false;
+                foreach (var formattedPerson in formattedPersonList)
+                {
+                    var formattedMailAddress = formattedPerson.Emails[0] ?? formattedPerson.UserPrincipalName;
+
+                    if (mailAddress.Equals(formattedMailAddress))
+                    {
+                        isDup = true;
+                        break;
+                    }
+                }
+
+                if (!isDup)
+                {
+                    foreach (var formattedUser in formattedUserList)
+                    {
+                        var formattedMailAddress = formattedUser.Emails[0] ?? formattedUser.UserPrincipalName;
+
+                        if (mailAddress.Equals(formattedMailAddress))
+                        {
+                            isDup = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!isDup)
+                {
+                    formattedUserList.Add(user);
+                }
+            }
+
+            return (formattedPersonList, formattedUserList);
+        }
+
+        protected async Task<List<PersonModel>> GetContactsAsync(WaterfallStepContext sc, string name)
+        {
+            var result = new List<PersonModel>();
+            var state = await Accessor.GetAsync(sc.Context);
+            var token = state.APIToken;
+            var service = ServiceManager.InitUserService(token, state.EventSource);
+
+            // Get users.
+            result = await service.GetContactsAsync(name);
+            return result;
+        }
+
+        protected async Task<List<PersonModel>> GetPeopleWorkWithAsync(WaterfallStepContext sc, string name)
+        {
+            var result = new List<PersonModel>();
+            var state = await Accessor.GetAsync(sc.Context);
+            var token = state.APIToken;
+            var service = ServiceManager.InitUserService(token, state.EventSource);
+
+            // Get users.
+            result = await service.GetPeopleAsync(name);
+
+            return result;
+        }
+
+        protected async Task<List<PersonModel>> GetUserAsync(WaterfallStepContext sc, string name)
+        {
+            var result = new List<PersonModel>();
+            var state = await Accessor.GetAsync(sc.Context);
+            var token = state.APIToken;
+            var service = ServiceManager.InitUserService(token, state.EventSource);
+
+            // Get users.
+            result = await service.GetUserAsync(name);
+
+            return result;
+        }
+
+        protected async Task<PersonModel> GetMe(WaterfallStepContext sc)
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+            var token = state.APIToken;
+            var service = ServiceManager.InitUserService(token, state.EventSource);
+            return await service.GetMe();
+        }
+
+        protected string GetSelectPromptString(PromptOptions selectOption, bool containNumbers)
+        {
+            var result = string.Empty;
+            result += selectOption.Prompt.Text + "\r\n";
+            for (var i = 0; i < selectOption.Choices.Count; i++)
+            {
+                var choice = selectOption.Choices[i];
+                result += "  ";
+                if (containNumbers)
+                {
+                    result += (i + 1) + "-";
+                }
+
+                result += choice.Value + "\r\n";
+            }
+
+            return result;
+        }
+
+        protected async Task<PromptOptions> GenerateOptions(List<PersonModel> personList, List<PersonModel> userList, DialogContext dc)
+        {
+            var state = await Accessor.GetAsync(dc.Context);
+            var pageIndex = state.ShowAttendeesIndex;
+            var pageSize = 5;
+            var skip = pageSize * pageIndex;
+            var options = new PromptOptions
+            {
+                Choices = new List<Choice>(),
+                Prompt = ResponseManager.GetResponse(CreateEventResponses.ConfirmRecipient),
+            };
+            for (var i = 0; i < personList.Count; i++)
+            {
+                var user = personList[i];
+                var mailAddress = user.Emails[0] ?? user.UserPrincipalName;
+
+                var choice = new Choice()
+                {
+                    Value = $"**{user.DisplayName}: {mailAddress}**",
+                    Synonyms = new List<string> { (options.Choices.Count + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
+                };
+
+                var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
+                if (!string.IsNullOrEmpty(userName))
+                {
+                    choice.Synonyms.Add(userName);
+                    choice.Synonyms.Add(userName.ToLower());
+                }
+
+                if (skip <= 0)
+                {
+                    if (options.Choices.Count >= pageSize)
+                    {
+                        return options;
+                    }
+
+                    options.Choices.Add(choice);
+                }
+                else
+                {
+                    skip--;
+                }
+            }
+
+            if (options.Choices.Count == 0)
+            {
+                pageSize = 10;
+            }
+
+            for (var i = 0; i < userList.Count; i++)
+            {
+                var user = userList[i];
+                var mailAddress = user.Emails[0] ?? user.UserPrincipalName;
+                var choice = new Choice()
+                {
+                    Value = $"{user.DisplayName}: {mailAddress}",
+                    Synonyms = new List<string> { (options.Choices.Count + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
+                };
+
+                var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
+                if (!string.IsNullOrEmpty(userName))
+                {
+                    choice.Synonyms.Add(userName);
+                    choice.Synonyms.Add(userName.ToLower());
+                }
+
+                if (skip <= 0)
+                {
+                    if (options.Choices.Count >= pageSize)
+                    {
+                        return options;
+                    }
+
+                    options.Choices.Add(choice);
+                }
+                else if (skip >= 10)
+                {
+                    return options;
+                }
+                else
+                {
+                    skip--;
+                }
+            }
+
+            return options;
         }
 
         protected string GetSubjectFromEntity(Calendar._Entities entity)
@@ -943,7 +1184,7 @@ namespace CalendarSkill.Dialogs.Shared
         private int GetDurationFromEntity(Calendar._Entities entity, string local)
         {
             var culture = local ?? English;
-            List<DateTimeResolution> result = RecognizeDateTime(entity.Duration[0], culture);
+            var result = RecognizeDateTime(entity.Duration[0], culture);
             if (result != null)
             {
                 if (result[0].Value != null)
@@ -958,7 +1199,7 @@ namespace CalendarSkill.Dialogs.Shared
         private int GetMoveTimeSpanFromEntity(string timeSpan, string local, bool later)
         {
             var culture = local ?? English;
-            List<DateTimeResolution> result = RecognizeDateTime(timeSpan, culture);
+            var result = RecognizeDateTime(timeSpan, culture);
             if (result != null)
             {
                 if (result[0].Value != null)
@@ -995,7 +1236,7 @@ namespace CalendarSkill.Dialogs.Shared
         private List<DateTime> GetDateFromDateTimeString(string date, string local, TimeZoneInfo userTimeZone)
         {
             var culture = local ?? English;
-            List<DateTimeResolution> results = RecognizeDateTime(date, culture);
+            var results = RecognizeDateTime(date, culture);
             var dateTimeResults = new List<DateTime>();
             if (results != null)
             {
@@ -1006,7 +1247,7 @@ namespace CalendarSkill.Dialogs.Shared
 
                     if (dateTime != null)
                     {
-                        bool isRelativeTime = IsRelativeTime(date, result.Value, result.Timex);
+                        var isRelativeTime = IsRelativeTime(date, result.Value, result.Timex);
                         dateTimeResults.Add(isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, userTimeZone) : dateTime);
                     }
                 }
@@ -1018,7 +1259,7 @@ namespace CalendarSkill.Dialogs.Shared
         private List<DateTime> GetTimeFromDateTimeString(string time, string local, TimeZoneInfo userTimeZone, bool isStart = true)
         {
             var culture = local ?? English;
-            List<DateTimeResolution> results = RecognizeDateTime(time, culture);
+            var results = RecognizeDateTime(time, culture);
             var dateTimeResults = new List<DateTime>();
             if (results != null)
             {
@@ -1036,7 +1277,7 @@ namespace CalendarSkill.Dialogs.Shared
 
                         if (dateTime != null)
                         {
-                            bool isRelativeTime = IsRelativeTime(time, result.Value, result.Timex);
+                            var isRelativeTime = IsRelativeTime(time, result.Value, result.Timex);
                             dateTimeResults.Add(isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, userTimeZone) : dateTime);
                         }
                     }

@@ -67,5 +67,17 @@ namespace EmailSkillTest.API.Service
             var messageList = await MailService.GetMyMessagesAsync(DateTime.Now, DateTime.Now.AddDays(7), false, false, false, null);
             Assert.AreEqual(messageList.Count, 5);
         }
+
+        [TestMethod]
+        public async Task DeleteMessagesTest()
+        {
+            await MailService.DeleteMessageAsync("1");
+        }
+
+        [TestMethod]
+        public async Task MartAsReadTest()
+        {
+            await MailService.MarkMessageAsReadAsync("1");
+        }
     }
 }

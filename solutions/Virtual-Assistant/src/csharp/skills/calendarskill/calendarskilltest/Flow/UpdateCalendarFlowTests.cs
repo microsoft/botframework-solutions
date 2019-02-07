@@ -29,6 +29,8 @@ namespace CalendarSkillTest.Flow
                 }
             });
 
+            // keep this use old mock, Moq has some conflict with Prompt. It will throw exception in GetEventPrompt
+            this.ServiceManager = new MockCalendarServiceManager();
             var serviceManager = this.ServiceManager as MockCalendarServiceManager;
             serviceManager.SetupCalendarService(MockCalendarService.FakeDefaultEvents());
             serviceManager.SetupUserService(MockUserService.FakeDefaultUsers(), MockUserService.FakeDefaultPeople());
@@ -126,12 +128,12 @@ namespace CalendarSkillTest.Flow
 
         private string[] AskForTitleTimePrompt()
         {
-            return this.ParseReplies(UpdateEventResponses.NoUpdateStartTime.Replies, new StringDictionary());
+            return this.ParseReplies(UpdateEventResponses.NoUpdateStartTime, new StringDictionary());
         }
 
         private string[] AskForNewTimePrompt()
         {
-            return this.ParseReplies(UpdateEventResponses.NoNewTime.Replies, new StringDictionary());
+            return this.ParseReplies(UpdateEventResponses.NoNewTime, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()

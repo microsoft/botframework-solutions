@@ -159,23 +159,29 @@ Note: update the language models for the languages that you support and feel fre
 
 ## Skill Configuration
 
-The Virtual Assistant Solution is fully integrated with all available skills out of the box. Skill configuration can be found in your appSettings.json file and is detailed further in the [Adding A Skill] documentation](virtualassistant-addingaskill.md)
+The Virtual Assistant Solution is fully integrated with all available skills out of the box. Skill configuration can be found in your appSettings.json file and is detailed further in the [Adding A Skill](./virtualassistant-addingaskill.md) documentation.
 
 ## Skill Authentication
 
-If you wish to make use of the Calendar, Email and Task Skills you need to configure an Authentication Connection enabling uses of your Assistant to authenticate against services such as Office 365 and securely store a token which can be retrieved by your assistant when a user asks a question such as *"What's my day look like today"* to then use against an API like Microsoft Graph.
+If you wish to make use of the Calendar, Email and Task Skills you need to configure an Authentication Connection enabling uses of your Assistant to authenticate against services such as Office 365 and securely store a token which can be retrieved by your assistant when a user asks a question such as *"What does my day look like today"* to then use against an API like Microsoft Graph.
 
-The [Add Authentication to your bot](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-authentication?view=azure-bot-service-3.0) section in the Azure Bot Service documentation covers more detail on how to configure Authentication. However in this scenario, the automated deployment step has already created the Azure AD v2 Application for your Bot. Therefore you only need to perform the following steps from the above documentation page:
+The [Add Authentication to your bot](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-authentication?view=azure-bot-service-3.0) section in the Azure Bot Service documentation covers more detail on how to configure Authentication. However in this scenario, the automated deployment step has already created the **Azure AD v2 Application** for your Bot. Therefore you only need to perform the following steps from the above documentation page:
 
-- Navigate to https://apps.dev.microsoft.com/ and find the application created in the previous step which should match your Bot name.
+- Navigate to https://apps.dev.microsoft.com/ and find the application created during the deployment step. The application name should match your Bot name.
+- Click on your application. This will open your application registration page.  
+> You may see a pop-up advising you to manage your application on **Azure Portal**. This is now the recommended management portal for applications. Both interfaces can achieve the same goal. However, we have not documented the **Azure Portal** experience below.  
+
 - Under Platforms, click Add Platform.
   - In the Add Platform pop-up, click Web.
   - Leave Allow Implicit Flow checked.
   - For Redirect URL, enter `https://token.botframework.com/.auth/web/redirect`
   - Leave Logout URL blank.
-- Under Microsoft Graph Permissions, you can need to add additional *delegated* permissions.
-- Each of the Skills require a specific set of Scopes, refer to the documentation for each skill or use the following list of Scopes that contain the scopes needed for all skills. 
-  - `Calendars.ReadWrite`, `Mail.ReadWrite`, `Mail.Send`, `Tasks.ReadWrite`, `Notes.ReadWrite`, `People.Read`, `User.Read`, `Contacts.Read`
+- Under Microsoft Graph Permissions, you can need to add additional *delegated* permissions. Each of the Skills require a specific set of Scopes. You can refer to the documentation for each skill or follow the steps below to add a list of Scopes that contain the scopes needed for all skills. 
+    - Click on **Add** next to Delegated Permissions.
+    - Click the checkbox next to the following eight scopes: 
+        - `Calendars.ReadWrite`, `Contacts.Read`, `Mail.ReadWrite`, `Mail.Send`,  `Notes.ReadWrite`, `People.Read`, `Tasks.ReadWrite`, `User.Read`  
+    - Click **Ok** when done. 
+- **Save** all updates to your application when done. 
 
 Next you need to create the Authentication Connection for your Bot. Ensure you use the same combination of Scopes that you provided in the above command. The first command shown below will retrieve the appId (ApplicationId) and appPassword (Client Secret) that you need to complete this step.
 
@@ -185,9 +191,19 @@ The commands shown below assume you have used the deployment process and your re
 msbot get production --secret YOUR_SECRET
 
 az bot authsetting create --resource-group YOUR_BOT_NAME --name YOUR_BOT_NAME --setting-name "YOUR_AUTH_CONNECTION_DISPLAY_NAME" --client-id "YOUR_APPLICATION_ID" --client-secret "YOUR_APPLICATION_PASSWORD" --service Aadv2 --parameters clientId="YOUR_APPLICATION_ID" clientSecret="YOUR_APPLICATION_PASSWORD" tenantId=common --provider-scope-string "Calendars.ReadWrite Mail.ReadWrite Mail.Send Tasks.ReadWrite Notes.ReadWrite People.Read User.Read Contacts.Read" 
-```
+```  
 
-The final step is to update your .bot file and associated Skills (in appSettings.config) with the Authentication connection name, this is used by the Assistant to enable Authentication prompts or use of Linked Accounts.
+> NOTE: Take special care when running the `authsetting` commands to correctly escape special characters in your client secret key (or parameters that contain special characters).     
+> 1. For **Windows command prompt**, enclose the client-secret in double quotes.  
+>     - e.g.  `--client-secret "!&*^|%gr%"`  
+>  
+> 2. For **Windows PowerShell**, pass in the client-secret  after the *Powershell* special `--%` argument.  
+>     -  e.g. `--% --client-secret "!&*^|%gr%"`  
+>
+> 3. For MacOS or Linux, enclose the client-secret in single quotes.  
+>     -  e.g. `--client-secret "!&*^|%gr%"`
+
+The final step is to update your `.bot` file and associated Skills (in appSettings.config) with the authentication connection name. This is used by the Assistant to enable authentication prompts or use of Linked Accounts.
 
 ```shell
 msbot connect generic --name "Authentication" --keys "{\"YOUR_AUTH_CONNECTION_NAME\":\"Azure Active Directory v2\"}" --bot YOURBOTFILE.bot --secret "YOUR_BOT_SECRET" --url "portal.azure.net"
@@ -203,9 +219,14 @@ $keys = ConvertTo-Json -InputObject $authKeyObject
 > Other Authentication Service Providers exist including the ability to create custom oAuth providers. `az bot authsetting list-providers` is a quick way to review the pre-configured ones.
 
 ## Testing
-Once deployment is complete, run your bot project within your development environment and open the [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator). Within the Emulator, choose Open Bot from the File menu and navigate to the .bot file in your directory which was created in the previous step. 
+Once deployment is complete, run your bot project within your development environment and open the [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator). Within the Emulator, choose Open Bot from the File menu and navigate to the .bot file in your directory which was created in the deployment step. 
 
->Ensure you have the latest emulator installed and update the development endpoint to reflect the port number that Visual Studio chooses when you start debugging otherwise you'll receive connection errors.
+> **IMPORTANT NOTES**  
+> 1. Ensure you have the latest emulator installed and update the development endpoint to reflect the port number that Visual Studio chooses when you start debugging otherwise you'll receive connection errors.  
+> 2. Ensure you have [ngrok](https://ngrok.com/download) downloaded and the path to the executable path configured correctly in the emulator for the demo to work.  
+>     - From the emulator edit the emulator settings: Gear icon bottom left of the emulator.   
+>     - Browse or enter the path to the ngrok exe. 
+>     - Enter a locale based on the language(s) deployed.
 
 You should see an Introduction Adaptive card and the example on-boarding process will start.
 
