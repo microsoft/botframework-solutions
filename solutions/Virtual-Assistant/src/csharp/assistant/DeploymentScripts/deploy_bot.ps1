@@ -9,7 +9,7 @@ Param(
 	[string] $luisPublishRegion,
 	[string] $subscriptionId,
 	[string] $insightsRegion,
-	[string] $groupName,
+	[string] $groupName = $name,
 	[string] $sdkLanguage,
 	[string] $sdkVersion,
 	[string] $prefix,
@@ -25,7 +25,7 @@ if (!$languagesOnly)
 
 	# Deploy the common resources (Azure Bot Service, App Insights, Azure Storage, Cosmos DB, etc)
 	Write-Host "Deploying common resources..."
-	msbot clone services -n $name -l $location --luisAuthoringKey $luisAuthoringKey --folder "$($PSScriptRoot)" --appId $appId --appSecret $appSecret --force --quiet
+	msbot clone services -n $name -l $location --luisAuthoringKey $luisAuthoringKey --groupName $groupName --folder "$($PSScriptRoot)" --appId $appId --appSecret $appSecret --force --quiet 
 }
 
 $localeArr = $locales.Split(',')
@@ -44,7 +44,7 @@ foreach ($locale in $localeArr)
 
 	# Deploy Dispatch, LUIS (calendar, email, todo, and general), and QnA Maker for the locale
     Write-Host "Deploying $($locale) resources..."
-    msbot clone services -n "$($name)$($langCode)" -l $location --luisAuthoringKey $luisAuthoringKey --groupName $name --force --quiet --folder "$($PSScriptRoot)\$($langCode)" | Out-Null
+    msbot clone services -n "$($name)$($langCode)" -l $location --luisAuthoringKey $luisAuthoringKey --groupName $groupName --force --quiet --folder "$($PSScriptRoot)\$($langCode)" | Out-Null
 }
 
 Write-Host "Done."
