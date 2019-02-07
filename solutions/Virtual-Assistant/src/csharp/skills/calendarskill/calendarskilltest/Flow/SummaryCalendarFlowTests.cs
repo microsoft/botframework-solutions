@@ -76,42 +76,42 @@ namespace CalendarSkillTest.Flow
                 .StartTestAsync();
         }
 
-        [TestMethod]
-        public async Task Test_CalendarSummaryReadOutWithOneMeeting()
-        {
-            await this.GetTestFlow()
-                .Send(FindMeetingTestUtterances.BaseFindMeeting)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.FoundOneEventPrompt())
-                .AssertReply(this.ShowCalendarList(1))
-                .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowReadOutEventList())
-                .AssertReplyOneOf(this.AskForOrgnizerActionPrompt())
-                .Send(Strings.Strings.ConfirmNo)
-                .AssertReply(this.ActionEndMessage())
-                .StartTestAsync();
-        }
+        //[TestMethod]
+        //public async Task Test_CalendarSummaryReadOutWithOneMeeting()
+        //{
+        //    await this.GetTestFlow()
+        //        .Send(FindMeetingTestUtterances.BaseFindMeeting)
+        //        .AssertReply(this.ShowAuth())
+        //        .Send(this.GetAuthResponse())
+        //        .AssertReplyOneOf(this.FoundOneEventPrompt())
+        //        .AssertReply(this.ShowCalendarList(1))
+        //        .Send(Strings.Strings.ConfirmYes)
+        //        .AssertReply(this.ShowReadOutEventList())
+        //        .AssertReplyOneOf(this.AskForOrgnizerActionPrompt())
+        //        .Send(Strings.Strings.ConfirmNo)
+        //        .AssertReply(this.ActionEndMessage())
+        //        .StartTestAsync();
+        //}
 
-        [TestMethod]
-        public async Task Test_CalendarSummaryReadOutWithMutipleMeeting()
-        {
-            int eventCount = 3;
-            this.ServiceManager = MockServiceManager.SetMeetingsToMultiple(eventCount);
-            await this.GetTestFlow()
-                .Send(FindMeetingTestUtterances.BaseFindMeeting)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.FoundMultipleEventPrompt(eventCount))
-                .AssertReply(this.ShowCalendarList(eventCount))
-                .AssertReplyOneOf(this.ReadOutMorePrompt())
-                .Send(FindMeetingTestUtterances.ChooseFirstMeeting)
-                .AssertReply(this.ShowReadOutEventList())
-                .AssertReplyOneOf(this.AskForOrgnizerActionPrompt())
-                .Send(Strings.Strings.ConfirmNo)
-                .AssertReply(this.ActionEndMessage())
-                .StartTestAsync();
-        }
+        //[TestMethod]
+        //public async Task Test_CalendarSummaryReadOutWithMutipleMeeting()
+        //{
+        //    int eventCount = 3;
+        //    this.ServiceManager = MockServiceManager.SetMeetingsToMultiple(eventCount);
+        //    await this.GetTestFlow()
+        //        .Send(FindMeetingTestUtterances.BaseFindMeeting)
+        //        .AssertReply(this.ShowAuth())
+        //        .Send(this.GetAuthResponse())
+        //        .AssertReplyOneOf(this.FoundMultipleEventPrompt(eventCount))
+        //        .AssertReply(this.ShowCalendarList(eventCount))
+        //        .AssertReplyOneOf(this.ReadOutMorePrompt())
+        //        .Send(FindMeetingTestUtterances.ChooseFirstMeeting)
+        //        .AssertReply(this.ShowReadOutEventList())
+        //        .AssertReplyOneOf(this.AskForOrgnizerActionPrompt())
+        //        .Send(Strings.Strings.ConfirmNo)
+        //        .AssertReply(this.ActionEndMessage())
+        //        .StartTestAsync();
+        //}
 
         [TestMethod]
         public async Task Test_CalendarSummaryByTimeRange()
@@ -152,36 +152,36 @@ namespace CalendarSkillTest.Flow
                 .StartTestAsync();
         }
 
-        [TestMethod]
-        public async Task Test_CalendarSummaryShowOverviewAgain()
-        {
-            await this.GetTestFlow()
-                .Send(FindMeetingTestUtterances.BaseFindMeeting)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.FoundOneEventPrompt())
-                .AssertReply(this.ShowCalendarList(1))
-                .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowReadOutEventList())
-                .AssertReplyOneOf(this.AskForOrgnizerActionPrompt())
-                .Send(UpdateMeetingTestUtterances.BaseUpdateMeeting)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.AskForNewTimePrompt())
-                .Send(Strings.Strings.DefaultStartTime)
-                .AssertReply(this.ShowUpdateCalendarList())
-                .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowUpdateCalendarList())
-                .AssertReplyOneOf(this.AskForShowOverviewAgainPrompt())
-                .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.FoundOneEventAgainPrompt())
-                .AssertReply(this.ShowCalendarList(1))
-                .Send(Strings.Strings.ConfirmNo)
-                .AssertReply(this.ActionEndMessage())
-                .StartTestAsync();
-        }
+        //[TestMethod]
+        //public async Task Test_CalendarSummaryShowOverviewAgain()
+        //{
+        //    await this.GetTestFlow()
+        //        .Send(FindMeetingTestUtterances.BaseFindMeeting)
+        //        .AssertReply(this.ShowAuth())
+        //        .Send(this.GetAuthResponse())
+        //        .AssertReplyOneOf(this.FoundOneEventPrompt())
+        //        .AssertReply(this.ShowCalendarList(1))
+        //        .Send(Strings.Strings.ConfirmYes)
+        //        .AssertReply(this.ShowReadOutEventList())
+        //        .AssertReplyOneOf(this.AskForOrgnizerActionPrompt())
+        //        .Send(UpdateMeetingTestUtterances.BaseUpdateMeeting)
+        //        .AssertReply(this.ShowAuth())
+        //        .Send(this.GetAuthResponse())
+        //        .AssertReplyOneOf(this.AskForNewTimePrompt())
+        //        .Send(Strings.Strings.DefaultStartTime)
+        //        .AssertReply(this.ShowUpdateCalendarList())
+        //        .Send(Strings.Strings.ConfirmYes)
+        //        .AssertReply(this.ShowUpdateCalendarList())
+        //        .AssertReplyOneOf(this.AskForShowOverviewAgainPrompt())
+        //        .Send(Strings.Strings.ConfirmYes)
+        //        .AssertReply(this.ShowAuth())
+        //        .Send(this.GetAuthResponse())
+        //        .AssertReplyOneOf(this.FoundOneEventAgainPrompt())
+        //        .AssertReply(this.ShowCalendarList(1))
+        //        .Send(Strings.Strings.ConfirmNo)
+        //        .AssertReply(this.ActionEndMessage())
+        //        .StartTestAsync();
+        //}
 
         private Action<IActivity> ActionEndMessage()
         {
