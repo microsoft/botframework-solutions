@@ -39,7 +39,7 @@ namespace CalendarSkillTest.Flow
                 .Send(FindMeetingTestUtterances.BaseFindMeeting)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
-                .AssertReply(this.FoundOneEventPrompt())
+                .AssertReplyOneOf(this.FoundOneEventPrompt())
                 .AssertReply(this.ShowCalendarList(1))
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReply(this.ActionEndMessage())
@@ -83,7 +83,7 @@ namespace CalendarSkillTest.Flow
                 .Send(FindMeetingTestUtterances.BaseFindMeeting)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
-                .AssertReply(this.FoundOneEventPrompt())
+                .AssertReplyOneOf(this.FoundOneEventPrompt())
                 .AssertReply(this.ShowCalendarList(1))
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowReadOutEventList())
@@ -131,7 +131,7 @@ namespace CalendarSkillTest.Flow
                 .Send(FindMeetingTestUtterances.FindMeetingByTimeRange)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
-                .AssertReply(this.FoundOneEventPrompt("next week"))
+                .AssertReplyOneOf(this.FoundOneEventPrompt("next week"))
                 .AssertReply(this.ShowCalendarList(1))
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReply(this.ActionEndMessage())
@@ -145,7 +145,7 @@ namespace CalendarSkillTest.Flow
                 .Send(FindMeetingTestUtterances.FindMeetingByStartTime)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
-                .AssertReply(this.FoundOneEventPrompt("tomorrow"))
+                .AssertReplyOneOf(this.FoundOneEventPrompt("tomorrow"))
                 .AssertReply(this.ShowCalendarList(1))
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReply(this.ActionEndMessage())
@@ -159,7 +159,7 @@ namespace CalendarSkillTest.Flow
                 .Send(FindMeetingTestUtterances.BaseFindMeeting)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
-                .AssertReply(this.FoundOneEventPrompt())
+                .AssertReplyOneOf(this.FoundOneEventPrompt())
                 .AssertReply(this.ShowCalendarList(1))
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowReadOutEventList())
@@ -222,24 +222,19 @@ namespace CalendarSkillTest.Flow
             return this.ParseReplies(SummaryResponses.AskForShowOverview, responseParams);
         }
 
-        private Action<IActivity> FoundOneEventPrompt(string dateTime = "today")
+        private string[] FoundOneEventPrompt(string dateTime = "today")
         {
-            return activity =>
+            var responseParams = new StringDictionary()
             {
-                var messageActivity = activity.AsMessageActivity();
-                var responseParams = new StringDictionary()
-                {
-                    { "Count", "1" },
-                    { "EventName1", Strings.Strings.DefaultEventName },
-                    { "EventDuration", "1 hour" },
-                    { "DateTime", dateTime },
-                    { "EventTime1", "at 10:00 AM" },
-                    { "Participants1", Strings.Strings.DefaultUserName }
-                };
-
-                var parsedReplies = this.ParseReplies(SummaryResponses.ShowOneMeetingSummaryMessage, responseParams);
-                CollectionAssert.Contains(parsedReplies, messageActivity.Text);
+                { "Count", "1" },
+                { "EventName1", Strings.Strings.DefaultEventName },
+                { "EventDuration", "1 hour" },
+                { "DateTime", dateTime },
+                { "EventTime1", "at 6:00 PM" },
+                { "Participants1", Strings.Strings.DefaultUserName }
             };
+
+            return this.ParseReplies(SummaryResponses.ShowOneMeetingSummaryMessage, responseParams);
         }
 
         private string[] FoundOneEventAgainPrompt(string dateTime = "today")
@@ -307,17 +302,22 @@ namespace CalendarSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var parsedResponses = this.ParseReplies(
-                    SummaryResponses.ReadOutMessage,
-                    new StringDictionary()
+                CollectionAssert.Contains(
+                    this.ParseReplies(SummaryResponses.ReadOutMessage, new StringDictionary()
                     {
-                        { "Date", DateTime.UtcNow.AddDays(1).ToUniversalTime().ToString(CommonStrings.DisplayDateFormat_CurrentYear) },
-                        { "Time", "at 10:00 AM" },
-                        { "Participants", Strings.Strings.DefaultUserName },
-                        { "Subject", Strings.Strings.DefaultEventName }
-                    });
-
-                CollectionAssert.Contains(parsedResponses, messageActivity.Text, $"Expected something like {parsedResponses[0]}, recieved {messageActivity.Text}");
+                        {
+                            "Date", DateTime.Now.AddDays(1).ToString(CommonStrings.DisplayDateFormat_CurrentYear)
+                        },
+                        {
+                            "Time", "at 6:00 PM"
+                        },
+                        {
+                            "Participants", Strings.Strings.DefaultUserName
+                        },
+                        {
+                            "Subject", Strings.Strings.DefaultEventName
+                        }
+                    }), messageActivity.Text);
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
         }
