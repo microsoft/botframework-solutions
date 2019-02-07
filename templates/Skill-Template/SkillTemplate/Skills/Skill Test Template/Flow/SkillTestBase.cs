@@ -1,15 +1,18 @@
 ﻿using Autofac;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
-using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Testing;
 using Microsoft.Bot.Solutions.Testing.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using $safeprojectname$.Flow.LuisTestUtils;
+using $ext_safeprojectname$.Dialogs.Main.Resources;
+using $ext_safeprojectname$.Dialogs.Sample.Resources;
+using $ext_safeprojectname$.Dialogs.Shared.Resources;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 namespace $safeprojectname$.Flow
@@ -47,8 +50,13 @@ namespace $safeprojectname$.Flow
             builder.RegisterInstance(new BotStateSet(UserState, ConversationState));
             Container = builder.Build();
 
-            BotResponseBuilder = new BotResponseBuilder();
-            BotResponseBuilder.AddFormatter(new TextBotResponseFormatter());
+                ResponseManager = new ResponseManager(
+                new IResponseIdCollection[] 
+                {
+                    new MainResponses(),
+                    new SharedResponses(),
+                    new SampleResponses()
+                }, Services.LocaleConfigurations.Keys.ToArray());
         }
 
         public TestFlow GetTestFlow()
@@ -67,7 +75,7 @@ namespace $safeprojectname$.Flow
 
         public override IBot BuildBot()
         {
-            return new $ext_safeprojectname$.$ext_safeprojectname$(Services, ConversationState, UserState, TelemetryClient, false, null);
+            return new $ext_safeprojectname$.$ext_safeprojectname$(Services, ConversationState, UserState, TelemetryClient, false, ResponseManager, null);
         }
     }
 }

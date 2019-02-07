@@ -33,7 +33,6 @@ namespace $safeprojectname$.Dialogs.Main
         private IServiceManager _serviceManager;
         private IStatePropertyAccessor<SkillConversationState> _conversationStateAccessor;
         private IStatePropertyAccessor<SkillUserState> _userStateAccessor;
-        private SkillTemplateResponseBuilder _responseBuilder = new SkillTemplateResponseBuilder();
 
         public MainDialog(
             SkillConfigurationBase services,
