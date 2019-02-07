@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Dialogs\**" />
+    <EmbeddedResource Remove="Dialogs\**" />
+    <None Remove="Dialogs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Include="Responses\TestResponses.es.json" />
     <EmbeddedResource Include="Responses\TestResponses.json" />
     <EmbeddedResource Include="Skills\Fakes\FakeSkill\Dialogs\Main\Resources\MainResponses.de.json">
@@ -183,10 +189,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SampleDialogUtterances.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Dialogs\" />
   </ItemGroup>
 
 </Project>
