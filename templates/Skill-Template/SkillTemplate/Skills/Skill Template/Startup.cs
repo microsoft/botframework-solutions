@@ -17,9 +17,12 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using $safeprojectname$.Dialogs.Main.Resources;
+using $safeprojectname$.Dialogs.Sample.Resources;
 using $safeprojectname$.Dialogs.Shared.Resources;
 using $safeprojectname$.ServiceClients;
 
@@ -58,8 +61,18 @@ namespace $safeprojectname$
             var configuration = Configuration.GetSection("configuration")?.GetChildren()?.ToDictionary(x => x.Key, y => y.Value as object);
             var supportedProviders = Configuration.GetSection("supportedProviders")?.Get<string[]>();
             var languageModels = Configuration.GetSection("languageModels").Get<Dictionary<string, Dictionary<string, string>>>();
-            SkillConfigurationBase connectedServices = new SkillConfiguration(botConfig, languageModels, supportedProviders, parameters, configuration);
+            var connectedServices = new SkillConfiguration(botConfig, languageModels, supportedProviders, parameters, configuration);
             services.AddSingleton<SkillConfigurationBase>(sp => connectedServices);
+
+            var responseManager = new ResponseManager(
+                new IResponseIdCollection[]
+                {
+                                new MainResponses(),
+                                new SharedResponses(),
+                                new SampleResponses()
+                }, connectedServices.LocaleConfigurations.Keys.ToArray());
+
+            services.AddSingleton(sp => responseManager));
 
             var defaultLocale = Configuration.GetSection("defaultLocale").Get<string>();
 

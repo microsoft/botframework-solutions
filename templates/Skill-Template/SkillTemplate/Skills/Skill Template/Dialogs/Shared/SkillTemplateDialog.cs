@@ -11,6 +11,7 @@ using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Prompts;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Newtonsoft.Json.Linq;
@@ -25,6 +26,7 @@ namespace $safeprojectname$.Dialogs.Shared
         public SkillTemplateDialog(
             string dialogId,
             SkillConfigurationBase services,
+            ResponseManager responseManager,
             IStatePropertyAccessor<SkillConversationState> conversationStateAccessor,
             IStatePropertyAccessor<SkillUserState> userStateAccessor,
             IServiceManager serviceManager,
@@ -32,6 +34,7 @@ namespace $safeprojectname$.Dialogs.Shared
             : base(dialogId)
         {
             Services = services;
+            responseManager = responseManager;
             ConversationStateAccessor = conversationStateAccessor;
             UserStateAccessor = userStateAccessor;
             ServiceManager = serviceManager;
@@ -92,7 +95,7 @@ namespace $safeprojectname$.Dialogs.Shared
                 }
                 else
                 {
-                    return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = sc.Context.Activity.CreateReply(SharedResponses.NoAuth, ResponseBuilder) });
+                    return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = ResponseManager.GetResponse(SharedResponses.NoAuth, ResponseBuilder) });
                 }
             }
             catch (Exception ex)
@@ -199,7 +202,7 @@ namespace $safeprojectname$.Dialogs.Shared
             TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
 
             // send error message to bot user
-            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(SharedResponses.ErrorMessage));
+            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.ErrorMessage));
 
             // clear state
             var state = await ConversationStateAccessor.GetAsync(sc.Context);

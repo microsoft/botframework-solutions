@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using $safeprojectname$.Dialogs.Sample.Resources;
 using $safeprojectname$.Dialogs.Shared;
@@ -16,11 +17,12 @@ namespace $safeprojectname$.Dialogs.Sample
     {
         public SampleDialog(
             SkillConfigurationBase services,
+            ResponseManager responseManager,
             IStatePropertyAccessor<SkillConversationState> conversationStateAccessor,
             IStatePropertyAccessor<SkillUserState> userStateAccessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(SampleDialog), services, conversationStateAccessor, userStateAccessor, serviceManager, telemetryClient)
+            : base(nameof(SampleDialog), services, responseManager, conversationStateAccessor, userStateAccessor, serviceManager, telemetryClient)
         {
             var sample = new WaterfallStep[]
             {
@@ -45,7 +47,7 @@ namespace $safeprojectname$.Dialogs.Sample
             // var intent = state.LuisResult.TopIntent().intent;
             // var entities = state.LuisResult.Entities;
 
-            var prompt = stepContext.Context.Activity.CreateReply(SampleResponses.NamePrompt);
+            var prompt = ResponseManager.GetResponse(SampleResponses.NamePrompt);
             return await stepContext.PromptAsync(DialogIds.NamePrompt, new PromptOptions { Prompt = prompt });
         }
 
@@ -56,7 +58,7 @@ namespace $safeprojectname$.Dialogs.Sample
                 { "Name", stepContext.Result.ToString() },
             };
 
-            var response = stepContext.Context.Activity.CreateReply(SampleResponses.HaveNameMessage, ResponseBuilder, tokens);
+            var response = ResponseManager.GetResponse(SampleResponses.HaveNameMessage, ResponseBuilder, tokens);
             await stepContext.Context.SendActivityAsync(response);
 
             return await stepContext.NextAsync();
