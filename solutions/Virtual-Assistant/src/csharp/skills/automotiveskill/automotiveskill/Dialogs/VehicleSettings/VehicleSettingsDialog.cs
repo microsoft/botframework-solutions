@@ -20,6 +20,8 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Dialogs;
+using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Recognizers.Text;
@@ -29,7 +31,6 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
     public class VehicleSettingsDialog : AutomotiveSkillDialog
     {
         private const string FallbackSettingImageFileName = "Black_Car.png";
-        private static readonly Regex WordRequiresAn = new Regex("^([aio]|e(?!u)|u(?![^aeoiu])).*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex WordCharacter = new Regex("^\\w", RegexOptions.Compiled);
         private static readonly IReadOnlyDictionary<string, string> SettingValueToSpeakableIngForm = new Dictionary<string, string>
         {
@@ -60,7 +61,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
             vehicleSettingNameSelectionLuisRecognizer = services.LocaleConfigurations["en"].LuisServices["settings_name"];
             vehicleSettingValueSelectionLuisRecognizer = services.LocaleConfigurations["en"].LuisServices["settings_value"];
 
-            // JSON resource files provided metatadata as to the available car settings, names and the values that can be set
+            // JSON resource files provided metadata as to the available car settings, names and the values that can be set
             var resDir = Path.Combine(
                 Path.GetDirectoryName(typeof(VehicleSettingsDialog).Assembly.Location),
                 "Dialogs\\VehicleSettings\\Resources\\");
@@ -181,7 +182,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                         var card = new ThumbnailCard
                         {
                             Images = new List<CardImage> { new CardImage(GetSettingCardImageUri(FallbackSettingImageFileName)) },
-                            Text = "Please choose from one of the available settings shown below",
+                            Text = options.Prompt.Text,
                             Buttons = options.Choices.Select(choice =>
                                 new CardAction(ActionTypes.ImBack, choice.Value, value: choice.Value)).ToList(),
                         };
@@ -189,8 +190,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                         options.Prompt.Attachments.Add(card.ToAttachment());
 
                         // Default Text property is clumsy for speech
-                        var speakOptions = options.Choices.Select(choice => choice.Value.ToString()).ToList();
-                        options.Prompt.Speak = $"{options.Prompt.Text} {string.Join(",", speakOptions)}";
+                        options.Prompt.Speak = $"{options.Prompt.Text} {GetSpeakableOptions(options.Choices)}";
 
                         return await sc.PromptAsync(Actions.SettingNameSelectionPrompt, options);
                     }
@@ -224,11 +224,11 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
             {
                 // The response from the user might be the exact setting name or more likely something like "first one" or "last one" so we need to ensure the activity text (used by the LUIS recognizer) is correct
                 // No way to identify this situation so we override
-                var settingChoice = promptContext.Recognized.Value.Value;
+                string settingChoice = promptContext.Recognized.Value.Value;
                 promptContext.Context.Activity.Text = settingChoice;
 
-                // Use the value selection LUIS model to perform validation of the users entered setting value
-                var nameSelectionResult = await vehicleSettingNameSelectionLuisRecognizer.RecognizeAsync<VehicleSettingsNameSelection>(promptContext.Context, CancellationToken.None);
+                // Use the name selection LUIS model to perform validation of the user's entered setting name
+                VehicleSettingsNameSelection nameSelectionResult = await vehicleSettingNameSelectionLuisRecognizer.RecognizeAsync<VehicleSettingsNameSelection>(promptContext.Context, CancellationToken.None);
 
                 if (nameSelectionResult.Entities.SETTING != null)
                 {
@@ -270,21 +270,21 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                 if (!settingValues.Any())
                 {
                     // This shouldn't happen because the SettingFilter would just add all possible values to let the user select from them.
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsOutOfDomain));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsMissingSettingValue));
                     return await sc.EndDialogAsync();
                 }
                 else
                 {
-                    // We have found multiple settings which we need to prompt the user to resolve
+                    // We have found multiple setting values, which we need to prompt the user to resolve
                     if (settingValues.Count() > 1)
                     {
-                        var settingName = state.Changes.First().SettingName;
+                        string settingName = state.Changes.First().SettingName;
                         var setting = this.settingList.FindSetting(settingName);
 
-                        // If a category image filename is provided we'll use it otherwise fall back to the generic car one
-                        var imageName = setting.CategoryImageFileName ?? FallbackSettingImageFileName;
+                        // If an image filename is provided we'll use it otherwise fall back to the generic car one
+                        string imageName = setting.ImageFileName ?? FallbackSettingImageFileName;
 
-                        // If we have more than one setting name matching prompt the user to choose
+                        // If we have more than one setting value matching, prompt the user to choose
                         var options = new PromptOptions()
                         {
                             Choices = new List<Choice>(),
@@ -302,14 +302,11 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                         }
 
                         var promptReplacements = new StringDictionary { { "settingName", settingName } };
-                        options.Prompt = ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsSettingValueSelectionPre, promptReplacements);
-
-                        var whichSettingTemplate = ResponseManager.GetResponseTemplate(VehicleSettingsResponses.WhichSettingValue);
+                        options.Prompt = ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsSettingValueSelection, promptReplacements);
 
                         var card = new ThumbnailCard
                         {
-                            Title = options.Prompt.Text,
-                            Text = whichSettingTemplate.Reply.Text,
+                            Text = options.Prompt.Text,
                             Images = new List<CardImage> { new CardImage(GetSettingCardImageUri(imageName)) },
                             Buttons = options.Choices.Select(choice =>
                                 new CardAction(ActionTypes.ImBack, choice.Value, value: choice.Value)).ToList(),
@@ -318,8 +315,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                         options.Prompt.Attachments.Add(card.ToAttachment());
 
                         // Default Text property is clumsy for speech
-                        var speakOptions = options.Choices.Select(choice => choice.Value.ToString()).ToList();
-                        options.Prompt.Speak = $"{options.Prompt.Text} {string.Join(",", speakOptions)}";
+                        options.Prompt.Speak = $"{options.Prompt.Text} {GetSpeakableOptions(options.Choices)}";
 
                         return await sc.PromptAsync(Actions.SettingValueSelectionPrompt, options);
                     }
@@ -339,7 +335,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
         }
 
         /// <summary>
-        /// Take the users input for setting validation and validate it matches the chosen setting - e.g. off for park assist or 21c for temperature.
+        /// Take the users input for setting value selection and validate it matches the chosen setting value - e.g. Off for Parking Assistance.
         /// </summary>
         /// <param name="promptContext">Prompt Context.</param>
         /// <param name="cancellationToken">Cancellation Token.</param>
@@ -350,15 +346,15 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
 
             if (promptContext.Recognized != null && promptContext.Recognized.Succeeded)
             {
-                // The response from the user might be the exact setting name or more likely something like "first one" or "last one" so we need to ensure the activity text (used by the LUIS recognizer) is correct
+                // The response from the user might be the exact setting value or more likely something like "first one" or "last one" so we need to ensure the activity text (used by the LUIS recognizer) is correct
                 // No way to identify this situation so we override
-                var valueChoice = promptContext.Recognized.Value.Value;
+                string valueChoice = promptContext.Recognized.Value.Value;
                 promptContext.Context.Activity.Text = valueChoice;
 
                 // Use the value selection LUIS model to perform validation of the users entered setting value
-                var valueSelectionResult = await vehicleSettingValueSelectionLuisRecognizer.RecognizeAsync<VehicleSettingsValueSelection>(promptContext.Context, CancellationToken.None);
+                VehicleSettingsValueSelection valueSelectionResult = await vehicleSettingValueSelectionLuisRecognizer.RecognizeAsync<VehicleSettingsValueSelection>(promptContext.Context, CancellationToken.None);
 
-                var valueEntities = new List<string>();
+                List<string> valueEntities = new List<string>();
                 if (valueSelectionResult.Entities.VALUE != null)
                 {
                     valueEntities.AddRange(valueSelectionResult.Entities.VALUE);
@@ -407,23 +403,9 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                         var promptTemplate = VehicleSettingsResponses.VehicleSettingsSettingChangeConfirmation;
                         var promptReplacements = new StringDictionary
                         {
-                                    { "settingName", change.SettingName },
-                                    { "value", change.Value },
+                            { "settingName", change.SettingName },
+                            { "value", change.Value },
                         };
-
-                        if (availableSetting != null && !string.IsNullOrEmpty(availableSetting.Category))
-                        {
-                            promptTemplate = VehicleSettingsResponses.VehicleSettingsSettingChangeConfirmationWithCategory;
-                            promptReplacements.Add("category", availableSetting.Category);
-                            if (WordRequiresAn.Match(promptReplacements["category"]).Success)
-                            {
-                                promptReplacements.Add("aOrAnBeforeCategory", "an");
-                            }
-                            else
-                            {
-                                promptReplacements.Add("aOrAnBeforeCategory", "a");
-                            }
-                        }
 
                         // TODO - Explore moving to ConfirmPrompt following usability testing
                         var prompt = ResponseManager.GetResponse(promptTemplate, promptReplacements);
@@ -506,7 +488,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                 }
                 else
                 {
-                    // Binary event (on/off)
+                    // Nominal (non-numeric) change (e.g., on/off)
                     string promptTemplate;
                     var promptReplacements = new StringDictionary { { "settingName", change.SettingName } };
                     if (SettingValueToSpeakableIngForm.TryGetValue(change.Value.ToLowerInvariant(), out var valueIngForm))
@@ -549,7 +531,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
         private async Task SendActionToDevice(WaterfallStepContext sc, SettingChange setting, StringDictionary settingDetail)
         {
             // remove whitespace to create Event Name and prefix with Automotive Skill
-            var reducedName = $"AutomotiveSkill.{Regex.Replace(setting.SettingName, @"\s+", string.Empty)}";
+            string reducedName = $"AutomotiveSkill.{Regex.Replace(setting.SettingName, @"\s+", string.Empty)}";
 
             var actionEvent = sc.Context.Activity.CreateReply();
             actionEvent.Type = ActivityTypes.Event;
@@ -564,7 +546,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
             // If we are in local mode we leverage the HttpContext to get the current path to the image assets
             if (_httpContext != null)
             {
-                var serverUrl = _httpContext.HttpContext.Request.Scheme + "://" + _httpContext.HttpContext.Request.Host.Value;
+                string serverUrl = _httpContext.HttpContext.Request.Scheme + "://" + _httpContext.HttpContext.Request.Host.Value;
                 return $"{serverUrl}/images/{imagePath}";
             }
             else
@@ -582,6 +564,18 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                     return $"{imageUriStr}/{imagePath}";
                 }
             }
+        }
+
+        private string GetSpeakableOptions(IList<Choice> choices)
+        {
+            IList<string> speakableChoices = new List<string>();
+            for (int i = 0; i < choices.Count(); ++i)
+            {
+                // The dash makes the voice take a short break, which is what a human would do when reading out a numbered list.
+                speakableChoices.Add($"{(i + 1).ToString()} - {choices[i].Value.ToString()}.");
+            }
+
+            return string.Join(", ", speakableChoices);
         }
     }
 }

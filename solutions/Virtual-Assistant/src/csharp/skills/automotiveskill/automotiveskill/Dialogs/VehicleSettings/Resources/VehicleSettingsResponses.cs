@@ -16,10 +16,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings.Resources
 		public const string VehicleSettingsSettingNameSelection = "VehicleSettingsSettingNameSelection";
 		public const string VehicleSettingsMissingSettingValue = "VehicleSettingsMissingSettingValue";
 		public const string VehicleSettingsSettingValueSelection = "VehicleSettingsSettingValueSelection";
-		public const string VehicleSettingsSettingValueSelectionPre = "VehicleSettingsSettingValueSelectionPre";
-		public const string VehicleSettingsSettingValueSelectionPost = "VehicleSettingsSettingValueSelectionPost";
 		public const string VehicleSettingsSettingChangeConfirmation = "VehicleSettingsSettingChangeConfirmation";
-		public const string VehicleSettingsSettingChangeConfirmationWithCategory = "VehicleSettingsSettingChangeConfirmationWithCategory";
 		public const string VehicleSettingsSettingChangeConfirmationDenied = "VehicleSettingsSettingChangeConfirmationDenied";
 		public const string VehicleSettingsSettingChangeNoOpValue = "VehicleSettingsSettingChangeNoOpValue";
 		public const string VehicleSettingsSettingChangeNoOpAmount = "VehicleSettingsSettingChangeNoOpAmount";
@@ -33,7 +30,6 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings.Resources
 		public const string VehicleSettingsCheckingStatusAmountSuccess = "VehicleSettingsCheckingStatusAmountSuccess";
 		public const string VehicleSettingsCheckingStatusUnsupported = "VehicleSettingsCheckingStatusUnsupported";
 		public const string VehicleSettingsOutOfDomain = "VehicleSettingsOutOfDomain";
-		public const string WhichSettingValue = "WhichSettingValue";
 
     }
 }

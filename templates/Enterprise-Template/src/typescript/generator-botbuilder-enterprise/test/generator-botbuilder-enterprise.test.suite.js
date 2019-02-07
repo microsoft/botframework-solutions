@@ -7,153 +7,251 @@ const _camelCase = require("lodash/camelCase");
 const _upperFirst = require("lodash/upperFirst");
 const _kebabCase = require("lodash/kebabCase");
 
-describe("The generator-botbuilder-enterprise tests", () => {
-  var botName = "myBot";
-  const botDesc = "A description for myBot";
-  const botLang = "en";
-  botName = _kebabCase(botName).replace(/([^a-z0-9-]+)/gi, "");
-  const botNamePascalCase = _upperFirst(_camelCase(botName));
-  const botNameCamelCase = _camelCase(botName);
-  const botGenerationPath = path.join("tmp", botName);
+describe("The generator-botbuilder-enterprise tests", function() {
+  var botName;
+  var botDesc;
+  var botLang;
+  var botNamePascalCase;
+  var botNameCamelCase;
+  var botGenerationPath;
+  var confirmationPath;
+  var finalConfirmation;
+  const cognitiveDirectories = ["LUIS", "QnA"];
+  const commonDirectories = [
+    "dialogs",
+    "extensions",
+    "locales",
+    "middleware",
+    "serviceClients"
+  ];
+  const rootFiles = [
+    ".env.development",
+    ".env.production",
+    "gitignore",
+    "README.md",
+    "tsconfig.json",
+    "deploymentScripts/webConfigPrep.js",
+    "package.json",
+    "tslint.json"
+  ];
+  
+  describe("should create", function() {
+    botName = "myBot";
+    botDesc = "A description for myBot";
+    botLang = "en";
+    botName = _kebabCase(botName).replace(/([^a-z0-9-]+)/gi, "");
+    botNamePascalCase = _upperFirst(_camelCase(botName));
+    botNameCamelCase = _camelCase(botName);
+    botGenerationPath = path.join("tmp", botName);
+    confirmationPath = true;
+    finalConfirmation = true;
+    const srcFiles = [botNameCamelCase + ".ts", "botServices.ts"];
 
-  before(() => {
-    return helpers
-      .run(path.join(__dirname, "../generators/app"))
-      .inDir(path.join(__dirname, "tmp"))
-      .withPrompts({
-        botName: botName,
-        botDesc: botDesc,
-        botLang: botLang,
-        confirmationPath: true,
-        botGenerationPath: process.cwd(),
-        finalConfirmation: true
+    before(function() {
+      return helpers
+        .run(path.join(__dirname, "../generators/app"))
+        .inDir(path.join(__dirname, "tmp"))
+        .withPrompts({
+          botName: botName,
+          botDesc: botDesc,
+          botLang: botLang,
+          confirmationPath: confirmationPath,
+          botGenerationPath: botGenerationPath,
+          finalConfirmation: finalConfirmation
+        });
+    });
+
+    after(function() {
+      rimraf.sync(path.join(__dirname, "tmp/*"));
+    });
+
+    describe("the base", function() {
+      it(botName + " folder", function(done) {
+        assert.file(path.join(__dirname, botGenerationPath));
+        done();
       });
-  });
+    });
 
-  after(() => {
-    rimraf.sync(path.join(__dirname, "tmp/*"));
-  });
+    describe("the folders", function() {
+      commonDirectories.forEach(directoryName =>
+        it(directoryName + " folder", function(done) {
+          assert.file(
+            path.join(__dirname, botGenerationPath, "src", directoryName)
+          );
+          done();
+        })
+      );
 
-  describe("should create", () => {
-    const commonDirectories = [
-      "dialogs",
-      "extensions",
-      "locales",
-      "middleware",
-      "serviceClients"
-    ];
-    commonDirectories.forEach(directoryName =>
-      it(directoryName + " folder", () => {
+      
+      cognitiveDirectories.forEach(directoryName =>
+        it(directoryName + " folder", function(done) {
+          assert.file(
+            path.join(
+              __dirname,
+              botGenerationPath,
+              "cognitiveModels",
+              directoryName
+            )
+          );
+          done();
+        })
+      );
+    });
+
+    describe("the languages", function() {
+
+      cognitiveDirectories.forEach(directoryName =>
+        it("language '" + botLang + "' folder in " + directoryName, () => {
+          assert.file(
+            path.join(
+              __dirname,
+              botGenerationPath,
+              "cognitiveModels",
+              directoryName,
+              botLang
+            )
+          );
+        })
+      );
+  
+      it("language '" + botLang + "' folder in deploymentScript", () => {
         assert.file(
-          path.join(__dirname, botGenerationPath, "src", directoryName)
+          path.join(__dirname, botGenerationPath, "deploymentScripts", botLang)
         );
-      })
-    );
-
-    const cognitiveDirectories = ["LUIS", "QnA"];
-    cognitiveDirectories.forEach(directoryName =>
-      it(directoryName + " folder", () => {
+      });
+  
+      it("language '" + botLang + "' file in locales", () => {
         assert.file(
           path.join(
             __dirname,
             botGenerationPath,
-            "cognitiveModels",
-            directoryName
+            "src",
+            "locales",
+            botLang + ".json"
           )
         );
-      })
-    );
+      });
+    });
+
+    describe("in the root folder", function() {
+      rootFiles.forEach(fileName =>
+        it(fileName + " file", function(done) {
+          assert.file(path.join(__dirname, botGenerationPath, fileName));
+          done();
+        })
+      );
+    });
+
+    describe("in the src folder", function() {
+      
+      srcFiles.forEach(fileName =>
+        it(fileName + " file", function(done) {
+          assert.file(path.join(__dirname, botGenerationPath, "src", fileName));
+          done();
+        })
+      );
+    });
+
+    describe("and have in the package.json", function() {
+      it("a name property with the given name", function(done) {
+        assert.fileContent(
+          path.join(__dirname, botGenerationPath, "/package.json"),
+          `"name": "${botName}"`
+        );
+        done();
+      });
+
+      it("a description property with given description", function(done) {
+        assert.fileContent(
+          path.join(__dirname, botGenerationPath, "/package.json"),
+          `"description": "${botDesc}"`
+        );
+        done();
+      });
+    });
+
+    describe("and have in the index file", function() {
+      it("an import component containing the given name", function(done) {
+        assert.fileContent(
+          path.join(__dirname, botGenerationPath, "/src/index.ts"),
+          `import { ${botNamePascalCase} } from './${botNameCamelCase}'`
+        );
+        done();
+      });
+
+      it("a declaration component with the given name", function(done) {
+        assert.fileContent(
+          path.join(__dirname, botGenerationPath, "/src/index.ts"),
+          `let bot: ${botNamePascalCase}`
+        );
+        done();
+      });
+
+      it("an instantiation component with the given name", function(done) {
+        assert.fileContent(
+          path.join(__dirname, botGenerationPath, "/src/index.ts"),
+          `bot = new ${botNamePascalCase}`
+        );
+        done();
+      });
+    });
+
+    describe("and have in the file with the given name", function() {
+      it("an export component with the given name", function(done) {
+        assert.fileContent(
+          path.join(
+            __dirname,
+            botGenerationPath,
+            "src",
+            botNameCamelCase + ".ts"
+          ),
+          `export class ${botNamePascalCase}`
+        );
+        done();
+      });
+
+      it("a parameter component with the given name", function(done) {
+        assert.fileContent(
+          path.join(
+            __dirname,
+            botGenerationPath,
+            "src",
+            botNameCamelCase + ".ts"
+          ),
+          `('${botNamePascalCase}')`
+        );
+        done();
+      });
+    });
   });
 
-  describe("should create in the root folder", () => {
-    const rootFiles = [
-      ".env.development",
-      ".env.production",
-      "gitignore",
-      "README.md",
-      "tsconfig.json",
-      "deploymentScripts/webConfigPrep.js",
-      "package.json",
-      "tslint.json"
-    ];
-    rootFiles.forEach(fileName =>
-      it(fileName + " file", () => {
-        assert.file(path.join(__dirname, botGenerationPath, fileName));
-      })
-    );
-  });
-
-  describe("should create in the src folder", () => {
-    const srcFiles = [botNameCamelCase + ".ts", "botServices.ts"];
-    srcFiles.forEach(fileName =>
-      it(fileName + " file", () => {
-        assert.file(path.join(__dirname, botGenerationPath, "src", fileName));
-      })
-    );
-  });
-
-  describe("should have in the package.json", () => {
-    it("a name property with the given name", () => {
-      assert.fileContent(
-        path.join(__dirname, botGenerationPath, "/package.json"),
-        `"name": "${botName}"`
-      );
+  describe("should not create", function() {
+    before(function() {
+      finalConfirmation = false;
+      return helpers
+        .run(path.join(__dirname, "../generators/app"))
+        .inDir(path.join(__dirname, "tmp"))
+        .withPrompts({
+          botName: botName,
+          botDesc: botDesc,
+          botLang: botLang,
+          confirmationPath: confirmationPath,
+          botGenerationPath: botGenerationPath,
+          finalConfirmation: finalConfirmation
+        });
     });
 
-    it("a description property with given description", () => {
-      assert.fileContent(
-        path.join(__dirname, botGenerationPath, "/package.json"),
-        `"description": "${botDesc}"`
-      );
-    });
-  });
-
-  describe("should have in the index file", () => {
-    it("an import component containing the given name", () => {
-      assert.fileContent(
-        path.join(__dirname, botGenerationPath, "/src/index.ts"),
-        `import { ${botNamePascalCase} } from './${botNameCamelCase}'`
-      );
+    after(function() {
+      rimraf.sync(path.join(__dirname, "tmp/*"));
     });
 
-    it("a declaration component with the given name", () => {
-      assert.fileContent(
-        path.join(__dirname, botGenerationPath, "/src/index.ts"),
-        `let bot: ${botNamePascalCase}`
-      );
-    });
-
-    it("an instantiation component with the given name", () => {
-      assert.fileContent(
-        path.join(__dirname, botGenerationPath, "/src/index.ts"),
-        `bot = new ${botNamePascalCase}`
-      );
-    });
-  });
-
-  describe("should have in the file with the given name", () => {
-    it("an export component with the given name", () => {
-      assert.fileContent(
-        path.join(
-          __dirname,
-          botGenerationPath,
-          "src",
-          botNameCamelCase + ".ts"
-        ),
-        `export class ${botNamePascalCase}`
-      );
-    });
-
-    it("a parameter component with the given name", () => {
-      assert.fileContent(
-        path.join(
-          __dirname,
-          botGenerationPath,
-          "src",
-          botNameCamelCase + ".ts"
-        ),
-        `('${botNamePascalCase}')`
-      );
+    describe("the base", function() {
+      it(botName + " folder when the final confirmation is deny", function(
+        done
+      ) {
+        assert.noFile(path.join(__dirname, botGenerationPath));
+        done();
+      });
     });
   });
 });
