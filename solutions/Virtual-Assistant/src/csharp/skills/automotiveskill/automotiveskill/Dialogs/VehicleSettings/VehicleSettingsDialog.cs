@@ -102,10 +102,6 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
         {
             var state = await Accessor.GetAsync(sc.Context, () => new AutomotiveSkillState());
 
-            // Ensure we don't have state from a previous instantiation
-            state.Changes.Clear();
-            state.Entities.Clear();
-
             var luisResult = state.VehicleSettingsLuisResult;
             var topIntent = luisResult?.TopIntent().intent;
 
@@ -113,37 +109,6 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
             {
                 case Luis.VehicleSettings.Intent.VEHICLE_SETTINGS_CHANGE:
                 case Luis.VehicleSettings.Intent.VEHICLE_SETTINGS_DECLARATIVE:
-
-                    // Process the LUIS result and add entities to the State accessors for ease of access
-                    if (luisResult.Entities.AMOUNT != null)
-                    {
-                        state.Entities.Add(nameof(luisResult.Entities.AMOUNT), luisResult.Entities.AMOUNT);
-                    }
-
-                    if (luisResult.Entities.INDEX != null)
-                    {
-                        state.Entities.Add(nameof(luisResult.Entities.INDEX), luisResult.Entities.INDEX);
-                    }
-
-                    if (luisResult.Entities.SETTING != null)
-                    {
-                        state.Entities.Add(nameof(luisResult.Entities.SETTING), luisResult.Entities.SETTING);
-                    }
-
-                    if (luisResult.Entities.TYPE != null)
-                    {
-                        state.Entities.Add(nameof(luisResult.Entities.TYPE), luisResult.Entities.TYPE);
-                    }
-
-                    if (luisResult.Entities.UNIT != null)
-                    {
-                        state.Entities.Add(nameof(luisResult.Entities.UNIT), luisResult.Entities.UNIT);
-                    }
-
-                    if (luisResult.Entities.VALUE != null)
-                    {
-                        state.Entities.Add(nameof(luisResult.Entities.VALUE), luisResult.Entities.VALUE);
-                    }
 
                     // Perform post-processing on the entities, if it's declarative we indicate for special processing (opposite of the condition they've expressed)
                     settingFilter.PostProcessSettingName(state, topIntent.Value == Luis.VehicleSettings.Intent.VEHICLE_SETTINGS_DECLARATIVE ? true : false);
@@ -169,10 +134,14 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                         for (var i = 0; i < settingNames.Count; ++i)
                         {
                             var item = settingNames[i];
+                            List<string> synonyms = new List<string>();
+                            synonyms.Add(item);
+                            synonyms.Add((i + 1).ToString());
+                            synonyms.AddRange(settingList.GetAlternativeNamesForSetting(item));
                             var choice = new Choice()
                             {
                                 Value = item,
-                                Synonyms = new List<string> { (i + 1).ToString(), item },
+                                Synonyms = synonyms,
                             };
                             options.Choices.Add(choice);
                         }
@@ -220,34 +189,27 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
         {
             var state = await Accessor.GetAsync(promptContext.Context);
 
-            if (promptContext.Recognized != null && promptContext.Recognized.Succeeded)
+            // Use the name selection LUIS model to perform validation of the user's entered setting name
+            VehicleSettingsNameSelection nameSelectionResult = await vehicleSettingNameSelectionLuisRecognizer.RecognizeAsync<VehicleSettingsNameSelection>(promptContext.Context, CancellationToken.None);
+            state.AddRecognizerResult(nameSelectionResult);
+
+            List<string> selectedSettingNames = new List<string>();
+            if (nameSelectionResult.Entities.SETTING != null)
             {
-                // The response from the user might be the exact setting name or more likely something like "first one" or "last one" so we need to ensure the activity text (used by the LUIS recognizer) is correct
-                // No way to identify this situation so we override
-                string settingChoice = promptContext.Recognized.Value.Value;
-                promptContext.Context.Activity.Text = settingChoice;
+                selectedSettingNames.AddRange(nameSelectionResult.Entities.SETTING);
+            }
+            else if (promptContext.Recognized.Value != null && promptContext.Recognized.Value.Value != null)
+            {
+                selectedSettingNames.Add(promptContext.Recognized.Value.Value);
+            }
 
-                // Use the name selection LUIS model to perform validation of the user's entered setting name
-                VehicleSettingsNameSelection nameSelectionResult = await vehicleSettingNameSelectionLuisRecognizer.RecognizeAsync<VehicleSettingsNameSelection>(promptContext.Context, CancellationToken.None);
+            if (selectedSettingNames.Any())
+            {
+                var selectedChanges = settingFilter.ApplySelectionToSettings(state, selectedSettingNames, state.Changes);
 
-                if (nameSelectionResult.Entities.SETTING != null)
+                if (selectedChanges != null)
                 {
-                    // We have a clarified setting so remove the previous entity extraction and change identification work
-                    if (state.Entities.ContainsKey(nameof(nameSelectionResult.Entities.SETTING)))
-                    {
-                        state.Entities.Remove(nameof(nameSelectionResult.Entities.SETTING));
-                    }
-
-                    state.Changes.Clear();
-
-                    state.Entities.Add(nameof(nameSelectionResult.Entities.SETTING), nameSelectionResult.Entities.SETTING);
-
-                    // Perform post-processing on the entities
-                    settingFilter.PostProcessSettingName(state);
-
-                    // Perform content logic and remove entities that don't make sense
-                    settingFilter.ApplyContentLogic(state);
-
+                    state.Changes = selectedChanges;
                     return true;
                 }
             }
@@ -293,10 +255,14 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                         for (var i = 0; i < settingValues.Count; ++i)
                         {
                             var item = settingValues[i];
+                            List<string> synonyms = new List<string>();
+                            synonyms.Add(item);
+                            synonyms.Add((i + 1).ToString());
+                            synonyms.AddRange(settingList.GetAlternativeNamesForSettingValue(settingName, item));
                             var choice = new Choice()
                             {
                                 Value = item,
-                                Synonyms = new List<string> { (i + 1).ToString(), item },
+                                Synonyms = synonyms,
                             };
                             options.Choices.Add(choice);
                         }
@@ -344,32 +310,32 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
         {
             var state = await Accessor.GetAsync(promptContext.Context);
 
-            if (promptContext.Recognized != null && promptContext.Recognized.Succeeded)
+            // Use the value selection LUIS model to perform validation of the users entered setting value
+            VehicleSettingsValueSelection valueSelectionResult = await vehicleSettingValueSelectionLuisRecognizer.RecognizeAsync<VehicleSettingsValueSelection>(promptContext.Context, CancellationToken.None);
+            state.AddRecognizerResult(valueSelectionResult);
+
+            List<string> valueEntities = new List<string>();
+            if (valueSelectionResult.Entities.VALUE != null)
             {
-                // The response from the user might be the exact setting value or more likely something like "first one" or "last one" so we need to ensure the activity text (used by the LUIS recognizer) is correct
-                // No way to identify this situation so we override
-                string valueChoice = promptContext.Recognized.Value.Value;
-                promptContext.Context.Activity.Text = valueChoice;
+                valueEntities.AddRange(valueSelectionResult.Entities.VALUE);
+            }
+            else if (valueSelectionResult.Entities.SETTING != null)
+            {
+                valueEntities.AddRange(valueSelectionResult.Entities.SETTING);
+            }
+            else if (promptContext.Recognized.Value != null && promptContext.Recognized.Value.Value != null)
+            {
+                valueEntities.Add(promptContext.Recognized.Value.Value);
+            }
 
-                // Use the value selection LUIS model to perform validation of the users entered setting value
-                VehicleSettingsValueSelection valueSelectionResult = await vehicleSettingValueSelectionLuisRecognizer.RecognizeAsync<VehicleSettingsValueSelection>(promptContext.Context, CancellationToken.None);
-
-                List<string> valueEntities = new List<string>();
-                if (valueSelectionResult.Entities.VALUE != null)
-                {
-                    valueEntities.AddRange(valueSelectionResult.Entities.VALUE);
-                }
-                else if (valueSelectionResult.Entities.SETTING != null)
-                {
-                    valueEntities.AddRange(valueSelectionResult.Entities.SETTING);
-                }
-
-                var selectedValue = settingFilter.ApplySelectionToSettingValues(state, valueEntities);
+            if (valueEntities.Any())
+            {
+                var selectedChanges = settingFilter.ApplySelectionToSettingValues(state, valueEntities);
 
                 // We identified a setting value, proceed
-                if (selectedValue != null)
+                if (selectedChanges != null)
                 {
-                    state.Changes = selectedValue;
+                    state.Changes = selectedChanges;
                     return true;
                 }
             }

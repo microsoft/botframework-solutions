@@ -81,6 +81,9 @@ namespace AutomotiveSkillTest.Flow.Fakes
                 case "adjust equalizer":
                     this.Entities.SETTING = new string[] { "equalizer" };
                     break;
+                case "change pedestrian detection":
+                    this.Entities.SETTING = new string[] { "pedestrian detection" };
+                    break;
                 default:
                     return (VehicleSettings.Intent.None, 0.0);
             }
