@@ -90,12 +90,12 @@ namespace EmailSkillTest.Flow
 
         private string[] NotSendingMessage()
         {
-            return this.ParseReplies(EmailSharedResponses.CancellingMessage.Replies, new StringDictionary());
+            return this.ParseReplies(EmailSharedResponses.CancellingMessage, new StringDictionary());
         }
 
         private string[] NoFocusMessage()
         {
-            return this.ParseReplies(EmailSharedResponses.NoFocusMessage.Replies, new StringDictionary());
+            return this.ParseReplies(EmailSharedResponses.NoFocusMessage, new StringDictionary());
         }
 
         private Action<IActivity> AfterSendingMessage(string subject)
@@ -109,7 +109,7 @@ namespace EmailSkillTest.Flow
                     { "Subject", subject },
                 };
 
-                var replies = this.ParseReplies(EmailSharedResponses.SentSuccessfully.Replies, stringToken);
+                var replies = this.ParseReplies(EmailSharedResponses.SentSuccessfully, stringToken);
                 CollectionAssert.Contains(replies, messageActivity.Text);
             };
         }
@@ -119,7 +119,7 @@ namespace EmailSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                CollectionAssert.Contains(this.ParseReplies(EmailSharedResponses.ConfirmSend.Replies, new StringDictionary()), messageActivity.Text);
+                CollectionAssert.Contains(this.ParseReplies(EmailSharedResponses.ConfirmSend, new StringDictionary()), messageActivity.Text);
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
         }
@@ -132,7 +132,7 @@ namespace EmailSkillTest.Flow
 
                 // Get showed mails:
                 var showedItems = ((MockServiceManager)this.ServiceManager).MailService.MyMessages;
-                var replies = this.ParseReplies(EmailSharedResponses.ShowEmailPrompt.Replies, new StringDictionary()
+                var replies = this.ParseReplies(EmailSharedResponses.ShowEmailPrompt, new StringDictionary()
                 {
                     { "TotalCount", showedItems.Count.ToString() },
                     { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(showedItems, TimeZoneInfo.Local, ConfigData.GetInstance().MaxReadSize) },
@@ -145,7 +145,7 @@ namespace EmailSkillTest.Flow
 
         private string[] CollectEmailContentMessage()
         {
-            return this.ParseReplies(EmailSharedResponses.NoEmailContent.Replies, new StringDictionary());
+            return this.ParseReplies(EmailSharedResponses.NoEmailContent, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()

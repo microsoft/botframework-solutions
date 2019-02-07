@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CalendarSkill;
 using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
 using Microsoft.Graph;
@@ -31,7 +30,7 @@ namespace CalendarSkillTest.Flow.Fakes
         {
             var eventList = new List<EventModel>();
 
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 eventList.Add(CreateEventModel());
             }
@@ -42,10 +41,10 @@ namespace CalendarSkillTest.Flow.Fakes
         public static List<EventModel> FakeMultipleNextEvents(int count)
         {
             var eventList = new List<EventModel>();
-            DateTime startDateTime = DateTime.UtcNow.AddHours(1);
-            DateTime endDateTime = startDateTime.AddHours(1);
+            var startDateTime = DateTime.UtcNow.AddHours(1);
+            var endDateTime = startDateTime.AddHours(1);
 
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 eventList.Add(CreateEventModel(
                     startDateTime: startDateTime,
@@ -105,8 +104,8 @@ namespace CalendarSkillTest.Flow.Fakes
             // Another example date format: `new DateTime(2017, 12, 1, 9, 30, 0).ToString("o")`
             if (startDateTime == null)
             {
-                DateTime now = DateTime.Now;
-                DateTime startTime = new DateTime(now.Year, now.Month, now.Day, 18, 0, 0);
+                var now = DateTime.Now;
+                var startTime = new DateTime(now.Year, now.Month, now.Day, 18, 0, 0);
                 startTime = TimeZoneInfo.ConvertTimeToUtc(startTime);
                 startDateTime = startTime.AddDays(1);
             }

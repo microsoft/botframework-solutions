@@ -118,7 +118,7 @@ namespace CalendarSkillTest.Flow
 
         private string[] NextMeetingPrompt()
         {
-            return this.ParseReplies(SummaryResponses.ShowNextMeetingMessage.Replies, new StringDictionary());
+            return this.ParseReplies(SummaryResponses.ShowNextMeetingMessage, new StringDictionary());
         }
 
         private string[] BeforeShowEventDetailsPrompt()
@@ -127,7 +127,7 @@ namespace CalendarSkillTest.Flow
             {
                 { "EventName", Strings.Strings.DefaultEventName },
             };
-            return this.ParseReplies(SummaryResponses.BeforeShowEventDetails.Replies, responseParams);
+            return this.ParseReplies(SummaryResponses.BeforeShowEventDetails, responseParams);
         }
 
         private string[] ReadTimePrompt()
@@ -137,7 +137,7 @@ namespace CalendarSkillTest.Flow
                 { "EventStartTime", "6:00 PM" },
                 { "EventEndTime", "7:00 PM" },
             };
-            return this.ParseReplies(SummaryResponses.ReadTime.Replies, responseParams);
+            return this.ParseReplies(SummaryResponses.ReadTime, responseParams);
         }
 
         private string[] ReadDurationPrompt()
@@ -146,7 +146,7 @@ namespace CalendarSkillTest.Flow
             {
                 { "EventDuration", Strings.Strings.DefaultDuration },
             };
-            return this.ParseReplies(SummaryResponses.ReadDuration.Replies, responseParams);
+            return this.ParseReplies(SummaryResponses.ReadDuration, responseParams);
         }
 
         private string[] ReadLocationPrompt()
@@ -155,12 +155,12 @@ namespace CalendarSkillTest.Flow
             {
                 { "EventLocation", Strings.Strings.DefaultLocation },
             };
-            return this.ParseReplies(SummaryResponses.ReadLocation.Replies, responseParams);
+            return this.ParseReplies(SummaryResponses.ReadLocation, responseParams);
         }
 
         private string[] ReadNoLocationPrompt()
         {
-            return this.ParseReplies(SummaryResponses.ReadNoLocation.Replies, new StringDictionary());
+            return this.ParseReplies(SummaryResponses.ReadNoLocation, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()
@@ -182,7 +182,7 @@ namespace CalendarSkillTest.Flow
 
         private string[] NoMeetingResponse()
         {
-            return this.ParseReplies(SummaryResponses.ShowNoMeetingMessage.Replies, new StringDictionary());
+            return this.ParseReplies(SummaryResponses.ShowNoMeetingMessage, new StringDictionary());
         }
 
         private Action<IActivity> ActionEndMessage()

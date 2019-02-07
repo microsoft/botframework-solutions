@@ -11,15 +11,15 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using ToDoSkill.Common;
 using ToDoSkill.Dialogs.AddToDo;
 using ToDoSkill.Dialogs.DeleteToDo;
 using ToDoSkill.Dialogs.Main.Resources;
 using ToDoSkill.Dialogs.MarkToDo;
-using ToDoSkill.Dialogs.Shared;
 using ToDoSkill.Dialogs.Shared.DialogOptions;
+using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.Dialogs.ShowToDo;
 using ToDoSkill.ServiceClients;
 using static ToDoSkill.Dialogs.Shared.ServiceProviderTypes;
@@ -30,15 +30,16 @@ namespace ToDoSkill.Dialogs.Main
     {
         private bool _skillMode;
         private SkillConfigurationBase _services;
+        private ResponseManager _responseManager;
         private UserState _userState;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
         private IStatePropertyAccessor<ToDoSkillState> _toDoStateAccessor;
         private IStatePropertyAccessor<ToDoSkillUserState> _userStateAccessor;
-        private ToDoSkillResponseBuilder _responseBuilder = new ToDoSkillResponseBuilder();
 
         public MainDialog(
             SkillConfigurationBase services,
+            ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
             IBotTelemetryClient telemetryClient,
@@ -48,6 +49,7 @@ namespace ToDoSkill.Dialogs.Main
         {
             _skillMode = skillMode;
             _services = services;
+            _responseManager = responseManager;
             _conversationState = conversationState;
             _userState = userState;
             _serviceManager = serviceManager;
@@ -66,7 +68,7 @@ namespace ToDoSkill.Dialogs.Main
             if (!_skillMode)
             {
                 // send a greeting if we're in local mode
-                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(ToDoMainResponses.ToDoWelcomeMessage));
+                await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.ToDoWelcomeMessage));
             }
         }
 
@@ -137,7 +139,7 @@ namespace ToDoSkill.Dialogs.Main
                             else
                             {
                                 // No intent was identified, send confused message
-                                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(ToDoMainResponses.DidntUnderstandMessage));
+                                await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.DidntUnderstandMessage));
                                 if (_skillMode)
                                 {
                                     await CompleteAsync(dc);
@@ -150,7 +152,7 @@ namespace ToDoSkill.Dialogs.Main
                     default:
                         {
                             // intent was identified but not yet implemented
-                            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(ToDoMainResponses.FeatureNotAvailable));
+                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.FeatureNotAvailable));
                             if (_skillMode)
                             {
                                 await CompleteAsync(dc);
@@ -267,7 +269,7 @@ namespace ToDoSkill.Dialogs.Main
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
-            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(ToDoMainResponses.CancelMessage));
+            await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.CancelMessage));
             await CompleteAsync(dc);
             await dc.CancelAllDialogsAsync();
             return InterruptionAction.StartedDialog;
@@ -275,7 +277,7 @@ namespace ToDoSkill.Dialogs.Main
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
-            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(ToDoMainResponses.HelpMessage));
+            await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.HelpMessage));
             return InterruptionAction.MessageSentToUser;
         }
 
@@ -301,17 +303,17 @@ namespace ToDoSkill.Dialogs.Main
                 await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
             }
 
-            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(ToDoMainResponses.LogOut));
+            await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.LogOut));
 
             return InterruptionAction.StartedDialog;
         }
 
         private void RegisterDialogs()
         {
-            AddDialog(new AddToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new MarkToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new DeleteToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new ShowToDoItemDialog(_services, _toDoStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new AddToDoItemDialog(_services, _responseManager, _toDoStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new MarkToDoItemDialog(_services, _responseManager, _toDoStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new DeleteToDoItemDialog(_services, _responseManager, _toDoStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new ShowToDoItemDialog(_services, _responseManager, _toDoStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
         }
 
         private void InitializeConfig(ToDoSkillState state)
@@ -319,8 +321,8 @@ namespace ToDoSkill.Dialogs.Main
             // Initialize PageSize, ReadSize and TaskServiceType when the first input comes.
             if (state.PageSize <= 0)
             {
-                int pageSize = 0;
-                if (_services.Properties.TryGetValue("DisplaySize", out object displaySizeObj))
+                var pageSize = 0;
+                if (_services.Properties.TryGetValue("DisplaySize", out var displaySizeObj))
                 {
                     int.TryParse(displaySizeObj.ToString(), out pageSize);
                 }
@@ -330,8 +332,8 @@ namespace ToDoSkill.Dialogs.Main
 
             if (state.ReadSize <= 0)
             {
-                int readSize = 0;
-                if (_services.Properties.TryGetValue("ReadSize", out object readSizeObj))
+                var readSize = 0;
+                if (_services.Properties.TryGetValue("ReadSize", out var readSizeObj))
                 {
                     int.TryParse(readSizeObj.ToString(), out readSize);
                 }
@@ -342,7 +344,7 @@ namespace ToDoSkill.Dialogs.Main
             if (state.TaskServiceType == ProviderTypes.Other)
             {
                 state.TaskServiceType = ProviderTypes.Outlook;
-                if (_services.Properties.TryGetValue("TaskServiceProvider", out object taskServiceProvider))
+                if (_services.Properties.TryGetValue("TaskServiceProvider", out var taskServiceProvider))
                 {
                     if (taskServiceProvider.ToString().Equals(ProviderTypes.OneNote.ToString(), StringComparison.InvariantCultureIgnoreCase))
                     {

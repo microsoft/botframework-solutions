@@ -9,8 +9,8 @@ using AutomotiveSkill.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Authentication;
-using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
@@ -26,12 +26,14 @@ namespace AutomotiveSkill.Dialogs.Shared
         public AutomotiveSkillDialog(
             string dialogId,
             SkillConfigurationBase services,
+            ResponseManager responseManager,
             IStatePropertyAccessor<AutomotiveSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
             : base(dialogId)
         {
             Services = services;
+            ResponseManager = responseManager;
             Accessor = accessor;
             ServiceManager = serviceManager;
             TelemetryClient = telemetryClient;
@@ -43,7 +45,7 @@ namespace AutomotiveSkill.Dialogs.Shared
 
         protected IServiceManager ServiceManager { get; set; }
 
-        protected AutomotiveSkillResponseBuilder ResponseBuilder { get; set; } = new AutomotiveSkillResponseBuilder();
+        protected ResponseManager ResponseManager { get; set; }
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -81,7 +83,12 @@ namespace AutomotiveSkill.Dialogs.Shared
                 }
                 else
                 {
-                    return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = sc.Context.Activity.CreateReply(AutomotiveSkillSharedResponses.NoAuth, ResponseBuilder) });
+                    return await sc.PromptAsync(
+                        nameof(MultiProviderAuthDialog),
+                        new PromptOptions()
+                        {
+                            RetryPrompt = ResponseManager.GetResponse(AutomotiveSkillSharedResponses.NoAuth)
+                        });
                 }
             }
             catch (Exception ex)
@@ -108,7 +115,7 @@ namespace AutomotiveSkill.Dialogs.Shared
             TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
 
             // send error message to bot user
-            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(AutomotiveSkillSharedResponses.ErrorMessage));
+            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(AutomotiveSkillSharedResponses.ErrorMessage));
 
             // clear state
             var state = await Accessor.GetAsync(sc.Context);

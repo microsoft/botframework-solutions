@@ -1,6 +1,6 @@
-﻿using FakeSkill.Dialogs.Sample.Resources;
-using Microsoft.Bot.Schema;
+﻿using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Sample.Resources;
 using Microsoft.Bot.Solutions.Tests.Skills.Utterances;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -27,8 +27,10 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
             SkillConfigurations.Add(fakeSkillDefinition.Id, Services);
 
             // Options are passed to the SkillDialog
-            SkillDialogOptions = new SkillDialogOptions();
-            SkillDialogOptions.SkillDefinition = fakeSkillDefinition;
+            SkillDialogOptions = new SkillDialogOptions
+            {
+                SkillDefinition = fakeSkillDefinition
+            };
 
             // Add the SkillDialog to the available dialogs passing the initialized FakeSkill
             Dialogs.Add(new SkillDialog(fakeSkillDefinition, Services, null, TelemetryClient));
@@ -71,7 +73,7 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
                .AssertReply(EchoMessage())
                .AssertReply(this.CheckForEndOfConversationEvent())
                .StartTestAsync();
-        }      
+        }
 
         /// <summary>
         ///  Make an activity using the pre-configured Conversation metadata providing a way to control locale
@@ -117,7 +119,7 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                CollectionAssert.Contains(ParseReplies(SampleResponses.MessagePrompt.Replies, new StringDictionary()), messageActivity.Text);
+                CollectionAssert.Contains(ParseReplies(SampleResponses.MessagePrompt, new StringDictionary()), messageActivity.Text);
             };
         }
 
@@ -126,7 +128,7 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                CollectionAssert.Contains(ParseReplies(SampleResponses.MessageResponse.Replies, new[] { SampleDialogUtterances.MessagePromptResponse }), messageActivity.Text);
+                CollectionAssert.Contains(ParseReplies(SampleResponses.MessageResponse, new[] { SampleDialogUtterances.MessagePromptResponse }), messageActivity.Text);
             };
         }
     }

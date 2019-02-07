@@ -16,7 +16,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Solutions.Data;
-using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Microsoft.Graph;
@@ -28,10 +28,11 @@ namespace CalendarSkill.Dialogs.FindContact
     {
         public FindContactDialog(
            SkillConfigurationBase services,
+           ResponseManager responseManager,
            IStatePropertyAccessor<CalendarSkillState> accessor,
            IServiceManager serviceManager,
            IBotTelemetryClient telemetryClient)
-           : base(nameof(FindContactDialog), services, accessor, serviceManager, telemetryClient)
+           : base(nameof(FindContactDialog), services, responseManager, accessor, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -71,7 +72,7 @@ namespace CalendarSkill.Dialogs.FindContact
                         Actions.Prompt,
                         new PromptOptions
                         {
-                            Prompt = sc.Context.Activity.CreateReply(CreateEventResponses.NoAttendees)
+                            Prompt = ResponseManager.GetResponse(CreateEventResponses.NoAttendees)
                         });
                 }
 
@@ -83,9 +84,8 @@ namespace CalendarSkill.Dialogs.FindContact
                         Actions.Prompt,
                         new PromptOptions
                         {
-                            Prompt = sc.Context.Activity.CreateReply(
+                            Prompt = ResponseManager.GetResponse(
                                 FindContactResponses.UserNotFound,
-                                null,
                                 new StringDictionary()
                                 {
                                     { "UserName", state.AttendeesNameList[state.ConfirmAttendeesNameIndex] }
@@ -96,9 +96,8 @@ namespace CalendarSkill.Dialogs.FindContact
                 {
                     if (state.ConfirmAttendeesNameIndex < state.AttendeesNameList.Count())
                     {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(
                             FindContactResponses.UserNotFoundAgain,
-                            null,
                             new StringDictionary()
                             {
                                 { "source", state.EventSource == Models.EventSource.Microsoft ? "Outlook" : "Gmail" },
@@ -111,9 +110,8 @@ namespace CalendarSkill.Dialogs.FindContact
                     }
                     else
                     {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(
                           FindContactResponses.UserNotFoundAgain,
-                          null,
                           new StringDictionary()
                           {
                                 { "source", state.EventSource == Models.EventSource.Microsoft ? "Outlook" : "Gmail" },
@@ -142,7 +140,7 @@ namespace CalendarSkill.Dialogs.FindContact
 
                 if (string.IsNullOrEmpty(userInput))
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(FindContactResponses.UserNotFoundAgain, null, new StringDictionary() { { "source", state.EventSource == EventSource.Microsoft ? "Outlook Calendar" : "Google Calendar" } }));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.UserNotFoundAgain, new StringDictionary() { { "source", state.EventSource == EventSource.Microsoft ? "Outlook Calendar" : "Google Calendar" } }));
                     return await sc.EndDialogAsync();
                 }
 
@@ -202,7 +200,7 @@ namespace CalendarSkill.Dialogs.FindContact
                     if (state.AttendeesNameList.Count > 1)
                     {
                         var nameString = await GetReadyToSendNameListStringAsync(sc);
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(FindContactResponses.BeforeSendingMessage, null, new StringDictionary() { { "NameList", nameString } }));
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.BeforeSendingMessage, new StringDictionary() { { "NameList", nameString } }));
                     }
                 }
 
@@ -364,7 +362,7 @@ namespace CalendarSkill.Dialogs.FindContact
                             }
                             else
                             {
-                                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(FindContactResponses.AlreadyFirstPage));
+                                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.AlreadyFirstPage));
                             }
                         }
                         else
@@ -407,7 +405,7 @@ namespace CalendarSkill.Dialogs.FindContact
             if (confirmedPerson.Emails.Count() == 1)
             {
                 // Highest probability
-                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(FindContactResponses.PromptOneNameOneAddress, null, new StringDictionary() { { "UserName", name }, { "EmailAddress", confirmedPerson.Emails.First().Address ?? confirmedPerson.UserPrincipalName } }), });
+                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = ResponseManager.GetResponse(FindContactResponses.PromptOneNameOneAddress, new StringDictionary() { { "UserName", name }, { "EmailAddress", confirmedPerson.Emails.First().Address ?? confirmedPerson.UserPrincipalName } }), });
             }
             else
             {
@@ -484,7 +482,7 @@ namespace CalendarSkill.Dialogs.FindContact
                             }
                             else
                             {
-                                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(FindContactResponses.AlreadyFirstPage));
+                                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.AlreadyFirstPage));
                             }
                         }
                         else
@@ -550,18 +548,18 @@ namespace CalendarSkill.Dialogs.FindContact
                 state.ShowAttendeesIndex--;
                 pageIndex = state.ShowAttendeesIndex;
                 skip = pageSize * pageIndex;
-                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(FindContactResponses.AlreadyLastPage));
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.AlreadyLastPage));
             }
 
             var options = new PromptOptions
             {
                 Choices = new List<Choice>(),
-                Prompt = context.Activity.CreateReply(FindContactResponses.ConfirmMultiplContactEmailSinglePage, null, new StringDictionary() { { "UserName", confirmedPerson.DisplayName } })
+                Prompt = ResponseManager.GetResponse(FindContactResponses.ConfirmMultiplContactEmailSinglePage, new StringDictionary() { { "UserName", confirmedPerson.DisplayName } })
             };
 
             if (!isSinglePage)
             {
-                options.Prompt = context.Activity.CreateReply(FindContactResponses.ConfirmMultiplContactEmailMultiPage, null, new StringDictionary() { { "UserName", confirmedPerson.DisplayName } });
+                options.Prompt = ResponseManager.GetResponse(FindContactResponses.ConfirmMultiplContactEmailMultiPage, new StringDictionary() { { "UserName", confirmedPerson.DisplayName } });
             }
 
             for (var i = 0; i < emailList.Count; i++)
@@ -587,7 +585,7 @@ namespace CalendarSkill.Dialogs.FindContact
                     {
                         options.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(options, Common.ConfigData.GetInstance().MaxDisplaySize);
                         options.Prompt.Text += "\r\n" + GetSelectPromptEmailString(options, true);
-                        options.RetryPrompt = context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage);
+                        options.RetryPrompt = ResponseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage);
                         return options;
                     }
 
@@ -601,7 +599,7 @@ namespace CalendarSkill.Dialogs.FindContact
 
             options.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(options, Common.ConfigData.GetInstance().MaxDisplaySize);
             options.Prompt.Text += "\r\n" + GetSelectPromptEmailString(options, true);
-            options.RetryPrompt = context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage);
+            options.RetryPrompt = ResponseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage);
             return options;
         }
 
@@ -637,18 +635,18 @@ namespace CalendarSkill.Dialogs.FindContact
                 state.ShowAttendeesIndex--;
                 pageIndex = state.ShowAttendeesIndex;
                 skip = pageSize * pageIndex;
-                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(FindContactResponses.AlreadyLastPage));
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.AlreadyLastPage));
             }
 
             var options = new PromptOptions
             {
                 Choices = new List<Choice>(),
-                Prompt = context.Activity.CreateReply(FindContactResponses.ConfirmMultipleContactNameSinglePage, null, new StringDictionary() { { "UserName", currentRecipientName } })
+                Prompt = ResponseManager.GetResponse(FindContactResponses.ConfirmMultipleContactNameSinglePage, new StringDictionary() { { "UserName", currentRecipientName } })
             };
 
             if (!isSinglePage)
             {
-                options.Prompt = context.Activity.CreateReply(FindContactResponses.ConfirmMultipleContactNameMultiPage, null, new StringDictionary() { { "UserName", currentRecipientName } });
+                options.Prompt = ResponseManager.GetResponse(FindContactResponses.ConfirmMultipleContactNameMultiPage, new StringDictionary() { { "UserName", currentRecipientName } });
             }
 
             for (var i = 0; i < unionList.Count; i++)
@@ -673,7 +671,7 @@ namespace CalendarSkill.Dialogs.FindContact
                     {
                         options.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(options, Common.ConfigData.GetInstance().MaxDisplaySize);
                         options.Prompt.Text = GetSelectPromptString(options, true);
-                        options.RetryPrompt = context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage);
+                        options.RetryPrompt = ResponseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage);
                         return options;
                     }
 
@@ -687,7 +685,7 @@ namespace CalendarSkill.Dialogs.FindContact
 
             options.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(options, Common.ConfigData.GetInstance().MaxDisplaySize);
             options.Prompt.Text = GetSelectPromptString(options, true);
-            options.RetryPrompt = context.Activity.CreateReply(CalendarSharedResponses.DidntUnderstandMessage);
+            options.RetryPrompt = ResponseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage);
             return options;
         }
     }

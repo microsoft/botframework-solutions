@@ -8,8 +8,9 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
+using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Testing;
 using Microsoft.Bot.Solutions.Testing.Fakes;
@@ -51,8 +52,13 @@ namespace VirtualAssistant.Tests
             builder.RegisterInstance(new BotStateSet(this.UserState, this.ConversationState));
             this.Container = builder.Build();
 
-            this.BotResponseBuilder = new BotResponseBuilder();
-            this.BotResponseBuilder.AddFormatter(new TextBotResponseFormatter());
+            ResponseManager = new ResponseManager(
+                responseTemplates: new IResponseIdCollection[]
+                {
+                    // todo: register response files
+                    new CommonResponses()
+                },
+                locales: new string[] { "en", "de", "es", "fr", "it", "zh" });
 
             // Initialize the Dispatch and Luis mocks
             this.BotServices = new BotServices();
@@ -140,7 +146,7 @@ namespace VirtualAssistant.Tests
 
         public override IBot BuildBot()
         {
-            return new VirtualAssistant(this.BotServices, this.ConversationState, this.UserState, this.EndPointService,this.TelemetryClient);
+            return new VirtualAssistant(this.BotServices, this.ConversationState, this.UserState, this.EndPointService, this.TelemetryClient);
         }
 
         /// <summary>

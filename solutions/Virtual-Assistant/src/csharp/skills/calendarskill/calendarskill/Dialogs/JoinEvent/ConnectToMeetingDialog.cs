@@ -12,7 +12,7 @@ using HtmlAgilityPack;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Newtonsoft.Json;
@@ -23,10 +23,11 @@ namespace CalendarSkill.Dialogs.JoinEvent
     {
         public ConnectToMeetingDialog(
             SkillConfigurationBase services,
+            ResponseManager responseManager,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(ConnectToMeetingDialog), services, accessor, serviceManager, telemetryClient)
+            : base(nameof(ConnectToMeetingDialog), services, responseManager, accessor, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -57,20 +58,20 @@ namespace CalendarSkill.Dialogs.JoinEvent
                 var eventModels = await GetMeetingToJoin(sc);
                 if (!eventModels.Any())
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(JoinEventResponses.MeetingNotFound));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(JoinEventResponses.MeetingNotFound));
                     return await sc.EndDialogAsync(null, cancellationToken);
                 }
 
                 var joinNumber = GetDialInNumberFromMeeting(eventModels[0]);
                 if (string.IsNullOrEmpty(joinNumber))
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(JoinEventResponses.NoDialInNumber, tokens: tokens));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(JoinEventResponses.NoDialInNumber, tokens));
                     return await sc.EndDialogAsync(null, cancellationToken);
                 }
 
                 tokens.Add("CallNumber", joinNumber);
-                var act = sc.Context.Activity.CreateReply(JoinEventResponses.CallingIn, ResponseBuilder, tokens: tokens);
-                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(JoinEventResponses.CallingIn, ResponseBuilder, tokens: tokens));
+                var act = ResponseManager.GetResponse(JoinEventResponses.CallingIn, tokens);
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(JoinEventResponses.CallingIn, tokens));
 
                 // Reply the phone number as an event.
                 var replyEvent = sc.Context.Activity.CreateReply();

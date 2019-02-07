@@ -8,7 +8,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using ToDoSkill.Dialogs.DeleteToDo.Resources;
@@ -24,11 +24,12 @@ namespace ToDoSkill.Dialogs.DeleteToDo
     {
         public DeleteToDoItemDialog(
             SkillConfigurationBase services,
+            ResponseManager responseManager,
             IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
             IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(DeleteToDoItemDialog), services, toDoStateAccessor, userStateAccessor, serviceManager, telemetryClient)
+            : base(nameof(DeleteToDoItemDialog), services, responseManager, toDoStateAccessor, userStateAccessor, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -210,7 +211,7 @@ namespace ToDoSkill.Dialogs.DeleteToDo
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 if (string.IsNullOrEmpty(state.ListType))
                 {
-                    var prompt = sc.Context.Activity.CreateReply(DeleteToDoResponses.ListTypePrompt);
+                    var prompt = ResponseManager.GetResponse(DeleteToDoResponses.ListTypePrompt);
                     return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
                 }
                 else
@@ -275,7 +276,7 @@ namespace ToDoSkill.Dialogs.DeleteToDo
                 }
                 else
                 {
-                    var prompt = sc.Context.Activity.CreateReply(DeleteToDoResponses.AskTaskIndex);
+                    var prompt = ResponseManager.GetResponse(DeleteToDoResponses.AskTaskIndex);
                     return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
                 }
             }
@@ -362,8 +363,8 @@ namespace ToDoSkill.Dialogs.DeleteToDo
                 if (state.MarkOrDeleteAllTasksFlag)
                 {
                     var token = new StringDictionary() { { "listType", state.ListType } };
-                    var prompt = sc.Context.Activity.CreateReply(DeleteToDoResponses.AskDeletionAllConfirmation, tokens: token);
-                    var retryPrompt = sc.Context.Activity.CreateReply(DeleteToDoResponses.AskDeletionAllConfirmationFailed, tokens: token);
+                    var prompt = ResponseManager.GetResponse(DeleteToDoResponses.AskDeletionAllConfirmation, token);
+                    var retryPrompt = ResponseManager.GetResponse(DeleteToDoResponses.AskDeletionAllConfirmationFailed, token);
                     return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
                 }
                 else
@@ -422,8 +423,8 @@ namespace ToDoSkill.Dialogs.DeleteToDo
         {
             try
             {
-                var prompt = sc.Context.Activity.CreateReply(DeleteToDoResponses.DeleteAnotherTaskPrompt);
-                var retryPrompt = sc.Context.Activity.CreateReply(DeleteToDoResponses.DeleteAnotherTaskConfirmFailed);
+                var prompt = ResponseManager.GetResponse(DeleteToDoResponses.DeleteAnotherTaskPrompt);
+                var retryPrompt = ResponseManager.GetResponse(DeleteToDoResponses.DeleteAnotherTaskConfirmFailed);
                 return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
@@ -453,7 +454,7 @@ namespace ToDoSkill.Dialogs.DeleteToDo
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ActionEnded));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ActionEnded));
                     return await sc.EndDialogAsync(true);
                 }
             }

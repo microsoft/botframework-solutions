@@ -1,8 +1,8 @@
-﻿using Microsoft.Bot.Solutions.Cards;
+﻿using Microsoft.Bot.Solutions.Responses;
 
 namespace EmailSkill.Dialogs.Shared.Resources.Cards
 {
-    public class EmailCardDataNoButtons : CardDataBase
+    public class EmailCardDataNoButtons : ICardData
     {
         public string Subject { get; set; }
 

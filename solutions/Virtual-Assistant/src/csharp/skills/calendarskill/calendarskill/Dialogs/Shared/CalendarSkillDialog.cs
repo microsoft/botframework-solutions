@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Common;
 using CalendarSkill.Dialogs.CreateEvent.Resources;
-using CalendarSkill.Dialogs.FindContact.Resources;
-using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Prompts;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
-using CalendarSkill.Util;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
@@ -22,17 +18,15 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
-using Microsoft.Bot.Solutions.Data;
-using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Prompts;
 using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Microsoft.Recognizers.Text;
 using Microsoft.Recognizers.Text.DateTime;
 using Newtonsoft.Json.Linq;
-using static CalendarSkill.CalendarSkillState;
 using static Microsoft.Recognizers.Text.Culture;
 
 namespace CalendarSkill.Dialogs.Shared
@@ -45,12 +39,14 @@ namespace CalendarSkill.Dialogs.Shared
         public CalendarSkillDialog(
             string dialogId,
             SkillConfigurationBase services,
+            ResponseManager responseManager,
             IStatePropertyAccessor<CalendarSkillState> accessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
             : base(dialogId)
         {
             Services = services;
+            ResponseManager = responseManager;
             Accessor = accessor;
             ServiceManager = serviceManager;
             TelemetryClient = telemetryClient;
@@ -78,7 +74,7 @@ namespace CalendarSkill.Dialogs.Shared
 
         protected IServiceManager ServiceManager { get; set; }
 
-        protected CalendarSkillResponseBuilder ResponseBuilder { get; set; } = new CalendarSkillResponseBuilder();
+        protected ResponseManager ResponseManager { get; set; }
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -99,7 +95,7 @@ namespace CalendarSkill.Dialogs.Shared
         {
             try
             {
-               var skillOptions = (CalendarSkillDialogOptions)sc.Options;
+                var skillOptions = (CalendarSkillDialogOptions)sc.Options;
 
                 // If in Skill mode we ask the calling Bot for the token
                 if (skillOptions != null && skillOptions.SkillMode)
@@ -258,20 +254,20 @@ namespace CalendarSkill.Dialogs.Shared
         // Helpers
         protected async Task ShowMeetingList(DialogContext dc, List<EventModel> events, bool showDate = true)
         {
-            var replyToConversation = dc.Context.Activity.CreateReply();
-            replyToConversation.AttachmentLayout = AttachmentLayoutTypes.Carousel;
-            replyToConversation.Attachments = new List<Microsoft.Bot.Schema.Attachment>();
-
-            var cardsData = new List<CalendarCardData>();
             var state = await Accessor.GetAsync(dc.Context);
+
+            var cards = new List<Card>();
             foreach (var item in events)
             {
-                var meetingCard = item.ToAdaptiveCardData(state.GetUserTimeZone(), showDate);
-                var replyTemp = dc.Context.Activity.CreateAdaptiveCardReply(CalendarMainResponses.GreetingMessage, item.OnlineMeetingUrl == null ? "Dialogs/Shared/Resources/Cards/CalendarCardNoJoinButton.json" : "Dialogs/Shared/Resources/Cards/CalendarCard.json", meetingCard);
-                replyToConversation.Attachments.Add(replyTemp.Attachments[0]);
+                cards.Add(new Card()
+                {
+                    Name = item.OnlineMeetingUrl == null ? "CalendarCardNoJoinButton" : "CalendarCard",
+                    Data = item.ToAdaptiveCardData(state.GetUserTimeZone(), showDate)
+                });
             }
 
-            await dc.Context.SendActivityAsync(replyToConversation);
+            var reply = ResponseManager.GetCardResponse(cards);
+            await dc.Context.SendActivityAsync(reply);
         }
 
         protected bool IsRelativeTime(string userInput, string resolverResult, string timex)
@@ -318,7 +314,7 @@ namespace CalendarSkill.Dialogs.Shared
                 endDate = endDateList.Last();
             }
 
-            bool searchByStartTime = startTimeList.Any() && endDate == null && !endTimeList.Any();
+            var searchByStartTime = startTimeList.Any() && endDate == null && !endTimeList.Any();
 
             startDate = startDate ?? TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, userTimeZone);
             endDate = endDate ?? startDate ?? TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, userTimeZone);
@@ -494,7 +490,7 @@ namespace CalendarSkill.Dialogs.Shared
 
                             if (entity.Duration != null)
                             {
-                                int duration = GetDurationFromEntity(entity, dc.Context.Activity.Locale);
+                                var duration = GetDurationFromEntity(entity, dc.Context.Activity.Locale);
                                 if (duration != -1)
                                 {
                                     state.CreateHasDetail = true;
@@ -855,7 +851,7 @@ namespace CalendarSkill.Dialogs.Shared
             TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
 
             // send error message to bot user
-            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarSharedResponses.CalendarErrorMessage));
+            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.CalendarErrorMessage));
 
             // clear state
             var state = await Accessor.GetAsync(sc.Context);
@@ -878,11 +874,11 @@ namespace CalendarSkill.Dialogs.Shared
             // send error message to bot user
             if (ex.ExceptionType == SkillExceptionType.APIAccessDenied)
             {
-                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarSharedResponses.CalendarErrorMessageBotProblem));
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.CalendarErrorMessageBotProblem));
             }
             else
             {
-                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(CalendarSharedResponses.CalendarErrorMessage));
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.CalendarErrorMessage));
             }
 
             // clear state
@@ -935,14 +931,14 @@ namespace CalendarSkill.Dialogs.Shared
         protected (List<PersonModel> formattedPersonList, List<PersonModel> formattedUserList) FormatRecipientList(List<PersonModel> personList, List<PersonModel> userList)
         {
             // Remove dup items
-            List<PersonModel> formattedPersonList = new List<PersonModel>();
-            List<PersonModel> formattedUserList = new List<PersonModel>();
+            var formattedPersonList = new List<PersonModel>();
+            var formattedUserList = new List<PersonModel>();
 
             foreach (var person in personList)
             {
                 var mailAddress = person.Emails[0] ?? person.UserPrincipalName;
 
-                bool isDup = false;
+                var isDup = false;
                 foreach (var formattedPerson in formattedPersonList)
                 {
                     var formattedMailAddress = formattedPerson.Emails[0] ?? formattedPerson.UserPrincipalName;
@@ -964,7 +960,7 @@ namespace CalendarSkill.Dialogs.Shared
             {
                 var mailAddress = user.Emails[0] ?? user.UserPrincipalName;
 
-                bool isDup = false;
+                var isDup = false;
                 foreach (var formattedPerson in formattedPersonList)
                 {
                     var formattedMailAddress = formattedPerson.Emails[0] ?? formattedPerson.UserPrincipalName;
@@ -1073,7 +1069,7 @@ namespace CalendarSkill.Dialogs.Shared
             var options = new PromptOptions
             {
                 Choices = new List<Choice>(),
-                Prompt = dc.Context.Activity.CreateReply(CreateEventResponses.ConfirmRecipient),
+                Prompt = ResponseManager.GetResponse(CreateEventResponses.ConfirmRecipient),
             };
             for (var i = 0; i < personList.Count; i++)
             {
@@ -1188,7 +1184,7 @@ namespace CalendarSkill.Dialogs.Shared
         private int GetDurationFromEntity(Calendar._Entities entity, string local)
         {
             var culture = local ?? English;
-            List<DateTimeResolution> result = RecognizeDateTime(entity.Duration[0], culture);
+            var result = RecognizeDateTime(entity.Duration[0], culture);
             if (result != null)
             {
                 if (result[0].Value != null)
@@ -1203,7 +1199,7 @@ namespace CalendarSkill.Dialogs.Shared
         private int GetMoveTimeSpanFromEntity(string timeSpan, string local, bool later)
         {
             var culture = local ?? English;
-            List<DateTimeResolution> result = RecognizeDateTime(timeSpan, culture);
+            var result = RecognizeDateTime(timeSpan, culture);
             if (result != null)
             {
                 if (result[0].Value != null)
@@ -1240,7 +1236,7 @@ namespace CalendarSkill.Dialogs.Shared
         private List<DateTime> GetDateFromDateTimeString(string date, string local, TimeZoneInfo userTimeZone)
         {
             var culture = local ?? English;
-            List<DateTimeResolution> results = RecognizeDateTime(date, culture);
+            var results = RecognizeDateTime(date, culture);
             var dateTimeResults = new List<DateTime>();
             if (results != null)
             {
@@ -1251,7 +1247,7 @@ namespace CalendarSkill.Dialogs.Shared
 
                     if (dateTime != null)
                     {
-                        bool isRelativeTime = IsRelativeTime(date, result.Value, result.Timex);
+                        var isRelativeTime = IsRelativeTime(date, result.Value, result.Timex);
                         dateTimeResults.Add(isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, userTimeZone) : dateTime);
                     }
                 }
@@ -1263,7 +1259,7 @@ namespace CalendarSkill.Dialogs.Shared
         private List<DateTime> GetTimeFromDateTimeString(string time, string local, TimeZoneInfo userTimeZone, bool isStart = true)
         {
             var culture = local ?? English;
-            List<DateTimeResolution> results = RecognizeDateTime(time, culture);
+            var results = RecognizeDateTime(time, culture);
             var dateTimeResults = new List<DateTime>();
             if (results != null)
             {
@@ -1281,7 +1277,7 @@ namespace CalendarSkill.Dialogs.Shared
 
                         if (dateTime != null)
                         {
-                            bool isRelativeTime = IsRelativeTime(time, result.Value, result.Timex);
+                            var isRelativeTime = IsRelativeTime(time, result.Value, result.Timex);
                             dateTimeResults.Add(isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, userTimeZone) : dateTime);
                         }
                     }

@@ -1,4 +1,4 @@
 ﻿<#@ assembly name="Newtonsoft.Json.dll" #>
 <#@ template debug="false" hostspecific="true" language="C#" #>
 <#@ output extension=".cs" #>
-<#@ include file="ResponsesTemplate.t4"#>
+<#@ include file="..\Responses\ResponseIdCollection.t4"#>

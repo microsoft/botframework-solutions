@@ -79,8 +79,8 @@ namespace EmailSkill.ServiceClients.GoogleAPI
                 PeopleResource.ConnectionsResource.ListRequest peopleRequest = service.People.Connections.List("people/me");
                 peopleRequest.RequestMaskIncludeField = "person.emailAddresses,person.names";
 
-            ListConnectionsResponse connectionsResponse = await ((IClientServiceRequest<ListConnectionsResponse>)peopleRequest).ExecuteAsync();
-            IList<GooglePerson> connections = connectionsResponse.Connections;
+                ListConnectionsResponse connectionsResponse = await ((IClientServiceRequest<ListConnectionsResponse>)peopleRequest).ExecuteAsync();
+                IList<GooglePerson> connections = connectionsResponse.Connections;
 
                 var result = new List<MsPerson>();
                 if (connections != null && connections.Count > 0)
