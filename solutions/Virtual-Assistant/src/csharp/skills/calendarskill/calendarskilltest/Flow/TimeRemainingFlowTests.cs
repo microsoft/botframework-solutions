@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using CalendarSkill.Dialogs.TimeRemain.Resources;
+using CalendarSkill.Dialogs.TimeRemaining.Resources;
 using CalendarSkill.Models;
 using CalendarSkillTest.Flow.Fakes;
 using CalendarSkillTest.Flow.Utterances;
@@ -58,7 +58,7 @@ namespace CalendarSkillTest.Flow
                 { "RemainingTime", "23 hours 59 minutes " },
             };
 
-            return this.ParseReplies(TimeRemainResponses.ShowNextMeetingTimeRemainingMessage.Replies, responseParams);
+            return this.ParseReplies(TimeRemainingResponses.ShowNextMeetingTimeRemainingMessage, responseParams);
         }
 
         private Action<IActivity> ActionEndMessage()

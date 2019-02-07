@@ -24,10 +24,10 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Data;
-using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Prompts;
 using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Microsoft.Graph;
@@ -44,6 +44,7 @@ namespace EmailSkill.Dialogs.Shared
         public EmailSkillDialog(
             string dialogId,
             SkillConfigurationBase services,
+            ResponseManager responseManager,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IServiceManager serviceManager,
@@ -51,6 +52,7 @@ namespace EmailSkill.Dialogs.Shared
             : base(dialogId)
         {
             Services = services;
+            ResponseManager = responseManager;
             EmailStateAccessor = emailStateAccessor;
             DialogStateAccessor = dialogStateAccessor;
             ServiceManager = serviceManager;
@@ -80,7 +82,7 @@ namespace EmailSkill.Dialogs.Shared
 
         protected IServiceManager ServiceManager { get; set; }
 
-        protected EmailSkillResponseBuilder ResponseBuilder { get; set; } = new EmailSkillResponseBuilder();
+        protected ResponseManager ResponseManager { get; set; }
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -232,7 +234,8 @@ namespace EmailSkill.Dialogs.Shared
                 }
                 else
                 {
-                    return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = sc.Context.Activity.CreateReply(EmailSharedResponses.NoAuth, ResponseBuilder), });
+                    var retry = ResponseManager.GetResponse(EmailSharedResponses.NoAuth);
+                    return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = retry });
                 }
             }
             catch (Exception ex)
@@ -327,7 +330,7 @@ namespace EmailSkill.Dialogs.Shared
 
                 return await sc.PromptAsync(
                     Actions.Prompt,
-                    new PromptOptions() { Prompt = sc.Context.Activity.CreateReply(EmailSharedResponses.NoFocusMessage, ResponseBuilder) });
+                    new PromptOptions() { Prompt = ResponseManager.GetResponse(EmailSharedResponses.NoFocusMessage) });
             }
             catch (Exception ex)
             {
@@ -453,13 +456,19 @@ namespace EmailSkill.Dialogs.Shared
                 };
 
                 var speech = SpeakHelper.ToSpeechEmailSendDetailString(state.Subject, nameListString, state.Content);
-                var stringToken = new StringDictionary
+                var tokens = new StringDictionary
                 {
                     { "EmailDetails", speech },
                 };
-                var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(EmailSharedResponses.ConfirmSend, "Dialogs/Shared/Resources/Cards/EmailWithOutButtonCard.json", emailCard, ResponseBuilder, stringToken);
 
-                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = replyMessage, RetryPrompt = sc.Context.Activity.CreateReply(EmailSharedResponses.ConfirmSendFailed, ResponseBuilder), });
+                var prompt = ResponseManager.GetCardResponse(
+                    EmailSharedResponses.ConfirmSend,
+                    new Card("EmailWithOutButtonCard", emailCard),
+                    tokens);
+
+                var retry = ResponseManager.GetResponse(EmailSharedResponses.ConfirmSendFailed);
+
+                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = prompt, RetryPrompt = retry });
             }
             catch (Exception ex)
             {
@@ -477,7 +486,7 @@ namespace EmailSkill.Dialogs.Shared
 
                 if (string.IsNullOrEmpty(state.Content))
                 {
-                    var noEmailContentMessage = sc.Context.Activity.CreateReply(EmailSharedResponses.NoEmailContent, ResponseBuilder);
+                    var noEmailContentMessage = ResponseManager.GetResponse(EmailSharedResponses.NoEmailContent);
                     if (sc.ActiveDialog.Id == nameof(ForwardEmailDialog))
                     {
                         if (state.Recipients.Count == 0 || state.Recipients == null)
@@ -486,8 +495,7 @@ namespace EmailSkill.Dialogs.Shared
                             return await sc.EndDialogAsync();
                         }
 
-                        var recipientConfirmedMessage =
-                            sc.Context.Activity.CreateReply(EmailSharedResponses.RecipientConfirmed, null, new StringDictionary() { { "UserName", await GetNameListStringAsync(sc) } });
+                        var recipientConfirmedMessage = ResponseManager.GetResponse(EmailSharedResponses.RecipientConfirmed, new StringDictionary() { { "UserName", await GetNameListStringAsync(sc) } });
                         noEmailContentMessage.Text = recipientConfirmedMessage.Text + " " + noEmailContentMessage.Text;
                         noEmailContentMessage.Speak = recipientConfirmedMessage.Speak + " " + noEmailContentMessage.Speak;
                     }
@@ -537,7 +545,7 @@ namespace EmailSkill.Dialogs.Shared
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
                 if (state.IsNoRecipientAvailable())
                 {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(EmailSharedResponses.NoRecipients, ResponseBuilder), });
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(EmailSharedResponses.NoRecipients) });
                 }
                 else
                 {
@@ -633,7 +641,7 @@ namespace EmailSkill.Dialogs.Shared
                 // Get display messages
                 var displayMessages = new List<Message>();
                 var startIndex = ConfigData.GetInstance().MaxReadSize * state.ReadEmailIndex;
-                for (int i = startIndex; i < messages.Count(); i++)
+                for (var i = startIndex; i < messages.Count(); i++)
                 {
                     displayMessages.Add(messages[i]);
                 }
@@ -649,7 +657,7 @@ namespace EmailSkill.Dialogs.Shared
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.EmailNotFound, ResponseBuilder));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.EmailNotFound));
                 }
 
                 return await sc.EndDialogAsync(true);
@@ -851,7 +859,7 @@ namespace EmailSkill.Dialogs.Shared
         {
             var result = new List<Message>();
 
-            int pageSize = ConfigData.GetInstance().MaxDisplaySize;
+            var pageSize = ConfigData.GetInstance().MaxDisplaySize;
             var state = await EmailStateAccessor.GetAsync(sc.Context);
             var token = state.Token;
             var serivce = ServiceManager.InitMailService(token, state.GetUserTimeZone(), state.MailSourceType);
@@ -886,7 +894,7 @@ namespace EmailSkill.Dialogs.Shared
 
             // get messages for current page
             var filteredResult = new List<Message>();
-            for (int i = 0; i < result.Count; i++)
+            for (var i = 0; i < result.Count; i++)
             {
                 if (skip > 0)
                 {
@@ -912,8 +920,8 @@ namespace EmailSkill.Dialogs.Shared
         {
             var updatedMessages = new List<Message>();
             var state = await EmailStateAccessor.GetAsync(sc.Context);
-            var cardsData = new List<EmailCardData>();
 
+            var cards = new List<Card>();
             foreach (var message in messages)
             {
                 var nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(message.ToRecipients);
@@ -930,7 +938,7 @@ namespace EmailSkill.Dialogs.Shared
                     : message.ReceivedDateTime.Value.UtcDateTime.ToRelativeString(state.GetUserTimeZone()),
                     Speak = SpeakHelper.ToSpeechEmailDetailOverallString(message, state.GetUserTimeZone()),
                 };
-                cardsData.Add(emailCard);
+                cards.Add(new Card("EmailCard", emailCard));
                 updatedMessages.Add(message);
             }
 
@@ -944,39 +952,40 @@ namespace EmailSkill.Dialogs.Shared
                 searchType = string.Format(EmailCommonStrings.RelevantFormat, EmailCommonStrings.Important);
             }
 
-            var stringToken = new StringDictionary
+            var tokens = new StringDictionary
             {
                 { "TotalCount", totalCount.ToString() },
                 { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(updatedMessages, state.GetUserTimeZone(), ConfigData.GetInstance().MaxReadSize) },
             };
 
-            var reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
+            var reply = ResponseManager.GetCardResponse(EmailSharedResponses.ShowEmailPrompt, cards, tokens);
+
             if (state.ShowEmailIndex == 0)
             {
                 if (updatedMessages.Count == 1)
                 {
-                    reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowOneEmailPrompt, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
+                    reply = ResponseManager.GetCardResponse(EmailSharedResponses.ShowOneEmailPrompt, cards, tokens);
                 }
             }
             else
             {
-                reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowEmailPrompt_OtherPage, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
+                reply = ResponseManager.GetCardResponse(EmailSharedResponses.ShowEmailPrompt_OtherPage, cards, tokens);
                 if (updatedMessages.Count == 1)
                 {
-                    reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(EmailSharedResponses.ShowOneEmailPrompt_OtherPage, "Dialogs/Shared/Resources/Cards/EmailCard.json", AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, stringToken);
+                    reply = ResponseManager.GetCardResponse(EmailSharedResponses.ShowOneEmailPrompt_OtherPage, cards, tokens);
                 }
             }
 
             if (state.ShowEmailIndex < 0)
             {
-                var pagingInfo = sc.Context.Activity.CreateReply(EmailSharedResponses.FirstPageAlready);
+                var pagingInfo = ResponseManager.GetResponse(EmailSharedResponses.FirstPageAlready);
                 reply.Text = pagingInfo.Text + reply.Text;
                 reply.Speak = pagingInfo.Speak + reply.Speak;
                 state.ShowEmailIndex = 0;
             }
             else if (state.ShowEmailIndex * ConfigData.GetInstance().MaxDisplaySize > totalCount)
             {
-                var pagingInfo = sc.Context.Activity.CreateReply(EmailSharedResponses.LastPageAlready);
+                var pagingInfo = ResponseManager.GetResponse(EmailSharedResponses.LastPageAlready);
                 reply.Text = pagingInfo.Text + reply.Text;
                 reply.Speak = pagingInfo.Speak + reply.Speak;
                 state.ShowEmailIndex--;
@@ -1115,171 +1124,174 @@ namespace EmailSkill.Dialogs.Shared
 
                 var entity = luisResult.Entities;
 
-                if (entity.ordinal != null)
+                if (entity != null)
                 {
-                    try
+                    if (entity.ordinal != null)
                     {
-                        var emailList = state.MessageList;
-                        var value = entity.ordinal[0];
-                        if (Math.Abs(value - (int)value) < double.Epsilon)
+                        try
                         {
-                            state.UserSelectIndex = (int)value - 1;
+                            var emailList = state.MessageList;
+                            var value = entity.ordinal[0];
+                            if (Math.Abs(value - (int)value) < double.Epsilon)
+                            {
+                                state.UserSelectIndex = (int)value - 1;
+                            }
+                        }
+                        catch
+                        {
+                            // ignored
                         }
                     }
-                    catch
-                    {
-                        // ignored
-                    }
-                }
 
-                if (entity.number != null && (entity.ordinal == null || entity.ordinal.Length == 0))
-                {
-                    try
+                    if (entity.number != null && (entity.ordinal == null || entity.ordinal.Length == 0))
                     {
-                        var emailList = state.MessageList;
-                        var value = entity.number[0];
-                        if (Math.Abs(value - (int)value) < double.Epsilon)
+                        try
                         {
-                            state.UserSelectIndex = (int)value - 1;
+                            var emailList = state.MessageList;
+                            var value = entity.number[0];
+                            if (Math.Abs(value - (int)value) < double.Epsilon)
+                            {
+                                state.UserSelectIndex = (int)value - 1;
+                            }
+                        }
+                        catch
+                        {
+                            // ignored
                         }
                     }
-                    catch
+
+                    if (!isBeginDialog)
                     {
-                        // ignored
+                        return;
                     }
-                }
 
-                if (!isBeginDialog)
-                {
-                    return;
-                }
-
-                switch (intent)
-                {
-                    case Email.Intent.CheckMessages:
-                    case Email.Intent.SearchMessages:
-                        {
-                            // Get email search type
-                            if (dc.Context.Activity.Text != null)
+                    switch (intent)
+                    {
+                        case Email.Intent.CheckMessages:
+                        case Email.Intent.SearchMessages:
                             {
-                                var words = dc.Context.Activity.Text.Split(' ');
+                                // Get email search type
+                                if (dc.Context.Activity.Text != null)
                                 {
-                                    foreach (var word in words)
+                                    var words = dc.Context.Activity.Text.Split(' ');
                                     {
-                                        var lowerInput = word.ToLower();
+                                        foreach (var word in words)
+                                        {
+                                            var lowerInput = word.ToLower();
 
-                                        if (lowerInput.Contains(EmailCommonStrings.High) || lowerInput.Contains(EmailCommonStrings.Important))
-                                        {
-                                            state.IsImportant = true;
-                                        }
-                                        else if (lowerInput.Contains(EmailCommonStrings.Unread))
-                                        {
-                                            state.IsUnreadOnly = true;
-                                        }
-                                        else if (lowerInput.Contains(EmailCommonStrings.All))
-                                        {
-                                            state.IsUnreadOnly = false;
+                                            if (lowerInput.Contains(EmailCommonStrings.High) || lowerInput.Contains(EmailCommonStrings.Important))
+                                            {
+                                                state.IsImportant = true;
+                                            }
+                                            else if (lowerInput.Contains(EmailCommonStrings.Unread))
+                                            {
+                                                state.IsUnreadOnly = true;
+                                            }
+                                            else if (lowerInput.Contains(EmailCommonStrings.All))
+                                            {
+                                                state.IsUnreadOnly = false;
+                                            }
                                         }
                                     }
                                 }
-                            }
 
-                            if (entity.ContactName != null)
-                            {
-                                foreach (var name in entity.ContactName)
+                                if (entity.ContactName != null)
                                 {
-                                    if (!state.NameList.Contains(name))
+                                    foreach (var name in entity.ContactName)
                                     {
-                                        state.NameList.Add(name);
+                                        if (!state.NameList.Contains(name))
+                                        {
+                                            state.NameList.Add(name);
+                                        }
                                     }
                                 }
-                            }
 
-                            if (entity.EmailAddress != null)
-                            {
-                                // As luis result for email address often contains extra spaces for word breaking
-                                // (e.g. send email to test@test.com, email address entity will be test @ test . com)
-                                // So use original user input as email address.
-                                var rawEntity = luisResult.Entities._instance.EmailAddress;
-                                foreach (var emailAddress in rawEntity)
+                                if (entity.EmailAddress != null)
                                 {
-                                    var email = luisResult.Text.Substring(emailAddress.StartIndex, emailAddress.EndIndex - emailAddress.StartIndex);
-                                    if (IsEmail(email) && !state.EmailList.Contains(email))
+                                    // As luis result for email address often contains extra spaces for word breaking
+                                    // (e.g. send email to test@test.com, email address entity will be test @ test . com)
+                                    // So use original user input as email address.
+                                    var rawEntity = luisResult.Entities._instance.EmailAddress;
+                                    foreach (var emailAddress in rawEntity)
                                     {
-                                        state.EmailList.Add(email);
+                                        var email = luisResult.Text.Substring(emailAddress.StartIndex, emailAddress.EndIndex - emailAddress.StartIndex);
+                                        if (IsEmail(email) && !state.EmailList.Contains(email))
+                                        {
+                                            state.EmailList.Add(email);
+                                        }
                                     }
                                 }
+
+                                if (entity.SenderName != null)
+                                {
+                                    state.SenderName = entity.SenderName[0];
+                                    state.IsUnreadOnly = false;
+                                }
+
+                                if (entity.SearchTexts != null)
+                                {
+                                    state.SearchTexts = entity.SearchTexts[0];
+                                }
+
+                                break;
                             }
 
-                            if (entity.SenderName != null)
+                        case Email.Intent.SendEmail:
+                        case Email.Intent.Forward:
+                        case Email.Intent.Reply:
                             {
-                                state.SenderName = entity.SenderName[0];
-                                state.IsUnreadOnly = false;
+                                if (entity.EmailSubject != null)
+                                {
+                                    state.Subject = entity.EmailSubject[0];
+                                }
+
+                                if (entity.Message != null)
+                                {
+                                    state.Content = entity.Message[0];
+                                }
+
+                                if (entity.ContactName != null)
+                                {
+                                    foreach (var name in entity.ContactName)
+                                    {
+                                        if (!state.NameList.Contains(name))
+                                        {
+                                            state.NameList.Add(name);
+                                        }
+                                    }
+                                }
+
+                                if (entity.EmailAddress != null)
+                                {
+                                    // As luis result for email address often contains extra spaces for word breaking
+                                    // (e.g. send email to test@test.com, email address entity will be test @ test . com)
+                                    // So use original user input as email address.
+                                    var rawEntity = luisResult.Entities._instance.EmailAddress;
+                                    foreach (var emailAddress in rawEntity)
+                                    {
+                                        var email = luisResult.Text.Substring(emailAddress.StartIndex, emailAddress.EndIndex - emailAddress.StartIndex);
+                                        if (IsEmail(email) && !state.EmailList.Contains(email))
+                                        {
+                                            state.EmailList.Add(email);
+                                        }
+                                    }
+                                }
+
+                                if (entity.SenderName != null)
+                                {
+                                    state.SenderName = entity.SenderName[0];
+                                    state.IsUnreadOnly = false;
+
+                                    // Clear focus email if there is any.
+                                    state.Message.Clear();
+                                }
+
+                                break;
                             }
 
-                            if (entity.SearchTexts != null)
-                            {
-                                state.SearchTexts = entity.SearchTexts[0];
-                            }
-
+                        default:
                             break;
-                        }
-
-                    case Email.Intent.SendEmail:
-                    case Email.Intent.Forward:
-                    case Email.Intent.Reply:
-                        {
-                            if (entity.EmailSubject != null)
-                            {
-                                state.Subject = entity.EmailSubject[0];
-                            }
-
-                            if (entity.Message != null)
-                            {
-                                state.Content = entity.Message[0];
-                            }
-
-                            if (entity.ContactName != null)
-                            {
-                                foreach (var name in entity.ContactName)
-                                {
-                                    if (!state.NameList.Contains(name))
-                                    {
-                                        state.NameList.Add(name);
-                                    }
-                                }
-                            }
-
-                            if (entity.EmailAddress != null)
-                            {
-                                // As luis result for email address often contains extra spaces for word breaking
-                                // (e.g. send email to test@test.com, email address entity will be test @ test . com)
-                                // So use original user input as email address.
-                                var rawEntity = luisResult.Entities._instance.EmailAddress;
-                                foreach (var emailAddress in rawEntity)
-                                {
-                                    var email = luisResult.Text.Substring(emailAddress.StartIndex, emailAddress.EndIndex - emailAddress.StartIndex);
-                                    if (IsEmail(email) && !state.EmailList.Contains(email))
-                                    {
-                                        state.EmailList.Add(email);
-                                    }
-                                }
-                            }
-
-                            if (entity.SenderName != null)
-                            {
-                                state.SenderName = entity.SenderName[0];
-                                state.IsUnreadOnly = false;
-
-                                // Clear focus email if there is any.
-                                state.Message.Clear();
-                            }
-
-                            break;
-                        }
-
-                    default:
-                        break;
+                    }
                 }
             }
             catch
@@ -1300,7 +1312,7 @@ namespace EmailSkill.Dialogs.Shared
 
         protected bool IsReadMoreIntent(General.Intent? topIntent, string userInput)
         {
-            bool isReadMoreUserInput = userInput == null ? false : userInput.ToLowerInvariant().Contains(CommonStrings.More);
+            var isReadMoreUserInput = userInput == null ? false : userInput.ToLowerInvariant().Contains(CommonStrings.More);
             return topIntent == General.Intent.ReadMore && isReadMoreUserInput;
         }
 
@@ -1315,7 +1327,7 @@ namespace EmailSkill.Dialogs.Shared
             TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
 
             // send error message to bot user
-            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.EmailErrorMessage));
+            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.EmailErrorMessage));
 
             // clear state
             await ClearAllState(sc);
@@ -1334,11 +1346,11 @@ namespace EmailSkill.Dialogs.Shared
             // send error message to bot user
             if (ex.ExceptionType == SkillExceptionType.APIAccessDenied)
             {
-                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.EmailErrorMessage_BotProblem));
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.EmailErrorMessage_BotProblem));
             }
             else
             {
-                await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.EmailErrorMessage));
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.EmailErrorMessage));
             }
 
             // clear state

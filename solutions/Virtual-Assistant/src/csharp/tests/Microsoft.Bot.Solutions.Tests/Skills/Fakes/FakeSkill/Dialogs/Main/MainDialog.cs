@@ -11,15 +11,14 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
-using FakeSkill.Dialogs.Main.Resources;
 using FakeSkill.Dialogs.Sample;
-using FakeSkill.Dialogs.Shared;
 using FakeSkill.Dialogs.Shared.DialogOptions;
-using FakeSkill.Dialogs.Shared.Resources;
 using FakeSkill.ServiceClients;
 using FakeSkill.Dialogs.Auth;
+using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Main.Resources;
+using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Shared.Resources;
 
 namespace FakeSkill.Dialogs.Main
 {
@@ -27,15 +26,16 @@ namespace FakeSkill.Dialogs.Main
     {
         private bool _skillMode;
         private SkillConfigurationBase _services;
+        private ResponseManager _responseManager;
         private UserState _userState;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
         private IStatePropertyAccessor<SkillConversationState> _conversationStateAccessor;
         private IStatePropertyAccessor<SkillUserState> _userStateAccessor;
-        private SkillTemplateResponseBuilder _responseBuilder = new SkillTemplateResponseBuilder();
 
         public MainDialog(
             SkillConfigurationBase services,
+            ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
             IBotTelemetryClient telemetryClient,
@@ -45,6 +45,7 @@ namespace FakeSkill.Dialogs.Main
         {
             _skillMode = skillMode;
             _services = services;
+            _responseManager = responseManager;
             _conversationState = conversationState;
             _userState = userState;
             _serviceManager = serviceManager;
@@ -63,7 +64,7 @@ namespace FakeSkill.Dialogs.Main
             if (!_skillMode)
             {
                 // send a greeting if we're in local mode
-                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(MainResponses.WelcomeMessage));
+                await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.WelcomeMessage));
             }
         }
 
@@ -109,7 +110,7 @@ namespace FakeSkill.Dialogs.Main
                     case FakeSkillLU.Intent.None:
                         {
                             // No intent was identified, send confused message
-                            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(SharedResponses.DidntUnderstandMessage));
+                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(SharedResponses.DidntUnderstandMessage));
                             if (_skillMode)
                             {
                                 await CompleteAsync(dc);
@@ -121,7 +122,7 @@ namespace FakeSkill.Dialogs.Main
                     default:
                         {
                             // intent was identified but not yet implemented
-                            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(MainResponses.FeatureNotAvailable));
+                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.FeatureNotAvailable));
                             if (_skillMode)
                             {
                                 await CompleteAsync(dc);
@@ -232,7 +233,7 @@ namespace FakeSkill.Dialogs.Main
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
-            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(MainResponses.CancelMessage));
+            await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.CancelMessage));
             await CompleteAsync(dc);
             await dc.CancelAllDialogsAsync();
             return InterruptionAction.StartedDialog;
@@ -240,7 +241,7 @@ namespace FakeSkill.Dialogs.Main
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
-            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(MainResponses.HelpMessage));
+            await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.HelpMessage));
             return InterruptionAction.MessageSentToUser;
         }
 
@@ -266,15 +267,15 @@ namespace FakeSkill.Dialogs.Main
                 await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
             }
 
-            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(MainResponses.LogOut));
+            await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.LogOut));
 
             return InterruptionAction.StartedDialog;
         }
 
         private void RegisterDialogs()
         {
-            AddDialog(new SampleDialog(_services, _conversationStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new AuthDialog(_services, _conversationStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new SampleDialog(_services, _responseManager, _conversationStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new AuthDialog(_services, _responseManager, _conversationStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
         }
 
         private class Events

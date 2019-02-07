@@ -30,6 +30,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Dialogs\Shared\Resources\POISharedResponses.es.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj" />
   </ItemGroup>
 
@@ -92,111 +96,39 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Dialogs\CancelRoute\Resources\CancelRouteResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\CancelRoute\Resources\CancelRouteResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\CancelRoute\Resources\CancelRouteResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\CancelRoute\Resources\CancelRouteResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\CancelRoute\Resources\CancelRouteResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\CancelRoute\Resources\CancelRouteResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\POIMainResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\POIMainResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\POIMainResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\POIMainResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\POIMainResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\POIMainResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Route\Resources\RouteResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Route\Resources\RouteResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Route\Resources\RouteResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Route\Resources\RouteResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Route\Resources\RouteResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Route\Resources\RouteResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\Cards\PointOfInterestViewCard.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\Cards\PointOfInterestViewNoDrivingButtonCard.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\Cards\RouteDirectionsViewCard.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\Cards\RouteDirectionsViewCardNoGetStartedButton.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\POISharedResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\POISharedResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\POISharedResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\POISharedResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\POISharedResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\old_POISharedResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\POISharedResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <EmbeddedResource Include="Dialogs\CancelRoute\Resources\CancelRouteResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\CancelRoute\Resources\CancelRouteResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\CancelRoute\Resources\CancelRouteResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\CancelRoute\Resources\CancelRouteResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\CancelRoute\Resources\CancelRouteResponses.json" />
+    <EmbeddedResource Include="Dialogs\CancelRoute\Resources\CancelRouteResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.json" />
+    <EmbeddedResource Include="Dialogs\FindPointOfInterest\Resources\FindPointOfInterestResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\POIMainResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\POIMainResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\POIMainResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\POIMainResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\POIMainResponses.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\POIMainResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\Route\Resources\RouteResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\Route\Resources\RouteResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\Route\Resources\RouteResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\Route\Resources\RouteResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\Route\Resources\RouteResponses.json" />
+    <EmbeddedResource Include="Dialogs\Route\Resources\RouteResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\PointOfInterestViewCard.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\PointOfInterestViewNoDrivingButtonCard.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\RouteDirectionsViewCard.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\RouteDirectionsViewCardNoGetStartedButton.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\POISharedResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\POISharedResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\POISharedResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\POISharedResponses.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\POISharedResponses.zh.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -224,6 +156,10 @@
       <LastGenOutput>POISharedResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
 </Project>

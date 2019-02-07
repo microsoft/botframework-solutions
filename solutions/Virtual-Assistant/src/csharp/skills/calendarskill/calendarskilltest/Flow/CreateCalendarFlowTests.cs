@@ -443,12 +443,12 @@ namespace CalendarSkillTest.Flow
 
         private string[] ConfirmOneNameOneAddress(StringDictionary recipientDict)
         {
-            return this.ParseReplies(FindContactResponses.PromptOneNameOneAddress.Replies, recipientDict);
+            return this.ParseReplies(FindContactResponses.PromptOneNameOneAddress, recipientDict);
         }
 
         private string[] AskForParticpantsPrompt()
         {
-            return this.ParseReplies(CreateEventResponses.NoAttendees.Replies, new StringDictionary());
+            return this.ParseReplies(CreateEventResponses.NoAttendees, new StringDictionary());
         }
 
         private string[] AskForSubjectWithEmailAddressPrompt()
@@ -458,7 +458,7 @@ namespace CalendarSkillTest.Flow
                 { "UserName", Strings.Strings.DefaultUserEmail },
             };
 
-            return this.ParseReplies(CreateEventResponses.NoTitle.Replies, responseParams);
+            return this.ParseReplies(CreateEventResponses.NoTitle, responseParams);
         }
 
         private string[] AskForSubjectWithContactNamePrompt(string userName = null)
@@ -468,7 +468,7 @@ namespace CalendarSkillTest.Flow
                 { "UserName", userName ?? Strings.Strings.DefaultUserName },
             };
 
-            return this.ParseReplies(CreateEventResponses.NoTitle.Replies, responseParams);
+            return this.ParseReplies(CreateEventResponses.NoTitle, responseParams);
         }
 
         private string[] ConfirmOneContactPrompt(string userName = null, string emailAddress = null)
@@ -479,42 +479,42 @@ namespace CalendarSkillTest.Flow
                 { "EmailAddress", emailAddress ?? Strings.Strings.DefaultUserEmail }
             };
 
-            return this.ParseReplies(FindContactResponses.PromptOneNameOneAddress.Replies, responseParams);
+            return this.ParseReplies(FindContactResponses.PromptOneNameOneAddress, responseParams);
         }
 
         private string[] AskForSubjectShortPrompt(string userName = null)
         {
-            return this.ParseReplies(CreateEventResponses.NoTitle_Short.Replies, new StringDictionary());
+            return this.ParseReplies(CreateEventResponses.NoTitle_Short, new StringDictionary());
         }
 
         private string[] AskForContentPrompt()
         {
-            return this.ParseReplies(CreateEventResponses.NoContent.Replies, new StringDictionary());
+            return this.ParseReplies(CreateEventResponses.NoContent, new StringDictionary());
         }
 
         private string[] AskForDatePrompt()
         {
-            return this.ParseReplies(CreateEventResponses.NoStartDate.Replies, new StringDictionary());
+            return this.ParseReplies(CreateEventResponses.NoStartDate, new StringDictionary());
         }
 
         private string[] AskForStartTimePrompt()
         {
-            return this.ParseReplies(CreateEventResponses.NoStartTime.Replies, new StringDictionary());
+            return this.ParseReplies(CreateEventResponses.NoStartTime, new StringDictionary());
         }
 
         private string[] AskForDurationPrompt()
         {
-            return this.ParseReplies(CreateEventResponses.NoDuration.Replies, new StringDictionary());
+            return this.ParseReplies(CreateEventResponses.NoDuration, new StringDictionary());
         }
 
         private string[] AskForLocationPrompt()
         {
-            return this.ParseReplies(CreateEventResponses.NoLocation.Replies, new StringDictionary());
+            return this.ParseReplies(CreateEventResponses.NoLocation, new StringDictionary());
         }
 
         private string[] AskForRecreateInfoPrompt()
         {
-            return this.ParseReplies(CreateEventResponses.GetRecreateInfo.Replies, new StringDictionary());
+            return this.ParseReplies(CreateEventResponses.GetRecreateInfo, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()
@@ -544,10 +544,10 @@ namespace CalendarSkillTest.Flow
                 var meetingCardJsonString = ((Newtonsoft.Json.Linq.JObject)messageActivity.Attachments[0].Content).ToString();
                 var meetingCard = JsonConvert.DeserializeObject<MeetingAdaptiveCard>(meetingCardJsonString);
                 var meetingDate = meetingCard.Bodies[0].Items[2].Text;
-                CultureInfo cultureInfo = (CultureInfo)CultureInfo.CurrentUICulture.Clone();
+                var cultureInfo = (CultureInfo)CultureInfo.CurrentUICulture.Clone();
                 cultureInfo.DateTimeFormat.DateSeparator = "-";
-                DateTime date = DateTime.ParseExact(meetingDate, "d", cultureInfo);
-                DateTime utcToday = DateTime.UtcNow.Date;
+                var date = DateTime.ParseExact(meetingDate, "d", cultureInfo);
+                var utcToday = DateTime.UtcNow.Date;
                 Assert.IsTrue(date >= utcToday);
             };
         }
@@ -557,7 +557,7 @@ namespace CalendarSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var recipientConfirmedMessage = this.ParseReplies(FindContactResponses.ConfirmMultipleContactNameSinglePage.Replies, recipientDict);
+                var recipientConfirmedMessage = this.ParseReplies(FindContactResponses.ConfirmMultipleContactNameSinglePage, recipientDict);
 
                 var messageLines = messageActivity.Text.Split("\r\n");
                 Assert.IsTrue(messageActivity.Text.StartsWith(recipientConfirmedMessage[0]));
@@ -575,7 +575,7 @@ namespace CalendarSkillTest.Flow
 
         private string[] BotErrorResponse()
         {
-            return this.ParseReplies(CalendarSharedResponses.CalendarErrorMessageBotProblem.Replies, new StringDictionary());
+            return this.ParseReplies(CalendarSharedResponses.CalendarErrorMessageBotProblem, new StringDictionary());
         }
     }
 }

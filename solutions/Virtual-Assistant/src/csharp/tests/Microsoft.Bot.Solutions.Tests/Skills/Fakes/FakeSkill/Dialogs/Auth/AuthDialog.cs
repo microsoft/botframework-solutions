@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Specialized;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
-using FakeSkill.Dialogs.Sample.Resources;
 using FakeSkill.Dialogs.Shared;
 using FakeSkill.ServiceClients;
+using Microsoft.Bot.Solutions.Responses;
 
 namespace FakeSkill.Dialogs.Auth
 {
@@ -16,20 +13,21 @@ namespace FakeSkill.Dialogs.Auth
     {
         public AuthDialog(
             SkillConfigurationBase services,
+            ResponseManager responseManager,
             IStatePropertyAccessor<SkillConversationState> conversationStateAccessor,
             IStatePropertyAccessor<SkillUserState> userStateAccessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(AuthDialog), services, conversationStateAccessor, userStateAccessor, serviceManager, telemetryClient)
+            : base(nameof(AuthDialog), services, responseManager, conversationStateAccessor, userStateAccessor, serviceManager, telemetryClient)
         {
             var sample = new WaterfallStep[]
             {
-                GetAuthToken,              
+                GetAuthToken,
                 End,
             };
 
             AddDialog(new WaterfallDialog(nameof(AuthDialog), sample));
-        }      
+        }
 
         private Task<DialogTurnResult> End(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
@@ -37,7 +35,7 @@ namespace FakeSkill.Dialogs.Auth
         }
 
         private class DialogIds
-        {          
+        {
         }
     }
 }

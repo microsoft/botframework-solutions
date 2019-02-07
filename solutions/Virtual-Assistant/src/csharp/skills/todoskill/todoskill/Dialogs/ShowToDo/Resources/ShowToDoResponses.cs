@@ -1,64 +1,34 @@
 ﻿// https://docs.microsoft.com/en-us/visualstudio/modeling/t4-include-directive?view=vs-2017
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using System.IO;
-using System.Runtime.CompilerServices;
-using Microsoft.Bot.Solutions.Dialogs;
+
+using Microsoft.Bot.Solutions.Responses;
 
 namespace ToDoSkill.Dialogs.ShowToDo.Resources
 {
     /// <summary>
     /// Contains bot responses.
     /// </summary>
-    public static class ShowToDoResponses
+    public class ShowToDoResponses : IResponseIdCollection
     {
-        private static readonly ResponseManager _responseManager;
-
-        static ShowToDoResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(ShowToDoResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\ShowToDo\Resources");
-            _responseManager = new ResponseManager(resDir, "ShowToDoResponses");
-        }
-
         // Generated accessors
-        public static BotResponse LatestOneTask => GetBotResponse();
+		public const string LatestOneTask = "LatestOneTask";
+		public const string LatestTwoTasks = "LatestTwoTasks";
+		public const string LatestThreeOrMoreTasks = "LatestThreeOrMoreTasks";
+		public const string AskAddOrCompleteTaskMessage = "AskAddOrCompleteTaskMessage";
+		public const string ReadMoreTasksPrompt = "ReadMoreTasksPrompt";
+		public const string ReadMoreTasksConfirmFailed = "ReadMoreTasksConfirmFailed";
+		public const string NextOneTask = "NextOneTask";
+		public const string NextTwoTasks = "NextTwoTasks";
+		public const string NextThreeOrMoreTask = "NextThreeOrMoreTask";
+		public const string ShowPreviousTasks = "ShowPreviousTasks";
+		public const string NoTasksMessage = "NoTasksMessage";
+		public const string InstructionMessage = "InstructionMessage";
+		public const string TaskSummaryMessage = "TaskSummaryMessage";
+		public const string RepeatFirstPagePrompt = "RepeatFirstPagePrompt";
+		public const string RepeatFirstPageConfirmFailed = "RepeatFirstPageConfirmFailed";
+		public const string GoBackToStartPrompt = "GoBackToStartPrompt";
+		public const string GoBackToStartConfirmFailed = "GoBackToStartConfirmFailed";
 
-        public static BotResponse LatestTwoTasks => GetBotResponse();
-
-        public static BotResponse LatestThreeOrMoreTasks => GetBotResponse();
-
-        public static BotResponse AskAddOrCompleteTaskMessage => GetBotResponse();
-
-        public static BotResponse ReadMoreTasksPrompt => GetBotResponse();
-
-        public static BotResponse ReadMoreTasksConfirmFailed => GetBotResponse();
-
-        public static BotResponse NextOneTask => GetBotResponse();
-
-        public static BotResponse NextTwoTasks => GetBotResponse();
-
-        public static BotResponse NextThreeOrMoreTask => GetBotResponse();
-
-        public static BotResponse ShowPreviousTasks => GetBotResponse();
-
-        public static BotResponse NoTasksMessage => GetBotResponse();
-
-        public static BotResponse InstructionMessage => GetBotResponse();
-
-        public static BotResponse TaskSummaryMessage => GetBotResponse();
-
-        public static BotResponse RepeatFirstPagePrompt => GetBotResponse();
-
-        public static BotResponse RepeatFirstPageConfirmFailed => GetBotResponse();
-
-        public static BotResponse GoBackToStartPrompt => GetBotResponse();
-
-        public static BotResponse GoBackToStartConfirmFailed => GetBotResponse();
-
-        private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
-        {
-            return _responseManager.GetBotResponse(propertyName);
-        }
     }
 }

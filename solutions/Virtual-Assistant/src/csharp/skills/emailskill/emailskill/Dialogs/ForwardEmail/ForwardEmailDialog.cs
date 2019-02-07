@@ -12,7 +12,7 @@ using EmailSkill.ServiceClients;
 using EmailSkill.Util;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 
@@ -22,11 +22,12 @@ namespace EmailSkill.Dialogs.ForwardEmail
     {
         public ForwardEmailDialog(
             SkillConfigurationBase services,
+            ResponseManager responseManager,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(ForwardEmailDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient)
+            : base(nameof(ForwardEmailDialog), services, responseManager, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -69,7 +70,7 @@ namespace EmailSkill.Dialogs.ForwardEmail
             AddDialog(new WaterfallDialog(Actions.Show, showEmail) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.CollectRecipient, collectRecipients) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateSelectMessage, updateSelectMessage) { TelemetryClient = telemetryClient });
-            AddDialog(new FindContactDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
+            AddDialog(new FindContactDialog(services, responseManager, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
             InitialDialogId = Actions.Forward;
         }
 
@@ -107,13 +108,16 @@ namespace EmailSkill.Dialogs.ForwardEmail
                         { "Subject", state.Subject },
                     };
 
-                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(EmailSharedResponses.SentSuccessfully, "Dialogs/Shared/Resources/Cards/EmailWithOutButtonCard.json", emailCard, tokens: stringToken);
+                    var reply = ResponseManager.GetCardResponse(
+                        EmailSharedResponses.SentSuccessfully,
+                        new Card("EmailWithOutButtonCard", emailCard),
+                        stringToken);
 
-                    await sc.Context.SendActivityAsync(replyMessage);
+                    await sc.Context.SendActivityAsync(reply);
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.CancellingMessage));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.CancellingMessage));
                 }
             }
             catch (Exception ex)

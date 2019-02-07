@@ -98,147 +98,58 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\FindContact\Resources\FindContactResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\EmailMainResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\EmailMainResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\EmailMainResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\EmailMainResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\EmailMainResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\EmailMainResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ReplyEmail\Resources\ReplyEmailResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ReplyEmail\Resources\ReplyEmailResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ReplyEmail\Resources\ReplyEmailResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ReplyEmail\Resources\ReplyEmailResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ReplyEmail\Resources\ReplyEmailResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ReplyEmail\Resources\ReplyEmailResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\SendEmail\Resources\SendEmailResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\SendEmail\Resources\SendEmailResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\SendEmail\Resources\SendEmailResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\SendEmail\Resources\SendEmailResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\SendEmail\Resources\SendEmailResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\SendEmail\Resources\SendEmailResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\Cards\EmailCard.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\Cards\EmailContentPreview.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\Cards\EmailDetailCard.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\Cards\EmailWithOutButtonCard.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\EmailSharedResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\EmailSharedResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\EmailSharedResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\EmailSharedResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\EmailSharedResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\EmailSharedResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ShowEmail\Resources\ShowEmailResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ShowEmail\Resources\ShowEmailResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ShowEmail\Resources\ShowEmailResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ShowEmail\Resources\ShowEmailResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ShowEmail\Resources\ShowEmailResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\ShowEmail\Resources\ShowEmailResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <EmbeddedResource Include="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.json" />
+    <EmbeddedResource Include="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\FindContact\Resources\FindContactResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\FindContact\Resources\FindContactResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\FindContact\Resources\FindContactResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\FindContact\Resources\FindContactResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\FindContact\Resources\FindContactResponses.json" />
+    <EmbeddedResource Include="Dialogs\FindContact\Resources\FindContactResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.json" />
+    <EmbeddedResource Include="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\EmailMainResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\EmailMainResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\EmailMainResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\EmailMainResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\EmailMainResponses.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\EmailMainResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\ReplyEmail\Resources\ReplyEmailResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\ReplyEmail\Resources\ReplyEmailResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\ReplyEmail\Resources\ReplyEmailResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\ReplyEmail\Resources\ReplyEmailResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\ReplyEmail\Resources\ReplyEmailResponses.json" />
+    <EmbeddedResource Include="Dialogs\ReplyEmail\Resources\ReplyEmailResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\SendEmail\Resources\SendEmailResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\SendEmail\Resources\SendEmailResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\SendEmail\Resources\SendEmailResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\SendEmail\Resources\SendEmailResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\SendEmail\Resources\SendEmailResponses.json" />
+    <EmbeddedResource Include="Dialogs\SendEmail\Resources\SendEmailResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\EmailCard.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\EmailContentPreview.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\EmailDetailCard.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\EmailWithOutButtonCard.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\EmailSharedResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\EmailSharedResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\EmailSharedResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\EmailSharedResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\EmailSharedResponses.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\EmailSharedResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\ShowEmail\Resources\ShowEmailResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\ShowEmail\Resources\ShowEmailResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\ShowEmail\Resources\ShowEmailResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\ShowEmail\Resources\ShowEmailResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\ShowEmail\Resources\ShowEmailResponses.json" />
+    <EmbeddedResource Include="Dialogs\ShowEmail\Resources\ShowEmailResponses.zh.json" />
   </ItemGroup>
 
   <ItemGroup>

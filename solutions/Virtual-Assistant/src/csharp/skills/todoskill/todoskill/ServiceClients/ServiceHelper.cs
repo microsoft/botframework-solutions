@@ -13,7 +13,6 @@ namespace ToDoSkill.ServiceClients
     using System.Threading.Tasks;
     using System.Xml;
     using global::ToDoSkill.Models;
-    using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
     using Microsoft.Bot.Solutions.Skills;
     using Microsoft.Graph;
     using Newtonsoft.Json;
@@ -26,8 +25,6 @@ namespace ToDoSkill.ServiceClients
         private const string APIErrorAccessDenied = "erroraccessdenied";
 
         private static readonly Regex ComplexTokensRegex = new Regex(@"\{[^{\}]+(?=})\}", RegexOptions.Compiled);
-        private static readonly List<IBotResponseFormatter> ResponseFormatters = new List<IBotResponseFormatter>();
-        private static readonly IBotResponseFormatter DefaultFormatter = new DefaultBotResponseFormatter();
         private static HttpClient httpClient = new HttpClient();
 
         /// <summary>

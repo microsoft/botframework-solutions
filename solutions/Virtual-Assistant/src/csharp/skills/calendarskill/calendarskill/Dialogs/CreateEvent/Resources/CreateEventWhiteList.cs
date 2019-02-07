@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using Newtonsoft.Json;
@@ -18,13 +19,16 @@ namespace CalendarSkill.Dialogs.CreateEvent.Resources
         {
             random = new Random();
             whiteLists = new Dictionary<string, WhiteList>();
-            var dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var resDir = Path.Combine(dir, @"Dialogs\CreateEvent\Resources\");
+            var assembly = Assembly.GetExecutingAssembly();
+            var resources = assembly.GetManifestResourceNames();
 
-            StreamReader sr = new StreamReader(resDir + "CreateEventWhiteList.json", Encoding.Default);
+            var whitelist = resources.Where(r => r.Contains("CreateEventWhiteList")).Single();
+            var sr = new StreamReader(assembly.GetManifestResourceStream(whitelist), Encoding.Default);
             whiteLists.Add("en", JsonConvert.DeserializeObject<WhiteList>(sr.ReadToEnd()));
 
-            sr = new StreamReader(resDir + "CreateEventWhiteList.zh.json", Encoding.Default);
+            resources = assembly.GetSatelliteAssembly(new CultureInfo("zh")).GetManifestResourceNames();
+            whitelist = resources.Where(r => r.Contains("CreateEventWhiteList")).Single();
+            sr = new StreamReader(assembly.GetManifestResourceStream(whitelist), Encoding.Default);
             whiteLists.Add("zh", JsonConvert.DeserializeObject<WhiteList>(sr.ReadToEnd()));
 
             var locale = CultureInfo.CurrentUICulture.Name;
@@ -52,7 +56,7 @@ namespace CalendarSkill.Dialogs.CreateEvent.Resources
                 locale = DefaultCulture;
             }
 
-            int rand = random.Next(0, whiteLists[locale].DefaultTitle.Count);
+            var rand = random.Next(0, whiteLists[locale].DefaultTitle.Count);
             return whiteLists[locale].DefaultTitle[rand];
         }
 

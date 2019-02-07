@@ -7,7 +7,8 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using ToDoSkill.Dialogs.MarkToDo.Resources;
@@ -23,11 +24,12 @@ namespace ToDoSkill.Dialogs.MarkToDo
     {
         public MarkToDoItemDialog(
             SkillConfigurationBase services,
+            ResponseManager responseManager,
             IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
             IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(MarkToDoItemDialog), services, toDoStateAccessor, userStateAccessor, serviceManager, telemetryClient)
+            : base(nameof(MarkToDoItemDialog), services, responseManager, toDoStateAccessor, userStateAccessor, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -171,7 +173,7 @@ namespace ToDoSkill.Dialogs.MarkToDo
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 if (string.IsNullOrEmpty(state.ListType))
                 {
-                    var prompt = sc.Context.Activity.CreateReply(MarkToDoResponses.ListTypePrompt);
+                    var prompt = ResponseManager.GetResponse(MarkToDoResponses.ListTypePrompt);
                     return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
                 }
                 else
@@ -236,7 +238,7 @@ namespace ToDoSkill.Dialogs.MarkToDo
                 }
                 else
                 {
-                    var prompt = sc.Context.Activity.CreateReply(MarkToDoResponses.AskTaskIndex);
+                    var prompt = ResponseManager.GetResponse(MarkToDoResponses.AskTaskIndex);
                     return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
                 }
             }
@@ -319,8 +321,8 @@ namespace ToDoSkill.Dialogs.MarkToDo
         {
             try
             {
-                var prompt = sc.Context.Activity.CreateReply(MarkToDoResponses.CompleteAnotherTaskPrompt);
-                var retryPrompt = sc.Context.Activity.CreateReply(MarkToDoResponses.CompleteAnotherTaskConfirmFailed);
+                var prompt = ResponseManager.GetResponse(MarkToDoResponses.CompleteAnotherTaskPrompt);
+                var retryPrompt = ResponseManager.GetResponse(MarkToDoResponses.CompleteAnotherTaskConfirmFailed);
                 return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
@@ -350,7 +352,7 @@ namespace ToDoSkill.Dialogs.MarkToDo
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(ToDoSharedResponses.ActionEnded));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ActionEnded));
                     return await sc.EndDialogAsync(true);
                 }
             }

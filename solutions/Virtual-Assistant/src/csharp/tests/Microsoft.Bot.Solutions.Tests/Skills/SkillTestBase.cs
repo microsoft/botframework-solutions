@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Globalization;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Autofac;
-using FakeSkill.Dialogs.Sample.Resources;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Testing;
 using Microsoft.Bot.Solutions.Testing.Fakes;
+using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Auth.Resources;
+using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Main.Resources;
+using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Sample.Resources;
+using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Shared.Resources;
 using Microsoft.Bot.Solutions.Tests.Skills.LuisTestUtils;
-using Microsoft.Bot.Solutions.Tests.Skills.Utterances;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Bot.Solutions.Tests.Skills
@@ -84,10 +81,17 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
             builder.RegisterInstance(new BotStateSet(UserState, ConversationState));
             Container = builder.Build();
 
-            BotResponseBuilder = new BotResponseBuilder();
-            BotResponseBuilder.AddFormatter(new TextBotResponseFormatter());
-
             Dialogs = new DialogSet(DialogState);
+
+            ResponseManager = new ResponseManager(
+                new IResponseIdCollection[] 
+                {
+                    new SampleAuthResponses(),
+                    new MainResponses(),
+                    new SharedResponses(),
+                    new SampleResponses()
+                },
+                new string[] { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" });
 
             // Manually mange the conversation metadata when we need finer grained control
             ConversationReference = new ConversationReference
@@ -133,7 +137,7 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
 
         public override IBot BuildBot()
         {
-            return new FakeSkill.FakeSkill(Services, ConversationState, UserState, TelemetryClient, true, null);
+            return new FakeSkill.FakeSkill(Services, ConversationState, UserState, TelemetryClient, true, ResponseManager, null);
         }
     }
 }
