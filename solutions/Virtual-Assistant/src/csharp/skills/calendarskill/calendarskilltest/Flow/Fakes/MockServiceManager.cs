@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CalendarSkill;
 using CalendarSkill.Extensions;
 using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
@@ -85,7 +84,7 @@ namespace CalendarSkillTest.Flow.Fakes
 
         public static IServiceManager SetMeetingsToNull()
         {
-            List<EventModel> eventList = new List<EventModel>();
+            var eventList = new List<EventModel>();
 
             mockCalendarService.Setup(service => service.GetUpcomingEvents()).Returns(Task.FromResult(eventList));
             mockCalendarService.Setup(service => service.GetEventsByTime(It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(Task.FromResult(eventList));
@@ -96,8 +95,8 @@ namespace CalendarSkillTest.Flow.Fakes
 
         public static IServiceManager SetMeetingsToMultiple(int count)
         {
-            List<EventModel> eventList = new List<EventModel>();
-            for (int i = 0; i < count; i++)
+            var eventList = new List<EventModel>();
+            for (var i = 0; i < count; i++)
             {
                 eventList.Add(CreateEventModel());
             }
@@ -111,9 +110,9 @@ namespace CalendarSkillTest.Flow.Fakes
 
         public static IServiceManager SetPeopleToMultiple(int count)
         {
-            List<PersonModel> peoples = new List<PersonModel>();
+            var peoples = new List<PersonModel>();
 
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 var emailAddressStr = string.Format(Strings.Strings.UserEmailAddress, i);
                 var userNameStr = string.Format(Strings.Strings.UserName, i);
@@ -224,9 +223,8 @@ namespace CalendarSkillTest.Flow.Fakes
             // Another example date format: `new DateTime(2017, 12, 1, 9, 30, 0).ToString("o")`
             if (startDateTime == null)
             {
-                DateTime now = DateTime.Now;
-                DateTime startTime = new DateTime(now.Year, now.Month, now.Day, 18, 0, 0);
-                startTime = TimeZoneInfo.ConvertTimeToUtc(startTime);
+                var now = DateTime.UtcNow.Date;
+                var startTime = now.AddHours(18);
                 startDateTime = startTime.AddDays(1);
             }
 
@@ -238,12 +236,12 @@ namespace CalendarSkillTest.Flow.Fakes
             var startTimeTimeZone = new DateTimeTimeZone
             {
                 DateTime = startDateTime.Value.ToString("o"),
-                TimeZone = TimeZoneInfo.Local.Id,
+                TimeZone = TimeZoneInfo.Utc.Id,
             };
             var endTimeTimeZone = new DateTimeTimeZone
             {
                 DateTime = endDateTime.Value.ToString("o"),
-                TimeZone = TimeZoneInfo.Local.Id,
+                TimeZone = TimeZoneInfo.Utc.Id,
             };
 
             // Event location
@@ -272,14 +270,16 @@ namespace CalendarSkillTest.Flow.Fakes
 
         private static List<EventModel> GetFakeEvents()
         {
-            List<EventModel> events = new List<EventModel>();
-            events.Add(CreateEventModel());
+            var events = new List<EventModel>
+            {
+                CreateEventModel()
+            };
             return events;
         }
 
         private static List<PersonModel> GetFakePeoples()
         {
-            List<PersonModel> peoples = new List<PersonModel>();
+            var peoples = new List<PersonModel>();
             var addressList = new List<ScoredEmailAddress>();
             var emailAddress = new ScoredEmailAddress()
             {
@@ -301,7 +301,7 @@ namespace CalendarSkillTest.Flow.Fakes
 
         private static List<PersonModel> GetFakeUsers()
         {
-            List<PersonModel> users = new List<PersonModel>();
+            var users = new List<PersonModel>();
 
             var emailAddressStr = Strings.Strings.DefaultUserEmail;
             var user = new User()
