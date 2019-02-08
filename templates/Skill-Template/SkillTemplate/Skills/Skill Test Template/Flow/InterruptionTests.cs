@@ -40,7 +40,7 @@ namespace $safeprojectname$.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                CollectionAssert.Contains(ParseReplies(SampleResponses.NamePrompt.Replies, new StringDictionary()), messageActivity.Text);
+                CollectionAssert.Contains(ParseReplies(SampleResponses.NamePrompt, new StringDictionary()), messageActivity.Text);
             };
         }
 
@@ -49,7 +49,7 @@ namespace $safeprojectname$.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                CollectionAssert.Contains(ParseReplies(MainResponses.HelpMessage.Replies, new StringDictionary()), messageActivity.Text);
+                CollectionAssert.Contains(ParseReplies(MainResponses.HelpMessage, new StringDictionary()), messageActivity.Text);
             };
         }
 
@@ -58,7 +58,7 @@ namespace $safeprojectname$.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                CollectionAssert.Contains(ParseReplies(MainResponses.CancelMessage.Replies, new StringDictionary()), messageActivity.Text);
+                CollectionAssert.Contains(ParseReplies(MainResponses.CancelMessage, new StringDictionary()), messageActivity.Text);
             };
         }
     }

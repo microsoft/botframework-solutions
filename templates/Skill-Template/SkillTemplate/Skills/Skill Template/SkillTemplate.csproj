@@ -23,60 +23,24 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Dialogs\Main\Resources\MainResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\MainResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\MainResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\MainResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\MainResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Main\Resources\MainResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Sample\Resources\SampleResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Sample\Resources\SampleResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Sample\Resources\SampleResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Sample\Resources\SampleResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Sample\Resources\SampleResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Sample\Resources\SampleResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\SharedResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\SharedResponses.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\SharedResponses.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\SharedResponses.fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\SharedResponses.it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\SharedResponses.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <EmbeddedResource Include="Dialogs\Main\Resources\MainResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\MainResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\MainResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\MainResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\MainResponses.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\MainResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\Sample\Resources\SampleResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\Sample\Resources\SampleResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\Sample\Resources\SampleResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\Sample\Resources\SampleResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\Sample\Resources\SampleResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\Sample\Resources\SampleResponses.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\SharedResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\SharedResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\SharedResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\SharedResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\SharedResponses.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\SharedResponses.zh.json" />
   </ItemGroup>
 
   <ItemGroup>

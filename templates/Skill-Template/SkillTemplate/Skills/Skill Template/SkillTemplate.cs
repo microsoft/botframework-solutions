@@ -31,7 +31,13 @@ private readonly ResponseManager _responseManager;
         private DialogSet _dialogs;
         private bool _skillMode;
 
-        public $safeprojectname$(SkillConfigurationBase services, ResponseManager responseManager, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, ServiceManager serviceManager = null, bool skillMode = false)
+        public $safeprojectname$(SkillConfigurationBase services,
+            ConversationState conversationState,
+            UserState userState,
+            IBotTelemetryClient telemetryClient,
+            bool skillMode = false,
+            ResponseManager responseManager = null,
+            IServiceManager serviceManager = null)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));
@@ -51,6 +57,7 @@ private readonly ResponseManager _responseManager;
                     }, _services.LocaleConfigurations.Keys.ToArray());
             }
 
+            _responseManager = responseManager;
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(DialogState)));
             _dialogs.Add(new MainDialog(_services, _responseManager, _conversationState, _userState, _telemetryClient, _serviceManager, _skillMode));
         }
