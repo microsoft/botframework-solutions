@@ -1,6 +1,6 @@
 # Creating a skill using the Skill Template
 1. Install VSIX from [MyGet](https://botbuilder.myget.org/gallery/aitemplates).
-1. Add a new **Skill Template with Tests** project to your solution in the Skills folder. 
+2. Add a new **Skill Template with Tests** project to your solution in the Skills folder. 
     ![Screenshot](./media/skills_addproject.jpg)
 
     ![Screenshot](./media/skills_addproject2.jpg)
@@ -9,8 +9,11 @@
 
     ![Screenshot](./media/skills_projects.jpg)
 
-1. Add references to **Microsoft.Bot.Solutions** to your new skill and test projects. (Right-click your project, go to **Add > Reference** and select your skill project from the list.)
-1. Rebuild project to verify there are no errors.
+3. Add references to **Microsoft.Bot.Solutions** to your new skill and test projects. (Right-click your project, go to **Add > Reference** and select your skill project from the list.)
+4. Rebuild project to verify there are no errors.
+
+# Deploying LUIS models and updating Dispatch
+
 1. Add your Skill LUIS models to the bot.recipe file located within your assistant project: `assistant\DeploymentScripts\en\bot.recipe`
 
     ```
@@ -21,33 +24,30 @@
             "luPath": "..\\skills\\MySkill\\MySkill\\CognitiveModels\\LUIS\\en\\MySkill.lu"
         }
     ```
-
-1. Add dispatch references to the core LUIS intents for the skill within the `assistant\CognitiveModels\LOCALE\dispatch.lu` file as shown below and repeat for all locales your skill supports. This enables the Dispatcher to understand your new capabilities and route utterances to your skill.
+2. Add dispatch references to the core LUIS intents for the skill within the `assistant\CognitiveModels\LOCALE\dispatch.lu` file as shown below and repeat for all locales your skill supports. This enables the Dispatcher to understand your new capabilities and route utterances to your skill.
      
     ```
         # l_MySkill 
         - [Sample intent](../../../../skills/MySkill/MySkill/CognitiveModels/LUIS/en/MySkill.lu#Sample)
     ```
-1. Run the following script to deploy the new Skill LUIS models and to update the dispatcher, if you omit the locales parameter it will update all languages.
-    ```
-    PowerShell.exe -ExecutionPolicy Bypass -File DeploymentScripts\update_published_models.ps1 -locales "en-us"
-    ```
 
-1. If you have already deployed your Virtual Assistant prior to adding your skill, run **update_published_models.ps1** to deploy the new Skill LUIS models and to update the dispatcher (NOTE: if you omit the locales parameter it will update all languages).
+3. If you have already deployed your Virtual Assistant prior to adding your skill, run **update_published_models.ps1** to deploy the new Skill LUIS models and to update the dispatcher (NOTE: if you omit the locales parameter it will update all languages).
 
     ```
     PowerShell.exe -ExecutionPolicy Bypass -File DeploymentScripts\update_published_models.ps1 -locales "en-us"
     ```
 
-1. If you have not deployed your Virtual Assistant, run **deploy_bot.ps1** to deploy all your bot services, LUIS, QnA Maker, and Dispatch models.
+4. If you have not deployed your Virtual Assistant, run **deploy_bot.ps1** to deploy all your bot services, LUIS, QnA Maker, and Dispatch models.
 
     ```
     PowerShell.exe -ExecutionPolicy Bypass -File DeploymentScripts\Deploy_Bot.ps1
     ```
 
+# Update Virtual Assistant
+
 1. In Virtual Assistant, add a project reference to your new skill project. This tells the Virtual Assistant that there is a new skill available for use. (Right-click your project, go to **Add > Reference** and select your skill project from the list.)
 
-1. In Virtual Assistant, add your skill configuration to **appsettings.json** 
+2. In Virtual Assistant, add your skill configuration to **appsettings.json** 
     ```
        "skills":[
             {
@@ -66,15 +66,15 @@
             }
         ]
     ```
-7. Run the LuisGen tool to update Dispatch.cs.
+3. Run the LuisGen tool to update Dispatch.cs.
     ```
     LUISGen YOUR_PROJECT_DIRECTORY\DeploymentScripts\en\dispatch.luis -cs Dispatch -o YOUR_PROJECT_DIRECTORY\Dialogs\Shared\Resources 
     ```
-8. Update **MainDialog.cs** with the dispatch intent for your skill.
+4. Update **MainDialog.cs** with the dispatch intent for your skill.
     ![](./media/skills_maindialogupdate.jpg)
 
-9.  Run the Virtual Assistant project.
-10. Test your new skill with the query "sample dialog".
+5.  Run the Virtual Assistant project.
+6.  Test your new skill with the query "sample dialog".
 
     ![Screenshot](./media/skills_testnewskill.jpg)
 
@@ -82,7 +82,7 @@
 1. Start by identifying the different tasks your skill will handle.
     - Consider both the local and skill mode experience in your design. A skill should work well in isolation and when included in an assistant solution.
 
-1. Design your LUIS model and update the **.lu** file for your Skill (Found in CognitiveModels\LUIS folder) with your intents, utterances, and entities. 
+2. Design your LUIS model and update the **.lu** file for your Skill (Found in CognitiveModels\LUIS folder) with your intents, utterances, and entities. 
     - Keep your intents discrete and avoid overlap with other skills you'll be adding to your assistant.
     - More information on authoring .lu files can be found [here](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/Ludown/docs/lu-file-format.md).
     - Run **update_published_model.ps1** to update your Skill LUIS model with your new intents. 
@@ -90,7 +90,7 @@
         ```
         LUISGen YOUR_SKILL_PROJECT_DIRECTORY\DeploymentScripts\en\MySkill.luis -cs YourSkillLU -o YOUR_SKILL_PROJECT_DIRECTORY\Dialogs\Shared\Resources 
         ```
-1. Create your dialogs
+3. Create your dialogs
     - Create a folder for your dialog with a relevant name in the Dialogs folder of your skill. 
     - Right-click the folder and go to **Add > New Iem** and select **Skill Dialog** in the Bot Framework folder.
     - Name your dialog and click **Add**.
@@ -154,7 +154,7 @@
         ```
 
 
-1. Update the skill configuration in Virtual Assistant appsettings.json
+4. Update the skill configuration in Virtual Assistant appsettings.json
     - **supportedProviders**: this section is for identifying the different authentication providers your skill supports. If your skill does not provide an authenticated experience, leave this section blank. The value is the "Service Provider" from your OAuth connection in the Azure portal.
 
         ```
