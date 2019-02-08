@@ -159,33 +159,37 @@ Note: update the language models for the languages that you support and feel fre
 
 ## Skill Configuration
 
-The Virtual Assistant Solution is fully integrated with all available skills out of the box. Skill configuration can be found in your appSettings.json file and is detailed further in the [Adding A Skill](./virtualassistant-addingaskill.md) documentation.
+The Virtual Assistant Solution is fully integrated with all available skills out of the box. Skill configuration can be found in your appSettings.json file and is detailed further in the [Adding A Skill](./virtualassistant-skills.md) documentation.
 
 ## Skill Authentication
 
 If you wish to make use of the Calendar, Email and Task Skills you need to configure an Authentication Connection enabling uses of your Assistant to authenticate against services such as Office 365 and securely store a token which can be retrieved by your assistant when a user asks a question such as *"What does my day look like today"* to then use against an API like Microsoft Graph.
 
-The [Add Authentication to your bot](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-authentication?view=azure-bot-service-3.0) section in the Azure Bot Service documentation covers more detail on how to configure Authentication. However in this scenario, the automated deployment step has already created the **Azure AD v2 Application** for your Bot. Therefore you only need to perform the following steps from the above documentation page:
+The [Add Authentication to your bot](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-authentication?view=azure-bot-service-3.0) section in the Azure Bot Service documentation covers more detail on how to configure Authentication. However in this scenario, the automated deployment step has already created the **Azure AD v2 Application** for your Bot and you instead need to follow these instructions:
 
-- Navigate to https://apps.dev.microsoft.com/ and find the application created during the deployment step. The application name should match your Bot name.
-- Click on your application. This will open your application registration page.  
-> You may see a pop-up advising you to manage your application on **Azure Portal**. This is now the recommended management portal for applications. Both interfaces can achieve the same goal. However, we have not documented the **Azure Portal** experience below.  
-
-- Under Platforms, click Add Platform.
-  - In the Add Platform pop-up, click Web.
-  - Leave Allow Implicit Flow checked.
-  - For Redirect URL, enter `https://token.botframework.com/.auth/web/redirect`
-  - Leave Logout URL blank.
-- Under Microsoft Graph Permissions, you can need to add additional *delegated* permissions. Each of the Skills require a specific set of Scopes. You can refer to the documentation for each skill or follow the steps below to add a list of Scopes that contain the scopes needed for all skills. 
-    - Click on **Add** next to Delegated Permissions.
-    - Click the checkbox next to the following eight scopes: 
-        - `Calendars.ReadWrite`, `Contacts.Read`, `Mail.ReadWrite`, `Mail.Send`,  `Notes.ReadWrite`, `People.Read`, `Tasks.ReadWrite`, `User.Read`  
-    - Click **Ok** when done. 
-- **Save** all updates to your application when done. 
+- Navigate to the Azure Portal, Click Azure Active Directory and then `App Registrations (Preview)`
+- Find the Application that's been created for your Bot as part of the deployment. You can search for the application by name or ApplicationID as part of the experience but note that search only works across applications currently shown and the one you need may be on a separate page.
+- Click Authentication on the left-hand navigation
+  - Add a Redirect URI of type `Web` with a URI of `https://token.botframework.com/.auth/web/redirect`
+  - Under Implicit Grant select `Access Tokens`
+  - Click Save to apply the changes
+- Click API permissions on the left-hand navigation
+  - Select Add Permission to show the permissions pane
+  - Select `Microsoft Graph`
+  - Select Delegated Permissions and then add each of the following permissions required for the Productivity Skills:
+    -  `Calendars.ReadWrite`
+    -  `Contacts.Read`
+    -  `Mail.ReadWrite`
+    -  `Mail.Send`
+    -  `Notes.ReadWrite`
+    -  `People.Read`
+    -  `Tasks.ReadWrite`
+    -  `User.Read`  
+ -  Click Add Permissions at the bottom to apply the changes.
 
 Next you need to create the Authentication Connection for your Bot. Ensure you use the same combination of Scopes that you provided in the above command. The first command shown below will retrieve the appId (ApplicationId) and appPassword (Client Secret) that you need to complete this step.
 
-The commands shown below assume you have used the deployment process and your resource group name is the same as your bot. Replace `YOUR_AUTH_CONNECTION_NAME` with the name of the auth connection you wish to create and use that in the next step.
+The commands shown below assume you have used the deployment process and your resource group name is the same as your bot. Replace `YOUR_AUTH_CONNECTION_NAME` with the name of the Auth connection you wish to create and use that in the next step. The first step shows the ApplicationID and Secret of your Bot to help complete this step.
 
 ```shell
 msbot get production --secret YOUR_SECRET

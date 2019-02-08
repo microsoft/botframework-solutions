@@ -13,8 +13,8 @@ using $safeprojectname$.ServiceClients;
 
 namespace $safeprojectname$.Dialogs.Sample
 {
-    public class SampleDialog : SkillTemplateDialog
-    {
+    public class SampleDialog : SkillDialogBase
+{
         public SampleDialog(
             SkillConfigurationBase services,
             ResponseManager responseManager,

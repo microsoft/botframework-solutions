@@ -14,8 +14,7 @@ The following scenarios are currently supported by the Skill:
 
 ## Supported Sources
 
-> Office 365 and Outlook.com through the Microsoft Graph is supported at this time. Google support will be coming in the next release.
-> Tasks currently use a OneNote page, Outlook Task support via the Microsoft Graph is coming in the next release. 
+> Office 365 and Outlook.com through the Microsoft Graph is supported along with support for Google accounts.
 
 ## Authentication Connection Settings
 
