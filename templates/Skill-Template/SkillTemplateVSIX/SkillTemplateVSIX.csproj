@@ -57,6 +57,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Content Include="ItemTemplates\Bot Framework.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
@@ -70,7 +74,10 @@
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup>
     <PreBuildEvent>powershell New-Item -ItemType Directory -Force -Path '$(ProjectDir)ProjectTemplates'
-powershell Compress-Archive -Path '$(SolutionDir)SkillTemplate\Skills' -DestinationPath '$(ProjectDir)ProjectTemplates\Bot Framework.zip' -Force</PreBuildEvent>
+powershell Compress-Archive -Path '$(SolutionDir)SkillTemplate\Skills' -DestinationPath '$(ProjectDir)ProjectTemplates\Bot Framework.zip' -Force
+
+powershell New-Item -ItemType Directory -Force -Path '$(ProjectDir)ItemTemplates'
+powershell Compress-Archive -Path '$(SolutionDir)DialogTemplate\Skills' -DestinationPath '$(ProjectDir)ItemTemplates\Bot Framework.zip' -Force</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
