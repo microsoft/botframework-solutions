@@ -10,25 +10,29 @@
     ![Screenshot](./media/skills_projects.jpg)
 
 1. Add references to **Microsoft.Bot.Solutions** to your new skill and test projects
-1. Rebuild project to verify there are no errors.
-1. Update the Virtual Assistant deployment scripts.
-    - Add the LUIS config for your skill to the **bot.recipe** file for all languages.
-        ```
+2. Rebuild project to verify there are no errors.
+3. Add your Skill LUIS models to the bot.recipe file located within your assistant project: `assistant\DeploymentScripts\en\bot.recipe`
+
+    ```
         {
             "type": "luis",
             "id": "MySkill",
             "name": "MySkill",
             "luPath": "..\\skills\\MySkill\\MySkill\\CognitiveModels\\LUIS\\en\\MySkill.lu"
         }
-        ```
-    - Add references to your skill intents in **dispatch.lu** for all languages
-        ```
+    ```
+
+4. Add dispatch references to the core LUIS intents for the skill within the `assistant\CognitiveModels\LOCALE\dispatch.lu` file as shown below and repeat for all locales your skill supports. This enables the Dispatcher to understand your new capabilities and route utterances to your skill.
+     
+    ```
         # l_MySkill 
         - [Sample intent](../../../../skills/MySkill/MySkill/CognitiveModels/LUIS/en/MySkill.lu#Sample)
-        ```
-1. Run **deploy_bot.ps1**
-1. In Virtual Assistant, add a reference to your new skill project.
-1. In Virtual Assistant, add your skill configuration to **appsettings.json**
+    ```
+5. Run the following script to deploy the new Skill LUIS models and to update the dispatcher, if you omit the locales parameter it will update all languages.
+    ```
+    PowerShell.exe -ExecutionPolicy Bypass -File DeploymentScripts\update_published_models.ps1 -locales "en-us"
+    ```
+6. In Virtual Assistant, add a project reference to your new skill project. This tells the Virtual Assistant that there is a new skill available for use.
     ```
        "skills":[
             {
@@ -47,15 +51,15 @@
             }
         ]
     ```
-1. Run the LuisGen tool to update Dispatch.cs.
+7. Run the LuisGen tool to update Dispatch.cs.
     ```
     LUISGen DeploymentScripts\en\dispatch.luis -cs Dispatch -o Dialogs\Shared\Resources 
     ```
-1. Update **MainDialog.cs** with the dispatch intent for your skill.
+8. Update **MainDialog.cs** with the dispatch intent for your skill.
     ![](./media/skills_maindialogupdate.jpg)
 
-1. Run the Virtual Assistant project.
-1. Test your new skill with the query "sample dialog".
+9.  Run the Virtual Assistant project.
+10. Test your new skill with the query "sample dialog".
 
     ![Screenshot](./media/skills_testnewskill.jpg)
 
