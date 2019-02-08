@@ -6,6 +6,7 @@ const rimraf = require("rimraf");
 const _camelCase = require("lodash/camelCase");
 const _upperFirst = require("lodash/upperFirst");
 const _kebabCase = require("lodash/kebabCase");
+const semver = require('semver');
 
 describe("The generator-botbuilder-enterprise tests", function() {
   var botName;
@@ -14,8 +15,9 @@ describe("The generator-botbuilder-enterprise tests", function() {
   var botNamePascalCase;
   var botNameCamelCase;
   var botGenerationPath;
-  var confirmationPath;
+  var pathConfirmation;
   var finalConfirmation;
+  var run = true;
   const cognitiveDirectories = ["LUIS", "QnA"];
   const commonDirectories = [
     "dialogs",
@@ -42,32 +44,35 @@ describe("The generator-botbuilder-enterprise tests", function() {
     botName = _kebabCase(botName).replace(/([^a-z0-9-]+)/gi, "");
     botNamePascalCase = _upperFirst(_camelCase(botName));
     botNameCamelCase = _camelCase(botName);
-    botGenerationPath = path.join("tmp", botName);
-    confirmationPath = true;
+    botGenerationPath = path.join(__dirname, "tmp");
+    pathConfirmation = true;
     finalConfirmation = true;
     const srcFiles = [botNameCamelCase + ".ts", "botServices.ts"];
 
-    before(function() {
-      return helpers
-        .run(path.join(__dirname, "../generators/app"))
-        .inDir(path.join(__dirname, "tmp"))
-        .withPrompts({
-          botName: botName,
-          botDesc: botDesc,
-          botLang: botLang,
-          confirmationPath: confirmationPath,
-          botGenerationPath: botGenerationPath,
-          finalConfirmation: finalConfirmation
-        });
+    before(async function() {
+      await helpers
+        .run(path.join(__dirname, "..", "generators", "app"))
+        .inDir(botGenerationPath)
+        .withArguments([
+          "-n",
+          botName,
+          "-d",
+          botDesc,
+          "-l",
+          botLang,
+          "-p",
+          botGenerationPath,
+          "--noPrompt"
+        ])
     });
 
     after(function() {
-      rimraf.sync(path.join(__dirname, "tmp/*"));
+      rimraf.sync(path.join(__dirname, "tmp", "*"));
     });
 
     describe("the base", function() {
       it(botName + " folder", function(done) {
-        assert.file(path.join(__dirname, botGenerationPath));
+        assert.file(path.join(botGenerationPath, botName));
         done();
       });
     });
@@ -76,19 +81,18 @@ describe("The generator-botbuilder-enterprise tests", function() {
       commonDirectories.forEach(directoryName =>
         it(directoryName + " folder", function(done) {
           assert.file(
-            path.join(__dirname, botGenerationPath, "src", directoryName)
+            path.join(botGenerationPath, botName, "src", directoryName)
           );
           done();
         })
       );
-
-      
+   
       cognitiveDirectories.forEach(directoryName =>
         it(directoryName + " folder", function(done) {
           assert.file(
             path.join(
-              __dirname,
               botGenerationPath,
+              botName,
               "cognitiveModels",
               directoryName
             )
@@ -99,13 +103,12 @@ describe("The generator-botbuilder-enterprise tests", function() {
     });
 
     describe("the languages", function() {
-
       cognitiveDirectories.forEach(directoryName =>
         it("language '" + botLang + "' folder in " + directoryName, () => {
           assert.file(
             path.join(
-              __dirname,
               botGenerationPath,
+              botName,
               "cognitiveModels",
               directoryName,
               botLang
@@ -116,15 +119,15 @@ describe("The generator-botbuilder-enterprise tests", function() {
   
       it("language '" + botLang + "' folder in deploymentScript", () => {
         assert.file(
-          path.join(__dirname, botGenerationPath, "deploymentScripts", botLang)
+          path.join(botGenerationPath, botName, "deploymentScripts", botLang)
         );
       });
   
       it("language '" + botLang + "' file in locales", () => {
         assert.file(
           path.join(
-            __dirname,
             botGenerationPath,
+            botName,
             "src",
             "locales",
             botLang + ".json"
@@ -136,7 +139,7 @@ describe("The generator-botbuilder-enterprise tests", function() {
     describe("in the root folder", function() {
       rootFiles.forEach(fileName =>
         it(fileName + " file", function(done) {
-          assert.file(path.join(__dirname, botGenerationPath, fileName));
+          assert.file(path.join(botGenerationPath, botName, fileName));
           done();
         })
       );
@@ -146,7 +149,7 @@ describe("The generator-botbuilder-enterprise tests", function() {
       
       srcFiles.forEach(fileName =>
         it(fileName + " file", function(done) {
-          assert.file(path.join(__dirname, botGenerationPath, "src", fileName));
+          assert.file(path.join(botGenerationPath, botName, "src", fileName));
           done();
         })
       );
@@ -155,7 +158,7 @@ describe("The generator-botbuilder-enterprise tests", function() {
     describe("and have in the package.json", function() {
       it("a name property with the given name", function(done) {
         assert.fileContent(
-          path.join(__dirname, botGenerationPath, "/package.json"),
+          path.join(botGenerationPath, botName, "package.json"),
           `"name": "${botName}"`
         );
         done();
@@ -163,7 +166,7 @@ describe("The generator-botbuilder-enterprise tests", function() {
 
       it("a description property with given description", function(done) {
         assert.fileContent(
-          path.join(__dirname, botGenerationPath, "/package.json"),
+          path.join(botGenerationPath, botName, "package.json"),
           `"description": "${botDesc}"`
         );
         done();
@@ -173,7 +176,7 @@ describe("The generator-botbuilder-enterprise tests", function() {
     describe("and have in the index file", function() {
       it("an import component containing the given name", function(done) {
         assert.fileContent(
-          path.join(__dirname, botGenerationPath, "/src/index.ts"),
+          path.join(botGenerationPath, botName, "src", "index.ts"),
           `import { ${botNamePascalCase} } from './${botNameCamelCase}'`
         );
         done();
@@ -181,7 +184,7 @@ describe("The generator-botbuilder-enterprise tests", function() {
 
       it("a declaration component with the given name", function(done) {
         assert.fileContent(
-          path.join(__dirname, botGenerationPath, "/src/index.ts"),
+          path.join(botGenerationPath, botName, "src", "index.ts"),
           `let bot: ${botNamePascalCase}`
         );
         done();
@@ -189,7 +192,7 @@ describe("The generator-botbuilder-enterprise tests", function() {
 
       it("an instantiation component with the given name", function(done) {
         assert.fileContent(
-          path.join(__dirname, botGenerationPath, "/src/index.ts"),
+          path.join(botGenerationPath, botName, "src", "index.ts"),
           `bot = new ${botNamePascalCase}`
         );
         done();
@@ -200,8 +203,8 @@ describe("The generator-botbuilder-enterprise tests", function() {
       it("an export component with the given name", function(done) {
         assert.fileContent(
           path.join(
-            __dirname,
             botGenerationPath,
+            botName,
             "src",
             botNameCamelCase + ".ts"
           ),
@@ -213,8 +216,8 @@ describe("The generator-botbuilder-enterprise tests", function() {
       it("a parameter component with the given name", function(done) {
         assert.fileContent(
           path.join(
-            __dirname,
             botGenerationPath,
+            botName,
             "src",
             botNameCamelCase + ".ts"
           ),
@@ -226,30 +229,36 @@ describe("The generator-botbuilder-enterprise tests", function() {
   });
 
   describe("should not create", function() {
-    before(function() {
-      finalConfirmation = false;
-      return helpers
-        .run(path.join(__dirname, "../generators/app"))
-        .inDir(path.join(__dirname, "tmp"))
-        .withPrompts({
-          botName: botName,
-          botDesc: botDesc,
-          botLang: botLang,
-          confirmationPath: confirmationPath,
-          botGenerationPath: botGenerationPath,
-          finalConfirmation: finalConfirmation
-        });
+    before(async function() {
+      if(semver.gte(process.versions.node,'10.12.0')){
+        run = false;
+      }
+      else{
+        finalConfirmation = false;
+        await helpers
+          .run(path.join(__dirname, "..", "generators", "app"))
+          .inDir(botGenerationPath)
+          .withPrompts({
+            botName: botName,
+            botDesc: botDesc,
+            botLang: botLang,
+            pathConfirmation: pathConfirmation,
+            botGenerationPath: botGenerationPath,
+            finalConfirmation: finalConfirmation
+          });
+      }
     });
 
     after(function() {
-      rimraf.sync(path.join(__dirname, "tmp/*"));
+      rimraf.sync(path.join(__dirname, "tmp", "*"));
     });
 
     describe("the base", function() {
-      it(botName + " folder when the final confirmation is deny", function(
-        done
-      ) {
-        assert.noFile(path.join(__dirname, botGenerationPath));
+      it(botName + " folder when the final confirmation is deny", function(done) {
+        if(!run){
+          this.skip()          
+        }
+        assert.noFile(botGenerationPath, botName);
         done();
       });
     });
