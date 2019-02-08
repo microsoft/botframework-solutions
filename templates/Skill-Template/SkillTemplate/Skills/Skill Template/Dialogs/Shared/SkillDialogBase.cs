@@ -21,9 +21,9 @@ using $safeprojectname$.ServiceClients;
 
 namespace $safeprojectname$.Dialogs.Shared
 {
-    public class SkillTemplateDialog : ComponentDialog
+    public class SkillDialogBase : ComponentDialog
     {
-        public SkillTemplateDialog(
+        public SkillDialogBase(
             string dialogId,
             SkillConfigurationBase services,
             ResponseManager responseManager,
