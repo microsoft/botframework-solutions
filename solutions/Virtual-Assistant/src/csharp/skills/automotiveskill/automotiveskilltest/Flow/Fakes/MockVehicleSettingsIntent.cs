@@ -41,6 +41,17 @@ namespace AutomotiveSkillTest.Flow.Fakes
                     this.Entities.AMOUNT = new string[] { "21" };
                     this.Entities.UNIT = new string[] { "degrees" };
                     break;
+                case "increase temperature by 2":
+                    this.Entities.VALUE = new string[] { "increase" };
+                    this.Entities.SETTING = new string[] { "temperature" };
+                    this.Entities.TYPE = new string[] { "by" };
+                    this.Entities.AMOUNT = new string[] { "2" };
+                    break;
+                case "increase temperature to 24":
+                    this.Entities.VALUE = new string[] { "increase" };
+                    this.Entities.SETTING = new string[] { "temperature" };
+                    this.Entities.AMOUNT = new string[] { "24" };
+                    break;
                 case "change the temperature":
                     this.Entities.SETTING = new string[] { "temperature" };
                     break;

@@ -27,6 +27,26 @@ namespace AutomotiveSkillTest.Flow
         }
 
         [TestMethod]
+        public async Task Test_IncreaseTemperatureByRelativeAmount()
+        {
+            await this.GetTestFlow()
+                .Send("increase temperature by 2")
+                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckReply("Increasing Temperature by 2."))
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_IncreaseTemperatureToAbsoluteAmount()
+        {
+            await this.GetTestFlow()
+                .Send("increase temperature to 24")
+                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckReply("Setting Temperature to 24."))
+                .StartTestAsync();
+        }
+
+        [TestMethod]
         public async Task Test_SettingTemperatureMissingValue()
         {
             await this.GetTestFlow()
