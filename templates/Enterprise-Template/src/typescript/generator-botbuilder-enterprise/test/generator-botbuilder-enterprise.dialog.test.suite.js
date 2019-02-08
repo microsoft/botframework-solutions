@@ -5,6 +5,7 @@ const helpers = require("yeoman-test");
 const rimraf = require("rimraf");
 const _camelCase = require("lodash/camelCase");
 const _upperFirst = require("lodash/upperFirst");
+const semver = require('semver');
 
 describe("The generator-botbuilder-enterprise dialog tests", function() {
   var dialogName;
@@ -14,8 +15,9 @@ describe("The generator-botbuilder-enterprise dialog tests", function() {
   var responsesNameCamelCase;
   var responsesNamePascalCase;
   var dialogGenerationPath;
-  var confirmationPath;
+  var pathConfirmation;
   var finalConfirmation;
+  var run = true;
 
   describe("should create", function() {
     dialogName = "customDialog";
@@ -24,24 +26,25 @@ describe("The generator-botbuilder-enterprise dialog tests", function() {
     dialogNamePascalCase = _upperFirst(_camelCase(dialogName));
     responsesNameCamelCase = _camelCase(responsesName);
     responsesNamePascalCase = _upperFirst(_camelCase(responsesName));
-    dialogGenerationPath = path.join("tmp", dialogName);
-    confirmationPath = true;
+    dialogGenerationPath = path.join(__dirname,"tmp");
+    pathConfirmation = true;
     finalConfirmation = true;
 
-    before(function() {
-      return helpers
-        .run(path.join(__dirname, "../generators/dialog"))
-        .inDir(path.join(__dirname, "tmp"))
-        .withPrompts({
-          dialogName: dialogName,
-          confirmationPath: confirmationPath,
-          dialogGenerationPath: dialogGenerationPath,
-          finalConfirmation: finalConfirmation
-        });
+    before(async function() {
+      await helpers
+        .run(path.join(__dirname, "..", "generators", "dialog"))
+        .inDir(dialogGenerationPath)
+        .withArguments([
+          '-n',
+          dialogName,
+          '-p',
+          dialogGenerationPath,
+          '--noPrompt'
+        ])
     });
 
     after(function() {
-      rimraf.sync(path.join(__dirname, "tmp/*"));
+      rimraf.sync(path.join(__dirname, "tmp", "*"));
     });
 
     describe("the files", function() {
@@ -52,7 +55,7 @@ describe("The generator-botbuilder-enterprise dialog tests", function() {
 
       files.forEach(fileName =>
         it(fileName + " file", function(done) {
-          assert.file(path.join(__dirname, dialogGenerationPath, fileName));
+          assert.file(path.join(dialogGenerationPath, dialogName, fileName));
           done();
         })
       );
@@ -62,8 +65,8 @@ describe("The generator-botbuilder-enterprise dialog tests", function() {
       it("an import component containing the given name", function(done) {
         assert.fileContent(
           path.join(
-            __dirname,
             dialogGenerationPath,
+            dialogName,
             dialogNameCamelCase + ".ts"
           ),
           `import { ${responsesNamePascalCase} } from './${responsesNameCamelCase}'`
@@ -74,8 +77,8 @@ describe("The generator-botbuilder-enterprise dialog tests", function() {
       it("an export component with the given name", function(done) {
         assert.fileContent(
           path.join(
-            __dirname,
             dialogGenerationPath,
+            dialogName,
             dialogNameCamelCase + ".ts"
           ),
           `export class ${dialogNamePascalCase}`
@@ -86,8 +89,8 @@ describe("The generator-botbuilder-enterprise dialog tests", function() {
       it("an initialized attribute with the given name", function(done) {
         assert.fileContent(
           path.join(
-            __dirname,
             dialogGenerationPath,
+            dialogName,
             dialogNameCamelCase + ".ts"
           ),
           `RESPONDER: ${responsesNamePascalCase} = new ${responsesNamePascalCase}()`
@@ -98,8 +101,8 @@ describe("The generator-botbuilder-enterprise dialog tests", function() {
       it("a super method with the given name as parameter", function(done) {
         assert.fileContent(
           path.join(
-            __dirname,
             dialogGenerationPath,
+            dialogName,
             dialogNameCamelCase + ".ts"
           ),
           `super(${dialogNamePascalCase}.name)`
@@ -112,8 +115,8 @@ describe("The generator-botbuilder-enterprise dialog tests", function() {
       it("an export component with the given name", function(done) {
         assert.fileContent(
           path.join(
-            __dirname,
             dialogGenerationPath,
+            dialogName,
             responsesNameCamelCase + ".ts"
           ),
           `export class ${responsesNamePascalCase}`
@@ -124,8 +127,8 @@ describe("The generator-botbuilder-enterprise dialog tests", function() {
       it("a parameter with the given name", function(done) {
         assert.fileContent(
           path.join(
-            __dirname,
             dialogGenerationPath,
+            dialogName,
             responsesNameCamelCase + ".ts"
           ),
           `new DictionaryRenderer(${responsesNamePascalCase}.RESPONSE_TEMPLATES)`
@@ -136,26 +139,34 @@ describe("The generator-botbuilder-enterprise dialog tests", function() {
   });
 
   describe("should not create", function() {
-    before(function() {
+    before(async function() {
+      if(semver.gte(process.versions.node,'10.12.0')){
+        run = false;
+      }
+      else{
       finalConfirmation = false;
-      return helpers
-        .run(path.join(__dirname, "../generators/dialog"))
-        .inDir(path.join(__dirname, "tmp"))
+      await helpers
+        .run(path.join(__dirname, "..", "generators", "dialog"))
+        .inDir(dialogGenerationPath)
         .withPrompts({
           dialogName: dialogName,
-          confirmationPath: confirmationPath,
+          pathConfirmation: pathConfirmation,
           dialogGenerationPath: dialogGenerationPath,
           finalConfirmation: finalConfirmation
         });
+      }
     });
 
     after(function() {
-      rimraf.sync(path.join(__dirname, "tmp/*"));
+      rimraf.sync(path.join(__dirname, "tmp", "*"));
     });
 
     describe("the base", function() {
       it(dialogName + " folder when the final confirmation is deny", function(done) {
-        assert.noFile(path.join(__dirname, dialogGenerationPath));
+        if(!run){
+          this.skip()          
+        }
+        assert.noFile(path.join(dialogGenerationPath, dialogName));
         done();
       });
     });
