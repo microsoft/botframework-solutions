@@ -6,18 +6,29 @@ namespace AutomotiveSkill.Common
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
     using System.Text;
 
     public class EntityNormalizer
     {
         private readonly IDictionary<string, string> map;
 
-        public EntityNormalizer(string path)
+        public EntityNormalizer(Assembly resourceAssembly, string path)
         {
-            map = File.ReadAllLines(path, Encoding.UTF8)
-                .Where(FilterIsBlankOrComment)
-                .Select(line => line.Split("\t"))
-                .ToDictionary(pair => PreProcess(pair[1]), pair => pair[0]);
+            using (StreamReader reader = new StreamReader(resourceAssembly.GetManifestResourceStream(path)))
+            {
+                List<string> lines = new List<string>();
+
+                while (!reader.EndOfStream)
+                {
+                    lines.Add(reader.ReadLine());
+                }
+
+                map = lines
+                    .Where(FilterIsBlankOrComment)
+                    .Select(line => line.Split("\t"))
+                    .ToDictionary(pair => PreProcess(pair[1]), pair => pair[0]);
+            }
         }
 
         public string Normalize(string entity)

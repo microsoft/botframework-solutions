@@ -1,9 +1,12 @@
 ﻿using AutomotiveSkill;
 using AutomotiveSkill.Common;
+using AutomotiveSkill.Dialogs.VehicleSettings;
 using AutomotiveSkillTest.Flow;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 
 namespace AutomotiveSkillTest.API
 {
@@ -18,11 +21,21 @@ namespace AutomotiveSkillTest.API
         {
             base.Initialize();
 
-            var resDir = Path.Combine(Path.GetDirectoryName(typeof(SettingFilterTests).Assembly.Location), "Dialogs\\VehicleSettings\\Resources\\");
+            // Supporting setting files are stored as embeddded resources
+            Assembly resourceAssembly = typeof(VehicleSettingsDialog).Assembly;
 
-            settingList = new SettingList(resDir + "available_settings.json", resDir + "setting_alternative_names.json");
+            var settingFile = resourceAssembly
+                .GetManifestResourceNames()
+                .Where(x => x.Contains("available_settings.json"))
+                .First();
+
+            var alternativeSettingFileName = resourceAssembly
+                .GetManifestResourceNames()
+                .Where(x => x.Contains("setting_alternative_names.json"))
+                .First();
+
+            settingList = new SettingList(resourceAssembly, settingFile, alternativeSettingFileName);
             settingFilter = new SettingFilter(settingList);
-
         }
 
         [TestMethod]

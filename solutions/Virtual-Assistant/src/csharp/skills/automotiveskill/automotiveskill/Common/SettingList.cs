@@ -7,6 +7,7 @@ namespace AutomotiveSkill.Common
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
     using global::AutomotiveSkill.Models;
     using Newtonsoft.Json;
 
@@ -28,26 +29,26 @@ namespace AutomotiveSkill.Common
         /// </summary>
         /// <param name="availableSettingsPath">Path to available settings file.</param>
         /// <param name="settingAlternativeNamesPath">Path to alternative names file.</param>
-        public SettingList(string availableSettingsPath, string settingAlternativeNamesPath)
+        public SettingList(Assembly resourceAssembly, string availableSettingsFileName, string alternativeSettingsFileName)
         {
-            if (string.IsNullOrEmpty(availableSettingsPath))
+            if (string.IsNullOrEmpty(availableSettingsFileName))
             {
-                throw new ArgumentNullException(nameof(availableSettingsPath));
+                throw new ArgumentNullException(nameof(availableSettingsFileName));
             }
 
-            if (string.IsNullOrEmpty(settingAlternativeNamesPath))
+            if (string.IsNullOrEmpty(alternativeSettingsFileName))
             {
-                throw new ArgumentNullException(nameof(settingAlternativeNamesPath));
+                throw new ArgumentNullException(nameof(alternativeSettingsFileName));
             }
 
-            using (StreamReader reader = new StreamReader(availableSettingsPath))
+            using (StreamReader reader = new StreamReader(resourceAssembly.GetManifestResourceStream(availableSettingsFileName)))
             {
                 string json = reader.ReadToEnd();
                 var availableSettings = JsonConvert.DeserializeObject<List<AvailableSetting>>(json);
-                BuildSettingSearchIndexes(availableSettings, availableSettingsPath);
+                BuildSettingSearchIndexes(availableSettings, availableSettingsFileName);
             }
 
-            using (StreamReader reader = new StreamReader(settingAlternativeNamesPath))
+            using (StreamReader reader = new StreamReader(resourceAssembly.GetManifestResourceStream(alternativeSettingsFileName)))
             {
                 string json = reader.ReadToEnd();
                 this.alternativeNameMap = JsonConvert.DeserializeObject<Dictionary<string, SettingAlternativeNames>>(json);
