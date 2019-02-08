@@ -11,7 +11,7 @@ using EmailSkill.ServiceClients;
 using EmailSkill.Util;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 
@@ -21,11 +21,12 @@ namespace EmailSkill.Dialogs.ReplyEmail
     {
         public ReplyEmailDialog(
             SkillConfigurationBase services,
+            ResponseManager responseManager,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(ReplyEmailDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient)
+            : base(nameof(ReplyEmailDialog), services, responseManager, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -97,13 +98,17 @@ namespace EmailSkill.Dialogs.ReplyEmail
                     {
                         { "Subject", state.Subject },
                     };
-                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(EmailSharedResponses.SentSuccessfully, "Dialogs/Shared/Resources/Cards/EmailWithOutButtonCard.json", emailCard, tokens: stringToken);
 
-                    await sc.Context.SendActivityAsync(replyMessage);
+                    var reply = ResponseManager.GetCardResponse(
+                        EmailSharedResponses.SentSuccessfully,
+                        new Card("EmailWithOutButtonCard", emailCard),
+                        stringToken);
+
+                    await sc.Context.SendActivityAsync(reply);
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.CancellingMessage));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.CancellingMessage));
                 }
             }
             catch (Exception ex)

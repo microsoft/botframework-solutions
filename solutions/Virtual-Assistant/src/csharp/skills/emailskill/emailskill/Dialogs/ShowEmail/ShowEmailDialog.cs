@@ -19,8 +19,8 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 
@@ -30,11 +30,12 @@ namespace EmailSkill.Dialogs.ShowEmail
     {
         public ShowEmailDialog(
             SkillConfigurationBase services,
+            ResponseManager responseManager,
             IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
             IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(ShowEmailDialog), services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient)
+            : base(nameof(ShowEmailDialog), services, responseManager, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -103,9 +104,9 @@ namespace EmailSkill.Dialogs.ShowEmail
             AddDialog(new WaterfallDialog(Actions.Display, displayEmail) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.DisplayFiltered, displayFilteredEmail) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.ReDisplay, redisplayEmail) { TelemetryClient = telemetryClient });
-            AddDialog(new DeleteEmailDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
-            AddDialog(new ReplyEmailDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
-            AddDialog(new ForwardEmailDialog(services, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
+            AddDialog(new DeleteEmailDialog(services, responseManager, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
+            AddDialog(new ReplyEmailDialog(services, responseManager, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
+            AddDialog(new ForwardEmailDialog(services, responseManager, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
             InitialDialogId = Actions.Show;
         }
 
@@ -117,11 +118,11 @@ namespace EmailSkill.Dialogs.ShowEmail
 
                 if (state.MessageList.Count == 1)
                 {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(ShowEmailResponses.ReadOutOnlyOnePrompt) });
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(ShowEmailResponses.ReadOutOnlyOnePrompt) });
                 }
                 else
                 {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(ShowEmailResponses.ReadOutPrompt) });
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(ShowEmailResponses.ReadOutPrompt) });
                 }
             }
             catch (Exception ex)
@@ -136,7 +137,7 @@ namespace EmailSkill.Dialogs.ShowEmail
         {
             try
             {
-                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = sc.Context.Activity.CreateReply(ShowEmailResponses.ReadOutMorePrompt) });
+                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(ShowEmailResponses.ReadOutMorePrompt) });
             }
             catch (Exception ex)
             {
@@ -167,8 +168,7 @@ namespace EmailSkill.Dialogs.ShowEmail
                 var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
                 if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
                 {
-                    await sc.Context.SendActivityAsync(
-                        sc.Context.Activity.CreateReply(EmailSharedResponses.CancellingMessage));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.CancellingMessage));
                     return await sc.EndDialogAsync(false);
                 }
                 else if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
@@ -239,12 +239,16 @@ namespace EmailSkill.Dialogs.ShowEmail
                         Speak = SpeakHelper.ToSpeechEmailDetailOverallString(message, state.GetUserTimeZone()),
                     };
 
-                    var dict = new StringDictionary()
+                    var tokens = new StringDictionary()
                     {
                         { "EmailDetails", SpeakHelper.ToSpeechEmailDetailString(message, state.GetUserTimeZone()) },
                         { "EmailDetailsWithContent", SpeakHelper.ToSpeechEmailDetailString(message, state.GetUserTimeZone(), true) },
                     };
-                    var replyMessage = sc.Context.Activity.CreateAdaptiveCardReply(ShowEmailResponses.ReadOutMessage, "Dialogs/Shared/Resources/Cards/EmailDetailCard.json", emailCard, null, dict);
+
+                    var replyMessage = ResponseManager.GetCardResponse(
+                        ShowEmailResponses.ReadOutMessage,
+                        new Card("EmailDetailCard", emailCard),
+                        tokens);
 
                     // Set email as read.
                     var service = ServiceManager.InitMailService(state.Token, state.GetUserTimeZone(), state.MailSourceType);
@@ -282,8 +286,7 @@ namespace EmailSkill.Dialogs.ShowEmail
                 var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
                 if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
                 {
-                    await sc.Context.SendActivityAsync(
-                        sc.Context.Activity.CreateReply(EmailSharedResponses.CancellingMessage));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.CancellingMessage));
                     return await sc.EndDialogAsync(true);
                 }
                 else if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
@@ -364,7 +367,7 @@ namespace EmailSkill.Dialogs.ShowEmail
                     }
 
                     // return a signal for main flow need to start a new ComponentDialog.
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.DidntUnderstandMessage));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.DidntUnderstandMessage));
                     return await sc.EndDialogAsync(true);
                 }
             }
@@ -477,7 +480,7 @@ namespace EmailSkill.Dialogs.ShowEmail
                     }
                     else
                     {
-                        await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.DidntUnderstandMessage));
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.DidntUnderstandMessage));
                         return await sc.EndDialogAsync(true);
                     }
 
@@ -485,7 +488,7 @@ namespace EmailSkill.Dialogs.ShowEmail
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(EmailSharedResponses.EmailNotFound, ResponseBuilder));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.EmailNotFound));
                 }
 
                 return await sc.EndDialogAsync(true);

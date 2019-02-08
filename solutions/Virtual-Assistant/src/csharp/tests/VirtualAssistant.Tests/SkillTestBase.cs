@@ -5,8 +5,6 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Testing;
@@ -73,9 +71,6 @@ namespace VirtualAssistant.Tests
 
             builder.RegisterInstance(new BotStateSet(this.UserState, this.ConversationState));
             this.Container = builder.Build();
-
-            this.BotResponseBuilder = new BotResponseBuilder();
-            this.BotResponseBuilder.AddFormatter(new TextBotResponseFormatter());
 
             this.Dialogs = new DialogSet(this.DialogState);
 

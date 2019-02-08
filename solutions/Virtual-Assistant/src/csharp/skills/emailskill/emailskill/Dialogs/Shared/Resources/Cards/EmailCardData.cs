@@ -1,8 +1,10 @@
-﻿using Microsoft.Bot.Solutions.Cards;
+﻿using AdaptiveCards;
+using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Responses;
 
 namespace EmailSkill.Dialogs.Shared.Resources.Cards
 {
-    public class EmailCardData : CardDataBase
+    public class EmailCardData : ICardData
     {
         public string Subject { get; set; }
 

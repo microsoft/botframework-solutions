@@ -5,7 +5,15 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using CalendarSkill.Dialogs.ChangeEventStatus.Resources;
+using CalendarSkill.Dialogs.CreateEvent.Resources;
+using CalendarSkill.Dialogs.FindContact.Resources;
+using CalendarSkill.Dialogs.JoinEvent.Resources;
+using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
+using CalendarSkill.Dialogs.Summary.Resources;
+using CalendarSkill.Dialogs.TimeRemaining.Resources;
+using CalendarSkill.Dialogs.UpdateEvent.Resources;
 using CalendarSkill.ServiceClients;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -16,9 +24,10 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
+using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -60,6 +69,25 @@ namespace CalendarSkill
             var languageModels = Configuration.GetSection("languageModels").Get<Dictionary<string, Dictionary<string, string>>>();
             var connectedServices = new SkillConfiguration(botConfig, languageModels, supportedProviders, parameters, configuration);
             services.AddSingleton<SkillConfigurationBase>(sp => connectedServices);
+
+            var supportedLanguages = languageModels.Select(l => l.Key).ToArray();
+            var responses = new IResponseIdCollection[]
+            {
+                new FindContactResponses(),
+                new ChangeEventStatusResponses(),
+                new CreateEventResponses(),
+                new JoinEventResponses(),
+                new CalendarMainResponses(),
+                new CalendarSharedResponses(),
+                new SummaryResponses(),
+                new TimeRemainingResponses(),
+                new UpdateEventResponses(),
+            };
+
+            var responseManager = new ResponseManager(responses, supportedLanguages);
+
+            // Register bot responses for all supported languages.
+            services.AddSingleton(sp => responseManager);
 
             // Initialize Bot State
             var cosmosDbService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.CosmosDB) ?? throw new Exception("Please configure your CosmosDb service in your .bot file.");
@@ -106,7 +134,7 @@ namespace CalendarSkill
                 options.OnTurnError = async (context, exception) =>
                 {
                     CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
-                    await context.SendActivityAsync(context.Activity.CreateReply(CalendarSharedResponses.CalendarErrorMessage));
+                    await context.SendActivityAsync(responseManager.GetResponse(CalendarSharedResponses.CalendarErrorMessage));
                     await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Calendar Skill Error: {exception.Message} | {exception.StackTrace}"));
                     telemetryClient.TrackExceptionEx(exception, context.Activity);
                 };

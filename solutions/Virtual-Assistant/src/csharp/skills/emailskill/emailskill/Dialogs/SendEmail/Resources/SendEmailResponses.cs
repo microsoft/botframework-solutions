@@ -1,50 +1,27 @@
 ﻿// https://docs.microsoft.com/en-us/visualstudio/modeling/t4-include-directive?view=vs-2017
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using System.IO;
-using System.Runtime.CompilerServices;
-using Microsoft.Bot.Solutions.Dialogs;
+
+using Microsoft.Bot.Solutions.Responses;
 
 namespace EmailSkill.Dialogs.SendEmail.Resources
 {
     /// <summary>
     /// Contains bot responses.
     /// </summary>
-    public static class SendEmailResponses
+    public class SendEmailResponses : IResponseIdCollection
     {
-        private static readonly ResponseManager _responseManager;
-
-        static SendEmailResponses()
-        {
-            var dir = Path.GetDirectoryName(typeof(SendEmailResponses).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Dialogs\SendEmail\Resources");
-            _responseManager = new ResponseManager(resDir, "SendEmailResponses");
-        }
-
         // Generated accessors
-        public static BotResponse RecipientConfirmed => GetBotResponse();
+		public const string RecipientConfirmed = "RecipientConfirmed";
+		public const string NoSubject = "NoSubject";
+		public const string NoMessageBody = "NoMessageBody";
+		public const string RetryNoSubject = "RetryNoSubject";
+		public const string PlayBackMessage = "PlayBackMessage";
+		public const string CheckContent = "CheckContent";
+		public const string RetryContent = "RetryContent";
+		public const string GetRecreateInfo = "GetRecreateInfo";
+		public const string GetRecreateInfo_Retry = "GetRecreateInfo_Retry";
+		public const string ConfirmMessage_Retry = "ConfirmMessage_Retry";
 
-        public static BotResponse NoSubject => GetBotResponse();
-
-        public static BotResponse NoMessageBody => GetBotResponse();
-
-        public static BotResponse RetryNoSubject => GetBotResponse();
-
-        public static BotResponse PlayBackMessage => GetBotResponse();
-
-        public static BotResponse CheckContent => GetBotResponse();
-
-        public static BotResponse RetryContent => GetBotResponse();
-
-        public static BotResponse GetRecreateInfo => GetBotResponse();
-
-        public static BotResponse GetRecreateInfo_Retry => GetBotResponse();
-
-        public static BotResponse ConfirmMessage_Retry => GetBotResponse();
-
-        private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
-        {
-            return _responseManager.GetBotResponse(propertyName);
-        }
     }
 }

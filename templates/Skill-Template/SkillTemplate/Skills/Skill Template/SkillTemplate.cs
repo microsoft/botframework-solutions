@@ -2,12 +2,17 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using $safeprojectname$.Dialogs.Main;
+using $safeprojectname$.Dialogs.Main.Resources;
+using $safeprojectname$.Dialogs.Sample.Resources;
+using $safeprojectname$.Dialogs.Shared.Resources;
 using $safeprojectname$.ServiceClients;
 
 namespace $safeprojectname$
@@ -18,6 +23,7 @@ namespace $safeprojectname$
     public class $safeprojectname$ : IBot
     {
         private readonly SkillConfigurationBase _services;
+private readonly ResponseManager _responseManager;
         private readonly ConversationState _conversationState;
         private readonly UserState _userState;
         private readonly IBotTelemetryClient _telemetryClient;
@@ -25,7 +31,7 @@ namespace $safeprojectname$
         private DialogSet _dialogs;
         private bool _skillMode;
 
-        public $safeprojectname$(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, bool skillMode = false, ServiceManager serviceManager = null)
+        public $safeprojectname$(SkillConfigurationBase services, ResponseManager responseManager, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, ServiceManager serviceManager = null, bool skillMode = false)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));
@@ -34,8 +40,19 @@ namespace $safeprojectname$
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
             _serviceManager = serviceManager ?? new ServiceManager();
 
+            if (responseManager == null)
+            {
+                responseManager = new ResponseManager(
+                    new IResponseIdCollection[]
+                    {
+                        new MainResponses(),
+                        new SharedResponses(),
+                        new SampleResponses()
+                    }, _services.LocaleConfigurations.Keys.ToArray());
+            }
+
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(DialogState)));
-            _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _telemetryClient, _serviceManager, _skillMode));
+            _dialogs.Add(new MainDialog(_services, _responseManager, _conversationState, _userState, _telemetryClient, _serviceManager, _skillMode));
         }
 
         /// <summary>
