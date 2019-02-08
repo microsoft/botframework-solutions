@@ -30,6 +30,8 @@ The following scenarios are currently supported by the Skill:
 ## Skill Parameters
 The following Parameters are accepted by the Skill and enable additional personalisation of responses to a given user:
 - IPA.Location (*The skill will fail without this as it is missing a user's current coordinates*)
+- To ease testing scenarios you can send the following message to pass a location enabling you to test the POI skill and adjust the location
+  - `/event:{ "Name": "IPA.Location", "Value": "34.05222222222222,-118.24277777777778" }`
 
 ## Configuration File Information
 The following Configuration entries are required to be passed to the Skill and are provided through the Virtual Assistant appSettings.json file. These should be updated to reflect your LUIS deployment.

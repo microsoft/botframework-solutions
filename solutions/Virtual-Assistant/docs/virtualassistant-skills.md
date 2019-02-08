@@ -17,7 +17,8 @@ The following Skills are available at this time, these represent initial priorit
 - [Productivity - Email](./virtualassistant-skills-productivity-email.md)
 - [Productivity - ToDo](./virtualassistant-skills-productivity-todo.md)
 - [Points of Interest](./virtualassistant-skills-pointofinterest.md)
-- Automotive - Coming Soon 
+- [Automotive](./virtualassistant-skills-automotive.md)
+- [Experimental Skills](./virtualassistant-experimental-skills.md)
 
 ## Skill Invocation Flow
 
