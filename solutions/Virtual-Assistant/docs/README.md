@@ -24,11 +24,11 @@ Onboarding | An example OnBoarding flow enabling your Assistant to greet the use
 [Point of Interest Skill](./virtualassistant-skills-pointofinterest.md) | The preview Point of Interest (PoI) skill provides a comprehensive language model for finding points of interest and requesting directions. The skill currently provides integration into Azure Maps.
 [Calendar Skill](./virtualassistant-skills-productivity-calendar.md) | The preview Calendar Skill provides a comprehensive language model for common calendar related activities, The skill is currently integrated into Microsoft Graph (Office 365/Outlook.com) with support for Google APIs to follow soon..
 [Email Skill](./virtualassistant-skills-productivity-email.md) | The preview Email Skill provides a comprehensive language model for common email related activities, The skill is currently integrated into Microsoft Graph (Office 365/Outlook.com) with support for Google APIs to follow soon.
-[ToDo Skill](./virtualassistant-skills-productivity-todo.md) | The preview ToDo Skill provides a comprehensive language model for common task related activities, The skill is currently integrated into OneNote with Microsoft Graph (outlookTask) support to follow soon.
+[ToDo Skill](./virtualassistant-skills-productivity-todo.md) | The preview ToDo Skill provides a comprehensive language model for common task related activities, The skill is currently integrated into Microsoft Graph (outlookTask).
+[Automotive Skill](./virtualassistant-skills-automotive.md) | The preview Automotive Skill provides Vehicle Setting control support for an assistant along with an initial set of common vehicle settings which can be extended further. At this time the skill surfaces device events to demonstrate how device control could be achieved.
 [Device Integration](./virtualassistant-deviceintegration.md) | Our Azure Bot Service SDKs (Direct Line) along with Adaptive Card and Speech SDKs enable easy cross platform integration to devices. Additional device integration examples and platform including Edge are planned.
 [Test Harnesses](./virtualassistant-testing.md) | In addition to the Bot Framework Emulator, a WebChat based test harness is provided enabling more complex authentication scenarios to be tested. A simple Console based test harness demonstrates the approach to exchange messages to help frame the ease of device integration.
 [Automated Deployment](./virtualassistant-createvirtualassistant.md) | All the Azure resources required for your Assistant are automatically deployed: Bot registration, Azure App Service, LUIS, QnAMaker, Content Moderator, CosmosDB, Azure Storage, and Application Insights. Additionally, LUIS models for all skills, QnAMaker, and Dispatch models are created, trained, and published to enable immediate testing.
-Automotive Language Model | An Automotive language model covering core domains such as telephone, navigation and control of in-car features is coming soon
 
 ## Example Scenarios
 
@@ -101,6 +101,7 @@ Initial previews of the [Email](./virtualassistant-skills-productivity-email.md)
     - [Productivity - Email Skill](./virtualassistant-skills-productivity-email.md)
     - [Productivity - Tasks Skill](./virtualassistant-skills-productivity-tasks.md)
     - [Point of Interest Skill](./virtualassistant-skills-pointofinterest.md)
+    - [Automotive Skill](./virtualassistant-skills-automotive.md)
 
 # Contributing
 
