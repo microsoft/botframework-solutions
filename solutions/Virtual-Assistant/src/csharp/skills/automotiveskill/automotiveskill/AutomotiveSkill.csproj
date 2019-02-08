@@ -7,6 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Dialogs\VehicleSettings\Resources\available_settings.json" />
+    <Content Remove="Dialogs\VehicleSettings\Resources\setting_alternative_names.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Dialogs\VehicleSettings\Resources\normalization\amount_percentage.tsv" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="1.0.0" />
@@ -72,15 +81,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Dialogs\VehicleSettings\Resources\normalization\amount_percentage.tsv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Dialogs\VehicleSettings\Resources\normalization\amount_type.tsv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Dialogs\VehicleSettings\Resources\normalization\amount_unit.tsv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\available_settings.json" />
+    <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\normalization\amount_percentage.tsv" />
+    <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\normalization\amount_type.tsv" />
+    <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\normalization\amount_unit.tsv" />
   </ItemGroup>
 
   <ItemGroup>
@@ -98,6 +102,7 @@
     <EmbeddedResource Include="Dialogs\Shared\Resources\AutomotiveSkillSharedResponses.it.json" />
     <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\Cards\ListSelection.json" />
     <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\Cards\SettingChoice.json" />
+    <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\setting_alternative_names.json" />
     <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\VehicleSettingsResponses.json" />
     <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\VehicleSettingsResponses.zh.json" />
     <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\VehicleSettingsResponses.de.json" />
@@ -107,12 +112,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Dialogs\VehicleSettings\Resources\available_settings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\VehicleSettings\Resources\setting_alternative_names.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Update="wwwroot\images\settingcog.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

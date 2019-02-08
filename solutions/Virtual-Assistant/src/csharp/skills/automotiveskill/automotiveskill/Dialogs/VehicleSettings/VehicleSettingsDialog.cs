@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,6 +32,9 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
     public class VehicleSettingsDialog : AutomotiveSkillDialog
     {
         private const string FallbackSettingImageFileName = "Black_Car.png";
+        private const string AvailableSettingsFileName = "available_settings.json";
+        private const string AlternativeSettingsFileName = "setting_alternative_names.json";
+
         private static readonly Regex WordCharacter = new Regex("^\\w", RegexOptions.Compiled);
         private static readonly IReadOnlyDictionary<string, string> SettingValueToSpeakableIngForm = new Dictionary<string, string>
         {
@@ -61,12 +65,29 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
             vehicleSettingNameSelectionLuisRecognizer = services.LocaleConfigurations["en"].LuisServices["settings_name"];
             vehicleSettingValueSelectionLuisRecognizer = services.LocaleConfigurations["en"].LuisServices["settings_value"];
 
-            // JSON resource files provided metadata as to the available car settings, names and the values that can be set
-            var resDir = Path.Combine(
-                Path.GetDirectoryName(typeof(VehicleSettingsDialog).Assembly.Location),
-                "Dialogs\\VehicleSettings\\Resources\\");
+            // Initialise supporting LUIS models for followup questions
+            vehicleSettingNameSelectionLuisRecognizer = services.LocaleConfigurations["en"].LuisServices["settings_name"];
+            vehicleSettingValueSelectionLuisRecognizer = services.LocaleConfigurations["en"].LuisServices["settings_value"];
 
-            settingList = new SettingList(resDir + "available_settings.json", resDir + "setting_alternative_names.json");
+            // Supporting setting files are stored as embeddded resources
+            Assembly resourceAssembly = typeof(VehicleSettingsDialog).Assembly;
+
+            var settingFile = resourceAssembly
+                .GetManifestResourceNames()
+                .Where(x => x.Contains(AvailableSettingsFileName))
+                .First();
+
+            var alternativeSettingFileName = resourceAssembly
+                .GetManifestResourceNames()
+                .Where(x => x.Contains(AlternativeSettingsFileName))
+                .First();
+
+            if (string.IsNullOrEmpty(settingFile) || string.IsNullOrEmpty(alternativeSettingFileName))
+            {
+                throw new FileNotFoundException($"Unable to find Available Setting and/or Alternative Names files in \"{resourceAssembly.FullName}\" assembly.");
+            }
+
+            settingList = new SettingList(resourceAssembly, settingFile, alternativeSettingFileName);
             settingFilter = new SettingFilter(settingList);
 
             // Setting Change waterfall
