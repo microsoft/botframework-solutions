@@ -5,7 +5,7 @@
     <UserSecretsId>6a3184c3-074e-45b9-ad93-eceb8268ec01</UserSecretsId>
     <CodeAnalysisRuleSet>..\..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" />
@@ -72,18 +72,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Dialogs\VehicleSettings\Resources\normalization\amount_percentage.tsv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Dialogs\VehicleSettings\Resources\normalization\amount_type.tsv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Dialogs\VehicleSettings\Resources\normalization\amount_unit.tsv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
+    <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\available_settings.json" />
+    <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\setting_alternative_names.json" />
+    <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\normalization\amount_percentage.tsv" />
+    <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\normalization\amount_type.tsv" />
+    <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\normalization\amount_unit.tsv" />
     <EmbeddedResource Include="Dialogs\Main\Resources\AutomotiveSkillMainResponses.json" />
     <EmbeddedResource Include="Dialogs\Main\Resources\AutomotiveSkillMainResponses.zh.json" />
     <EmbeddedResource Include="Dialogs\Main\Resources\AutomotiveSkillMainResponses.de.json" />
@@ -107,12 +100,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Dialogs\VehicleSettings\Resources\available_settings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\VehicleSettings\Resources\setting_alternative_names.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Update="wwwroot\images\settingcog.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
