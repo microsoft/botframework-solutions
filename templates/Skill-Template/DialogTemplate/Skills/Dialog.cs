@@ -7,8 +7,7 @@ using System.Collections.Specialized;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Responses;
-using $safeprojectname$.Dialogs.Shared;
-using $safeprojectname$.ServiceClients;
+using Microsoft.Bot.Solutions.Skills;
 
 namespace $rootnamespace$
 {
