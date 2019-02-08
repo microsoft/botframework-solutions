@@ -5,16 +5,7 @@
     <UserSecretsId>6a3184c3-074e-45b9-ad93-eceb8268ec01</UserSecretsId>
     <CodeAnalysisRuleSet>..\..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Remove="Dialogs\VehicleSettings\Resources\available_settings.json" />
-    <Content Remove="Dialogs\VehicleSettings\Resources\setting_alternative_names.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Dialogs\VehicleSettings\Resources\normalization\amount_percentage.tsv" />
-  </ItemGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" />
@@ -82,12 +73,10 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\available_settings.json" />
+    <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\setting_alternative_names.json" />
     <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\normalization\amount_percentage.tsv" />
     <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\normalization\amount_type.tsv" />
     <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\normalization\amount_unit.tsv" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="Dialogs\Main\Resources\AutomotiveSkillMainResponses.json" />
     <EmbeddedResource Include="Dialogs\Main\Resources\AutomotiveSkillMainResponses.zh.json" />
     <EmbeddedResource Include="Dialogs\Main\Resources\AutomotiveSkillMainResponses.de.json" />
@@ -102,7 +91,6 @@
     <EmbeddedResource Include="Dialogs\Shared\Resources\AutomotiveSkillSharedResponses.it.json" />
     <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\Cards\ListSelection.json" />
     <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\Cards\SettingChoice.json" />
-    <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\setting_alternative_names.json" />
     <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\VehicleSettingsResponses.json" />
     <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\VehicleSettingsResponses.zh.json" />
     <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\VehicleSettingsResponses.de.json" />
