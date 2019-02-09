@@ -75,4 +75,70 @@ Once you have followed the deployment instructions above, open the provided .bot
 
 ## Adding Experimental Skills to your Virtual Assistant deployment.
 
-Instructions on how to add experimental skills will be available soon.
+Follow the steps in `Deploying LUIS models and updating Dispatch` and `Update Virtual Assistant` within the [Skill Enablement documentation](./virtualassistant-skillenablement.md) to configure each of the Experimental Skills as required.
+
+Instead of the generic skill configuration examples shown in the documentation steps you should use the ones below which are tailored to each of the experimental skills.
+
+### Recipe File updates
+
+```
+  {
+      "type": "luis",
+      "id": "news",
+      "name": "news",
+      "luPath": "..\\experimental\\skills\\newsskill\\CognitiveModels\\LUIS\\en\\news.lu"
+  },
+  {
+      "type": "luis",
+      "id": "restaurant",
+      "name": "reservation",
+      "luPath": "..\\experimental\\skills\\restaurantbooking\\CognitiveModels\\LUIS\\en\\reservation.lu"
+  }
+```
+
+### Dispatch References
+```
+    # l_News 
+    - [FindArticles](../../../../experimental/skills/newsskill/CognitiveModels/LUIS/en/news.lu#FindArticles)
+    # l_Restaurant
+    - [Reservation](../../../../experimental/skills/restaurantbooking/CognitiveModels/LUIS/en/reservation.lu#Reservation)
+```
+
+### Skill Configuration in appSettings.config
+
+ ```
+    "skills":[
+        {
+            "type": "skill",
+            "id": "NewsSkill",
+            "name": "NewsSkill",
+            "assembly": "NewsSkill.NewsSkill, NewsSkill, Version=1.0.0.0, Culture=neutral",
+            "dispatchIntent": "l_News",
+            "supportedProviders": [],
+            "luisServiceIds": [
+                "news",
+                "general"
+            ],
+            "parameters": [],
+            "configuration": {
+                "BingNewsKey": ""
+            }
+        },
+          {
+            "type": "skill",
+            "id": "RestaurantBooking",
+            "name": "RestaurantBooking",
+            "assembly": "RestaurantBooking.RestaurantBooking, RestaurantBooking, Version=1.0.0.0, Culture=neutral",
+            "dispatchIntent": "l_Reservation",
+            "supportedProviders": [],
+            "luisServiceIds": [
+                "reservation",
+                "general"
+            ],
+            "parameters": [],
+            "configuration": {}
+        }
+    ]
+```
+
+
