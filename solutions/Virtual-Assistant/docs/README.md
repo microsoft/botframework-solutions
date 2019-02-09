@@ -30,6 +30,7 @@ Onboarding | An example OnBoarding flow enabling your Assistant to greet the use
 [Test Harnesses](./virtualassistant-testing.md) | In addition to the Bot Framework Emulator, a WebChat based test harness is provided enabling more complex authentication scenarios to be tested. A simple Console based test harness demonstrates the approach to exchange messages to help frame the ease of device integration.
 [Automated Deployment](./virtualassistant-createvirtualassistant.md) | All the Azure resources required for your Assistant are automatically deployed: Bot registration, Azure App Service, LUIS, QnAMaker, Content Moderator, CosmosDB, Azure Storage, and Application Insights. Additionally, LUIS models for all skills, QnAMaker, and Dispatch models are created, trained, and published to enable immediate testing.
 [Experimental Skills](./virtualassistant-experimental-skills.md) | Experimental Skills are early prototypes of Skills to help bring skill concepts to life for demonstrations and proof-of-concepts along with providing different examples to get you  started. Restaurant Booking and News Skills are currently available.
+[Conversational Analytics](/solutions/analytics/readme.md) | Analytics surfacing insights into end user activity, dialog/skill usage, quality and gaps in knowledge.
 
 ## Example Scenarios
 
