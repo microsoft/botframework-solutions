@@ -24,7 +24,7 @@
             "luPath": "..\\skills\\MySkill\\MySkill\\CognitiveModels\\LUIS\\en\\MySkill.lu"
         }
     ```
-2. Add dispatch references to the core LUIS intents for the skill within the `assistant\CognitiveModels\LOCALE\dispatch.lu` file as shown below and repeat for all locales your skill supports. This enables the Dispatcher to understand your new capabilities and route utterances to your skill.
+2. Add dispatch references to the core LUIS intents for the skill within the `assistant\CognitiveModels\LOCALE\dispatch.lu` file as shown below (case-sensitive) and repeat for all locales your skill supports. This enables the Dispatcher to understand your new capabilities and route utterances to your skill.
      
     ```
         # l_MySkill 
@@ -173,7 +173,7 @@
                 "general"
             ]
         ```
-    - **parameters**: this section is for state values the Virtual Assistant should pass to your skill. For example, the Assistant might have access to the user's location, timezone, and other preferences that tha skill might want to access.
+    - **parameters**: this section is for state values the Virtual Assistant should pass to your skill. For example, the Assistant might have access to the user's location, timezone, and other preferences that the skill might want to access.
         ```
             "parameters": [
                 "IPA.Timezone"
