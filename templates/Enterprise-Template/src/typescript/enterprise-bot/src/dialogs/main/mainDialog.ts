@@ -117,13 +117,13 @@ export class MainDialog extends RouterDialog {
         }
     }
 
-    protected onEvent(dc: DialogContext): Promise<void> {
+    protected async onEvent(dc: DialogContext): Promise<void> {
         // Check if there was an action submitted from intro card
         if (dc.context.activity.value) {
             // tslint:disable-next-line:no-any
             const value: any = dc.context.activity.value;
             if (value.action === 'startOnboarding') {
-                dc.beginDialog(OnboardingDialog.name);
+                await dc.beginDialog(OnboardingDialog.name);
             }
         }
 
