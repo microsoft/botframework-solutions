@@ -68,9 +68,9 @@
     ```
 7. Run the LuisGen tool to update Dispatch.cs.
     ```
-    LUISGen YOUR_PROJECT_DIRECTORY\DeploymentScripts\en\dispatch.luis -cs Dispatch -o YOUR_PROJECT_DIRECTORY\Dialogs\Shared\Resources 
+    LUISGen assistant\DeploymentScripts\en\dispatch.luis -cs Dispatch -o assistant\Dialogs\Shared\Resources 
     ```
-8. Update **MainDialog.cs** with the dispatch intent for your skill.
+8. Update **assistant\Dialogs\Main\MainDialog.cs** with the dispatch intent for your skill.
     ![](./media/skills_maindialogupdate.jpg)
 
 9.  Run the Virtual Assistant project.
