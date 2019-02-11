@@ -64,6 +64,36 @@ namespace PointOfInterestSkillTests.Flow.Fakes
                     this.Intents.Add(PointOfInterest.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y, intentScore);
                     this.Entities.number = new double[] { 1 };
                     break;
+                case "get directions to my house":
+                    this.Intents.Add(PointOfInterest.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y, intentScore);
+                    string[][] homeCommonLocation = { new string[] { "home" } };
+                    this.Entities.COMMON_LOCATION = homeCommonLocation;
+                    break;
+                case "get directions to my office":
+                    this.Intents.Add(PointOfInterest.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y, intentScore);
+                    string[][] officeCommonLocation = { new string[] { "office" } };
+                    this.Entities.COMMON_LOCATION = officeCommonLocation;
+                    break;
+                case "get directions to my destination":
+                    this.Intents.Add(PointOfInterest.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y, intentScore);
+                    string[][] destinationCommonLocation = { new string[] { "destination" } };
+                    this.Entities.COMMON_LOCATION = destinationCommonLocation;
+                    break;
+                case "find a coffee shop near home":
+                    this.Intents.Add(PointOfInterest.Intent.NAVIGATION_FIND_POINTOFINTEREST, intentScore);
+                    this.Entities.KEYWORD = new string[] { "coffee shop" };
+
+                    break;
+                case "find a coffee shop near work":
+                    this.Intents.Add(PointOfInterest.Intent.NAVIGATION_FIND_POINTOFINTEREST, intentScore);
+                    this.Entities.KEYWORD = new string[] { "coffee shop" };
+
+                    break;
+                case "find a coffee shop near my destination":
+                    this.Intents.Add(PointOfInterest.Intent.NAVIGATION_FIND_POINTOFINTEREST, intentScore);
+                    this.Entities.KEYWORD = new string[] { "coffee shop" };
+
+                    break;
                 default:
                     return (PointOfInterest.Intent.None, 0.0);
             }

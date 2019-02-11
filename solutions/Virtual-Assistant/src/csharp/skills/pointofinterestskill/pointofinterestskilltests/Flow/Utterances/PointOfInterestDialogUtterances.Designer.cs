@@ -79,6 +79,15 @@ namespace PointOfInterestSkillTests.Flow.Utterances {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to /event:{ &quot;Name&quot;: &quot;IPA.Destination&quot;, &quot;Value&quot;: &quot;47.5705388,-122.2295&quot; }.
+        /// </summary>
+        internal static string DestinationEvent {
+            get {
+                return ResourceManager.GetString("DestinationEvent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to find a parking garage near 1635 11th Ave.
         /// </summary>
         internal static string FindParkingNearAddress {
@@ -106,6 +115,33 @@ namespace PointOfInterestSkillTests.Flow.Utterances {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to find a coffee shop near my destination.
+        /// </summary>
+        internal static string FindPointOfInterestByDestination {
+            get {
+                return ResourceManager.GetString("FindPointOfInterestByDestination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to find a coffee shop near home.
+        /// </summary>
+        internal static string FindPointOfInterestByHome {
+            get {
+                return ResourceManager.GetString("FindPointOfInterestByHome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to find a coffee shop near work.
+        /// </summary>
+        internal static string FindPointOfInterestByOffice {
+            get {
+                return ResourceManager.GetString("FindPointOfInterestByOffice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to get directions to microsoft corporation.
         /// </summary>
         internal static string GetDirectionsByName {
@@ -124,6 +160,42 @@ namespace PointOfInterestSkillTests.Flow.Utterances {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to get directions to my destination.
+        /// </summary>
+        internal static string GetDirectionsDestination {
+            get {
+                return ResourceManager.GetString("GetDirectionsDestination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to get directions to my house.
+        /// </summary>
+        internal static string GetDirectionsHome {
+            get {
+                return ResourceManager.GetString("GetDirectionsHome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to get directions to my office.
+        /// </summary>
+        internal static string GetDirectionsOffice {
+            get {
+                return ResourceManager.GetString("GetDirectionsOffice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /event:{ &quot;Name&quot;: &quot;IPA.Home&quot;, &quot;Value&quot;: &quot;47.585632,-122.3083019&quot; }.
+        /// </summary>
+        internal static string HomeEvent {
+            get {
+                return ResourceManager.GetString("HomeEvent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to I found the following matches..
         /// </summary>
         internal static string IFoundTheFollowingMatches {
@@ -138,6 +210,15 @@ namespace PointOfInterestSkillTests.Flow.Utterances {
         internal static string LocationEvent {
             get {
                 return ResourceManager.GetString("LocationEvent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /event:{ &quot;Name&quot;: &quot;IPA.Office&quot;, &quot;Value&quot;: &quot;47.616608,-122.1897652&quot; }.
+        /// </summary>
+        internal static string OfficeEvent {
+            get {
+                return ResourceManager.GetString("OfficeEvent", resourceCulture);
             }
         }
         

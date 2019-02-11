@@ -123,6 +123,9 @@
   <data name="CancelRoute" xml:space="preserve">
     <value>cancel my route</value>
   </data>
+  <data name="DestinationEvent" xml:space="preserve">
+    <value>/event:{ "Name": "IPA.Destination", "Value": "47.5705388,-122.2295" }</value>
+  </data>
   <data name="FindParkingNearAddress" xml:space="preserve">
     <value>find a parking garage near 1635 11th Ave</value>
   </data>
@@ -132,17 +135,41 @@
   <data name="FindPointOfInterest" xml:space="preserve">
     <value>find a coffee shop</value>
   </data>
+  <data name="FindPointOfInterestByDestination" xml:space="preserve">
+    <value>find a coffee shop near my destination</value>
+  </data>
+  <data name="FindPointOfInterestByHome" xml:space="preserve">
+    <value>find a coffee shop near home</value>
+  </data>
+  <data name="FindPointOfInterestByOffice" xml:space="preserve">
+    <value>find a coffee shop near work</value>
+  </data>
   <data name="GetDirectionsByName" xml:space="preserve">
     <value>get directions to microsoft corporation</value>
   </data>
   <data name="GetDirectionsByNewName" xml:space="preserve">
     <value>get directions to the pharmacy</value>
   </data>
+  <data name="GetDirectionsDestination" xml:space="preserve">
+    <value>get directions to my destination</value>
+  </data>
+  <data name="GetDirectionsHome" xml:space="preserve">
+    <value>get directions to my house</value>
+  </data>
+  <data name="GetDirectionsOffice" xml:space="preserve">
+    <value>get directions to my office</value>
+  </data>
+  <data name="HomeEvent" xml:space="preserve">
+    <value>/event:{ "Name": "IPA.Home", "Value": "47.585632,-122.3083019" }</value>
+  </data>
   <data name="IFoundTheFollowingMatches" xml:space="preserve">
     <value>I found the following matches.</value>
   </data>
   <data name="LocationEvent" xml:space="preserve">
     <value>/event:{ "Name": "IPA.Location", "Value": "47.639620,-122.130610" }</value>
+  </data>
+  <data name="OfficeEvent" xml:space="preserve">
+    <value>/event:{ "Name": "IPA.Office", "Value": "47.616608,-122.1897652" }</value>
   </data>
   <data name="WhatElseCanIHelpYouWith" xml:space="preserve">
     <value>What else can I help you with?</value>

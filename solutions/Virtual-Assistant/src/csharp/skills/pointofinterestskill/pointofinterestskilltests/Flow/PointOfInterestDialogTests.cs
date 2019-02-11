@@ -196,6 +196,115 @@ namespace PointOfInterestSkillTests.Flow
         }
 
         /// <summary>
+        /// Get directions home.
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task GetDirectionsHomeTest()
+        {
+            await GetTestFlow()
+                .Send(PointOfInterestDialogUtterances.LocationEvent)
+                .Send(PointOfInterestDialogUtterances.HomeEvent)
+                .Send(PointOfInterestDialogUtterances.GetDirectionsHome)
+                .AssertReply(SingleRouteFound())
+                .AssertReply(PromptToStartRoute())
+                .Send(GeneralUtterances.Yes)
+                .AssertReply(SendingRouteDetails())
+                .AssertReply(CheckForEvent())
+                .AssertReply(CompleteDialog())
+                .StartTestAsync();
+        }
+
+        /// <summary>
+        /// Find a point of interest near home.
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task GetPointOfInterestNearHomeTest()
+        {
+            await GetTestFlow()
+                .Send(PointOfInterestDialogUtterances.LocationEvent)
+                .Send(PointOfInterestDialogUtterances.HomeEvent)
+                .Send(PointOfInterestDialogUtterances.FindPointOfInterestByHome)
+                .AssertReply(MultipleLocationsFound())
+                .AssertReply(CompleteDialog())
+                .StartTestAsync();
+        }
+
+
+        /// <summary>
+        /// Get directions home.
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task GetDirectionsOfficeTest()
+        {
+            await GetTestFlow()
+                .Send(PointOfInterestDialogUtterances.LocationEvent)
+                .Send(PointOfInterestDialogUtterances.OfficeEvent)
+                .Send(PointOfInterestDialogUtterances.GetDirectionsOffice)
+                .AssertReply(SingleRouteFound())
+                .AssertReply(PromptToStartRoute())
+                .Send(GeneralUtterances.Yes)
+                .AssertReply(SendingRouteDetails())
+                .AssertReply(CheckForEvent())
+                .AssertReply(CompleteDialog())
+                .StartTestAsync();
+        }
+
+        /// <summary>
+        /// Find a point of interest near office.
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task GetPointOfInterestNearOfficeTest()
+        {
+            await GetTestFlow()
+                .Send(PointOfInterestDialogUtterances.LocationEvent)
+                .Send(PointOfInterestDialogUtterances.OfficeEvent)
+                .Send(PointOfInterestDialogUtterances.FindPointOfInterestByOffice)
+                .AssertReply(MultipleLocationsFound())
+                .AssertReply(CompleteDialog())
+                .StartTestAsync();
+        }
+
+        /// <summary>
+        /// Get directions to the destination.
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task GetDirectionsDestinationTest()
+        {
+            await GetTestFlow()
+                .Send(PointOfInterestDialogUtterances.LocationEvent)
+                .Send(PointOfInterestDialogUtterances.DestinationEvent)
+                .Send(PointOfInterestDialogUtterances.GetDirectionsDestination)
+                .AssertReply(SingleRouteFound())
+                .AssertReply(PromptToStartRoute())
+                .Send(GeneralUtterances.Yes)
+                .AssertReply(SendingRouteDetails())
+                .AssertReply(CheckForEvent())
+                .AssertReply(CompleteDialog())
+                .StartTestAsync();
+        }
+
+        /// <summary>
+        /// Find a point of interest near destination.
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task GetPointOfInterestNearDestinationTest()
+        {
+            await GetTestFlow()
+                .Send(PointOfInterestDialogUtterances.LocationEvent)
+                .Send(PointOfInterestDialogUtterances.DestinationEvent)
+                .Send(PointOfInterestDialogUtterances.FindPointOfInterestByDestination)
+                .AssertReply(MultipleLocationsFound())
+                .AssertReply(CompleteDialog())
+                .StartTestAsync();
+        }
+
+        /// <summary>
         /// Asserts bot response of MultipleLocationsFound
         /// </summary>
         /// <returns></returns>
