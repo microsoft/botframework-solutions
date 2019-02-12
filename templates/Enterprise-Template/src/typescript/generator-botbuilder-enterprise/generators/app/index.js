@@ -267,12 +267,11 @@ module.exports = class extends Generator {
     );
 
     this.fs.copy(
-      this.templatePath(templateName, "src", "locales", botLang + ".json"),
+      this.templatePath(templateName, "src", "locales"),
       this.destinationPath(
         botGenerationPath,
         "src",
-        "locales",
-        botLang + ".json"
+        "locales"
       )
     );
 
