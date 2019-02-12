@@ -1,13 +1,13 @@
 const assert = require('assert');
 const { MemoryStorage } = require('botbuilder-core')
-const enterpriseBotTestBase = require('./enterpriseBotTestBase.js');
+const botTestBase = require('./botTestBase.js');
 const testNock = require('../testBase');
 
 let testStorage = new MemoryStorage();
 
 describe("Onboarding Dialog", function () {
     beforeEach(function () {
-        enterpriseBotTestBase.initialize(testStorage);
+        botTestBase.initialize(testStorage);
     });
 
     afterEach(function () {
@@ -16,7 +16,7 @@ describe("Onboarding Dialog", function () {
 
     describe("Onboarding", function () {
         it("Spin up the OnboardingDialog directly", function (done) {
-            const testAdapter = enterpriseBotTestBase.getTestAdapter();
+            const testAdapter = botTestBase.getTestAdapter();
             const flow = testAdapter
                 .send({
                     channelId: "emulator",
@@ -42,7 +42,7 @@ describe("Onboarding Dialog", function () {
             testNock.resolveWithMocks(this.test.title, done, flow);
         });
         it("Response for name prompt", function (done) {
-            const testAdapter = enterpriseBotTestBase.getTestAdapter();
+            const testAdapter = botTestBase.getTestAdapter();
             const flow = testAdapter
                 .send({
                     channelId: "emulator",
@@ -88,7 +88,7 @@ describe("Onboarding Dialog", function () {
             testNock.resolveWithMocks(this.test.title, done, flow);
         });
         it("Response for email prompt", function (done) {
-            const testAdapter = enterpriseBotTestBase.getTestAdapter();
+            const testAdapter = botTestBase.getTestAdapter();
             const flow = testAdapter
                 .send({
                     channelId: "emulator",
@@ -153,7 +153,7 @@ describe("Onboarding Dialog", function () {
             testNock.resolveWithMocks(this.test.title, done, flow);
         });
         it("Response for location prompt", function (done) {
-            const testAdapter = enterpriseBotTestBase.getTestAdapter();
+            const testAdapter = botTestBase.getTestAdapter();
             const flow = testAdapter
                 .send({
                     channelId: "emulator",
@@ -239,7 +239,7 @@ describe("Onboarding Dialog", function () {
             testNock.resolveWithMocks(this.test.title, done, flow);
         });
         it("Validate state is updated", function (done) {
-            const testAdapter = enterpriseBotTestBase.getTestAdapter();
+            const testAdapter = botTestBase.getTestAdapter();
             const flow = testAdapter
                 .send({
                     channelId: "emulator",
@@ -290,7 +290,7 @@ describe("Onboarding Dialog", function () {
 
     describe("Onboarding Cancellation", function () {
         it("Invoke a 'Cancel' action during name prompt and confirm", function (done) {
-            const testAdapter = enterpriseBotTestBase.getTestAdapter();
+            const testAdapter = botTestBase.getTestAdapter();
             const flow = testAdapter
                 .send({
                     channelId: "emulator",
@@ -359,7 +359,7 @@ describe("Onboarding Dialog", function () {
             testNock.resolveWithMocks(this.test.title, done, flow);
         });
         it("Invoke a 'Cancel' action during email prompt and deny", function (done) {
-            const testAdapter = enterpriseBotTestBase.getTestAdapter();
+            const testAdapter = botTestBase.getTestAdapter();
             const flow = testAdapter
                 .send({
                     channelId: "emulator",
