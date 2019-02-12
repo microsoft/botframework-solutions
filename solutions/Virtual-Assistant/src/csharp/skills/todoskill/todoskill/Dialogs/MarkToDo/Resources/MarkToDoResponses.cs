@@ -16,6 +16,7 @@ namespace ToDoSkill.Dialogs.MarkToDo.Resources
 		public const string AfterAllTasksCompleted = "AfterAllTasksCompleted";
 		public const string ListTypePrompt = "ListTypePrompt";
 		public const string AskTaskIndex = "AskTaskIndex";
+		public const string AskTaskIndexRetry = "AskTaskIndexRetry";
 		public const string CompleteAnotherTaskPrompt = "CompleteAnotherTaskPrompt";
 		public const string CompleteAnotherTaskConfirmFailed = "CompleteAnotherTaskConfirmFailed";
 

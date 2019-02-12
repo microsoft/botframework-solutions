@@ -238,7 +238,16 @@ namespace ToDoSkill.Dialogs.MarkToDo
                 }
                 else
                 {
-                    var prompt = ResponseManager.GetResponse(MarkToDoResponses.AskTaskIndex);
+                    Activity prompt;
+                    if (state.CollectIndexRetry)
+                    {
+                        prompt = ResponseManager.GetResponse(MarkToDoResponses.AskTaskIndexRetry);
+                    }
+                    else
+                    {
+                        prompt = ResponseManager.GetResponse(MarkToDoResponses.AskTaskIndex);
+                    }
+
                     return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
                 }
             }
@@ -254,6 +263,8 @@ namespace ToDoSkill.Dialogs.MarkToDo
             try
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
+                state.CollectIndexRetry = false;
+
                 var matchedIndexes = Enumerable.Range(0, state.AllTasks.Count)
                     .Where(i => state.AllTasks[i].Topic.Equals(state.TaskContentPattern, StringComparison.OrdinalIgnoreCase)
                     || state.AllTasks[i].Topic.Equals(state.TaskContentML, StringComparison.OrdinalIgnoreCase))
@@ -294,6 +305,7 @@ namespace ToDoSkill.Dialogs.MarkToDo
                 {
                     state.TaskContentPattern = null;
                     state.TaskContentML = null;
+                    state.CollectIndexRetry = false;
                     return await sc.ReplaceDialogAsync(Action.CollectTaskIndexForComplete);
                 }
             }

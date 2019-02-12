@@ -35,6 +35,15 @@
     ],
     "inputHint": "expectingInput"
   },
+  "AskTaskIndexRetry": {
+    "replies": [
+      {
+        "text": "Sorry, I could not find this task. Please try again. What task do you want to complete?",
+        "speak": "Sorry, I could not find this task. Please try again. What task do you want to complete?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "CompleteAnotherTaskPrompt": {
     "replies": [
       {
