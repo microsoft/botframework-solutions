@@ -3,10 +3,36 @@ const BotConfiguration = require('botframework-config').BotConfiguration;
 const config = require('dotenv').config;
 const i18n = require('i18n');
 const path = require('path');
+const TEST_MODE = require('../testBase').testMode;
 const BotServices = require('../../lib/botServices.js').BotServices;
 const EnterpriseBot = require('../../lib/enterpriseBot.js').EnterpriseBot;
+const ENV_NAME = 'development';
 
-const TEST_MODE = require('../testBase').testMode;
+    /**
+     * Initializes the properties for the bot to be tested.
+     */
+    var initialize = async function(testStorage) {
+        i18n.configure({
+            directory: path.join(__dirname, '..', '..', 'src', 'locales'),
+            defaultLocale: 'en',
+            objectNotation: true
+        });
+
+        /**
+         * This will be removed when the mocks are finished, since the env variables will be hardcoded
+         */
+        config({ path: path.join(__dirname, '..', '..', `.env.${ENV_NAME}`) });
+        this.conversationState = new ConversationState(testStorage || new MemoryStorage());
+        this.userState = new UserState(testStorage || new MemoryStorage());
+        const telemetryClient = new NullTelemetryClient();
+
+        /*
+         * Here we should pass an instance of { BotServices } from '../../src/botServices',
+         * for the moment we'll deploy a bot and use the .bot file, until we mock the services.
+        */
+        const botConfiguration = await BotConfiguration.load(process.env.BOT_FILE_NAME, process.env.BOT_FILE_SECRET);
+        this.services = new BotServices(botConfiguration);
+    }
 
 const setupEnvironment = function(testMode) {
     switch (testMode) {
