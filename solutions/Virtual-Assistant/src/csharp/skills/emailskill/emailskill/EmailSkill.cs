@@ -17,6 +17,7 @@ using EmailSkill.Dialogs.ShowEmail.Resources;
 using EmailSkill.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 
@@ -82,6 +83,8 @@ namespace EmailSkill
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
+            turnContext.TurnState.Add(TelemetryLoggerMiddleware.AppInsightsServiceKey, _telemetryClient);
+
             var dc = await _dialogs.CreateContextAsync(turnContext);
 
             if (dc.ActiveDialog != null)

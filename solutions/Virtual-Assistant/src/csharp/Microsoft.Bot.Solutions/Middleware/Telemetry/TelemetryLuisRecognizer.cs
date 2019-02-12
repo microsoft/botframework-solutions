@@ -129,6 +129,7 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
                     { LuisTelemetryConstants.ApplicationIdProperty, _luisApplication.ApplicationId },
                     { LuisTelemetryConstants.IntentProperty, topLuisIntent.intent },
                     { LuisTelemetryConstants.IntentScoreProperty, intentScore },
+                    { TelemetryConstants.FromIdProperty, context.Activity.From.Id },
                 };
 
                 if (dialogId != null)
@@ -158,6 +159,8 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
                         entities.Add($"{entity.Key}: {entity.Value.First}");
                     }
                 }
+
+                telemetryProperties.Add(LuisTelemetryConstants.EntitiesProperty, string.Join(",", entities.ToArray()));
 
                 // For some customers, logging user name within Application Insights might be an issue so have provided a config setting to disable this feature
                 if (logOriginalMessage && !string.IsNullOrEmpty(context.Activity.Text))
