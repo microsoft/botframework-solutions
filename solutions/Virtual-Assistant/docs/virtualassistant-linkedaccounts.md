@@ -19,7 +19,7 @@ In a speech-led scenario, it's unacceptable and impractical to expect a user to 
 
 The Linked Accounts feature of the Virtual Assistant provides a reference sample of a web app using the Azure Bot Service to deliver this capability, a screen shot showing the example interface is shown below and demonstrates the type of capability you would build into your own experience (e.g. a mobile app)
 
-![Linked Accounts UX](./media/virtualassistant-LinkedAccountsUX.png)
+![Linked Accounts UX](./media/virtualassistant-linkedaccountsux.png)
 
 This example of how to build an account linking experience within your own web or mobile app.
 
