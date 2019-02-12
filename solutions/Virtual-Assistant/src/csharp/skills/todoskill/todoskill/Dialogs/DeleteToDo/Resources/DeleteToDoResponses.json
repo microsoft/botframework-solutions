@@ -62,6 +62,15 @@
     ],
     "inputHint": "expectingInput"
   },
+  "AskTaskIndexRetry": {
+    "replies": [
+      {
+        "text": "Sorry, I could not find this task. Please try again. What task do you want to delete?",
+        "speak": "Sorry, I could not find this task. Please try again. What task do you want to delete?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "DeleteAnotherTaskPrompt": {
     "replies": [
       {

@@ -62,6 +62,15 @@
     ],
     "inputHint": "expectingInput"
   },
+  "AskTaskIndexRetry": {
+    "replies": [
+      {
+        "text": "对不起, 我找不到此任务。请再试一次。要删除什么任务？",
+        "speak": "对不起, 我找不到此任务。请再试一次。要删除什么任务？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "DeleteAnotherTaskPrompt": {
     "replies": [
       {

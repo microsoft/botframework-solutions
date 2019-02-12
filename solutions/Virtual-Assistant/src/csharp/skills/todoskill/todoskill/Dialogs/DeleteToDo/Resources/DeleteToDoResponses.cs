@@ -19,6 +19,7 @@ namespace ToDoSkill.Dialogs.DeleteToDo.Resources
 		public const string DeletionAllConfirmationRefused = "DeletionAllConfirmationRefused";
 		public const string ListTypePrompt = "ListTypePrompt";
 		public const string AskTaskIndex = "AskTaskIndex";
+		public const string AskTaskIndexRetry = "AskTaskIndexRetry";
 		public const string DeleteAnotherTaskPrompt = "DeleteAnotherTaskPrompt";
 		public const string DeleteAnotherTaskConfirmFailed = "DeleteAnotherTaskConfirmFailed";
 

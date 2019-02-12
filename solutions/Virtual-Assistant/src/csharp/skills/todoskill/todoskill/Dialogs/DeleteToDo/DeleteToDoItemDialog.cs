@@ -276,7 +276,16 @@ namespace ToDoSkill.Dialogs.DeleteToDo
                 }
                 else
                 {
-                    var prompt = ResponseManager.GetResponse(DeleteToDoResponses.AskTaskIndex);
+                    Activity prompt;
+                    if (state.CollectIndexRetry)
+                    {
+                        prompt = ResponseManager.GetResponse(DeleteToDoResponses.AskTaskIndexRetry);
+                    }
+                    else
+                    {
+                        prompt = ResponseManager.GetResponse(DeleteToDoResponses.AskTaskIndex);
+                    }
+
                     return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
                 }
             }
@@ -292,6 +301,8 @@ namespace ToDoSkill.Dialogs.DeleteToDo
             try
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
+                state.CollectIndexRetry = false;
+
                 var matchedIndexes = Enumerable.Range(0, state.AllTasks.Count)
                     .Where(i => state.AllTasks[i].Topic.Equals(state.TaskContentPattern, StringComparison.OrdinalIgnoreCase)
                     || state.AllTasks[i].Topic.Equals(state.TaskContentML, StringComparison.OrdinalIgnoreCase))
@@ -332,6 +343,7 @@ namespace ToDoSkill.Dialogs.DeleteToDo
                 {
                     state.TaskContentPattern = null;
                     state.TaskContentML = null;
+                    state.CollectIndexRetry = true;
                     return await sc.ReplaceDialogAsync(Action.CollectTaskIndexForDelete);
                 }
             }
