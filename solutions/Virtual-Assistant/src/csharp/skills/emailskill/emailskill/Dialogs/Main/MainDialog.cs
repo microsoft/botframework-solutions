@@ -89,6 +89,7 @@ namespace EmailSkill.Dialogs.Main
             }
             else
             {
+                var turnResult = EndOfTurn;
                 var result = await luisService.RecognizeAsync<Email>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
                 var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
@@ -104,19 +105,19 @@ namespace EmailSkill.Dialogs.Main
                 {
                     case Email.Intent.SendEmail:
                         {
-                            await dc.BeginDialogAsync(nameof(SendEmailDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(SendEmailDialog), skillOptions);
                             break;
                         }
 
                     case Email.Intent.Forward:
                         {
-                            await dc.BeginDialogAsync(nameof(ForwardEmailDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(ForwardEmailDialog), skillOptions);
                             break;
                         }
 
                     case Email.Intent.Reply:
                         {
-                            await dc.BeginDialogAsync(nameof(ReplyEmailDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(ReplyEmailDialog), skillOptions);
                             break;
                         }
 
@@ -125,13 +126,13 @@ namespace EmailSkill.Dialogs.Main
                     case Email.Intent.ReadAloud:
                     case Email.Intent.QueryLastText:
                         {
-                            await dc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
                             break;
                         }
 
                     case Email.Intent.Delete:
                         {
-                            await dc.BeginDialogAsync(nameof(DeleteEmailDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(DeleteEmailDialog), skillOptions);
                             break;
                         }
 
@@ -139,14 +140,14 @@ namespace EmailSkill.Dialogs.Main
                         {
                             if (generalTopIntent == General.Intent.Next || generalTopIntent == General.Intent.Previous)
                             {
-                                await dc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
+                                turnResult = await dc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
                             }
                             else
                             {
                                 await dc.Context.SendActivityAsync(_responseManager.GetResponse(EmailSharedResponses.DidntUnderstandMessage));
                                 if (_skillMode)
                                 {
-                                    await CompleteAsync(dc);
+                                    turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                                 }
                             }
 
@@ -159,11 +160,16 @@ namespace EmailSkill.Dialogs.Main
 
                             if (_skillMode)
                             {
-                                await CompleteAsync(dc);
+                                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             }
 
                             break;
                         }
+                }
+
+                if (turnResult != EndOfTurn)
+                {
+                    await CompleteAsync(dc);
                 }
             }
         }

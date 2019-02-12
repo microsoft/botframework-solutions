@@ -86,13 +86,14 @@ namespace AutomotiveSkill.Dialogs.Main
             }
             else
             {
+                var turnResult = EndOfTurn;
+                var result = await luisService.RecognizeAsync<Luis.VehicleSettings>(dc.Context, CancellationToken.None);
+                var intent = result?.TopIntent().intent;
+
                 var skillOptions = new AutomotiveSkillDialogOptions
                 {
                     SkillMode = _skillMode,
                 };
-
-                var result = await luisService.RecognizeAsync<Luis.VehicleSettings>(dc.Context, CancellationToken.None);
-                var intent = result?.TopIntent().intent;
 
                 // Update state with vehiclesettings luis result and entities
                 state.AddRecognizerResult(result);
@@ -103,15 +104,17 @@ namespace AutomotiveSkill.Dialogs.Main
                     case Luis.VehicleSettings.Intent.VEHICLE_SETTINGS_CHANGE:
                     case Luis.VehicleSettings.Intent.VEHICLE_SETTINGS_DECLARATIVE:
                     case Luis.VehicleSettings.Intent.VEHICLE_SETTINGS_CHECK:
-                        await dc.BeginDialogAsync(nameof(VehicleSettingsDialog), skillOptions);
+                        {
+                            turnResult = await dc.BeginDialogAsync(nameof(VehicleSettingsDialog), skillOptions);
+                            break;
+                        }
 
-                        break;
                     case Luis.VehicleSettings.Intent.None:
                         {
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(AutomotiveSkillSharedResponses.DidntUnderstandMessage));
                             if (_skillMode)
                             {
-                                await CompleteAsync(dc);
+                                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             }
 
                             break;
@@ -123,11 +126,16 @@ namespace AutomotiveSkill.Dialogs.Main
 
                             if (_skillMode)
                             {
-                                await CompleteAsync(dc);
+                                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             }
 
                             break;
                         }
+                }
+
+                if (turnResult != EndOfTurn)
+                {
+                    await CompleteAsync(dc);
                 }
             }
         }

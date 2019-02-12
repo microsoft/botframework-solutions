@@ -92,6 +92,7 @@ namespace ToDoSkill.Dialogs.Main
             }
             else
             {
+                var turnResult = EndOfTurn;
                 var result = await luisService.RecognizeAsync<ToDo>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
                 var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
@@ -106,25 +107,25 @@ namespace ToDoSkill.Dialogs.Main
                 {
                     case ToDo.Intent.AddToDo:
                         {
-                            await dc.BeginDialogAsync(nameof(AddToDoItemDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(AddToDoItemDialog), skillOptions);
                             break;
                         }
 
                     case ToDo.Intent.MarkToDo:
                         {
-                            await dc.BeginDialogAsync(nameof(MarkToDoItemDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(MarkToDoItemDialog), skillOptions);
                             break;
                         }
 
                     case ToDo.Intent.DeleteToDo:
                         {
-                            await dc.BeginDialogAsync(nameof(DeleteToDoItemDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(DeleteToDoItemDialog), skillOptions);
                             break;
                         }
 
                     case ToDo.Intent.ShowToDo:
                         {
-                            await dc.BeginDialogAsync(nameof(ShowToDoItemDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(ShowToDoItemDialog), skillOptions);
                             break;
                         }
 
@@ -134,7 +135,7 @@ namespace ToDoSkill.Dialogs.Main
                                 || generalTopIntent == General.Intent.Previous
                                 || generalTopIntent == General.Intent.ReadMore)
                             {
-                                await dc.BeginDialogAsync(nameof(ShowToDoItemDialog), skillOptions);
+                                turnResult = await dc.BeginDialogAsync(nameof(ShowToDoItemDialog), skillOptions);
                             }
                             else
                             {
@@ -142,7 +143,7 @@ namespace ToDoSkill.Dialogs.Main
                                 await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.DidntUnderstandMessage));
                                 if (_skillMode)
                                 {
-                                    await CompleteAsync(dc);
+                                    turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                                 }
                             }
 
@@ -155,11 +156,16 @@ namespace ToDoSkill.Dialogs.Main
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.FeatureNotAvailable));
                             if (_skillMode)
                             {
-                                await CompleteAsync(dc);
+                                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             }
 
                             break;
                         }
+                }
+
+                if (turnResult != EndOfTurn)
+                {
+                    await CompleteAsync(dc);
                 }
             }
         }

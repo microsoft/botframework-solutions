@@ -91,6 +91,7 @@ namespace $safeprojectname$.Dialogs.Main
                     SkillMode = _skillMode,
                 };
 
+                var turnResult = EndOfTurn;
                 var result = await luisService.RecognizeAsync<$safeprojectname$LU> (dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
@@ -98,7 +99,7 @@ namespace $safeprojectname$.Dialogs.Main
                 {
                     case $safeprojectname$LU.Intent.Sample:
                         {
-                            await dc.BeginDialogAsync(nameof(SampleDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(SampleDialog), skillOptions);
                             break;
                         }
 
@@ -108,7 +109,7 @@ namespace $safeprojectname$.Dialogs.Main
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(SharedResponses.DidntUnderstandMessage));
                             if (_skillMode)
                             {
-                                await CompleteAsync(dc);
+                                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             }
 
                             break;
@@ -120,11 +121,16 @@ namespace $safeprojectname$.Dialogs.Main
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.FeatureNotAvailable));
                             if (_skillMode)
                             {
-                                await CompleteAsync(dc);
+                                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             }
 
                             break;
                         }
+                }
+
+                if (turnResult != EndOfTurn)
+                {
+                    await CompleteAsync(dc);
                 }
             }
         }

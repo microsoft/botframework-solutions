@@ -90,6 +90,7 @@ namespace CalendarSkill.Dialogs.Main
             }
             else
             {
+                var turnResult = EndOfTurn;
                 var result = await luisService.RecognizeAsync<Luis.Calendar>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
                 var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
@@ -105,38 +106,38 @@ namespace CalendarSkill.Dialogs.Main
                     case Luis.Calendar.Intent.FindMeetingRoom:
                     case Luis.Calendar.Intent.CreateCalendarEntry:
                         {
-                            await dc.BeginDialogAsync(nameof(CreateEventDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(CreateEventDialog), skillOptions);
                             break;
                         }
 
                     case Luis.Calendar.Intent.AcceptEventEntry:
                     case Luis.Calendar.Intent.DeleteCalendarEntry:
                         {
-                            await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog), skillOptions);
                             break;
                         }
 
                     case Luis.Calendar.Intent.ChangeCalendarEntry:
                         {
-                            await dc.BeginDialogAsync(nameof(UpdateEventDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(UpdateEventDialog), skillOptions);
                             break;
                         }
 
                     case Luis.Calendar.Intent.ConnectToMeeting:
                         {
-                            await dc.BeginDialogAsync(nameof(ConnectToMeetingDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(ConnectToMeetingDialog), skillOptions);
                             break;
                         }
 
                     case Luis.Calendar.Intent.FindCalendarEntry:
                         {
-                            await dc.BeginDialogAsync(nameof(SummaryDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog), skillOptions);
                             break;
                         }
 
                     case Luis.Calendar.Intent.TimeRemaining:
                         {
-                            await dc.BeginDialogAsync(nameof(TimeRemainingDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(TimeRemainingDialog), skillOptions);
                             break;
                         }
 
@@ -144,14 +145,14 @@ namespace CalendarSkill.Dialogs.Main
                         {
                             if (generalTopIntent == General.Intent.Next || generalTopIntent == General.Intent.Previous)
                             {
-                                await dc.BeginDialogAsync(nameof(SummaryDialog), skillOptions);
+                                turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog), skillOptions);
                             }
                             else
                             {
                                 await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage));
                                 if (_skillMode)
                                 {
-                                    await CompleteAsync(dc);
+                                    turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                                 }
                             }
 
@@ -164,11 +165,16 @@ namespace CalendarSkill.Dialogs.Main
 
                             if (_skillMode)
                             {
-                                await CompleteAsync(dc);
+                                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             }
 
                             break;
                         }
+                }
+
+                if (turnResult != EndOfTurn)
+                {
+                    await CompleteAsync(dc);
                 }
             }
         }

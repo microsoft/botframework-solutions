@@ -72,8 +72,6 @@ namespace PointOfInterestSkill.Dialogs.Main
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var routeResult = EndOfTurn;
-
             // get current activity locale
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
             var localeConfig = _services.LocaleConfigurations[locale];
@@ -87,8 +85,8 @@ namespace PointOfInterestSkill.Dialogs.Main
             }
             else
             {
+                var turnResult = EndOfTurn;
                 var result = await luisService.RecognizeAsync<PointOfInterest>(dc, true, CancellationToken.None);
-
                 var intent = result?.TopIntent().intent;
 
                 var skillOptions = new PointOfInterestSkillDialogOptions
@@ -101,19 +99,19 @@ namespace PointOfInterestSkill.Dialogs.Main
                 {
                     case PointOfInterest.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y:
                         {
-                            routeResult = await dc.BeginDialogAsync(nameof(RouteDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(RouteDialog), skillOptions);
                             break;
                         }
 
                     case PointOfInterest.Intent.NAVIGATION_CANCEL_ROUTE:
                         {
-                            routeResult = await dc.BeginDialogAsync(nameof(CancelRouteDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(CancelRouteDialog), skillOptions);
                             break;
                         }
 
                     case PointOfInterest.Intent.NAVIGATION_FIND_POINTOFINTEREST:
                         {
-                            routeResult = await dc.BeginDialogAsync(nameof(FindPointOfInterestDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(FindPointOfInterestDialog), skillOptions);
                             break;
                         }
 
@@ -122,7 +120,7 @@ namespace PointOfInterestSkill.Dialogs.Main
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(POISharedResponses.DidntUnderstandMessage));
                             if (_skillMode)
                             {
-                                routeResult = new DialogTurnResult(DialogTurnStatus.Complete);
+                                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             }
 
                             break;
@@ -134,17 +132,17 @@ namespace PointOfInterestSkill.Dialogs.Main
 
                             if (_skillMode)
                             {
-                                routeResult = new DialogTurnResult(DialogTurnStatus.Complete);
+                                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             }
 
                             break;
                         }
                 }
-            }
 
-            if (routeResult.Status == DialogTurnStatus.Complete)
-            {
-                await CompleteAsync(dc);
+                if (turnResult != EndOfTurn)
+                {
+                    await CompleteAsync(dc);
+                }
             }
         }
 
