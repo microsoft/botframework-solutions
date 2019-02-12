@@ -14,7 +14,7 @@ describe("Onboarding Dialog", function () {
         testStorage = new MemoryStorage();
     });
 
-    xdescribe("Onboarding", function () {
+    describe("Onboarding", function () {
         it("In the test spin up the OnboardingDialog directly", function (done) {
             const testAdapter = enterpriseBotTestBase.getTestAdapter();
             const flow = testAdapter
