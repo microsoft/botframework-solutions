@@ -3,7 +3,7 @@
 ## Overview
 
 Speech-led conversational scenarios require a different mindset and approach for certain scenarios, 
-one such example is [Authentication](/virtualassistant-authentication.md). 
+one such example is [Authentication](./virtualassistant-authentication.md). 
 If you take a Productivity scenario, whereby the user wants to access information in their calendar it's important 
 for the VA Bot to have access to a security token (Office 365 for example). 
 
