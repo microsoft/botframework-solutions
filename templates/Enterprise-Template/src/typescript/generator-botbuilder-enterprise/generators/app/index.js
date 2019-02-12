@@ -268,11 +268,7 @@ module.exports = class extends Generator {
 
     this.fs.copy(
       this.templatePath(templateName, "src", "locales"),
-      this.destinationPath(
-        botGenerationPath,
-        "src",
-        "locales"
-      )
+      this.destinationPath(botGenerationPath, "src", "locales")
     );
 
     this.fs.copyTpl(
