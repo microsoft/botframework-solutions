@@ -32,9 +32,10 @@ import * as i18n from 'i18n';
 import * as path from 'path';
 import * as restify from 'restify';
 import { BotServices } from './botServices';
-import { EnterpriseBot } from './enterpriseBot';
 // Content Moderation Middleware (analyzes incoming messages for inappropriate content including PII, profanity, etc.)
 import { ContentModeratorMiddleware } from './middleware/contentModeratorMiddleware';
+
+import { EnterpriseBot } from './enterpriseBot';
 
 i18n.configure({
     directory: path.join(__dirname, 'locales'),
