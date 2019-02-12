@@ -7,14 +7,12 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
 {
     public interface ITelemetryLuisRecognizer : IRecognizer
     {
-        bool LogOriginalMessage { get; }
+        bool LogPersonalInformation { get; }
 
-        bool LogUsername { get; }
-
-        Task<T> RecognizeAsync<T>(DialogContext dialogContext, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken))
+        Task<T> RecognizeAsync<T>(DialogContext dialogContext, bool logPersonalInformation, CancellationToken cancellationToken = default(CancellationToken))
             where T : IRecognizerConvert, new();
 
-        Task<T> RecognizeAsync<T>(ITurnContext turnContext, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken))
+        Task<T> RecognizeAsync<T>(ITurnContext turnContext, bool logPersonalInformation, CancellationToken cancellationToken = default(CancellationToken))
             where T : IRecognizerConvert, new();
     }
 }
