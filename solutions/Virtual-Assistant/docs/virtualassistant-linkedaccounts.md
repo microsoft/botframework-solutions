@@ -21,8 +21,6 @@ The Linked Accounts feature of the Virtual Assistant provides a reference sample
 
 ![Linked Accounts UX](./media/virtualassistant-linkedaccountsux.png)
 
-This example of how to build an account linking experience within your own web or mobile app.
-
 ## Authentication Configuration
 
 In order to perform Account Linking, the Linked Accounts web app will need a user to login using the same account as they'll use to authenticate as a user of your Virtual Assistant, for example `darren@contosoassistant.com`. 
