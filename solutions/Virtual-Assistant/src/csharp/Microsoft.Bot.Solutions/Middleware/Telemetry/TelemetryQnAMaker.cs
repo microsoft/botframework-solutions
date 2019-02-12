@@ -63,10 +63,10 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
                     telemetryProperties.Add(QnATelemetryConstants.ConversationIdProperty, conversationId);
                 }
 
-                // For some customers, logging original text and name within Application Insights might be an issue
                 var text = context.Activity.Text;
                 var userName = context.Activity.From.Name;
 
+                // Use the LogPersonalInformation flag to toggle logging PII data, text and user name are common examples
                 if (LogPersonalInformation)
                 {
                     if (!string.IsNullOrWhiteSpace(text))
