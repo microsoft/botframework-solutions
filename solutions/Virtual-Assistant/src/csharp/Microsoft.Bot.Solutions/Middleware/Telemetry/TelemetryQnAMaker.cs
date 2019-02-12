@@ -85,6 +85,7 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
                 {
                     var queryResult = queryResults[0];
                     telemetryProperties.Add(QnATelemetryConstants.QuestionProperty, JsonConvert.SerializeObject(queryResult.Questions));
+                    telemetryMetrics.Add(QnATelemetryConstants.QuestionIdProperty, queryResult.Id);
                     telemetryProperties.Add(QnATelemetryConstants.AnswerProperty, queryResult.Answer);
                     telemetryMetrics.Add(QnATelemetryConstants.ScoreProperty, queryResult.Score);
                     telemetryProperties.Add(QnATelemetryConstants.ArticleFoundProperty, "true");
@@ -92,8 +93,9 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
                 else
                 {
                     telemetryProperties.Add(QnATelemetryConstants.QuestionProperty, "No Qna Question matched");
+                    telemetryMetrics.Add(QnATelemetryConstants.QuestionIdProperty, -1);
                     telemetryProperties.Add(QnATelemetryConstants.AnswerProperty, "No Qna Answer matched");
-                    telemetryProperties.Add(QnATelemetryConstants.ArticleFoundProperty, "true");
+                    telemetryProperties.Add(QnATelemetryConstants.ArticleFoundProperty, "false");
                 }
 
                 // Track the event
