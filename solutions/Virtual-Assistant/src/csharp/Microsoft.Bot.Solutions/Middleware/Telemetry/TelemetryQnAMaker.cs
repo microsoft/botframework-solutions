@@ -29,22 +29,18 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
         /// </summary>
         /// <param name="endpoint">The endpoint of the knowledge base to query.</param>
         /// <param name="options">The options for the QnA Maker knowledge base.</param>
-        /// <param name="logUserName">The flag to include username in logs.</param>
-        /// <param name="logOriginalMessage">The flag to include original message in logs.</param>
+        /// <param name="logPersonalInformation">TRUE to include personally indentifiable information.</param>
         /// <param name="httpClient">An alternate client with which to talk to QnAMaker.
         /// If null, a default client is used for this instance.</param>
-        public TelemetryQnAMaker(QnAMakerEndpoint endpoint, QnAMakerOptions options = null, bool logUserName = false, bool logOriginalMessage = false, HttpClient httpClient = null)
+        public TelemetryQnAMaker(QnAMakerEndpoint endpoint, QnAMakerOptions options = null, bool logPersonalInformation = false, HttpClient httpClient = null)
             : base(endpoint, options, httpClient)
         {
-            LogUserName = logUserName;
-            LogOriginalMessage = logOriginalMessage;
+            LogPersonalInformation = logPersonalInformation;
 
             _endpoint = endpoint;
         }
 
-        public bool LogUserName { get; }
-
-        public bool LogOriginalMessage { get; }
+        public bool LogPersonalInformation { get; }
 
         public async Task<QueryResult[]> GetAnswersAsync(ITurnContext context)
         {
@@ -58,6 +54,7 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
                 var telemetryMetrics = new Dictionary<string, double>();
 
                 telemetryProperties.Add(QnATelemetryConstants.KnowledgeBaseIdProperty, _endpoint.KnowledgeBaseId);
+
                 // Make it so we can correlate our reports with Activity or Conversation
                 telemetryProperties.Add(QnATelemetryConstants.ActivityIdProperty, context.Activity.Id);
                 var conversationId = context.Activity.Conversation.Id;
@@ -66,18 +63,21 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
                     telemetryProperties.Add(QnATelemetryConstants.ConversationIdProperty, conversationId);
                 }
 
-                // For some customers, logging original text name within Application Insights might be an issue
+                // For some customers, logging original text and name within Application Insights might be an issue
                 var text = context.Activity.Text;
-                if (LogOriginalMessage && !string.IsNullOrWhiteSpace(text))
-                {
-                    telemetryProperties.Add(QnATelemetryConstants.OriginalQuestionProperty, text);
-                }
-
-                // For some customers, logging user name within Application Insights might be an issue
                 var userName = context.Activity.From.Name;
-                if (LogUserName && !string.IsNullOrWhiteSpace(userName))
+
+                if (LogPersonalInformation)
                 {
-                    telemetryProperties.Add(QnATelemetryConstants.UsernameProperty, userName);
+                    if (!string.IsNullOrWhiteSpace(text))
+                    {
+                        telemetryProperties.Add(QnATelemetryConstants.OriginalQuestionProperty, text);
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(userName))
+                    {
+                        telemetryProperties.Add(QnATelemetryConstants.UsernameProperty, userName);
+                    }
                 }
 
                 // Fill in Qna Results (found or not)
