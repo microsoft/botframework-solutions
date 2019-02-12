@@ -306,6 +306,17 @@ module.exports = class extends Generator {
         botNameFile: botNameCamelCase
       }
     );
+    
+    this.fs.copyTpl(
+      this.templatePath(templateName, "test", "flow", "_botTestBase.js"),
+      this.destinationPath(botGenerationPath, "test", "flow", "botTestBase.js"),
+      {
+        name: botName,
+        description: botDesc,
+        botNameClass: botNamePascalCase,
+        botNameFile: botNameCamelCase
+      }
+    );
 
     this.fs.copy(
       this.templatePath(templateName, "src", "botServices.ts"),
@@ -328,18 +339,56 @@ module.exports = class extends Generator {
         this.destinationPath(botGenerationPath, fileName)
       )
     );
-
+    
     const commonDirectories = [
       "dialogs",
       "extensions",
       "middleware",
       "serviceClients"
     ];
-
+    
     commonDirectories.forEach(directory =>
       this.fs.copy(
         this.templatePath(templateName, "src", directory, "**", "*"),
         this.destinationPath(botGenerationPath, "src", directory)
+      )
+    );
+        
+    const commonTestFlowFiles = [
+      "escalateDialogTest.js",
+      "mainDialogTest.js",
+      "onboardingDialogTest.js"
+    ];
+
+    commonTestFlowFiles.forEach(testFlowFileName => 
+      this.fs.copy(
+        this.templatePath(templateName, "test", "flow", testFlowFileName),
+        this.destinationPath(botGenerationPath, "test", "flow", testFlowFileName)
+      )
+    );
+    
+    const commonTestFiles = [
+      ".env.test",
+      "mocha.opts",
+      "mockedConfiguration.bot",
+      "testBase.js"
+    ];
+
+    commonTestFiles.forEach(testFileName => 
+      this.fs.copy(
+        this.templatePath(templateName, "test", testFileName),
+        this.destinationPath(botGenerationPath, "test", testFileName)
+      )
+    );
+
+    const commonTestDirectories = [
+      "nockFixtures"
+    ];
+
+    commonTestDirectories.forEach(directory =>
+      this.fs.copy(
+        this.templatePath(templateName, "test", directory, "**", "*"),
+        this.destinationPath(botGenerationPath, "test", directory)
       )
     );
   }
