@@ -17,60 +17,62 @@ describe("Onboarding Dialog", function () {
     xdescribe("Onboarding", function () {
         it("In the test spin up the OnboardingDialog directly", function (done) {
             const testAdapter = enterpriseBotTestBase.getTestAdapter();
-            const flow = testAdapter.send({
-                channelData: {
-                    postback: true
-                },
-                channelId: "emulator",
-                conversation: {
-                    id: "06342ab0-2ada-11e9-9083-71c7608e7e77|livechat"
-                },
-                from: {
-                    id: "3cdfda9c-eb22-420b-ab7b-6b4080ef9349",
-                    name: "User"
-                },
-                locale: "",
-                recipient: {
-                    id: "1",
-                    name: "Bot",
-                    role: "bot"
-                },
-                serviceUrl: "http://localhost:57959",
-                type: "message",
-                value: {
-                    action: "startOnboarding"
-                }
-            })
+            const flow = testAdapter
+                .send({
+                    channelData: {
+                        postback: true
+                    },
+                    channelId: "emulator",
+                    conversation: {
+                        id: "06342ab0-2ada-11e9-9083-71c7608e7e77|livechat"
+                    },
+                    from: {
+                        id: "3cdfda9c-eb22-420b-ab7b-6b4080ef9349",
+                        name: "User"
+                    },
+                    locale: "",
+                    recipient: {
+                        id: "1",
+                        name: "Bot",
+                        role: "bot"
+                    },
+                    serviceUrl: "http://localhost:57959",
+                    type: "message",
+                    value: {
+                        action: "startOnboarding"
+                    }
+                })
                 .assertReply('What is your name?');
 
             testNock.resolveWithMocks(this.test.title, done, flow);
         });
         it("Response for name prompt", function (done) {
             const testAdapter = enterpriseBotTestBase.getTestAdapter();
-            const flow = testAdapter.send({
-                channelData: {
-                    postback: true
-                },
-                channelId: "emulator",
-                conversation: {
-                    id: "06342ab0-2ada-11e9-9083-71c7608e7e77|livechat"
-                },
-                from: {
-                    id: "3cdfda9c-eb22-420b-ab7b-6b4080ef9349",
-                    name: "User"
-                },
-                locale: "",
-                recipient: {
-                    id: "1",
-                    name: "Bot",
-                    role: "bot"
-                },
-                serviceUrl: "http://localhost:57959",
-                type: "message",
-                value: {
-                    action: "startOnboarding"
-                }
-            })
+            const flow = testAdapter
+                .send({
+                    channelData: {
+                        postback: true
+                    },
+                    channelId: "emulator",
+                    conversation: {
+                        id: "06342ab0-2ada-11e9-9083-71c7608e7e77|livechat"
+                    },
+                    from: {
+                        id: "3cdfda9c-eb22-420b-ab7b-6b4080ef9349",
+                        name: "User"
+                    },
+                    locale: "",
+                    recipient: {
+                        id: "1",
+                        name: "Bot",
+                        role: "bot"
+                    },
+                    serviceUrl: "http://localhost:57959",
+                    type: "message",
+                    value: {
+                        action: "startOnboarding"
+                    }
+                })
                 .assertReply('What is your name?')
                 .send({
                     channelId: "emulator",
@@ -106,30 +108,31 @@ describe("Onboarding Dialog", function () {
         });
         it("Response for email prompt", function (done) {
             const testAdapter = enterpriseBotTestBase.getTestAdapter();
-            const flow = testAdapter.send({
-                channelData: {
-                    postback: true
-                },
-                channelId: "emulator",
-                conversation: {
-                    id: "06342ab0-2ada-11e9-9083-71c7608e7e77|livechat"
-                },
-                from: {
-                    id: "3cdfda9c-eb22-420b-ab7b-6b4080ef9349",
-                    name: "User"
-                },
-                locale: "",
-                recipient: {
-                    id: "1",
-                    name: "Bot",
-                    role: "bot"
-                },
-                serviceUrl: "http://localhost:57959",
-                type: "message",
-                value: {
-                    action: "startOnboarding"
-                }
-            })
+            const flow = testAdapter
+                .send({
+                    channelData: {
+                        postback: true
+                    },
+                    channelId: "emulator",
+                    conversation: {
+                        id: "06342ab0-2ada-11e9-9083-71c7608e7e77|livechat"
+                    },
+                    from: {
+                        id: "3cdfda9c-eb22-420b-ab7b-6b4080ef9349",
+                        name: "User"
+                    },
+                    locale: "",
+                    recipient: {
+                        id: "1",
+                        name: "Bot",
+                        role: "bot"
+                    },
+                    serviceUrl: "http://localhost:57959",
+                    type: "message",
+                    value: {
+                        action: "startOnboarding"
+                    }
+                })
                 .assertReply('What is your name?')
                 .send({
                     channelId: "emulator",
@@ -195,30 +198,31 @@ describe("Onboarding Dialog", function () {
         });
         it("Response for location prompt", function (done) {
             const testAdapter = enterpriseBotTestBase.getTestAdapter();
-            const flow = testAdapter.send({
-                channelData: {
-                    postback: true
-                },
-                channelId: "emulator",
-                conversation: {
-                    id: "06342ab0-2ada-11e9-9083-71c7608e7e77|livechat"
-                },
-                from: {
-                    id: "3cdfda9c-eb22-420b-ab7b-6b4080ef9349",
-                    name: "User"
-                },
-                locale: "",
-                recipient: {
-                    id: "1",
-                    name: "Bot",
-                    role: "bot"
-                },
-                serviceUrl: "http://localhost:57959",
-                type: "message",
-                value: {
-                    action: "startOnboarding"
-                }
-            })
+            const flow = testAdapter
+                .send({
+                    channelData: {
+                        postback: true
+                    },
+                    channelId: "emulator",
+                    conversation: {
+                        id: "06342ab0-2ada-11e9-9083-71c7608e7e77|livechat"
+                    },
+                    from: {
+                        id: "3cdfda9c-eb22-420b-ab7b-6b4080ef9349",
+                        name: "User"
+                    },
+                    locale: "",
+                    recipient: {
+                        id: "1",
+                        name: "Bot",
+                        role: "bot"
+                    },
+                    serviceUrl: "http://localhost:57959",
+                    type: "message",
+                    value: {
+                        action: "startOnboarding"
+                    }
+                })
                 .assertReply('What is your name?')
                 .send({
                     channelId: "emulator",
@@ -315,30 +319,31 @@ describe("Onboarding Dialog", function () {
         });
         it("Validate state is updated", function (done) {
             const testAdapter = enterpriseBotTestBase.getTestAdapter();
-            const flow = testAdapter.send({
-                channelData: {
-                    postback: true
-                },
-                channelId: "emulator",
-                conversation: {
-                    id: "06342ab0-2ada-11e9-9083-71c7608e7e77|livechat"
-                },
-                from: {
-                    id: "3cdfda9c-eb22-420b-ab7b-6b4080ef9349",
-                    name: "User"
-                },
-                locale: "",
-                recipient: {
-                    id: "1",
-                    name: "Bot",
-                    role: "bot"
-                },
-                serviceUrl: "http://localhost:57959",
-                type: "message",
-                value: {
-                    action: "startOnboarding"
-                }
-            })
+            const flow = testAdapter
+                .send({
+                    channelData: {
+                        postback: true
+                    },
+                    channelId: "emulator",
+                    conversation: {
+                        id: "06342ab0-2ada-11e9-9083-71c7608e7e77|livechat"
+                    },
+                    from: {
+                        id: "3cdfda9c-eb22-420b-ab7b-6b4080ef9349",
+                        name: "User"
+                    },
+                    locale: "",
+                    recipient: {
+                        id: "1",
+                        name: "Bot",
+                        role: "bot"
+                    },
+                    serviceUrl: "http://localhost:57959",
+                    type: "message",
+                    value: {
+                        action: "startOnboarding"
+                    }
+                })
                 .assertReply('What is your name?')
                 .send({
                     channelId: "emulator",
